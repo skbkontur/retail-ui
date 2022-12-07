@@ -8,7 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { XIcon16Regular } from '../../internal/icons2022/XIcon16Regular';
+import { XIcon16Regular } from '../../internal/icons2022/XIcon/XIcon16Regular';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 

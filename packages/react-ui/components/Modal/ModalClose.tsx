@@ -7,7 +7,7 @@ import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { XIcon16Regular } from '../../internal/icons2022/XIcon16Regular';
+import { XIcon16Regular } from '../../internal/icons2022/XIcon/XIcon16Regular';
 
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';

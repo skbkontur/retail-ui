@@ -5,6 +5,9 @@ import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 
 interface PlainCheckboxState {
   checked: false;
@@ -17,9 +20,11 @@ class PlainCheckbox extends React.Component {
   public render() {
     const { checked } = this.state;
     return (
-      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked}>
-        {this.props.children}
-      </Checkbox>
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxBoxSize: '16px' }, THEME_2022)}>
+        <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked}>
+          {this.props.children}
+        </Checkbox>
+      </ThemeContext.Provider>
     );
   }
 }
@@ -37,29 +42,31 @@ class IndeterminatePlayground extends React.Component {
 
   public render() {
     return (
-      <div>
-        <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
-          <Checkbox
-            onValueChange={(checked) => this.setState({ checked })}
-            checked={this.state.checked}
-            initialIndeterminate
-            ref={this.checkboxRef}
-          >
-            {this.props.children}
-          </Checkbox>
-        </span>
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxBoxSize: '24px' }, THEME_2022)}>
         <div>
-          <button tabIndex={-1} onClick={this.setIndeterminate}>
-            setIndeterminate
-          </button>
-          <button tabIndex={-1} onClick={this.resetIndeterminate}>
-            resetIndeterminate
-          </button>
-          <button tabIndex={-1} onClick={this.changeValue}>
-            changeValue
-          </button>
+          <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
+            <Checkbox
+              onValueChange={(checked) => this.setState({ checked })}
+              checked={this.state.checked}
+              initialIndeterminate
+              ref={this.checkboxRef}
+            >
+              {this.props.children}
+            </Checkbox>
+          </span>
+          <div>
+            <button tabIndex={-1} onClick={this.setIndeterminate}>
+              setIndeterminate
+            </button>
+            <button tabIndex={-1} onClick={this.resetIndeterminate}>
+              resetIndeterminate
+            </button>
+            <button tabIndex={-1} onClick={this.changeValue}>
+              changeValue
+            </button>
+          </div>
         </div>
-      </div>
+      </ThemeContext.Provider>
     );
   }
 

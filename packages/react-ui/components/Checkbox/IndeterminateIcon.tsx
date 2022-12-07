@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { iconSizer } from '../../internal/icons2022/iconSizer';
-import { ShapeSquareIcon16Solid } from '../../internal/icons2022/ShapeSquareIcon16Solid';
+import { ShapeSquareIcon16Solid } from '../../internal/icons2022/ShapeSquareIcon/ShapeSquareIcon16Solid';
 
 export const IndeterminateIcon = iconSizer(
   {

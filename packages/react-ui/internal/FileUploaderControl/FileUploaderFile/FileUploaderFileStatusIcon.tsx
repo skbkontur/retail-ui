@@ -5,9 +5,9 @@ import { isTheme2022 } from '../../../lib/theming/ThemeHelpers';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { FileUploaderFileStatus } from '../fileUtils';
 import { Spinner } from '../../../components/Spinner';
-import { XIcon16Regular } from '../../icons2022/XIcon16Regular';
-import { CheckAIcon16Regular } from '../../icons2022/CheckAIcon16Regular';
-import { MinusCircleIcon16Regular } from '../../icons2022/MinusCircleIcon16Regular';
+import { XIcon16Regular } from '../../icons2022/XIcon/XIcon16Regular';
+import { CheckAIcon16Regular } from '../../icons2022/CheckAIcon/CheckAIcon16Regular';
+import { MinusCircleIcon16Regular } from '../../icons2022/MinusCircleIcon/MinusCircleIcon16Regular';
 
 import { jsStyles } from './FileUploaderFile.styles';
 

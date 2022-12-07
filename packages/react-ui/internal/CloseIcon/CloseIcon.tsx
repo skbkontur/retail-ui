@@ -3,7 +3,7 @@ import React from 'react';
 import { Theme } from '../../lib/theming/Theme';
 import { css, cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
-import { XIcon16Regular } from '../icons2022/XIcon16Regular';
+import { XIcon16Regular } from '../icons2022/XIcon/XIcon16Regular';
 
 import { styles } from './CloseIcon.styles';
 

@@ -19,7 +19,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { XIcon16Regular } from '../../internal/icons2022/XIcon16Regular';
+import { XIcon16Regular } from '../../internal/icons2022/XIcon/XIcon16Regular';
 
 import { styles } from './Tooltip.styles';
 

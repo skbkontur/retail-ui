@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import { ArrowARightIcon16Light } from '../../internal/icons2022/ArrowARightIcon16Light';
-import { ArrowARightIcon20Light } from '../../internal/icons2022/ArrowARightIcon20Light';
-import { ArrowARightIcon24Regular } from '../../internal/icons2022/ArrowARightIcon24Regular';
+import { ArrowARightIcon16Light } from '../../internal/icons2022/ArrowARightIcon/ArrowARightIcon16Light';
+import { ArrowARightIcon20Light } from '../../internal/icons2022/ArrowARightIcon/ArrowARightIcon20Light';
+import { ArrowARightIcon24Regular } from '../../internal/icons2022/ArrowARightIcon/ArrowARightIcon24Regular';
 import { iconSizer } from '../../internal/icons2022/iconSizer';
 
 export const ArrowRightIcon = iconSizer(
