@@ -3,34 +3,25 @@ import React from 'react';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { IconProps as BaseIconProps } from './BaseIcon';
+import { ALIASES_TO_SIZES, DEFAULT_ICON_ALIAS, IconSizeAliases } from './iconConstants';
 
-type IconSizes = 'small' | 'medium' | 'large';
+type Sizes = Record<IconSizeAliases, () => React.ReactElement>;
 
 type IconSizingProps = Omit<BaseIconProps, 'size'> & {
-  size?: BaseIconProps['size'] | IconSizes;
+  size?: BaseIconProps['size'] | IconSizeAliases;
 };
 
-type Sizes = Record<IconSizes, () => React.ReactElement>;
+const isAlias = (size: unknown): size is IconSizeAliases =>
+  typeof size === 'string' && Object.keys(ALIASES_TO_SIZES).includes(size);
 
-export const DEFAULT_ICON_SIZE: IconSizes = 'small';
-
-const aliasToSize: Record<IconSizes, number> = {
-  small: 16,
-  medium: 20,
-  large: 24,
-};
-
-const isAlias = (size: unknown): size is IconSizes =>
-  typeof size === 'string' && Object.keys(aliasToSize).includes(size);
-
-const getAliasFromSize = (size: number): IconSizes =>
-  Object.entries(aliasToSize).sort(([, a], [, b]) =>
+const getAliasFromSize = (size: number) =>
+  Object.entries(ALIASES_TO_SIZES).sort(([, a], [, b]) =>
     Math.abs(size - a) > Math.abs(size - b) ? 1 : -1,
-  )[0][0] as IconSizes;
+  )[0][0] as IconSizeAliases;
 
 export const iconSizer = (sizes: Sizes, iconName: string) =>
-  forwardRefAndName<SVGSVGElement, IconSizingProps>(iconName, ({ size, ...props }, ref) => {
-    let alias: IconSizes = DEFAULT_ICON_SIZE;
+  forwardRefAndName<SVGSVGElement, IconSizingProps>(iconName, ({ size = DEFAULT_ICON_ALIAS, ...props }, ref) => {
+    let alias: IconSizeAliases = DEFAULT_ICON_ALIAS;
     if (size !== alias && isAlias(size)) {
       alias = size;
     } else if (typeof size === 'number') {
