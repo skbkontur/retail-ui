@@ -13,7 +13,9 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
+import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
@@ -239,6 +241,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
+      const icon = isTheme2022(theme) ? <CalendarIcon2022 size={size} /> : <CalendarIcon />;
       const iconStyles = cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',
@@ -246,11 +249,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         [styles.iconLarge(theme)]: size === 'large',
         [styles.iconDisabled(theme)]: disabled,
       });
-      return (
-        <span className={iconStyles}>
-          <CalendarIcon />
-        </span>
-      );
+      return <span className={iconStyles}>{icon}</span>;
     }
     return null;
   };
