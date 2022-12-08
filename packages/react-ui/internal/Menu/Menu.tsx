@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
-import { responsiveLayout } from 'react-ui/components/ResponsiveLayout/decorator';
 
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemProps } from '../../components/MenuItem';
