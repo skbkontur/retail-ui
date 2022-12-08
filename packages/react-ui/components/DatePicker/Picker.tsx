@@ -8,6 +8,9 @@ import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { Button } from '../Button';
+import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 
 import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
@@ -105,6 +108,22 @@ export class Picker extends React.Component<Props, State> {
   private renderTodayLink() {
     const { order, separator } = this.locale;
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
+
+    if (isTheme2022(this.theme)) {
+      return (
+        <div style={{ margin: 8 }}>
+          <Button
+            data-tid={DatePickerDataTids.pickerTodayWrapper}
+            width="100%"
+            onClick={this.handleSelectToday(today)}
+            icon={<ArrowAUpIcon16Light disableCompensation={false} />}
+          >
+            {this.locale.today}
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <button
         data-tid={DatePickerDataTids.pickerTodayWrapper}

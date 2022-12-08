@@ -21,6 +21,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  root2022() {
+    return css`
+      display: inline-flex;
+      justify-content: space-between;
+    `;
+  },
+
   disabled() {
     return css`
       color: inherit !important; // override root:hover style

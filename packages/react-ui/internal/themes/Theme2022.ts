@@ -277,6 +277,20 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleCheckedBgHover = '#fff';
 
   public static switcherBorderRadius = '8px';
+
+  //#region Calendar
+  public static calendarCellHoverBgColor = '#f6f6f6';
+  public static calendarCellHoverColor = '';
+  public static calendarCellActiveHoverColor = '';
+  public static calendarCellSelectedBgColor = '#EBEBEB';
+  public static calendarCellTodayBorder = 'inherit';
+  //#endregion
+
+  //#region DateSelect
+  public static dateSelectMenuItemBgActive = '#f6f6f6';
+  public static dateSelectMenuItemFontActive = '';
+  public static dateSelectTextColorInvert = '';
+  //#endregion
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(
