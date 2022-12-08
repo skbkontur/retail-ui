@@ -30,7 +30,13 @@ export const BaseIcon = ({
       ref={ref}
       width={size || viewBoxSize}
       height={size || viewBoxSize}
-      style={{ fill: color ?? 'currentColor', color, marginBottom: disableCompensation ? 0 : '-0.1875em', ...style }}
+      style={{
+        fill: color ?? 'currentColor',
+        color,
+        marginBottom: disableCompensation ? 0 : '-0.1875em',
+        flexShrink: 0,
+        ...style,
+      }}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
       aria-hidden
