@@ -256,6 +256,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get menuItemCommentColorHover() {
     return this.menuItemTextColor;
   }
+  public static menuItemGap = '1px';
   public static menuShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
 
   public static tokenInputBorderRadius = '2px';

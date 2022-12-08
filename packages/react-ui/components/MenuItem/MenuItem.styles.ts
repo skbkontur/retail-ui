@@ -26,6 +26,10 @@ export const styles = memoizeStyle({
       button& {
         min-width: 100%;
       }
+
+      &:nth-last-child(n + 2) {
+        margin-bottom: ${t.menuItemGap};
+      }
     `;
   },
 

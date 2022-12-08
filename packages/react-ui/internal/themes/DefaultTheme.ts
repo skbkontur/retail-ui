@@ -1045,6 +1045,7 @@ export class DefaultTheme {
   public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
   public static menuItemPaddingMobile = '12px 16px';
+  public static menuItemGap = '0';
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;
