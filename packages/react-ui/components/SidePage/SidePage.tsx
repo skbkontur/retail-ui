@@ -16,8 +16,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -109,6 +109,7 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
+@responsiveLayout
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
@@ -122,6 +123,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasPanel: false,
   };
   private theme!: Theme;
+  private isMobileLayout!: boolean;
   private stackSubscription: ModalStackSubscription | null = null;
   private layout: HTMLElement | null = null;
   private header: SidePageHeader | null = null;
@@ -173,35 +175,29 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
 
+    const isMobile = this.isMobileLayout;
+
     return (
       <RenderContainer>
         <CommonWrapper {...this.props}>
           <div>
-            <ResponsiveLayout>
-              {({ isMobile }) => {
-                return (
-                  <>
-                    {blockBackground && this.renderShadow()}
-                    <CSSTransition
-                      in
-                      classNames={this.getTransitionNames()}
-                      appear={!disableAnimations}
-                      enter={!disableAnimations}
-                      exit={false}
-                      timeout={{
-                        enter: TRANSITION_TIMEOUT,
-                        exit: TRANSITION_TIMEOUT,
-                      }}
-                      nodeRef={this.rootRef}
-                      onEntered={onOpened}
-                    >
-                      {this.renderContainer(isMobile)}
-                    </CSSTransition>
-                    {isMobile && <HideBodyVerticalScroll />}
-                  </>
-                );
+            {blockBackground && this.renderShadow()}
+            <CSSTransition
+              in
+              classNames={this.getTransitionNames()}
+              appear={!disableAnimations}
+              enter={!disableAnimations}
+              exit={false}
+              timeout={{
+                enter: TRANSITION_TIMEOUT,
+                exit: TRANSITION_TIMEOUT,
               }}
-            </ResponsiveLayout>
+              nodeRef={this.rootRef}
+              onEntered={onOpened}
+            >
+              {this.renderContainer(isMobile)}
+            </CSSTransition>
+            {isMobile && <HideBodyVerticalScroll />}
           </div>
         </CommonWrapper>
       </RenderContainer>
