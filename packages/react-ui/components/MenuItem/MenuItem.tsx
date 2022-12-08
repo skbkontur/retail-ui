@@ -203,7 +203,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         ref={this.setRootRef}
         data-tid={MenuItemDataTids.root}
         {...rest}
-        disabled={disabled && !component}
+        disabled={disabled}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}

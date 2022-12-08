@@ -74,20 +74,11 @@ describe('MenuItem', () => {
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('should render enabled <a/>', () => {
-    render(
-      <MenuItem
-        disabled
-        component={(props) => (
-          <a {...props} href="#">
-            link
-          </a>
-        )}
-      />,
-    );
+  it('should render disabled <button/> when `component` prop passed', () => {
+    render(<MenuItem component={(props) => <button {...props} />} disabled />);
 
-    expect(screen.getByRole('link')).toBeInTheDocument();
-    expect(screen.getByRole('link')).toBeEnabled();
+    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
   describe('onMouseEnter', () => {
