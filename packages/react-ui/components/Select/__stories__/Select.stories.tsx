@@ -5,13 +5,12 @@ import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
 
+import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 
@@ -211,35 +210,22 @@ export const MobileSimple = () => {
   });
 
   return (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        return (
-          <ThemeContext.Provider
-            value={ThemeFactory.create(
-              {
-                mobileMediaQuery: '(max-width: 576px)',
-              },
-              theme,
-            )}
-          >
-            <Gapped vertical>
-              <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
-              {show.showFirst && (
-                <Select
-                  items={items.slice(-5)}
-                  mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
-                />
-              )}
-              <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
-              {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
-              <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
-              {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
-              <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
-            </Gapped>
-          </ThemeContext.Provider>
-        );
-      }}
-    </ThemeContext.Consumer>
+    <MobileTestWrapper>
+      <Gapped vertical>
+        <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
+        {show.showFirst && (
+          <Select
+            items={items.slice(-5)}
+            mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+          />
+        )}
+        <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
+        {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
+        <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
+        {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
+        <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
+      </Gapped>
+    </MobileTestWrapper>
   );
 };
 MobileSimple.title = 'Mobile stories';
@@ -277,22 +263,9 @@ MobileSimple.decorators = [
 MobileSimple.creevey = { skip: [true] };
 
 export const MobileWithSearch: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
+  </MobileTestWrapper>
 );
 MobileWithSearch.parameters = {
   viewport: {
@@ -304,25 +277,12 @@ MobileWithSearch.parameters = {
 };
 
 export const MobileWithTitle: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <Select
-            mobileMenuHeaderText="Заголовок"
-            items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
-          />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <Select
+      mobileMenuHeaderText="Заголовок"
+      items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+    />
+  </MobileTestWrapper>
 );
 MobileWithTitle.parameters = {
   viewport: {
@@ -335,26 +295,13 @@ MobileWithTitle.parameters = {
 };
 
 export const MobileWithTitleAndSearch: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <Select
-            search
-            mobileMenuHeaderText="Заголовок"
-            items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
-          />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <Select
+      search
+      mobileMenuHeaderText="Заголовок"
+      items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+    />
+  </MobileTestWrapper>
 );
 MobileWithTitleAndSearch.parameters = {
   viewport: {
@@ -366,22 +313,9 @@ MobileWithTitleAndSearch.parameters = {
 };
 
 export const MobileWithoutTitleAndSearch: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
+  </MobileTestWrapper>
 );
 MobileWithoutTitleAndSearch.parameters = {
   viewport: {

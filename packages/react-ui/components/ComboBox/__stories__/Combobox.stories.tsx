@@ -5,6 +5,7 @@ import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
+import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
 import { Meta, Story } from '../../../typings/stories';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { MenuItem } from '../../MenuItem';
@@ -16,8 +17,6 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 // eslint-disable-next-line jest/no-mocks-import
@@ -1186,36 +1185,23 @@ WithTooltip.parameters = {
 };
 
 export const MobileSimple = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <SimpleCombobox />
-          <div style={{ height: 15 }} />
-          <ComplexCombobox />
-          <div style={{ height: 15 }} />
-          <TestComboBox
-            onSearch={search}
-            renderItem={renderValue}
-            renderAddButton={(query) =>
-              query && (
-                <MenuItem key={'mobileAddButton'} isMobile onClick={() => alert(query)}>
-                  Добавить {query}
-                </MenuItem>
-              )
-            }
-          />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <SimpleCombobox />
+    <div style={{ height: 15 }} />
+    <ComplexCombobox />
+    <div style={{ height: 15 }} />
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      renderAddButton={(query) =>
+        query && (
+          <MenuItem key={'mobileAddButton'} isMobile onClick={() => alert(query)}>
+            Добавить {query}
+          </MenuItem>
+        )
+      }
+    />
+  </MobileTestWrapper>
 );
 MobileSimple.title = 'Mobile combobox stories';
 MobileSimple.parameters = {

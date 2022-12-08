@@ -1,8 +1,9 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
+import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
@@ -10,7 +11,6 @@ import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../ResponsiveLayout';
 
 const basicFontStyle = {
@@ -801,17 +801,8 @@ export const MobileModal: Story = () => {
   const [isOpen, setOpen] = useState(false);
   const [showThirdButton, setShowThird] = useState(false);
 
-  const theme = useContext(ThemeContext);
-
   const modal = (
-    <ThemeContext.Provider
-      value={ThemeFactory.create(
-        {
-          mobileMediaQuery: '(max-width: 576px)',
-        },
-        theme,
-      )}
-    >
+    <MobileTestWrapper>
       <ResponsiveLayout>
         {({ isMobile }) => {
           return (
@@ -855,7 +846,7 @@ export const MobileModal: Story = () => {
           );
         }}
       </ResponsiveLayout>
-    </ThemeContext.Provider>
+    </MobileTestWrapper>
   );
 
   const render = (

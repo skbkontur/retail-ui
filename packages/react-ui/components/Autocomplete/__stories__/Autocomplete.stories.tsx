@@ -1,11 +1,10 @@
 import React from 'react';
 import { flatten } from 'lodash';
 
+import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { AutocompleteProps } from '..';
 import { delay } from '../../../lib/utils';
 
@@ -217,30 +216,17 @@ WithZeroWidth.parameters = {
 };
 
 export const MobileSimple = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />
-          <span>With caption</span>
-          <UncontrolledAutocomplete source={['One', 'Two', 'Three']} mobileMenuHeaderText={'With caption'} />
-          <span>With many items</span>
-          <UncontrolledAutocomplete
-            source={flatten(
-              new Array(10).fill(['One', 'Two', 'Three']).map((arr, index) => arr.map((i: string) => `${i} ${index}`)),
-            )}
-          />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />
+    <span>With caption</span>
+    <UncontrolledAutocomplete source={['One', 'Two', 'Three']} mobileMenuHeaderText={'With caption'} />
+    <span>With many items</span>
+    <UncontrolledAutocomplete
+      source={flatten(
+        new Array(10).fill(['One', 'Two', 'Three']).map((arr, index) => arr.map((i: string) => `${i} ${index}`)),
+      )}
+    />
+  </MobileTestWrapper>
 );
 MobileSimple.title = 'Mobile autocomplete stories';
 MobileSimple.parameters = {
@@ -251,22 +237,9 @@ MobileSimple.parameters = {
 };
 
 export const MobileHints: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <UncontrolledAutocomplete source={['one', 'two', 'three']} />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <UncontrolledAutocomplete source={['one', 'two', 'three']} />
+  </MobileTestWrapper>
 );
 MobileHints.parameters = {
   viewport: {
@@ -325,22 +298,9 @@ MobileHints.parameters = {
 };
 
 export const MobileWithTitle: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <UncontrolledAutocomplete mobileMenuHeaderText="Заголовок" source={['one', 'two', 'three']} />
-        </ThemeContext.Provider>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <MobileTestWrapper>
+    <UncontrolledAutocomplete mobileMenuHeaderText="Заголовок" source={['one', 'two', 'three']} />
+  </MobileTestWrapper>
 );
 MobileWithTitle.parameters = {
   viewport: {
