@@ -253,7 +253,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     if (!items || items.length === 0) {
       return null;
     }
-    const offsetY = isTheme2022(this.theme) ? 1 : 4;
+    const offsetY = isTheme2022(this.theme) ? 4 : 1;
 
     return (
       <DropdownContainer offsetY={offsetY} getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
