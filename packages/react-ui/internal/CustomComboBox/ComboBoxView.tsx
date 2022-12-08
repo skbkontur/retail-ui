@@ -15,7 +15,11 @@ import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
 
+import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
@@ -125,6 +129,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<DropdownContainer>();
+  private theme!: Theme;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -146,6 +151,17 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     const { onMouseEnter, onMouseLeave, onMouseOver, opened } = this.props;
     const { onClickOutside, onFocusOutside, width } = this.getProps();
 
@@ -374,13 +390,19 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   );
 
   private getRightIcon = () => {
-    const { loading, items, drawArrow, rightIcon } = this.props;
+    const { loading, items, drawArrow, rightIcon, size } = this.props;
 
     if (loading && items && !!items.length) {
+      if (isTheme2022(this.theme)) {
+        return <Spinner type={size} caption="" dimmed />;
+      }
       return this.renderSpinner();
     }
 
     if (rightIcon || drawArrow) {
+      if (isTheme2022(this.theme)) {
+        return <ArrowDownIcon size={size} />;
+      }
       return <span className={styles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
     }
 
