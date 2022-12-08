@@ -246,10 +246,16 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static menuBorderRadius = '8px';
   public static menuPaddingX = '4px';
-  public static menuItemHoverBg = '#EBEBEB';
-  public static menuItemHoverColor = '#222';
+  public static menuItemHoverBg = '#F6F6F6';
+  public static menuItemSelectedBg = '#EBEBEB';
   public static menuItemBorderRadius = '6px';
-  public static menuItemCommentColorHover = '#858585';
+  public static menuItemDisabledColor = '#858585';
+  public static get menuItemHoverColor() {
+    return this.menuItemTextColor;
+  }
+  public static get menuItemCommentColorHover() {
+    return this.menuItemTextColor;
+  }
   public static menuShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
 
   public static tokenInputBorderRadius = '2px';

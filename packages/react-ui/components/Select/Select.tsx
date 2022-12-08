@@ -442,12 +442,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
 
-    const offset = isTheme2022(this.theme) ? { offsetY: 4 } : { offsetY: -1 };
+    const offsetY = isTheme2022(this.theme) ? 4 : -1;
 
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
-        {...offset}
+        offsetY={offsetY}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}

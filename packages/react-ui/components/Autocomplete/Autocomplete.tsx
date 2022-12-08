@@ -19,6 +19,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Autocomplete.styles';
 
@@ -252,9 +253,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     if (!items || items.length === 0) {
       return null;
     }
+    const offsetY = isTheme2022(this.theme) ? 1 : 4;
 
     return (
-      <DropdownContainer offsetY={1} getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
+      <DropdownContainer offsetY={offsetY} getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );

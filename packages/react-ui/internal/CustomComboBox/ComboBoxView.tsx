@@ -201,12 +201,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private renderMenu = () => {
     const { menuAlign, opened } = this.props;
 
+    const offsetY = isTheme2022(this.theme) ? 4 : 1;
+
     return (
       opened && (
         <DropdownContainer
           align={menuAlign}
           getParent={this.getParent}
-          offsetY={1}
+          offsetY={offsetY}
           disablePortal={this.props.disablePortal}
           ref={this.dropdownContainerRef}
         >

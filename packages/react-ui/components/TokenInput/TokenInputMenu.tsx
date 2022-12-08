@@ -6,6 +6,7 @@ import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { TokenInputDataTids, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
@@ -96,7 +97,9 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     const paddingY = parseInt(this.theme.tokenInputPaddingY, 10) || 0;
     const outlineWidth = parseInt(this.theme.controlOutlineWidth, 10) || 0;
     const marginY = parseInt(this.theme.tokenMarginY, 10) || 0;
-    return paddingY + outlineWidth + marginY;
+    const offsetY = isTheme2022(this.theme) ? 4 : 0;
+
+    return paddingY + outlineWidth + marginY + offsetY;
   };
 
   private menuRef = (node: any) => (this.menu = node);

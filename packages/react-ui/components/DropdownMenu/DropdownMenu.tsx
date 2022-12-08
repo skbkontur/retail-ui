@@ -9,6 +9,7 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   /** Максимальная высота меню */
@@ -89,7 +90,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupMargin: '0px',
+                  popupMargin: isTheme2022(theme) ? '4px' : '0px',
                 },
                 theme,
               )}
