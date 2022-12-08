@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { mount } from 'enzyme';
-import { fireEvent, render, render as renderRTL, screen } from '@testing-library/react';
-import MaskedInput from 'react-input-mask';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Input, InputProps } from '../Input';
@@ -311,6 +310,8 @@ describe('<Input />', () => {
 const renderEnzyme = (props: InputProps) =>
   mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
 
+//TODO: при имитации RTL ввода с клавиш символов не вызывается onUnexpectedInput
+//если заданное условие для вызова выполнилось, поэтому пока оставили на Enzyme
 describe('<Input Enzyme/>', () => {
   buildMountAttachTarget();
 
