@@ -207,19 +207,19 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <InputLayoutContext.Provider value={context}>
-        <span
-          data-tid={InputLikeTextDataTids.root}
-          {...rest}
-          className={className}
-          style={{ width, textAlign: align }}
-          tabIndex={disabled ? undefined : 0}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          ref={this.innerRef}
-          onKeyDown={this.handleKeyDown}
-          onMouseDown={this.handleMouseDown}
-        >
+      <span
+        data-tid={InputLikeTextDataTids.root}
+        {...rest}
+        className={className}
+        style={{ width, textAlign: align }}
+        tabIndex={disabled ? undefined : 0}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        ref={this.innerRef}
+        onKeyDown={this.handleKeyDown}
+        onMouseDown={this.handleMouseDown}
+      >
+        <InputLayoutContext.Provider value={context}>
           <input type="hidden" value={value} />
           {leftSide}
           <span className={wrapperClass}>
@@ -237,8 +237,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           </span>
           {rightSide}
           {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
-        </span>
-      </InputLayoutContext.Provider>
+        </InputLayoutContext.Provider>
+      </span>
     );
   };
 
