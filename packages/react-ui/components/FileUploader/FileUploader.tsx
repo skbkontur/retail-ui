@@ -105,9 +105,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } = useContext(
-    FileUploaderControlContext,
-  );
+  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } =
+    useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
 
