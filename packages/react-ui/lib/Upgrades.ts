@@ -6,6 +6,9 @@ let canModifySpecificityLevel = true;
 let specificityClassName = 'react-ui';
 let canModifySpecificityClassName = true;
 
+let prependStyles = true;
+let canModifyPrependStyles = true;
+
 export const Upgrade = {
   getSpecificityLevel() {
     canModifySpecificityLevel = false;
@@ -27,6 +30,17 @@ export const Upgrade = {
       specificityClassName = className;
     } else {
       warning(false, `specificityClassName=${specificityClassName} уже использован`);
+    }
+  },
+  getPrependStyles() {
+    canModifyPrependStyles = false;
+    return prependStyles;
+  },
+  setPrependStyles(value: boolean) {
+    if (canModifyPrependStyles) {
+      prependStyles = value;
+    } else {
+      warning(false, `prependStyles=${prependStyles} уже использован`);
     }
   },
 };
