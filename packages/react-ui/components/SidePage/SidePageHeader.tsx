@@ -164,7 +164,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
         })}
       >
         {this.isMobileLayout ? (
-          this.closeIcon
+          this.closeIcon()
         ) : (
           <Sticky side="top" offset={stickyOffset}>
             {this.closeIcon}
