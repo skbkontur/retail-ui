@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
+import { mod } from './helpers';
 
 export type SwitcherSize = ButtonSize;
 type SwitcherItems = string | SwitcherItem;
@@ -149,26 +150,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     });
   };
 
-  private move = (step: number) => {
-    let selectedIndex = this.state.focusedIndex;
-
-    if (typeof selectedIndex !== 'number') {
-      return;
-    }
-
-    const items = this._extractValuesFromItems();
-
-    selectedIndex += step;
-
-    if (selectedIndex < 0) {
-      selectedIndex = items.length - 1;
-    } else if (selectedIndex >= items.length) {
-      selectedIndex = 0;
-    }
-
-    this._focus(selectedIndex);
-  };
-
   private _focus = (index: number) => {
     this.setState({ focusedIndex: index });
   };
@@ -181,16 +162,44 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
     if (isKeyEnter(e)) {
       if (this.props.onValueChange) {
-        const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
-        this.selectItem(value);
+        const { value, buttonProps } = this._extractPropsFromItem(this.props.items[focusedIndex]);
+        if (!buttonProps?.disabled) {
+          this.selectItem(value);
+        }
       }
       return;
     }
 
     if (isKeyArrowHorizontal(e)) {
       e.preventDefault();
-      this.move(isKeyArrowLeft(e) ? -1 : 1);
+      this.move(isKeyArrowLeft(e));
     }
+  };
+
+  private move = (left: boolean) => {
+    const selectedIndex = this.state.focusedIndex;
+
+    if (typeof selectedIndex !== 'number') {
+      return;
+    }
+    const newFocusedIndex = this._getNextFocusedIndex(left, selectedIndex);
+    this._focus(newFocusedIndex);
+  };
+
+  private _getNextFocusedIndex = (left: boolean, focusedIndex: number): number => {
+    const { items, disabled } = this.props;
+    if (disabled) {
+      return focusedIndex;
+    }
+
+    for (let i = 1; i < items.length; i++) {
+      const index = mod(focusedIndex + (left ? -i : i), items.length);
+      const { buttonProps } = this._extractPropsFromItem(items[index]);
+      if (!buttonProps?.disabled) {
+        return index;
+      }
+    }
+    return focusedIndex;
   };
 
   private _handleFocus = () => {

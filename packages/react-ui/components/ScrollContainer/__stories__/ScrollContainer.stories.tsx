@@ -445,3 +445,77 @@ WithScrollTo.parameters = {
     },
   },
 };
+
+export const OffsetY: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      offsetY={{
+        top: 8,
+        bottom: 8,
+        right: 8,
+      }}
+    >
+      {Array(30)
+        .fill(null)
+        .map((_, i) => (
+          <div key={i}>{i}</div>
+        ))}
+    </ScrollContainer>
+  </div>
+);
+OffsetY.parameters = {
+  creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+};
+
+export const OffsetX = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      offsetX={{
+        left: 8,
+        bottom: 8,
+        right: 8,
+      }}
+    >
+      <div style={{ width: 300 }}>
+        {Array(10)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+OffsetX.parameters = {
+  creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+};
+
+export const OffsetYAndX = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      offsetY={{
+        right: 4,
+        bottom: 4,
+      }}
+      offsetX={{
+        bottom: 4,
+        right: 4,
+      }}
+    >
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+OffsetYAndX.parameters = {
+  creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+};
