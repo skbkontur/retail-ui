@@ -305,6 +305,15 @@ describe('<Input />', () => {
     fireEvent.mouseLeave(screen.getByTestId('Input__root'));
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
+
+  it('maskedInput calls onUnexpectedInput', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+
+    render(<Input value="" mask={'(999) 999-9999'} onUnexpectedInput={unexpectedInputHandlerMock} />);
+    userEvent.click(screen.getByRole('textbox'));
+    userEvent.keyboard('A');
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
 });
 
 const renderEnzyme = (props: InputProps) =>
@@ -338,22 +347,4 @@ describe('<Input Enzyme/>', () => {
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
-
-  // it('maskedInput calls onUnexpectedInput', () => {
-  //   const unexpectedInputHandlerMock = jest.fn();
-  //   const wrapper = renderEnzyme({
-  //     value: '',
-  //     onUnexpectedInput: unexpectedInputHandlerMock,
-  //     mask: '(999) 999-9999',
-  //   });
-
-  //   const typeSymbol = () => {
-  //     wrapper.find('input').simulate('keypress', {
-  //       key: 'A',
-  //     });
-  //   };
-  //   wrapper.setProps({ value: '9999' });
-  //   typeSymbol();
-  //   expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  // });
 });
