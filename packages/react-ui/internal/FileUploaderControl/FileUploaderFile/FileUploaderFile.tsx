@@ -83,9 +83,11 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
 
   useEffect(() => {
-    const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name);
+    if (setIsMinLengthReached) {
+      const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name);
 
-    setIsMinLengthReached((truncatedName?.length ?? 0) <= MIN_CHARS_LENGTH);
+      setIsMinLengthReached((truncatedName?.length ?? 0) <= MIN_CHARS_LENGTH);
+    }
   }, [name, isMinLengthReached]);
 
   useEffect(() => {
@@ -133,9 +135,9 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   }, [hovered, status, isInvalid, theme, focusedByTab]);
 
   const sizeIconClass = useFileUploaderSize(size, {
-    small: jsStyles.iconSmall(theme),
-    medium: jsStyles.iconMedium(theme),
-    large: jsStyles.iconLarge(theme),
+    small: jsStyles.iconSmall(),
+    medium: jsStyles.iconMedium(),
+    large: jsStyles.iconLarge(),
   });
 
   const renderTooltipContent = useCallback((): ReactNode => {
