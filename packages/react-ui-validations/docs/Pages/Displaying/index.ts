@@ -1,4 +1,5 @@
 import GettingStarted from './GettingStarted/GettingStarted.md';
+import ValidationLevel from './ValidationLevel/ValidationLevel.md';
 import ValidationType from './ValidationType/ValidationType.md';
 import ErrorMessages from './ErrorMessages/ErrorMessages.md';
 import FormValidity from './FormValidity/FormValidity.md';
@@ -16,6 +17,11 @@ export const Displaying = {
       component: ValidationType,
       url: 'validation-type',
       caption: 'Виды валидаций',
+    },
+    {
+      component: ValidationLevel,
+      url: 'validation-level',
+      caption: 'Уровни валидаций',
     },
     {
       component: ErrorMessages,

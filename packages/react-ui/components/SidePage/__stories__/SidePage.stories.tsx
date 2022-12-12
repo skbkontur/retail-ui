@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { Story } from '../../../typings/stories';
+import { CreeveyTests, Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -714,21 +714,31 @@ export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSi
 LeftSidePageWithRightSidePageStory.storyName = 'Left SidePage With Right SidePage';
 LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: null } };
 
+const simpleTests: CreeveyTests = {
+  async 'open side-page'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'button' }))
+      .perform();
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
+  },
+};
+
 export const Simple: Story = () => <SimpleSidePage />;
 
 Simple.parameters = {
   creevey: {
-    tests: {
-      async 'open side-page'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
-      },
-    },
+    tests: simpleTests,
+  },
+};
+
+export const MobileSimple: Story = () => <SimpleSidePage />;
+
+MobileSimple.parameters = {
+  creevey: {
+    tests: simpleTests,
   },
 };
 
