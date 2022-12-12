@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.9.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.9.1...@skbkontur/react-ui@4.9.2) (2022-12-12)
+
+
+### Bug Fixes
+
+* **FileUploader:** validation tooltip position ([#3055](https://github.com/skbkontur/retail-ui/issues/3055)) ([c66886a](https://github.com/skbkontur/retail-ui/commit/c66886aeaed8d8c0cae59435cf5509ba8151c358))
+* **SidePage:** return cross icon on mobile ([#3057](https://github.com/skbkontur/retail-ui/issues/3057)) ([7e29a08](https://github.com/skbkontur/retail-ui/commit/7e29a081feb018704e283e2c39f710d484fa8a35))
+
+
+
+
+
 ## [4.9.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.9.0...@skbkontur/react-ui@4.9.1) (2022-12-06)
 
 
