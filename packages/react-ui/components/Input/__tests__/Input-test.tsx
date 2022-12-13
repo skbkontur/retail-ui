@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { Input, InputProps } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
+
 describe('<Input />', () => {
   it('renders with given value', () => {
     render(<Input value="Hello" />);
@@ -38,8 +39,8 @@ describe('<Input />', () => {
 
   it('renders MaskedInput on mask prop', () => {
     render(<Input value="" mask={'(999) 999-9999'} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '9999999999' } });
-    expect(screen.getByRole('textbox')).toHaveValue('(999) 999-9999');
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '7999999999' } });
+    expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
   });
 
   it('passes password type to input', () => {
@@ -47,29 +48,98 @@ describe('<Input />', () => {
     expect(screen.queryByRole('textbox')).toHaveProperty('type', 'password');
   });
 
-  it('passes props to input', () => {
-    const props = {
-      autoFocus: true,
-      disabled: true,
-      id: 'someId',
-      maxLength: 10,
-      placeholder: 'somePlaceholder',
-      title: 'someTitle',
+  it('autofocus of element when it renders', () => {
+    render(<Input value="" autoFocus />);
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
 
-      onCopy: () => undefined,
-      onClick: () => undefined,
-      onMouseUp: () => undefined,
-      onMouseDown: () => undefined,
-      onCut: () => undefined,
-      onInput: () => undefined,
-      onKeyUp: () => undefined,
-      onPaste: () => undefined,
-    };
-    render(<Input value="hello" {...props} />);
+  it('renders disabled element', () => {
+    render(<Input value="" disabled />);
+    expect(screen.getByRole('textbox')).toBeDisabled();
+  });
 
-    for (const prop in props) {
-      expect(screen.queryByRole('textbox')).not.toHaveProperty(prop, prop.valueOf);
-    }
+  it('cant focus element when its disabled', () => {
+    render(<Input value="" disabled />);
+    userEvent.tab();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
+  });
+
+  it('renders with id prop', () => {
+    render(<Input value="" id='someId' />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('id', 'someId');
+  });
+
+  it('maxLength prop works', () => {
+    render(<Input maxLength={5} />);
+    const element = screen.getByRole('textbox');
+    userEvent.type(element, '123456');
+    expect(element).toHaveValue('12345');
+  });
+
+  it('has placeholder prop', () => {
+    render(<Input placeholder='somePlaceholder' />);
+    expect(screen.getByPlaceholderText('somePlaceholder')).toBeInTheDocument();
+  });
+
+  it('has title prop', () => {
+    render(<Input title='someTitle' />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('title', 'someTitle');
+  });
+
+  it('handels onClick event', () => {
+    const onClick = jest.fn();
+    render(<Input value='some value to copy' onClick={onClick} />);
+    const element = screen.getByRole('textbox');
+    userEvent.click(element);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onMouseUp event', () => {
+    const onMouseUp = jest.fn();
+    render(<Input value='some value to copy' onMouseUp={onMouseUp} />);
+    fireEvent.mouseUp(screen.getByRole('textbox'));
+    expect(onMouseUp).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onMouseDown event', () => {
+    const onMouseDown = jest.fn();
+    render(<Input value='some value to copy' onMouseDown={onMouseDown} />);
+    fireEvent.mouseDown(screen.getByRole('textbox'));
+    expect(onMouseDown).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onKeyUp event', () => {
+    const onKeyUp = jest.fn();
+    render(<Input value='some value to copy' onKeyUp={onKeyUp} />);
+    userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onInput event', () => {
+    const onInput = jest.fn();
+    render(<Input onInput={onInput} />);
+    const element = screen.getByRole('textbox');
+    userEvent.type(element, "A");
+    expect(element).toHaveValue('A');
+    expect(onInput).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onCopy event', () => {
+    const onCopy = jest.fn();
+    render(<Input value='Method works' onCopy={onCopy} />);
+    fireEvent.copy(screen.getByRole('textbox'));
+    expect(onCopy).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onPaste event', () => {
+    const onPaste = jest.fn();
+    render(<Input onPaste={onPaste} />);
+    const text = 'It handels onPaste event';
+    const element = screen.getByRole('textbox');
+    userEvent.paste(element, text);
+    expect(element).toHaveValue(text);
+    expect(onPaste).toHaveBeenCalledTimes(1);
   });
 
   it('applies align prop on input', () => {
@@ -78,7 +148,7 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveStyle('textAlign: center');
   });
 
-  it('has focus method', () => {
+  it('focus method works', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} />);
     screen.getByRole('textbox').focus();
@@ -288,14 +358,14 @@ describe('<Input />', () => {
   it('passes onMouseEnter prop to label', () => {
     const onMouseEnter = jest.fn();
     render(<Input value="Hello" onMouseEnter={onMouseEnter} />);
-    userEvent.type(screen.getByTestId('Input__root'), '{mouseenter}');
+    fireEvent.mouseEnter(screen.getByTestId('Input__root'));
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
   it('passes onMouseOver prop to label', () => {
     const onMouseOver = jest.fn();
     render(<Input value="Hello" onMouseOver={onMouseOver} />);
-    userEvent.type(screen.getByTestId('Input__root'), '{mouseover}');
+    fireEvent.mouseOver(screen.getByTestId('Input__root'));
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
