@@ -241,15 +241,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const {
-      menuMaxHeight,
-      hasShadow,
-      menuWidth,
-      width,
-      preventWindowScroll,
-      menuAlign,
-      disablePortal,
-    } = this.getProps();
+    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal } =
+      this.getProps();
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,

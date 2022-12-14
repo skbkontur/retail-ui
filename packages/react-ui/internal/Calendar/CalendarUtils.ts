@@ -38,27 +38,26 @@ export const calculateScrollPosition = (
   };
 };
 
-export const applyDelta = (deltaY: number, theme: Theme) => (
-  { scrollPosition, months }: Readonly<CalendarState>,
-  { minDate, maxDate }: CalendarProps,
-) => {
-  const scrollDirection = deltaY > 0 ? 1 : -1;
-  const isMinDateExceeded =
-    minDate && scrollDirection < 0 && minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
+export const applyDelta =
+  (deltaY: number, theme: Theme) =>
+  ({ scrollPosition, months }: Readonly<CalendarState>, { minDate, maxDate }: CalendarProps) => {
+    const scrollDirection = deltaY > 0 ? 1 : -1;
+    const isMinDateExceeded =
+      minDate && scrollDirection < 0 && minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
 
-  const isMaxDateExceeded =
-    maxDate && scrollDirection > 0 && maxDate.year * 12 + maxDate.month < months[1].year * 12 + months[1].month;
+    const isMaxDateExceeded =
+      maxDate && scrollDirection > 0 && maxDate.year * 12 + maxDate.month < months[1].year * 12 + months[1].month;
 
-  if (isMinDateExceeded) {
-    return { scrollPosition: 0, scrollDirection };
-  }
+    if (isMinDateExceeded) {
+      return { scrollPosition: 0, scrollDirection };
+    }
 
-  if (isMaxDateExceeded) {
-    return { scrollPosition: months[2].getHeight(theme), scrollDirection };
-  }
+    if (isMaxDateExceeded) {
+      return { scrollPosition: months[2].getHeight(theme), scrollDirection };
+    }
 
-  return calculateScrollPosition(months, scrollPosition, deltaY, theme);
-};
+    return calculateScrollPosition(months, scrollPosition, deltaY, theme);
+  };
 
 export const isMonthVisible = (top: number, month: MonthViewModel, theme: Theme) => {
   return top < themeConfig(theme).WRAPPER_HEIGHT && top > -month.getHeight(theme);
