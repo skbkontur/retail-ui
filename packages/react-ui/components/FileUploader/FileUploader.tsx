@@ -108,8 +108,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } =
-    useContext(FileUploaderControlContext);
+  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } = useContext(
+    FileUploaderControlContext,
+  );
 
   const locale = useControlLocale();
 
@@ -309,31 +310,32 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div className={contentInnerClass}>
-              <div data-tid={FileUploaderDataTids.content} className={contentClassNames}>
-                {isLinkVisible && (
-                  <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
-                    {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-                  </span>
+            <div
+              data-tid={FileUploaderDataTids.content}
+              className={cx(contentClassNames, { [contentInnerClass]: !files.length || !isSingleMode })}
+            >
+              {isLinkVisible && (
+                <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
+                  {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+                </span>
+              )}
+              {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
+              <div
+                className={cx(
+                  globalClasses.afterLinkText,
+                  hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles(theme) : jsStyles.afterLinkText(theme),
                 )}
-                {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
-                <div
-                  className={cx(
-                    globalClasses.afterLinkText,
-                    hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles(theme) : jsStyles.afterLinkText(theme),
-                  )}
-                >
-                  {hasOneFileForSingle ? (
-                    <div ref={fileDivRef} className={jsStyles.singleFile()}>
-                      {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
-                    </div>
-                  ) : (
-                    <>
-                      {locale.orDragHere}&nbsp;
-                      <div className={uploadButtonIconClassNames}>{icon}</div>
-                    </>
-                  )}
-                </div>
+              >
+                {hasOneFileForSingle ? (
+                  <div ref={fileDivRef} className={jsStyles.singleFile()}>
+                    {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
+                  </div>
+                ) : (
+                  <>
+                    {locale.orDragHere}&nbsp;
+                    <div className={uploadButtonIconClassNames}>{icon}</div>
+                  </>
+                )}
               </div>
             </div>
             <input
