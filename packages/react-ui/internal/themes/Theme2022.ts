@@ -291,6 +291,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static dateSelectMenuItemFontActive = '';
   public static dateSelectTextColorInvert = '';
   //#endregion
+
+  //#region InternalMenu
+  public static get internalMenuPaddingY() {
+    return this.menuPaddingY;
+  }
+  //#endregion
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(

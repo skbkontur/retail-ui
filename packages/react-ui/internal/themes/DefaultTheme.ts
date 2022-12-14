@@ -1837,6 +1837,10 @@ export class DefaultTheme {
   public static closeIconDisabledColor = '#8b8b8b';
   public static closeIconHoverColor = 'rgba(0, 0, 0, 0.865)';
   //#endregion
+
+  //#region InternalMenu
+  public static internalMenuPaddingY = '5px';
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(DefaultTheme);
