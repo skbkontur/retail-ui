@@ -51,7 +51,7 @@ type DefaultProps<C, P, S> = Required<Pick<ComponentTableProps<C, P, S>, 'preset
 export class ComponentTable<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
-  P extends React.ComponentProps<C>,
+  P extends React.ComponentProps<C>
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
