@@ -6,7 +6,6 @@ import userEvent from '@testing-library/user-event';
 import { Input, InputProps } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
-
 describe('<Input />', () => {
   it('renders with given value', () => {
     render(<Input value="Hello" />);
@@ -65,7 +64,7 @@ describe('<Input />', () => {
   });
 
   it('renders with id prop', () => {
-    render(<Input value="" id='someId' />);
+    render(<Input value="" id="someId" />);
     expect(screen.getByRole('textbox')).toHaveAttribute('id', 'someId');
   });
 
@@ -77,18 +76,18 @@ describe('<Input />', () => {
   });
 
   it('has placeholder prop', () => {
-    render(<Input placeholder='somePlaceholder' />);
+    render(<Input placeholder="somePlaceholder" />);
     expect(screen.getByPlaceholderText('somePlaceholder')).toBeInTheDocument();
   });
 
   it('has title prop', () => {
-    render(<Input title='someTitle' />);
+    render(<Input title="someTitle" />);
     expect(screen.getByRole('textbox')).toHaveAttribute('title', 'someTitle');
   });
 
   it('handels onClick event', () => {
     const onClick = jest.fn();
-    render(<Input value='some value to copy' onClick={onClick} />);
+    render(<Input value="some value to copy" onClick={onClick} />);
     const element = screen.getByRole('textbox');
     userEvent.click(element);
     expect(onClick).toHaveBeenCalledTimes(1);
@@ -96,21 +95,21 @@ describe('<Input />', () => {
 
   it('handels onMouseUp event', () => {
     const onMouseUp = jest.fn();
-    render(<Input value='some value to copy' onMouseUp={onMouseUp} />);
+    render(<Input value="some value to copy" onMouseUp={onMouseUp} />);
     fireEvent.mouseUp(screen.getByRole('textbox'));
     expect(onMouseUp).toHaveBeenCalledTimes(1);
   });
 
   it('handels onMouseDown event', () => {
     const onMouseDown = jest.fn();
-    render(<Input value='some value to copy' onMouseDown={onMouseDown} />);
+    render(<Input value="some value to copy" onMouseDown={onMouseDown} />);
     fireEvent.mouseDown(screen.getByRole('textbox'));
     expect(onMouseDown).toHaveBeenCalledTimes(1);
   });
 
   it('handels onKeyUp event', () => {
     const onKeyUp = jest.fn();
-    render(<Input value='some value to copy' onKeyUp={onKeyUp} />);
+    render(<Input value="some value to copy" onKeyUp={onKeyUp} />);
     userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onKeyUp).toHaveBeenCalledTimes(1);
@@ -120,14 +119,14 @@ describe('<Input />', () => {
     const onInput = jest.fn();
     render(<Input onInput={onInput} />);
     const element = screen.getByRole('textbox');
-    userEvent.type(element, "A");
+    userEvent.type(element, 'A');
     expect(element).toHaveValue('A');
     expect(onInput).toHaveBeenCalledTimes(1);
   });
 
   it('handels onCopy event', () => {
     const onCopy = jest.fn();
-    render(<Input value='Method works' onCopy={onCopy} />);
+    render(<Input value="Method works" onCopy={onCopy} />);
     fireEvent.copy(screen.getByRole('textbox'));
     expect(onCopy).toHaveBeenCalledTimes(1);
   });
