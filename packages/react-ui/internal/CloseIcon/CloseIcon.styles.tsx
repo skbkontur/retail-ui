@@ -3,12 +3,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
 export const styles = memoizeStyle({
-  wrapper(t: Theme) {
+  root(t: Theme) {
     return css`
       ${resetButton()}
       display: inline-block;
       position: relative;
-      border-radius: 8px;
+      border-radius: 4px;
       color: ${t.closeIconColor};
       cursor: pointer;
 
@@ -20,13 +20,10 @@ export const styles = memoizeStyle({
   },
   focus(t: Theme) {
     return css`
-      &,
-      &:focus {
-        box-shadow: inset 0 0 0 1px ${t.borderColorFocus}, inset 0 0 0 2px ${t.outlineColorFocus};
-      }
+      box-shadow: inset 0 0 0 1px ${t.borderColorFocus}, inset 0 0 0 2px ${t.outlineColorFocus};
     `;
   },
-  root() {
+  wrapper() {
     return css`
       box-sizing: content-box;
       display: flex;

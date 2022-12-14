@@ -84,7 +84,6 @@ export class ToastView extends React.Component<ToastViewProps> {
           <CloseIcon
             data-tid={ToastDataTids.close}
             onClick={onClose}
-            theme={this.theme}
             size={parseInt(this.theme.toastCloseSize)}
             side={40}
             color={this.theme.toastCloseColor}

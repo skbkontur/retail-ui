@@ -1,23 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { CloseIcon } from '../CloseIcon';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default { title: 'CloseIcon', parameters: { creevey: { skip: [true] } } };
 
 export const Simple = () => {
-  const theme = useContext(ThemeContext);
-
   return (
     <div>
-      123
-      <CloseIcon theme={theme} />
+      123-
+      <CloseIcon size={24} side={24} />
       231
-      <CloseIcon theme={theme} side={30} />
+      <CloseIcon side={30} />
       231
-      <CloseIcon theme={theme} side={16} />
+      <CloseIcon side={16} />
       231
-      <CloseIcon theme={theme} side={14} />
+      <CloseIcon side={14} />
     </div>
   );
 };
