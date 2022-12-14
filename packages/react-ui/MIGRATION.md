@@ -86,6 +86,11 @@ import { ThemeContext, DEFAULT_THEME_8PX } from '@skbkontur/react-ui';
 
 Для автоматической адаптации этих изменений доступны кодмоды: [react-ui-4.0/transformLabelToCaption](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui-codemod/README.md#react-ui-40transformlabeltocaption) и [react-ui-4.0/renameThemeVars](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui-codemod/README.md#react-ui-40renamethemevars).
 
+### Механизм повышения специфичности перестал работать
+
+Механизм повышения специфичности стилей (`Upgrade.setSpecificityLevel()`) не работает в версиях 4.х из-за внешнего [плагина](https://github.com/Andarist/stylis-plugin-extra-scope), который сломался с обновлением на `Emotion 11` и [никак пока не чинится](https://github.com/Andarist/stylis-plugin-extra-scope/pull/14). В данный момент не представляется возможным его починить до официального фикса плагина.
+
+
 ## 2.x - 3.0
 
 ### 8px-тема по умолчанию
