@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
+import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { Meta, Story } from '../../../typings/stories';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { MenuItem } from '../../MenuItem';
@@ -1185,7 +1185,7 @@ WithTooltip.parameters = {
 };
 
 export const MobileSimple = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <SimpleCombobox />
     <div style={{ height: 15 }} />
     <ComplexCombobox />
@@ -1201,7 +1201,7 @@ export const MobileSimple = () => (
         )
       }
     />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileSimple.title = 'Mobile combobox stories';
 MobileSimple.parameters = {

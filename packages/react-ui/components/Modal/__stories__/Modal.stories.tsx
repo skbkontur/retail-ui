@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
-import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
+import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
@@ -802,7 +802,7 @@ export const MobileModal: Story = () => {
   const [showThirdButton, setShowThird] = useState(false);
 
   const modal = (
-    <MobileTestWrapper>
+    <MobileStoryWrapper>
       <ResponsiveLayout>
         {({ isMobile }) => {
           return (
@@ -846,7 +846,7 @@ export const MobileModal: Story = () => {
           );
         }}
       </ResponsiveLayout>
-    </MobileTestWrapper>
+    </MobileStoryWrapper>
   );
 
   const render = (

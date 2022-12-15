@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { ThemeContext } from '../theming/ThemeContext';
+import { ThemeFactory } from '../theming/ThemeFactory';
 
-export interface MobileTestWrapper {
+export interface MobileStoryWrapper {
   children: React.ReactNode;
 }
 
-export const MobileTestWrapper = ({ children }: MobileTestWrapper) => {
+export const MobileStoryWrapper = ({ children }: MobileStoryWrapper) => {
   return (
     <ThemeContext.Consumer>
       {(theme) => {

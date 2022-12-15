@@ -5,7 +5,7 @@ import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
 
-import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
+import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
@@ -210,7 +210,7 @@ export const MobileSimple = () => {
   });
 
   return (
-    <MobileTestWrapper>
+    <MobileStoryWrapper>
       <Gapped vertical>
         <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
         {show.showFirst && (
@@ -225,7 +225,7 @@ export const MobileSimple = () => {
         {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
         <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
       </Gapped>
-    </MobileTestWrapper>
+    </MobileStoryWrapper>
   );
 };
 MobileSimple.title = 'Mobile stories';
@@ -263,9 +263,9 @@ MobileSimple.decorators = [
 MobileSimple.creevey = { skip: [true] };
 
 export const MobileWithSearch: Story = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileWithSearch.parameters = {
   viewport: {
@@ -277,12 +277,12 @@ MobileWithSearch.parameters = {
 };
 
 export const MobileWithTitle: Story = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <Select
       mobileMenuHeaderText="Заголовок"
       items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
     />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileWithTitle.parameters = {
   viewport: {
@@ -295,13 +295,13 @@ MobileWithTitle.parameters = {
 };
 
 export const MobileWithTitleAndSearch: Story = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <Select
       search
       mobileMenuHeaderText="Заголовок"
       items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
     />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileWithTitleAndSearch.parameters = {
   viewport: {
@@ -313,9 +313,9 @@ MobileWithTitleAndSearch.parameters = {
 };
 
 export const MobileWithoutTitleAndSearch: Story = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileWithoutTitleAndSearch.parameters = {
   viewport: {

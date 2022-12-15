@@ -1,7 +1,7 @@
 import React from 'react';
 import { flatten } from 'lodash';
 
-import { MobileTestWrapper } from '../../../lib/mobile/MobileTestWrapper';
+import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
@@ -216,7 +216,7 @@ WithZeroWidth.parameters = {
 };
 
 export const MobileSimple = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />
     <span>With caption</span>
     <UncontrolledAutocomplete source={['One', 'Two', 'Three']} mobileMenuHeaderText={'With caption'} />
@@ -226,7 +226,7 @@ export const MobileSimple = () => (
         new Array(10).fill(['One', 'Two', 'Three']).map((arr, index) => arr.map((i: string) => `${i} ${index}`)),
       )}
     />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileSimple.title = 'Mobile autocomplete stories';
 MobileSimple.parameters = {
@@ -237,9 +237,9 @@ MobileSimple.parameters = {
 };
 
 export const MobileHints: Story = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <UncontrolledAutocomplete source={['one', 'two', 'three']} />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileHints.parameters = {
   viewport: {
@@ -298,9 +298,9 @@ MobileHints.parameters = {
 };
 
 export const MobileWithTitle: Story = () => (
-  <MobileTestWrapper>
+  <MobileStoryWrapper>
     <UncontrolledAutocomplete mobileMenuHeaderText="Заголовок" source={['one', 'two', 'three']} />
-  </MobileTestWrapper>
+  </MobileStoryWrapper>
 );
 MobileWithTitle.parameters = {
   viewport: {
