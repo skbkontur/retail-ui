@@ -124,7 +124,7 @@ describe('<Input />', () => {
     expect(onInput).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onCopy event', () => {
+  it('handels onCopy event', async () => {
     const onCopy = jest.fn();
     render(<Input value="Method works" onCopy={onCopy} />);
     fireEvent.copy(screen.getByRole('textbox'));
@@ -198,12 +198,17 @@ describe('<Input />', () => {
 
   it('MaskedInput props dont pass in HtmlNode', () => {
     render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
-
-    expect(Object.keys(screen.getByRole('textbox'))).not.toContain('selectAllOnFocus');
-    expect(Object.keys(screen.getByRole('textbox'))).not.toContain('maskChar');
-    expect(Object.keys(screen.getByRole('textbox'))).not.toContain('alwaysShowMask');
-    expect(Object.keys(screen.getByRole('textbox'))).not.toContain('mask');
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
   });
+
+  // it('MaskedInput props dont pass in HtmlNode2', () => {
+  //   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  //   const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+
+  //   render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
+
+  //   expect(consoleSpy).toHaveBeenCalled();
+  // });
 
   it('blink method works', () => {
     const blinkMock = jest.fn();
@@ -218,7 +223,7 @@ describe('<Input />', () => {
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedInput on keyDown', () => {
+  it('call handleUnexpectedInput', () => {
     const unexpectedInputHandlerMock = jest.fn();
     render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
     const element = screen.getByRole('textbox');
@@ -299,36 +304,6 @@ describe('<Input />', () => {
     expect(onKeyPress).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedInput on keyPress', () => {
-    const unexpectedInputHandlerMock = jest.fn();
-    render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
-    const element = screen.getByRole('textbox');
-    userEvent.type(element, '{backspace}');
-
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-    userEvent.type(element, '123');
-    expect(element).toHaveValue('123');
-
-    userEvent.type(element, '{backspace}');
-
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  });
-
-  it('handle onUnexpectedInput', () => {
-    const unexpectedInputHandlerMock = jest.fn();
-    render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
-    const element = screen.getByRole('textbox');
-    userEvent.type(element, '{backspace}');
-
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-    userEvent.type(element, '123');
-    expect(screen.getByRole('textbox')).toHaveValue('123');
-
-    userEvent.type(element, '{backspace}');
-
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  });
-
   it('getNode method returns input', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} />);
@@ -343,15 +318,7 @@ describe('<Input />', () => {
       inputRef.current.input = null;
     }
     const setSelectionToNull = () => inputRef.current?.setSelectionRange(0, 3);
-
-    try {
-      setSelectionToNull();
-    } catch (error) {
-      // eslint-disable-next-line jest/no-conditional-expect
-      expect(error).toBeInstanceOf(Error);
-      // eslint-disable-next-line jest/no-conditional-expect
-      expect(error).toHaveProperty('message', 'Cannot call "setSelectionRange" on unmounted Input');
-    }
+    expect(setSelectionToNull).toThrow('Cannot call "setSelectionRange" on unmounted Input');
   });
 
   it('passes onMouseEnter prop to label', () => {
