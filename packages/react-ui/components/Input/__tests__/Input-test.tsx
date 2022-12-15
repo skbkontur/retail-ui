@@ -201,14 +201,18 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
   });
 
-  // it('MaskedInput props dont pass in HtmlNode2', () => {
-  //   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //   const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+  it('MaskedInput props dont pass in HtmlNode2', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-  //   render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
+    render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
 
-  //   expect(consoleSpy).toHaveBeenCalled();
-  // });
+    expect(consoleSpy).not.toHaveBeenCalled();
+    if (consoleSpy.mock.calls.length) {
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(consoleSpy.mock.calls[0][0]).not.toContain('Warning: React does not recognize');
+    }
+  });
 
   it('blink method works', () => {
     const blinkMock = jest.fn();
