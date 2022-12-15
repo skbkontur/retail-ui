@@ -7,6 +7,7 @@ import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { AutocompleteProps } from '..';
 import { delay } from '../../../lib/utils';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {
   title: 'Autocomplete',
@@ -236,6 +237,55 @@ MobileSimple.parameters = {
   creevey: { skip: [true] },
 };
 
+const mobileHintsTests: CreeveyTests = {
+  async noInputValue() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .perform();
+    await delay(200);
+
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('noInputValue');
+  },
+
+  async nothingWasFound() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .sendKeys('abc')
+      .perform();
+    await delay(200);
+
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('nothingWasFound');
+  },
+
+  async updateValue() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .sendKeys('one')
+      .perform();
+    await delay(200);
+
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: 'input' }))
+      .perform();
+    await delay(200);
+
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('updateValue');
+  },
+};
+
 export const MobileHints: Story = () => (
   <MobileStoryWrapper>
     <UncontrolledAutocomplete source={['one', 'two', 'three']} />
@@ -246,54 +296,23 @@ MobileHints.parameters = {
     defaultViewport: 'iphone',
   },
   creevey: {
-    tests: {
-      async noInputValue() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await delay(200);
+    tests: mobileHintsTests,
+  },
+};
 
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('noInputValue');
-      },
-
-      async nothingWasFound() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('abc')
-          .perform();
-        await delay(200);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('nothingWasFound');
-      },
-
-      async updateValue() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('one')
-          .perform();
-        await delay(200);
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await delay(200);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('updateValue');
-      },
-    },
+export const MobileHintsEN: Story = () => (
+  <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+    <MobileStoryWrapper>
+      <UncontrolledAutocomplete source={['one', 'two', 'three']} />
+    </MobileStoryWrapper>
+  </LocaleContext.Provider>
+);
+MobileHintsEN.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: mobileHintsTests,
   },
 };
 
