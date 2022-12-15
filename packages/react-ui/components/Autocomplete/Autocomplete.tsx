@@ -3,6 +3,7 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
+import { locale } from '../../lib/locale/decorators';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -24,6 +25,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { HTMLProps } from '../../typings/html-props';
 
 import { styles } from './Autocomplete.styles';
+import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -103,6 +105,7 @@ type DefaultProps = Required<
  */
 @responsiveLayout
 @rootNode
+@locale('Autocomplete', AutocompleteLocaleHelper)
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
@@ -147,6 +150,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   };
 
   private theme!: Theme;
+  private readonly locale!: AutocompleteLocale;
   private isMobileLayout!: boolean;
   private opened = false;
   private input: Nullable<Input> = null;
@@ -303,11 +307,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
-          {!this.props.value && this.renderUtilityMessage('Начните вводить значение')}
-          {items?.length === 0 && this.props.value && this.renderUtilityMessage('Ничего не найдено')}
-          {isNullable(items?.length) &&
-            this.props.value &&
-            this.renderUtilityMessage('Начните вводить или изменять значение')}
+          {!this.props.value && this.renderUtilityMessage(this.locale.enterValue)}
+          {items?.length === 0 && this.props.value && this.renderUtilityMessage(this.locale.notFound)}
+          {isNullable(items?.length) && this.props.value && this.renderUtilityMessage(this.locale.updateValue)}
         </Menu>
       </MobilePopup>
     );
