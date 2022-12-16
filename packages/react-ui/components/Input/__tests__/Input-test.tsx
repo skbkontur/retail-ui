@@ -187,21 +187,7 @@ describe('<Input />', () => {
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
 
-  it('selectAllOnFocus prop works', () => {
-    const value = 'Prop works';
-    render(<Input value={value} selectAllOnFocus />);
-    userEvent.tab();
-
-    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
-  });
-
   it('MaskedInput props dont pass in HtmlNode', () => {
-    render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
-    expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
-  });
-
-  it('MaskedInput props dont pass in HtmlNode2', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -212,6 +198,7 @@ describe('<Input />', () => {
       // eslint-disable-next-line jest/no-conditional-expect
       expect(consoleSpy.mock.calls[0][0]).not.toContain('Warning: React does not recognize');
     }
+    consoleSpy.mockRestore();
   });
 
   it('blink method works', () => {
