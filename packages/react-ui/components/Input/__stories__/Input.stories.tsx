@@ -184,6 +184,24 @@ const iconsStates: InputState[] = [
   { disabled: true, },
 ];
 
+export const Type = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={typeStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+const typeStates: InputState[] = [
+  { type: 'text', defaultValue: 'Value' },
+  { type: 'password', defaultValue: 'Value' },
+  { type: 'password', defaultValue: 'Value', disabled: true },
+  { mask: '***-***', type: 'password', alwaysShowMask: true },
+  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
+  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
+];
+
+
 // export const InputsWithDifferentSizes: Story = () => (
 //   <div>
 //     <div id="small-input-wrapper" style={styles}>
@@ -548,11 +566,10 @@ SelectAllByButton.parameters = {
   },
 };
 
-export const OLDInputWithMaxLengthAttr = () => <Input maxLength={3} placeholder="maxLength={3}" />;
-OLDInputWithMaxLengthAttr.storyName = 'OLD Input with maxLength attr';
-OLDInputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
+export const MaxLength = () => <Input maxLength={3} placeholder="maxLength={3}" />;
+MaxLength.parameters = { creevey: { skip: [true] } };
 
-export const OLDManualBlinking = () => {
+export const BlinkingByButton = () => {
   class Sample extends React.Component {
     private input: Input | null = null;
 
@@ -578,8 +595,7 @@ export const OLDManualBlinking = () => {
 
   return <Sample />;
 };
-OLDManualBlinking.storyName = 'OLD Manual blinking';
-OLDManualBlinking.parameters = { creevey: { skip: [true] } };
+BlinkingByButton.parameters = { creevey: { skip: [true] } };
 
 export const Prefix = () => (
   <ComponentTable
@@ -796,7 +812,7 @@ OLDUncontrolledInputWithPlaceholder.parameters = {
   },
 };
 
-export const OLDInputWithMaskSelectAll: Story = () => {
+export const MaskSelectAllOnFocus: Story = () => {
   const inputRef = React.useRef<Input>(null);
   const [value, setValue] = React.useState('11');
   const selectAll = React.useCallback(() => {
@@ -808,7 +824,7 @@ export const OLDInputWithMaskSelectAll: Story = () => {
     </div>
   );
 };
-OLDInputWithMaskSelectAll.parameters = {
+MaskSelectAllOnFocus.parameters = {
   creevey: {
     skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
     tests: {
