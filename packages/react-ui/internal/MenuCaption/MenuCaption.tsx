@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { forwardRefAndName } from 'react-ui/lib/forwardRefAndName';
 
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
@@ -10,24 +11,32 @@ export interface MenuCaptionProps extends CommonProps {
   children: React.ReactNode;
 }
 
-export const MenuCaption = ({ children, className, ...rest }: MenuCaptionProps) => {
-  const { isMobile } = useResponsiveLayout();
+export const MenuCaptionDataTids = {
+  root: 'MenuCaption__root',
+} as const;
 
-  const theme = useContext(ThemeContext);
+export const MenuCaption = forwardRefAndName<HTMLParagraphElement, MenuCaptionProps>(
+  'MenuHeader',
+  ({ children, className, ...rest }) => {
+    const { isMobile } = useResponsiveLayout();
 
-  return (
-    <p
-      className={cx(
-        {
-          [styles.root(theme)]: true,
-          [styles.disabled(theme)]: true,
-          [styles.rootMobile(theme)]: isMobile,
-        },
-        className,
-      )}
-      {...rest}
-    >
-      {children}
-    </p>
-  );
-};
+    const theme = useContext(ThemeContext);
+
+    return (
+      <p
+        data-tid={MenuCaptionDataTids}
+        className={cx(
+          {
+            [styles.root(theme)]: true,
+            [styles.disabled(theme)]: true,
+            [styles.rootMobile(theme)]: isMobile,
+          },
+          className,
+        )}
+        {...rest}
+      >
+        {children}
+      </p>
+    );
+  },
+);
