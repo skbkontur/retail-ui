@@ -16,8 +16,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -174,33 +174,35 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const disableAnimations = this.getProps().disableAnimations;
 
     return (
-      <ResponsiveLayout>
-        {({ isMobile }) => (
-          <RenderContainer>
-            <CommonWrapper {...this.props}>
-              <div>
-                {blockBackground && this.renderShadow()}
-                <CSSTransition
-                  in
-                  classNames={this.getTransitionNames()}
-                  appear={!disableAnimations}
-                  enter={!disableAnimations}
-                  exit={false}
-                  timeout={{
-                    enter: TRANSITION_TIMEOUT,
-                    exit: TRANSITION_TIMEOUT,
-                  }}
-                  nodeRef={this.rootRef}
-                  onEntered={onOpened}
-                >
-                  {this.renderContainer(isMobile)}
-                </CSSTransition>
-                {isMobile && <HideBodyVerticalScroll />}
-              </div>
-            </CommonWrapper>
-          </RenderContainer>
-        )}
-      </ResponsiveLayout>
+      <RenderContainer>
+        <CommonWrapper {...this.props}>
+          <div>
+            <ResponsiveLayout>
+              {({ isMobile }) => (
+                <>
+                  {blockBackground && this.renderShadow()}
+                  <CSSTransition
+                    in
+                    classNames={this.getTransitionNames()}
+                    appear={!disableAnimations}
+                    enter={!disableAnimations}
+                    exit={false}
+                    timeout={{
+                      enter: TRANSITION_TIMEOUT,
+                      exit: TRANSITION_TIMEOUT,
+                    }}
+                    nodeRef={this.rootRef}
+                    onEntered={onOpened}
+                  >
+                    {this.renderContainer(isMobile)}
+                  </CSSTransition>
+                  {isMobile && <HideBodyVerticalScroll />}
+                </>
+              )}
+            </ResponsiveLayout>
+          </div>
+        </CommonWrapper>
+      </RenderContainer>
     );
   }
 
