@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CloseIcon } from '../CloseIcon';
+import { CloseButtonIcon } from '../CloseButtonIcon';
 
 export default { title: 'CloseIcon', parameters: { creevey: { skip: [true] } } };
 
@@ -8,13 +8,13 @@ export const Simple = () => {
   return (
     <div>
       123-
-      <CloseIcon size={24} side={24} />
+      <CloseButtonIcon size={24} side={24} />
       231
-      <CloseIcon side={30} />
+      <CloseButtonIcon side={30} />
       231
-      <CloseIcon side={16} />
+      <CloseButtonIcon side={16} />
       231
-      <CloseIcon side={14} />
+      <CloseButtonIcon side={14} />
     </div>
   );
 };

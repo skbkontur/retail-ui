@@ -14,15 +14,17 @@ interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disableCompensation?: boolean;
   color?: CSSProperties['color'];
   colorHover?: string;
+  focusable?: boolean;
 }
 
-export const CloseIcon: React.FunctionComponent<CloseIconProps> = ({
+export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
   side = DEFAULT_ICON_SIZE,
   size = DEFAULT_ICON_SIZE,
   color,
   colorHover,
   disableCompensation,
   disabled,
+  focusable = true,
   ...attr
 }) => {
   const theme = React.useContext(ThemeContext);
@@ -50,9 +52,11 @@ export const CloseIcon: React.FunctionComponent<CloseIconProps> = ({
         `
       : '';
 
+  const tabIndex = !focusable || disabled ? -1 : 0;
+
   return (
     <button
-      tabIndex={disabled ? -1 : 0}
+      tabIndex={tabIndex}
       className={cx(styles.root(theme), classNames, focusedByTab && styles.focus(theme))}
       style={{ width: side, height: side }}
       onFocus={handleFocus}

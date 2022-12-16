@@ -8,7 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { CloseIcon } from '../../internal/CloseIcon/CloseIcon';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './ToastView.styles';
 import { ToastDataTids } from './Toast';
@@ -81,13 +81,14 @@ export class ToastView extends React.Component<ToastViewProps> {
     if (isTheme2022(this.theme) && close) {
       close = (
         <span className={styles.closeWrapper(this.theme)}>
-          <CloseIcon
+          <CloseButtonIcon
             data-tid={ToastDataTids.close}
             onClick={onClose}
             size={parseInt(this.theme.toastCloseSize)}
             side={40}
             color={this.theme.toastCloseColor}
             colorHover={this.theme.toastCloseHoverColor}
+            focusable={false}
           />
         </span>
       );

@@ -19,7 +19,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { CloseIcon } from '../../internal/CloseIcon/CloseIcon';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './Tooltip.styles';
 
@@ -275,7 +275,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     const icon = isTheme2022(this.theme) ? (
-      <CloseIcon side={parseInt(this.theme.tooltipCloseBtnSide)} />
+      <CloseButtonIcon side={parseInt(this.theme.tooltipCloseBtnSide)} focusable={false} />
     ) : (
       <CrossIcon />
     );

@@ -8,7 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { CloseIcon } from '../../internal/CloseIcon/CloseIcon';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -93,7 +93,11 @@ export class Token extends React.Component<TokenProps> {
 
     const validation = getValidation(error, warning);
 
-    const icon = isTheme2022(theme) ? <CloseIcon side={16} color="inherit" colorHover="inherit" /> : <CrossIcon />;
+    const icon = isTheme2022(theme) ? (
+      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" focusable={false} />
+    ) : (
+      <CrossIcon />
+    );
 
     const idleClassName = colorStyles[colors.idle](theme, validation);
     const activeClassName = colorStyles[colors.active || colors.idle];
