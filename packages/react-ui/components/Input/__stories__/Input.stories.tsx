@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
+import { ComponentTable } from '../../../internal/ComponentTable';
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
-import { Input, InputSize } from '../Input';
+import { Input, InputProps, InputSize } from '../Input';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 
@@ -24,437 +25,415 @@ export default {
   },
 } as Meta;
 
-export const InputsWithDifferentStates: Story = () => (
-  <div>
-    <div>
-      <div style={styles}>Warning</div>
-      <div id="warning-small-input-wrapper" style={styles}>
-        <Input size="small" warning />
-      </div>
-      <div id="warning-large-input-wrapper" style={styles}>
-        <Input size="large" warning />
-      </div>
-    </div>
+type InputState = Partial<InputProps>;
 
-    <div>
-      <div style={styles}>Error</div>
-      <div id="error-small-input-wrapper" style={styles}>
-        <Input size="small" error />
-      </div>
-      <div id="error-large-input-wrapper" style={styles}>
-        <Input size="large" error />
-      </div>
-    </div>
+const sizeStates: InputState[] = [
+  { size: 'small' },
+  { size: 'medium' },
+  { size: 'large' },
+];
 
-    <div>
-      <div style={styles}>Disabled</div>
-      <div id="disabled-small-input-wrapper" style={styles}>
-        <Input size="small" disabled />
-      </div>
-      <div id="disabled-large-input-wrapper" style={styles}>
-        <Input size="large" disabled />
-      </div>
-    </div>
+const inputDefaultState: InputState[] = [
+  {}
+];
 
-    <div>
-      <div style={styles}>
-        Disabled
-        <br /> (with text)
-      </div>
-      <div id="disabled-text-small-input-wrapper" style={styles}>
-        <Input size="small" value="Some text" disabled />
-      </div>
-      <div id="disabled-text-large-input-wrapper" style={styles}>
-        <Input size="large" value="Some text" disabled />
-      </div>
-    </div>
+const inputWidthStates: InputState[] = [
+  { width: 'auto' },
+  { width: '100px' },
+  { width: '350px' }
 
-    <div>
-      <div style={styles}>Placeholder</div>
-      <div id="placeholder-small-input-wrapper" style={styles}>
-        <Input size="small" placeholder="Placeholder" />
-      </div>
-      <div id="placeholder-large-input-wrapper" style={styles}>
-        <Input size="large" placeholder="Placeholder" />
-      </div>
-    </div>
+];
 
-    <div>
-      <div style={styles}>Password</div>
-      <div id="password-small-input-wrapper" style={styles}>
-        <Input size="small" value="password" type="password" />
-      </div>
-      <div id="password-large-input-wrapper" style={styles}>
-        <Input size="large" value="password" type="password" />
-      </div>
-    </div>
-
-    <div>
-      <div style={styles}>Borderless</div>
-      <div id="borderless-small-input-wrapper" style={styles}>
-        <Input size="small" borderless />
-      </div>
-      <div id="borderless-large-input-wrapper" style={styles}>
-        <Input size="large" borderless />
-      </div>
-    </div>
-
-    <div>
-      <div style={styles}>Left icon</div>
-      <div id="left-icon-small-input-wrapper" style={styles}>
-        <Input size="small" leftIcon={<SearchIcon />} />
-      </div>
-      <div id="left-icon-large-input-wrapper" style={styles}>
-        <Input size="large" leftIcon={<SearchIcon />} />
-      </div>
-    </div>
-
-    <div>
-      <div style={styles}>Right icon</div>
-      <div id="right-icon-small-input-wrapper" style={styles}>
-        <Input size="small" rightIcon={<SearchIcon />} />
-      </div>
-      <div id="right-icon-large-input-wrapper" style={styles}>
-        <Input size="large" rightIcon={<SearchIcon />} />
-      </div>
-    </div>
-
-    <div>
-      <div style={styles}>Error and Disabled</div>
-      <div id="error-disabled-small-input-wrapper" style={styles}>
-        <Input size="small" error disabled value="Error and Disabled" />
-      </div>
-      <div id="error-disabled-large-input-wrapper" style={styles}>
-        <Input size="large" error disabled value="Error and Disabled" />
-      </div>
-    </div>
-  </div>
+export const DifferentStates: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Input' }}
+  />
 );
-InputsWithDifferentStates.storyName = 'Inputs with different states';
 
-InputsWithDifferentStates.parameters = {
-  creevey: {
-    tests: {
-      async 'Warning small'() {
-        const element = await this.browser.findElement({ css: '#warning-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Warning small');
-      },
-      async 'Warning large'() {
-        const element = await this.browser.findElement({ css: '#warning-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Warning large');
-      },
-      async 'Error small'() {
-        const element = await this.browser.findElement({ css: '#error-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error small');
-      },
-      async 'Error large'() {
-        const element = await this.browser.findElement({ css: '#error-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error large');
-      },
-      async 'Disabled small'() {
-        const element = await this.browser.findElement({ css: '#disabled-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled small');
-      },
-      async 'Disabled large'() {
-        const element = await this.browser.findElement({ css: '#disabled-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled large');
-      },
-      async 'Disabled text small'() {
-        const element = await this.browser.findElement({ css: '#disabled-text-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled text small');
-      },
-      async 'Disabled text large'() {
-        const element = await this.browser.findElement({ css: '#disabled-text-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled text large');
-      },
-      async 'Placeholder small'() {
-        const element = await this.browser.findElement({ css: '#placeholder-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Placeholder small');
-      },
-      async 'Placeholder large'() {
-        const element = await this.browser.findElement({ css: '#placeholder-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Placeholder large');
-      },
-      async 'Password small'() {
-        const element = await this.browser.findElement({ css: '#password-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Password small');
-      },
-      async 'Password large'() {
-        const element = await this.browser.findElement({ css: '#password-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Password large');
-      },
-      async 'Borderless small'() {
-        const element = await this.browser.findElement({ css: '#borderless-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Borderless small');
-      },
-      async 'Borderless large'() {
-        const element = await this.browser.findElement({ css: '#borderless-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Borderless large');
-      },
-      async 'Left icon small'() {
-        const element = await this.browser.findElement({ css: '#left-icon-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Left icon small');
-      },
-      async 'Left icon large'() {
-        const element = await this.browser.findElement({ css: '#left-icon-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Left icon large');
-      },
-      async 'Right icon small'() {
-        const element = await this.browser.findElement({ css: '#right-icon-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Right icon small');
-      },
-      async 'Right icon large'() {
-        const element = await this.browser.findElement({ css: '#right-icon-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Right icon large');
-      },
-      async 'Error and Disabled large'() {
-        const element = await this.browser.findElement({ css: '#error-disabled-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
-      },
-      async 'Error and Disabled small'() {
-        const element = await this.browser.findElement({ css: '#error-disabled-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
-      },
-    },
-  },
-};
+const inputDifferentStates: InputState[] = [
+  { disabled: true },
+  { value: 'Some text', disabled: true },
+  { placeholder: 'Placeholder' },
+  { type: 'password' },
+  { borderless: true },
+  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon /> },
+];
 
-export const InputsWithDifferentSizes: Story = () => (
-  <div>
-    <div id="small-input-wrapper" style={styles}>
-      <Input size="small" />
-    </div>
-    <div id="medium-input-wrapper" style={styles}>
-      <Input size="medium" />
-    </div>
-    <div id="large-input-wrapper" style={styles}>
-      <Input size="large" />
-    </div>
-  </div>
+export const Size: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputDefaultState.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Input' }}
+  />
 );
-InputsWithDifferentSizes.storyName = 'Inputs with different sizes';
 
-InputsWithDifferentSizes.parameters = {
-  creevey: {
-    tests: {
-      async 'Plain small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-      async 'Plain medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-      async 'Plain large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-    },
-  },
-};
+export const Align = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={alignDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ value: 'Value', width: '200px' }}
+  />
+);
+
+const alignDifferentStates: InputState[] = [
+  { align: 'center' },
+  { align: 'center', leftIcon: <SearchIcon /> },
+  { align: 'center', rightIcon: <SearchIcon /> },
+  { align: 'right' },
+  { align: 'right', leftIcon: <SearchIcon /> },
+  { align: 'right', rightIcon: <SearchIcon /> },
+  { align: 'left' },
+  { align: 'left', leftIcon: <SearchIcon /> },
+  { align: 'left', rightIcon: <SearchIcon /> },
+];
+
+export const AlwaysShowMask = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={alwaysShowMaskStates.map((x) => ({ props: x }))}
+    presetProps={{ mask: "(***) ***-**-**" }}
+  />
+);
+const alwaysShowMaskStates: InputState[] = [
+  {},
+  { defaultValue: '95678901' },
+  { defaultValue: '956789010A' },
+  { alwaysShowMask: true },
+  { alwaysShowMask: true, defaultValue: '95678901' },
+  { alwaysShowMask: true, defaultValue: '956789010A' },
+];
+
+export const Borderless = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={borderlessStates.map((x) => ({ props: x }))}
+    presetProps={{ borderless: true }}
+  />
+);
+const borderlessStates: InputState[] = [
+  {},
+  { mask: '***-***-***' },
+  { alwaysShowMask: true, mask: '***-***-***' },
+  { prefix: 'prefix' },
+  { suffix: 'suffix' },
+];
+
+export const Error = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={errorStates.map((x) => ({ props: x }))}
+    presetProps={{ error: true }}
+  />
+);
+const errorStates: InputState[] = [
+  {},
+  { borderless: true },
+  { disabled: true, },
+  { disabled: true, alwaysShowMask: true, mask: '***-***-***' },
+];
+
+export const Warning = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={warningStates.map((x) => ({ props: x }))}
+    presetProps={{ warning: true }}
+  />
+);
+const warningStates: InputState[] = [
+  {},
+  { borderless: true },
+  { disabled: true, },
+  { disabled: true, alwaysShowMask: true, mask: '***-***-***' },
+];
+
+export const RightIcon = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={iconsStates.map((x) => ({ props: x }))}
+    presetProps={{ rightIcon: <SearchIcon /> }}
+  />
+);
+export const LeftIcon = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={iconsStates.map((x) => ({ props: x }))}
+    presetProps={{ leftIcon: <SearchIcon /> }}
+  />
+);
+
+const iconsStates: InputState[] = [
+  {},
+  { defaultValue: 'Value' },
+  { prefix: 'PR' },
+  { prefix: 'PR', defaultValue: 'Value' },
+  { suffix: 'SF' },
+  { suffix: 'SF', defaultValue: 'Value' },
+  { borderless: true },
+  { disabled: true, },
+];
+
+// export const InputsWithDifferentSizes: Story = () => (
+//   <div>
+//     <div id="small-input-wrapper" style={styles}>
+//       <Input size="small" />
+//     </div>
+//     <div id="medium-input-wrapper" style={styles}>
+//       <Input size="medium" />
+//     </div>
+//     <div id="large-input-wrapper" style={styles}>
+//       <Input size="large" />
+//     </div>
+//   </div>
+// );
+// InputsWithDifferentSizes.storyName = 'Inputs with different sizes';
+
+// InputsWithDifferentSizes.parameters = {
+//   creevey: {
+//     tests: {
+//       async 'Plain small'() {
+//         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
+//       },
+//       async 'Focused small'() {
+//         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
+//       },
+//       async 'With typed text small'() {
+//         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
+//           .sendKeys('Test...')
+//           .pause(500)
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
+//       },
+//       async 'With long typed text small'() {
+//         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
+//           .sendKeys('Test...')
+//           .sendKeys(
+//             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//           )
+//           .pause(500)
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
+//       },
+//       async 'Plain medium'() {
+//         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
+//       },
+//       async 'Focused medium'() {
+//         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
+//       },
+//       async 'With typed text medium'() {
+//         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
+//           .sendKeys('Test...')
+//           .pause(500)
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
+//       },
+//       async 'With long typed text medium'() {
+//         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
+//           .sendKeys('Test...')
+//           .sendKeys(
+//             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//           )
+//           .pause(500)
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
+//       },
+//       async 'Plain large'() {
+//         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
+//       },
+//       async 'Focused large'() {
+//         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
+//       },
+//       async 'With typed text large'() {
+//         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
+//           .sendKeys('Test...')
+//           .pause(500)
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
+//       },
+//       async 'With long typed text large'() {
+//         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
+//           .sendKeys('Test...')
+//           .sendKeys(
+//             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//           )
+//           .pause(500)
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
+//       },
+//     },
+//   },
+// };
 
 export const PlaceholderAndMask = () => (
-  <div>
-    <table style={{ borderSpacing: 10 }}>
-      <tr>
-        <td />
-        <td>width: &quot;auto&quot;</td>
-        <td>width: 100px</td>
-        <td>width: 350px</td>
-      </tr>
-      <tr>
-        <td>placeholder</td>
-        <td>
-          <Input placeholder="1234567890 1234567890 1234567890" />
-        </td>
-        <td>
-          <Input width={100} placeholder="1234567890 1234567890 1234567890" />
-        </td>
-        <td>
-          <Input width={350} placeholder="1234567890 1234567890 1234567890" />
-        </td>
-      </tr>
-      <tr>
-        <td> mask</td>
-        <td>
-          <Input mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-        </td>
-        <td>
-          <Input width={100} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-        </td>
-        <td>
-          <Input width={350} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-        </td>
-      </tr>
-      <tr>
-        <td>placeholder and mask</td>
-        <td>
-          <Input
-            mask="********** ********** **********"
-            maskChar={'_'}
-            alwaysShowMask
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-        <td>
-          <Input
-            width={100}
-            mask="********** ********** **********"
-            maskChar={'_'}
-            alwaysShowMask
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-        <td>
-          <Input
-            width={350}
-            mask="********** ********** **********"
-            maskChar={'_'}
-            alwaysShowMask
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-      </tr>
-    </table>
-    <table style={{ borderSpacing: 10 }}>
-      <tr>
-        <td />
-        <td>focused</td>
-        <td>blured</td>
-      </tr>
-      <tr>
-        <td>placeholder and mask</td>
-        <td>
-          <Input
-            autoFocus
-            mask="********** ********** **********"
-            maskChar={'_'}
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-        <td>
-          <Input
-            mask="********** ********** **********"
-            maskChar={'_'}
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-      </tr>
-    </table>
-  </div>
+  <ComponentTable
+    Component={Input}
+    cols={inputWidthStates.map((x) => ({ props: x }))}
+    rows={PlaceholderAndMaskStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
 );
-PlaceholderAndMask.storyName = 'Placeholder and Mask';
+
+const PlaceholderAndMaskStates: InputState[] = [
+  { placeholder: '1234567890 1234567890 1234567890' },
+  { mask: "********** ********** **********", maskChar: '_', alwaysShowMask: true },
+  { placeholder: '1234567890 1234567890', mask: "********** ********** **********", maskChar: '_', alwaysShowMask: true }
+];
+
+// export const PlaceholderAndMask = () => (
+//   <div>
+//     <table style={{ borderSpacing: 10 }}>
+//       <tr>
+//         <td />
+//         <td>width: &quot;auto&quot;</td>
+//         <td>width: 100px</td>
+//         <td>width: 350px</td>
+//       </tr>
+//       <tr>
+//         <td>placeholder</td>
+//         <td>
+//           <Input placeholder="1234567890 1234567890 1234567890" />
+//         </td>
+//         <td>
+//           <Input width={100} placeholder="1234567890 1234567890 1234567890" />
+//         </td>
+//         <td>
+//           <Input width={350} placeholder="1234567890 1234567890 1234567890" />
+//         </td>
+//       </tr>
+//       <tr>
+//         <td> mask</td>
+//         <td>
+//           <Input mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
+//         </td>
+//         <td>
+//           <Input width={100} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
+//         </td>
+//         <td>
+//           <Input width={350} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
+//         </td>
+//       </tr>
+//       <tr>
+//         <td>placeholder and mask</td>
+//         <td>
+//           <Input
+//             mask="********** ********** **********"
+//             maskChar={'_'}
+//             alwaysShowMask
+//             placeholder="1234567890 1234567890 1234567890"
+//           />
+//         </td>
+//         <td>
+//           <Input
+//             width={100}
+//             mask="********** ********** **********"
+//             maskChar={'_'}
+//             alwaysShowMask
+//             placeholder="1234567890 1234567890 1234567890"
+//           />
+//         </td>
+//         <td>
+//           <Input
+//             width={350}
+//             mask="********** ********** **********"
+//             maskChar={'_'}
+//             alwaysShowMask
+//             placeholder="1234567890 1234567890 1234567890"
+//           />
+//         </td>
+//       </tr>
+//     </table>
+//     <table style={{ borderSpacing: 10 }}>
+//       <tr>
+//         <td />
+//         <td>focused</td>
+//         <td>blured</td>
+//       </tr>
+//       <tr>
+//         <td>placeholder and mask</td>
+//         <td>
+//           <Input
+//             autoFocus
+//             mask="********** ********** **********"
+//             maskChar={'_'}
+//             placeholder="1234567890 1234567890 1234567890"
+//           />
+//         </td>
+//         <td>
+//           <Input
+//             mask="********** ********** **********"
+//             maskChar={'_'}
+//             placeholder="1234567890 1234567890 1234567890"
+//           />
+//         </td>
+//       </tr>
+//     </table>
+//   </div>
+// );
 
 const testMaskedInput: CreeveyTests = {
   async 'idle, focus, edit, blur'() {
@@ -481,16 +460,16 @@ const testMaskedInput: CreeveyTests = {
   },
 };
 
-export const InputWithMask: Story = () => (
+export const Mask: Story = () => (
   <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
 );
-InputWithMask.parameters = {
+Mask.parameters = {
   creevey: {
     tests: testMaskedInput,
   },
 };
 
-export const InputWithMaskAndCustomUnmaskedValue: Story = () => {
+export const MaskAndCustomUnmaskedValue: Story = () => {
   const [value, setValue] = useState('+795');
 
   return (
@@ -506,14 +485,13 @@ export const InputWithMaskAndCustomUnmaskedValue: Story = () => {
   );
 };
 
-InputWithMaskAndCustomUnmaskedValue.parameters = {
+MaskAndCustomUnmaskedValue.parameters = {
   creevey: {
     tests: testMaskedInput,
   },
 };
 
 export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
-SelectAllByProp.storyName = 'Select all by prop';
 
 SelectAllByProp.parameters = {
   creevey: {
@@ -546,14 +524,11 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <Input ref={(element) => (input = element)} defaultValue="Some value" />
+        <Input ref={(element) => (input = element)} defaultValue="Some value" /><Button onClick={selectAll}>Select all</Button>
       </div>
-      <Button onClick={selectAll}>Select all</Button>
     </div>
   );
 };
-SelectAllByButton.storyName = 'Select all by button';
-
 SelectAllByButton.parameters = {
   creevey: {
     tests: {
@@ -573,11 +548,11 @@ SelectAllByButton.parameters = {
   },
 };
 
-export const InputWithMaxLengthAttr = () => <Input maxLength={3} placeholder="maxLength={3}" />;
-InputWithMaxLengthAttr.storyName = 'Input with maxLength attr';
-InputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
+export const OLDInputWithMaxLengthAttr = () => <Input maxLength={3} placeholder="maxLength={3}" />;
+OLDInputWithMaxLengthAttr.storyName = 'OLD Input with maxLength attr';
+OLDInputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
 
-export const ManualBlinking = () => {
+export const OLDManualBlinking = () => {
   class Sample extends React.Component {
     private input: Input | null = null;
 
@@ -603,80 +578,119 @@ export const ManualBlinking = () => {
 
   return <Sample />;
 };
-ManualBlinking.storyName = 'Manual blinking';
-ManualBlinking.parameters = { creevey: { skip: [true] } };
+OLDManualBlinking.storyName = 'OLD Manual blinking';
+OLDManualBlinking.parameters = { creevey: { skip: [true] } };
 
-export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
-PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
+export const Prefix = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ prefix: 'Prefix' }}
+  />
+);
+const inputPrefixOrSuffixStates: InputState[] = [
+  {},
+  { value: 'Value' },
+  { placeholder: 'Placeholder' },
+  { rightIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon />, value: 'Value' },
+  { rightIcon: <SearchIcon />, placeholder: 'Placeholder' },
+  { leftIcon: <SearchIcon /> },
+  { leftIcon: <SearchIcon />, value: 'Value' },
+  { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
+];
 
-PrefixAndSuffixSmall.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'First input focused'() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-      },
-    },
-  },
-};
+export const Suffix = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ suffix: 'Suffix' }}
+  />
+);
 
-export const PrefixAndSuffixMedium: Story = () => <InputWithPrefixSuffix size="medium" />;
-PrefixAndSuffixMedium.storyName = 'Prefix and suffix medium';
+export const PrefixAndSuffixBoth = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ prefix: 'Prefix', suffix: 'Suffix' }}
+  />
+);
 
-PrefixAndSuffixMedium.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'First input focused'() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-      },
-    },
-  },
-};
 
-export const PrefixAndSuffixLarge: Story = () => <InputWithPrefixSuffix size="large" />;
-PrefixAndSuffixLarge.storyName = 'Prefix and suffix large';
+// export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
+// PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
 
-PrefixAndSuffixLarge.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'First input focused'() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-      },
-    },
-  },
-};
+// PrefixAndSuffixSmall.parameters = {
+//   creevey: {
+//     tests: {
+//       async Plain() {
+//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
+//       },
+//       async 'First input focused'() {
+//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small input' }))
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
+//       },
+//     },
+//   },
+// };
+
+// export const PrefixAndSuffixMedium: Story = () => <InputWithPrefixSuffix size="medium" />;
+// PrefixAndSuffixMedium.storyName = 'Prefix and suffix medium';
+
+// PrefixAndSuffixMedium.parameters = {
+//   creevey: {
+//     tests: {
+//       async Plain() {
+//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
+//       },
+//       async 'First input focused'() {
+//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium input' }))
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
+//       },
+//     },
+//   },
+// };
+
+// export const PrefixAndSuffixLarge: Story = () => <InputWithPrefixSuffix size="large" />;
+// PrefixAndSuffixLarge.storyName = 'Prefix and suffix large';
+
+// PrefixAndSuffixLarge.parameters = {
+//   creevey: {
+//     tests: {
+//       async Plain() {
+//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
+//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
+//       },
+//       async 'First input focused'() {
+//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large input' }))
+//           .perform();
+//         await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
+//       },
+//     },
+//   },
+// };
 
 export const TextStylesReset = () => (
   <div
@@ -703,68 +717,67 @@ export const TextStylesReset = () => (
     </Gapped>
   </div>
 );
-TextStylesReset.storyName = 'text styles reset';
 
-function InputWithPrefixSuffix({ size }: { size: InputSize }) {
-  return (
-    <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
-      <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
-      <div>
-        <div style={{ ...styles, width: 100 }}>Prefix</div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Suffix</div>
-        <div style={styles}>
-          <Input size={size} suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
-        <div style={styles}>
-          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
-        <div style={styles}>
-          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-    </div>
-  );
-}
+// function InputWithPrefixSuffix({ size }: { size: InputSize }) {
+//   return (
+//     <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
+//       <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
+//       <div>
+//         <div style={{ ...styles, width: 100 }}>Prefix</div>
+//         <div style={styles}>
+//           <Input size={size} prefix="Prefix" placeholder="Placeholder" />
+//         </div>
+//         <div style={styles}>
+//           <Input size={size} prefix="Prefix" defaultValue="Value" />
+//         </div>
+//       </div>
+//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
+//         <div style={{ ...styles, width: 100 }}>Suffix</div>
+//         <div style={styles}>
+//           <Input size={size} suffix="suffix" placeholder="Placeholder" />
+//         </div>
+//         <div style={styles}>
+//           <Input size={size} suffix="suffix" defaultValue="Value" />
+//         </div>
+//       </div>
+//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
+//         <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
+//         <div style={styles}>
+//           <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+//         </div>
+//         <div style={styles}>
+//           <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+//         </div>
+//       </div>
+//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
+//         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
+//         <div style={styles}>
+//           <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+//         </div>
+//         <div style={styles}>
+//           <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+//         </div>
+//       </div>
+//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
+//         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
+//         <div style={styles}>
+//           <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+//         </div>
+//         <div style={styles}>
+//           <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
-export const UncontrolledInputWithPlaceholder: Story = () => {
+export const OLDUncontrolledInputWithPlaceholder: Story = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_value, setValue] = React.useState<string>();
   return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
 };
-UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
-UncontrolledInputWithPlaceholder.parameters = {
+OLDUncontrolledInputWithPlaceholder.storyName = 'OLD Uncontrolled Input with Placeholder';
+OLDUncontrolledInputWithPlaceholder.parameters = {
   creevey: {
     tests: {
       async PlainAndTyped() {
@@ -783,7 +796,7 @@ UncontrolledInputWithPlaceholder.parameters = {
   },
 };
 
-export const InputWithMaskSelectAll: Story = () => {
+export const OLDInputWithMaskSelectAll: Story = () => {
   const inputRef = React.useRef<Input>(null);
   const [value, setValue] = React.useState('11');
   const selectAll = React.useCallback(() => {
@@ -795,7 +808,7 @@ export const InputWithMaskSelectAll: Story = () => {
     </div>
   );
 };
-InputWithMaskSelectAll.parameters = {
+OLDInputWithMaskSelectAll.parameters = {
   creevey: {
     skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
     tests: {
