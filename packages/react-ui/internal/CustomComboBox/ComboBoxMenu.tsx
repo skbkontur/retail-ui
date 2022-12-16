@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isIE11 } from '../../lib/client';
 import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
@@ -55,6 +56,8 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
   private readonly locale!: ComboBoxLocale;
 
+  private captionElement: keyof JSX.IntrinsicElements = isIE11 ? 'button' : 'p';
+
   public render() {
     const {
       opened,
@@ -106,7 +109,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuCaption key="message">
+          <MenuCaption as={this.captionElement} key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuCaption>
           <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
@@ -129,7 +132,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       if (notFoundValue) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
-            <MenuCaption data-tid={ComboBoxMenuDataTids.notFound}>{notFoundValue}</MenuCaption>
+            <MenuCaption as={this.captionElement} data-tid={ComboBoxMenuDataTids.notFound}>
+              {notFoundValue}
+            </MenuCaption>
           </Menu>
         );
       }
@@ -146,7 +151,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuCaption key="total">
+        <MenuCaption as={this.captionElement} key="total">
           <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
         </MenuCaption>
       );

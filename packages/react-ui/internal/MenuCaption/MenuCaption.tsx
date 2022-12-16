@@ -9,6 +9,7 @@ import { CommonProps } from '../CommonWrapper';
 
 export interface MenuCaptionProps extends CommonProps {
   children: React.ReactNode;
+  as?: keyof JSX.IntrinsicElements;
 }
 
 export const MenuCaptionDataTids = {
@@ -17,13 +18,13 @@ export const MenuCaptionDataTids = {
 
 export const MenuCaption = forwardRefAndName<HTMLParagraphElement, MenuCaptionProps>(
   'MenuHeader',
-  ({ children, className, ...rest }) => {
+  ({ children, className, as: Tag = 'p', ...rest }) => {
     const { isMobile } = useResponsiveLayout();
 
     const theme = useContext(ThemeContext);
 
     return (
-      <p
+      <Tag
         data-tid={MenuCaptionDataTids}
         className={cx(
           {
@@ -36,7 +37,7 @@ export const MenuCaption = forwardRefAndName<HTMLParagraphElement, MenuCaptionPr
         {...rest}
       >
         {children}
-      </p>
+      </Tag>
     );
   },
 );
