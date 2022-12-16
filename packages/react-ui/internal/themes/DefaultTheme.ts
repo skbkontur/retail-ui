@@ -118,7 +118,6 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
-  public static linkLineBottom = '';
   public static get linkLineBorderBottomColor() {
     return ColorFunctions.fade(this.linkColor, 0.5);
   }
@@ -503,7 +502,6 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static btnLinkLineBottom = '';
   public static get btnLinkLineBorderBottomColor() {
     return this.linkLineBorderBottomColor;
   }

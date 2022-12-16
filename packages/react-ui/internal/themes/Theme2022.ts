@@ -24,7 +24,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkGrayedHoverColor = '#292929';
   public static linkGrayedActiveColor = '#141414';
 
-  public static linkLineBottom = '0';
   public static linkLineBorderBottomStyle = 'solid';
   public static linkLineBorderBottomWidth = '1px';
 
@@ -93,9 +92,24 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnLinkHoverTextDecoration = 'none';
 
-  public static btnLinkLineBottom = '0';
-  public static btnLinkLineBorderBottomStyle = 'solid';
-  public static btnLinkLineBorderBottomWidth = '1px';
+  public static get btnLinkLineBorderBottomColor() {
+    return this.linkLineBorderBottomColor;
+  }
+  public static get btnLinkLineBorderBottomStyle() {
+    return this.linkLineBorderBottomStyle;
+  }
+  public static get btnLinkLineBorderBottomWidth() {
+    return this.linkLineBorderBottomWidth;
+  }
+  public static get btnLinkLineHoverBorderBottomColor() {
+    return this.linkLineHoverBorderBottomColor;
+  }
+  public static get btnLinkLineActiveBorderBottomColor() {
+    return this.linkLineActiveBorderBottomColor;
+  }
+  public static get btnLinkDisabledColor() {
+    return this.linkDisabledColor;
+  }
 
   //#endregion
 

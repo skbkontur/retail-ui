@@ -17,6 +17,7 @@ import { Spinner } from '../Spinner';
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
+import { getInnerLinkTheme } from './getInnerLinkTheme';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -394,7 +395,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.className = cx({
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
-        [this.getLinkClassName(!!isFocused, Boolean(disabled || loading))]: true,
+        [styles.link(this.theme)]: true,
+        [styles.linkFocus(this.theme)]: isFocused,
+        [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
@@ -424,16 +427,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
     if (_isTheme2022 && isLink && !loading) {
       captionNode = (
-        <Link
-          focused={isFocused}
-          disabled={disabled}
-          icon={icon}
-          component="span"
-          style={{ display: 'inline-block', width: '100%' }}
-          tabIndex={-1}
-        >
-          {children}
-        </Link>
+        <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
+          <Link focused={isFocused} disabled={disabled} icon={icon} component="span" tabIndex={-1}>
+            {children}
+          </Link>
+        </ThemeContext.Provider>
       );
     }
 
@@ -486,20 +484,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       default:
         return styles.wrapSmall(this.theme);
     }
-  }
-
-  private getLinkClassName(focused: boolean, disabled: boolean): string {
-    const isBorderBottom = parseInt(this.theme.btnLinkLineBorderBottomWidth) > 0;
-
-    return !isBorderBottom
-      ? cx(styles.link(this.theme), {
-          [styles.linkFocus(this.theme)]: focused,
-          [styles.linkDisabled(this.theme)]: disabled,
-        })
-      : cx(styles.link(this.theme), styles.linkLine(this.theme), {
-          [styles.linkLineFocus(this.theme)]: focused,
-          [styles.linkLineDisabled(this.theme)]: disabled,
-        });
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {

@@ -313,53 +313,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  linkLine(t: Theme) {
-    return css`
-      & .${globalClasses.text} {
-        position: relative;
-      }
-
-      & .${globalClasses.text}:before {
-        content: '';
-        position: absolute;
-        height: 0;
-        width: 100%;
-        bottom: ${t.btnLinkLineBottom};
-        border-bottom-color: ${t.btnLinkLineBorderBottomColor};
-        border-bottom-style: ${t.btnLinkLineBorderBottomStyle};
-        border-bottom-width: ${t.btnLinkLineBorderBottomWidth};
-      }
-
-      &:hover .${globalClasses.text}:before {
-        border-bottom-color: ${t.btnLinkLineHoverBorderBottomColor};
-      }
-
-      &:active .${globalClasses.text}:before {
-        border-bottom-color: ${t.btnLinkLineActiveBorderBottomColor};
-      }
-    `;
-  },
-
-  linkLineFocus(t: Theme) {
-    return css`
-      & .${globalClasses.text}:before {
-        border-bottom-color: ${t.btnLinkLineHoverBorderBottomColor};
-      }
-    `;
-  },
-
-  linkLineDisabled(t: Theme) {
-    return css`
-      cursor: default;
-      pointer-events: none;
-      color: ${t.btnLinkDisabledColor};
-
-      & .${globalClasses.text}:before {
-        border-bottom-color: ${t.btnLinkDisabledColor};
-      }
-    `;
-  },
-
   focus(t: Theme) {
     return css`
       position: relative;
