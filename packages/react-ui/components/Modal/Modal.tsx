@@ -17,7 +17,7 @@ import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { ResponsiveLayout } from '../ResponsiveLayout';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -94,7 +94,6 @@ type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock'>>;
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
-@responsiveLayout
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
@@ -119,7 +118,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private theme!: Theme;
-  private isMobileLayout!: boolean;
   private stackSubscription: ModalStackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
@@ -201,67 +199,69 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       containerStyle.width = 'auto';
     }
 
-    const isMobile = this.isMobileLayout;
-
     return (
-      <RenderContainer>
-        <CommonWrapper {...this.props}>
-          <ZIndex priority={'Modal'} className={styles.root()}>
-            <HideBodyVerticalScroll />
-            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
-            <div
-              ref={this.refContainer}
-              className={styles.container()}
-              onMouseDown={this.handleContainerMouseDown}
-              onMouseUp={this.handleContainerMouseUp}
-              onClick={this.handleContainerClick}
-              data-tid={ModalDataTids.container}
-            >
-              <div
-                className={cx({
-                  [styles.centerContainer()]: true,
-                  [styles.mobileCenterContainer()]: isMobile,
-                  [styles.alignTop()]: Boolean(this.props.alignTop),
-                })}
-                style={isMobile ? undefined : containerStyle}
-                data-tid={ModalDataTids.content}
-              >
+      <ResponsiveLayout>
+        {({ isMobile }) => (
+          <RenderContainer>
+            <CommonWrapper {...this.props}>
+              <ZIndex priority={'Modal'} className={styles.root()}>
+                <HideBodyVerticalScroll />
+                {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
                 <div
-                  className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}
-                  style={isMobile ? undefined : style}
+                  ref={this.refContainer}
+                  className={styles.container()}
+                  onMouseDown={this.handleContainerMouseDown}
+                  onMouseUp={this.handleContainerMouseUp}
+                  onClick={this.handleContainerClick}
+                  data-tid={ModalDataTids.container}
                 >
-                  <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
-                    <FocusLock
-                      disabled={this.getProps().disableFocusLock}
-                      autoFocus={false}
-                      className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
+                  <div
+                    className={cx({
+                      [styles.centerContainer()]: true,
+                      [styles.mobileCenterContainer()]: isMobile,
+                      [styles.alignTop()]: Boolean(this.props.alignTop),
+                    })}
+                    style={isMobile ? undefined : containerStyle}
+                    data-tid={ModalDataTids.content}
+                  >
+                    <div
+                      className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}
+                      style={isMobile ? undefined : style}
                     >
-                      {!hasHeader && !this.props.noClose && (
-                        <ZIndex
-                          priority={'ModalCross'}
-                          className={cx({
-                            [styles.closeWrapper(this.theme)]: true,
-                            [styles.mobileCloseWrapper(this.theme)]: isMobile,
-                          })}
+                      <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
+                        <FocusLock
+                          disabled={this.getProps().disableFocusLock}
+                          autoFocus={false}
+                          className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
                         >
-                          <ModalClose
-                            className={cx({
-                              [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
-                            })}
-                            requestClose={this.requestClose}
-                            disableClose={this.props.disableClose}
-                          />
-                        </ZIndex>
-                      )}
-                      <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
-                    </FocusLock>
-                  </ResizeDetector>
+                          {!hasHeader && !this.props.noClose && (
+                            <ZIndex
+                              priority={'ModalCross'}
+                              className={cx({
+                                [styles.closeWrapper(this.theme)]: true,
+                                [styles.mobileCloseWrapper(this.theme)]: isMobile,
+                              })}
+                            >
+                              <ModalClose
+                                className={cx({
+                                  [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
+                                })}
+                                requestClose={this.requestClose}
+                                disableClose={this.props.disableClose}
+                              />
+                            </ZIndex>
+                          )}
+                          <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
+                        </FocusLock>
+                      </ResizeDetector>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </ZIndex>
-        </CommonWrapper>
-      </RenderContainer>
+              </ZIndex>
+            </CommonWrapper>
+          </RenderContainer>
+        )}
+      </ResponsiveLayout>
     );
   }
 
