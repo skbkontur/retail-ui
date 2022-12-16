@@ -200,21 +200,21 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     return (
-      <ResponsiveLayout>
-        {({ isMobile }) => (
-          <RenderContainer>
-            <CommonWrapper {...this.props}>
-              <ZIndex priority={'Modal'} className={styles.root()}>
-                <HideBodyVerticalScroll />
-                {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
-                <div
-                  ref={this.refContainer}
-                  className={styles.container()}
-                  onMouseDown={this.handleContainerMouseDown}
-                  onMouseUp={this.handleContainerMouseUp}
-                  onClick={this.handleContainerClick}
-                  data-tid={ModalDataTids.container}
-                >
+      <RenderContainer>
+        <CommonWrapper {...this.props}>
+          <ZIndex priority={'Modal'} className={styles.root()}>
+            <HideBodyVerticalScroll />
+            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
+            <div
+              ref={this.refContainer}
+              className={styles.container()}
+              onMouseDown={this.handleContainerMouseDown}
+              onMouseUp={this.handleContainerMouseUp}
+              onClick={this.handleContainerClick}
+              data-tid={ModalDataTids.container}
+            >
+              <ResponsiveLayout>
+                {({ isMobile }) => (
                   <div
                     className={cx({
                       [styles.centerContainer()]: true,
@@ -256,12 +256,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       </ResizeDetector>
                     </div>
                   </div>
-                </div>
-              </ZIndex>
-            </CommonWrapper>
-          </RenderContainer>
-        )}
-      </ResponsiveLayout>
+                )}
+              </ResponsiveLayout>
+            </div>
+          </ZIndex>
+        </CommonWrapper>
+      </RenderContainer>
     );
   }
 
