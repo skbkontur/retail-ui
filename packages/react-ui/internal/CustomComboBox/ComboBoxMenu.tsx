@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { HTMLProps } from '../../typings/html-props';
-import { isIE11 } from '../../lib/client';
 import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
@@ -10,6 +8,7 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { MenuCaption } from '../MenuCaption';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -55,14 +54,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
   private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
 
   private readonly locale!: ComboBoxLocale;
-
-  private menuItemComponent = (props: HTMLProps['p']) => {
-    if (!isIE11) {
-      return <p {...props} />;
-    }
-
-    return null;
-  };
 
   public render() {
     const {
@@ -115,9 +106,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuItem component={this.menuItemComponent} disabled key="message" isMobile={isMobile}>
+          <MenuCaption key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
-          </MenuItem>
+          </MenuCaption>
           <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
@@ -138,9 +129,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       if (notFoundValue) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
-            <MenuItem data-tid={ComboBoxMenuDataTids.notFound} disabled isMobile={isMobile}>
-              {notFoundValue}
-            </MenuItem>
+            <MenuCaption data-tid={ComboBoxMenuDataTids.notFound}>{notFoundValue}</MenuCaption>
           </Menu>
         );
       }
@@ -157,9 +146,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuItem disabled key="total" isMobile={isMobile}>
+        <MenuCaption key="total">
           <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
-        </MenuItem>
+        </MenuCaption>
       );
     }
 

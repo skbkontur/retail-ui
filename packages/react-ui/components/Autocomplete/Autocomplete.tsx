@@ -3,6 +3,7 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
+import { MenuCaption } from '../../internal/MenuCaption';
 import { locale } from '../../lib/locale/decorators';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -22,7 +23,6 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { HTMLProps } from '../../typings/html-props';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -267,8 +267,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
-  private menuItemComponent = (props: HTMLProps['p']) => <p {...props} />;
-
   private renderUtilityMessage = (title: string) => {
     return (
       <ThemeContext.Consumer>
@@ -276,9 +274,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           <ThemeContext.Provider
             value={ThemeFactory.create({ menuItemDisabledColor: theme.textColorDisabledContrast }, theme)}
           >
-            <MenuItem component={this.menuItemComponent} disabled isMobile>
-              {title}
-            </MenuItem>
+            <MenuCaption>{title}</MenuCaption>
           </ThemeContext.Provider>
         )}
       </ThemeContext.Consumer>
