@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { forwardRefAndName } from 'react-ui/lib/forwardRefAndName';
 
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { styles } from '../../components/MenuItem/MenuItem.styles';
