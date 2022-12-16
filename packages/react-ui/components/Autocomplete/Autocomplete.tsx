@@ -292,7 +292,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       onValueChange: this.handleValueChange,
       onKeyPress: this.handleKeyPressMobile,
       value: this.props.value,
-      placeholder: 'Начните вводить',
+      placeholder: this.locale.enterValue,
     };
 
     const items = this.state.items;
