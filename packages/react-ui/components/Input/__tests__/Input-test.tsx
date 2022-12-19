@@ -187,12 +187,21 @@ describe('<Input />', () => {
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
 
+  it('selectAllOnFocus prop works', () => {
+    const value = 'Prop works';
+    render(<Input value={value} selectAllOnFocus />);
+    userEvent.tab();
+
+    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+  });
+
   it('MaskedInput props dont pass in HtmlNode', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
-
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
     expect(consoleSpy).not.toHaveBeenCalled();
     if (consoleSpy.mock.calls.length) {
       // eslint-disable-next-line jest/no-conditional-expect
