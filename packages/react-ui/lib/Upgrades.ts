@@ -28,10 +28,6 @@ export const Upgrade = {
     return specificityClassName;
   },
   setSpecificityClassName(className: string) {
-    warning(
-      false,
-      "setSpecificityClassName doesn't work. For more information please visit https://tech.skbkontur.ru/react-ui/#/Migration",
-    );
     if (canModifySpecificityClassName) {
       specificityClassName = className;
     } else {
