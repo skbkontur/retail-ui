@@ -9,16 +9,12 @@ let canModifySpecificityClassName = true;
 //TODO Delete Upgrade in major release if it still doesn't work (https://tech.skbkontur.ru/react-ui/#/Migration)
 export const Upgrade = {
   getSpecificityLevel() {
-    warning(
-      false,
-      "getSpecificityLevel doesn't work. For more information please visit https://tech.skbkontur.ru/react-ui/#/Migration",
-    );
     canModifySpecificityLevel = false;
     return specificityLevel;
   },
   setSpecificityLevel(level: number) {
     warning(
-      true,
+      false,
       "setSpecificityLevel doesn't work. For more information please visit https://tech.skbkontur.ru/react-ui/#/Migration",
     );
     if (canModifySpecificityLevel) {
@@ -28,10 +24,6 @@ export const Upgrade = {
     }
   },
   getSpecificityClassName() {
-    warning(
-      false,
-      "getSpecificityClassName doesn't work. For more information please visit https://tech.skbkontur.ru/react-ui/#/Migration",
-    );
     canModifySpecificityClassName = false;
     return specificityClassName;
   },
