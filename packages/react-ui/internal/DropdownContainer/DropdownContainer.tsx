@@ -10,6 +10,7 @@ import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './DropdownContainer.styles';
+import { getManualPositionWithoutPortal, getManualPositionWithPortal, getTopAligment } from './getManualPosition';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -26,6 +27,10 @@ export interface DropdownContainerProps {
   offsetY?: number;
   offsetX?: number;
   hasFixedWidth?: boolean;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  pos?: 'top' | 'bottom';
 }
 
 export interface DropdownContainerState {
@@ -142,11 +147,10 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
       const distanceToBottom = docEl.clientHeight - targetRect.bottom;
       const dropdownHeight = this.getHeight();
 
+      const clientHeight = this.state.isDocumentElementRoot ? docEl.clientHeight : body.scrollHeight;
       if (distanceToBottom < dropdownHeight && targetRect.top > dropdownHeight) {
-        const clientHeight = this.state.isDocumentElementRoot ? docEl.clientHeight : body.scrollHeight;
-
         top = null;
-        bottom = clientHeight + offsetY - scrollY - targetRect.top;
+        bottom = getTopAligment({ clientHeight, offsetY, scrollY, target });
       }
 
       const position = {
@@ -154,6 +158,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         left,
         right,
         bottom,
+        ...getManualPositionWithPortal({ pos: this.props.pos, target, offsetY, clientHeight, scrollY }),
       };
 
       this.setState({
@@ -188,6 +193,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         bottom: bottom !== null ? targetHeight + offsetY : null,
         left: left !== null ? offsetX : null,
         right: right !== null ? offsetX : null,
+        ...getManualPositionWithoutPortal({ pos: this.props.pos, target, offsetY }),
       };
     }
     return {
