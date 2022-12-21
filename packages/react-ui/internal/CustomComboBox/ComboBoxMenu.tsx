@@ -94,9 +94,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.loading}
         >
-          <MenuItem disabled isMobile={isMobile}>
+          <MenuCaption as="div">
             <Spinner type="mini" dimmed />
-          </MenuItem>
+          </MenuCaption>
         </Menu>
       );
     }
