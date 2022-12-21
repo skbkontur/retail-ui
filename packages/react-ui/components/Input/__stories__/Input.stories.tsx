@@ -616,51 +616,6 @@ UncontrolledInputWithPlaceholder.parameters = {
 //   },
 // };
 
-export const MaskSelectAllOnFocus: Story = () => {
-  const inputRef = React.useRef<Input>(null);
-  const [value, setValue] = React.useState('11');
-  const selectAll = React.useCallback(() => {
-    inputRef.current?.selectAll();
-  }, [inputRef.current]);
-  return (
-    <div>
-      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
-    </div>
-  );
-};
-MaskSelectAllOnFocus.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: {
-      async PlainAndSelected() {
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .pause(500)
-          .perform();
-        const selectAllHalfFilledInput = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('1111')
-          .click(this.browser.findElement({ css: 'body' }))
-          .click(this.browser.findElement({ css: 'input' }))
-          .pause(500)
-          .perform();
-        const selectAllFilledInput = await this.takeScreenshot();
-        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
-      },
-    },
-  },
-};
-
-//const input = '[data-tid="Input__root"])';
-
 const inputTests: CreeveyTests = {
   async 'Plain'() {
     await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
@@ -753,6 +708,7 @@ export const PlaygroungMask: Story = () => (
 );
 PlaygroungMask.parameters = {
   creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
     tests: testMaskedInput,
   },
 };
@@ -775,6 +731,50 @@ export const PlaygroundMaskAndCustomUnmaskedValue: Story = () => {
 
 PlaygroundMaskAndCustomUnmaskedValue.parameters = {
   creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
     tests: testMaskedInput,
+  },
+};
+
+export const PlaygroundMaskSelectAllOnFocus: Story = () => {
+  const inputRef = React.useRef<Input>(null);
+  const [value, setValue] = React.useState('11');
+  const selectAll = React.useCallback(() => {
+    inputRef.current?.selectAll();
+  }, [inputRef.current]);
+  return (
+    <div>
+      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
+    </div>
+  );
+};
+PlaygroundMaskSelectAllOnFocus.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: {
+      async PlainAndSelected() {
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
+          .perform();
+        const selectAllHalfFilledInput = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('1111')
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
+          .perform();
+        const selectAllFilledInput = await this.takeScreenshot();
+        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
+      },
+    },
   },
 };
