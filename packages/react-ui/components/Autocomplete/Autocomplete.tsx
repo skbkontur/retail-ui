@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
 import { isNullable } from '../../lib/utils';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -267,20 +266,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
-  private renderUtilityMessage = (title: string) => {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => (
-          <ThemeContext.Provider
-            value={ThemeFactory.create({ menuItemDisabledColor: theme.textColorDisabledContrast }, theme)}
-          >
-            <MenuMessage>{title}</MenuMessage>
-          </ThemeContext.Provider>
-        )}
-      </ThemeContext.Consumer>
-    );
-  };
-
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
       autoFocus: true,
@@ -303,9 +288,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
-          {!this.props.value && this.renderUtilityMessage(this.locale.enterValue)}
-          {items?.length === 0 && this.props.value && this.renderUtilityMessage(this.locale.notFound)}
-          {isNullable(items?.length) && this.props.value && this.renderUtilityMessage(this.locale.updateValue)}
+          {!this.props.value && <MenuMessage>{this.locale.enterValue}</MenuMessage>}
+          {items?.length === 0 && this.props.value && <MenuMessage>{this.locale.notFound}</MenuMessage>}
+          {isNullable(items?.length) && this.props.value && <MenuMessage>{this.locale.updateValue}</MenuMessage>}
         </Menu>
       </MobilePopup>
     );
