@@ -9,7 +9,7 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { MenuCaption } from '../MenuCaption';
+import { MenuMessage } from '../MenuMessage';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -94,9 +94,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.loading}
         >
-          <MenuCaption as="div">
+          <MenuMessage as="div">
             <Spinner type="mini" dimmed />
-          </MenuCaption>
+          </MenuMessage>
         </Menu>
       );
     }
@@ -109,9 +109,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuCaption as={this.captionElement} key="message">
+          <MenuMessage as={this.captionElement} key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
-          </MenuCaption>
+          </MenuMessage>
           <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
@@ -132,9 +132,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       if (notFoundValue) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
-            <MenuCaption as={this.captionElement} data-tid={ComboBoxMenuDataTids.notFound}>
+            <MenuMessage as={this.captionElement} data-tid={ComboBoxMenuDataTids.notFound}>
               {notFoundValue}
-            </MenuCaption>
+            </MenuMessage>
           </Menu>
         );
       }
@@ -151,9 +151,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuCaption as={this.captionElement} key="total">
+        <MenuMessage as={this.captionElement} key="total">
           <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
-        </MenuCaption>
+        </MenuMessage>
       );
     }
 

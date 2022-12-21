@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html-props';
 
-import { MenuCaption } from '../../../internal/MenuCaption';
+import { MenuMessage } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -1174,7 +1174,7 @@ describe('ComboBox', () => {
 
       await focus();
 
-      expect(wrapper.find(MenuCaption).text()).toBe(expectedText);
+      expect(wrapper.find(MenuMessage).text()).toBe(expectedText);
     });
 
     it('render default locale', async () => {
@@ -1183,7 +1183,7 @@ describe('ComboBox', () => {
 
       await focus();
 
-      expect(wrapper.find(MenuCaption).text()).toBe(expectedText);
+      expect(wrapper.find(MenuMessage).text()).toBe(expectedText);
     });
 
     it('render correct locale when set langCode', async () => {
@@ -1196,7 +1196,7 @@ describe('ComboBox', () => {
 
       await focus();
 
-      expect(wrapper.find(MenuCaption).text()).toBe(expectedText);
+      expect(wrapper.find(MenuMessage).text()).toBe(expectedText);
     });
 
     it('render custom locale', async () => {
@@ -1209,7 +1209,7 @@ describe('ComboBox', () => {
 
       await focus();
 
-      expect(wrapper.find(MenuCaption).text()).toBe(customText);
+      expect(wrapper.find(MenuMessage).text()).toBe(customText);
     });
 
     it('updates when langCode changes', async () => {
@@ -1223,7 +1223,7 @@ describe('ComboBox', () => {
       wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
       await focus();
 
-      expect(wrapper.find(MenuCaption).text()).toBe(expected);
+      expect(wrapper.find(MenuMessage).text()).toBe(expected);
     });
   });
 

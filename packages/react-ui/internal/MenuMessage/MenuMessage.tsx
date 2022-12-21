@@ -7,17 +7,17 @@ import { styles } from '../../components/MenuItem/MenuItem.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../CommonWrapper';
 
-export interface MenuCaptionProps extends CommonProps {
+export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
   as?: keyof JSX.IntrinsicElements;
 }
 
-export const MenuCaptionDataTids = {
-  root: 'MenuCaption__root',
+export const MenuMessageDataTids = {
+  root: 'MenuMessage__root',
 } as const;
 
-export const MenuCaption = forwardRefAndName<HTMLParagraphElement, MenuCaptionProps>(
-  'MenuHeader',
+export const MenuMessage = forwardRefAndName<HTMLParagraphElement, MenuMessageProps>(
+  'MenuMessage',
   ({ children, className, as: Tag = 'p', ...rest }) => {
     const { isMobile } = useResponsiveLayout();
 
@@ -25,7 +25,7 @@ export const MenuCaption = forwardRefAndName<HTMLParagraphElement, MenuCaptionPr
 
     return (
       <Tag
-        data-tid={MenuCaptionDataTids.root}
+        data-tid={MenuMessageDataTids.root}
         className={cx(
           {
             [styles.root(theme)]: true,

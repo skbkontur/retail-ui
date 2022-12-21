@@ -3,7 +3,7 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
-import { MenuCaption } from '../../internal/MenuCaption';
+import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -274,7 +274,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           <ThemeContext.Provider
             value={ThemeFactory.create({ menuItemDisabledColor: theme.textColorDisabledContrast }, theme)}
           >
-            <MenuCaption>{title}</MenuCaption>
+            <MenuMessage>{title}</MenuMessage>
           </ThemeContext.Provider>
         )}
       </ThemeContext.Consumer>
