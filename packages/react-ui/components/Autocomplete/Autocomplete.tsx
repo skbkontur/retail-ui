@@ -244,6 +244,24 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   };
 
+  private renderHints(): React.ReactNode {
+    const items = this.state.items;
+
+    if (!this.props.value) {
+      return <MenuMessage>{this.locale.enterValue}</MenuMessage>;
+    }
+
+    if (items?.length === 0 && this.props.value) {
+      return <MenuMessage>{this.locale.notFound}</MenuMessage>;
+    }
+
+    if (isNullable(items?.length) && this.props.value) {
+      return <MenuMessage>{this.locale.updateValue}</MenuMessage>;
+    }
+
+    return null;
+  }
+
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
     const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal } =
@@ -288,9 +306,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
-          {!this.props.value && <MenuMessage>{this.locale.enterValue}</MenuMessage>}
-          {items?.length === 0 && this.props.value && <MenuMessage>{this.locale.notFound}</MenuMessage>}
-          {isNullable(items?.length) && this.props.value && <MenuMessage>{this.locale.updateValue}</MenuMessage>}
+          {this.renderHints()}
         </Menu>
       </MobilePopup>
     );
