@@ -19,7 +19,7 @@ export default {
   title: 'Input',
   parameters: {
     creevey: {
-      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+      //skip: { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/, tests: 'idle, focus, edit, blur', reason: `themes don't affect logic` },
     },
   },
 } as Meta;
@@ -43,179 +43,7 @@ const inputWidthStates: InputState[] = [
   { width: '350px' }
 ];
 
-const alignStates: InputState[] = [
-  { align: 'center' },
-  { align: 'left' },
-  { align: 'right' },
-];
-
-export const DifferentStates: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Input' }}
-  />
-);
-
-const inputDifferentStates: InputState[] = [
-  { disabled: true },
-  { value: 'Some text', disabled: true },
-  { placeholder: 'Placeholder' },
-  { type: 'password' },
-  { borderless: true },
-  { leftIcon: <SearchIcon /> },
-  { rightIcon: <SearchIcon /> },
-];
-
-export const Size: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputDefaultState.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Input' }}
-  />
-);
-
-const smallInputWithNoValue = '[data-prop-size="small"]:not([data-prop-defaultvalue])';
-const mediumInputWithNoValue = '[data-prop-size="medium"]:not([data-prop-defaultvalue])';
-const largeInputWithNoValue = '[data-prop-size="large"]:not([data-prop-defaultvalue])';
-
-Size.parameters = {
-  creevey: {
-    tests: {
-      async 'Full story test'() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('fullSizeStory');
-      },
-      async 'Plain small'() {
-        const element = await this.browser.findElement({ css: smallInputWithNoValue });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused small'() {
-        const element = await this.browser.findElement({ css: smallInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: smallInputWithNoValue }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text small'() {
-        const element = await this.browser.findElement({ css: smallInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: smallInputWithNoValue }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text small');
-      },
-      async 'With long typed text small'() {
-        const element = await this.browser.findElement({ css: smallInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: smallInputWithNoValue }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-      async 'Plain medium'() {
-        const element = await this.browser.findElement({ css: mediumInputWithNoValue });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused medium'() {
-        const element = await this.browser.findElement({ css: mediumInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: mediumInputWithNoValue }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text medium'() {
-        const element = await this.browser.findElement({ css: mediumInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: mediumInputWithNoValue }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text medium'() {
-        const element = await this.browser.findElement({ css: mediumInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: mediumInputWithNoValue }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-      async 'Plain large'() {
-        const element = await this.browser.findElement({ css: largeInputWithNoValue });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused large'() {
-        const element = await this.browser.findElement({ css: largeInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: largeInputWithNoValue }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text large'() {
-        const element = await this.browser.findElement({ css: largeInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: largeInputWithNoValue }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text large'() {
-        const element = await this.browser.findElement({ css: largeInputWithNoValue });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: largeInputWithNoValue }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-    },
-  },
-};
-
-
-export const Align = () => (
+export const Align: Story = () => (
   <ComponentTable
     Component={Input}
     cols={alignStates.map((x) => ({ props: x }))}
@@ -223,6 +51,12 @@ export const Align = () => (
     presetProps={{ value: 'Value', width: '200px' }}
   />
 );
+
+const alignStates: InputState[] = [
+  { align: 'center' },
+  { align: 'left' },
+  { align: 'right' },
+];
 
 const alignDifferentStates: InputState[] = [
   {},
@@ -235,11 +69,10 @@ const alignDifferentStates: InputState[] = [
   { rightIcon: <SearchIcon />, prefix: 'PR' },
   { rightIcon: <SearchIcon />, suffix: 'SF' },
   { leftIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
-  { rightIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
-
+  { rightIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' }
 ];
 
-export const AlwaysShowMask = () => (
+export const AlwaysShowMask: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
@@ -247,6 +80,7 @@ export const AlwaysShowMask = () => (
     presetProps={{ mask: "(***) ***-**-**" }}
   />
 );
+
 const alwaysShowMaskStates: InputState[] = [
   {},
   { defaultValue: '95678901' },
@@ -256,7 +90,7 @@ const alwaysShowMaskStates: InputState[] = [
   { alwaysShowMask: true, defaultValue: '956789010A' },
 ];
 
-export const Borderless = () => (
+export const Borderless: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
@@ -264,11 +98,32 @@ export const Borderless = () => (
     presetProps={{ borderless: true }}
   />
 );
+
 const borderlessStates: InputState[] = [
   {},
 ];
 
-export const Error = () => (
+export const Disabled: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={disabledStates.map((x) => ({ props: x }))}
+    presetProps={{ disabled: true }}
+  />
+);
+
+const disabledStates: InputState[] = [
+  {},
+  { value: 'Some text' },
+  { placeholder: 'Placeholder' },
+  { type: 'password', value: 'Value' },
+  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon /> },
+  { prefix: 'PR' },
+  { suffix: 'SF' }
+];
+
+export const Error: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
@@ -282,29 +137,7 @@ const errorStates: InputState[] = [
   { disabled: true, },
 ];
 
-export const Warning = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={warningStates.map((x) => ({ props: x }))}
-    presetProps={{ warning: true }}
-  />
-);
-const warningStates: InputState[] = [
-  {},
-  { borderless: true },
-  { disabled: true, },
-];
-
-export const RightIcon = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={iconsStates.map((x) => ({ props: x }))}
-    presetProps={{ rightIcon: <SearchIcon /> }}
-  />
-);
-export const LeftIcon = () => (
+export const LeftIcon: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
@@ -313,131 +146,20 @@ export const LeftIcon = () => (
   />
 );
 
+export const RightIcon: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={iconsStates.map((x) => ({ props: x }))}
+    presetProps={{ rightIcon: <SearchIcon /> }}
+  />
+);
+
 const iconsStates: InputState[] = [
   {},
   { defaultValue: 'Value' },
   { disabled: true, },
 ];
-
-export const Type = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={typeStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
-);
-const typeStates: InputState[] = [
-  { type: 'text', defaultValue: 'Value' },
-  { type: 'password', defaultValue: 'Value' },
-  { type: 'password', defaultValue: 'Value', disabled: true },
-  { mask: '***-***', type: 'password', alwaysShowMask: true },
-  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
-  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
-];
-
-export const Placeholder = () => (
-  <ComponentTable
-    Component={Input}
-    cols={inputDefaultState.map((x) => ({ props: x }))}
-    rows={PlaceholderStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
-);
-const PlaceholderStates: InputState[] = [
-  { placeholder: '1234567890' },
-];
-
-// export const PlaceholderAndMask2 = () => (
-//   <div>
-//     <table style={{ borderSpacing: 10 }}>
-//       <tr>
-//         <td />
-//         <td>width: &quot;auto&quot;</td>
-//         <td>width: 100px</td>
-//         <td>width: 350px</td>
-//       </tr>
-//       <tr>
-//         <td>placeholder</td>
-//         <td>
-//           <Input placeholder="1234567890 1234567890 1234567890" width='auto' />
-//         </td>
-//         <td>
-//           <Input width={100} placeholder="1234567890 1234567890 1234567890" />
-//         </td>
-//         <td>
-//           <Input width={350} placeholder="1234567890 1234567890 1234567890" />
-//         </td>
-//       </tr>
-//       <tr>
-//         <td> mask</td>
-//         <td>
-//           <Input mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-//         </td>
-//         <td>
-//           <Input width={100} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-//         </td>
-//         <td>
-//           <Input width={350} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-//         </td>
-//       </tr>
-//       <tr>
-//         <td>placeholder and mask</td>
-//         <td>
-//           <Input
-//             mask="********** ********** **********"
-//             maskChar={'_'}
-//             alwaysShowMask
-//             placeholder="1234567890 1234567890 1234567890"
-//           />
-//         </td>
-//         <td>
-//           <Input
-//             width={100}
-//             mask="********** ********** **********"
-//             maskChar={'_'}
-//             alwaysShowMask
-//             placeholder="1234567890 1234567890 1234567890"
-//           />
-//         </td>
-//         <td>
-//           <Input
-//             width={350}
-//             mask="********** ********** **********"
-//             maskChar={'_'}
-//             alwaysShowMask
-//             placeholder="1234567890 1234567890 1234567890"
-//           />
-//         </td>
-//       </tr>
-//     </table>
-//     <table style={{ borderSpacing: 10 }}>
-//       <tr>
-//         <td />
-//         <td>focused</td>
-//         <td>blured</td>
-//       </tr>
-//       <tr>
-//         <td>placeholder and mask</td>
-//         <td>
-//           <Input
-//             autoFocus
-//             mask="********** ********** **********"
-//             maskChar={'_'}
-//             placeholder="1234567890 1234567890 1234567890"
-//           />
-//         </td>
-//         <td>
-//           <Input
-//             mask="********** ********** **********"
-//             maskChar={'_'}
-//             placeholder="1234567890 1234567890 1234567890"
-//           />
-//         </td>
-//       </tr>
-//     </table>
-//   </div>
-// );
 
 const testMaskedInput: CreeveyTests = {
   async 'idle, focus, edit, blur'() {
@@ -468,7 +190,7 @@ export const Mask: Story = () => (
   <ComponentTable
     Component={Input}
     cols={inputWidthStates.map((x) => ({ props: x }))}
-    rows={MaskStates.map((x) => ({ props: x }))}
+    rows={maskStates.map((x) => ({ props: x }))}
     presetProps={{}}
   />
 
@@ -480,7 +202,7 @@ Mask.parameters = {
   },
 };
 
-const MaskStates: InputState[] = [
+const maskStates: InputState[] = [
   { mask: "**** **********", alwaysShowMask: true },
   { mask: "**** **********", maskChar: '*', alwaysShowMask: true },
   { mask: "*** ***", maskChar: '_', defaultValue: 'Value' },
@@ -509,6 +231,126 @@ MaskAndCustomUnmaskedValue.parameters = {
     tests: testMaskedInput,
   },
 };
+
+export const Placeholder: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={inputDefaultState.map((x) => ({ props: x }))}
+    rows={placeholderStates.map((x) => ({ props: x }))}
+    presetProps={{ placeholder: '1234567890' }}
+  />
+);
+
+const placeholderStates: InputState[] = [
+  {},
+  { disabled: true }
+];
+
+export const Prefix: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ prefix: 'Prefix' }}
+  />
+);
+const inputPrefixOrSuffixStates: InputState[] = [
+  {},
+  { value: 'Value' },
+  { placeholder: 'Placeholder' },
+  { rightIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon />, value: 'Value' },
+  { rightIcon: <SearchIcon />, placeholder: 'Placeholder' },
+  { leftIcon: <SearchIcon /> },
+  { leftIcon: <SearchIcon />, value: 'Value' },
+  { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
+];
+
+export const Suffix: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ suffix: 'Suffix' }}
+  />
+);
+
+export const PrefixAndSuffixBoth: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ prefix: 'Prefix', suffix: 'Suffix' }}
+  />
+);
+
+export const Size: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputDefaultState.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Input' }}
+  />
+);
+
+export const TextStylesReset: Story = () => (
+  <div
+    style={{
+      fontWeight: 'bold',
+      fontStyle: 'italic',
+      fontVariant: 'small-caps slashed-zero',
+      fontStretch: 'expanded',
+      color: 'red',
+      lineHeight: '50px',
+      textAlign: 'right',
+      textShadow: '3px 3px 3px #333',
+      textTransform: 'uppercase',
+      letterSpacing: '5px',
+    }}
+  >
+    <Gapped vertical>
+      <span>Inherited Styles</span>
+      <Input placeholder="Placeholder" />
+      <Input defaultValue="Value" />
+      <Input defaultValue="Disabled" disabled />
+      <Input mask="a9*MASK" alwaysShowMask />
+      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+    </Gapped>
+  </div>
+);
+
+export const Type: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={typeStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+
+const typeStates: InputState[] = [
+  { type: 'text', defaultValue: 'Value' },
+  { type: 'password', defaultValue: 'Value' },
+  { type: 'password', defaultValue: 'Value', disabled: true },
+  { mask: '***-***', type: 'password', alwaysShowMask: true },
+  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
+  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
+];
+
+export const Warning: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={warningStates.map((x) => ({ props: x }))}
+    presetProps={{ warning: true }}
+  />
+);
+
+const warningStates: InputState[] = [
+  {},
+  { borderless: true },
+  { disabled: true, },
+];
 
 export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
 
@@ -567,10 +409,15 @@ SelectAllByButton.parameters = {
   },
 };
 
-export const MaxLength = () => <Input maxLength={3} placeholder="maxLength={3}" />;
-MaxLength.parameters = { creevey: { skip: [true] } };
+export const MaxLength: Story = () => <Input maxLength={3} placeholder="maxLength={3}" />;
+MaxLength.parameters = {
+  creevey: {
+    //skip: [true]
 
-export const BlinkingByButton = () => {
+  }
+};
+
+export const BlinkingByButton: Story = () => {
   class Sample extends React.Component {
     private input: Input | null = null;
 
@@ -596,46 +443,7 @@ export const BlinkingByButton = () => {
 
   return <Sample />;
 };
-BlinkingByButton.parameters = { creevey: { skip: [true] } };
-
-export const Prefix = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
-    presetProps={{ prefix: 'Prefix' }}
-  />
-);
-const inputPrefixOrSuffixStates: InputState[] = [
-  {},
-  { value: 'Value' },
-  { placeholder: 'Placeholder' },
-  { rightIcon: <SearchIcon /> },
-  { rightIcon: <SearchIcon />, value: 'Value' },
-  { rightIcon: <SearchIcon />, placeholder: 'Placeholder' },
-  { leftIcon: <SearchIcon /> },
-  { leftIcon: <SearchIcon />, value: 'Value' },
-  { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
-];
-
-export const Suffix = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
-    presetProps={{ suffix: 'Suffix' }}
-  />
-);
-
-export const PrefixAndSuffixBoth = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
-    presetProps={{ prefix: 'Prefix', suffix: 'Suffix' }}
-  />
-);
-
+BlinkingByButton.parameters = { creevey: { skip: true } };
 
 // export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
 // PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
@@ -709,31 +517,7 @@ export const PrefixAndSuffixBoth = () => (
 //   },
 // };
 
-export const TextStylesReset = () => (
-  <div
-    style={{
-      fontWeight: 'bold',
-      fontStyle: 'italic',
-      fontVariant: 'small-caps slashed-zero',
-      fontStretch: 'expanded',
-      color: 'red',
-      lineHeight: '50px',
-      textAlign: 'right',
-      textShadow: '3px 3px 3px #333',
-      textTransform: 'uppercase',
-      letterSpacing: '5px',
-    }}
-  >
-    <Gapped vertical>
-      <span>Inherited Styles</span>
-      <Input placeholder="Placeholder" />
-      <Input defaultValue="Value" />
-      <Input defaultValue="Disabled" disabled />
-      <Input mask="a9*MASK" alwaysShowMask />
-      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-    </Gapped>
-  </div>
-);
+
 
 // function InputWithPrefixSuffix({ size }: { size: InputSize }) {
 //   return (
@@ -917,6 +701,56 @@ MaskSelectAllOnFocus.parameters = {
           .perform();
         const selectAllFilledInput = await this.takeScreenshot();
         await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
+      },
+    },
+  },
+};
+
+const input = '[data-testid="Input__root"])';
+
+export const PlaygroundDefault: Story = () => (
+  <Input />
+);
+
+PlaygroundDefault.parameters = {
+  creevey: {
+    tests: {
+      async 'Plain'() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async 'Focused'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: input }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+      },
+      async 'With typed text'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: input }))
+          .sendKeys('Test...')
+          .pause(500)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('With typed text');
+      },
+      async 'With long typed text'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: input }))
+          .sendKeys('Test...')
+          .sendKeys(
+            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          )
+          .pause(500)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('With long typed text small');
       },
     },
   },
