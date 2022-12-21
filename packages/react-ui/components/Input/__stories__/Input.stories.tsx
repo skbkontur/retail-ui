@@ -8,13 +8,6 @@ import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input, InputProps, InputSize } from '../Input';
 import { Gapped } from '../../Gapped';
 
-// const styles = {
-//   display: 'inline-block',
-//   verticalAlign: 'middle',
-//   minWidth: '90px',
-//   padding: '5px',
-// };
-
 export default {
   title: 'Input',
   parameters: {
@@ -319,14 +312,6 @@ SelectAllByProp.parameters = {
   },
 };
 
-export const MaxLength: Story = () => <Input maxLength={3} placeholder="maxLength={3}" />;
-MaxLength.parameters = {
-  creevey: {
-    //skip: [true]
-
-  }
-};
-
 export const BlinkingByButton: Story = () => {
   class Sample extends React.Component {
     private input: Input | null = null;
@@ -354,31 +339,6 @@ export const BlinkingByButton: Story = () => {
   return <Sample />;
 };
 BlinkingByButton.parameters = { creevey: { skip: true } };
-
-export const UncontrolledInputWithPlaceholder: Story = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_value, setValue] = React.useState<string>();
-  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
-};
-
-UncontrolledInputWithPlaceholder.parameters = {
-  creevey: {
-    tests: {
-      async PlainAndTyped() {
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('text')
-          .perform();
-        const typed = await this.takeScreenshot();
-        await this.expect({ plain, typed }).to.matchImages();
-      },
-    },
-  },
-};
 
 const inputTests: CreeveyTests = {
   async 'Plain'() {
@@ -581,11 +541,58 @@ PlaygroundSelectAllByButton.parameters = {
   },
 };
 
-// export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
-// PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
+const plainAndTypedTests: CreeveyTests = {
+  async Plain() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+  },
+  async Typed() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .sendKeys('text')
+      .perform();
+    const typed = await this.takeScreenshot();
+    await this.expect({ typed }).to.matchImages();
+  },
+};
 
-// PrefixAndSuffixSmall.parameters = {
+export const PlaygroundUncontrolledInputWithPlaceholder: Story = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_value, setValue] = React.useState<string>();
+  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
+};
+
+PlaygroundUncontrolledInputWithPlaceholder.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: plainAndTypedTests,
+  },
+}
+
+export const PlaygroundMaxLength: Story = () => <Input maxLength={3} placeholder="maxLength={3}" />;
+
+PlaygroundMaxLength.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: plainAndTypedTests,
+  },
+};
+
+
+// const styles = {
+//   display: 'inline-block',
+//   verticalAlign: 'middle',
+//   minWidth: '90px',
+//   padding: '5px',
+// };
+
+// export const PlaygroundPrefixAndSuffixSmall: Story = () => <PlaygroundInputWithPrefixSuffix size="small" />;
+
+// PlaygroundPrefixAndSuffixSmall.parameters = {
 //   creevey: {
+//     skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
 //     tests: {
 //       async Plain() {
 //         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
@@ -605,57 +612,7 @@ PlaygroundSelectAllByButton.parameters = {
 //   },
 // };
 
-// export const PrefixAndSuffixMedium: Story = () => <InputWithPrefixSuffix size="medium" />;
-// PrefixAndSuffixMedium.storyName = 'Prefix and suffix medium';
-
-// PrefixAndSuffixMedium.parameters = {
-//   creevey: {
-//     tests: {
-//       async Plain() {
-//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
-//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-//       },
-//       async 'First input focused'() {
-//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
-//         await this.browser
-//           .actions({
-//             bridge: true,
-//           })
-//           .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium input' }))
-//           .perform();
-//         await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-//       },
-//     },
-//   },
-// };
-
-// export const PrefixAndSuffixLarge: Story = () => <InputWithPrefixSuffix size="large" />;
-// PrefixAndSuffixLarge.storyName = 'Prefix and suffix large';
-
-// PrefixAndSuffixLarge.parameters = {
-//   creevey: {
-//     tests: {
-//       async Plain() {
-//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
-//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-//       },
-//       async 'First input focused'() {
-//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
-//         await this.browser
-//           .actions({
-//             bridge: true,
-//           })
-//           .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large input' }))
-//           .perform();
-//         await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-//       },
-//     },
-//   },
-// };
-
-
-
-// function InputWithPrefixSuffix({ size }: { size: InputSize }) {
+// function PlaygroundInputWithPrefixSuffix({ size }: { size: InputSize }) {
 //   return (
 //     <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
 //       <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
