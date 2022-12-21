@@ -161,31 +161,6 @@ const iconsStates: InputState[] = [
   { disabled: true, },
 ];
 
-const testMaskedInput: CreeveyTests = {
-  async 'idle, focus, edit, blur'() {
-    const click = (css: string) => {
-      return this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css }));
-    };
-
-    const idle = await this.takeScreenshot();
-
-    await click('input').perform();
-    const focused = await this.takeScreenshot();
-
-    await click('input').sendKeys('953').perform();
-    const edited = await this.takeScreenshot();
-
-    await click('body').perform();
-    const blured = await this.takeScreenshot();
-
-    await this.expect({ idle, focused, edited, blured }).to.matchImages();
-  },
-};
-
 export const Mask: Story = () => (
   <ComponentTable
     Component={Input}
@@ -196,11 +171,11 @@ export const Mask: Story = () => (
 
   //<Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
 );
-Mask.parameters = {
-  creevey: {
-    tests: testMaskedInput,
-  },
-};
+// Mask.parameters = {
+//   creevey: {
+//     tests: testMaskedInput,
+//   },
+// };
 
 const maskStates: InputState[] = [
   { mask: "**** **********", alwaysShowMask: true },
@@ -209,28 +184,6 @@ const maskStates: InputState[] = [
   { mask: "*** ***", maskChar: '_', defaultValue: 'Value', alwaysShowMask: true }
 
 ];
-
-export const MaskAndCustomUnmaskedValue: Story = () => {
-  const [value, setValue] = useState('+795');
-
-  return (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-      value={value}
-      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
-    />
-  );
-};
-
-MaskAndCustomUnmaskedValue.parameters = {
-  creevey: {
-    tests: testMaskedInput,
-  },
-};
 
 export const Placeholder: Story = () => (
   <ComponentTable
@@ -767,5 +720,61 @@ PlaygroundDisabled.parameters = {
   creevey: {
     skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
     tests: inputTests,
+  },
+};
+
+const testMaskedInput: CreeveyTests = {
+  async 'idle, focus, edit, blur'() {
+    const click = (css: string) => {
+      return this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css }));
+    };
+
+    const idle = await this.takeScreenshot();
+
+    await click('input').perform();
+    const focused = await this.takeScreenshot();
+
+    await click('input').sendKeys('953').perform();
+    const edited = await this.takeScreenshot();
+
+    await click('body').perform();
+    const blured = await this.takeScreenshot();
+
+    await this.expect({ idle, focused, edited, blured }).to.matchImages();
+  },
+};
+
+export const PlaygroungMask: Story = () => (
+  <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
+);
+PlaygroungMask.parameters = {
+  creevey: {
+    tests: testMaskedInput,
+  },
+};
+
+export const PlaygroundMaskAndCustomUnmaskedValue: Story = () => {
+  const [value, setValue] = useState('+795');
+
+  return (
+    <Input
+      width="150"
+      mask="+7 999 999-99-99"
+      maskChar={'_'}
+      placeholder="+7"
+      alwaysShowMask
+      value={value}
+      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
+    />
+  );
+};
+
+PlaygroundMaskAndCustomUnmaskedValue.parameters = {
+  creevey: {
+    tests: testMaskedInput,
   },
 };
