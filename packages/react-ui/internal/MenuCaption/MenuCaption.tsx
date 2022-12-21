@@ -25,7 +25,7 @@ export const MenuCaption = forwardRefAndName<HTMLParagraphElement, MenuCaptionPr
 
     return (
       <Tag
-        data-tid={MenuCaptionDataTids}
+        data-tid={MenuCaptionDataTids.root}
         className={cx(
           {
             [styles.root(theme)]: true,
