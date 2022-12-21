@@ -706,7 +706,47 @@ MaskSelectAllOnFocus.parameters = {
   },
 };
 
-const input = '[data-testid="Input__root"])';
+//const input = '[data-tid="Input__root"])';
+
+const inputTests: CreeveyTests = {
+  async 'Plain'() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+  },
+  async 'Focused'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+  },
+  async 'With typed text'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .sendKeys('Test...')
+      .pause(500)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('With typed text');
+  },
+  async 'With long typed text'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'input' }))
+      .sendKeys('Test...')
+      .sendKeys(
+        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      )
+      .pause(500)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('With long typed text small');
+  },
+};
 
 export const PlaygroundDefault: Story = () => (
   <Input />
@@ -714,44 +754,18 @@ export const PlaygroundDefault: Story = () => (
 
 PlaygroundDefault.parameters = {
   creevey: {
-    tests: {
-      async 'Plain'() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: input }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: input }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: input }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('With long typed text small');
-      },
-    },
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: inputTests,
+  },
+};
+
+export const PlaygroundDisabled: Story = () => (
+  <Input disabled />
+);
+
+PlaygroundDisabled.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: inputTests,
   },
 };
