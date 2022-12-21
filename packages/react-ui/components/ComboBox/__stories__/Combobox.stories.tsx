@@ -1253,6 +1253,7 @@ WithManualPosition.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened top with portal');
       },
@@ -1265,6 +1266,7 @@ WithManualPosition.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom with portal');
       },
@@ -1277,6 +1279,7 @@ WithManualPosition.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened top without portal');
       },
@@ -1291,6 +1294,7 @@ WithManualPosition.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
       },
