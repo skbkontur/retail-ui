@@ -1,7 +1,6 @@
 import React from 'react';
 import { flatten } from 'lodash';
 
-import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
@@ -217,7 +216,7 @@ WithZeroWidth.parameters = {
 };
 
 export const MobileSimple = () => (
-  <MobileStoryWrapper>
+  <>
     <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />
     <span>With caption</span>
     <UncontrolledAutocomplete source={['One', 'Two', 'Three']} mobileMenuHeaderText={'With caption'} />
@@ -227,7 +226,7 @@ export const MobileSimple = () => (
         new Array(10).fill(['One', 'Two', 'Three']).map((arr, index) => arr.map((i: string) => `${i} ${index}`)),
       )}
     />
-  </MobileStoryWrapper>
+  </>
 );
 MobileSimple.title = 'Mobile autocomplete stories';
 MobileSimple.parameters = {
@@ -286,11 +285,7 @@ const mobileHintsTests: CreeveyTests = {
   },
 };
 
-export const MobileHints: Story = () => (
-  <MobileStoryWrapper>
-    <UncontrolledAutocomplete source={['one', 'two', 'three']} />
-  </MobileStoryWrapper>
-);
+export const MobileHints: Story = () => <UncontrolledAutocomplete source={['one', 'two', 'three']} />;
 MobileHints.parameters = {
   viewport: {
     defaultViewport: 'iphone',
@@ -302,9 +297,7 @@ MobileHints.parameters = {
 
 export const MobileHintsEN: Story = () => (
   <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-    <MobileStoryWrapper>
-      <UncontrolledAutocomplete source={['one', 'two', 'three']} />
-    </MobileStoryWrapper>
+    <UncontrolledAutocomplete source={['one', 'two', 'three']} />
   </LocaleContext.Provider>
 );
 MobileHintsEN.parameters = {
@@ -317,9 +310,7 @@ MobileHintsEN.parameters = {
 };
 
 export const MobileWithTitle: Story = () => (
-  <MobileStoryWrapper>
-    <UncontrolledAutocomplete mobileMenuHeaderText="Заголовок" source={['one', 'two', 'three']} />
-  </MobileStoryWrapper>
+  <UncontrolledAutocomplete mobileMenuHeaderText="Заголовок" source={['one', 'two', 'three']} />
 );
 MobileWithTitle.parameters = {
   viewport: {

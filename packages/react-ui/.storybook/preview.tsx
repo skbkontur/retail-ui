@@ -13,6 +13,7 @@ import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld'
 import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
+import { ThemeFactory } from '../lib/theming/ThemeFactory';
 
 const customViewports = {
   iphone: {
@@ -56,10 +57,32 @@ setFilter((fiber) => {
   return ['data-tid', 'data-testid'];
 });
 
+const MOBILE_REGEXP = /Mobile.*/i;
+
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
     const theme = themes[context.globals.theme] || DEFAULT_THEME;
     const root = document.getElementById('root');
+    if (MOBILE_REGEXP.test(context.story) || MOBILE_REGEXP.test(context.name)) {
+      return (
+        <ThemeContext.Consumer>
+          {(theme) => {
+            return (
+              <ThemeContext.Provider
+                value={ThemeFactory.create(
+                  {
+                    mobileMediaQuery: '(max-width: 576px)',
+                  },
+                  theme,
+                )}
+              >
+                <Story />
+              </ThemeContext.Provider>
+            );
+          }}
+        </ThemeContext.Consumer>
+      );
+    }
     if (root) {
       if ([DARK_THEME, THEME_2022_DARK].includes(theme)) {
         root.classList.add('dark');
@@ -91,8 +114,8 @@ export const parameters: Meta['parameters'] = {
         in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
-      { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
-      { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
+      { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
+      { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
     ],
   },
   options: {

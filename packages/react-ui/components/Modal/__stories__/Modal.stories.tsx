@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
-import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
@@ -802,51 +801,49 @@ export const MobileModal: Story = () => {
   const [showThirdButton, setShowThird] = useState(false);
 
   const modal = (
-    <MobileStoryWrapper>
-      <ResponsiveLayout>
-        {({ isMobile }) => {
-          return (
-            <Modal onClose={() => setOpen(false)}>
-              <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
-              <Modal.Body>
-                <p style={{ margin: 0 }}>
-                  {new Array(80).fill(
-                    'ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст',
-                    0,
-                    80,
-                  )}
-                </p>
-              </Modal.Body>
-              <Modal.Footer gap={isMobile ? 8 : 25} panel>
-                <Button
-                  use={'primary'}
-                  onClick={() => {
-                    setShowThird(true);
-                  }}
-                  style={isMobile ? { width: '100%' } : undefined}
-                >
-                  Ок
-                </Button>
-                <Button
-                  use={'danger'}
-                  onClick={() => {
-                    setShowThird(false);
-                  }}
-                  style={isMobile ? { width: '100%' } : undefined}
-                >
-                  Удалить
-                </Button>
-                {showThirdButton && (
-                  <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
-                    Изменить
-                  </Button>
+    <ResponsiveLayout>
+      {({ isMobile }) => {
+        return (
+          <Modal onClose={() => setOpen(false)}>
+            <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
+            <Modal.Body>
+              <p style={{ margin: 0 }}>
+                {new Array(80).fill(
+                  'ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст',
+                  0,
+                  80,
                 )}
-              </Modal.Footer>
-            </Modal>
-          );
-        }}
-      </ResponsiveLayout>
-    </MobileStoryWrapper>
+              </p>
+            </Modal.Body>
+            <Modal.Footer gap={isMobile ? 8 : 25} panel>
+              <Button
+                use={'primary'}
+                onClick={() => {
+                  setShowThird(true);
+                }}
+                style={isMobile ? { width: '100%' } : undefined}
+              >
+                Ок
+              </Button>
+              <Button
+                use={'danger'}
+                onClick={() => {
+                  setShowThird(false);
+                }}
+                style={isMobile ? { width: '100%' } : undefined}
+              >
+                Удалить
+              </Button>
+              {showThirdButton && (
+                <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
+                  Изменить
+                </Button>
+              )}
+            </Modal.Footer>
+          </Modal>
+        );
+      }}
+    </ResponsiveLayout>
   );
 
   const render = (

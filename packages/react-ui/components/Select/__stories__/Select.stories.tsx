@@ -5,7 +5,6 @@ import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
 
-import { MobileStoryWrapper } from '../../../lib/mobile/MobileStoryWrapper';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
@@ -210,22 +209,20 @@ export const MobileSimple = () => {
   });
 
   return (
-    <MobileStoryWrapper>
-      <Gapped vertical>
-        <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
-        {show.showFirst && (
-          <Select
-            items={items.slice(-5)}
-            mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
-          />
-        )}
-        <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
-        {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
-        <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
-        {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
-        <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
-      </Gapped>
-    </MobileStoryWrapper>
+    <Gapped vertical>
+      <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
+      {show.showFirst && (
+        <Select
+          items={items.slice(-5)}
+          mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+        />
+      )}
+      <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
+      {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
+      <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
+      {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
+      <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
+    </Gapped>
   );
 };
 MobileSimple.title = 'Mobile stories';
@@ -263,9 +260,7 @@ MobileSimple.decorators = [
 MobileSimple.creevey = { skip: [true] };
 
 export const MobileWithSearch: Story = () => (
-  <MobileStoryWrapper>
-    <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
-  </MobileStoryWrapper>
+  <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
 );
 MobileWithSearch.parameters = {
   viewport: {
@@ -277,12 +272,10 @@ MobileWithSearch.parameters = {
 };
 
 export const MobileWithTitle: Story = () => (
-  <MobileStoryWrapper>
-    <Select
-      mobileMenuHeaderText="Заголовок"
-      items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
-    />
-  </MobileStoryWrapper>
+  <Select
+    mobileMenuHeaderText="Заголовок"
+    items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+  />
 );
 MobileWithTitle.parameters = {
   viewport: {
@@ -295,13 +288,11 @@ MobileWithTitle.parameters = {
 };
 
 export const MobileWithTitleAndSearch: Story = () => (
-  <MobileStoryWrapper>
-    <Select
-      search
-      mobileMenuHeaderText="Заголовок"
-      items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
-    />
-  </MobileStoryWrapper>
+  <Select
+    search
+    mobileMenuHeaderText="Заголовок"
+    items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+  />
 );
 MobileWithTitleAndSearch.parameters = {
   viewport: {
@@ -313,9 +304,7 @@ MobileWithTitleAndSearch.parameters = {
 };
 
 export const MobileWithoutTitleAndSearch: Story = () => (
-  <MobileStoryWrapper>
-    <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
-  </MobileStoryWrapper>
+  <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
 );
 MobileWithoutTitleAndSearch.parameters = {
   viewport: {
