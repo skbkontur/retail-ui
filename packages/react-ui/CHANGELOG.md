@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.10.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.9.2...@skbkontur/react-ui@4.10.0) (2022-12-22)
+
+
+### Features
+
+* **Menu:** add theme variable `menuOffsetY` ([#3078](https://github.com/skbkontur/retail-ui/issues/3078)) ([75c0637](https://github.com/skbkontur/retail-ui/commit/75c0637565a13bad2eed7b0d0e1490784011c08d))
+
+
+
+
+
 ## [4.9.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.9.1...@skbkontur/react-ui@4.9.2) (2022-12-12)
 
 
