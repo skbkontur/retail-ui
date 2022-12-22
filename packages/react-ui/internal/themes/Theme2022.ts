@@ -59,6 +59,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static menuBorderRadius = '8px';
   public static menuPaddingX = '4px';
+  public static menuOffsetY = '4px';
   public static menuItemHoverBg = '#EBEBEB';
   public static menuItemHoverColor = '#222';
   public static menuItemBorderRadius = '6px';
