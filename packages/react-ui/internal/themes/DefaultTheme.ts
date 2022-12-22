@@ -1831,9 +1831,13 @@ export class DefaultTheme {
   //#endregion
 
   //#region CloseIcon
-  public static closeIconColor = 'rgba(0, 0, 0, 0.32)';
-  public static closeIconDisabledColor = '#8b8b8b';
-  public static closeIconHoverColor = 'rgba(0, 0, 0, 0.865)';
+  public static closeBtnIconColor = 'rgba(0, 0, 0, 0.32)';
+  public static closeBtnIconDisabledColor = '#8b8b8b';
+  public static closeBtnIconHoverColor = 'rgba(0, 0, 0, 0.865)';
+  public static closeBtnIconBorderRadius = '4px';
+  public static get closeBtnIconFocusShadow() {
+    return `inset 0 0 0 1px ${this.borderColorFocus}, inset 0 0 0 2px ${this.outlineColorFocus}`;
+  }
   //#endregion
 
   //#region InternalMenu

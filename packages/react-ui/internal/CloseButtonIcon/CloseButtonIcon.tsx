@@ -1,11 +1,12 @@
 import React, { CSSProperties } from 'react';
 
-import { css, cx } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
-import { styles } from './CloseIcon.styles';
+import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
 interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,7 +14,7 @@ interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   side?: number;
   disableCompensation?: boolean;
   color?: CSSProperties['color'];
-  colorHover?: string;
+  colorHover?: CSSProperties['color'];
   focusable?: boolean;
 }
 
@@ -23,11 +24,17 @@ export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
   color,
   colorHover,
   disableCompensation,
-  disabled,
   focusable = true,
-  ...attr
+  ...attrs
 }) => {
-  const theme = React.useContext(ThemeContext);
+  const _theme = React.useContext(ThemeContext);
+  const theme = ThemeFactory.create(
+    {
+      closeBtnIconColor: color ?? _theme.closeBtnIconColor,
+      closeBtnIconHoverColor: colorHover ?? _theme.closeBtnIconHoverColor,
+    },
+    _theme,
+  );
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {
@@ -41,27 +48,20 @@ export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
   };
   const handleBlur = () => setFocusedByTab(false);
 
-  const classNames =
-    color || colorHover
-      ? css`
-          color: ${color};
-          &:focus,
-          &:hover {
-            color: ${colorHover};
-          }
-        `
-      : '';
-
-  const tabIndex = !focusable || disabled ? -1 : 0;
+  const tabIndex = !focusable || attrs.disabled ? -1 : 0;
 
   return (
     <button
       tabIndex={tabIndex}
-      className={cx(styles.root(theme), classNames, focusedByTab && styles.focus(theme))}
+      className={cx(
+        styles.root(theme),
+        !attrs.disabled && focusedByTab && styles.focus(theme),
+        attrs.disabled && styles.rootDisabled(theme),
+      )}
       style={{ width: side, height: side }}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      {...attr}
+      {...attrs}
     >
       <span className={styles.wrapper()} style={{ fontSize: size }}>
         <CrossIcon size={side < size ? side : size} disableCompensation={disableCompensation} />

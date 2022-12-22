@@ -275,7 +275,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     const icon = isTheme2022(this.theme) ? (
-      <CloseButtonIcon side={parseInt(this.theme.tooltipCloseBtnSide)} focusable={false} />
+      <CloseButtonIcon
+        focusable={false}
+        side={parseInt(this.theme.tooltipCloseBtnSide)}
+        color={this.theme.tooltipCloseBtnColor}
+        colorHover={this.theme.tooltipCloseBtnHoverColor}
+      />
     ) : (
       <CrossIcon />
     );

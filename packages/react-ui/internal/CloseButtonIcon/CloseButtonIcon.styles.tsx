@@ -8,19 +8,24 @@ export const styles = memoizeStyle({
       ${resetButton()}
       display: inline-block;
       position: relative;
-      border-radius: 4px;
-      color: ${t.closeIconColor};
+      border-radius: ${t.closeBtnIconBorderRadius};
+      color: ${t.closeBtnIconColor};
       cursor: pointer;
 
-      &:focus,
-      &:hover {
-        color: ${t.closeIconHoverColor};
+      &:enabled:focus,
+      &:enabled:hover {
+        color: ${t.closeBtnIconHoverColor};
       }
+    `;
+  },
+  rootDisabled(t: Theme) {
+    return css`
+      color: ${t.closeBtnIconDisabledColor};
     `;
   },
   focus(t: Theme) {
     return css`
-      box-shadow: inset 0 0 0 1px ${t.borderColorFocus}, inset 0 0 0 2px ${t.outlineColorFocus};
+      box-shadow: ${t.closeBtnIconFocusShadow};
     `;
   },
   wrapper() {
