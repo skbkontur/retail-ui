@@ -9,11 +9,11 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DatePickerDataTids } from '../DatePicker';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Calendar.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './../DatePicker/locale';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface CalendarProps extends CommonProps {
   /**
