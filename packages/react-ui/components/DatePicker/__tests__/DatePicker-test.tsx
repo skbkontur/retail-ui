@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
@@ -8,27 +8,9 @@ import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { DatePicker, DatePickerDataTids, DatePickerProps } from '../DatePicker';
+import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
-import { LangCodes, LocaleControls, LocaleContext } from '../../../lib/locale';
-
-const handleChange = () => undefined;
-const renderDatePicker = (props: Partial<DatePickerProps> = {}) =>
-  mount<DatePicker>(<DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />);
-const renderDatePickerLocale = ({
-  props = {},
-  langCode = defaultLangCode,
-  locale = {},
-}: {
-  props?: Partial<DatePickerProps>;
-  langCode?: LangCodes;
-  locale?: LocaleControls;
-} = {}) =>
-  render(
-    <LocaleContext.Provider value={{ langCode, locale }}>
-      <DatePicker {...defaultProps} {...props} />
-    </LocaleContext.Provider>,
-  );
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -47,109 +29,130 @@ describe('DatePicker', () => {
       expect(DatePicker.validate('01.ff.2019')).toBe(false);
     });
   });
+
   it('renders', () => {
-    renderDatePicker();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
+
     expect(screen.getByTestId(DatePickerDataTids.label)).toBeInTheDocument();
   });
 
   it('renders date select when open', () => {
-    renderDatePicker();
-    fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
+
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
     expect(screen.getByTestId('Calendar')).toBeInTheDocument();
   });
 
   it("doesn't open on focus if disabled", () => {
-    renderDatePicker({
-      disabled: true,
-    });
-    fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
+
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('closes when become disabled', () => {
-    const { rerender } = renderDatePicker();
-    fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+    const { rerender } = render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
+
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
     expect(screen.getByTestId('Calendar')).toBeInTheDocument();
 
-    rerender(<DatePicker {...defaultProps} disabled />);
+    rerender(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
+
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('open when autoFocus enabled', () => {
-    renderDatePicker({
-      autoFocus: true,
-    });
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} autoFocus />);
+
     expect(screen.getByTestId('Calendar')).toBeInTheDocument();
   });
 
   describe('Locale', () => {
-    const getTextLoading = () => screen.getByTestId('Picker__todayWrapper');
-
     const getToday = (args: InternalDateConstructorProps) =>
       new InternalDate(args)
         .setComponents(InternalDateGetter.getTodayComponents())
         .toString({ withPad: true, withSeparator: true });
 
     it('render without LocaleProvider', () => {
-      renderDatePicker({ enableTodayLink: true });
+      render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);
+
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
+      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
     it('render default locale', () => {
-      renderDatePickerLocale({ props: { enableTodayLink: true } });
+      render(
+        <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+        </LocaleContext.Provider>,
+      );
+
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
+      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
     it('render correct locale when set langCode', () => {
-      renderDatePickerLocale({ props: { enableTodayLink: true }, langCode: LangCodes.en_GB });
+      render(
+        <LocaleContext.Provider value={{ locale: {}, langCode: LangCodes.en_GB }}>
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+        </LocaleContext.Provider>,
+      );
+
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
-      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
+      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
     it('render custom locale', () => {
-      renderDatePickerLocale({
-        props: { enableTodayLink: true },
-        langCode: LangCodes.en_GB,
-        locale: { DatePicker: { separator: InternalDateSeparator.Dash } },
-      });
+      render(
+        <LocaleContext.Provider
+          value={{ locale: { DatePicker: { separator: InternalDateSeparator.Dash } }, langCode: LangCodes.en_GB }}
+        >
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+        </LocaleContext.Provider>,
+      );
+
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB, separator: InternalDateSeparator.Dash });
 
-      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
+      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
     it('updates when langCode changes', () => {
-      const { rerender } = renderDatePickerLocale({
-        props: { enableTodayLink: true },
-      });
+      const { rerender } = render(
+        <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+        </LocaleContext.Provider>,
+      );
+
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
       rerender(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <DatePicker {...defaultProps} enableTodayLink />
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
         </LocaleContext.Provider>,
       );
-      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
-      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
   });
 

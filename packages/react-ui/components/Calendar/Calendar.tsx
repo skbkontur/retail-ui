@@ -8,7 +8,6 @@ import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { DatePickerDataTids } from '../DatePicker';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
@@ -139,7 +138,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
       <button
-        data-tid={DatePickerDataTids.pickerTodayWrapper}
+        data-tid="Picker__todayWrapper"
         className={styles.todayWrapper(this.theme)}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}
