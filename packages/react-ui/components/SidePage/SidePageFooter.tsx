@@ -8,17 +8,26 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { Gapped, GappedProps } from '../Gapped';
+import { isNonNullable } from '../../lib/utils';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
-export interface SidePageFooterProps extends CommonProps {
+export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   /**
    * Включает серый цвет в футере
    */
   panel?: boolean;
+  /**
+   * Закрепляет футер снизу сайдпейджа
+   */
   sticky?: boolean;
+  /**
+   * Задаёт отступ между элементами футера
+   */
+  gap?: GappedProps['gap'];
 }
 
 interface SidePageFooterState {
@@ -127,7 +136,13 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
                   })}
                   ref={this.refContent}
                 >
-                  {this.props.children}
+                  {isNonNullable(this.props.gap) ? (
+                    <Gapped vertical={this.isMobileLayout} gap={this.props.gap}>
+                      {this.props.children}
+                    </Gapped>
+                  ) : (
+                    this.props.children
+                  )}
                 </div>
               </div>
             )}

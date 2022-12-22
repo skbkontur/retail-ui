@@ -13,7 +13,7 @@ import { delay, emptyHandler } from '../../../lib/utils';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
-  size?: DatePickerProps<unknown>['size'];
+  size?: DatePickerProps['size'];
 }
 interface DatePickerWithErrorState {
   tooltip: boolean;

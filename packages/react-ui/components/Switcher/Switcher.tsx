@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { Group } from '../Group';
+import { getButtonCorners, Group } from '../Group';
 import { Button, ButtonProps, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
+import { mod } from './helpers';
 
 export type SwitcherSize = ButtonSize;
 type SwitcherItems = string | SwitcherItem;
@@ -39,6 +40,17 @@ export interface SwitcherProps extends CommonProps {
   size?: SwitcherSize;
 
   disabled?: boolean;
+
+  /**
+   * Функция для отрисовки элемента. Аргументы — `label`,
+   * `value`, `buttonProps`, `renderDefault`
+   */
+  renderItem?: (
+    label: string,
+    value: string,
+    buttonProps: ButtonProps,
+    renderDefault: () => React.ReactNode,
+  ) => React.ReactNode;
 }
 
 export interface SwitcherState {
@@ -70,6 +82,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     caption: PropTypes.string,
     value: PropTypes.string,
     onValueChange: PropTypes.func,
+    renderItem: PropTypes.func,
   };
 
   public state: SwitcherState = {
@@ -137,26 +150,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     });
   };
 
-  private move = (step: number) => {
-    let selectedIndex = this.state.focusedIndex;
-
-    if (typeof selectedIndex !== 'number') {
-      return;
-    }
-
-    const items = this._extractValuesFromItems();
-
-    selectedIndex += step;
-
-    if (selectedIndex < 0) {
-      selectedIndex = items.length - 1;
-    } else if (selectedIndex >= items.length) {
-      selectedIndex = 0;
-    }
-
-    this._focus(selectedIndex);
-  };
-
   private _focus = (index: number) => {
     this.setState({ focusedIndex: index });
   };
@@ -169,16 +162,44 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
     if (isKeyEnter(e)) {
       if (this.props.onValueChange) {
-        const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
-        this.selectItem(value);
+        const { value, buttonProps } = this._extractPropsFromItem(this.props.items[focusedIndex]);
+        if (!buttonProps?.disabled) {
+          this.selectItem(value);
+        }
       }
       return;
     }
 
     if (isKeyArrowHorizontal(e)) {
       e.preventDefault();
-      this.move(isKeyArrowLeft(e) ? -1 : 1);
+      this.move(isKeyArrowLeft(e));
     }
+  };
+
+  private move = (left: boolean) => {
+    const selectedIndex = this.state.focusedIndex;
+
+    if (typeof selectedIndex !== 'number') {
+      return;
+    }
+    const newFocusedIndex = this._getNextFocusedIndex(left, selectedIndex);
+    this._focus(newFocusedIndex);
+  };
+
+  private _getNextFocusedIndex = (left: boolean, focusedIndex: number): number => {
+    const { items, disabled } = this.props;
+    if (disabled) {
+      return focusedIndex;
+    }
+
+    for (let i = 1; i < items.length; i++) {
+      const index = mod(focusedIndex + (left ? -i : i), items.length);
+      const { buttonProps } = this._extractPropsFromItem(items[index]);
+      if (!buttonProps?.disabled) {
+        return index;
+      }
+    }
+    return focusedIndex;
   };
 
   private _handleFocus = () => {
@@ -196,25 +217,37 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private _renderItems = () => {
-    return this.props.items.map((item, i) => {
-      const { label, value, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
+    const { items, value, size, disabled, renderItem } = this.props;
+    return items.map((item, i) => {
+      const { label, value: itemValue, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
       const commonButtonProps = {
-        checked: this.props.value === value,
+        checked: value === itemValue,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
-          this.selectItem(value);
+          this.selectItem(itemValue);
         },
         disableFocus: true,
-        size: this.props.size,
-        disabled: this.props.disabled,
+        size,
+        disabled,
+        corners: getButtonCorners(i === 0, i === items.length - 1),
       };
-      return (
-        <Button key={value} {...commonButtonProps} {...customButtonProps}>
-          {label}
-        </Button>
-      );
+
+      const buttonProps = {
+        ...commonButtonProps,
+        ...customButtonProps,
+      };
+
+      const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps);
+
+      return renderItem ? renderItem(label, itemValue, buttonProps, renderDefault) : renderDefault();
     });
   };
+
+  private renderDefaultItem = (label: string, value: string, buttonProps: ButtonProps) => (
+    <Button key={value} {...buttonProps}>
+      {label}
+    </Button>
+  );
 
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {

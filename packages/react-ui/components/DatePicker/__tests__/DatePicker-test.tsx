@@ -13,17 +13,14 @@ import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleControls, LocaleContext } from '../../../lib/locale';
 
 const handleChange = () => undefined;
-const defaultProps = { value: '02.07.2017', width: 200, onValueChange: handleChange };
-
-const renderDatePicker = (props: Partial<DatePickerProps<string>> = {}) =>
-  render(<DatePicker {...defaultProps} {...props} />);
-
+const renderDatePicker = (props: Partial<DatePickerProps> = {}) =>
+  mount<DatePicker>(<DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />);
 const renderDatePickerLocale = ({
   props = {},
   langCode = defaultLangCode,
   locale = {},
 }: {
-  props?: Partial<DatePickerProps<string>>;
+  props?: Partial<DatePickerProps>;
   langCode?: LangCodes;
   locale?: LocaleControls;
 } = {}) =>

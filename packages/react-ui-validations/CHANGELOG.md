@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.0...react-ui-validations@1.11.1) (2022-12-12)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+# [1.11.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.3...react-ui-validations@1.11.0) (2022-11-25)
+
+
+### Features
+
+* add validation settings, make focus on warnings optional ([#3036](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3036)) ([65030c2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/65030c26a71e8539ba3d68a3960fee93cad216e0))
+
+
+
+
+
 ## [1.10.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.2...react-ui-validations@1.10.3) (2022-11-09)
 
 

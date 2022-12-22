@@ -15,7 +15,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
-export interface SidePageHeaderProps extends CommonProps {
+export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   sticky?: boolean;
 }
@@ -164,7 +164,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
         })}
       >
         {this.isMobileLayout ? (
-          this.closeIcon
+          this.closeIcon()
         ) : (
           <Sticky side="top" offset={stickyOffset}>
             {this.closeIcon}

@@ -13,6 +13,7 @@ import {
 
 import { ValidationContainer, ValidationContainerProps, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
+import { FocusMode } from '../src/ValidationContainer';
 
 describe('ValidationContainer', () => {
   it('renders passed children', () => {
@@ -92,6 +93,30 @@ describe('ValidationContainer', () => {
       const result = await containerRef.current?.validate();
 
       expect(result).toEqual(true);
+    });
+
+    it('with autofocus', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      await containerRef.current?.validate({ focusMode: FocusMode.ErrorsAndWarnings });
+
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('without autofocus', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      await containerRef.current?.validate();
+
+      expect(screen.getByRole('textbox')).not.toHaveFocus();
+    });
+
+    it('without autofocus', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      await containerRef.current?.validate(false);
+
+      expect(screen.getByRole('textbox')).not.toHaveFocus();
     });
   });
 });

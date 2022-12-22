@@ -35,12 +35,14 @@ public context: Theme = this.context;
 
 Список существующих тем:
 
-| Имя                     | Описание         |
-| ----------------------- |------------------|
-| `DEFAULT_THEME`         | Дефолтная        |
-| `DARK_THEME`            | Темная           |
-| `DEFAULT_THEME_8PX_OLD` | Старая дефолтная |
-| `FLAT_THEME_8PX_OLD`    | Старая плоская   |
+| Имя                     | Описание                                          |
+|-------------------------|---------------------------------------------------|
+| `THEME_2022`            | Станет дефолтной в `5.0`                          |
+| `DARK_THEME_2022`       | Станет дефолтной темной в `5.0`                   |
+| `DEFAULT_THEME`         | Текущая дефолтная тема. Станет deprecated в `5.0` |
+| `DARK_THEME`            | Темная дефолтная. Станет deprecated в `5.0`       |
+| `DEFAULT_THEME_8PX_OLD` | Тема 2021 г. Будет удалена в  `5.0`               |
+| `FLAT_THEME_8PX_OLD`    | Плоская тема 2021 г. Будет удалена в `5.0`        |
 
 ## Примеры использования
 
@@ -230,14 +232,16 @@ const myTheme = ThemeFactory.create<AddonsThemeIn>({
 Несколько функций по работе с цветом вынесены из less в js, их можно использовать в своих темах (_ColorFunctions.ts_):
 
 ```typescript static
-lighten(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
-darken(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
-contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43): string
-red(colorString: string): string
-green(colorString: string): string
-blue(colorString: string): string
-alpha(colorString: string): string
-isValid(colorString: string): boolean // проверяет, можно ли распарсить строку в цвет
+import { ColorFunctions } from '@skbkontur/react-ui'
+
+ColorFunctions.lighten(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
+ColorFunctions.darken(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
+ColorFunctions.contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43): string
+ColorFunctions.red(colorString: string): string
+ColorFunctions.green(colorString: string): string
+ColorFunctions.blue(colorString: string): string
+ColorFunctions.alpha(colorString: string): string
+ColorFunctions.isValid(colorString: string): boolean // проверяет, можно ли распарсить строку в цвет
 ```
 
 Документацию по их работе можно найти на сайте [less](http://lesscss.org/functions/#color-operations).
@@ -248,10 +252,12 @@ isValid(colorString: string): boolean // проверяет, можно ли р�
 Если это возможно, результат возвращается в том же виде, что и входная строка:
 
 ```typescript static
-lighten('hsl(90, 0.8, 0.2)', '20%') === 'hsl(90, 0.8, 0.4)';
-lighten('rgba(50, 50, 50, 0.2)', '20%') === 'rgba(102, 102, 102, 0.2)';
-lighten('#80e619', 0.2) === '#b3f075';
-lighten('crimson', '20%') === '#f16581';
+import { ColorFunctions } from '@skbkontur/react-ui'
+
+ColorFunctions.lighten('hsl(90, 0.8, 0.2)', '20%') === 'hsl(90, 0.8, 0.4)';
+ColorFunctions.lighten('rgba(50, 50, 50, 0.2)', '20%') === 'rgba(102, 102, 102, 0.2)';
+ColorFunctions.lighten('#80e619', 0.2) === '#b3f075';
+ColorFunctions.lighten('crimson', '20%') === '#f16581';
 ```
 
 Для работы с размерами предусмотрена одна функция (_DimensionFunctions.ts_):
@@ -260,6 +266,8 @@ lighten('crimson', '20%') === '#f16581';
 shift(value: string, shift: string): string
 
 // пример
+import { DimensionFunctions } from '@skbkontur/react-ui'
+
 DimensionFunctions.shift('100%', '-20') === '80%'
 DimensionFunctions.shift('2em', '+2') === '4em'
 DimensionFunctions.shift('12', '+1') === '13px'  //если единица измерения не указана - используется px

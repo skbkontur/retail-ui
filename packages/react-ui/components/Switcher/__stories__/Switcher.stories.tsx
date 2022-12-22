@@ -3,6 +3,9 @@ import React from 'react';
 import { Story } from '../../../typings/stories';
 import { Switcher, SwitcherProps } from '../Switcher';
 import { Gapped } from '../../Gapped';
+import { Hint } from '../../Hint';
+import { Tooltip } from '../../Tooltip';
+import { ButtonProps } from '../../Button';
 
 interface ComponentState {
   value: string;
@@ -76,25 +79,69 @@ Disabled.parameters = {
   creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
 };
 
-const items = [
-  { label: 'one', value: 'one', buttonProps: { disabled: true } },
-  { label: 'two', value: 'two' },
-  { label: 'three', value: 'three', buttonProps: { disabled: true } },
-  { label: 'four', value: 'four' },
-  { label: 'five', value: 'five', buttonProps: { disabled: true } },
+const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonProps> }> = [
+  {
+    label: 'One',
+    value: '111',
+    buttonProps: {
+      'data-tid': '1-1-1',
+      use: 'primary',
+    },
+  },
+  {
+    label: 'Two',
+    value: '222',
+    buttonProps: {
+      'data-tid': '2-2-2',
+      disabled: true,
+    },
+  },
+  {
+    label: 'Three',
+    value: '333',
+    buttonProps: {
+      'data-tid': '3-3-3',
+      use: 'danger',
+    },
+  },
+  {
+    label: 'four',
+    value: '444',
+    buttonProps: {
+      disabled: true,
+    },
+  },
 ];
 
-export const WithDisabledItems = () => {
+const renderItem = (label: string, value: string, buttonProps: ButtonProps, renderDefault: () => React.ReactNode) => {
+  if (value === '111') {
+    return (
+      <Hint text="Текст Хинта" opened manual>
+        {renderDefault()}
+      </Hint>
+    );
+  }
+  if (value === '333') {
+    return (
+      <Tooltip pos="bottom center" trigger="opened" render={() => '⚠️ Лучше не трогай...'}>
+        {renderDefault()}
+      </Tooltip>
+    );
+  }
+  return renderDefault();
+};
+
+export const WithCustomRenderItems: Story = () => {
   return (
-    <Gapped vertical>
-      <Component items={items} />
-      <Component items={items} value={'one'} />
-      <Component items={items} value={'two'} />
-    </Gapped>
+    <div style={{ padding: '65px 20px' }}>
+      <Component items={items} renderItem={renderItem} />
+    </div>
   );
 };
 
-WithDisabledItems.storyName = 'with disabled items';
-WithDisabledItems.parameters = {
-  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
+WithCustomRenderItems.storyName = 'with custom render item';
+WithCustomRenderItems.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/ },
+  },
 };

@@ -14,6 +14,25 @@
         <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
     </ValidationContainer>
 
+Аргументы:
+
+    submit(withoutFocus?: boolean): Promise<void>
+    submit(validationSettings: ValidationSettings): Promise<void>
+
+где
+
+    interface ValidationSettings {
+      focusMode: FocusMode;
+    }
+    enum FocusMode {
+      Errors,
+      ErrorsAndWarnings,
+      None,
+    }
+
+- `withoutFocus`: отключает автофокус невалидных контролов.
+- `validationSettings.focusMode` - позволяет указать уровень валидации для автофокуса. Дефолтное значение -  `FocusMode.Errors`
+
 ### `validate(): Promise<boolean>`
 
 При вызове этой функции загораются все невалидные контролы так же как и при вызове
@@ -34,6 +53,8 @@
             </ValidationContainer>
         );
     }
+
+Аргументы аналогичны `submit()` - смотри выше.
 
 ### `children`
 

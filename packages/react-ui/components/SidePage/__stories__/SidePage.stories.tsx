@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { Story } from '../../../typings/stories';
+import { CreeveyTests, Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -328,11 +328,9 @@ class SidePageWithLeftPosition extends React.Component<SidePageWithLeftPositionP
             {textSample}
           </SidePage.Container>
         </SidePage.Body>
-        <SidePage.Footer panel>
-          <Gapped>
-            <Button use="primary">Ok</Button>
-            <Button onClick={this.props.close}>Cancel</Button>
-          </Gapped>
+        <SidePage.Footer gap={8} panel>
+          <Button use="primary">Ok</Button>
+          <Button onClick={this.props.close}>Cancel</Button>
         </SidePage.Footer>
       </SidePage>
     );
@@ -354,11 +352,9 @@ class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRigh
               {textSample}
             </SidePage.Container>
           </SidePage.Body>
-          <SidePage.Footer panel>
-            <Gapped>
-              <Button use="primary">Ok</Button>
-              <Button>Cancel</Button>
-            </Gapped>
+          <SidePage.Footer gap={8} panel>
+            <Button use="primary">Ok</Button>
+            <Button>Cancel</Button>
           </SidePage.Footer>
         </SidePage>
         <SidePage disableAnimations={this.props.disableAnimations} fromLeft={false}>
@@ -369,11 +365,9 @@ class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRigh
               {textSample}
             </SidePage.Container>
           </SidePage.Body>
-          <SidePage.Footer panel>
-            <Gapped>
-              <Button use="primary">Ok</Button>
-              <Button>Cancel</Button>
-            </Gapped>
+          <SidePage.Footer gap={8} panel>
+            <Button use="primary">Ok</Button>
+            <Button>Cancel</Button>
           </SidePage.Footer>
         </SidePage>
       </>
@@ -585,27 +579,25 @@ class WithLongTitle extends React.Component {
                   }}
                 />
               </SidePage.Body>
-              <SidePage.Footer>
-                <Gapped gap={15}>
-                  <Button
-                    onClick={() =>
-                      this.setState({
-                        title: title + title,
-                      })
-                    }
-                  >
-                    Increase Title
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      this.setState({
-                        title: title.slice(title.length / 2),
-                      })
-                    }
-                  >
-                    Decrease Title
-                  </Button>
-                </Gapped>
+              <SidePage.Footer gap={15}>
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      title: title + title,
+                    })
+                  }
+                >
+                  Increase Title
+                </Button>
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      title: title.slice(title.length / 2),
+                    })
+                  }
+                >
+                  Decrease Title
+                </Button>
               </SidePage.Footer>
             </SidePage>
           );
@@ -722,21 +714,31 @@ export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSi
 LeftSidePageWithRightSidePageStory.storyName = 'Left SidePage With Right SidePage';
 LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: null } };
 
+const simpleTests: CreeveyTests = {
+  async 'open side-page'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'button' }))
+      .perform();
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
+  },
+};
+
 export const Simple: Story = () => <SimpleSidePage />;
 
 Simple.parameters = {
   creevey: {
-    tests: {
-      async 'open side-page'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
-      },
-    },
+    tests: simpleTests,
+  },
+};
+
+export const MobileSimple: Story = () => <SimpleSidePage />;
+
+MobileSimple.parameters = {
+  creevey: {
+    tests: simpleTests,
   },
 };
 
