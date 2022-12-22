@@ -13,14 +13,12 @@ import { Story } from '../../../typings/stories';
 
 export default { title: 'Calendar' };
 
-export const Simple = () => (
-  <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} enableTodayLink />
-);
+export const Simple = () => <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} />;
 Simple.storyName = 'simple';
 
 export const LocaleContextProvider = () => (
   <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-    <Calendar value={null} onValueChange={action('pick')} enableTodayLink />
+    <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} />
   </LocaleContext.Provider>
 );
 LocaleContextProvider.storyName = 'LocaleContext.Provider';
