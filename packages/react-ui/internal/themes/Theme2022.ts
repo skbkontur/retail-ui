@@ -170,6 +170,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get modalFixedHeaderPaddingBottom() {
     return this.modalHeaderPaddingBottom;
   }
+  public static get modalHeaderAdditionalPaddingBottom() {
+    return this.modalHeaderPaddingBottom;
+  }
   public static get modalFixedFooterPaddingTop() {
     return this.modalFooterPaddingTop;
   }
@@ -182,6 +185,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static mobileModalCloseIconSize = '20px';
   public static mobileModalCloseButtonRightPadding = '12px';
   public static mobileModalCloseButtonTopPadding = '8px';
+  public static modalHeaderPaddingBottom = '16px';
+
   //#endregion
 
   //#region Select

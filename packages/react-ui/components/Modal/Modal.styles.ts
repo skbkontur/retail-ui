@@ -327,9 +327,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  headerAddPadding() {
+  headerAddPadding(t: Theme) {
     return css`
-      padding-bottom: 22px;
+      padding-bottom: ${t.modalHeaderAdditionalPaddingBottom};
     `;
   },
 

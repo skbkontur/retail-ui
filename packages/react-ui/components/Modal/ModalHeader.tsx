@@ -47,7 +47,7 @@ function ModalHeader(props: ModalHeaderProps) {
           className={cx(
             styles.header(theme),
             layout.isMobile && styles.mobileHeader(theme),
-            Boolean(modal.additionalPadding) && styles.headerAddPadding(),
+            Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),
             fixed && styles.fixedHeader(theme),
             fixed && layout.isMobile && styles.mobileFixedHeader(theme),
             Boolean(modal.close) && styles.headerWithClose(theme),

@@ -725,6 +725,7 @@ export class DefaultTheme {
   public static modalHeaderLineHeight = '32px';
   public static modalHeaderPaddingBottom = '16px';
   public static modalHeaderPaddingTop = '24px';
+  public static modalHeaderAdditionalPaddingBottom = '22px';
   public static modalFixedHeaderMarginBottom = '10px';
   public static get modalFixedHeaderPaddingBottom() {
     return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
