@@ -2,26 +2,27 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Calendar, CalendarProps } from '../Calendar';
+import { Calendar } from '../Calendar';
 import { LangCodes } from '../../../lib/locale';
 import { DatePickerLocaleHelper } from '../../DatePicker/locale';
 
-const handleChange = () => undefined;
-const defaultProps = { value: { year: 2017, month: 6, date: 2 }, onValueChange: handleChange };
-
-const renderCalendar = (props: Partial<CalendarProps> = {}) => render(<Calendar {...defaultProps} {...props} />);
-
 describe('Calendar', () => {
   it('renders', () => {
-    renderCalendar();
+    render(<Calendar value={{ year: 2017, month: 6, date: 2 }} onValueChange={jest.fn()} />);
+
     expect(screen.getByTestId('Calendar')).toBeInTheDocument();
   });
 
   it('correctly passes max and min date to year select', () => {
-    renderCalendar({
-      minDate: { year: 2017, month: 2, date: 21 },
-      maxDate: { year: 2020, month: 7, date: 15 },
-    });
+    render(
+      <Calendar
+        onValueChange={jest.fn()}
+        value={{ year: 2017, month: 6, date: 2 }}
+        minDate={{ year: 2017, month: 2, date: 21 }}
+        maxDate={{ year: 2020, month: 7, date: 15 }}
+      />,
+    );
+
     userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015')).toHaveAttribute('data-prop-disabled', 'true');
     expect(screen.getByText('2018')).toHaveAttribute('data-prop-disabled', 'false');
@@ -29,9 +30,13 @@ describe('Calendar', () => {
   });
 
   it('correctly initial month/year with min date', () => {
-    renderCalendar({
-      minDate: { year: 2099, month: 0, date: 21 },
-    });
+    render(
+      <Calendar
+        onValueChange={jest.fn()}
+        value={{ year: 2017, month: 6, date: 2 }}
+        minDate={{ year: 2099, month: 0, date: 21 }}
+      />,
+    );
 
     expect(screen.getAllByTestId('DateSelect__caption')[0]).toHaveTextContent(
       DatePickerLocaleHelper.get(LangCodes.ru_RU).months[6],
@@ -40,9 +45,13 @@ describe('Calendar', () => {
   });
 
   it('correctly initial month/year with max date', () => {
-    renderCalendar({
-      maxDate: { year: 1959, month: 10, date: 15 },
-    });
+    render(
+      <Calendar
+        onValueChange={jest.fn()}
+        value={{ year: 2017, month: 6, date: 2 }}
+        maxDate={{ year: 1959, month: 10, date: 15 }}
+      />,
+    );
 
     expect(screen.getAllByTestId('DateSelect__caption')[0]).toHaveTextContent(
       DatePickerLocaleHelper.get(LangCodes.ru_RU).months[6],

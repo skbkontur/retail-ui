@@ -1,6 +1,6 @@
-import { useEffect, DependencyList, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-export const useEffectWithoutInitCall = (effect: () => void, deps: DependencyList) => {
+export const useEffectWithoutInitCall: typeof useEffect = (effect, deps) => {
   const isInitialRenderRef = useRef(true);
 
   useEffect(() => {
