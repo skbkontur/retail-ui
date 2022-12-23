@@ -624,7 +624,7 @@ export class DefaultTheme {
   public static get selectBorderColorDisabled() {
     return this.btnDisabledBorderColor;
   }
-  public static selectMenuOffsetY = '-1px';
+  public static selectMenuOffsetY = '0px';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
@@ -988,9 +988,8 @@ export class DefaultTheme {
     //deprecated
     return this.bgActive;
   }
-  public static get dropdownMenuMenuOffsetY() {
-    return this.menuOffsetY;
-  }
+  public static dropdownMenuOffsetY = '0px';
+  public static dropdownMenuMenuOffsetY = '1px';
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1851,11 +1850,11 @@ export class DefaultTheme {
   //#endregion
 
   //#region Autocomplete
-  public static autocompleteMenuOffsetY = '1px';
+  public static autocompleteMenuOffsetY = '2px';
   //#endregion
 
   //#region Combobox
-  public static comboboxMenuOffsetY = '1px';
+  public static comboboxMenuOffsetY = '2px';
   //#endregion
 }
 

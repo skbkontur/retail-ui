@@ -12,7 +12,8 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+
+import { relinkDropdownTheme } from './relinkDropdownTheme';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -177,7 +178,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = relinkDropdownTheme(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain(this.props)}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
@@ -188,26 +189,17 @@ export class Dropdown extends React.Component<DropdownProps> {
     const items = React.Children.map(this.props.children, (item) => item) || [];
 
     return (
-      <ThemeContext.Provider
-        value={ThemeFactory.create(
-          {
-            selectDefaultBg: this.theme.btnDefaultBg,
-          },
-          this.theme,
-        )}
-      >
-        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-          <Select<React.ReactNode, React.ReactNode>
-            data-tid={DropdownDataTids.root}
-            ref={this._refSelect}
-            {...filterProps(props, PASS_PROPS)}
-            value={caption}
-            items={items}
-            _icon={icon}
-            renderValue={renderValue}
-          />
-        </CommonWrapper>
-      </ThemeContext.Provider>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <Select<React.ReactNode, React.ReactNode>
+          data-tid={DropdownDataTids.root}
+          ref={this._refSelect}
+          {...filterProps(props, PASS_PROPS)}
+          value={caption}
+          items={items}
+          _icon={icon}
+          renderValue={renderValue}
+        />
+      </CommonWrapper>
     );
   };
 
