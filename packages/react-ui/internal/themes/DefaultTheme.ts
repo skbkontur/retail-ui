@@ -925,6 +925,7 @@ export class DefaultTheme {
   public static mobileMenuPaddingY = '0px';
   public static menuPaddingX = '0px';
   public static mobileMenuPaddingX = '0px';
+  public static menuOffsetY = '0px';
   // menuItem
   public static get menuItemTextColor() {
     return this.textColorDefault;
