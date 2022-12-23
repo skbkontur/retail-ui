@@ -30,8 +30,8 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
 
   let _icon = null;
   if (icon && isElement(icon)) {
-    // We expect icon to have a `size` prop
-    _icon = React.cloneElement(icon, { size: sizes[size] });
+    // Expect icon to have a `size` and `disableCompensation` props
+    _icon = React.cloneElement(icon, { size: sizes[size], disableCompensation: true });
   }
 
   const style: React.CSSProperties = {};
