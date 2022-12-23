@@ -1,10 +1,17 @@
 
 
-Обычный календарь с заданной датой
+Календарь с заданной датой
 
 ```jsx harmony
 const [value, setValue] = React.useState({ year: 2021, month: 11, date: 1 });
-<Calendar value={value} onValueChange={setValue} enableTodayLink />;
+<Calendar
+  style={{
+    border: '1px solid black',
+  }}
+  value={value}
+  onValueChange={setValue}
+  enableTodayLink
+/>;
 ```
 
 
