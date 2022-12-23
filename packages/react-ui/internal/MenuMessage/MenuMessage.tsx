@@ -3,9 +3,10 @@ import React, { useContext } from 'react';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
-import { styles } from '../../components/MenuItem/MenuItem.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../CommonWrapper';
+
+import { styles } from './MenuMessage.styles';
 
 export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
@@ -29,7 +30,6 @@ export const MenuMessage = forwardRefAndName<HTMLParagraphElement, MenuMessagePr
         className={cx(
           {
             [styles.root(theme)]: true,
-            [styles.disabled(theme)]: true,
             [styles.rootMobile(theme)]: isMobile,
           },
           className,

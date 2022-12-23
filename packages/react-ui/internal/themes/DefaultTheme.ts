@@ -962,15 +962,62 @@ export class DefaultTheme {
   public static get menuItemHoverColor() {
     return this.textColorInvert;
   }
-  public static get menuItemDisabledColor() {
-    return this.textColorDisabled;
-  }
   public static get menuItemLinkColor() {
     return this.linkColor;
   }
   public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
+  public static menuItemPosition = 'relative';
+  public static menuItemDisplay = 'block';
   public static menuItemPaddingMobile = '12px 16px';
+  public static get menuItemLineHeightMobile() {
+    return this.lineHeightMobile;
+  }
+  public static get menuItemFontSizeMobile() {
+    return this.fontSizeMobile;
+  }
+  public static menuItemDisabledCursor = 'default';
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
+  public static menuItemDisabledBg = 'transparent';
+  // menuMessage
+  public static get menuMessageCursor() {
+    return this.menuItemDisabledCursor;
+  }
+  public static get menuMessageTextColor() {
+    return this.menuItemDisabledColor;
+  }
+  public static get menuMessageBg() {
+    return this.menuItemDisabledBg;
+  }
+  public static get menuMessagePaddingY() {
+    return this.menuItemPaddingY;
+  }
+  public static get menuMessagePaddingX() {
+    return this.menuItemPaddingX;
+  }
+  public static get menuMessagePosition() {
+    return this.menuItemPosition;
+  }
+  public static get menuMessageDisplay() {
+    return this.menuItemDisplay;
+  }
+  public static get menuMessagePaddingMobile() {
+    return this.menuItemPaddingMobile;
+  }
+  public static get menuMessageLineHeight() {
+    return this.menuItemLineHeight;
+  }
+  public static get menuMessageLineHeightMobile() {
+    return this.menuItemLineHeightMobile;
+  }
+  public static get menuMessageFontSize() {
+    return this.menuItemFontSize;
+  }
+  public static get menuMessageFontSizeMobile() {
+    return this.menuItemFontSizeMobile;
+  }
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;
