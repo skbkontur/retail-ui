@@ -2,12 +2,6 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { DropdownContainerProps } from './DropdownContainer';
 
-interface ManualPositionFuncArgs
-  extends Required<Pick<DropdownContainerProps, 'offsetY'>>,
-    Pick<DropdownContainerProps, 'pos'> {
-  target: Element;
-}
-
 export const getTopAlignment = ({
   clientHeight,
   offsetY,
@@ -21,12 +15,15 @@ export const getTopAlignment = ({
   return clientHeight + offsetY - scrollY - getDOMRect(target).top;
 };
 
-export const getManualPositionWithPortal = ({
-  pos,
-  target,
-  offsetY,
-  clientHeight,
-}: ManualPositionFuncArgs & { clientHeight: number; scrollY: number }) => {
+interface ManualPositionFuncArgs
+  extends Required<Pick<DropdownContainerProps, 'offsetY'>>,
+    Pick<DropdownContainerProps, 'pos'> {
+  target: Element;
+  clientHeight: number;
+  scrollY: number;
+}
+
+export const getManualPosition = ({ pos, target, offsetY, clientHeight }: ManualPositionFuncArgs) => {
   if (!pos) {
     return undefined;
   }
@@ -40,21 +37,5 @@ export const getManualPositionWithPortal = ({
 
   if (pos === 'bottom') {
     return { top: scrollY + getDOMRect(target).top + target.clientHeight + offsetY };
-  }
-};
-
-export const getManualPositionWithoutPortal = ({ pos, target, offsetY }: ManualPositionFuncArgs) => {
-  if (!pos) {
-    return undefined;
-  }
-
-  const position = getDOMRect(target).height + offsetY;
-
-  if (pos === 'top') {
-    return { top: null, bottom: position };
-  }
-
-  if (pos === 'bottom') {
-    return { top: position };
   }
 };

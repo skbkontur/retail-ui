@@ -10,7 +10,7 @@ import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './DropdownContainer.styles';
-import { getManualPositionWithoutPortal, getManualPositionWithPortal, getTopAlignment } from './getManualPosition';
+import { getManualPosition, getTopAlignment } from './getManualPosition';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -158,7 +158,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         left,
         right,
         bottom,
-        ...getManualPositionWithPortal({ pos: this.props.pos, target, offsetY, clientHeight, scrollY }),
+        ...getManualPosition({ pos: this.props.pos, target, offsetY, clientHeight, scrollY }),
       };
 
       this.setState({
@@ -193,7 +193,6 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         bottom: bottom !== null ? targetHeight + offsetY : null,
         left: left !== null ? offsetX : null,
         right: right !== null ? offsetX : null,
-        ...getManualPositionWithoutPortal({ pos: this.props.pos, target, offsetY }),
       };
     }
     return {
