@@ -923,6 +923,7 @@ export class DefaultTheme {
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
   public static menuPaddingX = '0px';
+  public static menuOffsetY = '0px';
   // menuItem
   public static get menuItemTextColor() {
     return this.textColorDefault;
