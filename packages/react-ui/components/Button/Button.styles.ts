@@ -646,7 +646,7 @@ export const styles = memoizeStyle({
       )};
 
       color: ${t.btnDefaultTextColor};
-      background: transparent;
+      background: transparent !important; // override common disabled style
 
       &:hover:enabled {
         background: ${t.btnBacklessHoverBg};
