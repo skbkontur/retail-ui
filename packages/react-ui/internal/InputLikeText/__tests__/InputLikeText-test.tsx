@@ -15,3 +15,10 @@ describe('placeholder', () => {
     expect(wrapper.text()).toBe(value.toString());
   });
 });
+
+describe('hidden input', () => {
+  it('renders disabled', () => {
+    const wrapper = mount(<InputLikeText disabled>value</InputLikeText>);
+    expect(wrapper.find('input').prop('disabled')).toBeTruthy();
+  });
+});
