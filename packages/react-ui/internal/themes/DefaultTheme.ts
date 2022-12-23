@@ -624,7 +624,9 @@ export class DefaultTheme {
   public static get selectBorderColorDisabled() {
     return this.btnDisabledBorderColor;
   }
-  public static selectMenuOffsetY = '0px';
+  public static get selectMenuOffsetY() {
+    return this.menuOffsetY;
+  }
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
@@ -988,8 +990,12 @@ export class DefaultTheme {
     //deprecated
     return this.bgActive;
   }
-  public static dropdownMenuOffsetY = '0px';
-  public static dropdownMenuMenuOffsetY = '1px';
+  public static get dropdownMenuOffsetY() {
+    return this.menuOffsetY;
+  }
+  public static get dropdownMenuMenuOffsetY() {
+    return this.menuOffsetY;
+  }
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
