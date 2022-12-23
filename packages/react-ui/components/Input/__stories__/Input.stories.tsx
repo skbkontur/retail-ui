@@ -222,7 +222,7 @@ InputsWithDifferentStates.parameters = {
 export const InputsWithDifferentSizes: Story = () => (
   <div>
     <div id="small-input-wrapper" style={styles}>
-      <Input size="small" />
+      <Input size="small" data-tid="---tid---" className="---tid---" />
     </div>
     <div id="medium-input-wrapper" style={styles}>
       <Input size="medium" />

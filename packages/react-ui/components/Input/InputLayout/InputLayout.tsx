@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { InputDataTids, InputProps } from '../Input';
+import { CommonWrapper } from '../../../internal/CommonWrapper';
 
 import { InputLayoutAside } from './InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault, InputLayoutContextProps } from './InputLayoutContext';
@@ -13,24 +14,19 @@ export interface InputLayoutRootProps extends InputLayoutRootFromInputProps {
   context: Partial<InputLayoutContextProps>;
 }
 
-export const InputLayout: React.FunctionComponent<InputLayoutRootProps> = ({
-  leftIcon,
-  rightIcon,
-  prefix,
-  suffix,
-  labelProps,
-  context,
-  children,
-}) => {
+export const InputLayout: React.FunctionComponent<InputLayoutRootProps> = (props) => {
+  const { leftIcon, rightIcon, prefix, suffix, labelProps, context, children } = props;
   const _context: InputLayoutContextProps = { ...InputLayoutContextDefault, ...context };
 
   return (
     <InputLayoutContext.Provider value={_context}>
-      <label data-tid={InputDataTids.root} {...labelProps}>
-        <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
-        <span className={stylesLayout.input()}>{children}</span>
-        <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
-      </label>
+      <CommonWrapper {...props}>
+        <label data-tid={InputDataTids.root} {...labelProps}>
+          <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
+          <span className={stylesLayout.input()}>{children}</span>
+          <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
+        </label>
+      </CommonWrapper>
     </InputLayoutContext.Provider>
   );
 };
