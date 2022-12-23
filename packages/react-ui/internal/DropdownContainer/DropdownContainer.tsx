@@ -10,7 +10,7 @@ import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './DropdownContainer.styles';
-import { getManualPositionWithoutPortal, getManualPositionWithPortal, getTopAligment } from './getManualPosition';
+import { getManualPositionWithoutPortal, getManualPositionWithPortal, getTopAlignment } from './getManualPosition';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -150,7 +150,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
       const clientHeight = this.state.isDocumentElementRoot ? docEl.clientHeight : body.scrollHeight;
       if (distanceToBottom < dropdownHeight && targetRect.top > dropdownHeight) {
         top = null;
-        bottom = getTopAligment({ clientHeight, offsetY, scrollY, target });
+        bottom = getTopAlignment({ clientHeight, offsetY, scrollY, target });
       }
 
       const position = {

@@ -8,7 +8,7 @@ interface ManualPositionFuncArgs
   target: Element;
 }
 
-export const getTopAligment = ({
+export const getTopAlignment = ({
   clientHeight,
   offsetY,
   scrollY,
@@ -34,7 +34,7 @@ export const getManualPositionWithPortal = ({
   if (pos === 'top') {
     return {
       top: null,
-      bottom: getTopAligment({ clientHeight, offsetY, scrollY, target }),
+      bottom: getTopAlignment({ clientHeight, offsetY, scrollY, target }),
     };
   }
 
