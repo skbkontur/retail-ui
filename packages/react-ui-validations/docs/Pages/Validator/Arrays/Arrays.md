@@ -9,7 +9,7 @@
     const validate = createValidator<string[]>(b => {
       b.array(x => x, b => {
         b.invalid(x => !x, "Укажите email", "submit");
-        b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+        b.invalid(x => !x.includes('@'), "Неверный формат email");
       });
     });
 

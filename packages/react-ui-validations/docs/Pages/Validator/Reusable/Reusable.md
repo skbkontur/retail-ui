@@ -9,7 +9,7 @@
 Она может быть использована не только в UI-валидациях.
 
     const isValidEmail = (value: string): boolean => {
-      return /^[a-z]+@[a-z]+\.[a-z]+$/.test(value);
+      return value.includes('@');
     };
 
     const validate = createValidator<string>(b => {
@@ -24,7 +24,7 @@
     };
 
     const emailFormat = (b: ValidationBuilder<unknown, string>): void => {
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
     };
 
     const validate = createValidator<string>(b => {
@@ -37,7 +37,7 @@
 
     const validateEmail: ValidationRule<unknown, string> = b => {
       b.invalid(x => !x, "Укажите email", "submit");
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
     };
 
     const validate = createValidator<string>(validateEmail);
@@ -46,7 +46,7 @@
 
     const validateEmail = (b: ValidationBuilder<unknown, string>, required: boolean): void => {
       b.invalid(x => required && !x, "Укажите email", "submit");
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
     };
 
     const validate = createValidator<string>(b => {

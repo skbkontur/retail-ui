@@ -50,7 +50,7 @@ const validate = createValidator<ContactInfo>((b) => {
     (x) => x.email,
     (b) => {
       b.invalid((x) => !x, 'Укажите адрес почты', 'submit');
-      b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]{2,}$/.test(x), 'Неверный адрес почты');
+      b.invalid((x) => !x.includes('@'), 'Неверный адрес почты');
     },
   );
   b.prop(
