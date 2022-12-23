@@ -19,9 +19,9 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Autocomplete.styles';
+import { relinkAutocompleteTheme } from './relinkAutocompleteTheme';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -183,11 +183,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = relinkAutocompleteTheme(theme);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Provider value={this.theme}>
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                {this.renderMain}
+              </CommonWrapper>
+            </ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
@@ -253,10 +255,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     if (!items || items.length === 0) {
       return null;
     }
-    const offsetY = isTheme2022(this.theme) ? 4 : 1;
 
     return (
-      <DropdownContainer offsetY={offsetY} getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
+      <DropdownContainer getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );

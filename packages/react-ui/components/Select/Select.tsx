@@ -37,6 +37,7 @@ import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
+import { relinkSelectTheme } from './relinkSelectTheme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -224,7 +225,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = relinkSelectTheme(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
@@ -442,12 +443,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
 
-    const offsetY = isTheme2022(this.theme) ? 4 : -1;
-
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
-        offsetY={offsetY}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}

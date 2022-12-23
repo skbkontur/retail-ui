@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
@@ -9,7 +8,8 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+
+import { relinkDropdownMenuTheme } from './relinkDropdownMenuTheme';
 
 export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   /** Максимальная высота меню */
@@ -87,16 +87,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupMargin: isTheme2022(theme) ? '4px' : '0px',
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Provider value={relinkDropdownMenuTheme(theme)}>{this.renderMain()}</ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>

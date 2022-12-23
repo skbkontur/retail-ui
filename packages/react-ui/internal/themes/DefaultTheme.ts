@@ -624,6 +624,7 @@ export class DefaultTheme {
   public static get selectBorderColorDisabled() {
     return this.btnDisabledBorderColor;
   }
+  public static selectMenuOffsetY = '-1px';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
@@ -865,6 +866,7 @@ export class DefaultTheme {
   public static get datePickerOpenBtnColor() {
     return this.textColorDefault;
   }
+  public static datePickerMenuOffsetY = '2px';
   public static get pickerBg() {
     return this.bgSecondary;
   }
@@ -986,6 +988,9 @@ export class DefaultTheme {
     //deprecated
     return this.bgActive;
   }
+  public static get dropdownMenuMenuOffsetY() {
+    return this.menuOffsetY;
+  }
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -998,6 +1003,7 @@ export class DefaultTheme {
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
   public static menuPaddingX = '0px';
+  public static menuOffsetY = '0px';
   // menuItem
   public static get menuItemTextColor() {
     return this.textColorDefault;
@@ -1842,6 +1848,14 @@ export class DefaultTheme {
 
   //#region InternalMenu
   public static internalMenuPaddingY = '5px';
+  //#endregion
+
+  //#region Autocomplete
+  public static autocompleteMenuOffsetY = '1px';
+  //#endregion
+
+  //#region Combobox
+  public static comboboxMenuOffsetY = '1px';
   //#endregion
 }
 

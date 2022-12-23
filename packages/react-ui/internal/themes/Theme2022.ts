@@ -206,6 +206,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectIconGapLarge() {
     return this.inputIconGapLarge;
   }
+  public static get selectMenuOffsetY() {
+    return this.menuOffsetY;
+  }
   //#endregion
 
   //#region FileUploader
@@ -260,6 +263,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static menuBorderRadius = '8px';
   public static menuPaddingX = '4px';
+  public static menuOffsetY = '4px';
   public static menuItemHoverBg = '#F6F6F6';
   public static menuItemSelectedBg = '#EBEBEB';
   public static menuItemBorderRadius = '6px';
@@ -309,6 +313,24 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#region InternalMenu
   public static get internalMenuPaddingY() {
     return this.menuPaddingY;
+  }
+  //#endregion
+
+  //#region Autocomplete
+  public static get autocompleteMenuOffsetY() {
+    return this.menuOffsetY;
+  }
+  //#endregion
+
+  //#region DatePicker
+  public static get datePickerMenuOffsetY() {
+    return this.menuOffsetY;
+  }
+  //#endregion
+
+  //#region Combobox
+  public static get comboboxMenuOffsetY() {
+    return this.menuOffsetY;
   }
   //#endregion
 }

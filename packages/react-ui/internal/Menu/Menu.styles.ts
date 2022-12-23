@@ -9,7 +9,9 @@ export const styles = memoizeStyle({
       box-sizing: content-box;
       overflow: auto;
       padding: 0 ${t.menuPaddingX};
+      margin: ${t.menuOffsetY} 0;
       border-radius: ${t.menuBorderRadius};
+      box-shadow: 0 0 0 1px red !important;
     `;
   },
 

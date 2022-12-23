@@ -24,6 +24,7 @@ import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
+import { relinkComboBoxTheme } from './relinkComboBoxTheme';
 
 interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -154,8 +155,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+          this.theme = relinkComboBoxTheme(theme);
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
@@ -217,14 +218,11 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private renderMenu = () => {
     const { menuAlign, opened } = this.props;
 
-    const offsetY = isTheme2022(this.theme) ? 4 : 1;
-
     return (
       opened && (
         <DropdownContainer
           align={menuAlign}
           getParent={this.getParent}
-          offsetY={offsetY}
           disablePortal={this.props.disablePortal}
           ref={this.dropdownContainerRef}
         >
