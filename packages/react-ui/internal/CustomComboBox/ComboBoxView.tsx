@@ -21,7 +21,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 
-interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'pos'>, CommonProps {
+interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -199,12 +199,12 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderMenu = () => {
-    const { menuAlign, opened, pos } = this.props;
+    const { menuAlign, opened, menuPos } = this.props;
 
     return (
       opened && (
         <DropdownContainer
-          pos={pos}
+          menuPos={menuPos}
           align={menuAlign}
           getParent={this.getParent}
           offsetY={1}

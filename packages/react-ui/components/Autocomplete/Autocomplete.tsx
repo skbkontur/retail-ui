@@ -41,7 +41,7 @@ function renderItem(item: any) {
 
 export interface AutocompleteProps
   extends CommonProps,
-    Pick<DropdownContainerProps, 'pos'>,
+    Pick<DropdownContainerProps, 'menuPos'>,
     Override<
       InputProps,
       {
@@ -241,7 +241,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal, pos } =
+    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal, menuPos } =
       this.getProps();
     const menuProps = {
       ref: this.refMenu,
@@ -260,7 +260,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         getParent={this.getAnchor}
         align={menuAlign}
         disablePortal={disablePortal}
-        pos={pos}
+        menuPos={menuPos}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>

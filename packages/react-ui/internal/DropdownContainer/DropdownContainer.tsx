@@ -30,7 +30,7 @@ export interface DropdownContainerProps {
   /**
    * Позволяет вручную задать текущую позицию выпадающего окна
    */
-  pos?: 'top' | 'bottom';
+  menuPos?: 'top' | 'bottom';
 }
 
 export interface DropdownContainerState {
@@ -158,7 +158,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         left,
         right,
         bottom,
-        ...getManualPosition({ pos: this.props.pos, target, offsetY, clientHeight, scrollY }),
+        ...getManualPosition({ menuPos: this.props.menuPos, target, offsetY, clientHeight, scrollY }),
       };
 
       this.setState({

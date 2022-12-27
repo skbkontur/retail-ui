@@ -68,7 +68,7 @@ type SelectItem<TValue, TItem> =
   | React.ReactElement
   | (() => React.ReactElement);
 
-export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'pos'> {
+export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -445,7 +445,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
-        pos={this.props.pos}
+        menuPos={this.props.menuPos}
       >
         <Menu
           ref={this.refMenu}

@@ -17,25 +17,25 @@ export const getTopAlignment = ({
 
 interface ManualPositionFuncArgs
   extends Required<Pick<DropdownContainerProps, 'offsetY'>>,
-    Pick<DropdownContainerProps, 'pos'> {
+    Pick<DropdownContainerProps, 'menuPos'> {
   target: Element;
   clientHeight: number;
   scrollY: number;
 }
 
-export const getManualPosition = ({ pos, target, offsetY, clientHeight }: ManualPositionFuncArgs) => {
-  if (!pos) {
+export const getManualPosition = ({ menuPos, target, offsetY, clientHeight }: ManualPositionFuncArgs) => {
+  if (!menuPos) {
     return undefined;
   }
 
-  if (pos === 'top') {
+  if (menuPos === 'top') {
     return {
       top: null,
       bottom: getTopAlignment({ clientHeight, offsetY, scrollY, target }),
     };
   }
 
-  if (pos === 'bottom') {
+  if (menuPos === 'bottom') {
     return { top: scrollY + getDOMRect(target).top + target.clientHeight + offsetY };
   }
 };

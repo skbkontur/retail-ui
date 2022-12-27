@@ -31,7 +31,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps extends Pick<DropdownContainerProps, 'pos'>, CommonProps {
+export interface DatePickerProps extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -261,7 +261,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     if (this.state.opened) {
       picker = (
         <DropdownContainer
-          pos={this.props.pos}
+          menuPos={this.props.menuPos}
           data-tid={DatePickerDataTids.root}
           getParent={this.getParent}
           offsetY={2}

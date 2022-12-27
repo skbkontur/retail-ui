@@ -16,7 +16,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'pos'>, CommonProps {
+export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -249,7 +249,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       menuAlign: this.props.menuAlign,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
-      pos: this.props.pos,
+      menuPos: this.props.menuPos,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,
