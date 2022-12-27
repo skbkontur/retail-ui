@@ -807,6 +807,7 @@ export class DefaultTheme {
   public static mobileSidePageHeaderLineHeight = '32px';
   public static mobileSidePageHeaderPaddingBottom = '16px';
   public static mobileSidePageHeaderPaddingTop = '16px';
+  public static sidePageHeaderFontWeight = '';
   //#endregion
   //#region DateInput
   public static get dateInputIconColor() {

@@ -338,6 +338,22 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.menuOffsetY;
   }
   //#endregion
+
+  //#region SidePage
+  public static sidePageBgDefault = '#fff';
+  public static sidePageFooterPaddingTop = '20px';
+  public static sidePageFooterPaddingBottom = '20px';
+  public static get sidePageFooterPanelBg() {
+    return this.sidePageBgDefault;
+  }
+  public static get sidePageFooterPanelPaddingTop() {
+    return this.sidePageFooterPaddingTop;
+  }
+  public static get sidePageFooterPanelPaddingBottom() {
+    return this.sidePageFooterPanelPaddingTop;
+  }
+  public static sidePageHeaderFontWeight = 'bold';
+  //#endregion
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(
