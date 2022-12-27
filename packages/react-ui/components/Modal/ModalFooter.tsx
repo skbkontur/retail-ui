@@ -65,7 +65,7 @@ function ModalFooter(props: ModalFooterProps) {
   const renderContent = (fixed = false) => {
     return (
       <>
-        <ModalSeparator fixed={fixed} />
+        {(panel || fixed) && <ModalSeparator fixed={fixed} />}
         <div
           data-tid={ModalFooterDataTids.root}
           className={cx(

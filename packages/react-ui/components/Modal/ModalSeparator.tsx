@@ -10,12 +10,12 @@ export interface ModalSeparatorProps extends CommonProps {
   fixed?: boolean;
 }
 
-export function ModalSeparator(props: ModalSeparatorProps) {
+export function ModalSeparator({ fixed }: ModalSeparatorProps) {
   const theme = useContext(ThemeContext);
 
   return (
     <div className={styles.modalSeparatorWrapper()}>
-      <div className={cx({ [styles.modalSeparator(theme)]: true, [styles.modalSeparatorFixed()]: props.fixed })} />
+      <div className={cx(styles.modalSeparator(theme), fixed && styles.modalSeparatorFixed())} />
     </div>
   );
 }

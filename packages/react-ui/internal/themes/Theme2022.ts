@@ -161,7 +161,16 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.04)';
   public static modalBorderRadius = '16px';
   public static fixedPanelShadow = 'none';
-  public static modalFooterBg = '#fff';
+  public static get modalFooterBg() {
+    return this.modalBg;
+  }
+  public static get modalFooterPanelPaddingTop() {
+    return this.modalFooterPaddingTop;
+  }
+  public static get modalFooterPanelPaddingBottom() {
+    return this.modalFooterPaddingBottom;
+  }
+  public static modalFixedPanelShadow = 'none';
   // public static modalFixedHeaderBorder = '1px solid #EBEBEB';
   // public static modalFixedFooterBorder = '1px solid #EBEBEB';
   public static modalFooterPaddingTop = '20px';
