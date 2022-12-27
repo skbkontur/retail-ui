@@ -1226,14 +1226,14 @@ MobileSimple.parameters = {
 };
 
 export const WithManualPosition: Story = () => {
-  const [pos, setPos] = React.useState<'top' | 'bottom'>('top');
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
   const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <SimpleCombobox disablePortal={isPortalDisabled} pos={pos} />
-      <button data-tid="pos" onClick={() => setPos(pos === 'top' ? 'bottom' : 'top')}>
-        change pos to {pos === 'top' ? 'bottom' : 'top'}
+      <SimpleCombobox disablePortal={isPortalDisabled} menuPos={menuPos} />
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
       </button>
       <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
         {isPortalDisabled ? 'enable' : 'disable'} portal

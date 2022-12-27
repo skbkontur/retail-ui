@@ -251,13 +251,13 @@ MobileSimple.parameters = {
 };
 
 export const WithManualPosition: Story = () => {
-  const [pos, setPos] = React.useState<'top' | 'bottom'>('top');
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <UncontrolledAutocomplete pos={pos} source={['One', 'Two', 'Three']} />
-      <button data-tid="pos" onClick={() => setPos(pos === 'top' ? 'bottom' : 'top')}>
-        change pos to {pos === 'top' ? 'bottom' : 'top'}
+      <UncontrolledAutocomplete menuPos={menuPos} source={['One', 'Two', 'Three']} />
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
       </button>
     </div>
   );

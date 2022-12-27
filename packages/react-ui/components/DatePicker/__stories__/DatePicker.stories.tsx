@@ -401,7 +401,7 @@ DatePickerInRelativeBody.parameters = {
 };
 
 export const WithManualPosition: Story = () => {
-  const [pos, setPos] = useState<'top' | 'bottom'>('top');
+  const [menuPos, setMenuPos] = useState<'top' | 'bottom'>('top');
   const [isRelative, toggleIsRelative] = useState(false);
   const relativeClassName = 'relative';
 
@@ -418,12 +418,12 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '350px', paddingBottom: '300px' }}>
-      <DatePicker pos={pos} value="02.07.2017" onValueChange={emptyHandler} />
+      <DatePicker menuPos={menuPos} value="02.07.2017" onValueChange={emptyHandler} />
       <button data-tid="relative" onClick={onClick}>
         {isRelative ? 'With' : 'Without'} relative position
       </button>
-      <button data-tid="pos" onClick={() => setPos(pos === 'top' ? 'bottom' : 'top')}>
-        change pos to {pos === 'top' ? 'bottom' : 'top'}
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
       </button>
     </div>
   );
