@@ -4,10 +4,15 @@ import React from 'react';
 import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
 import { RenderErrorMessage } from './ValidationWrapperInternal';
 
-export function tooltip(pos: TooltipPosition): RenderErrorMessage {
+export interface ErrorRendererOptions {
+  dataTid: string;
+}
+
+export function tooltip(pos: TooltipPosition, options?: ErrorRendererOptions): RenderErrorMessage {
   return (control, hasError, validation) => {
     return (
       <ValidationTooltip
+        data-tid={options?.dataTid}
         pos={pos}
         error={hasError}
         render={() => {
@@ -23,11 +28,12 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
   };
 }
 
-export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
+// eslint-disable-next-line default-param-last
+export function text(pos: 'bottom' | 'right' = 'right', options?: ErrorRendererOptions): RenderErrorMessage {
   if (pos === 'right') {
     return (control, _hasError, validation) => {
       return (
-        <span style={{ display: 'inline-block' }}>
+        <span data-tid={options?.dataTid} style={{ display: 'inline-block' }}>
           {control}
           <span data-validation-message="text" style={{ marginLeft: '10px', color: '#d43517' }}>
             {(validation && validation.message) || ''}
@@ -38,7 +44,7 @@ export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
   }
   return (control, _hasError, validation) => {
     return (
-      <span style={{ position: 'relative', display: 'inline-block' }}>
+      <span data-tid={options?.dataTid} style={{ position: 'relative', display: 'inline-block' }}>
         {control}
         <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
           <span
