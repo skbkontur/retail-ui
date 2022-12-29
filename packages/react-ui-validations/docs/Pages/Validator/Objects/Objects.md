@@ -23,7 +23,7 @@ Validator позволяет декларативно описать все ва
       });
       b.prop(x => x.email, b => {
         b.invalid(x => !x, "Укажите email", "submit");
-        b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+        b.invalid(x => !x.includes('@'), "Неверный формат email");
       });
     });
 
@@ -58,7 +58,7 @@ Validator позволяет декларативно описать все ва
 
     b.prop(x => x.email, b => {
       b.invalid(x => !x, "Укажите email", "submit");
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
     });
 
 ### Получение объектов валидаций
@@ -88,7 +88,7 @@ Validator позволяет декларативно описать все ва
 
     const validateEmail = createValidator<string>(b => {
       b.invalid(x => !x, "Укажите email", "submit");
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
     });
 
 Объект валидации извлекается из корневого узла дерева валидаций.
@@ -125,7 +125,7 @@ Validator позволяет декларативно описать все ва
       });
       b.prop(x => x.email, b => {
         b.invalid(x => !x, "Укажите email", "submit");
-        b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), "Неверный формат email");
+        b.invalid(x => !x.includes('@'), "Неверный формат email");
       });
     });
 
