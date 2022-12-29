@@ -537,7 +537,8 @@ export class DefaultTheme {
     return this.textColorDisabledContrast;
   }
   public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04)';
-  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.08)';
+  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.1) !important';
+  public static btnTextActiveBg = 'rgba(0, 0, 0, 0.1)';
 
   public static btnWithIconPaddingLeftSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
