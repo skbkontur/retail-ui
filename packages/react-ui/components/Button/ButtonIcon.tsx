@@ -35,16 +35,25 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   };
 
   const type = isTheme2022(theme) ? size : 'mini';
+  const space = isTheme2022(theme) ? String.fromCharCode(8203) : '';
+  const style: React.CSSProperties = isTheme2022(theme)
+    ? {
+        display: 'inline-flex',
+        alignItems: 'center',
+      }
+    : {};
 
   const spinnerNode = () => <Spinner caption={null} dimmed type={type} />;
 
   return (
     <span
+      style={style}
       className={cx(styles.icon(), getSizeIconClassName(), {
         [styles.iconNoRightMargin()]: !hasChildren,
         [styles.iconLink(theme)]: isLink,
       })}
     >
+      {space}
       {loading ? spinnerNode() : icon}
     </span>
   );
