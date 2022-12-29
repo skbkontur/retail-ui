@@ -160,6 +160,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#region Modal
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.04)';
   public static modalBorderRadius = '16px';
+  public static modalBodyBorderRadius = '0px';
   public static fixedPanelShadow = 'none';
   public static get modalFooterBg() {
     return this.modalBg;

@@ -214,6 +214,7 @@ export const styles = memoizeStyle({
 
   body(t: Theme) {
     return css`
+      border-radius: ${t.modalBodyBorderRadius};
       padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalBodyTextColor};
     `;

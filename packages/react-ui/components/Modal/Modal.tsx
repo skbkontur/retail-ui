@@ -25,6 +25,7 @@ import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
 import { styles } from './Modal.styles';
+import { relinkModalTheme } from './relinkModalTheme';
 
 let mountedModalsCount = 0;
 
@@ -160,8 +161,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+          this.theme = relinkModalTheme(theme);
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );

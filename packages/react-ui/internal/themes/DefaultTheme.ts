@@ -317,6 +317,7 @@ export class DefaultTheme {
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
   public static loaderOpacity = '0.8';
+  public static loaderBorderRadius = '0px';
   //#endregion
   //#region Button
   public static btnBackgroundClip = 'padding-box';
@@ -738,6 +739,7 @@ export class DefaultTheme {
   public static modalBodyTextColor = 'inherit';
   public static modalFooterTextColor = 'inherit';
   public static modalBodyPaddingBottom = '24px';
+  public static modalBodyBorderRadius = '0px';
   public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '32px';
   public static modalPaddingBottom = '40px';
