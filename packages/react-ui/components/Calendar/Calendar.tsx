@@ -3,7 +3,11 @@ import React, { useContext, useRef } from 'react';
 import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { Calendar as CalendarInternal, CalendarDateShape } from '../../internal/Calendar';
+import {
+  Calendar as CalendarInternal,
+  CalendarProps as CalendarInternalProps,
+  CalendarDateShape,
+} from '../../internal/Calendar';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../../internal/CommonWrapper';
@@ -12,7 +16,7 @@ import { styles } from './Calendar.styles';
 import { CalendarTodayLink } from './CalendarTodayLink';
 import { getInitialDate, getTodayCalendarDate } from './calendarHelpers';
 
-export interface CalendarProps extends CommonProps {
+export interface CalendarProps extends CommonProps, Pick<CalendarInternalProps, 'hasBottomSeparator'> {
   /**
    * Задаёт текущую дату
    *
@@ -45,6 +49,11 @@ export interface CalendarProps extends CommonProps {
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  /**
+   * Позволяет понять, используется ли компонент в контексте `DatePicker`'а
+   * @ignore
+   */
+  _isDatePicker?: boolean;
 }
 
 export const CalendarDataTids = {
@@ -56,7 +65,10 @@ export const CalendarDataTids = {
  */
 export const Calendar = forwardRefAndName<HTMLDivElement, CalendarProps>(
   'Calendar',
-  ({ onValueChange, minDate, maxDate, isHoliday, enableTodayLink, onSelect, value, className, ...rest }, ref) => {
+  (
+    { onValueChange, minDate, maxDate, isHoliday, enableTodayLink, onSelect, value, className, _isDatePicker, ...rest },
+    ref,
+  ) => {
     const theme = useContext(ThemeContext);
 
     const today = getTodayCalendarDate();
@@ -72,6 +84,7 @@ export const Calendar = forwardRefAndName<HTMLDivElement, CalendarProps>(
     return (
       <div data-tid={CalendarDataTids.root} ref={ref} className={cx(styles.root(theme), className)} {...rest}>
         <CalendarInternal
+          hasBottomSeparator={!_isDatePicker}
           ref={calendarRef}
           value={value}
           initialMonth={date.month}
@@ -81,7 +94,9 @@ export const Calendar = forwardRefAndName<HTMLDivElement, CalendarProps>(
           maxDate={maxDate}
           isHoliday={isHoliday}
         />
-        {enableTodayLink && <CalendarTodayLink calendarRef={calendarRef} onSelect={onSelect} />}{' '}
+        {enableTodayLink && (
+          <CalendarTodayLink _isDatePicker={_isDatePicker} calendarRef={calendarRef} onSelect={onSelect} />
+        )}{' '}
       </div>
     );
   },

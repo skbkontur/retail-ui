@@ -26,6 +26,10 @@ export interface CalendarProps {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  /**
+   * Управляет наличием разделительной линии внизу календаря
+   */
+  hasBottomSeparator?: boolean;
 }
 
 export interface CalendarState {
@@ -53,7 +57,7 @@ const getTodayDate = () => {
   };
 };
 
-type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate'>>;
+type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'hasBottomSeparator'>>;
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
@@ -69,6 +73,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       month: MAX_MONTH,
       date: MAX_DATE,
     },
+    hasBottomSeparator: false,
   };
 
   private getProps = createPropsGetter(Calendar.defaultProps);
@@ -222,15 +227,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private renderMain = () => {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
+    const { hasBottomSeparator } = this.getProps();
+
     return (
-      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid={CalendarDataTids.root}>
-        <div style={wrapperStyle} className={styles.wrapper()}>
-          {this.state.months
-            .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
-            .map(this.renderMonth, this)}
+      <>
+        <div ref={this.refRoot} className={styles.root(this.theme)} data-tid={CalendarDataTids.root}>
+          <div style={wrapperStyle} className={styles.wrapper()}>
+            {this.state.months
+              .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
+              .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
+              .map(this.renderMonth, this)}
+          </div>
         </div>
-      </div>
+        {hasBottomSeparator && <div className={styles.separator(this.theme)} />}
+      </>
     );
   };
 

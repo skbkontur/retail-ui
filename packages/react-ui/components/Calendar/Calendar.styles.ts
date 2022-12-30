@@ -8,13 +8,12 @@ export const styles = memoizeStyle({
       display: inline-block;
     `;
   },
-  todayWrapper(t: Theme) {
+  todayLinkWrapper(t: Theme) {
     const width = parseInt(t.calendarCellSize) * 7 + parseInt(t.calendarPaddingX) * 2;
 
     return css`
       background-color: ${t.pickerTodayWrapperBgColor};
       border: none;
-      border-top: ${t.pickerTodayWrapperBorderTop};
       color: ${t.linkColor};
       display: block;
       font-size: ${t.pickerTodayWrapperFontSize};
@@ -32,6 +31,11 @@ export const styles = memoizeStyle({
       &:active {
         color: ${t.linkActiveColor};
       }
+    `;
+  },
+  todayLinkSeparator(t: Theme) {
+    return css`
+      border-top: ${t.pickerTodayWrapperBorderTop};
     `;
   },
 });

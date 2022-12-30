@@ -1,5 +1,6 @@
 import React, { RefObject, useContext } from 'react';
 
+import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
@@ -12,7 +13,7 @@ import { CalendarProps } from './Calendar';
 import { styles } from './Calendar.styles';
 import { handleSelectToday } from './calendarHelpers';
 
-export interface CalendarTodayLinkProps extends Pick<CalendarProps, 'onSelect'> {
+export interface CalendarTodayLinkProps extends Pick<CalendarProps, 'onSelect'>, Pick<CalendarProps, '_isDatePicker'> {
   /**
    * Рефка календаря
    */
@@ -21,7 +22,7 @@ export interface CalendarTodayLinkProps extends Pick<CalendarProps, 'onSelect'> 
 
 export const CalendarTodayLink = forwardRefAndName<HTMLButtonElement, CalendarTodayLinkProps>(
   'CalendarTodayLink',
-  ({ onSelect, calendarRef }, ref) => {
+  ({ onSelect, calendarRef, _isDatePicker }, ref) => {
     const theme = useContext(ThemeContext);
 
     const locale = useLocaleForControl('DatePicker', DatePickerLocaleHelper);
@@ -33,7 +34,10 @@ export const CalendarTodayLink = forwardRefAndName<HTMLButtonElement, CalendarTo
       <button
         ref={ref}
         data-tid="Picker__todayWrapper"
-        className={styles.todayWrapper(theme)}
+        className={cx({
+          [styles.todayLinkWrapper(theme)]: true,
+          [styles.todayLinkSeparator(theme)]: _isDatePicker,
+        })}
         onClick={handleSelectToday(internalDateToday, onSelect, calendarRef)}
         tabIndex={-1}
       >

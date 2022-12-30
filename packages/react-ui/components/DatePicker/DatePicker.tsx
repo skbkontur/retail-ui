@@ -269,6 +269,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           align={this.props.menuAlign}
         >
           <Picker
+            _isDatePicker
             value={date}
             minDate={formattedMinDate}
             maxDate={formattedMaxDate}

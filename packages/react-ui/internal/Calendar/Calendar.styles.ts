@@ -21,4 +21,13 @@ export const styles = memoizeStyle({
       position: relative;
     `;
   },
+
+  separator(t: Theme) {
+    const marginX = parseInt(t.calendarMonthTitleMarginX) + parseInt(t.calendarPaddingX);
+
+    return css`
+      border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
+      margin: 0 ${marginX}px;
+    `;
+  },
 });

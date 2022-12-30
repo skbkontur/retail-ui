@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Calendar } from '../Calendar';
+import { Calendar, CalendarProps } from '../Calendar';
 import { CalendarDateShape } from '../../internal/Calendar';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -9,7 +9,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
 
-interface Props {
+interface PickerProps extends Pick<CalendarProps, '_isDatePicker'> {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   value: Nullable<CalendarDateShape>;
@@ -19,7 +19,7 @@ interface Props {
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
-export class Picker extends React.Component<Props> {
+export class Picker extends React.Component<PickerProps> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
   private theme!: Theme;
