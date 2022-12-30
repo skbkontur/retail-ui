@@ -87,7 +87,7 @@ const isValidKpp = (value: string): boolean => {
 };
 
 const isValidEmail = (value: string): boolean => {
-  return /^[a-z]+@[a-z]+\.[a-z]{2,}$/.test(value);
+  return value.includes('@');
 };
 
 const isValidPhone = (value: string): boolean => {
