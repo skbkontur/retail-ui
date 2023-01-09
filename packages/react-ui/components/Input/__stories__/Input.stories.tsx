@@ -1,40 +1,24 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
+import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { CreeveyTests, Meta, Story } from '../../../typings/stories';
-import { Input, InputProps, InputSize } from '../Input';
+import { Meta, Story } from '../../../typings/stories';
+import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Input',
-  parameters: {
-    creevey: {
-      //skip: { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/, tests: 'idle, focus, edit, blur', reason: `themes don't affect logic` },
-    },
-  },
+  title: 'Input/Static tests',
 } as Meta;
 
 type InputState = Partial<InputProps>;
 
-const sizeStates: InputState[] = [
-  { size: 'small' },
-  { size: 'medium' },
-  { size: 'large' },
-];
+const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
-const inputDefaultState: InputState[] = [
-  {},
-  { defaultValue: 'Value' }
-];
+const inputDefaultState: InputState[] = [{}, { defaultValue: 'Value' }];
 
-const inputWidthStates: InputState[] = [
-  { width: 'auto' },
-  { width: '100px' },
-  { width: '350px' }
-];
+const inputWidthStates: InputState[] = [{}, { width: '100px' }, { width: '350px' }];
 
 export const Align: Story = () => (
   <ComponentTable
@@ -45,11 +29,7 @@ export const Align: Story = () => (
   />
 );
 
-const alignStates: InputState[] = [
-  { align: 'center' },
-  { align: 'left' },
-  { align: 'right' },
-];
+const alignStates: InputState[] = [{ align: 'center' }, { align: 'left' }, { align: 'right' }];
 
 const alignDifferentStates: InputState[] = [
   {},
@@ -62,7 +42,7 @@ const alignDifferentStates: InputState[] = [
   { rightIcon: <SearchIcon />, prefix: 'PR' },
   { rightIcon: <SearchIcon />, suffix: 'SF' },
   { leftIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
-  { rightIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' }
+  { rightIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
 ];
 
 export const AlwaysShowMask: Story = () => (
@@ -70,7 +50,7 @@ export const AlwaysShowMask: Story = () => (
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={alwaysShowMaskStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: "(***) ***-**-**" }}
+    presetProps={{ mask: '(***) ***-**-**' }}
   />
 );
 
@@ -92,9 +72,7 @@ export const Borderless: Story = () => (
   />
 );
 
-const borderlessStates: InputState[] = [
-  {},
-];
+const borderlessStates: InputState[] = [{}];
 
 export const Disabled: Story = () => (
   <ComponentTable
@@ -113,7 +91,7 @@ const disabledStates: InputState[] = [
   { leftIcon: <SearchIcon /> },
   { rightIcon: <SearchIcon /> },
   { prefix: 'PR' },
-  { suffix: 'SF' }
+  { suffix: 'SF' },
 ];
 
 export const Error: Story = () => (
@@ -124,11 +102,7 @@ export const Error: Story = () => (
     presetProps={{ error: true }}
   />
 );
-const errorStates: InputState[] = [
-  {},
-  { borderless: true },
-  { disabled: true, },
-];
+const errorStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
 
 export const LeftIcon: Story = () => (
   <ComponentTable
@@ -148,11 +122,7 @@ export const RightIcon: Story = () => (
   />
 );
 
-const iconsStates: InputState[] = [
-  {},
-  { defaultValue: 'Value' },
-  { disabled: true, },
-];
+const iconsStates: InputState[] = [{}, { defaultValue: 'Value' }, { disabled: true }];
 
 export const Mask: Story = () => (
   <ComponentTable
@@ -164,11 +134,10 @@ export const Mask: Story = () => (
 );
 
 const maskStates: InputState[] = [
-  { mask: "**** **********", alwaysShowMask: true },
-  { mask: "**** **********", maskChar: '*', alwaysShowMask: true },
-  { mask: "*** ***", maskChar: '_', defaultValue: 'Value' },
-  { mask: "*** ***", maskChar: '_', defaultValue: 'Value', alwaysShowMask: true }
-
+  { mask: '**** **********', alwaysShowMask: true },
+  { mask: '**** **********', maskChar: '*', alwaysShowMask: true },
+  { mask: '*** ***', maskChar: '_', defaultValue: 'Value' },
+  { mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
 ];
 
 export const Placeholder: Story = () => (
@@ -180,10 +149,7 @@ export const Placeholder: Story = () => (
   />
 );
 
-const placeholderStates: InputState[] = [
-  {},
-  { disabled: true }
-];
+const placeholderStates: InputState[] = [{}, { disabled: true }];
 
 export const Prefix: Story = () => (
   <ComponentTable
@@ -285,11 +251,7 @@ export const Warning: Story = () => (
   />
 );
 
-const warningStates: InputState[] = [
-  {},
-  { borderless: true },
-  { disabled: true, },
-];
+const warningStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
 
 export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
 
@@ -339,328 +301,3 @@ export const BlinkingByButton: Story = () => {
   return <Sample />;
 };
 BlinkingByButton.parameters = { creevey: { skip: true } };
-
-const inputTests: CreeveyTests = {
-  async 'Plain'() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-  },
-  async 'Focused'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-  },
-  async 'With typed text'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .sendKeys('Test...')
-      .pause(500)
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('With typed text');
-  },
-  async 'With long typed text'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .sendKeys('Test...')
-      .sendKeys(
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      )
-      .pause(500)
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('With long typed text small');
-  },
-};
-
-export const PlaygroundDefault: Story = () => (
-  <Input />
-);
-
-PlaygroundDefault.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: inputTests,
-  },
-};
-
-export const PlaygroundDisabled: Story = () => (
-  <Input disabled />
-);
-
-PlaygroundDisabled.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: inputTests,
-  },
-};
-
-const testMaskedInput: CreeveyTests = {
-  async 'idle, focus, edit, blur'() {
-    const click = (css: string) => {
-      return this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css }));
-    };
-
-    const idle = await this.takeScreenshot();
-
-    await click('input').perform();
-    const focused = await this.takeScreenshot();
-
-    await click('input').sendKeys('953').perform();
-    const edited = await this.takeScreenshot();
-
-    await click('body').perform();
-    const blured = await this.takeScreenshot();
-
-    await this.expect({ idle, focused, edited, blured }).to.matchImages();
-  },
-};
-
-export const PlaygroungMask: Story = () => (
-  <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
-);
-PlaygroungMask.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: testMaskedInput,
-  },
-};
-
-export const PlaygroundMaskAndCustomUnmaskedValue: Story = () => {
-  const [value, setValue] = useState('+795');
-
-  return (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-      value={value}
-      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
-    />
-  );
-};
-
-PlaygroundMaskAndCustomUnmaskedValue.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: testMaskedInput,
-  },
-};
-
-export const PlaygroundMaskSelectAllOnFocus: Story = () => {
-  const inputRef = React.useRef<Input>(null);
-  const [value, setValue] = React.useState('11');
-  const selectAll = React.useCallback(() => {
-    inputRef.current?.selectAll();
-  }, [inputRef.current]);
-  return (
-    <div>
-      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
-    </div>
-  );
-};
-PlaygroundMaskSelectAllOnFocus.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: {
-      async PlainAndSelected() {
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .pause(500)
-          .perform();
-        const selectAllHalfFilledInput = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('1111')
-          .click(this.browser.findElement({ css: 'body' }))
-          .click(this.browser.findElement({ css: 'input' }))
-          .pause(500)
-          .perform();
-        const selectAllFilledInput = await this.takeScreenshot();
-        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
-      },
-    },
-  },
-};
-
-export const PlaygroundSelectAllByButton: Story = () => {
-  let input: Input | null = null;
-
-  const selectAll = () => {
-    if (input) {
-      input.selectAll();
-    }
-  };
-
-  return (
-    <div>
-      <div>
-        <Input ref={(element) => (input = element)} defaultValue="Some value" /><button onClick={selectAll}>Select all</button>
-      </div>
-    </div>
-  );
-};
-
-PlaygroundSelectAllByButton.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async Selected() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
-      },
-    },
-  },
-};
-
-const plainAndTypedTests: CreeveyTests = {
-  async Plain() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-  },
-  async Typed() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .sendKeys('text')
-      .perform();
-    const typed = await this.takeScreenshot();
-    await this.expect({ typed }).to.matchImages();
-  },
-};
-
-export const PlaygroundUncontrolledInputWithPlaceholder: Story = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_value, setValue] = React.useState<string>();
-  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
-};
-
-PlaygroundUncontrolledInputWithPlaceholder.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: plainAndTypedTests,
-  },
-}
-
-export const PlaygroundMaxLength: Story = () => <Input maxLength={3} placeholder="maxLength={3}" />;
-
-PlaygroundMaxLength.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: plainAndTypedTests,
-  },
-};
-
-
-// const styles = {
-//   display: 'inline-block',
-//   verticalAlign: 'middle',
-//   minWidth: '90px',
-//   padding: '5px',
-// };
-
-// export const PlaygroundPrefixAndSuffixSmall: Story = () => <PlaygroundInputWithPrefixSuffix size="small" />;
-
-// PlaygroundPrefixAndSuffixSmall.parameters = {
-//   creevey: {
-//     skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-//     tests: {
-//       async Plain() {
-//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
-//         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-//       },
-//       async 'First input focused'() {
-//         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
-//         await this.browser
-//           .actions({
-//             bridge: true,
-//           })
-//           .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small input' }))
-//           .perform();
-//         await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-//       },
-//     },
-//   },
-// };
-
-// function PlaygroundInputWithPrefixSuffix({ size }: { size: InputSize }) {
-//   return (
-//     <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
-//       <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
-//       <div>
-//         <div style={{ ...styles, width: 100 }}>Prefix</div>
-//         <div style={styles}>
-//           <Input size={size} prefix="Prefix" placeholder="Placeholder" />
-//         </div>
-//         <div style={styles}>
-//           <Input size={size} prefix="Prefix" defaultValue="Value" />
-//         </div>
-//       </div>
-//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
-//         <div style={{ ...styles, width: 100 }}>Suffix</div>
-//         <div style={styles}>
-//           <Input size={size} suffix="suffix" placeholder="Placeholder" />
-//         </div>
-//         <div style={styles}>
-//           <Input size={size} suffix="suffix" defaultValue="Value" />
-//         </div>
-//       </div>
-//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
-//         <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
-//         <div style={styles}>
-//           <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-//         </div>
-//         <div style={styles}>
-//           <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-//         </div>
-//       </div>
-//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
-//         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
-//         <div style={styles}>
-//           <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-//         </div>
-//         <div style={styles}>
-//           <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-//         </div>
-//       </div>
-//       <div style={{ display: 'flex', alignItems: 'baseline' }}>
-//         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
-//         <div style={styles}>
-//           <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-//         </div>
-//         <div style={styles}>
-//           <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
