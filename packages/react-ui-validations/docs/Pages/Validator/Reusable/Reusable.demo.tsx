@@ -17,7 +17,7 @@ interface ReusableDemoState {
 }
 
 const isValidEmail = (value: string): boolean => {
-  return /^[a-z]+@[a-z]+\.[a-z]+$/.test(value);
+  return value.includes('@');
 };
 
 const emailRequired = (b: ValidationBuilder<unknown, string>): void => {
