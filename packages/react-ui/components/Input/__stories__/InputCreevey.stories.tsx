@@ -128,7 +128,6 @@ WithMaskAndCustomUnmaskedValue.parameters = {
 };
 
 export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
-SelectAllByProp.storyName = 'Select all by prop';
 
 SelectAllByProp.parameters = {
   creevey: {
@@ -188,13 +187,13 @@ SelectAllByButton.parameters = {
   },
 };
 
-export const MaxLengthAttr: Story = () => (
+export const MaxLength: Story = () => (
   <div id="input">
     <Input maxLength={3} placeholder="maxLength={3}" />
   </div>
 );
 
-MaxLengthAttr.parameters = { creevey: { tests: differentStatesTest, } };
+MaxLength.parameters = { creevey: { tests: differentStatesTest, } };
 
 export const UncontrolledInputWithPlaceholder: Story = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

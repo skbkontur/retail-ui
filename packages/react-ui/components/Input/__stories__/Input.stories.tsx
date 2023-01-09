@@ -253,27 +253,6 @@ export const Warning: Story = () => (
 
 const warningStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
 
-export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
-
-SelectAllByProp.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async Focused() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
-    },
-  },
-};
-
 export const BlinkingByButton: Story = () => {
   class Sample extends React.Component {
     private input: Input | null = null;
