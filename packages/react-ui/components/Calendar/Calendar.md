@@ -31,6 +31,27 @@ const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
 ```
 
 
+Календарю можно задать кастомную высоту, с помощью переменной `calendarWrapperHeight`
+- Базовая высота календаря - `330px`
+- Максимальная высота календаря - `450px`
+```jsx harmony
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+
+const [value, setValue] = React.useState({ year: 2021, month: 11, date: 1 });
+const theme = React.useContext(ThemeContext);
+
+<ThemeContext.Provider
+  value={ThemeFactory.create({ calendarWrapperHeight: '450px' }, theme)}
+  >
+  <Calendar
+    value={value}
+    onValueChange={setValue}
+  />
+</ThemeContext.Provider>
+```
+
+
 #### Локали по умолчанию
 
 ```typescript static
