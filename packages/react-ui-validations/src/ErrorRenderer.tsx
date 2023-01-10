@@ -4,11 +4,11 @@ import React from 'react';
 import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
 import { RenderErrorMessage } from './ValidationWrapperInternal';
 
-export interface ErrorRendererOptions {
+export interface RenderErrorOptions {
   dataTid: string;
 }
 
-export function tooltip(pos: TooltipPosition, options?: ErrorRendererOptions): RenderErrorMessage {
+export function tooltip(pos: TooltipPosition, options?: RenderErrorOptions): RenderErrorMessage {
   return (control, hasError, validation) => {
     return (
       <ValidationTooltip
@@ -29,7 +29,7 @@ export function tooltip(pos: TooltipPosition, options?: ErrorRendererOptions): R
 }
 
 // eslint-disable-next-line default-param-last
-export function text(pos: 'bottom' | 'right' = 'right', options?: ErrorRendererOptions): RenderErrorMessage {
+export function text(pos: 'bottom' | 'right' = 'right', options?: RenderErrorOptions): RenderErrorMessage {
   if (pos === 'right') {
     return (control, _hasError, validation) => {
       return (
