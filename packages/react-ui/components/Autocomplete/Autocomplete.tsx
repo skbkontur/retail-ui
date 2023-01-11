@@ -255,7 +255,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       return <MenuMessage>{this.locale.notFound}</MenuMessage>;
     }
 
-    if (isNullable(items?.length) && this.props.value) {
+    if (isNullable(items) && this.props.value) {
       return <MenuMessage>{this.locale.updateValue}</MenuMessage>;
     }
 
