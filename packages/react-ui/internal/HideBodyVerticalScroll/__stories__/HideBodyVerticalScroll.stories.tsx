@@ -7,7 +7,7 @@ import { delay } from '../../../lib/utils';
 export default {
   title: 'HideBodyVerticalScroll',
   parameters: {
-    creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+    creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
   },
 } as Meta;
 

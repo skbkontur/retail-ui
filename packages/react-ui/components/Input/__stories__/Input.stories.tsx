@@ -19,7 +19,7 @@ export default {
   title: 'Input',
   parameters: {
     creevey: {
-      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/ },
     },
   },
 } as Meta;
@@ -575,7 +575,7 @@ SelectAllByButton.parameters = {
 
 export const InputWithMaxLengthAttr = () => <Input maxLength={3} placeholder="maxLength={3}" />;
 InputWithMaxLengthAttr.storyName = 'Input with maxLength attr';
-InputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
+InputWithMaxLengthAttr.parameters = { creevey: { skip: true } };
 
 export const ManualBlinking = () => {
   class Sample extends React.Component {
@@ -604,7 +604,7 @@ export const ManualBlinking = () => {
   return <Sample />;
 };
 ManualBlinking.storyName = 'Manual blinking';
-ManualBlinking.parameters = { creevey: { skip: [true] } };
+ManualBlinking.parameters = { creevey: { skip: true } };
 
 export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
 PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
@@ -797,7 +797,7 @@ export const InputWithMaskSelectAll: Story = () => {
 };
 InputWithMaskSelectAll.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
     tests: {
       async PlainAndSelected() {
         const plain = await this.takeScreenshot();
