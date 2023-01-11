@@ -1,8 +1,8 @@
-import { AnyObject, isNonNullable } from '../utils';
+import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 
-export type Marker = (theme: AnyObject) => void;
+export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
 export type Markers = Marker[];
 
 export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
@@ -33,11 +33,13 @@ export const isDarkTheme = (theme: Theme | ThemeIn): boolean => {
 };
 
 export const markAsDarkTheme: Marker = (theme) => {
-  Object.defineProperty(theme, REACT_UI_THEME_MARKERS.darkTheme.key, {
-    value: REACT_UI_THEME_MARKERS.darkTheme.value,
-    writable: false,
-    enumerable: false,
-    configurable: false,
+  return Object.create(theme, {
+    [REACT_UI_THEME_MARKERS.darkTheme.key]: {
+      value: REACT_UI_THEME_MARKERS.darkTheme.value,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    },
   });
 };
 
@@ -51,4 +53,12 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
     }
   }
   return {};
+}
+
+export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
+  let markedTheme: Readonly<Theme> = theme;
+  markers.forEach((marker) => {
+    markedTheme = marker(theme);
+  });
+  return markedTheme;
 }
