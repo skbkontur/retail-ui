@@ -5,7 +5,7 @@ import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
 import { RenderErrorMessage } from './ValidationWrapperInternal';
 
 export interface RenderErrorOptions {
-  dataTid: string;
+  dataTid?: string;
 }
 
 export function tooltip(pos: TooltipPosition, options?: RenderErrorOptions): RenderErrorMessage {
