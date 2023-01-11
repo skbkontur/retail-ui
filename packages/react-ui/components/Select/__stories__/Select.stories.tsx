@@ -270,6 +270,20 @@ MobileWithSearch.parameters = {
     tests: clickedTest,
   },
 };
+MobileWithSearch.decorators = [
+  (Story) => {
+    return (
+      <div
+        style={{
+          width: '475px',
+          height: '100vh',
+        }}
+      >
+        <Story />
+      </div>
+    );
+  },
+];
 
 export const MobileWithTitle: Story = () => (
   <Select
@@ -286,6 +300,20 @@ MobileWithTitle.parameters = {
   },
   skip: { in: /^(?!\bchrome\b)/ },
 };
+MobileWithTitle.decorators = [
+  (Story) => {
+    return (
+      <div
+        style={{
+          width: '475px',
+          height: '100vh',
+        }}
+      >
+        <Story />
+      </div>
+    );
+  },
+];
 
 export const MobileWithTitleAndSearch: Story = () => (
   <Select
@@ -302,6 +330,20 @@ MobileWithTitleAndSearch.parameters = {
     tests: clickedTest,
   },
 };
+MobileWithTitleAndSearch.decorators = [
+  (Story) => {
+    return (
+      <div
+        style={{
+          width: '475px',
+          height: '100vh',
+        }}
+      >
+        <Story />
+      </div>
+    );
+  },
+];
 
 export const MobileWithoutTitleAndSearch: Story = () => (
   <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
@@ -314,6 +356,20 @@ MobileWithoutTitleAndSearch.parameters = {
     tests: clickedTest,
   },
 };
+MobileWithoutTitleAndSearch.decorators = [
+  (Story) => {
+    return (
+      <div
+        style={{
+          width: '475px',
+          height: '100vh',
+        }}
+      >
+        <Story />
+      </div>
+    );
+  },
+];
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
@@ -649,24 +705,7 @@ export default {
   title: 'Select',
   decorators: [
     (Story, context) => {
-      if (
-        [MobileWithSearch, MobileWithTitle, MobileWithTitleAndSearch, MobileWithoutTitleAndSearch].includes(
-          context.originalStoryFn as Story,
-        )
-      ) {
-        return (
-          <div
-            style={{
-              width: '475px',
-              height: '100vh',
-            }}
-          >
-            <Story />
-          </div>
-        );
-      }
-
-      if (context.originalStoryFn !== WithMenuAlignAndVariousWidth) {
+      if (!/mobile/i.test(context.name) && context.originalStoryFn !== WithMenuAlignAndVariousWidth) {
         return (
           <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
             <Story />
