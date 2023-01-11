@@ -1,12 +1,21 @@
-const env: NodeJS.ProcessEnv = (typeof process === 'object' && process && process.env) || {};
-const { enableReactTesting, NODE_ENV, REACT_UI_TEST, REACT_APP_REACT_UI_TEST, STORYBOOK_REACT_UI_TEST } = env;
+// eslint-disable-next-line no-var
+declare var REACT_UI_TEST: unknown;
+
+const isReactUITestDefined = typeof REACT_UI_TEST !== 'undefined';
+const isProcessEnvDefined = typeof process !== 'undefined' && typeof process.env !== 'undefined';
 
 const isReactUITestEnv =
-  Boolean(REACT_UI_TEST) || // for cases when NODE_ENV is not usable (dev/prod)
-  Boolean(REACT_APP_REACT_UI_TEST) || // for usage with CRA
-  Boolean(STORYBOOK_REACT_UI_TEST) || // for usage with storybook
-  Boolean(enableReactTesting); // deprecated, legacy variable
+  (isReactUITestDefined && Boolean(REACT_UI_TEST)) || // when process is not defined (webpack5/vite/etc)
+  (isProcessEnvDefined &&
+    (Boolean(process.env.REACT_UI_TEST) || // when NODE_ENV is not usable (already used for dev/prod)
+      Boolean(process.env.REACT_APP_REACT_UI_TEST) || // for usage with CRA
+      Boolean(process.env.STORYBOOK_REACT_UI_TEST) || // for usage with storybook
+      Boolean(process.env.enableReactTesting))); // deprecated, legacy variable
 
-export const isTestEnv: boolean = NODE_ENV === 'test' || isReactUITestEnv;
-export const isProductionEnv: boolean = NODE_ENV === 'production';
-export const isDevelopmentEnv: boolean = NODE_ENV === 'development';
+const isNodeTestEnv = isProcessEnvDefined && process.env.NODE_ENV === 'test';
+const isNodeProductionEnv = isProcessEnvDefined && process.env.NODE_ENV === 'production';
+const isNodeDevelopmentEnv = isProcessEnvDefined && process.env.NODE_ENV === 'development';
+
+export const isTestEnv: boolean = isNodeTestEnv || isReactUITestEnv;
+export const isProductionEnv: boolean = isNodeProductionEnv;
+export const isDevelopmentEnv: boolean = isNodeDevelopmentEnv;
