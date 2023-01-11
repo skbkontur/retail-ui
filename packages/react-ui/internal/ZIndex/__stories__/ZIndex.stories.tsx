@@ -379,7 +379,9 @@ class HintAndModal extends React.Component {
       <div style={{ padding: '100px' }}>
         {this.state.modalOpened && this.renderModal()}
         <Hint text="Text" opened={this.state.hintOpened} manual>
-          <Button onClick={this.open}>Open</Button>
+          <Button onClick={this.open} data-tid="open-modal">
+            Open
+          </Button>
         </Hint>
       </div>
     );
@@ -432,6 +434,7 @@ class TooltipAndSelect extends React.Component {
             value={'small'}
             items={['small', 'medium', 'large']}
             size={'small'}
+            data-tid="test-select"
           />
         </Tooltip>
       </div>
@@ -739,7 +742,7 @@ HintAndModalStory.parameters = {
       async 'Modal covers hint'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
 
         await this.browser
@@ -792,7 +795,7 @@ TooltipAndSelectStory.parameters = {
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="test-select"]' }))
           .sendKeys('q')
           .perform();
         await delay(1000);

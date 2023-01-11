@@ -17,7 +17,7 @@ class PlainCheckbox extends React.Component {
   public render() {
     const { checked } = this.state;
     return (
-      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked}>
+      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked} data-tid="test-checkbox">
         {this.props.children}
       </Checkbox>
     );
@@ -96,7 +96,7 @@ const checkboxTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'span' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }),
       })
       .perform();
     await delay(1000);
@@ -109,7 +109,7 @@ const checkboxTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'span' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }),
       })
       .press()
       .perform();
@@ -128,7 +128,7 @@ const checkboxTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'span' }))
+      .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await delay(1000);
 
@@ -139,7 +139,7 @@ const checkboxTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'span' }))
+      .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await this.browser
       .actions({
@@ -159,7 +159,7 @@ const checkboxTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'span' }))
+      .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await this.browser
       .actions({
@@ -202,7 +202,11 @@ export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
 Unchecked.storyName = 'unchecked';
 Unchecked.parameters = { creevey: { skip: true } };
 
-export const Checked = () => <Checkbox checked>Checked</Checkbox>;
+export const Checked = () => (
+  <Checkbox checked data-tid="test-checkbox">
+    Checked
+  </Checkbox>
+);
 Checked.storyName = 'checked';
 
 Checked.parameters = {

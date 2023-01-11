@@ -139,7 +139,9 @@ class Sample extends React.Component<SampleProps> {
     return (
       <div>
         {this.state.open && this.renderSidePage()}
-        <Button onClick={this.open}>Open SidePage</Button>
+        <Button onClick={this.open} data-tid="open-side-page">
+          Open SidePage
+        </Button>
       </div>
     );
   }
@@ -406,7 +408,9 @@ class WithVariableContent extends React.Component {
             Use rxjs operators with react hooks
           </div>
         ))}
-        <Button onClick={this.open}>Open</Button>
+        <Button onClick={this.open} data-tid="open-side-page">
+          Open
+        </Button>
       </div>
     );
   }
@@ -626,7 +630,7 @@ SidePageOverAnotherSidePageStory.parameters = {
       async 'open internal side-page'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -637,7 +641,7 @@ SidePageOverAnotherSidePageStory.parameters = {
       async 'close internal side-page'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -662,7 +666,7 @@ StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
       async 'sticky header, open and close internal side-page'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -720,7 +724,7 @@ const simpleTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
       .perform();
     await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
   },
@@ -753,7 +757,7 @@ BodyWithoutFooter.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
@@ -778,7 +782,7 @@ BodyWithoutHeader.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page without header');

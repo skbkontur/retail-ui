@@ -291,7 +291,9 @@ export const SelectAllByButton: Story = () => {
 
   return (
     <div>
-      <Button onClick={handleClick}>Select All</Button>
+      <Button onClick={handleClick} data-tid="select-all">
+        Select All
+      </Button>
       <div>
         <Textarea
           spellCheck={false}
@@ -319,7 +321,7 @@ SelectAllByButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid="select-all"]' }))
           .pause(500)
           .perform();
         await delay(1000);

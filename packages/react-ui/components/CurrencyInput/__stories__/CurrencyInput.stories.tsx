@@ -135,7 +135,9 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
           onValueChange={this.handleChange}
         />
         <div style={{ margin: '15px 0', position: 'absolute' }}>
-          <button onClick={this.handleClickButton}>focus</button>
+          <button onClick={this.handleClickButton} data-tid="focus-input">
+            focus
+          </button>
         </div>
       </div>
     );
@@ -210,7 +212,7 @@ SampleStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="focus-input"]' }))
           .perform();
         await this.browser
           .actions({

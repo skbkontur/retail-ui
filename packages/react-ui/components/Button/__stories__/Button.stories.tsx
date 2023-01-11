@@ -341,7 +341,7 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
@@ -352,7 +352,7 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
       })
       .press()
       .perform();
@@ -369,7 +369,7 @@ const buttonTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
@@ -385,7 +385,7 @@ const buttonTests: CreeveyTests = {
   },
 };
 
-export const PlaygroundDefault = () => <Button>Hello</Button>;
+export const PlaygroundDefault = () => <Button data-tid="test-button">Hello</Button>;
 
 PlaygroundDefault.parameters = {
   creevey: {
@@ -400,7 +400,11 @@ PlaygroundDefault.parameters = {
   },
 };
 
-export const PlaygroundDisabled = () => <Button disabled>Hello</Button>;
+export const PlaygroundDisabled = () => (
+  <Button disabled data-tid="test-button">
+    Hello
+  </Button>
+);
 
 PlaygroundDisabled.parameters = {
   creevey: {

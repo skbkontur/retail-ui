@@ -372,7 +372,9 @@ export const DatePickerInRelativeBody: Story = () => {
 
   return (
     <>
-      <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
+      <Button onClick={onClick} data-tid="toggle-relative-position">
+        {isRelative ? 'With' : 'Without'} relative position
+      </Button>
       <div style={{ padding: `${paddingTop}px 150px 0` }}>
         <DatePicker value="02.07.2017" autoFocus onValueChange={emptyHandler} />
       </div>
@@ -388,7 +390,7 @@ DatePickerInRelativeBody.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
 
