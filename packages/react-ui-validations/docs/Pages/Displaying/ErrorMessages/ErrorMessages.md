@@ -13,10 +13,16 @@
 
 [Описание в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Tultipi)
 
-Отображение сообщения в тултипе задается методом `tooltip`.
-Позиция отображения тултипа задается аргуметом метода.
+Сообщение внутри тултипа рендерится с помощью функции `tooltip`.
 
-    <ValidationWrapper validationInfo={...} renderMessage={tooltip("top left")}>
+Функция принимает два аргумента:
+
+1. Позволяет задать позицию отображения тултипа. Может принимать все значения, которые принимает проп `pos` компонента `Tooltip`.
+2. Объект с опциями. Позволяет задать кастомный `data-tid` тексту. Возможные значения: `{ dataTid?: string }`.
+
+Пример кода:
+
+    <ValidationWrapper validationInfo={...} renderMessage={tooltip("top left", {dataTid: 'custom data-tid' })}>
       //...
     </ValidationWrapper>
 
@@ -28,11 +34,19 @@
 
 [Описание в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Krasnie_teksti_na_stranitse)
 
-Отображение сообщения текстом задается методом `text`.
-Позиция отображения текста задается аргуметом метода.
-Если позиция не указана, то умолчательной будет позиция `right`.
+Текстовое сообщение рендерится с помощью функции `text`.
 
-    <ValidationWrapper validationInfo={...} renderMessage={text("bottom")}>
+Функция принимает два аргумента:
+
+1. Позволяет задать позицию отображения текста. Если позициция не указана, `right` будет установлена в качестве позиции по умолчанию. Возможные значения: `bottom | right`.
+2. Объект с опциями. Позволяет задать кастомный `data-tid` тексту. Возможные значения: `{ dataTid?: string }`.
+
+Пример кода:
+
+    <ValidationWrapper
+      validationInfo={...}
+      renderMessage={text("bottom", { dataTid: 'custom data-tid' })}
+    >
       //...
     </ValidationWrapper>
 
