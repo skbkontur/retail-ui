@@ -20,7 +20,6 @@ export const styles = memoizeStyle({
       line-height: ${t.menuMessageLineHeight};
       font-size: ${t.menuMessageFontSize};
       padding: ${t.menuMessagePaddingY} ${paddingX} ${paddingY} ${t.menuMessagePaddingX};
-      position: ${t.menuMessagePosition};
       color: ${t.menuMessageTextColor};
       background: ${t.menuMessageBg};
     `;

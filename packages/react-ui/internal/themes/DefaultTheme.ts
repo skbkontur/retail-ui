@@ -967,7 +967,6 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
-  public static menuItemPosition = 'relative';
   public static menuItemDisplay = 'block';
   public static menuItemPaddingMobile = '12px 16px';
   public static get menuItemLineHeightMobile() {
@@ -996,9 +995,6 @@ export class DefaultTheme {
   }
   public static get menuMessagePaddingX() {
     return this.menuItemPaddingX;
-  }
-  public static get menuMessagePosition() {
-    return this.menuItemPosition;
   }
   public static get menuMessageDisplay() {
     return this.menuItemDisplay;
