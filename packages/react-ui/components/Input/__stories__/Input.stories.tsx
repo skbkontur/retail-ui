@@ -9,7 +9,7 @@ import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Input/Static tests',
+  title: 'Input',
 } as Meta;
 
 type InputState = Partial<InputProps>;
