@@ -63,6 +63,31 @@ export const decorators: Meta['decorators'] = [
   (Story, context) => {
     const theme = themes[context.globals.theme] || DEFAULT_THEME;
     const root = document.getElementById('root');
+
+    if (root) {
+      if ([DARK_THEME, THEME_2022_DARK].includes(theme)) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+
+    if (theme !== DEFAULT_THEME) {
+      return (
+        <ThemeContext.Provider value={theme}>
+          <Story />
+        </ThemeContext.Provider>
+      );
+    }
+
+    return <Story />;
+  },
+  (Story) => (
+    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+      <Story />
+    </div>
+  ),
+  (Story, context) => {
     if (MOBILE_REGEXP.test(context.story) || MOBILE_REGEXP.test(context.name)) {
       return (
         <ThemeContext.Consumer>
@@ -83,27 +108,9 @@ export const decorators: Meta['decorators'] = [
         </ThemeContext.Consumer>
       );
     }
-    if (root) {
-      if ([DARK_THEME, THEME_2022_DARK].includes(theme)) {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
-    }
-    if (theme !== DEFAULT_THEME) {
-      return (
-        <ThemeContext.Provider value={theme}>
-          <Story />
-        </ThemeContext.Provider>
-      );
-    }
+
     return <Story />;
   },
-  (Story) => (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      <Story />
-    </div>
-  ),
 ];
 
 export const parameters: Meta['parameters'] = {
