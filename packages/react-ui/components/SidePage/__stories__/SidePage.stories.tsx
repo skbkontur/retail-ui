@@ -465,7 +465,7 @@ class WithVariableContent extends React.Component {
   };
 }
 
-class TestUpdateLayoutMethod extends React.Component {
+class WithChangeableBody extends React.Component {
   public static ChildComp = class ChildComp extends React.Component {
     public state = {
       content: false,
@@ -476,7 +476,7 @@ class TestUpdateLayoutMethod extends React.Component {
     };
 
     public render() {
-      return <div>{this.state.content && <TestUpdateLayoutMethod.Content />}</div>;
+      return <div>{this.state.content && <WithChangeableBody.Content />}</div>;
     }
   };
 
@@ -502,15 +502,8 @@ class TestUpdateLayoutMethod extends React.Component {
     content: false,
   };
 
-  private sidePage: SidePage | null = null;
   // @ts-expect-error: Only refers to a type, but is being used as a namespace here.
   private childComp: TestUpdateLayoutMethod.ChildComp | null = null;
-
-  public updateLayout = () => {
-    if (this.sidePage) {
-      this.sidePage.updateLayout();
-    }
-  };
 
   public toggleBodyContent = () => {
     this.setState({ content: !this.state.content });
@@ -524,12 +517,12 @@ class TestUpdateLayoutMethod extends React.Component {
 
   public render() {
     return (
-      <SidePage blockBackground ref={(ref) => (this.sidePage = ref)}>
+      <SidePage blockBackground>
         <SidePage.Header>Title</SidePage.Header>
         <SidePage.Body>
           <SidePage.Container>
-            {this.state.content && <TestUpdateLayoutMethod.Content />}
-            <TestUpdateLayoutMethod.ChildComp ref={(ref) => (this.childComp = ref)} />
+            {this.state.content && <WithChangeableBody.Content />}
+            <WithChangeableBody.ChildComp ref={(ref) => (this.childComp = ref)} />
           </SidePage.Container>
         </SidePage.Body>
         <SidePage.Footer>
@@ -540,9 +533,6 @@ class TestUpdateLayoutMethod extends React.Component {
               </Button>
               <Button data-tid="toggle-child-component-content" onClick={this.toggleChildContent}>
                 Toggle Child Component Content
-              </Button>
-              <Button data-tid="update" onClick={this.updateLayout}>
-                Update
               </Button>
             </Gapped>
           </div>
@@ -791,23 +781,23 @@ export const SidePageWithVariableContent = () => <WithVariableContent />;
 SidePageWithVariableContent.storyName = 'SidePage with variable content';
 SidePageWithVariableContent.parameters = { creevey: { skip: [true] } };
 
-export const TestUpdateLayoutMethodStory: Story = () => <TestUpdateLayoutMethod />;
-TestUpdateLayoutMethodStory.storyName = 'test updateLayout method';
+export const WithChangeableBodyStory: Story = () => <WithChangeableBody />;
+WithChangeableBodyStory.storyName = 'With changeable body';
 
-TestUpdateLayoutMethodStory.parameters = {
+WithChangeableBodyStory.parameters = {
   creevey: {
     tests: {
       async idle() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
       },
-      async 'Body content has been changed'() {
+      async 'body content has been changed'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-tid="toggle-body-content"]' }))
           .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Body content has been changed');
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('body content has been changed');
       },
       async 'child component content has been changed'() {
         await delay(1000);
@@ -820,19 +810,6 @@ TestUpdateLayoutMethodStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage(
           'child component content has been changed',
         );
-      },
-      async 'update layout'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid="update"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('update layout');
       },
     },
   },
