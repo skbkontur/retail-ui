@@ -12,7 +12,7 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -68,7 +68,7 @@ type SelectItem<TValue, TItem> =
   | React.ReactElement
   | (() => React.ReactElement);
 
-export interface SelectProps<TValue, TItem> extends CommonProps {
+export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -445,6 +445,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
+        menuPos={this.props.menuPos}
       >
         <Menu
           ref={this.refMenu}

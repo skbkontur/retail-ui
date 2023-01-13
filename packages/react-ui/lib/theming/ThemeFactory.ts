@@ -2,7 +2,7 @@ import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
-import { findPropertyDescriptor } from './ThemeHelpers';
+import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 
 export class ThemeFactory {
   public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
@@ -11,9 +11,16 @@ export class ThemeFactory {
   }
 
   public static overrideDefaultTheme(theme: Theme) {
+    // copying theme variables
     ThemeFactory.getKeys(DefaultThemeInternal).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
       Object.defineProperty(DefaultThemeInternal, variableName, descriptor);
+    });
+
+    // copying theme markers
+    Object.values(REACT_UI_THEME_MARKERS).forEach((marker) => {
+      const descriptor = findPropertyDescriptor(theme, marker.key);
+      Object.defineProperty(DefaultThemeInternal, marker.key, descriptor);
     });
   }
 
