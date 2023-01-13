@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input } from '../Input';
 
-
 export default {
   title: 'Input/Functional tests',
   parameters: {
@@ -16,11 +15,11 @@ export default {
 } as Meta;
 
 const differentStatesTest: CreeveyTests = {
-  async 'Plain'() {
+  async Plain() {
     const element = await this.browser.findElement({ css: '#input' });
     await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
   },
-  async 'Focused'() {
+  async Focused() {
     const element = await this.browser.findElement({ css: '#input' });
     await this.browser
       .actions({
@@ -50,14 +49,12 @@ const differentStatesTest: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '#input input' }))
       .sendKeys('Test...')
-      .sendKeys(
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      )
+      .sendKeys('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
       .pause(500)
       .perform();
     await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
   },
-}
+};
 
 export const Default: Story = () => (
   <div id="input">
@@ -193,7 +190,7 @@ export const MaxLength: Story = () => (
   </div>
 );
 
-MaxLength.parameters = { creevey: { tests: differentStatesTest, } };
+MaxLength.parameters = { creevey: { tests: differentStatesTest } };
 
 export const UncontrolledInputWithPlaceholder: Story = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
