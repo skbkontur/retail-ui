@@ -399,3 +399,96 @@ DatePickerInRelativeBody.parameters = {
     },
   },
 };
+
+export const WithManualPosition: Story = () => {
+  const [menuPos, setMenuPos] = useState<'top' | 'bottom'>('top');
+  const [isRelative, toggleIsRelative] = useState(false);
+  const relativeClassName = 'relative';
+
+  const onClick = useCallback(() => {
+    toggleIsRelative(!isRelative);
+    document.querySelector('html')?.classList.toggle(relativeClassName);
+  }, [isRelative]);
+
+  useEffect(() => {
+    return () => {
+      document.querySelector('html')?.classList.remove(relativeClassName);
+    };
+  }, [relativeClassName]);
+
+  return (
+    <div style={{ marginTop: '350px', paddingBottom: '300px' }}>
+      <DatePicker menuPos={menuPos} value="02.07.2017" onValueChange={emptyHandler} />
+      <button data-tid="relative" onClick={onClick}>
+        {isRelative ? 'With' : 'Without'} relative position
+      </button>
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      </button>
+    </div>
+  );
+};
+WithManualPosition.storyName = 'with manual position';
+WithManualPosition.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    tests: {
+      async 'opened top without relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top without relative position');
+      },
+      async 'opened bottom without relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without relative position');
+      },
+      async 'opened top with relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top with relative position');
+      },
+      async 'opened bottom with relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom');
+      },
+    },
+  },
+};
