@@ -10,7 +10,7 @@ export default {
   title: 'Input/Functional tests',
   parameters: {
     creevey: {
-      skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+      skip: { in: /^(?!\bchrome\b&&\firefox\b&&\bie\b)/, reason: `themes don't affect logic` },
     },
   },
 } as Meta;
