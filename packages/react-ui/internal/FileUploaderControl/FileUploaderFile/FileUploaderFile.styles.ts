@@ -44,30 +44,25 @@ const styles = {
       font-size: ${t.fileUploaderIconSize};
       text-align: right;
       outline: none;
-
-      position: absolute;
     `;
   },
 
-  iconSmall(t: Theme) {
+  iconSmall() {
     return css`
       margin-left: 4px;
-      right: ${t.fileUploaderPaddingXSmall};
     `;
   },
 
-  iconMedium(t: Theme) {
+  iconMedium() {
     return css`
       margin-left: 6px;
-      right: ${t.fileUploaderPaddingXMedium};
       width: 18px;
     `;
   },
 
-  iconLarge(t: Theme) {
+  iconLarge() {
     return css`
       margin-left: 6px;
-      right: ${t.fileUploaderPaddingXLarge};
       width: 20px;
     `;
   },

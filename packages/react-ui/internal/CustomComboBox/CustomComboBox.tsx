@@ -10,12 +10,13 @@ import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { DropdownContainerProps } from '../DropdownContainer';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> extends CommonProps {
+export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -244,6 +245,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       menuAlign: this.props.menuAlign,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
+      menuPos: this.props.menuPos,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,

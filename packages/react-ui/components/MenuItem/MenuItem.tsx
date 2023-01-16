@@ -15,7 +15,7 @@ import { styles } from './MenuItem.styles';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
-export interface MenuItemProps extends CommonProps {
+export interface MenuItemProps extends Omit<CommonProps, 'children'> {
   /**
    * @ignore
    */

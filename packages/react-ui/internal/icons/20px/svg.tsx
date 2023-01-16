@@ -13,6 +13,7 @@ export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color
       className: styles.icon(),
       fill: color,
       focusable: 'false',
+      'aria-hidden': 'true',
     })}
   </span>
 );

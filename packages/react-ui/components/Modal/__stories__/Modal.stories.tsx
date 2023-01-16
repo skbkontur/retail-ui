@@ -8,7 +8,6 @@ import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
-import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -178,47 +177,47 @@ class ModalOverAnotherModal extends React.Component {
   }
 }
 
-interface ModalWithFooterPanelState {
-  opened: boolean;
-  panel: boolean;
-}
-class ModalWithFooterPanel extends React.Component {
-  public state: ModalWithFooterPanelState = {
-    opened: false,
-    panel: true,
-  };
+const ModalWithFooterPanel = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  public renderModal() {
-    return (
-      <Modal onClose={this.close}>
-        <Modal.Header>Адрес места осуществления предпринимательской деятельности</Modal.Header>
-        <Modal.Body>
-          <Input placeholder="Страна" />
-        </Modal.Body>
-        <Modal.Footer panel={this.state.panel}>
-          <Button onClick={this.close}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+  return (
+    <div style={{ width: '300px' }}>
+      {isOpen && (
+        <Modal onClose={() => setIsOpen(false)}>
+          <Modal.Header>Адрес места осуществления предпринимательской деятельности</Modal.Header>
+          <Modal.Body>
+            <Input placeholder="Страна" />
+          </Modal.Body>
+          <Modal.Footer gap={8} panel>
+            <Button onClick={() => setIsOpen(false)}>Close</Button>
+            <Button>Do nothing</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+      <Button onClick={() => setIsOpen(true)}>Open modal</Button>
+    </div>
+  );
+};
 
-  public render() {
-    return (
-      <div style={{ width: '300px' }}>
-        {this.state.opened && this.renderModal()}
-        <Button onClick={this.open}>Open modal</Button>
-      </div>
-    );
-  }
+export const ModalWithFooterPanelStory: Story = () => <ModalWithFooterPanel />;
+ModalWithFooterPanelStory.storyName = 'Modal with footer panel';
 
-  public open = () => {
-    this.setState({ opened: true });
-  };
-
-  public close = () => {
-    this.setState({ opened: false });
-  };
-}
+ModalWithFooterPanelStory.parameters = {
+  creevey: {
+    tests: {
+      async 'open modal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Button"]:nth-of-type(1)' }))
+          .perform();
+        await delay(100);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+      },
+    },
+  },
+};
 
 interface ModalWithoutFooterPanelState {
   opened: boolean;
@@ -240,6 +239,7 @@ class ModalWithoutFooterPanel extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.close}>Не создавать</Button>
+          <Button>Ничего не делать</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -301,32 +301,6 @@ class ModalWithoutFooter extends React.Component {
   public close = () => {
     this.setState({ opened: false });
   };
-}
-
-interface ModalMobileViewState {
-  opened: boolean;
-}
-class ModalMobileView extends React.Component {
-  public state: ModalMobileViewState = {
-    opened: true,
-  };
-
-  public render() {
-    return (
-      <Modal>
-        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
-        <Modal.Body>
-          <p style={{ height: 2000 }}>
-            Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
-            Firefox, Opera, Chrome.
-          </p>
-        </Modal.Body>
-        <Modal.Footer panel>
-          <Button>Ок</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
 }
 
 interface ModalInnerState {
@@ -509,26 +483,6 @@ export const DisabledModal = () => (
 DisabledModal.storyName = 'Disabled modal';
 DisabledModal.parameters = { creevey: { skip: [true] } };
 
-export const ModalWithFooterPanelStory: Story = () => <ModalWithFooterPanel />;
-ModalWithFooterPanelStory.storyName = 'Modal with footer panel';
-
-ModalWithFooterPanelStory.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-    },
-  },
-};
-
 export const ModalWithoutFooterPanelStory: Story = () => <ModalWithoutFooterPanel />;
 ModalWithoutFooterPanelStory.storyName = 'Modal without footer panel';
 
@@ -581,9 +535,42 @@ export const ModalWithoutHeader = () => (
 ModalWithoutHeader.storyName = 'Modal without header';
 ModalWithoutHeader.parameters = { creevey: { captureElement: null } };
 
-export const ModalMobileViewStory = () => <ModalMobileView />;
-ModalMobileViewStory.storyName = 'Modal mobile view';
-ModalMobileViewStory.parameters = { creevey: { skip: [true] } };
+export const ModalMobileView: Story = () => {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <ThemeContext.Provider
+      value={ThemeFactory.create(
+        {
+          mobileMediaQuery: '(max-width: 576px)',
+        },
+        theme,
+      )}
+    >
+      <Modal>
+        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
+        <Modal.Body>
+          Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
+          Firefox, Opera, Chrome.
+        </Modal.Body>
+        <Modal.Footer panel>
+          <Button>Ок</Button>
+        </Modal.Footer>
+      </Modal>
+    </ThemeContext.Provider>
+  );
+};
+ModalMobileView.storyName = 'Modal mobile view';
+ModalMobileView.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
+};
 
 export const ModalWithVariableHeightOfContent: Story = () => (
   <ModalWithVariableHeight>
@@ -846,32 +833,30 @@ export const MobileModal: Story = () => {
                   )}
                 </p>
               </Modal.Body>
-              <Modal.Footer panel>
-                <Gapped vertical={isMobile} gap={isMobile ? 8 : 25}>
-                  <Button
-                    use={'primary'}
-                    onClick={() => {
-                      setShowThird(true);
-                    }}
-                    style={isMobile ? { width: '100%' } : undefined}
-                  >
-                    Ок
+              <Modal.Footer gap={isMobile ? 8 : 25} panel>
+                <Button
+                  use={'primary'}
+                  onClick={() => {
+                    setShowThird(true);
+                  }}
+                  style={isMobile ? { width: '100%' } : undefined}
+                >
+                  Ок
+                </Button>
+                <Button
+                  use={'danger'}
+                  onClick={() => {
+                    setShowThird(false);
+                  }}
+                  style={isMobile ? { width: '100%' } : undefined}
+                >
+                  Удалить
+                </Button>
+                {showThirdButton && (
+                  <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
+                    Изменить
                   </Button>
-                  <Button
-                    use={'danger'}
-                    onClick={() => {
-                      setShowThird(false);
-                    }}
-                    style={isMobile ? { width: '100%' } : undefined}
-                  >
-                    Удалить
-                  </Button>
-                  {showThirdButton && (
-                    <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
-                      Изменить
-                    </Button>
-                  )}
-                </Gapped>
+                )}
               </Modal.Footer>
             </Modal>
           );

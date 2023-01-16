@@ -289,28 +289,29 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div className={contentInnerClass}>
-              <div data-tid={'FileUploader__content'} className={contentClassNames}>
-                {isLinkVisible && (
-                  <span data-tid={'FileUploader__link'} className={linkClassNames}>
-                    {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-                  </span>
-                )}
-                {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
-                <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
-                  {hasOneFileForSingle ? (
-                    <div ref={fileDivRef} className={jsStyles.singleFile()}>
-                      {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
+            <div
+              data-tid={'FileUploader__content'}
+              className={cx(contentClassNames, { [contentInnerClass]: !files.length || !isSingleMode })}
+            >
+              {isLinkVisible && (
+                <span data-tid={'FileUploader__link'} className={linkClassNames}>
+                  {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+                </span>
+              )}
+              {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
+              <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
+                {hasOneFileForSingle ? (
+                  <div ref={fileDivRef} className={jsStyles.singleFile()}>
+                    {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
+                  </div>
+                ) : (
+                  <>
+                    {locale.orDragHere}&nbsp;
+                    <div className={uploadButtonIconClassNames}>
+                      <UploadIcon />
                     </div>
-                  ) : (
-                    <>
-                      {locale.orDragHere}&nbsp;
-                      <div className={uploadButtonIconClassNames}>
-                        <UploadIcon />
-                      </div>
-                    </>
-                  )}
-                </div>
+                  </>
+                )}
               </div>
             </div>
             <input

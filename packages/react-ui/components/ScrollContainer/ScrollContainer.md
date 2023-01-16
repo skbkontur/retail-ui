@@ -141,3 +141,32 @@ var innerStyle = {
   </div>
 </div>;
 ```
+
+
+Смещение скроллбара
+
+```jsx harmony
+const containerStyle = {
+  display: 'inline-block',
+  border: '1px solid #f99',
+  height: 200,
+  margin: 1,
+  width: 200,
+};
+
+const offsetY = {
+  top: 8,
+  bottom: 8,
+  right: 8,
+};
+
+<div style={containerStyle}>
+  <ScrollContainer offsetY={offsetY}>
+    {Array(30).fill(null).map((_,i) => (
+      <div key={i}>
+        {i}
+      </div>
+    ))}
+  </ScrollContainer>
+</div>
+```

@@ -1,5 +1,4 @@
 import React, { ReactNode, ReactPortal } from 'react';
-import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
 import {
@@ -13,7 +12,7 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -61,10 +60,11 @@ const PASS_BUTTON_PROPS = {
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
+  | TValue
   | React.ReactElement
   | (() => React.ReactElement);
 
-export interface SelectProps<TValue, TItem> extends CommonProps {
+export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -171,29 +171,6 @@ type DefaultProps<TValue, TItem> = Required<
 // eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
-
-  public static propTypes = {
-    areValuesEqual: PropTypes.func,
-    defaultValue: PropTypes.any,
-    disablePortal: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    filterItem: PropTypes.func,
-    items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    maxMenuHeight: PropTypes.number,
-    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    placeholder: PropTypes.node,
-    renderItem: PropTypes.func,
-    renderValue: PropTypes.func,
-    search: PropTypes.bool,
-    value: PropTypes.any,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onValueChange: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onKeyDown: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
     renderValue,
@@ -460,6 +437,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
+        menuPos={this.props.menuPos}
       >
         <Menu
           ref={this.refMenu}

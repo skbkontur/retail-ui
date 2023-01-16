@@ -24,6 +24,9 @@ export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
 export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
+type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
+type OffsetCSSPropsX = 'right' | 'bottom' | 'left';
+
 export interface ScrollContainerProps extends CommonProps {
   /**
    * Инвертировать цвет скроллбара
@@ -49,6 +52,14 @@ export interface ScrollContainerProps extends CommonProps {
    * Отключение кастомного скролла
    */
   disabled?: boolean;
+  /**
+   * Смещение вертикального скроллбара
+   */
+  offsetY?: Partial<Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>>;
+  /**
+   * Смещение горизонтального скроллбара
+   */
+  offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
 }
 
 type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
@@ -197,6 +208,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   private renderScrollbar = (axis: ScrollAxis) => {
     const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
+    const { offsetY, offsetX } = this.getProps();
+
+    const offset = axis === 'x' ? offsetX : offsetY;
 
     return (
       <ScrollBar
@@ -204,6 +218,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         ref={refScrollBar}
         invert={this.getProps().invert}
         onScrollStateChange={this.handleScrollStateChange}
+        offset={offset}
       />
     );
   };

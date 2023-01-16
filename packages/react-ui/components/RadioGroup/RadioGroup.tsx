@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
@@ -101,20 +100,6 @@ type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
-
-  public static propTypes = {
-    children: PropTypes.node,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    inline: PropTypes.bool,
-    name: PropTypes.string,
-    warning: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onBlur: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps = {
     renderItem,

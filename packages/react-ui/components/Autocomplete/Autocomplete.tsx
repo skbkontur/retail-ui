@@ -7,7 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -41,6 +41,7 @@ function renderItem(item: any) {
 
 export interface AutocompleteProps
   extends CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'>,
     Override<
       InputProps,
       {
@@ -231,7 +232,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal } =
+    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal, menuPos } =
       this.getProps();
     const menuProps = {
       ref: this.refMenu,
@@ -245,7 +246,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return (
-      <DropdownContainer offsetY={1} getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
+      <DropdownContainer
+        offsetY={1}
+        getParent={this.getAnchor}
+        align={menuAlign}
+        disablePortal={disablePortal}
+        menuPos={menuPos}
+      >
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );
