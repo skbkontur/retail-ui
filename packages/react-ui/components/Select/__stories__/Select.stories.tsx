@@ -302,7 +302,6 @@ MobileWithTitle.parameters = {
   creevey: {
     tests: clickedTest,
   },
-  skip: { in: /^(?!\bchrome\b)/ },
 };
 MobileWithTitle.decorators = mobileDecorator;
 
