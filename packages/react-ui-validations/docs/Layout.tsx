@@ -17,7 +17,7 @@ export const Layout = withRouter((props) => {
         <MainHeader>
           <h3>react-ui-validations</h3>
         </MainHeader>
-        <div>
+        <div style={{ paddingBottom: 50 }}>
           <NavigationLink activeClassName={'active'} to="/api">
             API reference
           </NavigationLink>
