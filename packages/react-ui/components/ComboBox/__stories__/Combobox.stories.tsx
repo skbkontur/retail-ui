@@ -1217,10 +1217,87 @@ export const MobileSimple = () => (
     }}
   </ThemeContext.Consumer>
 );
-MobileSimple.title = 'Mobile combobox stories';
+MobileSimple.storyName = 'mobile simple';
 MobileSimple.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
   creevey: { skip: [true] },
+};
+
+export const WithManualPosition: Story = () => {
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
+  const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);
+
+  return (
+    <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
+      <SimpleCombobox disablePortal={isPortalDisabled} menuPos={menuPos} />
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      </button>
+      <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
+        {isPortalDisabled ? 'enable' : 'disable'} portal
+      </button>
+    </div>
+  );
+};
+WithManualPosition.storyName = 'with manual position';
+WithManualPosition.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    tests: {
+      async 'opened top with portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top with portal');
+      },
+      async 'opened bottom with portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom with portal');
+      },
+      async 'opened top without portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top without portal');
+      },
+      async 'opened bottom without portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
+      },
+    },
+  },
 };
