@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
+import { BaseAnnotations } from '@storybook/addons';
+import { StoryFnReactReturnType } from '@storybook/react/dist/ts3.9/client/preview/types';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
@@ -12,6 +14,21 @@ import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { delay } from '../../../lib/utils';
+
+const mobileDecorator: BaseAnnotations<unknown, StoryFnReactReturnType>['decorators'] = [
+  (Story) => {
+    return (
+      <div
+        style={{
+          width: '475px',
+          height: '100vh',
+        }}
+      >
+        <Story />
+      </div>
+    );
+  },
+];
 
 interface SelectWrapperValue {
   label: string;
@@ -270,20 +287,7 @@ MobileWithSearch.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithSearch.decorators = [
-  (Story) => {
-    return (
-      <div
-        style={{
-          width: '475px',
-          height: '100vh',
-        }}
-      >
-        <Story />
-      </div>
-    );
-  },
-];
+MobileWithSearch.decorators = mobileDecorator;
 
 export const MobileWithTitle: Story = () => (
   <Select
@@ -300,20 +304,7 @@ MobileWithTitle.parameters = {
   },
   skip: { in: /^(?!\bchrome\b)/ },
 };
-MobileWithTitle.decorators = [
-  (Story) => {
-    return (
-      <div
-        style={{
-          width: '475px',
-          height: '100vh',
-        }}
-      >
-        <Story />
-      </div>
-    );
-  },
-];
+MobileWithTitle.decorators = mobileDecorator;
 
 export const MobileWithTitleAndSearch: Story = () => (
   <Select
@@ -330,20 +321,7 @@ MobileWithTitleAndSearch.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithTitleAndSearch.decorators = [
-  (Story) => {
-    return (
-      <div
-        style={{
-          width: '475px',
-          height: '100vh',
-        }}
-      >
-        <Story />
-      </div>
-    );
-  },
-];
+MobileWithTitleAndSearch.decorators = mobileDecorator;
 
 export const MobileWithoutTitleAndSearch: Story = () => (
   <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
@@ -356,20 +334,7 @@ MobileWithoutTitleAndSearch.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithoutTitleAndSearch.decorators = [
-  (Story) => {
-    return (
-      <div
-        style={{
-          width: '475px',
-          height: '100vh',
-        }}
-      >
-        <Story />
-      </div>
-    );
-  },
-];
+MobileWithoutTitleAndSearch.decorators = mobileDecorator;
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
