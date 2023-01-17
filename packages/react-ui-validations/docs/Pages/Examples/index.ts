@@ -1,6 +1,7 @@
 import GuidesExample from './GuidesExample/GuidesExample.md';
 import ArrayExample from './ArrayExample/ArrayExample.md';
 import Editors from './Editors/Editors.md';
+import CustomControls from './CustomControls/CustomControls.md';
 
 export const Examples = {
   caption: 'Примеры',
@@ -19,6 +20,11 @@ export const Examples = {
       component: Editors,
       url: 'editors',
       caption: 'Редакторы',
+    },
+    {
+      component: CustomControls,
+      url: 'custom-controls',
+      caption: 'Кастомные контролы',
     },
   ],
 };
