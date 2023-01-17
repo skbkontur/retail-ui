@@ -1,4 +1,3 @@
-import { resetButton } from '../../lib/styles/Mixins';
 import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { getMenuItemPaddings } from '../../components/MenuItem/MenuItem.styles';
@@ -13,9 +12,9 @@ export const styles = memoizeStyle({
     });
 
     return css`
-      ${resetButton()};
+      margin: 0;
+      padding: 0;
 
-      cursor: ${t.menuMessageCursor};
       display: ${t.menuMessageDisplay};
       line-height: ${t.menuMessageLineHeight};
       font-size: ${t.menuMessageFontSize};

@@ -975,15 +975,11 @@ export class DefaultTheme {
   public static get menuItemFontSizeMobile() {
     return this.fontSizeMobile;
   }
-  public static menuItemDisabledCursor = 'default';
   public static get menuItemDisabledColor() {
     return this.textColorDisabled;
   }
   public static menuItemDisabledBg = 'transparent';
   // menuMessage
-  public static get menuMessageCursor() {
-    return this.menuItemDisabledCursor;
-  }
   public static get menuMessageTextColor() {
     return this.menuItemDisabledColor;
   }

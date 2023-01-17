@@ -69,7 +69,7 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.menuItemDisabledBg};
       color: ${t.menuItemDisabledColor};
-      cursor: ${t.menuItemDisabledCursor};
+      cursor: default;
     `;
   },
   link(t: Theme) {
