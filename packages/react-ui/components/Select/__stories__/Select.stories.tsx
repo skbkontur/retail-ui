@@ -107,14 +107,17 @@ class SelectWithNull extends React.Component {
 export default {
   title: 'Select',
   decorators: [
-    (Story, context) =>
-      context.originalStoryFn !== WithMenuAlignAndVariousWidth ? (
-        <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
-          <Story />
-        </div>
-      ) : (
-        <Story />
-      ),
+    (Story, context) => {
+      if (![WithMenuAlignAndVariousWidth, WithManualPosition].includes(context.originalStoryFn as Story)) {
+        return (
+          <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+            <Story />
+          </div>
+        );
+      }
+
+      return <Story />;
+    },
   ],
 } as Meta;
 
@@ -614,6 +617,83 @@ WithMenuAlignAndVariousWidth.parameters = {
         await delay(1000);
 
         await this.expect(await root.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
+
+export const WithManualPosition: Story = () => {
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
+  const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);
+
+  return (
+    <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
+      <Select disablePortal={isPortalDisabled} menuPos={menuPos} items={['one', 'two', 'three']} />
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      </button>
+      <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
+        {isPortalDisabled ? 'enable' : 'disable'} portal
+      </button>
+    </div>
+  );
+};
+WithManualPosition.storyName = 'with manual position';
+WithManualPosition.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    tests: {
+      async 'opened top with portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top with portal');
+      },
+      async 'opened bottom with portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom with portal');
+      },
+      async 'opened top without portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top without portal');
+      },
+      async 'opened bottom without portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
       },
     },
   },

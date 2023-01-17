@@ -249,3 +249,48 @@ MobileSimple.parameters = {
   },
   creevey: { skip: true },
 };
+
+export const WithManualPosition: Story = () => {
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
+
+  return (
+    <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
+      <UncontrolledAutocomplete menuPos={menuPos} source={['One', 'Two', 'Three']} />
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      </button>
+    </div>
+  );
+};
+WithManualPosition.storyName = 'with manual position';
+WithManualPosition.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    tests: {
+      async 'opened top with portal'() {
+        const screenshotElement = this.browser.findElement({ css: '#test-element' });
+        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
+
+        await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
+        await delay(1000);
+
+        await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+      },
+      async 'opened bottom with portal'() {
+        const screenshotElement = this.browser.findElement({ css: '#test-element' });
+        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
+
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(autocompleteElement)
+          .sendKeys('o')
+          .perform();
+        await delay(1000);
+
+        await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};

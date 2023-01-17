@@ -313,32 +313,6 @@ class ModalWithoutFooter extends React.Component {
   };
 }
 
-interface ModalMobileViewState {
-  opened: boolean;
-}
-class ModalMobileView extends React.Component {
-  public state: ModalMobileViewState = {
-    opened: true,
-  };
-
-  public render() {
-    return (
-      <Modal>
-        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
-        <Modal.Body>
-          <p style={{ height: 2000 }}>
-            Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
-            Firefox, Opera, Chrome.
-          </p>
-        </Modal.Body>
-        <Modal.Footer panel>
-          <Button>Ок</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
-
 interface ModalInnerState {
   bigHeight: boolean;
 }
@@ -575,9 +549,42 @@ export const ModalWithoutHeader = () => (
 ModalWithoutHeader.storyName = 'Modal without header';
 ModalWithoutHeader.parameters = { creevey: { captureElement: null } };
 
-export const ModalMobileViewStory = () => <ModalMobileView />;
-ModalMobileViewStory.storyName = 'Modal mobile view';
-ModalMobileViewStory.parameters = { creevey: { skip: true } };
+export const ModalMobileView: Story = () => {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <ThemeContext.Provider
+      value={ThemeFactory.create(
+        {
+          mobileMediaQuery: '(max-width: 576px)',
+        },
+        theme,
+      )}
+    >
+      <Modal>
+        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
+        <Modal.Body>
+          Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
+          Firefox, Opera, Chrome.
+        </Modal.Body>
+        <Modal.Footer panel>
+          <Button>Ок</Button>
+        </Modal.Footer>
+      </Modal>
+    </ThemeContext.Provider>
+  );
+};
+ModalMobileView.storyName = 'Modal mobile view';
+ModalMobileView.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
+};
 
 export const ModalWithVariableHeightOfContent: Story = () => (
   <ModalWithVariableHeight>
