@@ -1,8 +1,13 @@
 {
-  "workspaces": [
-    "packages/*",
-    "packages/@skbkontur/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/@skbkontur/*"
+    ],
+    "nohoist": [
+      "**/react-router"
+    ]
+  },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
