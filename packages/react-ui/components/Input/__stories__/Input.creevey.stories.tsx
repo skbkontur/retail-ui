@@ -26,6 +26,7 @@ const differentStatesTest: CreeveyTests = {
         bridge: true,
       })
       .click(this.browser.findElement({ css: '#input input' }))
+      .pause(500)
       .perform();
     await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
   },
@@ -80,7 +81,7 @@ const testMaskedInput: CreeveyTests = {
 
     const idle = await this.takeScreenshot();
 
-    await click('input').perform();
+    await click('input').pause(500).perform();
     const focused = await this.takeScreenshot();
 
     await click('input').sendKeys('953').perform();
