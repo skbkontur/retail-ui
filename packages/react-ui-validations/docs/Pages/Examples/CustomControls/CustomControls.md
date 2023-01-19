@@ -12,16 +12,16 @@
 
 В типах их можно представить так:
 
-    interface CustomControlProps<E = HTMLElement> {
-        ref?: React.ForwardedRef<E>;
+    interface CustomControlProps<Elem = HTMLElement> {
+        ref?: React.ForwardedRef<Elem>;
         error?: boolean;
         warning?: boolean;
-        onBlur?: React.EventHandler<SyntheticEvent>;
-        onChange?: React.ChangeEventHandler<E>;
+        onBlur?: React.FocusEventHandler<Elem>;
+        onChange?: React.ChangeEventHandler<Elem>;
     }
 
 Для контролов `react-ui` также прокидывается проп `onValueChange`. Чтобы избежать предупреждения в консоле (`Unknown event handler property 'onValueChange'`), этот проп можно "вырезать" из пропов (см. пример). 
 
-### Пример ([песочница](https://codesandbox.io/s/validations-custom-controls-ktf4gy))
+### Пример
     
     !!DemoWithCode!!./CustomControls
