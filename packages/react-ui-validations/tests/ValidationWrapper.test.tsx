@@ -22,7 +22,7 @@ const InputLike = React.forwardRef<
 
 const ComboBoxLike: React.FunctionComponent<{
   onInputValueChange: () => string;
-}> = ({ onInputValueChange }) => {
+}> & { __KONTUR_REACT_UI__: string } = ({ onInputValueChange }) => {
   const [value, setValue] = React.useState<string>('');
   React.useEffect(() => {
     setValue(onInputValueChange());
@@ -30,18 +30,17 @@ const ComboBoxLike: React.FunctionComponent<{
 
   return <span>{value}</span>;
 };
-// @ts-expect-error: 1
 ComboBoxLike.__KONTUR_REACT_UI__ = 'ComboBox';
 
 describe('ValidationWrapper', () => {
-  describe('should properly clone props', () => {
+  describe('clone props', () => {
     it.each([
       ['ref', jest.fn()],
       ['onFocus', jest.fn()],
       ['onBlur', jest.fn()],
       ['onChange', jest.fn()],
       ['onValueChange', jest.fn()],
-    ])('%s', async (propName, propValue) => {
+    ])('should call `%s` method', async (propName, propValue) => {
       render(
         <ValidationContainer>
           <ValidationWrapper validationInfo={null}>
@@ -53,7 +52,24 @@ describe('ValidationWrapper', () => {
       expect(propValue).toHaveBeenCalledTimes(1);
     });
 
-    it('onInputValueChange', async () => {
+    it('should work when `ref` is hook', async () => {
+      let spanRef: React.RefObject<HTMLSpanElement>;
+      const InputLikeUseRef = () => {
+        spanRef = React.useRef<HTMLSpanElement>(null);
+        return (
+          <ValidationContainer>
+            <ValidationWrapper validationInfo={null}>
+              <InputLike ref={spanRef} />
+            </ValidationWrapper>
+          </ValidationContainer>
+        );
+      };
+      render(<InputLikeUseRef />);
+      // @ts-expect-error: Variable 'spanRef' is used before being assigned
+      expect(spanRef.current).toBeInTheDocument();
+    });
+
+    it('should return value of `onInputValueChange` method in ComboBox', async () => {
       const inputValue = 'inputValue';
       const onInputValueChange = () => inputValue;
       render(
