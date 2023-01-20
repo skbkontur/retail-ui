@@ -43,6 +43,7 @@ export interface ButtonParams {
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
+  ariaDescribedby?: string;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -152,6 +153,10 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownCo
    * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 }
 
 export interface SelectState<TValue> {
@@ -328,6 +333,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
+      ariaDescribedby: this.props.ariaDescribedby,
     };
 
     return buttonParams;
@@ -375,6 +381,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
       active: params.opened,
+      ariaDescribedby: params.ariaDescribedby,
     };
     const use = this.getProps().use;
 

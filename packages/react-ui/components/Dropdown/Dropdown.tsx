@@ -33,6 +33,7 @@ const PASS_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
   menuPos: true,
+  ariaDescribedby: true,
 };
 
 export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
@@ -88,6 +89,11 @@ export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps,
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 }
 
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;

@@ -51,6 +51,11 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
    * Width of tabs container
    */
   width?: number | string;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 }
 
 export const TabsDataTids = {
@@ -94,7 +99,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
-    const { value, width, children, indicatorClassName } = this.props;
+    const { value, width, children, indicatorClassName, ariaDescribedby } = this.props;
     const vertical = this.getProps().vertical;
     return (
       <ThemeContext.Consumer>
@@ -106,6 +111,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                 data-tid={TabsDataTids.root}
                 className={cx(styles.root(this.theme), vertical && styles.vertical())}
                 style={{ width }}
+                aria-describedby={ariaDescribedby}
               >
                 <TabsContext.Provider
                   value={{

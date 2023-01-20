@@ -46,6 +46,7 @@ interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, 
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
+  ariaDescribedby?: string;
   width?: string | number;
   maxLength?: number;
   maxMenuHeight?: number | string;
@@ -286,6 +287,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       refInputLikeText,
       leftIcon,
       inputMode,
+      ariaDescribedby,
     } = this.props;
 
     const { renderValue, size } = this.getProps();
@@ -314,6 +316,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           ref={this.refInput}
           warning={warning}
           inputMode={inputMode}
+          ariaDescribedby={ariaDescribedby}
         />
       );
     }
@@ -332,6 +335,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         size={size}
         width="100%"
         ref={refInputLikeText}
+        ariaDescribedby={ariaDescribedby}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>

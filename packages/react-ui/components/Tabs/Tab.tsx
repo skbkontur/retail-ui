@@ -88,6 +88,11 @@ export interface TabProps<T extends string = string> extends CommonProps {
    * Style property
    */
   style?: React.CSSProperties;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 }
 
 export interface TabState {
@@ -182,7 +187,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   public getUnderlyingNode = () => this.tabComponent;
 
   private renderMain() {
-    const { children, disabled, error, warning, success, primary } = this.props;
+    const { children, disabled, error, warning, success, primary, ariaDescribedby } = this.props;
     const { component: Component, href } = this.getProps();
 
     let isActive = false;
@@ -218,6 +223,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           tabIndex={disabled ? -1 : 0}
           ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
           href={href}
+          aria-describedby={ariaDescribedby}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
           {this.state.focusedByKeyboard && <div className={cx(styles.focus(this.theme), globalClasses.focus)} />}

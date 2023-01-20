@@ -61,6 +61,10 @@ export interface ToggleProps extends CommonProps {
    */
   autoFocus?: boolean;
   /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
+  /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
@@ -162,7 +166,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, warning, error, color, id } = this.props;
+    const { children, warning, error, color, id, ariaDescribedby } = this.props;
     const { loading, captionPosition } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
@@ -211,6 +215,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               disabled={disabled}
               id={id}
               role="switch"
+              aria-describedby={ariaDescribedby}
             />
             <div
               className={containerClassNames}

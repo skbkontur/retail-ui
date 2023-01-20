@@ -158,6 +158,11 @@ export interface ButtonProps extends CommonProps {
    * CSS-свойство `width`.
    */
   width?: number | string;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 }
 
 export interface ButtonState {
@@ -255,6 +260,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onClick,
       width,
       children,
+      ariaDescribedby,
     } = this.props;
     const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -383,7 +389,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} aria-describedby={ariaDescribedby}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}

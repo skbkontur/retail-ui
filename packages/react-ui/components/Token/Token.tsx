@@ -29,6 +29,10 @@ export interface TokenProps extends CommonProps {
    */
   warning?: boolean;
   disabled?: boolean;
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -79,6 +83,7 @@ export class Token extends React.Component<TokenProps> {
       error,
       warning,
       disabled,
+      ariaDescribedby,
       onClick = emptyHandler,
       onDoubleClick = emptyHandler,
       onMouseEnter = emptyHandler,
@@ -116,6 +121,7 @@ export class Token extends React.Component<TokenProps> {
         <div
           data-tid={TokenDataTids.root}
           className={tokenClassNames}
+          aria-describedby={ariaDescribedby}
           onClick={onClick}
           onDoubleClick={onDoubleClick}
           onMouseEnter={onMouseEnter}

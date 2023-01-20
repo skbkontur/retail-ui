@@ -49,6 +49,7 @@ export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'me
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
+  ariaDescribedby?: string;
   width?: string | number;
   maxMenuHeight?: number | string;
   renderNotFound?: () => React.ReactNode;
@@ -256,6 +257,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       totalCount: this.props.totalCount,
       value: this.props.value,
       warning: this.props.warning,
+      ariaDescribedby: this.props.ariaDescribedby,
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,

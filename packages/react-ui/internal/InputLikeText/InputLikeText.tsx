@@ -168,6 +168,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragStart,
       onMouseDragEnd,
       takeContentWidth,
+      ariaDescribedby,
       ...rest
     } = props;
 
@@ -206,7 +207,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
-        <input data-tid={InputLikeTextDataTids.nativeInput} type="hidden" value={value} disabled={disabled} />
+        <input data-tid={InputLikeTextDataTids.nativeInput} type="hidden" value={value} disabled={disabled} aria-describedby={ariaDescribedby}/>
         {leftSide}
         <span className={wrapperClass}>
           <span

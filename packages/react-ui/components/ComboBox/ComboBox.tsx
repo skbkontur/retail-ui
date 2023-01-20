@@ -164,6 +164,11 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
    */
   warning?: boolean;
 
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
+
   width?: string | number;
 
   maxMenuHeight?: number | string;

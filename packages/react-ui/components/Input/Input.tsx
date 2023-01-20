@@ -101,6 +101,10 @@ export interface InputProps
          * @param value значение инпута.
          */
         onUnexpectedInput?: (value: string) => void;
+        /**
+         * Атрибут для указания id элемента(-ов), описывающих его
+         */
+        ariaDescribedby?: string;
       }
     > {}
 
@@ -293,6 +297,7 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      ariaDescribedby,
       ...rest
     } = props;
 
@@ -333,6 +338,7 @@ export class Input extends React.Component<InputProps, InputState> {
       type: 'text',
       placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
+      'aria-describedby': ariaDescribedby,
     };
 
     if (type === 'password') {

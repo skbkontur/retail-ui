@@ -40,6 +40,10 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    * Кастомная иконка
    */
   icon?: React.ReactNode;
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
 }
 
 export interface KebabState {
@@ -163,6 +167,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           [styles.disabled()]: disabled,
           [styles.focused(this.theme)]: this.state.focusedByTab,
         })}
+        aria-describedby={this.props.ariaDescribedby}
       >
         {this.renderIcon()}
       </span>

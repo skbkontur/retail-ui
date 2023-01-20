@@ -114,6 +114,11 @@ export interface TokenInputProps<T> extends CommonProps {
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
   /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  ariaDescribedby?: string;
+
+  /**
    * Функция для обработки ситуации, когда была введена
    * строка в инпут и был потерян фокус с компонента
    *
@@ -314,6 +319,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       inputMode,
       renderTotalCount,
       totalCount,
+      ariaDescribedby,
     } = this.props;
 
     const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
@@ -393,6 +399,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               onKeyDown={this.handleKeyDown}
               onPaste={this.handleInputPaste}
               inputMode={inputMode}
+              aria-describedby={ariaDescribedby}
             />
             {showMenu && (
               <TokenInputMenu
