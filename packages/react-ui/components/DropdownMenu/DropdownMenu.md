@@ -16,6 +16,33 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
+В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием меню.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
+
+<DropdownMenu caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
+    return (
+      <>
+        <p>Сейчас меню { opened ? 'окрыто' : 'закрыто' }</p>
+        <Button onClick={toggleMenu}>Переключить меню</Button>
+        <Button onClick={openMenu}>Открыть меню</Button>
+        <Button onClick={closeMenu}>Закрыть меню</Button>
+      </>
+    )
+  }}>
+  <MenuHeader>Заголовок меню</MenuHeader>
+  <MenuSeparator />
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+  <MenuSeparator />
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+</DropdownMenu>;
+```
+
 Меню с заданной шириной.
 
 ```jsx harmony
