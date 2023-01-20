@@ -13,7 +13,7 @@ export const styles = memoizeStyle({
 
   item(t: Theme) {
     return css`
-      display: table;
+      display: flex;
       margin-top: ${t.radioGroupLegacyItemGap};
       width: 100%;
     `;
@@ -27,7 +27,7 @@ export const styles = memoizeStyle({
 
   itemInline() {
     return css`
-      display: inline-table;
+      display: inline-flex;
       margin-right: 15px;
       margin-top: 0;
       width: auto;
