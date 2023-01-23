@@ -1,4 +1,4 @@
-Вызов статических методов, c кастомным timeOut'ом
+Вызов статических методов
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -7,7 +7,35 @@ function showComplexNotification() {
   Toast.push('Successfully saved', {
     label: 'Cancel',
     handler: () => Toast.push('Canceled'),
-  }, 20);
+  });
+}
+
+<Button onClick={showComplexNotification}>Show notification</Button>;
+```
+
+C кастомным timeOut'ом
+
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
+
+function showComplexNotification() {
+  Toast.push('Successfully saved', {
+    label: 'Cancel',
+    handler: () => Toast.push('Canceled'),
+  }, 15000);
+}
+
+<Button onClick={showComplexNotification}>Show notification</Button>;
+```
+
+C кастомным timeOut'ом без action
+
+
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
+
+function showComplexNotification() {
+  Toast.push('Successfully saved', undefined, 15000);
 }
 
 <Button onClick={showComplexNotification}>Show notification</Button>;
@@ -43,7 +71,7 @@ class Toaster extends React.Component {
 ### SuperToast
 
 Мы можете объединить удобство статических методов и кастамизируемость классического способа через `ref`.
-Для этого можно добавить обёртку, которая позволяет Toast работать по примеру GlobalLoader.  
+Для этого можно добавить обёртку, которая позволяет Toast работать по примеру GlobalLoader.
 
 Т.е. кастомный Toast можно добавить в единственном месте на проекте, а статические методы будут всегда использовать последний отрендеренный экземпляр Toast:
 
