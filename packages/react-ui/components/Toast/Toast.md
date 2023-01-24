@@ -13,7 +13,7 @@ function showComplexNotification() {
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
-C кастомным timeOut'ом
+C кастомным timeout'ом
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -28,14 +28,14 @@ function showComplexNotification() {
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
-C кастомным timeOut'ом без action
+C кастомным timeout'ом без action
 
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
 
 function showComplexNotification() {
-  Toast.push('Successfully saved', undefined, 15000);
+  Toast.push('Successfully saved', null, 15000);
 }
 
 <Button onClick={showComplexNotification}>Show notification</Button>;

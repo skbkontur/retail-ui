@@ -93,7 +93,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * @param {string} notification
    * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
-   * @param {number} timeout Время существования Toast в секундах
+   * @param {number} timeout Время существования Toast в миллисекундах
    */
   public push(notification: string, action?: Action, timeout?: number) {
     if (this.state.notification) {
