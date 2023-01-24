@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type HTMLProps = {
+export interface HTMLProps {
   a: React.AnchorHTMLAttributes<HTMLAnchorElement>;
   abbr: React.HTMLAttributes<HTMLElement>;
   div: React.HTMLAttributes<HTMLDivElement>;
@@ -120,4 +120,4 @@ export type HTMLProps = {
   wbr: React.HTMLAttributes<HTMLElement>;
   webview: React.WebViewHTMLAttributes<HTMLWebViewElement>;
   svg: React.SVGProps<SVGSVGElement>;
-};
+}

@@ -9,44 +9,37 @@ const styles = {
       flex-direction: column;
       display: flex;
       justify-content: flex-end;
-      border-radius: ${t.mobilePopupHeaderBorderRadius};
+      border-radius: ${t.mobilePopupContainerBorderRadius};
+      overflow: hidden;
+      padding-bottom: ${t.mobilePopupContainerBottomPadding};
+      background: ${t.menuBgDefault};
     `;
   },
 
-  rootFullHeight(t: Theme) {
+  wrapper() {
     return css`
-      background-color: ${t.bgDefault};
-      justify-content: flex-start;
-      flex-grow: 1;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      overflow: auto;
     `;
   },
 
   content(t: Theme) {
     return css`
-      overflow: auto;
       background-color: ${t.bgDefault};
     `;
   },
 
   container(t: Theme) {
     return css`
-      position: fixed;
+      position: absolute;
       top: ${t.mobilePopupTopPadding};
-      right: 0;
-      left: 0;
-      bottom: 0;
-      width: 100%;
+      left: ${t.mobilePopupOuterIndentY};
+      right: ${t.mobilePopupOuterIndentY};
       z-index: 100000;
-      border-radius: ${t.mobilePopupHeaderBorderRadius};
-      transform: translateY(100%);
-      transition: transform 0.25s;
-    `;
-  },
-
-  containerOpened() {
-    return css`
-      transform: translateY(0%);
-      transition: transform 0.25s;
     `;
   },
 
@@ -59,15 +52,20 @@ const styles = {
       left: 0;
       z-index: 9999;
       background: #333333;
-      opacity: 0%;
-      transition: opacity 0.25s;
+      pointer-events: none;
+      opacity: 50%;
     `;
   },
 
-  bgShowed() {
+  bottomIndent() {
     return css`
-      opacity: 50%;
-      transition: opacity 0.25s;
+      height: 80px;
+    `;
+  },
+
+  zIndex() {
+    return css`
+      position: relative;
     `;
   },
 };

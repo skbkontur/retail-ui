@@ -87,7 +87,7 @@
     "react/jsx-boolean-value": 2,
     "react/prop-types": [2, { "skipUndeclared": true }],
     "react-hooks/exhaustive-deps": 0,
-    "react/no-unstable-nested-components": 2,
+    "react/no-unstable-nested-components": [2, { "allowAsProps": true }],
     "react-hooks/rules-of-hooks": 2,
     "react/no-typos": 2,
     "@typescript-eslint/no-explicit-any": 0,

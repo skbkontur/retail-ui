@@ -8,6 +8,7 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { MenuMessage } from '../MenuMessage';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -90,9 +91,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.loading}
         >
-          <MenuItem disabled isMobile={isMobile}>
+          <MenuMessage as="div">
             <Spinner type="mini" dimmed />
-          </MenuItem>
+          </MenuMessage>
         </Menu>
       );
     }
@@ -105,9 +106,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuItem disabled key="message" isMobile={isMobile}>
+          <MenuMessage key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
-          </MenuItem>
+          </MenuMessage>
           <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
@@ -128,9 +129,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       if (notFoundValue) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
-            <MenuItem data-tid={ComboBoxMenuDataTids.notFound} disabled isMobile={isMobile}>
-              {notFoundValue}
-            </MenuItem>
+            <MenuMessage data-tid={ComboBoxMenuDataTids.notFound}>{notFoundValue}</MenuMessage>
           </Menu>
         );
       }
@@ -147,9 +146,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuItem disabled key="total" isMobile={isMobile}>
+        <MenuMessage key="total">
           <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
-        </MenuItem>
+        </MenuMessage>
       );
     }
 
