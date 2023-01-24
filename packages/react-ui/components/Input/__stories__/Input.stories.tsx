@@ -1,583 +1,259 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
+import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { CreeveyTests, Meta, Story } from '../../../typings/stories';
-import { Input, InputSize } from '../Input';
-import { Button } from '../../Button';
+import { ComponentTable } from '../../../internal/ComponentTable';
+import { Meta, Story } from '../../../typings/stories';
+import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
-
-const styles = {
-  display: 'inline-block',
-  verticalAlign: 'middle',
-  minWidth: '90px',
-  padding: '5px',
-};
 
 export default {
   title: 'Input',
-  parameters: {
-    creevey: {
-      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    },
-  },
 } as Meta;
 
-export const InputsWithDifferentStates: Story = () => (
-  <div>
-    <div>
-      <div style={styles}>Warning</div>
-      <div id="warning-small-input-wrapper" style={styles}>
-        <Input size="small" warning />
-      </div>
-      <div id="warning-large-input-wrapper" style={styles}>
-        <Input size="large" warning />
-      </div>
-    </div>
+type InputState = Partial<InputProps>;
 
-    <div>
-      <div style={styles}>Error</div>
-      <div id="error-small-input-wrapper" style={styles}>
-        <Input size="small" error />
-      </div>
-      <div id="error-large-input-wrapper" style={styles}>
-        <Input size="large" error />
-      </div>
-    </div>
+const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
-    <div>
-      <div style={styles}>Disabled</div>
-      <div id="disabled-small-input-wrapper" style={styles}>
-        <Input size="small" disabled />
-      </div>
-      <div id="disabled-large-input-wrapper" style={styles}>
-        <Input size="large" disabled />
-      </div>
-    </div>
+const inputDefaultState: InputState[] = [{}, { defaultValue: 'Value' }];
 
-    <div>
-      <div style={styles}>
-        Disabled
-        <br /> (with text)
-      </div>
-      <div id="disabled-text-small-input-wrapper" style={styles}>
-        <Input size="small" value="Some text" disabled />
-      </div>
-      <div id="disabled-text-large-input-wrapper" style={styles}>
-        <Input size="large" value="Some text" disabled />
-      </div>
-    </div>
+const inputWidthStates: InputState[] = [{}, { width: '100px' }, { width: '350px' }];
 
-    <div>
-      <div style={styles}>Placeholder</div>
-      <div id="placeholder-small-input-wrapper" style={styles}>
-        <Input size="small" placeholder="Placeholder" />
-      </div>
-      <div id="placeholder-large-input-wrapper" style={styles}>
-        <Input size="large" placeholder="Placeholder" />
-      </div>
-    </div>
+export const Align: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={alignStates.map((x) => ({ props: x }))}
+    rows={alignDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ value: 'Value', width: '200px' }}
+  />
+);
 
-    <div>
-      <div style={styles}>Password</div>
-      <div id="password-small-input-wrapper" style={styles}>
-        <Input size="small" value="password" type="password" />
-      </div>
-      <div id="password-large-input-wrapper" style={styles}>
-        <Input size="large" value="password" type="password" />
-      </div>
-    </div>
+const alignStates: InputState[] = [{ align: 'center' }, { align: 'left' }, { align: 'right' }];
 
-    <div>
-      <div style={styles}>Borderless</div>
-      <div id="borderless-small-input-wrapper" style={styles}>
-        <Input size="small" borderless />
-      </div>
-      <div id="borderless-large-input-wrapper" style={styles}>
-        <Input size="large" borderless />
-      </div>
-    </div>
+const alignDifferentStates: InputState[] = [
+  {},
+  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon /> },
+  { prefix: 'PR' },
+  { suffix: 'SF' },
+  { leftIcon: <SearchIcon />, prefix: 'PR' },
+  { leftIcon: <SearchIcon />, suffix: 'SF' },
+  { rightIcon: <SearchIcon />, prefix: 'PR' },
+  { rightIcon: <SearchIcon />, suffix: 'SF' },
+  { leftIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
+  { rightIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
+];
 
-    <div>
-      <div style={styles}>Left icon</div>
-      <div id="left-icon-small-input-wrapper" style={styles}>
-        <Input size="small" leftIcon={<SearchIcon />} />
-      </div>
-      <div id="left-icon-large-input-wrapper" style={styles}>
-        <Input size="large" leftIcon={<SearchIcon />} />
-      </div>
-    </div>
+export const AlwaysShowMask: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={alwaysShowMaskStates.map((x) => ({ props: x }))}
+    presetProps={{ mask: '(***) ***-**-**' }}
+  />
+);
 
-    <div>
-      <div style={styles}>Right icon</div>
-      <div id="right-icon-small-input-wrapper" style={styles}>
-        <Input size="small" rightIcon={<SearchIcon />} />
-      </div>
-      <div id="right-icon-large-input-wrapper" style={styles}>
-        <Input size="large" rightIcon={<SearchIcon />} />
-      </div>
-    </div>
+const alwaysShowMaskStates: InputState[] = [
+  {},
+  { defaultValue: '95678901' },
+  { defaultValue: '956789010A' },
+  { alwaysShowMask: true },
+  { alwaysShowMask: true, defaultValue: '95678901' },
+  { alwaysShowMask: true, defaultValue: '956789010A' },
+];
 
-    <div>
-      <div style={styles}>Error and Disabled</div>
-      <div id="error-disabled-small-input-wrapper" style={styles}>
-        <Input size="small" error disabled value="Error and Disabled" />
-      </div>
-      <div id="error-disabled-large-input-wrapper" style={styles}>
-        <Input size="large" error disabled value="Error and Disabled" />
-      </div>
-    </div>
+export const Borderless: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={borderlessStates.map((x) => ({ props: x }))}
+    presetProps={{ borderless: true }}
+  />
+);
+
+const borderlessStates: InputState[] = [{}];
+
+export const Disabled: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={disabledStates.map((x) => ({ props: x }))}
+    presetProps={{ disabled: true }}
+  />
+);
+
+const disabledStates: InputState[] = [
+  {},
+  { value: 'Some text' },
+  { placeholder: 'Placeholder' },
+  { type: 'password', value: 'Value' },
+  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon /> },
+  { prefix: 'PR' },
+  { suffix: 'SF' },
+];
+
+export const Error: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={errorStates.map((x) => ({ props: x }))}
+    presetProps={{ error: true }}
+  />
+);
+const errorStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
+
+export const LeftIcon: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={iconsStates.map((x) => ({ props: x }))}
+    presetProps={{ leftIcon: <SearchIcon /> }}
+  />
+);
+
+export const RightIcon: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={iconsStates.map((x) => ({ props: x }))}
+    presetProps={{ rightIcon: <SearchIcon /> }}
+  />
+);
+
+const iconsStates: InputState[] = [{}, { defaultValue: 'Value' }, { disabled: true }];
+
+export const Mask: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={inputWidthStates.map((x) => ({ props: x }))}
+    rows={maskStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+
+const maskStates: InputState[] = [
+  { mask: '**** **********', alwaysShowMask: true },
+  { mask: '**** **********', maskChar: '*', alwaysShowMask: true },
+  { mask: '*** ***', maskChar: '_', defaultValue: 'Value' },
+  { mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+];
+
+export const Placeholder: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={inputDefaultState.map((x) => ({ props: x }))}
+    rows={placeholderStates.map((x) => ({ props: x }))}
+    presetProps={{ placeholder: '1234567890' }}
+  />
+);
+
+const placeholderStates: InputState[] = [{}, { disabled: true }];
+
+export const Prefix: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ prefix: 'Prefix' }}
+  />
+);
+const inputPrefixOrSuffixStates: InputState[] = [
+  {},
+  { value: 'Value' },
+  { placeholder: 'Placeholder' },
+  { rightIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon />, value: 'Value' },
+  { rightIcon: <SearchIcon />, placeholder: 'Placeholder' },
+  { leftIcon: <SearchIcon /> },
+  { leftIcon: <SearchIcon />, value: 'Value' },
+  { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
+];
+
+export const Suffix: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ suffix: 'Suffix' }}
+  />
+);
+
+export const PrefixAndSuffixBoth: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    presetProps={{ prefix: 'Prefix', suffix: 'Suffix' }}
+  />
+);
+
+export const Size: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={inputDefaultState.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Input' }}
+  />
+);
+
+export const TextStylesReset: Story = () => (
+  <div
+    style={{
+      fontWeight: 'bold',
+      fontStyle: 'italic',
+      fontVariant: 'small-caps slashed-zero',
+      fontStretch: 'expanded',
+      color: 'red',
+      lineHeight: '50px',
+      textAlign: 'right',
+      textShadow: '3px 3px 3px #333',
+      textTransform: 'uppercase',
+      letterSpacing: '5px',
+    }}
+  >
+    <Gapped vertical>
+      <span>Inherited Styles</span>
+      <Input placeholder="Placeholder" />
+      <Input defaultValue="Value" />
+      <Input defaultValue="Disabled" disabled />
+      <Input mask="a9*MASK" alwaysShowMask />
+      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+    </Gapped>
   </div>
 );
-InputsWithDifferentStates.storyName = 'Inputs with different states';
 
-InputsWithDifferentStates.parameters = {
-  creevey: {
-    tests: {
-      async 'Warning small'() {
-        const element = await this.browser.findElement({ css: '#warning-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Warning small');
-      },
-      async 'Warning large'() {
-        const element = await this.browser.findElement({ css: '#warning-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Warning large');
-      },
-      async 'Error small'() {
-        const element = await this.browser.findElement({ css: '#error-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error small');
-      },
-      async 'Error large'() {
-        const element = await this.browser.findElement({ css: '#error-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error large');
-      },
-      async 'Disabled small'() {
-        const element = await this.browser.findElement({ css: '#disabled-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled small');
-      },
-      async 'Disabled large'() {
-        const element = await this.browser.findElement({ css: '#disabled-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled large');
-      },
-      async 'Disabled text small'() {
-        const element = await this.browser.findElement({ css: '#disabled-text-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled text small');
-      },
-      async 'Disabled text large'() {
-        const element = await this.browser.findElement({ css: '#disabled-text-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Disabled text large');
-      },
-      async 'Placeholder small'() {
-        const element = await this.browser.findElement({ css: '#placeholder-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Placeholder small');
-      },
-      async 'Placeholder large'() {
-        const element = await this.browser.findElement({ css: '#placeholder-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Placeholder large');
-      },
-      async 'Password small'() {
-        const element = await this.browser.findElement({ css: '#password-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Password small');
-      },
-      async 'Password large'() {
-        const element = await this.browser.findElement({ css: '#password-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Password large');
-      },
-      async 'Borderless small'() {
-        const element = await this.browser.findElement({ css: '#borderless-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Borderless small');
-      },
-      async 'Borderless large'() {
-        const element = await this.browser.findElement({ css: '#borderless-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Borderless large');
-      },
-      async 'Left icon small'() {
-        const element = await this.browser.findElement({ css: '#left-icon-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Left icon small');
-      },
-      async 'Left icon large'() {
-        const element = await this.browser.findElement({ css: '#left-icon-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Left icon large');
-      },
-      async 'Right icon small'() {
-        const element = await this.browser.findElement({ css: '#right-icon-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Right icon small');
-      },
-      async 'Right icon large'() {
-        const element = await this.browser.findElement({ css: '#right-icon-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Right icon large');
-      },
-      async 'Error and Disabled large'() {
-        const element = await this.browser.findElement({ css: '#error-disabled-large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
-      },
-      async 'Error and Disabled small'() {
-        const element = await this.browser.findElement({ css: '#error-disabled-small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
-      },
-    },
-  },
-};
-
-export const InputsWithDifferentSizes: Story = () => (
-  <div>
-    <div id="small-input-wrapper" style={styles}>
-      <Input size="small" />
-    </div>
-    <div id="medium-input-wrapper" style={styles}>
-      <Input size="medium" />
-    </div>
-    <div id="large-input-wrapper" style={styles}>
-      <Input size="large" />
-    </div>
-  </div>
+export const Type: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={typeStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
 );
-InputsWithDifferentSizes.storyName = 'Inputs with different sizes';
 
-InputsWithDifferentSizes.parameters = {
-  creevey: {
-    tests: {
-      async 'Plain small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text small'() {
-        const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-      async 'Plain medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text medium'() {
-        const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-      async 'Plain large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'Focused large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
-      },
-      async 'With typed text large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
-          .sendKeys('Test...')
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
-      },
-      async 'With long typed text large'() {
-        const element = await this.browser.findElement({ css: '#large-input-wrapper' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
-          .sendKeys('Test...')
-          .sendKeys(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          )
-          .pause(500)
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
-      },
-    },
-  },
-};
+const typeStates: InputState[] = [
+  { type: 'text', defaultValue: 'Value' },
+  { type: 'password', defaultValue: 'Value' },
+  { type: 'password', defaultValue: 'Value', disabled: true },
+  { mask: '***-***', type: 'password', alwaysShowMask: true },
+  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
+  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
+];
 
-export const PlaceholderAndMask = () => (
-  <div>
-    <table style={{ borderSpacing: 10 }}>
-      <tr>
-        <td />
-        <td>width: &quot;auto&quot;</td>
-        <td>width: 100px</td>
-        <td>width: 350px</td>
-      </tr>
-      <tr>
-        <td>placeholder</td>
-        <td>
-          <Input placeholder="1234567890 1234567890 1234567890" />
-        </td>
-        <td>
-          <Input width={100} placeholder="1234567890 1234567890 1234567890" />
-        </td>
-        <td>
-          <Input width={350} placeholder="1234567890 1234567890 1234567890" />
-        </td>
-      </tr>
-      <tr>
-        <td> mask</td>
-        <td>
-          <Input mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-        </td>
-        <td>
-          <Input width={100} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-        </td>
-        <td>
-          <Input width={350} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
-        </td>
-      </tr>
-      <tr>
-        <td>placeholder and mask</td>
-        <td>
-          <Input
-            mask="********** ********** **********"
-            maskChar={'_'}
-            alwaysShowMask
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-        <td>
-          <Input
-            width={100}
-            mask="********** ********** **********"
-            maskChar={'_'}
-            alwaysShowMask
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-        <td>
-          <Input
-            width={350}
-            mask="********** ********** **********"
-            maskChar={'_'}
-            alwaysShowMask
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-      </tr>
-    </table>
-    <table style={{ borderSpacing: 10 }}>
-      <tr>
-        <td />
-        <td>focused</td>
-        <td>blured</td>
-      </tr>
-      <tr>
-        <td>placeholder and mask</td>
-        <td>
-          <Input
-            autoFocus
-            mask="********** ********** **********"
-            maskChar={'_'}
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-        <td>
-          <Input
-            mask="********** ********** **********"
-            maskChar={'_'}
-            placeholder="1234567890 1234567890 1234567890"
-          />
-        </td>
-      </tr>
-    </table>
-  </div>
+export const Warning: Story = () => (
+  <ComponentTable
+    Component={Input}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={warningStates.map((x) => ({ props: x }))}
+    presetProps={{ warning: true }}
+  />
 );
-PlaceholderAndMask.storyName = 'Placeholder and Mask';
 
-const testMaskedInput: CreeveyTests = {
-  async 'idle, focus, edit, blur'() {
-    const click = (css: string) => {
-      return this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css }));
-    };
+const warningStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
 
-    const idle = await this.takeScreenshot();
-
-    await click('input').perform();
-    const focused = await this.takeScreenshot();
-
-    await click('input').sendKeys('953').perform();
-    const edited = await this.takeScreenshot();
-
-    await click('body').perform();
-    const blured = await this.takeScreenshot();
-
-    await this.expect({ idle, focused, edited, blured }).to.matchImages();
-  },
-};
-
-export const InputWithMask: Story = () => (
-  <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
-);
-InputWithMask.parameters = {
-  creevey: {
-    tests: testMaskedInput,
-  },
-};
-
-export const InputWithMaskAndCustomUnmaskedValue: Story = () => {
-  const [value, setValue] = useState('+795');
-
-  return (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-      value={value}
-      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
-    />
-  );
-};
-
-InputWithMaskAndCustomUnmaskedValue.parameters = {
-  creevey: {
-    tests: testMaskedInput,
-  },
-};
-
-export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
-SelectAllByProp.storyName = 'Select all by prop';
-
-SelectAllByProp.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async Focused() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
-    },
-  },
-};
-
-export const SelectAllByButton: Story = () => {
-  let input: Input | null = null;
-
-  const selectAll = () => {
-    if (input) {
-      input.selectAll();
-    }
-  };
-
-  return (
-    <div>
-      <div>
-        <Input ref={(element) => (input = element)} defaultValue="Some value" />
-      </div>
-      <Button onClick={selectAll}>Select all</Button>
-    </div>
-  );
-};
-SelectAllByButton.storyName = 'Select all by button';
-
-SelectAllByButton.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async Selected() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
-      },
-    },
-  },
-};
-
-export const InputWithMaxLengthAttr = () => <Input maxLength={3} placeholder="maxLength={3}" />;
-InputWithMaxLengthAttr.storyName = 'Input with maxLength attr';
-InputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
-
-export const ManualBlinking = () => {
+export const BlinkingByButton: Story = () => {
   class Sample extends React.Component {
     private input: Input | null = null;
 
@@ -603,225 +279,4 @@ export const ManualBlinking = () => {
 
   return <Sample />;
 };
-ManualBlinking.storyName = 'Manual blinking';
-ManualBlinking.parameters = { creevey: { skip: [true] } };
-
-export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
-PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
-
-PrefixAndSuffixSmall.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'First input focused'() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-      },
-    },
-  },
-};
-
-export const PrefixAndSuffixMedium: Story = () => <InputWithPrefixSuffix size="medium" />;
-PrefixAndSuffixMedium.storyName = 'Prefix and suffix medium';
-
-PrefixAndSuffixMedium.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'First input focused'() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-      },
-    },
-  },
-};
-
-export const PrefixAndSuffixLarge: Story = () => <InputWithPrefixSuffix size="large" />;
-PrefixAndSuffixLarge.storyName = 'Prefix and suffix large';
-
-PrefixAndSuffixLarge.parameters = {
-  creevey: {
-    tests: {
-      async Plain() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
-      },
-      async 'First input focused'() {
-        const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large input' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('First input focused');
-      },
-    },
-  },
-};
-
-export const TextStylesReset = () => (
-  <div
-    style={{
-      fontWeight: 'bold',
-      fontStyle: 'italic',
-      fontVariant: 'small-caps slashed-zero',
-      fontStretch: 'expanded',
-      color: 'red',
-      lineHeight: '50px',
-      textAlign: 'right',
-      textShadow: '3px 3px 3px #333',
-      textTransform: 'uppercase',
-      letterSpacing: '5px',
-    }}
-  >
-    <Gapped vertical>
-      <span>Inherited Styles</span>
-      <Input placeholder="Placeholder" />
-      <Input defaultValue="Value" />
-      <Input defaultValue="Disabled" disabled />
-      <Input mask="a9*MASK" alwaysShowMask />
-      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-    </Gapped>
-  </div>
-);
-TextStylesReset.storyName = 'text styles reset';
-
-function InputWithPrefixSuffix({ size }: { size: InputSize }) {
-  return (
-    <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
-      <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
-      <div>
-        <div style={{ ...styles, width: 100 }}>Prefix</div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Suffix</div>
-        <div style={styles}>
-          <Input size={size} suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
-        <div style={styles}>
-          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
-        <div style={styles}>
-          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-        </div>
-        <div style={styles}>
-          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export const UncontrolledInputWithPlaceholder: Story = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_value, setValue] = React.useState<string>();
-  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
-};
-UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
-UncontrolledInputWithPlaceholder.parameters = {
-  creevey: {
-    tests: {
-      async PlainAndTyped() {
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('text')
-          .perform();
-        const typed = await this.takeScreenshot();
-        await this.expect({ plain, typed }).to.matchImages();
-      },
-    },
-  },
-};
-
-export const InputWithMaskSelectAll: Story = () => {
-  const inputRef = React.useRef<Input>(null);
-  const [value, setValue] = React.useState('11');
-  const selectAll = React.useCallback(() => {
-    inputRef.current?.selectAll();
-  }, [inputRef.current]);
-  return (
-    <div>
-      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
-    </div>
-  );
-};
-InputWithMaskSelectAll.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    tests: {
-      async PlainAndSelected() {
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .pause(500)
-          .perform();
-        const selectAllHalfFilledInput = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('1111')
-          .click(this.browser.findElement({ css: 'body' }))
-          .click(this.browser.findElement({ css: 'input' }))
-          .pause(500)
-          .perform();
-        const selectAllFilledInput = await this.takeScreenshot();
-        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
-      },
-    },
-  },
-};
+BlinkingByButton.parameters = { creevey: { skip: true } };
