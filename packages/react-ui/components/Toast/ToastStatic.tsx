@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Toast, Action, ToastDataTids } from './Toast';
 
 export class ToastStatic {
-  public static push = (notification: string, action?: Action) => {
+  public static push = (notification: string, action?: Nullable<Action>, timeout?: number) => {
     if (!ToastStatic.node) {
       ToastStatic.node = document.createElement('div');
       const { body } = document;
@@ -18,16 +18,16 @@ export class ToastStatic {
       ReactDOM.render(
         <Toast data-tid={ToastDataTids.toastStatic} ref={(el) => (ToastStatic.instance = el)} />,
         ToastStatic.node,
-        () => ToastStatic._push(notification, action),
+        () => ToastStatic._push(notification, action, timeout),
       );
     } else {
-      ToastStatic._push(notification, action);
+      ToastStatic._push(notification, action, timeout);
     }
   };
 
-  public static _push = (notification: string, action?: Action) => {
+  public static _push = (notification: string, action?: Nullable<Action>, timeout?: number) => {
     if (ToastStatic.instance) {
-      ToastStatic.instance.push(notification, action);
+      ToastStatic.instance.push(notification, action, timeout);
     }
   };
 

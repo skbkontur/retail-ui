@@ -49,8 +49,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
   private setRootNode!: TSetRootNode;
 
-  public static push(notification: string, action?: Action) {
-    ToastStatic.push(notification, action);
+  public static push(notification: string, action?: Nullable<Action>, timeout?: number) {
+    ToastStatic.push(notification, action, timeout);
   }
 
   public static close() {
@@ -95,7 +95,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
    * @param {number} timeout Время существования Toast в миллисекундах
    */
-  public push(notification: string, action?: Action, timeout?: number) {
+  public push(notification: string, action?: Nullable<Action>, timeout?: number) {
     if (this.state.notification) {
       this.close();
     }
