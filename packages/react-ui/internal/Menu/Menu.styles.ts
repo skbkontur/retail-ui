@@ -17,6 +17,7 @@ export const styles = memoizeStyle({
   rootMobile(t: Theme) {
     return css`
       border-radius: 0;
+      margin: 0;
       padding: 0 ${t.mobileMenuPaddingX};
     `;
   },
