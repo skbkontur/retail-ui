@@ -264,4 +264,10 @@ describe('<RadioGroup />', () => {
 
     expect(() => render(<RadioGroupGeneric />)).not.toThrow();
   });
+
+  it('should have correctly role', () => {
+    const root = renderRadioGroup({ children: <span /> });
+
+    expect(root.find('role="radiogroup"')).toHaveLength(1);
+  });
 });
