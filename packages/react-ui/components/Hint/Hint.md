@@ -54,3 +54,32 @@ const [isOpen, setIsOpen] = React.useState(false);
 ```jsx harmony
 <Hint disableAnimations text={"Нет анимации :("}>Есть анимация?</Hint>
 ```
+
+### Использование встроеной и кастомной обёртки
+
+Подсказка должна отображаться даже на отключённых компонентах. Из коробки это работает только с контролами `react-ui`. 
+
+Нативные элементы, поддерживающие атрибут `disabled`, отключают необходимые события мыши.
+В подобных случаях следуют использовать проп `useWrapper`:
+
+```jsx harmony
+<Hint useWrapper text="Подсказа всё равно отображается">
+  <button disabled>native button</button>
+</Hint>
+```
+
+Т.к. встроённая обёртка это `<span>` без стилей, то она может работать некорректно в определённых ситуациях.
+В таких случаях стоит использовать собственную обётку:
+
+```jsx harmony
+<>
+  <Hint useWrapper text="Подсказа">
+    <button disabled style={{ height: 40 }}>useWrapper prop</button>
+  </Hint>
+  <Hint text="Подсказа">
+    <span style={{ display: 'inline-block' }}>
+      <button disabled style={{ height: 40 }}>custom wrapper</button>
+    </span>
+  </Hint>
+</>
+```
