@@ -36,6 +36,7 @@ export const styles = memoizeStyle({
       height: 100%;
       align-items: center;
       justify-content: center;
+      pointer-events: none;
     `;
   },
 });
