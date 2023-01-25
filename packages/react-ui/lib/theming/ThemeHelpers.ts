@@ -2,6 +2,9 @@ import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 
+export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
+export type Markers = Marker[];
+
 export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
   Object.keys(descriptors).forEach((key) => {
@@ -14,19 +17,29 @@ export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
   return theme;
 };
 
-export const REACT_UI_DARK_THEME_KEY = '__IS_REACT_UI_DARK_THEME__';
-export const REACT_UI_THEME_NAME = '__REACT_UI_THEME_NAME__';
-export const REACT_UI_THEME_2022_NAME = 'THEME_2022';
+export const REACT_UI_THEME_MARKERS = {
+  darkTheme: {
+    key: '__IS_REACT_UI_DARK_THEME__',
+    value: true,
+  },
+  theme2022: {
+    key: '__IS_REACT_UI_THEME_2022__',
+    value: true,
+  },
+};
+
+// backward compatible
+export const REACT_UI_DARK_THEME_KEY = REACT_UI_THEME_MARKERS.darkTheme.key;
 
 export const isDarkTheme = (theme: Theme | ThemeIn): boolean => {
   // @ts-expect-error: internal value.
-  return theme[REACT_UI_DARK_THEME_KEY] === true;
+  return theme[REACT_UI_THEME_MARKERS.darkTheme.key] === REACT_UI_THEME_MARKERS.darkTheme.value;
 };
 
-export const markAsDarkTheme = <T extends Record<string, any>>(theme: T): T => {
+export const markAsDarkTheme: Marker = (theme) => {
   return Object.create(theme, {
-    [REACT_UI_DARK_THEME_KEY]: {
-      value: true,
+    [REACT_UI_THEME_MARKERS.darkTheme.key]: {
+      value: REACT_UI_THEME_MARKERS.darkTheme.value,
       writable: false,
       enumerable: false,
       configurable: false,
@@ -34,10 +47,10 @@ export const markAsDarkTheme = <T extends Record<string, any>>(theme: T): T => {
   });
 };
 
-export const markByName = <T extends Record<string, any>>(name: string, theme: T): T => {
+export const markAsTheme2022: Marker = (theme) => {
   return Object.create(theme, {
-    [REACT_UI_THEME_NAME]: {
-      value: name,
+    [REACT_UI_THEME_MARKERS.theme2022.key]: {
+      value: REACT_UI_THEME_MARKERS.theme2022.value,
       writable: false,
       enumerable: false,
       configurable: false,
@@ -45,15 +58,12 @@ export const markByName = <T extends Record<string, any>>(name: string, theme: T
   });
 };
 
-export const getThemeName = <T extends Record<string, any>>(theme: T): string => {
-  return theme[REACT_UI_THEME_NAME] || '';
+export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
+  // @ts-expect-error: internal value.
+  return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
 };
 
-export const isTheme2022 = <T extends Record<string, any>>(theme: T): boolean => {
-  return getThemeName(theme) === REACT_UI_THEME_2022_NAME;
-};
-
-export function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
+export function findPropertyDescriptor(theme: Theme, propName: string) {
   // TODO: Rewrite for loop.
   // TODO: Enable `no-param-reassign` rule.
   // eslint-disable-next-line no-param-reassign
@@ -63,4 +73,12 @@ export function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
     }
   }
   return {};
+}
+
+export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
+  let markedTheme: Readonly<Theme> = theme;
+  markers.forEach((marker) => {
+    markedTheme = marker(theme);
+  });
+  return markedTheme;
 }

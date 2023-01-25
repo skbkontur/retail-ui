@@ -951,7 +951,7 @@ export class DefaultTheme {
     return this.textColorInvert;
   }
   public static get mobileHintColor() {
-    return this.textColorDefault;
+    return this.hintColor;
   }
   public static get hintFontSize() {
     return this.fontSizeSmall;
@@ -1012,7 +1012,9 @@ export class DefaultTheme {
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
+  public static mobileMenuPaddingY = '0px';
   public static menuPaddingX = '0px';
+  public static mobileMenuPaddingX = '0px';
   public static menuOffsetY = '0px';
   // menuItem
   public static get menuItemTextColor() {
@@ -1050,15 +1052,54 @@ export class DefaultTheme {
   public static get menuItemHoverColor() {
     return this.textColorInvert;
   }
-  public static get menuItemDisabledColor() {
-    return this.textColorDisabled;
-  }
   public static get menuItemLinkColor() {
     return this.linkColor;
   }
   public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
+  public static menuItemDisplay = 'block';
   public static menuItemPaddingMobile = '12px 16px';
+  public static get menuItemLineHeightMobile() {
+    return this.lineHeightMobile;
+  }
+  public static get menuItemFontSizeMobile() {
+    return this.fontSizeMobile;
+  }
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
+  public static menuItemDisabledBg = 'transparent';
+  // menuMessage
+  public static get menuMessageTextColor() {
+    return this.menuItemDisabledColor;
+  }
+  public static get menuMessageBg() {
+    return this.menuItemDisabledBg;
+  }
+  public static get menuMessagePaddingY() {
+    return this.menuItemPaddingY;
+  }
+  public static get menuMessagePaddingX() {
+    return this.menuItemPaddingX;
+  }
+  public static get menuMessageDisplay() {
+    return this.menuItemDisplay;
+  }
+  public static get menuMessagePaddingMobile() {
+    return this.menuItemPaddingMobile;
+  }
+  public static get menuMessageLineHeight() {
+    return this.menuItemLineHeight;
+  }
+  public static get menuMessageLineHeightMobile() {
+    return this.menuItemLineHeightMobile;
+  }
+  public static get menuMessageFontSize() {
+    return this.menuItemFontSize;
+  }
+  public static get menuMessageFontSizeMobile() {
+    return this.menuItemFontSizeMobile;
+  }
   public static menuItemGap = '0';
   //menuHeader
   public static get menuHeaderColor() {
@@ -1075,6 +1116,9 @@ export class DefaultTheme {
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorMarginX = '0px';
   public static menuSeparatorBorderWidth = '1px';
+  // mobileMenuSeparator
+  public static mobileMenuSeparatorMarginY = '4px';
+  public static mobileMenuSeparatorMarginX = '24px';
   //#endregion
   //#region Toggle
   public static get toggleFontSize() {
@@ -1711,10 +1755,10 @@ export class DefaultTheme {
   }
   //#endregion
   //#region MobilePopup
-  public static mobilePopupTopPadding = '20px';
-  public static mobilePopupHeaderPadding = '0 16px';
-  public static mobilePopupHeaderBorderRadius = '8px 8px 0px 0px';
-  public static mobilePopupHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
+  public static mobilePopupTopPadding = '80px';
+  public static mobilePopupContainerBottomPadding = '8px';
+  public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
+  public static mobilePopupContainerBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize() {
     return this.fontSizeMobile;
   }
@@ -1723,6 +1767,7 @@ export class DefaultTheme {
   }
   public static mobilePopupHeaderFontWeight = '500';
   public static mobilePopupHeaderChildPadding = '12px';
+  public static mobilePopupOuterIndentY = '24px';
   //#endregion
   //#region ScrollContainer
   public static scrollContainerScrollBarSize = '4px';

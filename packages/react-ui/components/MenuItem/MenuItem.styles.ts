@@ -2,19 +2,35 @@ import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
+export const getMenuItemPaddings = ({
+  menuItemLegacyPaddingX,
+  menuItemPaddingX,
+  menuItemLegacyPaddingY,
+  menuItemPaddingY,
+}: Record<'menuItemLegacyPaddingX' | 'menuItemPaddingX' | 'menuItemLegacyPaddingY' | 'menuItemPaddingY', string>) => {
+  const legacyPaddingX = parseFloat(menuItemLegacyPaddingX);
+  const legacyPaddingY = parseFloat(menuItemLegacyPaddingY);
+
+  const paddingX = legacyPaddingX !== 0 ? `${parseFloat(menuItemPaddingX) + legacyPaddingX}px` : menuItemPaddingX;
+  const paddingY = legacyPaddingY !== 0 ? `${parseFloat(menuItemPaddingY) + legacyPaddingY}px` : menuItemPaddingY;
+
+  return { paddingX, paddingY };
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const legacyPaddingX = parseFloat(t.menuItemLegacyPaddingX);
-    const legacyPaddingY = parseFloat(t.menuItemLegacyPaddingY);
-
-    const paddingX = legacyPaddingX !== 0 ? `${parseFloat(t.menuItemPaddingX) + legacyPaddingX}px` : t.menuItemPaddingX;
-    const paddingY = legacyPaddingY !== 0 ? `${parseFloat(t.menuItemPaddingY) + legacyPaddingY}px` : t.menuItemPaddingY;
+    const { paddingX, paddingY } = getMenuItemPaddings({
+      menuItemLegacyPaddingX: t.menuItemLegacyPaddingX,
+      menuItemPaddingX: t.menuItemPaddingX,
+      menuItemLegacyPaddingY: t.menuItemLegacyPaddingY,
+      menuItemPaddingY: t.menuItemPaddingY,
+    });
 
     return css`
       ${resetButton()};
 
       cursor: pointer;
-      display: block;
+      display: ${t.menuItemDisplay};
       line-height: ${t.menuItemLineHeight};
       font-size: ${t.menuItemFontSize};
       padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
@@ -35,8 +51,8 @@ export const styles = memoizeStyle({
 
   rootMobile(t: Theme) {
     return css`
-      font-size: ${t.fontSizeMobile};
-      line-height: ${t.lineHeightMobile};
+      font-size: ${t.menuItemFontSizeMobile};
+      line-height: ${t.menuItemLineHeightMobile};
       padding: ${t.menuItemPaddingMobile};
     `;
   },
@@ -55,7 +71,7 @@ export const styles = memoizeStyle({
   },
   disabled(t: Theme) {
     return css`
-      background: transparent;
+      background: ${t.menuItemDisabledBg};
       color: ${t.menuItemDisabledColor};
       cursor: default;
     `;
@@ -96,7 +112,7 @@ export const styles = memoizeStyle({
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
-  contentMobile() {
+  mobileContentWithIcon() {
     return css`
       margin-left: 8px;
     `;

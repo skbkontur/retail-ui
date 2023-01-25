@@ -8,7 +8,7 @@ import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } f
 import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
@@ -33,7 +33,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps extends CommonProps {
+export interface DatePickerProps extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -271,6 +271,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     if (this.state.opened) {
       picker = (
         <DropdownContainer
+          menuPos={this.props.menuPos}
           data-tid={DatePickerDataTids.root}
           getParent={this.getParent}
           offsetY={parseInt(this.theme.datePickerMenuOffsetY)}

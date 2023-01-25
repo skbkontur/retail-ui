@@ -8,4 +8,11 @@ export const styles = memoizeStyle({
       border-top: ${t.menuSeparatorBorderWidth} solid ${t.menuSeparatorBorderColor};
     `;
   },
+
+  rootMobile(t: Theme) {
+    return css`
+      margin: ${t.mobileMenuSeparatorMarginY} ${t.mobileMenuSeparatorMarginX};
+      border-radius: 1px;
+    `;
+  },
 });
