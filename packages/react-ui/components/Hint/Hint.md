@@ -64,7 +64,7 @@ const [isOpen, setIsOpen] = React.useState(false);
 
 ```jsx harmony
 <Hint useWrapper text="Подсказа всё равно отображается">
-  <button>native button</button>
+  <button disabled>native button</button>
 </Hint>
 ```
 
