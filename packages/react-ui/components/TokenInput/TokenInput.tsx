@@ -28,6 +28,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { getUid } from '../../lib/uidUtils';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -234,6 +235,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public state: TokenInputState<T> = DefaultState;
 
+  private readonly textareaId: string = getUid();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
   private input: HTMLTextAreaElement | null = null;
@@ -376,6 +378,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             className={labelClassName}
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}
+            htmlFor={this.textareaId}
           >
             <TextWidthHelper
               ref={this.textHelperRef}
@@ -387,6 +390,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
             {this.renderTokensStart()}
             <textarea
+              id={this.textareaId}
               ref={this.inputRef}
               value={inputValue}
               style={inputInlineStyles}
