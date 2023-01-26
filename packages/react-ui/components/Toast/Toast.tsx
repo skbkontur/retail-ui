@@ -20,7 +20,7 @@ export interface ToastState {
   notification: Nullable<string>;
   action: Nullable<Action>;
   id: number;
-  timeout: Nullable<number>;
+  showTime: Nullable<number>;
 }
 
 export interface ToastProps extends CommonProps {
@@ -38,7 +38,7 @@ export const ToastDataTids = {
 /**
  * Показывает уведомления.
  *
- * Доступен статический метод: `Toast.push(notification, action?, timeout?)`.
+ * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
  * Однако, при его использовании не работает кастомизация и могут быть проблемы
  * с перекрытием уведомления другими элементами страницы.
  *
@@ -49,8 +49,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
   private setRootNode!: TSetRootNode;
 
-  public static push(notification: string, action?: Nullable<Action>, timeout?: number) {
-    ToastStatic.push(notification, action, timeout);
+  public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
+    ToastStatic.push(notification, action, showTime);
   }
 
   public static close() {
@@ -67,7 +67,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       notification: null,
       action: null,
       id: 0,
-      timeout: null,
+      showTime: null,
     };
   }
 
@@ -87,22 +87,22 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * Показывает тост с `notification` в качестве сообщения.
    * Тост автоматически скрывается через 3 или 7 секунд,
    * в зависимости от наличия у него кнопки `action`.
-   * Время показа можно задать вручную, передав `timeout`.
+   * Время показа можно задать вручную, передав `showTime`.
    *
    * @public
    * @param {string} notification
    * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
-   * @param {number} timeout Время существования Toast в миллисекундах
+   * @param {number} showTime Время существования Toast в миллисекундах
    */
-  public push(notification: string, action?: Nullable<Action>, timeout?: number) {
+  public push(notification: string, action?: Nullable<Action>, showTime?: number) {
     if (this.state.notification) {
       this.close();
     }
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(({ id }) => ({ notification, action, id: id + 1, timeout }), this._setTimer);
+    this.setState(({ id }) => ({ notification, action, id: id + 1, showTime }), this._setTimer);
   }
 
   /**
@@ -168,10 +168,10 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private _setTimer = () => {
     this._clearTimer();
 
-    let timeOut = this.state.action ? 7000 : 3000;
-    timeOut = this.state.timeout ? this.state.timeout : timeOut;
+    let showTime = this.state.action ? 7000 : 3000;
+    showTime = this.state.showTime ?? showTime;
 
-    this._timeout = window.setTimeout(this.close, timeOut);
+    this._timeout = window.setTimeout(this.close, showTime);
   };
 
   private _refToast = (element: ToastView) => {
