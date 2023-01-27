@@ -463,6 +463,48 @@ class ComboboxExample extends React.Component {
 <ComboboxExample />;
 ```
 
+
+При изменении значения и блюре `ComboBox` остается в состоянии `editing` и не дает изменить значение через проп `value`. Поэтому, для того чтобы задать новое значение, необходимо вызвать метод `reset`.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+  const [selected, setSelected] = React.useState({ value: 1, label: "First" });
+  const ref = React.useRef();
+
+  const handleButtonClick = () => {
+    if (ref.current) {
+      ref.current.reset();
+    }
+    setSelected({ value: 3, label: "Third" });
+  };
+
+  const getItems = (q) =>
+    Promise.resolve(
+      [
+        { value: 1, label: "First" },
+        { value: 2, label: "Second" },
+        { value: 3, label: "Third" }
+      ].filter(
+        (x) =>
+          x.label.toLowerCase().includes(q.toLowerCase()) ||
+          x.value.toString(10) === q
+      )
+    );
+
+  <div>
+    <ComboBox
+      ref={ref}
+      getItems={getItems}
+      onValueChange={setSelected}
+      placeholder="Enter number"
+      value={selected}
+    />
+    <Button onClick={handleButtonClick}>Make it three!</Button>
+  </div>
+
+```
+
 #### Локали по умолчанию
 
 ```typescript static

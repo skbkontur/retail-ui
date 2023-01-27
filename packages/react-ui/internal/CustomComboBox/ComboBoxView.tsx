@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isNonNullable } from '../../lib/utils';
-import { DropdownContainer } from '../DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
@@ -21,7 +21,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 
-interface ComboBoxViewProps<T> extends CommonProps {
+interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -199,11 +199,12 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderMenu = () => {
-    const { menuAlign, opened } = this.props;
+    const { menuAlign, opened, menuPos } = this.props;
 
     return (
       opened && (
         <DropdownContainer
+          menuPos={menuPos}
           align={menuAlign}
           getParent={this.getParent}
           offsetY={1}
@@ -237,7 +238,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     return (
       <MobilePopup
         headerChildComponent={<Input ref={this.refMobileInput} {...inputProps} />}
-        useFullHeight
         onCloseRequest={this.handleCloseMobile}
         opened={this.state.isMobileOpened}
       >

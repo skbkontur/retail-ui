@@ -9,7 +9,6 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -93,12 +92,9 @@ type DefaultProps = Required<
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
-@responsiveLayout
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Hint';
-
-  private isMobileLayout!: boolean;
 
   public static defaultProps: DefaultProps = {
     pos: 'top',
@@ -160,28 +156,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
                 this.theme,
               )}
             >
-              {this.isMobileLayout ? this.renderMobile() : this.renderMain()}
+              {this.renderMain()}
             </ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMobile() {
-    const manual = this.getProps().manual;
-    return (
-      <CommonWrapper {...this.props}>
-        <Popup
-          opened={this.state.opened}
-          anchorElement={this.props.children}
-          positions={[]}
-          onClick={!manual ? this.open : undefined}
-          mobileOnCloseRequest={!manual ? this.close : undefined}
-        >
-          {this.renderContent()}
-        </Popup>
-      </CommonWrapper>
     );
   }
 
@@ -202,6 +181,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           onMouseLeave={this.handleMouseLeave}
           useWrapper={useWrapper}
           ref={this.popupRef}
+          withoutMobile
         >
           {this.renderContent()}
         </Popup>
@@ -223,10 +203,9 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     const className = cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
-      [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (
-      <div className={className} style={{ maxWidth: this.isMobileLayout ? '100%' : maxWidth }}>
+      <div className={className} style={{ maxWidth }}>
         {this.props.text}
       </div>
     );
@@ -256,10 +235,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
     }
-  };
-
-  private close = () => {
-    this.setState({ opened: false });
   };
 
   private open = () => {
