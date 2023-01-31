@@ -4,17 +4,28 @@ import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
+import { DecoratorFn } from '@storybook/react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 
+const mobileDecorator: DecoratorFn = (Story) => {
+  return (
+    <div
+      style={{
+        width: '475px',
+        height: '100vh',
+      }}
+    >
+      <Story />
+    </div>
+  );
+};
 interface SelectWrapperValue {
   label: string;
   value: number;
@@ -104,29 +115,7 @@ class SelectWithNull extends React.Component {
   }
 }
 
-export default {
-  title: 'Select',
-  decorators: [
-    (Story, context) => {
-      if (![WithMenuAlignAndVariousWidth, WithManualPosition].includes(context.originalStoryFn as Story)) {
-        return (
-          <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
-            <Story />
-          </div>
-        );
-      }
-
-      return <Story />;
-    },
-  ],
-} as Meta;
-
-const selectTests: CreeveyTests = {
-  async idle() {
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
+const clickedTest: CreeveyTests = {
   async clicked() {
     await this.browser
       .actions({
@@ -138,6 +127,15 @@ const selectTests: CreeveyTests = {
 
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
+};
+
+const selectTests: CreeveyTests = {
+  async idle() {
+    await delay(1000);
+
+    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  },
+  ...clickedTest,
   async 'MenuItem hover'() {
     await this.browser
       .actions({
@@ -225,35 +223,20 @@ export const MobileSimple = () => {
   });
 
   return (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        return (
-          <ThemeContext.Provider
-            value={ThemeFactory.create(
-              {
-                mobileMediaQuery: '(max-width: 576px)',
-              },
-              theme,
-            )}
-          >
-            <Gapped vertical>
-              <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
-              {show.showFirst && (
-                <Select
-                  items={items.slice(-5)}
-                  mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
-                />
-              )}
-              <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
-              {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
-              <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
-              {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
-              <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
-            </Gapped>
-          </ThemeContext.Provider>
-        );
-      }}
-    </ThemeContext.Consumer>
+    <Gapped vertical>
+      <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
+      {show.showFirst && (
+        <Select
+          items={items.slice(-5)}
+          mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+        />
+      )}
+      <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
+      {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
+      <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
+      {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
+      <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
+    </Gapped>
   );
 };
 MobileSimple.title = 'Mobile stories';
@@ -288,6 +271,65 @@ MobileSimple.decorators = [
     </div>
   ),
 ];
+
+export const MobileWithSearch: Story = () => (
+  <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
+);
+MobileWithSearch.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+};
+MobileWithSearch.decorators = [mobileDecorator];
+
+export const MobileWithTitle: Story = () => (
+  <Select
+    mobileMenuHeaderText="Заголовок"
+    items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+  />
+);
+MobileWithTitle.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+};
+MobileWithTitle.decorators = [mobileDecorator];
+
+export const MobileWithTitleAndSearch: Story = () => (
+  <Select
+    search
+    mobileMenuHeaderText="Заголовок"
+    items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+  />
+);
+MobileWithTitleAndSearch.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+};
+MobileWithTitleAndSearch.decorators = [mobileDecorator];
+
+export const MobileWithoutTitleAndSearch: Story = () => (
+  <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
+);
+MobileWithoutTitleAndSearch.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+};
+MobileWithoutTitleAndSearch.decorators = [mobileDecorator];
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
@@ -621,6 +663,26 @@ WithMenuAlignAndVariousWidth.parameters = {
     },
   },
 };
+
+export default {
+  title: 'Select',
+  decorators: [
+    (Story, context) => {
+      if (
+        !/mobile/i.test(context.name) &&
+        ![WithMenuAlignAndVariousWidth, WithManualPosition].includes(context.originalStoryFn as Story)
+      ) {
+        return (
+          <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+            <Story />
+          </div>
+        );
+      }
+
+      return <Story />;
+    },
+  ],
+} as Meta;
 
 export const WithManualPosition: Story = () => {
   const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');

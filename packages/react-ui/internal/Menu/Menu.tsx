@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -39,6 +40,7 @@ export const MenuDataTids = {
 
 type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
 
+@responsiveLayout
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
@@ -59,6 +61,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
+  private isMobileLayout!: boolean;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
   private setRootNode!: TSetRootNode;
@@ -123,12 +126,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
     const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
+    const isMobile = this.isMobileLayout;
     return (
       <div
         data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: hasShadow,
+          [styles.rootMobile(this.theme)]: isMobile,
+          [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}
         style={getStyle(this.props)}
         ref={this.setRootNode}
@@ -139,7 +144,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           preventWindowScroll={preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
-          <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>
+          <div
+            className={cx({
+              [styles.scrollContainer(this.theme)]: true,
+              [styles.scrollContainerMobile(this.theme)]: isMobile,
+            })}
+          >
+            {this.getChildList()}
+          </div>
         </ScrollContainer>
       </div>
     );

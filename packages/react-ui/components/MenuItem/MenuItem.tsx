@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
-import { isExternalLink, isFunction, isReactUIComponent } from '../../lib/utils';
+import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -162,11 +162,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseLeave,
       isMobile,
       href,
+      disabled,
       rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 
-    const hover = state === 'hover' && !this.props.disabled;
+    const hover = state === 'hover' && !disabled;
 
     let iconElement = null;
     if (icon) {
@@ -202,6 +203,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         ref={this.setRootRef}
         data-tid={MenuItemDataTids.root}
         {...rest}
+        disabled={disabled}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
@@ -213,7 +215,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {iconElement}
         <span
           className={cx({
-            [styles.contentMobile()]: isMobile,
+            [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
           })}
         >
           {content}
@@ -256,12 +258,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private getComponent = () => {
     const { disabled, component, href } = this.props;
 
-    if (disabled) {
-      return 'button';
-    }
-
     if (component) {
       return component;
+    }
+
+    if (disabled) {
+      return 'button';
     }
 
     if (href) {

@@ -20,6 +20,7 @@ LocaleControls
 
 ```typescript static
 interface LocaleControls {
+  Autocomplete?: AutocompleteLocale;
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;
   ComboBox?: ComboBoxLocale;

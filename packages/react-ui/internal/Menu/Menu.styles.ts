@@ -14,6 +14,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  rootMobile(t: Theme) {
+    return css`
+      border-radius: 0;
+      padding: 0 ${t.mobileMenuPaddingX};
+    `;
+  },
+
   alignRight() {
     return css`
       flex: 1 1 100%;
@@ -37,6 +44,12 @@ export const styles = memoizeStyle({
   scrollContainer(t: Theme) {
     return css`
       padding: ${t.menuPaddingY} 0;
+    `;
+  },
+
+  scrollContainerMobile(t: Theme) {
+    return css`
+      padding: ${t.mobileMenuPaddingY} 0;
     `;
   },
 
