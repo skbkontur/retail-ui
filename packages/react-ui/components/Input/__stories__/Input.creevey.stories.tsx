@@ -160,7 +160,9 @@ export const SelectAllByButton: Story = () => {
       <div>
         <Input ref={(element) => (input = element)} defaultValue="Some value" />
       </div>
-      <button onClick={selectAll}>Select all</button>
+      <button data-tid="select-all" onClick={selectAll}>
+        Select all
+      </button>
     </div>
   );
 };
@@ -177,7 +179,7 @@ SelectAllByButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
       },

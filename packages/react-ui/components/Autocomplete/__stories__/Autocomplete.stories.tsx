@@ -276,7 +276,7 @@ const mobileHintsTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .click(this.browser.findElement({ css: 'input' }))
       .perform();
     await delay(200);
