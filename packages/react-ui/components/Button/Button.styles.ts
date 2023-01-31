@@ -274,7 +274,6 @@ export const styles = memoizeStyle({
       white-space: nowrap;
       color: ${t.btnLinkColor};
       display: inline;
-      line-height: inherit !important; // override size mixin
       margin: 0;
       padding: 0 !important; // override size mixin
       height: auto !important; // override size mixin
@@ -288,6 +287,19 @@ export const styles = memoizeStyle({
       &:active:enabled {
         ${activeStyles.link(t)}
       }
+    `;
+  },
+
+  linkLineHeight() {
+    return css`
+      line-height: inherit !important; // override size mixin
+    `;
+  },
+
+  linkLineHeightSafariFallback() {
+    return css`
+      /* Safari overrides 'underline' and 'border' if 'line-height' is used */
+      margin: -1px 0 -2px;
     `;
   },
 

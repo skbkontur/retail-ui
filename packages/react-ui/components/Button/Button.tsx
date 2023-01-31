@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
-import { isIE11, isEdge } from '../../lib/client';
+import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -396,6 +396,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
         [styles.link(this.theme)]: true,
+        [styles.linkLineHeight()]: !isSafari || (isSafari && !_isTheme2022),
+        [styles.linkLineHeightSafariFallback()]: isSafari && _isTheme2022,
         [styles.linkFocus(this.theme)]: isFocused,
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
