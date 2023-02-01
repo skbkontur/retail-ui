@@ -155,7 +155,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static pickerShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
 
+  //#region Hint
+  public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
   public static hintBorderRadius = '8px';
+  public static hintPaddingY = '8px';
+  public static hintPaddingX = '8px';
+  //#endregion
 
   //#region Modal
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.04)';
