@@ -379,7 +379,9 @@ class HintAndModal extends React.Component {
       <div style={{ padding: '100px' }}>
         {this.state.modalOpened && this.renderModal()}
         <Hint text="Text" opened={this.state.hintOpened} manual>
-          <Button onClick={this.open}>Open</Button>
+          <Button onClick={this.open} data-tid="open-modal">
+            Open
+          </Button>
         </Hint>
       </div>
     );
@@ -432,6 +434,7 @@ class TooltipAndSelect extends React.Component {
             value={'small'}
             items={['small', 'medium', 'large']}
             size={'small'}
+            data-tid="test-select"
           />
         </Tooltip>
       </div>
@@ -706,15 +709,15 @@ export default { title: 'ZIndex' };
 
 export const LightboxUnderLightboxStory = () => <LightboxUnderLightbox />;
 LightboxUnderLightboxStory.storyName = 'LightboxUnderLightbox';
-LightboxUnderLightboxStory.parameters = { creevey: { skip: [true] } };
+LightboxUnderLightboxStory.parameters = { creevey: { skip: true } };
 
 export const ZSampleStory = () => <ZSample total={3} />;
 ZSampleStory.storyName = 'ZSample';
-ZSampleStory.parameters = { creevey: { skip: [true] } };
+ZSampleStory.parameters = { creevey: { skip: true } };
 
 export const DemoStory = () => <Demo />;
 DemoStory.storyName = 'Demo';
-DemoStory.parameters = { creevey: { skip: [true] } };
+DemoStory.parameters = { creevey: { skip: true } };
 
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
 LoaderCoversTooltipStory.storyName = 'Loader covers tooltip';
@@ -739,7 +742,7 @@ HintAndModalStory.parameters = {
       async 'Modal covers hint'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
 
         await this.browser
@@ -792,7 +795,7 @@ TooltipAndSelectStory.parameters = {
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="test-select"]' }))
           .sendKeys('q')
           .perform();
         await delay(1000);
@@ -961,7 +964,7 @@ export const ModalSidePageStack = () => {
   );
 };
 ModalSidePageStack.storyName = 'Modal and SidePage Stack';
-ModalSidePageStack.parameters = { creevey: { skip: [true] } };
+ModalSidePageStack.parameters = { creevey: { skip: true } };
 
 export const ModalAndToast: Story = () => {
   const toast = React.useRef<Toast>(null);

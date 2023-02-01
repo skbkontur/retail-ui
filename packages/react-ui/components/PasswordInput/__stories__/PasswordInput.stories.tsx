@@ -51,10 +51,10 @@ export default { title: 'PasswordInput' };
 export const Plain: Story = () => <Component />;
 Plain.parameters = {
   creevey: {
-    skip: [
+    skip: {
       // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['With visible password'] },
-    ],
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['With visible password'] },
+    },
     tests: {
       async Plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');

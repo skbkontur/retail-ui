@@ -40,7 +40,9 @@ Horizontal.storyName = 'horizontal';
 
 Horizontal.parameters = {
   creevey: {
-    skip: [{ in: ['chromeFlat8px'], tests: 'clicked' }],
+    skip: {
+      'story-skip-0': { in: ['chromeFlat8px'], tests: 'clicked' },
+    },
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -62,7 +64,13 @@ export const Errored = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
 Errored.storyName = 'errored';
-Errored.parameters = { creevey: { skip: [{ in: ['chromeFlat8px'] }] } };
+Errored.parameters = {
+  creevey: {
+    skip: {
+      'story-skip-0': { in: ['chromeFlat8px'] },
+    },
+  },
+};
 
 export const Disabled = () => {
   return (
@@ -76,7 +84,11 @@ export const Disabled = () => {
 
 Disabled.storyName = 'disabled';
 Disabled.parameters = {
-  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
+  creevey: {
+    skip: {
+      'story-skip-0': { in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] },
+    },
+  },
 };
 
 const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonProps> }> = [

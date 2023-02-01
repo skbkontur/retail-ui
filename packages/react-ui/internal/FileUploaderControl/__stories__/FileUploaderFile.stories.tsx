@@ -54,10 +54,10 @@ FileUploaderFileWithValidationError.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('hover');
       },
     },
-    skip: [
-      {
+    skip: {
+      'story-skip-0': {
         in: /^(?!\b(chrome)\b)/,
       },
-    ],
+    },
   },
 };
