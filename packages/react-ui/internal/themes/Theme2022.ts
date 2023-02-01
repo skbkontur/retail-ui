@@ -243,6 +243,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Toast
+  public static toastBg = 'rgba(0, 0, 0, 0.76)';
   public static toastLinkColor = '#fff';
   public static toastBorderRadius = '8px';
   public static toastCloseSize = '16px';
