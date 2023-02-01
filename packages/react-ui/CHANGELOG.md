@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.11.0...@skbkontur/react-ui@4.12.0) (2023-02-01)
+
+
+### Bug Fixes
+
+* **Toast:** add `showTime` arg to the `push` method ([#3062](https://github.com/skbkontur/retail-ui/issues/3062)) ([e4196da](https://github.com/skbkontur/retail-ui/commit/e4196da2e6c1b39d9cb73fe5352b5a5d7d9d79a6))
+
+
+### Features
+
+* **Autocomplete,Select,ComboBox:** new design of mobile popups ([#3019](https://github.com/skbkontur/retail-ui/issues/3019)) ([c8e4d9a](https://github.com/skbkontur/retail-ui/commit/c8e4d9a4c9adcd4b504b866b4fb2eea9920c6db6))
+* **Dropdown:** add prop `menuPos` for manual control ([#3099](https://github.com/skbkontur/retail-ui/issues/3099)) ([a215cec](https://github.com/skbkontur/retail-ui/commit/a215cecb58a4344fca4096c7a164430cfef3722c))
+
+
+
+
+
 # [4.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.10.0...@skbkontur/react-ui@4.11.0) (2023-01-13)
 
 

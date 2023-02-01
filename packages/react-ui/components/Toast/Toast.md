@@ -13,6 +13,34 @@ function showComplexNotification() {
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
+C кастомным showTime
+
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
+
+function showComplexNotification() {
+  Toast.push('Successfully saved', {
+    label: 'Cancel',
+    handler: () => Toast.push('Canceled'),
+  }, 15000);
+}
+
+<Button onClick={showComplexNotification}>Show notification</Button>;
+```
+
+C кастомным showTime без action
+
+
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
+
+function showComplexNotification() {
+  Toast.push('Successfully saved', null, 15000);
+}
+
+<Button onClick={showComplexNotification}>Show notification</Button>;
+```
+
 Использование `ref`
 
 ```jsx harmony
@@ -43,7 +71,7 @@ class Toaster extends React.Component {
 ### SuperToast
 
 Мы можете объединить удобство статических методов и кастамизируемость классического способа через `ref`.
-Для этого можно добавить обёртку, которая позволяет Toast работать по примеру GlobalLoader.  
+Для этого можно добавить обёртку, которая позволяет Toast работать по примеру GlobalLoader.
 
 Т.е. кастомный Toast можно добавить в единственном месте на проекте, а статические методы будут всегда использовать последний отрендеренный экземпляр Toast:
 
