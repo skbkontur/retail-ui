@@ -3,11 +3,14 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
+import { MenuMessage } from '../../internal/MenuMessage';
+import { locale } from '../../lib/locale/decorators';
+import { isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -21,6 +24,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Autocomplete.styles';
+import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -41,6 +45,7 @@ function renderItem(item: any) {
 
 export interface AutocompleteProps
   extends CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'>,
     Override<
       InputProps,
       {
@@ -100,6 +105,7 @@ type DefaultProps = Required<
  */
 @responsiveLayout
 @rootNode
+@locale('Autocomplete', AutocompleteLocaleHelper)
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
@@ -144,6 +150,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   };
 
   private theme!: Theme;
+  private readonly locale!: AutocompleteLocale;
   private isMobileLayout!: boolean;
   private opened = false;
   private input: Nullable<Input> = null;
@@ -238,9 +245,27 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   };
 
+  private renderHints(): React.ReactNode {
+    const items = this.state.items;
+
+    if (!this.props.value) {
+      return <MenuMessage>{this.locale.enterValue}</MenuMessage>;
+    }
+
+    if (items?.length === 0 && this.props.value) {
+      return <MenuMessage>{this.locale.notFound}</MenuMessage>;
+    }
+
+    if (isNullable(items) && this.props.value) {
+      return <MenuMessage>{this.locale.updateValue}</MenuMessage>;
+    }
+
+    return null;
+  }
+
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal } =
+    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal, menuPos } =
       this.getProps();
     const menuProps = {
       ref: this.refMenu,
@@ -254,7 +279,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return (
-      <DropdownContainer offsetY={1} getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal}>
+      <DropdownContainer
+        offsetY={1}
+        getParent={this.getAnchor}
+        align={menuAlign}
+        disablePortal={disablePortal}
+        menuPos={menuPos}
+      >
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );
@@ -267,7 +298,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       onValueChange: this.handleValueChange,
       onKeyPress: this.handleKeyPressMobile,
       value: this.props.value,
-      placeholder: 'Начните вводить',
+      placeholder: this.locale.enterValue,
     };
 
     const items = this.state.items;
@@ -276,13 +307,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <MobilePopup
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
-        useFullHeight
         opened={this.state.isMobileOpened}
         onCloseRequest={this.handleCloseMobile}
         ref={this.refMobilePopup}
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
+          {this.renderHints()}
         </Menu>
       </MobilePopup>
     );

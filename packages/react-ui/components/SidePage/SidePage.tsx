@@ -178,29 +178,27 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <CommonWrapper {...this.props}>
           <div>
             <ResponsiveLayout>
-              {({ isMobile }) => {
-                return (
-                  <>
-                    {blockBackground && this.renderShadow()}
-                    <CSSTransition
-                      in
-                      classNames={this.getTransitionNames()}
-                      appear={!disableAnimations}
-                      enter={!disableAnimations}
-                      exit={false}
-                      timeout={{
-                        enter: TRANSITION_TIMEOUT,
-                        exit: TRANSITION_TIMEOUT,
-                      }}
-                      nodeRef={this.rootRef}
-                      onEntered={onOpened}
-                    >
-                      {this.renderContainer(isMobile)}
-                    </CSSTransition>
-                    {isMobile && <HideBodyVerticalScroll />}
-                  </>
-                );
-              }}
+              {({ isMobile }) => (
+                <>
+                  {blockBackground && this.renderShadow()}
+                  <CSSTransition
+                    in
+                    classNames={this.getTransitionNames()}
+                    appear={!disableAnimations}
+                    enter={!disableAnimations}
+                    exit={false}
+                    timeout={{
+                      enter: TRANSITION_TIMEOUT,
+                      exit: TRANSITION_TIMEOUT,
+                    }}
+                    nodeRef={this.rootRef}
+                    onEntered={onOpened}
+                  >
+                    {this.renderContainer(isMobile)}
+                  </CSSTransition>
+                  {isMobile && <HideBodyVerticalScroll />}
+                </>
+              )}
             </ResponsiveLayout>
           </div>
         </CommonWrapper>

@@ -250,21 +250,21 @@ export const WithMobileNativeDatePicker = () => {
   );
 };
 WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
-WithMobileNativeDatePicker.parameters = { creevey: { skip: [true] } };
+WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
 );
 WithAutoFocus.storyName = 'with autoFocus';
-WithAutoFocus.parameters = { creevey: { skip: [true] } };
+WithAutoFocus.parameters = { creevey: { skip: true } };
 
 export const DatePickerWithErrorStory = () => <DatePickerWithError />;
 DatePickerWithErrorStory.storyName = 'DatePickerWithError';
-DatePickerWithErrorStory.parameters = { creevey: { skip: [true] } };
+DatePickerWithErrorStory.parameters = { creevey: { skip: true } };
 
 export const DatePickerDisabled = () => <DatePickerWithError disabled />;
 DatePickerDisabled.storyName = 'DatePicker disabled';
-DatePickerDisabled.parameters = { creevey: { skip: [true] } };
+DatePickerDisabled.parameters = { creevey: { skip: true } };
 
 export const DifferentSizes = () => (
   <Gapped>
@@ -352,7 +352,7 @@ export const DatePickerLocaleProvider = () => {
   );
 };
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
-DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
+DatePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
 export const DatePickerInRelativeBody: Story = () => {
   const [isRelative, toggleIsRelative] = useState(false);
@@ -372,7 +372,9 @@ export const DatePickerInRelativeBody: Story = () => {
 
   return (
     <>
-      <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
+      <Button onClick={onClick} data-tid="toggle-relative-position">
+        {isRelative ? 'With' : 'Without'} relative position
+      </Button>
       <div style={{ padding: `${paddingTop}px 150px 0` }}>
         <DatePicker value="02.07.2017" autoFocus onValueChange={emptyHandler} />
       </div>
@@ -388,13 +390,106 @@ DatePickerInRelativeBody.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
 
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+      },
+    },
+  },
+};
+
+export const WithManualPosition: Story = () => {
+  const [menuPos, setMenuPos] = useState<'top' | 'bottom'>('top');
+  const [isRelative, toggleIsRelative] = useState(false);
+  const relativeClassName = 'relative';
+
+  const onClick = useCallback(() => {
+    toggleIsRelative(!isRelative);
+    document.querySelector('html')?.classList.toggle(relativeClassName);
+  }, [isRelative]);
+
+  useEffect(() => {
+    return () => {
+      document.querySelector('html')?.classList.remove(relativeClassName);
+    };
+  }, [relativeClassName]);
+
+  return (
+    <div style={{ marginTop: '350px', paddingBottom: '300px' }}>
+      <DatePicker menuPos={menuPos} value="02.07.2017" onValueChange={emptyHandler} />
+      <button data-tid="relative" onClick={onClick}>
+        {isRelative ? 'With' : 'Without'} relative position
+      </button>
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      </button>
+    </div>
+  );
+};
+WithManualPosition.storyName = 'with manual position';
+WithManualPosition.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    tests: {
+      async 'opened top without relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top without relative position');
+      },
+      async 'opened bottom without relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without relative position');
+      },
+      async 'opened top with relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top with relative position');
+      },
+      async 'opened bottom with relative position'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom');
       },
     },
   },

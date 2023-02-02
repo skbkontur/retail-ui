@@ -367,7 +367,7 @@ export const styles = memoizeStyle({
       height: 100%;
       display: flex;
       flex-flow: column;
-      overflow-y: scroll;
+      overflow-y: auto;
     `;
   },
 });

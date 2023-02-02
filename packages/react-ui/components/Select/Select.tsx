@@ -12,7 +12,7 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -68,7 +68,7 @@ type SelectItem<TValue, TItem> =
   | React.ReactElement
   | (() => React.ReactElement);
 
-export interface SelectProps<TValue, TItem> extends CommonProps {
+export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -429,11 +429,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private renderMenu(): React.ReactNode {
-    const search = this.props.search ? (
-      <div className={styles.search()} onKeyDown={this.handleKey}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
-      </div>
-    ) : null;
+    const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
     const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
@@ -445,6 +441,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
+        menuPos={this.props.menuPos}
       >
         <Menu
           ref={this.refMenu}
@@ -460,17 +457,22 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   }
 
-  private renderMobileMenu(): React.ReactNode {
-    const search = this.props.search ? this.getSearch(true) : null;
-    const value = this.getValue();
+  private getSearch = () => {
+    return (
+      <div className={styles.search()} onKeyDown={this.handleKey}>
+        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+      </div>
+    );
+  };
 
-    const isWithSearch = Boolean(search);
+  private renderMobileMenu(): React.ReactNode {
+    const search = this.props.search ? this.getMobileSearch() : null;
+    const value = this.getValue();
 
     return (
       <MobilePopup
         headerChildComponent={search}
         caption={this.props.mobileMenuHeaderText}
-        useFullHeight={isWithSearch}
         onCloseRequest={this.close}
         opened={this.state.opened}
       >
@@ -481,11 +483,15 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   }
 
-  private getSearch = (noMargin?: boolean) => {
+  private getMobileSearch = () => {
     return (
-      <div className={cx({ [styles.search()]: !noMargin })}>
-        <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
-      </div>
+      <Input
+        autoFocus
+        value={this.state.searchPattern}
+        ref={this.focusInput}
+        onValueChange={this.handleSearch}
+        width="100%"
+      />
     );
   };
 

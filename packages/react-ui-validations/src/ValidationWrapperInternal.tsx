@@ -133,7 +133,7 @@ export class ValidationWrapperInternal extends React.Component<
           this.isChanging = true;
           this.forceUpdate();
           if (children && children.props && children.props.onInputValueChange) {
-            children.props.onInputValueChange(...args);
+            return children.props.onInputValueChange(...args);
           }
         },
       });

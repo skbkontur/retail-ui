@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.2...react-ui-validations@1.11.3) (2023-02-01)
+
+
+### Bug Fixes
+
+* **validations:** fix return value of `onInputValueChange` ([#3092](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3092)) ([43efcb4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/43efcb428989aa9d1aeaaa6eb4f9c964fbac182d))
+
+
+
+
+
+## [1.11.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.1...react-ui-validations@1.11.2) (2023-01-13)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 ## [1.11.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.0...react-ui-validations@1.11.1) (2022-12-12)
 
 **Note:** Version bump only for package react-ui-validations

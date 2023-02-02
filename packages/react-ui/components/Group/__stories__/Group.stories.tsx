@@ -58,7 +58,7 @@ export const GroupWithInputAndMultipleButtons = () => (
   </Group>
 );
 GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
-GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: [true] } };
+GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
 export const ButtonGroup = () => (
   <Group>
@@ -79,7 +79,7 @@ export const ComplexElements = () => (
   </Group>
 );
 ComplexElements.storyName = 'Complex elements';
-ComplexElements.parameters = { creevey: { skip: [true] } };
+ComplexElements.parameters = { creevey: { skip: true } };
 
 export const WithWidth = () => (
   <ThemeContext.Consumer>

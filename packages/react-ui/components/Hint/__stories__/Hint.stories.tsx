@@ -22,7 +22,7 @@ export default {
 
 export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
 Playground.storyName = 'playground';
-Playground.parameters = { creevey: { skip: [true] } };
+Playground.parameters = { creevey: { skip: true } };
 
 export const TooMuchHints = () => (
   <Gapped gap={5}>
@@ -34,7 +34,7 @@ export const TooMuchHints = () => (
   </Gapped>
 );
 TooMuchHints.storyName = 'too much hints';
-TooMuchHints.parameters = { creevey: { skip: [true] } };
+TooMuchHints.parameters = { creevey: { skip: true } };
 
 export const Default = () => (
   <Hint text="Something will never be changed" manual opened>
@@ -134,7 +134,7 @@ export const HintWithoutAnimations = () => (
   </div>
 );
 HintWithoutAnimations.storyName = 'hint without animations';
-HintWithoutAnimations.parameters = { creevey: { skip: [true] } };
+HintWithoutAnimations.parameters = { creevey: { skip: true } };
 
 export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
@@ -198,8 +198,8 @@ export const WithSVGIcon: Story = () => {
 
 WithSVGIcon.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      'internal logic being tested and not something UI related': {
         in: [
           'chromeDark',
           'chrome8px',
@@ -211,9 +211,8 @@ WithSVGIcon.parameters = {
           'ie11',
           'ie11Dark',
         ],
-        reason: 'internal logic being tested and not something UI related',
       },
-    ],
+    },
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
