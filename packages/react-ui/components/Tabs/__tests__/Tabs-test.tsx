@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import { mount } from 'enzyme';
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Tabs } from '../Tabs';
 import { Tab } from '../Tab';
@@ -19,11 +19,28 @@ describe('Tabs', () => {
 
     expect(() => mount(<TabsContainer count={initialCount} />).setProps({ count: 2 })).not.toThrow();
   });
+
   it('should pass generic type without type errors', () => {
     function TabsGeneric<T extends string>() {
       return <Tabs<T> value={'string' as T} />;
     }
     expect(() => render(<TabsGeneric />)).not.toThrow();
+  });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <Tabs value="fuji">
+          <Tabs.Tab id="fuji" aria-describedby="elementId">
+            Fuji
+          </Tabs.Tab>
+        </Tabs>
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const tab = screen.getByRole('link');
+    expect(tab).toHaveAttribute('aria-describedby', 'elementId');
+    expect(tab).toHaveAccessibleDescription('Description');
   });
 });
 

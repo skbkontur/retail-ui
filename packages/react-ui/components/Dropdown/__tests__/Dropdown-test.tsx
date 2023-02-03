@@ -1,5 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 
 import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
@@ -42,5 +43,17 @@ describe('Dropdown', () => {
     expect(select.prop('items')).toHaveLength(1);
 
     expect(React.isValidElement(select.prop<React.ReactChild[]>('items')[0])).toBeTruthy();
+  });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <Dropdown caption="button" aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const dropdown = screen.getByRole('button');
+    expect(dropdown).toHaveAttribute('aria-describedby', 'elementId');
+    expect(dropdown).toHaveAccessibleDescription('Description');
   });
 });

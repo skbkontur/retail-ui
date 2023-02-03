@@ -10,4 +10,16 @@ describe('Toggle', () => {
     const input = screen.getByRole('switch', { name: 'Toggle' });
     expect(input).toBeInTheDocument();
   });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <Toggle aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const toggle = screen.getByRole('switch');
+    expect(toggle).toHaveAttribute('aria-describedby', 'elementId');
+    expect(toggle).toHaveAccessibleDescription('Description');
+  });
 });

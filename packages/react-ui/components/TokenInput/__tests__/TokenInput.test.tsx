@@ -192,6 +192,18 @@ describe('<TokenInput />', () => {
     await userEvent.click(screen.getAllByRole('button')[0]);
     expect(screen.getByText('aaa')).toBeInTheDocument();
   });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <TokenInput aria-describedby="elementId" getItems={getItems} type={TokenInputType.Combined} />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const tokenInput = screen.getByRole('textbox');
+    expect(tokenInput).toHaveAttribute('aria-describedby', 'elementId');
+    expect(tokenInput).toHaveAccessibleDescription('Description');
+  });
 });
 
 function TokenInputWithState(props: { disabledToken: string }) {

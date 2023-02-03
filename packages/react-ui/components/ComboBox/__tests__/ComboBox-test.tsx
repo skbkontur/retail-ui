@@ -1369,4 +1369,20 @@ describe('ComboBox', () => {
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
+  
+  it('props aria-describedby applied correctly', () => {
+    const getItems = () => {
+      return Promise.resolve([{ value: 1, label: 'First' }]);
+    };
+
+    render(
+      <div>
+        <ComboBox aria-describedby="elementId" getItems={getItems} autoFocus />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const comboBox = screen.getByRole('textbox');
+    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+    expect(comboBox).toHaveAccessibleDescription('Description');
+  });
 });
