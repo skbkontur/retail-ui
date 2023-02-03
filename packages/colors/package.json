@@ -1,0 +1,26 @@
+{
+  "name": "@skbkontur/colors",
+  "version": "0.0.1",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://nexus.kontur.host/repository/kontur-npm/"
+  },
+  "module": "dist/esm/colors.js",
+  "main": "dist/cjs/colors.js",
+  "scripts": {
+    "build": "rimraf dist && ts-node scripts/generate.ts && npm run build:cjs && npm run build:esm && npm run build:prettier",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:prettier": "prettier src colors.* --write"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "colors.*"
+  ],
+  "author": "Kontur",
+  "devDependencies": {
+    "rimraf": "^4.1.2",
+    "ts-node": "^10.9.1"
+  }
+}
