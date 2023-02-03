@@ -74,7 +74,14 @@ export const decorators: Meta['decorators'] = [
 
     if (theme !== DEFAULT_THEME) {
       return (
-        <ThemeContext.Provider value={theme}>
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
           <Story />
         </ThemeContext.Provider>
       );
