@@ -14,7 +14,7 @@ npm i @skbkontur/colors
 Например, `Blue Dark / 30` из фигмы в библиотеке можно найти как:
 - `@blueDark30` для colors.less
 - `--blueDark30` для colors.css
-- `Colors.blueDark30` для colors.ts
+- `KonturColors.blueDark30` для colors.ts
 
 Пример использования colors.less
 
