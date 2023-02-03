@@ -67,6 +67,20 @@ describe('MenuItem', () => {
     expect(wrapper.contains(<span>http:test.href</span>)).toBe(true);
   });
 
+  it('should render disabled <button/>', () => {
+    render(<MenuItem disabled />);
+
+    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('should render disabled <button/> when `component` prop passed', () => {
+    render(<MenuItem component={(props) => <button {...props} />} disabled />);
+
+    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
   describe('onMouseEnter', () => {
     it('calls once', () => {
       const onMouseEnter = jest.fn();

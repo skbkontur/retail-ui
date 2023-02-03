@@ -464,7 +464,7 @@ export const OffsetY: Story = () => (
   </div>
 );
 OffsetY.parameters = {
-  creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
 export const OffsetX = () => (
@@ -489,7 +489,7 @@ export const OffsetX = () => (
   </div>
 );
 OffsetX.parameters = {
-  creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
 export const OffsetYAndX = () => (
@@ -517,5 +517,5 @@ export const OffsetYAndX = () => (
   </div>
 );
 OffsetYAndX.parameters = {
-  creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };

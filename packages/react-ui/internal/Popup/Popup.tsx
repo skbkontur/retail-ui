@@ -479,7 +479,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseLeave={this.handleMouseLeave}
             >
               {this.content(children)}
-              {!this.isMobileLayout && this.renderPin(location.position)}
+              {(!this.isMobileLayout || this.props.withoutMobile) && this.renderPin(location.position)}
             </ZIndex>
           </CommonWrapper>
         )}

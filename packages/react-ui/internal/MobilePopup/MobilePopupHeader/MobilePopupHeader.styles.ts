@@ -5,15 +5,13 @@ const styles = {
   root(t: Theme) {
     return css`
       position: relative;
-      background: ${t.menuBgDefault};
       padding: ${t.mobilePopupHeaderPadding};
-      border-radius: ${t.mobilePopupHeaderBorderRadius};
     `;
   },
 
-  withShadow(t: Theme) {
+  rootWithoutContent() {
     return css`
-      box-shadow: ${t.mobilePopupHeaderShadow};
+      padding: 8px 0 0 0;
     `;
   },
 
@@ -26,10 +24,6 @@ const styles = {
 
   caption(t: Theme) {
     return css`
-      display: flex;
-      justify-content: center;
-      padding-top: 12px;
-      padding-bottom: 12px;
       font-size: ${t.mobilePopupHeaderFontSize};
       line-height: ${t.mobilePopupHeaderLineHeight};
       font-weight: ${t.mobilePopupHeaderFontWeight};
@@ -37,27 +31,9 @@ const styles = {
     `;
   },
 
-  childrenWithoutCaption() {
+  captionWithChildren() {
     return css`
       padding-bottom: 8px;
-    `;
-  },
-
-  closeWrapper() {
-    return css`
-      height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `;
-  },
-
-  closeHolder() {
-    return css`
-      background-color: rgba(0, 0, 0, 0.1);
-      height: 4px;
-      width: 10%;
-      border-radius: 4px;
     `;
   },
 };

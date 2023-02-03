@@ -135,7 +135,9 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
           onValueChange={this.handleChange}
         />
         <div style={{ margin: '15px 0', position: 'absolute' }}>
-          <button onClick={this.handleClickButton}>focus</button>
+          <button onClick={this.handleClickButton} data-tid="focus-input">
+            focus
+          </button>
         </div>
       </div>
     );
@@ -159,23 +161,22 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
 export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
-Demo.parameters = { creevey: { skip: [true] } };
+Demo.parameters = { creevey: { skip: true } };
 export const WithBorderless = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
-WithBorderless.parameters = { creevey: { skip: [true] } };
+WithBorderless.parameters = { creevey: { skip: true } };
 
 export const SampleStory: Story = () => <Sample fractionDigits={0} />;
 SampleStory.storyName = 'Sample';
 
 SampleStory.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      'flacky visible(?!) cursor': {
         in: ['chromeDark'],
         tests: ['Focus', 'Input value', 'External focus and input'],
-        reason: 'flacky visible(?!) cursor',
       },
-    ],
+    },
     tests: {
       async Plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
@@ -211,7 +212,7 @@ SampleStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="focus-input"]' }))
           .perform();
         await this.browser
           .actions({
@@ -262,4 +263,4 @@ export const ManualMount = () => {
   return <ManualMounting />;
 };
 ManualMount.storyName = 'Manual mount';
-ManualMount.parameters = { creevey: { skip: [true] } };
+ManualMount.parameters = { creevey: { skip: true } };

@@ -16,6 +16,33 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
+В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
+
+<TooltipMenu caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
+    return (
+      <>
+        <p>Сейчас тултип-меню { opened ? 'окрыто' : 'закрыто' }</p>
+        <Button onClick={toggleMenu}>Переключить меню</Button>
+        <Button onClick={openMenu}>Открыть меню</Button>
+        <Button onClick={closeMenu}>Закрыть меню</Button>
+      </>
+    )
+  }}>
+  <MenuHeader>Заголовок меню</MenuHeader>
+  <MenuSeparator />
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+  <MenuSeparator />
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+</TooltipMenu>;
+```
+
 Тултип-меню с заданной шириной.
 
 ```jsx harmony
