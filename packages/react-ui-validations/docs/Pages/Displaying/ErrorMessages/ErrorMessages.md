@@ -19,7 +19,7 @@
 
 Пример кода:
 
-    <ValidationWrapper validationInfo={...} renderMessage={tooltip("top left", {dataTid: 'custom data-tid' })}>
+    <ValidationWrapper validationInfo={...} renderMessage={tooltip("top left")}>
       //...
     </ValidationWrapper>
 
@@ -39,7 +39,7 @@
 
     <ValidationWrapper
       validationInfo={...}
-      renderMessage={text("bottom", { dataTid: 'custom data-tid' })}
+      renderMessage={text("bottom")}
     >
       //...
     </ValidationWrapper>
