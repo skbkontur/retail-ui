@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
@@ -60,7 +60,7 @@ export interface CheckboxProps
         /**
          * Атрибут для указания id элемента(-ов), описывающих его
          */
-        ariaDescribedby?: string;
+        'aria-describedby'?: AriaAttributes['aria-describedby'];
       }
     > {}
 
@@ -205,7 +205,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       onValueChange,
       type,
       initialIndeterminate,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
       ...rest
     } = props;
     const isIndeterminate = this.state.indeterminate;

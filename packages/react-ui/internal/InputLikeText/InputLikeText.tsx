@@ -168,7 +168,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragStart,
       onMouseDragEnd,
       takeContentWidth,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
       ...rest
     } = props;
 

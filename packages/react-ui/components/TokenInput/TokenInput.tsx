@@ -1,4 +1,12 @@
-import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
+import React, {
+  AriaAttributes,
+  ChangeEvent,
+  FocusEvent,
+  FocusEventHandler,
+  KeyboardEvent,
+  MouseEventHandler,
+  ReactNode,
+} from 'react';
 import isEqual from 'lodash.isequal';
 
 import {
@@ -116,7 +124,7 @@ export interface TokenInputProps<T> extends CommonProps {
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 
   /**
    * Функция для обработки ситуации, когда была введена
@@ -319,7 +327,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       inputMode,
       renderTotalCount,
       totalCount,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
     } = this.props;
 
     const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();

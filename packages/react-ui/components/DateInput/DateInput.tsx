@@ -60,10 +60,6 @@ export interface DateInputProps extends CommonProps {
    * @default 'small'
    */
   size?: 'small' | 'large' | 'medium';
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  ariaDescribedby?: string;
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
@@ -222,7 +218,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           value={this.iDateMediator.getInternalString()}
           inputMode={'numeric'}
           takeContentWidth
-          ariaDescribedby={this.props.ariaDescribedby}
         >
           <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
             <DateFragmentsView

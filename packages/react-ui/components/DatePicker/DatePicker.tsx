@@ -27,7 +27,6 @@ const INPUT_PASS_PROPS = {
   error: true,
   size: true,
   onKeyDown: true,
-  ariaDescribedby: true,
 };
 
 export const MIN_WIDTH = 120;
@@ -78,10 +77,6 @@ export interface DatePickerProps extends Pick<DropdownContainerProps, 'menuPos'>
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
   isHoliday?: (day: string, isWeekend: boolean) => boolean;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  ariaDescribedby?: string;
 }
 
 export interface DatePickerState {

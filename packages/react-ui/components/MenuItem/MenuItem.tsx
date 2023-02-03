@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
@@ -86,7 +86,7 @@ export interface MenuItemProps extends Omit<CommonProps, 'children'> {
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export const MenuItemDataTids = {
@@ -167,7 +167,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       isMobile,
       href,
       disabled,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
       rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
@@ -77,7 +77,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
   /** Вызывается при изменении `value` */
   onValueChange?: (value: T) => void;
   onBlur?: (event: FocusEvent) => void;
@@ -153,7 +153,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public renderMain() {
-    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur, ariaDescribedby } = this.props;
+    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur, 'aria-describedby': ariaDescribedby } = this.props;
     const style = {
       width: width ?? 'auto',
     };

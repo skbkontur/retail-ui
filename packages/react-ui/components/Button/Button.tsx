@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
@@ -162,7 +162,7 @@ export interface ButtonProps extends CommonProps {
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface ButtonState {
@@ -260,7 +260,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onClick,
       width,
       children,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
     } = this.props;
     const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();

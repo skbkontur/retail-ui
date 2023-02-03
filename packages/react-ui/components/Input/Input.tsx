@@ -1,7 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import raf from 'raf';
 
 import { isIE11, isEdge } from '../../lib/client';
@@ -104,7 +104,7 @@ export interface InputProps
         /**
          * Атрибут для указания id элемента(-ов), описывающих его
          */
-        ariaDescribedby?: string;
+        'aria-describedby'?: AriaAttributes['aria-describedby'];
       }
     > {}
 
@@ -297,7 +297,7 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
       ...rest
     } = props;
 

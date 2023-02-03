@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -33,7 +33,7 @@ const PASS_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
   menuPos: true,
-  ariaDescribedby: true,
+  'aria-describedby': true,
 };
 
 export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
@@ -93,7 +93,7 @@ export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps,
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;

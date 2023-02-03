@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -55,7 +55,7 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export const TabsDataTids = {
@@ -99,7 +99,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
-    const { value, width, children, indicatorClassName, ariaDescribedby } = this.props;
+    const { value, width, children, indicatorClassName, 'aria-describedby': ariaDescribedby } = this.props;
     const vertical = this.getProps().vertical;
     return (
       <ThemeContext.Consumer>

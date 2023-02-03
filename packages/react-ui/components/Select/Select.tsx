@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactPortal } from 'react';
+import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
 
 import {
@@ -43,7 +43,7 @@ export interface ButtonParams {
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 const PASS_BUTTON_PROPS = {
@@ -156,7 +156,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownCo
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface SelectState<TValue> {
@@ -333,7 +333,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
-      ariaDescribedby: this.props.ariaDescribedby,
+      'aria-describedby': this.props['aria-describedby'],
     };
 
     return buttonParams;
@@ -381,7 +381,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
       active: params.opened,
-      ariaDescribedby: params.ariaDescribedby,
+      'aria-describedby': params['aria-describedby'],
     };
     const use = this.getProps().use;
 

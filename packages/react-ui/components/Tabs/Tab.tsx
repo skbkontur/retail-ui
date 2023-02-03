@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
@@ -92,7 +92,7 @@ export interface TabProps<T extends string = string> extends CommonProps {
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface TabState {
@@ -187,7 +187,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   public getUnderlyingNode = () => this.tabComponent;
 
   private renderMain() {
-    const { children, disabled, error, warning, success, primary, ariaDescribedby } = this.props;
+    const { children, disabled, error, warning, success, primary, 'aria-describedby': ariaDescribedby } = this.props;
     const { component: Component, href } = this.getProps();
 
     let isActive = false;

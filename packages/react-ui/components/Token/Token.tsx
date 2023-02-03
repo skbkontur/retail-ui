@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
@@ -32,7 +32,7 @@ export interface TokenProps extends CommonProps {
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -83,7 +83,7 @@ export class Token extends React.Component<TokenProps> {
       error,
       warning,
       disabled,
-      ariaDescribedby,
+      'aria-describedby': ariaDescribedby,
       onClick = emptyHandler,
       onDoubleClick = emptyHandler,
       onMouseEnter = emptyHandler,

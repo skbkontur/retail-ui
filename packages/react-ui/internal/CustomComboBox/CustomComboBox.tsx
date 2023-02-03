@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';
@@ -49,7 +49,7 @@ export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'me
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  ariaDescribedby?: string;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
   width?: string | number;
   maxMenuHeight?: number | string;
   renderNotFound?: () => React.ReactNode;
@@ -257,7 +257,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       totalCount: this.props.totalCount,
       value: this.props.value,
       warning: this.props.warning,
-      ariaDescribedby: this.props.ariaDescribedby,
+      'aria-describedby': this.props['aria-describedby'],
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
