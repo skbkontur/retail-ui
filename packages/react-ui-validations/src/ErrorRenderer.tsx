@@ -23,7 +23,6 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
   };
 }
 
-// eslint-disable-next-line default-param-last
 export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
   if (pos === 'right') {
     return (control, _hasError, validation) => {
