@@ -117,22 +117,15 @@ prop-ов, используя соглашения react-ui. Для отрисо
     // ...
     </ValidationWrapper>
 
-## tooltip(pos: string, options?: RenderErrorOptions): RenderErrorMessage
-
-где
-
-    interface RenderErrorOptions {
-      dataTid?: string;
-    }
+## tooltip(pos: string): RenderErrorMessage
 
 Возвращает функцию для рендеринга сообщения об ошибке в виде тултипа. Используется для передачи в renderMessage.
 
 Аргументы:
 
 - `pos`: строка передаваемая в соответствующий prop [react-ui Tooltip-а](https://tech.skbkontur.ru/react-ui/#/components/Tooltip).
-- `options`: объект с опциями. Позволяет задать кастомный `data-tid` тултипу.
 
-## text(pos: 'right' | 'bottom', options?: RenderErrorOptions): RenderErrorMessage
+## text(pos: 'right' | 'bottom'): RenderErrorMessage
 
 Возвращает функцию для рендеринга сообщения о ошибке в виде текстового блока рядом с контролом.
 Используется для передачи в renderMessage.
@@ -140,4 +133,3 @@ prop-ов, используя соглашения react-ui. Для отрисо
 Аргументы:
 
 - `pos`: управляет положением текста и принимает значения 'right' или 'bottom' для отображения сообщения справа или внизу соответственно.
-- `options`: объект с опциями. Позволяет задать кастомный `data-tid` тексту.
