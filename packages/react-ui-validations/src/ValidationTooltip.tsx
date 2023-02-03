@@ -21,7 +21,6 @@ export interface ValidationTooltipProps {
   error: boolean;
   pos?: TooltipPosition;
   render?: () => React.ReactNode;
-  'data-tid'?: string;
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps> {

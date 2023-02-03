@@ -36,6 +36,7 @@ export interface ValidationWrapperInternalProps {
   children?: React.ReactElement<any>;
   validation: Nullable<Validation>;
   errorMessage: RenderErrorMessage;
+  'data-tid'?: string;
 }
 
 interface ValidationWrapperInternalState {
@@ -97,7 +98,7 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   public render() {
-    const { children } = this.props;
+    const { children, 'data-tid': dataTid } = this.props;
     const { validation } = this.state;
 
     let clonedChild: React.ReactElement<any> = children ? (
@@ -138,7 +139,10 @@ export class ValidationWrapperInternal extends React.Component<
         },
       });
     }
-    return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
+
+    return React.cloneElement(this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation), {
+      'data-tid': dataTid,
+    });
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {

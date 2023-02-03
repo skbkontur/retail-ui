@@ -15,7 +15,7 @@ describe('ErrorRenderer', () => {
   it('should pass custom data-tid to tooltip', () => {
     const dataTid = 'data-tid';
     render(
-      <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('left bottom', { dataTid })}>
+      <ValidationWrapper data-tid={dataTid} validationInfo={validate()} renderMessage={tooltip('left bottom')}>
         <Input />
       </ValidationWrapper>,
     );
@@ -28,7 +28,7 @@ describe('ErrorRenderer', () => {
   it('should pass custom data-tid to text', () => {
     const dataTid = 'data-tid';
     render(
-      <ValidationWrapper validationInfo={validate()} renderMessage={text('right', { dataTid })}>
+      <ValidationWrapper data-tid={dataTid} validationInfo={validate()} renderMessage={text('right')}>
         <Input />
       </ValidationWrapper>,
     );
@@ -53,7 +53,7 @@ describe('ErrorRenderer', () => {
   it('should not render tooltip error message when validationInfo is not provided', () => {
     const dataTid = 'data-tid';
     render(
-      <ValidationWrapper validationInfo={null} renderMessage={tooltip('left bottom', { dataTid })}>
+      <ValidationWrapper data-tid={dataTid} validationInfo={null} renderMessage={tooltip('left bottom')}>
         <Input />
       </ValidationWrapper>,
     );
