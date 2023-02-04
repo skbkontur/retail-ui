@@ -232,7 +232,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <span {...itemProps}>
+      <span {...itemProps} role="presentation">
         <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
       </span>
     );

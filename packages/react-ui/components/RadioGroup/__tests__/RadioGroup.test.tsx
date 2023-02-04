@@ -266,8 +266,31 @@ describe('<RadioGroup />', () => {
   });
 
   it('should have correctly role', () => {
-    const root = renderRadioGroup({ children: <span /> });
+    function RadioGroupGeneric<T>() {
+      return (
+        <RadioGroup<T>>
+          <Radio value={'str'} />
+        </RadioGroup>
+      );
+    }
 
-    expect(root.find('[role="radiogroup"]')).toHaveLength(1);
+    const { getByRole } = render(<RadioGroupGeneric />);
+
+    expect(() => getByRole('radiogroup')).not.toThrow();
+  });
+
+  it('children has prevent table role', () => {
+    function RadioGroupGeneric<T>() {
+      return (
+        <RadioGroup<T>>
+          <Radio value={'str'} />
+          <Radio value={'str'} />
+        </RadioGroup>
+      );
+    }
+
+    const { getAllByRole } = render(<RadioGroupGeneric />);
+
+    expect(() => getAllByRole('presentation')).not.toThrow();
   });
 });
