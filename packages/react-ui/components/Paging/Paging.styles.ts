@@ -91,6 +91,7 @@ export const styles = memoizeStyle({
       min-width: ${t.pagingPageLinkMinWidth};
       padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
       text-decoration: none;
+      box-sizing: ${t.pagingPageLinkBoxSizing};
 
       &:hover {
         background: ${t.pagingPageLinkHoverBg};
@@ -143,7 +144,7 @@ export const styles = memoizeStyle({
   pageLinkHint(t: Theme) {
     return css`
       display: inline-block;
-      margin: 0 -20px;
+      margin: ${t.pagingPageLinkHintMargin};
       font-size: ${t.pagingPageLinkHintFontSize};
       line-height: ${t.pagingPageLinkHintLineHeight};
       color: ${t.pagingPageLinkHintColor};

@@ -356,6 +356,18 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   //#endregion
 
+  //#region Paging
+  public static pagingPageForwardLinkMarginTop = '';
+  public static pagingPageForwardLinkMarginLeft = '0px';
+  public static get pagingPageForwardLinkPaddingRight() {
+    return this.pagingPageLinkPaddingX;
+  }
+  public static pagingLineHeight = '22px';
+  public static pagingPageLinkPaddingX = '12px';
+  public static pagingPageLinkBoxSizing = 'border-box';
+  public static pagingPageLinkHintMargin = '4px -20px 0';
+  //#endregion
+
   //#region SidePage
   public static sidePageBgDefault = '#fff';
   public static sidePageFooterPaddingTop = '20px';

@@ -916,6 +916,7 @@ export class DefaultTheme {
     return this.pagingFontSize;
   }
   public static pagingForwardIconMarginTop = '1px';
+  public static pagingPageLinkBoxSizing = 'content-box';
   public static pagingPageLinkPaddingX = '0.625em';
   public static pagingPageLinkPaddingY = '0.3125em';
   public static pagingPageLinkLegacyPaddingY = '0px';
@@ -938,6 +939,7 @@ export class DefaultTheme {
   }
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkHintMargin = '0 -20px';
   public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;

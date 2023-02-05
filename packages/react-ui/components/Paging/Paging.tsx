@@ -14,12 +14,14 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
 import { getItems } from './PagingHelper';
 import { PagingLocale, PagingLocaleHelper } from './locale';
 import { PagingDefaultComponent } from './PagingDefaultComponent';
+import { ForwardIcon } from './ForwardIcon';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
@@ -213,13 +215,28 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = cx({
-      [styles.forwardLink(this.theme)]: true,
-      [styles.forwardLinkFocused()]: focused,
-      [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
-    });
+    const classes = isTheme2022(this.theme)
+      ? cx(
+          styles.pageLink(this.theme),
+          styles.forwardLink(this.theme),
+          focused && styles.pageLinkFocused(this.theme),
+          disabled || (this.props.disabled && styles.pageLinkDisabled(this.theme)),
+        )
+      : cx({
+          [styles.forwardLink(this.theme)]: true,
+          [styles.forwardLinkFocused()]: focused,
+          [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
+        });
     const Component = this.getProps().component;
     const { forward } = this.locale;
+
+    const forwardIcon = isTheme2022(this.theme) ? (
+      <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />
+    ) : (
+      <span className={styles.forwardIcon(this.theme)}>
+        <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
+      </span>
+    );
 
     return (
       <Component
@@ -232,9 +249,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         pageNumber={'forward' as const}
       >
         {this.props.caption || forward}
-        <span className={styles.forwardIcon(this.theme)}>
-          <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
-        </span>
+        {forwardIcon}
       </Component>
     );
   };
@@ -281,6 +296,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
+    // d
     if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
         <span className={styles.pageLinkHint(this.theme)}>
