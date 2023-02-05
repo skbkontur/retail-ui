@@ -366,6 +366,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static pagingPageLinkPaddingX = '12px';
   public static pagingPageLinkBoxSizing = 'border-box';
   public static pagingPageLinkHintMargin = '4px -20px 0';
+  public static pagingDotsColor = '#ADADAD';
+  public static pagingDotsDisabledColor = '#ADADAD';
+  public static pagingForwardLinkColor = '#222222';
+  public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.04)';
   //#endregion
 
   //#region SidePage

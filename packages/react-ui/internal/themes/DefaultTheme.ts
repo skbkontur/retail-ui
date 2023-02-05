@@ -947,6 +947,9 @@ export class DefaultTheme {
   public static get pagingForwardLinkDisabledColor() {
     return this.linkDisabledColor;
   }
+  public static get pagingDotsDisabledColor() {
+    return this.textColorDisabled;
+  }
   //#endregion
   //#region Hint
   public static get hintColor() {

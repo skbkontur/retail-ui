@@ -28,7 +28,7 @@ export const styles = memoizeStyle({
 
   dotsDisabled(t: Theme) {
     return css`
-      color: ${t.textColorDisabled};
+      color: ${t.pagingDotsDisabledColor};
     `;
   },
 
