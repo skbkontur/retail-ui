@@ -388,6 +388,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   public static sidePageHeaderFontWeight = 'bold';
   //#endregion
+
+  //#region Tabs
+  public static tabColorHover = '#D6D6D6';
+  public static tabIndicatorBorderRadius = '2px';
+  //#endregion
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(

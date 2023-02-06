@@ -1639,6 +1639,7 @@ export class DefaultTheme {
   public static get tabColorHoverPrimary() {
     return ColorFunctions.lighten(this.tabColorPrimary, '25%');
   }
+  public static tabIndicatorBorderRadius = '0';
   //#endregion
   //#region Spinner
   public static get spinnerBgColor() {
