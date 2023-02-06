@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { RadioGroup, RadioGroupProps } from '../RadioGroup';
 import { Radio } from '../../Radio';
@@ -266,31 +266,24 @@ describe('<RadioGroup />', () => {
   });
 
   it('should have correctly role', () => {
-    function RadioGroupGeneric<T>() {
+    function RadioGroupGeneric() {
       return (
-        <RadioGroup<T>>
+        <RadioGroup>
           <Radio value={'str'} />
         </RadioGroup>
       );
     }
 
-    const { getByRole } = render(<RadioGroupGeneric />);
-
-    expect(() => getByRole('radiogroup')).not.toThrow();
+    render(<RadioGroupGeneric />);
+    expect(screen.getByRole('radiogroup')).toBeInTheDocument();
   });
 
   it('children has prevent table role', () => {
-    function RadioGroupGeneric<T>() {
-      return (
-        <RadioGroup<T>>
-          <Radio value={'str'} />
-          <Radio value={'str'} />
-        </RadioGroup>
-      );
+    function RadioGroupGeneric() {
+      return <RadioGroup items={['One', 'Two']} />;
     }
 
-    const { getAllByRole } = render(<RadioGroupGeneric />);
-
-    expect(() => getAllByRole('presentation')).not.toThrow();
+    render(<RadioGroupGeneric />);
+    expect(screen.getAllByRole('presentation')).toHaveLength(2);
   });
 });
