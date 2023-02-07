@@ -29,11 +29,12 @@ export const SimpleDropdown: Story = () => (
 
 SimpleDropdown.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'MenuItem hover' },
+    skip: {
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'MenuItem hover' },
+
       // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
-    ],
+      'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    },
     tests: {
       async idle() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
@@ -212,6 +213,85 @@ WithCustomSelectTheme.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+    },
+  },
+};
+
+export const WithManualPosition: Story = () => {
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
+  const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);
+
+  return (
+    <div style={{ marginTop: '50px' }}>
+      <Dropdown disablePortal={isPortalDisabled} menuPos={menuPos} caption="Открыть">
+        <MenuItem>Menu item</MenuItem>
+      </Dropdown>
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      </button>
+      <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
+        {isPortalDisabled ? 'enable' : 'disable'} portal
+      </button>
+    </div>
+  );
+};
+WithManualPosition.storyName = 'with manual position';
+WithManualPosition.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    tests: {
+      async 'opened top with portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top with portal');
+      },
+      async 'opened bottom with portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom with portal');
+      },
+      async 'opened top without portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened top without portal');
+      },
+      async 'opened bottom without portal'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
       },
     },
   },

@@ -32,14 +32,15 @@ SimpleComboboxStory.storyName = 'simple combobox';
 
 SimpleComboboxStory.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      'story-skip-0': {
         in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
         tests: ['hovered', 'selected_2', 'select_1'],
       },
+
       // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered'] },
-    ],
+      'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered'] },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -283,11 +284,12 @@ OpenToTop.storyName = 'open to top';
 
 OpenToTop.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    skip: {
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+
       // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered'] },
-    ],
+      'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered'] },
+    },
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '[data-tid="container"]' });
@@ -407,40 +409,40 @@ export const SimpleComboboxWithDelay = () => {
   return <Sample />;
 };
 SimpleComboboxWithDelay.storyName = 'simple combobox with delay';
-SimpleComboboxWithDelay.parameters = { creevey: { skip: [true] } };
+SimpleComboboxWithDelay.parameters = { creevey: { skip: true } };
 
 export const WithErrorHandling = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
 );
 WithErrorHandling.storyName = 'with error handling';
-WithErrorHandling.parameters = { creevey: { skip: [true] } };
+WithErrorHandling.parameters = { creevey: { skip: true } };
 
 export const WithErrorSkipping = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} />
 );
 WithErrorSkipping.storyName = 'with error skipping';
-WithErrorSkipping.parameters = { creevey: { skip: [true] } };
+WithErrorSkipping.parameters = { creevey: { skip: true } };
 
 export const WithWarning = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={warningStrategy} />
 );
 WithWarning.storyName = 'with warning';
-WithWarning.parameters = { creevey: { skip: [true] } };
+WithWarning.parameters = { creevey: { skip: true } };
 
 export const WithRejections = () => <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />;
 WithRejections.storyName = 'with rejections';
-WithRejections.parameters = { creevey: { skip: [true] } };
+WithRejections.parameters = { creevey: { skip: true } };
 
 export const Disabled = () => <TestComboBox autoFocus disabled onSearch={search} renderItem={renderValue} />;
 Disabled.storyName = 'disabled';
-Disabled.parameters = { creevey: { skip: [true] } };
+Disabled.parameters = { creevey: { skip: true } };
 
 export const WithCustomElements = () => (
   // @ts-expect-error: Undocumented feature.
   <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
 );
 WithCustomElements.storyName = 'with custom elements';
-WithCustomElements.parameters = { creevey: { skip: [true] } };
+WithCustomElements.parameters = { creevey: { skip: true } };
 
 export const Autocomplete = () => (
   <TestComboBox
@@ -453,7 +455,7 @@ export const Autocomplete = () => (
   />
 );
 Autocomplete.storyName = 'autocomplete';
-Autocomplete.parameters = { creevey: { skip: [true] } };
+Autocomplete.parameters = { creevey: { skip: true } };
 
 export const WithAutoFocus = () => (
   <div style={{ paddingBottom: 330, paddingRight: 40 }}>
@@ -480,35 +482,35 @@ export const WithAutoFocusAndAutocomplete = () => (
   />
 );
 WithAutoFocusAndAutocomplete.storyName = 'with autoFocus and autocomplete';
-WithAutoFocusAndAutocomplete.parameters = { creevey: { skip: [true] } };
+WithAutoFocusAndAutocomplete.parameters = { creevey: { skip: true } };
 
 export const WithMaxMenuHeight = () => <TestComboBox onSearch={search} renderItem={renderValue} maxMenuHeight={200} />;
 WithMaxMenuHeight.storyName = 'with maxMenuHeight';
-WithMaxMenuHeight.parameters = { creevey: { skip: [true] } };
+WithMaxMenuHeight.parameters = { creevey: { skip: true } };
 
 export const WithBorderless = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} borderless />
 );
 WithBorderless.storyName = 'with borderless';
-WithBorderless.parameters = { creevey: { skip: [true] } };
+WithBorderless.parameters = { creevey: { skip: true } };
 
 export const WithCenterAlign = () => <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue />;
 WithCenterAlign.storyName = 'with center align';
-WithCenterAlign.parameters = { creevey: { skip: [true] } };
+WithCenterAlign.parameters = { creevey: { skip: true } };
 
 export const NotRenderNotFound = () => (
   <SimpleCombobox placeholder={'placeholder'} noInitialValue renderNotFound={() => null} />
 );
 NotRenderNotFound.storyName = 'not render NotFound';
-NotRenderNotFound.parameters = { creevey: { skip: [true] } };
+NotRenderNotFound.parameters = { creevey: { skip: true } };
 
 export const WithRightAlign = () => <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue />;
 WithRightAlign.storyName = 'with right align';
-WithRightAlign.parameters = { creevey: { skip: [true] } };
+WithRightAlign.parameters = { creevey: { skip: true } };
 
 export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue />;
 WithMaxLength.storyName = 'with maxLength';
-WithMaxLength.parameters = { creevey: { skip: [true] } };
+WithMaxLength.parameters = { creevey: { skip: true } };
 
 export const ToogleError: Story = () => <ComboBoxWithErrorToggler />;
 ToogleError.storyName = 'toogle error';
@@ -554,7 +556,7 @@ export const WithNullOnUnexpectedInput = () => (
   <ComboBox getItems={() => Promise.resolve([])} onUnexpectedInput={() => null} />
 );
 WithNullOnUnexpectedInput.storyName = 'with `null` onUnexpectedInput';
-WithNullOnUnexpectedInput.parameters = { creevey: { skip: [true] } };
+WithNullOnUnexpectedInput.parameters = { creevey: { skip: true } };
 
 export const WithExternalValue: Story = () => <ComboBoxWithExternalValue />;
 WithExternalValue.storyName = 'with external value';
@@ -590,7 +592,7 @@ WithExternalValue.parameters = {
 
 export const WithRenderItemState = () => <SimpleCombobox renderItem={(_, state) => String(state)} />;
 WithRenderItemState.storyName = 'with renderItem state';
-WithRenderItemState.parameters = { creevey: { skip: [true] } };
+WithRenderItemState.parameters = { creevey: { skip: true } };
 
 export const OpenCloseSearchMethods = () => {
   let combobox: Nullable<ComboBox<ValueType>> = null;
@@ -616,7 +618,7 @@ export const OpenCloseSearchMethods = () => {
   );
 };
 OpenCloseSearchMethods.storyName = 'open, close, search methods';
-OpenCloseSearchMethods.parameters = { creevey: { skip: [true] } };
+OpenCloseSearchMethods.parameters = { creevey: { skip: true } };
 
 export const FocusFlow: Story = () => (
   <div>
@@ -673,7 +675,7 @@ export const NestedComboBoxes = () => {
   return <RecursiveComboboxes depth={10} />;
 };
 NestedComboBoxes.storyName = '1024 nested ComboBoxes';
-NestedComboBoxes.parameters = { creevey: { skip: [true] } };
+NestedComboBoxes.parameters = { creevey: { skip: true } };
 
 export const WithManyComplexMenuItems = () => (
   <div>
@@ -681,7 +683,7 @@ export const WithManyComplexMenuItems = () => (
   </div>
 );
 WithManyComplexMenuItems.storyName = 'with many complex menu items';
-WithManyComplexMenuItems.parameters = { creevey: { skip: [true] } };
+WithManyComplexMenuItems.parameters = { creevey: { skip: true } };
 
 export const WithAddButton = () => (
   <TestComboBox
@@ -691,7 +693,7 @@ export const WithAddButton = () => (
   />
 );
 WithAddButton.storyName = 'with add button';
-WithAddButton.parameters = { creevey: { skip: [true] } };
+WithAddButton.parameters = { creevey: { skip: true } };
 
 interface ComboBoxWithErrorTogglerState {
   value: { label: number };
@@ -1207,7 +1209,7 @@ MobileSimple.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: { skip: [true] },
+  creevey: { skip: true },
 };
 
 export const WithManualPosition: Story = () => {

@@ -196,7 +196,7 @@ export const Validations = () => {
   );
 };
 Validations.storyName = 'validations';
-Validations.parameters = { creevey: { skip: [true] } };
+Validations.parameters = { creevey: { skip: true } };
 
 export const EmptyWithReference: Story = () => {
   return <Wrapper getItems={getItems} />;
@@ -238,13 +238,13 @@ export const ColoredEmptyWithReference = () => {
   return <ColoredWrapper getItems={getItems} />;
 };
 ColoredEmptyWithReference.storyName = 'colored empty with reference';
-ColoredEmptyWithReference.parameters = { creevey: { skip: [true] } };
+ColoredEmptyWithReference.parameters = { creevey: { skip: true } };
 
 export const EmptyWithoutReference = () => {
   return <Wrapper type={TokenInputType.WithoutReference} />;
 };
 EmptyWithoutReference.storyName = 'empty without reference';
-EmptyWithoutReference.parameters = { creevey: { skip: [true] } };
+EmptyWithoutReference.parameters = { creevey: { skip: true } };
 
 export const EmptyCombined: Story = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
@@ -272,13 +272,13 @@ export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
 };
 WithReferenceFilled.storyName = '[with reference] filled';
-WithReferenceFilled.parameters = { creevey: { skip: [true] } };
+WithReferenceFilled.parameters = { creevey: { skip: true } };
 
 export const WithoutReferenceFilled = () => {
   return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
 };
 WithoutReferenceFilled.storyName = '[without reference] filled';
-WithoutReferenceFilled.parameters = { creevey: { skip: [true] } };
+WithoutReferenceFilled.parameters = { creevey: { skip: true } };
 
 export const CombinedFilled: Story = () => {
   return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
@@ -364,7 +364,7 @@ export const WithLongItem1 = () => {
   );
 };
 WithLongItem1.storyName = 'with long item 1';
-WithLongItem1.parameters = { creevey: { skip: [true] } };
+WithLongItem1.parameters = { creevey: { skip: true } };
 
 export const WithLongItem2 = () => {
   return (
@@ -372,7 +372,7 @@ export const WithLongItem2 = () => {
   );
 };
 WithLongItem2.storyName = 'with long item 2';
-WithLongItem2.parameters = { creevey: { skip: [true] } };
+WithLongItem2.parameters = { creevey: { skip: true } };
 
 export const MultipleTokens = () => {
   return (
@@ -383,13 +383,13 @@ export const MultipleTokens = () => {
   );
 };
 MultipleTokens.storyName = 'multiple tokens';
-MultipleTokens.parameters = { creevey: { skip: [true] } };
+MultipleTokens.parameters = { creevey: { skip: true } };
 
 export const CombinedGenericToken = () => {
   return <WrapperCustomModel />;
 };
 CombinedGenericToken.storyName = 'combined generic token';
-CombinedGenericToken.parameters = { creevey: { skip: [true] } };
+CombinedGenericToken.parameters = { creevey: { skip: true } };
 
 export const WidthToken = () => {
   return (
@@ -401,7 +401,7 @@ export const WidthToken = () => {
   );
 };
 WidthToken.storyName = 'width token';
-WidthToken.parameters = { creevey: { skip: [true] } };
+WidthToken.parameters = { creevey: { skip: true } };
 
 export const WithAutofocus = () => {
   return (
@@ -411,7 +411,7 @@ export const WithAutofocus = () => {
   );
 };
 WithAutofocus.storyName = 'with autofocus';
-WithAutofocus.parameters = { creevey: { skip: [true] } };
+WithAutofocus.parameters = { creevey: { skip: true } };
 
 export const UseRenderToken = () => (
   <Gapped gap={10}>
@@ -426,7 +426,7 @@ export const UseRenderToken = () => (
   </Gapped>
 );
 UseRenderToken.storyName = 'use renderToken';
-UseRenderToken.parameters = { creevey: { skip: [true] } };
+UseRenderToken.parameters = { creevey: { skip: true } };
 
 export const IdenticalAlignmentWithOtherControls = () => (
   <Gapped gap={10} vertical>
@@ -435,7 +435,7 @@ export const IdenticalAlignmentWithOtherControls = () => (
   </Gapped>
 );
 IdenticalAlignmentWithOtherControls.storyName = 'identical alignment with other controls';
-IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: [true] } };
+IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: true } };
 
 export const Disabled = () => {
   return (
@@ -530,13 +530,12 @@ export const OnUnexpectedInputValidation: Story = () => {
 OnUnexpectedInputValidation.storyName = 'validate with onUnexpectedInput';
 OnUnexpectedInputValidation.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      flacky: {
         in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
         tests: ['token select', 'token edit'],
-        reason: 'flacky',
       },
-    ],
+    },
     tests: {
       async 'token select'() {
         await this.browser

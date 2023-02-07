@@ -148,11 +148,15 @@ GoToAbsensePageStory.storyName = 'GoToAbsensePage';
 
 GoToAbsensePageStory.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' },
+    skip: {
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' },
+
       // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'Move to page by Ender'] },
-    ],
+      'story-skip-1': {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hover', 'Move to page by Ender'],
+      },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -236,15 +240,15 @@ export const SimpleSamples = () => (
   </>
 );
 SimpleSamples.storyName = 'SimpleSamples';
-SimpleSamples.parameters = { creevey: { skip: [true] } };
+SimpleSamples.parameters = { creevey: { skip: true } };
 
 export const PagingWithCustomComponentStory = () => <PagingWithCustomComponent pagesCount={12} />;
 PagingWithCustomComponentStory.storyName = 'PagingWithCustomComponent';
-PagingWithCustomComponentStory.parameters = { creevey: { skip: [true] } };
+PagingWithCustomComponentStory.parameters = { creevey: { skip: true } };
 
 export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
 PagingWithGlobalListener.storyName = 'Paging with global listener';
-PagingWithGlobalListener.parameters = { creevey: { skip: [true] } };
+PagingWithGlobalListener.parameters = { creevey: { skip: true } };
 
 const Template: ComponentStory<typeof Paging> = (args) => {
   return <Paging {...args} />;
@@ -267,7 +271,7 @@ DisabledPaging.parameters = {
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
-PlaygroundStory.parameters = { creevey: { skip: [true] } };
+PlaygroundStory.parameters = { creevey: { skip: true } };
 
 interface PlaygroundState {
   useGlobalListener: boolean;
