@@ -269,7 +269,7 @@ describe('<RadioGroup />', () => {
     render(
       <RadioGroup>
         <Radio value={'str'} />
-      </RadioGroup>
+      </RadioGroup>,
     );
     expect(screen.getByRole('radiogroup')).toBeInTheDocument();
   });
