@@ -266,24 +266,16 @@ describe('<RadioGroup />', () => {
   });
 
   it('should have correctly role', () => {
-    function RadioGroupGeneric() {
-      return (
-        <RadioGroup>
-          <Radio value={'str'} />
-        </RadioGroup>
-      );
-    }
-
-    render(<RadioGroupGeneric />);
+    render(
+      <RadioGroup>
+        <Radio value={'str'} />
+      </RadioGroup>
+    );
     expect(screen.getByRole('radiogroup')).toBeInTheDocument();
   });
 
   it('children has prevent table role', () => {
-    function RadioGroupGeneric() {
-      return <RadioGroup items={['One', 'Two']} />;
-    }
-
-    render(<RadioGroupGeneric />);
+    render(<RadioGroup items={['One', 'Two']} />);
     expect(screen.getAllByRole('presentation')).toHaveLength(2);
   });
 });
