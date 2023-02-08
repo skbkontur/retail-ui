@@ -127,7 +127,9 @@ class ModalWithIconInput extends React.Component {
     return (
       <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
-        <Button onClick={this.open}>Open modal</Button>
+        <Button onClick={this.open} data-tid="open-modal">
+          Open modal
+        </Button>
       </div>
     );
   }
@@ -153,7 +155,9 @@ class ModalOverAnotherModal extends React.Component {
         <Modal.Header>Модалка #{name === 'firstModalOpened' ? '1' : '2'}</Modal.Header>
         <Modal.Body>
           {name === 'firstModalOpened' && (
-            <Button onClick={() => this.setState({ secondModalOpened: true })}>Open second modal</Button>
+            <Button onClick={() => this.setState({ secondModalOpened: true })} data-tid="open-second-modal">
+              Open second modal
+            </Button>
           )}
         </Modal.Body>
       </Modal>
@@ -167,7 +171,9 @@ class ModalOverAnotherModal extends React.Component {
       <div>
         {firstModalOpened && this.renderModal('firstModalOpened', 500)}
         {secondModalOpened && this.renderModal('secondModalOpened', 300)}
-        <Button onClick={() => this.setState({ firstModalOpened: true })}>Open first modal</Button>
+        <Button onClick={() => this.setState({ firstModalOpened: true })} data-tid="open-first-modal">
+          Open first modal
+        </Button>
       </div>
     );
   }
@@ -249,7 +255,9 @@ class ModalWithoutFooterPanel extends React.Component {
     return (
       <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
-        <Button onClick={this.open}>Open modal</Button>
+        <Button onClick={this.open} data-tid="open-modal">
+          Open modal
+        </Button>
       </div>
     );
   }
@@ -289,7 +297,9 @@ class ModalWithoutFooter extends React.Component {
     return (
       <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
-        <Button onClick={this.open}>Open modal</Button>
+        <Button onClick={this.open} data-tid="open-modal">
+          Open modal
+        </Button>
       </div>
     );
   }
@@ -367,7 +377,9 @@ class ModalWithVariableHeight extends React.Component {
             </Modal.Footer>
           </Modal>
         )}
-        <Button onClick={this.open}>Open modal</Button>
+        <Button onClick={this.open} data-tid="open-modal">
+          Open modal
+        </Button>
       </div>
     );
   }
@@ -401,7 +413,9 @@ class SmallModalOnTop extends React.Component {
     return (
       <div>
         {this.state.opened && this.renderModal()}
-        <Button onClick={this.open}>Open modal</Button>
+        <Button onClick={this.open} data-tid="open-modal">
+          Open modal
+        </Button>
       </div>
     );
   }
@@ -419,7 +433,7 @@ export default { title: 'Modal' };
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
-WithScrollableParentContent.parameters = { creevey: { skip: [true] } };
+WithScrollableParentContent.parameters = { creevey: { skip: true } };
 
 export const WithIconInput: Story = () => <ModalWithIconInput />;
 
@@ -431,7 +445,7 @@ WithIconInput.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
@@ -451,7 +465,7 @@ ModalOverAnotherModalStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-first-modal"]' }))
           .perform();
         await delay(200);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open first modal');
@@ -461,11 +475,11 @@ ModalOverAnotherModalStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-first-modal"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="ModalBody"] button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-second-modal"]' }))
           .perform();
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open second modal');
@@ -481,7 +495,7 @@ export const DisabledModal = () => (
   </Modal>
 );
 DisabledModal.storyName = 'Disabled modal';
-DisabledModal.parameters = { creevey: { skip: [true] } };
+DisabledModal.parameters = { creevey: { skip: true } };
 
 export const ModalWithoutFooterPanelStory: Story = () => <ModalWithoutFooterPanel />;
 ModalWithoutFooterPanelStory.storyName = 'Modal without footer panel';
@@ -494,7 +508,7 @@ ModalWithoutFooterPanelStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(200);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
@@ -514,7 +528,7 @@ ModalWithoutFooterStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
       },
@@ -587,7 +601,7 @@ ModalWithVariableHeightOfContent.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
@@ -597,7 +611,7 @@ ModalWithVariableHeightOfContent.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -672,7 +686,7 @@ SmallModalOnTheTop.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
@@ -682,7 +696,7 @@ SmallModalOnTheTop.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -695,7 +709,7 @@ SmallModalOnTheTop.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -708,7 +722,7 @@ SmallModalOnTheTop.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await this.browser
           .actions({ bridge: true })
@@ -738,7 +752,7 @@ export const ModalWithHeaderFromOtherComponent = () => {
   );
 };
 ModalWithHeaderFromOtherComponent.storyName = 'Modal with Header from other Component';
-ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: [true] } };
+ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: true } };
 
 export const ModalBodyWithoutPadding = () => (
   <ThemeContext.Consumer>
@@ -799,7 +813,9 @@ export const ModalWithChildrenFromOtherComponent = () => (
 
 ModalWithChildrenFromOtherComponent.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] }],
+    skip: {
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] },
+    },
     tests: TopMiddleBottomModalTests,
   },
 };
@@ -856,7 +872,9 @@ export const MobileModal: Story = () => {
 
   const render = (
     <div>
-      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <Button onClick={() => setOpen(true)} data-tid="open-modal">
+        Open modal
+      </Button>
       {isOpen && modal}
     </div>
   );
@@ -875,7 +893,7 @@ MobileModal.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(200);
 
@@ -886,7 +904,7 @@ MobileModal.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(200);
 
@@ -904,7 +922,7 @@ MobileModal.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
           .perform();
         await delay(200);
 

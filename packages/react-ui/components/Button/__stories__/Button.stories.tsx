@@ -341,7 +341,7 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
@@ -352,7 +352,7 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
       })
       .press()
       .perform();
@@ -369,7 +369,7 @@ const buttonTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
@@ -385,27 +385,37 @@ const buttonTests: CreeveyTests = {
   },
 };
 
-export const PlaygroundDefault = () => <Button>Hello</Button>;
+export const PlaygroundDefault = () => <Button data-tid="test-button">Hello</Button>;
 
 PlaygroundDefault.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
+    skip: {
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      'story-skip-1': {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hover', 'pressed', 'clicked'],
+      },
+    },
     tests: buttonTests,
   },
 };
 
-export const PlaygroundDisabled = () => <Button disabled>Hello</Button>;
+export const PlaygroundDisabled = () => (
+  <Button disabled data-tid="test-button">
+    Hello
+  </Button>
+);
 
 PlaygroundDisabled.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: /firefox/, tests: 'tabPress', reason: 'focus goes out of page and breaks other tests' },
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
+    skip: {
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
+      'story-skip-2': {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hover', 'pressed', 'clicked'],
+      },
+    },
     tests: buttonTests,
   },
 };

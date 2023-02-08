@@ -109,9 +109,10 @@ export const WithClassChildren = () => (
 
 ### Отключение анимаций во время тестирования
 
-Анимации в компонентах отключаются любой из следующих переменных окружения:
+Анимации в компонентах отключаются любой из следующих глобальных переменных:
 
 ```static
+REACT_UI_TEST
 process.env.NODE_ENV === 'test'
 process.env.REACT_UI_TEST
 process.env.REACT_APP_REACT_UI_TEST

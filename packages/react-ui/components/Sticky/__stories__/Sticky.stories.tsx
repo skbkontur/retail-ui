@@ -142,7 +142,9 @@ export const Top: Story = () => <SampleTop />;
 Top.decorators = [withThinContainer];
 Top.parameters = {
   creevey: {
-    skip: [{ in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped', reason: 'flacky stopped position' }],
+    skip: {
+      'flacky stopped position': { in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped' },
+    },
     tests: {
       async top() {
         await delay(1000);
@@ -184,7 +186,12 @@ export const Bottom: Story = () => <SampleBottom />;
 Bottom.decorators = [withThinContainer];
 Bottom.parameters = {
   creevey: {
-    skip: [{ in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped', reason: 'flacky stopped position' }],
+    skip: {
+      'flacky stopped position': {
+        in: ['firefox', 'firefox8px', 'firefoxDark'],
+        tests: 'stoped',
+      },
+    },
     tests: {
       async bottom() {
         await this.browser.executeScript(function () {

@@ -12,6 +12,7 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { DropdownContainerProps } from '../../internal/DropdownContainer';
 
 import { relinkDropdownTheme } from './relinkDropdownTheme';
 
@@ -32,9 +33,10 @@ const PASS_PROPS = {
   onMouseEnter: true,
   onMouseLeave: true,
   onMouseOver: true,
+  menuPos: true,
 };
 
-export interface DropdownProps extends CommonProps {
+export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
   /**
    * Подпись на кнопке.
    */

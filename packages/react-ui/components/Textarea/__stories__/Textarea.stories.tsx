@@ -206,7 +206,7 @@ export const TextareaInInlineFlexAndText = () => (
   </div>
 );
 TextareaInInlineFlexAndText.storyName = 'Textarea in inline-flex and text';
-TextareaInInlineFlexAndText.parameters = { creevey: { skip: [true] } };
+TextareaInInlineFlexAndText.parameters = { creevey: { skip: true } };
 
 export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
@@ -291,7 +291,9 @@ export const SelectAllByButton: Story = () => {
 
   return (
     <div>
-      <Button onClick={handleClick}>Select All</Button>
+      <Button onClick={handleClick} data-tid="select-all">
+        Select All
+      </Button>
       <div>
         <Textarea
           spellCheck={false}
@@ -319,7 +321,7 @@ SelectAllByButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid="select-all"]' }))
           .pause(500)
           .perform();
         await delay(1000);
@@ -381,12 +383,11 @@ TextareaWithCounters.storyName = 'Textarea with length counter';
 
 TextareaWithCounters.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      'flacky scrollbars height': {
         in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
-        reason: 'flacky scrollbars height',
       },
-    ],
+    },
     tests: {
       async Plain() {
         await delay(1000);
