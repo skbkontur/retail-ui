@@ -304,17 +304,31 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '2px';
 
+  //#region Toggle
   public static toggleHandleSize = '14px';
   public static toggleHandleLeft = '3px';
   public static toggleHandleTop = '3px';
   public static toggleHandleActiveWidthIncrement = '0px';
 
-  public static toggleHandleBg = '#3D3D3D';
+  public static toggleHandleBg = '#ffffff';
   public static toggleBgChecked = '#3D3D3D';
-  public static toggleBgHover = '#3D3D3D';
+  public static toggleBgHover = '#ffffff';
+  public static toggleBaseBgHover = '#F0F0F0';
+  public static toggleBgDisabledChecked = '#D6D6D6';
+  public static toggleDisabledHandleBg = '#f6f6f6';
+  public static toggleBorderColorDisabledChecked = '#e1e1e1';
+  public static get toggleHandleBoxShadow() {
+    return `0 0 0 ${this.toggleBorderWidth} rgba(0, 0, 0, 0.15)`;
+  }
+  public static get toggleHandleBoxShadowDisabledChecked() {
+    return `none`;
+  }
 
   public static toggleCheckedBg = '#fff';
   public static toggleCheckedBgHover = '#fff';
+  public static toggleBackgroundBgDisabledChecked = 'transparent';
+  public static toggleBackgroundBoxShadowDisabledChecked = 'none';
+  //#endregion
 
   public static switcherBorderRadius = '8px';
 

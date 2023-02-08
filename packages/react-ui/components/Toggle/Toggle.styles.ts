@@ -9,6 +9,7 @@ export const globalClasses = prefix('toggle')({
   containerDisabled: 'container-disabled',
   containerLoading: 'container-loading',
   background: 'background',
+  base: 'base',
 });
 
 export const styles = memoizeStyle({
@@ -25,6 +26,10 @@ export const styles = memoizeStyle({
 
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
+      }
+
+      &:hover .${globalClasses.base} {
+        background: ${t.toggleBaseBgHover};
       }
       &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
         width: ${handleActiveWidth};
@@ -50,7 +55,7 @@ export const styles = memoizeStyle({
       background: ${t.toggleHandleBg};
       border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
-      box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
+      box-shadow: ${t.toggleHandleBoxShadow};
       height: ${t.toggleHandleSize};
       left: ${t.toggleHandleLeft};
       position: absolute;
@@ -80,6 +85,9 @@ export const styles = memoizeStyle({
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
+      &:checked:disabled ~ .${globalClasses.handle} {
+        box-shadow: ${t.toggleHandleBoxShadowDisabledChecked};
+      }
       &:checked ~ .${globalClasses.containerDisabled} {
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColorDisabledChecked};
         background: ${t.toggleBgDisabledChecked};
@@ -95,9 +103,9 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
         width: 70%;
-        background: ${t.toggleBgDisabledChecked};
+        background: ${t.toggleBackgroundBgDisabledChecked};
         border-radius: calc(${t.toggleHeight} * 0.5) 0 0 calc(${t.toggleHeight} * 0.5);
-        box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
+        box-shadow: ${t.toggleBackgroundBoxShadowDisabledChecked};
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
