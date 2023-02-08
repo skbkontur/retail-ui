@@ -73,18 +73,7 @@ export const decorators: Meta['decorators'] = [
     }
 
     if (theme !== DEFAULT_THEME) {
-      return (
-        <ThemeContext.Provider
-          value={ThemeFactory.create(
-            {
-              mobileMediaQuery: '(max-width: 576px)',
-            },
-            theme,
-          )}
-        >
-          <Story />
-        </ThemeContext.Provider>
-      );
+      return <Story />;
     }
 
     return <Story />;
@@ -95,28 +84,20 @@ export const decorators: Meta['decorators'] = [
     </div>
   ),
   (Story, context) => {
-    if (MOBILE_REGEXP.test(context.story) || MOBILE_REGEXP.test(context.name)) {
-      return (
-        <ThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <ThemeContext.Provider
-                value={ThemeFactory.create(
-                  {
-                    mobileMediaQuery: '(max-width: 576px)',
-                  },
-                  theme,
-                )}
-              >
-                <Story />
-              </ThemeContext.Provider>
-            );
-          }}
-        </ThemeContext.Consumer>
-      );
-    }
+    const theme = themes[context.globals.theme] || DEFAULT_THEME;
 
-    return <Story />;
+    return (
+      <ThemeContext.Provider
+        value={ThemeFactory.create(
+          {
+            mobileMediaQuery: '(max-width: 576px)',
+          },
+          theme,
+        )}
+      >
+        <Story />
+      </ThemeContext.Provider>
+    );
   },
 ];
 
