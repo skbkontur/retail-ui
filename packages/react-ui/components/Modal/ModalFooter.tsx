@@ -86,7 +86,7 @@ function ModalFooter(props: ModalFooterProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
+      <ZIndex>
         {sticky ? (
           <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}
