@@ -97,6 +97,8 @@ export const CustomComboBoxDataTids = {
 @responsiveLayout
 @rootNode
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
+  private static timeOutID: any;
+  private static timeOutID2: any;
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
 
   public state: CustomComboBoxState<T> = DefaultState;
@@ -165,7 +167,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
-          setTimeout(resolve, LOADER_SHOW_TIME);
+          CustomComboBox.timeOutID = setTimeout(resolve, LOADER_SHOW_TIME);
         }, DELAY_BEFORE_SHOW_LOADER);
 
         cancelPromise.catch(() => cancelLoader());
@@ -385,7 +387,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // workaround for the similar bug with focusout
     // in Firefox, Chrome and IE
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-    setTimeout(() => {
+    CustomComboBox.timeOutID2 = setTimeout(() => {
       this.dispatch({ type: 'Blur' });
     });
   };
@@ -408,4 +410,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       this.dispatch({ type: 'InputClick' });
     }
   };
+
+  componentWillUnmount() {
+    clearTimeout(CustomComboBox.timeOutID);
+    clearTimeout(CustomComboBox.timeOutID2);
+  }
 }

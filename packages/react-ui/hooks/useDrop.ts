@@ -70,6 +70,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
       ref.removeEventListener('dragleave', preventDefault);
       ref.removeEventListener('dragover', handleDragOver);
       ref.removeEventListener('drop', handleDrop);
+      clearTimeout(timerId.current);
     };
   }, [handleDrop, handleDragOver, preventDefault]);
 

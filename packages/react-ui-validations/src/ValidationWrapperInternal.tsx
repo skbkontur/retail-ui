@@ -51,6 +51,7 @@ export class ValidationWrapperInternal extends React.Component<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
 > {
+  private static timeOutID: any;
   public state: ValidationWrapperInternalState = {
     validation: null,
   };
@@ -76,6 +77,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public componentWillUnmount() {
     this.context.unregister(this);
+    clearTimeout(ValidationWrapperInternal.timeOutID);
   }
 
   public componentDidUpdate() {
@@ -199,7 +201,7 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   private handleBlur() {
-    setTimeout(() => {
+    ValidationWrapperInternal.timeOutID = setTimeout(() => {
       this.processBlur();
       if (!this.isIndependent()) {
         this.context.instanceProcessBlur(this);

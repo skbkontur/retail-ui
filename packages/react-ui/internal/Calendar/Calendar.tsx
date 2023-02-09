@@ -101,6 +101,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.cancel();
     }
+    clearTimeout(this.wheelEndTimeout);
   }
 
   public render() {

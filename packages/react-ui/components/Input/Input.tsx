@@ -122,6 +122,7 @@ type DefaultProps = Required<Pick<InputProps, 'size'>>;
  */
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {
+  private static timeOutID: any;
   public static __KONTUR_REACT_UI__ = 'Input';
 
   public static defaultProps: DefaultProps = {
@@ -147,6 +148,7 @@ export class Input extends React.Component<InputProps, InputState> {
       clearTimeout(this.blinkTimeout);
     }
     this.cancelDelayedSelectAll();
+    clearTimeout(Input.timeOutID);
   }
 
   /**
@@ -204,7 +206,7 @@ export class Input extends React.Component<InputProps, InputState> {
       this.focus();
     }
     if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
-      setTimeout(() => {
+      Input.timeOutID = setTimeout(() => {
         this.input?.setSelectionRange(start, end);
       }, 150);
     } else {

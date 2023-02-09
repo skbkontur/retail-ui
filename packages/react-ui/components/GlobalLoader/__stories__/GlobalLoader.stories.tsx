@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Select, Toast, GlobalLoader, Button } from '@skbkontur/react-ui';
 
 import { Story } from '../../../typings/stories';
 
 function GlobalLoaderWithProps() {
+  const timeOutID: any = useRef(null);
+  const timeOutID2: any = useRef(null);
+  const timeOutID3: any = useRef(null);
   const [error, setError] = React.useState(false);
   const [active, setActive] = React.useState(false);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeOutID.current);
+      clearTimeout(timeOutID2.current);
+      clearTimeout(timeOutID3.current);
+    };
+  }, []);
 
   return (
     <div>
@@ -21,15 +32,15 @@ function GlobalLoaderWithProps() {
   );
 
   function showGlobalLoaderWithProps() {
-    setTimeout(() => {
+    timeOutID.current = setTimeout(() => {
       setActive(true);
     }, 1000);
 
-    setTimeout(() => {
+    timeOutID2.current = setTimeout(() => {
       setError(true);
     }, 10000);
 
-    setTimeout(() => {
+    timeOutID3.current = setTimeout(() => {
       setActive(false);
     }, 30000);
   }
@@ -64,6 +75,8 @@ function GlobalLoaderWithStaticMethods() {
 }
 
 function GlobalLoaderWithTimer() {
+  const intervalID: any = useRef(null);
+  const timeOutID: any = useRef(null);
   const [active, setActive] = React.useState(false);
   const [time, setTime] = React.useState(1);
   const [timerTime, setTimerTime] = React.useState(0);
@@ -71,6 +84,14 @@ function GlobalLoaderWithTimer() {
   const [done, setDone] = React.useState(true);
   const times = [0.5, 1, 2, 4, 8, 16];
   let timer: ReturnType<typeof setInterval> | null = null;
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeOutID.current);
+      clearInterval(intervalID.current);
+    };
+  }, []);
+
   return (
     <div>
       <div>
@@ -103,7 +124,7 @@ function GlobalLoaderWithTimer() {
     setDone(false);
     setTimerTime(0);
     startTimer();
-    setTimeout(() => {
+    timeOutID.current = setTimeout(() => {
       setActive(false);
       Toast.push('Загрузка завершена');
     }, time * 1000);
@@ -111,7 +132,7 @@ function GlobalLoaderWithTimer() {
   function startTimer() {
     if (!timer) {
       let currentTime = 0;
-      timer = setInterval(() => {
+      timer = intervalID.current = setInterval(() => {
         setTimerTime(currentTime);
         currentTime += 100;
         if (currentTime > time * 1000) {
