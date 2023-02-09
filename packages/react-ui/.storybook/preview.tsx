@@ -72,10 +72,6 @@ export const decorators: Meta['decorators'] = [
       }
     }
 
-    if (theme !== DEFAULT_THEME) {
-      return <Story />;
-    }
-
     return <Story />;
   },
   (Story) => (
