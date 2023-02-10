@@ -5,7 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
-import { ButtonProps } from './Button';
+import { ButtonProps, ButtonSize } from './Button';
 import { styles } from './Button.styles';
 
 type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
@@ -33,9 +33,14 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
         return styles.iconSmall(theme);
     }
   };
+  const sizes: Record<ButtonSize, number> = {
+    small: parseInt(theme.btnIconSizeSmall),
+    medium: parseInt(theme.btnIconSizeMedium),
+    large: parseInt(theme.btnIconSizeLarge),
+  };
 
-  const type = isTheme2022(theme) ? size : 'mini';
-  const space = isTheme2022(theme) ? String.fromCharCode(8203) : '';
+  const spinnerType = isTheme2022(theme) ? size : 'mini';
+  const space = isTheme2022(theme) ? String.fromCharCode(8203) : ''; // Symbol to align to baseline
   const style: React.CSSProperties = isTheme2022(theme)
     ? {
         display: 'inline-flex',
@@ -43,7 +48,11 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
       }
     : {};
 
-  const spinnerNode = () => <Spinner caption={null} dimmed type={type} />;
+  let _icon = icon;
+  if (icon && isTheme2022(theme)) {
+    // Expect icon to have a `size` and `disableCompensation` props
+    _icon = React.cloneElement(icon, { size: sizes[size], disableCompensation: true });
+  }
 
   return (
     <span
@@ -54,7 +63,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
       })}
     >
       {space}
-      {loading ? spinnerNode() : icon}
+      {loading ? <Spinner caption={null} dimmed type={spinnerType} /> : _icon}
     </span>
   );
 };
