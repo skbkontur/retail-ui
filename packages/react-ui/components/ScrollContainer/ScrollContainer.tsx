@@ -60,6 +60,14 @@ export interface ScrollContainerProps extends CommonProps {
    * Смещение горизонтального скроллбара
    */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
+  /**
+   * Скрывать скроллбар если нет скролла
+   */
+  hideScrollBar?: boolean;
+  /**
+   * Время до скрытия скроллбара
+   */
+  hideScrollBarTimer?: number;
 }
 
 export const ScrollContainerDataTids = {
@@ -67,7 +75,12 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
-type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
+type DefaultProps = Required<
+  Pick<
+    ScrollContainerProps,
+    'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'hideScrollBar' | 'hideScrollBarTimer'
+  >
+>;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
@@ -86,6 +99,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
+    hideScrollBar: false,
+    hideScrollBarTimer: 200,
+  };
+
+  public state: { isScrolling: boolean } = {
+    isScrolling: false,
   };
 
   private getProps = createPropsGetter(ScrollContainer.defaultProps);
@@ -94,6 +113,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private scrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
   private setRootNode!: TSetRootNode;
+  private scrollTimer: Nullable<NodeJS.Timeout> = null;
 
   public componentDidMount() {
     this.scrollX?.setInnerElement(this.inner);
@@ -110,6 +130,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
     }
+    this.scrollX?.setInnerElement(this.inner);
+    this.scrollY?.setInnerElement(this.inner);
+  }
+
+  public componentWillUnmount() {
+    if (this.scrollTimer) {
+      clearTimeout(this.scrollTimer);
+    }
   }
 
   public render = () => {
@@ -125,8 +153,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       maxWidth: props.maxWidth,
     };
 
-    const scrollbarY = this.renderScrollbar('y');
-    const scrollbarX = this.renderScrollbar('x');
+    const showScroll = !this.getProps().hideScrollBar || (this.getProps().hideScrollBar && this.state.isScrolling);
+
+    const scrollbarY = showScroll && this.renderScrollbar('y');
+    const scrollbarX = showScroll && this.renderScrollbar('x');
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -269,11 +299,24 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.inner = element;
   };
 
+  private hideScroll = () => {
+    if (!this.state.isScrolling) {
+      this.setState({ isScrolling: true });
+    }
+    if (this.scrollTimer) {
+      clearTimeout(this.scrollTimer);
+    }
+    this.scrollTimer = setTimeout(() => {
+      this.setState({ isScrolling: false });
+    }, this.getProps().hideScrollBarTimer);
+  };
+
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.scrollX?.reflow();
     this.scrollY?.reflow();
 
     this.props.onScroll?.(event);
+    this.getProps().hideScrollBar && this.hideScroll();
     if (this.getProps().preventWindowScroll) {
       event.preventDefault();
       return;
