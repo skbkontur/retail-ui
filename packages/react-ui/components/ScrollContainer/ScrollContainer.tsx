@@ -67,7 +67,7 @@ export interface ScrollContainerProps extends CommonProps {
   /**
    * Время до скрытия скроллбара
    */
-  hideScrollBarTimer?: number;
+  hideScrollBarDelay?: number;
 }
 
 export const ScrollContainerDataTids = {
@@ -78,7 +78,7 @@ export const ScrollContainerDataTids = {
 type DefaultProps = Required<
   Pick<
     ScrollContainerProps,
-    'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'hideScrollBar' | 'hideScrollBarTimer'
+    'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'hideScrollBar' | 'hideScrollBarDelay'
   >
 >;
 
@@ -100,7 +100,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
     hideScrollBar: false,
-    hideScrollBarTimer: 200,
+    hideScrollBarDelay: 200,
   };
 
   public state: { isScrolling: boolean } = {
@@ -300,7 +300,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.inner = element;
   };
 
-  private hideScroll = () => {
+  private setIsScrolling = () => {
     if (!this.state.isScrolling) {
       this.setState({ isScrolling: true });
     }
@@ -309,7 +309,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     }
     this.scrollTimer = setTimeout(() => {
       this.setState({ isScrolling: false });
-    }, this.getProps().hideScrollBarTimer);
+    }, this.getProps().hideScrollBarDelay);
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -319,7 +319,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.scrollY?.reflow();
 
     this.props.onScroll?.(event);
-    hideScrollBar && this.hideScroll();
+    hideScrollBar && this.setIsScrolling();
     if (preventWindowScroll) {
       event.preventDefault();
       return;

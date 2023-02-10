@@ -493,59 +493,40 @@ OffsetX.parameters = {
   creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
-export const OffsetYAndX = () => (
-  <div style={wrapperStyle}>
-    <ScrollContainer
-      offsetY={{
-        right: 4,
-        bottom: 4,
-      }}
-      offsetX={{
-        bottom: 4,
-        right: 4,
-      }}
-    >
-      <div style={{ width: 300 }}>
-        {Array(30)
-          .fill(null)
-          .map((_, i) => (
-            <div style={{ width: 200 }} key={i}>
-              {i}
-            </div>
-          ))}
-      </div>
-    </ScrollContainer>
-  </div>
-);
+const ScrollContainerWithOffsetYAndX: React.FC<{ hideScrollBar?: boolean }> = ({ hideScrollBar }) => {
+  return (
+    <div style={wrapperStyle}>
+      <ScrollContainer
+        offsetY={{
+          right: 4,
+          bottom: 4,
+        }}
+        offsetX={{
+          bottom: 4,
+          right: 4,
+        }}
+        hideScrollBar={hideScrollBar}
+      >
+        <div style={{ width: 300 }}>
+          {Array(30)
+            .fill(null)
+            .map((_, i) => (
+              <div style={{ width: 200 }} key={i}>
+                {i}
+              </div>
+            ))}
+        </div>
+      </ScrollContainer>
+    </div>
+  );
+};
+
+export const OffsetYAndX: Story = () => <ScrollContainerWithOffsetYAndX />;
 OffsetYAndX.parameters = {
   creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
-export const OffsetYAndXWithHiddenScrollBar: Story = () => (
-  <div style={wrapperStyle}>
-    <ScrollContainer
-      offsetY={{
-        right: 4,
-        bottom: 4,
-      }}
-      offsetX={{
-        bottom: 4,
-        right: 4,
-      }}
-      hideScrollBar
-    >
-      <div style={{ width: 300 }}>
-        {Array(30)
-          .fill(null)
-          .map((_, i) => (
-            <div style={{ width: 200 }} key={i}>
-              {i}
-            </div>
-          ))}
-      </div>
-    </ScrollContainer>
-  </div>
-);
+export const OffsetYAndXWithHiddenScrollBar: Story = () => <ScrollContainerWithOffsetYAndX hideScrollBar />;
 OffsetYAndXWithHiddenScrollBar.parameters = {
   creevey: {
     skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
