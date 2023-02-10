@@ -555,10 +555,10 @@ OffsetYAndXWithHiddenScrollBar.parameters = {
         await this.browser.executeScript(function () {
           const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
           if (scrollContainer) {
-            scrollContainer.scrollTop = 1000;
+            scrollContainer.scrollTop = 500;
           }
         });
-        await delay(1000);
+        await delay(500);
         const afterScroll = await this.takeScreenshot();
         await this.expect([beforeScroll, afterScroll]).to.matchImages();
       },

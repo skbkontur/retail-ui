@@ -61,7 +61,7 @@ export interface ScrollContainerProps extends CommonProps {
    */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
   /**
-   * Скрывать скроллбар если нет скролла
+   * Скрывать скроллбар при отсутствии скролла
    */
   hideScrollBar?: boolean;
   /**
@@ -153,7 +153,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       maxWidth: props.maxWidth,
     };
 
-    const showScroll = !this.getProps().hideScrollBar || (this.getProps().hideScrollBar && this.state.isScrolling);
+    const hideScrollBar = this.getProps().hideScrollBar;
+    const showScroll = !hideScrollBar || (hideScrollBar && this.state.isScrolling);
 
     const scrollbarY = showScroll && this.renderScrollbar('y');
     const scrollbarX = showScroll && this.renderScrollbar('x');
@@ -312,12 +313,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const { hideScrollBar, preventWindowScroll } = this.getProps();
+
     this.scrollX?.reflow();
     this.scrollY?.reflow();
 
     this.props.onScroll?.(event);
-    this.getProps().hideScrollBar && this.hideScroll();
-    if (this.getProps().preventWindowScroll) {
+    hideScrollBar && this.hideScroll();
+    if (preventWindowScroll) {
       event.preventDefault();
       return;
     }
