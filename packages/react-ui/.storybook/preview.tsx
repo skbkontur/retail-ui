@@ -61,22 +61,28 @@ const MOBILE_REGEXP = /Mobile.*/i;
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
-    const theme = themes[context.globals.theme] || DEFAULT_THEME;
+    const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
     const root = document.getElementById('root');
 
     if (root) {
-      if ([DARK_THEME, THEME_2022_DARK].includes(theme)) {
+      if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
         root.classList.add('dark');
       } else {
         root.classList.remove('dark');
       }
     }
 
-    if (theme !== DEFAULT_THEME) {
+    if (storybookTheme !== DEFAULT_THEME) {
       return (
-        <ThemeContext.Provider value={theme}>
-          <Story />
-        </ThemeContext.Provider>
+        <ThemeContext.Consumer>
+          {(theme) => {
+            return (
+              <ThemeContext.Provider value={ThemeFactory.create(theme, storybookTheme)}>
+                <Story />
+              </ThemeContext.Provider>
+            );
+          }}
+        </ThemeContext.Consumer>
       );
     }
 
@@ -87,29 +93,25 @@ export const decorators: Meta['decorators'] = [
       <Story />
     </div>
   ),
-  (Story, context) => {
-    if (MOBILE_REGEXP.test(context.story) || MOBILE_REGEXP.test(context.name)) {
-      return (
-        <ThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <ThemeContext.Provider
-                value={ThemeFactory.create(
-                  {
-                    mobileMediaQuery: '(max-width: 576px)',
-                  },
-                  theme,
-                )}
-              >
-                <Story />
-              </ThemeContext.Provider>
-            );
-          }}
-        </ThemeContext.Consumer>
-      );
-    }
-
-    return <Story />;
+  (Story) => {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  mobileMediaQuery: '(max-width: 576px)',
+                },
+                theme,
+              )}
+            >
+              <Story />
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
   },
 ];
 
