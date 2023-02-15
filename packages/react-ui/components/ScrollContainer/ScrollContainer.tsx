@@ -122,9 +122,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
     }
-    const hideScrollBar = this.getProps().hideScrollBar;
-    hideScrollBar && this.scrollX?.setInnerElement(this.inner);
-    hideScrollBar && this.scrollY?.setInnerElement(this.inner);
   }
 
   public componentWillUnmount() {
@@ -146,11 +143,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       maxWidth: props.maxWidth,
     };
 
-    const hideScrollBar = this.getProps().hideScrollBar;
-    const showScroll = !hideScrollBar || (hideScrollBar && this.state.isScrolling);
-
-    const scrollbarY = showScroll && this.renderScrollbar('y');
-    const scrollbarX = showScroll && this.renderScrollbar('x');
+    const scrollbarY = this.renderScrollbar('y');
+    const scrollbarX = this.renderScrollbar('x');
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -242,7 +236,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   private renderScrollbar = (axis: ScrollAxis) => {
     const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
-    const { offsetY, offsetX } = this.getProps();
+    const { offsetY, offsetX, invert, hideScrollBar } = this.getProps();
 
     const offset = axis === 'x' ? offsetX : offsetY;
 
@@ -250,9 +244,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       <ScrollBar
         axis={axis}
         ref={refScrollBar}
-        invert={this.getProps().invert}
+        invert={invert}
         onScrollStateChange={this.handleScrollStateChange}
         offset={offset}
+        isScrolling={this.state.isScrolling}
+        hideScrollBar={hideScrollBar}
       />
     );
   };

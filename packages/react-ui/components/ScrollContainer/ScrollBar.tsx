@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -28,6 +29,8 @@ export interface ScrollBarProps {
   className?: string;
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
+  isScrolling?: boolean;
+  hideScrollBar?: boolean;
 }
 
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
@@ -79,15 +82,27 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     };
 
     return (
-      <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
-        <div
-          ref={this.refScroll}
-          style={inlineStyles}
-          className={classNames}
-          onMouseDown={this.handleScrollMouseDown}
-          data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
-        />
-      </div>
+      <CSSTransition
+        in={this.props.isScrolling}
+        classNames={{
+          enter: styles.transition(),
+          enterActive: styles.transitionActive(),
+          exit: styles.transitionLeave(),
+          exitActive: styles.transitionLeaveActive(),
+        }}
+        timeout={500}
+        nodeRef={this.containerRef}
+      >
+        <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
+          <div
+            ref={this.refScroll}
+            style={inlineStyles}
+            className={classNames}
+            onMouseDown={this.handleScrollMouseDown}
+            data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
+          />
+        </div>
+      </CSSTransition>
     );
   };
 
@@ -153,12 +168,15 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
   private get scrollBarContainerClassNames() {
     const { axis } = this.props;
+    const visibleScrollBar = {
+      [styles.visibleScrollBar()]: this.props.isScrolling || !this.props.hideScrollBar,
+    };
 
     if (axis === 'x') {
-      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme));
+      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme), visibleScrollBar);
     }
 
-    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY());
+    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY(), visibleScrollBar);
   }
 
   private refScroll = (element: HTMLElement | null) => {

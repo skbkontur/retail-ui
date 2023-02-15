@@ -184,7 +184,7 @@ var divStyle = {
   width: 200,
 };
 <div style={divStyle}>
-  <ScrollContainer hideScrollBar={true} hideScrollTimer={500}>
+  <ScrollContainer hideScrollBar={true}>
     {Array(30).fill(null).map((_,i) => (
       <div key={i}>
         {i}

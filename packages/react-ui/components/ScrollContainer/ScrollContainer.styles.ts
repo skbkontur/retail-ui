@@ -68,6 +68,12 @@ export const styles = memoizeStyle({
       top: 1px;
       bottom: 1px;
       width: 0;
+      opacity: 0;
+    `;
+  },
+  visibleScrollBar() {
+    return css`
+      opacity: 1;
     `;
   },
 
@@ -92,6 +98,7 @@ export const styles = memoizeStyle({
       bottom: 1px;
       left: 1px;
       height: 0;
+      opacity: 0;
 
       .${globalClasses.scrollbarContainerY} ~ & {
         margin-right: calc(${t.scrollContainerScrollBarHoverSize} + 3px) !important;
@@ -119,6 +126,28 @@ export const styles = memoizeStyle({
   scrollBarXHover(t: Theme) {
     return css`
       height: ${t.scrollContainerScrollBarHoverSize};
+    `;
+  },
+  transition() {
+    return css`
+      opacity: 0 !important;
+    `;
+  },
+  transitionActive() {
+    return css`
+      transition: opacity 100ms ease-out;
+      opacity: 1 !important;
+    `;
+  },
+  transitionLeave() {
+    return css`
+      opacity: 1 !important;
+    `;
+  },
+  transitionLeaveActive() {
+    return css`
+      opacity: 0 !important;
+      transition: opacity 300ms ease-out;
     `;
   },
 });
