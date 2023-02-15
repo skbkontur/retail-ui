@@ -1,6 +1,8 @@
-import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+import { render as renderRTL, screen } from '@testing-library/react';
+import { mount, ReactWrapper } from 'enzyme';
 
+import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { DefaultizeProps } from '../../../lib/utils';
 import { InternalDateOrder } from '../../../lib/date/types';
@@ -227,5 +229,11 @@ describe('DateInput as InputlikeText', () => {
         expect(value).toBe(expected);
       });
     });
+  });
+
+  it('should have disabled input', () => {
+    renderRTL(<DateInput disabled />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 });
