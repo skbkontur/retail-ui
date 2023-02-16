@@ -681,8 +681,18 @@ export class DefaultTheme {
   public static kebabMargin = '4px';
   public static kebabBackground = 'transparent';
   public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
+  public static get kebabBackgroundActive() {
+    return this.kebabBackgroundHover;
+  }
   public static kebabBorderRadius = '50%';
   public static kebabBorder = '2px solid transparent';
+  public static kebabSizeSmall = '26px';
+  public static kebabSizeMedium = '26px';
+  public static kebabSizeLarge = '26px';
+  public static kebabIconSizeSmall = '14px';
+  public static kebabIconSizeMedium = '18px';
+  public static kebabIconSizeLarge = '20px';
+  public static kebabIconColor = '#757575';
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0 5px 10px rgba(0, 0, 0, 0.2);';

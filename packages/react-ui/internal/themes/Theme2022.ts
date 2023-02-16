@@ -407,6 +407,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tabColorHover = '#D6D6D6';
   public static tabIndicatorBorderRadius = '2px';
   //#endregion
+
+  //#region Kebab
+  public static kebabSizeSmall = '24px';
+  public static kebabSizeMedium = '32px';
+  public static kebabSizeLarge = '40px';
+  public static kebabIconSizeSmall = '16px';
+  public static kebabIconSizeMedium = '20px';
+  public static kebabIconSizeLarge = '24px';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.04)';
+  public static kebabBackgroundActive = 'rgba(0, 0, 0, 0.08)';
+  //#endregion
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(
