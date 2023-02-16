@@ -405,33 +405,17 @@ describe('<Autocomplete />', () => {
   //     return items.slice(0, diff);
   //   });
   //   const props = { value: '1', onValueChange, source };
-  //   const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
-  //   wrapper.find('input').simulate('change', { target: { value: '' } });
-  //   items.forEach((_, i) => {
-  //     wrapper.setProps({ value: String(i) });
-  //   });
-  //   await delay(500);
-  //   expect(wrapper.state('items')).toEqual(['1']);
-  // });
-
-  // it('handle concurrent source requests', async () => {
-  //   const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
-  //   const onValueChange = jest.fn();
-  //   const source = jest.fn(async (query: string) => {
-  //     const diff = items.length - Number(query);
-  //     await delay(Math.max(100, diff * 100));
-  //     return items.slice(0, diff);
-  //   });
-  //   const props = { value: '1', onValueChange, source };
   //   render(<Autocomplete {...props} />);
   //   fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
   //   items.forEach((_, i) => {
   //     fireEvent.change(screen.getByRole('textbox'), { target: { value: String(i) } })
   //   });
   //   await delay(500);
+
   //   const menuItems = screen.getByTestId('MenuItem__root');
 
   //   expect(menuItems).toBeInTheDocument();
+  //   expect(menuItems).toHaveTextContent('1');
   // });
 
   it(`don't call handleBlur() method when where is no focus`, () => {
