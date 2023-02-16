@@ -4,6 +4,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 
 import { ButtonProps, ButtonSize } from './Button';
 import { styles } from './Button.styles';
@@ -40,7 +41,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   };
 
   const spinnerType = isTheme2022(theme) ? size : 'mini';
-  const space = isTheme2022(theme) ? String.fromCharCode(8203) : ''; // Symbol to align to baseline
+  const space = isTheme2022(theme) ? ZERO_WIDTH_SPACE : '';
   const style: React.CSSProperties = isTheme2022(theme)
     ? {
         display: 'inline-flex',
