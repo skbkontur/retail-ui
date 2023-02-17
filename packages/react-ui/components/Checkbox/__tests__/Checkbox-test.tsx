@@ -22,7 +22,7 @@ describe('Checkbox', () => {
     render(<Checkbox ref={checkboxRef} />);
     const checkbox = screen.getByRole('checkbox');
 
-    checkbox.focus();
+    checkboxRef.current?.focus();
     expect(checkbox).toHaveFocus();
   });
 
