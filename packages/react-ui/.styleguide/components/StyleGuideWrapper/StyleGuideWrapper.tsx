@@ -5,6 +5,7 @@ import { useStyleGuideContext } from 'react-styleguidist/lib/client/rsg-componen
 import { cx } from '../../../lib/theming/Emotion';
 import { styles } from './StyleGuideWrapper.styles';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
+import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
 
 interface StyleGuideRendererProps {
   children: React.ReactNode;
@@ -16,10 +17,13 @@ interface StyleGuideRendererProps {
 
 function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: StyleGuideRendererProps) {
   const { codeRevision, config, slots, displayMode, cssRevision } = useStyleGuideContext();
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(DEFAULT_THEME_WRAPPER);
   document.body.style.fontFamily = 'Lab Grotesque, Roboto, Helvetica Neue, Arial, sans-serif';
   document.body.style.fontSize = '14px';
-  if (theme === 'dark') {
+
+  const isThemeDark = theme.toLowerCase().includes('dark');
+
+  if (isThemeDark) {
     document.documentElement.style.height = '100%';
     document.body.style.height = '100%';
     const root = document.getElementById('rsg-root');
@@ -29,9 +33,9 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
   }
   return (
     <Context.Provider value={{ theme, setTheme, codeRevision, config, slots, displayMode, cssRevision }}>
-      <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: theme === 'dark' })}>
+      <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: isThemeDark })}>
         <main className={styles.wrapper()}>
-          <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME)]: theme === 'dark' })}>{children}</div>
+          <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME)]: isThemeDark })}>{children}</div>
         </main>
         {hasSidebar && (
           <div data-testid="sidebar" className={styles.sidebar()}>
