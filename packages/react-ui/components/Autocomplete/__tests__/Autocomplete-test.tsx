@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-//import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
-import { renderIntoDocument } from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 
 import { Autocomplete, AutocompleteProps } from '../Autocomplete';
 import { delay } from '../../../lib/utils';
@@ -96,60 +95,6 @@ describe('<Autocomplete />', () => {
     expect(menuItems[1]).toHaveTextContent('TWO');
   });
 
-  // it('passes props to input', () => {
-  //   const props = {
-  //     align: 'center' as AutocompleteProps['align'],
-  //     alwaysShowMask: true,
-  //     borderless: true,
-  //     disabled: true,
-  //     error: true,
-  //     id: 'someId',
-  //     leftIcon: <OkIcon />,
-  //     mask: '***',
-  //     maskChar: 'x',
-  //     maxLength: 3,
-  //     placeholder: 'OOO',
-  //     rightIcon: <OkIcon />,
-  //     size: 'medium' as AutocompleteProps['size'],
-  //     title: 'string',
-  //     type: 'text' as AutocompleteProps['type'],
-  //     value: 'hel',
-  //     warning: true,
-  //     width: '100%',
-  //     onCopy: () => undefined,
-  //     onCut: () => undefined,
-  //     onInput: () => undefined,
-  //     onKeyPress: () => undefined,
-  //     onKeyUp: () => undefined,
-  //     onPaste: () => undefined,
-  //     onMouseEnter: () => undefined,
-  //     onMouseLeave: () => undefined,
-  //     onMouseOver: () => undefined,
-  //   };
-
-  //   render(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);
-  //   const inputProps = wrapper.find('Input').props();
-
-  //   expect(inputProps).toMatchObject(props);
-  // });
-
-  // it('passes value prop to input', () => {
-  //   const onValueChange = jest.fn();
-  //   const source: any[] = [];
-  //   const props = { value: 'hel', onValueChange, source, width: '100%' };
-
-  //   render(<Autocomplete {...props} />);
-  //   expect(screen.getByRole('textbox')).toHaveProperty('width', '100%');
-  // });
-
-  // it('passes warning prop to input', () => {
-  //   const onValueChange = jest.fn();
-  //   const source: any[] = [];
-  //   const props = { value: 'hello', onValueChange, source, warning: true };
-  //   render(<Autocomplete {...props} />);
-  //   expect(screen.getByRole('textbox')).toHaveProperty('warning');
-  // });
-
   it('passes value prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
@@ -176,15 +121,6 @@ describe('<Autocomplete />', () => {
     render(<Autocomplete {...props} />);
     expect(screen.getByTitle('some title')).toBeInTheDocument();
   });
-
-  // it('passes size prop to input', () => {
-  //   const onValueChange = jest.fn();
-  //   const source: any[] = [];
-  //   const props = { value: 'hello', onValueChange, source, size: 'medium' as AutocompleteProps['size'] };
-
-  //   render(<Autocomplete {...props} />);
-  //   expect(screen.getByRole('textbox')).toHaveProperty('size', 'medium');
-  // });
 
   it('passes placeholder prop to input', () => {
     const onValueChange = jest.fn();
@@ -241,14 +177,6 @@ describe('<Autocomplete />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('id', 'someId');
   });
 
-  // it('passes error prop to input', () => {
-  //   const onValueChange = jest.fn();
-  //   const source: any[] = [];
-  //   const props = { value: 'hello', onValueChange, source, error: true };
-  //   render(<Autocomplete {...props} />);
-  //   expect(screen.getByRole('textbox')).toHaveProperty('error');
-  // });
-
   it('passes disabled prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
@@ -256,14 +184,6 @@ describe('<Autocomplete />', () => {
     render(<Autocomplete {...props} />);
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
-
-  // it('passes borderless prop to input', () => {
-  //   const onValueChange = jest.fn();
-  //   const source: any[] = [];
-  //   const props = { value: 'hello', onValueChange, source, borderless: true };
-  //   render(<Autocomplete {...props} />);
-  //   expect(screen.getByRole('textbox')).toHaveProperty('borderless');
-  // });
 
   it('passes alwaysShowMask prop to input', () => {
     const onValueChange = jest.fn();
@@ -314,19 +234,6 @@ describe('<Autocomplete />', () => {
     userEvent.type(screen.getByRole('textbox'), 'a');
     expect(onInput).toHaveBeenCalledTimes(1);
   });
-
-  // it('passes onKeyPress prop to input', () => {
-  //   const onKeyPress = jest.fn();
-  //   const onValueChange = () => undefined;
-  //   const source: any[] = [];
-  //   const props = { value: 'hello', onValueChange, source, onKeyPress };
-  //   render(<Autocomplete {...props} />);
-
-  //   userEvent.type(screen.getByRole('textbox'), '{enter}');
-
-  //   expect(onKeyPress).toHaveBeenCalledTimes(1);
-
-  // });
 
   it('passes onKeyUp prop to input', () => {
     const onKeyUp = jest.fn();
@@ -388,43 +295,13 @@ describe('<Autocomplete />', () => {
     const onKeyDown = jest.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onKeyDown };
+
     render(<Autocomplete {...props} />);
     userEvent.type(screen.getByRole('textbox'), 'a');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
     const [event] = onKeyDown.mock.calls[0];
     expect(event.key).toBe('a');
-  });
-
-  // it('handle concurrent source requests', async () => {
-  //   const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
-  //   const onValueChange = jest.fn();
-  //   const source = jest.fn(async (query: string) => {
-  //     const diff = items.length - Number(query);
-  //     await delay(Math.max(100, diff * 100));
-  //     return items.slice(0, diff);
-  //   });
-  //   const props = { value: '1', onValueChange, source };
-  //   render(<Autocomplete {...props} />);
-  //   fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
-  //   items.forEach((_, i) => {
-  //     fireEvent.change(screen.getByRole('textbox'), { target: { value: String(i) } })
-  //   });
-  //   await delay(500);
-
-  //   const menuItems = screen.getByTestId('MenuItem__root');
-
-  //   expect(menuItems).toBeInTheDocument();
-  //   expect(menuItems).toHaveTextContent('1');
-  // });
-
-  it(`don't call handleBlur() method when where is no focus`, () => {
-    const handleBlur = jest.fn();
-    const props = { value: '', source: [], onValueChange: () => '' };
-    render(<Autocomplete {...props} />);
-
-    document.body.click;
-    expect(handleBlur).not.toHaveBeenCalled();
   });
 
   it('should clear the value when an empty string passed', () => {
@@ -452,6 +329,54 @@ describe('<Autocomplete />', () => {
 
     userEvent.type(input, 'a');
     expect(input).toHaveValue('a');
+  });
+});
+
+describe('<Autocomplete Enzyme/>', () => {
+  //TODO: при имитации RTL ввода с клавиш символов не вызывается onKeyPress
+  //если заданное условие для вызова выполнилось, поэтому пока оставили на Enzyme
+  it('passes props to input', () => {
+    const props = {
+      value: 'hel',
+      onKeyPress: () => undefined,
+    };
+
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);
+    const inputProps = wrapper.find('Input').props();
+
+    expect(inputProps).toMatchObject(props);
+  });
+
+  //TODO: Придумать как перевести на RTL
+  it('handle concurrent source requests', async () => {
+    const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
+    const onValueChange = jest.fn();
+    const source = jest.fn(async (query: string) => {
+      const diff = items.length - Number(query);
+      await delay(Math.max(100, diff * 100));
+      return items.slice(0, diff);
+    });
+    const props = { value: '1', onValueChange, source };
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
+    wrapper.find('input').simulate('change', { target: { value: '' } });
+    items.forEach((_, i) => {
+      wrapper.setProps({ value: String(i) });
+    });
+    await delay(500);
+    expect(wrapper.state('items')).toEqual(['1']);
+  });
+
+  it(`don't call handleBlur() method when where is no focus`, () => {
+    const handleBlur = jest.fn();
+    const props = { value: '', source: [], onValueChange: () => '' };
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
+
+    // @ts-expect-error: Use of private property.
+    wrapper.instance().handleBlur = handleBlur;
+
+    clickOutside();
+
+    expect(handleBlur).not.toHaveBeenCalled();
   });
 });
 
