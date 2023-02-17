@@ -1369,7 +1369,7 @@ describe('ComboBox', () => {
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
-  
+
   it('props aria-describedby applied correctly', () => {
     const getItems = () => {
       return Promise.resolve([{ value: 1, label: 'First' }]);

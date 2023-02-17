@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { Tabs } from '../Tabs';
+import { Tabs, TabsDataTids } from '../Tabs';
 import { Tab } from '../Tab';
 
 describe('Tabs', () => {
@@ -30,17 +30,22 @@ describe('Tabs', () => {
   it('props aria-describedby applied correctly', () => {
     render(
       <div>
-        <Tabs value="fuji">
-          <Tabs.Tab id="fuji" aria-describedby="elementId">
+        <Tabs value="fuji" aria-describedby="elementTabsId">
+          <Tabs.Tab id="fuji" aria-describedby="elementTabId">
             Fuji
           </Tabs.Tab>
         </Tabs>
-        <p id="elementId">Description</p>
+        <p id="elementTabId">Description Tab item</p>
+        <p id="elementTabsId">Description Tabs</p>
       </div>,
     );
     const tab = screen.getByRole('link');
-    expect(tab).toHaveAttribute('aria-describedby', 'elementId');
-    expect(tab).toHaveAccessibleDescription('Description');
+    expect(tab).toHaveAttribute('aria-describedby', 'elementTabId');
+    expect(tab).toHaveAccessibleDescription('Description Tab item');
+
+    const tabs = screen.getByTestId(TabsDataTids.root);
+    expect(tabs).toHaveAttribute('aria-describedby', 'elementTabsId');
+    expect(tabs).toHaveAccessibleDescription('Description Tabs');
   });
 });
 
