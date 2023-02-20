@@ -21,6 +21,7 @@ describe('Checkbox', () => {
 
     render(<Checkbox ref={checkboxRef} />);
     const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).not.toHaveFocus();
 
     checkboxRef.current?.focus();
     expect(checkbox).toHaveFocus();
@@ -122,6 +123,12 @@ describe('Checkbox', () => {
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
+  it('focuses by tab', () => {
+    render(<Checkbox />);
+    userEvent.tab();
+    expect(screen.getByRole('checkbox')).toHaveFocus();
+  });
+
   it('uncheck checked checkbox', () => {
     const checkboxRef = React.createRef<Checkbox>();
 
@@ -135,12 +142,3 @@ describe('Checkbox', () => {
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 });
-
-// //спросить почему фокус на весь документ падает
-// it('focuses by tab', () => {
-
-//   render(<Checkbox> Test </Checkbox>);
-//   document.body.click;
-//   userEvent.tab;
-//   expect(screen.getByRole('checkbox')).toHaveFocus();
-// });
