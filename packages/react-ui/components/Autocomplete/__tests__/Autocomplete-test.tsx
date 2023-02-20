@@ -366,6 +366,7 @@ describe('<Autocomplete Enzyme/>', () => {
     expect(wrapper.state('items')).toEqual(['1']);
   });
 
+  //TODO: Придумать как перевести на RTL
   it(`don't call handleBlur() method when where is no focus`, () => {
     const handleBlur = jest.fn();
     const props = { value: '', source: [], onValueChange: () => '' };
