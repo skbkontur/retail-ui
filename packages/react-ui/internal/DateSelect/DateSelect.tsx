@@ -234,7 +234,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(0)}
         </div>
-        <ArrowCollapseCVOpenIcon16Regular disableCompensation={false} color="#ADADAD" />
+        {!disabled && <ArrowCollapseCVOpenIcon16Regular disableCompensation={false} color="#ADADAD" />}
         {this.state.opened && this.renderMenu()}
       </span>
     );

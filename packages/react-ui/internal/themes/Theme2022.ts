@@ -362,6 +362,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get datePickerMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static pickerBorderRadius = '8px';
   //#endregion
 
   //#region Combobox

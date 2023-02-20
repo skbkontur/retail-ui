@@ -116,7 +116,7 @@ export class Picker extends React.Component<Props, State> {
             data-tid={DatePickerDataTids.pickerTodayWrapper}
             width="100%"
             onClick={this.handleSelectToday(today)}
-            icon={<ArrowAUpIcon16Light disableCompensation={false} />}
+            icon={<ArrowAUpIcon16Light />}
           >
             {this.locale.today}
           </Button>

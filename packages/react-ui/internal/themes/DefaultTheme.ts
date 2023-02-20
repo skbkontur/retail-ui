@@ -897,6 +897,7 @@ export class DefaultTheme {
   public static pickerTodayWrapperLineHeight = '20px';
   public static pickerTodayWrapperPaddingTop = '6px';
   public static pickerTodayWrapperPaddingBottom = '6px';
+  public static pickerBorderRadius = '';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
