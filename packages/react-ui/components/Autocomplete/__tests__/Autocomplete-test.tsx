@@ -330,22 +330,6 @@ describe('<Autocomplete />', () => {
     userEvent.type(input, 'a');
     expect(input).toHaveValue('a');
   });
-});
-
-describe('<Autocomplete Enzyme/>', () => {
-  //TODO: при имитации RTL ввода с клавиш символов не вызывается onKeyPress
-  //если заданное условие для вызова выполнилось, поэтому пока оставили на Enzyme
-  it('passes props to input', () => {
-    const props = {
-      value: 'hel',
-      onKeyPress: () => undefined,
-    };
-
-    const wrapper = mount<Autocomplete>(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);
-    const inputProps = wrapper.find('Input').props();
-
-    expect(inputProps).toMatchObject(props);
-  });
 
   //TODO: Придумать как перевести на RTL
   it('handle concurrent source requests', async () => {
@@ -357,13 +341,32 @@ describe('<Autocomplete Enzyme/>', () => {
       return items.slice(0, diff);
     });
     const props = { value: '1', onValueChange, source };
-    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
-    wrapper.find('input').simulate('change', { target: { value: '' } });
+    render(<UncontrolledAutocomplete {...props} />);
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
     items.forEach((_, i) => {
-      wrapper.setProps({ value: String(i) });
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: String(i) } });
     });
     await delay(500);
-    expect(wrapper.state('items')).toEqual(['1']);
+    const menuItems = screen.getByTestId('MenuItem__root');
+    expect(menuItems).toBeInTheDocument();
+    expect(menuItems).toHaveTextContent('1');
+  });
+
+});
+
+describe('<Autocomplete Enzyme/>', () => {
+  //TODO: при имитации RTL ввода с клавиш символов не вызывается onKeyPress
+  //если заданное условие для вызова выполнилось, поэтому пока оставили на Enzyme
+  it('passes props to input', () => {
+    const props = {
+      value: 'hello',
+      onKeyPress: () => undefined,
+    };
+
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);
+    const inputProps = wrapper.find('Input').props();
+
+    expect(inputProps).toMatchObject(props);
   });
 
   //TODO: Придумать как перевести на RTL
