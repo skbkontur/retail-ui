@@ -351,7 +351,6 @@ describe('<Autocomplete />', () => {
     expect(menuItems).toBeInTheDocument();
     expect(menuItems).toHaveTextContent('1');
   });
-
 });
 
 describe('<Autocomplete Enzyme/>', () => {
