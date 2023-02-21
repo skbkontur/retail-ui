@@ -1363,4 +1363,10 @@ describe('ComboBox', () => {
     expect(screen.getByRole('button', { name: 'First' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Second' })).toBeInTheDocument();
   });
+
+  it('should have disabled input', () => {
+    render(<ComboBox getItems={jest.fn()} disabled />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
 });
