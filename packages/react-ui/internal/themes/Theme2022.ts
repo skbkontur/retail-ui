@@ -286,6 +286,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static checkboxBorderRadius = '4px';
   public static checkboxCheckedBg = '#3D3D3D';
   public static checkboxCheckedHoverBg = '#292929';
+  public static checkboxBgDisabled = '#F0F0F0';
+  public static get checkboxShadowDisabled() {
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.1)`;
+  }
   //#endregion
 
   public static menuBorderRadius = '8px';
