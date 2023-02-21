@@ -19,6 +19,8 @@ export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 
 export type ValidationLevel = 'error' | 'warning';
 
+export type TextPosition = 'bottom' | 'right';
+
 export interface Validation {
   level: ValidationLevel;
   behaviour: ValidationBehaviour;

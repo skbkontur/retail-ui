@@ -1,8 +1,9 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
+import { ValidationText } from './ValidationText';
 import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
-import { RenderErrorMessage } from './ValidationWrapperInternal';
+import { RenderErrorMessage, TextPosition } from './ValidationWrapperInternal';
 
 export function tooltip(pos: TooltipPosition): RenderErrorMessage {
   return (control, hasError, validation) => {
@@ -23,39 +24,12 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
   };
 }
 
-export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
-  if (pos === 'right') {
-    return (control, _hasError, validation) => {
-      return (
-        <span style={{ display: 'inline-block' }}>
-          {control}
-          <span data-validation-message="text" style={{ marginLeft: '10px', color: '#d43517' }}>
-            {(validation && validation.message) || ''}
-          </span>
-        </span>
-      );
-    };
-  }
+export function text(pos: TextPosition = 'right'): RenderErrorMessage {
   return (control, _hasError, validation) => {
     return (
-      <span style={{ position: 'relative', display: 'inline-block' }}>
+      <ValidationText pos={pos} validation={validation}>
         {control}
-        <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
-          <span
-            data-validation-message="text"
-            style={{
-              color: '#d43517',
-              overflow: 'visible',
-              whiteSpace: 'nowrap',
-              position: 'absolute',
-              top: '2px',
-              left: 0,
-            }}
-          >
-            {(validation && validation.message) || ''}
-          </span>
-        </span>
-      </span>
+      </ValidationText>
     );
   };
 }
