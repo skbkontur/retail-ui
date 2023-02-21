@@ -303,6 +303,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get menuItemHoverColor() {
     return this.menuItemTextColor;
   }
+  public static get menuItemCommentColor() {
+    return this.menuItemTextColor;
+  }
   public static get menuItemCommentColorHover() {
     return this.menuItemTextColor;
   }

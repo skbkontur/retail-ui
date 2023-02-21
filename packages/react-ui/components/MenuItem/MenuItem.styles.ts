@@ -94,6 +94,7 @@ export const styles = memoizeStyle({
   comment(t: Theme) {
     return css`
       color: ${t.menuItemCommentColor};
+      opacity: 0.6;
       white-space: normal;
     `;
   },
