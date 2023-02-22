@@ -130,24 +130,24 @@ export const styles = memoizeStyle({
   },
   transition() {
     return css`
-      opacity: 0 !important;
+      opacity: 0 !important; //override scrollBar opacity
     `;
   },
   transitionActive() {
     return css`
-      transition: opacity 100ms ease-out !important;
-      opacity: 1;
+      transition: opacity 100ms ease-out !important; //override scrollBarX and scrollBarY transition
+      opacity: 1 !important; //override scrollBar opacity
     `;
   },
   transitionLeave() {
     return css`
-      opacity: 1 !important;
+      opacity: 1 !important; //override scrollBar opacity
     `;
   },
   transitionLeaveActive() {
     return css`
-      opacity: 0 !important;
-      transition: opacity 300ms ease-out !important;
+      opacity: 0 !important; //override scrollBar opacity
+      transition: opacity 300ms ease-out !important; //override scrollBarX and scrollBarY transition
     `;
   },
 });
