@@ -1,5 +1,6 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import debounce from 'lodash.debounce';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -43,20 +44,12 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     ...defaultScrollbarState,
   };
 
-  private scrollTimer: Nullable<NodeJS.Timeout> = null;
-
   public componentDidMount() {
     this.reflow();
   }
 
   public componentDidUpdate() {
     this.reflow();
-  }
-
-  public componentWillUnmount() {
-    if (this.scrollTimer) {
-      clearTimeout(this.scrollTimer);
-    }
   }
 
   public render() {
@@ -241,7 +234,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const mouseUp = () => {
       target.removeEventListener('mousemove', mouseMove);
       target.removeEventListener('mouseup', mouseUp);
-      this.setState({ ...this.state, scrollingByMouseDrag: false, scrollingByMouseWheel: false });
+      this.setState({ ...this.state, scrollingByMouseDrag: false });
+      this.hideScrollBar();
     };
 
     target.addEventListener('mousemove', mouseMove);
@@ -294,11 +288,10 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (!this.state.scrollingByMouseWheel) {
       this.setState({ scrollingByMouseWheel: true });
     }
-    if (this.scrollTimer) {
-      clearTimeout(this.scrollTimer);
-    }
-    this.scrollTimer = setTimeout(() => {
-      !this.state.scrollingByMouseDrag && this.setState({ scrollingByMouseWheel: false });
-    }, delayBeforeHidingScroll);
+    this.hideScrollBar();
   };
+
+  private readonly hideScrollBar = debounce(() => {
+    !this.state.scrollingByMouseDrag && this.setState({ scrollingByMouseWheel: false });
+  }, delayBeforeHidingScroll);
 }
