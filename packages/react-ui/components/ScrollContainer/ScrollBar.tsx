@@ -37,6 +37,7 @@ export interface ScrollBarProps {
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   private inner: Nullable<HTMLElement>;
   private containerRef = React.createRef<HTMLDivElement>();
+  private scrollBarRef = React.createRef<HTMLDivElement>();
   private theme!: Theme;
 
   public node: Nullable<HTMLElement>;
@@ -75,6 +76,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     const classNames = cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
       [styles.scrollBarInvert(this.theme)]: props.invert,
+      [styles.visibleScrollBar()]: this.state.scrollingByMouseWheel || !this.props.hideScrollBar,
     });
 
     const inlineStyles: React.CSSProperties = {
@@ -83,18 +85,21 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     };
 
     return (
-      <CSSTransition
-        in={this.state.scrollingByMouseWheel || this.state.scrollingByMouseDrag}
-        classNames={{
-          enter: styles.transition(),
-          enterActive: styles.transitionActive(),
-          exit: styles.transitionLeave(),
-          exitActive: styles.transitionLeaveActive(),
-        }}
-        timeout={500}
-        nodeRef={this.containerRef}
-      >
-        <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
+      <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
+        <CSSTransition
+          in={this.state.scrollingByMouseWheel || this.state.scrollingByMouseDrag}
+          classNames={{
+            enter: styles.transition(),
+            enterActive: styles.transitionActive(),
+            exit: styles.transitionLeave(),
+            exitActive: styles.transitionLeaveActive(),
+          }}
+          timeout={{
+            enter: 100,
+            exit: 300,
+          }}
+          nodeRef={this.scrollBarRef}
+        >
           <div
             ref={this.refScroll}
             style={inlineStyles}
@@ -102,8 +107,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
             onMouseDown={this.handleScrollMouseDown}
             data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
           />
-        </div>
-      </CSSTransition>
+        </CSSTransition>
+      </div>
     );
   };
 
@@ -170,15 +175,12 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
   private get scrollBarContainerClassNames() {
     const { axis } = this.props;
-    const visibleScrollBar = {
-      [styles.visibleScrollBar()]: this.state.scrollingByMouseWheel || !this.props.hideScrollBar,
-    };
 
     if (axis === 'x') {
-      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme), visibleScrollBar);
+      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme));
     }
 
-    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY(), visibleScrollBar);
+    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY());
   }
 
   private refScroll = (element: HTMLElement | null) => {
@@ -191,6 +193,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
       this.node.removeEventListener('wheel', handleScrollWheel);
     }
     this.node = element;
+    // @ts-expect-error: See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065.
+    this.scrollBarRef.current = element;
   };
 
   private handleScrollMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -292,6 +296,6 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   };
 
   private readonly hideScrollBar = debounce(() => {
-    !this.state.scrollingByMouseDrag && this.setState({ scrollingByMouseWheel: false });
+    !this.state.scrollingByMouseDrag && !this.state.hover && this.setState({ scrollingByMouseWheel: false });
   }, delayBeforeHidingScroll);
 }
