@@ -61,7 +61,7 @@ export interface ScrollContainerProps extends CommonProps {
    */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
   /**
-   * Скрывать скроллбар при отсутствии скролла
+   * Скрывать скроллбар при отсутствии активности пользователя
    */
   hideScrollBar?: boolean;
 }
