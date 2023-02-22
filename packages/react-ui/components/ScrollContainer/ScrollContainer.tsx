@@ -95,17 +95,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     hideScrollBar: false,
   };
 
-  public state: { isScrolling: boolean } = {
-    isScrolling: false,
-  };
-
   private getProps = createPropsGetter(ScrollContainer.defaultProps);
 
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
   private setRootNode!: TSetRootNode;
-  private scrollTimer: Nullable<NodeJS.Timeout> = null;
 
   public componentDidMount() {
     this.scrollX?.setInnerElement(this.inner);
@@ -121,12 +116,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       if (!prevProps.preventWindowScroll && preventWindowScroll) {
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
-    }
-  }
-
-  public componentWillUnmount() {
-    if (this.scrollTimer) {
-      clearTimeout(this.scrollTimer);
     }
   }
 
@@ -247,7 +236,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         invert={invert}
         onScrollStateChange={this.handleScrollStateChange}
         offset={offset}
-        isScrolling={this.state.isScrolling}
         hideScrollBar={hideScrollBar}
       />
     );
@@ -289,27 +277,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.inner = element;
   };
 
-  private setIsScrolling = () => {
-    if (!this.state.isScrolling) {
-      this.setState({ isScrolling: true });
-    }
-    if (this.scrollTimer) {
-      clearTimeout(this.scrollTimer);
-    }
-    this.scrollTimer = setTimeout(() => {
-      this.setState({ isScrolling: false });
-    }, 500);
-  };
-
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const { hideScrollBar, preventWindowScroll } = this.getProps();
-
-    this.scrollX?.reflow();
-    this.scrollY?.reflow();
+    this.scrollY?.reflow(true);
+    this.scrollX?.reflow(true);
 
     this.props.onScroll?.(event);
-    hideScrollBar && this.setIsScrolling();
-    if (preventWindowScroll) {
+    if (this.getProps().preventWindowScroll) {
       event.preventDefault();
       return;
     }
