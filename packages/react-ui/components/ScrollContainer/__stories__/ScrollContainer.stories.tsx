@@ -539,7 +539,7 @@ OffsetYAndXWithHiddenScrollBar.parameters = {
             scrollContainer.scrollTop = 500;
           }
         });
-        await delay(500);
+        await delay(1000);
         const afterScroll = await this.takeScreenshot();
         await this.expect([beforeScroll, afterScroll]).to.matchImages();
       },
