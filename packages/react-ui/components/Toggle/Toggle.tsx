@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 
@@ -60,6 +60,10 @@ export interface ToggleProps extends CommonProps {
    * Если true, выставляет фокус на `тогле` после загрузки страницы.
    */
   autoFocus?: boolean;
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */
@@ -162,7 +166,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, warning, error, color, id } = this.props;
+    const { children, warning, error, color, id, 'aria-describedby': ariaDescribedby } = this.props;
     const { loading, captionPosition } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
@@ -211,6 +215,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               disabled={disabled}
               id={id}
               role="switch"
+              aria-describedby={ariaDescribedby}
             />
             <div
               className={containerClassNames}

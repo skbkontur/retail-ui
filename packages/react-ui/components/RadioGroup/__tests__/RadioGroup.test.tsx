@@ -278,4 +278,23 @@ describe('<RadioGroup />', () => {
     render(<RadioGroup items={['One', 'Two']} />);
     expect(screen.getAllByRole('presentation')).toHaveLength(2);
   });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <RadioGroup aria-describedby={'elementRadioGroupId'}>
+          <Radio value="one" aria-describedby={'elementRadioId'} />
+        </RadioGroup>
+        <p id="elementRadioId">Description Radio item</p>
+        <p id="elementRadioGroupId">Description Radio group</p>
+      </div>,
+    );
+    const radio = screen.getByRole('radio');
+    expect(radio).toHaveAttribute('aria-describedby', 'elementRadioId');
+    expect(radio).toHaveAccessibleDescription('Description Radio item');
+
+    const radioGroup = screen.getByRole('radiogroup');
+    expect(radioGroup).toHaveAttribute('aria-describedby', 'elementRadioGroupId');
+    expect(radioGroup).toHaveAccessibleDescription('Description Radio group');
+  });
 });
