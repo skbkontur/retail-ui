@@ -171,7 +171,7 @@ const offsetY = {
 </div>
 ```
 
-Проп `hideScrollBar` скрывает скроллбар при отсутствии скролла
+Проп `hideScrollBar` скрывает скроллбар при отсутствии активности пользователя
 
 ```jsx harmony
 var divStyle = {
