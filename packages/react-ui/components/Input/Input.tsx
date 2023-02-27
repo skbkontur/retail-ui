@@ -1,7 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import raf from 'raf';
 
 import { isIE11, isEdge } from '../../lib/client';
@@ -101,6 +101,10 @@ export interface InputProps
          * @param value значение инпута.
          */
         onUnexpectedInput?: (value: string) => void;
+        /**
+         * Атрибут для указания id элемента(-ов), описывающих его
+         */
+        'aria-describedby'?: AriaAttributes['aria-describedby'];
       }
     > {}
 
@@ -293,6 +297,7 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      'aria-describedby': ariaDescribedby,
       ...rest
     } = props;
 
@@ -333,6 +338,7 @@ export class Input extends React.Component<InputProps, InputState> {
       type: 'text',
       placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
+      'aria-describedby': ariaDescribedby,
     };
 
     if (type === 'password') {

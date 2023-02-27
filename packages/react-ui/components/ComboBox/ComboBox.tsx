@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { CustomComboBox } from '../../internal/CustomComboBox';
@@ -163,6 +163,11 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
    * Состояние валидации при предупреждении.
    */
   warning?: boolean;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 
   width?: string | number;
 
