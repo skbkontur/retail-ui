@@ -1387,10 +1387,9 @@ describe('ComboBox', () => {
   });
 
   it('props aria-describedby applied correctly on InputLikeText', () => {
-
     render(
       <div>
-        <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId"/>
+        <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
         <p id="elementId">Description</p>
       </div>,
     );
