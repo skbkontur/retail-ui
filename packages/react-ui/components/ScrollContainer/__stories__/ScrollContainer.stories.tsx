@@ -506,6 +506,7 @@ const ScrollContainerWithOffsetYAndX: React.FC<{ hideScrollBar?: boolean }> = ({
           right: 4,
         }}
         hideScrollBar={hideScrollBar}
+        disableAnimations={false}
       >
         <div style={{ width: 300 }}>
           {Array(30)
