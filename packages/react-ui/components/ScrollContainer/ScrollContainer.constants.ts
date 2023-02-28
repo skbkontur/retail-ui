@@ -34,5 +34,3 @@ export const scrollSizeParametersNames = {
     customScrollSize: 'height',
   },
 } as const;
-
-export const delayBeforeHidingScroll = 500;

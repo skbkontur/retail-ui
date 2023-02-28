@@ -171,7 +171,7 @@ const offsetY = {
 </div>
 ```
 
-Проп `hideScrollBar` скрывает скроллбар при отсутствии активности пользователя
+Проп `hideScrollBar` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms)
 
 ```jsx harmony
 var divStyle = {
@@ -184,7 +184,7 @@ var divStyle = {
   width: 200,
 };
 <div style={divStyle}>
-  <ScrollContainer hideScrollBar={true} disableAnimations={false}>
+  <ScrollContainer hideScrollBar={true}>
     {Array(30).fill(null).map((_,i) => (
       <div key={i}>
         {i}

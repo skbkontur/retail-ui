@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
-import { defaultScrollbarState, delayBeforeHidingScroll, scrollSizeParametersNames } from './ScrollContainer.constants';
+import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
 import { ScrollContainerProps } from './ScrollContainer';
@@ -32,6 +32,7 @@ export interface ScrollBarProps {
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
   hideScrollBar?: boolean;
+  hideScrollBarDelay?: number;
   disableAnimations?: boolean;
 }
 
@@ -298,5 +299,5 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
   private readonly hideScrollBar = debounce(() => {
     !this.state.scrollingByMouseDrag && !this.state.hover && this.setState({ scrollingByMouseWheel: false });
-  }, delayBeforeHidingScroll);
+  }, this.props.hideScrollBarDelay);
 }

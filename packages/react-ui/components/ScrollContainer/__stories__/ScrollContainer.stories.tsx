@@ -506,7 +506,8 @@ const ScrollContainerWithOffsetYAndX: React.FC<{ hideScrollBar?: boolean }> = ({
           right: 4,
         }}
         hideScrollBar={hideScrollBar}
-        disableAnimations={false}
+        hideScrollBarDelay={2000}
+        disableAnimations
       >
         <div style={{ width: 300 }}>
           {Array(30)
@@ -540,9 +541,10 @@ OffsetYAndXWithHiddenScrollBar.parameters = {
             scrollContainer.scrollTop = 500;
           }
         });
+        const duringScroll = await this.takeScreenshot();
         await delay(1000);
         const afterScroll = await this.takeScreenshot();
-        await this.expect([beforeScroll, afterScroll]).to.matchImages();
+        await this.expect([beforeScroll, duringScroll, afterScroll]).to.matchImages();
       },
     },
   },
