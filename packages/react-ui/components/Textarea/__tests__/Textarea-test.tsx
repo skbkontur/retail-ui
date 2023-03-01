@@ -1,64 +1,65 @@
 import React, { useState } from 'react';
-import { render, screen } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Textarea } from '../Textarea';
-import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('Textarea', () => {
-  buildMountAttachTarget();
-  afterEach(() => {
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-  });
-
   it('render without crash', () => {
-    const wrapper = mount<Textarea>(<Textarea />);
+    render(<Textarea />);
+    const input = screen.getByRole('textbox');
 
-    expect(wrapper).toHaveLength(1);
+    expect(input).toBeInTheDocument();
   });
 
-  it('setSelectionRange works', () => {
-    const wrapper = mount<Textarea>(<Textarea value={'text here'} />, { attachTo: getAttachedTarget() });
-    const SELECTION_START = 0;
-    const SELECTION_END = 4;
+  it('setSelectionRange method works', () => {
+    const textareaRef = React.createRef<Textarea>();
+    render(<Textarea ref={textareaRef} value="Method works" />);
+    textareaRef.current?.setSelectionRange(3, 5);
 
-    wrapper.instance().setSelectionRange(SELECTION_START, SELECTION_END);
+    userEvent.click(screen.getByRole('textbox'));
 
-    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(SELECTION_START);
-    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(SELECTION_END);
+    expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
+    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(3);
+    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(5);
   });
 
-  it('selectAll works by method', () => {
-    const VALUE = 'Text for test';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} />, { attachTo: getAttachedTarget() });
+  it('selectAll method works', () => {
+    const value = 'Method works';
 
-    wrapper.instance().selectAll();
+    const textareaRef = React.createRef<Textarea>();
+    render(<Textarea ref={textareaRef} value={value} />);
+    textareaRef.current?.selectAll();
 
+    expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(VALUE.length);
+    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
   });
+
 
   it('selectAllOnFocus prop works', () => {
-    const VALUE = 'selectAllOnFocus prop works';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />, { attachTo: getAttachedTarget() });
-
-    wrapper.find('textarea').simulate('focus');
+    const value = 'Prop works';
+    render(<Textarea value={value} selectAllOnFocus />);
+    userEvent.tab();
 
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(VALUE.length);
+    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
   });
 
-  it('manual focus', () => {
-    const wrapper = mount<Textarea>(<Textarea />, { attachTo: getAttachedTarget() });
+  it('focus method works', () => {
+    const textareaRef = React.createRef<Textarea>();
+    render(<Textarea ref={textareaRef} />);
+    screen.getByRole('textbox').focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
 
-    expect(document.activeElement).toBeInstanceOf(HTMLBodyElement);
-
-    wrapper.instance().focus();
-
-    expect(wrapper.find('textarea').instance()).toHaveFocus();
+  it('blur method works', () => {
+    const textareaRef = React.createRef<Textarea>();
+    render(<Textarea ref={textareaRef} />);
+    screen.getByRole('textbox').focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    textareaRef.current?.blur();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
   });
 
   it('should clear the value when an empty string passed', () => {
@@ -86,5 +87,122 @@ describe('Textarea', () => {
 
     userEvent.type(input, 'a');
     expect(input).toHaveValue('a');
+  });
+
+  it('handels onPaste event', () => {
+    const onPaste = jest.fn();
+    render(<Textarea onPaste={onPaste} />);
+    const text = 'It handels onPaste event';
+    const element = screen.getByRole('textbox');
+    userEvent.paste(element, text);
+    expect(element).toHaveValue(text);
+    expect(onPaste).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onFocus event', () => {
+    const onFocus = jest.fn();
+    render(<Textarea onFocus={onFocus} />);
+
+    userEvent.click(screen.getByRole('textbox'));
+
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onCut event', () => {
+    const onCut = jest.fn();
+    render(<Textarea onCut={onCut} value={'It handels onCut event'} selectAllOnFocus />);
+
+    userEvent.click(screen.getByRole('textbox'));
+    fireEvent.cut(screen.getByRole('textbox'));
+
+    expect(onCut).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onKeyDown event', () => {
+    const onKeyDown = jest.fn();
+    render(<Textarea onKeyDown={onKeyDown} />);
+
+    userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onValueChange event', () => {
+    const onValueChange = jest.fn();
+
+    render(<Textarea onValueChange={onValueChange} value="" />);
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Hello' } });
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+
+    const [value] = onValueChange.mock.calls[0];
+    expect(value).toBe('Hello');
+  });
+
+  it('handels onChange event', () => {
+    const onChange = jest.fn();
+
+    render(<Textarea onChange={onChange} value="" />);
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Hello' } });
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+  });
+
+  it('blocks pressing enter when maxLength reached', () => {
+
+    const Comp = () => {
+      const [value, setValue] = useState('');
+
+      return (
+        <Textarea value={value} onValueChange={setValue} maxLength={10} />
+      );
+    };
+
+    render(<Comp />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'Value: one');
+    expect(input).toHaveValue('Value: one');
+
+    userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+    expect(screen.getByRole('textbox')).toHaveValue('Value: one');
+  });
+
+  it('renders TextareaHelper', () => {
+
+    const { container } = render(<Textarea counterHelp='Hello' lengthCounter={10} showLengthCounter />);
+
+    screen.getByRole('textbox').focus();
+    const svgEl = container.querySelector('svg') as unknown as HTMLImageElement;
+    expect(svgEl).toBeInTheDocument();
+  });
+
+  it('renders TextareaHelper with text content', () => {
+
+    const { container } = render(<Textarea counterHelp='Hello' lengthCounter={10} showLengthCounter />);
+
+    screen.getByRole('textbox').focus();
+
+    const svgEl = container.querySelector('svg') as unknown as HTMLImageElement;
+    expect(svgEl).toBeInTheDocument();
+
+    userEvent.click(svgEl);
+    const helperTooltip = screen.getByText('Hello');
+    expect(helperTooltip).toBeInTheDocument();
+  });
+
+  it('renders TextareaHelper with react element content', () => {
+
+    render(
+      <Textarea
+        counterHelp={() => <span>Help me</span>}
+        lengthCounter={10} showLengthCounter />
+    );
+
+    screen.getByRole('textbox').focus();
+    expect(screen.getByText('Help me')).toBeInTheDocument();
   });
 });
