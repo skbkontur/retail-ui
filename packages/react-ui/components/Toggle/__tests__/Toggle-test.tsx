@@ -1,6 +1,5 @@
 ﻿import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { red } from 'react-ui/lib/styles/ColorFunctions';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Toggle } from '../Toggle';
@@ -33,7 +32,7 @@ describe('Toggle', () => {
     expect(toggle).toHaveFocus();
   });
 
-  it('handels onValueChange', () => {
+  it('handels onValueChange event', () => {
     const onValueChange = jest.fn();
 
     render(<Toggle onValueChange={onValueChange}>Toggle</Toggle>);
@@ -43,7 +42,7 @@ describe('Toggle', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onChange', () => {
+  it('handels onChange event', () => {
     const onChange = jest.fn();
 
     render(<Toggle onChange={onChange}>Toggle</Toggle>);
@@ -53,7 +52,7 @@ describe('Toggle', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus', () => {
+  it('handels onFocus event', () => {
     const onFocus = jest.fn();
 
     render(<Toggle onFocus={onFocus}>Toggle</Toggle>);
@@ -63,7 +62,7 @@ describe('Toggle', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onBlur', () => {
+  it('handels onBlur event', () => {
     const onBlur = jest.fn();
 
     render(<Toggle onBlur={onBlur}>Toggle</Toggle>);
