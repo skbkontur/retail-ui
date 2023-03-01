@@ -9,6 +9,7 @@ import {
   ValidationBehaviour,
   ValidationLevel,
   ValidationWrapperInternal,
+  ValidationWrapperInternalProps,
 } from './ValidationWrapperInternal';
 
 export interface ValidationInfo {
@@ -18,7 +19,7 @@ export interface ValidationInfo {
   independent?: boolean;
 }
 
-export interface ValidationWrapperProps {
+export interface ValidationWrapperProps extends Pick<ValidationWrapperInternalProps, 'data-tid'> {
   children?: React.ReactElement<any>;
   validationInfo: Nullable<ValidationInfo>;
   renderMessage?: Nullable<RenderErrorMessage>;
@@ -28,7 +29,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationWrapper';
 
   public render() {
-    const { children, validationInfo, renderMessage } = this.props;
+    const { children, validationInfo, renderMessage, 'data-tid': datTid } = this.props;
     const validation: Nullable<Validation> = validationInfo
       ? {
           level: validationInfo.level || 'error',
@@ -38,7 +39,11 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
         }
       : null;
     return (
-      <ValidationWrapperInternal errorMessage={renderMessage || tooltip('right top')} validation={validation}>
+      <ValidationWrapperInternal
+        data-tid={datTid}
+        errorMessage={renderMessage || tooltip('right top')}
+        validation={validation}
+      >
         {children}
       </ValidationWrapperInternal>
     );
