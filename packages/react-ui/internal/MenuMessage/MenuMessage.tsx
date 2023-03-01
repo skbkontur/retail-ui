@@ -20,7 +20,7 @@ export const MenuMessageDataTids = {
   root: 'MenuMessage__root',
 } as const;
 
-export const MenuMessage = forwardRefAndName<HTMLParagraphElement, MenuMessageProps<any>>(
+export const MenuMessage = forwardRefAndName<HTMLElement, MenuMessageProps<any>>(
   'MenuMessage',
   ({ children, className, as: Tag = 'p', ...rest }, ref) => {
     const { isMobile } = useResponsiveLayout();
