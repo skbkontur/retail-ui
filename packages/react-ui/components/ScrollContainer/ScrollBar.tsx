@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSSTransition, config } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import debounce from 'lodash.debounce';
 
 import { Nullable } from '../../typings/utility-types';
@@ -84,11 +84,12 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
       [customScrollPos]: `${state.pos}%`,
       [customScrollSize]: `${state.size}%`,
     };
-    config.disabled = !!props.disableAnimations;
 
     return (
       <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
         <CSSTransition
+          appear={!props.disableAnimations}
+          exit={!props.disableAnimations}
           in={this.state.scrollingByMouseWheel}
           classNames={{
             enter: styles.transition(),
