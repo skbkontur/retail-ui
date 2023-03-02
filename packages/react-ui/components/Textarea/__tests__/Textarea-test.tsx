@@ -36,7 +36,6 @@ describe('Textarea', () => {
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
   });
 
-
   it('selectAllOnFocus prop works', () => {
     const value = 'Prop works';
     render(<Textarea value={value} selectAllOnFocus />);
@@ -146,17 +145,13 @@ describe('Textarea', () => {
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Hello' } });
     expect(onChange).toHaveBeenCalledTimes(1);
-
   });
 
   it('blocks pressing enter when maxLength reached', () => {
-
     const Comp = () => {
       const [value, setValue] = useState('');
 
-      return (
-        <Textarea value={value} onValueChange={setValue} maxLength={10} />
-      );
+      return <Textarea value={value} onValueChange={setValue} maxLength={10} />;
     };
 
     render(<Comp />);
@@ -171,18 +166,8 @@ describe('Textarea', () => {
     expect(screen.getByRole('textbox')).toHaveValue('Value: one');
   });
 
-  it('renders TextareaHelper', () => {
-
-    const { container } = render(<Textarea counterHelp='Hello' lengthCounter={10} showLengthCounter />);
-
-    screen.getByRole('textbox').focus();
-    const svgEl = container.querySelector('svg') as unknown as HTMLImageElement;
-    expect(svgEl).toBeInTheDocument();
-  });
-
   it('renders TextareaHelper with text content', () => {
-
-    const { container } = render(<Textarea counterHelp='Hello' lengthCounter={10} showLengthCounter />);
+    const { container } = render(<Textarea counterHelp="Hello" lengthCounter={10} showLengthCounter />);
 
     screen.getByRole('textbox').focus();
 
@@ -195,14 +180,14 @@ describe('Textarea', () => {
   });
 
   it('renders TextareaHelper with react element content', () => {
-
-    render(
-      <Textarea
-        counterHelp={() => <span>Help me</span>}
-        lengthCounter={10} showLengthCounter />
-    );
+    render(<Textarea counterHelp={() => <span>Help me</span>} lengthCounter={10} showLengthCounter />);
 
     screen.getByRole('textbox').focus();
     expect(screen.getByText('Help me')).toBeInTheDocument();
+  });
+
+  it('renders disabled element', () => {
+    render(<Textarea value="" disabled />);
+    expect(screen.getByRole('textbox')).toBeDisabled();
   });
 });
