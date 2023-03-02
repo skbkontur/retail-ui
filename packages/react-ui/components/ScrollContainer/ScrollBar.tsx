@@ -142,7 +142,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
         pos: scrollPos,
         scrollState,
       });
-      event && event.type === 'scroll' && props.hideScrollBar && this.setIsScrollingByMouseWheel();
+      event && event.type === 'scroll' && props.hideScrollBar && this.setScrollingByMouseWheel();
     }
   };
 
@@ -291,7 +291,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     return 'middle';
   };
 
-  private setIsScrollingByMouseWheel = () => {
+  private setScrollingByMouseWheel = () => {
     if (!this.state.scrollingByMouseWheel) {
       this.setState({ scrollingByMouseWheel: true });
     }
