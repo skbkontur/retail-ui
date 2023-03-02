@@ -493,43 +493,55 @@ OffsetX.parameters = {
   creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
-const ScrollContainerWithOffsetYAndX: React.FC<{ hideScrollBar?: boolean }> = ({ hideScrollBar }) => {
-  return (
-    <div style={wrapperStyle}>
-      <ScrollContainer
-        offsetY={{
-          right: 4,
-          bottom: 4,
-        }}
-        offsetX={{
-          bottom: 4,
-          right: 4,
-        }}
-        hideScrollBar={hideScrollBar}
-        hideScrollBarDelay={2000}
-        disableAnimations
-      >
-        <div style={{ width: 300 }}>
-          {Array(30)
-            .fill(null)
-            .map((_, i) => (
-              <div style={{ width: 200 }} key={i}>
-                {i}
-              </div>
-            ))}
-        </div>
-      </ScrollContainer>
-    </div>
-  );
-};
-
-export const OffsetYAndX: Story = () => <ScrollContainerWithOffsetYAndX />;
+export const OffsetYAndX: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      offsetY={{
+        right: 4,
+        bottom: 4,
+      }}
+      offsetX={{
+        bottom: 4,
+        right: 4,
+      }}
+    >
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
 OffsetYAndX.parameters = {
   creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
-export const OffsetYAndXWithHiddenScrollBar: Story = () => <ScrollContainerWithOffsetYAndX hideScrollBar />;
-OffsetYAndXWithHiddenScrollBar.parameters = {
+export const HideScrollBar: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      hideScrollBar
+      // Magic delay to capture the scrollbar
+      hideScrollBarDelay={2000}
+      disableAnimations
+    >
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+HideScrollBar.parameters = {
   creevey: {
     skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
     tests: {
@@ -544,7 +556,7 @@ OffsetYAndXWithHiddenScrollBar.parameters = {
         const duringScroll = await this.takeScreenshot();
         await delay(3000);
         const afterScroll = await this.takeScreenshot();
-        await this.expect([beforeScroll, duringScroll, afterScroll]).to.matchImages();
+        await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
       },
     },
   },
