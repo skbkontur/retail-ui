@@ -112,4 +112,16 @@ describe('Button', () => {
     btnRef.current?.blur();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <Button aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const button = screen.getByRole('button');
+    expect(button).toHaveAttribute('aria-describedby', 'elementId');
+    expect(button).toHaveAccessibleDescription('Description');
+  });
 });

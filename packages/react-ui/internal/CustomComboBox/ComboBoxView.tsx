@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
@@ -51,6 +51,7 @@ interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, 
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
   width?: string | number;
   maxLength?: number;
   maxMenuHeight?: number | string;
@@ -302,6 +303,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       refInputLikeText,
       leftIcon,
       inputMode,
+      'aria-describedby': ariaDescribedby,
     } = this.props;
 
     const { renderValue, size } = this.getProps();
@@ -330,6 +332,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           ref={this.refInput}
           warning={warning}
           inputMode={inputMode}
+          aria-describedby={ariaDescribedby}
         />
       );
     }
@@ -348,6 +351,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         size={size}
         width="100%"
         ref={refInputLikeText}
+        aria-describedby={ariaDescribedby}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 
@@ -45,6 +45,10 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    * Кастомная иконка
    */
   icon?: React.ReactNode;
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface KebabState {
@@ -169,6 +173,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           disabled && styles.disabled(),
           this.state.focusedByTab && styles.focused(this.theme),
         )}
+        aria-describedby={this.props['aria-describedby']}
       >
         {isTheme2022(this.theme) ? this.renderIcon2022() : this.renderIcon()}
       </span>

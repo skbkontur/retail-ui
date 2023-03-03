@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
@@ -165,6 +165,11 @@ export interface ButtonProps extends CommonProps {
    */
   width?: number | string;
   theme?: ThemeIn;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface ButtonState {
@@ -261,6 +266,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onClick,
       width,
       children,
+      'aria-describedby': ariaDescribedby,
     } = this.props;
     const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -451,7 +457,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} aria-describedby={ariaDescribedby}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}
