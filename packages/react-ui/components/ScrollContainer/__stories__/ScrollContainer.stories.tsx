@@ -11,6 +11,7 @@ import {
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { delay } from '../../../lib/utils';
 
 function getItems(count: number) {
   const items = [];
@@ -492,7 +493,7 @@ OffsetX.parameters = {
   creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
 };
 
-export const OffsetYAndX = () => (
+export const OffsetYAndX: Story = () => (
   <div style={wrapperStyle}>
     <ScrollContainer
       offsetY={{
@@ -518,4 +519,45 @@ export const OffsetYAndX = () => (
 );
 OffsetYAndX.parameters = {
   creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
+};
+
+export const HideScrollBar: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      hideScrollBar
+      // Magic delay to capture the scrollbar
+      hideScrollBarDelay={2000}
+      disableAnimations
+    >
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+HideScrollBar.parameters = {
+  creevey: {
+    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+    tests: {
+      async hideScroll() {
+        const beforeScroll = await this.takeScreenshot();
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+          if (scrollContainer) {
+            scrollContainer.scrollTop = 500;
+          }
+        });
+        const duringScroll = await this.takeScreenshot();
+        await delay(3000);
+        const afterScroll = await this.takeScreenshot();
+        await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
+      },
+    },
+  },
 };

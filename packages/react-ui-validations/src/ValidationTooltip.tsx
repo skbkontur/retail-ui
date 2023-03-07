@@ -21,31 +21,31 @@ export interface ValidationTooltipProps {
   error: boolean;
   pos?: TooltipPosition;
   render?: () => React.ReactNode;
+  'data-tid'?: string;
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render() {
-    const onlyChild = React.Children.only(this.props.children);
+    const { children, pos, error, render, ...rest } = this.props;
+
+    const onlyChild = React.Children.only(children);
     const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
+
     if (
       ReactUiDetection.isRadioGroup(child) ||
       ReactUiDetection.isTokenInput(child) ||
       ReactUiDetection.isSwitcher(child)
     ) {
       return (
-        <Tooltip
-          useWrapper={false}
-          pos={this.props.pos}
-          render={this.props.error && this.props.render}
-          trigger={'hover&focus'}
-        >
+        <Tooltip useWrapper={false} pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
           {child}
         </Tooltip>
       );
     }
+
     return (
-      <Tooltip pos={this.props.pos} render={this.props.error && this.props.render} trigger={'hover&focus'}>
-        {this.props.children}
+      <Tooltip pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
+        {children}
       </Tooltip>
     );
   }

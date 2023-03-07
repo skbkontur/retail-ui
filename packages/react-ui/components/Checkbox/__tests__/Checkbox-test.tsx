@@ -141,4 +141,16 @@ describe('Checkbox', () => {
     userEvent.click(screen.getByRole('checkbox'));
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <Checkbox aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toHaveAttribute('aria-describedby', 'elementId');
+    expect(checkbox).toHaveAccessibleDescription('Description');
+  });
 });

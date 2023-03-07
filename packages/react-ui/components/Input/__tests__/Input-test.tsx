@@ -350,6 +350,18 @@ describe('<Input />', () => {
     userEvent.keyboard('A');
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <Input aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-describedby', 'elementId');
+    expect(input).toHaveAccessibleDescription('Description');
+  });
 });
 
 const renderEnzyme = (props: InputProps) =>
