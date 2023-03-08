@@ -5,22 +5,19 @@ import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../CommonWrapper';
-import { HTMLTags } from '../../typings/html';
 
 import { styles } from './MenuMessage.styles';
 
-export interface MenuMessageProps<T extends keyof JSX.IntrinsicElements> extends CommonProps {
+export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
-  as?: T;
+  as?: React.ElementType;
 }
-
-declare function MenuMessageFn<Tag extends HTMLTags>(props: MenuMessageProps<Tag>): JSX.Element;
 
 export const MenuMessageDataTids = {
   root: 'MenuMessage__root',
 } as const;
 
-export const MenuMessage = forwardRefAndName<HTMLElement, MenuMessageProps<any>>(
+export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>(
   'MenuMessage',
   ({ children, className, as: Tag = 'p', ...rest }, ref) => {
     const { isMobile } = useResponsiveLayout();
@@ -44,4 +41,4 @@ export const MenuMessage = forwardRefAndName<HTMLElement, MenuMessageProps<any>>
       </Tag>
     );
   },
-) as typeof MenuMessageFn;
+);
