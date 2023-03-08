@@ -121,5 +121,3 @@ export interface HTMLProps {
   webview: React.WebViewHTMLAttributes<HTMLWebViewElement>;
   svg: React.SVGProps<SVGSVGElement>;
 }
-
-export type HTMLTags = keyof HTMLProps;
