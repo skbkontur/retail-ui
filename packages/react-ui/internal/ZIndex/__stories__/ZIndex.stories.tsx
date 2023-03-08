@@ -388,21 +388,6 @@ class HintAndModal extends React.Component {
   }
 }
 
-class LoaderInModal extends React.Component {
-  public render() {
-    return (
-      <Modal>
-        <Modal.Header>Title</Modal.Header>
-        <Modal.Body>
-          <Loader active type="big">
-            Body
-          </Loader>
-        </Modal.Body>
-        <Modal.Footer panel>Footer</Modal.Footer>
-      </Modal>
-    );
-  }
-}
 interface TooltipAndDropdownMenuState {
   trigger: TooltipTrigger;
 }
@@ -756,10 +741,6 @@ HintAndModalStory.parameters = {
     },
   },
 };
-
-export const LoaderInModalStory: Story = () => <LoaderInModal />;
-LoaderInModalStory.storyName = 'Loader in Modal';
-LoaderInModalStory.parameters = { creevey: { captureElement: '[data-tid="modal-content"]' } };
 
 export const BigModalWithLoaderStory: Story = () => <BigModalWithLoader />;
 BigModalWithLoaderStory.storyName = 'Big modal with Loader';
