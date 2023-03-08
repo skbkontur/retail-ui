@@ -297,5 +297,17 @@ describe('Select', () => {
 
       expect(wrapper.text()).toBe(expectedText);
     });
+
+    it('props aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <Select aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const select = screen.getByRole('button');
+      expect(select).toHaveAttribute('aria-describedby', 'elementId');
+      expect(select).toHaveAccessibleDescription('Description');
+    });
   });
 });

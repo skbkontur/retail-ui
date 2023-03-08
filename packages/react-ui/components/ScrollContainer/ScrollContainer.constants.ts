@@ -9,8 +9,9 @@ export const defaultScrollbarState: ScrollBarState = {
   hover: false,
   active: false,
   // True when scroll is following mouse (mouse down on scroll).
-  scrolling: false,
+  scrollingByMouseDrag: false,
   scrollState: 'begin',
+  scrollingByMouseWheel: false,
 };
 
 export const scrollSizeParametersNames = {

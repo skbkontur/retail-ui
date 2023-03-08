@@ -81,6 +81,18 @@ describe('MenuItem', () => {
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <MenuItem aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const menuItem = screen.getByRole('button');
+    expect(menuItem).toHaveAttribute('aria-describedby', 'elementId');
+    expect(menuItem).toHaveAccessibleDescription('Description');
+  });
+
   describe('onMouseEnter', () => {
     it('calls once', () => {
       const onMouseEnter = jest.fn();
