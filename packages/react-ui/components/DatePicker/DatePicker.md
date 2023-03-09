@@ -305,3 +305,25 @@ const en_GB = {
   separator: DateSeparator.Slash,
 };
 ```
+
+### Кастомизирование отображения даты
+
+```jsx harmony
+import MagicWand from '@skbkontur/react-icons/MagicWand';
+
+const [value, setValue] = React.useState();
+  
+const CustomDayItem = ({ date }) => {
+  const isEven = (num) => num % 2 === 0;
+
+  return (
+    <div>
+      {isEven(date.date) ? <MagicWand /> : date.date}
+    </div>
+  );
+};
+  
+const renderItem = (date) =>  <CustomDayItem date={date} />;
+
+<DatePicker value={value} onValueChange={setValue} renderItem={renderItem} />;
+```
