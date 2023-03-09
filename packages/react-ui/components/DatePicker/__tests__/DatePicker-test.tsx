@@ -4,7 +4,7 @@ import React from 'react';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
-import { Calendar } from '../../../internal/Calendar';
+import { Calendar, CalendarDateShape } from '../../../internal/Calendar';
 import { DateSelect } from '../../../internal/DateSelect';
 import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -118,6 +118,18 @@ describe('DatePicker', () => {
       autoFocus: true,
     });
     expect(datePicker.find(DropdownContainer)).toHaveLength(1);
+  });
+
+  it('renders day cells with renderItem prop', () => {
+    const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => <span>{date.date}</span>;
+
+    const datePicker = renderDatePicker({
+      renderItem: (date) => <CustomDayItem date={date} />,
+    });
+    datePicker.setState({ opened: true });
+    const customDayItem = datePicker.find('CustomDayItem');
+
+    expect(customDayItem.exists());
   });
 
   describe('Locale', () => {
