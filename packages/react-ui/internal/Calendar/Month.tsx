@@ -23,6 +23,7 @@ interface MonthProps {
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderItem?: (date: CDS.CalendarDateShape) => React.ReactNode | number;
 }
 
 export class Month extends React.Component<MonthProps> {
@@ -99,6 +100,7 @@ export class Month extends React.Component<MonthProps> {
         value={this.props.value}
         onDateClick={this.props.onDateClick}
         isHoliday={this.props.isHoliday}
+        renderItem={this.props.renderItem}
       />
     );
   }
@@ -138,6 +140,7 @@ interface MonthDayGridProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
   isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode | number;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
@@ -145,6 +148,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public static defaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
+    renderItem: (date: CDS.CalendarDateShape) => date.date,
   };
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
@@ -179,7 +183,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
       <div>
         <div
           style={{
-            width: this.props.offset * themeConfig(this.theme).DAY_SIZE,
+            width: this.props.offset * themeConfig(this.theme).DAY_WIDTH,
             display: 'inline-block',
           }}
         />
@@ -196,6 +200,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
               value={this.props.value}
               isWeekend={isWeekend}
               onDateClick={this.props.onDateClick}
+              renderItem={this.props.renderItem}
             />
           );
         })}

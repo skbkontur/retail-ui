@@ -12,6 +12,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
+import { MonthChangeInfo } from './index';
+
 interface Props {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
@@ -20,6 +22,8 @@ interface Props {
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderItem?: (date: CalendarDateShape) => React.ReactNode | number;
+  onMonthChange?: (changeInfo: MonthChangeInfo) => void;
 }
 
 interface State {
@@ -85,6 +89,8 @@ export class Picker extends React.Component<Props, State> {
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
+          renderItem={this.props.renderItem}
+          onMonthChange={this.props.onMonthChange}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>

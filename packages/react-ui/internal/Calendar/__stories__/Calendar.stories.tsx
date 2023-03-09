@@ -1,4 +1,5 @@
 import React from 'react';
+import Education from '@skbkontur/react-icons/Education';
 
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
 import { Nullable } from '../../../typings/utility-types';
@@ -6,6 +7,9 @@ import { Button } from '../../../components/Button';
 import { Gapped } from '../../../components/Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar } from '../Calendar';
+import { CalendarDateShape } from '../CalendarDateShape';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default { title: 'Calendar', parameters: { creevey: { skip: [true] } } };
 
@@ -47,6 +51,21 @@ export const CalendarWithHolidays = () => {
 };
 CalendarWithHolidays.storyName = 'Calendar with holidays';
 
+export const CalendarWithCustomDates = () => {
+  const MyTheme = ThemeFactory.create({
+    calendarCellBorderRadius: '32px',
+    calendarCellHeight: '42px',
+    calendarCellLineHeight: '16px',
+  });
+
+  return (
+    <ThemeContext.Provider value={MyTheme}>
+      <Calendar renderItem={(date) => <CustomDayItem date={date} />} />
+    </ThemeContext.Provider>
+  );
+};
+CalendarWithCustomDates.storyName = 'Calendar with custom dates';
+
 const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [
   { year: 2017, month: 5, date: 1 },
@@ -84,3 +103,14 @@ class CalendarWithButtons extends React.Component {
     );
   }
 }
+
+const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
+  const isEven = (num: number): boolean => num % 2 === 0;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <span style={{ flexGrow: 1, paddingTop: '4px' }}>{date.date}</span>
+      <div style={{ flexGrow: 1, minHeight: '16px' }}>{isEven(date.date) && <Education />}</div>
+    </div>
+  );
+};

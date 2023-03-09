@@ -30,6 +30,17 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
+export enum ScrollDirection {
+  Down = 1,
+  Up = -1,
+}
+
+export interface MonthChangeInfo {
+  month: number;
+  year: number;
+  scrollDirection: ScrollDirection;
+}
+
 export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -76,6 +87,24 @@ export interface DatePickerProps<T> extends CommonProps {
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
   isHoliday: (day: T, isWeekend: boolean) => boolean;
+
+  /**
+   * Метод отрисовки дат в календаре
+   * @default (date) => date.date as number
+   * @param {CalendarDateShape} date - дата в формате `{ year: number; month: number; date: number; }`
+   *
+   * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
+   */
+  renderItem: (date: CalendarDateShape) => React.ReactNode;
+
+  /**
+   * Вызывается при каждом изменении месяца
+   * @param {MonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+   * `month: number` - номер текущего отображаемого месяца от 0 до 11,
+   * `year: number` - отображаемый год,
+   * `scrollDirection` - направление скролла, где `1` - `Down`, `-1` - `Up`
+   */
+  onMonthChange?: (changeInfo: MonthChangeInfo) => void;
 }
 
 export interface DatePickerState {
@@ -137,12 +166,17 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     onMouseOver: PropTypes.func,
 
     isHoliday: PropTypes.func.isRequired,
+
+    renderItem: PropTypes.func.isRequired,
+
+    onMonthChange: PropTypes.func,
   };
 
   public static defaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
+    renderItem: (date: CalendarDateShape) => date.date,
   };
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
@@ -259,6 +293,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
+            renderItem={this.props.renderItem}
+            onMonthChange={this.props.onMonthChange}
           />
         </DropdownContainer>
       );
