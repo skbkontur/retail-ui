@@ -4,6 +4,7 @@ import { fetch } from '../../../lib/net/fetch';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { THEMES } from '../ThemeSwitcher/constants';
+import { Hint } from '../../../components/Hint';
 
 interface GuidesLinkProps {
   componentName: string;
@@ -16,6 +17,7 @@ const GuidesLink: React.FunctionComponent<GuidesLinkProps> = ({ componentName })
   const context = React.useContext<{ theme: keyof typeof THEMES }>(Context);
 
   const componentLink = `${GUIDES_LINK}${componentName.toLowerCase()}`;
+  const isGuideMissing = 'Такого компонента пока нет в Контур.Гайдах';
 
   React.useEffect(() => {
     fetch(componentLink).then((response) => setHasGuide(response.status === 200));
@@ -23,9 +25,11 @@ const GuidesLink: React.FunctionComponent<GuidesLinkProps> = ({ componentName })
 
   return (
     <ThemeContext.Provider value={THEMES[context.theme]}>
-      <Link loading={!hasGuide} target="_blank" href={componentLink}>
-        Компонент в гайдах
-      </Link>
+      <Hint pos="right middle" text={!hasGuide && isGuideMissing}>
+        <Link loading={!hasGuide} target="_blank" href={componentLink} style={{ pointerEvents: 'all' }}>
+          Компонент в Контур.Гайдах
+        </Link>
+      </Hint>
     </ThemeContext.Provider>
   );
 };
