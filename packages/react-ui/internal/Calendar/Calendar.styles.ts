@@ -3,7 +3,7 @@ import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const width = parseInt(t.calendarCellSize) * 7;
+    const width = parseInt(t.calendarCellWidth) * 7;
     return css`
       box-sizing: content-box;
       color: ${t.textColorDefault};

@@ -437,7 +437,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
   //#region Calendar
-  public static calendarCellSize = '32px';
+  public static calendarCellHeight = '32px';
+  public static calendarCellWidth = '32px';
   public static calendarPaddingX = '18px';
   public static calendarMonthTitleMarginBottom = '6px';
   public static calendarMonthTitleLineHeight = '20px';
