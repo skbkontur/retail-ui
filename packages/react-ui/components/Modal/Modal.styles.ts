@@ -186,6 +186,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  headerWrapper() {
+    return css`
+      position: relative;
+    `;
+  },
+
   header(t: Theme) {
     return css`
       font-size: ${t.modalHeaderFontSize};
@@ -249,6 +255,12 @@ export const styles = memoizeStyle({
   mobileFooter(t: Theme) {
     return css`
       padding: ${t.mobileModalFooterPadding};
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      position: relative;
     `;
   },
 

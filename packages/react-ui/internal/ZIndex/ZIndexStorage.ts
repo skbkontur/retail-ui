@@ -14,6 +14,9 @@ export type LayerComponentName = keyof typeof componentPriorities;
 const componentPriorities = {
   MobilePopup: 9000,
   Toast: 10000,
+  // Sticky footer/header should overlap anything that can be contained inside of a modal body
+  ModalStickyFooter: 11,
+  ModalStickyHeader: 11,
   GlobalLoader: 10,
   Sidepage: 9,
   Modal: 9,

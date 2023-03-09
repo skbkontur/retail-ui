@@ -60,7 +60,9 @@ function ModalHeader(props: ModalHeaderProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex>{sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}</ZIndex>
+      <ZIndex priority={sticky ? 'ModalStickyHeader' : undefined} className={styles.headerWrapper()}>
+        {sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}
+      </ZIndex>
     </CommonWrapper>
   );
 }
