@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Dropdown } from '../../../components/Dropdown';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
@@ -1045,6 +1046,56 @@ ToastOverEverything.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="ref-toast"]' }))
           .pause(1000)
           .click(this.browser.findElement({ css: 'body' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
+
+export const ModalWithDropdown: Story = () => {
+  const [isSticky, setIsSticky] = React.useState(false);
+
+  return (
+    <Modal width={350}>
+      <Modal.Body style={{ display: 'flex', flexDirection: 'column' }}>
+        <Dropdown caption={'Open'} size="medium" width="50%" menuWidth="250px" disablePortal>
+          <div style={{ height: '200px', backgroundColor: 'lightblue' }}></div>
+        </Dropdown>
+        <button data-tid="toggle-sticky-button" onClick={() => setIsSticky(!isSticky)}>
+          {isSticky ? 'footer and modal are sticky' : 'footer and modal are not sticky'}
+        </button>
+      </Modal.Body>
+      <Modal.Header sticky={isSticky} style={{ background: 'green' }}>
+        Header
+      </Modal.Header>
+      <Modal.Footer sticky={isSticky} style={{ background: 'green' }}>
+        Footer
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+ModalWithDropdown.parameters = {
+  creevey: {
+    tests: {
+      async 'dropdown overlaps footer and header'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="Dropdown__root"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+      async 'dropdown lays under footer and header'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="toggle-sticky-button"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid~="Dropdown__root"]' }))
           .perform();
         await delay(1000);
 
