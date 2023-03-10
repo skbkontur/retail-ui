@@ -1,8 +1,13 @@
 {
-  "workspaces": [
-    "packages/*",
-    "packages/@skbkontur/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/@skbkontur/*"
+    ],
+    "nohoist": [
+      "**/react-router"
+    ]
+  },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
@@ -26,5 +31,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "resolutions": {
+    "selenium-webdriver": "4.0.0-beta.4"
   }
 }

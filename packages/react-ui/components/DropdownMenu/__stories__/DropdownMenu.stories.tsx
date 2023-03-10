@@ -282,7 +282,7 @@ export const ExampleWithWidthOfMenu = () => (
   </DropdownMenu>
 );
 ExampleWithWidthOfMenu.storyName = 'Example with width of menu';
-ExampleWithWidthOfMenu.parameters = { creevey: { skip: [true] } };
+ExampleWithWidthOfMenu.parameters = { creevey: { skip: true } };
 
 export const ExampleWithMaximumHeightOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
@@ -294,7 +294,7 @@ export const ExampleWithMaximumHeightOfMenu = () => (
   </DropdownMenu>
 );
 ExampleWithMaximumHeightOfMenu.storyName = 'Example with maximum height of menu';
-ExampleWithMaximumHeightOfMenu.parameters = { creevey: { skip: [true] } };
+ExampleWithMaximumHeightOfMenu.parameters = { creevey: { skip: true } };
 
 export const CaptionAcceptsAnArbitraryElement = () => (
   <DropdownMenu
@@ -311,7 +311,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
   </DropdownMenu>
 );
 CaptionAcceptsAnArbitraryElement.storyName = 'Caption accepts an arbitrary element';
-CaptionAcceptsAnArbitraryElement.parameters = { creevey: { skip: [true] } };
+CaptionAcceptsAnArbitraryElement.parameters = { creevey: { skip: true } };
 
 export const OnlyStaticElements = () => (
   <DropdownMenu
@@ -328,7 +328,7 @@ export const OnlyStaticElements = () => (
   </DropdownMenu>
 );
 OnlyStaticElements.storyName = 'Only static elements';
-OnlyStaticElements.parameters = { creevey: { skip: [true] } };
+OnlyStaticElements.parameters = { creevey: { skip: true } };
 
 export const CaptionAcceptsAFunction = () => (
   <DropdownMenu
@@ -353,7 +353,7 @@ export const CaptionAcceptsAFunction = () => (
   </DropdownMenu>
 );
 CaptionAcceptsAFunction.storyName = 'Caption accepts a function';
-CaptionAcceptsAFunction.parameters = { creevey: { skip: [true] } };
+CaptionAcceptsAFunction.parameters = { creevey: { skip: true } };
 
 export const WithoutAnimations = () => (
   <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню</Button>}>
@@ -365,7 +365,7 @@ export const WithoutAnimations = () => (
   </DropdownMenu>
 );
 WithoutAnimations.storyName = 'Without animations';
-WithoutAnimations.parameters = { creevey: { skip: [true] } };
+WithoutAnimations.parameters = { creevey: { skip: true } };
 
 export const WithHeaderAndFooter: Story = () => (
   <DropdownWithScrollStateChange

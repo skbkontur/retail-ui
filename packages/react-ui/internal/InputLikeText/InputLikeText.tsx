@@ -36,6 +36,7 @@ export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
 export const InputLikeTextDataTids = {
   root: 'InputLikeText__root',
   input: 'InputLikeText__input',
+  nativeInput: 'InputLikeText__nativeInput',
 } as const;
 
 type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
@@ -167,6 +168,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragStart,
       onMouseDragEnd,
       takeContentWidth,
+      'aria-describedby': ariaDescribedby,
       ...rest
     } = props;
 
@@ -205,7 +207,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
-        <input type="hidden" value={value} />
+        <input
+          data-tid={InputLikeTextDataTids.nativeInput}
+          type="hidden"
+          value={value}
+          disabled={disabled}
+          aria-describedby={ariaDescribedby}
+        />
         {leftSide}
         <span className={wrapperClass}>
           <span

@@ -61,46 +61,23 @@ const MOBILE_REGEXP = /Mobile.*/i;
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
-    const theme = themes[context.globals.theme] || DEFAULT_THEME;
+    const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
     const root = document.getElementById('root');
 
     if (root) {
-      if ([DARK_THEME, THEME_2022_DARK].includes(theme)) {
+      if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
         root.classList.add('dark');
       } else {
         root.classList.remove('dark');
       }
     }
 
-    if (theme !== DEFAULT_THEME) {
-      return (
-        <ThemeContext.Provider value={theme}>
-          <Story />
-        </ThemeContext.Provider>
-      );
-    }
-
-    return <Story />;
-  },
-  (Story) => (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      <Story />
-    </div>
-  ),
-  (Story, context) => {
-    if (MOBILE_REGEXP.test(context.story) || MOBILE_REGEXP.test(context.name)) {
+    if (storybookTheme !== DEFAULT_THEME) {
       return (
         <ThemeContext.Consumer>
           {(theme) => {
             return (
-              <ThemeContext.Provider
-                value={ThemeFactory.create(
-                  {
-                    mobileMediaQuery: '(max-width: 576px)',
-                  },
-                  theme,
-                )}
-              >
+              <ThemeContext.Provider value={ThemeFactory.create(theme, storybookTheme)}>
                 <Story />
               </ThemeContext.Provider>
             );
@@ -111,19 +88,44 @@ export const decorators: Meta['decorators'] = [
 
     return <Story />;
   },
+  (Story) => (
+    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+      <Story />
+    </div>
+  ),
+  (Story) => {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  mobileMediaQuery: '(max-width: 576px)',
+                },
+                theme,
+              )}
+            >
+              <Story />
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  },
 ];
 
 export const parameters: Meta['parameters'] = {
   creevey: {
     captureElement: '#test-element',
-    skip: [
-      {
+    skip: {
+      'not flat stories in flat browsers': {
         in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
-      { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
-      { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
-    ],
+      'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
+      'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
+    },
   },
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),

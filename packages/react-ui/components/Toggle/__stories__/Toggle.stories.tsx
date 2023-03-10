@@ -250,7 +250,7 @@ Plain.parameters = {
 
 export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
 Uncontrolled.storyName = 'uncontrolled';
-Uncontrolled.parameters = { creevey: { skip: [true] } };
+Uncontrolled.parameters = { creevey: { skip: true } };
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'playground';

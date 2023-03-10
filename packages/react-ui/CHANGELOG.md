@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.12.0...@skbkontur/react-ui@4.13.0) (2023-03-02)
+
+
+### Features
+
+* **ScrollContainer:** add `hideScrollBar` prop ([#3106](https://github.com/skbkontur/retail-ui/issues/3106)) ([609739b](https://github.com/skbkontur/retail-ui/commit/609739b8cc8586bd32b37de9d96dc8288ea8aff4))
+* add aria-describedby attribute to elements ([#3094](https://github.com/skbkontur/retail-ui/issues/3094)) ([8f37e81](https://github.com/skbkontur/retail-ui/commit/8f37e817b86cee94fca5e7f37a8fdcb9928f289e))
+* **ComboBox, DateInput, DatePicker:** propagate disabled attribute to native input ([#3082](https://github.com/skbkontur/retail-ui/issues/3082)) ([f18dc78](https://github.com/skbkontur/retail-ui/commit/f18dc78731ee769288720b058126717c3798a7ae))
+* **RadioGroup:** add roles for a11y ([#3096](https://github.com/skbkontur/retail-ui/issues/3096)) ([069b588](https://github.com/skbkontur/retail-ui/commit/069b58860e1254da1818bd28d3a17ecba334a702))
+
+
+
+
+
+# [4.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.11.0...@skbkontur/react-ui@4.12.0) (2023-02-01)
+
+
+### Bug Fixes
+
+* **Toast:** add `showTime` arg to the `push` method ([#3062](https://github.com/skbkontur/retail-ui/issues/3062)) ([e4196da](https://github.com/skbkontur/retail-ui/commit/e4196da2e6c1b39d9cb73fe5352b5a5d7d9d79a6))
+
+
+### Features
+
+* **Autocomplete,Select,ComboBox:** new design of mobile popups ([#3019](https://github.com/skbkontur/retail-ui/issues/3019)) ([c8e4d9a](https://github.com/skbkontur/retail-ui/commit/c8e4d9a4c9adcd4b504b866b4fb2eea9920c6db6))
+* **Dropdown:** add prop `menuPos` for manual control ([#3099](https://github.com/skbkontur/retail-ui/issues/3099)) ([a215cec](https://github.com/skbkontur/retail-ui/commit/a215cecb58a4344fca4096c7a164430cfef3722c))
+
+
+
+
+
 # [4.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.10.0...@skbkontur/react-ui@4.11.0) (2023-01-13)
 
 

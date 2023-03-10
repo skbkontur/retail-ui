@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { HTMLProps } from 'react-ui/typings/html-props';
+import { HTMLProps } from 'react-ui/typings/html';
 
 import { MenuMessage } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
@@ -1362,5 +1362,39 @@ describe('ComboBox', () => {
     await delay(0);
     expect(screen.getByRole('button', { name: 'First' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Second' })).toBeInTheDocument();
+  });
+
+  it('should have disabled input', () => {
+    render(<ComboBox getItems={jest.fn()} disabled />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
+
+  it('props aria-describedby applied correctly on Input', () => {
+    const getItems = () => {
+      return Promise.resolve([{ value: 1, label: 'First' }]);
+    };
+
+    render(
+      <div>
+        <ComboBox aria-describedby="elementId" getItems={getItems} autoFocus />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const comboBox = screen.getByRole('textbox');
+    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+    expect(comboBox).toHaveAccessibleDescription('Description');
+  });
+
+  it('props aria-describedby applied correctly on InputLikeText', () => {
+    render(
+      <div>
+        <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
+        <p id="elementId">Description</p>
+      </div>,
+    );
+    const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
+    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+    expect(comboBox).toHaveAccessibleDescription('Description');
   });
 });

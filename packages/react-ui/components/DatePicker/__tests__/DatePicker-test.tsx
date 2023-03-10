@@ -181,4 +181,10 @@ describe('DatePicker', () => {
     userEvent.type(input, '24.08.2022');
     expect(input).toHaveTextContent(/^24.08.2022$/);
   });
+
+  it('should have disabled input', () => {
+    render(<DatePicker onValueChange={jest.fn()} disabled />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
 });

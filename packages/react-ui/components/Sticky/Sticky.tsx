@@ -38,7 +38,7 @@ export interface StickyState {
 }
 
 export const StickyDataTids = {
-  root: 'Spinner__root',
+  root: 'Sticky__root',
 } as const;
 
 type DefaultProps = Required<Pick<StickyProps, 'offset'>>;

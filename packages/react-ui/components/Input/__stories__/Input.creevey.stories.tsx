@@ -9,7 +9,7 @@ export default {
   title: 'Input/Functional tests',
   parameters: {
     creevey: {
-      skip: { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/, reason: `themes don't affect logic` },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
     },
   },
 } as Meta;
@@ -160,7 +160,9 @@ export const SelectAllByButton: Story = () => {
       <div>
         <Input ref={(element) => (input = element)} defaultValue="Some value" />
       </div>
-      <button onClick={selectAll}>Select all</button>
+      <button data-tid="select-all" onClick={selectAll}>
+        Select all
+      </button>
     </div>
   );
 };
@@ -177,7 +179,7 @@ SelectAllByButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
       },
@@ -233,7 +235,7 @@ export const WithMaskAndSelectAllProp: Story = () => {
 
 WithMaskAndSelectAllProp.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     tests: {
       async PlainAndSelected() {
         const plain = await this.takeScreenshot();

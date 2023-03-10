@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.3...react-ui-validations@1.12.0) (2023-03-02)
+
+
+### Features
+
+* **validations:** add prop data-tid to ValidationWrapper ([#3081](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3081)) ([5bbee55](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/5bbee557782d0d7c631506dadc466465acf339fa))
+
+
+
+
+
+## [1.11.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.2...react-ui-validations@1.11.3) (2023-02-01)
+
+
+### Bug Fixes
+
+* **validations:** fix return value of `onInputValueChange` ([#3092](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3092)) ([43efcb4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/43efcb428989aa9d1aeaaa6eb4f9c964fbac182d))
+
+
+
+
+
 ## [1.11.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.1...react-ui-validations@1.11.2) (2023-01-13)
 
 **Note:** Version bump only for package react-ui-validations

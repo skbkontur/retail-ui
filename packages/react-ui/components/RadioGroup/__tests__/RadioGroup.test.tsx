@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { RadioGroup, RadioGroupProps } from '../RadioGroup';
 import { Radio } from '../../Radio';
@@ -263,5 +263,38 @@ describe('<RadioGroup />', () => {
     }
 
     expect(() => render(<RadioGroupGeneric />)).not.toThrow();
+  });
+
+  it('should have correctly role', () => {
+    render(
+      <RadioGroup>
+        <Radio value={'str'} />
+      </RadioGroup>,
+    );
+    expect(screen.getByRole('radiogroup')).toBeInTheDocument();
+  });
+
+  it('children has prevent table role', () => {
+    render(<RadioGroup items={['One', 'Two']} />);
+    expect(screen.getAllByRole('presentation')).toHaveLength(2);
+  });
+
+  it('props aria-describedby applied correctly', () => {
+    render(
+      <div>
+        <RadioGroup aria-describedby={'elementRadioGroupId'}>
+          <Radio value="one" aria-describedby={'elementRadioId'} />
+        </RadioGroup>
+        <p id="elementRadioId">Description Radio item</p>
+        <p id="elementRadioGroupId">Description Radio group</p>
+      </div>,
+    );
+    const radio = screen.getByRole('radio');
+    expect(radio).toHaveAttribute('aria-describedby', 'elementRadioId');
+    expect(radio).toHaveAccessibleDescription('Description Radio item');
+
+    const radioGroup = screen.getByRole('radiogroup');
+    expect(radioGroup).toHaveAttribute('aria-describedby', 'elementRadioGroupId');
+    expect(radioGroup).toHaveAccessibleDescription('Description Radio group');
   });
 });

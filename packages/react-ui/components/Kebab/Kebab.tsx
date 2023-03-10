@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -40,6 +40,10 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    * Кастомная иконка
    */
   icon?: React.ReactNode;
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface KebabState {
@@ -163,6 +167,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           [styles.disabled()]: disabled,
           [styles.focused(this.theme)]: this.state.focusedByTab,
         })}
+        aria-describedby={this.props['aria-describedby']}
       >
         {this.renderIcon()}
       </span>

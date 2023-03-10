@@ -1,24 +1,22 @@
 import React, { useContext } from 'react';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 
-import { Toggle } from '../../../components/Toggle';
-import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
+import { Select } from '../../../components/Select';
+import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { THEMES } from './constants';
 
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useContext(Context);
-  const handleValueChange = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  };
   return (
-    <ThemeContext.Provider value={DARK_THEME}>
-      <Toggle checked={theme === 'dark'} onValueChange={handleValueChange} style={{ margin: '24px 10px' }}>
-        Dark Theme
-      </Toggle>
+    <ThemeContext.Provider value={THEME_2022_DARK}>
+      <Select
+        value={theme}
+        items={Object.keys(THEMES)}
+        onValueChange={setTheme}
+        width="100%"
+        style={{ marginTop: 24 }}
+      />
     </ThemeContext.Provider>
   );
 };

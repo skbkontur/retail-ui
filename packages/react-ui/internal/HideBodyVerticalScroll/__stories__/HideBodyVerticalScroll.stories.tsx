@@ -7,7 +7,7 @@ import { delay } from '../../../lib/utils';
 export default {
   title: 'HideBodyVerticalScroll',
   parameters: {
-    creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+    creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
   },
 } as Meta;
 
@@ -18,7 +18,7 @@ const testScrollLockUnlock: CreeveyTests = {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement({ css: 'button' }))
+        .click(this.browser.findElement({ css: '[data-tid~="toggle-lock"]' }))
         .perform();
       await delay(1000);
     };
@@ -47,7 +47,9 @@ const SampleLockScroll = () => {
   return (
     <div style={{ position: 'fixed', margin: 10, padding: 10, background: '#eee' }}>
       <div>
-        <button onClick={toggle}>toggle</button>
+        <button onClick={toggle} data-tid="toggle-lock">
+          toggle
+        </button>
         <span> HideBodyVerticalScroll: {status}</span>
         {locked && <HideBodyVerticalScroll />}
       </div>

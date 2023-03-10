@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { DropdownContainerProps } from '../../internal/DropdownContainer';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -31,9 +32,11 @@ const PASS_PROPS = {
   onMouseEnter: true,
   onMouseLeave: true,
   onMouseOver: true,
+  menuPos: true,
+  'aria-describedby': true,
 };
 
-export interface DropdownProps extends CommonProps {
+export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
   /**
    * Подпись на кнопке.
    */
@@ -86,6 +89,11 @@ export interface DropdownProps extends CommonProps {
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /**
+   * Атрибут для указания id элемента(-ов), описывающих его
+   */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;

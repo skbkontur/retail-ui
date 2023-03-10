@@ -194,21 +194,21 @@ export const WithMobileNativeDatePicker = () => {
   );
 };
 WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
-WithMobileNativeDatePicker.parameters = { creevey: { skip: [true] } };
+WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
 );
 WithAutoFocus.storyName = 'with autoFocus';
-WithAutoFocus.parameters = { creevey: { skip: [true] } };
+WithAutoFocus.parameters = { creevey: { skip: true } };
 
 export const DatePickerWithErrorStory = () => <DatePickerWithError />;
 DatePickerWithErrorStory.storyName = 'DatePickerWithError';
-DatePickerWithErrorStory.parameters = { creevey: { skip: [true] } };
+DatePickerWithErrorStory.parameters = { creevey: { skip: true } };
 
 export const DatePickerDisabled = () => <DatePickerWithError disabled />;
 DatePickerDisabled.storyName = 'DatePicker disabled';
-DatePickerDisabled.parameters = { creevey: { skip: [true] } };
+DatePickerDisabled.parameters = { creevey: { skip: true } };
 
 export const DifferentSizes = () => (
   <Gapped>
@@ -234,7 +234,7 @@ export const DatePickerLocaleProvider = () => {
   );
 };
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
-DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
+DatePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
 export const DatePickerInRelativeBody: Story = () => {
   const [isRelative, toggleIsRelative] = useState(false);
@@ -254,7 +254,9 @@ export const DatePickerInRelativeBody: Story = () => {
 
   return (
     <>
-      <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
+      <Button onClick={onClick} data-tid="toggle-relative-position">
+        {isRelative ? 'With' : 'Without'} relative position
+      </Button>
       <div style={{ padding: `${paddingTop}px 150px 0` }}>
         <DatePicker value="02.07.2017" autoFocus onValueChange={emptyHandler} />
       </div>
@@ -270,7 +272,7 @@ DatePickerInRelativeBody.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
 

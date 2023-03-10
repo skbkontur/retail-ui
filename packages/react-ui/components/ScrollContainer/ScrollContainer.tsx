@@ -9,6 +9,7 @@ import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -60,6 +61,18 @@ export interface ScrollContainerProps extends CommonProps {
    * Смещение горизонтального скроллбара
    */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
+  /**
+   * Скрывать скроллбар при отсутствии активности пользователя
+   */
+  hideScrollBar?: boolean;
+  /**
+   * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true`
+   */
+  hideScrollBarDelay?: number;
+  /**
+   * Отключить анимации
+   */
+  disableAnimations?: boolean;
 }
 
 export const ScrollContainerDataTids = {
@@ -67,7 +80,12 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
-type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
+type DefaultProps = Required<
+  Pick<
+    ScrollContainerProps,
+    'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'hideScrollBar' | 'disableAnimations' | 'hideScrollBarDelay'
+  >
+>;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
@@ -86,6 +104,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
+    hideScrollBar: false,
+    disableAnimations: isTestEnv,
+    hideScrollBarDelay: 500,
   };
 
   private getProps = createPropsGetter(ScrollContainer.defaultProps);
@@ -218,7 +239,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   private renderScrollbar = (axis: ScrollAxis) => {
     const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
-    const { offsetY, offsetX } = this.getProps();
+    const { offsetY, offsetX, invert, hideScrollBar, disableAnimations, hideScrollBarDelay } = this.getProps();
 
     const offset = axis === 'x' ? offsetX : offsetY;
 
@@ -226,9 +247,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       <ScrollBar
         axis={axis}
         ref={refScrollBar}
-        invert={this.getProps().invert}
+        invert={invert}
         onScrollStateChange={this.handleScrollStateChange}
         offset={offset}
+        hideScrollBar={hideScrollBar}
+        disableAnimations={disableAnimations}
+        hideScrollBarDelay={hideScrollBarDelay}
       />
     );
   };
@@ -270,8 +294,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    this.scrollX?.reflow();
-    this.scrollY?.reflow();
+    this.scrollY?.reflow(event);
+    this.scrollX?.reflow(event);
 
     this.props.onScroll?.(event);
     if (this.getProps().preventWindowScroll) {
