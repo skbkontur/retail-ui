@@ -20,6 +20,10 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Loader.styles';
 
+const types = ['mini', 'normal', 'big'] as const;
+
+export type LoaderType = typeof types[number];
+
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
   /**
@@ -40,7 +44,7 @@ export interface LoaderProps extends CommonProps {
    *
    * @default normal
    */
-  type?: 'mini' | 'normal' | 'big';
+  type?: LoaderType;
   /**
    * Время в миллисекундах для показа вуали без спиннера.
    * @default 300
@@ -111,10 +115,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Тип спиннера: mini, normal, big
      *
      * @default  normal
-     *
-     * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+    type: PropTypes.oneOf(types),
     /**
      * Время в миллисекундах для показа вуали без спиннера.
      * @default 300
