@@ -7,7 +7,7 @@ import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { XIcon16Regular } from '../../internal/icons2022/XIcon/XIcon16Regular';
+import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -31,7 +31,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
     setFocusedByTab(false);
   };
 
-  const icon = isTheme2022(theme) ? <XIcon16Regular /> : <CrossIcon />;
+  const icon = isTheme2022(theme) ? <XIcon20Regular /> : <CrossIcon />;
 
   return (
     <CommonWrapper {...otherProps}>

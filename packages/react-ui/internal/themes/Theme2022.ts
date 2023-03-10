@@ -197,6 +197,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get modalFixedFooterPaddingTop() {
     return this.modalFooterPaddingTop;
   }
+  public static modalCloseButtonClickArea = '6px';
   public static modalFixedFooterMarginTop = '0px';
   public static modalSeparatorBorderBottom = '1px solid #EBEBEB';
   public static modalHeaderFontWeight = '700';
