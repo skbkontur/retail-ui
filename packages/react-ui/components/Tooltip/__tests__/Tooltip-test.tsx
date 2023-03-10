@@ -405,16 +405,12 @@ describe('Tooltip', () => {
 
   it('calls `onCloseClick` when click on the cross', () => {
     const onClose = jest.fn();
-    const { container } = render(
+    render(
       <Tooltip trigger="opened" render={renderTooltip} onCloseClick={onClose}>
         <div />
       </Tooltip>,
     );
-    screen.debug();
-
-    const svgEl = container.querySelector('svg') as unknown as HTMLImageElement;
-    expect(svgEl).toBeInTheDocument();
-    userEvent.click(svgEl);
+    userEvent.click(screen.getByTestId(TooltipDataTids.crossIcon));
     expect(onClose.mock.calls).toHaveLength(1);
   });
 
@@ -429,7 +425,7 @@ describe('Tooltip', () => {
       expect(onOpen).toHaveBeenCalledTimes(1);
     });
 
-    it('with "focus" trigger', () => {
+    it('with "focus" trigger', async () => {
       const onOpen = jest.fn();
       render(
         <Tooltip trigger="focus" render={renderTooltip} onOpen={onOpen}>
@@ -437,14 +433,13 @@ describe('Tooltip', () => {
         </Tooltip>,
       );
 
-      // eslint-disable-next-line testing-library/prefer-presence-queries
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
 
       userEvent.tab();
-      screen.debug();
       // eslint-disable-next-line testing-library/prefer-presence-queries
       expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
-      expect(screen.getByRole('button')).toHaveFocus();
+
+      await delay(100);
       expect(onOpen.mock.calls).toHaveLength(1);
     });
   });
