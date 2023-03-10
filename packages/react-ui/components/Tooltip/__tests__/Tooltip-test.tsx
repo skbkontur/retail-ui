@@ -1,4 +1,4 @@
-//import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { render, screen } from '@testing-library/react';
@@ -401,9 +401,6 @@ describe('Tooltip', () => {
     screen.debug();
 
     expect(screen.queryByTestId(TooltipDataTids.root)).not.toBeInTheDocument();
-
-    //expect(wrapper.find('#foo').find(selectorCross)).toHaveLength(1);
-    //expect(wrapper.find('#bar').find(selectorCross)).toHaveLength(0);
   });
 
   it('calls `onCloseClick` when click on the cross', () => {
@@ -436,17 +433,18 @@ describe('Tooltip', () => {
       const onOpen = jest.fn();
       render(
         <Tooltip trigger="focus" render={renderTooltip} onOpen={onOpen}>
-          <button id='Click' />
+          <button />
         </Tooltip>,
       );
 
       // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.getByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
 
       userEvent.tab();
       screen.debug();
-      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
-
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByRole('button')).toHaveFocus();
       expect(onOpen.mock.calls).toHaveLength(1);
     });
   });
@@ -565,7 +563,7 @@ describe('Tooltip', () => {
     expect(screen.getByText("Stateful Component!")).toBeInTheDocument();
   });
 
-  it.only('reset opened state by `tigger="closed"` prop', () => {
+  it('reset opened state by `tigger="closed"` prop', () => {
     const Content = () => <div />;
 
     const { rerender } = render(
@@ -605,18 +603,19 @@ describe('Tooltip', () => {
 
     beforeEach(() => {
       onCloseRequest.mockClear();
-      render(
-        <Tooltip disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
-          <Button>Anchor</Button>
-        </Tooltip>,
-      );
     });
 
     it('with "click" trigger', () => {
-      wrapper.setProps({ trigger: 'click' });
-      wrapper.setState({ opened: true });
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(1);
+      render(
+        <Tooltip trigger='click' disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
+          <button>Anchor</button>
+        </Tooltip>,
+      );
+
+      userEvent.click(screen.getByRole('button'));
+
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
 
@@ -624,9 +623,13 @@ describe('Tooltip', () => {
     });
 
     it('with "opened" trigger', () => {
-      wrapper.setProps({ trigger: 'opened' });
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(1);
+      render(
+        <Tooltip trigger='opened' disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
+          <button>Anchor</button>
+        </Tooltip>,
+      );
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
 
@@ -634,10 +637,14 @@ describe('Tooltip', () => {
     });
 
     it('should be called with event', () => {
-      wrapper.setProps({ trigger: 'click' });
-      wrapper.setState({ opened: true });
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(1);
+      render(
+        <Tooltip trigger='click' disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
+          <button>Anchor</button>
+        </Tooltip>,
+      );
+      userEvent.click(screen.getByRole('button'));
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
 
