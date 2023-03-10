@@ -376,7 +376,7 @@ describe('Tooltip', () => {
     const refFn1 = jest.fn();
     const refFn2 = jest.fn();
 
-    render(<Comp refFn={refFn1} />);
+    const wrapper = mount<CompProps>(<Comp refFn={refFn1} />);
     // Force rerender to make sure no additional ref calls happens when ref
     // didn't change.
     wrapper.update();
@@ -396,7 +396,7 @@ describe('Tooltip', () => {
         <Tooltip trigger="opened" render={() => null}>
           bar
         </Tooltip>
-      </div>
+      </div>,
     );
     screen.debug();
 
@@ -458,7 +458,7 @@ describe('Tooltip', () => {
 
     it('with "click" trigger', () => {
       render(
-        <Tooltip trigger='click' render={renderTooltip} onClose={onClose}>
+        <Tooltip trigger="click" render={renderTooltip} onClose={onClose}>
           <button />
         </Tooltip>,
       );
@@ -471,14 +471,16 @@ describe('Tooltip', () => {
 
     it('when trigger changes to "closed"', () => {
       const { rerender } = render(
-        <Tooltip trigger='opened' onClose={onClose} render={renderTooltip}>
+        <Tooltip trigger="opened" onClose={onClose} render={renderTooltip}>
           <div />
         </Tooltip>,
       );
 
-      rerender(<Tooltip trigger='closed' onClose={onClose} render={renderTooltip}>
-        <div />
-      </Tooltip>,);
+      rerender(
+        <Tooltip trigger="closed" onClose={onClose} render={renderTooltip}>
+          <div />
+        </Tooltip>,
+      );
 
       expect(onClose).toHaveBeenCalledTimes(1);
     });
@@ -537,7 +539,7 @@ describe('Tooltip', () => {
 
   it('renders stateless children component without errors', () => {
     function PureComponent() {
-      return <div >i&apos;m pure component!</div>;
+      return <div>i&apos;m pure component!</div>;
     }
 
     render(
@@ -560,7 +562,7 @@ describe('Tooltip', () => {
         <StatefulComponent />
       </Tooltip>,
     );
-    expect(screen.getByText("Stateful Component!")).toBeInTheDocument();
+    expect(screen.getByText('Stateful Component!')).toBeInTheDocument();
   });
 
   it('reset opened state by `tigger="closed"` prop', () => {
@@ -569,7 +571,7 @@ describe('Tooltip', () => {
     const { rerender } = render(
       <Tooltip trigger="click" disableAnimations render={() => <Content />}>
         <Button>Click me</Button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
@@ -582,7 +584,7 @@ describe('Tooltip', () => {
     rerender(
       <Tooltip trigger="closed" disableAnimations render={() => <Content />}>
         <Button>Click me</Button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
@@ -590,7 +592,7 @@ describe('Tooltip', () => {
     rerender(
       <Tooltip trigger="hover" disableAnimations render={() => <Content />}>
         <Button>Click me</Button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
@@ -607,7 +609,7 @@ describe('Tooltip', () => {
 
     it('with "click" trigger', () => {
       render(
-        <Tooltip trigger='click' disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
+        <Tooltip trigger="click" disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <button>Anchor</button>
         </Tooltip>,
       );
@@ -624,7 +626,7 @@ describe('Tooltip', () => {
 
     it('with "opened" trigger', () => {
       render(
-        <Tooltip trigger='opened' disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
+        <Tooltip trigger="opened" disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <button>Anchor</button>
         </Tooltip>,
       );
@@ -638,7 +640,7 @@ describe('Tooltip', () => {
 
     it('should be called with event', () => {
       render(
-        <Tooltip trigger='click' disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
+        <Tooltip trigger="click" disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <button>Anchor</button>
         </Tooltip>,
       );
@@ -665,7 +667,7 @@ describe('Tooltip', () => {
     );
     const instance = wrapper.instance();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const timer = setTimeout(() => { });
+    const timer = setTimeout(() => {});
     // @ts-expect-error: private property
     instance.hoverTimeout = timer;
 
