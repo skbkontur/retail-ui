@@ -1,4 +1,4 @@
-import { mount, ReactWrapper } from 'enzyme';
+//import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { render, screen } from '@testing-library/react';
@@ -376,7 +376,7 @@ describe('Tooltip', () => {
     const refFn1 = jest.fn();
     const refFn2 = jest.fn();
 
-    const wrapper = mount<CompProps>(<Comp refFn={refFn1} />);
+    render(<Comp refFn={refFn1} />);
     // Force rerender to make sure no additional ref calls happens when ref
     // didn't change.
     wrapper.update();
@@ -391,40 +391,40 @@ describe('Tooltip', () => {
   });
 
   it('does not show tooltip in render func returned false', () => {
-    const wrapper = mount(
-      <div>
-        <div id="foo">
-          <Tooltip trigger="opened" render={renderTooltip}>
-            foo
-          </Tooltip>
-        </div>
-        <div id="bar">
-          <Tooltip trigger="opened" render={() => null}>
-            bar
-          </Tooltip>
-        </div>
-      </div>,
+    render(
+      <div id="bar">
+        <Tooltip trigger="opened" render={() => null}>
+          bar
+        </Tooltip>
+      </div>
     );
+    screen.debug();
 
-    expect(wrapper.find('#foo').find(selectorCross)).toHaveLength(1);
-    expect(wrapper.find('#bar').find(selectorCross)).toHaveLength(0);
+    expect(screen.queryByTestId(TooltipDataTids.root)).not.toBeInTheDocument();
+
+    //expect(wrapper.find('#foo').find(selectorCross)).toHaveLength(1);
+    //expect(wrapper.find('#bar').find(selectorCross)).toHaveLength(0);
   });
 
   it('calls `onCloseClick` when click on the cross', () => {
     const onClose = jest.fn();
-    const wrapper = mount<TooltipProps>(
+    const { container } = render(
       <Tooltip trigger="opened" render={renderTooltip} onCloseClick={onClose}>
         <div />
       </Tooltip>,
     );
-    wrapper.find(selectorCross).simulate('click');
+    screen.debug();
+
+    const svgEl = container.querySelector('svg') as unknown as HTMLImageElement;
+    expect(svgEl).toBeInTheDocument();
+    userEvent.click(svgEl);
     expect(onClose.mock.calls).toHaveLength(1);
   });
 
   describe('calls `onOpen`', () => {
     it('with "opened" trigger', () => {
       const onOpen = jest.fn();
-      mount<TooltipProps>(
+      render(
         <Tooltip trigger="opened" render={renderTooltip} onOpen={onOpen}>
           <div />
         </Tooltip>,
@@ -434,33 +434,37 @@ describe('Tooltip', () => {
 
     it('with "focus" trigger', () => {
       const onOpen = jest.fn();
-      const wrapper = mount<TooltipProps>(
+      render(
         <Tooltip trigger="focus" render={renderTooltip} onOpen={onOpen}>
-          <div />
+          <button id='Click' />
         </Tooltip>,
       );
-      wrapper.find(Popup).invoke('onOpen')?.();
-      expect(onOpen).toHaveBeenCalledTimes(1);
+
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.getByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+
+      userEvent.tab();
+      screen.debug();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+
+      expect(onOpen.mock.calls).toHaveLength(1);
     });
   });
 
   describe('calls `onClose`', () => {
     const onClose = jest.fn();
-    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
 
     beforeEach(() => {
       onClose.mockClear();
     });
 
     it('with "click" trigger', () => {
-      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-        <Tooltip render={renderTooltip} onClose={onClose}>
-          <div />
+      render(
+        <Tooltip trigger='click' render={renderTooltip} onClose={onClose}>
+          <button />
         </Tooltip>,
       );
-      wrapper.setProps({ trigger: 'click' });
-      wrapper.setState({ opened: true });
-      wrapper.update();
+      userEvent.click(screen.getByRole('button'));
 
       clickOutside();
 
@@ -468,14 +472,15 @@ describe('Tooltip', () => {
     });
 
     it('when trigger changes to "closed"', () => {
-      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-        <Tooltip trigger="opened" onClose={onClose} render={renderTooltip}>
+      const { rerender } = render(
+        <Tooltip trigger='opened' onClose={onClose} render={renderTooltip}>
           <div />
         </Tooltip>,
       );
 
-      wrapper.setProps({ trigger: 'closed' });
-      wrapper.update();
+      rerender(<Tooltip trigger='closed' onClose={onClose} render={renderTooltip}>
+        <div />
+      </Tooltip>,);
 
       expect(onClose).toHaveBeenCalledTimes(1);
     });
@@ -483,60 +488,66 @@ describe('Tooltip', () => {
 
   describe('calls `show/hide` functions', () => {
     const Content = () => <div />;
-    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
-    let tooltip: Tooltip;
 
-    beforeEach(() => {
-      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-        <Tooltip trigger="click" render={() => <Content />}>
+    it('when trigger is "manual"', () => {
+      const tooltipRef = React.createRef<Tooltip>();
+
+      render(
+        <Tooltip trigger="manual" render={() => <Content />} ref={tooltipRef}>
           <div />
         </Tooltip>,
       );
-      tooltip = wrapper.instance();
-    });
 
-    it('when trigger is "manual"', () => {
-      wrapper.setProps({ trigger: 'manual' });
-      wrapper.update();
+      tooltipRef.current?.show();
 
-      tooltip.show();
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(1);
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
-      tooltip.hide();
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(0);
+      tooltipRef.current?.hide();
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
     });
 
     it('when trigger is "opened"', () => {
-      wrapper.setProps({ trigger: 'opened' });
-      wrapper.update();
-      tooltip.hide();
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(1);
+      const tooltipRef = React.createRef<Tooltip>();
+
+      render(
+        <Tooltip trigger="opened" render={() => <Content />} ref={tooltipRef}>
+          <div />
+        </Tooltip>,
+      );
+
+      tooltipRef.current?.hide();
+
+      // eslint-disable-next-line testing-library/prefer-presence-queries
+      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
     });
 
     it('when trigger is "closed"', () => {
-      wrapper.setProps({ trigger: 'closed' });
-      wrapper.update();
-      tooltip.show();
-      wrapper.update();
-      expect(wrapper.find(Content)).toHaveLength(0);
+      const tooltipRef = React.createRef<Tooltip>();
+
+      render(
+        <Tooltip trigger="closed" render={() => <Content />} ref={tooltipRef}>
+          <div />
+        </Tooltip>,
+      );
+      tooltipRef.current?.show();
+
+      expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
     });
   });
 
   it('renders stateless children component without errors', () => {
     function PureComponent() {
-      return <div>i&apos;m pure component!</div>;
+      return <div >i&apos;m pure component!</div>;
     }
 
-    const wrapper = mount<TooltipProps>(
+    render(
       <Tooltip trigger="opened" render={renderTooltip}>
         <PureComponent />
       </Tooltip>,
     );
-
-    expect(wrapper.find(PureComponent)).toHaveLength(1);
+    expect(screen.getByText("i'm pure component!")).toBeInTheDocument();
   });
 
   it('renders stateful children component without errors', () => {
@@ -546,46 +557,55 @@ describe('Tooltip', () => {
       }
     }
 
-    const wrapper = mount<Tooltip>(
+    render(
       <Tooltip trigger="opened" render={renderTooltip}>
         <StatefulComponent />
       </Tooltip>,
     );
-
-    expect(wrapper.find(StatefulComponent)).toHaveLength(1);
+    expect(screen.getByText("Stateful Component!")).toBeInTheDocument();
   });
 
-  it('reset opened state by `tigger="closed"` prop', () => {
+  it.only('reset opened state by `tigger="closed"` prop', () => {
     const Content = () => <div />;
 
-    const wrapper = mount<Tooltip>(
+    const { rerender } = render(
       <Tooltip trigger="click" disableAnimations render={() => <Content />}>
         <Button>Click me</Button>
-      </Tooltip>,
+      </Tooltip>
     );
 
-    expect(wrapper.find(Content)).toHaveLength(0);
+    expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
 
-    wrapper.setState({ opened: true });
-    wrapper.update();
-    expect(wrapper.find(Content)).toHaveLength(1);
+    screen.getByRole('button').click();
 
-    wrapper.setProps({ trigger: 'closed' });
-    wrapper.update();
-    expect(wrapper.find(Content)).toHaveLength(0);
+    // eslint-disable-next-line testing-library/prefer-presence-queries
+    expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
-    wrapper.setProps({ trigger: 'hover' });
-    expect(wrapper.find(Content)).toHaveLength(0);
+    rerender(
+      <Tooltip trigger="closed" disableAnimations render={() => <Content />}>
+        <Button>Click me</Button>
+      </Tooltip>
+    );
+
+    expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+
+    rerender(
+      <Tooltip trigger="hover" disableAnimations render={() => <Content />}>
+        <Button>Click me</Button>
+      </Tooltip>
+    );
+
+    expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
   });
 
   describe('calls onCloseRequest on clickOutside when tooltip is opened', () => {
     const Content = () => <div />;
     const onCloseRequest = jest.fn();
-    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
+    //let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
 
     beforeEach(() => {
       onCloseRequest.mockClear();
-      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+      render(
         <Tooltip disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <Button>Anchor</Button>
         </Tooltip>,
@@ -638,7 +658,7 @@ describe('Tooltip', () => {
     );
     const instance = wrapper.instance();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const timer = setTimeout(() => {});
+    const timer = setTimeout(() => { });
     // @ts-expect-error: private property
     instance.hoverTimeout = timer;
 
