@@ -11,13 +11,14 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
+import { ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './DateSelect.styles';
+import { DateSelectCaption } from './DateSelectCaption';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -185,29 +186,15 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private renderMain() {
     const { disabled } = this.props;
     const width = this.getProps().width;
-    const rootProps = {
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [styles.disabled()]: Boolean(disabled),
-      }),
-      style: { width },
-      ref: this.refRoot,
-    };
     return (
-      <span {...rootProps}>
-        <div data-tid={DateSelectDataTids.caption} className={styles.caption()} onClick={this.open}>
-          {this.getItem(0)}
-          <div
-            className={cx({
-              [styles.arrow(this.theme)]: true,
-              [styles.arrowDisabled()]: Boolean(disabled),
-            })}
-          >
-            <ArrowTriangleUpDownIcon size={12} />
-          </div>
-        </div>
-        {this.state.opened && this.renderMenu()}
-      </span>
+      <DateSelectCaption
+        caption={this.getItem(0)}
+        ref={this.refRoot}
+        width={width}
+        onClick={this.open}
+        disabled={disabled}
+        menu={this.state.opened && this.renderMenu()}
+      />
     );
   }
 

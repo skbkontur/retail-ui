@@ -10,7 +10,7 @@ export const styles = memoizeStyle({
       background: ${t.calendarCellBg};
       border: 1px solid transparent;
       display: inline-block;
-      font-size: 14px;
+      font-size: ${t.calendarCellFontSize};
       padding: 0;
       text-align: center;
       user-select: none;
@@ -19,7 +19,8 @@ export const styles = memoizeStyle({
       width: ${t.calendarCellSize};
       height: ${t.calendarCellSize};
       line-height: ${t.calendarCellLineHeight};
-      border-radius: 50%;
+      border-radius: ${t.calendarCellBorderRadius};
+      flex: 1 1;
 
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};

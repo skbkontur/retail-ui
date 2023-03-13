@@ -26,6 +26,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  monthMobile() {
+    return css`
+      width: 100%;
+    `;
+  },
+
   header() {
     return css`
       position: relative;
@@ -48,9 +54,41 @@ export const styles = memoizeStyle({
     `;
   },
 
+  /* Note: this could've been
+   * display: grid;
+   * grid-template-columns: repeat(7, minmax(0, 1fr));
+   */
   monthDayGrid(t: Theme) {
     return css`
       line-height: ${t.calendarCellLineHeight};
+      display: flex;
+      flex-direction: column;
+      padding: ${t.calendarGridRowSpacing} 0px;
+    `;
+  },
+
+  monthDayRow(t: Theme) {
+    return css`
+      display: flex;
+      justify-content: space-between;
+
+      & + & {
+        margin-top: ${t.calendarGridRowSpacing};
+      }
+    `;
+  },
+
+  nativeSelect() {
+    return css`
+      position: absolute;
+      top: -12px;
+      right: 0;
+      bottom: -8px;
+      left: 0;
+      cursor: pointer;
+      appearance: none;
+      opacity: 0;
+      border: none;
     `;
   },
 });

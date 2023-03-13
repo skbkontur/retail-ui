@@ -48,8 +48,15 @@ export class MonthViewModel {
   public isFirstInYear: boolean;
 
   public getHeight(theme: Theme): number {
-    const { DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN } = themeConfig(theme);
-    return getMonthHeight(this.daysCount, this.offset, DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN);
+    const { DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN, CALENDAR_GRID_ROW_SPACING } = themeConfig(theme);
+    return getMonthHeight(
+      this.daysCount,
+      this.offset,
+      DAY_SIZE,
+      MONTH_TITLE_OFFSET_HEIGHT,
+      MONTH_BOTTOM_MARGIN,
+      CALENDAR_GRID_ROW_SPACING,
+    );
   }
 
   private constructor(month: number, year: number) {
@@ -72,8 +79,17 @@ export class MonthViewModel {
 }
 
 const getMonthHeight = memo(
-  (daysCount: number, offset: number, dayHeight: number, titleHeight: number, marginBottom: number) =>
-    Math.ceil((daysCount + offset) / 7) * dayHeight + titleHeight + marginBottom,
+  (
+    daysCount: number,
+    offset: number,
+    dayHeight: number,
+    titleHeight: number,
+    marginBottom: number,
+    rowSpacing: number,
+  ) => {
+    const weeks = Math.ceil((daysCount + offset) / 7);
+    return weeks * dayHeight + titleHeight + marginBottom + rowSpacing * 2 + rowSpacing * (weeks - 1);
+  },
 );
 const getMonthsDays = memo((month: number, year: number) => new Date(year, month + 1, 0).getDate());
 

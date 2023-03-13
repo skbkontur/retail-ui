@@ -16,9 +16,11 @@ import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
+import { MobilePicker } from './MobilePicker';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -90,10 +92,13 @@ export const DatePickerDataTids = {
   label: 'DatePicker__label',
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
+  mobileInput: 'MobilePicker__input',
+  mobileToday: 'MobilePicker__today',
 } as const;
 
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
+@responsiveLayout
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -186,6 +191,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private input: DateInput | null = null;
   private focused = false;
   private setRootNode!: TSetRootNode;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -260,27 +266,47 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     const parsedMaxDate = this.parseValueToDate(maxDate);
     const formattedMaxDate = (parsedMaxDate && parsedMaxDate.toNativeFormat()) || undefined;
 
+    const isMobile = this.isMobileLayout;
+
     if (this.state.opened) {
-      picker = (
-        <DropdownContainer
-          menuPos={this.props.menuPos}
-          data-tid={DatePickerDataTids.root}
-          getParent={this.getParent}
-          offsetY={2}
-          align={this.props.menuAlign}
-        >
-          <Picker
-            _isDatePicker
-            value={date}
-            minDate={formattedMinDate}
-            maxDate={formattedMaxDate}
-            onValueChange={this.handleValueChange}
-            onSelect={this.handleSelect}
+      if (isMobile) {
+        picker = (
+          <MobilePicker
+            textValue={this.props.value}
+            textMinDate={minDate}
+            textMaxDate={maxDate}
+            onTextValueChange={this.props.onValueChange}
+            internalValue={date}
+            internalMinDate={formattedMinDate}
+            internalMaxDate={formattedMaxDate}
+            onInternalValueChange={this.handleValueChange}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
+            onCloseRequest={this.handleBlur}
           />
-        </DropdownContainer>
-      );
+        );
+      } else {
+        picker = (
+          <DropdownContainer
+            menuPos={this.props.menuPos}
+            data-tid={DatePickerDataTids.root}
+            getParent={this.getParent}
+            offsetY={2}
+            align={this.props.menuAlign}
+          >
+            <Picker
+              _isDatePicker
+              value={date}
+              minDate={formattedMinDate}
+              maxDate={formattedMaxDate}
+              onValueChange={this.handleValueChange}
+              onSelect={this.handleSelect}
+              enableTodayLink={this.props.enableTodayLink}
+              isHoliday={this.isHoliday}
+            />
+          </DropdownContainer>
+        );
+      }
     }
 
     return (
@@ -300,12 +326,12 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           withIcon
           minDate={minDate}
           maxDate={maxDate}
-          onBlur={this.handleBlur}
+          onBlur={isMobile ? undefined : this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
           data-tid={DatePickerDataTids.input}
         />
-        {this.state.canUseMobileNativeDatePicker && (
+        {this.state.canUseMobileNativeDatePicker ? (
           <NativeDateInput
             onValueChange={this.props.onValueChange}
             value={this.props.value || ''}
@@ -313,8 +339,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             maxDate={maxDate}
             disabled={this.props.disabled}
           />
+        ) : (
+          picker
         )}
-        {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );
   };

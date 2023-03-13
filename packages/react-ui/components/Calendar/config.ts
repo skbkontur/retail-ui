@@ -11,6 +11,7 @@ const getConfig = memo(
     wrapperHeight: string,
     monthMarginBottom: string,
     maxMonthsToAppendOnScroll: string,
+    calendarGridRowSpacing: string,
   ) => {
     const monthTitleHeight =
       parseInt(monthTitleLineHeight) + parseInt(monthTitlePaddingTop) + parseInt(monthTitlePaddingBottom);
@@ -21,6 +22,7 @@ const getConfig = memo(
       WRAPPER_HEIGHT: parseInt(wrapperHeight),
       MONTH_BOTTOM_MARGIN: parseInt(monthMarginBottom),
       MAX_MONTHS_TO_APPEND_ON_SCROLL: parseInt(maxMonthsToAppendOnScroll),
+      CALENDAR_GRID_ROW_SPACING: parseInt(calendarGridRowSpacing),
     };
   },
 );
@@ -35,4 +37,5 @@ export const themeConfig = (t: Theme) =>
     t.calendarWrapperHeight,
     t.calendarMonthMarginBottom,
     t.calendarMaxMonthsToAppendOnScroll,
+    t.calendarGridRowSpacing,
   );
