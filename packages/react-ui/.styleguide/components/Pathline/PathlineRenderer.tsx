@@ -1,5 +1,5 @@
 import React from 'react';
-import IssueList from '../IssueList/IssueList';
+import GuidesLink from '../GuidesLink/GuidesLink';
 import OriginalPathlineRenderer from 'react-styleguidist/lib/client/rsg-components/Pathline/PathlineRenderer';
 
 interface Props {
@@ -8,10 +8,12 @@ interface Props {
 
 export const PathlineRenderer = (props: Props) => {
   const path = props.children;
+  const componentName = path.replace('.tsx', '').split(/\\|\//).reverse()[0];
+
   return (
     <div>
       <OriginalPathlineRenderer>{path}</OriginalPathlineRenderer>
-      <IssueList componentPath={path} />
+      <GuidesLink componentName={componentName} />
     </div>
   );
 };
