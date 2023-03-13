@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Textarea } from '../Textarea';
+import { TextareaCounterDataTids } from '../TextareaCounter';
 
 describe('Textarea', () => {
   it('render without crash', () => {
@@ -167,14 +168,14 @@ describe('Textarea', () => {
   });
 
   it('renders TextareaHelper with text content', () => {
-    const { container } = render(<Textarea counterHelp="Hello" lengthCounter={10} showLengthCounter />);
+    render(<Textarea counterHelp="Hello" lengthCounter={10} showLengthCounter />);
 
     screen.getByRole('textbox').focus();
 
-    const svgEl = container.querySelector('svg') as unknown as HTMLImageElement;
-    expect(svgEl).toBeInTheDocument();
+    const helpIcon = screen.getByTestId(TextareaCounterDataTids.helpIcon);
+    expect(helpIcon).toBeInTheDocument();
 
-    userEvent.click(svgEl);
+    userEvent.click(helpIcon);
     const helperTooltip = screen.getByText('Hello');
     expect(helperTooltip).toBeInTheDocument();
   });
