@@ -117,6 +117,7 @@ export interface TextareaState {
 export const TextareaDataTids = {
   root: 'Textarea__root',
   counter: 'TextareaCounter__root',
+  helpIcon: 'TextareaCounter__helpIcon',
 } as const;
 
 type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
