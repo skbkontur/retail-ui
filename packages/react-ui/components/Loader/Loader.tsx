@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 
 import { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Spinner, SpinnerProps } from '../Spinner';
+import { Spinner, SpinnerProps, SpinnerType } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -20,9 +20,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Loader.styles';
 
-const types = ['mini', 'normal', 'big'] as const;
+export type LoaderType = Extract<SpinnerType, 'mini' | 'normal' | 'big'>;
 
-export type LoaderType = typeof types[number];
+const types: LoaderType[] = ['mini', 'normal', 'big'];
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
@@ -278,7 +278,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.spinnerContainerNode = element;
   };
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
+  private renderSpinner(type?: LoaderType, caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
         data-tid={LoaderDataTids.spinner}

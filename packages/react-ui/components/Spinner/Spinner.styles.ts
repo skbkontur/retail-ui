@@ -56,7 +56,7 @@ export const styles = memoizeStyle({
 
   small(t: Theme) {
     return css`
-      margin-left: ${t.spinnerCaptionGapSmall};
+      margin: ${t.spinnerCaptionMarginSmall};
       font-size: ${t.spinnerFontSizeSmall};
       line-height: ${t.spinnerLineHeightSmall};
     `;
@@ -73,10 +73,9 @@ export const styles = memoizeStyle({
 
   medium(t: Theme) {
     return css`
-      display: block;
+      margin: ${t.spinnerCaptionMarginMedium};
       font-size: ${t.spinnerFontSizeMedium};
       line-height: ${t.spinnerLineHeightMedium};
-      margin-top: ${t.spinnerCaptionGapMedium};
     `;
   },
 
@@ -91,10 +90,9 @@ export const styles = memoizeStyle({
 
   large(t: Theme) {
     return css`
-      display: block;
       font-size: ${t.spinnerFontSizeLarge};
       line-height: ${t.spinnerLineHeightLarge};
-      margin-top: ${t.spinnerCaptionGapLarge};
+      margin: ${t.spinnerCaptionMarginLarge};
     `;
   },
 

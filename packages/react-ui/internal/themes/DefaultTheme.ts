@@ -1697,6 +1697,9 @@ export class DefaultTheme {
   public static spinnerCaptionGapSmall = '6px';
   public static spinnerCaptionGapMedium = '-4px';
   public static spinnerCaptionGapLarge = '-3px';
+  public static spinnerCaptionMarginSmall = '0 0 0 6px';
+  public static spinnerCaptionMarginMedium = '0 0 0 6px';
+  public static spinnerCaptionMarginLarge = '0 0 0 6px';
   //#endregion
   //#region Switcher
   public static switcherBorderRadius = '2px';

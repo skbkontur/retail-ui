@@ -13,16 +13,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
-const types: Record<SpinnerType, SpinnerType> = {
-  big: 'big',
-  mini: 'mini',
-  normal: 'normal',
-  small: 'small',
-  medium: 'medium',
-  large: 'large',
-};
+const types = ['big', 'mini', 'normal', 'small', 'medium', 'large'] as const;
 
-export type SpinnerType = 'mini' | 'normal' | 'big' | 'small' | 'medium' | 'large';
+export type SpinnerType = typeof types[number];
 
 export interface SpinnerProps extends CommonProps {
   /**
@@ -37,6 +30,20 @@ export interface SpinnerProps extends CommonProps {
   dimmed?: boolean;
   /**
    * Размер спиннера и текста
+   *
+   * | type | width/height |
+   * | --- | --- |
+   * | `mini` | 16px |
+   * | `normal` | 48px |
+   * | `big` | 96px |
+   *
+   * Сопоставление с обычными иконками
+   *
+   * | type | width/height |
+   * | --- | --- |
+   * | `small` | 16px |
+   * | `medium` | 20px |
+   * | `large` | 24px |
    *
    * @default normal
    */
@@ -84,7 +91,7 @@ export class Spinner extends React.Component<SpinnerProps> {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(types)),
+    type: PropTypes.oneOf(types),
   };
 
   public static defaultProps: DefaultProps = {
@@ -93,7 +100,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   private getProps = createPropsGetter(Spinner.defaultProps);
 
-  public static Types: typeof types = types;
+  public static Types: Record<SpinnerType, SpinnerType> = Object.assign({}, ...types.map((type) => ({ [type]: type })));
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;
