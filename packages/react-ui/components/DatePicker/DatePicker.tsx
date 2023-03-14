@@ -6,7 +6,7 @@ import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer'
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
-import { CalendarDateShape } from '../../internal/Calendar';
+import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { DateInput } from '../DateInput';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
@@ -274,7 +274,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             value={date}
             minDate={formattedMinDate}
             maxDate={formattedMaxDate}
-            onValueChange={this.handlePick}
+            onValueChange={this.handleValueChange}
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
@@ -370,7 +370,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   };
 
-  private handlePick = (dateShape: CalendarDateShape) => {
+  private handleValueChange = (dateShape: CalendarDateShape) => {
     this.handleSelect(dateShape);
     this.blur();
   };

@@ -737,6 +737,9 @@ export class DefaultTheme {
   public static dateInputComponentSelectedBgColor = '#cdedff';
   //#endregion
   //#region Calendar
+  public static get calendarBg() {
+    return this.bgSecondary;
+  }
   public static get calendarCellBg() {
     return this.bgSecondary;
   }

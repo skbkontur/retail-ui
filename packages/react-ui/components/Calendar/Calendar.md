@@ -24,7 +24,7 @@ const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
       }}
       value={value}
       onValueChange={setValue}
-      enableTodayLink
+      shouldSetInitialDate
     />
   </div>
 </div>;

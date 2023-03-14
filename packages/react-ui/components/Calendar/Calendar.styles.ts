@@ -3,39 +3,31 @@ import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   root(t: Theme) {
+    const width = parseInt(t.calendarCellSize) * 7;
     return css`
-      background: ${t.pickerBg};
       display: inline-block;
-    `;
-  },
-  todayLinkWrapper(t: Theme) {
-    const width = parseInt(t.calendarCellSize) * 7 + parseInt(t.calendarPaddingX) * 2;
-
-    return css`
-      background-color: ${t.pickerTodayWrapperBgColor};
-      border: none;
-      color: ${t.linkColor};
+      background: ${t.calendarBg};
+      box-sizing: content-box;
+      color: ${t.textColorDefault};
       display: block;
-      font-size: ${t.pickerTodayWrapperFontSize};
-      padding-bottom: ${t.pickerTodayWrapperPaddingBottom};
-      padding-top: ${t.pickerTodayWrapperPaddingTop};
-
-      line-height: ${t.pickerTodayWrapperLineHeight};
+      padding: 0 ${t.calendarPaddingX};
       width: ${width}px;
-
-      &:hover {
-        background-color: ${t.pickerTodayWrapperHoverBgColor};
-        cursor: pointer;
-      }
-
-      &:active {
-        color: ${t.linkActiveColor};
-      }
+      overflow: hidden;
+      touch-action: none;
     `;
   },
-  todayLinkSeparator(t: Theme) {
+
+  wrapper() {
     return css`
-      border-top: ${t.pickerTodayWrapperBorderTop};
+      font-size: 14px;
+      position: relative;
+    `;
+  },
+
+  separator(t: Theme) {
+    return css`
+      position: relative;
+      border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
     `;
   },
 });

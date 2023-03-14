@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { DateSelect } from '../DateSelect';
+import { DateSelect } from '../../internal/DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { cx } from '../../lib/theming/Emotion';

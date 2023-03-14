@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { DateSelect } from '../DateSelect';
+import { DateSelect } from '../../internal/DateSelect';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
