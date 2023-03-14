@@ -17,7 +17,7 @@ export class HideBodyVerticalScroll extends React.Component {
       this.master = true;
       this.initialScroll = document.documentElement ? document.documentElement.scrollTop : 0;
       this.updateScrollVisibility();
-      window.addEventListener('resize', this.updateScrollVisibility);
+      window.addEventListener('resize', this.updateScrollVisibility, { once: true });
     }
   }
 
