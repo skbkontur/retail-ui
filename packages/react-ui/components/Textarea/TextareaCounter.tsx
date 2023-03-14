@@ -20,10 +20,6 @@ export interface TextareaCounterProps {
   textarea: HTMLTextAreaElement;
 }
 
-export const TextareaCounterDataTids = {
-  helpIcon: 'TextareaCounter__helpIcon',
-} as const;
-
 export interface TextareaCounterRef {
   reflow: () => void;
 }
@@ -52,7 +48,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
         <HelpDotIcon
           onMouseDown={handleHelpMouseDown}
           color={theme.textareaCounterHelpIconColor}
-          data-tid={TextareaCounterDataTids.helpIcon}
+          data-tid={TextareaDataTids.helpIcon}
         />
       </Tooltip>
     );

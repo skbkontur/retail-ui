@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Textarea } from '../Textarea';
-import { TextareaCounterDataTids } from '../TextareaCounter';
+import { Textarea, TextareaDataTids } from '../Textarea';
 
 describe('Textarea', () => {
   it('render without crash', () => {
@@ -172,7 +171,7 @@ describe('Textarea', () => {
 
     screen.getByRole('textbox').focus();
 
-    const helpIcon = screen.getByTestId(TextareaCounterDataTids.helpIcon);
+    const helpIcon = screen.getByTestId(TextareaDataTids.helpIcon);
     expect(helpIcon).toBeInTheDocument();
 
     userEvent.click(helpIcon);
