@@ -44,7 +44,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
   private theme!: Theme;
-  private calendar: Calendar | null = null;
+  private calendar: any | null = null;
   private readonly locale!: DatePickerLocale;
 
   constructor(props: PickerProps) {

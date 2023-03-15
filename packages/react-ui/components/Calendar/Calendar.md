@@ -24,14 +24,13 @@ const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
       }}
       value={value}
       onValueChange={setValue}
-      shouldSetInitialDate
     />
   </div>
 </div>;
 ```
 
 
-Календарю можно задать кастомную высоту, с помощью переменной `calendarWrapperHeight`
+Календарю можно задать кастомную высоту, с помощью переменной темы `calendarWrapperHeight`
 - Базовая высота календаря - `330px`
 - Максимальная высота календаря - `450px`
 ```jsx harmony

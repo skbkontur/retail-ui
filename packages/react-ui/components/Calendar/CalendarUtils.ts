@@ -3,6 +3,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
 import { CalendarProps, CalendarState } from './Calendar';
+import { CalendarDateShape, isGreater, isLess } from './CalendarDateShape';
 
 export const calculateScrollPosition = (
   months: MonthViewModel[],
@@ -38,9 +39,8 @@ export const calculateScrollPosition = (
   };
 };
 
-export const applyDelta =
-  (deltaY: number, theme: Theme) =>
-  ({ scrollPosition, months }: Readonly<CalendarState>, { minDate, maxDate }: CalendarProps) => {
+export const applyDelta = (deltaY: number, theme: Theme) => {
+  return ({ scrollPosition, months }: Readonly<CalendarState>, { minDate, maxDate }: CalendarProps) => {
     const scrollDirection = deltaY > 0 ? 1 : -1;
     const isMinDateExceeded =
       minDate && scrollDirection < 0 && minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
@@ -58,6 +58,7 @@ export const applyDelta =
 
     return calculateScrollPosition(months, scrollPosition, deltaY, theme);
   };
+};
 
 export const isMonthVisible = (top: number, month: MonthViewModel, theme: Theme) => {
   return top < themeConfig(theme).WRAPPER_HEIGHT && top > -month.getHeight(theme);
@@ -68,4 +69,25 @@ export const getMonthsHeight = (months: MonthViewModel[], theme: Theme) =>
 
 export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map((x) => MonthViewModel.create(month + x, year));
+};
+
+export const getInitialDate = (
+  today: CalendarDateShape,
+  value: CalendarProps['value'],
+  minDate: CalendarProps['minDate'],
+  maxDate: CalendarProps['maxDate'],
+) => {
+  if (value) {
+    return value;
+  }
+
+  if (minDate && isLess(today, minDate)) {
+    return minDate;
+  }
+
+  if (maxDate && isGreater(today, maxDate)) {
+    return maxDate;
+  }
+
+  return today;
 };
