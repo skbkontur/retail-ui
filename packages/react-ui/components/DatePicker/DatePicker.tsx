@@ -6,7 +6,7 @@ import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer'
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
-import { CalendarDateShape } from '../../internal/Calendar';
+import { CalendarDateShape, CalendarMonthChangeInfo } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
@@ -29,17 +29,6 @@ const INPUT_PASS_PROPS = {
 };
 
 export const MIN_WIDTH = 120;
-
-export enum ScrollDirection {
-  Down = 1,
-  Up = -1,
-}
-
-export interface MonthChangeInfo {
-  month: number;
-  year: number;
-  scrollDirection: ScrollDirection;
-}
 
 export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
@@ -95,16 +84,16 @@ export interface DatePickerProps<T> extends CommonProps {
    *
    * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
    */
-  renderItem: (date: CalendarDateShape) => React.ReactNode;
+  renderDay: (date: CalendarDateShape) => React.ReactNode;
 
   /**
    * Вызывается при каждом изменении месяца
-   * @param {MonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
    * `month: number` - номер текущего отображаемого месяца от 0 до 11,
    * `year: number` - отображаемый год,
    * `scrollDirection` - направление скролла, где `1` - `Down`, `-1` - `Up`
    */
-  onMonthChange?: (changeInfo: MonthChangeInfo) => void;
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 export interface DatePickerState {
@@ -167,7 +156,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
     isHoliday: PropTypes.func.isRequired,
 
-    renderItem: PropTypes.func.isRequired,
+    renderDay: PropTypes.func.isRequired,
 
     onMonthChange: PropTypes.func,
   };
@@ -176,7 +165,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
-    renderItem: (date: CalendarDateShape) => date.date,
+    renderDay: (date: CalendarDateShape) => date.date,
   };
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
@@ -293,7 +282,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
-            renderItem={this.props.renderItem}
+            renderDay={this.props.renderDay}
             onMonthChange={this.props.onMonthChange}
           />
         </DropdownContainer>

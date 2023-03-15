@@ -323,7 +323,7 @@ const CustomDayItem = ({ date }) => {
   );
 };
   
-const renderItem = (date) =>  <CustomDayItem date={date} />;
+const renderDay = (date) =>  <CustomDayItem date={date} />;
 
-<DatePicker value={value} onValueChange={setValue} renderItem={renderItem} />;
+<DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```

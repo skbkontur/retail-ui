@@ -7,7 +7,6 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
-import { MonthChangeInfo } from '../../components/DatePicker';
 import { isMobile } from '../../lib/client';
 
 import { themeConfig } from './config';
@@ -18,6 +17,17 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
+export enum CalendarScrollDirection {
+  Down = 1,
+  Up = -1,
+}
+
+export interface CalendarMonthChangeInfo {
+  month: number;
+  year: number;
+  scrollDirection: CalendarScrollDirection;
+}
+
 export interface CalendarProps {
   initialMonth?: number;
   initialYear?: number;
@@ -26,8 +36,8 @@ export interface CalendarProps {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderItem?: (date: CalendarDateShape) => React.ReactNode | number;
-  onMonthChange?: (changeInfo: MonthChangeInfo) => void;
+  renderDay?: (date: CalendarDateShape) => React.ReactNode;
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 export interface CalendarState {
@@ -270,7 +280,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         onDateClick={this.props.onSelect}
         onMonthYearChange={this.handleMonthYearChange}
         isHoliday={this.props.isHoliday}
-        renderItem={this.props.renderItem}
+        renderDay={this.props.renderDay}
       />
     );
   }
@@ -395,7 +405,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme));
   }
 
-  private monthsChangeHandle(handler: (changeInfo: MonthChangeInfo) => void, visibleMonths: MonthViewModel[]): void {
+  private monthsChangeHandle(
+    handler: (changeInfo: CalendarMonthChangeInfo) => void,
+    visibleMonths: MonthViewModel[],
+  ): void {
     const currentMonth = visibleMonths[0];
     const changeInfo = {
       month: currentMonth.month,

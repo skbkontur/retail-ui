@@ -6,9 +6,10 @@ import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/type
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
-import { DatePicker, MonthChangeInfo } from '../DatePicker';
+import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
+import { CalendarMonthChangeInfo } from '../../../internal/Calendar';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -370,7 +371,7 @@ export const DatePickerWithMonthChangeHandel = () => {
   const [year, setYear] = useState(2017);
   const [value, setValue] = useState('02.07.2017');
 
-  const onMonthChange = (changeInfo: MonthChangeInfo): void => {
+  const onMonthChange = (changeInfo: CalendarMonthChangeInfo): void => {
     setMonth(changeInfo.month);
     setYear(changeInfo.year);
   };

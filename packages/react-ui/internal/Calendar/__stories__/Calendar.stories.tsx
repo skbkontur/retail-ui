@@ -60,7 +60,7 @@ export const CalendarWithCustomDates = () => {
 
   return (
     <ThemeContext.Provider value={MyTheme}>
-      <Calendar renderItem={(date) => <CustomDayItem date={date} />} />
+      <Calendar renderDay={(date) => <CustomDayItem date={date} />} />
     </ThemeContext.Provider>
   );
 };

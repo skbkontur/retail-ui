@@ -124,7 +124,7 @@ describe('DatePicker', () => {
     const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => <span>{date.date}</span>;
 
     const datePicker = renderDatePicker({
-      renderItem: (date) => <CustomDayItem date={date} />,
+      renderDay: (date: CalendarDateShape): React.ReactNode => <CustomDayItem date={date} />,
     });
     datePicker.setState({ opened: true });
     const customDayItem = datePicker.find('CustomDayItem');

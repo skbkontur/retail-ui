@@ -3,7 +3,7 @@ import shallowEqual from 'shallowequal';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
-import { Calendar, CalendarDateShape, isGreater, isLess } from '../../internal/Calendar';
+import { Calendar, CalendarDateShape, CalendarMonthChangeInfo, isGreater, isLess } from '../../internal/Calendar';
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -11,8 +11,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
-
-import { MonthChangeInfo } from './index';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -22,8 +20,8 @@ interface Props {
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderItem?: (date: CalendarDateShape) => React.ReactNode | number;
-  onMonthChange?: (changeInfo: MonthChangeInfo) => void;
+  renderDay?: (date: CalendarDateShape) => React.ReactNode;
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 interface State {
@@ -89,7 +87,7 @@ export class Picker extends React.Component<Props, State> {
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
-          renderItem={this.props.renderItem}
+          renderDay={this.props.renderDay}
           onMonthChange={this.props.onMonthChange}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}

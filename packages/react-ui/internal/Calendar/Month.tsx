@@ -23,7 +23,7 @@ interface MonthProps {
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderItem?: (date: CDS.CalendarDateShape) => React.ReactNode | number;
+  renderDay?: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
 export class Month extends React.Component<MonthProps> {
@@ -100,7 +100,7 @@ export class Month extends React.Component<MonthProps> {
         value={this.props.value}
         onDateClick={this.props.onDateClick}
         isHoliday={this.props.isHoliday}
-        renderItem={this.props.renderItem}
+        renderItem={this.props.renderDay}
       />
     );
   }
@@ -140,7 +140,7 @@ interface MonthDayGridProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
   isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode | number;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
