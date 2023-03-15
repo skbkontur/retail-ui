@@ -359,33 +359,34 @@ describe('Tooltip', () => {
     });
   });
 
-  // it('keeps child ref', () => {
-  //   interface CompProps {
-  //     refFn: (element: HTMLDivElement) => void;
-  //   }
-  //   const Comp = ({ refFn }: CompProps) => {
-  //     return (
-  //       <Tooltip render={renderTooltip}>
-  //         <div ref={refFn} />
-  //       </Tooltip>
-  //     );
-  //   };
-  //   const refFn1 = jest.fn();
-  //   const refFn2 = jest.fn();
+  it('keeps child ref', () => {
+    interface CompProps {
+      refFn: (element: HTMLDivElement) => void;
+    }
+    const Comp = ({ refFn }: CompProps) => {
+      return (
+        <Tooltip render={renderTooltip}>
+          <div ref={refFn} />
+        </Tooltip>
+      );
+    };
+    const refFn1 = jest.fn();
+    const refFn2 = jest.fn();
 
-  //   const wrapper = mount<CompProps>(<Comp refFn={refFn1} />);
-  //   // Force rerender to make sure no additional ref calls happens when ref
-  //   // didn't change.
-  //   wrapper.update();
-  //   wrapper.setProps({ refFn: refFn2 });
+    const { rerender } = render(<Comp refFn={refFn1} />);
+    // Force rerender to make sure no additional ref calls happens when ref
+    // didn't change.
+    rerender(<Comp refFn={refFn1} />);
 
-  //   expect(refFn1.mock.calls).toHaveLength(2);
-  //   expect(refFn1.mock.calls[0][0]).toBeTruthy();
-  //   expect(refFn1.mock.calls[1][0]).toBeNull();
+    rerender(<Comp refFn={refFn2} />);
 
-  //   expect(refFn2.mock.calls).toHaveLength(1);
-  //   expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
-  // });
+    expect(refFn1.mock.calls).toHaveLength(2);
+    expect(refFn1.mock.calls[0][0]).toBeTruthy();
+    expect(refFn1.mock.calls[1][0]).toBeNull();
+
+    expect(refFn2.mock.calls).toHaveLength(1);
+    //expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
+  });
 
   it('does not show tooltip in render func returned false', () => {
     render(
