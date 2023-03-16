@@ -5,7 +5,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { locale } from '../../lib/locale/decorators';
-import { Calendar, CalendarProps } from '../Calendar';
+import { Calendar } from '../Calendar';
 import { CalendarDateShape, isLess, isGreater } from '../Calendar/CalendarDateShape';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -15,7 +15,12 @@ import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
-interface PickerProps extends Pick<CalendarProps, '_isDatePicker'> {
+interface PickerProps {
+  /**
+   * Позволяет понять, используется ли компонент в контексте `DatePicker`'а
+   * @ignore
+   */
+  _isDatePicker?: boolean;
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   value: Nullable<CalendarDateShape>;
@@ -44,7 +49,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
   private theme!: Theme;
-  private calendar: any | null = null;
+  private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
   constructor(props: PickerProps) {
@@ -84,7 +89,14 @@ export class Picker extends React.Component<PickerProps, PickerState> {
         className={styles.root(this.theme)}
         onMouseDown={(e) => e.preventDefault()}
       >
-        <Calendar ref={(c) => (this.calendar = c)} _initialMonth={date.month} _initialYear={date.year} {...rest} />
+        <Calendar
+          ref={(c) => (this.calendar = c)}
+          _initialMonth={date.month}
+          _initialYear={date.year}
+          shouldSetInitialDate={false}
+          hasBottomSeparator={false}
+          {...rest}
+        />
         {enableTodayLink && this.renderTodayLink()}{' '}
       </div>
     );
