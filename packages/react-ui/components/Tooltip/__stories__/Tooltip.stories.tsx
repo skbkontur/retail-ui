@@ -445,9 +445,7 @@ TooltipWithInputAndSwitchableContent.storyName = 'Tooltip with Input and switcha
 
 TooltipWithInputAndSwitchableContent.parameters = {
   creevey: {
-    skip: [
-      { in: ['firefox'], tests: 'focus and types' },
-    ],
+    skip: [{ in: ['firefox'], tests: 'focus and types' }],
     tests: {
       async ['focus and types']() {
         await this.browser
