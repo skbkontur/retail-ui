@@ -5,9 +5,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { locale } from '../../lib/locale/decorators';
-import { Calendar } from '../Calendar';
+import { Calendar, CalendarProps } from '../Calendar';
 import { CalendarDateShape, isLess, isGreater } from '../Calendar/CalendarDateShape';
-import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
@@ -15,19 +14,17 @@ import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
-interface PickerProps {
+interface PickerProps extends Pick<CalendarProps, 'maxDate' | 'minDate' | 'value' | 'onValueChange' | 'isHoliday'> {
   /**
    * Позволяет понять, используется ли компонент в контексте `DatePicker`'а
    * @ignore
    */
   _isDatePicker?: boolean;
-  maxDate?: CalendarDateShape;
-  minDate?: CalendarDateShape;
-  value: Nullable<CalendarDateShape>;
-  onValueChange: (date: CalendarDateShape) => void;
-  onSelect?: (date: CalendarDateShape) => void;
+  /**
+   * Управляет наличием кнопки "Сегодня"
+   */
   enableTodayLink?: boolean;
-  isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  onSelect?: (date: CalendarDateShape) => void;
 }
 
 interface PickerState {
