@@ -91,3 +91,29 @@ export const getInitialDate = (
 
   return today;
 };
+
+export const getTodayDate = () => {
+  const date = new Date();
+  return {
+    date: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  };
+};
+
+export const setInititalDate = (
+  inititialDate: number | undefined,
+  todayDate: number,
+  date: number,
+  shouldSetInitialDate: boolean | undefined,
+) => {
+  if (shouldSetInitialDate && date) {
+    return date;
+  }
+
+  if (inititialDate) {
+    return inititialDate;
+  }
+
+  return todayDate;
+};

@@ -13,13 +13,13 @@ import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
-import * as CalendarUtils from './CalendarUtils';
+import * as CalendarUtils from './calendarUtils';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
-import { getInitialDate } from './CalendarUtils';
+import { getInitialDate, getTodayDate, setInititalDate } from './calendarUtils';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -81,32 +81,6 @@ export const CalendarDataTids = {
   headerMonth: 'MonthView__headerMonth',
   headerYear: 'MonthView__headerYear',
 } as const;
-
-const getTodayDate = () => {
-  const date = new Date();
-  return {
-    date: date.getDate(),
-    month: date.getMonth(),
-    year: date.getFullYear(),
-  };
-};
-
-const setInititalDate = (
-  inititialDate: number | undefined,
-  todayDate: number,
-  date: number,
-  shouldSetInitialDate: boolean | undefined,
-) => {
-  if (shouldSetInitialDate && date) {
-    return date;
-  }
-
-  if (inititialDate) {
-    return inititialDate;
-  }
-
-  return todayDate;
-};
 
 type DefaultProps = Required<
   Pick<CalendarProps, 'minDate' | 'maxDate' | 'shouldSetInitialDate' | 'hasBottomSeparator'>
