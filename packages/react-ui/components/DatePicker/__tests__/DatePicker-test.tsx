@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { CalendarDataTids } from '../../../components/Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
@@ -41,7 +42,7 @@ describe('DatePicker', () => {
 
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-    expect(screen.getByTestId('Calendar')).toBeInTheDocument();
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   it("doesn't open on focus if disabled", () => {
@@ -57,7 +58,7 @@ describe('DatePicker', () => {
 
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-    expect(screen.getByTestId('Calendar')).toBeInTheDocument();
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
     rerender(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
 
@@ -67,7 +68,7 @@ describe('DatePicker', () => {
   it('open when autoFocus enabled', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} autoFocus />);
 
-    expect(screen.getByTestId('Calendar')).toBeInTheDocument();
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   describe('Locale', () => {

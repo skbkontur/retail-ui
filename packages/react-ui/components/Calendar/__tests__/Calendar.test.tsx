@@ -5,12 +5,13 @@ import userEvent from '@testing-library/user-event';
 import { Calendar } from '../Calendar';
 import { LangCodes } from '../../../lib/locale';
 import { DatePickerLocaleHelper } from '../../DatePicker/locale';
+import { CalendarDataTids } from '..';
 
 describe('Calendar', () => {
   it('renders', () => {
     render(<Calendar value={{ year: 2017, month: 6, date: 2 }} onValueChange={jest.fn()} />);
 
-    expect(screen.getByTestId('Calendar')).toBeInTheDocument();
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   it('correctly passes max and min date to year select', () => {
