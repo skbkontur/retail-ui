@@ -615,10 +615,10 @@ OnUnexpectedInputValidation.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('aaa')
           .sendKeys(this.keys.ENTER)
-          .pause(1000)
+          .pause(100)
           .sendKeys('bbb')
           .sendKeys(this.keys.ENTER)
-          .pause(1000)
+          .pause(100)
           .perform();
 
         await this.browser
@@ -629,7 +629,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('aaa')
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(100)
           .perform();
 
         const withSameValue = await this.takeScreenshot();
@@ -642,7 +642,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('zzz')
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(100)
           .perform();
 
         const withNotEditedToken = await this.takeScreenshot();
@@ -660,7 +660,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('clear')
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(100)
           .perform();
 
         const withRemovedToken = await this.takeScreenshot();
@@ -675,7 +675,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys(this.keys.ENTER)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(100)
           .perform();
 
         const withEditedToken = await this.takeScreenshot();
