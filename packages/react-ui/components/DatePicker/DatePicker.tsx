@@ -92,8 +92,6 @@ export const DatePickerDataTids = {
   label: 'DatePicker__label',
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
-  mobileInput: 'MobilePicker__input',
-  mobileToday: 'MobilePicker__today',
 } as const;
 
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'isHoliday'>>;

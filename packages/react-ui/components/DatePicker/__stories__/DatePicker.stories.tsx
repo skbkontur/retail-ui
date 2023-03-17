@@ -205,6 +205,71 @@ MobilePicker.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
+  creevey: {
+    tests: {
+      async 'MobilePicker on iphone opened'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('MobilePicker on iphone opened');
+      },
+    },
+  },
+};
+
+export const SmallMobilePicker: Story = () => (
+  <DatePicker enableTodayLink width="auto" value="02.07.2017" onValueChange={action('change')} />
+);
+SmallMobilePicker.storyName = 'SmallMobilePicker';
+SmallMobilePicker.parameters = {
+  viewport: {
+    defaultViewport: 'mobile1',
+  },
+  creevey: {
+    tests: {
+      async 'MobilePicker on small mobile opened'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('MobilePicker on small mobile opened');
+      },
+    },
+  },
+};
+
+export const LargeMobilePicker: Story = () => (
+  <DatePicker enableTodayLink width="auto" value="02.07.2017" onValueChange={action('change')} />
+);
+LargeMobilePicker.storyName = 'LargeMobilePicker';
+LargeMobilePicker.parameters = {
+  viewport: {
+    defaultViewport: 'mobile2',
+  },
+  creevey: {
+    tests: {
+      async 'MobilePicker on large mobile opened'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('MobilePicker on large mobile opened');
+      },
+    },
+  },
 };
 
 export const WithAutoFocus = () => (
