@@ -1,7 +1,6 @@
 import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { fileUploaderSizeMixin } from './FileUploader.mixins';
 
@@ -44,11 +43,10 @@ const styles = {
   },
 
   root(t: Theme) {
-    const bg = isTheme2022(t) ? '' : `background-color: ${t.fileUploaderBg}`;
     return css`
       display: inline-block;
       position: relative;
-      ${bg};
+      background-color: ${t.fileUploaderBg};
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
@@ -56,7 +54,6 @@ const styles = {
   },
 
   uploadButton(t: Theme) {
-    const bg = isTheme2022(t) ? `background-color: ${t.fileUploaderBg}` : '';
     return css`
       width: 100%;
       display: inline-flex;
@@ -69,7 +66,7 @@ const styles = {
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
       transition: box-shadow 0.3s ease;
-      ${bg};
+      background-color: ${t.fileUploaderBg};
     `;
   },
 
@@ -82,9 +79,9 @@ const styles = {
 
   dragOver(t: Theme) {
     return css`
-      border: 1px solid ${t.borderColorFocus};
+      border: 1px solid ${t.fileUploaderDragOverBorderColor};
       border-radius: ${t.fileUploaderBorderRadius};
-      box-shadow: 0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2);
+      box-shadow: ${t.fileUploaderDragOverShadow};
     `;
   },
 
@@ -189,14 +186,13 @@ const styles = {
   },
 
   disabled(t: Theme) {
-    const bc = isTheme2022(t) ? 'background-clip: padding-box' : '';
     return css`
       cursor: default;
       background: ${t.fileUploaderDisabledBg};
       border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
       color: ${t.fileUploaderDisabledTextColor};
       box-shadow: none;
-      ${bc};
+      background-clip: ${t.fileUploaderDisabledBgClip};
 
       .${globalClasses.afterLinkText} {
         color: ${t.fileUploaderDisabledTextColor};

@@ -253,6 +253,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get fileUploaderDisabledBg() {
     return this.btnDisabledBg;
   }
+  public static fileUploaderBg = '';
+  public static fileUploaderDisabledBgClip = 'padding-box';
+  public static get fileUploaderDragOverBorderColor() {
+    return this.borderColorFocus;
+  }
+  public static fileUploaderDragOverShadow =
+    '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   //#endregion
 
   //#region Toast
