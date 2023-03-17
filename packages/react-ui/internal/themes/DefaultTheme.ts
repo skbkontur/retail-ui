@@ -1073,6 +1073,7 @@ export class DefaultTheme {
     return this.linkColor;
   }
   public static menuItemCommentColor = '#adadad';
+  public static menuItemCommentOpacity = '';
   public static menuItemCommentColorHover = '#fff';
   public static menuItemDisplay = 'block';
   public static menuItemPaddingMobile = '12px 16px';
