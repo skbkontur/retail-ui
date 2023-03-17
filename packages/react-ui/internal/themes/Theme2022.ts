@@ -143,6 +143,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get textareaDisabledBg() {
     return this.inputDisabledBg;
   }
+  public static textareaBackgroundClip = 'padding-box';
   //#endregion
 
   //#region Radio

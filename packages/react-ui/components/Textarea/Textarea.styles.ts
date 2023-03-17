@@ -14,8 +14,8 @@ export const styles = memoizeStyle({
   textarea(t: Theme) {
     return css`
       -webkit-appearance: none;
-      background-clip: padding-box;
       background: ${t.textareaBg};
+      background-clip: ${t.textareaBackgroundClip};
       border: ${t.textareaBorderWidth} solid ${t.textareaBorderColor};
       border-top-color: ${t.textareaBorderTopColor};
       box-shadow: ${t.textareaShadow};

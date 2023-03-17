@@ -1473,6 +1473,7 @@ export class DefaultTheme {
     return this.textColorDisabledContrast;
   }
   public static textareaShadow = 'none';
+  public static textareaBackgroundClip = 'border-box';
   public static get textareaFontSize() {
     return this.fontSizeSmall;
   }
