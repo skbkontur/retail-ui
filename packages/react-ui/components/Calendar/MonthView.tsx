@@ -177,6 +177,7 @@ const getYearsSelect = (
   return (
     // eslint-disable-next-line jsx-a11y/no-onchange
     <select
+      data-tid={CalendarDataTids.yearSelectMobile}
       className={styles.nativeSelect()}
       value={props.year}
       onChange={(e) => {
@@ -207,6 +208,7 @@ const getMonthsSelect = (
   return (
     // eslint-disable-next-line jsx-a11y/no-onchange
     <select
+      data-tid={CalendarDataTids.monthSelectMobile}
       className={styles.nativeSelect()}
       value={props.month}
       onChange={(e) => {
