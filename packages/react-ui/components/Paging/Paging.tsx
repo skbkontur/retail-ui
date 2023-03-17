@@ -296,7 +296,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
-    // d
     if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
         <span className={styles.pageLinkHint(this.theme)}>
