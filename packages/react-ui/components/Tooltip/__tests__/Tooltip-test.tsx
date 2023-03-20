@@ -382,7 +382,6 @@ describe('Tooltip', () => {
     expect(refFn1.mock.calls[1][0]).toBeNull();
 
     expect(refFn2.mock.calls).toHaveLength(1);
-    //expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
   });
 
   it('does not show tooltip in render func returned false', () => {
