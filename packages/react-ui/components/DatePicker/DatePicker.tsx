@@ -91,7 +91,6 @@ export interface DatePickerProps<T> extends CommonProps {
    * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
    * `month: number` - номер текущего отображаемого месяца от 0 до 11,
    * `year: number` - отображаемый год,
-   * `scrollDirection` - направление скролла, где `1` - `Down`, `-1` - `Up`
    */
   onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }

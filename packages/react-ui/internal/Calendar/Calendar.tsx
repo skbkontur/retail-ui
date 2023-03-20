@@ -17,15 +17,9 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
-export enum CalendarScrollDirection {
-  Down = 1,
-  Up = -1,
-}
-
 export interface CalendarMonthChangeInfo {
   month: number;
   year: number;
-  scrollDirection: CalendarScrollDirection;
 }
 
 export interface CalendarProps {
@@ -413,7 +407,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const changeInfo = {
       month: currentMonth.month,
       year: currentMonth.year,
-      scrollDirection: this.state.scrollDirection,
     };
 
     handler(changeInfo);
