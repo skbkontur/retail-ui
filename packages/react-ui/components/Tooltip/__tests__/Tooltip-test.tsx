@@ -374,9 +374,6 @@ describe('Tooltip', () => {
     const refFn2 = jest.fn();
 
     const { rerender } = render(<Comp refFn={refFn1} />);
-    // Force rerender to make sure no additional ref calls happens when ref
-    // didn't change.
-    rerender(<Comp refFn={refFn1} />);
 
     rerender(<Comp refFn={refFn2} />);
 
@@ -648,28 +645,33 @@ describe('Tooltip', () => {
     });
   });
 
-  // it('clears hoverTimeout timer after unmount', () => {
-  //   jest.useFakeTimers();
-  //   jest.spyOn(window, 'setTimeout');
-  //   jest.spyOn(window, 'clearTimeout');
+  it('clears hoverTimeout timer after unmount', () => {
+    jest.useFakeTimers();
+    jest.spyOn(window, 'setTimeout');
+    jest.spyOn(window, 'clearTimeout');
 
-  //   const wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-  //     <Tooltip disableAnimations render={() => <div />}>
-  //       <Button>Anchor</Button>
-  //     </Tooltip>,
-  //   );
-  //   const instance = wrapper.instance();
-  //   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //   const timer = setTimeout(() => { });
-  //   // @ts-expect-error: private property
-  //   instance.hoverTimeout = timer;
+    const tooltipRef = React.createRef<Tooltip>();
 
-  //   wrapper.unmount();
+    const { unmount } = render(
+      <Tooltip disableAnimations render={() => <div />} ref={tooltipRef}>
+        <Button>Anchor</Button>
+      </Tooltip>,
+    );
 
-  //   expect(clearTimeout).toHaveBeenCalledWith(timer);
-  //   // @ts-expect-error: Use of private property.
-  //   expect(instance.hoverTimeout).toBeNull();
-  // });
+    // @ts-expect-error: Use of private property.
+    expect(tooltipRef.current.hoverTimeout).toBeNull();
+
+    userEvent.hover(screen.getByRole('button'));
+
+    // @ts-expect-error: Use of private property.
+    const { hoverTimeout } = tooltipRef.current;
+
+    expect(hoverTimeout).not.toBeNull();
+
+    unmount();
+
+    expect(clearTimeout).toHaveBeenCalledWith(hoverTimeout);
+  });
 
   describe('findDOMNode', () => {
     beforeEach(() => {
