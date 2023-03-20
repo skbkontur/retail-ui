@@ -1,4 +1,3 @@
-//import { mount } from 'enzyme';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { render, screen } from '@testing-library/react';
@@ -392,8 +391,6 @@ describe('Tooltip', () => {
         </Tooltip>
       </div>,
     );
-    screen.debug();
-
     expect(screen.queryByTestId(TooltipDataTids.root)).not.toBeInTheDocument();
   });
 
