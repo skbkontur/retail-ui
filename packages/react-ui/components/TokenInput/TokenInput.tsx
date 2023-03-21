@@ -642,7 +642,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
-      const tokens = paste.trim().split(new RegExp(`[${[',', ' '].join('')}]+`));
+      const tokens = paste.trim().split(new RegExp(`[${delimiters.join('')}]+`));
       const items = tokens
         .filter(Boolean)
         .map((token) => valueToItem(token))
