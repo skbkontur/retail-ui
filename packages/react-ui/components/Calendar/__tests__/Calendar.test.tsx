@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Calendar } from '../Calendar';
-import { LangCodes } from '../../../lib/locale';
-import { DatePickerLocaleHelper } from '../../DatePicker/locale';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { CalendarDataTids } from '..';
+import { CalendarLocaleHelper } from '../locale';
 
 describe('Calendar', () => {
   it('renders', () => {
@@ -39,10 +39,8 @@ describe('Calendar', () => {
       />,
     );
 
-    expect(screen.getAllByTestId('DateSelect__caption')[0]).toHaveTextContent(
-      DatePickerLocaleHelper.get(LangCodes.ru_RU).months[6],
-    );
-    expect(screen.getAllByTestId('DateSelect__caption')[1]).toHaveTextContent('2017');
+    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months[6])).toBeInTheDocument();
+    expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
   it('correctly initial month/year with max date', () => {
@@ -54,9 +52,41 @@ describe('Calendar', () => {
       />,
     );
 
-    expect(screen.getAllByTestId('DateSelect__caption')[0]).toHaveTextContent(
-      DatePickerLocaleHelper.get(LangCodes.ru_RU).months[6],
+    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months[6])).toBeInTheDocument();
+    expect(screen.getByText('2017')).toBeInTheDocument();
+  });
+
+  it('should correctly set langCode', () => {
+    render(
+      <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+        <Calendar value={{ year: 2022, month: 6, date: 12 }} />
+      </LocaleContext.Provider>,
     );
-    expect(screen.getAllByTestId('DateSelect__caption')[1]).toHaveTextContent('2017');
+
+    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.en_GB).months[6])).toBeInTheDocument();
+  });
+
+  it('should correctly rename months', () => {
+    const renamedMonths = [
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+    ];
+    render(
+      <LocaleContext.Provider value={{ locale: { Calendar: { months: renamedMonths } } }}>
+        <Calendar value={{ year: 2022, month: 6, date: 12 }} />
+      </LocaleContext.Provider>,
+    );
+
+    expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
   });
 });

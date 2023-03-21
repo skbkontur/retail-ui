@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { LocaleContext } from '../../../lib/locale';
 import { Calendar } from '../Calendar';
 import { delay } from '../../../lib/utils';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -15,13 +15,6 @@ export default { title: 'Calendar' };
 
 export const Simple = () => <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} />;
 Simple.storyName = 'simple';
-
-export const LocaleContextProvider = () => (
-  <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-    <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} />
-  </LocaleContext.Provider>
-);
-LocaleContextProvider.storyName = 'LocaleContext.Provider';
 
 export const CalendarWithHolidays = () => {
   const holidays: string[] = [];

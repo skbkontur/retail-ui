@@ -2,6 +2,8 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 
+import { LocaleContext } from '../../lib/locale';
+import { locale } from '../../lib/locale/decorators';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
@@ -20,6 +22,7 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import { getInitialDate, getTodayDate, setInititalDate } from './calendarUtils';
+import { CalendarLocale, CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -89,6 +92,7 @@ type DefaultProps = Required<
 /**
  * Компонент календаря из [DatePicker](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а
  */
+@locale('Calendar', CalendarLocaleHelper)
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
@@ -110,6 +114,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
+  private readonly locale!: CalendarLocale;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
   private animation = animation();
@@ -267,20 +272,22 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const { className, hasBottomSeparator, ...rest } = this.getProps();
 
     return (
-      <div
-        ref={this.refRoot}
-        data-tid={CalendarDataTids.root}
-        className={cx(styles.root(this.theme), className)}
-        {...rest}
-      >
-        <div style={{ height: themeConfig(this.theme).WRAPPER_HEIGHT }} className={styles.wrapper()}>
-          {this.state.months
-            .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
-            .map(this.renderMonth, this)}
+      <LocaleContext.Provider value={{ locale: { DatePicker: { months: this.locale.months } } }}>
+        <div
+          ref={this.refRoot}
+          data-tid={CalendarDataTids.root}
+          className={cx(styles.root(this.theme), className)}
+          {...rest}
+        >
+          <div style={{ height: themeConfig(this.theme).WRAPPER_HEIGHT }} className={styles.wrapper()}>
+            {this.state.months
+              .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
+              .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
+              .map(this.renderMonth, this)}
+          </div>
+          {hasBottomSeparator && <div className={styles.separator(this.theme)} />}
         </div>
-        {hasBottomSeparator && <div className={styles.separator(this.theme)} />}
-      </div>
+      </LocaleContext.Provider>
     );
   };
 
