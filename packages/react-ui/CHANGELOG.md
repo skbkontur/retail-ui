@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.0...@skbkontur/react-ui@4.13.1) (2023-03-10)
+
+
+### Bug Fixes
+
+* **MenuMessage:** pass ref ([#3113](https://github.com/skbkontur/retail-ui/issues/3113)) ([3864e08](https://github.com/skbkontur/retail-ui/commit/3864e08017a0f88309ec3e6cb86304e4508c124c))
+
+
+
+
+
 # [4.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.12.0...@skbkontur/react-ui@4.13.0) (2023-03-02)
 
 
