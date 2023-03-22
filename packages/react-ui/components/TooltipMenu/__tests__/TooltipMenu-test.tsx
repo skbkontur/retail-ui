@@ -1,8 +1,11 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { TooltipMenu } from '../TooltipMenu';
-import { MenuItem } from '../../MenuItem';
+import { MenuItem, MenuItemDataTids } from '../../MenuItem';
+import { InternalMenuDataTids } from '../../../internal/InternalMenu';
+import { TooltipMenuDataTids } from '..';
 
 describe('<TooltipMenu />', () => {
   beforeEach(() => {
@@ -10,57 +13,55 @@ describe('<TooltipMenu />', () => {
   });
 
   test('Render without crashes', () => {
-    const wrapper = shallow(<TooltipMenu caption={<span />} />);
+    render(<TooltipMenu caption={<span />} />);
 
-    expect(wrapper).toHaveLength(1);
+    expect(screen.getByTestId(TooltipMenuDataTids.root)).toBeInTheDocument();
   });
 
   test('Throw, if caption is not passed', () => {
     // @ts-expect-error: `caption` prop is purposefully not provided.
-    expect(() => shallow(<TooltipMenu />)).toThrow();
+    const renderNoCaption = () => render(<TooltipMenu />);
+
+    expect(renderNoCaption).toThrow('Prop "caption" is required!!!');
   });
 
   test('Contains <Menu /> after clicking on caption', () => {
-    const component = (
+    render(
       <TooltipMenu caption={<button id="captionForTest">Test</button>}>
-        <MenuItem>Test</MenuItem>
-      </TooltipMenu>
+        <MenuItem>First MenuItem</MenuItem>
+      </TooltipMenu>,
     );
-    const wrapper = mount(component);
-    const captionWrapper = wrapper.find('#captionForTest');
 
-    expect(wrapper.find('InternalMenu')).toHaveLength(0);
-    captionWrapper.simulate('click');
+    expect(screen.queryByTestId(InternalMenuDataTids.root)).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button'));
 
-    expect(wrapper.find('InternalMenu')).toHaveLength(1);
+    expect(screen.getByTestId(InternalMenuDataTids.root)).toBeInTheDocument();
   });
 
   test("Contains <MenuItem />'s after clicking on caption", () => {
-    const component = (
+    render(
       <TooltipMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>Test</MenuItem>
         <MenuItem>Test</MenuItem>
         <MenuItem>Test</MenuItem>
-      </TooltipMenu>
+      </TooltipMenu>,
     );
-    const wrapper = mount(component);
-    const captionWrapper = wrapper.find('#captionForTest');
 
-    expect(wrapper.find('MenuItem')).toHaveLength(0);
-    captionWrapper.simulate('click');
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button'));
 
-    expect(wrapper.find('MenuItem')).toHaveLength(3);
+    expect(screen.queryAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
   });
 
   test('Render without crashes if passed expected positions', () => {
-    const element = <TooltipMenu caption={<span />} positions={['top left', 'top right']} />;
+    render(<TooltipMenu caption={<span />} positions={['top left', 'top right']} />);
 
-    expect(shallow(element)).toHaveLength(1);
+    expect(screen.getByTestId(TooltipMenuDataTids.root)).toBeInTheDocument();
   });
 
   test('Click handler on menu item should be called before closing', () => {
     let testText = 'Foo bar';
-    const wrapper = mount(
+    render(
       <TooltipMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem
           onClick={() => {
@@ -71,15 +72,14 @@ describe('<TooltipMenu />', () => {
         </MenuItem>
       </TooltipMenu>,
     );
-    const captionWrapper = wrapper.find('#captionForTest');
 
-    expect(wrapper.find('MenuItem')).toHaveLength(0);
-    captionWrapper.simulate('click');
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button'));
 
-    const menuItemWrapper = wrapper.find('MenuItem');
-    expect(menuItemWrapper).toHaveLength(1);
+    const menuItem = screen.getByTestId(MenuItemDataTids.root);
+    expect(menuItem).toBeInTheDocument();
 
-    menuItemWrapper.simulate('click');
+    userEvent.click(menuItem);
     expect(testText).toBe('Bar foo');
   });
 });
