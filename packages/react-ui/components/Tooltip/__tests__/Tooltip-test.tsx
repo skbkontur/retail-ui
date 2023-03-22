@@ -427,8 +427,7 @@ describe('Tooltip', () => {
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
 
       userEvent.tab();
-      // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       await delay(100);
       expect(onOpen.mock.calls).toHaveLength(1);
@@ -486,11 +485,9 @@ describe('Tooltip', () => {
 
       tooltipRef.current?.show();
 
-      // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       tooltipRef.current?.hide();
-      // eslint-disable-next-line testing-library/prefer-presence-queries
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
     });
 
@@ -505,8 +502,7 @@ describe('Tooltip', () => {
 
       tooltipRef.current?.hide();
 
-      // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
     });
 
     it('when trigger is "closed"', () => {
@@ -564,8 +560,7 @@ describe('Tooltip', () => {
 
     screen.getByRole('button').click();
 
-    // eslint-disable-next-line testing-library/prefer-presence-queries
-    expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+    expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
     rerender(
       <Tooltip trigger="closed" disableAnimations render={() => <Content />}>
@@ -587,7 +582,6 @@ describe('Tooltip', () => {
   describe('calls onCloseRequest on clickOutside when tooltip is opened', () => {
     const Content = () => <div />;
     const onCloseRequest = jest.fn();
-    //let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
 
     beforeEach(() => {
       onCloseRequest.mockClear();
@@ -602,8 +596,7 @@ describe('Tooltip', () => {
 
       userEvent.click(screen.getByRole('button'));
 
-      // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
 
@@ -616,8 +609,7 @@ describe('Tooltip', () => {
           <button>Anchor</button>
         </Tooltip>,
       );
-      // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
 
@@ -631,8 +623,7 @@ describe('Tooltip', () => {
         </Tooltip>,
       );
       userEvent.click(screen.getByRole('button'));
-      // eslint-disable-next-line testing-library/prefer-presence-queries
-      expect(screen.queryByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
 
