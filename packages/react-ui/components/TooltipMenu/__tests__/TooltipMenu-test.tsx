@@ -32,12 +32,10 @@ describe('<TooltipMenu />', () => {
       </TooltipMenu>,
     );
 
-    // eslint-disable-next-line testing-library/prefer-presence-queries
     expect(screen.queryByTestId(InternalMenuDataTids.root)).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button'));
 
-    // eslint-disable-next-line testing-library/prefer-presence-queries
-    expect(screen.queryByTestId(InternalMenuDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(InternalMenuDataTids.root)).toBeInTheDocument();
   });
 
   test("Contains <MenuItem />'s after clicking on caption", () => {
@@ -49,7 +47,6 @@ describe('<TooltipMenu />', () => {
       </TooltipMenu>,
     );
 
-    // eslint-disable-next-line testing-library/prefer-presence-queries
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button'));
 
@@ -76,7 +73,6 @@ describe('<TooltipMenu />', () => {
       </TooltipMenu>,
     );
 
-    // eslint-disable-next-line testing-library/prefer-presence-queries
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button'));
 
