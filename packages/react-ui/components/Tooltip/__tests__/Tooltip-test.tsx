@@ -413,6 +413,7 @@ describe('Tooltip', () => {
           <div />
         </Tooltip>,
       );
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
       expect(onOpen).toHaveBeenCalledTimes(1);
     });
 
