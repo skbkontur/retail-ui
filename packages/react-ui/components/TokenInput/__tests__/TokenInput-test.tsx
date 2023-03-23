@@ -59,24 +59,29 @@ describe('<TokenInput />', () => {
   });
 
   describe('Locale', () => {
-    const contextMount = (props: LocaleContextProps = { langCode: defaultLangCode }, wrappedLocale = true) => {
+    const Comp = (props: LocaleContextProps = { langCode: defaultLangCode }, wrappedLocale = true) => {
       const tokeninput = <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
-      return wrappedLocale === false
-        ? render(tokeninput)
-        : render(
-            <LocaleContext.Provider
-              value={{
-                langCode: props.langCode ?? defaultLangCode,
-                locale: props.locale,
-              }}
-            >
-              {tokeninput}
-            </LocaleContext.Provider>,
-          );
+
+      return wrappedLocale === false ? (
+        tokeninput
+      ) : (
+        <>
+          <LocaleContext.Provider
+            value={{
+              langCode: props.langCode ?? defaultLangCode,
+              locale: props.locale,
+            }}
+          >
+            {tokeninput}
+          </LocaleContext.Provider>
+        </>
+      );
     };
 
     it('render without LocaleProvider', async () => {
-      contextMount({ langCode: defaultLangCode }, false);
+      const props = { langCode: defaultLangCode, wrappedLocale: false };
+      render(<Comp {...props} />);
+
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
       userEvent.type(screen.getByRole('textbox'), '--');
@@ -86,7 +91,9 @@ describe('<TokenInput />', () => {
     });
 
     it('render default locale', async () => {
-      contextMount();
+      const props = {};
+      render(<Comp {...props} />);
+
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
       userEvent.type(screen.getByRole('textbox'), '--');
@@ -96,7 +103,9 @@ describe('<TokenInput />', () => {
     });
 
     it('render correct locale when set langCode', async () => {
-      contextMount({ langCode: LangCodes.en_GB });
+      const props = { langCode: LangCodes.en_GB };
+      render(<Comp {...props} />);
+
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_GB).addButtonComment;
 
       userEvent.type(screen.getByRole('textbox'), '--');
@@ -107,7 +116,9 @@ describe('<TokenInput />', () => {
 
     it('render custom locale', async () => {
       const customComment = 'custom comment';
-      contextMount({ locale: { TokenInput: { addButtonComment: customComment } } });
+
+      const props = { locale: { TokenInput: { addButtonComment: customComment } } };
+      render(<Comp {...props} />);
 
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
@@ -116,23 +127,6 @@ describe('<TokenInput />', () => {
     });
 
     it('updates when langCode changes', async () => {
-      const Comp = (props: LocaleContextProps = { langCode: defaultLangCode }) => {
-        return (
-          <>
-            render(
-            <LocaleContext.Provider
-              value={{
-                langCode: props.langCode ?? defaultLangCode,
-                locale: props.locale,
-              }}
-            >
-              <TokenInput type={TokenInputType.Combined} getItems={getItems} />
-            </LocaleContext.Provider>
-            , );
-          </>
-        );
-      };
-
       const { rerender } = render(<Comp langCode={LangCodes.en_GB} />);
 
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
