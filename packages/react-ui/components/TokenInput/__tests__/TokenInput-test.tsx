@@ -9,7 +9,6 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
-import { renderIntoDocument } from 'react-dom/test-utils';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -18,9 +17,7 @@ async function getItems(query: string) {
 describe('<TokenInput />', () => {
   it('should contains placeholder', () => {
     const onChange = jest.fn();
-    render(
-      <TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />,
-    );
+    render(<TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />);
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Placeholder');
   });
 
@@ -67,15 +64,15 @@ describe('<TokenInput />', () => {
       return wrappedLocale === false
         ? render(tokeninput)
         : render(
-          <LocaleContext.Provider
-            value={{
-              langCode: props.langCode ?? defaultLangCode,
-              locale: props.locale,
-            }}
-          >
-            {tokeninput}
-          </LocaleContext.Provider>,
-        );
+            <LocaleContext.Provider
+              value={{
+                langCode: props.langCode ?? defaultLangCode,
+                locale: props.locale,
+              }}
+            >
+              {tokeninput}
+            </LocaleContext.Provider>,
+          );
     };
 
     it('render without LocaleProvider', async () => {
@@ -118,28 +115,35 @@ describe('<TokenInput />', () => {
       expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(customComment);
     });
 
-    //   it('updates when langCode changes', async () => {
-    //     contextMount({ langCode: LangCodes.en_GB });
-    //     const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
-
-    //     await focus();
-    //     wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
-
-    //     expect(getTextComment()).toBe(expectedComment);
-    //   });
-
     it('updates when langCode changes', async () => {
-      contextMount({ langCode: LangCodes.en_GB });
+      const Comp = (props: LocaleContextProps = { langCode: defaultLangCode }) => {
+        return (
+          <>
+            render(
+            <LocaleContext.Provider
+              value={{
+                langCode: props.langCode ?? defaultLangCode,
+                locale: props.locale,
+              }}
+            >
+              <TokenInput type={TokenInputType.Combined} getItems={getItems} />
+            </LocaleContext.Provider>
+            , );
+          </>
+        );
+      };
+
+      const { rerender } = render(<Comp langCode={LangCodes.en_GB} />);
+
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
 
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
-      contextMount({ langCode: LangCodes.ru_RU });
+      rerender(<Comp langCode={LangCodes.ru_RU} />);
 
       expect(screen.getByTestId('MenuItem__comment')).toHaveTextContent(expectedComment);
     });
-
   });
 
   it('should call onInputValueChange', () => {
