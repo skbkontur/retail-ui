@@ -263,3 +263,39 @@ WithMaskAndSelectAllProp.parameters = {
     },
   },
 };
+
+export const SubmitWithPattern: Story = () => {
+  const [status, setStatus] = useState('');
+  const [value, setValue] = useState('test@test.com');
+
+  const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/;
+  const patternString = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+  };
+
+  const buttonClickHandler = () => {
+    if (pattern.test(value)) {
+      setStatus('ok');
+    } else {
+      setStatus('error');
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <form onSubmit={(event) => submitHandler(event)}>
+          <Input defaultValue={value} pattern={patternString} onChange={(event) => setValue(event.target.value)} />
+          <br />
+          <button type="submit" onClick={buttonClickHandler}>
+            Submit
+          </button>
+        </form>
+        <p>{status}</p>
+      </div>
+    </div>
+  );
+};
+SubmitWithPattern.storyName = 'Submit with pattern';

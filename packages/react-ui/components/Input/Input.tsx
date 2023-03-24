@@ -20,7 +20,17 @@ import { styles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
+export type InputType =
+  | 'password'
+  | 'text'
+  | 'number'
+  | 'tel'
+  | 'search'
+  | 'time'
+  | 'date'
+  | 'url'
+  | 'email'
+  | 'hidden';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export interface InputProps
@@ -335,17 +345,18 @@ export class Input extends React.Component<InputProps, InputState> {
       onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
-      type: 'text',
+      type: type || 'text',
       placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
       'aria-describedby': ariaDescribedby,
     };
 
-    if (type === 'password') {
-      inputProps.type = type;
-    }
+    const input =
+      mask && type !== 'number' ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
-    const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
+    if (type === 'hidden') {
+      return input;
+    }
 
     return (
       <label data-tid={InputDataTids.root} {...labelProps}>

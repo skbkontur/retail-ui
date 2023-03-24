@@ -240,6 +240,14 @@ const typeStates: InputState[] = [
   { mask: '***-***', type: 'password', alwaysShowMask: true },
   { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
   { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
+  { type: 'number', defaultValue: '15', min: 10, max: 20, step: 5 },
+  { type: 'search' },
+  { type: 'date' },
+  { type: 'time' },
+  { type: 'email', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$' },
+  { type: 'url' },
+  { type: 'tel' },
+  { type: 'hidden' },
 ];
 
 export const Warning: Story = () => (

@@ -47,6 +47,53 @@ describe('<Input />', () => {
     expect(screen.queryByRole('textbox')).toHaveProperty('type', 'password');
   });
 
+  it('passes number type to input', () => {
+    render(<Input value="" type="number" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'number');
+  });
+
+  it('passes tel type to input', () => {
+    render(<Input value="" type="tel" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'tel');
+  });
+
+  it('passes search type to input', () => {
+    render(<Input value="" type="search" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'search');
+  });
+
+  it('passes time type to input', () => {
+    render(<Input value="" type="time" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'time');
+  });
+
+  it('passes date type to input', () => {
+    render(<Input value="" type="date" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'date');
+  });
+
+  it('passes email type to input', () => {
+    render(<Input value="" type="email" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'email');
+  });
+
+  it('passes url type to input', () => {
+    render(<Input value="" type="url" role={'textbox'} />);
+    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'url');
+  });
+
+  it('passes hidden type to input', () => {
+    const result = render(<Input value="" type="hidden" role={'textbox'} id="testInput" />);
+    const element = result.container.querySelector('#testInput');
+    expect(element).toHaveProperty('type', 'hidden');
+  });
+
+  it('with type hidden is not visible', () => {
+    const result = render(<Input value="" type="hidden" role={'textbox'} id="testInput" />);
+    const element = result.container.querySelector('#testInput');
+    expect(element).not.toBeVisible();
+  });
+
   it('autofocus of element when it renders', () => {
     render(<Input value="" autoFocus />);
     expect(screen.getByRole('textbox')).toHaveFocus();
