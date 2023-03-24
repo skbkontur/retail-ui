@@ -30,13 +30,13 @@ export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'on
   /**
    * Произвольный элемент, который будет отрендерен в шапке меню.
    *
-   * _Примечание_: контрол [`MenuHeader`](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`.
+   * _Примечание_: контрол [MenuHeader](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`.
    */
   header?: React.ReactNode;
   /**
    * Произвольный элемент, который будет отрендерен в подвале меню.
    *
-   * Перед элементом переданным в `footer` будет отрендерен [`MenuSeparator`](#/Components/MenuSeparator).
+   * Перед элементом переданным в `footer` будет отрендерен [MenuSeparator](#/Components/MenuSeparator).
    */
   footer?: React.ReactNode;
   /**

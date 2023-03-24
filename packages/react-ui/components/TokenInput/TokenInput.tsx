@@ -648,18 +648,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.type === TokenInputType.WithReference || !event.clipboardData) {
       return;
     }
-    let paste = event.clipboardData.getData('text');
+    const paste = event.clipboardData.getData('text');
     const { delimiters, selectedItems, valueToItem, onValueChange } = this.getProps();
     if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
-      for (const delimiter of delimiters) {
-        paste = paste.split(delimiter).join(delimiters[0]);
-      }
-      const tokens = paste.split(delimiters[0]);
+      const tokens = paste.trim().split(new RegExp(`[${delimiters.join('')}]+`));
       const items = tokens
+        .filter(Boolean)
         .map((token) => valueToItem(token))
-        .filter((item) => !this.hasValueInItems(selectedItems, item));
+        .filter((item) => item && !this.hasValueInItems(selectedItems, item));
       const newItems = selectedItems.concat(items);
       onValueChange(newItems);
 

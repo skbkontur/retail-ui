@@ -20,7 +20,7 @@ export const MenuHeaderDataTids = {
  *
  * _Примечание_: `заголовок меню`, в отличие от `элемента меню` нельзя затаргетить с клавиатуры.
  *
- * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
+ * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);

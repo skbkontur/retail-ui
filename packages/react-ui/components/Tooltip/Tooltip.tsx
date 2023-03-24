@@ -140,6 +140,7 @@ export interface TooltipState {
 export const TooltipDataTids = {
   root: 'Tooltip__root',
   content: 'Tooltip__content',
+  crossIcon: 'Tooltip__crossIcon',
 } as const;
 
 const Positions: PopupPositionsType[] = [
@@ -282,7 +283,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
 
     return (
-      <div className={styles.cross(this.theme)} onClick={this.handleCloseButtonClick}>
+      <div
+        className={styles.cross(this.theme)}
+        onClick={this.handleCloseButtonClick}
+        data-tid={TooltipDataTids.crossIcon}
+      >
         {icon}
       </div>
     );

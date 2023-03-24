@@ -43,14 +43,16 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     const renderTooltipContent = useCallback(() => help, [help]);
     const textareaValue = value ? value.toString().length : 0;
     const counterValue = length - textareaValue;
+
+    const helpIconProps = {
+      onMouseDown: handleHelpMouseDown,
+      color: theme.textareaCounterHelpIconColor,
+      dataTid: TextareaDataTids.helpIcon,
+    };
     const helpIcon = isTheme2022(theme) ? (
-      <QuestionCircleIcon16Solid
-        disableCompensation={false}
-        onMouseDown={handleHelpMouseDown}
-        color={theme.textareaCounterHelpIconColor}
-      />
+      <QuestionCircleIcon16Solid disableCompensation={false} {...helpIconProps} />
     ) : (
-      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
+      <HelpDotIcon {...helpIconProps} />
     );
     const counterHelp = isFunction(help) ? (
       help()

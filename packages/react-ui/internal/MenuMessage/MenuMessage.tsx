@@ -10,22 +10,23 @@ import { styles } from './MenuMessage.styles';
 
 export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }
 
 export const MenuMessageDataTids = {
   root: 'MenuMessage__root',
 } as const;
 
-export const MenuMessage = forwardRefAndName<HTMLParagraphElement, MenuMessageProps>(
+export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>(
   'MenuMessage',
-  ({ children, className, as: Tag = 'p', ...rest }) => {
+  ({ children, className, as: Tag = 'p', ...rest }, ref) => {
     const { isMobile } = useResponsiveLayout();
 
     const theme = useContext(ThemeContext);
 
     return (
       <Tag
+        ref={ref}
         data-tid={MenuMessageDataTids.root}
         className={cx(
           {
