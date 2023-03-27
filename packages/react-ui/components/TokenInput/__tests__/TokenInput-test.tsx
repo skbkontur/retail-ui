@@ -7,7 +7,7 @@ import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/local
 import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
-import { Token } from '../../Token';
+import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
 
 async function getItems(query: string) {
@@ -59,28 +59,24 @@ describe('<TokenInput />', () => {
   });
 
   describe('Locale', () => {
-    const Comp = (props: LocaleContextProps = { langCode: defaultLangCode }, wrappedLocale = true) => {
-      const tokeninput = <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
+    const TestTokenInput = () => (<TokenInput type={TokenInputType.Combined} getItems={getItems} />);
 
-      return wrappedLocale === false ? (
-        tokeninput
-      ) : (
-        <>
-          <LocaleContext.Provider
-            value={{
-              langCode: props.langCode ?? defaultLangCode,
-              locale: props.locale,
-            }}
-          >
-            {tokeninput}
-          </LocaleContext.Provider>
-        </>
+    const TokenInputWithLocaleProvider = ({ langCode = defaultLangCode, locale }: LocaleContextProps) => {
+      return (
+        <LocaleContext.Provider
+          value={{
+            langCode,
+            locale
+          }}
+        >
+          <TestTokenInput />
+        </LocaleContext.Provider>
       );
     };
 
     it('render without LocaleProvider', async () => {
       const props = { langCode: defaultLangCode, wrappedLocale: false };
-      render(<Comp {...props} />);
+      render(<TokenInputWithLocaleProvider {...props} />);
 
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
@@ -92,7 +88,7 @@ describe('<TokenInput />', () => {
 
     it('render default locale', async () => {
       const props = {};
-      render(<Comp {...props} />);
+      render(<TestTokenInput {...props} />);
 
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
@@ -104,7 +100,7 @@ describe('<TokenInput />', () => {
 
     it('render correct locale when set langCode', async () => {
       const props = { langCode: LangCodes.en_GB };
-      render(<Comp {...props} />);
+      render(<TokenInputWithLocaleProvider {...props} />);
 
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_GB).addButtonComment;
 
@@ -118,7 +114,7 @@ describe('<TokenInput />', () => {
       const customComment = 'custom comment';
 
       const props = { locale: { TokenInput: { addButtonComment: customComment } } };
-      render(<Comp {...props} />);
+      render(<TokenInputWithLocaleProvider {...props} />);
 
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
@@ -127,14 +123,14 @@ describe('<TokenInput />', () => {
     });
 
     it('updates when langCode changes', async () => {
-      const { rerender } = render(<Comp langCode={LangCodes.en_GB} />);
+      const { rerender } = render(<TokenInputWithLocaleProvider langCode={LangCodes.en_GB} />);
 
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
 
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
-      rerender(<Comp langCode={LangCodes.ru_RU} />);
+      rerender(<TokenInputWithLocaleProvider langCode={LangCodes.ru_RU} />);
 
       expect(screen.getByTestId('MenuItem__comment')).toHaveTextContent(expectedComment);
     });
@@ -191,6 +187,39 @@ describe('<TokenInput />', () => {
     expect(onValueChange).toHaveBeenCalledWith([value]);
   });
 
+  it('should call onValueChange when element loses focus and there is only one element in the drop-down list', async () => {
+    const value = 'aaa';
+    const tokenInputRef = React.createRef<TokenInput>();
+
+    const onValueChange = jest.fn();
+    render(
+      <TokenInput
+        ref={tokenInputRef}
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        onValueChange={onValueChange}
+      />,
+    );
+    userEvent.type(screen.getByRole('textbox'), value);
+    await delay(0);
+    tokenInputRef.current?.blur();
+    expect(onValueChange).toHaveBeenCalledWith([value]);
+  });
+
+  // it.only('should handle Token DoubleClick', async () => {
+  //   const value = 'aaa';
+
+  //   render(<TokenInputWithSelectedItem />);
+
+  //   const input = screen.getByRole('textbox');
+
+  //   userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+  //   userEvent.type(input, value);
+  //   input.blur();
+
+  //   expect(screen.queryByText('xxx')).not.toBeInTheDocument();
+  // });
+
   it('should delete Token with Backspace', async () => {
     render(<TokenInputWithState disabledToken={'yyy'} />);
     const input = screen.getByRole('textbox');
@@ -246,3 +275,21 @@ function TokenInputWithState(props: { disabledToken: string }) {
     />
   );
 }
+
+// function TokenInputWithSelectedItem() {
+//   const [selectedItems, setSelectedItems] = useState(['xxx']);
+
+//   return (
+//     <TokenInput
+//       type={TokenInputType.Combined}
+//       getItems={getItems}
+//       selectedItems={selectedItems}
+//       onValueChange={setSelectedItems}
+//       renderToken={(item, tokenProps) => (
+//         <Token key={item.toString()} {...tokenProps}>
+//           {item}
+//         </Token>
+//       )}
+//     />
+//   );
+// }
