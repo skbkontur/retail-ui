@@ -43,7 +43,9 @@
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
     "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui",
-    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
+    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html",
+    "hermione": "hermione --config ./.hermione.conf.js",
+    "hermione:ui": "hermione gui"
   },
   "license": "MIT",
   "dependencies": {
@@ -107,6 +109,7 @@
     "axios": "^0.24.0",
     "babel-jest": "27.4.5",
     "babel-loader": "^8.2.3",
+    "chai": "^4.3.7",
     "chalk": "4.1.0",
     "copyfiles": "^2.4.1",
     "core-js": "^3.20.1",
@@ -126,6 +129,9 @@
     "fs-extra": "^10.0.0",
     "fs-readdir-recursive": "^1.1.0",
     "gh-pages": "^3.2.3",
+    "hermione": "^5.6.2",
+    "hermione-storybook": "^0.2.2",
+    "html-reporter": "^9.7.6",
     "identity-obj-proxy": "^3.0.0",
     "jest": "27.4.5",
     "jest-axe": "^5.0.1",

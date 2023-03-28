@@ -19,8 +19,10 @@ gemini-report
 /lib/**/*.map
 /components/**/*.d.ts
 /components/**/*.js
+!/components/**/*.hermione.js
 /components/**/*.map
 .creevey/report
+.hermione/html-report
 
 yarn-debug.log
 yarn-error.log
