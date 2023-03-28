@@ -21,6 +21,12 @@ describe('<TokenInput />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Placeholder');
   });
 
+  it('should throw error tokenInput without getItemsp prop', () => {
+    const renderNoGetItems = () => render(<TokenInput />);
+
+    expect(renderNoGetItems).toThrow('Missed getItems for type');
+  });
+
   it('should focus input', () => {
     const tokenInputRef = React.createRef<TokenInput>();
 
@@ -59,14 +65,14 @@ describe('<TokenInput />', () => {
   });
 
   describe('Locale', () => {
-    const TestTokenInput = () => (<TokenInput type={TokenInputType.Combined} getItems={getItems} />);
+    const TestTokenInput = () => <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
 
     const TokenInputWithLocaleProvider = ({ langCode = defaultLangCode, locale }: LocaleContextProps) => {
       return (
         <LocaleContext.Provider
           value={{
             langCode,
-            locale
+            locale,
           }}
         >
           <TestTokenInput />
@@ -144,6 +150,36 @@ describe('<TokenInput />', () => {
     expect(onInputValueChange).toHaveBeenCalledWith(value);
   });
 
+  it('should blures tokenInput when esc pressed', () => {
+    const tokenInputRef = React.createRef<TokenInput>();
+
+    const onValueChange = jest.fn();
+    render(
+      <TokenInput
+        ref={tokenInputRef}
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        onValueChange={onValueChange}
+      />,
+    );
+
+    const element = screen.getByRole('textbox');
+    tokenInputRef.current?.focus();
+    expect(element).toHaveFocus();
+
+    userEvent.keyboard('{esc}');
+    expect(element).not.toHaveFocus();
+  });
+
+  it('should handle comma keydown separator', () => {
+    render(<TokenInputWithState disabledToken={''} />);
+    const element = screen.getByRole('textbox');
+    element.click();
+    userEvent.keyboard('aaa,bbb,ccc,');
+    delay(1);
+    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
+  });
+
   it('should render custom AddButton', async () => {
     const value = 'text';
     const getButtonText = (v?: string) => `Custom Add: ${v}`;
@@ -206,19 +242,47 @@ describe('<TokenInput />', () => {
     expect(onValueChange).toHaveBeenCalledWith([value]);
   });
 
-  // it.only('should handle Token DoubleClick', async () => {
-  //   const value = 'aaa';
+  it('should handle Token DoubleClick', async () => {
+    const value = 'aaa';
 
-  //   render(<TokenInputWithSelectedItem />);
+    render(<TokenInputWithSelectedItem />);
 
-  //   const input = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox');
 
-  //   userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
-  //   userEvent.type(input, value);
-  //   input.blur();
+    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+    userEvent.type(input, value);
+    input.blur();
 
-  //   expect(screen.queryByText('xxx')).not.toBeInTheDocument();
-  // });
+    expect(screen.queryByText('xxx')).not.toBeInTheDocument();
+  });
+
+  it('should delete token if value was deleted in editing token mode', async () => {
+    render(<TokenInputWithSelectedItem />);
+
+    const input = screen.getByRole('textbox');
+
+    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+
+    await userEvent.keyboard('[Backspace]');
+    input.blur();
+
+    expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('should render token if the token value has not changed during editing', async () => {
+    render(<TokenInputWithSelectedItem />);
+
+    const input = screen.getByRole('textbox');
+
+    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+    await delay(0);
+
+    expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
+
+    input.blur();
+
+    expect(screen.getByTestId(TokenDataTids.root)).toBeInTheDocument();
+  });
 
   it('should delete Token with Backspace', async () => {
     render(<TokenInputWithState disabledToken={'yyy'} />);
@@ -276,20 +340,20 @@ function TokenInputWithState(props: { disabledToken: string }) {
   );
 }
 
-// function TokenInputWithSelectedItem() {
-//   const [selectedItems, setSelectedItems] = useState(['xxx']);
+function TokenInputWithSelectedItem() {
+  const [selectedItems, setSelectedItems] = useState(['xxx']);
 
-//   return (
-//     <TokenInput
-//       type={TokenInputType.Combined}
-//       getItems={getItems}
-//       selectedItems={selectedItems}
-//       onValueChange={setSelectedItems}
-//       renderToken={(item, tokenProps) => (
-//         <Token key={item.toString()} {...tokenProps}>
-//           {item}
-//         </Token>
-//       )}
-//     />
-//   );
-// }
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      renderToken={(item, tokenProps) => (
+        <Token key={item.toString()} {...tokenProps}>
+          {item}
+        </Token>
+      )}
+    />
+  );
+}
