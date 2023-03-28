@@ -17,6 +17,7 @@ describe('Button', () => {
     });
   });
 
+  // {spec.button.callback}
   it('handels click event', async () => {
     const onClick = jest.fn();
 
