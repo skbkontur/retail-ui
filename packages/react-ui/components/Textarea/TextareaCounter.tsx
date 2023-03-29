@@ -47,7 +47,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     const helpIconProps = {
       onMouseDown: handleHelpMouseDown,
       color: theme.textareaCounterHelpIconColor,
-      dataTid: TextareaDataTids.helpIcon,
+      'data-tid': TextareaDataTids.helpIcon,
     };
     const helpIcon = isTheme2022(theme) ? (
       <QuestionCircleIcon16Solid disableCompensation={false} {...helpIconProps} />
