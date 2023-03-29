@@ -1935,7 +1935,7 @@ export class DefaultTheme {
     return this.borderColorWarning;
   }
   public static fileUploaderDisabledBg = '#f2f2f2';
-  public static fileUploaderDisabledBgClip = '';
+  public static fileUploaderDisabledBgClip = 'border-box';
   public static fileUploaderDisabledBorderColor = '#f2f2f2';
   public static fileUploaderDisabledTextColor = '#808080';
   public static fileUploaderDisabledLinkColor = '#808080';
@@ -1952,7 +1952,8 @@ export class DefaultTheme {
   public static fileUploaderIconGapLarge = '8px';
 
   public static fileUploaderDragOverBorderColor = '#2da4f9';
-  public static fileUploaderDragOverShadow = '0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35)';
+  public static fileUploaderDragOverShadow =
+    '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   //#endregion
 
   //#region CloseIcon
