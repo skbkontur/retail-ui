@@ -93,7 +93,6 @@ export const styles = memoizeStyle({
       box-shadow: none;
       left: -2px;
       right: -2px;
-      bottom: -2px;
     `;
   },
 
