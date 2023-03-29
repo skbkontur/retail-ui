@@ -7,7 +7,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 
 import { ButtonProps, ButtonSize } from './Button';
-import { styles } from './Button.styles';
+import { globalClasses, styles } from './Button.styles';
 
 type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
   hasChildren: boolean;
@@ -58,7 +58,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   return (
     <span
       style={style}
-      className={cx(styles.icon(), getSizeIconClassName(), {
+      className={cx(globalClasses.icon, styles.icon(), getSizeIconClassName(), {
         [styles.iconNoRightMargin()]: !hasChildren,
         [styles.iconLink(theme)]: isLink,
       })}

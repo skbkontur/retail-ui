@@ -19,6 +19,7 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
+  icon: 'icon',
 });
 
 export const styles = memoizeStyle({
@@ -57,6 +58,16 @@ export const styles = memoizeStyle({
         display: inline-block;
         vertical-align: baseline;
         width: 0;
+      }
+
+      &:hover:enabled svg {
+        color: ${t.btnIconHoverColor};
+      }
+      &:disabled svg {
+        color: ${t.btnIconDisabledColor};
+      }
+      &:enabled svg {
+        color: ${t.btnIconColor};
       }
     `;
   },
@@ -647,29 +658,18 @@ export const styles = memoizeStyle({
         }
       }
 
-      ${buttonUseMixin(
-        t.btnDefaultBg,
-        t.btnDefaultBgStart,
-        t.btnDefaultBgEnd,
-        t.btnDefaultTextColor,
-        t.btnDefaultBorderColor,
-        t.btnDefaultBorderBottomColor,
-        t.btnBorderWidth,
-      )};
-
-      color: ${t.btnDefaultTextColor};
-      background: transparent;
+      ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
       &:disabled {
         background: transparent;
       }
 
       &:hover:enabled {
-        background: ${t.btnBacklessHoverBg};
+        ${buttonHoverMixin(t.btnTextHoverBg, '', '', t.btnTextHoverBorderColor, '', t.btnBorderWidth)};
       }
 
       &:active:enabled {
-        ${activeStyles.backless(t)}
+        ${activeStyles.text(t)}
       }
     `;
   },
@@ -677,12 +677,12 @@ export const styles = memoizeStyle({
   backless(t: Theme) {
     return css`
       ${buttonUseMixin(
-        t.btnDefaultBg,
-        t.btnDefaultBgStart,
-        t.btnDefaultBgEnd,
-        t.btnDefaultTextColor,
-        t.btnDefaultBorderColor,
-        t.btnDefaultBorderBottomColor,
+        t.btnBacklessBg,
+        '',
+        '',
+        t.btnBacklessTextColor,
+        t.btnBacklessBorderColor,
+        '',
         t.btnBorderWidth,
       )};
 
@@ -690,7 +690,7 @@ export const styles = memoizeStyle({
       background: transparent;
 
       &:hover:enabled {
-        background: ${t.btnBacklessHoverBg};
+        ${buttonHoverMixin(t.btnBacklessHoverBg, '', '', t.btnBacklessHoverBorderColor, '', t.btnBorderWidth)};
       }
 
       &:active:enabled {
@@ -1052,15 +1052,9 @@ export const activeStyles = memoizeStyle({
 
   text(t: Theme) {
     return css`
-      & {
-        ${buttonActiveMixin(
-          t.btnTextActiveBg,
-          t.btnDefaultActiveShadow,
-          t.btnDefaultActiveBorderColor,
-          t.btnDefaultActiveBorderTopColor,
-          t.btnBorderWidth,
-          t.btnArrowBgImageActive,
-        )};
+      &,
+      &:hover {
+        background: ${t.btnTextActiveBg};
       }
     `;
   },

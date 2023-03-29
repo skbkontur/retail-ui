@@ -537,13 +537,39 @@ export class DefaultTheme {
   public static get btnDisabledTextColor() {
     return this.textColorDisabledContrast;
   }
+  public static btnBacklessBg = 'transparent';
   public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04)';
   public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.1) !important';
+  public static get btnBacklessBorderColor() {
+    return this.btnDefaultBorderColor;
+  }
+  public static get btnBacklessHoverBorderColor() {
+    return this.btnBacklessBorderColor;
+  }
+  public static get btnBacklessTextColor() {
+    return this.btnDefaultTextColor;
+  }
+
+  public static btnTextBg = 'transparent';
+  public static btnTextHoverBg = 'rgba(0, 0, 0, 0.04)';
   public static btnTextActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static get btnTextBorderColor() {
+    return this.btnDefaultBorderColor;
+  }
+  public static get btnTextTextColor() {
+    return this.btnDefaultTextColor;
+  }
+  public static get btnTextHoverBorderColor() {
+    return this.btnDefaultHoverBorderColor;
+  }
 
   public static btnWithIconPaddingLeftSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
   public static btnWithIconPaddingLeftLarge = '';
+
+  public static btnIconColor = '';
+  public static btnIconHoverColor = '';
+  public static btnIconDisabledColor = '';
   //#endregion
   //#region Select
   public static get selectDefaultBg() {

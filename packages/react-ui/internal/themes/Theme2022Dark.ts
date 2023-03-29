@@ -11,11 +11,43 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   public static btnOutlineColorFocus = '#fff';
 
-  public static btnDefaultBg = '#606060';
-  public static btnDefaultHoverBg = '#505050';
+  public static btnDefaultBg = 'rgba(255, 255, 255, 0.1)';
+  public static btnDefaultHoverBg = 'rgba(255, 255, 255, 0.16)';
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
-  public static btnDefaultActiveBg = '#404040';
+  public static btnDefaultActiveBg = 'rgba(255, 255, 255, 0.1)';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.06)';
+  public static btnDefaultTextColor = 'rgba(255, 255, 255, 0.87)';
+
+  public static btnBacklessBg = 'btnBacklessBg';
+  public static btnBacklessHoverBg = 'rgba(255, 255, 255, 0.1)';
+  public static btnBacklessActiveBg = 'rgba(255, 255, 255, 0.06) !important';
+  public static btnBacklessBorderColor = 'rgba(255, 255, 255, 0.16)';
+  public static btnBacklessHoverBorderColor = 'rgba(255, 255, 255, 0.1)';
+  public static btnBacklessTextColor = 'rgba(255, 255, 255, 0.87)';
+
+  public static btnTextBg = 'transparent';
+  public static btnTextHoverBg = 'rgba(255, 255, 255, 0.1)';
+  public static btnTextActiveBg = 'rgba(255, 255, 255, 0.06)';
+  public static btnTextBorderColor = 'transparent';
+
+  public static btnIconColor = 'rgba(255, 255, 255, 0.54)';
+  public static btnIconHoverColor = 'rgba(255, 255, 255, 0.87)';
+  public static get btnIconDisabledColor() {
+    return this.btnDisabledTextColor;
+  }
+
+  public static get btnWarningSecondary() {
+    return ColorFunctions.fade(this.warningMain, 0.14);
+  }
+  public static get btnErrorSecondary() {
+    return ColorFunctions.fade(this.errorMain, 0.14);
+  }
+
+  public static btnTextHoverBorderColor = 'transparent';
+  public static btnDisabledBg = 'rgba(255, 255, 255, 0.04)';
+  public static btnDisabledTextColor = 'rgba(255, 255, 255, 0.32)';
+  public static btnDisabledBorderColor = 'rgba(255, 255, 255, 0.06)';
   //#endregion
 
   //#region Link
