@@ -21,7 +21,7 @@ describe('<TokenInput />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Placeholder');
   });
 
-  it('should throw error tokenInput without getItemsp prop', () => {
+  it('should throw error without getItems prop', () => {
     const renderNoGetItems = () => render(<TokenInput />);
 
     expect(renderNoGetItems).toThrow('Missed getItems for type');
