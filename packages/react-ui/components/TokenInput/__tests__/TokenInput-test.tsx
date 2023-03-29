@@ -81,8 +81,8 @@ describe('<TokenInput />', () => {
     };
 
     it('render without LocaleProvider', async () => {
-      const props = { langCode: defaultLangCode, wrappedLocale: false };
-      render(<TokenInputWithLocaleProvider {...props} />);
+      const props = {};
+      render(<TestTokenInput {...props} />);
 
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
@@ -94,7 +94,7 @@ describe('<TokenInput />', () => {
 
     it('render default locale', async () => {
       const props = {};
-      render(<TestTokenInput {...props} />);
+      render(<TokenInputWithLocaleProvider {...props} />);
 
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
