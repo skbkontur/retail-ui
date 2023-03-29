@@ -227,7 +227,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         <CheckedIcon size={parseInt(this.theme.checkboxBoxSize)} />
       </span>
     ) : (
-      <OkIcon size={26} className={iconClass} />
+      <OkIcon className={iconClass} />
     );
     const IconSquare = _isTheme2022 ? (
       <span className={iconClass}>
