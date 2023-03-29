@@ -23,7 +23,6 @@ describe('<TokenInput />', () => {
 
   it('should throw error without getItems prop', () => {
     const renderNoGetItems = () => render(<TokenInput />);
-
     expect(renderNoGetItems).toThrow('Missed getItems for type');
   });
 
@@ -83,9 +82,7 @@ describe('<TokenInput />', () => {
     it('render without LocaleProvider', async () => {
       const props = {};
       render(<TestTokenInput {...props} />);
-
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
-
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
@@ -95,9 +92,7 @@ describe('<TokenInput />', () => {
     it('render default locale', async () => {
       const props = {};
       render(<TokenInputWithLocaleProvider {...props} />);
-
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
-
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
@@ -107,9 +102,7 @@ describe('<TokenInput />', () => {
     it('render correct locale when set langCode', async () => {
       const props = { langCode: LangCodes.en_GB };
       render(<TokenInputWithLocaleProvider {...props} />);
-
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_GB).addButtonComment;
-
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
@@ -121,7 +114,6 @@ describe('<TokenInput />', () => {
 
       const props = { locale: { TokenInput: { addButtonComment: customComment } } };
       render(<TokenInputWithLocaleProvider {...props} />);
-
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
@@ -132,10 +124,8 @@ describe('<TokenInput />', () => {
       const { rerender } = render(<TokenInputWithLocaleProvider langCode={LangCodes.en_GB} />);
 
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
-
       userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
-
       rerender(<TokenInputWithLocaleProvider langCode={LangCodes.ru_RU} />);
 
       expect(screen.getByTestId('MenuItem__comment')).toHaveTextContent(expectedComment);
@@ -215,9 +205,7 @@ describe('<TokenInput />', () => {
       />,
     );
     userEvent.type(screen.getByRole('textbox'), value);
-
     await delay(0);
-
     userEvent.click(screen.getByTestId('AddButton'));
 
     expect(onValueChange).toHaveBeenCalledWith([value]);
@@ -239,6 +227,7 @@ describe('<TokenInput />', () => {
     userEvent.type(screen.getByRole('textbox'), value);
     await delay(0);
     tokenInputRef.current?.blur();
+
     expect(onValueChange).toHaveBeenCalledWith([value]);
   });
 
@@ -246,9 +235,7 @@ describe('<TokenInput />', () => {
     const value = 'aaa';
 
     render(<TokenInputWithSelectedItem />);
-
     const input = screen.getByRole('textbox');
-
     userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
     userEvent.type(input, value);
     input.blur();
@@ -258,11 +245,8 @@ describe('<TokenInput />', () => {
 
   it('should delete token if value was deleted in editing token mode', async () => {
     render(<TokenInputWithSelectedItem />);
-
     const input = screen.getByRole('textbox');
-
     userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
-
     await userEvent.keyboard('[Backspace]');
     input.blur();
 
@@ -271,14 +255,10 @@ describe('<TokenInput />', () => {
 
   it('should render token if the token value has not changed during editing', async () => {
     render(<TokenInputWithSelectedItem />);
-
     const input = screen.getByRole('textbox');
-
     userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
     await delay(0);
-
     expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
-
     input.blur();
 
     expect(screen.getByTestId(TokenDataTids.root)).toBeInTheDocument();
@@ -304,10 +284,11 @@ describe('<TokenInput />', () => {
     render(<TokenInputWithState disabledToken={'zzz'} />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
-    await userEvent.keyboard('[ArrowLeft>3]');
-    await userEvent.keyboard('[ArrowRight>4]');
-    await userEvent.click(screen.getAllByRole('button')[0]);
-    expect(screen.getByText('aaa')).toBeInTheDocument();
+    await delay(0);
+    await userEvent.keyboard('[ArrowDown>3]');
+    await userEvent.keyboard('[ArrowUp>2]');
+    await userEvent.keyboard('{enter}');
+    expect(screen.getByText('bbb')).toBeInTheDocument();
   });
 
   it('props aria-describedby applied correctly', () => {
