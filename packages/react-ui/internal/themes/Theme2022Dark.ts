@@ -117,6 +117,21 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.inputTextColorDisabled;
   }
   //#endregion Textarea
+
+  //#region Menu
+  public static menuBgDefault = '#333333';
+
+  public static menuItemTextColor = 'rgba(255, 255, 255, 0.87)';
+  public static menuItemHoverBg = 'rgba(255, 255, 255, 0.16)';
+  public static menuItemSelectedBg = 'rgba(255, 255, 255, 0.1)';
+
+  public static menuItemCommentColor = 'rgba(255, 255, 255, 0.54)';
+  public static menuItemCommentOpacity = '1';
+
+  public static menuSeparatorBorderColor = 'rgba(255, 255, 255, 0.1)';
+
+  public static menuItemDisabledColor = 'rgba(255, 255, 255, 0.32)';
+  //#endregion Menu
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(

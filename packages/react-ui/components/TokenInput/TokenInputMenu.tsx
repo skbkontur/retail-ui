@@ -32,6 +32,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
               value={ThemeFactory.create(
                 {
                   popupMargin: this.getPopupMargin() + 'px',
+                  popupBackground: 'transparent',
                 },
                 theme,
               )}
