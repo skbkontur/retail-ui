@@ -94,6 +94,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static inputBorderColorError = 'rgba(238, 80, 66, 1)';
   public static inputOutlineWidth = '1px';
 
+  public static inputTextColorDisabled = 'rgba(255, 255, 255, 0.32)';
   public static inputDisabledBg = 'rgba(255, 255, 255, 0.04)';
   public static inputDisabledBorderColor = 'rgba(255, 255, 255, 0.04)';
   //#endregion Input
@@ -101,6 +102,21 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region TokenInput
   public static inputDisabledBackgroundClip = 'border-box';
   //#endregion TokenInput
+
+  //#region Textarea
+  public static get textareaBorderColorFocus() {
+    return this.inputBorderColorFocus;
+  }
+  public static get textareaDisabledBorderColor() {
+    return this.inputDisabledBorderColor;
+  }
+  public static get textareaBorderColor() {
+    return this.inputBorderColor;
+  }
+  public static get textareaTextColorDisabled() {
+    return this.inputTextColorDisabled;
+  }
+  //#endregion Textarea
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(

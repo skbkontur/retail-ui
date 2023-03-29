@@ -1543,6 +1543,9 @@ export class DefaultTheme {
   public static get textareaBorderColorFocus() {
     return this.borderColorFocus;
   }
+  public static get textareaBorderColorHover() {
+    return this.inputBorderColorHover;
+  }
   public static get textareaBorderColorWarning() {
     return this.borderColorWarning;
   }

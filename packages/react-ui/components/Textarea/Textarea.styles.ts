@@ -60,6 +60,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  hovering(t: Theme) {
+    return css`
+      &:enabled:hover:not(:focus) {
+        border-color: ${t.textareaBorderColorHover};
+      }
+    `;
+  },
+
   error(t: Theme) {
     return css`
       border-color: ${t.textareaBorderColorError};
