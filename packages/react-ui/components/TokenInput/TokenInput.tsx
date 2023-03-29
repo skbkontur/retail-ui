@@ -35,7 +35,6 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { getUid } from '../../lib/uidUtils';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
@@ -367,17 +366,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const labelClassName = cx(styles.label(theme), {
+      [styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
       [styles.labelDisabled(theme)]: !!disabled,
       [styles.labelFocused(theme)]: !!inFocus,
       [styles.error(theme)]: !!error,
       [styles.warning(theme)]: !!warning,
     });
-    const labelInlineStyle = {
-      width,
-      // `background` rule in styles overrides `background-clip`
-      // fix it only on Theme2022 for backwards compatibility
-      ...(isTheme2022(this.theme) ? { backgroundClip: 'padding-box' } : {}),
-    };
     const inputClassName = cx(styles.input(theme), {
       [styles.inputDisabled(theme)]: !!disabled,
       [styles.inputEditing(theme)]: this.isEditingMode,
@@ -388,7 +382,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
-            style={labelInlineStyle}
+            style={{ width }}
             className={labelClassName}
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}

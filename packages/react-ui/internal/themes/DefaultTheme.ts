@@ -252,6 +252,9 @@ export class DefaultTheme {
   public static get tokenInputBorderColor() {
     return this.inputBorderColor;
   }
+  public static get tokenInputBorderColorHover() {
+    return this.inputBorderColorHover;
+  }
   public static get tokenInputBorderColorFocus() {
     return this.inputBorderColorFocus;
   }
@@ -1364,11 +1367,16 @@ export class DefaultTheme {
   public static get inputOutlineWidth() {
     return `calc(${this.controlOutlineWidth} - 1px)`;
   }
+  public static inputBackgroundClip = 'padding-box';
   public static inputBorderRadiusSmall = '0px';
   public static inputBorderRadiusMedium = '0px';
   public static inputBorderRadiusLarge = '0px';
+  public static inputDisabledBackgroundClip = '';
   public static get inputBorderColor() {
     return this.borderColorGrayLight;
+  }
+  public static get inputBorderColorHover() {
+    return this.inputBorderColor;
   }
   public static get inputBorderColorFocus() {
     return this.borderColorFocus;

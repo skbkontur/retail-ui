@@ -119,6 +119,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get inputBorderTopColor() {
     return this.inputBorderColor;
   }
+  public static inputBorderColorHover = 'rgba(0, 0, 0, 0.32)';
 
   public static inputBorderRadiusSmall = '2px';
   public static inputBorderRadiusMedium = '2px';
@@ -133,6 +134,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static inputIconSizeLarge = '24px';
 
   public static inputBlinkColor = 'rgba(61, 61, 61, 0.2)';
+
+  public static inputDisabledBackgroundClip = 'padding-box';
   //#endregion
 
   //#region Textarea

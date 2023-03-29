@@ -316,7 +316,8 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const labelProps = {
       className: cx(styles.root(this.theme), this.getSizeClassName(), {
-        [styles.focus(this.theme)]: focused,
+        [styles.focus(this.theme)]: focused && !warning && !error,
+        [styles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
         [styles.blink(this.theme)]: blinking,
         [styles.borderless()]: borderless && !focused,
         [styles.disabled(this.theme)]: disabled,
