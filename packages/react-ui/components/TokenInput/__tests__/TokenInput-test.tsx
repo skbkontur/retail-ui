@@ -232,15 +232,11 @@ describe('<TokenInput />', () => {
   });
 
   it('should handle Token DoubleClick', async () => {
-    const value = 'aaa';
-
     render(<TokenInputWithSelectedItem />);
-    const input = screen.getByRole('textbox');
-    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
-    userEvent.type(input, value);
-    input.blur();
-
-    expect(screen.queryByText('xxx')).not.toBeInTheDocument();
+    const token = screen.getByTestId(TokenDataTids.root);
+    expect(token).toBeInTheDocument();
+    userEvent.dblClick(token);
+    expect(token).not.toBeInTheDocument();
   });
 
   it('should delete token if value was deleted in editing token mode', async () => {
