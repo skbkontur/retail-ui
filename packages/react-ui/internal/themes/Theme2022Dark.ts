@@ -16,7 +16,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
   public static btnDefaultActiveBg = 'rgba(255, 255, 255, 0.1)';
-  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.06)';
+  public static btnDefaultBorderColor = 'rgba(255, 255, 255, 0.14)';
   public static btnDefaultTextColor = 'rgba(255, 255, 255, 0.87)';
 
   public static btnBacklessBg = 'btnBacklessBg';

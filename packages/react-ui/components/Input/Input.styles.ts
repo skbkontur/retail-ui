@@ -63,6 +63,7 @@ export const styles = memoizeStyle({
     return css`
       box-shadow: none;
       border-color: transparent;
+      background-clip: padding-box;
     `;
   },
 
