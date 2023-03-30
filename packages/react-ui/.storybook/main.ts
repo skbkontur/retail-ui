@@ -21,6 +21,7 @@ module.exports = {
   },
   features: {
     postcss: false,
+    buildStoriesJson: true,
   },
   managerWebpack: (config) => {
     config.module.rules.push({

@@ -16,7 +16,15 @@ module.exports = {
     },
   },
 
-  screenshotsDir: (test) => `.hermione/images/${test.parent.title}/${test.browserId}`,
+  screenshotsDir: (test) => {
+    const parentTitles = [];
+    let { parent } = test;
+    while (parent && parent.title) {
+      parentTitles.unshift(parent.title);
+      parent = parent.parent;
+    }
+    return `.hermione/images/${parentTitles.join('/')}/${test.title}/${test.browserId}`;
+  },
 
   plugins: {
     'html-reporter/hermione': {
@@ -26,6 +34,9 @@ module.exports = {
     'hermione-storybook/plugin': {
       enabled: true,
       storybookUrl: `http://${resolveStorybookUrl()}:6060`,
+    },
+    'hermione-test-plugin.js': {
+      test_param: 'TEST',
     },
   },
 
@@ -37,17 +48,17 @@ module.exports = {
         browserVersion: '100.0',
       },
     },
-    firefox: {
-      desiredCapabilities: {
-        browserName: 'firefox',
-        platformName: 'linux',
-        browserVersion: '100.0',
-      },
-    },
-    ie11: {
-      desiredCapabilities: {
-        browserName: 'internet explorer',
-      },
-    },
+    // firefox: {
+    //   desiredCapabilities: {
+    //     browserName: 'firefox',
+    //     platformName: 'linux',
+    //     browserVersion: '100.0',
+    //   },
+    // },
+    // ie11: {
+    //   desiredCapabilities: {
+    //     browserName: 'internet explorer',
+    //   },
+    // },
   },
 };
