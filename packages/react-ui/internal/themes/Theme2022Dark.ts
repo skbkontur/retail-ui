@@ -172,6 +172,16 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static radioCheckedBulletColor = 'rgba(0, 0, 0, 0.87)';
   public static radioCheckedBorderColor = 'transparent';
   //#endregion Radio
+
+  //#region Checkbox
+  public static checkboxCheckedBg = '#EBEBEB';
+  public static checkboxCheckedColor = 'rgba(0, 0, 0, 0.87)';
+  public static checkboxHoverBg = 'rgba(255, 255, 255, 0.16)';
+  public static get checkboxCheckedHoverBg() {
+    return this.checkboxCheckedBg;
+  }
+  public static checkboxOutlineColorFocus = 'rgba(0, 0, 0, 0.87)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
