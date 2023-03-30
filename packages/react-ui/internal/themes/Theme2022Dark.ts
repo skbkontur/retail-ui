@@ -182,6 +182,13 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   }
   public static checkboxOutlineColorFocus = 'rgba(0, 0, 0, 0.87)';
   //#endregion
+
+  //#region Toggle
+  public static toggleBg = 'rgba(255, 255, 255, 0.1)';
+  public static toggleBaseBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toggleHandleBg = 'rgba(255, 255, 255, 0.32)';
+  public static toggleBgHover = 'rgba(255, 255, 255, 0.32)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
