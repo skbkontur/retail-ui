@@ -4,12 +4,15 @@ import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme2022Internal } from './Theme2022';
 
 export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
+  public static borderColorFocus = '#EBEBEB';
+  public static outlineColorFocus = '#EBEBEB';
+
   //#region Button
   public static btnLinkColor = '#ddd';
   public static btnLinkHoverColor = '#eee';
   public static btnLinkActiveColor = '#fff';
 
-  public static btnOutlineColorFocus = '#fff';
+  public static btnFocusShadowWidth = '1px';
 
   public static btnDefaultBg = 'rgba(255, 255, 255, 0.1)';
   public static btnDefaultHoverBg = 'rgba(255, 255, 255, 0.16)';
@@ -158,6 +161,17 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.1)';
   public static fileUploaderDragOverShadow = '0px 0px 0px 4px #EBEBEB';
   //#endregion FileUploader
+
+  //#region Radio
+  public static radioFocusShadow = 'inset 0 0 0 1px rgba(0, 0, 0, 0.87)';
+
+  public static radioDisabledBg = 'rgba(255, 255, 255, 0.04)';
+  public static radioCheckedDisabledBulletBg = 'rgba(255, 255, 255, 0.16)';
+
+  public static radioCheckedBgColor = '#FFFFFF';
+  public static radioCheckedBulletColor = 'rgba(0, 0, 0, 0.87)';
+  public static radioCheckedBorderColor = 'transparent';
+  //#endregion Radio
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(

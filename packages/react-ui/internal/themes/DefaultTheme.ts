@@ -1653,6 +1653,9 @@ export class DefaultTheme {
   public static radioCaptionDisplay = 'inline-flex';
   public static radioBorderWidthCompensation = '0px';
   public static radioCircleOffsetY = '1px';
+  public static get radioCheckedDisabledBulletBg() {
+    return this.gray;
+  }
   //#endregion
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';
