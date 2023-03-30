@@ -285,7 +285,22 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActive = '#323232';
   public static tokenBorderRadius = '2px';
 
+  public static tokenPaddingY = '0';
   public static tokenMarginX = '2px';
+  public static tokenOutlineWidth = '1px';
+
+  public static tokenShadowDisabled = '';
+  public static tokenBorderColorDisabled = 'transparent';
+
+  public static tokenDefaultIdleColor = '#222222';
+  public static tokenDefaultIdleBg = 'rgba(0, 0, 0, 0.1)';
+  public static tokenDefaultIdleBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static tokenDefaultIdleColorHover = '#222222';
+  public static tokenDefaultIdleBgHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenDefaultIdleBorderColorHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenDefaultActiveColor = '#FFFFFF';
+  public static tokenDefaultActiveBg = '#3D3D3D';
+  public static tokenDefaultActiveBorderColor = 'transparent';
   //#endregion
 
   //#region DateInput

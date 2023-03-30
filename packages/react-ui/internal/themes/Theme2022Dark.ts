@@ -132,6 +132,21 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   public static menuItemDisabledColor = 'rgba(255, 255, 255, 0.32)';
   //#endregion Menu
+
+  //#region Token
+  public static tokenShadowDisabled = '';
+  public static tokenBorderColorDisabled = 'transparent';
+
+  public static tokenDefaultIdleColor = 'rgba(255, 255, 255, 0.865)';
+  public static tokenDefaultIdleBg = 'rgba(255, 255, 255, 0.1)';
+  public static tokenDefaultIdleBorderColor = 'rgba(255, 255, 255, 0.06)';
+  public static tokenDefaultIdleColorHover = 'rgba(255, 255, 255, 0.87)';
+  public static tokenDefaultIdleBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static tokenDefaultIdleBorderColorHover = 'rgba(255, 255, 255, 0.06)';
+  public static tokenDefaultActiveColor = 'rgba(0, 0, 0, 0.87)';
+  public static tokenDefaultActiveBg = '#EBEBEB';
+  public static tokenDefaultActiveBorderColor = 'transparent';
+  //#endregion Token
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(

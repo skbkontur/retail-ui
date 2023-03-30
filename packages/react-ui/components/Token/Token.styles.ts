@@ -26,25 +26,60 @@ export const styles = memoizeStyle({
     `;
   },
 
-  tokenIdleHover2022(t: Theme) {
+  tokenDefaultIdle2022(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(t.tokenDefaultIdle, '5%')};
+      color: ${t.tokenDefaultIdleColor};
+      background: ${t.tokenDefaultIdleBg};
+      border: solid ${t.tokenBorderWidth} ${t.tokenDefaultIdleBorderColor};
+      background-clip: border-box;
+    `;
+  },
 
+  tokenDefaultIdleHovering2022(t: Theme) {
+    return css`
       &:hover {
-        background: rgba(0, 0, 0, 0.16);
+        color: ${t.tokenDefaultIdleColorHover};
+        background: ${t.tokenDefaultIdleBgHover};
+        border: solid ${t.tokenBorderWidth} ${t.tokenDefaultIdleBorderColorHover};
       }
     `;
   },
 
-  tokenIdleError2022(t: Theme) {
+  tokenDefaultActive2022(t: Theme) {
     return css`
+      color: ${t.tokenDefaultActiveColor};
+      background: ${t.tokenDefaultActiveBg};
+      border: solid ${t.tokenBorderWidth} ${t.tokenDefaultActiveBorderColor};
+    `;
+  },
+
+  tokenError2022(t: Theme) {
+    return css`
+      border: solid ${t.tokenBorderWidth} ${t.tokenBorderColorError};
       box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError};
     `;
   },
 
-  tokenIdleWarning2022(t: Theme) {
+  tokenWarning2022(t: Theme) {
     return css`
+      border: solid ${t.tokenBorderWidth} ${t.tokenBorderColorWarning};
       box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning};
+    `;
+  },
+
+  tokenDisabled2022(t: Theme) {
+    return css`
+      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
+      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
+      user-select: text;
+      cursor: text;
+      color: ${t.tokenTextColorDisabled};
+      pointer-events: none;
+      border: solid 1px ${t.tokenBorderColorDisabled};
+
+      .${globalClasses.removeIcon} {
+        visibility: hidden;
+      }
     `;
   },
 
