@@ -180,7 +180,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             <ResponsiveLayout>
               {({ isMobile }) => (
                 <>
-                  {blockBackground && this.renderShadow()}
+                  {!isMobile && blockBackground && this.renderShadow()}
                   <CSSTransition
                     in
                     classNames={this.getTransitionNames()}

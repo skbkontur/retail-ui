@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 //import { mount, ReactWrapper } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { HTMLProps } from 'react-ui/typings/html-props';
+import { HTMLProps } from 'react-ui/typings/html';
 
 import { MenuMessage } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
@@ -1385,7 +1385,6 @@ describe('ComboBox', () => {
   });
 
   it('props aria-describedby applied correctly on InputLikeText', () => {
-
     render(
       <div>
         <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
