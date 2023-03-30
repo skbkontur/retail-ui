@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { Hint } from '../Hint';
 
@@ -11,6 +11,10 @@ describe('Hint', () => {
 
     const hintChildren = screen.getByText(hintChildrenText);
     expect(hintChildren).toBeInTheDocument();
+  });
+
+  it('should render with empty hint content', () => {
+    expect(() => render(<Hint text={null}>Test</Hint>)).not.toThrow();
   });
 
   it('should not open be controlled manually without `manual` prop passed', () => {
@@ -50,5 +54,61 @@ describe('Hint', () => {
 
     const hintContentUpdated = screen.getByText(hintText);
     expect(hintContentUpdated).toBeInTheDocument();
+  });
+
+  it('handels onMouseEnter event', () => {
+    const onMouseEnter = jest.fn();
+    const hintChildrenText = 'Hello';
+    render(
+      <Hint text="world" onMouseEnter={onMouseEnter}>
+        {hintChildrenText}
+      </Hint>,
+    );
+
+    userEvent.type(screen.getByText(hintChildrenText), '{mouseenter}');
+
+    expect(onMouseEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onMouseLeave event', () => {
+    const onMouseLeave = jest.fn();
+    const hintChildrenText = 'Hello';
+    render(
+      <Hint text="world" onMouseLeave={onMouseLeave}>
+        {hintChildrenText}
+      </Hint>,
+    );
+
+    fireEvent.mouseLeave(screen.getByText(hintChildrenText));
+
+    expect(onMouseLeave).toHaveBeenCalledTimes(1);
+  });
+
+  it('clears timer after unmount', () => {
+    jest.useFakeTimers();
+    jest.spyOn(window, 'setTimeout');
+    jest.spyOn(window, 'clearTimeout');
+
+    const hintRef = React.createRef<Hint>();
+
+    const { unmount } = render(
+      <Hint text="Hello" ref={hintRef}>
+        Anchor
+      </Hint>,
+    );
+
+    // @ts-expect-error: Use of private property.
+    expect(hintRef.current.timer).toBeNull();
+
+    userEvent.type(screen.getByText('Anchor'), '{mouseenter}');
+
+    // @ts-expect-error: Use of private property.
+    const { timer } = hintRef.current;
+
+    expect(timer).not.toBeNull();
+
+    unmount();
+
+    expect(clearTimeout).toHaveBeenCalledWith(timer);
   });
 });
