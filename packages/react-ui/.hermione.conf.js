@@ -8,7 +8,7 @@ const resolveStorybookUrl = () => {
 };
 
 module.exports = {
-  gridUrl: process.env.GRID_URL,
+  gridUrl: process.env.GRID_URL_HERMIONE,
 
   sets: {
     common: {
@@ -26,6 +26,12 @@ module.exports = {
     return `.hermione/images/${parentTitles.join('/')}/${test.title}/${test.browserId}`;
   },
 
+  takeScreenshotOnFails: {
+    testFail: false,
+  },
+
+  retry: 5,
+
   plugins: {
     'html-reporter/hermione': {
       enabled: true,
@@ -35,11 +41,7 @@ module.exports = {
       enabled: true,
       storybookUrl: `http://${resolveStorybookUrl()}:6060`,
     },
-    'hermione-test-plugin.js': {
-      test_param: 'TEST',
-    },
   },
-
   browsers: {
     chrome: {
       desiredCapabilities: {
@@ -48,17 +50,17 @@ module.exports = {
         browserVersion: '100.0',
       },
     },
-    // firefox: {
-    //   desiredCapabilities: {
-    //     browserName: 'firefox',
-    //     platformName: 'linux',
-    //     browserVersion: '100.0',
-    //   },
-    // },
-    // ie11: {
-    //   desiredCapabilities: {
-    //     browserName: 'internet explorer',
-    //   },
-    // },
+    firefox: {
+      desiredCapabilities: {
+        browserName: 'firefox',
+        platformName: 'linux',
+        browserVersion: '100.0',
+      },
+    },
+    ie11: {
+      desiredCapabilities: {
+        browserName: 'internet explorer',
+      },
+    },
   },
 };

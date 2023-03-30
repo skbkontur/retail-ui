@@ -23,7 +23,13 @@ describe('button', () => {
 
   describe('playground-default', () => {
     beforeEach(async ({ browser }) => {
-      await browser.selectStory('button--playground-default');
+      const storyId = 'button--playground-default';
+      const url = await browser.getUrl(); // FIXME
+      if (new URL(url).searchParams.get('id') === storyId) {
+        await browser.refresh();
+      } else {
+        await browser.selectStory(storyId);
+      }
     });
 
     buttonTests();
@@ -31,7 +37,13 @@ describe('button', () => {
 
   describe('playground-disabled', () => {
     beforeEach(async ({ browser }) => {
-      await browser.selectStory('button--playground-disabled');
+      const storyId = 'button--playground-disabled';
+      const url = await browser.getUrl(); // FIXME
+      if (new URL(url).searchParams.get('id') === storyId) {
+        await browser.refresh();
+      } else {
+        await browser.selectStory(storyId);
+      }
     });
 
     buttonTests();

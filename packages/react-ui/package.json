@@ -45,7 +45,8 @@
     "creevey:ui": "yarn creevey --ui",
     "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html",
     "hermione": "hermione --config ./.hermione.conf.js",
-    "hermione:ui": "hermione gui"
+    "hermione:ui": "hermione gui",
+    "hermione:ci": "start-server-and-test storybook:test http://localhost:6060 hermione"
   },
   "license": "MIT",
   "dependencies": {
@@ -145,6 +146,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.5",
     "serve": "^13.0.2",
+    "start-server-and-test": "^2.0.0",
     "style-loader": "^2.0.0",
     "stylelint": "^14.2.0",
     "stylelint-config-standard": "^24.0.0",

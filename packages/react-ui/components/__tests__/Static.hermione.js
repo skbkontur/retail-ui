@@ -24,7 +24,7 @@ Promise.resolve([
     const [kind, story] = id.split('--');
     describe(kind, async () => {
       it(story, async function () {
-        await this.browser.selectStory(`${kind}--${story}`);
+        await this.browser.selectStory(kind + '--' + story);
         await this.browser.assertView('$static', '#test-element');
       });
     });

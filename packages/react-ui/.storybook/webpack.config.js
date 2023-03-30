@@ -22,7 +22,7 @@ module.exports = async ({ config, mode }) => {
     {
       test: /\.(j|t)sx?$/,
       loader: 'babel-loader',
-      exclude: /node_modules/,
+      exclude: /node_modules\/(?!(hermione-storybook))\/.*\.js$/,
       options: {
         babelrc: false,
         envName: 'cjs',
