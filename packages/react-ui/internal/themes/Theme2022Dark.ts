@@ -80,6 +80,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion Link
 
   //#region Input
+  public static inputBlinkColor = 'rgba(255, 255, 255, 0.865)';
   public static inputTextColor = 'rgba(255, 255, 255, 0.865)';
   public static inputBg = 'rgba(255, 255, 255, 0.1)';
   public static inputBorderColor = 'rgba(255, 255, 255, 0.06)';
@@ -147,6 +148,16 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static tokenDefaultActiveBg = '#EBEBEB';
   public static tokenDefaultActiveBorderColor = 'transparent';
   //#endregion Token
+
+  //#region FileUploader
+  public static fileUploaderBg = 'rgba(255, 255, 255, 0.1)';
+  public static fileUploaderHoveredBg = 'rgba(255, 255, 255, 0.16)';
+  public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.87)';
+  public static fileUploaderLinkColor = 'rgba(255, 255, 255, 0.87)';
+  public static fileUploaderAfterLinkColor = 'rgba(255, 255, 255, 0.54)';
+  public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.1)';
+  public static fileUploaderDragOverShadow = '0px 0px 0px 4px #EBEBEB';
+  //#endregion FileUploader
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(

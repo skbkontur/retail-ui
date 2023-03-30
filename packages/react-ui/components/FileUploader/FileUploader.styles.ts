@@ -46,7 +46,6 @@ const styles = {
     return css`
       display: inline-block;
       position: relative;
-      background-color: ${t.fileUploaderBg};
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
@@ -189,7 +188,7 @@ const styles = {
     return css`
       cursor: default;
       background: ${t.fileUploaderDisabledBg};
-      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
+      border: ${t.fileUploaderDisabledBorder};
       color: ${t.fileUploaderDisabledTextColor};
       box-shadow: none;
       background-clip: ${t.fileUploaderDisabledBgClip};

@@ -251,7 +251,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderLinkHoverTextDecoration = 'none';
   public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
-  public static fileUploaderDisabledBorderColor = 'rgba(0, 0, 0, 0.08)';
+  public static fileUploaderDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static fileUploaderHoveredBorderColor = 'transparent';
   public static get fileUploaderDisabledBg() {
     return this.btnDisabledBg;
@@ -262,6 +262,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.borderColorFocus;
   }
   public static fileUploaderDragOverShadow = '0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35)';
+  public static get fileUploaderDisabledBorder() {
+    return `${this.fileUploaderBorderWidth} ${this.fileUploaderBorderStyle} ${this.fileUploaderDisabledBorderColor}`;
+  }
   //#endregion
 
   //#region Toast

@@ -1936,6 +1936,9 @@ export class DefaultTheme {
   public static get fileUploaderBorderWidth() {
     return this.controlBorderWidth;
   }
+  public static get fileUploaderDisabledBorder() {
+    return `${this.fileUploaderBorderWidth} solid ${this.fileUploaderDisabledBorderColor}`;
+  }
   public static fileUploaderBorderStyle = 'dashed';
   public static get fileUploaderBorderColorFocus() {
     return this.borderColorFocus;
