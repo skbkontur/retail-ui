@@ -346,6 +346,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '2px';
+  public static tokenInputMenuPopupBg = 'transparent';
 
   //#region Toggle
   public static toggleHandleSize = '14px';

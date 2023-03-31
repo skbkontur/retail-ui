@@ -299,6 +299,9 @@ export class DefaultTheme {
   public static get tokenInputBg() {
     return this.inputBg;
   }
+  public static get tokenInputMenuPopupBg() {
+    return this.bgSecondary;
+  }
   public static get tokenInputShadow() {
     return this.inputShadow;
   }
