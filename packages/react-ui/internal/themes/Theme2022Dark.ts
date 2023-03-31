@@ -211,6 +211,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region Hint
   public static hintBgColor = 'rgba(67, 67, 67, 0.92)';
   //#endregion
+
+  //#region Tooltip
+  public static tooltipBg = '#333333';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
