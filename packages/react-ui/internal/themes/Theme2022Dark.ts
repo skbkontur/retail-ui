@@ -207,6 +207,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toastLinkBgHover = 'rgba(255, 255, 255, 0.16)';
   public static toastLinkBgActive = '';
   //#endregion
+
+  //#region Hint
+  public static hintBgColor = 'rgba(67, 67, 67, 0.92)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
