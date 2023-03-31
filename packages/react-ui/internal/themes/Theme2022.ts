@@ -271,6 +271,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#region Toast
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
   public static toastLinkColor = '#fff';
+  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
+  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.87)';
+  public static toastLinkTextDecorationHover = '';
   public static toastBorderRadius = '8px';
   public static toastCloseSize = '16px';
   public static toastClosePadding = '14px';

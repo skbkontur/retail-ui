@@ -201,6 +201,12 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region Tab, Tabs
   public static tabColorHover = 'rgba(255, 255, 255, 0.16)';
   //#endregion
+
+  //#region Toast
+  public static toastBg = 'rgba(67, 67, 67, 0.92)';
+  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toastLinkBgActive = '';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(

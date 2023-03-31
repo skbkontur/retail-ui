@@ -1042,6 +1042,9 @@ export class DefaultTheme {
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#8fcdff';
+  public static toastLinkTextDecorationHover = 'underline';
+  public static toastLinkBgHover = '';
+  public static toastLinkBgActive = '';
   public static toastClosePadding = '16px';
   public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
   public static toastCloseHoverColor = 'white';
