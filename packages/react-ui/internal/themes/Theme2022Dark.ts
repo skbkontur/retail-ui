@@ -197,6 +197,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region SideMenu
   public static sidePageBgDefault = '#323232';
   //#endregion
+
+  //#region Tab, Tabs
+  public static tabColorHover = 'rgba(255, 255, 255, 0.16)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
