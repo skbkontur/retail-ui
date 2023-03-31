@@ -1,5 +1,9 @@
-describe('button', () => {
+describe('Button', () => {
   const buttonTests = () => {
+    it('idle', async function () {
+      await this.browser.assertView('idle', '#test-element');
+    });
+
     it('hover', async function () {
       await this.browser.$('[data-tid~="test-button"]').moveTo();
       await this.browser.assertView('hover', '#test-element');
@@ -12,7 +16,7 @@ describe('button', () => {
 
     it('clicked', async function () {
       await this.browser.$('[data-tid~="test-button"]').click();
-      await this.browser.assertView('pressed', '#test-element');
+      await this.browser.assertView('clicked', '#test-element');
     });
 
     it('tabPress', async function () {
@@ -21,7 +25,7 @@ describe('button', () => {
     });
   };
 
-  describe('playground-default', () => {
+  describe('Playground Default', () => {
     beforeEach(async ({ browser }) => {
       const storyId = 'button--playground-default';
       const url = await browser.getUrl(); // FIXME
@@ -35,7 +39,7 @@ describe('button', () => {
     buttonTests();
   });
 
-  describe('playground-disabled', () => {
+  describe('Playground Disabled', () => {
     beforeEach(async ({ browser }) => {
       const storyId = 'button--playground-disabled';
       const url = await browser.getUrl(); // FIXME

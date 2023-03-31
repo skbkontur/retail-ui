@@ -23,14 +23,16 @@ module.exports = {
       parentTitles.unshift(parent.title);
       parent = parent.parent;
     }
-    return `.hermione/images/${parentTitles.join('/')}/${test.title}/${test.browserId}`;
+    return `.hermione/images2/${parentTitles.join('/')}/${test.title}/${test.browserId}`;
   },
 
   takeScreenshotOnFails: {
     testFail: false,
   },
 
-  retry: 5,
+  windowSize: '1024x720',
+
+  retry: process.env.TEAMCITY_VERSION ? 5 : 0,
 
   plugins: {
     'html-reporter/hermione': {
