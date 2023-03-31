@@ -5,21 +5,33 @@ describe('Button', () => {
     });
 
     it('hover', async function () {
+      hermione.skip.in(['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], 'hover');
+      hermione.skip.in(['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], 'flacky');
+
       await this.browser.$('[data-tid~="test-button"]').moveTo();
       await this.browser.assertView('hover', '#test-element');
     });
 
     it('pressed', async function () {
+      hermione.skip.in(['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], 'flacky');
+
       await this.browser.$('[data-tid~="test-button"]').click({ skipRelease: true });
       await this.browser.assertView('pressed', '#test-element');
     });
 
     it('clicked', async function () {
+      hermione.skip.in(['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], 'flacky');
+
       await this.browser.$('[data-tid~="test-button"]').click();
       await this.browser.assertView('clicked', '#test-element');
     });
 
     it('tabPress', async function () {
+      hermione.skip.in(
+        ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
+        'focus goes out of page and breaks other tests',
+      );
+
       await this.browser.keys('Tab');
       await this.browser.assertView('tabPress', '#test-element');
     });

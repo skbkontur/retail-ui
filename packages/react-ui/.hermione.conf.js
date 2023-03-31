@@ -43,7 +43,7 @@ module.exports = {
       enabled: true,
       storybookUrl: `http://${resolveStorybookUrl()}:6060`,
     },
-    'teamcity-reporter': true,
+    'teamcity-reporter': process.env.TEAMCITY_VERSION ? true : false,
   },
   browsers: {
     chrome: {
