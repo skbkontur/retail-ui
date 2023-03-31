@@ -41,6 +41,7 @@ module.exports = {
       enabled: true,
       storybookUrl: `http://${resolveStorybookUrl()}:6060`,
     },
+    'teamcity-reporter': true,
   },
   browsers: {
     chrome: {
