@@ -189,6 +189,14 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toggleHandleBg = 'rgba(255, 255, 255, 0.32)';
   public static toggleBgHover = 'rgba(255, 255, 255, 0.32)';
   //#endregion
+
+  //#region Modal
+  public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.16)';
+  //#endregion
+
+  //#region SideMenu
+  public static sidePageBgDefault = '#323232';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
