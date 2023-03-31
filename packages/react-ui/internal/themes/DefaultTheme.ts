@@ -1888,6 +1888,7 @@ export class DefaultTheme {
   //#region FileUploader
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '#fff';
+  public static fileUploaderUploadButtonBg = '';
   public static get fileUploaderFontSize() {
     return this.fontSizeSmall;
   }
@@ -1952,9 +1953,7 @@ export class DefaultTheme {
   public static get fileUploaderLinkColor() {
     return this.linkColor;
   }
-  public static get fileUploaderAfterLinkColor() {
-    return this.fileUploaderTextColorDefault;
-  }
+  public static fileUploaderAfterLinkColor = '';
   public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#808080';
   public static fileUploaderIconHoverColor = '#333';
@@ -1965,7 +1964,7 @@ export class DefaultTheme {
     return this.borderColorWarning;
   }
   public static fileUploaderDisabledBg = '#f2f2f2';
-  public static fileUploaderDisabledBgClip = 'border-box';
+  public static fileUploaderDisabledBgClip = '';
   public static fileUploaderDisabledBorderColor = '#f2f2f2';
   public static fileUploaderDisabledTextColor = '#808080';
   public static fileUploaderDisabledLinkColor = '#808080';
@@ -1974,14 +1973,14 @@ export class DefaultTheme {
     return this.linkHoverTextDecoration;
   }
   public static fileUploaderHoveredBg = 'none';
-  public static get fileUploaderHoveredBorderColor() {
-    return this.fileUploaderBorderColor;
-  }
+  public static fileUploaderHoveredBorderColor = '';
   public static fileUploaderIconGapSmall = '4px';
   public static fileUploaderIconGapMedium = '6px';
   public static fileUploaderIconGapLarge = '8px';
 
-  public static fileUploaderDragOverBorderColor = '#2da4f9';
+  public static get fileUploaderDragOverBorderColor() {
+    return this.borderColorFocus;
+  }
   public static fileUploaderDragOverShadow = '0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35)';
   //#endregion
 

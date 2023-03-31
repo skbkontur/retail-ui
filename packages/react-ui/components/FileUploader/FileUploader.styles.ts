@@ -49,6 +49,7 @@ const styles = {
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
+      background-color: ${t.fileUploaderBg};
     `;
   },
 
@@ -65,7 +66,7 @@ const styles = {
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
       transition: box-shadow 0.3s ease;
-      background-color: ${t.fileUploaderBg};
+      background-color: ${t.fileUploaderUploadButtonBg};
     `;
   },
 

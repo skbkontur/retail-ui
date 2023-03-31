@@ -257,6 +257,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.btnDisabledBg;
   }
   public static fileUploaderBg = '';
+  public static fileUploaderUploadButtonBg = '#fff';
   public static fileUploaderDisabledBgClip = 'padding-box';
   public static get fileUploaderDragOverBorderColor() {
     return this.borderColorFocus;
