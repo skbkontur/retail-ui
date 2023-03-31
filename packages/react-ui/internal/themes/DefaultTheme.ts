@@ -1979,8 +1979,7 @@ export class DefaultTheme {
   public static fileUploaderIconGapLarge = '8px';
 
   public static fileUploaderDragOverBorderColor = '#2da4f9';
-  public static fileUploaderDragOverShadow =
-    '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
+  public static fileUploaderDragOverShadow = '0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35)';
   //#endregion
 
   //#region CloseIcon
