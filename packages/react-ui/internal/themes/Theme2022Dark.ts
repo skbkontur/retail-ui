@@ -215,6 +215,12 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region Tooltip
   public static tooltipBg = '#333333';
   //#endregion
+
+  //#region Paging
+  public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
+  public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
+  public static pagingForwardLinkColor = 'rgba(255, 255, 255, 0.87)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
