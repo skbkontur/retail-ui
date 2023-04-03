@@ -62,14 +62,11 @@ const MOBILE_REGEXP = /Mobile.*/i;
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
     const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
-    const root = document.getElementById('root');
 
-    if (root) {
-      if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
-        root.parentElement?.classList.add('dark');
-      } else {
-        root.parentElement?.classList.remove('dark');
-      }
+    if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
     }
 
     if (storybookTheme !== DEFAULT_THEME) {
