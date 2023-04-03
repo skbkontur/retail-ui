@@ -66,9 +66,9 @@ export const decorators: Meta['decorators'] = [
 
     if (root) {
       if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
-        root.classList.add('dark');
+        root.parentElement?.classList.add('dark');
       } else {
-        root.classList.remove('dark');
+        root.parentElement?.classList.remove('dark');
       }
     }
 
