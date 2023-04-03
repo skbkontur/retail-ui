@@ -682,7 +682,7 @@ export class DefaultTheme {
   public static get tooltipTextColor() {
     return this.textColorDefault;
   }
-  public static tooltipBg = '';
+  public static tooltipBg = '#fff';
   public static get tooltipBorder() {
     return this.popupBorder;
   }
