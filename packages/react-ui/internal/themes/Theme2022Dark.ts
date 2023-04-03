@@ -229,6 +229,18 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region DateInput
   public static dateInputComponentSelectedBgColor = 'rgba(255, 255, 255, 0.16)';
   //#endregion
+
+  //#region Calendar
+  public static calendarCellHoverBgColor = 'rgba(255, 255, 255, 0.06)';
+  public static calendarCellHoverColor = 'rgba(255, 255, 255, 0.87)';
+  public static calendarCellSelectedBgColor = 'rgba(255, 255, 255, 0.1)';
+  public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
+  //#endregion
+
+  //#region DateSelect
+  public static dateSelectMenuItemBgActive = 'rgba(255, 255, 255, 0.06)';
+  public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.1)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
