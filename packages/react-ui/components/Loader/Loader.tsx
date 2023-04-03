@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 
 import { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Spinner, SpinnerProps, SpinnerType } from '../Spinner';
+import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -20,9 +20,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Loader.styles';
 
-export type LoaderType = Extract<SpinnerType, 'mini' | 'normal' | 'big'>;
+const types = ['mini', 'normal', 'big'] as const;
 
-const types: LoaderType[] = ['mini', 'normal', 'big'];
+export type LoaderType = typeof types[number];
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
