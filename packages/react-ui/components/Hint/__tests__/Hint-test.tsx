@@ -78,8 +78,7 @@ describe('Hint', () => {
         {hintChildrenText}
       </Hint>,
     );
-
-    fireEvent.mouseLeave(screen.getByText(hintChildrenText));
+    userEvent.unhover(screen.getByText(hintChildrenText));
 
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
