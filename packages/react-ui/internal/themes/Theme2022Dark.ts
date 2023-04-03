@@ -221,6 +221,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
   public static pagingForwardLinkColor = 'rgba(255, 255, 255, 0.87)';
   //#endregion
+
+  //#region GlobalLoader
+  public static globalLoaderColor = 'rgba(238, 80, 66, 1)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
