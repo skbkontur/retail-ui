@@ -225,6 +225,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region GlobalLoader
   public static globalLoaderColor = 'rgba(238, 80, 66, 1)';
   //#endregion
+
+  //#region DateInput
+  public static dateInputComponentSelectedBgColor = 'rgba(255, 255, 255, 0.16)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
