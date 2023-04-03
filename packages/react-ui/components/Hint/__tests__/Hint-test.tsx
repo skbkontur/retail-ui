@@ -65,7 +65,7 @@ describe('Hint', () => {
       </Hint>,
     );
 
-    userEvent.type(screen.getByText(hintChildrenText), '{mouseenter}');
+    userEvent.hover(screen.getByText(hintChildrenText));
 
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
