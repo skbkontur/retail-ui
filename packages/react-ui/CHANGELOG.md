@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.1...@skbkontur/react-ui@4.13.2) (2023-03-24)
+
+
+### Bug Fixes
+
+* **SidePage:** remove 2nd HBVS which blocks scrolling ([#3121](https://github.com/skbkontur/retail-ui/issues/3121)) ([25fbcc0](https://github.com/skbkontur/retail-ui/commit/25fbcc0c0c7fc2b645c4848337fc519f433ca141))
+* **TokenInput:** remove empty tokens on paste ([#3124](https://github.com/skbkontur/retail-ui/issues/3124)) ([a326d92](https://github.com/skbkontur/retail-ui/commit/a326d92e1578e0e901b91c38ecbfc27c9a23b231))
+
+
+
+
+
+## [4.13.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.0...@skbkontur/react-ui@4.13.1) (2023-03-10)
+
+
+### Bug Fixes
+
+* **MenuMessage:** pass ref ([#3113](https://github.com/skbkontur/retail-ui/issues/3113)) ([3864e08](https://github.com/skbkontur/retail-ui/commit/3864e08017a0f88309ec3e6cb86304e4508c124c))
+
+
+
+
+
 # [4.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.12.0...@skbkontur/react-ui@4.13.0) (2023-03-02)
 
 
