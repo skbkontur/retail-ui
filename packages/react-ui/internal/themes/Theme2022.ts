@@ -187,8 +187,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.modalFooterPaddingBottom;
   }
   public static modalFixedPanelShadow = 'none';
-  // public static modalFixedHeaderBorder = '1px solid #EBEBEB';
-  // public static modalFixedFooterBorder = '1px solid #EBEBEB';
   public static modalFooterPaddingTop = '20px';
   public static modalFooterPaddingBottom = '20px';
   public static modalFixedHeaderMarginBottom = '0px';
@@ -212,7 +210,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static mobileModalCloseButtonRightPadding = '12px';
   public static mobileModalCloseButtonTopPadding = '8px';
   public static modalHeaderPaddingBottom = '16px';
-
+  public static modalBackBg = '#000';
+  public static modalBackOpacity = '0.16';
   //#endregion
 
   //#region Select
@@ -450,6 +449,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.sidePageFooterPanelPaddingTop;
   }
   public static sidePageHeaderFontWeight = 'bold';
+  public static sidePageBackingBg = '#000';
+  public static sidePageBackingBgOpacity = '0.16';
   //#endregion
 
   //#region Tabs
