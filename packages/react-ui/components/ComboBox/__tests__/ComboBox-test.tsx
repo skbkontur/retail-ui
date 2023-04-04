@@ -7,9 +7,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html';
 
-import { MenuMessage } from '../../../internal/MenuMessage';
+import { MenuMessage, MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText, InputLikeTextDataTids } from '../../../internal/InputLikeText';
@@ -1155,75 +1155,86 @@ describe('ComboBox', () => {
   //   });
   // });
 
-  // describe('Locale', () => {
-  //   let search: jest.Mock<Promise<any>>;
-  //   let promise: Promise<any>;
-  //   beforeEach(() => {
-  //     [search, promise] = searchFactory(Promise.resolve(null));
-  //   });
-  //   const focus = async (): Promise<void> => {
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //     await promise;
-  //   };
+  describe('Locale', () => {
+    let search: jest.Mock<Promise<any>>;
+    let promise: Promise<any>;
+    beforeEach(() => {
+      [search, promise] = searchFactory(Promise.resolve(null));
+    });
+    const focus = async (): Promise<void> => {
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await promise;
+    };
 
-  //   it('render without LocaleProvider', async () => {
-  //     wrapper = mount(<ComboBox getItems={search} />);
-  //     const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
+    const TestCombobox = () => <ComboBox getItems={search} />;
 
-  //     await focus();
+    const ComboboxWithLocaleProvider = ({ langCode = defaultLangCode, locale }: LocaleContextProps) => {
+      return (
+        <LocaleContext.Provider
+          value={{
+            langCode,
+            locale,
+          }}
+        >
+          <TestCombobox />
+        </LocaleContext.Provider>
+      );
+    };
 
-  //     expect(wrapper.find(MenuMessage).text()).toBe(expectedText);
-  //   });
+    it('render without LocaleProvider', async () => {
+      const props = {};
+      render(<TestCombobox {...props} />);
+      const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
 
-  //   it('render default locale', async () => {
-  //     wrapper = mount(<ComboBox getItems={search} />);
-  //     const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
+      await focus();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.notFound)).toHaveTextContent(expectedText);
+    });
 
-  //     await focus();
+    it('render default locale', async () => {
+      const props = {};
+      render(<ComboboxWithLocaleProvider {...props} />);
 
-  //     expect(wrapper.find(MenuMessage).text()).toBe(expectedText);
-  //   });
+      const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
 
-  //   it('render correct locale when set langCode', async () => {
-  //     wrapper = mount(
-  //       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-  //         <ComboBox getItems={search} />
-  //       </LocaleContext.Provider>,
-  //     );
-  //     const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
+      await focus();
 
-  //     await focus();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.notFound)).toHaveTextContent(expectedText);
+    });
 
-  //     expect(wrapper.find(MenuMessage).text()).toBe(expectedText);
-  //   });
+    it('render correct locale when set langCode', async () => {
+      const props = { langCode: LangCodes.en_GB };
+      render(<ComboboxWithLocaleProvider {...props} />);
 
-  //   it('render custom locale', async () => {
-  //     const customText = 'custom notFound';
-  //     render(
-  //       <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } } }}>
-  //         <ComboBox getItems={search} />
-  //       </LocaleContext.Provider>,
-  //     );
+      const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-  //     await focus();
+      await focus();
 
-  //     expect(wrapper.find(MenuMessage).text()).toBe(customText);
-  //   });
+      expect(screen.getByTestId(ComboBoxMenuDataTids.notFound)).toHaveTextContent(expectedText);
+    });
 
-  //   it('updates when langCode changes', async () => {
-  //     render(
-  //       <LocaleContext.Provider value={{}}>
-  //         <ComboBox getItems={search} />
-  //       </LocaleContext.Provider>,
-  //     );
-  //     const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
+    it('render custom locale', async () => {
+      const customText = 'custom notFound';
+      const props = { locale: { ComboBox: { notFound: customText } } };
 
-  //     wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
-  //     await focus();
+      render(<ComboboxWithLocaleProvider {...props} />);
 
-  //     expect(wrapper.find(MenuMessage).text()).toBe(expected);
-  //   });
-  // });
+      await focus();
+
+      expect(screen.getByTestId(ComboBoxMenuDataTids.notFound)).toHaveTextContent(customText);
+    });
+
+    it('updates when langCode changes', async () => {
+
+      const { rerender } = render(<ComboboxWithLocaleProvider langCode={LangCodes.en_GB} />);
+
+      const expected = CustomComboBoxLocaleHelper.get(LangCodes.ru_RU).notFound;
+
+      rerender(<ComboboxWithLocaleProvider langCode={LangCodes.ru_RU} />);
+      await focus();
+
+      expect(screen.getByTestId(ComboBoxMenuDataTids.notFound)).toHaveTextContent(expected);
+    });
+  });
 
   it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
     const Comp = () => {
