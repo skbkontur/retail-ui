@@ -3,9 +3,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 //import { mount, ReactWrapper } from 'enzyme';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html';
+import { create } from 'react-ui/internal/Calendar';
 
 import { MenuMessage, MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
@@ -242,56 +243,59 @@ describe('ComboBox', () => {
   //   expect(onFocus).toHaveBeenCalledTimes(1);
   // });
 
-  // describe('onBlur callback', () => {
-  //   const onBlur = jest.fn();
-  //   const [search, promise] = searchFactory(Promise.resolve(['item']));
-  //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onBlur={onBlur} />);
+  describe.only('onBlur callback', () => {
+    const onBlur = jest.fn();
+    const focus = async (): Promise<void> => {
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    };
 
-  //   beforeEach(() => {
-  //     wrapper.instance().reset();
-  //     onBlur.mockClear();
-  //   });
+    const [search, promise] = searchFactory(Promise.resolve(['item']));
+    const TestCombobox = () => (<ComboBox getItems={search} onBlur={onBlur} />);
 
-  //   it('calls onBlur on click outside when menu is open', async () => {
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
+    beforeEach(() => {
+      render(<TestCombobox />);
+      onBlur.mockClear();
+    });
 
-  //     await promise;
-  //     wrapper.update();
+    it('calls onBlur on click outside when menu is open', async () => {
+      await focus();
+      await promise;
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       opened: true,
-  //     });
-  //     clickOutside();
-  //     await delay(0);
+      expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toBeInTheDocument();
+      clickOutside();
+      await delay(0);
 
-  //     expect(onBlur).toHaveBeenCalledTimes(1);
-  //   });
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      expect(onBlur).toHaveBeenCalledTimes(1);
+    });
 
-  //   it('calls onBlur on input blur when menu is closed', async () => {
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //     wrapper.update();
+    // it('calls onBlur on input blur when menu is closed', async () => {
+    //   // wrapper.find(ComboBoxView).prop('onFocus')?.();
+    //   // wrapper.update();
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       opened: false,
-  //     });
-  //     wrapper.find('input').simulate('blur');
-  //     await delay(0);
+    //   // expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //   //   opened: false,
+    //   // });
+    //   // wrapper.find('input').simulate('blur');
+    //   // await delay(0);
 
-  //     expect(onBlur).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+    //   // expect(onBlur).toHaveBeenCalledTimes(1);
+    // });
+  });
 
-  // it('renders custom elements in menu', async () => {
-  //   const items = [<div key="0">Hello, world</div>];
-  //   const [search, promise] = searchFactory(Promise.resolve(items));
-  //   const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} />);
+  it('renders custom elements in menu', async () => {
+    const content = "Hello, world";
+    const items = [<div key="0">{content}</div>];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    render(<ComboBox getItems={search} />);
 
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //   await promise;
-  //   wrapper.update();
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await promise;
 
-  //   expect(wrapper.find(Menu).containsAllMatchingElements(items)).toBeTruthy();
-  // });
+    expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toBeInTheDocument();
+    expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(content);
+
+  });
 
   // it('calls default onClick on custom element select', async () => {
   //   const items = [
