@@ -62,7 +62,7 @@ function ModalHeader(props: ModalHeaderProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={isFixed ? 'ModalStickyHeader' : undefined} className={styles.headerWrapper()}>
+      <ZIndex priority={isFixed ? 'ModalFixedHeader' : undefined} className={styles.headerWrapper()}>
         {sticky ? (
           <Sticky getIsFixed={setIsFixed} side="top">
             {renderContent}
