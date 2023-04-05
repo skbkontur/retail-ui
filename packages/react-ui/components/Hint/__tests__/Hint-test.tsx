@@ -101,7 +101,6 @@ describe('Hint', () => {
 
     userEvent.hover(screen.getByText('Anchor'));
 
-
     // @ts-expect-error: Use of private property.
     const { timer } = hintRef.current;
 
