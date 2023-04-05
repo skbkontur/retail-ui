@@ -68,12 +68,12 @@ describe('ComboBox', () => {
   //   expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   // });
 
-  // it('fetches item when focused', () => {
-  //   const search = jest.fn(() => Promise.resolve([]));
-  //   const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //   expect(search).toHaveBeenCalledWith('');
-  // });
+  it('fetches item when focused', () => {
+    const search = jest.fn(() => Promise.resolve([]));
+    render(<ComboBox getItems={search} />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    expect(search).toHaveBeenCalledWith('');
+  });
 
   // it('fetches items on input', () => {
   //   const search = jest.fn(() => Promise.resolve([]));
@@ -88,53 +88,48 @@ describe('ComboBox', () => {
   //   expect((search.mock.calls as string[][])[1][0]).toBe('world');
   // });
 
-  // it('opens menu in dropdown container on search resolve', async () => {
-  //   const [search, promise] = searchFactory(Promise.resolve(['one', 'two']));
-  //   render(<ComboBox getItems={search} />);
+  it('opens menu in dropdown container on search resolve', async () => {
+    const items = ['one', 'two'];
 
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    render(<ComboBox getItems={search} />);
 
-  //   await promise;
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-  //   wrapper.update();
+    await promise;
 
-  //   expect(wrapper.find(Menu)).toHaveLength(1);
-  // });
+    expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
+  });
 
-  // it('sets items on search resolve', async () => {
-  //   const items = ['one', 'two', 'three'];
-  //   const [search, promise] = searchFactory(Promise.resolve(items));
-  //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={(x) => x} />);
+  it('sets items on search resolve', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    render(<ComboBox getItems={search} renderItem={(x) => x} />);
 
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-  //   await promise;
+    await promise;
+    expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
 
-  //   wrapper.update();
+    screen.getAllByTestId(ComboBoxMenuDataTids.item).forEach((item, index) => {
+      expect(item).toHaveTextContent(items[index]);
+    });
+  });
 
-  //   expect(wrapper.find(MenuItem)).toHaveLength(items.length);
+  it('calls onValueChange if clicked on item', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const onValueChange = jest.fn();
+    render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await promise;
 
-  //   wrapper.find(MenuItem).forEach((item, index) => {
-  //     expect(item.text()).toBe(items[index]);
-  //   });
-  // });
+    screen.getAllByTestId(ComboBoxMenuDataTids.item)[0].click();
+    //wrapper.find(MenuItem).first().simulate('click');
 
-  // it('calls onValueChange if clicked on item', async () => {
-  //   const items = ['one', 'two', 'three'];
-  //   const [search, promise] = searchFactory(Promise.resolve(items));
-  //   const onValueChange = jest.fn();
-  //   const wrapper = mount<ComboBox<string>>(
-  //     <ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} />,
-  //   );
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //   await promise;
-  //   wrapper.update();
-
-  //   wrapper.find(MenuItem).first().simulate('click');
-
-  //   expect(onValueChange).toHaveBeenCalledWith('one');
-  //   expect(onValueChange).toHaveBeenCalledTimes(1);
-  // });
+    expect(onValueChange).toHaveBeenCalledWith('one');
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+  });
 
   // it('selects first item on Enter', async () => {
   //   const items = ['one', 'two', 'three'];
@@ -243,7 +238,7 @@ describe('ComboBox', () => {
   //   expect(onFocus).toHaveBeenCalledTimes(1);
   // });
 
-  describe.only('onBlur callback', () => {
+  describe('onBlur callback', () => {
     const onBlur = jest.fn();
     const focus = async (): Promise<void> => {
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
