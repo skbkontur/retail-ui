@@ -1056,24 +1056,18 @@ ToastOverEverything.parameters = {
 };
 
 export const ModalWithDropdown: Story = () => {
-  const [isSticky, setIsSticky] = React.useState(false);
-
   return (
     <Modal width={350}>
+      <Modal.Header style={{ background: 'green', height: '800px' }}>Header</Modal.Header>
       <Modal.Body style={{ display: 'flex', flexDirection: 'column' }}>
         <Dropdown caption={'Open'} size="medium" width="50%" menuWidth="250px" disablePortal>
-          <div style={{ height: '200px', backgroundColor: 'lightblue' }}></div>
+          <div style={{ height: '250px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
+            <p>{'выпадашка '.repeat(100)}</p>
+          </div>
         </Dropdown>
-        <button data-tid="toggle-sticky-button" onClick={() => setIsSticky(!isSticky)}>
-          {isSticky ? 'footer and modal are sticky' : 'footer and modal are not sticky'}
-        </button>
+        <div style={{ height: '200px' }}></div>
       </Modal.Body>
-      <Modal.Header sticky={isSticky} style={{ background: 'green' }}>
-        Header
-      </Modal.Header>
-      <Modal.Footer sticky={isSticky} style={{ background: 'green' }}>
-        Footer
-      </Modal.Footer>
+      <Modal.Footer style={{ background: 'green' }}>Footer</Modal.Footer>
     </Modal>
   );
 };
@@ -1082,7 +1076,7 @@ ModalWithDropdown.parameters = {
   creevey: {
     skip: { "themes don't affect logic": { in: /^(?!\b(chrome|firefox|ie11)\b)/ } },
     tests: {
-      async 'dropdown overlaps footer and header'() {
+      async 'dropdown overlaps static header and lays under fixed footer'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid~="Dropdown__root"]' }))
@@ -1091,13 +1085,30 @@ ModalWithDropdown.parameters = {
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },
-      async 'dropdown lays under footer and header'() {
+      async 'dropdown lays under fixed header'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="toggle-sticky-button"]' }))
-          .pause(1000)
           .click(this.browser.findElement({ css: '[data-tid~="Dropdown__root"]' }))
           .perform();
+        await this.browser.executeScript(function () {
+          // Allows to invert dropdown direction
+          const dropdownOffset = 800;
+          const scrollContainer = window.document.querySelector('.dropdown-test-container') as HTMLElement;
+          scrollContainer.scrollTop = scrollContainer.scrollHeight - dropdownOffset;
+        });
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+      async 'dropdown overlaps static footer'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="Dropdown__root"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('.dropdown-test-container') as HTMLElement;
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        });
         await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
