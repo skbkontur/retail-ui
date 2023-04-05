@@ -30,6 +30,10 @@ module.exports = {
     testFail: false,
   },
 
+  assertViewOpts: {
+    allowViewportOverflow: true,
+  },
+
   windowSize: '1024x720',
 
   retry: process.env.TEAMCITY_VERSION ? 5 : 0,
