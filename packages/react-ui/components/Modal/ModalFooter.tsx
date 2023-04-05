@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useLayoutEffect } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect, useState } from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
@@ -45,6 +45,8 @@ export const ModalFooterDataTids = {
  * @visibleName Modal.Footer
  */
 function ModalFooter(props: ModalFooterProps) {
+  const [isFixed, setIsFixed] = useState(false);
+
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
@@ -86,9 +88,9 @@ function ModalFooter(props: ModalFooterProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={sticky ? 'ModalStickyFooter' : undefined} className={styles.footerWrapper()}>
+      <ZIndex priority={isFixed ? 'ModalStickyFooter' : undefined} className={styles.footerWrapper()}>
         {sticky ? (
-          <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
+          <Sticky side="bottom" getIsFixed={setIsFixed} offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}
           </Sticky>
         ) : (
