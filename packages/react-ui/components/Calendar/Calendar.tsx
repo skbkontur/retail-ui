@@ -83,7 +83,9 @@ export const CalendarDataTids = {
   root: 'Calendar__root',
   month: 'MonthView__month',
   headerMonth: 'MonthView__headerMonth',
+  monthSelectMobile: 'MonthView__monthSelectMobile',
   headerYear: 'MonthView__headerYear',
+  yearSelectMobile: 'MonthView__yearSelectMobile',
 } as const;
 
 type DefaultProps = Required<

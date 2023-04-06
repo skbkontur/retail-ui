@@ -750,6 +750,8 @@ export class DefaultTheme {
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px';
+  public static calendarCellFontSize = '14px';
+  public static calendarCellBorderRadius = '50%';
   public static get calendarCellLineHeight() {
     return `calc(${this.calendarCellSize} - 2px)`;
   }
@@ -769,6 +771,7 @@ export class DefaultTheme {
   public static calendarWrapperHeight = ' 330px';
   public static calendarMonthMarginBottom = '6px';
   public static calendarMaxMonthsToAppendOnScroll = '5';
+  public static calendarGridRowSpacing = '0px';
   //#endregion
   //#region DatePicker
   public static dateSelectLineHeight = '20px';
@@ -1665,6 +1668,7 @@ export class DefaultTheme {
   public static mobilePopupTopPadding = '80px';
   public static mobilePopupContainerBottomPadding = '8px';
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
+  public static mobilePopupFooterPadding = '16px 16px 16px 16px';
   public static mobilePopupContainerBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize() {
     return this.fontSizeMobile;
