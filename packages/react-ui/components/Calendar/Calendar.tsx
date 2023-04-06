@@ -16,7 +16,7 @@ import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
-import * as CalendarUtils from './calendarUtils';
+import * as CalendarUtils from './CalendarUtils';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
