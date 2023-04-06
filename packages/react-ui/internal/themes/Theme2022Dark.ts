@@ -12,20 +12,65 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnLinkHoverColor = '#eee';
   public static btnLinkActiveColor = '#fff';
 
-  public static btnFocusShadowWidth = '1px';
+  public static btnFocusShadowWidth = '2px';
+  public static btnOutlineColorFocus = '#1f1f1f';
 
   public static btnDefaultBg = 'rgba(255, 255, 255, 0.1)';
   public static btnDefaultHoverBg = 'rgba(255, 255, 255, 0.16)';
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
   public static btnDefaultActiveBg = 'rgba(255, 255, 255, 0.1)';
-  public static btnDefaultBorderColor = 'rgba(255, 255, 255, 0.14)';
+  public static btnDefaultBorderColor = 'rgba(255, 255, 255, 0.16)';
   public static btnDefaultTextColor = 'rgba(255, 255, 255, 0.87)';
 
-  public static btnBacklessBg = 'btnBacklessBg';
-  public static btnBacklessHoverBg = 'rgba(255, 255, 255, 0.1)';
+  public static btnPrimaryBg = '#EBEBEB';
+  public static btnPrimaryHoverBg = '#FFFFFF';
+  public static btnPrimaryActiveBg = '#C2C2C2';
+  public static btnPrimaryTextColor = 'rgba(0, 0, 0, 0.865)';
+
+  public static btnSuccessBg = '#5F9C20';
+  public static btnSuccessHoverBg = '#6CAD26';
+  public static btnSuccessActiveBg = '#477916';
+  public static get btnSuccessBorderColor() {
+    return this.btnSuccessBg;
+  }
+  public static get btnSuccessHoverBorderColor() {
+    return this.btnSuccessHoverBg;
+  }
+  public static get btnSuccessActiveBorderColor() {
+    return this.btnSuccessActiveBg;
+  }
+
+  public static btnPayBg = '#FCB73E';
+  public static btnPayHoverBg = '#FCC660';
+  public static btnPayActiveBg = '#F69912';
+  public static get btnPayBorderColor() {
+    return this.btnPayBg;
+  }
+  public static get btnPayHoverBorderColor() {
+    return this.btnPayHoverBg;
+  }
+  public static get btnPayActiveBorderColor() {
+    return this.btnPayActiveBg;
+  }
+
+  public static btnDangerBg = '#EE5042';
+  public static btnDangerHoverBg = '#FF5A49';
+  public static btnDangerActiveBg = '#CB3D35';
+  public static get btnDangerBorderColor() {
+    return this.btnDangerBg;
+  }
+  public static get btnDangerHoverBorderColor() {
+    return this.btnDangerHoverBg;
+  }
+  public static get btnDangerActiveBorderColor() {
+    return this.btnDangerActiveBg;
+  }
+
+  public static btnBacklessBg = 'transparent !important';
+  public static btnBacklessHoverBg = 'rgba(255, 255, 255, 0.1) !important';
   public static btnBacklessActiveBg = 'rgba(255, 255, 255, 0.06) !important';
-  public static btnBacklessBorderColor = 'rgba(255, 255, 255, 0.16)';
+  public static btnBacklessBorderColor = 'rgba(255, 255, 255, 0.16) !important';
   public static btnBacklessHoverBorderColor = 'rgba(255, 255, 255, 0.1)';
   public static btnBacklessTextColor = 'rgba(255, 255, 255, 0.87)';
 
@@ -40,21 +85,22 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.btnDisabledTextColor;
   }
 
-  public static get btnWarningSecondary() {
-    return ColorFunctions.fade(this.warningMain, 0.14);
-  }
-  public static get btnErrorSecondary() {
-    return ColorFunctions.fade(this.errorMain, 0.14);
-  }
+  public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
+  public static btnErrorSecondary = 'rgba(169, 42, 39, 1)';
 
   public static btnTextHoverBorderColor = 'transparent';
   public static btnDisabledBg = 'rgba(255, 255, 255, 0.04)';
   public static btnDisabledTextColor = 'rgba(255, 255, 255, 0.32)';
-  public static btnDisabledBorderColor = 'rgba(255, 255, 255, 0.06)';
+  public static btnDisabledBorderColor = 'transparent';
+
+  public static btnCheckedBg = '#EBEBEB';
+  public static btnCheckedTextColor = 'rgba(0, 0, 0, 0.865)';
+  public static btnCheckedDisabledBg = 'rgba(255, 255, 255, 0.32) !important';
+  public static btnCheckedDisabledColor = 'rgba(0, 0, 0, 0.48)';
   //#endregion
 
   //#region Link
-  public static linkColor = '#E1E1E1';
+  public static linkColor = '#EBEBEB';
   public static linkHoverColor = '#ffffff';
   public static linkActiveColor = '#c2c2c2';
   public static get linkLineBorderBottomColor() {

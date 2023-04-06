@@ -660,10 +660,6 @@ export const styles = memoizeStyle({
 
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
-      &:disabled {
-        background: transparent;
-      }
-
       &:hover:enabled {
         ${buttonHoverMixin(t.btnTextHoverBg, '', '', t.btnTextHoverBorderColor, '', t.btnBorderWidth)};
       }
@@ -732,7 +728,7 @@ export const styles = memoizeStyle({
 
   checked2022(t: Theme) {
     const checkedStyles = `
-      background-image: none !important;
+      background-image: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
       background-color: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
