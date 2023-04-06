@@ -299,6 +299,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static dateSelectMenuItemBgActive = 'rgba(255, 255, 255, 0.06)';
   public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.1)';
   //#endregion
+
+  //#region CloseIcon, CloseButtonIcon
+  public static closeBtnIconColor = 'rgba(255, 255, 255, 0.32)';
+  //#endregion
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
