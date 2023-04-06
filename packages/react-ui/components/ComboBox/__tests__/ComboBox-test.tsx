@@ -12,10 +12,10 @@ import { MenuMessage, MenuMessageDataTids } from '../../../internal/MenuMessage'
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { ComboBox, ComboBoxProps } from '../ComboBox';
+import { ComboBox, ComboBoxItem, ComboBoxProps } from '../ComboBox';
 import { InputLikeText, InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
-import { Menu } from '../../../internal/Menu';
+import { Menu, MenuDataTids } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
 import {
   ComboBoxMenuDataTids,
@@ -543,67 +543,68 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.input)).toHaveTextContent('');
   });
 
-  // it('onValueChange if single item', async () => {
-  //   const ITEMS = [
-  //     { value: 1, label: 'One' },
-  //     { value: 2, label: 'Two' },
-  //     { value: 3, label: 'Three' },
-  //     { value: 4, label: 'Four' },
-  //   ];
+  it('onValueChange if single item', async () => {
+    const ITEMS = [
+      { value: 1, label: 'One' },
+      { value: 2, label: 'Two' },
+      { value: 3, label: 'Three' },
+      { value: 4, label: 'Four' },
+    ];
 
-  //   const EXPECTED_ITEM = ITEMS[1];
+    const EXPECTED_ITEM = ITEMS[1];
 
-  //   const getItems = (query: string) => {
-  //     return Promise.resolve(
-  //       ITEMS.filter((item) => {
-  //         return item.label.includes(query);
-  //       }),
-  //     );
-  //   };
+    const getItems = (query: string) => {
+      return Promise.resolve(
+        ITEMS.filter((item) => {
+          return item.label.includes(query);
+        }),
+      );
+    };
 
-  //   const changeHandler = jest.fn();
-  //   const wrapper = mount<ComboBox<{ value: number; label: string }>>(
-  //     <ComboBox onValueChange={changeHandler} getItems={getItems} />,
-  //   );
+    const changeHandler = jest.fn();
+    render(
+      <ComboBox onValueChange={changeHandler} getItems={getItems} />,
+    );
 
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //   wrapper.update();
-  //   wrapper.find('input').simulate('change', { target: { value: 'Two' } });
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-  //   await delay(300);
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Two' } });
 
-  //   clickOutside();
-  //   await delay(0);
-  //   wrapper.update();
+    await delay(300);
 
-  //   expect(changeHandler).toHaveBeenCalledWith(EXPECTED_ITEM);
-  // });
+    clickOutside();
+    await delay(0);
 
-  // describe('open/close methods', () => {
-  //   let wrapper: ReactWrapper<ComboBoxProps<any>, unknown, ComboBox<any>>;
+    expect(changeHandler).toHaveBeenCalledWith(EXPECTED_ITEM);
+  });
 
-  //   beforeEach(() => {
-  //     wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
-  //     wrapper.instance().open();
-  //     wrapper.update();
-  //   });
+  describe('open/close methods', () => {
+    it('opens', () => {
+      const comboboxRef = React.createRef<ComboBox>();
+      render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
+      comboboxRef?.current?.open();
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
 
-  //   it('opens', () => {
-  //     expect(wrapper.find(Menu)).toHaveLength(1);
-  //   });
+    it('closes', () => {
+      const comboboxRef = React.createRef<ComboBox>();
+      render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
+      comboboxRef?.current?.open();
 
-  //   it('closes', () => {
-  //     wrapper.instance().close();
-  //     wrapper.update();
-  //     expect(wrapper.find(Menu)).toHaveLength(0);
-  //   });
+      comboboxRef?.current?.close();
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    });
 
-  //   it('closes on clickOutside', () => {
-  //     clickOutside();
-  //     wrapper.update();
-  //     expect(wrapper.find(Menu)).toHaveLength(0);
-  //   });
-  // });
+    it('closes on clickOutside', () => {
+
+      const comboboxRef = React.createRef<ComboBox>();
+      render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
+      comboboxRef?.current?.open();
+
+      clickOutside();
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    });
+  });
 
   // describe('search by method', () => {
   //   const VALUE = { value: 1, label: 'one' };
