@@ -129,7 +129,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion Link
 
   //#region Input
-  public static inputBlinkColor = 'rgba(255, 255, 255, 0.865)';
+  public static inputBlinkColor = '#EBEBEB';
   public static inputTextColor = 'rgba(255, 255, 255, 0.865)';
   public static inputBg = 'rgba(255, 255, 255, 0.1)';
   public static inputBorderColor = 'rgba(255, 255, 255, 0.06)';
