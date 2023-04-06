@@ -16,11 +16,6 @@ import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
 interface PickerProps extends Pick<CalendarProps, 'maxDate' | 'minDate' | 'value' | 'onValueChange' | 'isHoliday'> {
   /**
-   * Позволяет понять, используется ли компонент в контексте `DatePicker`'а
-   * @ignore
-   */
-  _isDatePicker?: boolean;
-  /**
    * Управляет наличием кнопки "Сегодня"
    */
   enableTodayLink?: boolean;
@@ -113,7 +108,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
         data-tid={DatePickerDataTids.pickerTodayWrapper}
         className={cx({
           [styles.todayLinkWrapper(this.theme)]: true,
-          [styles.todayLinkSeparator(this.theme)]: this.props._isDatePicker,
         })}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}

@@ -23,6 +23,7 @@ export const styles = memoizeStyle({
       font-size: ${t.pickerTodayWrapperFontSize};
       padding-bottom: ${t.pickerTodayWrapperPaddingBottom};
       padding-top: ${t.pickerTodayWrapperPaddingTop};
+      border-top: ${t.pickerTodayWrapperBorderTop};
 
       line-height: ${t.pickerTodayWrapperLineHeight};
       width: ${width}px;
@@ -35,11 +36,6 @@ export const styles = memoizeStyle({
       &:active {
         color: ${t.linkActiveColor};
       }
-    `;
-  },
-  todayLinkSeparator(t: Theme) {
-    return css`
-      border-top: ${t.pickerTodayWrapperBorderTop};
     `;
   },
 });
