@@ -216,6 +216,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static radioFocusShadow = 'inset 0 0 0 1px rgba(0, 0, 0, 0.87)';
 
   public static radioDisabledBg = 'rgba(255, 255, 255, 0.04)';
+  public static radioDisabledShadow = 'none';
   public static radioCheckedDisabledBulletBg = 'rgba(255, 255, 255, 0.16)';
 
   public static radioCheckedBgColor = '#FFFFFF';
