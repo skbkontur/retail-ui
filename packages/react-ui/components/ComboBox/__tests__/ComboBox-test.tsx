@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-//import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html';
@@ -193,7 +193,7 @@ describe('ComboBox', () => {
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
-  // it('calls onValueChange if onUnexpectedInput return defined value', async () => {
+  // it.only('calls onValueChange if onUnexpectedInput return defined value', async () => {
   //   const values = [null, undefined, 'one'];
   //   const onValueChange = jest.fn();
   //   const wrapper = mount<ComboBox<string>>(
@@ -266,64 +266,60 @@ describe('ComboBox', () => {
     // });
   });
 
-  // it('renders custom elements in menu', async () => {
-  //   const content = "Hello, world";
-  //   const items = [<div key="0">{content}</div>];
-  //   const [search, promise] = searchFactory(Promise.resolve(items));
-  //   render(<ComboBox getItems={search} />);
+  it('renders custom elements in menu', async () => {
+    const content = "Hello, world";
+    const items = [<div key="0">{content}</div>];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    render(<ComboBox getItems={search} />);
 
-  //   await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-  //   await promise;
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await promise;
 
-  //   expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toBeInTheDocument();
-  //   expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(content);
-  // });
+    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(MenuDataTids.root)).toHaveTextContent(content);
+  });
 
-  // it('calls default onClick on custom element select', async () => {
-  //   const items = [
-  //     <div key="0" id="hello" data-name="world">
-  //       Hello, world
-  //     </div>,
-  //   ];
-  //   const [search, promise] = searchFactory(Promise.resolve(items));
-  //   const onValueChange = jest.fn();
-  //   render(<ComboBox getItems={search} onValueChange={onValueChange} />);
+  it('calls default onClick on custom element select', async () => {
+    const items = [
+      <div key="0" id="hello" data-name="world">
+        Hello, world
+      </div>,
+    ];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const onValueChange = jest.fn();
+    render(<ComboBox getItems={search} onValueChange={onValueChange} />);
 
-  //   userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-  //   await promise;
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await promise;
+    screen.debug();
 
-  //   screen.getAllByTestId(ComboBoxMenuDataTids.item)[0].click();
+    userEvent.click(screen.getByText('Hello, world'));
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith({
+      id: 'hello',
+      'data-name': 'world',
+      children: 'Hello, world',
+    });
+  });
 
-  //   //wrapper.findWhere((x) => x.matchesElement(<div>Hello, world</div>)).simulate('click');
+  it('calls element onClick on custom element select', async () => {
+    const onClick = jest.fn();
+    const items = [
+      <div key="0" onClick={onClick}>
+        Hello, world
+      </div>,
+    ];
+    const [search, promise] = searchFactory(Promise.resolve(items));
 
-  //   expect(onValueChange).toHaveBeenCalledTimes(1);
-  //   expect(onValueChange).toHaveBeenCalledWith({
-  //     id: 'hello',
-  //     'data-name': 'world',
-  //     children: 'Hello, world',
-  //   });
-  // });
+    render(<ComboBox getItems={search} />);
 
-  // it('calls element onClick on custom element select', async () => {
-  //   const onClick = jest.fn();
-  //   const items = [
-  //     <div key="0" onClick={onClick}>
-  //       Hello, world
-  //     </div>,
-  //   ];
-  //   const [search, promise] = searchFactory(Promise.resolve(items));
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await promise;
 
-  //   const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} />);
+    userEvent.click(screen.getByText('Hello, world'));
 
-  //   wrapper.find(ComboBoxView).prop('onFocus')?.();
-
-  //   await promise;
-  //   wrapper.update();
-
-  //   wrapper.findWhere((x) => x.matchesElement(<div>Hello, world</div>)).simulate('click');
-
-  //   expect(onClick).toHaveBeenCalledTimes(1);
-  // });
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
 
   it('handles maxLength', async () => {
     const [search, promise] = searchFactory(Promise.resolve([]));
