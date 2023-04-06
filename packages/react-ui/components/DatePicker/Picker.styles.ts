@@ -13,20 +13,17 @@ export const styles = memoizeStyle({
     `;
   },
   todayLinkWrapper(t: Theme) {
-    const width = parseInt(t.calendarCellSize) * 7 + parseInt(t.calendarPaddingX) * 2;
-
     return css`
       background-color: ${t.pickerTodayWrapperBgColor};
       border: none;
+      border-top: ${t.pickerTodayWrapperBorderTop};
       color: ${t.linkColor};
       display: block;
       font-size: ${t.pickerTodayWrapperFontSize};
       padding-bottom: ${t.pickerTodayWrapperPaddingBottom};
       padding-top: ${t.pickerTodayWrapperPaddingTop};
-      border-top: ${t.pickerTodayWrapperBorderTop};
-
       line-height: ${t.pickerTodayWrapperLineHeight};
-      width: ${width}px;
+      width: 100%;
 
       &:hover {
         background-color: ${t.pickerTodayWrapperHoverBgColor};
