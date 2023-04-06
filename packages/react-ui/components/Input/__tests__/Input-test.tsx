@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputType } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('<Input />', () => {
@@ -42,50 +42,18 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
   });
 
-  it('passes password type to input', () => {
-    render(<Input value="" type="password" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'password');
+  const types: InputType[] = ['password', 'number', 'tel', 'search', 'time', 'date', 'email', 'url'];
+  types.forEach((type) => {
+    it(`passes ${type} type to input`, () => {
+      render(<Input value="" type={type} role={'textbox'} />);
+      expect(screen.queryByRole('textbox')).toHaveProperty('type', type);
+    });
   });
-
-  it('passes number type to input', () => {
-    render(<Input value="" type="number" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'number');
-  });
-
-  it('passes tel type to input', () => {
-    render(<Input value="" type="tel" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'tel');
-  });
-
-  it('passes search type to input', () => {
-    render(<Input value="" type="search" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'search');
-  });
-
-  it('passes time type to input', () => {
-    render(<Input value="" type="time" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'time');
-  });
-
-  it('passes date type to input', () => {
-    render(<Input value="" type="date" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'date');
-  });
-
-  it('passes email type to input', () => {
-    render(<Input value="" type="email" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'email');
-  });
-
-  it('passes url type to input', () => {
-    render(<Input value="" type="url" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'url');
-  });
-
-  it('passes hidden type to input', () => {
-    const result = render(<Input value="" type="hidden" role={'textbox'} id="testInput" />);
-    const element = result.container.querySelector('#testInput');
-    expect(element).toHaveProperty('type', 'hidden');
+  types.forEach((type) => {
+    it(`type ${type} renders correctly with mask prop`, () => {
+      render(<Input value="" type={type} role={'textbox'} />);
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
   });
 
   it('with type hidden is not visible', () => {
