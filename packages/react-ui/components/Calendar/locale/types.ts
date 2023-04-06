@@ -1,3 +1,3 @@
 export interface CalendarLocale {
-  months: string[];
+  months?: string[];
 }

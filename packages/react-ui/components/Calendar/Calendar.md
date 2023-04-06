@@ -54,13 +54,11 @@ const theme = React.useContext(ThemeContext);
 #### Локали по умолчанию
 
 ```typescript static
-interface DatePickerLocale {
-  today?: string;
+interface CalendarLocale {
   months?: string[];
-
+}
 
 const ru_RU = {
-  today: 'Сегодня',
   months: [
     'Январь',
     'Февраль',
@@ -74,11 +72,10 @@ const ru_RU = {
     'Октябрь',
     'Ноябрь',
     'Декабрь',
-  ],
-;
+  ]
+};
 
 const en_GB = {
-  today: 'Today',
   months: [
     'January',
     'February',
@@ -92,6 +89,6 @@ const en_GB = {
     'October',
     'November',
     'December',
-  ],
+  ]
 };
 ```
