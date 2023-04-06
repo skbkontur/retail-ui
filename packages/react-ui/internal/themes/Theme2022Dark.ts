@@ -251,7 +251,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region SideMenu
-  public static sidePageBgDefault = '#323232';
+  public static sidePageBgDefault = '#222';
   public static sidePageBackingBg = '#000';
   public static sidePageBackingBgOpacity = '0.7';
   //#endregion
