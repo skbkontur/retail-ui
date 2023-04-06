@@ -199,13 +199,17 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion Token
 
   //#region FileUploader
-  public static fileUploaderBg = 'rgba(255, 255, 255, 0.1)';
+  public static fileUploaderBg = 'none';
+  public static fileUploaderUploadButtonBg = 'rgba(255, 255, 255, 0.1)';
   public static fileUploaderHoveredBg = 'rgba(255, 255, 255, 0.16)';
   public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.87)';
   public static fileUploaderLinkColor = 'rgba(255, 255, 255, 0.87)';
   public static fileUploaderAfterLinkColor = 'rgba(255, 255, 255, 0.54)';
   public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.1)';
   public static fileUploaderDragOverShadow = '0px 0px 0px 4px #EBEBEB';
+  public static get fileUploaderBorderColorFocus() {
+    return this.btnBorderColorFocus;
+  }
   //#endregion FileUploader
 
   //#region Radio
