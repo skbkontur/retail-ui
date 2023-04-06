@@ -73,7 +73,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
   private renderMain() {
     const { date } = this.state;
-    const { enableTodayLink, ...rest } = this.props;
 
     return (
       <div
@@ -87,9 +86,13 @@ export class Picker extends React.Component<PickerProps, PickerState> {
           _initialYear={date.year}
           shouldSetInitialDate={false}
           hasBottomSeparator={false}
-          {...rest}
+          maxDate={this.props.maxDate}
+          minDate={this.props.minDate}
+          onDateChange={this.props.onDateChange}
+          isHoliday={this.props.isHoliday}
+          date={this.props.date}
         />
-        {enableTodayLink && this.renderTodayLink()}{' '}
+        {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
     );
   }
