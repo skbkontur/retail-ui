@@ -22,7 +22,7 @@ import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
-import { getInitialDate, getTodayDate, setInititalDate } from './calendarUtils';
+import { getInitialDate, getTodayDate, setInititalDate } from './CalendarUtils';
 import { CalendarLocale, CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {

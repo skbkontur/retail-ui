@@ -1,3 +1,4 @@
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -27,7 +28,7 @@ export const styles = memoizeStyle({
   separator(t: Theme) {
     return css`
       position: relative;
-      border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
+      border-bottom: 1px solid ${ColorFunctions.fade(t.calendarMonthTitleBorderBottomColor, 1)};
     `;
   },
 });

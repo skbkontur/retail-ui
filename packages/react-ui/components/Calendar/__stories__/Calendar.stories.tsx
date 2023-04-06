@@ -1,10 +1,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
 import { LocaleContext } from '../../../lib/locale';
-import { Calendar } from '../Calendar';
+import { Calendar, CalendarProps } from '../Calendar';
 import { delay } from '../../../lib/utils';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
@@ -16,46 +14,17 @@ export default { title: 'Calendar' };
 export const Simple = () => <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} />;
 Simple.storyName = 'simple';
 
-export const CalendarWithHolidays = () => {
-  const holidays: string[] = [];
-
-  do {
-    holidays.push(
-      InternalDateTransformer.dateToInternalString({
-        date: Math.round(31 * Math.random()),
-        month: Math.round(12 * Math.random()),
-        year: new Date().getFullYear(),
-      }),
-    );
-  } while (holidays.length < 100);
-
-  return (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        return (
-          <div
-            style={{
-              height: '100%',
-              width: '100%',
-              background: theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff',
-            }}
-          >
-            <Calendar
-              value={null}
-              onValueChange={action('pick')}
-              isHoliday={(date) => {
-                return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
-              }}
-            />
-          </div>
-        );
-      }}
-    </ThemeContext.Consumer>
-  );
+export const CalendarWithBottomSeparator: Story = () => {
+  return <Calendar value={{ year: 2022, month: 5, date: 12 }} hasBottomSeparator />;
 };
-CalendarWithHolidays.storyName = 'Calendar with holidays';
-CalendarWithHolidays.parameters = {
-  creevey: { skip: true },
+CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
+CalendarWithBottomSeparator.parameters = {
+  creevey: {
+    skip: {
+      reason: "8px theme doesn't affect the bottom separator",
+      in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark|ie11|ie11Dark)\b)/,
+    },
+  },
 };
 
 export const CalendarWithMinMaxDate: Story = () => <CalendarWithMinMax />;
@@ -106,8 +75,15 @@ CalendarWithMinMaxDate.parameters = {
   },
 };
 
-class CalendarWithMinMax extends React.Component<any, any> {
-  public state = {
+interface CalendarWithMinMaxState {
+  min: string;
+  max: string;
+  value: CalendarProps['value'];
+  order: InternalDateOrder;
+  separator: InternalDateSeparator;
+}
+class CalendarWithMinMax extends React.Component<Partial<CalendarProps>, CalendarWithMinMaxState> {
+  public state: CalendarWithMinMaxState = {
     min: '02.07.2017',
     max: '30.01.2020',
     value: { year: 2017, date: 2, month: 7 },
