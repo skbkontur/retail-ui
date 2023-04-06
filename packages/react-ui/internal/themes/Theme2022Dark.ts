@@ -241,7 +241,11 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Modal
-  public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.16)';
+  public static modalBg = '#222';
+  public static get modalFixedHeaderBg() {
+    return this.modalBg;
+  }
+  public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.1)';
   public static modalBackBg = '#000';
   public static modalBackOpacity = '0.7';
   //#endregion
