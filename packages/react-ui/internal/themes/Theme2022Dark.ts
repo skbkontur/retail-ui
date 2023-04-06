@@ -231,6 +231,8 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.checkboxCheckedBg;
   }
   public static checkboxOutlineColorFocus = 'rgba(0, 0, 0, 0.87)';
+  public static checkboxBgDisabled = 'rgba(255, 255, 255, 0.04)';
+  public static checkboxShadowDisabled = 'none';
   //#endregion
 
   //#region Toggle
