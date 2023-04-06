@@ -73,12 +73,12 @@ export const getMonths = (month: number, year: number): MonthViewModel[] => {
 
 export const getInitialDate = (
   today: CalendarDateShape,
-  value: CalendarProps['value'],
+  date: CalendarProps['date'],
   minDate: CalendarProps['minDate'],
   maxDate: CalendarProps['maxDate'],
 ) => {
-  if (value) {
-    return value;
+  if (date) {
+    return date;
   }
 
   if (minDate && isLess(today, minDate)) {

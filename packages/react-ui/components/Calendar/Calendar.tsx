@@ -27,15 +27,15 @@ import { CalendarLocale, CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {
   /**
-   * Вызывается при изменении `value`
+   * Вызывается при изменении `date`, содержит в себе текущее значение даты
    */
-  onValueChange?: (date: CalendarDateShape) => void;
+  onDateChange?: (date: CalendarDateShape) => void;
   /**
    * Задаёт текущую дату
    *
    * Дата задаётся в формате: `{ year, month, date }`
    */
-  value: Nullable<CalendarDateShape>;
+  date: Nullable<CalendarDateShape>;
   /**
    * Задаёт максимальную возможную дату
    */
@@ -129,7 +129,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const { minDate, maxDate, shouldSetInitialDate } = this.getProps();
 
     const today = getTodayDate();
-    const date = getInitialDate(today, this.props.value, minDate, maxDate);
+    const date = getInitialDate(today, this.props.date, minDate, maxDate);
 
     const initialMonth = setInititalDate(this.props._initialMonth, today.month, date.month, shouldSetInitialDate);
     const initialYear = setInititalDate(this.props._initialYear, today.month, date.year, shouldSetInitialDate);
@@ -321,8 +321,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         maxDate={maxDate}
         minDate={minDate}
         today={this.state.today}
-        value={this.props.value}
-        onDateClick={this.props.onValueChange}
+        value={this.props.date}
+        onDateClick={this.props.onDateChange}
         onMonthYearChange={this.handleMonthYearChange}
         isHoliday={this.props.isHoliday}
       />

@@ -14,7 +14,7 @@ import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
-interface PickerProps extends Pick<CalendarProps, 'maxDate' | 'minDate' | 'value' | 'onValueChange' | 'isHoliday'> {
+interface PickerProps extends Pick<CalendarProps, 'maxDate' | 'minDate' | 'date' | 'onDateChange' | 'isHoliday'> {
   /**
    * Управляет наличием кнопки "Сегодня"
    */
@@ -54,9 +54,9 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   }
 
   public componentDidUpdate(prevProps: PickerProps) {
-    const { value } = this.props;
-    if (value && !shallowEqual(value, prevProps.value)) {
-      this.scrollToMonth(value.month, value.year);
+    const { date } = this.props;
+    if (date && !shallowEqual(date, prevProps.date)) {
+      this.scrollToMonth(date.month, date.year);
     }
   }
 
@@ -132,8 +132,8 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   };
 
   private getInitialDate = (today: CalendarDateShape) => {
-    if (this.props.value) {
-      return this.props.value;
+    if (this.props.date) {
+      return this.props.date;
     }
 
     if (this.props.minDate && isLess(today, this.props.minDate)) {

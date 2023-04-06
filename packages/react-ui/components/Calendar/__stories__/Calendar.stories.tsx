@@ -11,11 +11,11 @@ import { Story } from '../../../typings/stories';
 
 export default { title: 'Calendar' };
 
-export const Simple = () => <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} />;
+export const Simple = () => <Calendar date={{ year: 2022, month: 5, date: 12 }} onDateChange={action('pick')} />;
 Simple.storyName = 'simple';
 
 export const CalendarWithBottomSeparator: Story = () => {
-  return <Calendar value={{ year: 2022, month: 5, date: 12 }} hasBottomSeparator />;
+  return <Calendar date={{ year: 2022, month: 5, date: 12 }} hasBottomSeparator />;
 };
 CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
@@ -78,7 +78,7 @@ CalendarWithMinMaxDate.parameters = {
 interface CalendarWithMinMaxState {
   min: string;
   max: string;
-  value: CalendarProps['value'];
+  date: CalendarProps['date'];
   order: InternalDateOrder;
   separator: InternalDateSeparator;
 }
@@ -86,7 +86,7 @@ class CalendarWithMinMax extends React.Component<Partial<CalendarProps>, Calenda
   public state: CalendarWithMinMaxState = {
     min: '02.07.2017',
     max: '30.01.2020',
-    value: { year: 2017, date: 2, month: 7 },
+    date: { year: 2017, date: 2, month: 7 },
     order: InternalDateOrder.DMY,
     separator: InternalDateSeparator.Dot,
   };
@@ -118,10 +118,10 @@ class CalendarWithMinMax extends React.Component<Partial<CalendarProps>, Calenda
           }}
         >
           <Calendar
-            value={this.state.value}
+            date={this.state.date}
             minDate={new InternalDate({}).parseValue(this.state.min).getComponentsLikeNumber()}
             maxDate={new InternalDate({}).parseValue(this.state.max).getComponentsLikeNumber()}
-            onValueChange={action('pick')}
+            onDateChange={action('pick')}
           />
         </LocaleContext.Provider>
       </Gapped>

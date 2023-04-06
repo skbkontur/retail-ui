@@ -9,7 +9,7 @@ import { CalendarLocaleHelper } from '../locale';
 
 describe('Calendar', () => {
   it('renders', () => {
-    render(<Calendar value={{ year: 2017, month: 6, date: 2 }} onValueChange={jest.fn()} />);
+    render(<Calendar date={{ year: 2017, month: 6, date: 2 }} onDateChange={jest.fn()} />);
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
@@ -17,8 +17,8 @@ describe('Calendar', () => {
   it('correctly passes max and min date to year select', () => {
     render(
       <Calendar
-        onValueChange={jest.fn()}
-        value={{ year: 2017, month: 6, date: 2 }}
+        onDateChange={jest.fn()}
+        date={{ year: 2017, month: 6, date: 2 }}
         minDate={{ year: 2017, month: 2, date: 21 }}
         maxDate={{ year: 2020, month: 7, date: 15 }}
       />,
@@ -33,8 +33,8 @@ describe('Calendar', () => {
   it('correctly initial month/year with min date', () => {
     render(
       <Calendar
-        onValueChange={jest.fn()}
-        value={{ year: 2017, month: 6, date: 2 }}
+        onDateChange={jest.fn()}
+        date={{ year: 2017, month: 6, date: 2 }}
         minDate={{ year: 2099, month: 0, date: 21 }}
       />,
     );
@@ -46,8 +46,8 @@ describe('Calendar', () => {
   it('correctly initial month/year with max date', () => {
     render(
       <Calendar
-        onValueChange={jest.fn()}
-        value={{ year: 2017, month: 6, date: 2 }}
+        onDateChange={jest.fn()}
+        date={{ year: 2017, month: 6, date: 2 }}
         maxDate={{ year: 1959, month: 10, date: 15 }}
       />,
     );
@@ -59,7 +59,7 @@ describe('Calendar', () => {
   it('should correctly set langCode', () => {
     render(
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-        <Calendar value={{ year: 2022, month: 6, date: 12 }} />
+        <Calendar date={{ year: 2022, month: 6, date: 12 }} />
       </LocaleContext.Provider>,
     );
 
@@ -83,7 +83,7 @@ describe('Calendar', () => {
     ];
     render(
       <LocaleContext.Provider value={{ locale: { Calendar: { months: renamedMonths } } }}>
-        <Calendar value={{ year: 2022, month: 6, date: 12 }} />
+        <Calendar date={{ year: 2022, month: 6, date: 12 }} />
       </LocaleContext.Provider>,
     );
 
