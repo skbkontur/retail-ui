@@ -1,10 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { jsxText } from '@babel/types';
 
 import { Dropdown, DropdownDataTids } from '../Dropdown';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
-import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
   const captionText = 'Open';
