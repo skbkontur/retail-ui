@@ -1213,17 +1213,6 @@ export class DefaultTheme {
   public static get toggleHandleBg() {
     return this.toggleBg;
   }
-  public static toggleBaseBgHover = '';
-  public static get toggleHandleBoxShadow() {
-    return `0 ${this.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.toggleBorderWidth} rgba(0, 0, 0, 0.15)`;
-  }
-  public static get toggleBackgroundBgDisabledChecked() {
-    return this.toggleBgDisabledChecked;
-  }
-  public static get toggleBackgroundBoxShadowDisabledChecked() {
-    return `inset 0 0 0 1px ${this.toggleBorderColorDisabledChecked}`;
-  }
-  public static toggleHandleBoxShadowDisabledChecked = '';
   public static toggleCheckedBg = '#fff';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
