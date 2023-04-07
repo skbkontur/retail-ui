@@ -473,7 +473,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private getItem(index: number) {
     const value = this.props.value + index;
     if (this.getProps().type === 'month') {
-      return this.locale.months[value];
+      return this.locale.months?.[value];
     }
     return value;
   }
