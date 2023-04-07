@@ -1,24 +1,42 @@
-//import { mount } from 'enzyme';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { jsxText } from '@babel/types';
 
 import { Dropdown, DropdownDataTids } from '../Dropdown';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
-  const caption = <span id="test-caption">Open</span>;
-  const menuItem = <MenuItem>Menu item</MenuItem>;
+  const captionText = "Open";
+  const caption = <span id="test-caption">{captionText}</span>;
+  const menuItemText = "Menu item";
+  const menuItem = <MenuItem>{menuItemText}</MenuItem>;
 
-  it('renders', () => {
+  it('renders Dropdown', () => {
     render(
       <Dropdown caption="button">
         <MenuItem>Menu item</MenuItem>
       </Dropdown>,
     );
-
     expect(screen.getByTestId(DropdownDataTids.root)).toBeInTheDocument();
+  });
+
+  it('Renders caption', () => {
+    render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
+
+    document.getElementById('test-caption')?.click();
+
+    expect(document.getElementById('test-caption')).toBeInTheDocument();
+    expect(document.getElementById('test-caption')).toHaveTextContent(captionText);
+  });
+
+  it('Renders items', () => {
+    render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
+
+    document.getElementById('test-caption')?.click();
+
+    expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent(menuItemText);
   });
 
   it('opens and closes', () => {
@@ -33,17 +51,6 @@ describe('Dropdown', () => {
     document.getElementById('test-caption')?.click();
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
-
-  // it('Pass props to select', () => {
-  //   const wrapper = mount(<Dropdown caption={caption}>{menuItem}</Dropdown>);
-
-  //   const select = wrapper.find(Select);
-
-  //   expect(select.prop('value')).toEqual(caption);
-  //   expect(select.prop('items')).toHaveLength(1);
-
-  //   expect(React.isValidElement(select.prop<React.ReactChild[]>('items')[0])).toBeTruthy();
-  // });
 
   it('props aria-describedby applied correctly', () => {
     render(
