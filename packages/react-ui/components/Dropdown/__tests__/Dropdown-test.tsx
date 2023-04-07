@@ -35,8 +35,6 @@ describe('Dropdown', () => {
   });
 
   // it('Pass props to select', () => {
-  //   // const caption = <span id="test-caption">Open</span>;
-  //   // const menuItem = <MenuItem>Menu item</MenuItem>;
   //   const wrapper = mount(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
   //   const select = wrapper.find(Select);
