@@ -131,8 +131,18 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const today = getTodayDate();
     const date = getInitialDate(today, this.props.date, minDate, maxDate);
 
-    const initialMonth = setInititalDate(this.props._initialMonth, today.month, date.month, shouldSetInitialDate);
-    const initialYear = setInititalDate(this.props._initialYear, today.month, date.year, shouldSetInitialDate);
+    const initialMonth = setInititalDate(
+      this.props._initialMonth ?? date.month,
+      today.month,
+      date.month,
+      shouldSetInitialDate,
+    );
+    const initialYear = setInititalDate(
+      this.props._initialYear ?? date.year,
+      today.month,
+      date.year,
+      shouldSetInitialDate,
+    );
 
     this.state = {
       scrollPosition: 0,

@@ -6,9 +6,10 @@ import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { locale } from '../../lib/locale/decorators';
 import { Calendar, CalendarProps } from '../Calendar';
-import { CalendarDateShape, isLess, isGreater } from '../Calendar/CalendarDateShape';
+import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { getTodayDate } from '../Calendar/CalendarUtils';
 
 import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
@@ -23,18 +24,8 @@ interface PickerProps extends Pick<CalendarProps, 'maxDate' | 'minDate' | 'date'
 }
 
 interface PickerState {
-  date: CalendarDateShape;
   today: CalendarDateShape;
 }
-
-const getTodayCalendarDate = () => {
-  const d = new Date();
-  return {
-    date: d.getDate(),
-    month: d.getMonth(),
-    year: d.getFullYear(),
-  };
-};
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class Picker extends React.Component<PickerProps, PickerState> {
@@ -46,9 +37,8 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
   constructor(props: PickerProps) {
     super(props);
-    const today = getTodayCalendarDate();
+    const today = getTodayDate();
     this.state = {
-      date: this.getInitialDate(today),
       today,
     };
   }
@@ -72,8 +62,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   }
 
   private renderMain() {
-    const { date } = this.state;
-
     return (
       <div
         data-tid={DatePickerDataTids.pickerRoot}
@@ -82,8 +70,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       >
         <Calendar
           ref={(c) => (this.calendar = c)}
-          _initialMonth={date.month}
-          _initialYear={date.year}
           shouldSetInitialDate={false}
           hasBottomSeparator={false}
           maxDate={this.props.maxDate}
@@ -132,21 +118,5 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       const { month, year } = this.state.today;
       this.calendar.scrollToMonth(month, year);
     }
-  };
-
-  private getInitialDate = (today: CalendarDateShape) => {
-    if (this.props.date) {
-      return this.props.date;
-    }
-
-    if (this.props.minDate && isLess(today, this.props.minDate)) {
-      return this.props.minDate;
-    }
-
-    if (this.props.maxDate && isGreater(today, this.props.maxDate)) {
-      return this.props.maxDate;
-    }
-
-    return today;
   };
 }
