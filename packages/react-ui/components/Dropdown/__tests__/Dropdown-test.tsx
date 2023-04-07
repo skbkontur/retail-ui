@@ -7,9 +7,9 @@ import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
-  const captionText = "Open";
+  const captionText = 'Open';
   const caption = <span id="test-caption">{captionText}</span>;
-  const menuItemText = "Menu item";
+  const menuItemText = 'Menu item';
   const menuItem = <MenuItem>{menuItemText}</MenuItem>;
 
   it('renders Dropdown', () => {
@@ -67,7 +67,11 @@ describe('Dropdown', () => {
   it('method open works', () => {
     const dropdownRef = React.createRef<Dropdown>();
 
-    render(<Dropdown caption={caption} ref={dropdownRef}>{menuItem}</Dropdown>);
+    render(
+      <Dropdown caption={caption} ref={dropdownRef}>
+        {menuItem}
+      </Dropdown>,
+    );
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
@@ -78,7 +82,11 @@ describe('Dropdown', () => {
   it('method close works', () => {
     const dropdownRef = React.createRef<Dropdown>();
 
-    render(<Dropdown caption={caption} ref={dropdownRef}>{menuItem}</Dropdown>);
+    render(
+      <Dropdown caption={caption} ref={dropdownRef}>
+        {menuItem}
+      </Dropdown>,
+    );
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
