@@ -45,12 +45,21 @@ export const styles = memoizeStyle({
     `;
   },
 
+  disableAnimation() {
+    return css`
+      &,
+      * {
+        transition: none !important;
+      }
+    `;
+  },
+
   handle(t: Theme) {
     return css`
       background: ${t.toggleHandleBg};
       border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
-      box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
+      box-shadow: ${t.toggleHandleBoxShadowOld};
       height: ${t.toggleHandleSize};
       left: ${t.toggleHandleLeft};
       position: absolute;
@@ -109,6 +118,77 @@ export const styles = memoizeStyle({
     `;
   },
 
+  input2022(t: Theme) {
+    return css`
+      &:enabled {
+        :not(:checked) {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBg};
+            box-shadow: ${t.toggleContainerBoxShadow};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBg};
+            box-shadow: ${t.toggleHandleBoxShadow};
+          }
+        }
+        :checked {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgChecked};
+            box-shadow: ${t.toggleContainerBoxShadowChecked};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBgChecked};
+            box-shadow: ${t.toggleHandleBoxShadowChecked};
+          }
+        }
+      }
+      &:enabled:hover {
+        :not(:checked) {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgHover};
+            box-shadow: ${t.toggleContainerBoxShadowHover};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBgHover};
+            box-shadow: ${t.toggleHandleBoxShadowHover};
+          }
+        }
+        :checked {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgCheckedHover};
+            box-shadow: ${t.toggleContainerBoxShadowCheckedHover};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBgCheckedHover};
+            box-shadow: ${t.toggleHandleBoxShadowCheckedHover};
+          }
+        }
+      }
+      &:disabled {
+        :not(:checked) {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgDisabled};
+            box-shadow: ${t.toggleContainerBoxShadowDisabled};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBgDisabled} !important;
+            box-shadow: ${t.toggleHandleBoxShadowDisabled};
+          }
+        }
+        :checked {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgDisabledChecked};
+            box-shadow: ${t.toggleContainerBoxShadowDisabledChecked};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBgDisabledChecked} !important;
+            box-shadow: ${t.toggleHandleBoxShadowDisabledChecked};
+          }
+        }
+      }
+    `;
+  },
+
   container(t: Theme) {
     return css`
       border-radius: ${t.toggleBorderRadius};
@@ -131,7 +211,7 @@ export const styles = memoizeStyle({
 
   focused(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
+      box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
     `;
   },
 
@@ -162,13 +242,13 @@ export const styles = memoizeStyle({
 
   isWarning(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorWarning};
+      box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorWarning};
     `;
   },
 
   isError(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorError};
+      box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorError};
     `;
   },
 

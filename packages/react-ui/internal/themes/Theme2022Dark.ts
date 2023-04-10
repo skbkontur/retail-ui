@@ -237,10 +237,45 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Toggle
-  public static toggleBg = 'rgba(255, 255, 255, 0.1)';
-  public static toggleBaseBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toggleHandleBoxShadowOld = 'none';
+  public static toggleOutlineColorFocus = '#1F1F1F';
+
+  // idle
+  public static toggleContainerBg = 'rgba(255, 255, 255, 0.1)';
+  public static toggleContainerBoxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBg = 'rgba(255, 255, 255, 0.32)';
-  public static toggleBgHover = 'rgba(255, 255, 255, 0.32)';
+  public static toggleHandleBoxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+
+  // idle :hover
+  public static toggleContainerBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+  public static toggleHandleBgHover = 'rgba(255, 255, 255, 0.32)';
+  public static toggleHandleBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+
+  // checked
+  public static toggleContainerBgChecked = 'rgba(255, 255, 255, 0.1)';
+  public static toggleContainerBoxShadowChecked = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+  public static toggleHandleBgChecked = '#EBEBEB';
+  public static toggleHandleBoxShadowChecked = 'none';
+
+  // checked :hover
+  public static toggleContainerBgCheckedHover = 'rgba(255, 255, 255, 0.16)';
+  public static toggleContainerBoxShadowCheckedHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+  public static toggleHandleBgCheckedHover = '#FFFFFF';
+  public static toggleHandleBoxShadowCheckedHover = 'none';
+
+  // disabled
+  public static toggleContainerBgDisabled = 'rgba(255, 255, 255, 0.04)';
+  public static toggleContainerBoxShadowDisabled = 'none';
+  public static toggleHandleBgDisabled = 'rgba(0, 0, 0, 0.16)';
+  public static toggleHandleBoxShadowDisabled = 'none';
+
+  // disabled checked
+  public static toggleContainerBgDisabledChecked = 'rgba(255, 255, 255, 0.06)';
+  public static toggleContainerBoxShadowDisabledChecked = 'none';
+  public static toggleHandleBgDisabledChecked = 'rgba(0, 0, 0, 0.16)';
+  public static toggleHandleBoxShadowDisabledChecked = 'none';
+
   //#endregion
 
   //#region Modal

@@ -351,17 +351,54 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenInputPaddingX = '2px';
   public static tokenInputMenuPopupBg = 'transparent';
 
+  //#region Toggle
   public static toggleHandleSize = '14px';
   public static toggleHandleLeft = '3px';
   public static toggleHandleTop = '3px';
   public static toggleHandleActiveWidthIncrement = '0px';
 
-  public static toggleHandleBg = '#3D3D3D';
   public static toggleBgChecked = '#3D3D3D';
   public static toggleBgHover = '#3D3D3D';
 
   public static toggleCheckedBg = '#fff';
   public static toggleCheckedBgHover = '#fff';
+
+  // idle
+  public static toggleContainerBg = '#FFFFFF';
+  public static toggleContainerBoxShadow = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
+  public static toggleHandleBg = '#FFFFFF';
+  public static toggleHandleBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.16)';
+
+  // idle :hover
+  public static toggleContainerBgHover = '#F0F0F0';
+  public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
+  public static toggleHandleBgHover = '#FFFFFF';
+  public static toggleHandleBoxShadowHover = '0 0 0 1px rgba(0, 0, 0, 0.16)';
+
+  // checked
+  public static toggleContainerBgChecked = '#3D3D3D';
+  public static toggleContainerBoxShadowChecked = 'none';
+  public static toggleHandleBgChecked = '#FFFFFF';
+  public static toggleHandleBoxShadowChecked = 'none';
+
+  // checked :hover
+  public static toggleContainerBgCheckedHover = '#292929';
+  public static toggleContainerBoxShadowCheckedHover = 'none';
+  public static toggleHandleBgCheckedHover = '#F0F0F0';
+  public static toggleHandleBoxShadowCheckedHover = 'none';
+
+  // disabled
+  public static toggleContainerBgDisabled = '#F6F6F6';
+  public static toggleContainerBoxShadowDisabled = 'inset 0 0 0 1px rgba(0, 0, 0, 0.1)';
+  public static toggleHandleBgDisabled = 'transparent';
+  public static toggleHandleBoxShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.1)';
+
+  // disabled checked
+  public static toggleContainerBgDisabledChecked = '#D6D6D6';
+  public static toggleContainerBoxShadowDisabledChecked = 'none';
+  public static toggleHandleBgDisabledChecked = '#F6F6F6';
+  public static toggleHandleBoxShadowDisabledChecked = 'none';
+  //#endregion
 
   public static switcherBorderRadius = '8px';
 

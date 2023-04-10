@@ -1210,9 +1210,6 @@ export class DefaultTheme {
    * @deprecated use toggleHandleBg
    */
   public static toggleBg = '#fff';
-  public static get toggleHandleBg() {
-    return this.toggleBg;
-  }
   public static toggleCheckedBg = '#fff';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
@@ -1264,6 +1261,43 @@ export class DefaultTheme {
   }
   public static toggleCaptionGap = '10px';
   public static toggleButtonOffsetY = '0px';
+
+  public static get toggleOutlineColorFocus() {
+    return this.outlineColorFocus;
+  }
+
+  public static get toggleHandleBoxShadowOld() {
+    return `0 ${this.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.toggleBorderWidth} rgba(0, 0, 0, 0.15)`;
+  }
+
+  public static toggleContainerBg = '';
+  public static toggleContainerBgHover = '';
+  public static toggleContainerBgChecked = '';
+  public static toggleContainerBgCheckedHover = '';
+  public static toggleContainerBoxShadow = '';
+  public static toggleContainerBoxShadowHover = '';
+  public static toggleContainerBoxShadowChecked = '';
+  public static toggleContainerBoxShadowCheckedHover = '';
+
+  public static get toggleHandleBg() {
+    return this.toggleBg;
+  }
+  public static toggleHandleBgHover = '';
+  public static toggleHandleBgChecked = '';
+  public static toggleHandleBgCheckedHover = '';
+  public static toggleHandleBoxShadow = '';
+  public static toggleHandleBoxShadowHover = '';
+  public static toggleHandleBoxShadowChecked = '';
+  public static toggleHandleBoxShadowCheckedHover = '';
+
+  public static toggleContainerBgDisabled = '';
+  public static toggleHandleBgDisabled = '';
+  public static toggleContainerBoxShadowDisabled = '';
+  public static toggleHandleBoxShadowDisabled = '';
+  public static toggleContainerBgDisabledChecked = '';
+  public static toggleHandleBgDisabledChecked = '';
+  public static toggleContainerBoxShadowDisabledChecked = '';
+  public static toggleHandleBoxShadowDisabledChecked = '';
   //#endregion
   //#region Popup
   public static popupBorder = 'none';
