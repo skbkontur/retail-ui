@@ -55,6 +55,7 @@ const getValidation = (error: TokenProps['error'], warning: TokenProps['warning'
 
 export const TokenDataTids = {
   root: 'Token__root',
+  removeIcon: 'Token__removeIcon',
 } as const;
 
 @rootNode
@@ -130,7 +131,11 @@ export class Token extends React.Component<TokenProps> {
           onBlur={onBlur}
         >
           <span className={styles.text(this.theme)}>{children}</span>
-          <span className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)} onClick={this.onRemoveClick}>
+          <span
+            className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
+            onClick={this.onRemoveClick}
+            data-tid={TokenDataTids.removeIcon}
+          >
             <CrossIcon />
           </span>
         </div>
