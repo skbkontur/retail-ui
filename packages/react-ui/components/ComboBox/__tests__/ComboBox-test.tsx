@@ -193,30 +193,30 @@ describe('ComboBox', () => {
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
-  // it.only('calls onValueChange if onUnexpectedInput return defined value', async () => {
-  //   const values = [null, undefined, 'one'];
-  //   const onValueChange = jest.fn();
-  //   const wrapper = mount<ComboBox<string>>(
-  //     <ComboBox
-  //       onValueChange={onValueChange}
-  //       onUnexpectedInput={(value) => value}
-  //       getItems={() => Promise.resolve([])}
-  //     />,
-  //   );
+  it('calls onValueChange if onUnexpectedInput return defined value', async () => {
+    const values = [null, undefined, 'one'];
+    const onValueChange = jest.fn();
+    render(
+      <ComboBox
+        onValueChange={onValueChange}
+        onUnexpectedInput={(value) => value}
+        getItems={() => Promise.resolve([])}
+      />,
+    );
 
-  //   while (values.length) {
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //     wrapper.update();
-  //     await delay(0);
-  //     wrapper.find('input').simulate('change', { target: { value: values.pop() } });
-  //     clickOutside();
-  //     await delay(0);
-  //   }
+    while (values.length) {
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await delay(0);
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: values.pop() } });
 
-  //   expect(onValueChange).toHaveBeenCalledWith(null);
-  //   expect(onValueChange).toHaveBeenCalledWith('one');
-  //   expect(onValueChange).not.toHaveBeenCalledWith(undefined);
-  // });
+      clickOutside();
+      await delay(0);
+    }
+
+    expect(onValueChange).toHaveBeenCalledWith(null);
+    expect(onValueChange).toHaveBeenCalledWith('one');
+    expect(onValueChange).not.toHaveBeenCalledWith(undefined);
+  });
 
   it('calls onFocus on focus', () => {
     const onFocus = jest.fn();
