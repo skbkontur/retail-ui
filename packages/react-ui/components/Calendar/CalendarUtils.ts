@@ -101,18 +101,21 @@ export const getTodayDate = () => {
   };
 };
 
-export const setInititalDate = (
-  inititialDate: number | undefined,
-  todayDate: number,
-  date: number,
-  shouldSetInitialDate: boolean | undefined,
-) => {
-  if (shouldSetInitialDate && date) {
-    return date;
-  }
-
+export const setInititalDate = ({
+  inititialDate,
+  date,
+  todayDate,
+}: {
+  inititialDate: number | undefined;
+  date: number;
+  todayDate: number;
+}) => {
   if (inititialDate) {
     return inititialDate;
+  }
+
+  if (date) {
+    return date;
   }
 
   return todayDate;

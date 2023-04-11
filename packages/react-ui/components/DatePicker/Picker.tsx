@@ -70,7 +70,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       >
         <Calendar
           ref={(c) => (this.calendar = c)}
-          shouldSetInitialDate={false}
           hasBottomSeparator={false}
           maxDate={this.props.maxDate}
           minDate={this.props.minDate}

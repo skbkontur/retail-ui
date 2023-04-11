@@ -8,7 +8,7 @@ import { locale } from '../../lib/locale/decorators';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Range } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
@@ -58,17 +58,13 @@ export interface CalendarProps extends CommonProps {
    */
   hasBottomSeparator?: boolean;
   /**
-   * Позволяет задавать дату по умолчанию
+   * Позволяет задать месяц по умолчанию
    */
-  shouldSetInitialDate?: boolean;
+  initialMonth?: Range<1, 13>;
   /**
-   * @ignore
+   * Позволяет задать год по умолчанию
    */
-  _initialMonth?: number;
-  /**
-   * @ignore
-   */
-  _initialYear?: number;
+  initialYear?: number;
 }
 
 export interface CalendarState {
@@ -86,9 +82,7 @@ export const CalendarDataTids = {
   headerYear: 'MonthView__headerYear',
 } as const;
 
-type DefaultProps = Required<
-  Pick<CalendarProps, 'minDate' | 'maxDate' | 'shouldSetInitialDate' | 'hasBottomSeparator'>
->;
+type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'hasBottomSeparator'>>;
 
 /**
  * Компонент календаря из [DatePicker](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а
@@ -109,7 +103,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       month: MAX_MONTH,
       date: MAX_DATE,
     },
-    shouldSetInitialDate: true,
     hasBottomSeparator: true,
   };
 
@@ -126,27 +119,25 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   constructor(props: CalendarProps) {
     super(props);
 
-    const { minDate, maxDate, shouldSetInitialDate } = this.getProps();
+    const { minDate, maxDate } = this.getProps();
 
     const today = getTodayDate();
     const date = getInitialDate(today, this.props.date, minDate, maxDate);
 
-    const initialMonth = setInititalDate(
-      this.props._initialMonth ?? date.month,
-      today.month,
-      date.month,
-      shouldSetInitialDate,
-    );
-    const initialYear = setInititalDate(
-      this.props._initialYear ?? date.year,
-      today.month,
-      date.year,
-      shouldSetInitialDate,
-    );
+    const initialMonth = setInititalDate({
+      inititialDate: this.props.initialMonth,
+      date: date.month,
+      todayDate: today.month,
+    });
+    const initialYear = setInititalDate({
+      inititialDate: this.props.initialYear,
+      date: date.year,
+      todayDate: today.year,
+    });
 
     this.state = {
       scrollPosition: 0,
-      months: CalendarUtils.getMonths(initialMonth, initialYear),
+      months: CalendarUtils.getMonths(this.props.initialMonth ? initialMonth - 1 : initialMonth, initialYear),
       today,
       scrollDirection: 1,
       scrollTarget: 0,

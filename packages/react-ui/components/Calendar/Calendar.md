@@ -5,7 +5,7 @@
 ```jsx harmony
 import { Checkbox } from '@skbkontur/react-ui';
 
-const [date, setDate] = React.useState(undefined);
+const [date, setDate] = React.useState({ year: 2021, month: 11, date: 1 });
 const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
 
 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -29,8 +29,26 @@ const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
 </div>;
 ```
 
+Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение текущего года и месяца с помощью пропов `initialMonth` и `initialYear`
 
-Календарю можно задать кастомную высоту, с помощью переменной темы `calendarWrapperHeight`
+```jsx harmony
+import { Checkbox } from '@skbkontur/react-ui';
+
+const [date, setDate] = React.useState({ year: 2021, month: 12, date: 11 });
+
+<div style={{ display: 'flex' }}>
+  <Calendar
+    date={date}
+    onDateChange={setDate}
+    initialMonth={7}
+    initialYear={2000}
+  />
+  <p style={{ fontSize: '18px', margin: '10px' }}>Выбранная дата: {date.date}.{date.month}.{date.year}</p>
+</div>
+```
+
+
+Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
 - Базовая высота календаря - `330px`
 - Максимальная высота календаря - `450px`
 ```jsx harmony
