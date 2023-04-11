@@ -5,7 +5,7 @@
 ```jsx harmony
 import { Checkbox } from '@skbkontur/react-ui';
 
-const [value, setValue] = React.useState({ year: 2021, month: 11, date: 1 });
+const [date, setDate] = React.useState(undefined);
 const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
 
 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -22,8 +22,8 @@ const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
       } : {
         border: '1px solid transparent',
       }}
-      value={value}
-      onValueChange={setValue}
+      date={date}
+      onDateChange={setDate}
     />
   </div>
 </div>;
@@ -37,15 +37,15 @@ const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
-const [value, setValue] = React.useState({ year: 2021, month: 11, date: 1 });
+const [date, setDate] = React.useState({ year: 2021, month: 11, date: 1 });
 const theme = React.useContext(ThemeContext);
 
 <ThemeContext.Provider
   value={ThemeFactory.create({ calendarWrapperHeight: '450px' }, theme)}
   >
   <Calendar
-    value={value}
-    onValueChange={setValue}
+    date={date}
+    onDateChange={setDate}
   />
 </ThemeContext.Provider>
 ```
