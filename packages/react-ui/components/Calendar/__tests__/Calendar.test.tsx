@@ -39,7 +39,7 @@ describe('Calendar', () => {
       />,
     );
 
-    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months[6])).toBeInTheDocument();
+    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6] as string)).toBeInTheDocument();
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
@@ -52,7 +52,7 @@ describe('Calendar', () => {
       />,
     );
 
-    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months[6])).toBeInTheDocument();
+    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6] as string)).toBeInTheDocument();
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
@@ -63,7 +63,7 @@ describe('Calendar', () => {
       </LocaleContext.Provider>,
     );
 
-    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.en_GB).months[6])).toBeInTheDocument();
+    expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.en_GB).months?.[6] as string)).toBeInTheDocument();
   });
 
   it('should rename months', () => {

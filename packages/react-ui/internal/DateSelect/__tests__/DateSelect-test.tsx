@@ -26,7 +26,7 @@ describe('DateSelect', () => {
   });
 
   it('works correct with January', () => {
-    const expectedDisabledMonths = DatePickerLocaleHelper.get().months.slice(1);
+    const expectedDisabledMonths = DatePickerLocaleHelper.get().months?.slice(1);
     renderSelect({
       type: 'month',
       minValue: 0,
@@ -37,7 +37,7 @@ describe('DateSelect', () => {
       },
     });
     userEvent.click(screen.getByTestId('DateSelect__caption'));
-    expectedDisabledMonths.forEach((month) => {
+    expectedDisabledMonths?.forEach((month) => {
       expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
