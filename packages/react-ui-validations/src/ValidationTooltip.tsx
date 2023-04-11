@@ -34,7 +34,8 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
     if (
       ReactUiDetection.isRadioGroup(child) ||
       ReactUiDetection.isTokenInput(child) ||
-      ReactUiDetection.isSwitcher(child)
+      ReactUiDetection.isSwitcher(child) ||
+      ReactUiDetection.isComboBox(child)
     ) {
       return (
         <Tooltip useWrapper={false} pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
