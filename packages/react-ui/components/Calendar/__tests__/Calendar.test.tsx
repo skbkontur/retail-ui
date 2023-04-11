@@ -14,7 +14,7 @@ describe('Calendar', () => {
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
-  it('correctly passes max and min date to year select', () => {
+  it('should pass max and min date to year select', () => {
     render(
       <Calendar
         onDateChange={jest.fn()}
@@ -30,7 +30,7 @@ describe('Calendar', () => {
     expect(screen.queryByText('2021')).not.toBeInTheDocument();
   });
 
-  it('correctly initial month/year with min date', () => {
+  it('should set date with min date is set', () => {
     render(
       <Calendar
         onDateChange={jest.fn()}
@@ -43,7 +43,7 @@ describe('Calendar', () => {
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
-  it('correctly initial month/year with max date', () => {
+  it('should set date when max date is set', () => {
     render(
       <Calendar
         onDateChange={jest.fn()}
@@ -56,7 +56,7 @@ describe('Calendar', () => {
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
-  it('should correctly set langCode', () => {
+  it('should set langCode', () => {
     render(
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
         <Calendar date={{ year: 2022, month: 6, date: 12 }} />
@@ -66,7 +66,7 @@ describe('Calendar', () => {
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.en_GB).months[6])).toBeInTheDocument();
   });
 
-  it('should correctly rename months', () => {
+  it('should rename months', () => {
     const renamedMonths = [
       'one',
       'two',
