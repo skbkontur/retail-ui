@@ -2,7 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { LocaleContext } from '../../../lib/locale';
-import { Calendar, CalendarProps } from '../Calendar';
+import { Calendar } from '../Calendar';
 import { delay } from '../../../lib/utils';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
@@ -11,11 +11,10 @@ import { Story } from '../../../typings/stories';
 
 export default { title: 'Calendar' };
 
-export const Simple = () => <Calendar date={{ year: 2022, month: 5, date: 12 }} onDateChange={action('pick')} />;
-Simple.storyName = 'simple';
-
 export const CalendarWithBottomSeparator: Story = () => {
-  return <Calendar date={{ year: 2022, month: 5, date: 12 }} hasBottomSeparator />;
+  const [date, setDate] = React.useState({ year: 2022, month: 5, date: 12 });
+
+  return <Calendar date={date} onDateChange={setDate} hasBottomSeparator />;
 };
 CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
@@ -27,7 +26,33 @@ CalendarWithBottomSeparator.parameters = {
   },
 };
 
-export const CalendarWithMinMaxDate: Story = () => <CalendarWithMinMax />;
+export const CalendarWithMinMaxDate: Story = () => {
+  const [min, setMin] = React.useState('02.07.2017');
+  const [max, setMax] = React.useState('30.01.2020');
+
+  return (
+    <Gapped vertical gap={10}>
+      <label>
+        Начало периода: <input type="text" value={min} placeholder="min" onChange={(e) => setMin(e.target.value)} />
+      </label>
+      <label>
+        Окончание периода: <input type="text" value={max} placeholder="max" onChange={(e) => setMax(e.target.value)} />
+      </label>
+      <LocaleContext.Provider
+        value={{
+          locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
+        }}
+      >
+        <Calendar
+          date={{ year: 2017, date: 2, month: 7 }}
+          minDate={new InternalDate({}).parseValue(min).getComponentsLikeNumber()}
+          maxDate={new InternalDate({}).parseValue(max).getComponentsLikeNumber()}
+          onDateChange={action('pick')}
+        />
+      </LocaleContext.Provider>
+    </Gapped>
+  );
+};
 CalendarWithMinMaxDate.storyName = 'Calendar with min max date';
 
 CalendarWithMinMaxDate.parameters = {
@@ -74,57 +99,3 @@ CalendarWithMinMaxDate.parameters = {
     },
   },
 };
-
-interface CalendarWithMinMaxState {
-  min: string;
-  max: string;
-  date: CalendarProps['date'];
-  order: InternalDateOrder;
-  separator: InternalDateSeparator;
-}
-class CalendarWithMinMax extends React.Component<Partial<CalendarProps>, CalendarWithMinMaxState> {
-  public state: CalendarWithMinMaxState = {
-    min: '02.07.2017',
-    max: '30.01.2020',
-    date: { year: 2017, date: 2, month: 7 },
-    order: InternalDateOrder.DMY,
-    separator: InternalDateSeparator.Dot,
-  };
-
-  public render(): React.ReactNode {
-    return (
-      <Gapped vertical gap={10}>
-        <label>
-          Начало периода:{' '}
-          <input
-            type="text"
-            value={this.state.min}
-            placeholder="min"
-            onChange={(e) => this.setState({ min: e.target.value })}
-          />
-        </label>
-        <label>
-          Окончание периода:{' '}
-          <input
-            type="text"
-            value={this.state.max}
-            placeholder="max"
-            onChange={(e) => this.setState({ max: e.target.value })}
-          />
-        </label>
-        <LocaleContext.Provider
-          value={{
-            locale: { DatePicker: { order: this.state.order, separator: this.state.separator } },
-          }}
-        >
-          <Calendar
-            date={this.state.date}
-            minDate={new InternalDate({}).parseValue(this.state.min).getComponentsLikeNumber()}
-            maxDate={new InternalDate({}).parseValue(this.state.max).getComponentsLikeNumber()}
-            onDateChange={action('pick')}
-          />
-        </LocaleContext.Provider>
-      </Gapped>
-    );
-  }
-}
