@@ -20,12 +20,14 @@ import { delay } from '../../../lib/utils';
 import {
   ComboBoxMenuDataTids,
   CustomComboBox,
+  CustomComboBoxDataTids,
   DELAY_BEFORE_SHOW_LOADER,
   LOADER_SHOW_TIME,
 } from '../../../internal/CustomComboBox';
 import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
+import { SpinnerDataTids } from '../../Spinner';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -583,7 +585,6 @@ describe('ComboBox', () => {
     });
 
     it('closes on clickOutside', () => {
-
       const comboboxRef = React.createRef<ComboBox>();
       render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
       comboboxRef?.current?.open();
@@ -752,386 +753,372 @@ describe('ComboBox', () => {
   //   });
   // });
 
-  // describe('Search', () => {
-  //   const query = 'one';
-  //   const items = ['one', 'two'];
+  describe('Search', () => {
+    const query = 'one';
+    const items = ['one', 'two', 'three'];
 
-  //   it('without delay', async () => {
-  //     const getItems = jest.fn(() => Promise.resolve(items));
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    it.only('without delay', async () => {
 
-  //     wrapper.instance().search(query);
+      const getItems = jest.fn(() => Promise.resolve(items));
 
-  //     await delay(0);
+      const comboboxRef = React.createRef<ComboBox<string>>();
+      render(<ComboBox getItems={getItems} renderItem={(x) => x} ref={comboboxRef} />);
 
-  //     expect(getItems).toHaveBeenCalledWith(query);
+      // userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      // await delay(0);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items,
-  //     });
-  //   });
+      comboboxRef.current?.search(query);
+      await delay(0);
 
-  //   it(`with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-  //     const getItems = jest.fn(async () => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER - 200);
+      expect(getItems).toHaveBeenCalledWith(query);
+      expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
+      screen.debug();
+      expect(screen.queryByTestId(MenuMessageDataTids.root)).not.toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent('one');
 
-  //       return Promise.resolve(items);
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     wrapper.instance().search(query);
+      // expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+      //   requestStatus: ComboBoxRequestStatus.Success,
+      //   loading: false,
+      //   opened: true,
+      //   items,
+      // });
+    });
 
-  //     await delay(0);
+    // it(`with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    //   const getItems = jest.fn(async () => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
-  //     expect(getItems).toHaveBeenCalledWith(query);
+    //     return Promise.resolve(items);
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items,
-  //     });
-  //   });
+    //   await delay(0);
 
-  //   it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-  //     const getItems = jest.fn(async () => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER + 200);
+    //   expect(getItems).toHaveBeenCalledWith(query);
 
-  //       return Promise.resolve(items);
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(DELAY_BEFORE_SHOW_LOADER);
 
-  //     wrapper.instance().search(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items,
+    //   });
+    // });
 
-  //     await delay(0);
+    // it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    //   const getItems = jest.fn(async () => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER + 200);
 
-  //     expect(getItems).toHaveBeenCalledWith(query);
+    //     return Promise.resolve(items);
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Pending,
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   await delay(0);
 
-  //     await delay(LOADER_SHOW_TIME);
-  //     await delay(0);
+    //   expect(getItems).toHaveBeenCalledWith(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items,
-  //     });
-  //   });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER);
 
-  //   it('rejected without delay', async () => {
-  //     const getItems = jest.fn(() => Promise.reject());
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Pending,
+    //     loading: true,
+    //     opened: true,
+    //   });
 
-  //     wrapper.instance().search(query);
+    //   await delay(LOADER_SHOW_TIME);
+    //   await delay(0);
 
-  //     await delay(0);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items,
+    //   });
+    // });
 
-  //     expect(getItems).toHaveBeenCalledWith(query);
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Failed,
-  //       loading: false,
-  //       opened: true,
-  //     });
-  //   });
+    // it('rejected without delay', async () => {
+    //   const getItems = jest.fn(() => Promise.reject());
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //   it(`rejected with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-  //     const getItems = jest.fn(async () => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER - 200);
+    //   wrapper.instance().search(query);
 
-  //       return Promise.reject();
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(0);
 
-  //     wrapper.instance().search(query);
+    //   expect(getItems).toHaveBeenCalledWith(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Failed,
+    //     loading: false,
+    //     opened: true,
+    //   });
+    // });
 
-  //     await delay(0);
+    // it(`rejected with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    //   const getItems = jest.fn(async () => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
-  //     expect(getItems).toHaveBeenCalledWith(query);
+    //     return Promise.reject();
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Failed,
-  //       loading: false,
-  //       opened: true,
-  //     });
-  //   });
+    //   await delay(0);
 
-  //   it(`rejected with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-  //     const getItems = jest.fn(async () => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER + 200);
+    //   expect(getItems).toHaveBeenCalledWith(query);
 
-  //       return Promise.reject();
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(DELAY_BEFORE_SHOW_LOADER);
 
-  //     wrapper.instance().search(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Failed,
+    //     loading: false,
+    //     opened: true,
+    //   });
+    // });
 
-  //     await delay(0);
+    // it(`rejected with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    //   const getItems = jest.fn(async () => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER + 200);
 
-  //     expect(getItems).toHaveBeenCalledWith(query);
+    //     return Promise.reject();
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Pending,
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   await delay(0);
 
-  //     await delay(LOADER_SHOW_TIME);
+    //   expect(getItems).toHaveBeenCalledWith(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Failed,
-  //       loading: false,
-  //       opened: true,
-  //     });
-  //   });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER);
 
-  //   it('twice without delay', async () => {
-  //     const secondQuery = 'two';
-  //     const getItems = jest.fn((searchQuery) => Promise.resolve(items.filter((i) => i.includes(searchQuery))));
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Pending,
+    //     loading: true,
+    //     opened: true,
+    //   });
 
-  //     wrapper.instance().search(query);
-  //     wrapper.instance().search(secondQuery);
+    //   await delay(LOADER_SHOW_TIME);
 
-  //     await delay(0);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Failed,
+    //     loading: false,
+    //     opened: true,
+    //   });
+    // });
 
-  //     expect(getItems).toHaveBeenCalledTimes(2);
-  //     expect(getItems).toHaveBeenCalledWith(query);
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items: ['two'],
-  //     });
-  //   });
+    // it('twice without delay', async () => {
+    //   const secondQuery = 'two';
+    //   const getItems = jest.fn((searchQuery) => Promise.resolve(items.filter((i) => i.includes(searchQuery))));
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //   it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-  //     const secondQuery = 'two';
-  //     const getItems = jest.fn(async (searchQuery) => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER - 250);
+    //   wrapper.instance().search(query);
+    //   wrapper.instance().search(secondQuery);
 
-  //       return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(0);
 
-  //     wrapper.instance().search(query);
+    //   expect(getItems).toHaveBeenCalledTimes(2);
+    //   expect(getItems).toHaveBeenCalledWith(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items: ['two'],
+    //   });
+    // });
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER - 300);
+    // it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    //   const secondQuery = 'two';
+    //   const getItems = jest.fn(async (searchQuery) => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER - 250);
 
-  //     wrapper.instance().search(secondQuery);
+    //     return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER);
+    //   wrapper.instance().search(query);
 
-  //     expect(getItems).toHaveBeenCalledTimes(2);
-  //     expect(getItems).toHaveBeenCalledWith(query);
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items: ['two'],
-  //     });
-  //   });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
-  //   it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER} loader`, async () => {
-  //     const secondQuery = 'two';
-  //     const getItems = jest.fn(async (searchQuery) => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER - 100);
+    //   wrapper.instance().search(secondQuery);
 
-  //       return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(DELAY_BEFORE_SHOW_LOADER);
 
-  //     wrapper.instance().search(query);
+    //   expect(getItems).toHaveBeenCalledTimes(2);
+    //   expect(getItems).toHaveBeenCalledWith(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items: ['two'],
+    //   });
+    // });
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER - 200);
+    // it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER} loader`, async () => {
+    //   const secondQuery = 'two';
+    //   const getItems = jest.fn(async (searchQuery) => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER - 100);
 
-  //     wrapper.instance().search(secondQuery);
+    //     return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER - 100);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Pending,
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
-  //     await delay(LOADER_SHOW_TIME + 100);
+    //   wrapper.instance().search(secondQuery);
 
-  //     expect(getItems).toHaveBeenCalledTimes(2);
-  //     expect(getItems).toHaveBeenCalledWith(query);
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items: ['two'],
-  //     });
-  //   });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER - 100);
 
-  //   it(`twice with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-  //     const secondQuery = 'two';
-  //     const getItems = jest.fn(async (searchQuery) => {
-  //       await delay(DELAY_BEFORE_SHOW_LOADER + 200);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Pending,
+    //     loading: true,
+    //     opened: true,
+    //   });
 
-  //       return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(LOADER_SHOW_TIME + 100);
 
-  //     wrapper.instance().search(query);
+    //   expect(getItems).toHaveBeenCalledTimes(2);
+    //   expect(getItems).toHaveBeenCalledWith(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items: ['two'],
+    //   });
+    // });
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER - 300);
+    // it(`twice with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    //   const secondQuery = 'two';
+    //   const getItems = jest.fn(async (searchQuery) => {
+    //     await delay(DELAY_BEFORE_SHOW_LOADER + 200);
 
-  //     wrapper.instance().search(secondQuery);
+    //     return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(300);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Pending,
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
-  //     await delay(LOADER_SHOW_TIME + 100);
+    //   wrapper.instance().search(secondQuery);
 
-  //     expect(getItems).toHaveBeenCalledTimes(2);
-  //     expect(getItems).toHaveBeenCalledWith(query);
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items: ['two'],
-  //     });
-  //   });
+    //   await delay(300);
 
-  //   it('twice with slow then fast requests', async () => {
-  //     const delays = [DELAY_BEFORE_SHOW_LOADER + 200, DELAY_BEFORE_SHOW_LOADER - 200];
-  //     const secondQuery = 'two';
-  //     const getItems = jest.fn(async (searchQuery) => {
-  //       await delay(delays.shift() || 0);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Pending,
+    //     loading: true,
+    //     opened: true,
+    //   });
 
-  //       return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(LOADER_SHOW_TIME + 100);
 
-  //     wrapper.instance().search(query);
+    //   expect(getItems).toHaveBeenCalledTimes(2);
+    //   expect(getItems).toHaveBeenCalledWith(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items: ['two'],
+    //   });
+    // });
 
-  //     await delay(300);
+    // it('twice with slow then fast requests', async () => {
+    //   const delays = [DELAY_BEFORE_SHOW_LOADER + 200, DELAY_BEFORE_SHOW_LOADER - 200];
+    //   const secondQuery = 'two';
+    //   const getItems = jest.fn(async (searchQuery) => {
+    //     await delay(delays.shift() || 0);
 
-  //     wrapper.instance().search(secondQuery);
+    //     return Promise.resolve(items.filter((i) => i.includes(searchQuery)));
+    //   });
+    //   const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-  //     await delay(DELAY_BEFORE_SHOW_LOADER - 300);
+    //   wrapper.instance().search(query);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Pending,
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   await delay(300);
 
-  //     await delay(200);
+    //   wrapper.instance().search(secondQuery);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Pending,
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
-  //     await delay(LOADER_SHOW_TIME - 200);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Pending,
+    //     loading: true,
+    //     opened: true,
+    //   });
 
-  //     expect(getItems).toHaveBeenCalledTimes(2);
-  //     expect(getItems).toHaveBeenCalledWith(query);
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       requestStatus: ComboBoxRequestStatus.Success,
-  //       loading: false,
-  //       opened: true,
-  //       items: ['two'],
-  //     });
-  //   });
+    //   await delay(200);
 
-  //   it('long request and blur before if resolves', async () => {
-  //     const getItems = jest.fn(async () => {
-  //       await delay(500);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Pending,
+    //     loading: true,
+    //     opened: true,
+    //   });
 
-  //       return Promise.resolve(items);
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+    //   await delay(LOADER_SHOW_TIME - 200);
 
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
+    //   expect(getItems).toHaveBeenCalledTimes(2);
+    //   expect(getItems).toHaveBeenCalledWith(query);
+    //   expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+    //     requestStatus: ComboBoxRequestStatus.Success,
+    //     loading: false,
+    //     opened: true,
+    //     items: ['two'],
+    //   });
+    // });
 
-  //     await delay(300);
+    // it.only('long request and blur before if resolves', async () => {
+    //   const getItems = jest.fn(async () => {
+    //     await delay(500);
+    //     return Promise.resolve(items);
+    //   });
+    //   render(<ComboBox getItems={getItems} />);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       loading: true,
-  //       opened: true,
-  //     });
+    //   userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    //   await delay(300);
 
-  //     clickOutside();
-  //     await delay(0);
+    //   expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
+    //   clickOutside();
+    //   await delay(0);
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       loading: false,
-  //       opened: false,
-  //     });
+    //   expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
+    //   userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    //   await delay(300);
 
-  //     await delay(300);
+    //   expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
+    // });
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       loading: true,
-  //       opened: true,
-  //     });
-  //   });
+    it('long request and blur after it resolves', async () => {
+      const getItems = jest.fn(async () => {
+        await delay(500);
+        return Promise.resolve(items);
+      });
+      const comboboxRef = React.createRef<ComboBox<string>>();
 
-  //   it('long request and blur after it resolves', async () => {
-  //     const getItems = jest.fn(async () => {
-  //       await delay(500);
+      render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
-  //       return Promise.resolve(items);
-  //     });
-  //     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
+      await delay(600);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
 
-  //     await delay(600);
+      clickOutside();
+      await delay(0);
+      expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       loading: true,
-  //       opened: true,
-  //     });
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await delay(300);
 
-  //     clickOutside();
-  //     await delay(0);
-
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       loading: false,
-  //       opened: false,
-  //     });
-
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-
-  //     await delay(300);
-
-  //     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-  //       loading: true,
-  //       opened: true,
-  //     });
-  //   });
-  // });
+      expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
+    });
+  });
 
   describe('Locale', () => {
     let search: jest.Mock<Promise<any>>;
