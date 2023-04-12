@@ -222,12 +222,17 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
+  private hasAnchorElementListeners = false;
 
   public anchorElement: Nullable<Element> = null;
 
   public componentDidMount() {
     this.updateLocation();
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
+
+    if (!this.hasAnchorElementListeners) {
+      this.addEventListeners(this.anchorElement);
+    }
   }
 
   public static getDerivedStateFromProps(props: Readonly<PopupProps>, state: PopupState) {
@@ -266,7 +271,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public componentWillUnmount() {
     this.cancelDelayedUpdateLocation();
-    this.removeEventListeners(this.anchorElement);
+    if (this.hasAnchorElementListeners) {
+      this.removeEventListeners(this.anchorElement);
+    }
     if (this.layoutEventsToken) {
       this.layoutEventsToken.remove();
       this.layoutEventsToken = null;
@@ -361,6 +368,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       element.addEventListener('click', this.handleClick);
       element.addEventListener('focusin', this.handleFocus as EventListener);
       element.addEventListener('focusout', this.handleBlur as EventListener);
+
+      this.hasAnchorElementListeners = true;
     }
   }
 
@@ -374,6 +383,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       element.removeEventListener('click', this.handleClick);
       element.removeEventListener('focusin', this.handleFocus as EventListener);
       element.removeEventListener('focusout', this.handleBlur as EventListener);
+
+      this.hasAnchorElementListeners = false;
     }
   }
 
