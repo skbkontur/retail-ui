@@ -1,8 +1,7 @@
-import React, { ReactNode, useContext, useLayoutEffect, useState } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
@@ -26,8 +25,6 @@ export const ModalHeaderDataTids = {
  * @visibleName Modal.Header
  */
 function ModalHeader(props: ModalHeaderProps) {
-  const [isFixed, setIsFixed] = useState(false);
-
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
@@ -61,17 +58,7 @@ function ModalHeader(props: ModalHeaderProps) {
   };
 
   return (
-    <CommonWrapper {...props}>
-      <ZIndex priority={isFixed ? 'ModalFixedHeader' : undefined} className={styles.headerWrapper()}>
-        {sticky ? (
-          <Sticky getIsFixed={setIsFixed} side="top">
-            {renderContent}
-          </Sticky>
-        ) : (
-          renderContent()
-        )}
-      </ZIndex>
-    </CommonWrapper>
+    <CommonWrapper {...props}>{sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}</CommonWrapper>
   );
 }
 

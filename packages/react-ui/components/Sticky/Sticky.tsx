@@ -24,10 +24,6 @@ export interface StickyProps extends Omit<CommonProps, 'children'> {
    */
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
-  /**
-   * Позволяет узнать, находится ли компонент в залипшем состоянии
-   */
-  getIsFixed?: (isFixed: boolean) => void;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
 
@@ -105,8 +101,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       }
     }
     this.reflowCounter = 0;
-
-    this.props.getIsFixed?.(this.state.fixed);
   }
 
   public render() {

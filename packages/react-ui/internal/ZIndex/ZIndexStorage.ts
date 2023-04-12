@@ -14,9 +14,6 @@ export type LayerComponentName = keyof typeof componentPriorities;
 const componentPriorities = {
   MobilePopup: 9000,
   Toast: 10000,
-  // Fixed footer/header should overlap anything that can be contained inside of a modal body
-  ModalFixedFooter: 11,
-  ModalFixedHeader: 11,
   GlobalLoader: 10,
   Sidepage: 9,
   Modal: 9,
