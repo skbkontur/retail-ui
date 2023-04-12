@@ -1,7 +1,4 @@
-// eslint-disable-next-line import/order
 import React from 'react';
-//import { mount, shallow } from 'enzyme';
-
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -9,9 +6,8 @@ import { DropdownMenu } from '../DropdownMenu';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { InternalMenuDataTids } from '../../../internal/InternalMenu';
 
-
 describe('<DropdownMenu />', () => {
-  const captionDatatid = "captionForTest"
+  const captionDatatid = 'captionForTest';
   const caption = <button data-tid={captionDatatid}>Test</button>;
 
   beforeEach(() => {
@@ -32,7 +28,7 @@ describe('<DropdownMenu />', () => {
     render(
       <DropdownMenu caption={caption}>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </DropdownMenu>,
     );
     expect(screen.queryByTestId(InternalMenuDataTids.root)).not.toBeInTheDocument();
     userEvent.click(screen.getByTestId(captionDatatid));
@@ -46,7 +42,7 @@ describe('<DropdownMenu />', () => {
         <MenuItem>Test</MenuItem>
         <MenuItem>Test</MenuItem>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </DropdownMenu>,
     );
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
@@ -60,11 +56,7 @@ describe('<DropdownMenu />', () => {
 
     render(
       <DropdownMenu caption={caption}>
-        <MenuItem
-          onClick={onClick}
-        >
-          Test
-        </MenuItem>
+        <MenuItem onClick={onClick}>Test</MenuItem>
       </DropdownMenu>,
     );
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
@@ -94,7 +86,7 @@ describe('<DropdownMenu />', () => {
   });
 
   it('Renders header', () => {
-    const testHeader = "testHeader"
+    const testHeader = 'testHeader';
     render(
       <DropdownMenu caption={caption} header={<div data-tid={testHeader}>Test header</div>}>
         <MenuItem>Test</MenuItem>
@@ -106,7 +98,7 @@ describe('<DropdownMenu />', () => {
   });
 
   it('Renders footer', () => {
-    const testFooter = "testFooter";
+    const testFooter = 'testFooter';
     render(
       <DropdownMenu caption={caption} footer={<div data-tid={testFooter}>Test header</div>}>
         <MenuItem>Test</MenuItem>
