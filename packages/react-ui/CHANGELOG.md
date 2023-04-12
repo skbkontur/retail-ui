@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.2...@skbkontur/react-ui@4.13.3) (2023-04-12)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip:** support multiple mount/unmount (React18DevStrictMode) ([f86f3ee](https://github.com/skbkontur/retail-ui/commit/f86f3eeeed608a9abb305f226f227647c258a49c))
+* **Paging:** global styles may cause circles to shrink ([#3128](https://github.com/skbkontur/retail-ui/issues/3128)) ([063201a](https://github.com/skbkontur/retail-ui/commit/063201a51924901c6a01b2fd565290b0ea2f657c))
+
+
+
+
+
 ## [4.13.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.1...@skbkontur/react-ui@4.13.2) (2023-03-24)
 
 
