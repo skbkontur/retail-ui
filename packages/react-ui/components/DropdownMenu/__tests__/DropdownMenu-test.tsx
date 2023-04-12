@@ -109,4 +109,31 @@ describe('<DropdownMenu />', () => {
 
     expect(screen.getByTestId(testFooter)).toBeInTheDocument();
   });
+
+  it('Public method open() works', () => {
+    const dropdownMenuRef = React.createRef<DropdownMenu>();
+
+    render(
+      <DropdownMenu caption={caption} ref={dropdownMenuRef}>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>,
+    );
+
+    dropdownMenuRef.current?.open();
+    expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
+  });
+
+  it('Public method close() works', () => {
+    const dropdownMenuRef = React.createRef<DropdownMenu>();
+
+    render(
+      <DropdownMenu caption={caption} ref={dropdownMenuRef}>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>,
+    );
+    userEvent.click(screen.getByTestId(captionDatatid));
+
+    dropdownMenuRef.current?.close();
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+  });
 });
