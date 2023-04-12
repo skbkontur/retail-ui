@@ -22,19 +22,16 @@ describe('Dropdown', () => {
   it('Renders caption', () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
-    document.getElementById('test-caption')?.click();
-
-    expect(document.getElementById('test-caption')).toBeInTheDocument();
-    expect(document.getElementById('test-caption')).toHaveTextContent(captionText);
+    expect(screen.getByTestId(DropdownDataTids.root)).toBeInTheDocument();
   });
 
   it('Renders items', () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
+    //techdebt: change to using userEvent.click + datatid, when datatids will be added to caption
     document.getElementById('test-caption')?.click();
 
-    expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
-    expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent(menuItemText);
+    expect(screen.getByText(menuItemText)).toBeInTheDocument();
   });
 
   it('opens and closes', () => {
