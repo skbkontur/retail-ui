@@ -1,12 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Dropdown, DropdownDataTids } from '../Dropdown';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 
 describe('Dropdown', () => {
   const captionText = 'Open';
-  const caption = <span id="test-caption">{captionText}</span>;
+  const captionDatatid = 'test-caption';
+  const caption = <span data-tid={captionDatatid}>{captionText}</span>;
+
   const menuItemText = 'Menu item';
   const menuItem = <MenuItem>{menuItemText}</MenuItem>;
 
@@ -28,8 +31,7 @@ describe('Dropdown', () => {
   it('Renders items', () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
-    //techdebt: change to using userEvent.click + datatid, when datatids will be added to caption
-    document.getElementById('test-caption')?.click();
+    userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByText(menuItemText)).toBeInTheDocument();
   });
@@ -39,11 +41,11 @@ describe('Dropdown', () => {
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
-    document.getElementById('test-caption')?.click();
+    userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
 
-    document.getElementById('test-caption')?.click();
+    userEvent.click(screen.getByTestId(captionDatatid));
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 
