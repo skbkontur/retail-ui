@@ -1058,15 +1058,37 @@ ToastOverEverything.parameters = {
 export const ModalWithDropdown: Story = () => {
   return (
     <Modal width={350}>
-      <Modal.Header style={{ background: 'green', height: '700px' }}>Header</Modal.Header>
-      <Modal.Body style={{ height: '100px' }}>
-        <div style={{ height: '30px' }}></div>
-        <Dropdown caption={'Open'} size="medium" width="50%" menuWidth="250px" disablePortal>
+      <Modal.Header style={{ background: 'green' }}>Header</Modal.Header>
+      <Modal.Body>
+        <div style={{ height: '50px' }} />
+        <Dropdown
+          data-tid="dropdown_top"
+          menuPos="top"
+          caption={'Open'}
+          size="medium"
+          width="50%"
+          menuWidth="250px"
+          disablePortal
+        >
           <div style={{ height: '150px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
             <p>{'выпадашка '.repeat(100)}</p>
           </div>
         </Dropdown>
-        <div style={{ height: '200px' }}></div>
+        <div style={{ height: '400px' }} />
+        <Dropdown
+          data-tid="dropdown_bottom"
+          menuPos="bottom"
+          caption={'Open'}
+          size="medium"
+          width="50%"
+          menuWidth="250px"
+          disablePortal
+        >
+          <div style={{ height: '150px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
+            <p>{'выпадашка '.repeat(100)}</p>
+          </div>
+        </Dropdown>
+        <div style={{ height: '50px' }} />
       </Modal.Body>
       <Modal.Footer style={{ background: 'green' }}>Footer</Modal.Footer>
     </Modal>
@@ -1075,18 +1097,13 @@ export const ModalWithDropdown: Story = () => {
 
 ModalWithDropdown.parameters = {
   creevey: {
-    skip: { 'screenshots stable only in chrome': { in: /^(?!\b(chrome)\b)/ } },
+    skip: { "themes don't affect logic": { in: /^(?!\b(chrome|firefox)\b)/ } },
     tests: {
-      async 'dropdown overlaps static header and lays under fixed footer'() {
+      async 'dropdown overlaps static header'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_top"]' }))
           .perform();
-        await delay(1000);
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-          scrollContainer.scrollTop = 0;
-        });
         await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
@@ -1094,15 +1111,22 @@ ModalWithDropdown.parameters = {
       async 'dropdown lays under fixed header'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_top"]' }))
           .perform();
         await delay(1000);
         await this.browser.executeScript(function () {
-          // Allows to invert dropdown direction
-          const dropdownOffset = 800;
           const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-          scrollContainer.scrollTop = scrollContainer.scrollHeight - dropdownOffset;
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
         });
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+      async 'dropdown lays under fixed footer'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_bottom"]' }))
+          .perform();
         await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
@@ -1110,7 +1134,7 @@ ModalWithDropdown.parameters = {
       async 'dropdown overlaps static footer'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_bottom"]' }))
           .perform();
         await delay(1000);
         await this.browser.executeScript(function () {
