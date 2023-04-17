@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.3...@skbkontur/react-ui@4.13.4) (2023-04-14)
+
+
+### Bug Fixes
+
+* **Modal,SidePage:** use safety `globalThat` instead of `global` ([#3142](https://github.com/skbkontur/retail-ui/issues/3142)) ([89df16d](https://github.com/skbkontur/retail-ui/commit/89df16db457455ea70c1c9128d17fedb6b503bf8))
+
+
+
+
+
+## [4.13.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.2...@skbkontur/react-ui@4.13.3) (2023-04-12)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip:** support multiple mount/unmount (React18DevStrictMode) ([f86f3ee](https://github.com/skbkontur/retail-ui/commit/f86f3eeeed608a9abb305f226f227647c258a49c))
+* **Paging:** global styles may cause circles to shrink ([#3128](https://github.com/skbkontur/retail-ui/issues/3128)) ([063201a](https://github.com/skbkontur/retail-ui/commit/063201a51924901c6a01b2fd565290b0ea2f657c))
+
+
+
+
+
+## [4.13.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.1...@skbkontur/react-ui@4.13.2) (2023-03-24)
+
+
+### Bug Fixes
+
+* **SidePage:** remove 2nd HBVS which blocks scrolling ([#3121](https://github.com/skbkontur/retail-ui/issues/3121)) ([25fbcc0](https://github.com/skbkontur/retail-ui/commit/25fbcc0c0c7fc2b645c4848337fc519f433ca141))
+* **TokenInput:** remove empty tokens on paste ([#3124](https://github.com/skbkontur/retail-ui/issues/3124)) ([a326d92](https://github.com/skbkontur/retail-ui/commit/a326d92e1578e0e901b91c38ecbfc27c9a23b231))
+
+
+
+
+
 ## [4.13.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.0...@skbkontur/react-ui@4.13.1) (2023-03-10)
 
 
