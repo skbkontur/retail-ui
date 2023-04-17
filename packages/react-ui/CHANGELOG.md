@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.3...@skbkontur/react-ui@4.13.4) (2023-04-14)
+
+
+### Bug Fixes
+
+* **Modal,SidePage:** use safety `globalThat` instead of `global` ([#3142](https://github.com/skbkontur/retail-ui/issues/3142)) ([89df16d](https://github.com/skbkontur/retail-ui/commit/89df16db457455ea70c1c9128d17fedb6b503bf8))
+
+
+
+
+
 ## [4.13.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.2...@skbkontur/react-ui@4.13.3) (2023-04-12)
 
 
