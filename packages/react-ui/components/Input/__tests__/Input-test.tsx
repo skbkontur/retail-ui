@@ -51,7 +51,7 @@ describe('<Input />', () => {
   });
   types.forEach((type) => {
     it(`type ${type} renders correctly with mask prop`, () => {
-      render(<Input value="" type={type} role={'textbox'} />);
+      render(<Input value="" type={type} role={'textbox'} mask="999" />);
       expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
   });

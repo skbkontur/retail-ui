@@ -62,7 +62,7 @@ export interface InputProps
         borderless?: boolean;
         /** Выравнивание текста */
         align?: InputAlign;
-        /** Паттерн маски. Доступен для типов 'text', 'password', 'email', 'tel', 'search', 'url' */
+        /** Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url` */
         mask?: Nullable<string>;
         /** Символ маски */
         maskChar?: Nullable<string>;
@@ -101,7 +101,7 @@ export interface InputProps
          * `ReactNode` после значения, но перед правой иконкой
          */
         suffix?: React.ReactNode;
-        /** Выделять введенное значение при фокусе. Работает с типами 'text', 'password', 'tel', 'search', 'url' */
+        /** Выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
         selectAllOnFocus?: boolean;
         /**
          * Обработчик неправильного ввода.
@@ -250,6 +250,8 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Работает с типами `text`, `password`, `tel`, `search`, `url`
+   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    */
   public selectAll = (): void => {
@@ -326,6 +328,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
         [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
         [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
+        // [styles.inputColorScheme(this.theme)]: error && (isIE11 || isEdge),
       }),
       style: { width },
       onMouseEnter,
@@ -353,9 +356,9 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-describedby': ariaDescribedby,
     };
 
-    const typesAllowedWithMask: InputType[] = ['text', 'password', 'email', 'tel', 'search', 'url'];
+    const typesDisallowedWithMask: InputType[] = ['number', 'date', 'time', 'hidden'];
     const input =
-      mask && typesAllowedWithMask.includes(type)
+      mask && !typesDisallowedWithMask.includes(type)
         ? this.renderMaskedInput(inputProps, mask)
         : React.createElement('input', inputProps);
 
@@ -521,6 +524,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
       const allowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
       const canBeSelected = !this.props.type || (this.props.type && allowedTypes.includes(this.props.type));
       if (!canBeSelected) {

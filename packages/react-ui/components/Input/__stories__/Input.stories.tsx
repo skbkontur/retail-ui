@@ -138,11 +138,13 @@ const maskStates: InputState[] = [
   { mask: '**** **********', maskChar: '*', alwaysShowMask: true },
   { mask: '*** ***', maskChar: '_', defaultValue: 'Value' },
   { mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  // { type: 'date', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'email', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'tel', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'url', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'search', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'date', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'time', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'number', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
 ];
 
 export const Placeholder: Story = () => (
@@ -237,7 +239,7 @@ export const Type: Story = () => (
     presetProps={{}}
   />
 );
-Type.parameters = { creevey: { skip: [{ in: ['ie11'] }] } };
+Type.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
 
 const typeStates: InputState[] = [
   { type: 'text', defaultValue: 'Value' },
@@ -278,7 +280,7 @@ export const TypeApi: Story = () => (
     />
   </>
 );
-TypeApi.parameters = { creevey: { skip: [{ in: ['ie11'] }] } };
+TypeApi.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
 
 const typeApiTypes: InputState[] = [
   { type: 'number' },
