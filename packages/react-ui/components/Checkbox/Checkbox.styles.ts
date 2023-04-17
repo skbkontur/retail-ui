@@ -174,15 +174,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconSize(t: Theme) {
-    return css`
-      svg {
-        height: ${t.checkboxBoxSize};
-        width: ${t.checkboxBoxSize};
-      }
-    `;
-  },
-
   iconFixPosition() {
     return css`
       svg {
