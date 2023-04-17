@@ -205,9 +205,7 @@ module.exports = {
   pagePerSection: true,
   styles,
   title: 'React UI',
-  require: ['core-js',
-  			path.join(__dirname, '../components/Metrika/infra_front.js')
-  			],
+  require: ['core-js', path.join(__dirname, '../components/Metrika/infra_front.js')],
   propsParser: (path, ...rest) => {
     if (/\.tsx$/.test(path)) {
       return parseTsComponent(path, ...rest);
