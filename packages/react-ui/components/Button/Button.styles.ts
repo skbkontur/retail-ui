@@ -744,6 +744,13 @@ export const styles = memoizeStyle({
           background-image: ${t.btnArrowBgImageChecked};
         }
       }
+
+      :enabled svg {
+        color: ${t.btnCheckedTextColor} !important;
+      }
+      :hover:enabled svg {
+        color: ${t.btnCheckedTextColor} !important;
+      }
     `;
 
     return css`
@@ -791,7 +798,7 @@ export const styles = memoizeStyle({
   checkedDisabled2022(t: Theme) {
     return css`
       svg {
-        stroke: ${t.btnCheckedDisabledColor};
+        color: ${t.btnCheckedDisabledColor} !important;
       }
     `;
   },

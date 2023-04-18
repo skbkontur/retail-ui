@@ -47,6 +47,13 @@ export const buttonUseMixin = (
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
+
+    :enabled svg {
+      color: ${color};
+    }
+    :hover:enabled svg {
+      color: ${color};
+    }
   `;
 };
 
