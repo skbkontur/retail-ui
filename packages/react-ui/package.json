@@ -44,7 +44,8 @@
     "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui",
     "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html",
-    "button-spec": "node scripts/spec/render.mjs -i components/Button/Button.spec.md -o components/Button/Button.spec.html && serve components/Button/Button.spec.html"
+    "button-spec": "node scripts/spec/render.mjs -i components/Button/Button.spec.md -o components/Button/Button.spec.html && serve components/Button/Button.spec.html",
+    "button-spec-demo": "node scripts/spec/render.mjs -i components/Button/Button.demo.spec.md -o components/Button/Button.demo.spec.html && serve components/Button/Button.demo.spec.html"
   },
   "license": "MIT",
   "dependencies": {
