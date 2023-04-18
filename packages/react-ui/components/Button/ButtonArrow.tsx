@@ -27,7 +27,7 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
   const _isTheme2022 = isTheme2022(theme);
 
   const getArrowIconRootClassName = () => {
-    return cx(styles.arrowIconRoot(), {
+    return cx(styles.arrowIconRoot(), globalClasses.arrow, {
       [styles.arrowIconRootSmall(theme)]: size === 'small',
       [styles.arrowIconRootMedium(theme)]: size === 'medium',
       [styles.arrowIconRootLarge(theme)]: size === 'large',

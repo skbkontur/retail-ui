@@ -16,6 +16,7 @@ export const globalClasses = prefix('button')({
   arrowHelper: 'arrow-helper',
   arrowHelperTop: 'arrow-helper-top',
   arrowHelperBottom: 'arrow-helper-bottom',
+  arrow: 'arrow',
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
