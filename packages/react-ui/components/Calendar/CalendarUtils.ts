@@ -1,8 +1,9 @@
+import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
-import { CalendarProps, CalendarState } from './Calendar';
+import { CalendarState } from './Calendar';
 import { CalendarDateShape, isGreater, isLess } from './CalendarDateShape';
 
 export const calculateScrollPosition = (
@@ -40,7 +41,10 @@ export const calculateScrollPosition = (
 };
 
 export const applyDelta = (deltaY: number, theme: Theme) => {
-  return ({ scrollPosition, months }: Readonly<CalendarState>, { minDate, maxDate }: CalendarProps) => {
+  return (
+    { scrollPosition, months }: Readonly<CalendarState>,
+    { minDate, maxDate }: { minDate: CalendarDateShape; maxDate: CalendarDateShape },
+  ) => {
     const scrollDirection = deltaY > 0 ? 1 : -1;
     const isMinDateExceeded =
       minDate && scrollDirection < 0 && minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
@@ -71,12 +75,17 @@ export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map((x) => MonthViewModel.create(month + x, year));
 };
 
-export const getInitialDate = (
-  today: CalendarDateShape,
-  date: CalendarProps['date'],
-  minDate: CalendarProps['minDate'],
-  maxDate: CalendarProps['maxDate'],
-) => {
+export const getInitialDate = ({
+  today,
+  date,
+  minDate,
+  maxDate,
+}: {
+  today: CalendarDateShape;
+  date?: Nullable<CalendarDateShape>;
+  minDate?: Nullable<CalendarDateShape>;
+  maxDate?: Nullable<CalendarDateShape>;
+}) => {
   if (date) {
     return date;
   }

@@ -9,20 +9,13 @@ import { CalendarLocaleHelper } from '../locale';
 
 describe('Calendar', () => {
   it('renders', () => {
-    render(<Calendar date={{ year: 2017, month: 6, date: 2 }} onDateChange={jest.fn()} />);
+    render(<Calendar date="02.06.2017" onDateChange={jest.fn()} />);
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   it('should pass max and min date to year select', () => {
-    render(
-      <Calendar
-        onDateChange={jest.fn()}
-        date={{ year: 2017, month: 6, date: 2 }}
-        minDate={{ year: 2017, month: 2, date: 21 }}
-        maxDate={{ year: 2020, month: 7, date: 15 }}
-      />,
-    );
+    render(<Calendar onDateChange={jest.fn()} date="02.06.2017" minDate="21.02.2017" maxDate="15.07.2020" />);
 
     userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015')).toHaveAttribute('data-prop-disabled', 'true');
@@ -31,40 +24,21 @@ describe('Calendar', () => {
   });
 
   it('should set date with higher min date is set', () => {
-    render(
-      <Calendar
-        onDateChange={jest.fn()}
-        date={{ year: 2017, month: 6, date: 2 }}
-        minDate={{ year: 2099, month: 0, date: 21 }}
-      />,
-    );
+    render(<Calendar onDateChange={jest.fn()} date="02.06.2017" minDate="21.01.2099" />);
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6] as string)).toBeInTheDocument();
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
   it('should set date when lower max date is set', () => {
-    render(
-      <Calendar
-        onDateChange={jest.fn()}
-        date={{ year: 2017, month: 6, date: 2 }}
-        maxDate={{ year: 1959, month: 10, date: 15 }}
-      />,
-    );
+    render(<Calendar onDateChange={jest.fn()} date="02.06.2017" maxDate="15.10.1959" />);
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6] as string)).toBeInTheDocument();
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
   it('should set initial year and month', () => {
-    render(
-      <Calendar
-        onDateChange={jest.fn()}
-        date={{ year: 2017, month: 6, date: 2 }}
-        initialMonth={1}
-        initialYear={2000}
-      />,
-    );
+    render(<Calendar onDateChange={jest.fn()} date="02.06.2017" initialMonth={1} initialYear={2000} />);
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[0] as string)).toBeInTheDocument();
     expect(screen.getByText('2000')).toBeInTheDocument();
@@ -73,7 +47,7 @@ describe('Calendar', () => {
   it('should set langCode', () => {
     render(
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-        <Calendar date={{ year: 2022, month: 6, date: 12 }} />
+        <Calendar date="12.06.2022" />
       </LocaleContext.Provider>,
     );
 
@@ -97,7 +71,7 @@ describe('Calendar', () => {
     ];
     render(
       <LocaleContext.Provider value={{ locale: { Calendar: { months: renamedMonths } } }}>
-        <Calendar date={{ year: 2022, month: 6, date: 12 }} />
+        <Calendar date="12.06.2022" />
       </LocaleContext.Provider>,
     );
 

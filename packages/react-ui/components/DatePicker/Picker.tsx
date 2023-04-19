@@ -1,6 +1,8 @@
 import React from 'react';
 import shallowEqual from 'shallowequal';
 
+import { InternalDateValidateCheck } from '../../lib/date/types';
+import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
@@ -15,12 +17,12 @@ import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
-interface PickerProps extends Pick<CalendarProps, 'maxDate' | 'minDate' | 'date' | 'onDateChange' | 'isHoliday'> {
+interface PickerProps extends Pick<CalendarProps, 'date' | 'minDate' | 'maxDate' | 'isHoliday' | 'onDateChange'> {
   /**
    * Управляет наличием кнопки "Сегодня"
    */
   enableTodayLink?: boolean;
-  onSelect?: (date: CalendarDateShape) => void;
+  onSelect?: (date: string) => void;
 }
 
 interface PickerState {
@@ -37,16 +39,16 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
   constructor(props: PickerProps) {
     super(props);
-    const today = getTodayDate();
     this.state = {
-      today,
+      today: getTodayDate(),
     };
   }
 
   public componentDidUpdate(prevProps: PickerProps) {
-    const { date } = this.props;
-    if (date && !shallowEqual(date, prevProps.date)) {
-      this.scrollToMonth(date.month, date.year);
+    const date = new InternalDate().parseValue(this.props.date).getComponentsLikeNumber();
+
+    if (date && !shallowEqual(this.props.date, prevProps.date)) {
+      this.scrollToMonth(date.month - 1, date.year);
     }
   }
 
@@ -71,11 +73,11 @@ export class Picker extends React.Component<PickerProps, PickerState> {
         <Calendar
           ref={(c) => (this.calendar = c)}
           hasBottomSeparator={false}
-          maxDate={this.props.maxDate}
-          minDate={this.props.minDate}
+          maxDate={this.parseValueToDate(this.props.maxDate)}
+          minDate={this.parseValueToDate(this.props.minDate)}
           onDateChange={this.props.onDateChange}
           isHoliday={this.props.isHoliday}
-          date={this.props.date}
+          date={this.parseValueToDate(this.props.date)}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
@@ -88,9 +90,23 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     }
   };
 
+  private parseValueToDate(value?: Nullable<string>): string | undefined {
+    if (value === undefined || value === null) {
+      return undefined;
+    }
+    const date = new InternalDate({ value });
+    if (date.validate({ checks: [InternalDateValidateCheck.NotNull, InternalDateValidateCheck.Native] })) {
+      return date.toString({ withPad: true });
+    }
+    return undefined;
+  }
+
   private renderTodayLink() {
     const { order, separator } = this.locale;
-    const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
+    const today = new InternalDate({ order, separator })
+      .setComponents(InternalDateGetter.getTodayComponents())
+      .toString({ withPad: true, withSeparator: true });
+
     return (
       <button
         data-tid={DatePickerDataTids.pickerTodayWrapper}
@@ -100,17 +116,14 @@ export class Picker extends React.Component<PickerProps, PickerState> {
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}
       >
-        {`${this.locale.today} ${today.toString({ withPad: true, withSeparator: true })}`}
+        {`${this.locale.today} ${today}`}
       </button>
     );
   }
 
-  private handleSelectToday = (today: InternalDate) => () => {
+  private handleSelectToday = (today: string) => () => {
     if (this.props.onSelect) {
-      const todayInNativeFormat = today.toNativeFormat();
-      if (todayInNativeFormat) {
-        this.props.onSelect(todayInNativeFormat);
-      }
+      this.props.onSelect(today);
     }
 
     if (this.calendar) {

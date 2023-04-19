@@ -2,6 +2,8 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 
+import { InternalDate } from '../../lib/date/InternalDate';
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
@@ -16,43 +18,48 @@ import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
-import * as CalendarUtils from './CalendarUtils';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
-import { getInitialDate, getTodayDate, setInititalDate } from './CalendarUtils';
+import * as CalendarUtils from './CalendarUtils';
 import { CalendarLocale, CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {
   /**
-   * Вызывается при изменении `date`, содержит в себе текущее значение даты
+   * Вызывается при изменении `date`
+   *
+   * В аргументе хранится дата в формате `dd.mm.yyyy`
    */
-  onDateChange?: (date: CalendarDateShape) => void;
+  onDateChange?: (date: string) => void;
   /**
    * Задаёт текущую дату
    *
-   * Дата задаётся в формате: `{ year, month, date }`
+   * Дата задаётся в формате `dd.mm.yyyy`
    */
-  date: Nullable<CalendarDateShape>;
+  date: Nullable<string>;
   /**
    * Задаёт максимальную возможную дату
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
    */
-  maxDate?: CalendarDateShape;
+  maxDate?: string;
   /**
    * Задаёт минимальную возможную дату
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
    */
-  minDate?: CalendarDateShape;
+  minDate?: string;
   /**
    * Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
-   * @param {T} day - строка в формате `dd.mm.yyyy`
+   * @param {string} day - строка в формате `dd.mm.yyyy`
    * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
    *
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
-  isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  isHoliday?: (day: string, isWeekend: boolean) => boolean;
   /**
    * Управляет наличием разделительной линии внизу календаря
    */
@@ -82,7 +89,7 @@ export const CalendarDataTids = {
   headerYear: 'MonthView__headerYear',
 } as const;
 
-type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'hasBottomSeparator'>>;
+type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'hasBottomSeparator' | 'isHoliday'>>;
 
 /**
  * Компонент календаря из [DatePicker](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а
@@ -92,18 +99,15 @@ type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'hasBot
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
+  private static formatDate(date: number, month: number, year: number) {
+    return new InternalDate().setComponents({ date, month, year }).toString({ withPad: true });
+  }
+
   public static defaultProps: DefaultProps = {
-    minDate: {
-      year: MIN_YEAR,
-      month: MIN_MONTH,
-      date: MIN_DATE,
-    },
-    maxDate: {
-      year: MAX_YEAR,
-      month: MAX_MONTH,
-      date: MAX_DATE,
-    },
+    minDate: Calendar.formatDate(MIN_DATE, MIN_MONTH, MIN_YEAR),
+    maxDate: Calendar.formatDate(MAX_DATE, MAX_MONTH, MAX_YEAR),
     hasBottomSeparator: true,
+    isHoliday: (_day: string, isWeekend: boolean) => isWeekend,
   };
 
   private getProps = createPropsGetter(Calendar.defaultProps);
@@ -121,15 +125,19 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const { minDate, maxDate } = this.getProps();
 
-    const today = getTodayDate();
-    const date = getInitialDate(today, this.props.date, minDate, maxDate);
+    const minDateShape = this.getDateInNativeFormat(minDate);
+    const maxDateShape = this.getDateInNativeFormat(maxDate);
+    const dateShape = this.props.date ? this.getDateInNativeFormat(this.props.date) : undefined;
 
-    const initialMonth = setInititalDate({
+    const today = CalendarUtils.getTodayDate();
+    const date = CalendarUtils.getInitialDate({ today, date: dateShape, minDate: minDateShape, maxDate: maxDateShape });
+
+    const initialMonth = CalendarUtils.setInititalDate({
       inititialDate: this.props.initialMonth,
       date: date.month,
       todayDate: today.month,
     });
-    const initialYear = setInititalDate({
+    const initialYear = CalendarUtils.setInititalDate({
       inititialDate: this.props.initialYear,
       date: date.year,
       todayDate: today.year,
@@ -172,7 +180,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       await new Promise((r) => setTimeout(r));
     }
 
-    const { minDate, maxDate } = this.getProps();
+    const minDate = new InternalDate().parseValue(this.getProps().minDate).toNativeFormat();
+    const maxDate = new InternalDate().parseValue(this.getProps().maxDate).toNativeFormat();
 
     if (minDate && isGreater(minDate, create(32, month, year))) {
       this.scrollToMonth(minDate.month, minDate.year);
@@ -313,7 +322,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMonth([top, month]: [number, MonthViewModel]) {
-    const { minDate, maxDate } = this.getProps();
+    const date = this.getDateInNativeFormat(this.props.date);
+    const minDate = this.getDateInNativeFormat(this.props.minDate);
+    const maxDate = this.getDateInNativeFormat(this.props.maxDate);
+
     return (
       <Month
         key={month.month + '-' + month.year}
@@ -322,12 +334,34 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         maxDate={maxDate}
         minDate={minDate}
         today={this.state.today}
-        value={this.props.date}
-        onDateClick={this.props.onDateChange}
+        value={date}
+        onDateClick={this.handleDateChange}
         onMonthYearChange={this.handleMonthYearChange}
-        isHoliday={this.props.isHoliday}
+        isHoliday={this.isHoliday}
       />
     );
+  }
+
+  private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
+    const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
+
+    return this.getProps().isHoliday(dateString, isWeekend);
+  };
+
+  private handleDateChange = (dateShape: CalendarDateShape) => {
+    const value = InternalDateTransformer.dateToInternalString({
+      date: dateShape.date,
+      month: dateShape.month + 1,
+      year: dateShape.year,
+    });
+
+    if (this.props.onDateChange) {
+      this.props.onDateChange(value);
+    }
+  };
+
+  private getDateInNativeFormat(date: Nullable<string>) {
+    return new InternalDate().parseValue(date).toNativeFormat();
   }
 
   private getMonthPositions() {

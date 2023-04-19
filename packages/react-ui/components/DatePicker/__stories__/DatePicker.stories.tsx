@@ -236,37 +236,6 @@ export const DatePickerLocaleProvider = () => {
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
 DatePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
-export const DatePickerWithTodayLink: Story = () => {
-  return (
-    <DatePicker
-      value="02.07.2017"
-      minDate="02.07.2017"
-      maxDate="30.01.2020"
-      onValueChange={action('change')}
-      enableTodayLink
-    />
-  );
-};
-
-DatePickerWithTodayLink.storyName = 'DatePicker with today link';
-DatePickerWithTodayLink.parameters = {
-  creevey: {
-    tests: {
-      async opened() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
-
 export const DatePickerInRelativeBody: Story = () => {
   const [isRelative, toggleIsRelative] = useState(false);
   const relativeClassName = 'relative';

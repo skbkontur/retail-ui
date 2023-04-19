@@ -6,13 +6,12 @@ import { Calendar } from '../Calendar';
 import { delay } from '../../../lib/utils';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
-import { InternalDate } from '../../../lib/date/InternalDate';
 import { Story } from '../../../typings/stories';
 
 export default { title: 'Calendar' };
 
 export const CalendarWithBottomSeparator: Story = () => {
-  const [date, setDate] = React.useState({ year: 2022, month: 5, date: 12 });
+  const [date, setDate] = React.useState('12.05.2022');
 
   return <Calendar date={date} onDateChange={setDate} hasBottomSeparator />;
 };
@@ -43,12 +42,7 @@ export const CalendarWithMinMaxDate: Story = () => {
           locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
         }}
       >
-        <Calendar
-          date={{ year: 2017, date: 2, month: 7 }}
-          minDate={new InternalDate({}).parseValue(min).getComponentsLikeNumber()}
-          maxDate={new InternalDate({}).parseValue(max).getComponentsLikeNumber()}
-          onDateChange={action('pick')}
-        />
+        <Calendar date="02.07.2017" minDate={min} maxDate={max} onDateChange={action('pick')} />
       </LocaleContext.Provider>
     </Gapped>
   );
