@@ -3,13 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
-import { PasswordInput } from '../PasswordInput';
+import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', () => {
     render(<PasswordInput />);
 
-    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
     const toggleButtonInitialIcon = toggleButton.innerHTML;
 
     userEvent.click(toggleButton);
@@ -29,7 +29,7 @@ describe('PasswordInput', () => {
     // By default input should have type `password`
     expect(input).toHaveAttribute('type', 'password');
 
-    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
     userEvent.click(toggleButton);
 
     // After clicking on the toggle button input should have type `text`
@@ -54,7 +54,7 @@ describe('PasswordInput', () => {
     render(<PasswordInput value={inputValue} />);
 
     const input = screen.getByDisplayValue(inputValue);
-    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
 
     // By default input should not have focus
     // Input should have type `password` at the moment
