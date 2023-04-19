@@ -205,7 +205,7 @@ module.exports = {
   pagePerSection: true,
   styles,
   title: 'React UI',
-  require: ['core-js', path.join(__dirname, '../components/Metrika/infra_front.js')],
+  require: ['core-js', path.join(__dirname, '../metrika.js')],
   propsParser: (path, ...rest) => {
     if (/\.tsx$/.test(path)) {
       return parseTsComponent(path, ...rest);
@@ -233,7 +233,7 @@ module.exports = {
     PathlineRenderer: require.resolve('../components/Pathline/PathlineRenderer.tsx'),
     ArgumentRenderer: require.resolve('../components/Argument/ArgumentRenderer.tsx'),
     Preview: require.resolve('../components/Preview/Preview.tsx'),
-    SectionHeadingRenderer: require.resolve('../components/Metrika/Metrika.tsx'),
+    SectionHeadingRenderer: require.resolve('../components/SectionHeading/SectionHeadingRenderer.tsx'),
   },
   template: {
     head: {
