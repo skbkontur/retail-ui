@@ -31,13 +31,13 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
-import { relinkSelectTheme } from './relinkSelectTheme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -230,7 +230,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = relinkSelectTheme(theme);
+          this.theme = ThemeFactory.create(
+            {
+              menuOffsetY: theme.selectMenuOffsetY,
+            },
+            theme,
+          );
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>

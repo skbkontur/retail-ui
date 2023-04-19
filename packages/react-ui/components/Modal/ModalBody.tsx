@@ -12,7 +12,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
-import { relinkModalBodyTheme } from './relinkModalBodyTheme';
+import { getModalBodyTheme } from './getModalBodyTheme';
 
 export interface ModalBodyProps extends CommonProps {
   /**
@@ -40,7 +40,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = relinkModalBodyTheme(theme);
+          this.theme = getModalBodyTheme(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>

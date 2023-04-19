@@ -25,7 +25,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
-import { relinkAutocompleteTheme } from './relinkAutocompleteTheme';
+import { getAutocompleteTheme } from './getAutocompleteTheme';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -190,7 +190,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = relinkAutocompleteTheme(theme);
+          this.theme = getAutocompleteTheme(theme);
           return (
             <ThemeContext.Provider value={this.theme}>
               <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

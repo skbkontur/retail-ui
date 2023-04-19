@@ -14,7 +14,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
 
-import { relinkDropdownTheme } from './relinkDropdownTheme';
+import { getDropdownTheme } from './getDropdownTheme';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -186,7 +186,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = relinkDropdownTheme(theme);
+          this.theme = getDropdownTheme(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain(this.props)}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
