@@ -261,7 +261,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get fileUploaderDragOverBorderColor() {
     return this.borderColorFocus;
   }
-  public static fileUploaderDragOverShadow = '0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35)';
+  public static fileUploaderDragOverShadow =
+    '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   public static get fileUploaderDisabledBorder() {
     return `${this.fileUploaderBorderWidth} ${this.fileUploaderBorderStyle} ${this.fileUploaderDisabledBorderColor}`;
   }
