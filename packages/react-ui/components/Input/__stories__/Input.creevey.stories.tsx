@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input } from '../Input';
+import { DarkTheme } from '../../../internal/themes/DarkTheme';
+
+import { ThemeContext } from './../../../lib/theming/ThemeContext';
 
 export default {
   title: 'Input/Functional tests',
@@ -265,13 +268,72 @@ WithMaskAndSelectAllProp.parameters = {
 };
 
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
-
 SearchTypeApi.parameters = {
   creevey: {
     tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
       },
+    },
+  },
+};
+
+export const SearchTypeApiDark: Story = () => (
+  <ThemeContext.Provider value={DarkTheme}>
+    <div style={{ backgroundColor: 'black' }}>
+      <Input defaultValue="Some value" type="search" selectAllOnFocus />
+    </div>
+  </ThemeContext.Provider>
+);
+SearchTypeApiDark.parameters = {
+  creevey: {
+    tests: {
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+      },
+    },
+  },
+};
+
+export const InoutTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+InoutTypeApi.parameters = {
+  creevey: {
+    tests: {
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+      },
+    },
+  },
+};
+
+export const InoutTypeApiDark: Story = () => (
+  <ThemeContext.Provider value={DarkTheme}>
+    <div style={{ backgroundColor: 'black' }}>
+      <Input defaultValue={123} type="number" selectAllOnFocus />
+    </div>
+  </ThemeContext.Provider>
+);
+InoutTypeApiDark.parameters = {
+  creevey: {
+    tests: {
       async Focused() {
         await this.browser
           .actions({

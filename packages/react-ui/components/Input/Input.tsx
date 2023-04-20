@@ -328,7 +328,6 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
         [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
         [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
-        // [styles.inputColorScheme(this.theme)]: error && (isIE11 || isEdge),
       }),
       style: { width },
       onMouseEnter,
