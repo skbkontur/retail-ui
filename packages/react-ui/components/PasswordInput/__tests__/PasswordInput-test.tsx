@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
 import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
+import { InputDataTids } from '../../Input';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', () => {
@@ -69,5 +70,56 @@ describe('PasswordInput', () => {
     // After re-clicking on the toggle button input should get focus again
     // Input should have type `password` at the moment
     expect(input).toHaveFocus();
+  });
+
+  it('should focus on calling focus() method', () => {
+    const inputValue = 'input';
+    const passwordInputRef = React.createRef<PasswordInput>();
+
+    render(<PasswordInput ref={passwordInputRef} value={inputValue} />);
+
+    passwordInputRef.current?.focus();
+
+    expect(screen.getByDisplayValue(inputValue)).toHaveFocus();
+  });
+
+  it('should blur on calling blur() method', () => {
+    const inputValue = 'input';
+    const passwordInputRef = React.createRef<PasswordInput>();
+
+    render(<PasswordInput ref={passwordInputRef} value={inputValue} />);
+
+    passwordInputRef.current?.focus();
+    passwordInputRef.current?.blur();
+
+    expect(screen.queryByDisplayValue(inputValue)).not.toHaveFocus();
+  });
+
+  it('handels onKeyPress event', () => {
+    const onKeyPress = jest.fn();
+    const inputValue = 'input';
+
+    render(<PasswordInput onKeyPress={onKeyPress} value={inputValue} />);
+
+    userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
+
+    expect(onKeyPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onKeyDown event', () => {
+    const onKeyDown = jest.fn();
+    const inputValue = 'input';
+
+    render(<PasswordInput onKeyDown={onKeyDown} value={inputValue} />);
+
+    userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show eye button when input is disabled', () => {
+    render(<PasswordInput disabled />);
+    screen.debug();
+    expect(screen.queryByTestId(PasswordInputDataTids.eyeIcon)).not.toBeInTheDocument();
   });
 });
