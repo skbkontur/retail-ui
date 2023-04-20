@@ -25,7 +25,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
   colorHover,
   disableCompensation,
   focusable = true,
-  ...attrs
+  ...rest
 }) => {
   const _theme = React.useContext(ThemeContext);
   const theme = ThemeFactory.create(
@@ -48,20 +48,20 @@ export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
   };
   const handleBlur = () => setFocusedByTab(false);
 
-  const tabIndex = !focusable || attrs.disabled ? -1 : 0;
+  const tabIndex = !focusable || rest.disabled ? -1 : 0;
 
   return (
     <button
       tabIndex={tabIndex}
       className={cx(
         styles.root(theme),
-        !attrs.disabled && focusedByTab && styles.focus(theme),
-        attrs.disabled && styles.rootDisabled(theme),
+        !rest.disabled && focusedByTab && styles.focus(theme),
+        rest.disabled && styles.rootDisabled(theme),
       )}
       style={{ width: side, height: side }}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      {...attrs}
+      {...rest}
     >
       <span className={styles.wrapper()} style={{ fontSize: size }}>
         <CrossIcon size={side < size ? side : size} disableCompensation={disableCompensation} />
