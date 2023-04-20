@@ -1,18 +1,17 @@
-import { mount } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
-import { MenuItem } from '../MenuItem';
+import { MenuItem, MenuItemDataTids } from '../MenuItem';
 
 describe('MenuItem', () => {
   it('renders multiple children', () => {
-    const wrapper = mount(
+    render(
       <MenuItem state="hover">
         a<i>b</i>
       </MenuItem>,
     );
-    expect(wrapper.text()).toBe('ab');
+    expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent('ab');
   });
 
   it('without href does not has a rel attribute', () => {
@@ -44,27 +43,25 @@ describe('MenuItem', () => {
   });
 
   it('calls children function', () => {
-    const wrapper = mount(<MenuItem state="hover">{(state) => state}</MenuItem>);
-    expect(wrapper.text()).toBe('hover');
+    render(<MenuItem state="hover">{(state) => state}</MenuItem>);
+    expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent('hover');
   });
 
   it('renders button tag', () => {
-    const wrapper = mount(<MenuItem>Test item</MenuItem>);
-    expect(wrapper.find('button')).toHaveLength(1);
+    render(<MenuItem>Test item</MenuItem>);
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('pass component', () => {
     const FakeRouterLink = ({ to }: { to: string }) => <span>{to}</span>;
 
     const Component = ({ href }: { href: string }) => <FakeRouterLink to={href} />;
-
-    const wrapper = mount(
+    render(
       <MenuItem href="http:test.href" component={Component}>
         Testing component
       </MenuItem>,
     );
-
-    expect(wrapper.contains(<span>http:test.href</span>)).toBe(true);
+    expect(document.body).toContainHTML('<span>http:test.href</span>');
   });
 
   it('should render disabled <button/>', () => {
@@ -111,9 +108,11 @@ describe('MenuItem', () => {
 
     it('calls again after onMouseLeave', () => {
       const onMouseEnter = jest.fn();
-      const wrapper = mount(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
+      render(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
 
-      wrapper.find('button').simulate('mouseover').simulate('mouseleave').simulate('mouseover');
+      userEvent.hover(screen.getByRole('button'));
+      userEvent.unhover(screen.getByRole('button'));
+      userEvent.hover(screen.getByRole('button'));
 
       expect(onMouseEnter.mock.calls).toHaveLength(2);
     });
