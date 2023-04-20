@@ -5,11 +5,12 @@ import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { CommonWrapper, CommonProps } from '../CommonWrapper';
 
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
-interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
   size?: number;
   side?: number;
   disableCompensation?: boolean;
@@ -51,21 +52,23 @@ export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
   const tabIndex = !focusable || rest.disabled ? -1 : 0;
 
   return (
-    <button
-      tabIndex={tabIndex}
-      className={cx(
-        styles.root(theme),
-        !rest.disabled && focusedByTab && styles.focus(theme),
-        rest.disabled && styles.rootDisabled(theme),
-      )}
-      style={{ width: side, height: side }}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      {...rest}
-    >
-      <span className={styles.wrapper()} style={{ fontSize: size }}>
-        <CrossIcon size={side < size ? side : size} disableCompensation={disableCompensation} />
-      </span>
-    </button>
+    <CommonWrapper {...rest}>
+      <button
+        tabIndex={tabIndex}
+        className={cx(
+          styles.root(theme),
+          !rest.disabled && focusedByTab && styles.focus(theme),
+          rest.disabled && styles.rootDisabled(theme),
+        )}
+        style={{ width: side, height: side }}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        {...rest}
+      >
+        <span className={styles.wrapper()} style={{ fontSize: size }}>
+          <CrossIcon size={side < size ? side : size} disableCompensation={disableCompensation} />
+        </span>
+      </button>
+    </CommonWrapper>
   );
 };
