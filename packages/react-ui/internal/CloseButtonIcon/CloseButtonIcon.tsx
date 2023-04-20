@@ -10,8 +10,10 @@ import { CommonWrapper, CommonProps } from '../CommonWrapper';
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
-interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
+export interface CloseButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
+  // Размер иконки крестика
   size?: number;
+  // Размер кнопки
   side?: number;
   disableCompensation?: boolean;
   color?: CSSProperties['color'];
@@ -19,7 +21,7 @@ interface CloseIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, 
   focusable?: boolean;
 }
 
-export const CloseButtonIcon: React.FunctionComponent<CloseIconProps> = ({
+export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   side = DEFAULT_ICON_SIZE,
   size = DEFAULT_ICON_SIZE,
   color,
