@@ -1471,10 +1471,6 @@ export class DefaultTheme {
   public static get checkboxBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static checkboxIconHeight = 'auto';
-  public static checkboxIconWidth = 'auto';
-  public static checkboxIconTop = '0px';
-  public static checkboxIconLeft = '0px';
   public static get checkboxShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
