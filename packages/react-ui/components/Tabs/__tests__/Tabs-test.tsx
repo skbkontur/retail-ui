@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-import { mount } from 'enzyme';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
@@ -17,7 +16,9 @@ describe('Tabs', () => {
       </Tabs>
     );
 
-    expect(() => mount(<TabsContainer count={initialCount} />).setProps({ count: 2 })).not.toThrow();
+    const { rerender } = render(<TabsContainer count={initialCount} />);
+
+    expect(() => rerender(<TabsContainer count={2} />)).not.toThrow();
   });
 
   it('should pass generic type without type errors', () => {
