@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 
@@ -118,7 +118,17 @@ describe('PasswordInput', () => {
 
   it('should not show eye button when input is disabled', () => {
     render(<PasswordInput disabled />);
-    screen.debug();
     expect(screen.queryByTestId(PasswordInputDataTids.eyeIcon)).not.toBeInTheDocument();
+  });
+
+  it('should hide symbols on click outside', () => {
+    const inputValue = 'input';
+    render(<PasswordInput value={inputValue} />);
+
+    userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
+    expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'text');
+
+    userEvent.click(document.body);
+    expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'password');
   });
 });
