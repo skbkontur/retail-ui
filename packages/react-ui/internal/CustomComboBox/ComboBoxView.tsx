@@ -18,6 +18,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { LoadingIcon } from '../icons2022/LoadingIcon';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -396,14 +397,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     if (loading && items && !!items.length) {
       if (isTheme2022(this.theme)) {
-        return <Spinner type={size} caption="" dimmed />;
+        return <LoadingIcon size={size} />;
       }
       return this.renderSpinner();
     }
 
     if (rightIcon || drawArrow) {
       if (isTheme2022(this.theme)) {
-        return <ArrowDownIcon size={size} />;
+        return rightIcon || <ArrowDownIcon size={size} />;
       }
       return <span className={styles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
     }

@@ -13,6 +13,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
+import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon } from './ButtonIcon';
@@ -268,7 +269,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       children,
       'aria-describedby': ariaDescribedby,
     } = this.props;
-    const { use, type } = this.getProps();
+    const { use, type, size } = this.getProps();
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -380,7 +381,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const iconNode = icon && (
       <ButtonIcon
         icon={icon}
-        size={this.props.size || Button.defaultProps.size}
+        size={size}
         hasChildren={Boolean(children)}
         disabled={disabled || false}
         loading={loading || false}
@@ -389,11 +390,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
     let loadingNode = null;
     if (loading && !icon) {
-      loadingNode = (
-        <div className={styles.loading()}>
-          <Spinner caption={null} dimmed type="mini" />
-        </div>
-      );
+      const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
+      loadingNode = <div className={styles.loading()}>{loadingIcon}</div>;
     }
 
     // Force disable all props and features, that cannot be use with Link

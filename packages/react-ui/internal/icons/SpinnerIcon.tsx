@@ -14,9 +14,15 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './SpinnerIcon.styles';
 
+interface SpinnerIconSize {
+  size: number;
+  width: number;
+  radius: number;
+}
+
 export interface SpinnerIconProps {
   className?: string;
-  size: 'mini' | 'normal' | 'big' | 'small' | 'medium' | 'large';
+  size: SpinnerIconSize | keyof typeof sizes;
   dimmed?: boolean;
   inline?: boolean;
   width?: number;
@@ -39,25 +45,15 @@ export const sizes = {
     width: 1.5,
     radius: 6,
   },
-  small: {
-    size: 16,
-    width: 1,
-    radius: 6,
-  },
-  medium: {
-    size: 20,
-    width: 1,
-    radius: 6,
-  },
-  large: {
-    size: 24,
-    width: 1.5,
-    radius: 8,
-  },
+} as const;
+
+const isSizeAlias = (size: unknown): size is keyof typeof sizes => {
+  return typeof size === 'string' && size in sizes;
 };
 
 export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: SpinnerIconProps) => {
-  const currentSize = inline ? sizes.mini : sizes[size];
+  const _size = isSizeAlias(size) ? sizes[size] : size;
+  const currentSize = inline ? sizes.mini : _size;
   const svgRef = React.useRef<SVGSVGElement>(null);
 
   if (isIE11 && !isTestEnv) {

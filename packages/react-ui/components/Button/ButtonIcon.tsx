@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Spinner } from '../Spinner';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ZERO_WIDTH_SPACE } from '../../lib/chars';
+import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 
 import { ButtonProps, ButtonSize } from './Button';
 import { globalClasses, styles } from './Button.styles';
@@ -40,7 +40,6 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
     large: parseInt(theme.btnIconSizeLarge),
   };
 
-  const spinnerType = isTheme2022(theme) ? size : 'mini';
   const space = isTheme2022(theme) ? ZERO_WIDTH_SPACE : '';
   const style: React.CSSProperties = isTheme2022(theme)
     ? {
@@ -64,7 +63,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
       })}
     >
       {space}
-      {loading ? <Spinner caption={null} dimmed type={spinnerType} /> : _icon}
+      {loading ? <LoadingIcon size={size} /> : _icon}
     </span>
   );
 };

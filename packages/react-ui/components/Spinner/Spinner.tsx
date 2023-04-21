@@ -13,7 +13,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
-const types = ['big', 'mini', 'normal', 'small', 'medium', 'large'] as const;
+const types = ['big', 'mini', 'normal'] as const;
 
 export type SpinnerType = typeof types[number];
 
@@ -30,20 +30,6 @@ export interface SpinnerProps extends CommonProps {
   dimmed?: boolean;
   /**
    * Размер спиннера и текста
-   *
-   * | type | width/height |
-   * | --- | --- |
-   * | `mini` | 16px |
-   * | `normal` | 48px |
-   * | `big` | 96px |
-   *
-   * Сопоставление с обычными иконками
-   *
-   * | type | width/height |
-   * | --- | --- |
-   * | `small` | 16px |
-   * | `medium` | 20px |
-   * | `large` | 24px |
    *
    * @default normal
    */

@@ -19,8 +19,8 @@ const getAliasFromSize = (size: number) =>
     Math.abs(size - a) > Math.abs(size - b) ? 1 : -1,
   )[0][0] as IconSizeAliases;
 
-export const iconSizer = (sizes: Sizes, iconName: string) =>
-  forwardRefAndName<SVGSVGElement, IconSizingProps>(iconName, ({ size = DEFAULT_ICON_ALIAS, ...props }, ref) => {
+export const iconSizer = <T extends IconSizingProps>(sizes: Sizes, iconName: string) =>
+  forwardRefAndName<SVGSVGElement, IconSizingProps & T>(iconName, ({ size = DEFAULT_ICON_ALIAS, ...props }, ref) => {
     let alias: IconSizeAliases = DEFAULT_ICON_ALIAS;
     if (size !== alias && isAlias(size)) {
       alias = size;
