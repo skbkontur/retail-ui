@@ -21,15 +21,7 @@ const Icon = (props: SpinnerIconProps) => {
 
 export const LoadingIcon = iconSizer<Omit<SpinnerIconProps, 'size'>>(
   {
-    small: () => (
-      <Icon
-        size={{
-          size: 16,
-          width: 1,
-          radius: 6,
-        }}
-      />
-    ),
+    small: () => <Icon size="mini" />,
     medium: () => (
       <Icon
         size={{
