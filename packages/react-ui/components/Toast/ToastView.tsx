@@ -88,7 +88,7 @@ export class ToastView extends React.Component<ToastViewProps> {
             side={40}
             color={this.theme.toastCloseColor}
             colorHover={this.theme.toastCloseHoverColor}
-            focusable={false}
+            tabbable={false}
           />
         </span>
       );

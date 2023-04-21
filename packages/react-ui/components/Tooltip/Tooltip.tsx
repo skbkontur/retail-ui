@@ -274,7 +274,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
     const icon = isTheme2022(this.theme) ? (
       <CloseButtonIcon
-        focusable={false}
+        tabbable={false}
         side={parseInt(this.theme.tooltipCloseBtnSide)}
         color={this.theme.tooltipCloseBtnColor}
         colorHover={this.theme.tooltipCloseBtnHoverColor}

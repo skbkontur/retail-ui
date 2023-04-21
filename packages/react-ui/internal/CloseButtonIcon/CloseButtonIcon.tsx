@@ -18,7 +18,12 @@ export interface CloseButtonIconProps extends React.ButtonHTMLAttributes<HTMLBut
   disableCompensation?: boolean;
   color?: CSSProperties['color'];
   colorHover?: CSSProperties['color'];
-  focusable?: boolean;
+  /**
+   * Возможность сфокусироваться на кнопке клавишей TAB
+   *
+   * @default true
+   * */
+  tabbable?: boolean;
 }
 
 export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
@@ -26,8 +31,8 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   size = DEFAULT_ICON_SIZE,
   color,
   colorHover,
-  disableCompensation,
-  focusable = true,
+  tabbable = true,
+  style,
   ...rest
 }) => {
   const _theme = React.useContext(ThemeContext);
@@ -51,7 +56,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   };
   const handleBlur = () => setFocusedByTab(false);
 
-  const tabIndex = !focusable || rest.disabled ? -1 : 0;
+  const tabIndex = !tabbable || rest.disabled ? -1 : 0;
 
   return (
     <CommonWrapper {...rest}>
