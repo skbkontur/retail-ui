@@ -29,5 +29,5 @@ export const iconSizer = (sizes: Sizes, iconName: string) =>
     }
     const Icon = sizes[alias]();
 
-    return React.cloneElement(Icon, { ref, ...props });
+    return React.cloneElement(Icon, { ref, size, ...props });
   });
