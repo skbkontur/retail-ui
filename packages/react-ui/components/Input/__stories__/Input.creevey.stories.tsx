@@ -270,6 +270,9 @@ WithMaskAndSelectAllProp.parameters = {
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
 SearchTypeApi.parameters = {
   creevey: {
+    skip: {
+      "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b|\bchromeDark\b|\bfirefoxDark\b)/ },
+    },
     tests: {
       async Focused() {
         await this.browser
@@ -284,55 +287,12 @@ SearchTypeApi.parameters = {
   },
 };
 
-export const SearchTypeApiDark: Story = () => (
-  <ThemeContext.Provider value={DarkTheme}>
-    <div style={{ backgroundColor: 'black' }}>
-      <Input defaultValue="Some value" type="search" selectAllOnFocus />
-    </div>
-  </ThemeContext.Provider>
-);
-SearchTypeApiDark.parameters = {
+export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+InputTypeApi.parameters = {
   creevey: {
-    tests: {
-      async Focused() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
+    skip: {
+      "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b|\bchromeDark\b|\bfirefoxDark\b)/ },
     },
-  },
-};
-
-export const InoutTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
-InoutTypeApi.parameters = {
-  creevey: {
-    tests: {
-      async Focused() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
-    },
-  },
-};
-
-export const InoutTypeApiDark: Story = () => (
-  <ThemeContext.Provider value={DarkTheme}>
-    <div style={{ backgroundColor: 'black' }}>
-      <Input defaultValue={123} type="number" selectAllOnFocus />
-    </div>
-  </ThemeContext.Provider>
-);
-InoutTypeApiDark.parameters = {
-  creevey: {
     tests: {
       async Focused() {
         await this.browser
