@@ -1,8 +1,10 @@
 import React from 'react';
+import { CreeveyTestFunction } from 'creevey/lib/types/types';
 
 import { CloseButtonIcon, CloseButtonIconProps } from '../CloseButtonIcon';
 import { ComponentTable } from '../../ComponentTable';
 import { Gapped } from '../../../components/Gapped';
+import { Story } from '../../../typings/stories';
 
 export default {
   title: 'CloseButtonIcon',
@@ -13,9 +15,9 @@ export default {
 
 type CloseButtonIconState = Partial<CloseButtonIconProps>;
 
-const sizeStates: CloseButtonIconState[] = [{ size: 16 }, { size: 20 }, { size: 24 }];
+const sizeStates: CloseButtonIconState[] = [{ size: 16 }, { size: 20 }, { size: 24 }, { size: 30 }];
 
-const sideStates: CloseButtonIconState[] = [{ side: 16 }, { side: 20 }, { side: 24 }];
+const sideStates: CloseButtonIconState[] = [{ side: 16 }, { side: 20 }, { side: 24 }, { side: 30 }];
 
 export const Side = () => (
   <ComponentTable
@@ -27,21 +29,69 @@ export const Side = () => (
 );
 
 export const VerticalAlign = () => {
+  const idle: React.CSSProperties = {};
   const baseline: React.CSSProperties = { display: 'flex', alignItems: 'baseline' };
   const center: React.CSSProperties = { display: 'flex', alignItems: 'center' };
   return (
     <Gapped vertical gap={20}>
-      {[baseline, center].map((style, index) => (
+      {Object.entries({ idle, baseline, center }).map(([name, style], index) => (
         <div style={style} key={index}>
+          {name}
+          <CloseButtonIcon size={24} side={24} color="#fff" style={{ backgroundColor: '#000' }} />
           Text
-          <CloseButtonIcon size={24} side={24} />
+          <CloseButtonIcon side={16} color="#fff" style={{ backgroundColor: '#000' }} />
           Text
-          <CloseButtonIcon side={16} />
-          Text
-          <CloseButtonIcon side={20} />
+          <CloseButtonIcon side={20} color="#fff" style={{ backgroundColor: '#000' }} />
           Text
         </div>
       ))}
     </Gapped>
   );
+};
+
+export const Tabbable: Story = () => {
+  return (
+    <Gapped vertical gap={20} style={{ padding: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        notTabbable
+        <input style={{ width: 30 }} data-tid="notTabbable" />
+        <CloseButtonIcon colorHover="#000" side={24} size={24} tabbable={false} />
+        <input style={{ width: 30 }} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        tabbable
+        <input style={{ width: 30 }} data-tid="tabbable" />
+        <CloseButtonIcon colorHover="#000" side={24} size={24} />
+        <input style={{ width: 30 }} />
+      </div>
+    </Gapped>
+  );
+};
+const clickThenTAB: (args: { clickDataTid: string }) => CreeveyTestFunction = ({ clickDataTid }) =>
+  async function () {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: `[data-tid="${clickDataTid}"]` }))
+      .perform();
+    const firstFocus = await this.takeScreenshot();
+
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .perform();
+    const secondFocus = await this.takeScreenshot();
+
+    await this.expect({ firstFocus, secondFocus }).to.matchImages();
+  };
+Tabbable.parameters = {
+  creevey: {
+    tests: {
+      notTabbable: clickThenTAB({ clickDataTid: 'notTabbable' }),
+      tabbable: clickThenTAB({ clickDataTid: 'tabbable' }),
+    },
+  },
 };
