@@ -11,12 +11,29 @@ import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
 export interface CloseButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
-  // Размер иконки крестика
+  /**
+   * Ширина и высота иконки крестика
+   *
+   * @default 16
+   */
   size?: number;
-  // Размер кнопки
+  /**
+   * Ширина и высота всей кнопки
+   *
+   * @default 16
+   */
   side?: number;
-  disableCompensation?: boolean;
+  /**
+   * Цвет иконки
+   *
+   * Переменная темы: `closeBtnIconColor`
+   */
   color?: CSSProperties['color'];
+  /**
+   * Цвет иконки при наведении мышью и при фокусе
+   *
+   * Переменная темы: `closeBtnIconHoverColor`
+   */
   colorHover?: CSSProperties['color'];
   /**
    * Возможность сфокусироваться на кнопке клавишей TAB
@@ -67,13 +84,13 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
           !rest.disabled && focusedByTab && styles.focus(theme),
           rest.disabled && styles.rootDisabled(theme),
         )}
-        style={{ width: side, height: side }}
+        style={{ ...style, width: side, height: side }}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...rest}
       >
-        <span className={styles.wrapper()} style={{ fontSize: size }}>
-          <CrossIcon size={side < size ? side : size} disableCompensation={disableCompensation} />
+        <span className={styles.wrapper()}>
+          <CrossIcon size={side < size ? side : size} />
         </span>
       </button>
     </CommonWrapper>
