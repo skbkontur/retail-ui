@@ -50,6 +50,7 @@ export const buttonUseMixin = (
 
     :hover,
     :enabled {
+      .${globalClasses.icon} svg,
       .${globalClasses.arrow} svg {
         color: ${color};
       }
