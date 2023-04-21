@@ -407,7 +407,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
-    const icon = isTheme2022(this.theme) ? <ArrowDownIcon size={this.props.size} /> : <ArrowChevronDownIcon />;
+    const icon = isTheme2022(this.theme) ? (
+      <ArrowDownIcon size={this.props.size} style={{ marginTop: 2 }} />
+    ) : (
+      <ArrowChevronDownIcon />
+    );
 
     return (
       <Button {...buttonProps}>
