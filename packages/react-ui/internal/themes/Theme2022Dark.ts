@@ -237,6 +237,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Toggle
+  public static toggleBaseBg = 'none';
   public static toggleHandleBoxShadowOld = 'none';
   public static toggleOutlineColorFocus = '#1F1F1F';
 

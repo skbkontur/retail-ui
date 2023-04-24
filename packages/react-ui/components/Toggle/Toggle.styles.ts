@@ -13,8 +13,6 @@ export const globalClasses = prefix('toggle')({
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const handleWidthWithBorders = t.toggleHeight;
-    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       display: inline-flex;
       cursor: pointer;
@@ -26,12 +24,6 @@ export const styles = memoizeStyle({
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
       }
-      &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
-        width: ${handleActiveWidth};
-      }
-      &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
-        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders}) translateX(-4px);
-      }
 
       &::before {
         // non-breaking space.
@@ -41,6 +33,19 @@ export const styles = memoizeStyle({
         display: inline-block;
         width: ${t.toggleWidth};
         flex: 0 0 auto;
+      }
+    `;
+  },
+
+  activeHandle(t: Theme) {
+    const handleWidthWithBorders = t.toggleHeight;
+    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
+    return css`
+      &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
+        width: ${handleActiveWidth};
+      }
+      &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders}) translateX(-4px);
       }
     `;
   },
@@ -121,6 +126,9 @@ export const styles = memoizeStyle({
   input2022(t: Theme) {
     return css`
       &:enabled {
+        ~ .${globalClasses.container}, ~ .${globalClasses.handle} {
+          transition: 0.2s ease-in !important;
+        }
         :not(:checked) {
           ~ .${globalClasses.container} {
             background: ${t.toggleContainerBg};
