@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 
+import { delay } from '../../../lib/utils';
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input } from '../Input';
 
@@ -278,6 +279,8 @@ SearchTypeApi.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
       },
     },
