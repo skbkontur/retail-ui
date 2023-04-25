@@ -269,7 +269,7 @@ export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type=
 SearchTypeApi.parameters = {
   creevey: {
     skip: {
-      "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b|\bchromeDark\b|\bfirefoxDark\b)/ },
+      'tests only stable in chrome': { in: /^(?!\bchrome\b|\bchromeDark\b)/ },
     },
     tests: {
       async Focused() {
