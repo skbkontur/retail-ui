@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 
+import { delay } from '../../../lib/utils';
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input } from '../Input';
 
@@ -259,6 +260,48 @@ WithMaskAndSelectAllProp.parameters = {
           .perform();
         const selectAllFilledInput = await this.takeScreenshot();
         await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
+SearchTypeApi.parameters = {
+  creevey: {
+    skip: {
+      'tests only stable in chrome': { in: /^(?!\bchrome\b|\bchromeDark\b)/ },
+    },
+    tests: {
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+      },
+    },
+  },
+};
+
+export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+InputTypeApi.parameters = {
+  creevey: {
+    skip: {
+      "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b|\bchromeDark\b|\bfirefoxDark\b)/ },
+    },
+    tests: {
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
       },
     },
   },
