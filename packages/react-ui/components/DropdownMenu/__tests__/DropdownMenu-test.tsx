@@ -1,121 +1,139 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { DropdownMenu } from '../DropdownMenu';
-import { MenuItem } from '../../MenuItem';
+import { MenuItem, MenuItemDataTids } from '../../MenuItem';
+import { InternalMenuDataTids } from '../../../internal/InternalMenu';
 
 describe('<DropdownMenu />', () => {
+  const captionDatatid = 'captionForTest';
+  const caption = <button data-tid={captionDatatid}>Test</button>;
+
   beforeEach(() => {
     window.scrollTo = jest.fn();
   });
 
-  test('Render without crashes', () => {
-    const wrapper = shallow(<DropdownMenu caption={<span />} />);
-
-    expect(wrapper).toHaveLength(1);
+  it('Render without crashes', () => {
+    const renderDropdownMenu = () => render(<DropdownMenu caption={caption} />);
+    expect(renderDropdownMenu).not.toThrow();
   });
 
-  test('Throw, if caption is not passed', () => {
-    // console.log(shallow(<DropdownMenu />).debug());
-    expect(() => shallow(<DropdownMenu caption={undefined} />)).toThrow();
+  it('Throw, if caption is not passed', () => {
+    const renderNoCaption = () => render(<DropdownMenu caption={undefined} />);
+    expect(renderNoCaption).toThrow();
   });
 
-  test('Contains <Menu /> after clicking on caption', () => {
-    const component = (
-      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
+  it('Contains <Menu /> after clicking on caption', () => {
+    render(
+      <DropdownMenu caption={caption}>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
-    );
-    const wrapper = mount(component);
-    const captionWrapper = wrapper.find('#captionForTest');
-
-    expect(wrapper.find('InternalMenu')).toHaveLength(0);
-    captionWrapper.simulate('click');
-
-    expect(wrapper.find('InternalMenu')).toHaveLength(1);
-  });
-
-  test("Contains <MenuItem />'s after clicking on caption", () => {
-    const component = (
-      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
-        <MenuItem>Test</MenuItem>
-        <MenuItem>Test</MenuItem>
-        <MenuItem>Test</MenuItem>
-      </DropdownMenu>
-    );
-    const wrapper = mount(component);
-    const captionWrapper = wrapper.find('#captionForTest');
-
-    expect(wrapper.find('MenuItem')).toHaveLength(0);
-    captionWrapper.simulate('click');
-
-    expect(wrapper.find('MenuItem')).toHaveLength(3);
-  });
-
-  test('Click handler on menu item should be called before closing', () => {
-    let testText = 'Foo bar';
-    const wrapper = mount(
-      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
-        <MenuItem
-          onClick={() => {
-            testText = 'Bar foo';
-          }}
-        >
-          Test
-        </MenuItem>
       </DropdownMenu>,
     );
-    const captionWrapper = wrapper.find('#captionForTest');
+    expect(screen.queryByTestId(InternalMenuDataTids.root)).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId(captionDatatid));
 
-    expect(wrapper.find('MenuItem')).toHaveLength(0);
-    captionWrapper.simulate('click');
-
-    const menuItemWrapper = wrapper.find('MenuItem');
-    expect(menuItemWrapper).toHaveLength(1);
-
-    menuItemWrapper.simulate('click');
-    expect(testText).toBe('Bar foo');
+    expect(screen.getByTestId(InternalMenuDataTids.root)).toBeInTheDocument();
   });
 
-  test('Fire onOpen and onClose when open and close dropdown', () => {
+  it("Contains <MenuItem />'s after clicking on caption", () => {
+    render(
+      <DropdownMenu caption={caption}>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>,
+    );
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId(captionDatatid));
+
+    expect(screen.getAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
+  });
+
+  it('Click handler on menu item should be called before closing', () => {
+    const onClick = jest.fn();
+
+    render(
+      <DropdownMenu caption={caption}>
+        <MenuItem onClick={onClick}>Test</MenuItem>
+      </DropdownMenu>,
+    );
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId(captionDatatid));
+
+    expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
+    userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+    expect(onClick).toHaveBeenCalled();
+  });
+
+  it('Fire onOpen and onClose when open and close dropdown', () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
-    const wrapper = mount(
-      <DropdownMenu caption={<button id="captionForTest">Test</button>} onOpen={onOpen} onClose={onClose}>
+    render(
+      <DropdownMenu caption={caption} onOpen={onOpen} onClose={onClose}>
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
 
     // open
-    wrapper.find('#captionForTest').simulate('click');
+    userEvent.click(screen.getByTestId(captionDatatid));
     expect(onOpen.mock.calls).toHaveLength(1);
 
     // close
-    wrapper.find('MenuItem').simulate('click');
+    userEvent.click(screen.getByTestId(MenuItemDataTids.root));
     expect(onClose.mock.calls).toHaveLength(1);
   });
 
-  test('Renders header', () => {
-    const wrapper = mount(
-      <DropdownMenu caption={<button id="captionForTest">Test</button>} header={<div id="testHeader">Test header</div>}>
+  it('Renders header', () => {
+    const testHeader = 'testHeader';
+    render(
+      <DropdownMenu caption={caption} header={<div data-tid={testHeader}>Test header</div>}>
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
 
-    wrapper.find('#captionForTest').simulate('click');
-
-    expect(wrapper.find('#testHeader')).toHaveLength(1);
+    userEvent.click(screen.getByTestId(captionDatatid));
+    expect(screen.getByTestId(testHeader)).toBeInTheDocument();
   });
 
-  test('Renders footer', () => {
-    const wrapper = mount(
-      <DropdownMenu caption={<button id="captionForTest">Test</button>} footer={<div id="testFooter">Test header</div>}>
+  it('Renders footer', () => {
+    const testFooter = 'testFooter';
+    render(
+      <DropdownMenu caption={caption} footer={<div data-tid={testFooter}>Test header</div>}>
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
 
-    wrapper.find('#captionForTest').simulate('click');
+    userEvent.click(screen.getByTestId(captionDatatid));
 
-    expect(wrapper.find('#testFooter')).toHaveLength(1);
+    expect(screen.getByTestId(testFooter)).toBeInTheDocument();
+  });
+
+  it('Public method open() works', () => {
+    const dropdownMenuRef = React.createRef<DropdownMenu>();
+
+    render(
+      <DropdownMenu caption={caption} ref={dropdownMenuRef}>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>,
+    );
+
+    dropdownMenuRef.current?.open();
+    expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
+  });
+
+  it('Public method close() works', () => {
+    const dropdownMenuRef = React.createRef<DropdownMenu>();
+
+    render(
+      <DropdownMenu caption={caption} ref={dropdownMenuRef}>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>,
+    );
+    userEvent.click(screen.getByTestId(captionDatatid));
+
+    dropdownMenuRef.current?.close();
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 });
