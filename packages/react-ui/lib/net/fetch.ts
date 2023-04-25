@@ -1,3 +1,5 @@
+import { globalThat } from '../SSRSafe';
+
 interface ApiResponseType {
   ok: boolean;
   status: number;
@@ -34,9 +36,7 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
-  // @ts-expect-error: XDomainRequest is IE-specific API, therefore it was removed from `lib.d.ts`. See: https://github.com/Microsoft/TypeScript/issues/2927.
-  if (global.XDomainRequest) {
-    // @ts-expect-error: Read the comment above.
+  if ('XDomainRequest' in globalThat) {
     return new XDomainRequest();
   }
   return new XMLHttpRequest();
