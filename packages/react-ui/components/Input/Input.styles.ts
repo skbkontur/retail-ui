@@ -125,6 +125,7 @@ export const styles = memoizeStyle({
       text-overflow: clip;
       white-space: nowrap;
       width: 100%;
+      color-scheme: ${t.inputColorScheme};
 
       &:-moz-placeholder {
         opacity: 1;
