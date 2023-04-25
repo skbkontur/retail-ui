@@ -188,7 +188,6 @@ export const styles = memoizeStyle({
 
   header(t: Theme) {
     return css`
-      position: relative;
       font-size: ${t.modalHeaderFontSize};
       line-height: ${t.modalHeaderLineHeight};
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
@@ -200,6 +199,7 @@ export const styles = memoizeStyle({
 
   mobileHeader(t: Theme) {
     return css`
+      position: relative;
       font-size: ${t.mobileModalHeaderFontSize};
       line-height: ${t.mobileModalHeaderLineHeight};
       padding: ${t.mobileModalHeaderPadding};
@@ -241,7 +241,6 @@ export const styles = memoizeStyle({
 
   footer(t: Theme) {
     return css`
-      position: relative;
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalFooterTextColor};
       border-radius: 0 0 ${t.modalBorderRadius} ${t.modalBorderRadius};
@@ -250,6 +249,7 @@ export const styles = memoizeStyle({
 
   mobileFooter(t: Theme) {
     return css`
+      position: relative;
       padding: ${t.mobileModalFooterPadding};
     `;
   },
