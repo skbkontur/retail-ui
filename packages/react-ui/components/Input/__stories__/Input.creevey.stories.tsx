@@ -4,9 +4,6 @@ import React, { useState } from 'react';
 
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input } from '../Input';
-import { DarkTheme } from '../../../internal/themes/DarkTheme';
-
-import { ThemeContext } from './../../../lib/theming/ThemeContext';
 
 export default {
   title: 'Input/Functional tests',
