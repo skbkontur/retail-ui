@@ -5,6 +5,7 @@ import { CloseButtonIcon, CloseButtonIconProps } from '../CloseButtonIcon';
 import { ComponentTable } from '../../ComponentTable';
 import { Gapped } from '../../../components/Gapped';
 import { Story } from '../../../typings/stories';
+import { Input } from '../../../components/Input';
 
 export default {
   title: 'CloseButtonIcon',
@@ -54,15 +55,15 @@ export const Tabbable: Story = () => {
     <Gapped vertical gap={20} style={{ padding: 20 }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         notTabbable
-        <input style={{ width: 30 }} data-tid="notTabbable" />
+        <Input style={{ width: 30 }} data-tid="notTabbable" />
         <CloseButtonIcon colorHover="#000" side={24} size={24} tabbable={false} />
-        <input style={{ width: 30 }} />
+        <Input style={{ width: 30 }} />
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         tabbable
-        <input style={{ width: 30 }} data-tid="tabbable" />
+        <Input style={{ width: 30 }} data-tid="tabbable" />
         <CloseButtonIcon colorHover="#000" side={24} size={24} />
-        <input style={{ width: 30 }} />
+        <Input style={{ width: 30 }} />
       </div>
     </Gapped>
   );

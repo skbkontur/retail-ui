@@ -90,7 +90,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
         {...rest}
       >
         <span className={styles.wrapper()}>
-          <CrossIcon size={side < size ? side : size} />
+          <CrossIcon size={side < size ? side : size} focusable={tabIndex >= 0} />
         </span>
       </button>
     </CommonWrapper>
