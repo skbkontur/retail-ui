@@ -58,6 +58,12 @@ export interface TokenInputProps<T> extends CommonProps {
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
+  /**
+   * Тип инпута. Возможные значения:
+   *   `TokenInputType.WithReference`,
+   *   `TokenInputType.WithoutReference`,
+   *   `TokenInputType.Combined`,
+   */
   type?: TokenInputType;
   /**
    * Ширина выпадающего меню может быть указана как 'auto'
@@ -118,7 +124,8 @@ export interface TokenInputProps<T> extends CommonProps {
    */
   onInputValueChange?: (value: string) => void;
   /**
-   * Функция отрисовки кнопки добавления в выпадающем списке
+   * Функция отрисовки кнопки добавления в выпадающем списке.
+   * Работает только когда тип инпута = `TokenInputType.Combined`
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
   /**
