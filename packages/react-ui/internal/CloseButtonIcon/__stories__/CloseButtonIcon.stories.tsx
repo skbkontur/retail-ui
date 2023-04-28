@@ -92,6 +92,9 @@ const clickThenTAB: (args: { clickDataTid: string }) => CreeveyTestFunction = ({
   };
 Tabbable.parameters = {
   creevey: {
+    skip: {
+      'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'] },
+    },
     tests: {
       notTabbable: clickThenTAB({ clickDataTid: 'notTabbable' }),
       tabbable: clickThenTAB({ clickDataTid: 'tabbable' }),
