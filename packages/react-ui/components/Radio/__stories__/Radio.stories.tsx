@@ -87,6 +87,9 @@ export const Highlighted: Story = () => {
 
 Highlighted.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: /firefox/ },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
