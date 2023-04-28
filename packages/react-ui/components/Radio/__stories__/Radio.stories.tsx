@@ -98,6 +98,7 @@ Highlighted.parameters = {
           })
           .click(this.browser.findElement({ css: 'body' }))
           .sendKeys(this.keys.TAB)
+          .pause(500)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
