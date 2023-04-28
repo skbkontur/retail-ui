@@ -6,7 +6,7 @@ import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer'
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
-import { CalendarDateShape } from '../../internal/Calendar';
+import { CalendarDateShape, CalendarMonthChangeInfo } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
@@ -76,6 +76,23 @@ export interface DatePickerProps<T> extends CommonProps {
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
   isHoliday: (day: T, isWeekend: boolean) => boolean;
+
+  /**
+   * Метод отрисовки дат в календаре
+   * @default (date) => date.date as number
+   * @param {CalendarDateShape} date - дата в формате `{ year: number; month: number; date: number; }`
+   *
+   * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
+   */
+  renderDay: (date: CalendarDateShape) => React.ReactNode;
+
+  /**
+   * Вызывается при каждом изменении месяца
+   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+   * `month: number` - номер текущего отображаемого месяца от 0 до 11,
+   * `year: number` - отображаемый год,
+   */
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 export interface DatePickerState {
@@ -137,12 +154,17 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     onMouseOver: PropTypes.func,
 
     isHoliday: PropTypes.func.isRequired,
+
+    renderDay: PropTypes.func.isRequired,
+
+    onMonthChange: PropTypes.func,
   };
 
   public static defaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
+    renderDay: (date: CalendarDateShape) => date.date,
   };
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
@@ -259,6 +281,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
+            renderDay={this.props.renderDay}
+            onMonthChange={this.props.onMonthChange}
           />
         </DropdownContainer>
       );

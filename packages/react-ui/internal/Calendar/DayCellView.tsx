@@ -15,10 +15,11 @@ interface DayCellViewProps {
   maxDate?: CDS.CalendarDateShape;
   onDateClick?: (day: CDS.CalendarDateShape) => void;
   isWeekend?: boolean;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode | number;
 }
 
 export function DayCellView(props: DayCellViewProps) {
-  const { date, minDate, maxDate, today, value, isWeekend, onDateClick } = props;
+  const { date, minDate, maxDate, today, value, isWeekend, onDateClick, renderItem } = props;
   const theme = useContext(ThemeContext);
 
   const handleClick = () => {
@@ -38,7 +39,7 @@ export function DayCellView(props: DayCellViewProps) {
       })}
       onClick={handleClick}
     >
-      {date.date}
+      {renderItem(date)}
     </button>
   );
 }

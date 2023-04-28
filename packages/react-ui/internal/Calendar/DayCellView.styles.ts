@@ -16,10 +16,10 @@ export const styles = memoizeStyle({
       user-select: none;
       position: relative;
 
-      width: ${t.calendarCellSize};
-      height: ${t.calendarCellSize};
-      line-height: ${parseInt(t.calendarCellSize) - 2}px;
-      border-radius: 50%;
+      width: ${t.calendarCellWidth};
+      height: ${t.calendarCellHeight};
+      line-height: ${t.calendarCellLineHeight};
+      border-radius: ${t.calendarCellBorderRadius};
 
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};

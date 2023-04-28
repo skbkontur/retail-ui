@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React, { useCallback, useState } from 'react';
+import React, { CSSProperties, useCallback, useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -9,6 +9,7 @@ import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
+import { CalendarMonthChangeInfo } from '../../../internal/Calendar';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -364,3 +365,43 @@ DatePickerInRelativeBody.parameters = {
     },
   },
 };
+
+export const DatePickerWithMonthChangeHandel = () => {
+  const [month, setMonth] = useState(6);
+  const [year, setYear] = useState(2017);
+  const [value, setValue] = useState('02.07.2017');
+
+  const onMonthChange = (changeInfo: CalendarMonthChangeInfo): void => {
+    setMonth(changeInfo.month);
+    setYear(changeInfo.year);
+  };
+
+  const containerWithInfoStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '18px',
+    marginLeft: '64px',
+    width: '450px',
+    textAlign: 'center',
+  };
+  const containersStyle: CSSProperties = { display: 'flex', flexDirection: 'column' };
+  const monthYearStyle: CSSProperties = { border: '1px #c2b8b8 solid' };
+
+  return (
+    <div style={{ display: 'flex' }}>
+      <DatePicker value={value} onValueChange={setValue} onMonthChange={onMonthChange} />
+      <div style={containerWithInfoStyle}>
+        <div style={containersStyle}>
+          <span>Отображаемый месяц</span>
+          <span style={monthYearStyle}>{month}</span>
+        </div>
+        <div style={containersStyle}>
+          <span>Отображаемый год</span>
+          <span style={monthYearStyle}>{year}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+DatePickerWithMonthChangeHandel.storyName = 'DatePicker with month change handel';
+DatePickerWithMonthChangeHandel.parameters = { creevey: { skip: [true] } };

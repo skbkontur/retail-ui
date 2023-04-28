@@ -678,9 +678,19 @@ export class DefaultTheme {
   public static calendarCellActiveHoverColor = 'white';
   public static calendarCellWeekendColor = '#f00';
   public static calendarCellTodayBorder = '1px solid #8b8b8b';
+  public static calendarCellBorderRadius = '50%';
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
-  public static calendarCellSize = '30px';
+  public static calendarCellSize = '30px'; // deprecated
+  public static get calendarCellHeight() {
+    return this.calendarCellSize;
+  }
+  public static get calendarCellWidth() {
+    return this.calendarCellSize;
+  }
+  public static get calendarCellLineHeight() {
+    return `${parseInt(this.calendarCellHeight) - 2}px`;
+  }
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {

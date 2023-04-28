@@ -17,6 +17,11 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
+export interface CalendarMonthChangeInfo {
+  month: number;
+  year: number;
+}
+
 export interface CalendarProps {
   initialMonth?: number;
   initialYear?: number;
@@ -25,6 +30,8 @@ export interface CalendarProps {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderDay?: (date: CalendarDateShape) => React.ReactNode;
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 export interface CalendarState {
@@ -89,6 +96,19 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public componentWillUnmount() {
     if (this.animation.inProgress()) {
       this.animation.cancel();
+    }
+  }
+
+  public componentDidUpdate(prevProps: Readonly<CalendarProps>, prevState: Readonly<CalendarState>) {
+    if (this.props.onMonthChange) {
+      const visibleMonthsModels = this.getVisibleMonths(this.state).map(this.getViewModel);
+      const prevFirstVisibleMonthModels = this.getVisibleMonths(prevState).map(this.getViewModel);
+      const currentMonth = visibleMonthsModels[0].month;
+      const prevCurrentMonth = prevFirstVisibleMonthModels[0].month;
+
+      if (currentMonth !== prevCurrentMonth) {
+        this.monthsChangeHandle(this.props.onMonthChange, visibleMonthsModels);
+      }
     }
   }
 
@@ -209,15 +229,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMain = () => {
-    const positions = this.getMonthPositions();
+    const monthsForRender = this.getVisibleMonths(this.state);
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
+
     return (
       <div ref={this.refRoot} className={styles.root(this.theme)} data-tid="Calendar">
         <div style={wrapperStyle} className={styles.wrapper()}>
-          {this.state.months
-            .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
-            .map(this.renderMonth, this)}
+          {monthsForRender.map(this.renderMonth, this)}
         </div>
       </div>
     );
@@ -256,19 +274,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         onDateClick={this.props.onSelect}
         onMonthYearChange={this.handleMonthYearChange}
         isHoliday={this.props.isHoliday}
+        renderDay={this.props.renderDay}
       />
     );
-  }
-
-  private getMonthPositions() {
-    const { scrollPosition, months } = this.state;
-
-    const positions = [scrollPosition - months[0].getHeight(this.theme)];
-    for (let i = 1; i < months.length; i++) {
-      const position = positions[i - 1] + months[i - 1].getHeight(this.theme);
-      positions.push(position);
-    }
-    return positions;
   }
 
   private handleMonthYearChange = (month: number, year: number) => {
@@ -337,7 +345,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;
 
-    const trasholdHeight = themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT + themeConfig(this.theme).DAY_SIZE;
+    const trasholdHeight = themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT + themeConfig(this.theme).DAY_HEIGHT;
 
     if (scrollTarget < trasholdHeight) {
       let targetPosition = 0;
@@ -370,4 +378,39 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       onEnd,
     );
   };
+
+  private getMonthPositions(months: MonthViewModel[], scrollPosition: number) {
+    const positions = [scrollPosition - months[0].getHeight(this.theme)];
+
+    for (let i = 1; i < months.length; i++) {
+      const position = positions[i - 1] + months[i - 1].getHeight(this.theme);
+      positions.push(position);
+    }
+
+    return positions;
+  }
+
+  private getVisibleMonths(state: Readonly<CalendarState>): [number, MonthViewModel][] {
+    const { months, scrollPosition } = state;
+    const positions = this.getMonthPositions(months, scrollPosition);
+
+    return months
+      .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
+      .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme));
+  }
+
+  private monthsChangeHandle(
+    handler: (changeInfo: CalendarMonthChangeInfo) => void,
+    visibleMonths: MonthViewModel[],
+  ): void {
+    const currentMonth = visibleMonths[0];
+    const changeInfo = {
+      month: currentMonth.month,
+      year: currentMonth.year,
+    };
+
+    handler(changeInfo);
+  }
+
+  private getViewModel = (item: [number, MonthViewModel]): MonthViewModel => item[1];
 }

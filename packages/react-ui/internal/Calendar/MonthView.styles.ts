@@ -21,7 +21,7 @@ export const styles = memoizeStyle({
   },
 
   month(t: Theme) {
-    const width = parseInt(t.calendarCellSize) * 7;
+    const width = parseInt(t.calendarCellWidth) * 7;
     return css`
       position: absolute;
       width: ${width}px;

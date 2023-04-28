@@ -24,8 +24,8 @@ export class MonthViewModel {
   public isFirstInYear: boolean;
 
   public getHeight(theme: Theme): number {
-    const { DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN } = themeConfig(theme);
-    return getMonthHeight(this.daysCount, this.offset, DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN);
+    const { DAY_HEIGHT, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN } = themeConfig(theme);
+    return getMonthHeight(this.daysCount, this.offset, DAY_HEIGHT, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN);
   }
 
   private constructor(month: number, year: number) {
