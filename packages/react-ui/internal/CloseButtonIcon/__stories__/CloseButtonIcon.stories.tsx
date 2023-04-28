@@ -74,8 +74,8 @@ const clickThenTAB: (args: { clickDataTid: string }) => CreeveyTestFunction = ({
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: `[data-tid="${clickDataTid}"]` }))
-      .pause(100)
+      .click(this.browser.findElement({ css: `[data-tid="${clickDataTid}"] input` }))
+      .pause(500)
       .perform();
     const firstFocus = await this.takeScreenshot();
 
@@ -84,7 +84,7 @@ const clickThenTAB: (args: { clickDataTid: string }) => CreeveyTestFunction = ({
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
-      .pause(100)
+      .pause(500)
       .perform();
     const secondFocus = await this.takeScreenshot();
 
