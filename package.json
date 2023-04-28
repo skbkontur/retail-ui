@@ -23,6 +23,8 @@
   "scripts": {
     "commit": "git-cz",
     "release": "env-cmd lerna version",
+    "release:beta": "yarn release prerelease --preid beta --no-push --no-git-tag-version",
+    "release:minor": "yarn release minor --no-push --no-git-tag-version",
     "prepare": "husky install",
     "preinstall": "node scripts/update-package-registry",
     "postinstall": "node scripts/update-package-registry back"
