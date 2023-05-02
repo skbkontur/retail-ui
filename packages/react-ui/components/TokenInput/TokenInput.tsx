@@ -66,9 +66,9 @@ export interface TokenInputProps<T> extends CommonProps {
   autoFocus?: boolean;
   /**
    * Тип инпута. Возможные значения:
-   *   `TokenInputType.WithReference`,
-   *   `TokenInputType.WithoutReference`,
-   *   `TokenInputType.Combined`,
+   *   `TokenInputType.WithReference`, (можно выбирать токены только из предложенных, нельзя добавить новые)
+   *   `TokenInputType.WithoutReference`, (можно добавлять токены, но нельзя выбрать)
+   *   `TokenInputType.Combined`, (можно и выбирать, и добавлять)
    */
   type?: TokenInputType;
   /**
