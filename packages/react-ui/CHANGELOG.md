@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.7-datepicker.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.7...@skbkontur/react-ui@3.12.7-datepicker.0) (2023-05-02)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
 ## [3.12.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.6...@skbkontur/react-ui@3.12.7) (2022-08-12)
 
 
