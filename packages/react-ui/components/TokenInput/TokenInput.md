@@ -139,6 +139,52 @@ const getItems = query =>
 </div>;
 ```
 
+Пример с кастомным типом элементов меню
+```jsx harmony
+import { Token } from '@skbkontur/react-ui';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
+
+const [selectedItems, setSelectedItems] = React.useState([]);
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+const getGenericItems = () => [
+  { id: '111', value: 'aaa' },
+  { id: '222', value: 'bbb' },
+  { id: '333', value: 'ccc' },
+  { id: '444', value: 'ddd' },
+];
+const renderItem = (item) => item.value;
+const renderValue = (value) => value.value;
+const valueToItem = (item) => ({
+  value: item,
+});
+const getModelItems = async (query) => {
+  await delay(400);
+  return getGenericItems().filter((s) => s.value.includes(query));
+}
+
+<div style={{ width: '300px' }}>
+  <TokenInput
+    selectedItems={selectedItems}
+    renderItem={renderItem}
+    renderValue={renderValue}
+    valueToItem={valueToItem}
+    getItems={getModelItems}
+    onValueChange={setSelectedItems}
+    placeholder="placeholder"
+    type={TokenInputType.Combined}
+    renderToken={(item, tokenProps) => (
+      <Token
+        key={item.id}
+        {...tokenProps}
+      >
+        {item.value}
+      </Token>
+    )}
+  />
+</div>;
+```
+
 #### Локали по умолчанию
 
 ```typescript static
