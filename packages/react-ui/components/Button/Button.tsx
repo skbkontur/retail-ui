@@ -298,13 +298,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               styles.disabled(this.theme),
               checked && styles.checkedDisabled(this.theme),
               checked && styles.checkedDisabled2022(this.theme),
+              borderless && styles.borderless2022(),
             ]
           : [
               active && !checked && activeStyles[use](this.theme),
               isFocused && styles.focus(this.theme),
               checked && styles.checked2022(this.theme),
               checked && isFocused && styles.checkedFocused(this.theme),
-              borderless && !checked && !isFocused && styles.borderless(),
+              borderless && !checked && !isFocused && styles.borderless2022(),
             ]),
       );
     } else {

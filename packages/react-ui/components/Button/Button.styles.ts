@@ -948,6 +948,16 @@ export const styles = memoizeStyle({
     `;
   },
 
+  borderless2022() {
+    return css`
+      &,
+      &:active:hover,
+      &:hover {
+        box-shadow: none !important; // override root:hover style
+      }
+    `;
+  },
+
   loading() {
     return css`
       position: absolute;
