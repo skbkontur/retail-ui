@@ -575,10 +575,7 @@ export class DefaultTheme {
   public static get btnTextTextColor() {
     return this.btnDefaultTextColor;
   }
-  public static get btnTextHoverBorderColor() {
-    return this.btnDefaultHoverBorderColor;
-  }
-
+  public static btnTextHoverBorderColor = 'transparent';
   public static btnWithIconPaddingLeftSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
   public static btnWithIconPaddingLeftLarge = '';
