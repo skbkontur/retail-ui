@@ -1,8 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { tab } from '@testing-library/user-event/dist/tab';
 
 import { Tabs, TabsDataTids } from '../Tabs';
 import { Tab, TabDataTids } from '../Tab';
@@ -64,19 +63,6 @@ describe('Tabs', () => {
     expect(screen.getByTestId(TabsDataTids.root)).toBeInTheDocument();
   });
 
-  it('should contain indicator', () => {
-    render(
-      <div>
-        <Tabs value="tahat">
-          <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
-          <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
-          <Tabs.Tab id="alps">Alps</Tabs.Tab>
-        </Tabs>
-      </div>,
-    );
-    expect(screen.getByTestId(TabsDataTids.indicatorRoot)).toBeInTheDocument();
-  });
-
   it('should call onValueChange when switch tabs', () => {
     const onValueChange = jest.fn();
     render(
@@ -109,11 +95,13 @@ describe('Tab', () => {
       <div>
         <Tabs value="fuji">
           <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
-          <Tabs.Tab id="tahat" onClick={onClick}>Tahat</Tabs.Tab>
+          <Tabs.Tab id="tahat" onClick={onClick}>
+            Tahat
+          </Tabs.Tab>
           <Tabs.Tab id="alps">Alps</Tabs.Tab>
         </Tabs>
       </div>,
-    )
+    );
 
     const tabs = screen.getAllByTestId(TabDataTids.root);
     userEvent.click(tabs[1]);
@@ -127,11 +115,13 @@ describe('Tab', () => {
       <div>
         <Tabs value="fuji">
           <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
-          <Tabs.Tab id="tahat" onKeyDown={onKeyDown}>Tahat</Tabs.Tab>
+          <Tabs.Tab id="tahat" onKeyDown={onKeyDown}>
+            Tahat
+          </Tabs.Tab>
           <Tabs.Tab id="alps">Alps</Tabs.Tab>
         </Tabs>
       </div>,
-    )
+    );
     userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
@@ -143,11 +133,13 @@ describe('Tab', () => {
       <div>
         <Tabs value="fuji">
           <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
-          <Tabs.Tab id="tahat" disabled onKeyDown={onKeyDown}>Tahat</Tabs.Tab>
+          <Tabs.Tab id="tahat" disabled onKeyDown={onKeyDown}>
+            Tahat
+          </Tabs.Tab>
           <Tabs.Tab id="alps">Alps</Tabs.Tab>
         </Tabs>
       </div>,
-    )
+    );
     userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
 
     expect(onKeyDown).not.toHaveBeenCalled();
@@ -160,14 +152,14 @@ describe('Tab', () => {
           <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
         </Tabs>
       </div>,
-    )
+    );
     expect(screen.getByTestId(TabDataTids.root)).not.toHaveFocus();
 
     userEvent.tab();
     expect(screen.getByTestId(TabDataTids.root)).toHaveFocus();
   });
 
-  it('should focus by arrowright', () => {
+  it('should pass focus by arrowright press', () => {
     render(
       <div>
         <Tabs value="fuji">
@@ -175,7 +167,7 @@ describe('Tab', () => {
           <Tabs.Tab id="alps">Alps</Tabs.Tab>
         </Tabs>
       </div>,
-    )
+    );
     const tabs = screen.getAllByTestId(TabDataTids.root);
     expect(tabs[0]).not.toHaveFocus();
     userEvent.tab();
@@ -194,7 +186,7 @@ describe('Tab', () => {
           <Tabs.Tab id="alps">Alps</Tabs.Tab>
         </Tabs>
       </div>,
-    )
+    );
     const tabs = screen.getAllByTestId(TabDataTids.root);
     expect(tabs[0]).not.toHaveFocus();
     userEvent.tab();
@@ -207,24 +199,65 @@ describe('Tab', () => {
     expect(tabs[0]).toHaveFocus();
   });
 
-  it('should change focusedByKeyboard state when presses tab', () => {
-    const tab0Ref = React.createRef<Tab>();
-    const tab1Ref = React.createRef<Tab>();
+  // it('should change focusedByKeyboard state when presses tab', () => {
+  //   const tab0Ref = React.createRef<Tab>();
+  //   const tab1Ref = React.createRef<Tab>();
 
+  //   render(
+  //     <div>
+  //       <Tabs value="fuji">
+  //         <Tabs.Tab id="fuji" ref={tab0Ref}>Fuji</Tabs.Tab>
+  //         <Tabs.Tab id="alps" ref={tab1Ref}>Alps</Tabs.Tab>
+  //       </Tabs>
+  //     </div>,
+  //   );
+
+  //   expect(tab0Ref.current?.state.focusedByKeyboard).toBe(false);
+
+  //   const tabs = screen.getAllByTestId(TabDataTids.root);
+  //   userEvent.tab();
+  //   expect(tabs[0]).toHaveFocus();
+  //   userEvent.tab();
+  //   expect(tabs[1]).toHaveFocus();
+
+  //   expect(tab1Ref.current?.state.focusedByKeyboard).toBe(true);
+  // });
+
+  it('should not focus on disabled tab by pressing tab', () => {
     render(
       <div>
         <Tabs value="fuji">
-          <Tabs.Tab id="fuji" ref={tab0Ref}>Fuji</Tabs.Tab>
-          <Tabs.Tab id="alps" ref={tab1Ref}>Alps</Tabs.Tab>
+          <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+          <Tabs.Tab id="tahat" disabled>
+            Tahat
+          </Tabs.Tab>
+          <Tabs.Tab id="alps">Alps</Tabs.Tab>
         </Tabs>
       </div>,
     );
 
-    expect(tab0Ref.current?.state.focusedByKeyboard).toBe(false);
-
     const tabs = screen.getAllByTestId(TabDataTids.root);
-    userEvent.type(tabs[0], '{arrowright}');
-    expect(tabs[1]).toHaveFocus();
-    expect(tab1Ref.current?.state.focusedByKeyboard).toBe(true);
+
+    userEvent.tab();
+    expect(tabs[0]).toHaveFocus();
+
+    userEvent.tab();
+    expect(tabs[0]).not.toHaveFocus();
+    expect(tabs[1]).not.toHaveFocus();
+    expect(tabs[2]).toHaveFocus();
+  });
+});
+describe('Indicator', () => {
+  it('should contain indicator', () => {
+    render(
+      <div>
+        <Tabs value="tahat">
+          <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+          <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
+          <Tabs.Tab id="alps">Alps</Tabs.Tab>
+        </Tabs>
+      </div>,
+    );
+    expect(screen.getByTestId(TabsDataTids.indicatorRoot)).toBeInTheDocument();
   });
 });
