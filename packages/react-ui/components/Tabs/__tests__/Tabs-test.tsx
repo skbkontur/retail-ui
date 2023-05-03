@@ -1,9 +1,10 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Tabs, TabsDataTids } from '../Tabs';
-import { Tab } from '../Tab';
+import { Tab, TabDataTids } from '../Tab';
 
 describe('Tabs', () => {
   it('Should not throw error when previous active tab was unmounted', () => {
@@ -47,6 +48,49 @@ describe('Tabs', () => {
     const tabs = screen.getByTestId(TabsDataTids.root);
     expect(tabs).toHaveAttribute('aria-describedby', 'elementTabsId');
     expect(tabs).toHaveAccessibleDescription('Description Tabs');
+  });
+
+  it('should render vertical tabs', () => {
+    render(
+      <div>
+        <Tabs value="tahat" vertical>
+          <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+          <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
+          <Tabs.Tab id="alps">Alps</Tabs.Tab>
+        </Tabs>
+      </div>,
+    );
+    expect(screen.getByTestId(TabsDataTids.root)).toBeInTheDocument();
+  });
+
+  it('should contain indicator', () => {
+    render(
+      <div>
+        <Tabs value="tahat">
+          <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+          <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
+          <Tabs.Tab id="alps">Alps</Tabs.Tab>
+        </Tabs>
+      </div>,
+    );
+    expect(screen.getByTestId(TabsDataTids.indicatorRoot)).toBeInTheDocument();
+  });
+
+  it('should call onValueChange when switch tabs', () => {
+    const onValueChange = jest.fn();
+    render(
+      <div>
+        <Tabs value="fuji" onValueChange={onValueChange}>
+          <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+          <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
+          <Tabs.Tab id="alps">Alps</Tabs.Tab>
+        </Tabs>
+      </div>,
+    );
+    const tabs = screen.getAllByTestId(TabDataTids.root);
+    userEvent.click(tabs[1]);
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 });
 
