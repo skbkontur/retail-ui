@@ -3,7 +3,6 @@ import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
@@ -86,15 +85,13 @@ function ModalFooter(props: ModalFooterProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
-        {sticky ? (
-          <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
-            {renderContent}
-          </Sticky>
-        ) : (
-          renderContent()
-        )}
-      </ZIndex>
+      {sticky ? (
+        <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
+          {renderContent}
+        </Sticky>
+      ) : (
+        renderContent()
+      )}
     </CommonWrapper>
   );
 }
