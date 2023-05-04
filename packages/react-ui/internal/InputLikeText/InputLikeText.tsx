@@ -1,6 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
@@ -434,7 +435,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }
 
-    this.setState({ focused: true });
+    ReactDOM.flushSync(() => {
+      this.setState({ focused: true });
+    });
 
     if (this.props.onFocus) {
       this.props.onFocus(e);
