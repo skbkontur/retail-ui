@@ -190,12 +190,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         {capsLockEnabled && (
           <span className={styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
         )}
-        <span
-          data-tid={this.props.disabled ? false : PasswordInputDataTids.eyeIcon}
-          className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}
-          onClick={this.handleToggleVisibility}
-        >
-          {!this.props.disabled && <PasswordInputIcon visible={this.state.visible} />}
+        <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
+          {!this.props.disabled && (
+            <span onClick={this.handleToggleVisibility} data-tid={PasswordInputDataTids.eyeIcon}>
+              <PasswordInputIcon visible={this.state.visible} />
+            </span>
+          )}
         </span>
       </span>
     );
