@@ -131,7 +131,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       }
     }
 
-    if (prevProps.disabled !== this.props.disabled) {
+    if (prevProps.disabled !== this.props.disabled && !this.props.disabled) {
       this.updateInnerElement();
     }
   }
