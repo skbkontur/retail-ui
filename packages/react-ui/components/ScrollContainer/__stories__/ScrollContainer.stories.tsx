@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useState } from 'react';
 
 import {
   ScrollContainer,
@@ -557,6 +557,49 @@ HideScrollBar.parameters = {
         await delay(3000);
         const afterScroll = await this.takeScreenshot();
         await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const ScrollBarVisibleAfterTogglingDisabled: Story = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  return (
+    <div style={wrapperStyle}>
+      <ScrollContainer disabled={isDisabled} disableAnimations>
+        <div style={{ width: 300 }}>
+          {Array(30)
+            .fill(null)
+            .map((_, i) => (
+              <div style={{ width: 200 }} key={i}>
+                {i}
+              </div>
+            ))}
+        </div>
+      </ScrollContainer>
+      <button data-tid="disable-button" onClick={() => setIsDisabled(!isDisabled)}>
+        disable
+      </button>
+    </div>
+  );
+};
+
+ScrollBarVisibleAfterTogglingDisabled.storyName = 'scroll bar visible after toggling disabled';
+ScrollBarVisibleAfterTogglingDisabled.parameters = {
+  creevey: {
+    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+    tests: {
+      async toggleDisabled() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="disable-button"]' }))
+          .click(this.browser.findElement({ css: '[data-tid="disable-button"]' }))
+          .perform();
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('toggleDisabled');
       },
     },
   },
