@@ -13,7 +13,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
-export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
+export interface TooltipMenuProps
+  extends CommonProps,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'preventIconPadding'> {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -124,6 +126,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
           caption={this.props.caption}
           header={this.props.header}
           footer={this.props.footer}
+          preventIconPadding={this.props.preventIconPadding}
           positions={this.props.positions}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}

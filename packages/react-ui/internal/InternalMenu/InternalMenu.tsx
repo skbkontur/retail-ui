@@ -31,6 +31,8 @@ interface MenuProps {
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
   preventWindowScroll?: boolean;
+  // Выключает добавление паддинга, пунктам меню без иконок, если у других пунктов меню есть иконка
+  preventIconPadding?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   header?: React.ReactNode;
@@ -119,9 +121,9 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private renderMain() {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
+    const enableIconPadding =
+      !this.props.preventIconPadding &&
+      React.Children.toArray(this.props.children).some((x) => React.isValidElement(x) && x.props.icon);
 
     if (this.isEmpty()) {
       return null;

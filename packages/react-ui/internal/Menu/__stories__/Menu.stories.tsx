@@ -37,6 +37,15 @@ export const WithItemsWithIcons = () => (
   </Menu>
 );
 
+export const WithItemsWithIconsPreventIconPadding = () => (
+  <Menu preventIconPadding>
+    <MenuHeader>MenuHeader</MenuHeader>
+    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </Menu>
+);
+
 export const WithHeader = () => (
   <Menu>
     <MenuHeader>MenuHeader</MenuHeader>

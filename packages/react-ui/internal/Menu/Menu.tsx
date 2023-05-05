@@ -24,6 +24,10 @@ export interface MenuProps {
   width?: number | string;
   preventWindowScroll?: boolean;
   /**
+   * Выключает добавление паддинга, пунктам меню без иконок, если у других пунктов меню есть иконка
+   */
+  preventIconPadding?: boolean;
+  /**
    * Отключение кастомного скролла контейнера
    */
   disableScrollContainer?: boolean;
@@ -158,9 +162,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private getChildList = () => {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
+    const enableIconPadding =
+      !this.props.preventIconPadding &&
+      React.Children.toArray(this.props.children).some((x) => React.isValidElement(x) && x.props.icon);
 
     return React.Children.map(this.props.children, (child, index) => {
       if (!child) {
