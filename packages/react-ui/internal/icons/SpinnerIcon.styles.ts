@@ -19,6 +19,7 @@ export const styles = memoizeStyle({
     return css`
       margin-bottom: -3px;
       border-radius: 50%;
+      overflow: visible;
     `;
   },
 
