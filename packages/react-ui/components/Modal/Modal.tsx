@@ -236,7 +236,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         >
                           {!hasHeader && !this.props.noClose && (
                             <ZIndex
-                              priority={'ModalCross'}
                               className={cx({
                                 [styles.closeWrapper(this.theme)]: true,
                                 [styles.mobileCloseWrapper(this.theme)]: isMobile,

@@ -94,6 +94,7 @@ export const styles = memoizeStyle({
       left: -2px;
       right: -2px;
       bottom: -2px;
+      top: -2px;
     `;
   },
 

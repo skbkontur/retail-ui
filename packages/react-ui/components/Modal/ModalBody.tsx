@@ -57,8 +57,6 @@ export class ModalBody extends React.Component<ModalBodyProps> {
         {({ additionalPadding, hasHeader }) => (
           <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
-              priority={'ModalBody'}
-              createStackingContext
               className={cx({
                 [styles.body(this.theme)]: true,
                 [styles.mobileBody(this.theme)]: this.isMobileLayout,
