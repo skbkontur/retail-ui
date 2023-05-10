@@ -138,6 +138,13 @@ const maskStates: InputState[] = [
   { mask: '**** **********', maskChar: '*', alwaysShowMask: true },
   { mask: '*** ***', maskChar: '_', defaultValue: 'Value' },
   { mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'email', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'tel', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'url', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'search', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'date', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'time', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { type: 'number', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
 ];
 
 export const Placeholder: Story = () => (
@@ -232,6 +239,7 @@ export const Type: Story = () => (
     presetProps={{}}
   />
 );
+Type.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
 
 const typeStates: InputState[] = [
   { type: 'text', defaultValue: 'Value' },
@@ -240,6 +248,71 @@ const typeStates: InputState[] = [
   { mask: '***-***', type: 'password', alwaysShowMask: true },
   { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
   { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
+  { type: 'number', defaultValue: '15', min: 10, max: 20, step: 5 },
+  { type: 'search' },
+  { type: 'date' },
+  { type: 'time' },
+  { type: 'email', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$' },
+  { type: 'url' },
+  { type: 'tel' },
+  { type: 'hidden' },
+];
+
+export const TypeApi: Story = () => (
+  <>
+    <ComponentTable
+      Component={Input}
+      cols={typeApiProps.map((x) => ({ props: x }))}
+      rows={typeApiTypes.map((x) => ({ props: x }))}
+      presetProps={{}}
+    />
+    <ComponentTable
+      Component={Input}
+      cols={typeApiPropsDate.map((x) => ({ props: x }))}
+      rows={typeApiTypesDate.map((x) => ({ props: x }))}
+      presetProps={{}}
+    />
+    <ComponentTable
+      Component={Input}
+      cols={typeApiPropsTime.map((x) => ({ props: x }))}
+      rows={typeApiTypesTime.map((x) => ({ props: x }))}
+      presetProps={{}}
+    />
+  </>
+);
+TypeApi.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
+
+const typeApiTypes: InputState[] = [
+  { type: 'number' },
+  { type: 'search' },
+  { type: 'email' },
+  { type: 'url' },
+  { type: 'tel' },
+  { type: 'hidden' },
+];
+const typeApiTypesDate: InputState[] = [{ type: 'date' }];
+const typeApiTypesTime: InputState[] = [{ type: 'time' }];
+
+const typeApiProps: InputState[] = [
+  { leftIcon: <SearchIcon />, value: '123' },
+  { rightIcon: <SearchIcon />, value: '123' },
+  { rightIcon: <SearchIcon />, placeholder: 'placeholder' },
+  { prefix: 'prefix: ' },
+  { suffix: ' suffix' },
+];
+const typeApiPropsDate: InputState[] = [
+  { rightIcon: <SearchIcon /> },
+  { leftIcon: <SearchIcon /> },
+  { value: '2022-05-04' },
+  { prefix: 'prefix: ' },
+  { suffix: ' suffix' },
+];
+const typeApiPropsTime: InputState[] = [
+  { rightIcon: <SearchIcon /> },
+  { leftIcon: <SearchIcon /> },
+  { value: '18:00' },
+  { prefix: 'prefix: ' },
+  { suffix: ' suffix' },
 ];
 
 export const Warning: Story = () => (

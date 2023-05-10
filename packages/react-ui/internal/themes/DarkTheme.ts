@@ -157,6 +157,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get inputBorderTopColor() {
     return this.inputBorderColor;
   }
+  public static inputColorScheme = 'dark';
   //#endregion
   //#region DatePicker
   public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.08)';

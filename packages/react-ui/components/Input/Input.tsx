@@ -23,7 +23,17 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
+export type InputType =
+  | 'password'
+  | 'text'
+  | 'number'
+  | 'tel'
+  | 'search'
+  | 'time'
+  | 'date'
+  | 'url'
+  | 'email'
+  | 'hidden';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export interface InputProps
@@ -55,7 +65,7 @@ export interface InputProps
         borderless?: boolean;
         /** Выравнивание текста */
         align?: InputAlign;
-        /** Паттерн маски */
+        /** Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url` */
         mask?: Nullable<string>;
         /** Символ маски */
         maskChar?: Nullable<string>;
@@ -76,7 +86,9 @@ export interface InputProps
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
         /** Вызывается на label */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Тип */
+        /**
+         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email' | 'hidden'
+         * */
         type?: InputType;
         /** Значение */
         value?: string;
@@ -92,7 +104,7 @@ export interface InputProps
          * `ReactNode` после значения, но перед правой иконкой
          */
         suffix?: React.ReactNode;
-        /** Выделять введенное значение при фокусе */
+        /** Выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
         selectAllOnFocus?: boolean;
         /**
          * Обработчик неправильного ввода.
@@ -248,6 +260,8 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Работает с типами `text`, `password`, `tel`, `search`, `url`
+   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    */
   public selectAll = (): void => {
@@ -295,7 +309,7 @@ export class Input extends React.Component<InputProps, InputState> {
       borderless,
       value,
       align,
-      type,
+      type = 'text',
       mask,
       maskChar,
       alwaysShowMask,
@@ -347,17 +361,21 @@ export class Input extends React.Component<InputProps, InputState> {
       onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
-      type: 'text',
+      type,
       placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
       'aria-describedby': ariaDescribedby,
     };
 
-    if (type === 'password') {
-      inputProps.type = type;
-    }
+    const typesDisallowedWithMask: InputType[] = ['number', 'date', 'time', 'hidden'];
+    const input =
+      mask && !typesDisallowedWithMask.includes(type)
+        ? this.renderMaskedInput(inputProps, mask)
+        : React.createElement('input', inputProps);
 
-    const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
+    if (type === 'hidden') {
+      return input;
+    }
 
     if (isTheme2022(this.theme)) {
       return (
@@ -540,6 +558,12 @@ export class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+      const allowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
+      const canBeSelected = !this.props.type || (this.props.type && allowedTypes.includes(this.props.type));
+      if (!canBeSelected) {
+        return;
+      }
       this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 

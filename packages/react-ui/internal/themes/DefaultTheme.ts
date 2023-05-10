@@ -1437,6 +1437,7 @@ export class DefaultTheme {
   public static get inputBlinkColor() {
     return this.blinkColor;
   }
+  public static inputColorScheme = 'light';
   //#endregion
   //#region Checkbox
   public static get checkboxFontSize() {
