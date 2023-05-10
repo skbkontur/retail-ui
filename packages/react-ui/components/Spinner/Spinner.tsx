@@ -51,6 +51,7 @@ export interface SpinnerProps extends CommonProps {
 
 export const SpinnerDataTids = {
   root: 'Spinner__root',
+  svg: 'Spinner__svg',
 } as const;
 
 type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;

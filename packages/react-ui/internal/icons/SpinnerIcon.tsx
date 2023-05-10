@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { SpinnerDataTids } from '../../components/Spinner';
 import { isIE11 } from '../../lib/client';
 import {
   SpinnerFallbackAnimationRunner,
@@ -89,6 +90,7 @@ export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: S
   return (
     <span className={cx(styles.root(), { [styles.rootInline()]: inline })}>
       <svg
+        data-tid={SpinnerDataTids.svg}
         viewBox={`0 0 ${currentSize.size} ${currentSize.size}`}
         className={cx(styles.icon(), className, {
           [styles.iconInline()]: inline,

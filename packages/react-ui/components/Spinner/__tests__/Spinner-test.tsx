@@ -1,76 +1,86 @@
-import { mount, ReactWrapper } from 'enzyme';
+// import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SpinnerLocaleHelper } from '../locale';
 import { sizes } from '../../../internal/icons/SpinnerIcon';
-import { Spinner } from '../Spinner';
+import { Spinner, SpinnerDataTids } from '../Spinner';
 
-const render = (props = {}) => mount(<Spinner {...props} />);
+const renderSpinner = (props = {}) => render(<Spinner {...props} />);
 
 describe('Spinner', () => {
   describe('SVG animation', () => {
     it('renders default Spinner', () => {
-      expect(render).not.toThrow();
+      const renderSpinner = (props = {}) => render(<Spinner {...props} />);
+      expect(renderSpinner).not.toThrow();
     });
 
     it('renders correct size of default Spinner', () => {
-      const component = render();
-      const cloudProps = component.find('svg').props();
-      const { width, height } = cloudProps;
+      renderSpinner();
 
-      expect(width).toEqual(sizes.normal.size);
-      expect(height).toEqual(sizes.normal.size);
+      const svgElement = screen.getByTestId(SpinnerDataTids.svg);
+
+      const width = svgElement.getAttribute('width');
+      const height = svgElement.getAttribute('height');
+      const size = sizes.normal.size as unknown as string;
+
+      // eslint-disable-next-line eqeqeq
+      expect(width == size).toBeTruthy();
+
+      // eslint-disable-next-line eqeqeq
+      expect(height == size).toBeTruthy();
     });
 
     it('should render big Spinner', () => {
-      const component = render({ type: 'big' });
-      const cloud = component.find('svg');
-      const { width, height } = cloud.props();
+      renderSpinner({ type: 'big' });
+      const svgElement = screen.getByTestId(SpinnerDataTids.svg);
+      const width = svgElement.getAttribute('width');
+      const height = svgElement.getAttribute('height');
+      const size = sizes.big.size as unknown as string;
 
-      expect(width).toEqual(sizes.big.size);
-      expect(height).toEqual(sizes.big.size);
+      // eslint-disable-next-line eqeqeq
+      expect(width == size).toBeTruthy();
+
+      // eslint-disable-next-line eqeqeq
+      expect(height == size).toBeTruthy();
     });
   });
 
   describe('Locale', () => {
-    const getTextLoading = (wrapper: ReactWrapper): string => {
-      return wrapper.text();
-    };
-
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<Spinner />);
-      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
+      render(<Spinner />);
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading as string;
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
 
     it('render default locale', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{}}>
           <Spinner />
         </LocaleContext.Provider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading as string;
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Spinner />
         </LocaleContext.Provider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading as string;
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
 
     it('render custom locale', () => {
       const customText = 'custom loading';
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider
           value={{
             locale: { Spinner: { loading: customText } },
@@ -79,21 +89,24 @@ describe('Spinner', () => {
           <Spinner />
         </LocaleContext.Provider>,
       );
-
-      expect(getTextLoading(wrapper)).toBe(customText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(customText);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = mount(
+      const { rerender } = render(
         <LocaleContext.Provider value={{}}>
           <Spinner />
         </LocaleContext.Provider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading as string;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
+      rerender(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <Spinner />
+        </LocaleContext.Provider>,
+      );
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
   });
 });
