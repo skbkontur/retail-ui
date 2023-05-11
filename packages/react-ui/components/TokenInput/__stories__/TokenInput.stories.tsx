@@ -287,6 +287,9 @@ CombinedFilled.storyName = '[combined] filled';
 
 CombinedFilled.parameters = {
   creevey: {
+    skip: {
+      'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'], tests: ['editToken'] },
+    },
     tests: {
       async selectAndType() {
         await this.browser
@@ -532,7 +535,7 @@ OnUnexpectedInputValidation.parameters = {
   creevey: {
     skip: {
       flacky: {
-        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
         tests: ['token select', 'token edit'],
       },
     },

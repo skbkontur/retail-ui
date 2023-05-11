@@ -12,6 +12,7 @@ import { isNonNullable } from '../../lib/utils';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
+import { ModalSeparator } from './ModalSeparator';
 
 export interface ModalFooterProps extends CommonProps {
   /**
@@ -63,24 +64,27 @@ function ModalFooter(props: ModalFooterProps) {
 
   const renderContent = (fixed = false) => {
     return (
-      <div
-        data-tid={ModalFooterDataTids.root}
-        className={cx({
-          [styles.footer(theme)]: true,
-          [styles.fixedFooter(theme)]: fixed,
-          [styles.panel(theme)]: Boolean(panel),
-          [styles.fixedPanel(theme)]: fixed && Boolean(panel),
-          [styles.mobileFooter(theme)]: layout.isMobile,
-        })}
-      >
-        {isNonNullable(gap) ? (
-          <Gapped vertical={layout.isMobile} gap={gap}>
-            {children}
-          </Gapped>
-        ) : (
-          children
-        )}
-      </div>
+      <>
+        {(panel || fixed) && <ModalSeparator fixed={fixed} />}
+        <div
+          data-tid={ModalFooterDataTids.root}
+          className={cx(
+            styles.footer(theme),
+            fixed && styles.fixedFooter(theme),
+            Boolean(panel) && styles.panel(theme),
+            fixed && Boolean(panel) && styles.fixedPanel(theme),
+            layout.isMobile && styles.mobileFooter(theme),
+          )}
+        >
+          {isNonNullable(gap) ? (
+            <Gapped vertical={layout.isMobile} gap={gap}>
+              {children}
+            </Gapped>
+          ) : (
+            children
+          )}
+        </div>
+      </>
     );
   };
 

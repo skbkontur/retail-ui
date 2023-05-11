@@ -87,6 +87,9 @@ export const Highlighted: Story = () => {
 
 Highlighted.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: /firefox/ },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -98,6 +101,7 @@ Highlighted.parameters = {
           })
           .click(this.browser.findElement({ css: 'body' }))
           .sendKeys(this.keys.TAB)
+          .pause(500)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },

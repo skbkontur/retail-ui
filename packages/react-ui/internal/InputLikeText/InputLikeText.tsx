@@ -17,9 +17,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
+import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 
-import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
+import { styles } from './InputLikeText.styles';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {
   children?: React.ReactNode;
@@ -174,8 +177,16 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     const { focused, blinking } = this.state;
 
-    const leftSide = this.renderLeftSide();
-    const rightSide = this.renderRightSide();
+    const leftSide = isTheme2022(this.theme) ? (
+      <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
+    ) : (
+      this.renderLeftSide()
+    );
+    const rightSide = isTheme2022(this.theme) ? (
+      <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
+    ) : (
+      this.renderRightSide()
+    );
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.disabled(this.theme)]: !!disabled,
@@ -194,6 +205,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [styles.userSelectContain()]: focused,
     });
 
+    const context = InputLayoutContextDefault;
+    Object.assign(context, { disabled, focused, size });
+
     return (
       <span
         data-tid={InputLikeTextDataTids.root}
@@ -207,29 +221,31 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
-        <input
-          data-tid={InputLikeTextDataTids.nativeInput}
-          type="hidden"
-          value={value}
-          disabled={disabled}
-          aria-describedby={ariaDescribedby}
-        />
-        {leftSide}
-        <span className={wrapperClass}>
-          <span
-            data-tid={InputLikeTextDataTids.input}
-            className={cx(jsInputStyles.input(this.theme), {
-              [styles.absolute()]: !takeContentWidth,
-              [jsInputStyles.inputFocus(this.theme)]: focused,
-              [jsInputStyles.inputDisabled(this.theme)]: disabled,
-            })}
-          >
-            {this.props.children}
+        <InputLayoutContext.Provider value={context}>
+          <input
+            data-tid={InputLikeTextDataTids.nativeInput}
+            type="hidden"
+            value={value}
+            disabled={disabled}
+            aria-describedby={ariaDescribedby}
+          />
+          {leftSide}
+          <span className={wrapperClass}>
+            <span
+              data-tid={InputLikeTextDataTids.input}
+              className={cx(jsInputStyles.input(this.theme), {
+                [styles.absolute()]: !takeContentWidth,
+                [jsInputStyles.inputFocus(this.theme)]: focused,
+                [jsInputStyles.inputDisabled(this.theme)]: disabled,
+              })}
+            >
+              {this.props.children}
+            </span>
+            {this.renderPlaceholder()}
           </span>
-          {this.renderPlaceholder()}
-        </span>
-        {rightSide}
-        {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+          {rightSide}
+          {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+        </InputLayoutContext.Provider>
       </span>
     );
   };

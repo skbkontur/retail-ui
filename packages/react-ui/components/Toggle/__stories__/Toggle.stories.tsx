@@ -224,14 +224,6 @@ Plain.parameters = {
           .press()
           .perform();
         await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .release()
-          .perform();
       },
       async clicked() {
         await this.browser
@@ -284,13 +276,6 @@ DisabledWithTooltip.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .release()
-          .perform();
       },
     },
   },

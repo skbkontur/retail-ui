@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
@@ -9,6 +8,8 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+
+import { getDropdownMenuTheme } from './getDropdownMenuTheme';
 
 export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   /** Максимальная высота меню */
@@ -85,18 +86,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupMargin: '0px',
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
+          return <ThemeContext.Provider value={getDropdownMenuTheme(theme)}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );

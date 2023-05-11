@@ -35,6 +35,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { getUid } from '../../lib/uidUtils';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -246,6 +247,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public state: TokenInputState<T> = DefaultState;
 
+  private readonly textareaId: string = getUid();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
   private input: HTMLTextAreaElement | null = null;
@@ -364,6 +366,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const labelClassName = cx(styles.label(theme), {
+      [styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
       [styles.labelDisabled(theme)]: !!disabled,
       [styles.labelFocused(theme)]: !!inFocus,
       [styles.error(theme)]: !!error,
@@ -383,6 +386,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             className={labelClassName}
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}
+            htmlFor={this.textareaId}
           >
             <TextWidthHelper
               ref={this.textHelperRef}
@@ -394,6 +398,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
             {this.renderTokensStart()}
             <textarea
+              id={this.textareaId}
               ref={this.inputRef}
               value={inputValue}
               style={inputInlineStyles}

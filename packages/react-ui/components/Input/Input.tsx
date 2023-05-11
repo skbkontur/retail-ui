@@ -4,19 +4,22 @@ import invariant from 'invariant';
 import React, { AriaAttributes } from 'react';
 import raf from 'raf';
 
-import { isIE11, isEdge } from '../../lib/client';
+import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Input.styles';
+import { InputLayout } from './InputLayout/InputLayout';
+import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -113,6 +116,13 @@ export interface InputProps
          * @param value значение инпута.
          */
         onUnexpectedInput?: (value: string) => void;
+        /** @ignore */
+        corners?: Partial<
+          Pick<
+            React.CSSProperties,
+            'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
+          >
+        >;
         /**
          * Атрибут для указания id элемента(-ов), описывающих его
          */
@@ -311,6 +321,7 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      corners,
       'aria-describedby': ariaDescribedby,
       ...rest
     } = props;
@@ -319,7 +330,8 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const labelProps = {
       className: cx(styles.root(this.theme), this.getSizeClassName(), {
-        [styles.focus(this.theme)]: focused,
+        [styles.focus(this.theme)]: focused && !warning && !error,
+        [styles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
         [styles.blink(this.theme)]: blinking,
         [styles.borderless()]: borderless && !focused,
         [styles.disabled(this.theme)]: disabled,
@@ -329,7 +341,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
         [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
       }),
-      style: { width },
+      style: { width, ...corners },
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
@@ -363,6 +375,29 @@ export class Input extends React.Component<InputProps, InputState> {
 
     if (type === 'hidden') {
       return input;
+    }
+
+    if (isTheme2022(this.theme)) {
+      return (
+        <InputLayout
+          leftIcon={leftIcon}
+          rightIcon={rightIcon}
+          prefix={prefix}
+          suffix={suffix}
+          labelProps={labelProps}
+          context={{ disabled: Boolean(disabled), focused, size }}
+        >
+          {input}
+          <PolyfillPlaceholder
+            isMaskVisible={this.isMaskVisible}
+            value={value}
+            defaultValue={this.props.defaultValue}
+            align={align}
+          >
+            {placeholder}
+          </PolyfillPlaceholder>
+        </InputLayout>
+      );
     }
 
     return (
