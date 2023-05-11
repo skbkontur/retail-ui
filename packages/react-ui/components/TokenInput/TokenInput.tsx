@@ -52,7 +52,7 @@ export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T> extends CommonProps {
   /**
-   * Выбранные токены
+   * Выбранные токены, которые будет отображаться в поле вводе
    */
   selectedItems?: T[];
   /**
@@ -66,9 +66,12 @@ export interface TokenInputProps<T> extends CommonProps {
   autoFocus?: boolean;
   /**
    * Тип инпута. Возможные значения:
-   *   `TokenInputType.WithReference`, (можно выбирать токены только из предложенных, нельзя добавить новые)
-   *   `TokenInputType.WithoutReference`, (можно добавлять токены, но нельзя выбрать)
-   *   `TokenInputType.Combined`, (можно и выбирать, и добавлять)
+   *
+   *   `TokenInputType.WithReference` (можно выбирать токены только из предложенных, нельзя добавить новые)
+   *
+   *   `TokenInputType.WithoutReference` (можно добавлять токены, но нельзя выбирать)
+   *
+   *   `TokenInputType.Combined` (можно и выбирать, и добавлять)
    */
   type?: TokenInputType;
   /**
@@ -133,7 +136,7 @@ export interface TokenInputProps<T> extends CommonProps {
   toKey?: (item: T) => string | number | undefined;
   placeholder?: string;
   /**
-   * Разделители
+   * Символы, которые разделяют введённый текст на токены
    */
   delimiters?: string[];
   /**
