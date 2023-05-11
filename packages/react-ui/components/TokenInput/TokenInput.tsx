@@ -52,7 +52,7 @@ export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T> extends CommonProps {
   /**
-   * Выбранные токены, которые будет отображаться в поле вводе
+   * Выбранные токены, которые будут отображаться в поле ввода
    */
   selectedItems?: T[];
   /**
