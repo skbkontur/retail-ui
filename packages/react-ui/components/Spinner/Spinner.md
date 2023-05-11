@@ -4,7 +4,7 @@ import { Gapped, Spinner } from '@skbkontur/react-ui';
 const reactNodeCaption = (
   <div>
     <Spinner type="mini" caption={null} /> <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>
-    агрузка ...
+    агрузка
   </div>
 );
 
