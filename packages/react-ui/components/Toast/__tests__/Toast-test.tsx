@@ -31,7 +31,6 @@ describe('Toast', () => {
     render(<Toast ref={toastRef} />);
     toastRef.current?.push(message);
 
-    expect(toastRef.current?._toast).toBeTruthy();
     expect(screen.getByTestId(ToastDataTids.toastView)).toHaveTextContent(message);
   });
 
@@ -41,8 +40,7 @@ describe('Toast', () => {
     toastRef.current?.push('message');
 
     jest.runAllTimers();
-    const toast = toastRef.current?._toast;
-    expect(toast).toBeFalsy();
+    expect(screen.queryByTestId(ToastDataTids.toastView)).not.toBeInTheDocument();
   });
 
   it('calls onPush at push', () => {
@@ -69,14 +67,16 @@ describe('Toast', () => {
   });
 
   it('support actions in tosts', () => {
+    const actionLabel = 'action';
     const toastRef = React.createRef<Toast>();
     render(<Toast ref={toastRef} />);
     toastRef.current?.push('message', {
-      label: 'action',
+      label: actionLabel,
       handler: () => undefined,
     });
 
-    expect(screen.getByTestId(ToastDataTids.toastView)).toHaveTextContent('messageaction');
+    expect(screen.getByTestId(ToastDataTids.action)).toBeInTheDocument();
+    expect(screen.getByTestId(ToastDataTids.action)).toHaveTextContent(actionLabel);
   });
 
   it('passes right actions in tosts', () => {
