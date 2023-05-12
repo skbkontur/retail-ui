@@ -18,14 +18,6 @@ describe('Toast', () => {
     expect(() => toastRef.current?.push('message')).not.toThrow();
   });
 
-  it('sets message to state', () => {
-    const toastRef = React.createRef<Toast>();
-    render(<Toast ref={toastRef} />);
-    toastRef.current?.push('message');
-
-    expect(toastRef.current?.state.notification).toBe('message');
-  });
-
   it('shows right message', () => {
     const message = 'message';
     const toastRef = React.createRef<Toast>();
