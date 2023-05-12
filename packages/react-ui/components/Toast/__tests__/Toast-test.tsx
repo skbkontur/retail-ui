@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Toast, ToastDataTids } from '../Toast';
 
@@ -89,8 +90,7 @@ describe('Toast', () => {
       handler,
     });
 
-    const toast = toastRef.current?._toast;
-
-    expect(toast?.props.action).toEqual({ label: 'action', handler });
+    userEvent.click(screen.getByTestId(ToastDataTids.action));
+    expect(handler).toHaveBeenCalled();
   });
 });
