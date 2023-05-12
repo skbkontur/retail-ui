@@ -141,6 +141,81 @@ describe('CurrencyInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
+  it('should handle focus method', () => {
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />
+      );
+    };
+    render(<Comp />);
+
+    currencyInputRef.current?.focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
+
+  it('should handle focus event', () => {
+    const onFocus = jest.fn();
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onFocus={onFocus} />
+      );
+    };
+    render(<Comp />);
+    currencyInputRef.current?.focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('should handle blur method', () => {
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />
+      );
+    };
+    render(<Comp />);
+    screen.getByRole('textbox').focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    currencyInputRef.current?.blur();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
+  });
+
+  it('should handle blur event', () => {
+    const onBlur = jest.fn();
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onBlur={onBlur} />
+      );
+    };
+    render(<Comp />);
+    screen.getByRole('textbox').focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    currencyInputRef.current?.blur();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('should handle onKeyDown event', () => {
+    const onKeyDown = jest.fn();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <CurrencyInput value={value} onValueChange={setValue} onKeyDown={onKeyDown} />
+      );
+    };
+    render(<Comp />);
+    userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+  });
+
   describe.each([
     ['Comma', '1,23'],
     ['Period', '1,23'],
