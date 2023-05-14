@@ -186,8 +186,8 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           anchor.focus();
-
           const content = screen.getByTestId(TooltipDataTids.content);
+
           expect(content).toBeInTheDocument();
 
           anchor.blur();
@@ -256,8 +256,8 @@ describe('Tooltip', () => {
 
           anchor.focus();
           await delay(Tooltip.delay);
-
           const content = screen.getByTestId(TooltipDataTids.content);
+
           expect(content).toBeInTheDocument();
 
           userEvent.click(anchor);
@@ -301,6 +301,7 @@ describe('Tooltip', () => {
 
           anchor.focus();
           const content = screen.getByTestId(TooltipDataTids.content);
+
           expect(content).toBeInTheDocument();
 
           anchor.blur();
