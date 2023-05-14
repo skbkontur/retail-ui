@@ -119,12 +119,11 @@ describe('Tooltip', () => {
 
     describe('focus', () => {
       withVariousAnchors((renderTooltip) => {
-        it('opens by focus on anchor', async () => {
+        it('opens by focus on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           anchor.focus();
-          await delay(Tooltip.delay);
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
         });
@@ -135,7 +134,7 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           userEvent.click(anchor);
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).not.toContainHTML('viewBox="0 0 10 10"');
           expect(content).toBeInTheDocument();
@@ -143,11 +142,11 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('keeps open after click on anchor', async () => {
+        it('keeps open after click on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           anchor.focus();
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
 
           userEvent.click(anchor);
           expect(content).toBeInTheDocument();
@@ -155,47 +154,43 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('closes after click on content', async () => {
+        it('closes after click on content', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           anchor.focus();
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
           userEvent.click(content);
-          await delay(Tooltip.delay);
           expect(content).not.toBeInTheDocument();
         });
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('closes after click outside', async () => {
+        it('closes after click outside', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           anchor.focus();
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
           userEvent.click(document.body);
-          await delay(Tooltip.delay);
           expect(content).not.toBeInTheDocument();
         });
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('closes after blur', async () => {
+        it('closes after blur', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
           anchor.focus();
 
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
           expect(content).toBeInTheDocument();
 
           anchor.blur();
-          await delay(Tooltip.delay);
-
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -208,7 +203,6 @@ describe('Tooltip', () => {
 
           userEvent.hover(anchor);
           await delay(Tooltip.delay);
-
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -216,11 +210,11 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('opens by focus on anchor', async () => {
+        it('opens by focus on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           anchor.focus();
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
         });
@@ -232,7 +226,6 @@ describe('Tooltip', () => {
 
           userEvent.hover(anchor);
           await delay(Tooltip.delay);
-
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -264,7 +257,7 @@ describe('Tooltip', () => {
           anchor.focus();
           await delay(Tooltip.delay);
 
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
           expect(content).toBeInTheDocument();
 
           userEvent.click(anchor);
@@ -298,8 +291,6 @@ describe('Tooltip', () => {
           expect(content).toBeInTheDocument();
 
           userEvent.click(document.body);
-          await delay(Tooltip.delay);
-
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -309,11 +300,10 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           anchor.focus();
-          const content = await screen.findByTestId(TooltipDataTids.content);
+          const content = screen.getByTestId(TooltipDataTids.content);
           expect(content).toBeInTheDocument();
 
           anchor.blur();
-          await delay(Tooltip.delay);
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -437,7 +427,7 @@ describe('Tooltip', () => {
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
 
       userEvent.tab();
-      expect(await screen.findByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       await delay(100);
       expect(onOpen.mock.calls).toHaveLength(1);

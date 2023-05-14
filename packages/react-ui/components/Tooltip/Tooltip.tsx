@@ -527,17 +527,17 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private handleFocus = () => {
     this.setState({ focused: true });
-    window.setTimeout(this.open, Tooltip.delay);
+    this.open();
   };
 
   private handleBlur = () => {
     const trigger = this.getProps().trigger;
     if (trigger === 'hover&focus' && this.clickedOutside) {
-      window.setTimeout(this.close);
+      this.close();
     }
 
     if (trigger === 'focus') {
-      window.setTimeout(this.close);
+      this.close();
     }
 
     this.clickedOutside = true;
