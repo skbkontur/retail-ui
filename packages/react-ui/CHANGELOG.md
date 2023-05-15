@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.14.0-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.4...@skbkontur/react-ui@4.14.0-next.0) (2023-05-15)
+
+
+### Bug Fixes
+
+* **Button:** correct link outline position (#IF-867) ([#3132](https://github.com/skbkontur/retail-ui/issues/3132)) ([49c7842](https://github.com/skbkontur/retail-ui/commit/49c7842d5e5a6e04788d0da084346461d424a2e2)), closes [#IF-867](https://github.com/skbkontur/retail-ui/issues/IF-867)
+* **ComboBox:** use flushSync due to auto-batching in React18 ([#3144](https://github.com/skbkontur/retail-ui/issues/3144)) ([16bac3c](https://github.com/skbkontur/retail-ui/commit/16bac3c6f41c15409c23f2e3adbade630fa247ea))
+* **Modal:** configure z-index to correctly work with other components ([#3104](https://github.com/skbkontur/retail-ui/issues/3104)) ([0532871](https://github.com/skbkontur/retail-ui/commit/05328718368c146100665f6b3aa5a03a2810b9c3))
+* **ScrollContainer:** scroll disappears after toggling disabled ([#3152](https://github.com/skbkontur/retail-ui/issues/3152)) ([f1c3444](https://github.com/skbkontur/retail-ui/commit/f1c34444d595b14dcd2d397e6a25c45d2c2bc62c))
+* **Spinner:** avoid circle clipping ([#3153](https://github.com/skbkontur/retail-ui/issues/3153)) ([80c2b59](https://github.com/skbkontur/retail-ui/commit/80c2b593da303f8e56feabc5d6d922c72a9175d7))
+
+
+### Features
+
+* **Input:** support new types (#IF-290) ([#3129](https://github.com/skbkontur/retail-ui/issues/3129)) ([c478aab](https://github.com/skbkontur/retail-ui/commit/c478aab0f2198bdadc22f8a6c726534f87270454)), closes [#IF-290](https://github.com/skbkontur/retail-ui/issues/IF-290)
+
+
+
+
+
 ## [4.13.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.3...@skbkontur/react-ui@4.13.4) (2023-04-14)
 
 
