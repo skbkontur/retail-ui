@@ -145,9 +145,7 @@ describe('CurrencyInput', () => {
     const currencyInputRef = React.createRef<CurrencyInput>();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
-      return (
-        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />
-      );
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />;
     };
     render(<Comp />);
 
@@ -160,9 +158,7 @@ describe('CurrencyInput', () => {
     const currencyInputRef = React.createRef<CurrencyInput>();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
-      return (
-        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onFocus={onFocus} />
-      );
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onFocus={onFocus} />;
     };
     render(<Comp />);
     currencyInputRef.current?.focus();
@@ -174,9 +170,7 @@ describe('CurrencyInput', () => {
     const currencyInputRef = React.createRef<CurrencyInput>();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
-      return (
-        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />
-      );
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />;
     };
     render(<Comp />);
     screen.getByRole('textbox').focus();
@@ -190,9 +184,7 @@ describe('CurrencyInput', () => {
     const currencyInputRef = React.createRef<CurrencyInput>();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
-      return (
-        <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onBlur={onBlur} />
-      );
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onBlur={onBlur} />;
     };
     render(<Comp />);
     screen.getByRole('textbox').focus();
@@ -206,9 +198,7 @@ describe('CurrencyInput', () => {
     const onKeyDown = jest.fn();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
-      return (
-        <CurrencyInput value={value} onValueChange={setValue} onKeyDown={onKeyDown} />
-      );
+      return <CurrencyInput value={value} onValueChange={setValue} onKeyDown={onKeyDown} />;
     };
     render(<Comp />);
     userEvent.type(screen.getByRole('textbox'), '{enter}');
@@ -224,7 +214,7 @@ describe('CurrencyInput', () => {
     ['IntlBackslash', '1,23'],
     ['NumpadDivide', '1,23'],
   ])('should applied [%s] as comma', (delimiter, expected) => {
-    test(`return: ${expected}`, () => {
+    it(`return: ${expected}`, () => {
       render(<CurrencyInputWithState />);
       const input = screen.getByRole('textbox');
       userEvent.clear(input);
