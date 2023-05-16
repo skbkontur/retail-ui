@@ -127,7 +127,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const minDateShape = this.getDateInNativeFormat(minDate);
     const maxDateShape = this.getDateInNativeFormat(maxDate);
-    const dateShape = this.props.date ? this.getDateInNativeFormat(this.props.date) : undefined;
+    const dateShape = this.getDateInNativeFormat(this.props.date);
 
     const today = CalendarUtils.getTodayDate();
     const date = CalendarUtils.getInitialDate({ today, date: dateShape, minDate: minDateShape, maxDate: maxDateShape });
@@ -180,8 +180,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       await new Promise((r) => setTimeout(r));
     }
 
-    const minDate = new InternalDate().parseValue(this.getProps().minDate).toNativeFormat();
-    const maxDate = new InternalDate().parseValue(this.getProps().maxDate).toNativeFormat();
+    const minDate = this.getDateInNativeFormat(this.getProps().minDate);
+    const maxDate = this.getDateInNativeFormat(this.getProps().maxDate);
 
     if (minDate && isGreater(minDate, create(32, month, year))) {
       this.scrollToMonth(minDate.month, minDate.year);
@@ -281,6 +281,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private renderMain = () => {
     const positions = this.getMonthPositions();
+    const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
 
     const { className, hasBottomSeparator, ...rest } = this.getProps();
 
@@ -288,7 +289,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       <LocaleContext.Provider value={{ locale: { DatePicker: { months: this.locale.months } } }}>
         <CommonWrapper rootNodeRef={this.setRootNode} {...rest}>
           <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme), className)}>
-            <div style={{ height: themeConfig(this.theme).WRAPPER_HEIGHT }} className={styles.wrapper()}>
+            <div style={wrapperStyle} className={styles.wrapper()}>
               {this.state.months
                 .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
                 .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
