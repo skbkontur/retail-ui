@@ -75,6 +75,14 @@ export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map((x) => MonthViewModel.create(month + x, year));
 };
 
+export const getMonthInNativeFormat = (initialMonth: number | undefined, initialDate: CalendarDateShape) => {
+  if (initialMonth) {
+    return initialMonth - 1;
+  }
+
+  return initialDate.month;
+};
+
 export const getInitialDate = ({
   today,
   date,
@@ -108,24 +116,4 @@ export const getTodayDate = () => {
     month: date.getMonth(),
     year: date.getFullYear(),
   };
-};
-
-export const setInititalDate = ({
-  inititialDate,
-  date,
-  todayDate,
-}: {
-  inititialDate: number | undefined;
-  date: number;
-  todayDate: number;
-}) => {
-  if (inititialDate) {
-    return inititialDate;
-  }
-
-  if (date) {
-    return date;
-  }
-
-  return todayDate;
 };

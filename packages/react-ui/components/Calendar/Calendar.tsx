@@ -123,29 +123,26 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   constructor(props: CalendarProps) {
     super(props);
 
-    const { minDate, maxDate } = this.getProps();
+    const { minDate, maxDate, date } = this.getProps();
 
     const minDateShape = this.getDateInNativeFormat(minDate);
     const maxDateShape = this.getDateInNativeFormat(maxDate);
-    const dateShape = this.getDateInNativeFormat(this.props.date);
+    const dateShape = this.getDateInNativeFormat(date);
 
     const today = CalendarUtils.getTodayDate();
-    const date = CalendarUtils.getInitialDate({ today, date: dateShape, minDate: minDateShape, maxDate: maxDateShape });
+    const initialDate = CalendarUtils.getInitialDate({
+      today,
+      date: dateShape,
+      minDate: minDateShape,
+      maxDate: maxDateShape,
+    });
 
-    const initialMonth = CalendarUtils.setInititalDate({
-      inititialDate: this.props.initialMonth,
-      date: date.month,
-      todayDate: today.month,
-    });
-    const initialYear = CalendarUtils.setInititalDate({
-      inititialDate: this.props.initialYear,
-      date: date.year,
-      todayDate: today.year,
-    });
+    const initialMonth = CalendarUtils.getMonthInNativeFormat(this.props.initialMonth, initialDate);
+    const initialYear = this.props.initialYear ?? initialDate.year;
 
     this.state = {
       scrollPosition: 0,
-      months: CalendarUtils.getMonths(this.props.initialMonth ? initialMonth - 1 : initialMonth, initialYear),
+      months: CalendarUtils.getMonths(initialMonth, initialYear),
       today,
       scrollDirection: 1,
       scrollTarget: 0,
