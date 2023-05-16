@@ -26,9 +26,12 @@ export const styles = memoizeStyle({
   },
 
   separator(t: Theme) {
+    const marginX = parseInt(t.calendarMonthTitleMarginX);
+
     return css`
       position: relative;
       border-bottom: 1px solid ${ColorFunctions.fade(t.calendarMonthTitleBorderBottomColor, 1)};
+      margin: 0 ${marginX}px;
     `;
   },
 });
