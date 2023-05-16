@@ -1,6 +1,7 @@
 import React from 'react';
 import shallowEqual from 'shallowequal';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
@@ -60,7 +61,12 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return this.renderMain();
+
+          return (
+            <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -75,7 +81,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       >
         <Calendar
           ref={(c) => (this.calendar = c)}
-          hasBottomSeparator={false}
           maxDate={this.parseValueToDate(this.props.maxDate)}
           minDate={this.parseValueToDate(this.props.minDate)}
           onDateChange={this.props.onDateChange}

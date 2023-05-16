@@ -13,7 +13,7 @@ export default { title: 'Calendar' };
 export const CalendarWithBottomSeparator: Story = () => {
   const [date, setDate] = React.useState('12.05.2022');
 
-  return <Calendar date={date} onDateChange={setDate} hasBottomSeparator />;
+  return <Calendar date={date} onDateChange={setDate} />;
 };
 CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
