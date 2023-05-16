@@ -137,7 +137,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     onMouseOver: PropTypes.func,
 
-    isHoliday: PropTypes.func.isRequired,
+    isHoliday: PropTypes.func,
   };
 
   public static defaultProps: DefaultProps = {
