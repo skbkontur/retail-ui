@@ -6,30 +6,14 @@
 import { Checkbox } from '@skbkontur/react-ui';
 
 const [date, setDate] = React.useState("01.11.2021");
-const [hasExtraStyles, setHasExtraStyles] = React.useState(true);
 
-<div style={{ display: 'flex', flexDirection: 'column' }}>
-  <Checkbox
-    checked={hasExtraStyles}
-    onValueChange={setHasExtraStyles}
-  >
-    Включить дополнительные стили
-  </Checkbox>
-  <div>
-    <Calendar
-      style={hasExtraStyles ? {
-        border: '1px solid black',
-      } : {
-        border: '1px solid transparent',
-      }}
-      date={date}
-      onDateChange={setDate}
-    />
-  </div>
-</div>;
+<Calendar
+  date={date}
+  onDateChange={setDate}
+/>
 ```
 
-Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение текущего года и месяца с помощью пропов `initialMonth` и `initialYear`
+Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear`
 
 ```jsx harmony
 import { Checkbox } from '@skbkontur/react-ui';
@@ -60,7 +44,7 @@ const initialYear = 2000;
 ```jsx harmony
 import * as DatePickerHelpers from '../DatePicker/DatePickerHelpers';
 
-const [date, setDate] = React.useState("11.12.2021");
+const [date, setDate] = React.useState();
 
 const createRandomHolidays = () => {
   const holidays = new Array(10);

@@ -65,11 +65,11 @@ export interface CalendarProps extends CommonProps {
    */
   hasBottomSeparator?: boolean;
   /**
-   * Позволяет задать месяц по умолчанию
+   * Позволяет задать начальный месяц
    */
   initialMonth?: Range<1, 13>;
   /**
-   * Позволяет задать год по умолчанию
+   * Позволяет задать начальный год
    */
   initialYear?: number;
 }
