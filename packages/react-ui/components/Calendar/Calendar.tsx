@@ -280,12 +280,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
 
-    const { className, hasBottomSeparator, ...rest } = this.getProps();
+    const { hasBottomSeparator, ...rest } = this.getProps();
 
     return (
       <LocaleContext.Provider value={{ locale: { DatePicker: { months: this.locale.months } } }}>
         <CommonWrapper rootNodeRef={this.setRootNode} {...rest}>
-          <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme), className)}>
+          <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
             <div style={wrapperStyle} className={styles.wrapper()}>
               {this.state.months
                 .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
