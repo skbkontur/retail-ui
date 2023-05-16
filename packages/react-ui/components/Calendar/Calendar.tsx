@@ -28,17 +28,17 @@ import { CalendarLocale, CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {
   /**
-   * Вызывается при изменении `date`
+   * Вызывается при изменении `value`
    *
    * В аргументе хранится дата в формате `dd.mm.yyyy`
    */
-  onDateChange?: (date: string) => void;
+  onValueChange?: (date: string) => void;
   /**
    * Задаёт текущую дату
    *
    * Дата задаётся в формате `dd.mm.yyyy`
    */
-  date: Nullable<string>;
+  value: Nullable<string>;
   /**
    * Задаёт максимальную возможную дату
    *
@@ -118,11 +118,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   constructor(props: CalendarProps) {
     super(props);
 
-    const { minDate, maxDate, date } = this.getProps();
+    const { minDate, maxDate, value } = this.getProps();
 
     const minDateShape = this.getDateInNativeFormat(minDate);
     const maxDateShape = this.getDateInNativeFormat(maxDate);
-    const dateShape = this.getDateInNativeFormat(date);
+    const dateShape = this.getDateInNativeFormat(value);
 
     const today = CalendarUtils.getTodayDate();
     const initialDate = CalendarUtils.getInitialDate({
@@ -315,7 +315,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMonth([top, month]: [number, MonthViewModel]) {
-    const date = this.getDateInNativeFormat(this.props.date);
+    const date = this.getDateInNativeFormat(this.props.value);
     const minDate = this.getDateInNativeFormat(this.props.minDate);
     const maxDate = this.getDateInNativeFormat(this.props.maxDate);
 
@@ -348,8 +348,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       year: dateShape.year,
     });
 
-    if (this.props.onDateChange) {
-      this.props.onDateChange(value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
   };
 

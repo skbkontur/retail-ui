@@ -259,10 +259,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           align={this.props.menuAlign}
         >
           <Picker
-            date={this.props.value}
+            value={this.props.value}
             minDate={minDate}
             maxDate={maxDate}
-            onDateChange={this.handleValueChange}
+            onValueChange={this.handleValueChange}
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.props.isHoliday}

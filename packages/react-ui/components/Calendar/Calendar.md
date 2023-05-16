@@ -8,8 +8,8 @@ import { Checkbox } from '@skbkontur/react-ui';
 const [date, setDate] = React.useState("01.11.2021");
 
 <Calendar
-  date={date}
-  onDateChange={setDate}
+  value={date}
+  onValueChange={setDate}
 />
 ```
 
@@ -24,8 +24,8 @@ const initialYear = 2000;
 
 <div style={{ display: 'flex' }}>
   <Calendar
-    date={date}
-    onDateChange={setDate}
+    value={date}
+    onValueChange={setDate}
     initialMonth={initialMonth}
     initialYear={initialYear}
   />
@@ -81,7 +81,7 @@ const isHoliday = (day, isWeekend) => {
   return isWeekend;
 };
 
-<Calendar isHoliday={isHoliday} date={date} onDateChange={setDate} />;
+<Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
 
@@ -99,8 +99,8 @@ const theme = React.useContext(ThemeContext);
   value={ThemeFactory.create({ calendarWrapperHeight: '450px' }, theme)}
   >
   <Calendar
-    date={date}
-    onDateChange={setDate}
+    value={date}
+    onValueChange={setDate}
   />
 </ThemeContext.Provider>
 ```

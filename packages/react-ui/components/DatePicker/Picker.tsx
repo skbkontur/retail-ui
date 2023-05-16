@@ -21,7 +21,7 @@ import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
-interface PickerProps extends Pick<CalendarProps, 'date' | 'minDate' | 'maxDate' | 'isHoliday' | 'onDateChange'> {
+interface PickerProps extends Pick<CalendarProps, 'value' | 'minDate' | 'maxDate' | 'isHoliday' | 'onValueChange'> {
   /**
    * Управляет наличием кнопки "Сегодня"
    */
@@ -49,9 +49,9 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   }
 
   public componentDidUpdate(prevProps: PickerProps) {
-    const date = new InternalDate().parseValue(this.props.date).getComponentsLikeNumber();
+    const date = new InternalDate().parseValue(this.props.value).getComponentsLikeNumber();
 
-    if (date && !shallowEqual(this.props.date, prevProps.date)) {
+    if (date && !shallowEqual(this.props.value, prevProps.value)) {
       this.scrollToMonth(date.month - 1, date.year);
     }
   }
@@ -83,9 +83,9 @@ export class Picker extends React.Component<PickerProps, PickerState> {
           ref={(c) => (this.calendar = c)}
           maxDate={this.parseValueToDate(this.props.maxDate)}
           minDate={this.parseValueToDate(this.props.minDate)}
-          onDateChange={this.props.onDateChange}
+          onValueChange={this.props.onValueChange}
           isHoliday={this.props.isHoliday}
-          date={this.parseValueToDate(this.props.date)}
+          value={this.parseValueToDate(this.props.value)}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>

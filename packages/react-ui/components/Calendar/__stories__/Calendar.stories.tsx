@@ -13,7 +13,7 @@ export default { title: 'Calendar' };
 export const CalendarWithBottomSeparator: Story = () => {
   const [date, setDate] = React.useState('12.05.2022');
 
-  return <Calendar date={date} onDateChange={setDate} />;
+  return <Calendar value={date} onValueChange={setDate} />;
 };
 CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
@@ -42,7 +42,7 @@ export const CalendarWithMinMaxDate: Story = () => {
           locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
         }}
       >
-        <Calendar date="02.07.2017" minDate={min} maxDate={max} onDateChange={action('pick')} />
+        <Calendar value="02.07.2017" minDate={min} maxDate={max} onValueChange={action('pick')} />
       </LocaleContext.Provider>
     </Gapped>
   );
