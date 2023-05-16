@@ -1,9 +1,27 @@
-import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { fileUploaderSizeMixin } from './FileUploader.mixins';
 
+export const globalClasses = prefix('file-uploader')({
+  afterLinkText: 'after-link-text',
+});
+
 const styles = {
+  calcPulse(t: Theme) {
+    return keyframes`
+      0% {
+        box-shadow: 0 0 0 1px ${ColorFunctions.fade(t.inputBlinkColor, 0.6)};
+      }
+      95% {
+        box-shadow: 0 0 0 10px ${ColorFunctions.fade(t.inputBlinkColor, 0.1)};
+      }
+      100% {
+        box-shadow: 0 0 0 1px ${ColorFunctions.fade(t.inputBlinkColor, 0.0)};
+      }
+    `;
+  },
   pulse() {
     return keyframes`
         0% {
@@ -28,11 +46,10 @@ const styles = {
     return css`
       display: inline-block;
       position: relative;
-      background-color: ${t.fileUploaderBg};
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
-      position: relative;
+      background-color: ${t.fileUploaderBg};
     `;
   },
 
@@ -49,6 +66,7 @@ const styles = {
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
       transition: box-shadow 0.3s ease;
+      background-color: ${t.fileUploaderUploadButtonBg};
     `;
   },
 
@@ -61,9 +79,9 @@ const styles = {
 
   dragOver(t: Theme) {
     return css`
-      border: 1px solid #2da4f9;
+      border: 1px solid ${t.fileUploaderDragOverBorderColor};
       border-radius: ${t.fileUploaderBorderRadius};
-      box-shadow: 0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35);
+      box-shadow: ${t.fileUploaderDragOverShadow};
     `;
   },
 
@@ -71,6 +89,13 @@ const styles = {
     return css`
       border-radius: ${t.fileUploaderBorderRadius};
       animation: ${styles.pulse()} 1.5s infinite;
+    `;
+  },
+
+  windowDragOver2022(t: Theme) {
+    return css`
+      border-radius: ${t.fileUploaderBorderRadius};
+      animation: ${styles.calcPulse(t)} 1.5s infinite;
     `;
   },
 
@@ -117,17 +142,19 @@ const styles = {
     `;
   },
 
-  afterLinkText() {
+  afterLinkText(t: Theme) {
     return css`
       display: inline;
+      color: ${t.fileUploaderAfterLinkColor};
     `;
   },
 
-  afterLinkText_HasFiles() {
+  afterLinkText_HasFiles(t: Theme) {
     return css`
       display: flex;
       justify-content: space-between;
       flex: 1 1 auto;
+      color: ${t.fileUploaderAfterLinkColor};
     `;
   },
 
@@ -148,6 +175,7 @@ const styles = {
   hovered(t: Theme) {
     return css`
       background: ${t.fileUploaderHoveredBg};
+      border-color: ${t.fileUploaderHoveredBorderColor};
     `;
   },
 
@@ -161,9 +189,14 @@ const styles = {
     return css`
       cursor: default;
       background: ${t.fileUploaderDisabledBg};
-      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
+      border: ${t.fileUploaderDisabledBorder};
       color: ${t.fileUploaderDisabledTextColor};
       box-shadow: none;
+      background-clip: ${t.fileUploaderDisabledBgClip};
+
+      .${globalClasses.afterLinkText} {
+        color: ${t.fileUploaderDisabledTextColor};
+      }
     `;
   },
 

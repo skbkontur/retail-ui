@@ -10,6 +10,7 @@ export const styles = memoizeStyle({
       font-size: 0;
       z-index: 1000;
       touch-action: none;
+      border-radius: ${t.pickerBorderRadius};
     `;
   },
   todayLinkWrapper(t: Theme) {

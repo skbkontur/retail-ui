@@ -359,6 +359,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaClassNames = cx({
       [styles.textarea(this.theme)]: true,
+      [styles.hovering(this.theme)]: !error && !warning,
       [styles.disabled(this.theme)]: disabled,
       [styles.error(this.theme)]: !!error,
       [styles.warning(this.theme)]: !!warning,

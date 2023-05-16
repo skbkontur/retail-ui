@@ -15,6 +15,8 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { CalendarProps } from '../Calendar';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -144,6 +146,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
+  private theme!: Theme;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -228,9 +231,16 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {this.renderMain}
-      </CommonWrapper>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 
@@ -245,7 +255,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           menuPos={this.props.menuPos}
           data-tid={DatePickerDataTids.root}
           getParent={this.getParent}
-          offsetY={2}
+          offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
           align={this.props.menuAlign}
         >
           <Picker

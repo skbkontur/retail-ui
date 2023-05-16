@@ -1,6 +1,12 @@
 import React from 'react';
 import { isForwardRef } from 'react-is';
 
+import { CurrencyInputProps } from '../components/CurrencyInput';
+import { PasswordInputProps } from '../components/PasswordInput';
+import { InputProps } from '../components/Input';
+import { AutocompleteProps } from '../components/Autocomplete';
+import { FxInputProps } from '../components/FxInput';
+
 import { isBrowser } from './client';
 
 // NOTE: Copy-paste from @types/react
@@ -207,3 +213,10 @@ export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
 
   return keyIndex >= 0;
 };
+
+export const isInputLike =
+  isReactUIComponent<InputProps>('Input') ||
+  isReactUIComponent<FxInputProps>('FxInput') ||
+  isReactUIComponent<AutocompleteProps>('Autocomplete') ||
+  isReactUIComponent<PasswordInputProps>('PasswordInput') ||
+  isReactUIComponent<CurrencyInputProps>('CurrencyInput');

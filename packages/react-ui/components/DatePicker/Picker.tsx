@@ -12,6 +12,9 @@ import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { getTodayDate } from '../Calendar/CalendarUtils';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { Button } from '../Button';
+import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 
 import { styles } from './Picker.styles';
 import { DatePickerDataTids } from './DatePicker';
@@ -106,6 +109,21 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     const today = new InternalDate({ order, separator })
       .setComponents(InternalDateGetter.getTodayComponents())
       .toString({ withPad: true, withSeparator: true });
+
+    if (isTheme2022(this.theme)) {
+      return (
+        <div style={{ margin: 8 }}>
+          <Button
+            data-tid={DatePickerDataTids.pickerTodayWrapper}
+            width="100%"
+            onClick={this.handleSelectToday(today)}
+            icon={<ArrowAUpIcon16Light />}
+          >
+            {this.locale.today}
+          </Button>
+        </div>
+      );
+    }
 
     return (
       <button

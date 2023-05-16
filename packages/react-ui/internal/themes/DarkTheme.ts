@@ -89,6 +89,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(255, 255, 255, 0.32)';
   public static tooltipCloseBtnHoverColor = 'rgba(255, 255, 255, 0.865)';
+  public static tooltipBg = '#333333';
   //#endregion
   //#region Modal
   public static modalBackBg = 'rgba(255, 255, 255, 0.865)';
@@ -156,6 +157,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get inputBorderTopColor() {
     return this.inputBorderColor;
   }
+  public static inputColorScheme = 'dark';
   //#endregion
   //#region DatePicker
   public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.08)';
