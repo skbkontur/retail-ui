@@ -61,10 +61,6 @@ export interface CalendarProps extends CommonProps {
    */
   isHoliday?: (day: string, isWeekend: boolean) => boolean;
   /**
-   * Управляет наличием разделительной линии внизу календаря
-   */
-  hasBottomSeparator?: boolean;
-  /**
    * Позволяет задать начальный месяц
    */
   initialMonth?: Range<1, 13>;
@@ -89,7 +85,7 @@ export const CalendarDataTids = {
   headerYear: 'MonthView__headerYear',
 } as const;
 
-type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'hasBottomSeparator' | 'isHoliday'>>;
+type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 /**
  * Компонент календаря из [DatePicker](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а
@@ -106,7 +102,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static defaultProps: DefaultProps = {
     minDate: Calendar.formatDate(MIN_DATE, MIN_MONTH, MIN_YEAR),
     maxDate: Calendar.formatDate(MAX_DATE, MAX_MONTH, MAX_YEAR),
-    hasBottomSeparator: true,
     isHoliday: (_day: string, isWeekend: boolean) => isWeekend,
   };
 
@@ -280,11 +275,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
 
-    const { hasBottomSeparator, ...rest } = this.getProps();
+    const props = this.getProps();
 
     return (
       <LocaleContext.Provider value={{ locale: { DatePicker: { months: this.locale.months } } }}>
-        <CommonWrapper rootNodeRef={this.setRootNode} {...rest}>
+        <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
           <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
             <div style={wrapperStyle} className={styles.wrapper()}>
               {this.state.months
@@ -292,7 +287,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
                 .map(this.renderMonth, this)}
             </div>
-            {hasBottomSeparator && <div className={styles.separator(this.theme)} />}
+            <div className={styles.separator(this.theme)} />
           </div>
         </CommonWrapper>
       </LocaleContext.Provider>
