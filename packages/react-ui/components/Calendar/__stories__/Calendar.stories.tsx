@@ -19,8 +19,8 @@ CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
   creevey: {
     skip: {
-      reason: "8px theme doesn't affect the bottom separator",
-      in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark|ie11|ie11Dark)\b)/,
+      reason: "8px and 2022 themes don't affect the bottom separator",
+      in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
     },
   },
 };
@@ -51,6 +51,10 @@ CalendarWithMinMaxDate.storyName = 'Calendar with min max date';
 
 CalendarWithMinMaxDate.parameters = {
   creevey: {
+    skip: {
+      reason: "8px and 2022 themes don't affect appearance",
+      in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
+    },
     tests: {
       async 'DateSelect months'() {
         await delay(1000);
