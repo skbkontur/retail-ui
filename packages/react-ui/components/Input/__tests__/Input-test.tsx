@@ -56,12 +56,6 @@ describe('<Input />', () => {
     });
   });
 
-  it('with type hidden is not visible', () => {
-    const result = render(<Input value="" type="hidden" role={'textbox'} id="testInput" />);
-    const element = result.container.querySelector('#testInput');
-    expect(element).not.toBeVisible();
-  });
-
   it('autofocus of element when it renders', () => {
     render(<Input value="" autoFocus />);
     expect(screen.getByRole('textbox')).toHaveFocus();

@@ -23,17 +23,7 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType =
-  | 'password'
-  | 'text'
-  | 'number'
-  | 'tel'
-  | 'search'
-  | 'time'
-  | 'date'
-  | 'url'
-  | 'email'
-  | 'hidden';
+export type InputType = 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export interface InputProps
@@ -87,7 +77,7 @@ export interface InputProps
         /** Вызывается на label */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
         /**
-         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email' | 'hidden'
+         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email'
          * */
         type?: InputType;
         /** Значение */
@@ -368,15 +358,11 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-describedby': ariaDescribedby,
     };
 
-    const typesDisallowedWithMask: InputType[] = ['number', 'date', 'time', 'hidden'];
+    const typesDisallowedWithMask: InputType[] = ['number', 'date', 'time'];
     const input =
       mask && !typesDisallowedWithMask.includes(type)
         ? this.renderMaskedInput(inputProps, mask)
         : React.createElement('input', inputProps);
-
-    if (type === 'hidden') {
-      return input;
-    }
 
     if (isTheme2022(this.theme)) {
       return (
