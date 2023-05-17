@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import shallowEqual from 'shallowequal';
 
+import { locale } from '../../lib/locale/decorators';
+import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
+import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
@@ -14,12 +21,14 @@ import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { CalendarProps } from '../Calendar';
+import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { Button } from '../Button';
+import { getTodayDate } from '../Calendar/CalendarUtils';
 
-import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
+import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -38,6 +47,9 @@ export interface DatePickerProps
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
+  /**
+   * Отвечает за отображение кнопки "Сегодня".
+   */
   enableTodayLink?: boolean;
   /**
    * Состояние валидации при ошибке.
@@ -74,6 +86,7 @@ export interface DatePickerProps
 export interface DatePickerState {
   opened: boolean;
   canUseMobileNativeDatePicker: boolean;
+  today: CalendarDateShape;
 }
 
 export const DatePickerDataTids = {
@@ -87,6 +100,7 @@ export const DatePickerDataTids = {
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
 @rootNode
+@locale('DatePicker', DatePickerLocaleHelper)
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
@@ -147,6 +161,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
+  private calendar: Calendar | null = null;
+  private readonly locale!: DatePickerLocale;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -173,7 +189,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     });
   };
 
-  public state: DatePickerState = { opened: false, canUseMobileNativeDatePicker: false };
+  public state: DatePickerState = { opened: false, canUseMobileNativeDatePicker: false, today: getTodayDate() };
 
   private input: DateInput | null = null;
   private focused = false;
@@ -190,11 +206,16 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: DatePickerProps) {
     const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
+    }
+
+    const date = new InternalDate().parseValue(this.props.value).getComponentsLikeNumber();
+    if (date && !shallowEqual(this.props.value, prevProps.value)) {
+      this.scrollToMonth(date.month - 1, date.year);
     }
   }
 
@@ -234,10 +255,13 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
+
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                {this.renderMain}
+              </CommonWrapper>
+            </ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
@@ -258,15 +282,21 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
           align={this.props.menuAlign}
         >
-          <Picker
-            value={this.props.value}
-            minDate={minDate}
-            maxDate={maxDate}
-            onValueChange={this.handleValueChange}
-            onSelect={this.handleSelect}
-            enableTodayLink={this.props.enableTodayLink}
-            isHoliday={this.props.isHoliday}
-          />
+          <div
+            data-tid={DatePickerDataTids.pickerRoot}
+            className={styles.calendarWrapper(this.theme)}
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            <Calendar
+              ref={(c) => (this.calendar = c)}
+              maxDate={this.parseValueToDate(maxDate)}
+              minDate={this.parseValueToDate(minDate)}
+              onValueChange={this.handleValueChange}
+              isHoliday={this.props.isHoliday}
+              value={this.parseValueToDate(this.props.value)}
+            />
+            {this.props.enableTodayLink && this.renderTodayLink()}{' '}
+          </div>
         </DropdownContainer>
       );
     }
@@ -305,6 +335,69 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );
+  };
+
+  private parseValueToDate(value?: Nullable<string>): string | undefined {
+    if (value === undefined || value === null) {
+      return undefined;
+    }
+
+    const date = new InternalDate({ value });
+    if (date.validate({ checks: [InternalDateValidateCheck.NotNull, InternalDateValidateCheck.Native] })) {
+      return date.toString({ withPad: true });
+    }
+
+    return undefined;
+  }
+
+  private scrollToMonth = (month: number, year: number) => {
+    if (this.calendar) {
+      this.calendar.scrollToMonth(month, year);
+    }
+  };
+
+  private renderTodayLink() {
+    const { order, separator } = this.locale;
+    const today = new InternalDate({ order, separator })
+      .setComponents(InternalDateGetter.getTodayComponents())
+      .toString({ withPad: true, withSeparator: true });
+
+    if (isTheme2022(this.theme)) {
+      return (
+        <div style={{ margin: 8 }}>
+          <Button
+            data-tid={DatePickerDataTids.pickerTodayWrapper}
+            width="100%"
+            onClick={this.handleSelectToday(today)}
+            icon={<ArrowAUpIcon16Light />}
+          >
+            {this.locale.today}
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <button
+        data-tid={DatePickerDataTids.pickerTodayWrapper}
+        className={cx({
+          [styles.todayLinkWrapper(this.theme)]: true,
+        })}
+        onClick={this.handleSelectToday(today)}
+        tabIndex={-1}
+      >
+        {`${this.locale.today} ${today}`}
+      </button>
+    );
+  }
+
+  private handleSelectToday = (today: string) => () => {
+    this.handleSelect(today);
+
+    if (this.calendar) {
+      const { month, year } = this.state.today;
+      this.calendar.scrollToMonth(month, year);
+    }
   };
 
   public getParent = () => {
