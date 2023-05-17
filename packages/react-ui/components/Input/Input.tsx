@@ -140,7 +140,7 @@ export const InputDataTids = {
   root: 'Input__root',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size'>>;
+type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
 
 /**
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
@@ -152,6 +152,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public static defaultProps: DefaultProps = {
     size: 'small',
+    type: 'text',
   };
 
   private getProps = createPropsGetter(Input.defaultProps);
@@ -556,14 +557,17 @@ export class Input extends React.Component<InputProps, InputState> {
       focused: true,
     });
 
+    const { type } = this.getProps();
+
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
       // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
       const allowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-      const canBeSelected = !this.props.type || (this.props.type && allowedTypes.includes(this.props.type));
+      const canBeSelected = allowedTypes.includes(type);
       if (!canBeSelected) {
         return;
       }
+
       this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 
