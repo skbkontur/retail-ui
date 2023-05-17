@@ -250,13 +250,17 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
+  // https://github.com/facebook/react/issues/7769
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+  private canBeSelected = ['text', 'password', 'tel', 'search', 'url'].includes(this.getProps().type);
+
   /**
    * Работает с типами `text`, `password`, `tel`, `search`, `url`
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    */
   public selectAll = (): void => {
-    if (this.input) {
+    if (this.input && this.canBeSelected) {
       this.setSelectionRange(0, this.input.value.length);
     }
   };
@@ -543,14 +547,8 @@ export class Input extends React.Component<InputProps, InputState> {
       focused: true,
     });
 
-    const { type } = this.getProps();
-
     if (this.props.selectAllOnFocus) {
-      // https://github.com/facebook/react/issues/7769
-      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
-      const allowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-      const canBeSelected = allowedTypes.includes(type);
-      if (!canBeSelected) {
+      if (!this.canBeSelected) {
         return;
       }
 

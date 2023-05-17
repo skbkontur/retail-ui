@@ -184,25 +184,53 @@ describe('<Input />', () => {
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(5);
   });
 
-  it('selectAll method works', () => {
-    const value = 'Method works';
+  const selectableTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
+  const notSelectableTypes: InputType[] = ['number', 'time', 'date', 'email'];
 
-    const inputRef = React.createRef<Input>();
-    render(<Input ref={inputRef} value={value} />);
-    inputRef.current?.selectAll();
+  selectableTypes.forEach((type) => {
+    it(`selectAll method works with type="${type}"`, () => {
+      const value = 'Method works';
 
-    expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
-    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+      const inputRef = React.createRef<Input>();
+      render(<Input type={type} ref={inputRef} value={value} />);
+      inputRef.current?.selectAll();
+
+      expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+      expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+    });
   });
 
-  it('selectAllOnFocus prop works', () => {
-    const value = 'Prop works';
-    render(<Input value={value} selectAllOnFocus />);
-    userEvent.tab();
+  notSelectableTypes.forEach((type) => {
+    it(`selectAll method doesn't work with type="${type}"`, () => {
+      const inputRef = React.createRef<Input>();
+      render(<Input type={type} ref={inputRef} value="value" />);
+      inputRef.current?.selectAll();
 
-    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
+      expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
+    });
+  });
+
+  selectableTypes.forEach((type) => {
+    it(`selectAllOnFocus prop works with type="${type}"`, () => {
+      const value = 'Prop works';
+      render(<Input type={type} value={value} selectAllOnFocus />);
+      userEvent.tab();
+
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+      expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+    });
+  });
+
+  notSelectableTypes.forEach((type) => {
+    it(`selectAllOnFocus prop doesn't work with type="${type}"`, () => {
+      render(<Input type={type} value="value" selectAllOnFocus />);
+      userEvent.tab();
+
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
+      expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
+    });
   });
 
   it('MaskedInput props dont pass in HtmlNode', () => {
