@@ -19,7 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Kebab.styles';
 
-export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'preventIconPadding'> {
+export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'enableTextAlignment'> {
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   /**
@@ -121,12 +121,12 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderMain() {
     const { disabled } = this.props;
-    const { positions, disableAnimations, onOpen, onClose } = this.getProps();
+    const { positions, disableAnimations, enableTextAlignment, onOpen, onClose } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
-          preventIconPadding={this.props.preventIconPadding}
+          enableTextAlignment={enableTextAlignment}
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}

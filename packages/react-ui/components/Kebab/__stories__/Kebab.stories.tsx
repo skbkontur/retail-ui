@@ -5,6 +5,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
+import { MenuHeader } from '../../MenuHeader';
 import { KebabProps } from '..';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
@@ -217,3 +218,29 @@ class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
     );
   }
 }
+
+export const WithItemsAndIcons = () => (
+  <div style={{ width: 200, textAlign: 'center' }}>
+    <Kebab>
+      <MenuHeader>MenuHeader</MenuHeader>
+      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem>MenuItem3</MenuItem>
+    </Kebab>
+  </div>
+);
+
+export const WithItemsAndIconsWithoutTextAlignment = () => (
+  <div style={{ width: 200, textAlign: 'center' }}>
+    <Kebab enableTextAlignment={false}>
+      <MenuHeader>MenuHeader</MenuHeader>
+      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem>MenuItem3</MenuItem>
+    </Kebab>
+  </div>
+);
+
+WithItemsAndIconsWithoutTextAlignment.parameters = {
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
+};

@@ -37,14 +37,18 @@ export const WithItemsWithIcons = () => (
   </Menu>
 );
 
-export const WithItemsWithIconsPreventIconPadding = () => (
-  <Menu preventIconPadding>
+export const WithItemsWithIconsWithoutTextAlignment = () => (
+  <Menu enableTextAlignment={false}>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
     <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
+
+WithItemsWithIconsWithoutTextAlignment.parameters = {
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
+};
 
 export const WithHeader = () => (
   <Menu>

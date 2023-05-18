@@ -7,7 +7,7 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
-import { InternalMenu } from '../InternalMenu';
+import { InternalMenu, InternalMenuProps } from '../InternalMenu';
 import { Popup, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
@@ -26,7 +26,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps {
+export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'enableTextAlignment'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -46,8 +46,6 @@ export interface PopupMenuProps extends CommonProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;
 
-  /** Выключает добавление паддинга, пунктам меню без иконок, если у других пунктов меню есть иконка */
-  preventIconPadding?: boolean;
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: PopupPositionsType[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
@@ -125,7 +123,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private setRootNode!: TSetRootNode;
 
   public render() {
-    const { popupHasPin, disableAnimations } = this.getProps();
+    const { popupHasPin, disableAnimations, enableTextAlignment } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
@@ -154,7 +152,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
-                  preventIconPadding={this.props.preventIconPadding}
+                  enableTextAlignment={enableTextAlignment}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}

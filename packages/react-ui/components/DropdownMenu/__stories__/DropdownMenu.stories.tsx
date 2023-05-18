@@ -15,6 +15,7 @@ import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
+import { OkIcon } from '../../../internal/icons/16px';
 
 export default {
   title: 'DropdownMenu',
@@ -490,3 +491,25 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
     this.setState({ value: '' });
   };
 }
+
+export const WithItemsAndIcons = () => (
+  <DropdownMenu caption={<Button>Click me</Button>}>
+    <MenuHeader>MenuHeader</MenuHeader>
+    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </DropdownMenu>
+);
+
+export const WithItemsAndIconsWithoutTextAlignment = () => (
+  <DropdownMenu caption={<Button>Click me</Button>} enableTextAlignment={false}>
+    <MenuHeader>MenuHeader</MenuHeader>
+    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </DropdownMenu>
+);
+
+WithItemsAndIconsWithoutTextAlignment.parameters = {
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
+};

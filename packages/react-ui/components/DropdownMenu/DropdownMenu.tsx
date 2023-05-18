@@ -12,7 +12,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface DropdownMenuProps
   extends CommonProps,
-    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'preventIconPadding'> {
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'enableTextAlignment'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -108,7 +108,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     if (!this.props.caption) {
       return null;
     }
-    const { positions, disableAnimations } = this.getProps();
+    const { positions, disableAnimations, enableTextAlignment } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
@@ -116,7 +116,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           caption={this.props.caption}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
-          preventIconPadding={this.props.preventIconPadding}
+          enableTextAlignment={enableTextAlignment}
           popupHasPin={false}
           positions={positions}
           disableAnimations={disableAnimations}
