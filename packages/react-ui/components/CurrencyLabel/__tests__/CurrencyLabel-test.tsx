@@ -36,33 +36,45 @@ describe('CurrencyLabel', () => {
     expect(node).toHaveTextContent(/^12 356,14$/);
   });
 
-  it('should throw error if fractionDigits exceed MAX_SAFE_DIGITS', () => {
-    const fractionDigits = MAX_SAFE_DIGITS + 1;
-    const props = { value: 123.45, fractionDigits };
-    render(<CurrencyLabel {...props} />);
+  describe('Warnings', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
 
-    expect(() => {
-      screen.getByText(`[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}`);
-    }).toThrow();
-  });
+    afterEach(() => {
+      consoleSpy.mockClear();
+    });
 
-  it('should throw error if fractionDigits is not integer', () => {
-    const props = { value: 123.45, fractionDigits: 2.5 };
-    render(<CurrencyLabel {...props} />);
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
 
-    expect(() => {
-      screen.getByText(`[CurrencyLabel]: Prop 'fractionDigits' is not integer`);
-    }).toThrow();
-  });
-
-  it('should throw error if fractionDigits is less than the fractional part of the value', () => {
-    const props = { value: 123.4567, fractionDigits: 2 };
-    render(<CurrencyLabel {...props} />);
-
-    expect(() => {
-      screen.getByText(
-        `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property, 'value' will not be cutted`,
+    it('should throw error if fractionDigits exceed MAX_SAFE_DIGITS', () => {
+      const fractionDigits = MAX_SAFE_DIGITS + 1;
+      const props = { value: 123.45, fractionDigits };
+      render(<CurrencyLabel {...props} />);
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][2]).toContain(
+        `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}`,
       );
-    }).toThrow();
+    });
+
+    it('should throw error if fractionDigits is not integer', () => {
+      const props = { value: 123.45, fractionDigits: 2.5 };
+      render(<CurrencyLabel {...props} />);
+
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][2]).toContain(`[CurrencyLabel]: Prop 'fractionDigits' is not integer`);
+    });
+
+    it('should throw error if fractionDigits is less than the fractional part of the value', () => {
+      const props = { value: 123.4567, fractionDigits: 2 };
+      render(<CurrencyLabel {...props} />);
+
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][2]).toContain(
+        `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property,` +
+        `'value' will not be cutted`,
+      );
+    });
   });
 });
