@@ -3,10 +3,25 @@ import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Input, InputProps, InputType } from '../Input';
+import {
+  Input,
+  InputProps,
+  InputType,
+  inputTypes,
+  maskErrorMessage,
+  maskForbiddenTypes,
+  selectionErrorMessage,
+  selectionAllowedTypes,
+} from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('<Input />', () => {
+  let consoleSpy: jest.SpyInstance;
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  beforeEach(() => (consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})));
+  afterEach(() => consoleSpy.mockRestore());
+
   it('renders with given value', () => {
     render(<Input value="Hello" />);
     expect(screen.getByRole('textbox')).toHaveValue('Hello');
@@ -42,18 +57,44 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
   });
 
-  const types: InputType[] = ['password', 'number', 'tel', 'search', 'time', 'date', 'email', 'url'];
-  types.forEach((type) => {
+  inputTypes.forEach((type) => {
     it(`passes ${type} type to input`, () => {
       render(<Input value="" type={type} role={'textbox'} />);
       expect(screen.queryByRole('textbox')).toHaveProperty('type', type);
     });
   });
-  types.forEach((type) => {
-    it(`type ${type} renders correctly with mask prop`, () => {
+
+  inputTypes.forEach((type) => {
+    it(`type ${type} renders correctly with the "mask" prop`, () => {
       render(<Input value="" type={type} role={'textbox'} mask="999" />);
       expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
+  });
+
+  maskForbiddenTypes.forEach((type) => {
+    it(`prints an error when type "${type}" is used with the prop "mask"`, () => {
+      render(<Input type={type} mask="123" />);
+
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(type)}`);
+    });
+  });
+
+  it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, () => {
+    const Component = () => {
+      const [type, setType] = useState<InputType>('text');
+
+      return (
+        <>
+          <Input type={type} mask="123" />
+          <button onClick={() => setType('date')}>change type to date</button>
+        </>
+      );
+    };
+    render(<Component />);
+
+    userEvent.click(screen.getByRole('button'));
+
+    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage('date')}`);
   });
 
   it('autofocus of element when it renders', () => {
@@ -184,10 +225,7 @@ describe('<Input />', () => {
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(5);
   });
 
-  const selectableTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-  const notSelectableTypes: InputType[] = ['number', 'time', 'date', 'email'];
-
-  selectableTypes.forEach((type) => {
+  selectionAllowedTypes.forEach((type) => {
     it(`selectAll method works with type="${type}"`, () => {
       const value = 'Method works';
 
@@ -201,7 +239,11 @@ describe('<Input />', () => {
     });
   });
 
-  notSelectableTypes.forEach((type) => {
+  const selectionForbiddenTypes: InputType[] = inputTypes.filter((type) => {
+    return !selectionAllowedTypes.includes(type);
+  });
+
+  selectionForbiddenTypes.forEach((type) => {
     it(`selectAll method doesn't work with type="${type}"`, () => {
       const inputRef = React.createRef<Input>();
       render(<Input type={type} ref={inputRef} value="value" />);
@@ -209,10 +251,11 @@ describe('<Input />', () => {
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'method')}`);
     });
   });
 
-  selectableTypes.forEach((type) => {
+  selectionAllowedTypes.forEach((type) => {
     it(`selectAllOnFocus prop works with type="${type}"`, () => {
       const value = 'Prop works';
       render(<Input type={type} value={value} selectAllOnFocus />);
@@ -223,20 +266,46 @@ describe('<Input />', () => {
     });
   });
 
-  notSelectableTypes.forEach((type) => {
+  selectionForbiddenTypes.forEach((type) => {
     it(`selectAllOnFocus prop doesn't work with type="${type}"`, () => {
       render(<Input type={type} value="value" selectAllOnFocus />);
       userEvent.tab();
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'prop')}`);
     });
   });
 
-  it('MaskedInput props dont pass in HtmlNode', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  it('type can be changed from allowed for selection to forbidden for selection', () => {
+    const value = 'value';
+    const updatedType = 'date';
+    const Component = () => {
+      const [type, setType] = useState<InputType>('text');
 
+      return (
+        <>
+          <Input type={type} value={value} selectAllOnFocus />
+          <button onClick={() => setType(updatedType)}>change type to date</button>
+        </>
+      );
+    };
+    render(<Component />);
+
+    userEvent.tab();
+
+    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+
+    userEvent.click(screen.getByRole('button'));
+    userEvent.tab();
+
+    expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
+    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType, 'prop')}`);
+  });
+
+  it('MaskedInput props dont pass in HtmlNode', () => {
     render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
     expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
     expect(consoleSpy).not.toHaveBeenCalled();
@@ -244,7 +313,6 @@ describe('<Input />', () => {
       // eslint-disable-next-line jest/no-conditional-expect
       expect(consoleSpy.mock.calls[0][0]).not.toContain('Warning: React does not recognize');
     }
-    consoleSpy.mockRestore();
   });
 
   it('blink method works', () => {

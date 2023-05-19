@@ -3,6 +3,7 @@
 import invariant from 'invariant';
 import React, { AriaAttributes } from 'react';
 import raf from 'raf';
+import warning from 'warning';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -21,10 +22,44 @@ import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
+export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
+
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email';
+export type InputType = typeof inputTypes[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
+
+const prettyPrintNamesList = (items: string[]) => {
+  return items.reduce((acc, type, index, arr) => {
+    if (index + 1 !== arr.length) {
+      return acc + `"${type}", `;
+    }
+
+    return acc + `"${type}"`;
+  }, '');
+};
+
+export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
+export const selectionErrorMessage = (
+  type: InputType,
+  api: 'prop' | 'method',
+  allowedTypes: InputType[] = selectionAllowedTypes,
+) => {
+  const usedApi = api === 'prop' ? 'Prop "selectAllOnFocus"' : 'Method "selectAll"';
+  return `<Input />. ${usedApi} does not support type "${type}". Supported types: ${prettyPrintNamesList(
+    allowedTypes,
+  )}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
+};
+
+export const maskForbiddenTypes: InputType[] = ['number', 'date', 'time'];
+export const maskAllowedTypes: InputType[] = inputTypes.filter((type) => {
+  return !maskForbiddenTypes.includes(type);
+});
+export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = maskAllowedTypes) => {
+  return `<Input />. Prop "mask" does not support type "${type}". Supported types: ${prettyPrintNamesList(
+    allowedTypes,
+  )}.`;
+};
 
 export interface InputProps
   extends CommonProps,
@@ -159,6 +194,23 @@ export class Input extends React.Component<InputProps, InputState> {
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
+  private outputErrors() {
+    const type = this.getProps().type;
+
+    warning(!(!this.canBeSelected && this.props.selectAllOnFocus), selectionErrorMessage(type, 'prop'));
+    warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(type));
+  }
+
+  public componentDidMount() {
+    this.outputErrors();
+  }
+
+  public componentDidUpdate(prevProps: Readonly<InputProps>) {
+    if (this.props.type !== prevProps.type) {
+      this.outputErrors();
+    }
+  }
+
   public componentWillUnmount() {
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
@@ -252,7 +304,13 @@ export class Input extends React.Component<InputProps, InputState> {
 
   // https://github.com/facebook/react/issues/7769
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
-  private canBeSelected = ['text', 'password', 'tel', 'search', 'url'].includes(this.getProps().type);
+  private get canBeSelected() {
+    return selectionAllowedTypes.includes(this.getProps().type);
+  }
+
+  private get canBeUsedWithMask() {
+    return maskForbiddenTypes.includes(this.getProps().type);
+  }
 
   /**
    * Работает с типами `text`, `password`, `tel`, `search`, `url`
@@ -260,6 +318,8 @@ export class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public selectAll = (): void => {
+    warning(this.canBeSelected, selectionErrorMessage(this.getProps().type, 'method'));
+
     if (this.input && this.canBeSelected) {
       this.setSelectionRange(0, this.input.value.length);
     }
@@ -304,7 +364,7 @@ export class Input extends React.Component<InputProps, InputState> {
       borderless,
       value,
       align,
-      type = 'text',
+      type,
       mask,
       maskChar,
       alwaysShowMask,
@@ -362,9 +422,8 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-describedby': ariaDescribedby,
     };
 
-    const typesDisallowedWithMask: InputType[] = ['number', 'date', 'time'];
     const input =
-      mask && !typesDisallowedWithMask.includes(type)
+      mask && !this.canBeUsedWithMask
         ? this.renderMaskedInput(inputProps, mask)
         : React.createElement('input', inputProps);
 
