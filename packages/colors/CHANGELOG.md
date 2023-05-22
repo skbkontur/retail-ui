@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.3.0...@skbkontur/colors@0.4.0) (2023-05-22)
+
+
+### Features
+
+* **colors:** обновление grayscaleSecondaryText с [#858585](https://git.skbkontur.ru/ui/ui-parking/issues/858585) на [#757575](https://git.skbkontur.ru/ui/ui-parking/issues/757575) ([8f27457](https://git.skbkontur.ru/ui/ui-parking/commits/8f27457477e25ecd52dfb7ab9b1f521145b25125))
+
+
+
+
+
 # [0.3.0](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.1.1...@skbkontur/colors@0.3.0) (2023-05-12)
 
 
