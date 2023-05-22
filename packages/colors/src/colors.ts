@@ -114,6 +114,12 @@ export const KonturColors = {
   grayscaleBackground: '#e6e6e6',
   grayscaleLightBackground: '#f0f0f0',
   grayscaleWhite: '#fff',
+  grayscale865Text: 'rgba(0, 0, 0, 0.865)',
+  grayscale54SecondaryText: 'rgba(0, 0, 0, 0.54)',
+  grayscale32DisabledText: 'rgba(0, 0, 0, 0.32)',
+  grayscale16DarkBackground: 'rgba(0, 0, 0, 0.16)',
+  grayscale10Background: 'rgba(0, 0, 0, 0.1)',
+  grayscale06LightBackground: 'rgba(0, 0, 0, 0.06)',
 };
 
 export type TKonturColor = keyof typeof KonturColors;
