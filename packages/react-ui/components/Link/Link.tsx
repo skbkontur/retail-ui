@@ -60,8 +60,9 @@ export interface LinkProps
         theme?: ThemeIn;
         /**
          * Компонент, используемый в качестве корневого узла.
+         * @ignore
          */
-        component?: React.ElementType | keyof React.ReactHTML;
+        as?: React.ElementType | keyof React.ReactHTML;
         /**
          * @ignore
          */
@@ -77,7 +78,7 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'component'>>;
+type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as'>>;
 type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 
 /**
@@ -100,7 +101,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   public static defaultProps: DefaultProps = {
     href: '',
     use: 'default',
-    component: 'a',
+    as: 'a',
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -137,7 +138,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       _button,
       _buttonOpened,
       rel: relOrigin,
-      component: Component,
+      as: Component,
       focused = false,
       ...rest
     } = props;
