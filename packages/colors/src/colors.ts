@@ -108,7 +108,7 @@ export const KonturColors = {
   purple100: '#843698',
   purple110: '#782f8a',
   grayscaleText: '#222',
-  grayscaleSecondaryText: '#858585',
+  grayscaleSecondaryText: '#757575',
   grayscaleDisabledText: '#adadad',
   grayscaleDarkBackground: '#d6d6d6',
   grayscaleBackground: '#e6e6e6',
