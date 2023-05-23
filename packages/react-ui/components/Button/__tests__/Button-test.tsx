@@ -124,4 +124,24 @@ describe('Button', () => {
     expect(button).toHaveAttribute('aria-describedby', 'elementId');
     expect(button).toHaveAccessibleDescription('Description');
   });
+
+  it('passes `aria-haspopup` attribute', () => {
+    render(<Button aria-haspopup />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'true');
+  });
+
+  it('passes correct value into `aria-controls` attribute', () => {
+    const controlsId = 'controls';
+    render(<Button aria-controls={controlsId} />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', controlsId);
+  });
+
+  it('passes correct value to `aria-label` attribute', () => {
+    const label = 'label';
+    render(<Button aria-label={label} />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-label', label);
+  });
 });

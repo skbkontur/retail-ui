@@ -53,6 +53,7 @@ export interface HTMLProps {
   hr: React.HTMLAttributes<HTMLHRElement>;
   html: React.HtmlHTMLAttributes<HTMLHtmlElement>;
   i: React.HTMLAttributes<HTMLElement>;
+  id: React.HTMLAttributes<HTMLElement>['id'];
   iframe: React.IframeHTMLAttributes<HTMLIFrameElement>;
   img: React.ImgHTMLAttributes<HTMLImageElement>;
   input: React.InputHTMLAttributes<HTMLInputElement>;

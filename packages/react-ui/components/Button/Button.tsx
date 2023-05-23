@@ -17,7 +17,9 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps extends CommonProps {
+export interface ButtonProps
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label'> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -158,11 +160,6 @@ export interface ButtonProps extends CommonProps {
    * CSS-свойство `width`.
    */
   width?: number | string;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface ButtonState {
@@ -261,6 +258,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
       'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
     } = this.props;
     const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -389,7 +389,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} aria-describedby={ariaDescribedby}>
+          <button
+            data-tid={ButtonDataTids.root}
+            ref={this._ref}
+            {...rootProps}
+            aria-describedby={ariaDescribedby}
+            aria-haspopup={ariaHasPopup}
+            aria-controls={ariaControls}
+            aria-label={ariaLabel}
+          >
             {innerShadowNode}
             {outlineNode}
             {loadingNode}
