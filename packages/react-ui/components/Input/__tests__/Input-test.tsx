@@ -79,6 +79,25 @@ describe('<Input />', () => {
     });
   });
 
+  it('type can be changed from allowed for masking to forbidden for masking', () => {
+    const updatedType = 'date';
+    const Component = () => {
+      const [type, setType] = useState<InputType>('text');
+
+      return (
+        <>
+          <Input type={type} value={'value'} mask="123" />
+          <button onClick={() => setType(updatedType)}>change type to date</button>
+        </>
+      );
+    };
+    render(<Component />);
+
+    userEvent.click(screen.getByRole('button'));
+
+    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
+  });
+
   it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, () => {
     const Component = () => {
       const [type, setType] = useState<InputType>('text');
