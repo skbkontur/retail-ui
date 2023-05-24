@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { CurrencyInput } from '../CurrencyInput';
@@ -141,6 +141,226 @@ describe('CurrencyInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
+  it('should handle focus method', () => {
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />;
+    };
+    render(<Comp />);
+
+    currencyInputRef.current?.focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
+
+  it('should handle focus event', () => {
+    const onFocus = jest.fn();
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onFocus={onFocus} />;
+    };
+    render(<Comp />);
+    currencyInputRef.current?.focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('should handle blur method', () => {
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />;
+    };
+    render(<Comp />);
+    screen.getByRole('textbox').focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    currencyInputRef.current?.blur();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
+  });
+
+  it('should handle blur event', () => {
+    const onBlur = jest.fn();
+    const currencyInputRef = React.createRef<CurrencyInput>();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onBlur={onBlur} />;
+    };
+    render(<Comp />);
+    screen.getByRole('textbox').focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+    currencyInputRef.current?.blur();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('should handle onKeyDown event', () => {
+    const onKeyDown = jest.fn();
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput value={value} onValueChange={setValue} onKeyDown={onKeyDown} />;
+    };
+    render(<Comp />);
+    userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Cursor handels', () => {
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12300.45);
+      return <CurrencyInput value={value} onValueChange={setValue} />;
+    };
+
+    it('should handle cursor Backspace move key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{backspace}');
+      userEvent.keyboard('{backspace}');
+
+      //should be on 1 position due to the automatic ⎵ between 12 and 300
+      expect(input.selectionStart).toBe(1);
+      expect(input.selectionEnd).toBe(1);
+    });
+
+    it('should handle cursor right move key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 0;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{arrowright}');
+      userEvent.keyboard('{arrowright}');
+
+      //should be on 3 position due to the automatic ⎵ between 12 and 300
+      expect(input.selectionStart).toBe(3);
+      expect(input.selectionEnd).toBe(3);
+    });
+
+    it('should handle cursor left move key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{arrowleft}');
+      userEvent.keyboard('{arrowleft}');
+
+      //should be on 1 position due to the automatic ⎵ between 12 and 300
+      expect(input.selectionStart).toBe(1);
+      expect(input.selectionEnd).toBe(1);
+    });
+
+    it('should handle move to start key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{home}');
+
+      expect(input.selectionStart).toBe(0);
+      expect(input.selectionEnd).toBe(0);
+    });
+
+    it('should handle move to end key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{end}');
+
+      expect(input.selectionStart).toBe(input.value?.length);
+      expect(input.selectionEnd).toBe(input.value?.length);
+    });
+
+    it('should handle selection left extension key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{shift}{arrowleft/}{arrowleft/}{/shift}');
+
+      //should be selected from 1 position due to the automatic ⎵ between 12 and 300
+      expect(input.selectionStart).toBe(1);
+      expect(input.selectionEnd).toBe(startCursorPosition);
+    });
+
+    it('should handle selection right extension key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 0;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{shift}{arrowright/}{arrowright/}{/shift}');
+
+      //should be selected till 3 position due to the automatic ⎵ between 12 and 300
+      expect(input.selectionStart).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(3);
+    });
+
+    it('should handle full selection key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 0;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{ctrl}a{/ctrl}');
+
+      expect(input.selectionStart).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(input.value?.length);
+    });
+
+    it('should handle selection to start key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{shift}{home/}{/shift}');
+
+      expect(input.selectionStart).toBe(0);
+      expect(input.selectionEnd).toBe(startCursorPosition);
+    });
+
+    it('should handle selection to end key down correctly', () => {
+      render(<Comp />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const startCursorPosition = 4;
+
+      fireEvent.focus(input);
+      input.setSelectionRange(startCursorPosition, startCursorPosition);
+
+      userEvent.keyboard('{shift}{end/}{/shift}');
+
+      expect(input.selectionStart).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(input.value?.length);
+    });
+  });
+
   describe.each([
     ['Comma', '1,23'],
     ['Period', '1,23'],
@@ -149,7 +369,7 @@ describe('CurrencyInput', () => {
     ['IntlBackslash', '1,23'],
     ['NumpadDivide', '1,23'],
   ])('should applied [%s] as comma', (delimiter, expected) => {
-    test(`return: ${expected}`, () => {
+    it(`return: ${expected}`, () => {
       render(<CurrencyInputWithState />);
       const input = screen.getByRole('textbox');
       userEvent.clear(input);
