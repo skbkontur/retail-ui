@@ -189,7 +189,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<InputProps>) {
-    if (this.props.mask !== prevProps.mask) {
+    if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
       this.outputMaskError();
     }
   }
