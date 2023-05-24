@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
@@ -19,7 +19,8 @@ export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | '
 
 export interface ButtonProps
   extends CommonProps,
-    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label'> {
+    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked'>,
+    Pick<HTMLAttributes<unknown>, 'role'> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -261,6 +262,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       'aria-haspopup': ariaHasPopup,
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
+      role,
     } = this.props;
     const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -272,6 +275,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type,
+      role,
+      'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
       className: cx({
         [styles.root(this.theme)]: true,
         [styles[use](this.theme)]: true,
@@ -389,15 +398,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button
-            data-tid={ButtonDataTids.root}
-            ref={this._ref}
-            {...rootProps}
-            aria-describedby={ariaDescribedby}
-            aria-haspopup={ariaHasPopup}
-            aria-controls={ariaControls}
-            aria-label={ariaLabel}
-          >
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}

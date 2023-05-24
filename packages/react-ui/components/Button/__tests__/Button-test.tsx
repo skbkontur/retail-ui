@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, ButtonType } from '../Button';
 
@@ -143,5 +143,26 @@ describe('Button', () => {
     render(<Button aria-label={label} />);
 
     expect(screen.getByLabelText(label)).toBeInTheDocument();
+  });
+
+  it('passes correct value to `role` attribute', () => {
+    const role = 'link';
+    render(<Button role={role} />);
+
+    expect(screen.getByRole(role)).toBeInTheDocument();
+  });
+
+  it('switches `aria-checked` from `false` to `true`', () => {
+    const Component = () => {
+      const [isChecked, setIsChecked] = useState(false);
+      return <Button role="switch" onClick={() => setIsChecked(true)} aria-checked={isChecked} />;
+    };
+
+    render(<Component />);
+
+    const button = screen.getByRole('switch');
+    expect(button).not.toBeChecked();
+    userEvent.click(button);
+    expect(button).toBeChecked();
   });
 });
