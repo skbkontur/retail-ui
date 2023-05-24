@@ -1,7 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import raf from 'raf';
 import warning from 'warning';
 
@@ -29,39 +29,11 @@ export type InputAlign = 'left' | 'center' | 'right';
 export type InputType = typeof inputTypes[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
-const prettyPrintNamesList = (items: string[]) => {
-  return items.reduce((acc, type, index, arr) => {
-    if (index + 1 !== arr.length) {
-      return acc + `"${type}", `;
-    }
-
-    return acc + `"${type}"`;
-  }, '');
-};
-
-const getApiString = (api: 'setSelectionRange' | 'selectAll' | 'selectAllOnFocus') => {
-  if (api === 'setSelectionRange') {
-    return `Method "setSelectionRange"`;
-  }
-
-  if (api === 'selectAll') {
-    return `Method "selectAll"`;
-  }
-
-  if (api === 'selectAllOnFocus') {
-    return `Prop "selectAllOnFocus"`;
-  }
-};
-
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-export const selectionErrorMessage = (
-  type: InputType,
-  api: 'setSelectionRange' | 'selectAll' | 'selectAllOnFocus',
-  allowedTypes: InputType[] = selectionAllowedTypes,
-) => {
-  return `<Input />. ${getApiString(api)} does not support type "${type}". Supported types: ${allowedTypes.join(
-    ', ',
-  )}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
+export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[] = selectionAllowedTypes) => {
+  return `<Input />. Selection is not supported by the type "${type}". Types that support selection: ${allowedTypes
+    .map((i) => `"${i}"`)
+    .join(', ')}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
 };
 
 export const maskForbiddenTypes: InputType[] = ['number', 'date', 'time'];
@@ -69,13 +41,14 @@ export const maskAllowedTypes: InputType[] = inputTypes.filter((type) => {
   return !maskForbiddenTypes.includes(type);
 });
 export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = maskAllowedTypes) => {
-  return `<Input />. Prop "mask" does not support type "${type}". Supported types: ${prettyPrintNamesList(
-    allowedTypes,
-  )}.`;
+  return `<Input />. Prop "mask" does not support type "${type}". Supported types: ${allowedTypes
+    .map((i) => `"${i}"`)
+    .join(', ')}.`;
 };
 
 export interface InputProps
   extends CommonProps,
+    Pick<HTMLAttributes<unknown>, 'role'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
@@ -207,20 +180,17 @@ export class Input extends React.Component<InputProps, InputState> {
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
-  private outputErrors() {
-    const type = this.getProps().type;
-
-    warning(!(!this.canBeSelected && this.props.selectAllOnFocus), selectionErrorMessage(type, 'selectAllOnFocus'));
-    warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(type));
+  private outputMaskError() {
+    warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(this.getProps().type));
   }
 
   public componentDidMount() {
-    this.outputErrors();
+    this.outputMaskError();
   }
 
   public componentDidUpdate(prevProps: Readonly<InputProps>) {
-    if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
-      this.outputErrors();
+    if (this.props.mask !== prevProps.mask) {
+      this.outputMaskError();
     }
   }
 
@@ -278,8 +248,10 @@ export class Input extends React.Component<InputProps, InputState> {
    * @param {number} end
    */
   public setSelectionRange(start: number, end: number) {
-    if (!this.canBeSelected) {
-      warning(false, selectionErrorMessage(this.getProps().type, 'setSelectionRange'));
+    // https://github.com/facebook/react/issues/7769
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+    if (!selectionAllowedTypes.includes(this.getProps().type)) {
+      warning(false, selectionErrorMessage(this.getProps().type));
 
       return;
     }
@@ -321,12 +293,6 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  // https://github.com/facebook/react/issues/7769
-  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
-  private get canBeSelected() {
-    return selectionAllowedTypes.includes(this.getProps().type);
-  }
-
   private get canBeUsedWithMask() {
     return maskForbiddenTypes.includes(this.getProps().type);
   }
@@ -337,9 +303,7 @@ export class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public selectAll = (): void => {
-    warning(this.canBeSelected, selectionErrorMessage(this.getProps().type, 'selectAll'));
-
-    if (this.input && this.canBeSelected) {
+    if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
     }
   };
@@ -377,6 +341,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onValueChange,
       width,
       error,
+      role,
       warning,
       leftIcon,
       rightIcon,
@@ -428,6 +393,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.inputDisabled(this.theme)]: disabled,
       }),
       value,
+      role,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
@@ -626,10 +592,6 @@ export class Input extends React.Component<InputProps, InputState> {
     });
 
     if (this.props.selectAllOnFocus) {
-      if (!this.canBeSelected) {
-        return;
-      }
-
       this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 

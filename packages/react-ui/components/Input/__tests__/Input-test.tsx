@@ -99,13 +99,14 @@ describe('<Input />', () => {
   });
 
   it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, () => {
+    const updatedType = 'number';
     const Component = () => {
       const [type, setType] = useState<InputType>('text');
 
       return (
         <>
           <Input type={type} mask="123" />
-          <button onClick={() => setType('date')}>change type to date</button>
+          <button onClick={() => setType(updatedType)}>change type to date</button>
         </>
       );
     };
@@ -113,7 +114,7 @@ describe('<Input />', () => {
 
     userEvent.click(screen.getByRole('button'));
 
-    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage('date')}`);
+    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
   });
 
   it('autofocus of element when it renders', () => {
@@ -258,7 +259,7 @@ describe('<Input />', () => {
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
-      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'selectAll')}`);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type)}`);
     });
   });
 
@@ -282,7 +283,7 @@ describe('<Input />', () => {
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
-      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'setSelectionRange')}`);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type)}`);
     });
   });
 
@@ -304,7 +305,7 @@ describe('<Input />', () => {
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
-      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'selectAllOnFocus')}`);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type)}`);
     });
   });
 
@@ -316,24 +317,24 @@ describe('<Input />', () => {
 
       return (
         <>
-          <Input type={type} value={value} selectAllOnFocus />
+          <Input role="textbox" type={type} value={value} selectAllOnFocus />
           <button onClick={() => setType(updatedType)}>change type to date</button>
         </>
       );
     };
     render(<Component />);
 
-    userEvent.tab();
+    fireEvent.focus(screen.getByRole('textbox'));
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
 
     userEvent.click(screen.getByRole('button'));
-    userEvent.tab();
+    fireEvent.focus(screen.getByRole('textbox'));
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
-    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType, 'selectAllOnFocus')}`);
+    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType)}`);
   });
 
   it('MaskedInput props dont pass in HtmlNode', () => {
