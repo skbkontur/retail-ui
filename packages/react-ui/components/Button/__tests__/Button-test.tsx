@@ -142,6 +142,6 @@ describe('Button', () => {
     const label = 'label';
     render(<Button aria-label={label} />);
 
-    expect(screen.getByRole('button')).toHaveAttribute('aria-label', label);
+    expect(screen.getByLabelText(label)).toBeInTheDocument();
   });
 });
