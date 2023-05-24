@@ -191,6 +191,14 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     }
   };
 
+  private passPropsToCaption = (caption: React.ReactNode) => {
+    if (typeof caption === 'string' || typeof caption === 'number') {
+      return caption;
+    }
+
+    return React.cloneElement(caption as React.ReactElement, { 'aria-haspopup': true });
+  };
+
   private renderCaption = () => {
     if (typeof this.props.caption === 'function') {
       const caption = this.props.caption({
@@ -206,7 +214,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
-          {React.cloneElement(caption, { 'aria-haspopup': true })}
+          {this.passPropsToCaption(caption)}
         </span>
       );
     }
@@ -219,7 +227,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         ref={(element) => (this.captionWrapper = element)}
         className={styles.caption()}
       >
-        {React.cloneElement(this.props.caption as React.ReactElement, { 'aria-haspopup': true })}
+        {this.passPropsToCaption(this.props.caption)}
       </span>
     );
   };
