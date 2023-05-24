@@ -39,15 +39,28 @@ const prettyPrintNamesList = (items: string[]) => {
   }, '');
 };
 
+const getApiString = (api: 'setSelectionRange' | 'selectAll' | 'selectAllOnFocus') => {
+  if (api === 'setSelectionRange') {
+    return `Method "setSelectionRange"`;
+  }
+
+  if (api === 'selectAll') {
+    return `Method "selectAll"`;
+  }
+
+  if (api === 'selectAllOnFocus') {
+    return `Prop "selectAllOnFocus"`;
+  }
+};
+
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
 export const selectionErrorMessage = (
   type: InputType,
-  api: 'prop' | 'method',
+  api: 'setSelectionRange' | 'selectAll' | 'selectAllOnFocus',
   allowedTypes: InputType[] = selectionAllowedTypes,
 ) => {
-  const usedApi = api === 'prop' ? 'Prop "selectAllOnFocus"' : 'Method "selectAll"';
-  return `<Input />. ${usedApi} does not support type "${type}". Supported types: ${prettyPrintNamesList(
-    allowedTypes,
+  return `<Input />. ${getApiString(api)} does not support type "${type}". Supported types: ${allowedTypes.join(
+    ', ',
   )}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
 };
 
@@ -197,7 +210,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private outputErrors() {
     const type = this.getProps().type;
 
-    warning(!(!this.canBeSelected && this.props.selectAllOnFocus), selectionErrorMessage(type, 'prop'));
+    warning(!(!this.canBeSelected && this.props.selectAllOnFocus), selectionErrorMessage(type, 'selectAllOnFocus'));
     warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(type));
   }
 
@@ -265,6 +278,12 @@ export class Input extends React.Component<InputProps, InputState> {
    * @param {number} end
    */
   public setSelectionRange(start: number, end: number) {
+    if (!this.canBeSelected) {
+      warning(false, selectionErrorMessage(this.getProps().type, 'setSelectionRange'));
+
+      return;
+    }
+
     if (!this.input) {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
@@ -318,7 +337,7 @@ export class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public selectAll = (): void => {
-    warning(this.canBeSelected, selectionErrorMessage(this.getProps().type, 'method'));
+    warning(this.canBeSelected, selectionErrorMessage(this.getProps().type, 'selectAll'));
 
     if (this.input && this.canBeSelected) {
       this.setSelectionRange(0, this.input.value.length);

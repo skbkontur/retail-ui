@@ -213,18 +213,6 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).not.toHaveFocus();
   });
 
-  it('setSelectionRange method works', () => {
-    const inputRef = React.createRef<Input>();
-    render(<Input ref={inputRef} value="Method works" />);
-    inputRef.current?.setSelectionRange(3, 5);
-
-    userEvent.click(screen.getByRole('textbox'));
-
-    expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
-    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(3);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(5);
-  });
-
   selectionAllowedTypes.forEach((type) => {
     it(`selectAll method works with type="${type}"`, () => {
       const value = 'Method works';
@@ -251,7 +239,31 @@ describe('<Input />', () => {
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
-      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'method')}`);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'selectAll')}`);
+    });
+  });
+
+  selectionAllowedTypes.forEach((type) => {
+    it(`setSelectionRange method works with type="${type}"`, () => {
+      const inputRef = React.createRef<Input>();
+      render(<Input type={type} ref={inputRef} value="Method works" />);
+      inputRef.current?.setSelectionRange(3, 5);
+
+      expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe(3);
+      expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(5);
+    });
+  });
+
+  selectionForbiddenTypes.forEach((type) => {
+    it(`setSelectionRange method doesn't work with type="${type}"`, () => {
+      const inputRef = React.createRef<Input>();
+      render(<Input type={type} ref={inputRef} value="value" />);
+      inputRef.current?.setSelectionRange(0, 1);
+
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
+      expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'setSelectionRange')}`);
     });
   });
 
@@ -273,7 +285,7 @@ describe('<Input />', () => {
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
-      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'prop')}`);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type, 'selectAllOnFocus')}`);
     });
   });
 
@@ -302,7 +314,7 @@ describe('<Input />', () => {
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
-    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType, 'prop')}`);
+    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType, 'selectAllOnFocus')}`);
   });
 
   it('MaskedInput props dont pass in HtmlNode', () => {
