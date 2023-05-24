@@ -11,7 +11,7 @@ describe('Switcher', () => {
   });
 
   it('passes correct value to `role` attribute', () => {
-    const role = 'checkbox';
+    const role = 'link';
     render(<Switcher items={['One']} role={role} />);
 
     expect(screen.getByRole(role)).toBeInTheDocument();
