@@ -226,10 +226,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const { items, value, size, disabled, role, renderItem } = this.props;
     return items.map((item, i) => {
       const { label, value: itemValue, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
+
+      const isChecked = value === itemValue;
       const commonButtonProps = {
-        'aria-checked': value === itemValue,
+        'aria-checked': isChecked,
         role,
-        checked: value === itemValue,
+        checked: isChecked,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
           this.selectItem(itemValue);
