@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { PopupMenuDataTids } from '../../../internal/PopupMenu';
 import { DropdownMenu } from '../DropdownMenu';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { InternalMenuDataTids } from '../../../internal/InternalMenu';
@@ -135,5 +136,14 @@ describe('<DropdownMenu />', () => {
 
     dropdownMenuRef.current?.close();
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('prop `popupMenuId` sets an `id` for root of the popup', () => {
+    const menuId = 'menu';
+    render(<DropdownMenu caption={<button>test</button>} popupMenuId={menuId} />);
+    userEvent.click(screen.getByRole('button'));
+
+    const menu = screen.getByTestId(PopupMenuDataTids.root);
+    expect(menu).toHaveAttribute('id', menuId);
   });
 });
