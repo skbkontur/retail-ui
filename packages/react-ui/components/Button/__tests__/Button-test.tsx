@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, ButtonType } from '../Button';
 
@@ -123,5 +123,46 @@ describe('Button', () => {
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('aria-describedby', 'elementId');
     expect(button).toHaveAccessibleDescription('Description');
+  });
+
+  it('passes `aria-haspopup` attribute', () => {
+    render(<Button aria-haspopup />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'true');
+  });
+
+  it('passes correct value into `aria-controls` attribute', () => {
+    const controlsId = 'controls';
+    render(<Button aria-controls={controlsId} />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', controlsId);
+  });
+
+  it('passes correct value to `aria-label` attribute', () => {
+    const label = 'label';
+    render(<Button aria-label={label} />);
+
+    expect(screen.getByLabelText(label)).toBeInTheDocument();
+  });
+
+  it('passes correct value to `role` attribute', () => {
+    const role = 'link';
+    render(<Button role={role} />);
+
+    expect(screen.getByRole(role)).toBeInTheDocument();
+  });
+
+  it('switches `aria-checked` from `false` to `true`', () => {
+    const Component = () => {
+      const [isChecked, setIsChecked] = useState(false);
+      return <Button role="switch" onClick={() => setIsChecked(true)} aria-checked={isChecked} />;
+    };
+
+    render(<Component />);
+
+    const button = screen.getByRole('switch');
+    expect(button).not.toBeChecked();
+    userEvent.click(button);
+    expect(button).toBeChecked();
   });
 });
