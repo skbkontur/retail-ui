@@ -433,7 +433,7 @@ describe('ComboBox', () => {
       expect(wrapper.find('input').prop('value')).toBe('');
     };
 
-    it.only('in default mode', () => {
+    it('in default mode', () => {
       const items = [
         { value: 1, label: 'one' },
         { value: 2, label: 'two' },
@@ -1044,27 +1044,27 @@ describe('ComboBox', () => {
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
-    // it('long request and blur before it resolves', async () => {
-    //   const getItems = jest.fn(async () => {
-    //     await delay(500);
-    //     return Promise.resolve(items);
-    //   });
-    //   render(<ComboBox getItems={getItems} />);
+    it.only('long request and blur before it resolves', async () => {
+      const getItems = jest.fn(async () => {
+        await delay(500);
+        return Promise.resolve(items);
+      });
+      render(<ComboBox getItems={getItems} />);
 
-    //   userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    //   await delay(300);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await delay(300);
 
-    //   expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-    //   clickOutside();
-    //   await delay(0);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
+      clickOutside();
+      await delay(0);
 
-    //   expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-    //   userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    //   await delay(300);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await delay(300);
 
-    //   expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-    // });
+      expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
+    });
 
     it('long request and blur after it resolves', async () => {
       const getItems = jest.fn(async () => {
@@ -1109,7 +1109,7 @@ describe('ComboBox', () => {
       [search, promise] = searchFactory(Promise.resolve(null));
     });
     const focus = async (): Promise<void> => {
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await promise;
     };
 
@@ -1267,10 +1267,10 @@ describe('ComboBox', () => {
 
     const addNewElement = async () => {
       render(<Comp />);
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      await userEvent.type(screen.getByRole('textbox'), 'newItem');
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      userEvent.type(screen.getByRole('textbox'), 'newItem');
       await delay(0);
-      await userEvent.click(screen.getByTestId('addButton'));
+      userEvent.click(screen.getByTestId('addButton'));
     };
 
     it('add new element', async () => {
@@ -1280,13 +1280,13 @@ describe('ComboBox', () => {
 
     it('show added item after blur', async () => {
       await addNewElement();
-      await userEvent.click(screen.getByRole('textbox'));
+      userEvent.click(screen.getByRole('textbox'));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
       clickOutside();
       await delay(0);
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
