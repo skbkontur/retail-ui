@@ -596,36 +596,50 @@ describe('ComboBox', () => {
     });
   });
 
-  // describe('search by method', () => {
-  //   const VALUE = { value: 1, label: 'one' };
-  //   let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
-  //   let promise: Promise<void>;
+  describe('search by method', () => {
+    const query = 'One';
+    const items = [
+      { value: '1', label: 'One' },
+      { value: '2', label: 'Two' },
+      { value: '3', label: 'Three' },
+      { value: '4', label: 'Four' },
+    ];
+    const comboboxRef = React.createRef<ComboBox<ComboBoxItem>>();
+    const getItems = jest.fn((query: string) => Promise.resolve(items.filter(x => x.label.includes(query))));
 
-  //   beforeEach(() => {
-  //     [getItems, promise] = searchFactory(Promise.resolve([VALUE]));
-  //     render(<ComboBox getItems={getItems} value={VALUE} />);
-  //   });
+    beforeEach(() => {
+      getItems.mockClear();
+    });
 
-  //   it('opens menu', async () => {
-  //     wrapper.instance().search();
-  //     await promise;
-  //     wrapper.update();
-  //     expect(wrapper.find(Menu)).toHaveLength(1);
-  //   });
+    it('opens menu', async () => {
+      render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
-  //   it('searches current value by default', () => {
-  //     wrapper.instance().search();
-  //     expect(getItems).toHaveBeenCalledTimes(1);
-  //     expect(getItems).toHaveBeenCalledWith(VALUE.label);
-  //   });
+      comboboxRef.current?.search();
+      await delay(0);
 
-  //   it('searches given query', () => {
-  //     const QUERY = 'SEARCH_ME';
-  //     wrapper.instance().search(QUERY);
-  //     expect(getItems).toHaveBeenCalledTimes(1);
-  //     expect(getItems).toHaveBeenCalledWith(QUERY);
-  //   });
-  // });
+      expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
+    });
+
+    it('searches current value by default', () => {
+      const value = items[1];
+      render(<ComboBox getItems={getItems} ref={comboboxRef} value={value} />);
+
+      comboboxRef.current?.search();
+      delay(0);
+
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(getItems).toHaveBeenCalledWith(value.label);
+    });
+
+    it('searches given query', async () => {
+      render(<ComboBox getItems={getItems} ref={comboboxRef} />);
+      comboboxRef.current?.search(query);
+      await delay(0);
+
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(getItems).toHaveBeenCalledWith(query);
+    });
+  });
 
   // describe('keeps focus in input after', () => {
   //   const ITEMS = ['one', 'two', 'three'];
@@ -1044,7 +1058,7 @@ describe('ComboBox', () => {
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
-    it.only('long request and blur before it resolves', async () => {
+    it('long request and blur before it resolves', async () => {
       const getItems = jest.fn(async () => {
         await delay(500);
         return Promise.resolve(items);
