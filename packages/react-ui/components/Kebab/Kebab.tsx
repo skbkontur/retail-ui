@@ -19,7 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Kebab.styles';
 
-export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
+export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   /**
@@ -45,6 +45,10 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
+
+export const KebabDataTids = {
+  caption: 'Kebab__caption',
+} as const;
 
 export interface KebabState {
   anchor: Nullable<HTMLElement>;
@@ -133,6 +137,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           menuMaxHeight={this.props.menuMaxHeight}
           onOpen={onOpen}
           onClose={onClose}
+          popupMenuId={this.props.popupMenuId}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -156,6 +161,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
     return (
       <span
+        data-tid={KebabDataTids.caption}
         tabIndex={disabled ? -1 : 0}
         onClick={handleCaptionClick}
         onKeyDown={handleCaptionKeyDown}

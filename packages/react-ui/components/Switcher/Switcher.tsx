@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -23,7 +23,7 @@ export const SwitcherDataTids = {
   selectedItem: 'Switcher__selectedItem'
 } as const;
 
-export interface SwitcherProps extends CommonProps {
+export interface SwitcherProps extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'> {
   /**
    * Список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }`
    */
@@ -54,6 +54,8 @@ export interface SwitcherProps extends CommonProps {
   ) => React.ReactNode;
 }
 
+type DefaultProps = Required<Pick<SwitcherProps, 'role'>>;
+
 export interface SwitcherState {
   focusedIndex: Nullable<number>;
 }
@@ -67,6 +69,10 @@ interface SwitcherItem {
 @rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';
+
+  public static defaultProps: DefaultProps = {
+    role: 'switch',
+  };
 
   public static propTypes = {
     error: PropTypes.bool,
@@ -218,11 +224,15 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private _renderItems = () => {
-    const { items, value, size, disabled, renderItem } = this.props;
+    const { items, value, size, disabled, role, renderItem } = this.props;
     return items.map((item, i) => {
       const { label, value: itemValue, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
+
+      const isChecked = value === itemValue;
       const commonButtonProps = {
-        checked: value === itemValue,
+        'aria-checked': isChecked,
+        role,
+        checked: isChecked,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
           this.selectItem(itemValue);
