@@ -627,65 +627,53 @@ describe('ComboBox', () => {
     });
   });
 
-  // describe('keeps focus in input after', () => {
-  //   const ITEMS = ['one', 'two', 'three'];
-  //   let search: jest.Mock<Promise<string[]>>;
-  //   let promise: Promise<void>;
-  //   let wrapper: ReactWrapper<ComboBoxProps<string>, unknown, ComboBox<string>>;
-  //   const onFocus = jest.fn();
-  //   const onBlur = jest.fn();
+  describe('keeps focus in input after', () => {
+    const ITEMS = ['one', 'two', 'three'];
+    let search: jest.Mock<Promise<string[]>>;
+    let promise: Promise<void>;
+    const onFocus = jest.fn();
+    const onBlur = jest.fn();
 
-  //   beforeEach(async () => {
-  //     [search, promise] = searchFactory(Promise.resolve(ITEMS));
-  //     wrapper = mount<ComboBox<string>>(
-  //       <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={(x) => x} />,
-  //       {
-  //         attachTo: getAttachedTarget(),
-  //       },
-  //     );
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
+    beforeEach(async () => {
+      [search, promise] = searchFactory(Promise.resolve(ITEMS));
+      render(
+        <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={(x) => x} />,
+      );
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await promise;
 
-  //     await promise;
-  //     wrapper.update();
+      onFocus.mockClear();
+      onBlur.mockClear();
+    });
 
-  //     onFocus.mockClear();
-  //     onBlur.mockClear();
-  //   });
+    it('click on item', async () => {
+      userEvent.click(screen.getAllByTestId(ComboBoxMenuDataTids.item)[0]);
+      await delay(0); // await for restore focus
 
-  //   it('click on item', async () => {
-  //     const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+      expect(screen.getByRole('textbox')).toHaveFocus();
 
-  //     inputNode.blur(); // simulate blur from real click
+      // input text is not selected
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe((document.activeElement as HTMLInputElement).selectionEnd);
 
-  //     wrapper.find(MenuItem).first().simulate('click');
+      expect(onFocus).toHaveBeenCalledTimes(0);
+      expect(onBlur).toHaveBeenCalledTimes(0);
+    });
 
-  //     await delay(0); // await for restore focus
-  //     wrapper.update();
+    it('Enter on item', async () => {
+      userEvent.keyboard('{arrowdown}');
+      userEvent.keyboard('{enter}');
 
-  //     expect(inputNode).toBeTruthy();
-  //     expect(inputNode).toHaveFocus();
-  //     expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
+      await delay(0);
 
-  //     expect(onFocus).toHaveBeenCalledTimes(0);
-  //     expect(onBlur).toHaveBeenCalledTimes(0);
-  //   });
+      expect(screen.getByRole('textbox')).toHaveFocus();
 
-  //   it('Enter on item', async () => {
-  //     wrapper.find('input').simulate('keydown', { key: 'ArrowDown' }).simulate('keydown', { key: 'Enter' });
+      // input text is not selected
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe((document.activeElement as HTMLInputElement).selectionEnd);
 
-  //     await delay(0);
-  //     wrapper.update();
-
-  //     const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
-
-  //     expect(inputNode).toBeTruthy();
-  //     expect(inputNode).toHaveFocus();
-  //     expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
-
-  //     expect(onFocus).toHaveBeenCalledTimes(0);
-  //     expect(onBlur).toHaveBeenCalledTimes(0);
-  //   });
-  // });
+      expect(onFocus).toHaveBeenCalledTimes(0);
+      expect(onBlur).toHaveBeenCalledTimes(0);
+    });
+  });
 
   // describe('click on input', () => {
   //   const VALUE = { value: 1, label: 'one' };
