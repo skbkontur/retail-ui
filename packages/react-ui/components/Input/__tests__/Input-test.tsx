@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputType } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('<Input />', () => {
@@ -42,9 +42,24 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
   });
 
-  it('passes password type to input', () => {
-    render(<Input value="" type="password" role={'textbox'} />);
-    expect(screen.queryByRole('textbox')).toHaveProperty('type', 'password');
+  const types: InputType[] = ['password', 'number', 'tel', 'search', 'time', 'date', 'email', 'url'];
+  types.forEach((type) => {
+    it(`passes ${type} type to input`, () => {
+      render(<Input value="" type={type} role={'textbox'} />);
+      expect(screen.queryByRole('textbox')).toHaveProperty('type', type);
+    });
+  });
+  types.forEach((type) => {
+    it(`type ${type} renders correctly with mask prop`, () => {
+      render(<Input value="" type={type} role={'textbox'} mask="999" />);
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
+  });
+
+  it('with type hidden is not visible', () => {
+    const result = render(<Input value="" type="hidden" role={'textbox'} id="testInput" />);
+    const element = result.container.querySelector('#testInput');
+    expect(element).not.toBeVisible();
   });
 
   it('autofocus of element when it renders', () => {

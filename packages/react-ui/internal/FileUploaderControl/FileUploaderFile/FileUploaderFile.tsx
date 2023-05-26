@@ -1,14 +1,12 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { FileUploaderAttachedFile, FileUploaderFileStatus } from '../fileUtils';
+import { FileUploaderAttachedFile } from '../fileUtils';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
-import { Spinner } from '../../../components/Spinner';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
@@ -19,6 +17,7 @@ import { FileUploaderSize } from '../../../components/FileUploader';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 
 import { jsStyles } from './FileUploaderFile.styles';
+import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
@@ -113,27 +112,6 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   const isInvalid = error || !isValid;
 
-  const icon: ReactNode = useMemo(() => {
-    const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon(theme)} />;
-
-    if (hovered || focusedByTab) {
-      return deleteIcon;
-    }
-
-    if (isInvalid) {
-      return <ErrorIcon />;
-    }
-
-    switch (status) {
-      case FileUploaderFileStatus.Loading:
-        return <Spinner type="mini" dimmed caption="" />;
-      case FileUploaderFileStatus.Uploaded:
-        return <OkIcon color={theme.fileUploaderIconColor} />;
-      default:
-        return deleteIcon;
-    }
-  }, [hovered, status, isInvalid, theme, focusedByTab]);
-
   const sizeIconClass = useFileUploaderSize(size, {
     small: jsStyles.iconSmall(),
     medium: jsStyles.iconMedium(),
@@ -223,7 +201,13 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
             onBlur={handleBlur}
             onKeyDown={handleIconKeyDown}
           >
-            {icon}
+            <FileUploaderFileStatusIcon
+              status={status}
+              hovered={hovered}
+              focusedByTab={focusedByTab}
+              isInvalid={isInvalid}
+              size={size}
+            />
           </div>
         </div>
       </Tooltip>

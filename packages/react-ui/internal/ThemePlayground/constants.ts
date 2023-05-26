@@ -37,6 +37,7 @@ export const VARIABLES_GROUPS = [
   { title: 'Switcher', prefix: 'switcher' },
   { title: 'Legacy', prefix: 'chb slt' },
   { title: 'GlobalLoader', prefix: 'globalLoader' },
+  { title: 'CloseButtonIcon', prefix: 'closeBtnIcon' },
 ];
 
 export const DEPRECATED_VARIABLES: Array<keyof Theme> = [];
