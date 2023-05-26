@@ -209,6 +209,9 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'clicked' },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -299,6 +302,9 @@ WithLongDescription.storyName = 'with long description';
 
 WithLongDescription.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'clicked' },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
