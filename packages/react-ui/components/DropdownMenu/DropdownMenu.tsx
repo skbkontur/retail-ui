@@ -10,7 +10,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
+export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -122,6 +122,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           width={this.props.width}
           onClose={this.props.onClose}
           onOpen={this.props.onOpen}
+          popupMenuId={this.props.popupMenuId}
         >
           {this.props.children}
         </PopupMenu>

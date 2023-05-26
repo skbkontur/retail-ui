@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
 
@@ -28,7 +28,10 @@ import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-export interface ModalProps extends CommonProps {
+export interface ModalProps
+  extends CommonProps,
+    Pick<HTMLAttributes<unknown>, 'role'>,
+    Pick<AriaAttributes, 'aria-label' | 'aria-labelledby'> {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
@@ -78,7 +81,7 @@ export const ModalDataTids = {
   close: 'modal-close',
 } as const;
 
-type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock'>>;
+type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role'>>;
 
 /**
  * Модальное окно
@@ -104,6 +107,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static defaultProps: DefaultProps = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
+    role: 'dialog',
   };
 
   private getProps = createPropsGetter(Modal.defaultProps);
@@ -168,7 +172,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   private renderMain() {
+    const {
+      noClose,
+      disableClose,
+      width,
+      alignTop,
+      children,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledby,
+    } = this.props;
     const { hasHeader, hasFooter, hasPanel } = this.state;
+    const { role, disableFocusLock } = this.getProps();
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
@@ -177,9 +191,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
     };
-    if (!this.props.noClose) {
+    if (!noClose) {
       modalContextProps.close = {
-        disableClose: this.props.disableClose,
+        disableClose,
         requestClose: this.requestClose,
       };
     }
@@ -193,8 +207,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
 
-    if (this.props.width) {
-      style.width = this.props.width;
+    if (width) {
+      style.width = width;
     } else {
       containerStyle.width = 'auto';
     }
@@ -206,6 +220,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
             <div
+              aria-labelledby={ariaLabelledby}
               ref={this.refContainer}
               className={styles.container()}
               onMouseDown={this.handleContainerMouseDown}
@@ -216,10 +231,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               <ResponsiveLayout>
                 {({ isMobile }) => (
                   <div
+                    aria-modal
+                    aria-label={ariaLabel}
+                    role={role}
                     className={cx({
                       [styles.centerContainer()]: true,
                       [styles.mobileCenterContainer()]: isMobile,
-                      [styles.alignTop()]: Boolean(this.props.alignTop),
+                      [styles.alignTop()]: Boolean(alignTop),
                     })}
                     style={isMobile ? undefined : containerStyle}
                     data-tid={ModalDataTids.content}
@@ -230,11 +248,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     >
                       <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
                         <FocusLock
-                          disabled={this.getProps().disableFocusLock}
+                          disabled={disableFocusLock}
                           autoFocus={false}
                           className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
                         >
-                          {!hasHeader && !this.props.noClose && (
+                          {!hasHeader && !noClose && (
                             <ZIndex
                               className={cx({
                                 [styles.closeWrapper(this.theme)]: true,
@@ -246,11 +264,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                                   [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
                                 })}
                                 requestClose={this.requestClose}
-                                disableClose={this.props.disableClose}
+                                disableClose={disableClose}
                               />
                             </ZIndex>
                           )}
-                          <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
+                          <ModalContext.Provider value={modalContextProps}>{children}</ModalContext.Provider>
                         </FocusLock>
                       </ResizeDetector>
                     </div>
