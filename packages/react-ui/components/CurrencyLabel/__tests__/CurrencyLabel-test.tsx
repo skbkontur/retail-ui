@@ -38,7 +38,7 @@ describe('CurrencyLabel', () => {
 
   describe('Warnings', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     afterEach(() => {
       consoleSpy.mockClear();
@@ -73,7 +73,7 @@ describe('CurrencyLabel', () => {
       expect(consoleSpy).toHaveBeenCalledTimes(1);
       expect(consoleSpy.mock.calls[0][2]).toContain(
         `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property,` +
-        `'value' will not be cutted`,
+          `'value' will not be cutted`,
       );
     });
   });
