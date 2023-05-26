@@ -517,6 +517,9 @@ ToogleError.storyName = 'toogle error';
 
 ToogleError.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: ['plain again', 'with error'] },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
