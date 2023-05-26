@@ -518,7 +518,7 @@ ToogleError.storyName = 'toogle error';
 ToogleError.parameters = {
   creevey: {
     skip: {
-      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'plain again' },
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: ['plain again', 'with error'] },
     },
     tests: {
       async plain() {
