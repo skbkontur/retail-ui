@@ -20,7 +20,6 @@ type SwitcherItems = string | SwitcherItem;
 
 export const SwitcherDataTids = {
   root: 'Switcher__root',
-  selectedItem: 'Switcher__selectedItem'
 } as const;
 
 export interface SwitcherProps extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'> {
@@ -247,10 +246,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         ...commonButtonProps,
         ...customButtonProps,
       };
-
-      if (value === itemValue) {
-        buttonProps['data-tid'] = SwitcherDataTids.selectedItem
-      }
 
       const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps);
 
