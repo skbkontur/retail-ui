@@ -58,6 +58,12 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
 
 describe('ComboBox', () => {
   const comboboxRef = React.createRef<ComboBox>();
+  const testValues = [
+    { value: '1', label: 'One' },
+    { value: '2', label: 'Two' },
+    { value: '3', label: 'Three' },
+    { value: '4', label: 'Four' },
+  ];
 
   it('renders', () => {
     expect(() => render(<ComboBox getItems={() => Promise.resolve([])} />)).not.toThrow();
@@ -585,13 +591,8 @@ describe('ComboBox', () => {
 
   describe('search by method', () => {
     const query = 'One';
-    const items = [
-      { value: '1', label: 'One' },
-      { value: '2', label: 'Two' },
-      { value: '3', label: 'Three' },
-      { value: '4', label: 'Four' },
-    ];
-    const getItems = jest.fn((query: string) => Promise.resolve(items.filter(x => x.label.includes(query))));
+
+    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter(x => x.label.includes(query))));
 
     beforeEach(() => {
       getItems.mockClear();
@@ -603,11 +604,11 @@ describe('ComboBox', () => {
       comboboxRef.current?.search();
       await delay(0);
 
-      expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
+      expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
     });
 
     it('searches current value by default', () => {
-      const value = items[1];
+      const value = testValues[1];
       render(<ComboBox getItems={getItems} ref={comboboxRef} value={value} />);
 
       comboboxRef.current?.search();
@@ -675,85 +676,72 @@ describe('ComboBox', () => {
     });
   });
 
-  // describe('click on input', () => {
-  //   const VALUE = { value: 1, label: 'one' };
-  //   type TComboBoxWrapper = ReactWrapper<ComboBoxProps<typeof VALUE>, unknown, ComboBox<typeof VALUE>>;
-  //   const clickOnInput = (comboboxWrapper: TComboBoxWrapper) => {
-  //     comboboxWrapper.update();
-  //     comboboxWrapper.find('input').simulate('click');
-  //   };
-  //   let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
-  //   let promise: Promise<void>;
-  //   let wrapper: TComboBoxWrapper;
+  describe('click on input', () => {
 
-  //   describe('in default mode', () => {
-  //     beforeEach(async () => {
-  //       [getItems, promise] = searchFactory(Promise.resolve([VALUE]));
-  //       wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox getItems={getItems} value={VALUE} />);
-  //       wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //       await promise;
-  //       getItems.mockClear();
-  //     });
+    describe('in default mode', () => {
+      const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter(x => x.label.includes(query))));
 
-  //     it('opens menu if it is closed', async () => {
-  //       wrapper.instance().close();
-  //       clickOnInput(wrapper);
-  //       await delay(300);
-  //       wrapper.update();
-  //       expect(wrapper.find(Menu)).toHaveLength(1);
-  //     });
+      beforeEach(async () => {
+        render(<ComboBox getItems={getItems} ref={comboboxRef} />);
+        getItems.mockClear();
+      });
 
-  //     it('runs empty search if menu is closed', () => {
-  //       wrapper.instance().close();
-  //       clickOnInput(wrapper);
-  //       expect(getItems).toHaveBeenCalledWith('');
-  //     });
+      it('opens menu if it is closed', async () => {
+        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
 
-  //     it("doesn't run search if menu is open", () => {
-  //       clickOnInput(wrapper);
-  //       expect(getItems).toHaveBeenCalledTimes(0);
-  //     });
-  //   });
+        userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        await delay(0);
 
-  //   describe('in autocomplete mode', () => {
-  //     beforeEach(() => {
-  //       wrapper = mount<ComboBox<typeof VALUE>>(
-  //         <ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} value={VALUE} />,
-  //       );
-  //       wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //       getItems.mockClear();
-  //     });
+        expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+        expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
+      });
 
-  //     it("doesn't open menu if it is closed", () => {
-  //       wrapper.instance().close();
-  //       clickOnInput(wrapper);
-  //       expect(wrapper.find(Menu)).toHaveLength(0);
-  //     });
+      it('runs empty search if menu is closed', () => {
+        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
 
-  //     it("doesn't run search if menu is closed", () => {
-  //       wrapper.instance().close();
-  //       clickOnInput(wrapper);
-  //       expect(getItems).toHaveBeenCalledTimes(0);
-  //     });
+        userEvent.click(screen.getByRole('textbox'));
+        expect(getItems).toHaveBeenCalledWith('');
+      });
 
-  //     it("doesn't run search if menu is open", () => {
-  //       clickOnInput(wrapper);
-  //       expect(getItems).toHaveBeenCalledTimes(0);
-  //     });
-  //   });
-  // });
+      it("doesn't run search if menu is open", () => {
+        userEvent.click(screen.getByRole('textbox'));
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    // describe('in autocomplete mode', () => {
+    //   beforeEach(() => {
+    //     wrapper = mount<ComboBox<typeof VALUE>>(
+    //       <ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} value={VALUE} />,
+    //     );
+    //     wrapper.find(ComboBoxView).prop('onFocus')?.();
+    //     getItems.mockClear();
+    //   });
+
+    //   it("doesn't open menu if it is closed", () => {
+    //     wrapper.instance().close();
+    //     clickOnInput(wrapper);
+    //     expect(wrapper.find(Menu)).toHaveLength(0);
+    //   });
+
+    //   it("doesn't run search if menu is closed", () => {
+    //     wrapper.instance().close();
+    //     clickOnInput(wrapper);
+    //     expect(getItems).toHaveBeenCalledTimes(0);
+    //   });
+
+    //   it("doesn't run search if menu is open", () => {
+    //     clickOnInput(wrapper);
+    //     expect(getItems).toHaveBeenCalledTimes(0);
+    //   });
+    // });
+  });
 
   describe('Search', () => {
     const query = 'One';
-    const items = [
-      { value: '1', label: 'One' },
-      { value: '2', label: 'Two' },
-      { value: '3', label: 'Three' },
-      { value: '4', label: 'Four' },
-    ];
 
     it('without delay', async () => {
-      const getItems = jest.fn((query: string) => Promise.resolve(items.filter(x => x.label.includes(query))));
+      const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter(x => x.label.includes(query))));
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -771,7 +759,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
-        return Promise.resolve(items.filter(x => x.label.includes(query)));
+        return Promise.resolve(testValues.filter(x => x.label.includes(query)));
       });
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
@@ -791,7 +779,7 @@ describe('ComboBox', () => {
     it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
       const getItems = jest.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER + 200);
-        return Promise.resolve(items.filter(x => x.label.includes(query)));
+        return Promise.resolve(testValues.filter(x => x.label.includes(query)));
       });
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
@@ -882,7 +870,7 @@ describe('ComboBox', () => {
 
     it('twice without delay', async () => {
       const secondQuery = 'Two';
-      const getItems = jest.fn((searchQuery) => Promise.resolve(items.filter(x => x.label.includes(searchQuery))));
+      const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter(x => x.label.includes(searchQuery))));
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
       comboboxRef.current?.search(query);
@@ -902,7 +890,7 @@ describe('ComboBox', () => {
       const secondQuery = 'Two';
       const getItems = jest.fn(async (searchQuery) => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 250);
-        return Promise.resolve(items.filter((i) => i.label.includes(searchQuery)));
+        return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -926,7 +914,7 @@ describe('ComboBox', () => {
       const secondQuery = 'Two';
       const getItems = jest.fn(async (searchQuery) => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 100);
-        return Promise.resolve(items.filter((i) => i.label.includes(searchQuery)));
+        return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -957,7 +945,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async (searchQuery) => {
         await delay(DELAY_BEFORE_SHOW_LOADER + 200);
 
-        return Promise.resolve(items.filter((i) => i.label.includes(searchQuery)));
+        return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -989,7 +977,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async (searchQuery) => {
         await delay(delays.shift() || 0);
 
-        return Promise.resolve(items.filter((i) => i.label.includes(searchQuery)));
+        return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -1024,7 +1012,7 @@ describe('ComboBox', () => {
     it('long request and blur before it resolves', async () => {
       const getItems = jest.fn(async () => {
         await delay(500);
-        return Promise.resolve(items);
+        return Promise.resolve(testValues);
       });
       render(<ComboBox getItems={getItems} />);
 
@@ -1047,7 +1035,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async () => {
         await delay(500);
 
-        return Promise.resolve(items);
+        return Promise.resolve(testValues);
       });
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
