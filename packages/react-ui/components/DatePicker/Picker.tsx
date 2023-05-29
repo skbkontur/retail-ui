@@ -69,6 +69,18 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     );
   }
 
+  private isHoliday = (day: string, isWeekend: boolean) => {
+    const dateShape = this.getShapeFromStringDate(day);
+
+    return !!this.props.isHoliday?.({ ...dateShape, isWeekend });
+  };
+
+  private onValueChange = (date: string) => {
+    const dateShape = this.getShapeFromStringDate(date);
+
+    return this.props.onPick(dateShape);
+  };
+
   private renderMain() {
     return (
       <div
@@ -80,16 +92,8 @@ export class Picker extends React.Component<PickerProps, PickerState> {
           ref={(c) => (this.calendar = c)}
           maxDate={this.getDateFromShape(this.props.maxDate)}
           minDate={this.getDateFromShape(this.props.minDate)}
-          onValueChange={(date) => {
-            const dateShape = this.getShapeFromStringDate(date);
-
-            return this.props.onPick(dateShape);
-          }}
-          isHoliday={(day, isWeekend) => {
-            const dateShape = this.getShapeFromStringDate(day);
-
-            return !!this.props.isHoliday?.({ ...dateShape, isWeekend });
-          }}
+          onValueChange={this.onValueChange}
+          isHoliday={this.isHoliday}
           value={this.getDateFromShape(this.props.value)}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}

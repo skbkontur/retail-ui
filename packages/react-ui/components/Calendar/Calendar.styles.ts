@@ -25,12 +25,10 @@ export const styles = memoizeStyle({
   },
 
   separator(t: Theme) {
-    const marginX = parseInt(t.calendarMonthTitleMarginX);
-
     return css`
       position: relative;
       border-bottom: ${t.calendarBottomSeparatorBorder};
-      margin: 0 ${marginX}px;
+      margin: 0 ${t.calendarMonthTitleMarginX};
     `;
   },
 });
