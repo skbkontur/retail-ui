@@ -8,6 +8,7 @@ export const styles = memoizeStyle({
       display: inline-block;
       background: ${t.calendarBg};
       box-sizing: content-box;
+      border-radius: ${t.pickerBorderRadius};
       color: ${t.textColorDefault};
       display: block;
       padding: 0 ${t.calendarPaddingX};
