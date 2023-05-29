@@ -57,6 +57,11 @@ export interface LinkProps
          * HTML-событие `onclick`.
          */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+
+        /**
+         * Обычный объект с переменными темы.
+         * Он будет объединён с темой из контекста.
+         */
         theme?: ThemeIn;
         /**
          * Компонент, используемый в качестве корневого узла.

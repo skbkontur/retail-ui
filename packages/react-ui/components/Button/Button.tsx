@@ -165,6 +165,11 @@ export interface ButtonProps extends CommonProps {
    * CSS-свойство `width`.
    */
   width?: number | string;
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
   theme?: ThemeIn;
 
   /**
