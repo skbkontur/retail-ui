@@ -1,7 +1,5 @@
 import React from 'react';
 import { fireEvent, render as renderRTL, screen } from '@testing-library/react';
-// import { mount, ReactWrapper } from 'enzyme';
-
 import userEvent from '@testing-library/user-event';
 
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
@@ -50,21 +48,24 @@ describe('DateInput as InputlikeText', () => {
       expect(input).toHaveTextContent('10.02.2017');
     });
 
-    // it('updates when value changes', () => {
-    //   const root = render({ value: '10.02.2017' });
+    it('updates when value changes', () => {
+      const { rerender } = renderRTL(<LocaleDateInput propsDateInput={{ value: '10.02.2017' }} propsLocale={{}} />);
 
-    //   root.setProps({ propsDateInput: { value: '11.02.2017' } });
+      rerender(<LocaleDateInput propsDateInput={{ value: '11.02.2017' }} propsLocale={{}} />);
+      const input = getInput();
 
-    //   expect(getValue(getInput(root))).toBe('11.02.2017');
-    // });
+      expect(input).toHaveTextContent('11.02.2017');
+    });
 
-    // it('handles invalid date strings', () => {
-    //   const root = render({ value: '10.02.2017' });
+    it('handles invalid date strings', () => {
+      const { rerender } = renderRTL(<LocaleDateInput propsDateInput={{ value: '10.02.2017' }} propsLocale={{}} />);
 
-    //   root.setProps({ propsDateInput: { value: '99.9' } });
+      rerender(<LocaleDateInput propsDateInput={{ value: '99.9' }} propsLocale={{}} />);
+      const input = getInput();
 
-    //   expect(getValue(getInput(root))).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
-    // });
+      // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+      expect(input.textContent).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
+    });
 
     const KeyDownCases: KeyDownCase[] = [
       // [initial date, [...keys], expected date]
