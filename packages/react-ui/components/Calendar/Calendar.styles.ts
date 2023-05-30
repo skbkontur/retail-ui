@@ -13,7 +13,6 @@ export const styles = memoizeStyle({
       display: block;
       padding: 0 ${t.calendarPaddingX};
       width: ${width}px;
-      overflow: hidden;
       touch-action: none;
     `;
   },
@@ -22,12 +21,12 @@ export const styles = memoizeStyle({
     return css`
       font-size: 14px;
       position: relative;
+      overflow: hidden;
     `;
   },
 
   separator(t: Theme) {
     return css`
-      position: relative;
       border-bottom: ${t.calendarBottomSeparatorBorder};
       margin: 0 ${t.calendarMonthTitleMarginX};
     `;
