@@ -1,5 +1,6 @@
 import React from 'react';
 import warning from 'warning';
+import shallowEqual from 'shallowequal';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
@@ -53,6 +54,13 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     );
   }
 
+  public componentDidUpdate(prevProps: Readonly<PickerProps>): void {
+    const { value } = this.props;
+    if (value && !shallowEqual(value, prevProps.value)) {
+      this.scrollToMonth(value.month, value.year);
+    }
+  }
+
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -100,6 +108,12 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       </div>
     );
   }
+
+  private scrollToMonth = (month: number, year: number) => {
+    if (this.calendar) {
+      this.calendar.scrollToMonth(month, year);
+    }
+  };
 
   private getDateFromShape = (dateShape: CalendarDateShape | undefined | null) => {
     if (typeof dateShape === 'string') {
