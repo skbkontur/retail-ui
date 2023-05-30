@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.4...@skbkontur/react-ui@4.14.0) (2023-05-30)
+
+
+### Bug Fixes
+
+* **ComboBox:** set as=div for MenuMessage ([#3162](https://github.com/skbkontur/retail-ui/issues/3162)) ([87a84b6](https://github.com/skbkontur/retail-ui/commit/87a84b67ebe79711f3fbad39566575343da73847))
+
+
+### Features
+
+* **Input:** support new types (#IF-290) ([#3129](https://github.com/skbkontur/retail-ui/issues/3129)) ([c478aab](https://github.com/skbkontur/retail-ui/commit/c478aab0f2198bdadc22f8a6c726534f87270454)), closes [#IF-290](https://github.com/skbkontur/retail-ui/issues/IF-290)
+* **theme:** add full support for THEME_2022 ([#3045](https://github.com/skbkontur/retail-ui/issues/3045)) ([6dac5a4](https://github.com/skbkontur/retail-ui/commit/6dac5a49c4c8aed6fcd8a83ce6fd65d7da211690))
+
+
+
+
+
 # [4.14.0-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.4...@skbkontur/react-ui@4.14.0-next.0) (2023-05-15)
 
 
