@@ -85,6 +85,31 @@ const config = {
       version: '100.0',
       ...capabilities,
     },
+    chrome2022: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/chrome2022',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    chrome2022Dark: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'THEME_2022_DARK',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/chrome2022Dark',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
     firefox8px: {
       browserName: 'firefox',
       platformName: 'linux',
@@ -134,6 +159,31 @@ const config = {
       version: '100.0',
       ...capabilities,
     },
+    firefox2022: {
+      browserName: 'firefox',
+      platformName: 'linux',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/firefox2022',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    firefox2022Dark: {
+      browserName: 'firefox',
+      platformName: 'linux',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022_DARK',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/firefox2022Dark',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
     // NOTE Enable after switch new separate pool for IE to allow test hover
     // 'se:ieOptions': {
     //   enablePersistentHover: true,
@@ -178,6 +228,25 @@ const config = {
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/ie11Dark',
+      ...capabilities,
+    },
+    ie112022: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/ie112022',
+      ...capabilities,
+    },
+    ie112022Dark: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022_DARK',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/ie112022Dark',
       ...capabilities,
     },
     chromeMobile: {

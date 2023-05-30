@@ -30,7 +30,10 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
+import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
@@ -227,7 +230,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = ThemeFactory.create(
+            {
+              menuOffsetY: theme.selectMenuOffsetY,
+            },
+            theme,
+          );
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
@@ -399,6 +407,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
+    const icon = isTheme2022(this.theme) ? (
+      <ArrowDownIcon size={this.props.size} style={{ marginTop: 2 }} />
+    ) : (
+      <ArrowChevronDownIcon />
+    );
+
     return (
       <Button {...buttonProps}>
         <div className={styles.selectButtonContainer()}>
@@ -411,7 +425,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
               [styles.customUseArrow()]: useIsCustom,
             })}
           >
-            <ArrowChevronDownIcon />
+            {icon}
           </div>
         </div>
       </Button>
@@ -444,7 +458,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
-        offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}

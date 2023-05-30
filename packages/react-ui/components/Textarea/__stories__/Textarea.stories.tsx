@@ -438,7 +438,7 @@ TextareaWithCounters.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tooltip"]' }))
+          .click(this.browser.findElement({ css: '[data-tid~="TextareaCounter__helpIcon"]' }))
           .perform();
         await delay(1000);
 

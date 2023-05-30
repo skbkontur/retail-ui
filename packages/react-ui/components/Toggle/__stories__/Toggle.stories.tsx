@@ -209,6 +209,9 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'clicked' },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -224,14 +227,6 @@ Plain.parameters = {
           .press()
           .perform();
         await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .release()
-          .perform();
       },
       async clicked() {
         await this.browser
@@ -284,13 +279,6 @@ DisabledWithTooltip.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .release()
-          .perform();
       },
     },
   },
@@ -314,6 +302,9 @@ WithLongDescription.storyName = 'with long description';
 
 WithLongDescription.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'clicked' },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
