@@ -176,6 +176,7 @@ const inputPrefixOrSuffixStates: InputState[] = [
   { leftIcon: <SearchIcon /> },
   { leftIcon: <SearchIcon />, value: 'Value' },
   { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
+  { prefix: 'ooo-long-long-long-johnson' },
 ];
 
 export const Suffix: Story = () => (
