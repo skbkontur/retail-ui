@@ -146,7 +146,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuMessage key="total">
+        <MenuMessage key="total" as="div">
           <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
         </MenuMessage>
       );

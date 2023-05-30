@@ -255,7 +255,6 @@ const typeStates: InputState[] = [
   { type: 'email', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$' },
   { type: 'url' },
   { type: 'tel' },
-  { type: 'hidden' },
 ];
 
 export const TypeApi: Story = () => (
@@ -288,7 +287,6 @@ const typeApiTypes: InputState[] = [
   { type: 'email' },
   { type: 'url' },
   { type: 'tel' },
-  { type: 'hidden' },
 ];
 const typeApiTypesDate: InputState[] = [{ type: 'date' }];
 const typeApiTypesTime: InputState[] = [{ type: 'time' }];

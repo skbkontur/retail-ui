@@ -165,6 +165,11 @@ export interface ButtonProps extends CommonProps {
    * CSS-свойство `width`.
    */
   width?: number | string;
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
   theme?: ThemeIn;
 
   /**
@@ -446,7 +451,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link focused={isFocused} disabled={disabled} icon={_icon} component="span" tabIndex={-1}>
+          <Link focused={isFocused} disabled={disabled} icon={_icon} as="span" tabIndex={-1}>
             {children}
           </Link>
         </ThemeContext.Provider>

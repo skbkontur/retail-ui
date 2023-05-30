@@ -124,3 +124,15 @@ const handleClick = () => {
 </Gapped>
 
 ```
+
+Пример кнопки с пропом `theme`
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+<Gapped>
+  <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
+  <Button use="link" theme={{linkColor: '#C00000'}}>Ok</Button>
+  <Button>Ok</Button>
+</Gapped>
+```
