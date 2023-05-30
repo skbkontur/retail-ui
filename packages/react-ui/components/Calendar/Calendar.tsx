@@ -132,7 +132,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       maxDate: maxDateShape,
     });
 
-    const initialMonth = CalendarUtils.getMonthInNativeFormat(this.props.initialMonth, initialDate);
+    const initialMonth = CalendarUtils.getMonthInNativeFormat(this.props.initialMonth) ?? initialDate.month;
     const initialYear = this.props.initialYear ?? initialDate.year;
 
     this.state = {
