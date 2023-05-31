@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { DefaultizeProps } from '../../../lib/utils';
-import { InternalDateOrder } from '../../../lib/date/types';
-import { DateInput, DateInputProps } from '../DateInput';
+import { InternalDateComponentType, InternalDateOrder } from '../../../lib/date/types';
+import { DateInput, DateInputDataTids, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
 type InitialDate = string;
@@ -250,5 +250,82 @@ describe('DateInput as InputlikeText', () => {
     fireEvent.keyDown(getInput(), 'a');
 
     expect(onKeyDown).toHaveBeenCalled();
+  });
+
+  it('should handel onFocus event', () => {
+    const onFocus = jest.fn();
+    renderRTL(<DateInput onFocus={onFocus} />);
+
+    userEvent.click(getInput());
+
+    expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('should handel onBlur event', () => {
+    const onBlur = jest.fn();
+    renderRTL(<DateInput onBlur={onBlur} />);
+    const input = getInput();
+    userEvent.click(input);
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+
+    fireEvent.blur(input);
+
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('should handle double click', () => {
+    const inputLikeTextRef = React.createRef<DateInput>();
+
+    renderRTL(<DateInput value='27.04.1988' ref={inputLikeTextRef} />);
+    const input = getInput();
+    userEvent.dblClick(input);
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+
+    expect(inputLikeTextRef.current?.state.selected).toBe(InternalDateComponentType.All);
+  });
+
+  it('should focus by method', () => {
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+
+    inputLikeTextRef.current?.focus();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+  });
+
+  it('should blur by method', () => {
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+    inputLikeTextRef.current?.focus();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+
+    inputLikeTextRef.current?.blur();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+
+  it('blink method works', () => {
+    const blinkMock = jest.fn();
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+
+    if (inputLikeTextRef.current) {
+      inputLikeTextRef.current.blink = blinkMock;
+    }
+    userEvent.type(getInput(), '{enter}');
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should focus if autofocus prop passes', () => {
+    renderRTL(<DateInput autoFocus />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+  });
+
+  it('should render with icon', () => {
+    renderRTL(<DateInput withIcon />);
+
+    expect(screen.getByTestId(DateInputDataTids.dateIcon)).toBeInTheDocument();
   });
 });
