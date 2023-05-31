@@ -242,4 +242,13 @@ describe('DateInput as InputlikeText', () => {
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
+
+  it('should handel keydown event', () => {
+    const onKeyDown = jest.fn();
+    renderRTL(<DateInput onKeyDown={onKeyDown} />);
+
+    fireEvent.keyDown(getInput(), 'a');
+
+    expect(onKeyDown).toHaveBeenCalled();
+  });
 });
