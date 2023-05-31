@@ -18,6 +18,7 @@ export const stylesLayout = memoizeStyle({
     return css`
       display: inline-flex;
       align-items: center;
+      flex-shrink: 0;
     `;
   },
   icon(t: Theme) {
