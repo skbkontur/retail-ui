@@ -13,7 +13,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
-export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
+export interface TooltipMenuProps
+  extends CommonProps,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'enableTextAlignment'> {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -115,6 +117,8 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
       return null;
     }
 
+    const { enableTextAlignment, disableAnimations } = this.getProps();
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
@@ -124,11 +128,12 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
           caption={this.props.caption}
           header={this.props.header}
           footer={this.props.footer}
+          enableTextAlignment={enableTextAlignment}
           positions={this.props.positions}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
           popupHasPin
-          disableAnimations={this.getProps().disableAnimations}
+          disableAnimations={disableAnimations}
         >
           {this.props.children}
         </PopupMenu>

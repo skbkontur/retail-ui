@@ -180,6 +180,34 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
+С иконками и включенным по-умолчанию автоматическим выравниванием текста.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
+  <MenuHeader>MenuHeader</MenuHeader>
+  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem>MenuItem3</MenuItem>
+</TooltipMenu>;
+```
+
+С иконками и отключенным автоматическим выравниванием текста.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<TooltipMenu caption={<Button use="primary">Открыть меню</Button>} enableTextAlignment={false}>
+  <MenuHeader>MenuHeader</MenuHeader>
+  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem>MenuItem3</MenuItem>
+</TooltipMenu>
+```
+
 Условный рендер элементов тултип-меню (с сохранением поведения [MenuItem](#/Components/MenuItem)).
 
 ```jsx harmony

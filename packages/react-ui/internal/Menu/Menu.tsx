@@ -13,11 +13,13 @@ import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPart
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { InternalMenuProps } from '../InternalMenu';
+import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps {
+export interface MenuProps extends Pick<InternalMenuProps, 'enableTextAlignment'> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -39,7 +41,9 @@ export const MenuDataTids = {
   root: 'Menu__root',
 } as const;
 
-type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
+type DefaultProps = Required<
+  Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'enableTextAlignment'>
+>;
 
 @responsiveLayout
 @rootNode
@@ -52,6 +56,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
+    enableTextAlignment: true,
   };
 
   private getProps = createPropsGetter(Menu.defaultProps);
@@ -168,9 +173,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private getChildList = () => {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
+    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.enableTextAlignment);
 
     return React.Children.map(this.props.children, (child, index) => {
       if (!child) {
