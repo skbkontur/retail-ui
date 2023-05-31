@@ -1,7 +1,8 @@
-import { mount, ReactWrapper } from 'enzyme';
+// import { mount, ReactWrapper } from 'enzyme';
 import React, { RefAttributes } from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -11,9 +12,10 @@ import { delay } from '../../../lib/utils';
 import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
-  mount(
+  render(
     <LocaleContext.Provider value={localeProviderValue}>
       <ThemeContext.Provider value={DEFAULT_THEME}>
         <FileUploader {...props} />
@@ -22,8 +24,8 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
     </LocaleContext.Provider>,
   );
 
-const getBaseButtonLinkText = (wrapper: ReactWrapper<typeof FileUploader>): string => {
-  return wrapper.find(`[data-tid='FileUploader__link']`).text();
+const getBaseButtonLinkText = (): string => {
+  return screen.getByTestId(FileUploaderDataTids.link).textContent();
 };
 
 const getBaseButtonContent = (wrapper: ReactWrapper<typeof FileUploader>): string => {
@@ -34,18 +36,18 @@ const getFilesList = (wrapper: ReactWrapper<typeof FileUploader>) => {
   return wrapper.find(`[data-tid='FileUploader__fileList']`);
 };
 
-const addFiles = async (component: ReactWrapper<typeof FileUploader>, files: File[]) => {
+const addFiles = async (files: File[]) => {
   await act(async () => {
-    component.find('input').simulate('change', { target: { files } });
+    const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+    fireEvent.change(input, { target: { files } });
     // ждем отрисовки файлов
     await delay(100);
-    component.update();
   });
 };
 
-const removeFile = async (component: ReactWrapper<typeof FileUploader>) => {
+const removeFile = async () => {
   await act(async () => {
-    component.find(`[data-tid='FileUploader__fileIcon']`).simulate('click');
+    userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
   });
 };
 
@@ -54,29 +56,29 @@ const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File
 describe('FileUploader', () => {
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<FileUploader />);
+      render(<FileUploader />);
       const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
 
-      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
 
     it('render default locale', () => {
-      const wrapper = renderComponent();
+      renderComponent();
       const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
 
-      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = renderComponent({ langCode: LangCodes.en_GB });
+      renderComponent({ langCode: LangCodes.en_GB });
       const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
 
-      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
 
     it('render custom locale', () => {
       const customText = 'custom text';
-      const wrapper = renderComponent({
+      renderComponent({
         locale: {
           FileUploader: {
             chooseFile: customText,
@@ -87,22 +89,35 @@ describe('FileUploader', () => {
         },
       });
 
-      expect(getBaseButtonLinkText(wrapper)).toBe(customText);
+      expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(customText);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = renderComponent();
       const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
+      const { rerender } = render(
+        <LocaleContext.Provider value={{}}>
+          <ThemeContext.Provider value={DEFAULT_THEME}>
+            <FileUploader />
+          </ThemeContext.Provider>
+          ,
+        </LocaleContext.Provider>,
+      );
 
-      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
+      rerender(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+        <ThemeContext.Provider value={DEFAULT_THEME}>
+          <FileUploader />
+        </ThemeContext.Provider>
+        ,
+      </LocaleContext.Provider>,);
+
+      expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
   });
 
   describe('Handlers', () => {
-    const render = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) =>
-      mount<typeof FileUploader>(<FileUploader {...props} />);
+    const renderComp = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) =>
+      render(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {
@@ -119,9 +134,9 @@ describe('FileUploader', () => {
     describe('onAttach', () => {
       it('should handle onAttach, when select file', async () => {
         const onAttach = jest.fn();
-        const component = render({ onAttach });
+        renderComp({ onAttach });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onAttach).toHaveBeenCalledTimes(1);
         expect(onAttach).toHaveBeenCalledWith([readFile]);
@@ -129,13 +144,13 @@ describe('FileUploader', () => {
 
       it('should handle onAttach, when all files aren"t valid', async () => {
         const onAttach = jest.fn();
-        const component = render({
+        renderComp({
           onAttach,
           validateBeforeUpload: () => Promise.resolve('validation error'),
           multiple: true,
         });
 
-        await addFiles(component, [file, file]);
+        await addFiles([file, file]);
 
         expect(onAttach).toHaveBeenCalledTimes(1);
         expect(onAttach).toHaveBeenCalledWith([readFile, readFile]);
@@ -143,14 +158,14 @@ describe('FileUploader', () => {
 
       it('should handle onAttach by one, when add files by one', async () => {
         const onAttach = jest.fn();
-        const component = render({ onAttach });
+        renderComp({ onAttach });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onAttach).toHaveBeenCalledTimes(1);
         expect(onAttach).toHaveBeenCalledWith([readFile]);
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onAttach).toHaveBeenCalledTimes(2);
         expect(onAttach).toHaveBeenCalledWith([readFile]);
@@ -160,20 +175,20 @@ describe('FileUploader', () => {
     describe('onRemove', () => {
       it('should handle onRemove, when click delete button', async () => {
         const onRemove = jest.fn();
-        const component = render({ onRemove, multiple: true });
+        renderComp({ onRemove, multiple: true });
 
-        await addFiles(component, [file]);
-        await removeFile(component);
+        await addFiles([file]);
+        await removeFile();
 
         expect(onRemove).toHaveBeenCalledTimes(1);
       });
 
       it('should handle onRemove, when reselect file in single control', async () => {
         const onRemove = jest.fn();
-        const component = render({ onRemove });
+        renderComp({ onRemove });
 
-        await addFiles(component, [file]);
-        await addFiles(component, [file]);
+        await addFiles([file]);
+        await addFiles([file]);
 
         expect(onRemove).toHaveBeenCalledTimes(1);
       });
@@ -182,9 +197,9 @@ describe('FileUploader', () => {
     describe('onValueChange', () => {
       it('should handle onValueChange with current files when select files', async () => {
         const onValueChange = jest.fn();
-        const component = render({ onValueChange });
+        renderComp({ onValueChange });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
@@ -192,14 +207,14 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange with empty array when remove last file', async () => {
         const onValueChange = jest.fn();
-        const component = render({ onValueChange });
+        renderComp({ onValueChange });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
 
-        await removeFile(component);
+        await removeFile();
 
         expect(onValueChange).toHaveBeenCalledTimes(2);
         expect(onValueChange).toHaveBeenCalledWith([]);
@@ -207,14 +222,14 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange with all attached files for multiple control', async () => {
         const onValueChange = jest.fn();
-        const component = render({ onValueChange, multiple: true });
+        renderComp({ onValueChange, multiple: true });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(2);
         expect(onValueChange).toHaveBeenCalledWith([readFile, readFile]);
@@ -223,15 +238,15 @@ describe('FileUploader', () => {
       it('should handle onValueChange 2 times after second add for single control', async () => {
         const onValueChange = jest.fn();
         const onRemove = jest.fn();
-        const component = render({ onValueChange, onRemove });
+        renderComp({ onValueChange, onRemove });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onRemove).toHaveBeenCalledTimes(0);
         expect(onValueChange).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onRemove).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledTimes(2);
@@ -241,9 +256,9 @@ describe('FileUploader', () => {
       it('should handle onValueChange after status changing', async () => {
         const onValueChange = jest.fn();
         const request = jest.fn(() => Promise.resolve());
-        const component = render({ onValueChange, request });
+        renderComp({ onValueChange, request });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(2);
       });
@@ -251,9 +266,9 @@ describe('FileUploader', () => {
       it('should handle onValueChange after file validation changing', async () => {
         const onValueChange = jest.fn();
         const validateBeforeUpload = () => Promise.resolve('validation error');
-        const component = render({ onValueChange, validateBeforeUpload });
+        renderComp({ onValueChange, validateBeforeUpload });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(2);
       });
@@ -261,9 +276,9 @@ describe('FileUploader', () => {
       it('should handle onValueChange after reset', async () => {
         const onValueChange = jest.fn();
         const ref = React.createRef<FileUploaderRef>();
-        const component = render({ onValueChange, ref });
+        renderComp({ onValueChange, ref });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
@@ -280,17 +295,16 @@ describe('FileUploader', () => {
       let request: (file: FileUploaderAttachedFile) => Promise<void>;
       let onRequestSuccess: () => void;
       let onRequestError: () => void;
-      let component: ReactWrapper<typeof FileUploader>;
 
       beforeEach(() => {
         request = jest.fn(() => Promise.resolve());
         onRequestSuccess = jest.fn();
         onRequestError = jest.fn();
-        component = render({ request, onRequestSuccess, onRequestError });
+        renderComp({ request, onRequestSuccess, onRequestError });
       });
 
       it('should handle request and onRequestSuccess after selection of valid file', async () => {
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(request).toHaveBeenCalledTimes(1);
         expect(request).toHaveBeenCalledWith(readFile);
@@ -306,15 +320,16 @@ describe('FileUploader', () => {
           const result = count % 2 === 0 ? null : 'Ошибка';
           return Promise.resolve(result);
         };
-        component = render({
+        renderComp({
           request,
           onRequestSuccess,
           onRequestError,
           validateBeforeUpload,
           multiple: true,
         });
+        screen.debug();
 
-        await addFiles(component, [file, file]);
+        await addFiles([file, file]);
 
         expect(request).toHaveBeenCalledTimes(1);
         expect(request).toHaveBeenCalledWith(readFile);
@@ -324,14 +339,14 @@ describe('FileUploader', () => {
       });
 
       it('shouldn"t handle request after selection of invalid file', async () => {
-        component = render({
+        renderComp({
           request,
           onRequestSuccess,
           onRequestError,
           validateBeforeUpload: () => Promise.resolve('ERROR'),
         });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(request).toHaveBeenCalledTimes(0);
         expect(onRequestSuccess).toHaveBeenCalledTimes(0);
@@ -340,9 +355,9 @@ describe('FileUploader', () => {
 
       it('should handle request and onRequestError after file selection and throw error on upload file', async () => {
         request = jest.fn(() => Promise.reject());
-        component = render({ request, onRequestSuccess, onRequestError });
+        renderComp({ request, onRequestSuccess, onRequestError });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(request).toHaveBeenCalledTimes(1);
         expect(onRequestSuccess).toHaveBeenCalledTimes(0);
