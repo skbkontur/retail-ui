@@ -1,6 +1,5 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
-import { isElement } from 'react-is';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -18,8 +17,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ButtonSize } from '../Button';
-import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -231,28 +228,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderIcon2022() {
-    const { size, icon = <KebabIcon /> } = this.getProps();
+    const { size, icon } = this.getProps();
 
-    const sizes: Record<ButtonSize, number> = {
-      small: parseInt(this.theme.kebabIconSizeSmall),
-      medium: parseInt(this.theme.kebabIconSizeMedium),
-      large: parseInt(this.theme.kebabIconSizeLarge),
-    };
-
-    const cloneIcon = isElement(icon)
-      ? React.cloneElement(icon, {
-          size: sizes[size],
-          color: this.theme.kebabIconColor,
-          disableCompensation: true,
-        })
-      : icon;
-
-    return (
-      <>
-        {ZERO_WIDTH_SPACE}
-        {cloneIcon}
-      </>
-    );
+    return icon ?? <KebabIcon size={size} color={this.theme.kebabIconColor} />;
   }
 }
 

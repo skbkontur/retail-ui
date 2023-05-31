@@ -8,9 +8,9 @@ import { iconSizer } from '../../internal/icons2022/iconSizer';
 
 export const CalendarIcon = iconSizer(
   {
-    small: () => <CalendarIcon16Light disableCompensation={false} />,
-    medium: () => <CalendarIcon20Light disableCompensation={false} />,
-    large: () => <CalendarIcon24Regular disableCompensation={false} />,
+    small: () => <CalendarIcon16Light />,
+    medium: () => <CalendarIcon20Light />,
+    large: () => <CalendarIcon24Regular />,
   },
   'CalendarIcon',
 );

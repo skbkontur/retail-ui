@@ -8,9 +8,9 @@ import { iconSizer } from '../../internal/icons2022/iconSizer';
 
 export const ArrowDownIcon = iconSizer(
   {
-    small: () => <ArrowCDownIcon16Regular disableCompensation={false} />,
-    medium: () => <ArrowCDownIcon20Regular disableCompensation={false} />,
-    large: () => <ArrowCDownIcon24Regular disableCompensation={false} />,
+    small: () => <ArrowCDownIcon16Regular />,
+    medium: () => <ArrowCDownIcon20Regular />,
+    large: () => <ArrowCDownIcon24Regular />,
   },
   'ArrowDownIcon',
 );
