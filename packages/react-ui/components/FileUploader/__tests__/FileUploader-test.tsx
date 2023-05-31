@@ -1,4 +1,3 @@
-// import { mount, ReactWrapper } from 'enzyme';
 import React, { RefAttributes } from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -14,8 +13,6 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
-
-
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   render(
@@ -110,12 +107,14 @@ describe('FileUploader', () => {
         </LocaleContext.Provider>,
       );
 
-      rerender(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-        <ThemeContext.Provider value={DEFAULT_THEME}>
-          <FileUploader />
-        </ThemeContext.Provider>
-        ,
-      </LocaleContext.Provider>,);
+      rerender(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <ThemeContext.Provider value={DEFAULT_THEME}>
+            <FileUploader />
+          </ThemeContext.Provider>
+          ,
+        </LocaleContext.Provider>,
+      );
 
       expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
@@ -135,6 +134,44 @@ describe('FileUploader', () => {
 
     beforeEach(() => {
       file = getFile();
+    });
+
+    describe('onFocus', () => {
+      it('should handle onFocus, when element focuses by tab', async () => {
+        const onFocus = jest.fn();
+        renderComp({ onFocus });
+
+        userEvent.tab();
+        const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+        expect(input).toHaveFocus();
+        expect(onFocus).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not handle focus if element is disabled', async () => {
+        const onFocus = jest.fn();
+        renderComp({ onFocus, disabled: true });
+
+        userEvent.tab();
+        const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+
+        expect(input).not.toHaveFocus();
+        expect(onFocus).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('onBlur', () => {
+      it('should handle onFocus, when element focuses by tab', async () => {
+        const onBlur = jest.fn();
+        renderComp({ onBlur });
+
+        userEvent.tab();
+        const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+        expect(input).toHaveFocus();
+        if (input !== null) {
+          fireEvent.blur(input);
+        }
+        expect(onBlur).toHaveBeenCalledTimes(1);
+      });
     });
 
     describe('onAttach', () => {
@@ -306,10 +343,11 @@ describe('FileUploader', () => {
         request = jest.fn(() => Promise.resolve());
         onRequestSuccess = jest.fn();
         onRequestError = jest.fn();
-        renderComp({ request, onRequestSuccess, onRequestError });
       });
 
       it('should handle request and onRequestSuccess after selection of valid file', async () => {
+        renderComp({ request, onRequestSuccess, onRequestError });
+
         await addFiles([file]);
 
         expect(request).toHaveBeenCalledTimes(1);
@@ -319,7 +357,6 @@ describe('FileUploader', () => {
         expect(onRequestError).toHaveBeenCalledTimes(0);
       });
 
-      //падает
       it('should handle one request for one valid and one invalid files', async () => {
         let count = 0;
         const validateBeforeUpload = () => {
@@ -344,7 +381,6 @@ describe('FileUploader', () => {
         expect(onRequestError).toHaveBeenCalledTimes(0);
       });
 
-      //падает
       it('shouldn"t handle request after selection of invalid file', async () => {
         renderComp({
           request,
@@ -360,7 +396,6 @@ describe('FileUploader', () => {
         expect(onRequestError).toHaveBeenCalledTimes(0);
       });
 
-      //падает
       it('should handle request and onRequestError after file selection and throw error on upload file', async () => {
         request = jest.fn(() => Promise.reject());
         renderComp({ request, onRequestSuccess, onRequestError });
