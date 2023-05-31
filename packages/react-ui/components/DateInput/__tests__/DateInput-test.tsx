@@ -284,6 +284,35 @@ describe('DateInput as InputlikeText', () => {
     expect(inputLikeTextRef.current?.state.selected).toBe(InternalDateComponentType.All);
   });
 
+  it('should fully clear input by delete pressing', () => {
+    renderRTL(<DateInput value='27.04.1988' />);
+    const input = getInput();
+    userEvent.dblClick(input);
+    userEvent.keyboard('{delete}');
+
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(`${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
+  });
+
+  it('should fully clear input by backspace pressing', () => {
+    renderRTL(<DateInput value='27.04.1988' />);
+    const input = getInput();
+    userEvent.dblClick(input);
+    userEvent.keyboard('{backspace}');
+
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(`${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
+  });
+
+  it('should delete one char in DD by default after focus on element', () => {
+    renderRTL(<DateInput value='27.04.1988' />);
+    const input = getInput();
+    userEvent.type(input, '{backspace}');
+
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(`2${MASK_CHAR_EXEMPLAR.repeat(1)}.04.1988`);
+  });
+
   it('should focus by method', () => {
     const inputLikeTextRef = React.createRef<DateInput>();
     renderRTL(<DateInput ref={inputLikeTextRef} />);
