@@ -13,6 +13,9 @@ import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
+import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
+
+
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   render(
@@ -24,22 +27,25 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
     </LocaleContext.Provider>,
   );
 
-const getBaseButtonLinkText = (): string => {
-  return screen.getByTestId(FileUploaderDataTids.link).textContent();
+// const getBaseButtonLinkText = (): string | undefined => {
+//   return screen.getByTestId(FileUploaderDataTids.link).textContent();
+// };
+
+const getBaseButtonContent = (): string | undefined => {
+  const content = screen.getByTestId(FileUploaderDataTids.content).textContent?.replace(/\s/g, ' ');
+  return content;
 };
 
-const getBaseButtonContent = (wrapper: ReactWrapper<typeof FileUploader>): string => {
-  return wrapper.find(`[data-tid='FileUploader__content']`).text().replace(/\s/g, ' ');
-};
-
-const getFilesList = (wrapper: ReactWrapper<typeof FileUploader>) => {
-  return wrapper.find(`[data-tid='FileUploader__fileList']`);
+const getFilesList = () => {
+  return screen.queryByTestId(FileUploaderFileListDataTids.fileList);
 };
 
 const addFiles = async (files: File[]) => {
   await act(async () => {
     const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
-    fireEvent.change(input, { target: { files } });
+    if (input !== null) {
+      fireEvent.change(input, { target: { files } });
+    }
     // ждем отрисовки файлов
     await delay(100);
   });
@@ -313,6 +319,7 @@ describe('FileUploader', () => {
         expect(onRequestError).toHaveBeenCalledTimes(0);
       });
 
+      //падает
       it('should handle one request for one valid and one invalid files', async () => {
         let count = 0;
         const validateBeforeUpload = () => {
@@ -327,7 +334,6 @@ describe('FileUploader', () => {
           validateBeforeUpload,
           multiple: true,
         });
-        screen.debug();
 
         await addFiles([file, file]);
 
@@ -338,6 +344,7 @@ describe('FileUploader', () => {
         expect(onRequestError).toHaveBeenCalledTimes(0);
       });
 
+      //падает
       it('shouldn"t handle request after selection of invalid file', async () => {
         renderComp({
           request,
@@ -353,6 +360,7 @@ describe('FileUploader', () => {
         expect(onRequestError).toHaveBeenCalledTimes(0);
       });
 
+      //падает
       it('should handle request and onRequestError after file selection and throw error on upload file', async () => {
         request = jest.fn(() => Promise.reject());
         renderComp({ request, onRequestSuccess, onRequestError });
@@ -370,9 +378,9 @@ describe('FileUploader', () => {
       it('should handle validateBeforeUpload for every files', async () => {
         const request = jest.fn(() => Promise.resolve());
         const validateBeforeUpload = jest.fn(() => Promise.resolve(null));
-        const component = render({ request, validateBeforeUpload, multiple: true });
+        renderComp({ request, validateBeforeUpload, multiple: true });
 
-        await addFiles(component, [file, file]);
+        await addFiles([file, file]);
 
         expect(validateBeforeUpload).toHaveBeenCalledTimes(2);
         expect(request).toHaveBeenCalledTimes(2);
@@ -392,9 +400,9 @@ describe('FileUploader', () => {
           validationOrder = increment();
           return Promise.resolve(null);
         });
-        const component = render({ request, validateBeforeUpload });
+        renderComp({ request, validateBeforeUpload });
 
-        await addFiles(component, [file]);
+        await addFiles([file]);
 
         expect(validateBeforeUpload).toHaveBeenCalledTimes(1);
         expect(request).toHaveBeenCalledTimes(1);
@@ -407,9 +415,9 @@ describe('FileUploader', () => {
       const validateBeforeUpload = jest.fn();
       const onAttach = jest.fn();
       const onValueChange = jest.fn();
-      const component = render({ request, validateBeforeUpload, onAttach, onValueChange });
+      renderComp({ request, validateBeforeUpload, onAttach, onValueChange });
 
-      await addFiles(component, [file, file, file]);
+      await addFiles([file, file, file]);
 
       expect(request).toHaveBeenCalledTimes(1);
       expect(validateBeforeUpload).toHaveBeenCalledTimes(1);
@@ -423,39 +431,39 @@ describe('FileUploader', () => {
   });
 
   describe('hideFiles', () => {
-    const expectation = async (wrapper: ReactWrapper<typeof FileUploader>) => {
+    const expectation = async () => {
       const locale = FileUploaderLocaleHelper.get(defaultLangCode);
       const { chooseFile, orDragHere } = locale;
       const expectedText = `${chooseFile} ${orDragHere} `;
 
-      expect(getBaseButtonContent(wrapper)).toBe(expectedText);
+      expect(getBaseButtonContent()).toBe(expectedText);
 
-      await addFiles(wrapper, [getFile(), getFile()]);
+      await addFiles([getFile(), getFile()]);
 
-      expect(getFilesList(wrapper)).toHaveLength(0);
-      expect(getBaseButtonContent(wrapper)).toBe(expectedText);
+      expect(getFilesList()).not.toBeInTheDocument();
+      expect(getBaseButtonContent()).toBe(expectedText);
     };
 
     // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render files for multiple control', async () => {
-      const wrapper = mount(<FileUploader multiple hideFiles />);
-      await expectation(wrapper);
+      render(<FileUploader multiple hideFiles />);
+      await expectation();
     });
 
     // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render file for single control', async () => {
-      const wrapper = mount(<FileUploader hideFiles />);
-      await expectation(wrapper);
+      render(<FileUploader hideFiles />);
+      await expectation();
     });
   });
 
   describe('renderFile', () => {
     it('should render custom file item control', async () => {
-      const wrapper = mount(<FileUploader multiple renderFile={() => 'Custom file item'} />);
+      render(<FileUploader multiple renderFile={() => 'Custom file item'} />);
 
-      await addFiles(wrapper, [getFile()]);
+      await addFiles([getFile()]);
 
-      expect(getFilesList(wrapper).text()).toBe('Custom file item');
+      expect(getFilesList()).toHaveTextContent('Custom file item');
     });
   });
 
