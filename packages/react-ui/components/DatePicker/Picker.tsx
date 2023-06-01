@@ -70,13 +70,13 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   }
 
   private isHoliday = (day: string, isWeekend: boolean) => {
-    const dateShape = this.getShapeFromStringDate(day);
+    const dateShape = new InternalDate().parseValue(day).getComponentsLikeNumber();
 
     return !!this.props.isHoliday?.({ ...dateShape, isWeekend });
   };
 
   private onValueChange = (date: string) => {
-    const dateShape = this.getShapeFromStringDate(date);
+    const dateShape = new InternalDate().parseValue(date).getComponentsLikeNumber();
 
     return this.props.onPick(dateShape);
   };
@@ -112,11 +112,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
     const [date, month, year] = [dateShape.date, dateShape.month, dateShape.year].map((x) => x.toString());
     return `${date.padStart(2, '0')}.${month.padStart(2, '0')}.${year.padStart(4, '0')}`;
-  };
-
-  private getShapeFromStringDate = (stringDate: string): CalendarDateShape => {
-    const [date, month, year] = stringDate.split('.').map((date) => Number(date));
-    return { date, month, year };
   };
 
   private renderTodayLink() {
