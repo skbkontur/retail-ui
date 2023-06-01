@@ -1,6 +1,7 @@
 import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
+import shallowEqual from 'shallowequal';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -142,6 +143,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       scrollDirection: 1,
       scrollTarget: 0,
     };
+  }
+
+  public componentDidUpdate(prevProps: Readonly<CalendarProps>): void {
+    const { value } = this.props;
+    if (value && !shallowEqual(value, prevProps.value)) {
+      const date = new InternalDate().parseValue(value).getComponentsLikeNumber();
+      this.scrollToMonth(date.month - 1, date.year);
+    }
   }
 
   public componentWillUnmount() {

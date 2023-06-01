@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import shallowEqual from 'shallowequal';
 
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
@@ -206,16 +205,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   }
 
-  public componentDidUpdate(prevProps: DatePickerProps) {
+  public componentDidUpdate() {
     const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
-    }
-
-    const date = new InternalDate().parseValue(this.props.value).getComponentsLikeNumber();
-    if (date && !shallowEqual(this.props.value, prevProps.value)) {
-      this.scrollToMonth(date.month - 1, date.year);
     }
   }
 
@@ -349,12 +343,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     return undefined;
   }
-
-  private scrollToMonth = (month: number, year: number) => {
-    if (this.calendar) {
-      this.calendar.scrollToMonth(month, year);
-    }
-  };
 
   private renderTodayLink() {
     const { order, separator } = this.locale;
