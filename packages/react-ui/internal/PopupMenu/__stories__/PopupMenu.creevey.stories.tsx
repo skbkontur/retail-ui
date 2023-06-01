@@ -9,7 +9,7 @@ import { MenuHeader } from '../../../components/MenuHeader';
 import { Button } from '../../../components/Button';
 
 export default {
-  title: 'PopupMenu',
+  title: 'PopupMenu/Functional tests',
   decorators: [
     (Story) => (
       <div
