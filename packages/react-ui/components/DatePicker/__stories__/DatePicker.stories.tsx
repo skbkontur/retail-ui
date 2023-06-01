@@ -293,6 +293,7 @@ DatePickerWithMinMaxDate.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .pause(1000)
           .perform();
+        await delay(1000);
 
         await this.browser
           .actions({
@@ -317,6 +318,7 @@ DatePickerWithMinMaxDate.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .pause(1000)
           .perform();
+        await delay(1000);
 
         await this.browser
           .actions({
