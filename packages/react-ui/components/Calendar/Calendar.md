@@ -3,8 +3,6 @@
 Календарь с заданной датой
 
 ```jsx harmony
-import { Checkbox } from '@skbkontur/react-ui';
-
 const [date, setDate] = React.useState("01.11.2021");
 
 <Calendar
