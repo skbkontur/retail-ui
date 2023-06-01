@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.14.0-next.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.0-next.0...@skbkontur/react-ui@4.14.0-next.1) (2023-06-01)
+
+
+### Features
+
+* **Button, Modal, SidePage, Switcher:** pass props for a11y ([#3163](https://github.com/skbkontur/retail-ui/issues/3163)) ([694e8d9](https://github.com/skbkontur/retail-ui/commit/694e8d97fb07842cc925cfdacc35b167fb1ff9b3))
+
+
+
+
+
 # [4.14.0-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.4...@skbkontur/react-ui@4.14.0-next.0) (2023-05-15)
 
 
