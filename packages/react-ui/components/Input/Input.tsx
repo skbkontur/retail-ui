@@ -423,14 +423,16 @@ export class Input extends React.Component<InputProps, InputState> {
           context={{ disabled: Boolean(disabled), focused, size }}
         >
           {input}
-          <PolyfillPlaceholder
-            isMaskVisible={this.isMaskVisible}
-            value={value}
-            defaultValue={this.props.defaultValue}
-            align={align}
-          >
-            {placeholder}
-          </PolyfillPlaceholder>
+          {this.state.needsPolyfillPlaceholder && (
+            <PolyfillPlaceholder
+              isMaskVisible={this.isMaskVisible}
+              value={value}
+              defaultValue={this.props.defaultValue}
+              align={align}
+            >
+              {placeholder}
+            </PolyfillPlaceholder>
+          )}
         </InputLayout>
       );
     }

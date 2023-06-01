@@ -162,7 +162,7 @@ export const Prefix: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    rows={inputPrefixStates.map((x) => ({ props: x }))}
     presetProps={{ prefix: 'Prefix' }}
   />
 );
@@ -178,11 +178,15 @@ const inputPrefixOrSuffixStates: InputState[] = [
   { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
 ];
 
+const inputPrefixStates: InputState[] = [...inputPrefixOrSuffixStates, { prefix: 'ooo-long-long-long-johnson' }];
+
+const inputSuffixStates: InputState[] = [...inputPrefixOrSuffixStates, { suffix: 'ooo-long-long-long-johnson' }];
+
 export const Suffix: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    rows={inputSuffixStates.map((x) => ({ props: x }))}
     presetProps={{ suffix: 'Suffix' }}
   />
 );
