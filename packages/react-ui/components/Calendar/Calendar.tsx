@@ -6,7 +6,6 @@ import shallowEqual from 'shallowequal';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -25,7 +24,7 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
-import { CalendarLocale, CalendarLocaleHelper } from './locale';
+import { CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -109,7 +108,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
-  private readonly locale!: CalendarLocale;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
   private animation = animation();
@@ -287,19 +285,17 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const props = this.getProps();
 
     return (
-      <LocaleContext.Provider value={{ locale: { DatePicker: { months: this.locale.months } } }}>
-        <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
-          <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
-            <div style={wrapperStyle} className={styles.wrapper()}>
-              {this.state.months
-                .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-                .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
-                .map(this.renderMonth, this)}
-            </div>
-            <div className={styles.separator(this.theme)} />
+      <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
+        <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
+          <div style={wrapperStyle} className={styles.wrapper()}>
+            {this.state.months
+              .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
+              .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
+              .map(this.renderMonth, this)}
           </div>
-        </CommonWrapper>
-      </LocaleContext.Provider>
+          <div className={styles.separator(this.theme)} />
+        </div>
+      </CommonWrapper>
     );
   };
 

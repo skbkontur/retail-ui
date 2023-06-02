@@ -70,7 +70,7 @@ export const DateSelectDataTids = {
 
 type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
 
-@locale('DatePicker', DatePickerLocaleHelper)
+@locale(['Calendar', 'DatePicker'], DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
 
