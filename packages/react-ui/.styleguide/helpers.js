@@ -110,6 +110,14 @@ const getVersionsSection = () => {
     .filter((version) => !excludeVersions.includes(version));
   const sections = [];
 
+  if (npmTags.next) {
+    sections.push({
+      name: 'next',
+      content: path.join(__dirname, '../README.md'),
+      href: '//tech.skbkontur.ru/react-ui/next',
+    });
+  }
+
   if (npmTags.lts) {
     sections.push({
       name: 'lts',
