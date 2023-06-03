@@ -8,9 +8,9 @@ import { iconSizer } from '../../internal/icons2022/iconSizer';
 
 export const ForwardIcon = iconSizer(
   {
-    small: () => <ArrowCRightIcon16Light disableCompensation={false} />,
-    medium: () => <ArrowCRightIcon20Light disableCompensation={false} />,
-    large: () => <ArrowCRightIcon24Regular disableCompensation={false} />,
+    small: () => <ArrowCRightIcon16Light />,
+    medium: () => <ArrowCRightIcon20Light />,
+    large: () => <ArrowCRightIcon24Regular />,
   },
   'ForwardIcon',
 );

@@ -145,6 +145,7 @@ const maskStates: InputState[] = [
   { type: 'date', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'time', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'number', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { mask: '*** ***', placeholder: 'ooo-long-long-long-placeholder' },
 ];
 
 export const Placeholder: Story = () => (

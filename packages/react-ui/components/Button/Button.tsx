@@ -438,20 +438,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {
-      let _icon = icon;
-      if (icon) {
-        const sizes: Record<ButtonSize, number> = {
-          small: parseInt(this.theme.btnIconSizeSmall),
-          medium: parseInt(this.theme.btnIconSizeMedium),
-          large: parseInt(this.theme.btnIconSizeLarge),
-        };
-        // Expect icon to have a `size` prop
-        _icon = React.cloneElement(icon, { size: sizes[this.props.size || 'small'] });
-      }
-
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link focused={isFocused} disabled={disabled} icon={_icon} as="span" tabIndex={-1}>
+          <Link focused={isFocused} disabled={disabled} icon={icon} as="span" tabIndex={-1}>
             {children}
           </Link>
         </ThemeContext.Provider>

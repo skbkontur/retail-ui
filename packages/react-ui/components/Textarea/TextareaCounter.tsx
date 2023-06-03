@@ -50,7 +50,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       'data-tid': TextareaDataTids.helpIcon,
     };
     const helpIcon = isTheme2022(theme) ? (
-      <QuestionCircleIcon16Solid disableCompensation={false} {...helpIconProps} />
+      <QuestionCircleIcon16Solid {...helpIconProps} />
     ) : (
       <HelpDotIcon {...helpIconProps} />
     );
