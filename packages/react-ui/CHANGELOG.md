@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.14.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.0...@skbkontur/react-ui@4.14.1) (2023-06-03)
+
+
+### Bug Fixes
+
+* **Input:** fix too long `prefix` & missing `placeholder` ([#3170](https://github.com/skbkontur/retail-ui/issues/3170)) ([ab31f22](https://github.com/skbkontur/retail-ui/commit/ab31f2248f1cadeb544b4711f024227d6da64a6a))
+
+
+
+
+
 # [4.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.4...@skbkontur/react-ui@4.14.0) (2023-05-30)
 
 
