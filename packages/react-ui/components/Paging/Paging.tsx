@@ -92,6 +92,7 @@ type DefaultProps = Required<
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
+  private static timeOutID: any;
   public static __KONTUR_REACT_UI__ = 'Paging';
 
   public static defaultProps: DefaultProps = {
@@ -147,6 +148,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   public componentWillUnmount() {
     this.removeGlobalListener();
+    clearTimeout(Paging.timeOutID);
   }
 
   public render() {
@@ -317,7 +319,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      setTimeout(() => this.container && this.container.focus(), 0);
+      Paging.timeOutID = setTimeout(() => this.container && this.container.focus(), 0);
     }
   };
 

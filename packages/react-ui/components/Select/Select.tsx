@@ -182,6 +182,7 @@ type DefaultProps<TValue, TItem> = Required<
 // Suggested solutions break current behavior
 // eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
+  private static timeOutID: any;
   public static __KONTUR_REACT_UI__ = 'Select';
 
   public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
@@ -554,7 +555,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal
-    setTimeout(() => input?.focus(), 0);
+    Select.timeOutID = setTimeout(() => input?.focus(), 0);
   };
 
   private refMenu = (menu: Menu) => {
@@ -688,6 +689,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         })
       : buttonElement;
   };
+
+  componentWillUnmount() {
+    clearTimeout(Select.timeOutID);
+  }
 }
 
 function renderValue<TValue, TItem>(value: TValue, item: Nullable<TItem>) {

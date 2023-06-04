@@ -5,6 +5,7 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { CaseSuite, Case } from '../Case';
 
 export default class InputTextPage extends React.Component {
+  private static timeOutID;
   state = {
     simpleInputValue: '',
     inputWithDelayValue: '',
@@ -42,7 +43,7 @@ export default class InputTextPage extends React.Component {
               data-tid="ShowInputAppearsAfterTimeout"
               onClick={() =>
                 !this.state.showInput
-                  ? setTimeout(() => this.setState({ showInput: true }), 2000)
+                  ? InputTextPage.timeOutID = setTimeout(() => this.setState({ showInput: true }), 2000)
                   : this.setState({ showInput: false })
               }
             >
@@ -75,5 +76,9 @@ export default class InputTextPage extends React.Component {
         </Case>
       </CaseSuite>
     );
+  }
+
+  componentWillUnmount() {
+    clearTimeout(InputTextPage.timeOutID);
   }
 }

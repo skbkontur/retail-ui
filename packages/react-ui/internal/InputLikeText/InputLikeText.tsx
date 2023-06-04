@@ -46,6 +46,9 @@ type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
 
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
+  private static timeOutID: any;
+  private static timeOutID2: any;
+  private static timeOutID3: any;
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
   public static defaultProps: DefaultProps = { size: 'small' };
@@ -111,7 +114,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.frozenBlur = true;
 
     this.lastSelectedInnerNode = [node, start, end];
-    setTimeout(() => selectNodeContents(node, start, end), 0);
+    InputLikeText.timeOutID = setTimeout(() => selectNodeContents(node, start, end), 0);
     if (this.focusTimeout) {
       clearInterval(this.focusTimeout);
     }
@@ -133,6 +136,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     MouseDrag.stop(this.node);
     document.removeEventListener('mousedown', this.handleDocumentMouseDown);
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
+    clearTimeout(this.focusTimeout);
+    clearTimeout(InputLikeText.timeOutID);
+    clearTimeout(InputLikeText.timeOutID2);
+    clearTimeout(InputLikeText.timeOutID3);
   }
 
   public render() {
@@ -392,7 +399,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (isIE11 && isShortcutPaste(e) && this.hiddenInput) {
       this.frozen = true;
-      setTimeout(() => {
+      InputLikeText.timeOutID2 = setTimeout(() => {
         if (this.lastSelectedInnerNode) {
           this.selectInnerNode(...this.lastSelectedInnerNode);
         }
@@ -419,8 +426,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleMouseDragEnd: MouseDragEventHandler = (e) => {
-    // Дожидаемся onMouseUp
-    setTimeout(() => {
+    InputLikeText.timeOutID3 = setTimeout(() => {
       this.dragging = false;
 
       if (this.props.onMouseDragEnd) {

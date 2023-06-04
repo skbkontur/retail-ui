@@ -73,6 +73,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public componentWillUnmount() {
     this._clearTimer();
+    clearTimeout(this._timeout);
   }
 
   public render() {
