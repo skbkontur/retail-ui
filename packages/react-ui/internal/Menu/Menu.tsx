@@ -12,6 +12,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -126,6 +127,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
     const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
+    const offsetY = isTheme2022(this.theme)
+      ? {
+          top: 4,
+          right: 0,
+          bottom: 4,
+        }
+      : {};
+
     const isMobile = this.isMobileLayout;
     return (
       <div
@@ -143,6 +152,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           maxHeight={maxHeight}
           preventWindowScroll={preventWindowScroll}
           disabled={this.props.disableScrollContainer}
+          offsetY={offsetY}
         >
           <div
             className={cx({

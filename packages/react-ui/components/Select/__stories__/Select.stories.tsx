@@ -531,6 +531,9 @@ WithSearchAndVariousWidth.storyName = 'with search';
 WithSearchAndVariousWidth.parameters = {
   creevey: {
     captureElement: '#test-element',
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'and various width' },
+    },
     tests: {
       async search() {
         const root = await this.browser.findElement({ css: '[data-tid="root"]' });

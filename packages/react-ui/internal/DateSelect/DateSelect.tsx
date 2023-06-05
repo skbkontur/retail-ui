@@ -16,6 +16,10 @@ import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
+import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
+import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
 
 import { styles } from './DateSelect.styles';
 
@@ -183,6 +187,10 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   }
 
   private renderMain() {
+    if (isTheme2022(this.theme)) {
+      return this.renderMain2022();
+    }
+
     const { disabled } = this.props;
     const width = this.getProps().width;
     const rootProps = {
@@ -206,6 +214,27 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
             <ArrowTriangleUpDownIcon size={12} />
           </div>
         </div>
+        {this.state.opened && this.renderMenu()}
+      </span>
+    );
+  }
+
+  private renderMain2022() {
+    const { disabled } = this.props;
+    const width = this.getProps().width;
+    const rootProps = {
+      className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
+      style: { width },
+      ref: this.refRoot,
+      onClick: this.open,
+    };
+
+    return (
+      <span {...rootProps}>
+        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
+          {this.getItem(0)}
+        </div>
+        {!disabled && <ArrowCollapseCVOpenIcon16Regular color="#ADADAD" />}
         {this.state.opened && this.renderMenu()}
       </span>
     );
@@ -311,6 +340,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       dropdownOffset -= nodeTop + top - overflowOffsetDelta;
     }
 
+    const iconUp = isTheme2022(this.theme) ? <ArrowCUpIcon16Regular color="#ADADAD" /> : <ArrowChevronUpIcon />;
+    const iconDown = isTheme2022(this.theme) ? <ArrowCDownIcon16Regular color="#ADADAD" /> : <ArrowChevronDownIcon />;
+
     return (
       <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active>
         <div>
@@ -326,9 +358,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
                   onTouchStart={this.handleLongClickUp}
                   onTouchEnd={this.handleLongClickStop}
                 >
-                  <span>
-                    <ArrowChevronUpIcon />
-                  </span>
+                  <span>{iconUp}</span>
                 </div>
               )}
               <div className={styles.itemsHolder()} style={{ height }}>
@@ -346,9 +376,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
                   onTouchStart={this.handleLongClickDown}
                   onTouchEnd={this.handleLongClickStop}
                 >
-                  <span>
-                    <ArrowChevronDownIcon />
-                  </span>
+                  <span>{iconDown}</span>
                 </div>
               )}
             </div>
