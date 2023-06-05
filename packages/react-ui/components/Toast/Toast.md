@@ -138,8 +138,8 @@ const RedToast = () => (
   <ThemeContext.Provider
     value={ThemeFactory.create(
       {
-        toastBg: "#d94d45f5",
-        toastBorderRadius: "4px"
+        toastBg: "#D20F00C2",
+        toastLinkBgActive: "#D20F00C2" 
       },
       THEME_2022
     )}
@@ -148,7 +148,7 @@ const RedToast = () => (
   </ThemeContext.Provider>
 );
 
-const rand = () => Math.round(Math.random() * 100).toString();
+const rand = () => "Пример красного тоста №" + Math.round(Math.random() * 100).toString();
 
 const push = () => {
   SuperToast.push(rand(), {
