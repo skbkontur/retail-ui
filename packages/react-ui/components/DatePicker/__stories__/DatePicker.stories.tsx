@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
-import { InternalDateOrder } from '../../../lib/date/types';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
@@ -217,6 +217,131 @@ export const DifferentSizes = () => (
     <DatePicker value="20.20.2020" onValueChange={() => void 0} size="large" />
   </Gapped>
 );
+
+interface DatePickerWithMinMaxState {
+  value: Nullable<string>;
+  minDate: string;
+  maxDate: string;
+  order: InternalDateOrder;
+  separator: InternalDateSeparator;
+}
+
+class DatePickerWithMinMax extends React.Component {
+  public state: DatePickerWithMinMaxState = {
+    minDate: '02.07.2017',
+    maxDate: '30.01.2020',
+    value: '02.07.2017',
+    order: InternalDateOrder.DMY,
+    separator: InternalDateSeparator.Dot,
+  };
+
+  public render(): React.ReactNode {
+    return (
+      <Gapped vertical gap={10}>
+        <label>
+          Начало периода:{' '}
+          <input
+            type="text"
+            value={this.state.minDate}
+            placeholder="min"
+            onChange={(e) => this.setState({ min: e.target.value })}
+          />
+        </label>
+        <label>
+          Окончание периода:{' '}
+          <input
+            type="text"
+            value={this.state.maxDate}
+            placeholder="max"
+            onChange={(e) => this.setState({ max: e.target.value })}
+          />
+        </label>
+        <LocaleContext.Provider
+          value={{
+            locale: { DatePicker: { order: this.state.order, separator: this.state.separator } },
+          }}
+        >
+          <DatePicker
+            width={200}
+            value={this.state.value}
+            minDate={this.state.minDate}
+            maxDate={this.state.maxDate}
+            onValueChange={action('change')}
+            useMobileNativeDatePicker
+          />
+        </LocaleContext.Provider>
+      </Gapped>
+    );
+  }
+}
+
+export const DatePickerWithMinMaxDate: Story = () => (
+  <div style={{ padding: '200px 150px 350px 0px' }}>
+    <DatePickerWithMinMax />
+  </div>
+);
+DatePickerWithMinMaxDate.storyName = 'DatePicker with min max date';
+
+DatePickerWithMinMaxDate.parameters = {
+  creevey: {
+    skip: {
+      flaky: {
+        in: ['firefox2022', 'firefox2022Dark'],
+        tests: ['DateSelect months', 'DateSelect years'],
+      },
+    },
+    tests: {
+      async 'DateSelect months'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .pause(1000)
+          .perform();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(
+            this.browser.findElement({
+              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+            }),
+          )
+          .pause(1000)
+          .perform();
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+      },
+      async 'DateSelect years'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .pause(1000)
+          .perform();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(
+            this.browser.findElement({
+              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+            }),
+          )
+          .pause(1000)
+          .perform();
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
+      },
+    },
+  },
+};
 
 export const DatePickerLocaleProvider = () => {
   return (

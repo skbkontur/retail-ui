@@ -12,6 +12,7 @@ export const stylesLayout = memoizeStyle({
       overflow: hidden;
       position: relative;
       width: 100%;
+      display: flex;
     `;
   },
   aside() {

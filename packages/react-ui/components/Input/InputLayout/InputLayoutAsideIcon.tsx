@@ -1,5 +1,4 @@
 import React from 'react';
-import { isElement } from 'react-is';
 
 import { InputProps, InputSize } from '../Input';
 import { cx } from '../../../lib/theming/Emotion';
@@ -13,26 +12,15 @@ export interface InputLayoutAsideIconProps {
   side: 'left' | 'right';
 }
 
-export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon, side }) => {
+export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null, side }) => {
   const theme = React.useContext(ThemeContext);
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
-  const sizes: Record<InputSize, number> = {
-    small: parseInt(theme.inputIconSizeSmall),
-    medium: parseInt(theme.inputIconSizeMedium),
-    large: parseInt(theme.inputIconSizeLarge),
-  };
   const gaps: Record<InputSize, number> = {
     small: parseInt(theme.inputIconGapSmall),
     medium: parseInt(theme.inputIconGapMedium),
     large: parseInt(theme.inputIconGapLarge),
   };
-
-  let _icon = null;
-  if (icon && isElement(icon)) {
-    // Expect icon to have a `size` and `disableCompensation` props
-    _icon = React.cloneElement(icon, { size: sizes[size], disableCompensation: true });
-  }
 
   const style: React.CSSProperties = {};
   if (side) {
@@ -44,7 +32,7 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
   }
 
   return (
-    _icon && (
+    icon && (
       <span
         style={style}
         className={cx(
@@ -54,7 +42,7 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
           disabled && stylesLayout.iconDisabled(),
         )}
       >
-        {_icon}
+        {icon}
       </span>
     )
   );

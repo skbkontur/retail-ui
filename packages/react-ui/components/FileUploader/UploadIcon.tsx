@@ -8,9 +8,9 @@ import { NetUploadIcon24Regular } from '../../internal/icons2022/NetUploadIcon/N
 
 export const UploadIcon = iconSizer(
   {
-    small: () => <NetUploadIcon16Light disableCompensation={false} />,
-    medium: () => <NetUploadIcon20Light disableCompensation={false} />,
-    large: () => <NetUploadIcon24Regular disableCompensation={false} />,
+    small: () => <NetUploadIcon16Light />,
+    medium: () => <NetUploadIcon20Light />,
+    large: () => <NetUploadIcon24Regular />,
   },
   'UploadIcon',
 );

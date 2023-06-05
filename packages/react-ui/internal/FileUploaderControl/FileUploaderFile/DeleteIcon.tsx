@@ -8,9 +8,9 @@ import { XIcon24Regular } from '../../icons2022/XIcon/XIcon24Regular';
 
 export const DeleteIcon = iconSizer(
   {
-    small: () => <XIcon16Light disableCompensation={false} />,
-    medium: () => <XIcon20Light disableCompensation={false} />,
-    large: () => <XIcon24Regular disableCompensation={false} />,
+    small: () => <XIcon16Light />,
+    medium: () => <XIcon20Light />,
+    large: () => <XIcon24Regular />,
   },
   'DeleteIcon',
 );

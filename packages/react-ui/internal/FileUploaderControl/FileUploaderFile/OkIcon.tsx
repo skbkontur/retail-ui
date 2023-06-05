@@ -8,9 +8,9 @@ import { CheckAIcon24Regular } from '../../icons2022/CheckAIcon/CheckAIcon24Regu
 
 export const OkIcon = iconSizer(
   {
-    small: () => <CheckAIcon16Light disableCompensation={false} />,
-    medium: () => <CheckAIcon20Light disableCompensation={false} />,
-    large: () => <CheckAIcon24Regular disableCompensation={false} />,
+    small: () => <CheckAIcon16Light />,
+    medium: () => <CheckAIcon20Light />,
+    large: () => <CheckAIcon24Regular />,
   },
   'OkIcon',
 );

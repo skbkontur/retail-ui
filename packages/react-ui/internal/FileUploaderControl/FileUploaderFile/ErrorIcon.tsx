@@ -8,9 +8,9 @@ import { MinusCircleIcon24Regular } from '../../icons2022/MinusCircleIcon/MinusC
 
 export const ErrorIcon = iconSizer(
   {
-    small: () => <MinusCircleIcon16Light disableCompensation={false} />,
-    medium: () => <MinusCircleIcon20Light disableCompensation={false} />,
-    large: () => <MinusCircleIcon24Regular disableCompensation={false} />,
+    small: () => <MinusCircleIcon16Light />,
+    medium: () => <MinusCircleIcon20Light />,
+    large: () => <MinusCircleIcon24Regular />,
   },
   'ErrorIcon',
 );
