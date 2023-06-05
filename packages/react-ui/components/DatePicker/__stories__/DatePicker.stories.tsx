@@ -286,7 +286,7 @@ DatePickerWithMinMaxDate.parameters = {
   creevey: {
     skip: {
       flaky: {
-        in: ['firefox2022', 'firefox2022Dark'],
+        in: /^(?!\b(chrome|ie11)\b)/,
         tests: ['DateSelect months', 'DateSelect years'],
       },
     },
