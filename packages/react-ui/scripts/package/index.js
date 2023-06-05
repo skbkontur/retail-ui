@@ -118,9 +118,7 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
     if (gte(version, npmTags.next)) {
       return NEXT;
     }
-    log(
-      `Current version does not meet the "next-version" requirements (see #1423). Current: ${version}, Latest: ${npmTags.next}.`,
-    );
+    log(`Current version does not meet the "next-version" requirements. Current: ${version}, Next: ${npmTags.next}.`);
     return null;
   }
 
