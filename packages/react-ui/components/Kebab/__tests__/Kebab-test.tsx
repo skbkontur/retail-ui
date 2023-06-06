@@ -14,4 +14,23 @@ describe('Kebab', () => {
     const menu = screen.getByTestId(PopupMenuDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
   });
+
+  it('should focus by pressing tab', () => {
+    render(<Kebab />);
+    userEvent.tab();
+
+    const kebab = screen.getByTestId(KebabDataTids.caption);
+    expect(kebab).toHaveFocus();
+  });
+
+  it('should handle blur by pressing tab', () => {
+    render(<Kebab />);
+    userEvent.tab();
+
+    const kebab = screen.getByTestId(KebabDataTids.caption);
+    expect(kebab).toHaveFocus();
+
+    userEvent.tab();
+    expect(kebab).not.toHaveFocus();
+  });
 });
