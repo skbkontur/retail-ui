@@ -9,18 +9,13 @@ import { FileUploaderLocaleHelper } from '../locale';
 import { FileUploader, FileUploaderDataTids, FileUploaderProps, FileUploaderRef } from '../FileUploader';
 import { delay } from '../../../lib/utils';
 import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   render(
     <LocaleContext.Provider value={localeProviderValue}>
-      <ThemeContext.Provider value={DEFAULT_THEME}>
-        <FileUploader {...props} />
-      </ThemeContext.Provider>
-      ,
+      <FileUploader {...props} />
     </LocaleContext.Provider>,
   );
 
@@ -100,19 +95,13 @@ describe('FileUploader', () => {
 
       const { rerender } = render(
         <LocaleContext.Provider value={{}}>
-          <ThemeContext.Provider value={DEFAULT_THEME}>
-            <FileUploader />
-          </ThemeContext.Provider>
-          ,
+          <FileUploader />
         </LocaleContext.Provider>,
       );
 
       rerender(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <ThemeContext.Provider value={DEFAULT_THEME}>
-            <FileUploader />
-          </ThemeContext.Provider>
-          ,
+          <FileUploader />
         </LocaleContext.Provider>,
       );
 
