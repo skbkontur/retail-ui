@@ -1,57 +1,71 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
-import { GlobalLoader, GlobalLoaderProps, GlobalLoaderState } from '../GlobalLoader';
+import { GlobalLoader, GlobalLoaderDataTids, GlobalLoaderProps, GlobalLoaderState } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1000;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;
 const DIFFERENCE = 100;
 
-async function setSuccessAndStart(globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>) {
-  globalLoader.setProps({ active: true });
-  globalLoader.update();
-  await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-  globalLoader.setProps({ active: false });
-  globalLoader.update();
-  globalLoader.setProps({ active: true });
-  globalLoader.update();
-}
+// async function setSuccessAndStart(globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>) {
+//   globalLoader.setProps({ active: true });
+//   globalLoader.update();
+//   await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+//   globalLoader.setProps({ active: false });
+//   globalLoader.update();
+//   globalLoader.setProps({ active: true });
+//   globalLoader.update();
+// }
 
 describe('Global Loader', () => {
-  let globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>;
   let active = false;
+  const refGlobalLoader = React.createRef<GlobalLoader>();
+  const refGlobalLoader2 = React.createRef<GlobalLoader>();
+
+  it('should be the only one', async () => {
+    active = true;
+    render(
+      <GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+        delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        active={active}
+        ref={refGlobalLoader}
+      />,
+    );
+    render(<GlobalLoader expectedResponseTime={2000} active={active} ref={refGlobalLoader2} />)
+
+
+    expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+
+    expect(refGlobalLoader.current?.state.dead).toBe(true);
+    expect(refGlobalLoader2.current?.state.dead).toBe(false);
+  });
 
   describe('with props', () => {
+
     beforeEach(() => {
-      globalLoader = mount<GlobalLoader>(
+      render(
         <GlobalLoader
           expectedResponseTime={2000}
           delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
           delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
           active={active}
+          ref={refGlobalLoader}
         />,
       );
-    });
-
-    it('should be the only one', async () => {
-      const globalLoader2: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader> = mount<GlobalLoader>(
-        <GlobalLoader expectedResponseTime={2000} />,
-      );
-
-      expect(globalLoader.state().dead).toBe(true);
-      expect(globalLoader2.state().dead).toBe(false);
     });
 
     it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
       active = true;
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
-      expect(globalLoader.state().visible).toBe(false);
+      expect(refGlobalLoader.current?.state.visible).toBe(false);
     });
 
     it('should set active', async () => {
       await delay(DIFFERENCE);
-      expect(globalLoader.state().visible).toBe(true);
+      expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
 
     it('should set error', async () => {
@@ -77,11 +91,12 @@ describe('Global Loader', () => {
 
   describe('with static methods', () => {
     beforeEach(() => {
-      globalLoader = mount<GlobalLoader>(
+      render(
         <GlobalLoader
           expectedResponseTime={2000}
           delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
           delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          ref={refGlobalLoader}
         />,
       );
     });
@@ -89,17 +104,25 @@ describe('Global Loader', () => {
     it('should set active', async () => {
       GlobalLoader.start();
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(globalLoader.state().visible).toBe(true);
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      screen.debug();
+      expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
 
     it('should set error', async () => {
+      GlobalLoader.start();
+
       GlobalLoader.reject();
-      expect(globalLoader.state().rejected).toBe(true);
+
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.rejected).toBe(true);
     });
 
     it('should set success', async () => {
       GlobalLoader.done();
-      expect(globalLoader.state().done).toBe(true);
+
+      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.done).toBe(true);
     });
 
     it('should start after success animation', async () => {
@@ -108,9 +131,11 @@ describe('Global Loader', () => {
       GlobalLoader.done();
       GlobalLoader.start();
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
-      expect(globalLoader.state().done).toBe(false);
+      expect(refGlobalLoader.current?.state.done).toBe(false);
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(globalLoader.state().visible).toBe(true);
+
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
   });
 });
