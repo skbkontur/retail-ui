@@ -251,7 +251,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         [styles.iconDisabled(theme)]: disabled,
       });
       return (
-        <span className={iconStyles} data-tid={DateInputDataTids.dateIcon}>
+        <span className={iconStyles} data-tid={DateInputDataTids.icon}>
           <CalendarIcon />
         </span>
       );
