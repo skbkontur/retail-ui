@@ -1,22 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { GlobalLoader, GlobalLoaderDataTids, GlobalLoaderProps, GlobalLoaderState } from '../GlobalLoader';
+import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1000;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;
 const DIFFERENCE = 100;
-
-// async function setSuccessAndStart(globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>) {
-//   globalLoader.setProps({ active: true });
-//   globalLoader.update();
-//   await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-//   globalLoader.setProps({ active: false });
-//   globalLoader.update();
-//   globalLoader.setProps({ active: true });
-//   globalLoader.update();
-// }
 
 describe('Global Loader', () => {
   let active = false;
@@ -44,8 +34,7 @@ describe('Global Loader', () => {
   });
 
   describe('with props', () => {
-
-    beforeEach(() => {
+    it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
       render(
         <GlobalLoader
           expectedResponseTime={2000}
@@ -55,37 +44,109 @@ describe('Global Loader', () => {
           ref={refGlobalLoader}
         />,
       );
-    });
-
-    it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
       active = true;
+
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
       expect(refGlobalLoader.current?.state.visible).toBe(false);
     });
 
     it('should set active', async () => {
+      render(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          active={active}
+          ref={refGlobalLoader}
+        />,
+      );
       await delay(DIFFERENCE);
       expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
 
     it('should set error', async () => {
-      globalLoader.setProps({ rejected: true });
-      globalLoader.update();
-      expect(globalLoader.state().rejected).toBe(true);
+      const { rerender } = render(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          active={active}
+          ref={refGlobalLoader}
+        />);
+
+      rerender(<GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+        delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        active={active}
+        ref={refGlobalLoader}
+        rejected
+      />);
+
+      expect(refGlobalLoader.current?.state.rejected).toBe(true);
     });
 
     it('should set success', async () => {
-      globalLoader.setProps({ active: false });
-      globalLoader.update();
-      expect(globalLoader.state().done).toBe(true);
+      const { rerender } = render(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          active={active}
+          ref={refGlobalLoader}
+        />);
+
+      rerender(<GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+        delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        ref={refGlobalLoader}
+        active={false}
+      />);
+      expect(refGlobalLoader.current?.state.done).toBe(true);
     });
 
     it('should start after success animation', async () => {
-      await setSuccessAndStart(globalLoader);
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
-      expect(globalLoader.state().done).toBe(false);
+      const { rerender } = render(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          active={active}
+          ref={refGlobalLoader}
+        />);
+
+      rerender(<GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+        delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        ref={refGlobalLoader}
+        active
+      />);
+
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(globalLoader.state().visible).toBe(true);
+
+      rerender(<GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+        delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        ref={refGlobalLoader}
+        active={false}
+      />);
+
+      rerender(<GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+        delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        ref={refGlobalLoader}
+        active
+      />);
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
+
+      expect(refGlobalLoader.current?.state.done).toBe(false);
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+      expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
   });
 
