@@ -350,7 +350,7 @@ describe('DateInput as InputlikeText', () => {
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should focus if autofocus prop passes', () => {
+  it('should focus if autoFocus prop passed', () => {
     renderRTL(<DateInput autoFocus />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
