@@ -1,36 +1,27 @@
 import React, { useState } from 'react';
-import { render as renderRTL, screen } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { FxInput, FxInputProps } from '../FxInput';
-import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
-
-const render = (
-  props: FxInputProps = {
-    onValueChange: () => {
-      /**/
-    },
-  },
-) => mount<FxInput, FxInputProps>(<FxInput {...props} />, { attachTo: getAttachedTarget() });
+import { FxInput, FxInputDataTids } from '../FxInput';
 
 describe('FxInput', () => {
-  buildMountAttachTarget();
-
   it('render without crash', () => {
-    expect(render).not.toThrow();
+    const onValueChange = jest.fn();
+    render(<FxInput onValueChange={onValueChange} />);
+    expect(screen.getByTestId(FxInputDataTids.root)).toBeInTheDocument();
   });
 
   it('programmatically set focus and blur', () => {
-    const wrapper = render();
-    const input = wrapper.find('input');
+    const onValueChange = jest.fn();
+    const refFxInput = React.createRef<FxInput>();
+    render(<FxInput onValueChange={onValueChange} ref={refFxInput} />);
+    const input = screen.getByRole('textbox');
 
-    wrapper.instance().focus();
+    refFxInput.current?.focus();
+    expect(input).toHaveFocus();
 
-    expect(input.instance()).toHaveFocus();
-
-    wrapper.instance().blur();
-
+    refFxInput.current?.blur();
+    expect(input).not.toHaveFocus();
     expect(document.body).toHaveFocus();
   });
 
@@ -46,7 +37,7 @@ describe('FxInput', () => {
       );
     };
 
-    renderRTL(<Comp />);
+    render(<Comp />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12345');
