@@ -28,7 +28,7 @@ export interface DateInputState {
 }
 
 export const DateInputDataTids = {
-  dateIcon: 'DateInput__icon',
+  icon: 'DateInput__icon',
 } as const;
 
 export interface DateInputProps extends CommonProps {

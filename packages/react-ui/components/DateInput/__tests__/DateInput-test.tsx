@@ -243,7 +243,7 @@ describe('DateInput as InputlikeText', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 
-  it('should handel keydown event', () => {
+  it('should handle keydown event', () => {
     const onKeyDown = jest.fn();
     renderRTL(<DateInput onKeyDown={onKeyDown} />);
 
@@ -252,7 +252,7 @@ describe('DateInput as InputlikeText', () => {
     expect(onKeyDown).toHaveBeenCalled();
   });
 
-  it('should handel onFocus event', () => {
+  it('should handle onFocus event', () => {
     const onFocus = jest.fn();
     renderRTL(<DateInput onFocus={onFocus} />);
 
@@ -261,7 +261,7 @@ describe('DateInput as InputlikeText', () => {
     expect(onFocus).toHaveBeenCalled();
   });
 
-  it('should handel onBlur event', () => {
+  it('should handle onBlur event', () => {
     const onBlur = jest.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
     const input = getInput();
@@ -359,6 +359,6 @@ describe('DateInput as InputlikeText', () => {
   it('should render with icon', () => {
     renderRTL(<DateInput withIcon />);
 
-    expect(screen.getByTestId(DateInputDataTids.dateIcon)).toBeInTheDocument();
+    expect(screen.getByTestId(DateInputDataTids.icon)).toBeInTheDocument();
   });
 });
