@@ -532,7 +532,7 @@ WithSearchAndVariousWidth.parameters = {
   creevey: {
     captureElement: '#test-element',
     skip: {
-      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'and various width' },
+      flaky: { in: ['chrome2022', 'chrome2022Dark'] },
     },
     tests: {
       async search() {
