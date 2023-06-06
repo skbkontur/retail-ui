@@ -267,6 +267,7 @@ describe('DateInput as InputlikeText', () => {
     userEvent.tab();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
     userEvent.tab();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
     expect(onBlur).toHaveBeenCalled();
   });
 
