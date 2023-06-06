@@ -294,7 +294,7 @@ describe('DateInput as InputlikeText', () => {
     );
   });
 
-  it('should fully clear input by backspace pressing', () => {
+  it('should clear selected text in the input after pressing backspace button', () => {
     renderRTL(<DateInput value="27.04.1988" />);
     const input = getInput();
     userEvent.dblClick(input);
