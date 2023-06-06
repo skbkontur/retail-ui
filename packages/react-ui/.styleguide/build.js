@@ -1,9 +1,9 @@
 const path = require('path');
 const { execSync } = require('child_process');
-const { copySync, removeSync, emptyDirSync } = require('fs-extra');
+const { copySync, removeSync } = require('fs-extra');
 const { getPackageInfo, TAGS } = require('../scripts/package');
 const { distTag, publishVersion } = getPackageInfo();
-const { LATEST, LTS, UNSTABLE, OLD } = TAGS;
+const { LATEST, LTS, UNSTABLE, OLD, NEXT } = TAGS;
 const { ROOT_DIR, VERSION_DIR, DEPLOY_DIR } = require('./helpers');
 
 const ROOT_CONFIG = path.join(__dirname, 'config/root.config.js');
@@ -32,6 +32,7 @@ const buildStyleguideVersion = (tag) => {
   const FINAL_DIR = {
     [LATEST]: path.join(ROOT_DIR, publishVersion),
     [LTS]: path.join(ROOT_DIR, 'lts'),
+    [NEXT]: path.join(ROOT_DIR, 'next'),
     [UNSTABLE]: path.join(ROOT_DIR, 'unstable', publishVersion),
     [OLD]: path.join(ROOT_DIR, publishVersion),
   };
@@ -43,7 +44,7 @@ const buildStyleguideVersion = (tag) => {
     console.log(`Style guide copied to: ${FINAL_DIR[tag]}`);
   }
 
-  if (tag === UNSTABLE) {
+  if (tag === UNSTABLE || tag === NEXT) {
     removeSync(BUILD_DIR);
     console.log(`Style guide removed from: ${BUILD_DIR}`);
   }
