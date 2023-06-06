@@ -19,7 +19,6 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
     </LocaleContext.Provider>,
   );
 
-
 const getBaseButtonContent = (): string | undefined => {
   const content = screen.getByTestId(FileUploaderDataTids.content).textContent?.replace(/\s/g, ' ');
   return content;
@@ -128,7 +127,7 @@ describe('FileUploader', () => {
         renderComp({ onFocus });
 
         userEvent.tab();
-        const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+        const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         expect(onFocus).toHaveBeenCalledTimes(1);
       });
@@ -138,7 +137,7 @@ describe('FileUploader', () => {
         renderComp({ onFocus, disabled: true });
 
         userEvent.tab();
-        const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+        const input = screen.getByTestId(FileUploaderDataTids.input);
 
         expect(input).not.toHaveFocus();
         expect(onFocus).not.toHaveBeenCalled();
@@ -151,7 +150,7 @@ describe('FileUploader', () => {
         renderComp({ onBlur });
 
         userEvent.tab();
-        const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+        const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         if (input !== null) {
           fireEvent.blur(input);
