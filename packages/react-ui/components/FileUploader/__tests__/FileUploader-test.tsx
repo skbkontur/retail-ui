@@ -24,9 +24,6 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
     </LocaleContext.Provider>,
   );
 
-// const getBaseButtonLinkText = (): string | undefined => {
-//   return screen.getByTestId(FileUploaderDataTids.link).textContent();
-// };
 
 const getBaseButtonContent = (): string | undefined => {
   const content = screen.getByTestId(FileUploaderDataTids.content).textContent?.replace(/\s/g, ' ');
