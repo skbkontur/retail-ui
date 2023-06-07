@@ -135,17 +135,21 @@ SuperToast.close = () => {
 };
 
 const RedToast = () => (
-  <ThemeContext.Provider
-    value={ThemeFactory.create(
-      {
-        toastBg: "#D20F00C2",
-        toastLinkBgActive: "#D20F00C2" 
-      },
-      THEME_2022
-    )}
-  >
-    <SuperToast />
-  </ThemeContext.Provider>
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return <ThemeContext.Provider
+        value={ThemeFactory.create(
+          {
+            toastBg: "#D20F00C2",
+            toastLinkBgActive: "#D20F00C2"
+          },
+          theme
+        )}
+      >
+        <SuperToast />
+      </ThemeContext.Provider>
+    }}
+  </ThemeContext.Consumer>
 );
 
 const rand = () => "Пример красного тоста №" + Math.round(Math.random() * 100).toString();
