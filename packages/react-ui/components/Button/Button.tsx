@@ -1,21 +1,28 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
-import { isIE11, isEdge } from '../../lib/client';
+import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { Link } from '../Link';
+import { Spinner } from '../Spinner';
+import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
+import { ButtonIcon } from './ButtonIcon';
+import { useButtonArrow } from './ButtonArrow';
+import { getInnerLinkTheme } from './getInnerLinkTheme';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
-export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
+export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
 export interface ButtonProps
   extends CommonProps,
@@ -145,7 +152,7 @@ export interface ButtonProps
   /**
    * Стиль кнопки.
    *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
    */
   use?: ButtonUse;
 
@@ -161,6 +168,12 @@ export interface ButtonProps
    * CSS-свойство `width`.
    */
   width?: number | string;
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
 }
 
 export interface ButtonState {
@@ -226,7 +239,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return this.renderMain();
         }}
       </ThemeContext.Consumer>
@@ -243,7 +256,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       error,
       warning,
       loading,
-      arrow,
       narrow,
       icon,
       _noPadding,
@@ -265,24 +277,49 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       'aria-checked': ariaChecked,
       role,
     } = this.props;
-    const { use, type } = this.getProps();
+    const { use, type, size } = this.getProps();
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
-    const rootProps = {
-      // By default the type attribute is 'submit'. IE8 will fire a click event
-      // on this button if somewhere on the page user presses Enter while some
-      // input is focused. So we set type to 'button' by default.
-      type,
-      role,
-      'aria-describedby': ariaDescribedby,
-      'aria-haspopup': ariaHasPopup,
-      'aria-controls': ariaControls,
-      'aria-label': ariaLabel,
-      'aria-checked': ariaChecked,
-      className: cx({
+    const _isTheme2022 = isTheme2022(this.theme);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [wrapClassNameWithArrow, rootClassNameWithArrow, arrowNode] = useButtonArrow(
+      { ...this.props, isFocused: Boolean(isFocused) },
+      this.theme,
+    );
+
+    let rootClassName = '';
+    if (_isTheme2022) {
+      const trueDisabled = disabled || loading;
+      rootClassName = cx(
+        styles.root(this.theme),
+        styles[use](this.theme),
+        sizeClass,
+        narrow && styles.narrow(),
+        _noPadding && styles.noPadding(),
+        _noRightPadding && styles.noRightPadding(),
+        rootClassNameWithArrow,
+        ...(trueDisabled
+          ? [
+              styles.disabled(this.theme),
+              checked && styles.checkedDisabled(this.theme),
+              checked && styles.checkedDisabled2022(this.theme),
+              borderless && styles.borderless2022(),
+            ]
+          : [
+              active && !checked && activeStyles[use](this.theme),
+              isFocused && styles.focus(this.theme),
+              checked && styles.checked2022(this.theme),
+              checked && isFocused && styles.checkedFocused(this.theme),
+              borderless && !checked && !isFocused && styles.borderless2022(),
+            ]),
+      );
+    } else {
+      rootClassName = cx({
         [styles.root(this.theme)]: true,
+        [styles.simulatedPress()]: true,
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
@@ -295,7 +332,21 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.narrow()]: narrow,
         [styles.noPadding()]: _noPadding,
         [styles.noRightPadding()]: _noRightPadding,
-      }),
+      });
+    }
+
+    const rootProps = {
+      // By default the type attribute is 'submit'. IE8 will fire a click event
+      // on this button if somewhere on the page user presses Enter while some
+      // input is focused. So we set type to 'button' by default.
+      type,
+      role,
+      'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
+      className: rootClassName,
       style: {
         textAlign: align,
         ...corners,
@@ -315,8 +366,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: cx({
         [styles.wrap(this.theme)]: true,
-        [styles.wrapArrow()]: arrow === true,
-        [styles.wrapArrowLeft()]: arrow === 'left',
+        [wrapClassNameWithArrow]: true,
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
@@ -324,12 +374,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       },
     };
 
-    const innerShadowNode = <div className={globalClasses.innerShadow} />;
+    const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
-    if (!isFocused || isLink) {
+    const isDisabled2022 = _isTheme2022 && (disabled || loading);
+    if ((!isFocused || isLink) && !isDisabled2022) {
       outlineNode = (
         <div
+          style={{ zIndex: _isTheme2022 && isLink ? -1 : undefined }}
           className={cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
@@ -341,41 +393,20 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       );
     }
 
+    const iconNode = icon && (
+      <ButtonIcon
+        icon={icon}
+        size={size}
+        hasChildren={Boolean(children)}
+        disabled={disabled || false}
+        loading={loading || false}
+        use={use}
+      />
+    );
     let loadingNode = null;
     if (loading && !icon) {
-      loadingNode = <div className={styles.loading()}>{this.getLoadingSpinner()}</div>;
-    }
-
-    let iconNode = null;
-    if (icon) {
-      iconNode = (
-        <span
-          className={cx(styles.icon(), this.getSizeIconClassName(), {
-            [styles.iconNoRightMargin()]: !children,
-            [styles.iconLink(this.theme)]: isLink,
-          })}
-        >
-          {loading ? this.getLoadingSpinner() : icon}
-        </span>
-      );
-    }
-
-    let arrowNode = null;
-    if (arrow) {
-      arrowNode = (
-        <div
-          className={cx({
-            [styles.arrow()]: true,
-            [styles.arrowWarning(this.theme)]: !checked && warning,
-            [styles.arrowError(this.theme)]: !checked && error,
-            [styles.arrowFocus(this.theme)]: !checked && isFocused,
-            [styles.arrowLeft()]: arrow === 'left',
-          })}
-        >
-          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperTop)} />
-          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
-        </div>
-      );
+      const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
+      loadingNode = <div className={styles.loading()}>{loadingIcon}</div>;
     }
 
     // Force disable all props and features, that cannot be use with Link
@@ -384,6 +415,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
         [styles.link(this.theme)]: true,
+        [styles.linkLineHeight()]: !isSafari || (isSafari && !_isTheme2022),
+        [styles.linkLineHeightSafariFallback()]: isSafari && _isTheme2022,
         [styles.linkFocus(this.theme)]: isFocused,
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
@@ -392,7 +425,35 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      arrowNode = null;
+    }
+
+    let captionNode = (
+      <div
+        className={cx(styles.caption(), globalClasses.caption, {
+          [styles.captionTranslated()]: (active || checked) && !loading && !_isTheme2022,
+          [styles.captionLink()]: isLink,
+          [styles.captionDisabled()]: !checked && disabled,
+        })}
+      >
+        {loadingNode}
+        {iconNode}
+        <span
+          className={cx(globalClasses.text, {
+            [styles.visibilityHidden()]: !!loadingNode,
+          })}
+        >
+          {children}
+        </span>
+      </div>
+    );
+    if (_isTheme2022 && isLink && !loading) {
+      captionNode = (
+        <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
+          <Link focused={isFocused} disabled={disabled} icon={icon} as="span" tabIndex={-1}>
+            {children}
+          </Link>
+        </ThemeContext.Provider>
+      );
     }
 
     return (
@@ -401,49 +462,36 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
-            {loadingNode}
             {arrowNode}
-            <div
-              className={cx(styles.caption(), globalClasses.caption, {
-                [styles.captionTranslated()]: active || checked,
-                [styles.captionLink()]: isLink,
-                [styles.captionDisabled()]: !checked && disabled,
-              })}
-            >
-              {iconNode}
-              <span className={cx({ [styles.visibilityHidden()]: !!loadingNode })}>{children}</span>
-            </div>
+            {captionNode}
           </button>
         </span>
       </CommonWrapper>
     );
   }
 
-  private getLoadingSpinner() {
-    return <Spinner caption={null} dimmed type="mini" />;
-  }
-
   private getSizeClassName() {
+    const _isTheme2022 = isTheme2022(this.theme);
     switch (this.getProps().size) {
       case 'large':
-        return cx(styles.sizeLarge(this.theme), { [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeLarge(this.theme), {
+          [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeLargeWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+        });
       case 'medium':
-        return cx(styles.sizeMedium(this.theme), { [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeMedium(this.theme), {
+          [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeMediumWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+        });
       case 'small':
       default:
-        return cx(styles.sizeSmall(this.theme), { [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge });
-    }
-  }
-
-  private getSizeIconClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.iconLarge(this.theme);
-      case 'medium':
-        return styles.iconMedium(this.theme);
-      case 'small':
-      default:
-        return styles.iconSmall(this.theme);
+        return cx(styles.sizeSmall(this.theme), {
+          [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeSmallWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+        });
     }
   }
 

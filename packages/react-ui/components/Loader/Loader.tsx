@@ -20,6 +20,10 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Loader.styles';
 
+const types = ['mini', 'normal', 'big'] as const;
+
+export type LoaderType = typeof types[number];
+
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
   /**
@@ -40,7 +44,7 @@ export interface LoaderProps extends CommonProps {
    *
    * @default normal
    */
-  type?: 'mini' | 'normal' | 'big';
+  type?: LoaderType;
   /**
    * Время в миллисекундах для показа вуали без спиннера.
    * @default 300
@@ -79,7 +83,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
   public static defaultProps: DefaultProps = {
-    type: Spinner.Types.normal,
+    type: 'normal',
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
     minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
@@ -111,10 +115,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Тип спиннера: mini, normal, big
      *
      * @default  normal
-     *
-     * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+    type: PropTypes.oneOf(types),
     /**
      * Время в миллисекундах для показа вуали без спиннера.
      * @default 300
@@ -274,7 +276,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.spinnerContainerNode = element;
   };
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
+  private renderSpinner(type?: LoaderType, caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
         data-tid={LoaderDataTids.spinner}

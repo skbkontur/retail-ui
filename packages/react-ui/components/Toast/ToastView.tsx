@@ -7,6 +7,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './ToastView.styles';
 import { ToastDataTids } from './Toast';
@@ -68,13 +70,29 @@ export class ToastView extends React.Component<ToastViewProps> {
       </span>
     ) : null;
 
-    const close = action ? (
+    let close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
         <span data-tid={ToastDataTids.close} className={styles.close(this.theme)} onClick={onClose}>
           <CrossIcon />
         </span>
       </span>
     ) : null;
+
+    if (isTheme2022(this.theme) && close) {
+      close = (
+        <span className={styles.closeWrapper(this.theme)}>
+          <CloseButtonIcon
+            data-tid={ToastDataTids.close}
+            onClick={onClose}
+            size={parseInt(this.theme.toastCloseSize)}
+            side={40}
+            color={this.theme.toastCloseColor}
+            colorHover={this.theme.toastCloseHoverColor}
+            tabbable={false}
+          />
+        </span>
+      );
+    }
 
     return (
       <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>

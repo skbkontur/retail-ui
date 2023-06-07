@@ -16,8 +16,10 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Kebab.styles';
+import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
   disabled?: boolean;
@@ -55,9 +57,7 @@ export interface KebabState {
   focusedByTab: boolean;
 }
 
-type DefaultProps = Required<
-  Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations' | 'icon'>
->;
+type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations'>>;
 
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
@@ -71,7 +71,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
     disableAnimations: isTestEnv,
-    icon: <MenuKebabIcon />,
   };
 
   private getProps = createPropsGetter(Kebab.defaultProps);
@@ -146,7 +145,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderCaption = (captionProps: PopupMenuCaptionProps) => {
-    const { disabled } = this.props;
+    const { disabled, size } = this.getProps();
     const handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!disabled) {
         this.handleCaptionKeyDown(event, captionProps.openMenu);
@@ -167,15 +166,19 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cx({
-          [styles.kebab(this.theme)]: true,
-          [styles.opened(this.theme)]: captionProps.opened,
-          [styles.disabled()]: disabled,
-          [styles.focused(this.theme)]: this.state.focusedByTab,
-        })}
+        className={cx(
+          styles.kebab(this.theme),
+          size === 'small' && styles.kebabSmall(this.theme),
+          size === 'medium' && styles.kebabMedium(this.theme),
+          size === 'large' && styles.kebabLarge(this.theme),
+          isTheme2022(this.theme) && styles.kebab2022(),
+          captionProps.opened && styles.opened(this.theme),
+          disabled && styles.disabled(),
+          this.state.focusedByTab && styles.focused(this.theme),
+        )}
         aria-describedby={this.props['aria-describedby']}
       >
-        {this.renderIcon()}
+        {isTheme2022(this.theme) ? this.renderIcon2022() : this.renderIcon()}
       </span>
     );
   };
@@ -215,19 +218,25 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    const { size, icon } = this.getProps();
+    const { size, icon = <MenuKebabIcon /> } = this.getProps();
     return (
       <div
         className={cx({
-          [styles.icon()]: true,
-          [styles.iconsmall()]: size === 'small',
-          [styles.iconmedium()]: size === 'medium',
-          [styles.iconlarge()]: size === 'large',
+          [styles.icon(this.theme)]: true,
+          [styles.iconsmall(this.theme)]: size === 'small',
+          [styles.iconmedium(this.theme)]: size === 'medium',
+          [styles.iconlarge(this.theme)]: size === 'large',
         })}
       >
         {icon}
       </div>
     );
+  }
+
+  private renderIcon2022() {
+    const { size, icon } = this.getProps();
+
+    return icon ?? <KebabIcon size={size} color={this.theme.kebabIconColor} />;
   }
 }
 

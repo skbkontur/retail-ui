@@ -13,13 +13,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
-const types: Record<SpinnerType, SpinnerType> = {
-  big: 'big',
-  mini: 'mini',
-  normal: 'normal',
-};
+const types = ['big', 'mini', 'normal'] as const;
 
-export type SpinnerType = 'mini' | 'normal' | 'big';
+export type SpinnerType = typeof types[number];
 
 export interface SpinnerProps extends CommonProps {
   /**
@@ -81,7 +77,7 @@ export class Spinner extends React.Component<SpinnerProps> {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(types)),
+    type: PropTypes.oneOf(types),
   };
 
   public static defaultProps: DefaultProps = {
@@ -90,7 +86,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   private getProps = createPropsGetter(Spinner.defaultProps);
 
-  public static Types: typeof types = types;
+  public static Types: Record<SpinnerType, SpinnerType> = Object.assign({}, ...types.map((type) => ({ [type]: type })));
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;

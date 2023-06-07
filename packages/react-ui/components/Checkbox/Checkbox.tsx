@@ -13,8 +13,11 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles, globalClasses } from './Checkbox.styles';
+import { CheckedIcon } from './CheckedIcon';
+import { IndeterminateIcon } from './IndeterminateIcon';
 
 export interface CheckboxProps
   extends CommonProps,
@@ -210,6 +213,29 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
+    const _isTheme2022 = isTheme2022(this.theme);
+
+    const iconClass = cx(
+      styles.icon(),
+      !_isTheme2022 && styles.iconFixPosition(),
+      !props.checked && !isIndeterminate && styles.iconUnchecked(),
+    );
+
+    const IconCheck = _isTheme2022 ? (
+      <span className={iconClass}>
+        <CheckedIcon size={parseInt(this.theme.checkboxBoxSize)} />
+      </span>
+    ) : (
+      <OkIcon className={iconClass} />
+    );
+    const IconSquare = _isTheme2022 ? (
+      <span className={iconClass}>
+        <IndeterminateIcon size={parseInt(this.theme.checkboxBoxSize)} />
+      </span>
+    ) : (
+      <SquareIcon className={iconClass} />
+    );
+
     const rootClass = cx({
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
@@ -239,11 +265,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
-    const iconClass = cx({
-      [styles.icon()]: true,
-      [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
-    });
-
     const box = (
       <div className={cx(styles.boxWrapper(this.theme))}>
         <div
@@ -255,7 +276,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
             [styles.boxDisabled(this.theme)]: props.disabled,
           })}
         >
-          {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
+          {(isIndeterminate && IconSquare) || IconCheck}
         </div>
       </div>
     );
