@@ -81,6 +81,7 @@ export const FileUploaderDataTids = {
   root: 'FileUploader__root',
   content: 'FileUploader__content',
   link: 'FileUploader__link',
+  input: 'FileUploader__input',
 } as const;
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
@@ -339,6 +340,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             </div>
             <input
               {...inputProps}
+              data-tid={FileUploaderDataTids.input}
               ref={inputRef}
               tabIndex={disabled ? -1 : 0}
               type="file"
