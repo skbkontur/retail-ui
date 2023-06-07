@@ -75,3 +75,14 @@ import { Toast } from '@skbkontur/react-ui';
 
 <Link onClick={() => Toast.push("Ты нажал на ссылку!")}>Ссылка с кастомным действием</Link>
 ```
+
+Пример ссылки с пропом `theme`
+
+```jsx harmony
+import { Link, Gapped } from '@skbkontur/react-ui';
+
+<Gapped>
+  <Link theme={{linkColor: '#C00000'}}>Ok</Link>
+  <Link>Ok</Link>
+</Gapped>
+```

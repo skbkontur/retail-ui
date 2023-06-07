@@ -9,6 +9,7 @@ import { useResponsiveLayout } from '../ResponsiveLayout';
 import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
 import { ModalContext } from './ModalContext';
+import { ModalSeparator } from './ModalSeparator';
 
 export interface ModalHeaderProps extends CommonProps {
   sticky?: boolean;
@@ -39,21 +40,26 @@ function ModalHeader(props: ModalHeaderProps) {
 
   const renderContent = (fixed = false) => {
     return (
-      <div
-        data-tid={ModalHeaderDataTids.root}
-        className={cx({
-          [styles.header(theme)]: true,
-          [styles.mobileHeader(theme)]: layout.isMobile,
-          [styles.headerAddPadding()]: Boolean(modal.additionalPadding),
-          [styles.fixedHeader(theme)]: fixed,
-          [styles.mobileFixedHeader(theme)]: fixed && layout.isMobile,
-          [styles.headerWithClose(theme)]: Boolean(modal.close),
-          [styles.mobileHeaderWithClose(theme)]: layout.isMobile,
-        })}
-      >
-        {modal.close && <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />}
-        {children}
-      </div>
+      <>
+        <div
+          data-tid={ModalHeaderDataTids.root}
+          className={cx(
+            styles.header(theme),
+            layout.isMobile && styles.mobileHeader(theme),
+            Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),
+            fixed && styles.fixedHeader(theme),
+            fixed && layout.isMobile && styles.mobileFixedHeader(theme),
+            Boolean(modal.close) && styles.headerWithClose(theme),
+            layout.isMobile && styles.mobileHeaderWithClose(theme),
+          )}
+        >
+          {modal.close && (
+            <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />
+          )}
+          {children}
+        </div>
+        {fixed && <ModalSeparator fixed={fixed} />}
+      </>
     );
   };
 

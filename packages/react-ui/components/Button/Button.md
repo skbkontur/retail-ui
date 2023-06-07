@@ -11,14 +11,36 @@ import { Button } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 
-<Gapped>
-  <Button use="default">Default</Button>
-  <Button use="primary">Primary</Button>
-  <Button use="success">Success</Button>
-  <Button use="danger">Danger</Button>
-  <Button use="pay">Pay</Button>
-  <Button use="link">Link</Button>
-</Gapped>;
+const bgStyle = {
+  backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(130, 130, 130, 0.5) 1px, transparent 1px)`,
+  backgroundSize: `16px 16px`,
+  backgroundPosition: `-8px -8px`,
+  padding: 16
+};
+
+<Gapped vertical>
+  <Gapped>
+    <Button use="default">Default</Button>
+    <Button use="primary">Primary</Button>
+    <Button use="success">Success</Button>
+    <Button use="danger">Danger</Button>
+    <Button use="pay">Pay</Button>
+    <Button use="text">Text</Button>
+    <Button use="backless">Backless</Button>
+    <Button use="link">Link</Button>
+  </Gapped>
+  <Gapped style={bgStyle}>
+    <Button use="default">Default</Button>
+    <Button use="primary">Primary</Button>
+    <Button use="success">Success</Button>
+    <Button use="danger">Danger</Button>
+    <Button use="pay">Pay</Button>
+    <Button use="text">Text</Button>
+    <Button use="backless">Backless</Button>
+    <Button use="link">Link</Button>
+  </Gapped>
+</Gapped>
 ```
 
 Пример кнопки с иконкой.
@@ -101,4 +123,16 @@ const handleClick = () => {
   </Button>
 </Gapped>
 
+```
+
+Пример кнопки с пропом `theme`
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+<Gapped>
+  <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
+  <Button use="link" theme={{linkColor: '#C00000'}}>Ok</Button>
+  <Button>Ok</Button>
+</Gapped>
 ```
