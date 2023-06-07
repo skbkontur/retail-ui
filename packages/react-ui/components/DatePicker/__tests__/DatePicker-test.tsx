@@ -157,6 +157,32 @@ describe('DatePicker', () => {
     });
   });
 
+  it('should rename months using locale', () => {
+    const renamedMonths = [
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+    ];
+    render(
+      <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
+        <DatePicker value="12.06.2022" onValueChange={jest.fn()} />
+      </LocaleContext.Provider>,
+    );
+
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+    expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
+  });
+
   it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
     const Comp = () => {
       const [value, setValue] = useState<string | null | undefined>('24.08.2022');

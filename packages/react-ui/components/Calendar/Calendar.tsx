@@ -6,7 +6,6 @@ import shallowEqual from 'shallowequal';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { locale } from '../../lib/locale/decorators';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
@@ -24,7 +23,6 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
-import { CalendarLocaleHelper } from './locale';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -91,7 +89,6 @@ type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoli
  * Компонент календаря из [DatePicker](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а
  */
 @rootNode
-@locale('Calendar', CalendarLocaleHelper)
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 

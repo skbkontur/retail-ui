@@ -54,7 +54,7 @@ describe('Calendar', () => {
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.en_GB).months?.[6] as string)).toBeInTheDocument();
   });
 
-  it('should rename months', () => {
+  it('should rename months using locale', () => {
     const renamedMonths = [
       'one',
       'two',
@@ -71,30 +71,6 @@ describe('Calendar', () => {
     ];
     render(
       <LocaleContext.Provider value={{ locale: { Calendar: { months: renamedMonths } } }}>
-        <Calendar value="12.06.2022" />
-      </LocaleContext.Provider>,
-    );
-
-    expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
-  });
-
-  it('should rename months using <DatePicker /> locale', () => {
-    const renamedMonths = [
-      'one',
-      'two',
-      'three',
-      'four',
-      'five',
-      'six',
-      'seven',
-      'eight',
-      'nine',
-      'ten',
-      'eleven',
-      'twelve',
-    ];
-    render(
-      <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
         <Calendar value="12.06.2022" />
       </LocaleContext.Provider>,
     );

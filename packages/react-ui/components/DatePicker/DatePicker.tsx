@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
@@ -269,29 +270,35 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     if (this.state.opened) {
       picker = (
-        <DropdownContainer
-          menuPos={this.props.menuPos}
-          data-tid={DatePickerDataTids.root}
-          getParent={this.getParent}
-          offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
-          align={this.props.menuAlign}
+        <LocaleContext.Provider
+          value={{
+            locale: { Calendar: { months: this.locale.months } },
+          }}
         >
-          <div
-            data-tid={DatePickerDataTids.pickerRoot}
-            className={styles.calendarWrapper(this.theme)}
-            onMouseDown={(e) => e.preventDefault()}
+          <DropdownContainer
+            menuPos={this.props.menuPos}
+            data-tid={DatePickerDataTids.root}
+            getParent={this.getParent}
+            offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
+            align={this.props.menuAlign}
           >
-            <Calendar
-              ref={(c) => (this.calendar = c)}
-              maxDate={this.parseValueToDate(maxDate)}
-              minDate={this.parseValueToDate(minDate)}
-              onValueChange={this.handleValueChange}
-              isHoliday={this.props.isHoliday}
-              value={this.parseValueToDate(this.props.value)}
-            />
-            {this.props.enableTodayLink && this.renderTodayLink()}{' '}
-          </div>
-        </DropdownContainer>
+            <div
+              data-tid={DatePickerDataTids.pickerRoot}
+              className={styles.calendarWrapper(this.theme)}
+              onMouseDown={(e) => e.preventDefault()}
+            >
+              <Calendar
+                ref={(c) => (this.calendar = c)}
+                maxDate={this.parseValueToDate(maxDate)}
+                minDate={this.parseValueToDate(minDate)}
+                onValueChange={this.handleValueChange}
+                isHoliday={this.props.isHoliday}
+                value={this.parseValueToDate(this.props.value)}
+              />
+              {this.props.enableTodayLink && this.renderTodayLink()}{' '}
+            </div>
+          </DropdownContainer>
+        </LocaleContext.Provider>
       );
     }
 
