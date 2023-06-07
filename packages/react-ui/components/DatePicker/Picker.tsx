@@ -1,6 +1,7 @@
 import React from 'react';
 import warning from 'warning';
 
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
@@ -102,16 +103,11 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   }
 
   private getDateFromShape = (dateShape: CalendarDateShape | undefined | null) => {
-    if (typeof dateShape === 'string') {
-      return dateShape;
-    }
-
     if (!dateShape) {
       return undefined;
     }
 
-    const [date, month, year] = [dateShape.date, dateShape.month, dateShape.year].map((x) => x.toString());
-    return `${date.padStart(2, '0')}.${month.padStart(2, '0')}.${year.padStart(4, '0')}`;
+    return InternalDateTransformer.dateToInternalString(dateShape);
   };
 
   private renderTodayLink() {
