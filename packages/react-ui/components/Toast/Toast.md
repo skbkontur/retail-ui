@@ -140,8 +140,8 @@ const RedToast = () => (
       return <ThemeContext.Provider
         value={ThemeFactory.create(
           {
-            toastBg: "#D20F00C2",
-            toastLinkBgActive: "#D20F00C2"
+            toastBg: "rgba(210, 15, 0, 0.76)",
+            toastLinkBgActive: "rgba(210, 15, 0, 0.76)"
           },
           theme
         )}
