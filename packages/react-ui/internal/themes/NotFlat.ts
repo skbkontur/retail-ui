@@ -220,6 +220,7 @@ export class NotFlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.10)';
+  public static tokenBorderColorDisabled = 'rgba(0, 0, 0, 0.15)';
   public static get tokenShadowDisabled() {
     return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
   }

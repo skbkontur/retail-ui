@@ -42,6 +42,10 @@ export const styles = memoizeStyle({
       button& {
         min-width: 100%;
       }
+
+      &:nth-last-of-type(n + 2) {
+        margin-bottom: ${t.menuItemGap};
+      }
     `;
   },
 
@@ -90,6 +94,7 @@ export const styles = memoizeStyle({
   comment(t: Theme) {
     return css`
       color: ${t.menuItemCommentColor};
+      opacity: ${t.menuItemCommentOpacity};
       white-space: normal;
     `;
   },

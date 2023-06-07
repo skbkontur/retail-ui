@@ -1,6 +1,10 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
+
+export const globalClasses = prefix('day-cell-view')({
+  todayCaption: 'today-caption',
+});
 
 export const styles = memoizeStyle({
   cell(t: Theme) {
@@ -52,6 +56,20 @@ export const styles = memoizeStyle({
   today(t: Theme) {
     return css`
       border: ${t.calendarCellTodayBorder};
+    `;
+  },
+
+  today2022() {
+    return css`
+      .${globalClasses.todayCaption} {
+        border-bottom: solid 1px;
+      }
+    `;
+  },
+
+  todayCaption() {
+    return css`
+      padding-bottom: 2px;
     `;
   },
 });
