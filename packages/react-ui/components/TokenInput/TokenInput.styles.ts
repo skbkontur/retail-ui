@@ -37,6 +37,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  hovering(t: Theme) {
+    return css`
+      &:hover {
+        border-color: ${t.tokenInputBorderColorHover};
+      }
+    `;
+  },
+
   warning(t: Theme) {
     return css`
       border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
@@ -61,6 +69,7 @@ export const styles = memoizeStyle({
   labelDisabled(t: Theme) {
     return css`
       background: ${t.tokenInputDisabledBg};
+      background-clip: ${t.inputDisabledBackgroundClip};
       border-color: ${t.tokenInputDisabledBorderColor};
       box-shadow: none;
       cursor: default;

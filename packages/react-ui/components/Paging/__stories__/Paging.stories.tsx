@@ -156,6 +156,10 @@ GoToAbsensePageStory.parameters = {
         in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
         tests: ['hover', 'Move to page by Ender'],
       },
+      flaky: {
+        in: ['firefox2022', 'firefox2022Dark'],
+        tests: ['Move focus right', 'Move to page by Ender'],
+      },
     },
     tests: {
       async plain() {
