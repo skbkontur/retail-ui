@@ -19,7 +19,7 @@ import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps extends Pick<InternalMenuProps, 'enableTextAlignment'> {
+export interface MenuProps extends Pick<InternalMenuProps, 'preventIconsOffset'> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -41,9 +41,7 @@ export const MenuDataTids = {
   root: 'Menu__root',
 } as const;
 
-type DefaultProps = Required<
-  Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'enableTextAlignment'>
->;
+type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
 
 @responsiveLayout
 @rootNode
@@ -56,7 +54,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
-    enableTextAlignment: true,
   };
 
   private getProps = createPropsGetter(Menu.defaultProps);
@@ -173,7 +170,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private getChildList = () => {
-    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.enableTextAlignment);
+    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
 
     return React.Children.map(this.props.children, (child, index) => {
       if (!child) {

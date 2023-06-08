@@ -63,7 +63,7 @@ WithItemsAndIcons.parameters = {
 
 export const WithItemsAndIconsWithoutTextAlignment = () => (
   <div style={{ width: 200, textAlign: 'center' }}>
-    <Kebab enableTextAlignment={false}>
+    <Kebab preventIconsOffset>
       <MenuHeader>MenuHeader</MenuHeader>
       <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
       <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>

@@ -38,7 +38,7 @@ export const WithItemsWithIcons = () => (
 );
 
 export const WithItemsWithIconsWithoutTextAlignment = () => (
-  <Menu enableTextAlignment={false}>
+  <Menu preventIconsOffset>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
     <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>

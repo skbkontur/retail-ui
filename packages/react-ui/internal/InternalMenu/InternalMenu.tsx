@@ -33,12 +33,10 @@ export interface InternalMenuProps {
   width?: number | string;
   preventWindowScroll?: boolean;
   /**
-   * Выравнивает текст всех пунктов меню относительно друг друга.
+   * Предотвращает выравнивание текста всех пунктов меню относительно друг друга.
    * Так, если хотя бы у одного пункта меню есть иконка, текст в  остальных пунктах меню будет выровнен относительно пункта меню с иконкой
-   *
-   * @default true
    */
-  enableTextAlignment?: boolean;
+  preventIconsOffset?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   header?: React.ReactNode;
@@ -62,13 +60,7 @@ export const InternalMenuDataTids = {
 type DefaultProps = Required<
   Pick<
     InternalMenuProps,
-    | 'width'
-    | 'maxHeight'
-    | 'hasShadow'
-    | 'preventWindowScroll'
-    | 'cyclicSelection'
-    | 'initialSelectedItemIndex'
-    | 'enableTextAlignment'
+    'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'cyclicSelection' | 'initialSelectedItemIndex'
   >
 >;
 
@@ -80,7 +72,6 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
-    enableTextAlignment: true,
     preventWindowScroll: true,
     cyclicSelection: true,
     initialSelectedItemIndex: -1,
@@ -134,7 +125,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   }
 
   private renderMain() {
-    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.enableTextAlignment);
+    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
 
     if (this.isEmpty()) {
       return null;

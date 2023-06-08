@@ -27,7 +27,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'enableTextAlignment'> {
+export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'preventIconsOffset'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -130,7 +130,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private setRootNode!: TSetRootNode;
 
   public render() {
-    const { popupHasPin, disableAnimations, enableTextAlignment } = this.getProps();
+    const { popupHasPin, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
@@ -164,7 +164,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
-                  enableTextAlignment={enableTextAlignment}
+                  preventIconsOffset={this.props.preventIconsOffset}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}

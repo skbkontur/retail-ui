@@ -71,7 +71,7 @@ WithItemsWithIcons.parameters = {
 };
 
 export const WithItemsWithIconsWithoutTextAlignment: Story = () => (
-  <PopupMenu caption={<Button>Click me</Button>} enableTextAlignment={false}>
+  <PopupMenu preventIconsOffset caption={<Button>Click me</Button>}>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
     <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>

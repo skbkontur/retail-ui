@@ -72,12 +72,12 @@ WithItemsAndIcons.parameters = {
 export const WithItemsAndIconsWithoutTextAlignment = () => (
   <div style={{ width: 200, textAlign: 'center' }}>
     <TooltipMenu
+      preventIconsOffset
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
           <MenuIcon size={32} />
         </span>
       }
-      enableTextAlignment={false}
     >
       <MenuHeader>MenuHeader</MenuHeader>
       <MenuItem icon={<LightbulbIcon />}>MenuItem1</MenuItem>

@@ -61,7 +61,7 @@ WithItemsAndIcons.parameters = {
 };
 
 export const WithItemsAndIconsWithoutTextAlignment = () => (
-  <DropdownMenu caption={<Button>Click me</Button>} enableTextAlignment={false}>
+  <DropdownMenu preventIconsOffset caption={<Button>Click me</Button>}>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
     <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>

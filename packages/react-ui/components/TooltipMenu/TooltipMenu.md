@@ -200,7 +200,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
-<TooltipMenu caption={<Button use="primary">Открыть меню</Button>} enableTextAlignment={false}>
+<TooltipMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>MenuHeader</MenuHeader>
   <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
   <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>

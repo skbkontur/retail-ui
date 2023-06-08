@@ -13,7 +13,7 @@ import { getDropdownMenuTheme } from './getDropdownMenuTheme';
 
 export interface DropdownMenuProps
   extends CommonProps,
-    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'enableTextAlignment'> {
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -98,7 +98,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     if (!this.props.caption) {
       return null;
     }
-    const { positions, disableAnimations, enableTextAlignment } = this.getProps();
+    const { positions, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
@@ -106,7 +106,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           caption={this.props.caption}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
-          enableTextAlignment={enableTextAlignment}
+          preventIconsOffset={this.props.preventIconsOffset}
           popupHasPin={false}
           positions={positions}
           disableAnimations={disableAnimations}
