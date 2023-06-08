@@ -1,4 +1,4 @@
-import { CalendarDateShape } from '../../internal/Calendar';
+import { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
 
 export function formatDate({ date, month, year }: CalendarDateShape): string {
   const [d, m, y] = [date, month + 1, year].map((x) => x.toString());
