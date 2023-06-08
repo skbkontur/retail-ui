@@ -145,6 +145,7 @@ const maskStates: InputState[] = [
   { type: 'date', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'time', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
   { type: 'number', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
+  { mask: '*** ***', placeholder: 'ooo-long-long-long-placeholder' },
 ];
 
 export const Placeholder: Story = () => (
@@ -162,7 +163,7 @@ export const Prefix: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    rows={inputPrefixStates.map((x) => ({ props: x }))}
     presetProps={{ prefix: 'Prefix' }}
   />
 );
@@ -178,11 +179,15 @@ const inputPrefixOrSuffixStates: InputState[] = [
   { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
 ];
 
+const inputPrefixStates: InputState[] = [...inputPrefixOrSuffixStates, { prefix: 'ooo-long-long-long-johnson' }];
+
+const inputSuffixStates: InputState[] = [...inputPrefixOrSuffixStates, { suffix: 'ooo-long-long-long-johnson' }];
+
 export const Suffix: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
+    rows={inputSuffixStates.map((x) => ({ props: x }))}
     presetProps={{ suffix: 'Suffix' }}
   />
 );
@@ -255,7 +260,6 @@ const typeStates: InputState[] = [
   { type: 'email', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$' },
   { type: 'url' },
   { type: 'tel' },
-  { type: 'hidden' },
 ];
 
 export const TypeApi: Story = () => (
@@ -288,7 +292,6 @@ const typeApiTypes: InputState[] = [
   { type: 'email' },
   { type: 'url' },
   { type: 'tel' },
-  { type: 'hidden' },
 ];
 const typeApiTypesDate: InputState[] = [{ type: 'date' }];
 const typeApiTypesTime: InputState[] = [{ type: 'time' }];

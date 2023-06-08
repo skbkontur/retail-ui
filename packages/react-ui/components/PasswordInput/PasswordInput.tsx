@@ -16,6 +16,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -193,7 +194,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
             <span onClick={this.handleToggleVisibility} data-tid={PasswordInputDataTids.eyeIcon}>
-              <PasswordInputIcon visible={this.state.visible} />
+              <PasswordInputIcon
+                size={this.props.size}
+                visible={this.state.visible}
+                isTheme2022={isTheme2022(this.theme)}
+              />
             </span>
           )}
         </span>

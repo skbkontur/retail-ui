@@ -8,6 +8,7 @@ export const styles = memoizeStyle({
       height: ${t.tabBorderWidth};
       position: absolute;
       transition: all 0.2s ease-out;
+      border-radius: ${t.tabIndicatorBorderRadius};
     `;
   },
 

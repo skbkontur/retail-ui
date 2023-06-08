@@ -283,6 +283,12 @@ DatePickerWithMinMaxDate.storyName = 'DatePicker with min max date';
 
 DatePickerWithMinMaxDate.parameters = {
   creevey: {
+    skip: {
+      flaky: {
+        in: ['firefox2022', 'firefox2022Dark'],
+        tests: ['DateSelect months', 'DateSelect years'],
+      },
+    },
     tests: {
       async 'DateSelect months'() {
         await delay(1000);

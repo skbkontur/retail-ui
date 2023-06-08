@@ -4,7 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      padding: 5px ${t.menuPaddingX};
+      padding: ${t.internalMenuPaddingY} ${t.menuPaddingX};
       outline: none;
       box-sizing: content-box;
       background: ${t.bgSecondary};
