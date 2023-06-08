@@ -5,6 +5,7 @@ import { SelectLocale } from '../../components/Select/locale';
 import { SpinnerLocale } from '../../components/Spinner/locale';
 import { TokenInputLocale } from '../../components/TokenInput/locale';
 import { FileUploaderLocale } from '../../components/FileUploader/locale';
+import { CalendarLocale } from '../../components/Calendar/locale/types';
 
 export interface LocaleControls {
   [key: string]: any;
@@ -14,6 +15,7 @@ export interface LocaleControls {
   Select?: Partial<SelectLocale>;
   Paging?: Partial<PagingLocale>;
   DatePicker?: Partial<DatePickerLocale>;
+  Calendar?: Partial<CalendarLocale>;
   FileUploader?: Partial<FileUploaderLocale>;
 }
 

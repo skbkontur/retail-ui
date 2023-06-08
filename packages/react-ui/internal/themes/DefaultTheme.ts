@@ -870,6 +870,18 @@ export class DefaultTheme {
   public static dateInputComponentSelectedBgColor = '#cdedff';
   //#endregion
   //#region Calendar
+  public static get calendarBottomSeparatorBorderColor() {
+    return ColorFunctions.fade(this.calendarMonthTitleBorderBottomColor, 1);
+  }
+  public static get calendarBottomSeparatorBorderWidth() {
+    return '1px';
+  }
+  public static get calendarBottomSeparatorBorder() {
+    return `${this.calendarBottomSeparatorBorderWidth} solid ${this.calendarBottomSeparatorBorderColor}`;
+  }
+  public static get calendarBg() {
+    return this.bgSecondary;
+  }
   public static get calendarCellBg() {
     return this.bgSecondary;
   }
