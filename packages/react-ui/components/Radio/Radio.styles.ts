@@ -150,7 +150,7 @@ export const styles = memoizeStyle({
   checkedDisabled(t: Theme) {
     return css`
       &::before {
-        background: ${t.gray};
+        background: ${t.radioCheckedDisabledBulletBg};
       }
     `;
   },

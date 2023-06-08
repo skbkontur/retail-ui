@@ -17,6 +17,8 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './Tooltip.styles';
 
@@ -233,6 +235,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
                   popupPinSize: theme.tooltipPinSize,
                   popupPinOffsetX: theme.tooltipPinOffsetX,
                   popupPinOffsetY: theme.tooltipPinOffsetY,
+                  popupBackground: theme.tooltipBg,
                 },
                 theme,
               )}
@@ -269,13 +272,24 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       return null;
     }
 
+    const icon = isTheme2022(this.theme) ? (
+      <CloseButtonIcon
+        tabbable={false}
+        side={parseInt(this.theme.tooltipCloseBtnSide)}
+        color={this.theme.tooltipCloseBtnColor}
+        colorHover={this.theme.tooltipCloseBtnHoverColor}
+      />
+    ) : (
+      <CrossIcon />
+    );
+
     return (
       <div
         className={styles.cross(this.theme)}
         onClick={this.handleCloseButtonClick}
         data-tid={TooltipDataTids.crossIcon}
       >
-        <CrossIcon />
+        {icon}
       </div>
     );
   }
