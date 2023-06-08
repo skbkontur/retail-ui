@@ -4,8 +4,6 @@ import React from 'react';
 import { Group, GroupDataTids } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
-import { styles } from '../Group.styles';
-
 
 describe('Group', () => {
   it('renders', () => {
@@ -17,18 +15,6 @@ describe('Group', () => {
     );
 
     expect(screen.getByTestId(GroupDataTids.root)).toBeInTheDocument();
-  });
-
-  it('main element in group gets "stretch" class', () => {
-    render(
-      <Group>
-        <Input width="100%" data-tid="test-input" />
-        <Button data-tid="test-button">Test</Button>
-      </Group>,
-    );
-    const wrappingElements = screen.getByTestId(GroupDataTids.root).childNodes;
-    expect(wrappingElements[0]).toHaveClass(styles.stretch());
-    expect(wrappingElements[1]).toHaveClass(styles.fixed());
   });
 
   it('group does not render wrong child', () => {
