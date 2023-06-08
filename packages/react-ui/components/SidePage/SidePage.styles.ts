@@ -134,6 +134,7 @@ export const styles = memoizeStyle({
       width: 100%;
       position: relative;
       color: ${t.sidePageHeaderTextColor};
+      font-weight: ${t.sidePageHeaderFontWeight};
     `;
   },
 
