@@ -32,6 +32,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
               value={ThemeFactory.create(
                 {
                   popupMargin: this.getPopupMargin() + 'px',
+                  popupBackground: this.theme.tokenInputMenuPopupBg,
                 },
                 theme,
               )}
@@ -96,6 +97,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     const paddingY = parseInt(this.theme.tokenInputPaddingY, 10) || 0;
     const outlineWidth = parseInt(this.theme.controlOutlineWidth, 10) || 0;
     const marginY = parseInt(this.theme.tokenMarginY, 10) || 0;
+
     return paddingY + outlineWidth + marginY;
   };
 

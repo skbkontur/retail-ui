@@ -13,13 +13,44 @@ export const styles = memoizeStyle({
       cursor: pointer;
       outline: 0;
       transition: background 0.12s ease-out;
-      width: 26px;
-      height: 26px;
       background: ${t.kebabBackground};
 
       &:hover {
         background: ${t.kebabBackgroundHover};
       }
+
+      &:active {
+        background: ${t.kebabBackgroundActive};
+      }
+    `;
+  },
+
+  kebabSmall(t: Theme) {
+    return css`
+      width: ${t.kebabSizeSmall};
+      height: ${t.kebabSizeSmall};
+    `;
+  },
+
+  kebabMedium(t: Theme) {
+    return css`
+      width: ${t.kebabSizeMedium};
+      height: ${t.kebabSizeMedium};
+    `;
+  },
+
+  kebabLarge(t: Theme) {
+    return css`
+      width: ${t.kebabSizeLarge};
+      height: ${t.kebabSizeLarge};
+    `;
+  },
+
+  kebab2022() {
+    return css`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     `;
   },
 
@@ -32,7 +63,7 @@ export const styles = memoizeStyle({
 
   opened(t: Theme) {
     return css`
-      background: ${t.kebabBackgroundHover} !important; // override kebab:hover style
+      background: ${t.kebabBackgroundActive} !important; // override kebab:hover style
       cursor: default;
     `;
   },
@@ -47,33 +78,33 @@ export const styles = memoizeStyle({
     `;
   },
 
-  icon() {
+  icon(t: Theme) {
     return css`
-      color: #757575;
+      color: ${t.kebabIconColor};
       line-height: 1;
     `;
   },
 
-  iconsmall() {
+  iconsmall(t: Theme) {
     return css`
       margin-top: 2px;
-      font-size: 14px;
+      font-size: ${t.kebabIconSizeSmall};
     `;
   },
 
-  iconmedium() {
+  iconmedium(t: Theme) {
     return css`
       margin-top: -1px;
       margin-left: 0.5px;
-      font-size: 18px;
+      font-size: ${t.kebabIconSizeMedium};
     `;
   },
 
-  iconlarge() {
+  iconlarge(t: Theme) {
     return css`
       margin-top: -2px;
       margin-left: 1px;
-      font-size: 20px;
+      font-size: ${t.kebabIconSizeLarge};
     `;
   },
 

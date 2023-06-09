@@ -6,7 +6,7 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.menuBgDefault};
       border-radius: ${t.menuBorderRadius};
-      box-sizing: content-box;
+      box-sizing: ${t.menuBoxSizing};
       overflow: auto;
       padding: 0 ${t.menuPaddingX};
       margin: ${t.menuOffsetY} 0;
@@ -17,6 +17,7 @@ export const styles = memoizeStyle({
   rootMobile(t: Theme) {
     return css`
       border-radius: 0;
+      margin: 0;
       padding: 0 ${t.mobileMenuPaddingX};
     `;
   },

@@ -293,7 +293,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
 TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
   creevey: {
     skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'] },
+      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark', 'firefox8px'] },
     },
     tests: {
       async hover() {

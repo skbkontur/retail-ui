@@ -10,6 +10,8 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
+import { ModalSeparator } from '../Modal/ModalSeparator';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -110,6 +112,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
   };
 
   private renderMain() {
+    let separator: React.ReactNode = null;
+    if (isTheme2022(this.theme)) {
+      separator = (this.props.panel || this.state.fixed) && <ModalSeparator fixed={this.state.fixed} />;
+    }
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
@@ -127,6 +134,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
                   width: getWidth(),
                 }}
               >
+                {separator}
                 <div
                   className={cx(styles.footerContent(this.theme), {
                     [styles.footerFixed(this.theme)]: this.state.fixed,
