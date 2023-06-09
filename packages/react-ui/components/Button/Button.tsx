@@ -1,6 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
-import { isReactUIComponent } from '../../lib/utils';
+import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -16,7 +16,7 @@ import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { ButtonIcon } from './ButtonIcon';
+import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 
@@ -440,7 +440,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (_isTheme2022 && isLink && !loading) {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link focused={isFocused} disabled={disabled} icon={icon} as="span" tabIndex={-1}>
+          <Link focused={isFocused} disabled={disabled} icon={this.renderIcon2022(icon)} as="span" tabIndex={-1}>
             {children}
           </Link>
         </ThemeContext.Provider>
@@ -459,6 +459,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         </span>
       </CommonWrapper>
     );
+  }
+
+  private renderIcon2022(icon: React.ReactElement | undefined) {
+    if (icon && isKonturIcon(icon)) {
+      const sizes = getButtonIconSizes(this.theme);
+      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.getProps().size] });
+    }
   }
 
   private getSizeClassName() {
