@@ -1,17 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { LocaleContext } from '../../lib/locale';
-import { locale } from '../../lib/locale/decorators';
-import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
-import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
+import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
@@ -21,14 +16,11 @@ import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { Button } from '../Button';
-import { getTodayDate } from '../Calendar/CalendarUtils';
 
+import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
-import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -41,20 +33,16 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate'>,
-    CommonProps {
+export interface DatePickerProps extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
-  /**
-   * Отвечает за отображение кнопки "Сегодня".
-   */
   enableTodayLink?: boolean;
   /**
    * Состояние валидации при ошибке.
    */
   error?: boolean;
+  minDate?: string;
+  maxDate?: string;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
   value?: string | null;
@@ -81,26 +69,32 @@ export interface DatePickerProps
    * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
+
+  /**
+   * Функция для определения праздничных дней
+   * @default (_day, isWeekend) => isWeekend
+   * @param {string} day - строка в формате `dd.mm.yyyy`
+   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+   *
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня
+   */
+  isHoliday?: (day: string, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
   opened: boolean;
   canUseMobileNativeDatePicker: boolean;
-  today: CalendarDateShape;
 }
 
 export const DatePickerDataTids = {
   root: 'DatePicker__root',
-  input: 'DatePicker__input',
-  label: 'DatePicker__label',
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 @rootNode
-@locale('DatePicker', DatePickerLocaleHelper)
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
@@ -151,18 +145,17 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     onMouseOver: PropTypes.func,
 
-    isHoliday: PropTypes.func,
+    isHoliday: PropTypes.func.isRequired,
   };
 
   public static defaultProps: DefaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
+    isHoliday: (_day: string, isWeekend: boolean) => isWeekend,
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
-  private calendar: Calendar | null = null;
-  private readonly locale!: DatePickerLocale;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -189,7 +182,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     });
   };
 
-  public state: DatePickerState = { opened: false, canUseMobileNativeDatePicker: false, today: getTodayDate() };
+  public state: DatePickerState = { opened: false, canUseMobileNativeDatePicker: false };
 
   private input: DateInput | null = null;
   private focused = false;
@@ -250,13 +243,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-
           return (
-            <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                {this.renderMain}
-              </CommonWrapper>
-            </ThemeContext.Provider>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
       </ThemeContext.Consumer>
@@ -266,39 +256,37 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
     let picker = null;
 
+    const { value } = this.props;
     const { minDate, maxDate } = this.getProps();
+
+    const internalDate = this.parseValueToDate(value);
+    const date = internalDate ? internalDate.toNativeFormat() : null;
+
+    const parsedMinDate = this.parseValueToDate(minDate);
+    const formattedMinDate = (parsedMinDate && parsedMinDate.toNativeFormat()) || undefined;
+
+    const parsedMaxDate = this.parseValueToDate(maxDate);
+    const formattedMaxDate = (parsedMaxDate && parsedMaxDate.toNativeFormat()) || undefined;
 
     if (this.state.opened) {
       picker = (
-        <LocaleContext.Provider
-          value={{
-            locale: { Calendar: { months: this.locale.months } },
-          }}
+        <DropdownContainer
+          menuPos={this.props.menuPos}
+          data-tid={DatePickerDataTids.root}
+          getParent={this.getParent}
+          offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
+          align={this.props.menuAlign}
         >
-          <DropdownContainer
-            menuPos={this.props.menuPos}
-            data-tid={DatePickerDataTids.root}
-            getParent={this.getParent}
-            offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
-            align={this.props.menuAlign}
-          >
-            <div
-              data-tid={DatePickerDataTids.pickerRoot}
-              className={styles.calendarWrapper(this.theme)}
-              onMouseDown={(e) => e.preventDefault()}
-            >
-              <Calendar
-                ref={(c) => (this.calendar = c)}
-                maxDate={this.parseValueToDate(maxDate)}
-                minDate={this.parseValueToDate(minDate)}
-                onValueChange={this.handleValueChange}
-                isHoliday={this.props.isHoliday}
-                value={this.parseValueToDate(this.props.value)}
-              />
-              {this.props.enableTodayLink && this.renderTodayLink()}{' '}
-            </div>
-          </DropdownContainer>
-        </LocaleContext.Provider>
+          <Picker
+            value={date}
+            minDate={formattedMinDate}
+            maxDate={formattedMaxDate}
+            onPick={this.handlePick}
+            onSelect={this.handleSelect}
+            enableTodayLink={this.props.enableTodayLink}
+            isHoliday={this.isHoliday}
+          />
+        </DropdownContainer>
       );
     }
 
@@ -309,7 +297,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
-        data-tid={DatePickerDataTids.label}
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
@@ -322,7 +309,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
-          data-tid={DatePickerDataTids.input}
         />
         {this.state.canUseMobileNativeDatePicker && (
           <NativeDateInput
@@ -338,63 +324,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     );
   };
 
-  private parseValueToDate(value?: Nullable<string>): string | undefined {
-    if (value === undefined || value === null) {
-      return undefined;
-    }
-
-    const date = new InternalDate({ value });
-    if (date.validate({ checks: [InternalDateValidateCheck.NotNull, InternalDateValidateCheck.Native] })) {
-      return date.toString({ withPad: true });
-    }
-
-    return undefined;
-  }
-
-  private renderTodayLink() {
-    const { order, separator } = this.locale;
-    const today = new InternalDate({ order, separator })
-      .setComponents(InternalDateGetter.getTodayComponents())
-      .toString({ withPad: true, withSeparator: true });
-
-    if (isTheme2022(this.theme)) {
-      return (
-        <div style={{ margin: 8 }}>
-          <Button
-            data-tid={DatePickerDataTids.pickerTodayWrapper}
-            width="100%"
-            onClick={this.handleSelectToday(today)}
-            icon={<ArrowAUpIcon16Light />}
-          >
-            {this.locale.today}
-          </Button>
-        </div>
-      );
-    }
-
-    return (
-      <button
-        data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
-          [styles.todayLinkWrapper(this.theme)]: true,
-        })}
-        onClick={this.handleSelectToday(today)}
-        tabIndex={-1}
-      >
-        {`${this.locale.today} ${today}`}
-      </button>
-    );
-  }
-
-  private handleSelectToday = (today: string) => () => {
-    this.handleSelect(today);
-
-    if (this.calendar) {
-      const { month, year } = this.state.today;
-      this.calendar.scrollToMonth(month, year);
-    }
-  };
-
   public getParent = () => {
     return getRootNode(this);
   };
@@ -407,6 +336,17 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private getInputRef = (ref: DateInput | null) => {
     this.input = ref;
   };
+
+  private parseValueToDate(value?: Nullable<string>): InternalDate | undefined {
+    if (value === undefined || value === null) {
+      return undefined;
+    }
+    const date = new InternalDate({ value });
+    if (date.validate({ checks: [InternalDateValidateCheck.NotNull, InternalDateValidateCheck.Native] })) {
+      return date;
+    }
+    return undefined;
+  }
 
   private handleFocus = () => {
     if (this.focused) {
@@ -435,18 +375,28 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   };
 
-  private handleValueChange = (value: string) => {
-    this.handleSelect(value);
+  private handlePick = (dateShape: CalendarDateShape) => {
+    this.handleSelect(dateShape);
     this.blur();
   };
 
-  private handleSelect = (value: string | null) => {
-    if (!value) {
+  private handleSelect = (dateShape: CalendarDateShape | null) => {
+    if (!dateShape) {
       return null;
     }
 
+    const value = InternalDateTransformer.dateToInternalString({
+      date: dateShape.date,
+      month: dateShape.month + 1,
+      year: dateShape.year,
+    });
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }
+  };
+
+  private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
+    const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
+    return this.getProps().isHoliday(dateString, isWeekend);
   };
 }

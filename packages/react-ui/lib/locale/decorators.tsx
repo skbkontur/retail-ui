@@ -21,14 +21,17 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
       public set locale(l: C) {
         // TODO альтернативная транспиляция декораторов ломает тесты
       }
+
       public get langCode(): LangCodes {
         return this.context.langCode ?? defaultLangCode;
       }
     };
+
     const nameDescriptor = Object.getOwnPropertyDescriptor(LocaleDecorator, 'name');
     if (!nameDescriptor || nameDescriptor.configurable) {
       Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });
     }
+
     return LocaleDecorator;
   };
 }
