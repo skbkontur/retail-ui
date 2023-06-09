@@ -11,16 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **Button, Input, Kebab:** resize icons according to control's size ([#3183](https://github.com/skbkontur/retail-ui/issues/3183)) ([7dd6e9f](https://github.com/skbkontur/retail-ui/commit/7dd6e9fb0e5899f8fd092888082fd88c2e0e781f))
 
 
-### Features
-
-* **Calendar:** add new public component Calendar ([#2888](https://github.com/skbkontur/retail-ui/issues/2888)) ([d846750](https://github.com/skbkontur/retail-ui/commit/d846750cf4fd2553573a1598e71a775479a028fb))
-
-
-### Reverts
-
-* Revert "feat(Calendar): add new public component Calendar (#2888)" ([5f97d41](https://github.com/skbkontur/retail-ui/commit/5f97d418ad65330e7fd072e7cd53b21e533161da)), closes [#2888](https://github.com/skbkontur/retail-ui/issues/2888)
-
-
 
 
 
