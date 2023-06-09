@@ -466,6 +466,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       const sizes = getButtonIconSizes(this.theme);
       return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.getProps().size] });
     }
+
+    return icon;
   }
 
   private getSizeClassName() {
