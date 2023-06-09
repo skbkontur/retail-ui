@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.14.2-next.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.2-next.0...@skbkontur/react-ui@4.14.2-next.1) (2023-06-08)
+
+
+### Features
+
+* **Calendar:** add new public component Calendar ([#2888](https://github.com/skbkontur/retail-ui/issues/2888)) ([d846750](https://github.com/skbkontur/retail-ui/commit/d846750cf4fd2553573a1598e71a775479a028fb))
+
+
+
+
+
 ## [4.14.2-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.1...@skbkontur/react-ui@4.14.2-next.0) (2023-06-07)
 
 
