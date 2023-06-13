@@ -451,7 +451,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static pagingLineHeight = '22px';
   public static pagingPageLinkPaddingX = '12px';
   public static pagingPageLinkBoxSizing = 'border-box';
-  public static pagingPageLinkHintMargin = '4px -20px 0';
+  public static pagingPageLinkHintMargin = '4px -20px 0px';
   public static pagingDotsColor = '#ADADAD';
   public static pagingDotsDisabledColor = '#ADADAD';
   public static pagingForwardLinkColor = '#222222';
