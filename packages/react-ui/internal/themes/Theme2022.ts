@@ -287,12 +287,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Token
   public static tokenRemoveIconSize = '16px';
-  public static tokenRemoveIconPaddingY = '0';
-  public static tokenRemoveIconPaddingX = '0';
+  public static tokenRemoveIconPaddingY = '0px';
+  public static tokenRemoveIconPaddingX = '0px';
   public static tokenDefaultActive = '#323232';
   public static tokenBorderRadius = '2px';
 
-  public static tokenPaddingY = '0';
+  public static tokenPaddingY = '0px';
   public static tokenMarginX = '2px';
   public static tokenOutlineWidth = '1px';
 
