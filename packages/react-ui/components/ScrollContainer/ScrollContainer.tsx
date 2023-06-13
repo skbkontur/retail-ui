@@ -117,8 +117,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
-    this.scrollX?.setInnerElement(this.inner);
-    this.scrollY?.setInnerElement(this.inner);
+    this.updateInnerElement();
   }
 
   public componentDidUpdate(prevProps: ScrollContainerProps) {
@@ -130,6 +129,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       if (!prevProps.preventWindowScroll && preventWindowScroll) {
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
+    }
+
+    if (prevProps.disabled !== this.props.disabled && !this.props.disabled) {
+      this.updateInnerElement();
     }
   }
 
@@ -337,5 +340,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private handleMouseLeave = () => {
     this.scrollY?.setHover(false);
     this.scrollX?.setHover(false);
+  };
+
+  private updateInnerElement = () => {
+    this.scrollX?.setInnerElement(this.inner);
+    this.scrollY?.setInnerElement(this.inner);
   };
 }
