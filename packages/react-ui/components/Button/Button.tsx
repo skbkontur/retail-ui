@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
@@ -24,7 +24,10 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-export interface ButtonProps extends CommonProps {
+export interface ButtonProps
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked'>,
+    Pick<HTMLAttributes<unknown>, 'role'> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -171,11 +174,6 @@ export interface ButtonProps extends CommonProps {
    * Он будет объединён с темой из контекста.
    */
   theme?: ThemeIn;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface ButtonState {
@@ -273,6 +271,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
       'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
+      role,
     } = this.props;
     const { use, type, size } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -337,6 +340,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type,
+      role,
+      'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
       className: rootClassName,
       style: {
         textAlign: align,
@@ -450,7 +459,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} aria-describedby={ariaDescribedby}>
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}

@@ -131,7 +131,8 @@ git clone https://github.com/%YOUR_USER_NAME%/retail-ui.git
 
 #### Ветки
 
-Начиная работу над задачей, создайте для нее отдельную ветку от мастера.
+Начиная работу над задачей, создайте для нее отдельную ветку. Если задачей является фикс критичной проблемы в стабильной версии, то ветку нужно делать от `master`. В остальных случаях — от `next`.
+
 
 #### Коммиты
 
@@ -327,7 +328,7 @@ function foo() {}
 
 # Pull Request
 
-После отправки изменений на сервер появится возможность [создать](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) pull request (PR) в основной репозиторий. Опишите сделанные вами изменения по [специальному шаблону](https://github.com/skbkontur/retail-ui/blob/master/pull_request_template.md), чтобы проверяющим было проще в нем ориентироваться.
+После отправки изменений на сервер появится возможность [создать](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) pull request (PR) в основной репозиторий. Опишите сделанные вами изменения по [специальному шаблону](https://github.com/skbkontur/retail-ui/blob/master/pull_request_template.md), чтобы проверяющим было проще в нем ориентироваться. PR следует делать в ту ветку, от которой была создана [рабочая ветка](#ветки).
 
 ## Работа над PR
 

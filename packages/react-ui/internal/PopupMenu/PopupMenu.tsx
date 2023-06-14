@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { HTMLProps } from '../../typings/html';
 import {
   isKeyArrowVertical,
   isKeyEnter,
@@ -60,6 +61,12 @@ export interface PopupMenuProps extends CommonProps {
   onOpen?: () => void;
   /** Действие при закрытии меню */
   onClose?: () => void;
+  /**
+   * Позволяет задать `id` выпадающему меню.
+   *
+   * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
+   */
+  popupMenuId?: HTMLProps['id'];
 }
 
 interface PopupMenuState {
@@ -131,7 +138,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div data-tid={PopupMenuDataTids.root} className={styles.container()} style={{ width: this.props.width }}>
+          <div
+            id={this.props.popupMenuId}
+            data-tid={PopupMenuDataTids.root}
+            className={styles.container()}
+            style={{ width: this.props.width }}
+          >
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -179,6 +191,14 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     }
   };
 
+  private passPropsToCaption = (caption: React.ReactNode) => {
+    if (typeof caption === 'string' || typeof caption === 'number') {
+      return caption;
+    }
+
+    return React.cloneElement(caption as React.ReactElement, { 'aria-haspopup': true });
+  };
+
   private renderCaption = () => {
     if (typeof this.props.caption === 'function') {
       const caption = this.props.caption({
@@ -194,7 +214,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
-          {caption}
+          {this.passPropsToCaption(caption)}
         </span>
       );
     }
@@ -207,7 +227,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         ref={(element) => (this.captionWrapper = element)}
         className={styles.caption()}
       >
-        {this.props.caption}
+        {this.passPropsToCaption(this.props.caption)}
       </span>
     );
   };

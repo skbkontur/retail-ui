@@ -2,7 +2,6 @@ import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
@@ -65,11 +64,7 @@ function ModalHeader(props: ModalHeaderProps) {
   };
 
   return (
-    <CommonWrapper {...props}>
-      <ZIndex priority={'ModalHeader'} className={styles.headerWrapper()}>
-        {sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}
-      </ZIndex>
-    </CommonWrapper>
+    <CommonWrapper {...props}>{sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}</CommonWrapper>
   );
 }
 

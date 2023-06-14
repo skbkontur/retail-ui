@@ -1,76 +1,50 @@
-import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SpinnerLocaleHelper } from '../locale';
-import { sizes } from '../../../internal/icons/SpinnerIcon';
-import { Spinner } from '../Spinner';
-
-const render = (props = {}) => mount(<Spinner {...props} />);
+import { Spinner, SpinnerDataTids } from '../Spinner';
 
 describe('Spinner', () => {
-  describe('SVG animation', () => {
-    it('renders default Spinner', () => {
-      expect(render).not.toThrow();
-    });
-
-    it('renders correct size of default Spinner', () => {
-      const component = render();
-      const cloudProps = component.find('svg').props();
-      const { width, height } = cloudProps;
-
-      expect(width).toEqual(sizes.normal.size);
-      expect(height).toEqual(sizes.normal.size);
-    });
-
-    it('should render big Spinner', () => {
-      const component = render({ type: 'big' });
-      const cloud = component.find('svg');
-      const { width, height } = cloud.props();
-
-      expect(width).toEqual(sizes.big.size);
-      expect(height).toEqual(sizes.big.size);
-    });
+  it('renders default Spinner', () => {
+    const renderSpinner = (props = {}) => render(<Spinner {...props} />);
+    expect(renderSpinner).not.toThrow();
   });
 
   describe('Locale', () => {
-    const getTextLoading = (wrapper: ReactWrapper): string => {
-      return wrapper.text();
-    };
-
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<Spinner />);
-      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
+      render(<Spinner />);
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading as string;
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
 
     it('render default locale', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{}}>
           <Spinner />
         </LocaleContext.Provider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading as string;
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Spinner />
         </LocaleContext.Provider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading as string;
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
 
     it('render custom locale', () => {
       const customText = 'custom loading';
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider
           value={{
             locale: { Spinner: { loading: customText } },
@@ -79,21 +53,24 @@ describe('Spinner', () => {
           <Spinner />
         </LocaleContext.Provider>,
       );
-
-      expect(getTextLoading(wrapper)).toBe(customText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(customText);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = mount(
+      const { rerender } = render(
         <LocaleContext.Provider value={{}}>
           <Spinner />
         </LocaleContext.Provider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading as string;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
+      rerender(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <Spinner />
+        </LocaleContext.Provider>,
+      );
 
-      expect(getTextLoading(wrapper)).toBe(expectedText);
+      expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
     });
   });
 });

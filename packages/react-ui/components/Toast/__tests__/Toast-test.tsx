@@ -1,51 +1,47 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import { Toast, ToastProps, ToastState } from '../Toast';
-import { getRootNode } from '../../../lib/rootNode';
+import { Toast, ToastDataTids } from '../Toast';
 
 jest.useFakeTimers();
 
 describe('Toast', () => {
   it('renders', () => {
-    expect(() => mount<ToastProps>(<Toast />)).not.toThrow();
+    expect(() => render(<Toast />)).not.toThrow();
   });
 
   it("doesn't throw on push", () => {
-    const wrapper = mount(<Toast />);
+    const toastRef = React.createRef<Toast>();
+    render(<Toast ref={toastRef} />);
 
-    expect(() => (wrapper.instance() as Toast).push('message')).not.toThrow();
-  });
-
-  it('sets message to state', () => {
-    const wrapper = mount<ToastProps, ToastState>(<Toast />);
-    (wrapper.instance() as Toast).push('message');
-    expect(wrapper.state().notification).toBe('message');
+    expect(() => toastRef.current?.push('message')).not.toThrow();
   });
 
   it('shows right message', () => {
-    const wrapper = mount<ToastProps, ToastState>(<Toast />);
-    (wrapper.instance() as Toast).push('message');
+    const message = 'message';
+    const toastRef = React.createRef<Toast>();
+    render(<Toast ref={toastRef} />);
+    toastRef.current?.push(message);
 
-    const toast = (wrapper.instance() as Toast)._toast;
-    expect(toast).toBeTruthy();
-    const domNode = getRootNode(wrapper.instance() as Toast);
-    expect(domNode).toBeInstanceOf(HTMLElement);
-    expect(domNode).toHaveTextContent(/^message$/);
+    expect(screen.getByTestId(ToastDataTids.toastView)).toHaveTextContent(message);
   });
 
   it('hides message after interval', () => {
-    const wrapper = mount(<Toast />);
-    (wrapper.instance() as Toast).push('message');
+    const toastRef = React.createRef<Toast>();
+    render(<Toast ref={toastRef} />);
+    toastRef.current?.push('message');
+
     jest.runAllTimers();
-    const toast = (wrapper.instance() as Toast)._toast;
-    expect(toast).toBeFalsy();
+    expect(screen.queryByTestId(ToastDataTids.toastView)).not.toBeInTheDocument();
   });
 
   it('calls onPush at push', () => {
+    const toastRef = React.createRef<Toast>();
     const onPush = jest.fn();
-    const wrapper = mount(<Toast onPush={onPush} />);
-    (wrapper.instance() as Toast).push('somemessage');
+    render(<Toast onPush={onPush} ref={toastRef} />);
+    toastRef.current?.push('somemessage');
+
     jest.runAllTimers();
 
     expect(onPush.mock.calls[0][0]).toBe('somemessage');
@@ -53,9 +49,10 @@ describe('Toast', () => {
   });
 
   it('calls onClose after close', () => {
+    const toastRef = React.createRef<Toast>();
     const onClose = jest.fn();
-    const wrapper = mount(<Toast onClose={onClose} />);
-    (wrapper.instance() as Toast).push('message');
+    render(<Toast onClose={onClose} ref={toastRef} />);
+    toastRef.current?.push('message');
     jest.runAllTimers();
 
     expect(onClose.mock.calls[0][0]).toBe('message');
@@ -63,26 +60,29 @@ describe('Toast', () => {
   });
 
   it('support actions in tosts', () => {
-    const wrapper = mount(<Toast />);
-    (wrapper.instance() as Toast).push('message', {
-      label: 'action',
+    const actionLabel = 'action';
+    const toastRef = React.createRef<Toast>();
+    render(<Toast ref={toastRef} />);
+    toastRef.current?.push('message', {
+      label: actionLabel,
       handler: () => undefined,
     });
 
-    const textContent = getRootNode(wrapper.instance() as Toast)?.textContent;
-    expect(textContent).toBe('messageaction');
+    expect(screen.getByTestId(ToastDataTids.action)).toBeInTheDocument();
+    expect(screen.getByTestId(ToastDataTids.action)).toHaveTextContent(actionLabel);
   });
 
   it('passes right actions in tosts', () => {
-    const wrapper = mount(<Toast />);
+    const toastRef = React.createRef<Toast>();
     const handler = jest.fn();
-    (wrapper.instance() as Toast).push('message', {
+
+    render(<Toast ref={toastRef} />);
+    toastRef.current?.push('message', {
       label: 'action',
       handler,
     });
 
-    const toast = (wrapper.instance() as Toast)._toast;
-
-    expect(toast?.props.action).toEqual({ label: 'action', handler });
+    userEvent.click(screen.getByTestId(ToastDataTids.action));
+    expect(handler).toHaveBeenCalled();
   });
 });

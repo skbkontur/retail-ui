@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 
@@ -26,7 +26,10 @@ import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { styles } from './SidePage.styles';
 
-export interface SidePageProps extends CommonProps {
+export interface SidePageProps
+  extends CommonProps,
+    Pick<HTMLAttributes<unknown>, 'role'>,
+    Pick<AriaAttributes, 'aria-label'> {
   /**
    * Добавить блокирующий фон, когда сайдпейдж открыт
    */
@@ -96,7 +99,7 @@ export const SidePageDataTids = {
   container: 'SidePage__container',
 } as const;
 
-type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'disableFocusLock' | 'offset'>>;
+type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'disableFocusLock' | 'offset' | 'role'>>;
 
 const TRANSITION_TIMEOUT = 200;
 
@@ -154,6 +157,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     disableAnimations: isTestEnv,
     disableFocusLock: true,
     offset: 0,
+    role: 'dialog',
   };
 
   private getProps = createPropsGetter(SidePage.defaultProps);
@@ -207,11 +211,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft } = this.props;
-    const { disableFocusLock, offset } = this.getProps();
+    const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
+    const { disableFocusLock, offset, role } = this.getProps();
 
     return (
       <ZIndex
+        aria-modal
+        role={role}
+        aria-label={ariaLabel}
         priority={'Sidepage'}
         data-tid={SidePageDataTids.root}
         className={cx({

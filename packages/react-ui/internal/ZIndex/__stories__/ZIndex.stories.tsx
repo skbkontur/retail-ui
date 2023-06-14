@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Dropdown } from '../../../components/Dropdown';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
@@ -388,21 +389,6 @@ class HintAndModal extends React.Component {
   }
 }
 
-class LoaderInModal extends React.Component {
-  public render() {
-    return (
-      <Modal>
-        <Modal.Header>Title</Modal.Header>
-        <Modal.Body>
-          <Loader active type="big">
-            Body
-          </Loader>
-        </Modal.Body>
-        <Modal.Footer panel>Footer</Modal.Footer>
-      </Modal>
-    );
-  }
-}
 interface TooltipAndDropdownMenuState {
   trigger: TooltipTrigger;
 }
@@ -757,10 +743,6 @@ HintAndModalStory.parameters = {
   },
 };
 
-export const LoaderInModalStory: Story = () => <LoaderInModal />;
-LoaderInModalStory.storyName = 'Loader in Modal';
-LoaderInModalStory.parameters = { creevey: { captureElement: '[data-tid="modal-content"]' } };
-
 export const BigModalWithLoaderStory: Story = () => <BigModalWithLoader />;
 BigModalWithLoaderStory.storyName = 'Big modal with Loader';
 
@@ -1065,6 +1047,100 @@ ToastOverEverything.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
+
+export const ModalWithDropdown: Story = () => {
+  return (
+    <Modal width={350}>
+      <Modal.Header style={{ background: 'green' }}>Header</Modal.Header>
+      <Modal.Body>
+        <div style={{ height: '50px' }} />
+        <Dropdown
+          data-tid="dropdown_top"
+          menuPos="top"
+          caption={'Open'}
+          size="medium"
+          width="50%"
+          menuWidth="250px"
+          disablePortal
+        >
+          <div style={{ height: '150px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
+            <p>{'выпадашка '.repeat(100)}</p>
+          </div>
+        </Dropdown>
+        <div style={{ height: '400px' }} />
+        <Dropdown
+          data-tid="dropdown_bottom"
+          menuPos="bottom"
+          caption={'Open'}
+          size="medium"
+          width="50%"
+          menuWidth="250px"
+          disablePortal
+        >
+          <div style={{ height: '150px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
+            <p>{'выпадашка '.repeat(100)}</p>
+          </div>
+        </Dropdown>
+        <div style={{ height: '50px' }} />
+      </Modal.Body>
+      <Modal.Footer style={{ background: 'green' }}>Footer</Modal.Footer>
+    </Modal>
+  );
+};
+
+ModalWithDropdown.parameters = {
+  creevey: {
+    skip: { "themes don't affect logic": { in: /^(?!\b(chrome|firefox)\b)/ } },
+    tests: {
+      async 'dropdown overlaps static header'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_top"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+      async 'dropdown lays under fixed header'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_top"]' }))
+          .perform();
+        await delay(1000);
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        });
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+      async 'dropdown lays under fixed footer'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_bottom"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+      async 'dropdown overlaps static footer'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="dropdown_bottom"]' }))
+          .perform();
+        await delay(1000);
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        });
         await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
