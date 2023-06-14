@@ -30,10 +30,10 @@ const config = {
   gridUrl: process.env.GRID_URL,
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 5 : 0,
-  babelOptions: (options) => ({
-    ...options,
-    extends: path.join(__dirname, '../.babelrc.js'),
-  }),
+  // babelOptions: (options) => ({
+  //   ...options,
+  //   extends: path.join(__dirname, '../.babelrc.js'),
+  // }),
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
     chrome8px: {
