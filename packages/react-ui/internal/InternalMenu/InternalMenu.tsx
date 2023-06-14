@@ -18,8 +18,9 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 import { addIconPaddingIfPartOfMenu } from './addIconPaddingIfPartOfMenu';
+import { isIconPaddingEnabled } from './isIconPaddingEnabled';
 
-interface MenuProps {
+export interface InternalMenuProps {
   children?: React.ReactNode;
   hasShadow?: boolean;
   /**
@@ -31,6 +32,11 @@ interface MenuProps {
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
   preventWindowScroll?: boolean;
+  /**
+   * Предотвращает выравнивание текста всех пунктов меню относительно друг друга.
+   * Так, если хотя бы у одного пункта меню есть иконка, текст в  остальных пунктах меню будет выровнен относительно пункта меню с иконкой
+   */
+  preventIconsOffset?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   header?: React.ReactNode;
@@ -53,13 +59,13 @@ export const InternalMenuDataTids = {
 
 type DefaultProps = Required<
   Pick<
-    MenuProps,
+    InternalMenuProps,
     'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'cyclicSelection' | 'initialSelectedItemIndex'
   >
 >;
 
 @rootNode
-export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
+export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
   public static defaultProps: DefaultProps = {
@@ -91,7 +97,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     this.calculateMaxHeight();
   }
 
-  public componentDidUpdate(prevProps: MenuProps) {
+  public componentDidUpdate(prevProps: InternalMenuProps) {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }
@@ -119,9 +125,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private renderMain() {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
+    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
 
     if (this.isEmpty()) {
       return null;
@@ -245,7 +249,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     }
   };
 
-  private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
+  private shouldRecalculateMaxHeight = (prevProps: InternalMenuProps): boolean => {
     const { header, footer, children } = this.props;
     const maxHeight = this.getProps().maxHeight;
     const prevMaxHeight = prevProps.maxHeight;

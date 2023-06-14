@@ -8,7 +8,7 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
-import { InternalMenu } from '../InternalMenu';
+import { InternalMenu, InternalMenuProps } from '../InternalMenu';
 import { Popup, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
@@ -27,7 +27,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps {
+export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'preventIconsOffset'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -164,6 +164,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
+                  preventIconsOffset={this.props.preventIconsOffset}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
