@@ -92,9 +92,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnLinkHoverTextDecoration = 'none';
 
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
-  }
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
   }

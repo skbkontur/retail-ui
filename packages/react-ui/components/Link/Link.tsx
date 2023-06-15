@@ -14,7 +14,7 @@ import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
-import { globalClasses, styles } from './Link.styles';
+import { customStyles, globalClasses, styles } from './Link.styles';
 
 export interface LinkProps
   extends CommonProps,
@@ -77,6 +77,7 @@ export interface LinkProps
 
 export interface LinkState {
   focusedByTab: boolean;
+  color: string;
 }
 
 export const LinkDataTids = {
@@ -113,10 +114,21 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   public state: LinkState = {
     focusedByTab: false,
+    color: '#fff',
   };
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
+
+  private textRef = React.createRef<HTMLSpanElement>();
+
+  componentDidMount() {
+    if (this.textRef.current) {
+      const style = window.getComputedStyle(this.textRef.current);
+      const color = style.getPropertyValue('color');
+      this.setState({ color });
+    }
+  }
 
   public render(): JSX.Element {
     return (
@@ -170,10 +182,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     const linkProps = {
       className: cx(
-        use === 'default' && styles.useDefault(this.theme),
-        use === 'success' && styles.useSuccess(this.theme),
-        use === 'danger' && styles.useDanger(this.theme),
-        use === 'grayed' && styles.useGrayed(this.theme),
+        use === 'default' && customStyles.useDefault(this.theme, this.state.color),
+        use === 'success' && customStyles.useSuccess(this.theme, this.state.color),
+        use === 'danger' && customStyles.useDanger(this.theme, this.state.color),
+        use === 'grayed' && customStyles.useGrayed(this.theme, this.state.color),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
         this.getLinkClassName(isFocused, Boolean(disabled || loading)),
@@ -188,7 +200,14 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let child = this.props.children;
     if (_isTheme2022) {
-      child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
+      child = (
+        <span
+          ref={this.textRef}
+          className={cx(globalClasses.text, customStyles.lineText(this.theme, this.state.color))}
+        >
+          {this.props.children}
+        </span>
+      );
     }
 
     return (

@@ -1,5 +1,6 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import {
   linkMixin,
@@ -26,14 +27,6 @@ export const styles = memoizeStyle({
       border-radius: 1px;
       outline: none;
       text-decoration: none;
-    `;
-  },
-
-  lineText(t: Theme) {
-    return css`
-      border-bottom-color: ${t.linkLineBorderBottomColor};
-      border-bottom-style: ${t.linkLineBorderBottomStyle};
-      border-bottom-width: ${t.linkLineBorderBottomWidth};
     `;
   },
 
@@ -99,47 +92,6 @@ export const styles = memoizeStyle({
       vertical-align: middle;
     `;
   },
-
-  useDefault(t: Theme) {
-    return css`
-      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColor, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColor, t.linkLineActiveBorderBottomColor)};
-      }
-    `;
-  },
-
-  useSuccess(t: Theme) {
-    return css`
-      ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorSuccess, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorSuccess, t.linkLineActiveBorderBottomColorSuccess)};
-      }
-    `;
-  },
-
-  useDanger(t: Theme) {
-    return css`
-      ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorDanger, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorDanger, t.linkLineActiveBorderBottomColorDanger)};
-      }
-    `;
-  },
-
-  useGrayed(t: Theme) {
-    return css`
-      ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorGrayed, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorGrayed, t.linkLineActiveBorderBottomColorGrayed)};
-      }
-    `;
-  },
-
   useGrayedFocus(t: Theme) {
     return css`
       color: ${t.linkDisabledColor};
@@ -175,3 +127,51 @@ export const styles = memoizeStyle({
     `;
   },
 });
+
+export const customStyles = {
+  lineText(t: Theme, color: string) {
+    return css`
+      border-bottom-color: ${ColorFunctions.fade(color, 0.5)};
+      border-bottom-style: ${t.linkLineBorderBottomStyle};
+      border-bottom-width: ${t.linkLineBorderBottomWidth};
+    `;
+  },
+  useDefault(t: Theme, color: string) {
+    return css`
+      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColor, `.${globalClasses.text}`)}
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColor)};
+      }
+    `;
+  },
+  useSuccess(t: Theme, color: string) {
+    return css`
+      ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorSuccess, `.${globalClasses.text}`)}
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColorSuccess)};
+      }
+    `;
+  },
+
+  useDanger(t: Theme, color: string) {
+    return css`
+      ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorDanger, `.${globalClasses.text}`)}
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColorDanger)};
+      }
+    `;
+  },
+
+  useGrayed(t: Theme, color: string) {
+    return css`
+      ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorGrayed, `.${globalClasses.text}`)}
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColorGrayed)};
+      }
+    `;
+  },
+};
