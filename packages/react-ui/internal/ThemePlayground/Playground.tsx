@@ -114,7 +114,9 @@ export class Playground extends React.Component<PlaygroundProps> {
               <Tabs.Tab id={ThemeType.Theme2022Dark}>Новая 2022 Тёмная</Tabs.Tab>
             </div>
           </Tabs>
-          <Link onClick={onEditLinkClick}>Настроить тему</Link>
+          <Link onClick={onEditLinkClick} theme={{ ...this.theme }}>
+            Настроить тему
+          </Link>
         </Gapped>
       </div>
     );
@@ -158,7 +160,10 @@ export class Playground extends React.Component<PlaygroundProps> {
     return (
       <ComponentsGroup title={'Ссылки'} theme={this.theme}>
         <Gapped wrap verticalAlign="middle" gap={10}>
-          {getComponentsFromPropsList(<Link />, propsList)}
+          {getComponentsFromPropsList(
+            <Link />,
+            propsList.map((prop) => ({ ...prop, theme: { ...this.theme } })),
+          )}
         </Gapped>
       </ComponentsGroup>
     );

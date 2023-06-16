@@ -123,10 +123,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private textRef = React.createRef<HTMLSpanElement>();
 
   componentDidMount() {
-    if (this.textRef.current) {
-      const style = window.getComputedStyle(this.textRef.current);
-      const color = style.getPropertyValue('color');
-      this.setState({ color });
+    isTheme2022(this.theme) && this.getComputedLinkColor();
+  }
+  componentDidUpdate(prevProps: LinkProps) {
+    if (this.props.theme !== prevProps.theme) {
+      isTheme2022(this.theme) && this.getComputedLinkColor();
     }
   }
 
@@ -267,4 +268,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
         );
   }
+
+  private getComputedLinkColor = () => {
+    if (this.textRef.current) {
+      const style = window.getComputedStyle(this.textRef.current);
+      const color = style.getPropertyValue('color');
+      this.setState({ color });
+    }
+  };
 }
