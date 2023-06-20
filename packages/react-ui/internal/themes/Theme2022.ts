@@ -408,7 +408,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static calendarCellHoverColor = '';
   public static calendarCellActiveHoverColor = '';
   public static calendarCellSelectedBgColor = '#EBEBEB';
-  public static calendarCellTodayBorder = 'inherit';
+  public static calendarCellTodayBorder = '1px solid';
   //#endregion
 
   //#region DateSelect
