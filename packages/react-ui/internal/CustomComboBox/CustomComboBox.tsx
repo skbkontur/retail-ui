@@ -309,7 +309,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public componentDidMount() {
-    this.dispatch({ type: 'Mount' });
+    setTimeout(() => {
+      this.dispatch({ type: 'Mount' });
+    }, 0);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -319,7 +321,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+    setTimeout(() => {
+      this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+    }, 0);
   }
 
   /**
