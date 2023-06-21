@@ -118,11 +118,21 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
+  public static linkLineBorderBottomOpacity = '0.5';
+
+  public static get linkLineBorderBottomColor() {
+    // deprecated: isn't used. Delete in major release
+    return this.linkColor;
+  }
   public static get linkLineHoverBorderBottomColor() {
     return this.linkHoverColor;
   }
   public static get linkLineActiveBorderBottomColor() {
     return this.linkActiveColor;
+  }
+  public static get linkLineBorderBottomColorSuccess() {
+    // deprecated: isn't used. Delete in major release
+    return this.linkSuccessColor;
   }
   public static get linkLineHoverBorderBottomColorSuccess() {
     return this.linkSuccessHoverColor;
@@ -130,11 +140,19 @@ export class DefaultTheme {
   public static get linkLineActiveBorderBottomColorSuccess() {
     return this.linkSuccessActiveColor;
   }
+  public static get linkLineBorderBottomColorDanger() {
+    // deprecated: isn't used. Delete in major release
+    return this.linkDangerColor;
+  }
   public static get linkLineHoverBorderBottomColorDanger() {
     return this.linkDangerHoverColor;
   }
   public static get linkLineActiveBorderBottomColorDanger() {
     return this.linkDangerActiveColor;
+  }
+  public static get linkLineBorderBottomColorGrayed() {
+    // deprecated: isn't used. Delete in major release
+    return this.linkGrayedColor;
   }
   public static get linkLineHoverBorderBottomColorGrayed() {
     return this.linkGrayedHoverColor;
@@ -506,6 +524,10 @@ export class DefaultTheme {
   }
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
+  }
+  public static get btnLinkLineBorderBottomColor() {
+    // deprecated: isn't used. Delete in major release
+    return this.linkLineBorderBottomColor;
   }
   public static get btnLinkLineHoverBorderBottomColor() {
     return this.linkLineHoverBorderBottomColor;

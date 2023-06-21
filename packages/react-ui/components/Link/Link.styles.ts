@@ -131,7 +131,7 @@ export const styles = memoizeStyle({
 export const customStyles = {
   lineText(t: Theme, color: string) {
     return css`
-      border-bottom-color: ${ColorFunctions.fade(color, 0.5)};
+      border-bottom-color: ${ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity))};
       border-bottom-style: ${t.linkLineBorderBottomStyle};
       border-bottom-width: ${t.linkLineBorderBottomWidth};
     `;
@@ -141,7 +141,10 @@ export const customStyles = {
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
       ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColor, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColor)};
+        ${linkUseLineColorsMixin(
+          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
+          t.linkLineActiveBorderBottomColor,
+        )};
       }
     `;
   },
@@ -150,7 +153,10 @@ export const customStyles = {
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
       ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorSuccess, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColorSuccess)};
+        ${linkUseLineColorsMixin(
+          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
+          t.linkLineActiveBorderBottomColorSuccess,
+        )};
       }
     `;
   },
@@ -160,7 +166,10 @@ export const customStyles = {
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
       ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorDanger, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColorDanger)};
+        ${linkUseLineColorsMixin(
+          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
+          t.linkLineActiveBorderBottomColorDanger,
+        )};
       }
     `;
   },
@@ -170,7 +179,10 @@ export const customStyles = {
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
       ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorGrayed, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(ColorFunctions.fade(color, 0.5), t.linkLineActiveBorderBottomColorGrayed)};
+        ${linkUseLineColorsMixin(
+          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
+          t.linkLineActiveBorderBottomColorGrayed,
+        )};
       }
     `;
   },
