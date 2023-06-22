@@ -309,9 +309,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public componentDidMount() {
-    setTimeout(() => {
-      this.dispatch({ type: 'Mount' });
-    }, 0);
+    this.dispatch({ type: 'Mount' }, false);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -321,9 +319,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    setTimeout(() => {
-      this.dispatch({ type: 'DidUpdate', prevProps, prevState });
-    }, 0);
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState }, false);
   }
 
   /**
@@ -333,11 +329,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: CustomComboBoxAction<T>) => {
+  private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
     let effects: Array<CustomComboBoxEffect<T>>;
     let nextState: Pick<CustomComboBoxState<T>, never>;
 
-    ReactDOM.flushSync(() => {
+    const updateState = () => {
       this.setState(
         (state) => {
           const stateAndEffect = this.reducer(state, this.props, action);
@@ -350,7 +346,13 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
           effects.forEach(this.handleEffect);
         },
       );
-    });
+    };
+
+    if (sync) {
+      return ReactDOM.flushSync(updateState);
+    }
+
+    return updateState();
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
