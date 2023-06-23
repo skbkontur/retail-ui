@@ -123,11 +123,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private textRef = React.createRef<HTMLSpanElement>();
 
   componentDidMount() {
-    isTheme2022(this.theme) && this.getComputedLinkColor();
+    this.getComputedLinkColor();
   }
   componentDidUpdate(prevProps: LinkProps) {
     if (this.props.theme !== prevProps.theme) {
-      isTheme2022(this.theme) && this.getComputedLinkColor();
+      this.getComputedLinkColor();
     }
   }
 
