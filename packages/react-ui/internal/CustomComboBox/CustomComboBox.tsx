@@ -309,9 +309,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public componentDidMount() {
-    setTimeout(() => {
-      this.dispatch({ type: 'Mount' });
-    }, 0);
+    this.dispatch({ type: 'Mount' }, false);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -321,9 +319,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    setTimeout(() => {
-      this.dispatch({ type: 'DidUpdate', prevProps, prevState });
-    }, 0);
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState }, false);
   }
 
   /**
@@ -333,22 +329,30 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: CustomComboBoxAction<T>) => {
+  private updateState = (action: CustomComboBoxAction<T>) => {
     let effects: Array<CustomComboBoxEffect<T>>;
     let nextState: Pick<CustomComboBoxState<T>, never>;
 
-    ReactDOM.flushSync(() => {
-      this.setState(
-        (state) => {
-          const stateAndEffect = this.reducer(state, this.props, action);
-          [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
-          return nextState;
-        },
-        () => {
-          effects.forEach(this.handleEffect);
-        },
-      );
-    });
+    this.setState(
+      (state) => {
+        const stateAndEffect = this.reducer(state, this.props, action);
+        [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
+        return nextState;
+      },
+      () => {
+        effects.forEach(this.handleEffect);
+      },
+    );
+  };
+
+  private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
+    if (sync) {
+      return ReactDOM.flushSync(() => {
+        this.updateState(action);
+      });
+    }
+
+    return this.updateState(action);
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
