@@ -98,12 +98,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get btnLinkLineBorderBottomWidth() {
     return this.linkLineBorderBottomWidth;
   }
-  public static get btnLinkLineHoverBorderBottomColor() {
-    return this.linkLineHoverBorderBottomColor;
-  }
-  public static get btnLinkLineActiveBorderBottomColor() {
-    return this.linkLineActiveBorderBottomColor;
-  }
   public static get btnLinkDisabledColor() {
     return this.linkDisabledColor;
   }
