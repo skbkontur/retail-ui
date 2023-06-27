@@ -282,6 +282,8 @@ describe('DateInput as InputlikeText', () => {
     expect(inputLikeTextRef.current?.state.selected).toBe(InternalDateComponentType.All);
   });
 
+  const textContentWithMaskChars = `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`;
+
   it('should clear selected text in the input after pressing delete button', () => {
     renderRTL(<DateInput value="27.04.1988" />);
     const input = getInput();
@@ -289,9 +291,7 @@ describe('DateInput as InputlikeText', () => {
     userEvent.keyboard('{delete}');
 
     // eslint-disable-next-line jest-dom/prefer-to-have-text-content
-    expect(input.textContent).toBe(
-      `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`,
-    );
+    expect(input.textContent).toBe(textContentWithMaskChars);
   });
 
   it('should clear selected text in the input after pressing backspace button', () => {
@@ -301,9 +301,7 @@ describe('DateInput as InputlikeText', () => {
     userEvent.keyboard('{backspace}');
 
     // eslint-disable-next-line jest-dom/prefer-to-have-text-content
-    expect(input.textContent).toBe(
-      `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`,
-    );
+    expect(input.textContent).toBe(textContentWithMaskChars);
   });
 
   it('should delete one char in DD by default after focus on element', () => {
