@@ -47,6 +47,14 @@ export const buttonUseMixin = (
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
+
+    :hover,
+    :enabled {
+      .${globalClasses.icon} svg,
+      .${globalClasses.arrow} svg {
+        color: ${color};
+      }
+    }
   `;
 };
 
@@ -60,14 +68,12 @@ export const buttonHoverMixin = (
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
-    &:hover:enabled {
-      background-color: ${hasGradient ? `initial` : btnBackground};
-      background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
-      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    background-color: ${hasGradient ? `initial` : btnBackground};
+    background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
 
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${borderWidth} 0 0 ${borderColor};
-      }
+    .${globalClasses.arrowHelper} {
+      box-shadow: ${borderWidth} 0 0 ${borderColor};
     }
   `;
 };
@@ -81,19 +87,22 @@ export const buttonActiveMixin = (
   arrowBgImage: string,
 ) => {
   return css`
-    background-image: none;
-    background-color: ${btnBackground};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``};
+    &,
+    &:hover {
+      background-image: none !important; // override :hover styles
+      background-color: ${btnBackground} !important; // override :hover styles
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``} !important; // override :hover styles
 
-    .${globalClasses.innerShadow} {
-      box-shadow: ${btnShadow};
-    }
+      .${globalClasses.innerShadow} {
+        box-shadow: ${btnShadow};
+      }
 
-    .${globalClasses.arrowHelper} {
-      box-shadow: ${borderWidth} 0 0 ${borderColor};
+      .${globalClasses.arrowHelper} {
+        box-shadow: ${borderWidth} 0 0 ${borderColor};
 
-      &.${globalClasses.arrowHelperTop} {
-        background-image: ${arrowBgImage};
+        &.${globalClasses.arrowHelperTop} {
+          background-image: ${arrowBgImage};
+        }
       }
     }
   `;

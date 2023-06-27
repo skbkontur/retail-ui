@@ -279,8 +279,7 @@ describe('DateInput as InputlikeText', () => {
     userEvent.dblClick(input);
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
 
-    expect(inputLikeTextRef.current?.state.selected).toBe(InternalDateComponentType.All);
-  });
+    expect(getSelection()?.toString()).toBe('27.04.1988')
 
   const textContentWithMaskChars = `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`;
 

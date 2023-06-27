@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   active(t: Theme) {
     return css`
+      border-radius: ${t.loaderBorderRadius};
       position: absolute;
       bottom: 0;
       left: 0;

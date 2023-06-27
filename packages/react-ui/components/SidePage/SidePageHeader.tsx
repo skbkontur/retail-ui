@@ -11,6 +11,8 @@ import { keyListener } from '../../lib/events/keyListener';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { ModalSeparator } from '../Modal/ModalSeparator';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -18,6 +20,7 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   sticky?: boolean;
+  hasSeparator?: boolean;
 }
 
 export interface SidePageHeaderState {
@@ -48,6 +51,10 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   public state: SidePageHeaderState = {
     isReadyToFix: false,
     focusedByTab: false,
+  };
+
+  public static defaultProps: Partial<SidePageHeaderProps> = {
+    hasSeparator: false,
   };
 
   private theme!: Theme;
@@ -118,15 +125,17 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const isStickyDesktop = !this.isMobileLayout && this.getStickyProp() && isReadyToFix;
     const isStickyMobile = this.isMobileLayout && this.getStickyProp();
 
+    const header = isTheme2022(this.theme) ? this.renderHeader2022 : this.renderHeader;
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SidePageHeaderDataTids.root} ref={this.wrapperRef} className={styles.headerWrapper()}>
           {isStickyDesktop || isStickyMobile ? (
             <Sticky ref={this.stickyRef} side="top">
-              {this.renderHeader}
+              {header}
             </Sticky>
           ) : (
-            this.renderHeader()
+            header()
           )}
         </div>
       </CommonWrapper>
@@ -150,6 +159,16 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
         >
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
+      </div>
+    );
+  };
+
+  private renderHeader2022 = (fixed = false) => {
+    const isDisplayed = this.props.hasSeparator || fixed;
+    return (
+      <div>
+        {this.renderHeader(fixed)}
+        {isDisplayed && <ModalSeparator fixed={fixed} />}
       </div>
     );
   };

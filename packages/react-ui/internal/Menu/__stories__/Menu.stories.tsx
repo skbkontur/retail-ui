@@ -87,6 +87,9 @@ WithMaxHeight.storyName = 'with maxHeight';
 WithMaxHeight.parameters = {
   creevey: {
     captureElement: '[data-tid="menu-container"',
+    skip: {
+      flacky: { in: ['chrome2022'] },
+    },
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');

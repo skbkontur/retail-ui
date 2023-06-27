@@ -9,6 +9,8 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTestEnv } from '../../lib/currentEnvironment';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -80,6 +82,10 @@ export interface ToggleProps extends CommonProps {
    * HTML-атрибут `id` для передачи во внутренний `<input />`.
    */
   id?: string;
+  /**
+   * Не показывать анимацию
+   */
+  disableAnimations?: boolean;
 }
 
 export interface ToggleState {
@@ -91,7 +97,7 @@ export const ToggleDataTids = {
   root: 'Toggle__root',
 } as const;
 
-type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition'>>;
+type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition' | 'disableAnimations'>>;
 
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
@@ -120,6 +126,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     disabled: false,
     loading: false,
     captionPosition: 'right',
+    disableAnimations: isTestEnv,
   };
 
   private getProps = createPropsGetter(Toggle.defaultProps);
@@ -167,7 +174,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private renderMain() {
     const { children, warning, error, color, id, 'aria-describedby': ariaDescribedby } = this.props;
-    const { loading, captionPosition } = this.getProps();
+    const { loading, captionPosition, disableAnimations } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
@@ -179,9 +186,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     });
 
     const labelClassNames = cx(styles.root(this.theme), {
+      [styles.activeHandle(this.theme)]: !isTheme2022(this.theme),
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: !!disabled,
       [globalClasses.disabled]: !!disabled,
+      [styles.disableAnimation()]: disableAnimations,
     });
 
     let caption = null;
@@ -208,7 +217,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               type="checkbox"
               checked={checked}
               onChange={this.handleChange}
-              className={styles.input(this.theme)}
+              className={cx(styles.input(this.theme), isTheme2022(this.theme) && styles.input2022(this.theme))}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               ref={this.inputRef}
@@ -228,20 +237,22 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                   : undefined
               }
             >
-              <div
-                className={cx(styles.activeBackground(), globalClasses.background, {
-                  [styles.activeBackgroundLoading(this.theme)]: loading,
-                  [styles.disabledBackground(this.theme)]: disabled,
-                })}
-                style={
-                  checked && color && !disabled
-                    ? {
-                        backgroundColor: color,
-                        boxShadow: `inset 0 0 0 1px ${color}`,
-                      }
-                    : undefined
-                }
-              />
+              {!isTheme2022(this.theme) && (
+                <div
+                  className={cx(styles.activeBackground(), globalClasses.background, {
+                    [styles.activeBackgroundLoading(this.theme)]: loading,
+                    [styles.disabledBackground(this.theme)]: disabled,
+                  })}
+                  style={
+                    checked && color && !disabled
+                      ? {
+                          backgroundColor: color,
+                          boxShadow: `inset 0 0 0 1px ${color}`,
+                        }
+                      : undefined
+                  }
+                />
+              )}
             </div>
             <div
               className={cx(styles.handle(this.theme), globalClasses.handle, {
