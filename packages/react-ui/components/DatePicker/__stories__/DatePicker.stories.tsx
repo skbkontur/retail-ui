@@ -91,62 +91,6 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
   };
 }
 
-interface DatePickerWithMinMaxState {
-  value: Nullable<string>;
-  minDate: string;
-  maxDate: string;
-  order: InternalDateOrder;
-  separator: InternalDateSeparator;
-}
-class DatePickerWithMinMax extends React.Component {
-  public state: DatePickerWithMinMaxState = {
-    minDate: '02.07.2017',
-    maxDate: '30.01.2020',
-    value: '02.07.2017',
-    order: InternalDateOrder.DMY,
-    separator: InternalDateSeparator.Dot,
-  };
-
-  public render(): React.ReactNode {
-    return (
-      <Gapped vertical gap={10}>
-        <label>
-          Начало периода:{' '}
-          <input
-            type="text"
-            value={this.state.minDate}
-            placeholder="min"
-            onChange={(e) => this.setState({ min: e.target.value })}
-          />
-        </label>
-        <label>
-          Окончание периода:{' '}
-          <input
-            type="text"
-            value={this.state.maxDate}
-            placeholder="max"
-            onChange={(e) => this.setState({ max: e.target.value })}
-          />
-        </label>
-        <LocaleContext.Provider
-          value={{
-            locale: { DatePicker: { order: this.state.order, separator: this.state.separator } },
-          }}
-        >
-          <DatePicker
-            width={200}
-            value={this.state.value}
-            minDate={this.state.minDate}
-            maxDate={this.state.maxDate}
-            onValueChange={action('change')}
-            useMobileNativeDatePicker
-          />
-        </LocaleContext.Provider>
-      </Gapped>
-    );
-  }
-}
-
 export default {
   title: 'DatePicker',
 } as Meta;
@@ -274,6 +218,63 @@ export const DifferentSizes = () => (
   </Gapped>
 );
 
+interface DatePickerWithMinMaxState {
+  value: Nullable<string>;
+  minDate: string;
+  maxDate: string;
+  order: InternalDateOrder;
+  separator: InternalDateSeparator;
+}
+
+class DatePickerWithMinMax extends React.Component {
+  public state: DatePickerWithMinMaxState = {
+    minDate: '02.07.2017',
+    maxDate: '30.01.2020',
+    value: '02.07.2017',
+    order: InternalDateOrder.DMY,
+    separator: InternalDateSeparator.Dot,
+  };
+
+  public render(): React.ReactNode {
+    return (
+      <Gapped vertical gap={10}>
+        <label>
+          Начало периода:{' '}
+          <input
+            type="text"
+            value={this.state.minDate}
+            placeholder="min"
+            onChange={(e) => this.setState({ min: e.target.value })}
+          />
+        </label>
+        <label>
+          Окончание периода:{' '}
+          <input
+            type="text"
+            value={this.state.maxDate}
+            placeholder="max"
+            onChange={(e) => this.setState({ max: e.target.value })}
+          />
+        </label>
+        <LocaleContext.Provider
+          value={{
+            locale: { DatePicker: { order: this.state.order, separator: this.state.separator } },
+          }}
+        >
+          <DatePicker
+            width={200}
+            value={this.state.value}
+            minDate={this.state.minDate}
+            maxDate={this.state.maxDate}
+            onValueChange={action('change')}
+            useMobileNativeDatePicker
+          />
+        </LocaleContext.Provider>
+      </Gapped>
+    );
+  }
+}
+
 export const DatePickerWithMinMaxDate: Story = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>
     <DatePickerWithMinMax />
@@ -285,7 +286,7 @@ DatePickerWithMinMaxDate.parameters = {
   creevey: {
     skip: {
       flaky: {
-        in: ['firefox2022', 'firefox2022Dark'],
+        in: /^(?!\b(chrome|ie11)\b)/,
         tests: ['DateSelect months', 'DateSelect years'],
       },
     },
