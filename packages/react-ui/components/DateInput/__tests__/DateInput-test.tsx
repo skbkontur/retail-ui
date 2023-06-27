@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { DefaultizeProps } from '../../../lib/utils';
-import { InternalDateComponentType, InternalDateOrder } from '../../../lib/date/types';
+import { InternalDateOrder } from '../../../lib/date/types';
 import { DateInput, DateInputDataTids, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
@@ -273,15 +273,18 @@ describe('DateInput as InputlikeText', () => {
 
   it('should handle double click', () => {
     const inputLikeTextRef = React.createRef<DateInput>();
+    const value = '27.04.1988';
 
-    renderRTL(<DateInput value="27.04.1988" ref={inputLikeTextRef} />);
+    renderRTL(<DateInput value={value} ref={inputLikeTextRef} />);
     const input = getInput();
     userEvent.dblClick(input);
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(getSelection()?.toString()).toBe(value);
+  });
 
-    expect(getSelection()?.toString()).toBe('27.04.1988')
-
-  const textContentWithMaskChars = `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`;
+  const textContentWithMaskChars = `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(
+    2,
+  )}.${MASK_CHAR_EXEMPLAR.repeat(4)}`;
 
   it('should clear selected text in the input after pressing delete button', () => {
     renderRTL(<DateInput value="27.04.1988" />);
