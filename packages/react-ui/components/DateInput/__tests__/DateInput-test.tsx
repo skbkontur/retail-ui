@@ -279,8 +279,7 @@ describe('DateInput as InputlikeText', () => {
     userEvent.dblClick(input);
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
 
-    expect(inputLikeTextRef.current?.state.selected).toBe(InternalDateComponentType.All);
-  });
+    expect(getSelection()?.toString()).toBe('27.04.1988')
 
   it('should clear selected text in the input after pressing delete button', () => {
     renderRTL(<DateInput value="27.04.1988" />);
