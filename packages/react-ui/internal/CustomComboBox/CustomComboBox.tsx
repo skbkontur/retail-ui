@@ -329,30 +329,30 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private updateState = (action: CustomComboBoxAction<T>) => {
-    let effects: Array<CustomComboBoxEffect<T>>;
-    let nextState: Pick<CustomComboBoxState<T>, never>;
-
-    this.setState(
-      (state) => {
-        const stateAndEffect = this.reducer(state, this.props, action);
-        [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
-        return nextState;
-      },
-      () => {
-        effects.forEach(this.handleEffect);
-      },
-    );
-  };
-
   private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
+    const updateState = (action: CustomComboBoxAction<T>) => {
+      let effects: Array<CustomComboBoxEffect<T>>;
+      let nextState: Pick<CustomComboBoxState<T>, never>;
+
+      this.setState(
+        (state) => {
+          const stateAndEffect = this.reducer(state, this.props, action);
+          [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
+          return nextState;
+        },
+        () => {
+          effects.forEach(this.handleEffect);
+        },
+      );
+    };
+
     if (sync) {
       return ReactDOM.flushSync(() => {
-        this.updateState(action);
+        updateState(action);
       });
     }
 
-    return this.updateState(action);
+    return updateState(action);
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
