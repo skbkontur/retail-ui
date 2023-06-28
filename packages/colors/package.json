@@ -8,7 +8,8 @@
   "module": "dist/esm/colors.js",
   "main": "dist/cjs/colors.js",
   "scripts": {
-    "build": "rimraf dist && ts-node scripts/generate.ts && npm run build:cjs && npm run build:esm && npm run build:prettier",
+    "prebuild": "rimraf dist && node --require ./scripts/babel-register -- scripts/generate.ts",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:prettier",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:prettier": "prettier src colors.* --write"
@@ -21,6 +22,7 @@
   "author": "Kontur",
   "devDependencies": {
     "rimraf": "^4.1.2",
-    "ts-node": "^10.9.1"
+    "@babel/register": "7.22.5",
+    "@babel/preset-typescript": "7.22.5"
   }
 }

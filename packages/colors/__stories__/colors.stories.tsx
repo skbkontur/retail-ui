@@ -64,4 +64,4 @@ export const ColorsStory = () => {
     </div>
   );
 };
-ColorsStory.storyName = 'Интерфейсные цвета';
+ColorsStory.storyName = 'UI Colors';
