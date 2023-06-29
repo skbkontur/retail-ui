@@ -309,7 +309,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public componentDidMount() {
-    this.dispatch({ type: 'Mount' });
+    this.dispatch({ type: 'Mount' }, false);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -319,7 +319,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState }, false);
   }
 
   /**
@@ -329,24 +329,30 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: CustomComboBoxAction<T>) => {
-    let effects: Array<CustomComboBoxEffect<T>>;
-    let nextState: Pick<CustomComboBoxState<T>, never>;
+  private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
+    const updateState = (action: CustomComboBoxAction<T>) => {
+      let effects: Array<CustomComboBoxEffect<T>>;
+      let nextState: Pick<CustomComboBoxState<T>, never>;
 
-    ReactDOM.flushSync(() => {
       this.setState(
         (state) => {
           const stateAndEffect = this.reducer(state, this.props, action);
-
           [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
-
           return nextState;
         },
         () => {
           effects.forEach(this.handleEffect);
         },
       );
-    });
+    };
+
+    if (sync) {
+      return ReactDOM.flushSync(() => {
+        updateState(action);
+      });
+    }
+
+    return updateState(action);
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
