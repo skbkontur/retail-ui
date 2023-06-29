@@ -43,7 +43,7 @@ export function DayCellView(props: DayCellViewProps) {
       className={cx({
         [styles.cell(theme)]: true,
         [styles.today(theme)]: isToday && !_isTheme2022,
-        [styles.today2022()]: isToday && _isTheme2022,
+        [styles.today2022(theme)]: isToday && _isTheme2022,
         [styles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
         [styles.weekend(theme)]: Boolean(isWeekend),
       })}

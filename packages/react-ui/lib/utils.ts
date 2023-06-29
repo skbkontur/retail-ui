@@ -220,3 +220,7 @@ export const isInputLike =
   isReactUIComponent<AutocompleteProps>('Autocomplete') ||
   isReactUIComponent<PasswordInputProps>('PasswordInput') ||
   isReactUIComponent<CurrencyInputProps>('CurrencyInput');
+
+export const isKonturIcon = (icon: React.ReactElement) => {
+  return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
+};

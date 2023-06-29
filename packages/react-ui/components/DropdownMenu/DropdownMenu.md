@@ -113,6 +113,34 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
+С иконками и включенным по-умолчанию автоматическим выравниванием текста.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator, DropdownMenu } from '@skbkontur/react-ui';
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+  <MenuHeader>MenuHeader</MenuHeader>
+  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem>MenuItem3</MenuItem>
+</DropdownMenu>;
+```
+
+С иконками и отключенным автоматическим выравниванием текста.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator, DropdownMenu } from '@skbkontur/react-ui';
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<DropdownMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
+  <MenuHeader>MenuHeader</MenuHeader>
+  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem>MenuItem3</MenuItem>
+</DropdownMenu>
+```
+
 Меню с отключенной анимацией.
 
 ```jsx harmony

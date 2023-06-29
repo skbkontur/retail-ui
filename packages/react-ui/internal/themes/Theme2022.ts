@@ -8,8 +8,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static bgActive = '#141414';
 
   //#region Link
-  public static linkColor = '#3D3D3D';
-  public static linkHoverColor = '#292929';
+  public static linkColor = '#222222';
+  public static linkHoverColor = '#222222';
   public static linkActiveColor = '#141414';
 
   public static linkSuccessColor = '#477916';
@@ -408,7 +408,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static calendarCellHoverColor = '';
   public static calendarCellActiveHoverColor = '';
   public static calendarCellSelectedBgColor = '#EBEBEB';
-  public static calendarCellTodayBorder = 'inherit';
+  public static calendarCellTodayBorder = '1px solid';
   //#endregion
 
   //#region DateSelect

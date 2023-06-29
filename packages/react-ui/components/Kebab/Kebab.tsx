@@ -1,6 +1,8 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { isElement } from 'react-is';
 
+import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { keyListener } from '../../lib/events/keyListener';
@@ -17,11 +19,14 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ButtonSize } from '../Button';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
-export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
+export interface KebabProps
+  extends CommonProps,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   /**
@@ -129,6 +134,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
+          preventIconsOffset={this.props.preventIconsOffset}
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
@@ -234,9 +240,22 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderIcon2022() {
-    const { size, icon } = this.getProps();
+    const { size, icon = <KebabIcon /> } = this.getProps();
 
-    return icon ?? <KebabIcon size={size} color={this.theme.kebabIconColor} />;
+    if (isElement(icon) && isKonturIcon(icon)) {
+      const sizes: Record<ButtonSize, number> = {
+        small: parseInt(this.theme.kebabIconSizeSmall),
+        medium: parseInt(this.theme.kebabIconSizeMedium),
+        large: parseInt(this.theme.kebabIconSizeLarge),
+      };
+
+      return React.cloneElement(icon, {
+        size: icon.props.size ?? sizes[size],
+        color: icon.props.color ?? this.theme.kebabIconColor,
+      });
+    }
+
+    return icon;
   }
 }
 
