@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Story } from '../../../typings/stories';
 import { MenuItem } from '../../../components/MenuItem';
-import { Toggle } from '../../../components/Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Menu } from '../../Menu';
 import { Button } from '../../../components/Button';
@@ -16,11 +15,11 @@ VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals ite
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
-    delay: 2000,
+    captureElement: 'body',
     tests: {
       async 'short Items'() {
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
+        await delay(2000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('short Items');
       },
       async 'short Items scroll'() {
         await this.browser.executeScript(function () {
@@ -297,7 +296,13 @@ class DropdownWithToggle extends React.Component<DropdownWithToggleProps> {
     const { show, onToggle, dropdownProps } = this.props;
     return (
       <span style={{ display: 'inline-block', position: 'relative' }}>
-        <Toggle checked={show} onValueChange={onToggle} ref={this.setRootNode} />
+        <input
+          style={{ margin: '8px 0' }}
+          type="checkbox"
+          checked={show}
+          onChange={(e) => onToggle(e.target.checked)}
+          ref={this.setRootNode}
+        />
         {show && (
           <DropdownContainer
             align={dropdownProps.align}

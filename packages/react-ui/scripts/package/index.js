@@ -15,6 +15,7 @@ const log = (message) => {
 const TAGS = {
   UNSTABLE: 'unstable',
   LATEST: 'latest',
+  NEXT: 'next',
   OLD: 'old-version',
   LTS: 'lts',
 };
@@ -71,7 +72,7 @@ const getReleaseTagName = (version) => {
 };
 
 const getDistTag = (version, npmTags, revBranches, revTags) => {
-  const { LATEST, UNSTABLE, OLD, LTS } = TAGS;
+  const { NEXT, LATEST, UNSTABLE, OLD, LTS } = TAGS;
 
   if (!valid(version)) {
     log(`Invalid package version: ${version}`);
@@ -80,6 +81,7 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
 
   const hasMasterBranch = revBranches.includes('master');
   const hasLTSBranch = revBranches.includes('lts');
+  const hasNextBranch = revBranches.includes('next');
   const hasReleaseTag = revTags.includes(getReleaseTagName(version));
 
   log(`Getting dist-tag:
@@ -105,6 +107,18 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
     log(
       `Current version does not meet the "latest-version" requirements (see #1423). Current: ${version}, Latest: ${npmTags.latest}.`,
     );
+    return null;
+  }
+
+  if (hasNextBranch) {
+    if (!valid(npmTags.next)) {
+      log(`The version pointed to by the "next" tag is invalid: ${npmTags.next}.`);
+      return null;
+    }
+    if (gte(version, npmTags.next)) {
+      return NEXT;
+    }
+    log(`Current version does not meet the "next-version" requirements. Current: ${version}, Next: ${npmTags.next}.`);
     return null;
   }
 

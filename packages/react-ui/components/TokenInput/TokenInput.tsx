@@ -52,13 +52,28 @@ export enum TokenInputType {
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T> extends CommonProps {
+  /**
+   * Выбранные токены, которые будут отображаться в поле ввода
+   */
   selectedItems?: T[];
+  /**
+   * Вызывается при добавлении нового токена
+   */
   onValueChange?: (items: T[]) => void;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: MouseEventHandler<HTMLDivElement>;
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
+  /**
+   * Тип инпута. Возможные значения:
+   *
+   *   `TokenInputType.WithReference` (можно выбирать токены только из предложенных, нельзя добавить новые)
+   *
+   *   `TokenInputType.WithoutReference` (можно добавлять токены, но нельзя выбирать)
+   *
+   *   `TokenInputType.Combined` (можно и выбирать, и добавлять)
+   */
   type?: TokenInputType;
   /**
    * Ширина выпадающего меню может быть указана как 'auto'
@@ -69,8 +84,10 @@ export interface TokenInputProps<T> extends CommonProps {
    * (по ширине текста)
    */
   menuWidth?: React.CSSProperties['width'];
+  /**
+   * Определяет выравнивание меню. Принимает значения `left` и `cursor`
+   */
   menuAlign?: TokenInputMenuAlign;
-
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
    * По умолчанию ожидаются строки.
@@ -79,8 +96,17 @@ export interface TokenInputProps<T> extends CommonProps {
    * свойства `renderItem`, `valueToString`
    */
   getItems?: (query: string) => Promise<T[]>;
+  /**
+   * Скрывает меню при пустом вводе
+   */
   hideMenuIfEmptyInputValue?: boolean;
+  /**
+   * Позволяет настроить отображение элемента списка
+   */
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode | null;
+  /**
+   * Позволяет настроить отображение выбранного значения
+   */
   renderValue?: (item: T) => React.ReactNode;
   /**
    * Функция должна возвращать строковое представление токена
@@ -97,10 +123,22 @@ export interface TokenInputProps<T> extends CommonProps {
    * Необходим для работы `renderTotalCount`
    */
   totalCount?: number;
+  /**
+   * Отображает заданное содержимое, если ничего не найдено. Работает если не рендерится `AddButton`
+   */
   renderNotFound?: () => React.ReactNode;
+  /**
+   * Преобразует значение в элемент списка
+   */
   valueToItem?: (item: string) => T;
+  /**
+   * Определяет уникальный ключ по элементу
+   */
   toKey?: (item: T) => string | number | undefined;
   placeholder?: string;
+  /**
+   * Символы, которые разделяют введённый текст на токены
+   */
   delimiters?: string[];
   /**
    * Состояние валидации при ошибке.
@@ -113,13 +151,17 @@ export interface TokenInputProps<T> extends CommonProps {
   disabled?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
+  /**
+   * Позволяет настроить отображение токена, предоставляя возможность кастомизации внешнего вида и поведения токена
+   */
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
   /**
    * Вызывается при изменении текста в поле ввода,
    */
   onInputValueChange?: (value: string) => void;
   /**
-   * Функция отрисовки кнопки добавления в выпадающем списке
+   * Функция отрисовки кнопки добавления в выпадающем списке.
+   * Работает только когда тип инпута = `TokenInputType.Combined`
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
   /**

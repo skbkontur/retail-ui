@@ -2,6 +2,7 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 
+import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { keyListener } from '../../lib/events/keyListener';
@@ -19,12 +20,11 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ButtonSize } from '../Button';
-import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
-export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
+export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   /**
@@ -50,6 +50,10 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
+
+export const KebabDataTids = {
+  caption: 'Kebab__caption',
+} as const;
 
 export interface KebabState {
   anchor: Nullable<HTMLElement>;
@@ -135,6 +139,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           menuMaxHeight={this.props.menuMaxHeight}
           onOpen={onOpen}
           onClose={onClose}
+          popupMenuId={this.props.popupMenuId}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -158,6 +163,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
     return (
       <span
+        data-tid={KebabDataTids.caption}
         tabIndex={disabled ? -1 : 0}
         onClick={handleCaptionClick}
         onKeyDown={handleCaptionKeyDown}
@@ -233,26 +239,20 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon2022() {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
-    const sizes: Record<ButtonSize, number> = {
-      small: parseInt(this.theme.kebabIconSizeSmall),
-      medium: parseInt(this.theme.kebabIconSizeMedium),
-      large: parseInt(this.theme.kebabIconSizeLarge),
-    };
+    if (isElement(icon) && isKonturIcon(icon)) {
+      const sizes: Record<ButtonSize, number> = {
+        small: parseInt(this.theme.kebabIconSizeSmall),
+        medium: parseInt(this.theme.kebabIconSizeMedium),
+        large: parseInt(this.theme.kebabIconSizeLarge),
+      };
 
-    const cloneIcon = isElement(icon)
-      ? React.cloneElement(icon, {
-          size: sizes[size],
-          color: this.theme.kebabIconColor,
-          disableCompensation: true,
-        })
-      : icon;
+      return React.cloneElement(icon, {
+        size: icon.props.size ?? sizes[size],
+        color: icon.props.color ?? this.theme.kebabIconColor,
+      });
+    }
 
-    return (
-      <>
-        {ZERO_WIDTH_SPACE}
-        {cloneIcon}
-      </>
-    );
+    return icon;
   }
 }
 

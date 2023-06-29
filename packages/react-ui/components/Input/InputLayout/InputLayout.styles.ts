@@ -12,12 +12,14 @@ export const stylesLayout = memoizeStyle({
       overflow: hidden;
       position: relative;
       width: 100%;
+      display: flex;
     `;
   },
   aside() {
     return css`
       display: inline-flex;
       align-items: center;
+      flex-shrink: 0;
     `;
   },
   icon(t: Theme) {

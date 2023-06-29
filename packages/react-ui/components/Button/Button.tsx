@@ -1,6 +1,6 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
-import { isReactUIComponent } from '../../lib/utils';
+import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -16,7 +16,7 @@ import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { ButtonIcon } from './ButtonIcon';
+import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 
@@ -24,7 +24,10 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-export interface ButtonProps extends CommonProps {
+export interface ButtonProps
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked'>,
+    Pick<HTMLAttributes<unknown>, 'role'> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -165,12 +168,12 @@ export interface ButtonProps extends CommonProps {
    * CSS-свойство `width`.
    */
   width?: number | string;
-  theme?: ThemeIn;
 
   /**
-   * Атрибут для указания id элемента(-ов), описывающих его
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
    */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
+  theme?: ThemeIn;
 }
 
 export interface ButtonState {
@@ -268,6 +271,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
       'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
+      role,
     } = this.props;
     const { use, type, size } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -332,6 +340,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type,
+      role,
+      'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
       className: rootClassName,
       style: {
         textAlign: align,
@@ -433,20 +447,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {
-      let _icon = icon;
-      if (icon) {
-        const sizes: Record<ButtonSize, number> = {
-          small: parseInt(this.theme.btnIconSizeSmall),
-          medium: parseInt(this.theme.btnIconSizeMedium),
-          large: parseInt(this.theme.btnIconSizeLarge),
-        };
-        // Expect icon to have a `size` prop
-        _icon = React.cloneElement(icon, { size: sizes[this.props.size || 'small'] });
-      }
-
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link focused={isFocused} disabled={disabled} icon={_icon} component="span" tabIndex={-1}>
+          <Link focused={isFocused} disabled={disabled} icon={this.renderIcon2022(icon)} as="span" tabIndex={-1}>
             {children}
           </Link>
         </ThemeContext.Provider>
@@ -456,7 +459,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} aria-describedby={ariaDescribedby}>
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}
@@ -465,6 +468,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         </span>
       </CommonWrapper>
     );
+  }
+
+  private renderIcon2022(icon: React.ReactElement | undefined) {
+    if (icon && isKonturIcon(icon)) {
+      const sizes = getButtonIconSizes(this.theme);
+      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.getProps().size] });
+    }
+
+    return icon;
   }
 
   private getSizeClassName() {

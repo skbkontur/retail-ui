@@ -246,7 +246,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.loader()} data-tid={isLoaderActive ? LoaderDataTids.veil : ''}>
           <ZIndex
-            priority={'Loader'}
             applyZIndex={isLoaderActive}
             coverChildren={isLoaderActive}
             style={{ height: '100%' }}
@@ -257,7 +256,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           {isLoaderActive && (
             <ZIndex
               wrapperRef={this.spinnerRef}
-              priority={'Loader'}
               className={cx({
                 [styles.active(this.theme)]: isLoaderActive,
               })}

@@ -1,13 +1,13 @@
 import React from 'react';
 import { isElement } from 'react-is';
 
+import { isKonturIcon } from '../../../lib/utils';
 import { InputProps, InputSize } from '../Input';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { stylesLayout } from './InputLayout.styles';
-
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';
@@ -30,8 +30,7 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
 
   let _icon = null;
   if (icon && isElement(icon)) {
-    // Expect icon to have a `size` and `disableCompensation` props
-    _icon = React.cloneElement(icon, { size: sizes[size], disableCompensation: true });
+    _icon = isKonturIcon(icon) ? React.cloneElement(icon, { size: icon.props.size ?? sizes[size] }) : icon;
   }
 
   const style: React.CSSProperties = {};

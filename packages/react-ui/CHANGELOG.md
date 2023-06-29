@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.15.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.2...@skbkontur/react-ui@4.15.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* **Button:** correct link outline position (#IF-867) ([#3132](https://github.com/skbkontur/retail-ui/issues/3132)) ([49c7842](https://github.com/skbkontur/retail-ui/commit/49c7842d5e5a6e04788d0da084346461d424a2e2)), closes [#IF-867](https://github.com/skbkontur/retail-ui/issues/IF-867)
+* **ComboBox:** use flushSync due to auto-batching in React18 ([#3144](https://github.com/skbkontur/retail-ui/issues/3144)) ([16bac3c](https://github.com/skbkontur/retail-ui/commit/16bac3c6f41c15409c23f2e3adbade630fa247ea))
+* **Link:** change color and hover color ([#3182](https://github.com/skbkontur/retail-ui/issues/3182)) ([6ed5bd4](https://github.com/skbkontur/retail-ui/commit/6ed5bd4bfe0a358b86739a72e67d09353c1a4511))
+* **Modal:** configure z-index to correctly work with other components ([#3104](https://github.com/skbkontur/retail-ui/issues/3104)) ([0532871](https://github.com/skbkontur/retail-ui/commit/05328718368c146100665f6b3aa5a03a2810b9c3))
+* **ScrollContainer:** scroll disappears after toggling disabled ([#3152](https://github.com/skbkontur/retail-ui/issues/3152)) ([f1c3444](https://github.com/skbkontur/retail-ui/commit/f1c34444d595b14dcd2d397e6a25c45d2c2bc62c))
+* **Spinner:** avoid circle clipping ([#3153](https://github.com/skbkontur/retail-ui/issues/3153)) ([80c2b59](https://github.com/skbkontur/retail-ui/commit/80c2b593da303f8e56feabc5d6d922c72a9175d7))
+
+
+### Features
+
+* **Button, Modal, SidePage, Switcher:** pass props for a11y ([#3163](https://github.com/skbkontur/retail-ui/issues/3163)) ([694e8d9](https://github.com/skbkontur/retail-ui/commit/694e8d97fb07842cc925cfdacc35b167fb1ff9b3))
+* **Calendar:** add new public component Calendar ([#2888](https://github.com/skbkontur/retail-ui/issues/2888)) ([d6871c5](https://github.com/skbkontur/retail-ui/commit/d6871c5ee3ed9b3b553f7a1e89da6d37ccd3d211))
+
+
+
+
+
+## [4.14.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.1...@skbkontur/react-ui@4.14.2) (2023-06-09)
+
+
+### Bug Fixes
+
+* **Button, Input, Kebab:** resize icons according to control's size ([#3183](https://github.com/skbkontur/retail-ui/issues/3183)) ([7dd6e9f](https://github.com/skbkontur/retail-ui/commit/7dd6e9fb0e5899f8fd092888082fd88c2e0e781f))
+
+
+
+
+
+## [4.14.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.14.0...@skbkontur/react-ui@4.14.1) (2023-06-03)
+
+
+### Bug Fixes
+
+* **Input:** fix too long `prefix` & missing `placeholder` ([#3170](https://github.com/skbkontur/retail-ui/issues/3170)) ([ab31f22](https://github.com/skbkontur/retail-ui/commit/ab31f2248f1cadeb544b4711f024227d6da64a6a))
+
+
+
+
+
+# [4.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.4...@skbkontur/react-ui@4.14.0) (2023-05-30)
+
+
+### Bug Fixes
+
+* **ComboBox:** set as=div for MenuMessage ([#3162](https://github.com/skbkontur/retail-ui/issues/3162)) ([87a84b6](https://github.com/skbkontur/retail-ui/commit/87a84b67ebe79711f3fbad39566575343da73847))
+
+
+### Features
+
+* **Input:** support new types (#IF-290) ([#3129](https://github.com/skbkontur/retail-ui/issues/3129)) ([c478aab](https://github.com/skbkontur/retail-ui/commit/c478aab0f2198bdadc22f8a6c726534f87270454)), closes [#IF-290](https://github.com/skbkontur/retail-ui/issues/IF-290)
+* **theme:** add full support for THEME_2022 ([#3045](https://github.com/skbkontur/retail-ui/issues/3045)) ([6dac5a4](https://github.com/skbkontur/retail-ui/commit/6dac5a49c4c8aed6fcd8a83ce6fd65d7da211690))
+
+
+
+
+
 ## [4.13.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.13.3...@skbkontur/react-ui@4.13.4) (2023-04-14)
 
 

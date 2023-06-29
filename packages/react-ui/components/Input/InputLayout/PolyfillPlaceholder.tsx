@@ -17,7 +17,7 @@ export interface InputLayoutPlaceholderProps extends PolyfillPlaceholder {
 }
 
 export const PolyfillPlaceholder: React.FunctionComponent<InputLayoutPlaceholderProps> = ({
-  placeholder,
+  children: placeholder,
   align,
   value,
   defaultValue,

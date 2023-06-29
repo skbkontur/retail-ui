@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
-import { mount } from 'enzyme';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Tabs, TabsDataTids } from '../Tabs';
-import { Tab } from '../Tab';
+import { Tab, TabDataTids } from '../Tab';
 
 describe('Tabs', () => {
   it('Should not throw error when previous active tab was unmounted', () => {
@@ -17,7 +17,9 @@ describe('Tabs', () => {
       </Tabs>
     );
 
-    expect(() => mount(<TabsContainer count={initialCount} />).setProps({ count: 2 })).not.toThrow();
+    const { rerender } = render(<TabsContainer count={initialCount} />);
+
+    expect(() => rerender(<TabsContainer count={2} />)).not.toThrow();
   });
 
   it('should pass generic type without type errors', () => {
@@ -47,6 +49,32 @@ describe('Tabs', () => {
     expect(tabs).toHaveAttribute('aria-describedby', 'elementTabsId');
     expect(tabs).toHaveAccessibleDescription('Description Tabs');
   });
+
+  it('should render vertical tabs', () => {
+    render(
+      <Tabs value="tahat" vertical>
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+    expect(screen.getByTestId(TabsDataTids.root)).toBeInTheDocument();
+  });
+
+  it('should call onValueChange when switch tabs', () => {
+    const onValueChange = jest.fn();
+    render(
+      <Tabs value="fuji" onValueChange={onValueChange}>
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat">Tahat</Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+    const tabs = screen.getAllByTestId(TabDataTids.root);
+    userEvent.click(tabs[1]);
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('Tab', () => {
@@ -55,5 +83,125 @@ describe('Tab', () => {
       return <Tab<T> />;
     }
     expect(() => render(<TabGeneric />)).not.toThrow();
+  });
+
+  it('should handle OnClick event', () => {
+    const onClick = jest.fn();
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat" onClick={onClick}>
+          Tahat
+        </Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+
+    const tabs = screen.getAllByTestId(TabDataTids.root);
+    userEvent.click(tabs[1]);
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle onKeyDown event', () => {
+    const onKeyDown = jest.fn();
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat" onKeyDown={onKeyDown}>
+          Tahat
+        </Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+    userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call onKeyDown event on disabled tab', () => {
+    const onKeyDown = jest.fn();
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat" disabled onKeyDown={onKeyDown}>
+          Tahat
+        </Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+    userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
+
+    expect(onKeyDown).not.toHaveBeenCalled();
+  });
+
+  it('should focus by tab', () => {
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+      </Tabs>,
+    );
+    expect(screen.getByTestId(TabDataTids.root)).not.toHaveFocus();
+
+    userEvent.tab();
+    expect(screen.getByTestId(TabDataTids.root)).toHaveFocus();
+  });
+
+  it('should pass focus by arrowright press', () => {
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+    const tabs = screen.getAllByTestId(TabDataTids.root);
+    expect(tabs[0]).not.toHaveFocus();
+    userEvent.tab();
+    expect(tabs[0]).toHaveFocus();
+
+    userEvent.type(tabs[0], '{arrowright}');
+    expect(tabs[0]).not.toHaveFocus();
+    expect(tabs[1]).toHaveFocus();
+  });
+
+  it('should focus by arrowleft', () => {
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+    const tabs = screen.getAllByTestId(TabDataTids.root);
+    expect(tabs[0]).not.toHaveFocus();
+    userEvent.tab();
+    expect(tabs[0]).toHaveFocus();
+
+    userEvent.type(tabs[0], '{arrowright}');
+    expect(tabs[0]).not.toHaveFocus();
+
+    userEvent.type(tabs[0], '{arrowleft}');
+    expect(tabs[0]).toHaveFocus();
+  });
+
+  it('should not focus on disabled tab by pressing tab', () => {
+    render(
+      <Tabs value="fuji">
+        <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat" disabled>
+          Tahat
+        </Tabs.Tab>
+        <Tabs.Tab id="alps">Alps</Tabs.Tab>
+      </Tabs>,
+    );
+
+    const tabs = screen.getAllByTestId(TabDataTids.root);
+
+    userEvent.tab();
+    expect(tabs[0]).toHaveFocus();
+
+    userEvent.tab();
+    expect(tabs[0]).not.toHaveFocus();
+    expect(tabs[1]).not.toHaveFocus();
+    expect(tabs[2]).toHaveFocus();
   });
 });

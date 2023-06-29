@@ -3,7 +3,6 @@ import React from 'react';
 export interface HTMLProps {
   a: React.AnchorHTMLAttributes<HTMLAnchorElement>;
   abbr: React.HTMLAttributes<HTMLElement>;
-  div: React.HTMLAttributes<HTMLDivElement>;
   address: React.HTMLAttributes<HTMLElement>;
   area: React.AreaHTMLAttributes<HTMLAreaElement>;
   article: React.HTMLAttributes<HTMLElement>;
@@ -53,6 +52,7 @@ export interface HTMLProps {
   hr: React.HTMLAttributes<HTMLHRElement>;
   html: React.HtmlHTMLAttributes<HTMLHtmlElement>;
   i: React.HTMLAttributes<HTMLElement>;
+  id: React.HTMLAttributes<HTMLElement>['id'];
   iframe: React.IframeHTMLAttributes<HTMLIFrameElement>;
   img: React.ImgHTMLAttributes<HTMLImageElement>;
   input: React.InputHTMLAttributes<HTMLInputElement>;

@@ -13,8 +13,8 @@ export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'> &
 
 export const PasswordInputIcon = ({ visible, size, isTheme2022 = false }: PasswordInputIconProps) => {
   if (visible) {
-    return isTheme2022 ? <ClosedIcon size={size} disableCompensation={false} /> : <EyeClosedIcon size={14} />;
+    return isTheme2022 ? <ClosedIcon size={size} /> : <EyeClosedIcon size={14} />;
   }
 
-  return isTheme2022 ? <OpenedIcon size={size} disableCompensation={false} /> : <EyeOpenedIcon size={14} />;
+  return isTheme2022 ? <OpenedIcon size={size} /> : <EyeOpenedIcon size={14} />;
 };

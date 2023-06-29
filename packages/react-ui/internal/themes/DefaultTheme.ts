@@ -155,7 +155,7 @@ export class DefaultTheme {
     return this.linkGrayedActiveColor;
   }
   public static linkLineBorderBottomStyle = '';
-  public static linkLineBorderBottomWidth = '0';
+  public static linkLineBorderBottomWidth = '0px';
 
   //#endregion
   //#region Token
@@ -529,7 +529,7 @@ export class DefaultTheme {
     return this.linkLineActiveBorderBottomColor;
   }
   public static btnLinkLineBorderBottomStyle = '';
-  public static btnLinkLineBorderBottomWidth = '0';
+  public static btnLinkLineBorderBottomWidth = '0px';
 
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
@@ -870,6 +870,18 @@ export class DefaultTheme {
   public static dateInputComponentSelectedBgColor = '#cdedff';
   //#endregion
   //#region Calendar
+  public static get calendarBottomSeparatorBorderColor() {
+    return ColorFunctions.fade(this.calendarMonthTitleBorderBottomColor, 1);
+  }
+  public static get calendarBottomSeparatorBorderWidth() {
+    return '1px';
+  }
+  public static get calendarBottomSeparatorBorder() {
+    return `${this.calendarBottomSeparatorBorderWidth} solid ${this.calendarBottomSeparatorBorderColor}`;
+  }
+  public static get calendarBg() {
+    return this.bgSecondary;
+  }
   public static get calendarCellBg() {
     return this.bgSecondary;
   }
@@ -1161,7 +1173,7 @@ export class DefaultTheme {
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
   }
-  public static menuItemGap = '0';
+  public static menuItemGap = '0px';
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;
@@ -1737,7 +1749,7 @@ export class DefaultTheme {
   public static get tabColorHoverPrimary() {
     return ColorFunctions.lighten(this.tabColorPrimary, '25%');
   }
-  public static tabIndicatorBorderRadius = '0';
+  public static tabIndicatorBorderRadius = '0px';
   //#endregion
   //#region Spinner
   public static get spinnerBgColor() {

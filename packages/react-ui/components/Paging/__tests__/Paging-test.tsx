@@ -6,7 +6,7 @@ import { emptyHandler } from '../../../lib/utils';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PagingLocaleHelper } from '../locale';
-import { Paging } from '../Paging';
+import { Paging, PagingDataTids } from '../Paging';
 
 describe('Paging', () => {
   it('should keep focus on body when the component is disabled', () => {
@@ -20,7 +20,7 @@ describe('Paging', () => {
   it('should render correct number of links', () => {
     render(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
 
-    expect(screen.getAllByTestId('Paging__pageLink')).toHaveLength(5);
+    expect(screen.getAllByTestId(PagingDataTids.pageLink)).toHaveLength(5);
   });
 
   it('should not be rendered when only one page is presented and the flag is enabled', () => {
@@ -29,39 +29,39 @@ describe('Paging', () => {
       <Paging pagesCount={1} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages={false} />,
     );
 
-    expect(screen.queryByTestId('Paging__root')).not.toBeInTheDocument();
+    expect(screen.queryByTestId(PagingDataTids.root)).not.toBeInTheDocument();
   });
 
   it('should be rendered when only one page is presented and the flag is disabled', () => {
     const callback = jest.fn();
     render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
 
-    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+    expect(screen.getByTestId(PagingDataTids.root)).toBeInTheDocument();
   });
 
   it('should be rendered when two or more pages are presented and the flag is enabled', () => {
     const callback = jest.fn();
     render(<Paging pagesCount={2} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages />);
 
-    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+    expect(screen.getByTestId(PagingDataTids.root)).toBeInTheDocument();
   });
 
   it('should render right dots', () => {
     render(<Paging pagesCount={10} activePage={1} onPageChange={emptyHandler} />);
 
-    expect(screen.getByTestId('Paging__dots')).toBeInTheDocument();
+    expect(screen.getByTestId(PagingDataTids.dots)).toBeInTheDocument();
   });
 
   it('should render left dots', () => {
     render(<Paging pagesCount={10} activePage={9} onPageChange={emptyHandler} />);
 
-    expect(screen.getByTestId('Paging__dots')).toBeInTheDocument();
+    expect(screen.getByTestId(PagingDataTids.dots)).toBeInTheDocument();
   });
 
   it('should render left and right dots', () => {
     render(<Paging pagesCount={12} activePage={6} onPageChange={emptyHandler} />);
 
-    expect(screen.getAllByTestId('Paging__dots')).toHaveLength(2);
+    expect(screen.getAllByTestId(PagingDataTids.dots)).toHaveLength(2);
   });
 
   it('should call `onPageChange` on not chosen link', async () => {
@@ -70,7 +70,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const links = screen.getAllByTestId('Paging__pageLink');
+    const links = screen.getAllByTestId(PagingDataTids.pageLink);
     await userEvent.click(links[activePageIndex - 1]);
 
     expect(onPageChange).toHaveBeenCalledTimes(1);
@@ -82,7 +82,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const links = screen.getAllByTestId('Paging__pageLink');
+    const links = screen.getAllByTestId(PagingDataTids.pageLink);
     await userEvent.click(links[activePageIndex]);
 
     expect(onPageChange).not.toHaveBeenCalled();
@@ -94,7 +94,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const links = screen.getAllByTestId('Paging__pageLink');
+    const links = screen.getAllByTestId(PagingDataTids.pageLink);
     await userEvent.click(links[activePageIndex + 1]);
 
     expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
@@ -103,14 +103,14 @@ describe('Paging', () => {
   it('should have forward button', () => {
     render(<Paging pagesCount={2} activePage={1} onPageChange={emptyHandler} />);
 
-    expect(screen.getByTestId('Paging__forwardLink')).toBeInTheDocument();
+    expect(screen.getByTestId(PagingDataTids.forwardLink)).toBeInTheDocument();
   });
 
   it('should call `onPageChange` on forward button click', async () => {
     const onPageChange = jest.fn();
     render(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     await userEvent.click(forwardButton);
 
     expect(onPageChange).toHaveBeenCalledTimes(1);
@@ -121,7 +121,7 @@ describe('Paging', () => {
     const lastPage = 2;
     render(<Paging pagesCount={lastPage} activePage={lastPage} onPageChange={onPageChange} />);
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     await userEvent.click(forwardButton);
 
     expect(onPageChange).not.toHaveBeenCalled();
@@ -132,7 +132,7 @@ describe('Paging', () => {
     const activePage = 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     await userEvent.click(forwardButton);
 
     expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
@@ -144,7 +144,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+    const activeLink = screen.getAllByTestId(PagingDataTids.pageLink)[activePageIndex];
 
     await userEvent.click(activeLink);
     await userEvent.keyboard('{ArrowRight}{Enter}');
@@ -158,7 +158,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+    const activeLink = screen.getAllByTestId(PagingDataTids.pageLink)[activePageIndex];
 
     await userEvent.click(activeLink);
     await userEvent.keyboard('{ArrowLeft}{Enter}');
@@ -172,7 +172,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+    const activeLink = screen.getAllByTestId(PagingDataTids.pageLink)[activePageIndex];
 
     await userEvent.click(activeLink);
     await userEvent.keyboard('{Control>}{ArrowRight}');
@@ -186,7 +186,7 @@ describe('Paging', () => {
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+    const activeLink = screen.getAllByTestId(PagingDataTids.pageLink)[activePageIndex];
 
     await userEvent.click(activeLink);
     await userEvent.keyboard('{Control>}{ArrowLeft}');
@@ -209,7 +209,7 @@ describe('Paging Locale', () => {
   it('should not chash without LocaleProvider', () => {
     render(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
 
     expect(forwardButton).toContainHTML(expectedText);
@@ -222,7 +222,7 @@ describe('Paging Locale', () => {
       </LocaleContext.Provider>,
     );
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
 
     expect(forwardButton).toContainHTML(expectedText);
@@ -235,7 +235,7 @@ describe('Paging Locale', () => {
       </LocaleContext.Provider>,
     );
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
     expect(forwardButton).toContainHTML(expectedText);
@@ -253,7 +253,7 @@ describe('Paging Locale', () => {
       </LocaleContext.Provider>,
     );
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
 
     expect(forwardButton).toContainHTML(customPlaceholder);
   });
@@ -275,7 +275,7 @@ describe('Paging Locale', () => {
     };
     render(<Component />);
 
-    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
     const expectedEnglishText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
     // Should render `en_GB` locale by default.

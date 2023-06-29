@@ -31,7 +31,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
     setFocusedByTab(false);
   };
 
-  const icon = isTheme2022(theme) ? <XIcon20Regular /> : <CrossIcon />;
+  const icon = isTheme2022(theme) ? <XIcon20Regular align="none" /> : <CrossIcon />;
 
   return (
     <CommonWrapper {...otherProps}>

@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 
+import { Theme } from '../../lib/theming/Theme';
+import { isKonturIcon } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
@@ -11,6 +13,14 @@ import { globalClasses, styles } from './Button.styles';
 
 type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
   hasChildren: boolean;
+};
+
+export const getButtonIconSizes = (theme: Theme): Record<ButtonSize, number> => {
+  return {
+    small: parseInt(theme.btnIconSizeSmall),
+    medium: parseInt(theme.btnIconSizeMedium),
+    large: parseInt(theme.btnIconSizeLarge),
+  };
 };
 
 export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
@@ -34,11 +44,6 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
         return styles.iconSmall(theme);
     }
   };
-  const sizes: Record<ButtonSize, number> = {
-    small: parseInt(theme.btnIconSizeSmall),
-    medium: parseInt(theme.btnIconSizeMedium),
-    large: parseInt(theme.btnIconSizeLarge),
-  };
 
   const space = isTheme2022(theme) ? ZERO_WIDTH_SPACE : '';
   const style: React.CSSProperties = isTheme2022(theme)
@@ -49,9 +54,9 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
     : {};
 
   let _icon = icon;
-  if (icon && isTheme2022(theme)) {
-    // Expect icon to have a `size` and `disableCompensation` props
-    _icon = React.cloneElement(icon, { size: sizes[size], disableCompensation: true });
+  const sizes = getButtonIconSizes(theme);
+  if (icon && isTheme2022(theme) && isKonturIcon(icon)) {
+    _icon = React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
   }
 
   return (

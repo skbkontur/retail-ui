@@ -1,8 +1,9 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import raf from 'raf';
+import warning from 'warning';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -21,23 +22,33 @@ import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
+export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
+
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType =
-  | 'password'
-  | 'text'
-  | 'number'
-  | 'tel'
-  | 'search'
-  | 'time'
-  | 'date'
-  | 'url'
-  | 'email'
-  | 'hidden';
+export type InputType = typeof inputTypes[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
+
+export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
+export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[] = selectionAllowedTypes) => {
+  return `<Input />. Selection is not supported by the type "${type}". Types that support selection: ${allowedTypes
+    .map((i) => `"${i}"`)
+    .join(', ')}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
+};
+
+export const maskForbiddenTypes: InputType[] = ['number', 'date', 'time'];
+export const maskAllowedTypes: InputType[] = inputTypes.filter((type) => {
+  return !maskForbiddenTypes.includes(type);
+});
+export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = maskAllowedTypes) => {
+  return `<Input />. Prop "mask" does not support type "${type}". Supported types: ${allowedTypes
+    .map((i) => `"${i}"`)
+    .join(', ')}.`;
+};
 
 export interface InputProps
   extends CommonProps,
+    Pick<HTMLAttributes<unknown>, 'role'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
@@ -87,7 +98,7 @@ export interface InputProps
         /** Вызывается на label */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
         /**
-         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email' | 'hidden'
+         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email'
          * */
         type?: InputType;
         /** Значение */
@@ -140,7 +151,7 @@ export const InputDataTids = {
   root: 'Input__root',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size'>>;
+type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
 
 /**
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
@@ -152,6 +163,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public static defaultProps: DefaultProps = {
     size: 'small',
+    type: 'text',
   };
 
   private getProps = createPropsGetter(Input.defaultProps);
@@ -167,6 +179,20 @@ export class Input extends React.Component<InputProps, InputState> {
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
+
+  private outputMaskError() {
+    warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(this.getProps().type));
+  }
+
+  public componentDidMount() {
+    this.outputMaskError();
+  }
+
+  public componentDidUpdate(prevProps: Readonly<InputProps>) {
+    if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
+      this.outputMaskError();
+    }
+  }
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
@@ -222,6 +248,14 @@ export class Input extends React.Component<InputProps, InputState> {
    * @param {number} end
    */
   public setSelectionRange(start: number, end: number) {
+    // https://github.com/facebook/react/issues/7769
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+    if (!selectionAllowedTypes.includes(this.getProps().type)) {
+      warning(false, selectionErrorMessage(this.getProps().type));
+
+      return;
+    }
+
     if (!this.input) {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
@@ -257,6 +291,10 @@ export class Input extends React.Component<InputProps, InputState> {
         }}
       </ThemeContext.Consumer>
     );
+  }
+
+  private get canBeUsedWithMask() {
+    return maskForbiddenTypes.includes(this.getProps().type);
   }
 
   /**
@@ -303,13 +341,14 @@ export class Input extends React.Component<InputProps, InputState> {
       onValueChange,
       width,
       error,
+      role,
       warning,
       leftIcon,
       rightIcon,
       borderless,
       value,
       align,
-      type = 'text',
+      type,
       mask,
       maskChar,
       alwaysShowMask,
@@ -354,6 +393,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.inputDisabled(this.theme)]: disabled,
       }),
       value,
+      role,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
@@ -367,15 +407,10 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-describedby': ariaDescribedby,
     };
 
-    const typesDisallowedWithMask: InputType[] = ['number', 'date', 'time', 'hidden'];
     const input =
-      mask && !typesDisallowedWithMask.includes(type)
+      mask && !this.canBeUsedWithMask
         ? this.renderMaskedInput(inputProps, mask)
         : React.createElement('input', inputProps);
-
-    if (type === 'hidden') {
-      return input;
-    }
 
     if (isTheme2022(this.theme)) {
       return (
@@ -388,14 +423,16 @@ export class Input extends React.Component<InputProps, InputState> {
           context={{ disabled: Boolean(disabled), focused, size }}
         >
           {input}
-          <PolyfillPlaceholder
-            isMaskVisible={this.isMaskVisible}
-            value={value}
-            defaultValue={this.props.defaultValue}
-            align={align}
-          >
-            {placeholder}
-          </PolyfillPlaceholder>
+          {this.state.needsPolyfillPlaceholder && (
+            <PolyfillPlaceholder
+              isMaskVisible={this.isMaskVisible}
+              value={value}
+              defaultValue={this.props.defaultValue}
+              align={align}
+            >
+              {placeholder}
+            </PolyfillPlaceholder>
+          )}
         </InputLayout>
       );
     }
@@ -557,13 +594,6 @@ export class Input extends React.Component<InputProps, InputState> {
     });
 
     if (this.props.selectAllOnFocus) {
-      // https://github.com/facebook/react/issues/7769
-      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
-      const allowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-      const canBeSelected = !this.props.type || (this.props.type && allowedTypes.includes(this.props.type));
-      if (!canBeSelected) {
-        return;
-      }
       this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 

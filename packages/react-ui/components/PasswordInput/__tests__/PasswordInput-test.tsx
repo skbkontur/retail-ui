@@ -3,13 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
-import { PasswordInput } from '../PasswordInput';
+import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', () => {
     render(<PasswordInput />);
 
-    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
     const toggleButtonInitialIcon = toggleButton.innerHTML;
 
     userEvent.click(toggleButton);
@@ -29,13 +29,14 @@ describe('PasswordInput', () => {
     // By default input should have type `password`
     expect(input).toHaveAttribute('type', 'password');
 
-    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
     userEvent.click(toggleButton);
 
     // After clicking on the toggle button input should have type `text`
     expect(input).toHaveAttribute('type', 'text');
   });
 
+  //update test after upgrading RTL version
   it('should at first render CapsLock label then hide it', () => {
     const component = mount(<PasswordInput value="" detectCapsLock />);
 
@@ -54,7 +55,7 @@ describe('PasswordInput', () => {
     render(<PasswordInput value={inputValue} />);
 
     const input = screen.getByDisplayValue(inputValue);
-    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
 
     // By default input should not have focus
     // Input should have type `password` at the moment
@@ -69,5 +70,66 @@ describe('PasswordInput', () => {
     // After re-clicking on the toggle button input should get focus again
     // Input should have type `password` at the moment
     expect(input).toHaveFocus();
+  });
+
+  it('should focus on calling focus() method', () => {
+    const inputValue = 'input';
+    const passwordInputRef = React.createRef<PasswordInput>();
+
+    render(<PasswordInput ref={passwordInputRef} value={inputValue} />);
+
+    passwordInputRef.current?.focus();
+
+    expect(screen.getByDisplayValue(inputValue)).toHaveFocus();
+  });
+
+  it('should blur on calling blur() method', () => {
+    const inputValue = 'input';
+    const passwordInputRef = React.createRef<PasswordInput>();
+
+    render(<PasswordInput ref={passwordInputRef} value={inputValue} />);
+
+    passwordInputRef.current?.focus();
+    passwordInputRef.current?.blur();
+
+    expect(screen.queryByDisplayValue(inputValue)).not.toHaveFocus();
+  });
+
+  it('handels onKeyPress event', () => {
+    const onKeyPress = jest.fn();
+    const inputValue = 'input';
+
+    render(<PasswordInput onKeyPress={onKeyPress} value={inputValue} />);
+
+    userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
+
+    expect(onKeyPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('handels onKeyDown event', () => {
+    const onKeyDown = jest.fn();
+    const inputValue = 'input';
+
+    render(<PasswordInput onKeyDown={onKeyDown} value={inputValue} />);
+
+    userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show eye button when input is disabled', () => {
+    render(<PasswordInput disabled />);
+    expect(screen.queryByTestId(PasswordInputDataTids.eyeIcon)).not.toBeInTheDocument();
+  });
+
+  it('should hide symbols on click outside', () => {
+    const inputValue = 'input';
+    render(<PasswordInput value={inputValue} />);
+
+    userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
+    expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'text');
+
+    userEvent.click(document.body);
+    expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'password');
   });
 });
