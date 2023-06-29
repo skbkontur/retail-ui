@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 // import { mount, ReactWrapper } from 'enzyme';
-import { fireEvent, getByRole, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html';
 
@@ -11,18 +11,12 @@ import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { ComboBox, ComboBoxProps } from '../ComboBox';
+import { ComboBox } from '../ComboBox';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
-import {
-  ComboBoxMenuDataTids,
-  CustomComboBox,
-  DELAY_BEFORE_SHOW_LOADER,
-  LOADER_SHOW_TIME,
-} from '../../../internal/CustomComboBox';
-import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
+import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { SpinnerDataTids } from '../../Spinner';
 
 function clickOutside() {
@@ -36,11 +30,11 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
   let searchCalled: () => Promise<void>;
   const searchPromise = new Promise<void>(
     (resolve) =>
-    (searchCalled = async () => {
-      await delay(0);
+      (searchCalled = async () => {
+        await delay(0);
 
-      return resolve();
-    }),
+        return resolve();
+      }),
   );
   const search = jest.fn(() => {
     searchCalled();
@@ -60,7 +54,6 @@ describe('ComboBox', () => {
     { value: '4', label: 'Four' },
   ];
 
-
   it('renders', () => {
     expect(() => render(<ComboBox getItems={() => Promise.resolve([])} />)).not.toThrow();
   });
@@ -68,7 +61,7 @@ describe('ComboBox', () => {
   it('focuses on click to input', () => {
     render(<ComboBox getItems={() => Promise.resolve([])} />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    expect(screen.getByRole("textbox")).toHaveFocus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('fetches item when focused', () => {
@@ -134,9 +127,7 @@ describe('ComboBox', () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onValueChange = jest.fn();
-    render(
-      <ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} value={'one'} />,
-    );
+    render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} value={'one'} />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
@@ -232,7 +223,7 @@ describe('ComboBox', () => {
   describe('onBlur callback', () => {
     const onBlur = jest.fn();
     const [search, promise] = searchFactory(Promise.resolve(['item']));
-    const TestCombobox = () => (<ComboBox getItems={search} onBlur={onBlur} />);
+    const TestCombobox = () => <ComboBox getItems={search} onBlur={onBlur} />;
 
     beforeEach(() => {
       render(<TestCombobox />);
@@ -265,7 +256,7 @@ describe('ComboBox', () => {
   });
 
   it('renders custom elements in menu', async () => {
-    const content = "Hello, world";
+    const content = 'Hello, world';
     const items = [<div key="0">{content}</div>];
     const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} />);
@@ -332,15 +323,13 @@ describe('ComboBox', () => {
   it("don't focus on error and value change", () => {
     const { rerender } = render(<ComboBox getItems={() => Promise.resolve([])} />);
 
-    rerender(<ComboBox getItems={() => Promise.resolve([])} value='1' error />)
+    rerender(<ComboBox getItems={() => Promise.resolve([])} value="1" error />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
   it('clear input value if onUnexpectedInput return null', async () => {
-    render(
-      <ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />,
-    );
+    render(<ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />);
 
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
@@ -383,7 +372,7 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find(element => element.hasAttribute('state'))).toBeFalsy();
+    expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -395,111 +384,72 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find(element => element.hasAttribute('state'))).toHaveAttribute('state', 'hover');
+    expect(menuItems.find((element) => element.hasAttribute('state'))).toHaveAttribute('state', 'hover');
   });
 
-  // describe('update input text when value changes if there was no editing', () => {
-  //   const VALUES = [
-  //     { value: 1, label: 'one' },
-  //     { value: 2, label: 'two' },
-  //   ];
-  //   const check = async (wrapper: ReactWrapper<ComboBoxProps<any>, unknown, ComboBox<any>>) => {
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //     wrapper.update();
-  //     expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
-
-  //     wrapper.instance().blur();
-  //     await delay(0);
-  //     wrapper.setProps({ value: VALUES[1] });
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //     wrapper.update();
-  //     expect(wrapper.find('input').prop('value')).toBe(VALUES[1].label);
-
-  //     wrapper.instance().blur();
-  //     await delay(0);
-  //     wrapper.setProps({ value: null });
-  //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-  //     wrapper.update();
-  //     expect(wrapper.find('input').prop('value')).toBe('');
-  //   };
-
-  //   it('in default mode', () => {
-  //     const items = [
-  //       { value: 1, label: 'one' },
-  //       { value: 2, label: 'two' },
-  //     ];
-  //     const getItems = jest.fn((searchQuery) => Promise.resolve(items.filter(x => x.label.includes(searchQuery))));
-
-  //     const { rerender } = render(<ComboBox value={items[0]} getItems={getItems} />);
-  //     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-  //     expect(screen.getByRole('textbox')).toHaveValue(items[0].label);
-
-  //     rerender(<ComboBox value={items[1]} getItems={getItems} />)
-  //     expect(screen.getByRole('textbox')).toHaveValue(items[1].label);
-
-  //     rerender(<ComboBox value={null} getItems={getItems} />)
-  //     expect(screen.getByRole('textbox')).toHaveValue('');
-  //   });
-
-  //   it('in autocomplete mode', () => {
-  //     expect(() =>
-  //       check(
-  //         mount<ComboBox<any>>(
-  //           <ComboBox
-  //             value={VALUES[0]}
-  //             drawArrow={false}
-  //             searchOnFocus={false}
-  //             getItems={() => Promise.resolve(VALUES)}
-  //           />,
-  //         ),
-  //       ),
-  //     ).not.toThrow();
-  //   });
-  // });
-
-  describe('keep edited input text when value changes', () => {
-    const value = { value: 1, label: 'one' };
-    const check = (wrapper: any) => {
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-
-      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
-
-      clickOutside();
-      wrapper.setProps({ value: null });
-
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-
-      expect(wrapper.find('input').prop('value')).toBe('two');
-    };
+  describe('update input text when value changes if there was no editing', () => {
+    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
 
     it('in default mode', () => {
-      expect(() =>
-        check(render(<ComboBox value={value} getItems={() => Promise.resolve([value])} />)),
-      ).not.toThrow();
+      const { rerender } = render(<ComboBox value={testValues[0]} getItems={getItems} />);
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent(testValues[0].label);
+
+      rerender(<ComboBox value={testValues[1]} getItems={getItems} />);
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent(testValues[1].label);
+
+      rerender(<ComboBox value={null} getItems={getItems} />);
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent('');
     });
 
     it('in autocomplete mode', () => {
-      expect(() =>
-        check(
-          render(
-            <ComboBox
-              value={value}
-              drawArrow={false}
-              searchOnFocus={false}
-              getItems={() => Promise.resolve([value])}
-            />,
-          ),
-        ),
-      ).not.toThrow();
+      const { rerender } = render(
+        <ComboBox value={testValues[0]} drawArrow={false} searchOnFocus={false} getItems={getItems} />,
+      );
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent(testValues[0].label);
+
+      rerender(<ComboBox value={testValues[1]} drawArrow={false} searchOnFocus={false} getItems={getItems} />);
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent(testValues[1].label);
+
+      rerender(<ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={getItems} />);
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent('');
+    });
+  });
+
+  describe('keep edited input text when value changes', () => {
+    const value = { value: 1, label: 'one' };
+
+    it('in default mode', () => {
+      const { rerender } = render(<ComboBox value={value} getItems={() => Promise.resolve([value])} />);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
+      clickOutside();
+
+      rerender(<ComboBox value={null} getItems={() => Promise.resolve([value])} />);
+      userEvent.click(screen.getByRole('textbox'));
+      expect(screen.getByRole('textbox')).toHaveValue('two');
+    });
+
+    it('in autocomplete mode', () => {
+      const { rerender } = render(
+        <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
+      );
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
+      clickOutside();
+
+      rerender(
+        <ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
+      );
+
+      userEvent.click(screen.getByRole('textbox'));
+      expect(screen.getByRole('textbox')).toHaveValue('two');
     });
   });
 
   it('does not do search on focus in autocomplete mode', async () => {
     const value = { value: 1, label: 'one' };
     const getItems = jest.fn();
-    render(
-      <ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />,
-    );
+    render(<ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />);
 
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(0);
@@ -541,9 +491,7 @@ describe('ComboBox', () => {
     };
 
     const changeHandler = jest.fn();
-    render(
-      <ComboBox onValueChange={changeHandler} getItems={getItems} />,
-    );
+    render(<ComboBox onValueChange={changeHandler} getItems={getItems} />);
 
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
@@ -584,7 +532,7 @@ describe('ComboBox', () => {
   describe('search by method', () => {
     const query = 'One';
 
-    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter(x => x.label.includes(query))));
+    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
 
     beforeEach(() => {
       getItems.mockClear();
@@ -629,9 +577,7 @@ describe('ComboBox', () => {
 
     beforeEach(async () => {
       [search, promise] = searchFactory(Promise.resolve(ITEMS));
-      render(
-        <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={(x) => x} />,
-      );
+      render(<ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={(x) => x} />);
       userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await promise;
 
@@ -646,7 +592,9 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
-      expect((document.activeElement as HTMLInputElement).selectionStart).toBe((document.activeElement as HTMLInputElement).selectionEnd);
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
+        (document.activeElement as HTMLInputElement).selectionEnd,
+      );
 
       expect(onFocus).toHaveBeenCalledTimes(0);
       expect(onBlur).toHaveBeenCalledTimes(0);
@@ -661,7 +609,9 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
-      expect((document.activeElement as HTMLInputElement).selectionStart).toBe((document.activeElement as HTMLInputElement).selectionEnd);
+      expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
+        (document.activeElement as HTMLInputElement).selectionEnd,
+      );
 
       expect(onFocus).toHaveBeenCalledTimes(0);
       expect(onBlur).toHaveBeenCalledTimes(0);
@@ -669,19 +619,21 @@ describe('ComboBox', () => {
   });
 
   describe('click on input', () => {
+    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
 
     describe('in default mode', () => {
-      const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter(x => x.label.includes(query))));
-
       beforeEach(async () => {
         render(<ComboBox getItems={getItems} ref={comboboxRef} />);
+        userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
         getItems.mockClear();
       });
 
       it('opens menu if it is closed', async () => {
+        comboboxRef.current?.close();
+
         expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
 
-        userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        userEvent.click(screen.getByRole('textbox'));
         await delay(0);
 
         expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
@@ -689,6 +641,8 @@ describe('ComboBox', () => {
       });
 
       it('runs empty search if menu is closed', () => {
+        comboboxRef.current?.close();
+        delay(0);
         expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
 
         userEvent.click(screen.getByRole('textbox'));
@@ -701,39 +655,38 @@ describe('ComboBox', () => {
       });
     });
 
-    // describe('in autocomplete mode', () => {
-    //   beforeEach(() => {
-    //     wrapper = mount<ComboBox<typeof VALUE>>(
-    //       <ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} value={VALUE} />,
-    //     );
-    //     wrapper.find(ComboBoxView).prop('onFocus')?.();
-    //     getItems.mockClear();
-    //   });
+    describe('in autocomplete mode', () => {
+      beforeEach(() => {
+        render(<ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} ref={comboboxRef} />);
+        userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        getItems.mockClear();
+      });
 
-    //   it("doesn't open menu if it is closed", () => {
-    //     wrapper.instance().close();
-    //     clickOnInput(wrapper);
-    //     expect(wrapper.find(Menu)).toHaveLength(0);
-    //   });
+      it("doesn't open menu if it is closed", () => {
+        comboboxRef.current?.close();
+        userEvent.click(screen.getByRole('textbox'));
 
-    //   it("doesn't run search if menu is closed", () => {
-    //     wrapper.instance().close();
-    //     clickOnInput(wrapper);
-    //     expect(getItems).toHaveBeenCalledTimes(0);
-    //   });
+        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      });
 
-    //   it("doesn't run search if menu is open", () => {
-    //     clickOnInput(wrapper);
-    //     expect(getItems).toHaveBeenCalledTimes(0);
-    //   });
-    // });
+      it("doesn't run search if menu is closed", () => {
+        comboboxRef.current?.close();
+        userEvent.click(screen.getByRole('textbox'));
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+
+      it("doesn't run search if menu is open", () => {
+        userEvent.click(screen.getByRole('textbox'));
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+    });
   });
 
   describe('Search', () => {
     const query = 'One';
 
     it('without delay', async () => {
-      const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter(x => x.label.includes(query))));
+      const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -751,7 +704,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
-        return Promise.resolve(testValues.filter(x => x.label.includes(query)));
+        return Promise.resolve(testValues.filter((x) => x.label.includes(query)));
       });
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
@@ -771,7 +724,7 @@ describe('ComboBox', () => {
     it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
       const getItems = jest.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER + 200);
-        return Promise.resolve(testValues.filter(x => x.label.includes(query)));
+        return Promise.resolve(testValues.filter((x) => x.label.includes(query)));
       });
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
@@ -862,7 +815,9 @@ describe('ComboBox', () => {
 
     it('twice without delay', async () => {
       const secondQuery = 'Two';
-      const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter(x => x.label.includes(searchQuery))));
+      const getItems = jest.fn((searchQuery) =>
+        Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+      );
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
       comboboxRef.current?.search(query);
@@ -1026,36 +981,26 @@ describe('ComboBox', () => {
     it('long request and blur after it resolves', async () => {
       const getItems = jest.fn(async () => {
         await delay(500);
-
         return Promise.resolve(testValues);
       });
-      const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+      render(<ComboBox getItems={getItems} />);
 
-      wrapper.find(ComboBoxView).prop('onFocus')?.();
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
       await delay(600);
 
-      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-        loading: true,
-        opened: true,
-      });
+      expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
 
       clickOutside();
       await delay(0);
 
-      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-        loading: false,
-        opened: false,
-      });
+      expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-      wrapper.find(ComboBoxView).prop('onFocus')?.();
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
       await delay(300);
 
-      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
-        loading: true,
-        opened: true,
-      });
+      expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
     });
   });
 
@@ -1128,7 +1073,6 @@ describe('ComboBox', () => {
     });
 
     it('updates when langCode changes', async () => {
-
       const { rerender } = render(<ComboboxWithLocaleProvider langCode={LangCodes.en_GB} />);
 
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.ru_RU).notFound;
