@@ -30,11 +30,11 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
   let searchCalled: () => Promise<void>;
   const searchPromise = new Promise<void>(
     (resolve) =>
-      (searchCalled = async () => {
-        await delay(0);
+    (searchCalled = async () => {
+      await delay(0);
 
-        return resolve();
-      }),
+      return resolve();
+    }),
   );
   const search = jest.fn(() => {
     searchCalled();
@@ -473,18 +473,9 @@ describe('ComboBox', () => {
   });
 
   it('onValueChange if single item', async () => {
-    const ITEMS = [
-      { value: 1, label: 'One' },
-      { value: 2, label: 'Two' },
-      { value: 3, label: 'Three' },
-      { value: 4, label: 'Four' },
-    ];
-
-    const EXPECTED_ITEM = ITEMS[1];
-
     const getItems = (query: string) => {
       return Promise.resolve(
-        ITEMS.filter((item) => {
+        testValues.filter((item) => {
           return item.label.includes(query);
         }),
       );
@@ -495,35 +486,34 @@ describe('ComboBox', () => {
 
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Two' } });
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: testValues[1].label } });
 
     await delay(300);
 
     clickOutside();
     await delay(0);
 
-    expect(changeHandler).toHaveBeenCalledWith(EXPECTED_ITEM);
+    expect(changeHandler).toHaveBeenCalledWith(testValues[1]);
   });
 
   describe('open/close methods', () => {
-    it('opens', () => {
+    beforeEach(() => {
       render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
+    });
+
+    it('opens', () => {
       comboboxRef?.current?.open();
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
     });
 
     it('closes', () => {
-      render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
       comboboxRef?.current?.open();
-
       comboboxRef?.current?.close();
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     });
 
     it('closes on clickOutside', () => {
-      render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
       comboboxRef?.current?.open();
-
       clickOutside();
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     });
