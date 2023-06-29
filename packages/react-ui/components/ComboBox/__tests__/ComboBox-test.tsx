@@ -30,11 +30,11 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
   let searchCalled: () => Promise<void>;
   const searchPromise = new Promise<void>(
     (resolve) =>
-    (searchCalled = async () => {
-      await delay(0);
+      (searchCalled = async () => {
+        await delay(0);
 
-      return resolve();
-    }),
+        return resolve();
+      }),
   );
   const search = jest.fn(() => {
     searchCalled();
@@ -559,18 +559,14 @@ describe('ComboBox', () => {
   });
 
   describe('keeps focus in input after', () => {
-    const ITEMS = ['one', 'two', 'three'];
-    let search: jest.Mock<Promise<string[]>>;
-    let promise: Promise<void>;
+    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
     const onFocus = jest.fn();
     const onBlur = jest.fn();
 
     beforeEach(async () => {
-      [search, promise] = searchFactory(Promise.resolve(ITEMS));
-      render(<ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={(x) => x} />);
+      render(<ComboBox getItems={getItems} onFocus={onFocus} onBlur={onBlur} />);
       userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      await promise;
-
+      delay(0);
       onFocus.mockClear();
       onBlur.mockClear();
     });
