@@ -1,13 +1,14 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ReactWrapper, mount } from 'enzyme';
 
-import { GlobalLoader, GlobalLoaderDataTids, GlobalLoaderProps, GlobalLoaderState } from '../GlobalLoader';
+import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1000;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;
 const DIFFERENCE = 100;
+
+jest.unmock('lodash.debounce');
 
 describe('Global Loader', () => {
   const refGlobalLoader = React.createRef<GlobalLoader>();
@@ -17,15 +18,23 @@ describe('Global Loader', () => {
     render(<GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />);
     render(<GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader2} />);
 
-    expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
-
+    expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
     expect(refGlobalLoader.current?.state.dead).toBe(true);
     expect(refGlobalLoader2.current?.state.dead).toBe(false);
   });
 
   describe('with props', () => {
     it('should set active', async () => {
-      render(<GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />);
+      render(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          active
+          ref={refGlobalLoader}
+        />,
+      );
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
+      expect(refGlobalLoader.current?.state.visible).toBe(false);
       await delay(DIFFERENCE);
       expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
@@ -87,22 +96,18 @@ describe('Global Loader', () => {
       expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
 
-    describe('enzyme tests', () => {
-      let globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>;
-      let active = false;
-      it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
-        globalLoader = mount<GlobalLoader>(
-          <GlobalLoader
-            expectedResponseTime={2000}
-            delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
-            delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
-            active={active}
-          />,
-        );
-        active = true;
-        await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
-        expect(globalLoader.state().visible).toBe(false);
-      });
+    it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
+      render(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          active
+          ref={refGlobalLoader}
+        />,
+      );
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
+      expect(refGlobalLoader.current?.state.visible).toBe(false);
     });
   });
 
@@ -120,6 +125,8 @@ describe('Global Loader', () => {
 
     it('should set active', async () => {
       GlobalLoader.start();
+      expect(refGlobalLoader.current?.state.visible).toBe(false);
+
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
       expect(refGlobalLoader.current?.state.visible).toBe(true);
