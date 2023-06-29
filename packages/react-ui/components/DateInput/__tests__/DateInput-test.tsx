@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
-import { DefaultizeProps } from '../../../lib/utils';
+import { DefaultizeProps, delay } from '../../../lib/utils';
 import { InternalDateOrder } from '../../../lib/date/types';
 import { DateInput, DateInputDataTids, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -271,7 +271,7 @@ describe('DateInput as InputlikeText', () => {
     expect(onBlur).toHaveBeenCalled();
   });
 
-  it('should handle double click', () => {
+  it('should handle double click', async () => {
     const inputLikeTextRef = React.createRef<DateInput>();
     const value = '27.04.1988';
 
@@ -279,6 +279,7 @@ describe('DateInput as InputlikeText', () => {
     const input = getInput();
     userEvent.dblClick(input);
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    await delay(0);
     expect(getSelection()?.toString()).toBe(value);
   });
 
