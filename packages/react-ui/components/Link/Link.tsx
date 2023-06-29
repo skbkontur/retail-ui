@@ -183,10 +183,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     const linkProps = {
       className: cx(
-        use === 'default' && customStyles.useDefault(this.theme, this.state.color, _isTheme2022),
-        use === 'success' && customStyles.useSuccess(this.theme, this.state.color, _isTheme2022),
-        use === 'danger' && customStyles.useDanger(this.theme, this.state.color, _isTheme2022),
-        use === 'grayed' && customStyles.useGrayed(this.theme, this.state.color, _isTheme2022),
+        use === 'default' && customStyles.useDefault(this.theme, this.state.color),
+        use === 'success' && customStyles.useSuccess(this.theme, this.state.color),
+        use === 'danger' && customStyles.useDanger(this.theme, this.state.color),
+        use === 'grayed' && customStyles.useGrayed(this.theme, this.state.color),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
         this.getLinkClassName(isFocused, Boolean(disabled || loading)),
@@ -204,7 +204,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       child = (
         <span
           ref={this.textRef}
-          className={cx(globalClasses.text, customStyles.lineText(this.theme, this.state.color, _isTheme2022))}
+          className={cx(globalClasses.text, customStyles.lineText(this.theme, this.state.color))}
         >
           {this.props.children}
         </span>
