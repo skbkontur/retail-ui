@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { mount } from 'enzyme';
-import { render, screen } from '@testing-library/react';
+// import { mount } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -57,13 +57,12 @@ describe('Select', () => {
 
   it('calls onKeyDown', () => {
     const onKeyDown = jest.fn();
-    const wrapper = mount(<Select onKeyDown={onKeyDown} />);
+    render(<Select onKeyDown={onKeyDown} />);
 
-    wrapper.find('button').simulate('keydown', { key: 'k' });
-    const [event] = onKeyDown.mock.calls[0];
+    fireEvent.keyDown(screen.getByRole('button'), { key: 'k' });
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
-    expect(event.key).toBe('k');
+    expect(onKeyDown).toHaveBeenCalledWith(expect.objectContaining({ key: 'k' }));
   });
 
   it('should execute `onFocus` with default button', () => {
@@ -242,37 +241,36 @@ describe('Select', () => {
 
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<Select />);
-      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
-
-      expect(wrapper.text()).toBe(expectedText);
+      render(<Select />);
+      const expectedText = SelectLocaleHelper.get(defaultLangCode)?.placeholder as string;
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('render default locale', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{}}>
           <Select />
         </LocaleContext.Provider>,
       );
-      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
+      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder as string;
 
-      expect(wrapper.text()).toBe(expectedText);
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Select />
         </LocaleContext.Provider>,
       );
-      const expectedText = SelectLocaleHelper.get(LangCodes.en_GB).placeholder;
+      const expectedText = SelectLocaleHelper.get(LangCodes.en_GB).placeholder as string;
 
-      expect(wrapper.text()).toBe(expectedText);
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('render custom locale', () => {
       const customPlaceholder = 'custom loading';
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider
           value={{
             locale: { Select: { placeholder: customPlaceholder } },
@@ -281,21 +279,22 @@ describe('Select', () => {
           <Select />
         </LocaleContext.Provider>,
       );
-
-      expect(wrapper.text()).toBe(customPlaceholder);
+      expect(screen.getByRole('button')).toHaveTextContent(customPlaceholder);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = mount(
+      const { rerender } = render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Select />
         </LocaleContext.Provider>,
       );
-      const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder;
+      const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder as string;
 
-      wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
+      rerender(<LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
+        <Select />
+      </LocaleContext.Provider>)
 
-      expect(wrapper.text()).toBe(expectedText);
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('props aria-describedby applied correctly', () => {
