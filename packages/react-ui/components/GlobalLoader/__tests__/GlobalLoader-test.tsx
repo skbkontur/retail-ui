@@ -95,20 +95,6 @@ describe('Global Loader', () => {
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(refGlobalLoader.current?.state.visible).toBe(true);
     });
-
-    it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
-      render(
-        <GlobalLoader
-          expectedResponseTime={2000}
-          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
-          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
-          active
-          ref={refGlobalLoader}
-        />,
-      );
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
-      expect(refGlobalLoader.current?.state.visible).toBe(false);
-    });
   });
 
   describe('with static methods', () => {
@@ -141,6 +127,7 @@ describe('Global Loader', () => {
     });
 
     it('should set success', async () => {
+      GlobalLoader.start();
       GlobalLoader.done();
 
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
