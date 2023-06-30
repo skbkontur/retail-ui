@@ -33,7 +33,7 @@ describe('Select', () => {
 
     const SelectExample = Select;
 
-    const wrapper = mount<Select>(
+    render(
       <SelectExample<ValueType>
         value={currentValue}
         items={objectItems}
