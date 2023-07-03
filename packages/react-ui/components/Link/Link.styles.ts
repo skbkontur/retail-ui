@@ -1,18 +1,20 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-import {
-  linkMixin,
-  linkDisabledMixin,
-  linkUseColorsMixin,
-  linkUseLineColorsMixin,
-  linkUseLineColorsHoverMixin,
-} from './Link.mixins';
+import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineWithoutOpacity } from './Link.mixins';
 
 export const globalClasses = prefix('link')({
   text: 'text',
 });
+
+const line = keyframes`
+  0% {
+    border-bottom-color: inherit;
+  }
+  100% {
+    border-bottom-color: transparent;
+  }
+`;
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -30,11 +32,21 @@ export const styles = memoizeStyle({
     `;
   },
 
+  lineText(t: Theme) {
+    return css`
+      border-bottom-style: ${t.linkLineBorderBottomStyle};
+      border-bottom-width: ${t.linkLineBorderBottomWidth};
+      animation: ${line} 1s linear !important;
+      animation-play-state: paused !important;
+      animation-delay: -0.5s !important;
+    `;
+  },
+
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkHoverColor} !important;
+        ${linkUseLineWithoutOpacity()}
       }
     `;
   },
@@ -43,7 +55,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkSuccessHoverColor} !important;
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkSuccessHoverColor} !important;
+        ${linkUseLineWithoutOpacity()}
       }
     `;
   },
@@ -52,7 +64,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkDangerHoverColor} !important;
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkDangerHoverColor} !important;
+        ${linkUseLineWithoutOpacity()}
       }
     `;
   },
@@ -61,7 +73,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkGrayedHoverColor} !important;
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkGrayedHoverColor} !important;
+        ${linkUseLineWithoutOpacity()}
       }
     `;
   },
@@ -92,6 +104,56 @@ export const styles = memoizeStyle({
       vertical-align: middle;
     `;
   },
+
+  useRoot() {
+    return css`
+      border-bottom-color: currentColor;
+    `;
+  },
+  useDefault(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineWithoutOpacity()}
+        }
+      }
+    `;
+  },
+
+  useSuccess(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineWithoutOpacity()}
+        }
+      }
+    `;
+  },
+
+  useDanger(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineWithoutOpacity()}
+        }
+      }
+    `;
+  },
+
+  useGrayed(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineWithoutOpacity()}
+        }
+      }
+    `;
+  },
+
   useGrayedFocus(t: Theme) {
     return css`
       color: ${t.linkDisabledColor};
@@ -110,10 +172,6 @@ export const styles = memoizeStyle({
 
       color: ${t.linkDisabledColor} !important; // override root color
 
-      & .${globalClasses.text}:before {
-        border-bottom-color: ${t.linkDisabledColor} !important; // override root color
-      }
-
       &:hover {
         color: ${t.linkDisabledColor};
       }
@@ -127,63 +185,3 @@ export const styles = memoizeStyle({
     `;
   },
 });
-
-export const customStyles = {
-  lineText(t: Theme, color: string) {
-    return css`
-      border-bottom-color: ${color};
-      border-bottom-style: ${t.linkLineBorderBottomStyle};
-      border-bottom-width: ${t.linkLineBorderBottomWidth};
-    `;
-  },
-  useDefault(t: Theme, color: string) {
-    return css`
-      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkHoverColor, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
-          t.linkActiveColor,
-        )};
-      }
-    `;
-  },
-  useSuccess(t: Theme, color: string) {
-    return css`
-      ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkSuccessHoverColor, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
-          t.linkSuccessActiveColor,
-        )};
-      }
-    `;
-  },
-
-  useDanger(t: Theme, color: string) {
-    return css`
-      ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkDangerHoverColor, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
-          t.linkDangerActiveColor,
-        )};
-      }
-    `;
-  },
-
-  useGrayed(t: Theme, color: string) {
-    return css`
-      ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkGrayedHoverColor, `.${globalClasses.text}`)}
-      .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          ColorFunctions.fade(color, parseFloat(t.linkLineBorderBottomOpacity)),
-          t.linkGrayedActiveColor,
-        )};
-      }
-    `;
-  },
-};

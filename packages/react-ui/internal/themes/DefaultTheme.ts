@@ -118,7 +118,6 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
-  public static linkLineBorderBottomOpacity = '0.5';
   public static linkLineBorderBottomStyle = '';
   public static linkLineBorderBottomWidth = '0px';
 
