@@ -712,11 +712,11 @@ export const SidePageWithLeftPositionStory = () => (
   <SidePageWithLeftPosition close={() => undefined} disableAnimations />
 );
 SidePageWithLeftPositionStory.storyName = 'SidePage with left position';
-SidePageWithLeftPositionStory.parameters = { creevey: { captureElement: '[data-tid~="SidePage__root"]' } };
+SidePageWithLeftPositionStory.parameters = { creevey: { captureElement: null } };
 
 export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSidePage disableAnimations />;
 LeftSidePageWithRightSidePageStory.storyName = 'Left SidePage With Right SidePage';
-LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: '[data-tid~="SidePage__root"]' } };
+LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: null } };
 
 const simpleTests: CreeveyTests = {
   async 'open side-page'() {
