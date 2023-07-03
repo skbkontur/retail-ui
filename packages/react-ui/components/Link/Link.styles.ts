@@ -178,6 +178,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  disabledDark22Theme() {
+    return css`
+      .${globalClasses.text} {
+        ${linkUseLineWithoutOpacity()}
+      }
+    `;
+  },
+
   icon(t: Theme) {
     return css`
       display: inline-block;
