@@ -3,11 +3,14 @@ import userEvent from '@testing-library/user-event';
 // import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 
+import { MenuItemDataTids } from '../../MenuItem';
+import { MenuDataTids } from '../../../internal/Menu';
+import { delay } from '../../../lib/utils';
 import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
-import { Select } from '../Select';
+import { Select, SelectDataTids } from '../Select';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -43,16 +46,19 @@ describe('Select', () => {
       />,
     );
 
-    wrapper.setState({ opened: true });
+    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    delay(0);
+    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
-    const dropdownContainer = wrapper.find('DropdownContainer');
+    const defaultValueText = screen.getByTestId(SelectDataTids.root).textContent;
 
-    const defaultValueText = wrapper.prop('renderItem')?.(currentValue, currentValue);
-
-    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
-    const selectedMenuItem = menu.findWhere((node) => node.is('MenuItem') && node.prop('state') === 'selected');
-    expect(selectedMenuItem).toHaveLength(1);
-    expect(selectedMenuItem.text()).toBe(defaultValueText);
+    const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
+    const selectedMenuItem = menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'selected');
+    expect(selectedMenuItem).toBeInTheDocument();
+    if (defaultValueText !== null) {
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(selectedMenuItem).toHaveTextContent(defaultValueText);
+    }
   });
 
   it('calls onKeyDown', () => {
