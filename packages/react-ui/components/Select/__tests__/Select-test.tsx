@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-// import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
@@ -53,7 +52,9 @@ describe('Select', () => {
     const defaultValueText = screen.getByTestId(SelectDataTids.root).textContent;
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
-    const selectedMenuItem = menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'selected');
+    const selectedMenuItem = menuItems.find(
+      (element) => element.hasAttribute('state') && element.getAttribute('state') === 'selected',
+    );
     expect(selectedMenuItem).toBeInTheDocument();
     if (defaultValueText !== null) {
       // eslint-disable-next-line jest/no-conditional-expect
@@ -296,9 +297,11 @@ describe('Select', () => {
       );
       const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder as string;
 
-      rerender(<LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
-        <Select />
-      </LocaleContext.Provider>)
+      rerender(
+        <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
+          <Select />
+        </LocaleContext.Provider>,
+      );
 
       expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
@@ -313,6 +316,130 @@ describe('Select', () => {
       const select = screen.getByRole('button');
       expect(select).toHaveAttribute('aria-describedby', 'elementId');
       expect(select).toHaveAccessibleDescription('Description');
+    });
+  });
+
+  describe('open/close/focus methods', () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    const selectRef = React.createRef<Select>();
+    const testItems = ['One', 'Two', 'Three', 'Four'];
+
+    beforeEach(() => {
+      render(<Select ref={selectRef} items={testItems} onOpen={onOpen} onClose={onClose} />);
+      onClose.mockClear();
+      onOpen.mockClear();
+    });
+
+    it('should open menu by method', () => {
+      selectRef.current?.open();
+      delay(0);
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
+
+    it('should handel onOpen event when open() method has been called', () => {
+      selectRef.current?.open();
+      delay(0);
+      expect(onOpen).toHaveBeenCalled();
+    });
+
+    it('should close menu by method', () => {
+      selectRef.current?.open();
+      delay(0);
+
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+
+      selectRef.current?.close();
+      delay(0);
+
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    });
+
+    it('should handel onClose event when close() method has been called', () => {
+      selectRef.current?.open();
+      delay(0);
+
+      selectRef.current?.close();
+      delay(0);
+
+      expect(onClose).toHaveBeenCalled();
+    });
+
+    it('should not call onClose event when menu wasn`t open', () => {
+      selectRef.current?.close();
+      delay(0);
+
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('should focus by method', () => {
+      selectRef.current?.focus();
+      delay(0);
+      expect(screen.getByRole('button')).toHaveFocus();
+    });
+  });
+
+  describe('handleKey', () => {
+    const testItems = ['One', 'Two', 'Three', 'Four'];
+
+    const Comp = () => {
+      const [value, setValue] = useState('');
+      return <Select items={testItems} onValueChange={setValue} value={value} />;
+    };
+
+    beforeEach(() => {
+      render(<Comp />);
+    });
+
+    it('should choose item when pressing enter key', () => {
+      userEvent.click(screen.getByRole('button'));
+      delay(0);
+
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      userEvent.keyboard('{arrowdown}');
+      userEvent.keyboard('{arrowdown}');
+
+      userEvent.keyboard('{enter}');
+
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.getByRole('button')).toHaveTextContent(testItems[1]);
+    });
+
+    it('should move highligted item when pressing arrow down key', () => {
+      userEvent.click(screen.getByRole('button'));
+      delay(0);
+
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
+
+      screen.debug();
+      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+      userEvent.keyboard('{arrowdown}');
+
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[0]);
+
+      userEvent.keyboard('{arrowdown}');
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[1]);
+    });
+
+    it('should move highligted item when pressing arrow up key', () => {
+      userEvent.click(screen.getByRole('button'));
+      delay(0);
+
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
+
+      screen.debug();
+      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+      userEvent.keyboard('{arrowup}');
+
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[testItems.length - 1]);
     });
   });
 });
