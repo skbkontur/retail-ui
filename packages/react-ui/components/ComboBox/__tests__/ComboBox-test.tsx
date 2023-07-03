@@ -29,11 +29,11 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
   let searchCalled: () => Promise<void>;
   const searchPromise = new Promise<void>(
     (resolve) =>
-    (searchCalled = async () => {
-      await delay(0);
+      (searchCalled = async () => {
+        await delay(0);
 
-      return resolve();
-    }),
+        return resolve();
+      }),
   );
   const search = jest.fn(() => {
     searchCalled();
@@ -194,13 +194,7 @@ describe('ComboBox', () => {
       .mockImplementationOnce(() => 'one')
       .mockImplementationOnce(() => undefined as unknown as string);
 
-    render(
-      <ComboBox
-        onValueChange={onValueChange}
-        onUnexpectedInput={mockFn}
-        getItems={() => Promise.resolve([])}
-      />,
-    );
+    render(<ComboBox onValueChange={onValueChange} onUnexpectedInput={mockFn} getItems={() => Promise.resolve([])} />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(0);
     userEvent.type(screen.getByRole('textbox'), 'one');
@@ -1256,18 +1250,14 @@ describe('ComboBox', () => {
   });
 
   it('should focus by method', () => {
-    const getItems = jest.fn((searchQuery) =>
-      Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
-    );
+    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
     render(<ComboBox getItems={getItems} ref={comboboxRef} />);
     comboboxRef.current?.focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('should blur by method', async () => {
-    const getItems = jest.fn((searchQuery) =>
-      Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
-    );
+    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
     render(<ComboBox getItems={getItems} ref={comboboxRef} />);
     comboboxRef.current?.focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
