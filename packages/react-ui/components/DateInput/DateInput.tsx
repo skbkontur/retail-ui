@@ -29,6 +29,10 @@ export interface DateInputState {
   dragged: boolean;
 }
 
+export const DateInputDataTids = {
+  icon: 'DateInput__icon',
+} as const;
+
 export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
   value?: string;
@@ -249,7 +253,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         [styles.iconLarge(theme)]: size === 'large',
         [styles.iconDisabled(theme)]: disabled,
       });
-      return <span className={iconStyles}>{icon}</span>;
+      return (
+        <span className={iconStyles} data-tid={DateInputDataTids.icon}>
+          {icon}
+        </span>
+      );
     }
     return null;
   };
