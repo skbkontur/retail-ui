@@ -23,11 +23,11 @@ export interface MenuItemProps extends Omit<CommonProps, 'children'> {
   /**
    * @ignore
    */
-  _highlightedIndex: number;
+  _highlightedIndex?: number;
   /**
    * @ignore
    */
-  _index: number;
+  _index?: number;
   /**
    * Добавляет описание для элемента меню.
    */
