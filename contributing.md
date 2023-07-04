@@ -106,19 +106,19 @@
 Перейдите в выбранную директорию для [клонирования](https://help.github.com/en/articles/cloning-a-repository) и выполните команду:
 
 ```
-git clone https://github.com/skbkontur/retail-ui.git
+git clone git@github.com:skbkontur/retail-ui.git
 ```
 
 Или, в случае форка:
 
 ```
-git clone https://github.com/%YOUR_USER_NAME%/retail-ui.git
+git clone git@github.com:%YOUR_USER_NAME%/retail-ui.git
 ```
 
 Работая с форком, полезно добавить upstream в качестве удаленного репозитория:
 
 ```
- git remote add upstream https://github.com/skbkontur/retail-ui.git
+ git remote add upstream git@github.com:skbkontur/retail-ui.git
 ```
 
 Теперь легко можно [синхронизировать](https://help.github.com/en/articles/syncing-a-fork) свой форк с основным репозиторием:
