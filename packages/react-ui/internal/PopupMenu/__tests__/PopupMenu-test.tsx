@@ -111,27 +111,6 @@ describe('PopupMenu', () => {
     expect(onCloseCallback).toHaveBeenCalledTimes(1);
   });
 
-  it('attribute `aria-haspopup` is passed to caption', () => {
-    render(<PopupMenu caption={<button>open menu</button>} />);
-
-    expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'true');
-  });
-
-  it('attribute `aria-haspopup` is passed to function caption', () => {
-    const testDataTid = 'func__root';
-    render(
-      <PopupMenu
-        caption={() => (
-          <div data-tid={testDataTid}>
-            <button>open menu</button>
-          </div>
-        )}
-      />,
-    );
-
-    expect(screen.getByTestId(testDataTid)).toHaveAttribute('aria-haspopup', 'true');
-  });
-
   it('prop `popupMenuId` sets an `id` for root of the popup', () => {
     const menuId = 'menu';
     render(<PopupMenu caption={<button>test</button>} popupMenuId={menuId} />);

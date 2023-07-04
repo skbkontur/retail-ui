@@ -685,6 +685,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref: this.buttonRef,
           onFocus: this.props.onFocus,
           onBlur: this.props.onBlur,
+          'aria-expanded': this.state.opened ? 'true' : 'false',
         })
       : buttonElement;
   };

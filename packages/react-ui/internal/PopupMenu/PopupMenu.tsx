@@ -197,7 +197,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       return caption;
     }
 
-    return React.cloneElement(caption as React.ReactElement, { 'aria-haspopup': true });
+    return React.cloneElement(caption as React.ReactElement, {
+      'aria-expanded': this.state.menuVisible ? 'true' : 'false',
+    });
   };
 
   private renderCaption = () => {
