@@ -12,7 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -170,13 +170,14 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     const linkProps = {
       className: cx(
+        styles.useRoot(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
-        this.getLinkClassName(isFocused, Boolean(disabled || loading)),
+        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
       ),
       href,
       rel,
@@ -227,7 +228,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private getLinkClassName(focused: boolean, disabled: boolean): string {
+  private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
@@ -242,6 +243,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
+          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(),
           isFocused && use === 'default' && styles.lineFocus(this.theme),
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
