@@ -36,7 +36,7 @@ export const styles = memoizeStyle({
     return css`
       border-bottom-style: ${t.linkLineBorderBottomStyle};
       border-bottom-width: ${t.linkLineBorderBottomWidth};
-      animation: ${line} 1s linear !important;
+      animation: ${line} 1s linear !important; // override creevey
       animation-play-state: paused !important;
       animation-delay: -0.5s !important;
     `;
