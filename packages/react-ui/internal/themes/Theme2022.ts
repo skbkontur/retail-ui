@@ -92,20 +92,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnLinkHoverTextDecoration = 'none';
 
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
-  }
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
   }
   public static get btnLinkLineBorderBottomWidth() {
     return this.linkLineBorderBottomWidth;
-  }
-  public static get btnLinkLineHoverBorderBottomColor() {
-    return this.linkLineHoverBorderBottomColor;
-  }
-  public static get btnLinkLineActiveBorderBottomColor() {
-    return this.linkLineActiveBorderBottomColor;
   }
   public static get btnLinkDisabledColor() {
     return this.linkDisabledColor;
@@ -287,12 +278,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Token
   public static tokenRemoveIconSize = '16px';
-  public static tokenRemoveIconPaddingY = '0';
-  public static tokenRemoveIconPaddingX = '0';
+  public static tokenRemoveIconPaddingY = '0px';
+  public static tokenRemoveIconPaddingX = '0px';
   public static tokenDefaultActive = '#323232';
   public static tokenBorderRadius = '2px';
 
-  public static tokenPaddingY = '0';
+  public static tokenPaddingY = '0px';
   public static tokenMarginX = '2px';
   public static tokenOutlineWidth = '1px';
 
@@ -451,7 +442,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static pagingLineHeight = '22px';
   public static pagingPageLinkPaddingX = '12px';
   public static pagingPageLinkBoxSizing = 'border-box';
-  public static pagingPageLinkHintMargin = '4px -20px 0';
+  public static pagingPageLinkHintMargin = '4px -20px 0px';
   public static pagingDotsColor = '#ADADAD';
   public static pagingDotsDisabledColor = '#ADADAD';
   public static pagingForwardLinkColor = '#222222';
