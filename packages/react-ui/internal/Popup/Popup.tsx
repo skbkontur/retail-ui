@@ -123,7 +123,7 @@ export interface PopupState {
 }
 
 export const PopupDataTids = {
-  root: 'Popup_root',
+  root: 'Popup__root',
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
   popupPin: 'PopupPin__root',
