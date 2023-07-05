@@ -1,5 +1,4 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 
 import { RadioGroup, RadioGroupProps } from '../RadioGroup';
