@@ -90,10 +90,11 @@ export interface AutocompleteState {
 
 export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
+  menu: 'Autocomplete__menu',
 } as const;
 
-const AutocompleteIds = {
-  menu: 'Autocomplete__menu',
+export const AutocompleteIds = {
+  menu: AutocompleteDataTids.menu,
 } as const;
 
 type DefaultProps = Required<
@@ -288,6 +289,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <DropdownContainer
         id={AutocompleteIds.menu}
+        data-tid={AutocompleteDataTids.menu}
         getParent={this.getAnchor}
         align={menuAlign}
         disablePortal={disablePortal}

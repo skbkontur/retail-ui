@@ -19,7 +19,9 @@ import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps extends Pick<InternalMenuProps, 'preventIconsOffset'>, Pick<HTMLAttributes<unknown>, 'id'> {
+export interface MenuProps
+  extends Pick<InternalMenuProps, 'preventIconsOffset'>,
+    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;

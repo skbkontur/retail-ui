@@ -2,6 +2,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
+import { PopupDataTids, PopupIds } from '../../../internal/Popup';
+import { MenuItem } from '../../../components/MenuItem';
 import { PopupMenuDataTids } from '../../../internal/PopupMenu';
 import { Kebab, KebabDataTids } from '../Kebab';
 
@@ -32,5 +34,25 @@ describe('Kebab', () => {
 
     userEvent.tab();
     expect(kebab).not.toHaveFocus();
+  });
+
+  it('should have an element with role="button"', () => {
+    render(<Kebab />);
+
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
+
+  it('should connect dropdown with button through aria-controls', () => {
+    render(
+      <Kebab>
+        <MenuItem>test</MenuItem>
+      </Kebab>,
+    );
+
+    const button = screen.getByRole('button');
+    userEvent.click(button);
+
+    expect(button).toHaveAttribute('aria-controls', PopupIds.root);
+    expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('id', PopupIds.root);
   });
 });

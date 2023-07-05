@@ -64,11 +64,12 @@ const PASS_BUTTON_PROPS = {
 
 export const SelectDataTids = {
   root: 'Select__root',
+  menu: 'Select__menu',
 } as const;
 
-const SelectIds = {
-  menu: 'Select__menu',
-};
+export const SelectIds = {
+  menu: SelectDataTids.menu,
+} as const;
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
@@ -456,6 +457,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <DropdownContainer
         id={SelectIds.menu}
+        data-tid={SelectDataTids.menu}
         getParent={this.dropdownContainerGetParent}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}

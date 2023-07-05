@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
-import { Autocomplete, AutocompleteProps } from '../Autocomplete';
+import { InputDataTids } from '../../../components/Input';
+import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay } from '../../../lib/utils';
 
 function clickOutside() {
@@ -350,6 +351,23 @@ describe('<Autocomplete />', () => {
     const menuItems = screen.getByTestId('MenuItem__root');
     expect(menuItems).toBeInTheDocument();
     expect(menuItems).toHaveTextContent('1');
+  });
+
+  it('should connect dropdown with input through aria-controls', async () => {
+    const Comp = () => {
+      const [value, setValue] = useState('');
+
+      return <Autocomplete source={['one', 'oneone', 'oneoneone']} value={value} onValueChange={setValue} />;
+    };
+    render(<Comp />);
+
+    const input = screen.getByTestId(InputDataTids.root);
+    userEvent.type(input, 'one');
+
+    expect(input).toHaveAttribute('aria-controls', AutocompleteIds.menu);
+    await waitFor(() => {
+      expect(screen.getByTestId(AutocompleteDataTids.menu)).toHaveAttribute('id', AutocompleteIds.menu);
+    });
   });
 });
 

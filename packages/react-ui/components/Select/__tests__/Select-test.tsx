@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
-import { Select } from '../Select';
+import { Select, SelectDataTids, SelectIds } from '../Select';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -238,6 +238,32 @@ describe('Select', () => {
     }
 
     expect(() => render(<SelectGeneric />)).not.toThrow();
+  });
+
+  it('should change value of aria-expanded when opening and closing', () => {
+    render(<Select />);
+
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+
+    userEvent.click(button);
+
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('should connect dropdown with button through aria-controls', async () => {
+    render(<Select items={['one', 'two', 'three']} />);
+
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('aria-controls', SelectIds.menu);
+
+    userEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', SelectIds.menu);
+    });
   });
 
   describe('Locale', () => {
