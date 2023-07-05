@@ -92,6 +92,10 @@ export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
 } as const;
 
+const AutocompleteIds = {
+  menu: 'Autocomplete__menu',
+} as const;
+
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
@@ -241,7 +245,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           style={{ width }}
           ref={this.refRootSpan}
         >
-          <Input {...inputProps} />
+          <Input aria-controls={AutocompleteIds.menu} {...inputProps} />
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
       </RenderLayer>
@@ -282,7 +286,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return (
-      <DropdownContainer getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal} menuPos={menuPos}>
+      <DropdownContainer
+        id={AutocompleteIds.menu}
+        getParent={this.getAnchor}
+        align={menuAlign}
+        disablePortal={disablePortal}
+        menuPos={menuPos}
+      >
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );
@@ -302,6 +312,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <MobilePopup
+        id={AutocompleteIds.menu}
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
         opened={this.state.isMobileOpened}

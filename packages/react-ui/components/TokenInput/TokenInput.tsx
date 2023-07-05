@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import isEqual from 'lodash.isequal';
 
+import { PopupIds } from '../../internal/Popup';
 import {
   isKeyArrowHorizontal,
   isKeyArrowLeft,
@@ -441,6 +442,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             {this.renderTokensStart()}
             <textarea
               id={this.textareaId}
+              aria-controls={PopupIds.root}
               ref={this.inputRef}
               value={inputValue}
               style={inputInlineStyles}

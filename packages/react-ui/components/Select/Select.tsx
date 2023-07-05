@@ -455,6 +455,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <DropdownContainer
+        id={SelectIds.menu}
         getParent={this.dropdownContainerGetParent}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
@@ -462,7 +463,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         menuPos={this.props.menuPos}
       >
         <Menu
-          id={SelectIds.menu}
           ref={this.refMenu}
           width={this.props.menuWidth}
           onItemClick={this.close}

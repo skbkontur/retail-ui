@@ -9,7 +9,7 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { InternalMenu, InternalMenuProps } from '../InternalMenu';
-import { Popup, PopupPositionsType } from '../Popup';
+import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -139,7 +139,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           active={this.state.menuVisible}
         >
           <div
-            id={this.props.popupMenuId}
+            id={this.props.popupMenuId ?? PopupIds.root}
             data-tid={PopupMenuDataTids.root}
             className={styles.container()}
             style={{ width: this.props.width }}
@@ -198,6 +198,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     }
 
     return React.cloneElement(caption as React.ReactElement, {
+      'aria-controls': this.props.popupMenuId ?? PopupIds.root,
       'aria-expanded': this.state.menuVisible ? 'true' : 'false',
     });
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
@@ -68,7 +68,10 @@ export interface PopupHandlerProps {
   onClose?: () => void;
 }
 
-export interface PopupProps extends Omit<CommonProps, 'children'>, PopupHandlerProps {
+export interface PopupProps
+  extends Omit<CommonProps, 'children'>,
+    PopupHandlerProps,
+    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
@@ -120,10 +123,15 @@ export interface PopupState {
 }
 
 export const PopupDataTids = {
+  root: 'Popup_root',
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
   popupPin: 'PopupPin__root',
 } as const;
+
+export const PopupIds = {
+  root: PopupDataTids.root,
+};
 
 type DefaultProps = Required<
   Pick<
@@ -468,7 +476,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(state: string) => (
           <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
-              data-tid={'Popup__root'}
+              id={PopupIds.root}
+              data-tid={PopupDataTids.root}
               wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({

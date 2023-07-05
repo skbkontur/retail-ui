@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
@@ -19,7 +19,7 @@ export interface DropdownContainerPosition {
   right: Nullable<number>;
 }
 
-export interface DropdownContainerProps {
+export interface DropdownContainerProps extends Pick<HTMLAttributes<unknown>, 'id'> {
   align?: 'left' | 'right';
   getParent: () => Nullable<Element>;
   children?: React.ReactNode;
@@ -93,6 +93,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
     const content = (
       <ZIndex
+        id={this.props.id}
         priority={'DropdownContainer'}
         wrapperRef={this.ZIndexRef}
         style={style}

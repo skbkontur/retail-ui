@@ -184,6 +184,10 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
+export const ComboBoxIds = {
+  menu: 'ComboBox__menu',
+};
+
 export interface ComboBoxItem {
   value: string;
   label: string;
