@@ -118,42 +118,6 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
-  public static get linkLineBorderBottomColor() {
-    return ColorFunctions.fade(this.linkColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColor() {
-    return this.linkHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColor() {
-    return this.linkActiveColor;
-  }
-  public static get linkLineBorderBottomColorSuccess() {
-    return ColorFunctions.fade(this.linkSuccessColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColorSuccess() {
-    return this.linkSuccessHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColorSuccess() {
-    return this.linkSuccessActiveColor;
-  }
-  public static get linkLineBorderBottomColorDanger() {
-    return ColorFunctions.fade(this.linkDangerColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColorDanger() {
-    return this.linkDangerHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColorDanger() {
-    return this.linkDangerActiveColor;
-  }
-  public static get linkLineBorderBottomColorGrayed() {
-    return ColorFunctions.fade(this.linkGrayedColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColorGrayed() {
-    return this.linkGrayedHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColorGrayed() {
-    return this.linkGrayedActiveColor;
-  }
   public static linkLineBorderBottomStyle = '';
   public static linkLineBorderBottomWidth = '0px';
 
@@ -518,15 +482,6 @@ export class DefaultTheme {
   }
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
-  }
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
-  }
-  public static get btnLinkLineHoverBorderBottomColor() {
-    return this.linkLineHoverBorderBottomColor;
-  }
-  public static get btnLinkLineActiveBorderBottomColor() {
-    return this.linkLineActiveBorderBottomColor;
   }
   public static btnLinkLineBorderBottomStyle = '';
   public static btnLinkLineBorderBottomWidth = '0px';
