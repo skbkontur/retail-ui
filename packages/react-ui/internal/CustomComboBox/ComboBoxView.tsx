@@ -1,6 +1,5 @@
 import React, { AriaAttributes } from 'react';
 
-import { ComboBoxIds } from '../../components/ComboBox';
 import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
@@ -104,6 +103,10 @@ type DefaultProps<T> = Required<
     | 'width'
   >
 >;
+
+export const ComboBoxViewIds = {
+  menu: 'ComboBoxView__menu',
+};
 
 @responsiveLayout
 @rootNode
@@ -335,7 +338,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           warning={warning}
           inputMode={inputMode}
           aria-describedby={ariaDescribedby}
-          aria-controls={ComboBoxIds.menu}
+          aria-controls={ComboBoxViewIds.menu}
         />
       );
     }
@@ -355,7 +358,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         width="100%"
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
-        aria-controls={ComboBoxIds.menu}
+        aria-controls={ComboBoxViewIds.menu}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>

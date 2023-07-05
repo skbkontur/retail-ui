@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ComboBoxIds } from '../../components/ComboBox';
 import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
@@ -13,6 +12,7 @@ import { MenuMessage } from '../MenuMessage';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
+import { ComboBoxViewIds } from './ComboBoxView';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -90,7 +90,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           maxHeight={maxHeight}
           ref={refMenu}
           disableScrollContainer={isMobile}
-          id={ComboBoxIds.menu}
+          id={ComboBoxViewIds.menu}
           data-tid={ComboBoxMenuDataTids.loading}
         >
           <MenuMessage as="div">
@@ -106,7 +106,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           ref={refMenu}
           maxHeight={maxHeight}
           disableScrollContainer={isMobile}
-          id={ComboBoxIds.menu}
+          id={ComboBoxViewIds.menu}
           data-tid={ComboBoxMenuDataTids.failed}
         >
           <MenuMessage key="message">
@@ -123,7 +123,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       const notFoundValue = renderNotFound();
       if (renderAddButton) {
         return (
-          <Menu id={ComboBoxIds.menu} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
+          <Menu id={ComboBoxViewIds.menu} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
             {renderAddButton}
           </Menu>
         );
@@ -131,7 +131,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
       if (notFoundValue) {
         return (
-          <Menu id={ComboBoxIds.menu} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
+          <Menu id={ComboBoxViewIds.menu} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
             <MenuMessage data-tid={ComboBoxMenuDataTids.notFound}>{notFoundValue}</MenuMessage>
           </Menu>
         );
@@ -157,7 +157,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
     return (
       <Menu
-        id={ComboBoxIds.menu}
+        id={ComboBoxViewIds.menu}
         data-tid={ComboBoxMenuDataTids.items}
         ref={refMenu}
         maxHeight={maxHeight}
