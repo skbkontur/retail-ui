@@ -1,6 +1,5 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, HTMLAttributes } from 'react';
 
-import { isHTMLElement } from '../../lib/SSRSafe';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
@@ -20,7 +19,7 @@ import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps extends Pick<InternalMenuProps, 'preventIconsOffset'> {
+export interface MenuProps extends Pick<InternalMenuProps, 'preventIconsOffset'>, Pick<HTMLAttributes<unknown>, 'id'> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -122,11 +121,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   public highlightItem(index: number) {
     this.highlight(index);
-
-    const rootNode = getRootNode(this);
-    if (isHTMLElement(rootNode)) {
-      rootNode?.focus();
-    }
   }
 
   private renderMain() {
@@ -153,6 +147,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}
         style={getStyle(this.props)}
+        id={this.props.id}
         ref={this.setRootNode}
       >
         <ScrollContainer
@@ -200,8 +195,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
           ref,
           state: highlight ? 'hover' : modifiedChild.props.state,
-          _highlightedIndex: this.state.highlightedIndex,
-          _index: index,
           onClick: this.select.bind(this, index, false),
           onMouseEnter: this.highlight.bind(this, index),
           onMouseLeave: this.unhighlight,

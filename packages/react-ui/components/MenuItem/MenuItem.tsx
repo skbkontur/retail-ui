@@ -21,14 +21,6 @@ export interface MenuItemProps extends Omit<CommonProps, 'children'> {
    */
   _enableIconPadding?: boolean;
   /**
-   * @ignore
-   */
-  _highlightedIndex?: number;
-  /**
-   * @ignore
-   */
-  _index?: number;
-  /**
    * Добавляет описание для элемента меню.
    */
   comment?: React.ReactNode;
@@ -158,14 +150,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public componentDidMount() {
     if (this.rootRef) {
       this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
-    }
-  }
-
-  public componentDidUpdate() {
-    if (isNonNullable(this.props._highlightedIndex) && isNonNullable(this.props._index)) {
-      if (this.props._highlightedIndex === this.props._index) {
-        this.rootRef?.focus();
-      }
     }
   }
 

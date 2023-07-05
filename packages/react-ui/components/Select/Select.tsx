@@ -47,6 +47,7 @@ export interface ButtonParams {
   opened: boolean;
   isPlaceholder: boolean;
   'aria-describedby'?: AriaAttributes['aria-describedby'];
+  'aria-controls'?: AriaAttributes['aria-controls'];
 }
 
 const PASS_BUTTON_PROPS = {
@@ -65,6 +66,10 @@ export const SelectDataTids = {
   root: 'Select__root',
 } as const;
 
+const SelectIds = {
+  menu: 'Select__menu',
+};
+
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
@@ -72,7 +77,10 @@ type SelectItem<TValue, TItem> =
   | React.ReactElement
   | (() => React.ReactElement);
 
-export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
+export interface SelectProps<TValue, TItem>
+  extends CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -156,10 +164,6 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownCo
    * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface SelectState<TValue> {
@@ -341,7 +345,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
-      'aria-describedby': this.props['aria-describedby'],
     };
 
     return buttonParams;
@@ -389,7 +392,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
       active: params.opened,
-      'aria-describedby': params['aria-describedby'],
     };
     const use = this.getProps().use;
 
@@ -460,6 +462,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         menuPos={this.props.menuPos}
       >
         <Menu
+          id={SelectIds.menu}
           ref={this.refMenu}
           width={this.props.menuWidth}
           onItemClick={this.close}
@@ -685,7 +688,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref: this.buttonRef,
           onFocus: this.props.onFocus,
           onBlur: this.props.onBlur,
+          'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
+          'aria-controls': SelectIds.menu,
         })
       : buttonElement;
   };
