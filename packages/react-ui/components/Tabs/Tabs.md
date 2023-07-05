@@ -34,3 +34,31 @@ const TabLink = ({ id, children }) => (
   <TabLink id="/alps">🗻 Alps</TabLink>
 </Tabs>;
 ```
+
+У табов есть 3 стандартных размера
+```jsx harmony
+const [active, setActive] = React.useState('fuji');
+<div>
+  <div>
+    <Tabs value={active} onValueChange={setActive} size="small">
+      <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
+      <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
+      <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
+    </Tabs>
+  </div>
+  <div>
+    <Tabs value={active} onValueChange={setActive} size="medium">
+      <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
+      <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
+      <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
+    </Tabs>
+  </div>
+  <div>
+    <Tabs value={active} onValueChange={setActive} size="large">
+      <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
+      <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
+      <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
+    </Tabs>
+  </div>
+</div>;
+```

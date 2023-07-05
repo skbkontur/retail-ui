@@ -8,7 +8,7 @@ import { linkTo } from '@storybook/addon-links';
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
-import { TabProps } from '../Tab';
+import { TabProps, TabSize } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
@@ -32,6 +32,7 @@ enum Mountain {
 
 interface UncTabsProps {
   vertical?: boolean;
+  size?: TabSize;
 }
 interface UncTabsState {
   value: Mountain;
@@ -47,6 +48,7 @@ class UncTabs extends React.Component<UncTabsProps> {
         value={this.state.value}
         onValueChange={(v) => this.setState({ value: v })}
         vertical={this.props.vertical}
+        size={this.props.size}
       >
         <Tab id={Mountain.fuji}>{Mountain.fuji}</Tab>
         <Tab id={Mountain.tahat}>{Mountain.tahat}</Tab>
@@ -673,3 +675,18 @@ TabsWithImage.parameters = {
     delay: 500,
   },
 };
+
+export const Size: Story = () => {
+  const cols: Array<Partial<UncTabsProps>> = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+  const rows: Array<Partial<UncTabsProps>> = [{ vertical: false }, { vertical: true }];
+  return (
+    <div>
+      <ComponentTable
+        Component={UncTabs}
+        cols={cols.map((x) => ({ props: x }))}
+        rows={rows.map((x) => ({ props: x }))}
+      />
+    </div>
+  );
+};
+Size.storyName = 'size';

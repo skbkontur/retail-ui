@@ -1662,20 +1662,41 @@ export class DefaultTheme {
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
   //#region Tabs
-  public static get tabFontSize() {
+  public static get tabFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get tabFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get tabFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  public static tabPaddingX = '12px';
-  public static get tabsMarginX() {
-    return this.tabPaddingX;
+  public static get tabLineHeightSmall() {
+    return this.controlLineHeightSmall;
   }
-  public static get tabPaddingY() {
-    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+  public static get tabLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tabLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static tabPaddingXSmall = '8px';
+  public static tabPaddingXMedium = '10px';
+  public static tabPaddingXLarge = '12px';
+  public static get tabPaddingYSmall() {
+    const paddingY = parseInt(this.controlPaddingYSmall) || 5;
+    const borderWidth = parseInt(this.controlBorderWidth) || 1;
     return `${paddingY + borderWidth}px`;
   }
-  public static get tabLineHeight() {
-    return this.controlLineHeightLarge;
+  public static get tabPaddingYMedium() {
+    const paddingY = parseInt(this.controlPaddingYMedium) || 8;
+    const borderWidth = parseInt(this.controlBorderWidth) || 1;
+    return `${paddingY + borderWidth}px`;
+  }
+  public static get tabPaddingYLarge() {
+    const paddingY = parseInt(this.controlPaddingYLarge) || 11;
+    const borderWidth = parseInt(this.controlBorderWidth) || 1;
+    return `${paddingY + borderWidth}px`;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {
