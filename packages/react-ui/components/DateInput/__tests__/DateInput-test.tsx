@@ -1,12 +1,12 @@
 import React from 'react';
-import { render as renderRTL, screen } from '@testing-library/react';
-import { mount, ReactWrapper } from 'enzyme';
+import { fireEvent, render as renderRTL, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
-import { DefaultizeProps } from '../../../lib/utils';
+import { DefaultizeProps, delay } from '../../../lib/utils';
 import { InternalDateOrder } from '../../../lib/date/types';
-import { DateInput, DateInputProps } from '../DateInput';
+import { DateInput, DateInputDataTids, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
 type InitialDate = string;
@@ -32,11 +32,9 @@ const LocaleDateInput: React.FunctionComponent<LocaleDateInputProps> = ({ propsD
 const render = (
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>,
   propsLocale: LocaleContextProps = {},
-) => mount<LocaleDateInputProps>(<LocaleDateInput {...{ propsDateInput, propsLocale }} />);
+) => renderRTL(<LocaleDateInput {...{ propsDateInput, propsLocale }} />);
 
-const getInput = (root: ReactWrapper<LocaleDateInputProps>) => root.find('[data-tid="InputLikeText__input"]');
-
-const getValue = (input: ReactWrapper) => input.text();
+const getInput = () => screen.getByTestId(InputLikeTextDataTids.input);
 
 describe('DateInput as InputlikeText', () => {
   describe('without min/max date', () => {
@@ -45,25 +43,28 @@ describe('DateInput as InputlikeText', () => {
     });
 
     it('renders with given valid value', () => {
-      const root = render({ value: '10.02.2017' });
-      const input = getInput(root);
-      expect(getValue(input)).toBe('10.02.2017');
+      render({ value: '10.02.2017' });
+      const input = getInput();
+      expect(input).toHaveTextContent('10.02.2017');
     });
 
     it('updates when value changes', () => {
-      const root = render({ value: '10.02.2017' });
+      const { rerender } = renderRTL(<LocaleDateInput propsDateInput={{ value: '10.02.2017' }} propsLocale={{}} />);
 
-      root.setProps({ propsDateInput: { value: '11.02.2017' } });
+      rerender(<LocaleDateInput propsDateInput={{ value: '11.02.2017' }} propsLocale={{}} />);
+      const input = getInput();
 
-      expect(getValue(getInput(root))).toBe('11.02.2017');
+      expect(input).toHaveTextContent('11.02.2017');
     });
 
     it('handles invalid date strings', () => {
-      const root = render({ value: '10.02.2017' });
+      const { rerender } = renderRTL(<LocaleDateInput propsDateInput={{ value: '10.02.2017' }} propsLocale={{}} />);
 
-      root.setProps({ propsDateInput: { value: '99.9' } });
+      rerender(<LocaleDateInput propsDateInput={{ value: '99.9' }} propsLocale={{}} />);
+      const input = getInput();
 
-      expect(getValue(getInput(root))).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
+      // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+      expect(input.textContent).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
     });
 
     const KeyDownCases: KeyDownCase[] = [
@@ -119,9 +120,12 @@ describe('DateInput as InputlikeText', () => {
       const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
       it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, () => {
         const onValueChange = jest.fn();
-        const input = getInput(render({ value: initDate, onValueChange }));
-        input.simulate('focus');
-        keys.forEach((key) => input.simulate('keydown', { key }));
+        render({ value: initDate, onValueChange });
+        const input = getInput();
+        userEvent.click(input);
+
+        keys.forEach((key) => fireEvent.keyDown(input, { key }));
+
         const [value] = onValueChange.mock.calls[onValueChange.mock.calls.length - 1];
         expect(value).toBe(expected);
       });
@@ -151,15 +155,15 @@ describe('DateInput as InputlikeText', () => {
     PasteCases.forEach(([order, pasted, expected]) => {
       it(`handles paste "${pasted}"`, () => {
         const onValueChange = jest.fn();
-        const input = getInput(
-          render(
-            { onValueChange },
-            {
-              locale: { DatePicker: { order: order as InternalDateOrder } },
-            },
-          ),
+        render(
+          { onValueChange },
+          {
+            locale: { DatePicker: { order: order as InternalDateOrder } },
+          },
         );
-        input.simulate('paste', { clipboardData: { getData: () => pasted } });
+
+        const input = getInput();
+        fireEvent.paste(input, { clipboardData: { getData: () => pasted } });
         const [value] = onValueChange.mock.calls[0];
         expect(value).toBe(expected);
       });
@@ -194,9 +198,10 @@ describe('DateInput as InputlikeText', () => {
 
       it(`does not call onValueChange if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
         const onValueChange = jest.fn();
-        const input = getInput(render({ value: initDate, onValueChange, minDate, maxDate }));
-        input.simulate('focus');
-        keys.forEach((key) => input.simulate('keydown', { key }));
+        render({ value: initDate, onValueChange, minDate, maxDate });
+        const input = getInput();
+        userEvent.click(input);
+        keys.forEach((key) => fireEvent.keyDown(input, { key }));
 
         expect(onValueChange).not.toHaveBeenCalled();
       });
@@ -221,9 +226,10 @@ describe('DateInput as InputlikeText', () => {
 
       it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
         const onValueChange = jest.fn();
-        const input = getInput(render({ value: initDate, onValueChange, minDate, maxDate }));
-        input.simulate('focus');
-        keys.forEach((key) => input.simulate('keydown', { key }));
+        render({ value: initDate, onValueChange, minDate, maxDate });
+        const input = getInput();
+        userEvent.click(input);
+        keys.forEach((key) => fireEvent.keyDown(input, { key }));
         const [value] = onValueChange.mock.calls[0];
 
         expect(value).toBe(expected);
@@ -235,5 +241,123 @@ describe('DateInput as InputlikeText', () => {
     renderRTL(<DateInput disabled />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
+
+  it('should handle keydown event', () => {
+    const onKeyDown = jest.fn();
+    renderRTL(<DateInput onKeyDown={onKeyDown} />);
+
+    fireEvent.keyDown(getInput(), 'a');
+
+    expect(onKeyDown).toHaveBeenCalled();
+  });
+
+  it('should handle onFocus event', () => {
+    const onFocus = jest.fn();
+    renderRTL(<DateInput onFocus={onFocus} />);
+
+    userEvent.click(getInput());
+
+    expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('should handle onBlur event', () => {
+    const onBlur = jest.fn();
+    renderRTL(<DateInput onBlur={onBlur} />);
+    userEvent.tab();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    userEvent.tab();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('should handle double click', async () => {
+    const inputLikeTextRef = React.createRef<DateInput>();
+    const value = '27.04.1988';
+
+    renderRTL(<DateInput value={value} ref={inputLikeTextRef} />);
+    const input = getInput();
+    userEvent.dblClick(input);
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    await delay(0);
+    expect(getSelection()?.toString()).toBe(value);
+  });
+
+  const textContentWithMaskChars = `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(
+    2,
+  )}.${MASK_CHAR_EXEMPLAR.repeat(4)}`;
+
+  it('should clear selected text in the input after pressing delete button', () => {
+    renderRTL(<DateInput value="27.04.1988" />);
+    const input = getInput();
+    userEvent.dblClick(input);
+    userEvent.keyboard('{delete}');
+
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(textContentWithMaskChars);
+  });
+
+  it('should clear selected text in the input after pressing backspace button', () => {
+    renderRTL(<DateInput value="27.04.1988" />);
+    const input = getInput();
+    userEvent.dblClick(input);
+    userEvent.keyboard('{backspace}');
+
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(textContentWithMaskChars);
+  });
+
+  it('should delete one char in DD by default after focus on element', () => {
+    renderRTL(<DateInput value="27.04.1988" />);
+    const input = getInput();
+    userEvent.type(input, '{backspace}');
+
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(`2${MASK_CHAR_EXEMPLAR.repeat(1)}.04.1988`);
+  });
+
+  it('should focus by method', () => {
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+
+    inputLikeTextRef.current?.focus();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+  });
+
+  it('should blur by method', () => {
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+    inputLikeTextRef.current?.focus();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+
+    inputLikeTextRef.current?.blur();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+
+  it('blink method works', () => {
+    const blinkMock = jest.fn();
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+
+    if (inputLikeTextRef.current) {
+      inputLikeTextRef.current.blink = blinkMock;
+    }
+    userEvent.type(getInput(), '{enter}');
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should focus if autoFocus prop passed', () => {
+    renderRTL(<DateInput autoFocus />);
+
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+  });
+
+  it('should render with icon', () => {
+    renderRTL(<DateInput withIcon />);
+
+    expect(screen.getByTestId(DateInputDataTids.icon)).toBeInTheDocument();
   });
 });
