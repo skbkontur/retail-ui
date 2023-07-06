@@ -24,7 +24,6 @@ describe('<RadioGroup />', () => {
   const defaultValueIndex = 2;
   const rgRef = React.createRef<RadioGroup<string>>();
 
-
   it('renders radios inside for items prop', () => {
     renderRadioGroup({ items });
 
@@ -33,19 +32,21 @@ describe('<RadioGroup />', () => {
 
   it('renders radios with correct labels', () => {
     renderRadioGroup({ items });
-    const radios = screen.getAllByTestId(RadioDataTids.root)
+    const radios = screen.getAllByTestId(RadioDataTids.root);
     items.forEach((item, index) => {
       expect(radios[index]).toHaveTextContent(item);
     });
   });
 
-  // it('renders radios with correct values', () => {
-  //   const items = ['one', 'two', 'three'];
-  //   const radios = renderRadioGroup({ items }).find(Radio);
-  //   items.forEach((item, index) => {
-  //     expect(radios.at(index).prop('value')).toBe(item);
-  //   });
-  // });
+  it('renders radios with correct values', () => {
+    renderRadioGroup({ items });
+    const radios = screen.getAllByRole('radio');
+
+    items.forEach((item, index) => {
+      // eslint-disable-next-line jest-dom/prefer-to-have-value
+      expect(radios[index]).toHaveAttribute('value', item);
+    });
+  });
 
   it('renders radios with renderItem prop', () => {
     const renderItem = (x: string) => x.toUpperCase();
