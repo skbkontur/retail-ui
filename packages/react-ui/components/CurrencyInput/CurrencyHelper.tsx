@@ -65,12 +65,30 @@ export class CurrencyHelper {
     return cursorMap;
   }
 
+  public static toDecimalString = (number: number) => {
+    const [base, exponent] = number.toExponential().split("e");
+    const isNegativeExponent = (parseInt(exponent, 10) < 0);
+    let result = "";
+
+    if (isNegativeExponent) {
+      const absExponent = Math.abs(parseInt(exponent, 10)) - 1;
+      const [whole, fractional= ''] = base.split('.');
+      result = whole + fractional;
+      result = "0." + "0".repeat(absExponent) + result;
+    } else {
+      const decimalPlaces = (base.split('.')[1] || []).length;
+      const paddingNeeded = parseInt(exponent, 10) - decimalPlaces;
+      result = base.split('.')[0] + (base.split('.')[1] || "") + "0".repeat(paddingNeeded);
+    }
+
+    return result;
+  }
+
   public static format(value: Nullable<number>, options?: Nullable<DecimalFormattingOptions>): string {
     if (isNullable(value)) {
       return '';
     }
-
-    return CurrencyHelper.formatString(value.toString(), options);
+    return CurrencyHelper.formatString(this.toDecimalString(value), options);
   }
 
   public static parse(value: string): Nullable<number> {
