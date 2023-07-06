@@ -222,6 +222,7 @@ export const DefaultState = {
 export const TokenInputDataTids = {
   root: 'TokenInput__root',
   tokenInputMenu: 'TokenInputMenu__root',
+  label: 'TokenInput__label',
 } as const;
 
 type DefaultProps<T> = Required<
@@ -430,6 +431,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}
             htmlFor={this.textareaId}
+            aria-controls={PopupIds.root}
+            data-tid={TokenInputDataTids.label}
           >
             <TextWidthHelper
               ref={this.textHelperRef}
@@ -442,7 +445,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             {this.renderTokensStart()}
             <textarea
               id={this.textareaId}
-              aria-controls={PopupIds.root}
               ref={this.inputRef}
               value={inputValue}
               style={inputInlineStyles}

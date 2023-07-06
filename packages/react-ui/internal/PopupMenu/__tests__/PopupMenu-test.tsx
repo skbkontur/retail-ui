@@ -2,6 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
+import { PopupIds } from '../../../internal/Popup/Popup';
 import { PopupMenu, PopupMenuCaptionProps, PopupMenuDataTids } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';
 
@@ -118,5 +119,29 @@ describe('PopupMenu', () => {
 
     const menu = screen.getByTestId(PopupMenuDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
+  });
+
+  it('should set default value for aria-controls attribute', () => {
+    render(<PopupMenu caption={<button>test</button>} />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', PopupIds.root);
+  });
+
+  it('should set value for aria-controls attribute', () => {
+    const ariaControls = 'test';
+    render(<PopupMenu popupMenuId={ariaControls} caption={<button>test</button>} />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', ariaControls);
+  });
+
+  it('should change value of aria-expanded when opening and closing', () => {
+    render(<PopupMenu caption={<button>test</button>} />);
+
+    const button = screen.getByRole('button');
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+
+    userEvent.click(button);
+
+    expect(button).toHaveAttribute('aria-expanded', 'true');
   });
 });

@@ -3,10 +3,11 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html';
 
+import { InputDataTids } from '../../../components/Input';
 import { MenuMessage } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -14,7 +15,7 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText, InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
-import { Menu } from '../../../internal/Menu';
+import { Menu, MenuDataTids } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
 import {
   ComboBoxMenuDataTids,
@@ -22,7 +23,7 @@ import {
   DELAY_BEFORE_SHOW_LOADER,
   LOADER_SHOW_TIME,
 } from '../../../internal/CustomComboBox';
-import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
+import { ComboBoxView, ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
@@ -1370,31 +1371,47 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 
-  it('props aria-describedby applied correctly on Input', () => {
-    const getItems = () => {
-      return Promise.resolve([{ value: 1, label: 'First' }]);
-    };
+  describe('a11y', () => {
+    it('props aria-describedby applied correctly on Input', () => {
+      const getItems = () => {
+        return Promise.resolve([{ value: 1, label: 'First' }]);
+      };
 
-    render(
-      <div>
-        <ComboBox aria-describedby="elementId" getItems={getItems} autoFocus />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const comboBox = screen.getByRole('textbox');
-    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
-    expect(comboBox).toHaveAccessibleDescription('Description');
-  });
+      render(
+        <div>
+          <ComboBox aria-describedby="elementId" getItems={getItems} autoFocus />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const comboBox = screen.getByRole('textbox');
+      expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+      expect(comboBox).toHaveAccessibleDescription('Description');
+    });
 
-  it('props aria-describedby applied correctly on InputLikeText', () => {
-    render(
-      <div>
-        <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
-    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
-    expect(comboBox).toHaveAccessibleDescription('Description');
+    it('props aria-describedby applied correctly on InputLikeText', () => {
+      render(
+        <div>
+          <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
+      expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+      expect(comboBox).toHaveAccessibleDescription('Description');
+    });
+
+    it('should connect input and dropdown through aria-controls', async () => {
+      render(<ComboBox getItems={jest.fn()} />);
+
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveAttribute('aria-controls', ComboBoxViewIds.menu);
+
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+      expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute('aria-controls', ComboBoxViewIds.menu);
+
+      await waitFor(() => {
+        expect(screen.getByTestId(MenuDataTids.root)).toHaveAttribute('id', ComboBoxViewIds.menu);
+      });
+    });
   });
 });
