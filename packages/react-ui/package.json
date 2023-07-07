@@ -140,7 +140,7 @@
     "semver": "^7.3.5",
     "serve": "^13.0.2",
     "style-loader": "^2.0.0",
-    "stylelint": "^14.2.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard": "^24.0.0",
     "typescript": "4.5.4",
     "upath": "^2.0.1",
