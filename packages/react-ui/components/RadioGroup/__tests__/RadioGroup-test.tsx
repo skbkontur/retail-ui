@@ -216,20 +216,6 @@ describe('<RadioGroup />', () => {
     expect(screen.getAllByRole('radio')[defaultValueIndex]).toHaveFocus();
   });
 
-  // it('does not fail on focus', () => {
-  //   const children = (
-  //     <div>
-  //       <Radio value="one">Hello</Radio>
-  //       <Radio value="two">Hello</Radio>
-  //       <Radio value="three">Hello</Radio>
-  //     </div>
-  //   );
-  //   const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
-  //   const instance = wrapper.instance();
-
-  //   expect(() => instance.focus()).not.toThrow();
-  // });
-
   it('has Prevent static prop', () => {
     expect(RadioGroup.Prevent).toBeDefined();
   });
