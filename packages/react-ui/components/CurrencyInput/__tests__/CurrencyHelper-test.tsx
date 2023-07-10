@@ -35,6 +35,7 @@ describe('CurrencyHelper', () => {
       { value: -0, expected: '0' },
       { value: -1, expected: '\u22121' },
       { value: -1234567, expected: '\u22121\u2009234\u2009567' },
+      { value: 1e-7, expected: '0,0000001' },
     ].forEach((x) => {
       it(`format(${x.value}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.format(x.value);
