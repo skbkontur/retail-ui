@@ -65,25 +65,6 @@ export class CurrencyHelper {
     return cursorMap;
   }
 
-  public static toDecimalString = (number: number) => {
-    const [base, exponent] = number.toExponential().split("e");
-    const isNegativeExponent = (parseInt(exponent, 10) < 0);
-    let result = "";
-
-    if (isNegativeExponent) {
-      const absExponent = Math.abs(parseInt(exponent, 10)) - 1;
-      const [whole, fractional= ''] = base.split('.');
-      result = whole + fractional;
-      result = "0." + "0".repeat(absExponent) + result;
-    } else {
-      const decimalPlaces = (base.split('.')[1] || []).length;
-      const paddingNeeded = parseInt(exponent, 10) - decimalPlaces;
-      result = base.split('.')[0] + (base.split('.')[1] || "") + "0".repeat(paddingNeeded);
-    }
-
-    return result;
-  }
-
   public static format(value: Nullable<number>, options?: Nullable<DecimalFormattingOptions>): string {
     if (isNullable(value)) {
       return '';
@@ -227,4 +208,17 @@ export class CurrencyHelper {
     const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
     return { sign, integer, delimiter, fraction };
   }
+
+  private static toDecimalString = (number: number) => {
+    if (number > Number.MAX_SAFE_INTEGER) {
+      return number.toExponential().replace(/^(\d)\.?(\d*)e\+(\d+)$/, function (_, lead, rest, exp) {
+        return lead + rest + '0'.repeat(exp - rest.length);
+      });
+    } else if (number < 1.0 && number > 0) {
+      const [lead, decimal] = number.toExponential().split('e-');
+      const zeros = '0'.repeat(parseInt(decimal) - 1);
+      return '0.' + zeros + lead;
+    }
+    return number.toString();
+  };
 }
