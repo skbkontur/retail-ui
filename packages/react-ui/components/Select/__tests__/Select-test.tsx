@@ -4,12 +4,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { delay } from '../../../lib/utils';
 import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
-import { Select, SelectDataTids } from '../Select';
+import { Select } from '../Select';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -44,22 +43,17 @@ describe('Select', () => {
         areValuesEqual={(x1, x2) => x1.id === x2.id}
       />,
     );
+    const currentValueText = currentValue.name;
 
     userEvent.click(screen.getByTestId(ButtonDataTids.root));
-    delay(0);
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
-
-    const defaultValueText = screen.getByTestId(SelectDataTids.root).textContent;
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
     const selectedMenuItem = menuItems.find(
       (element) => element.hasAttribute('state') && element.getAttribute('state') === 'selected',
     );
     expect(selectedMenuItem).toBeInTheDocument();
-    if (defaultValueText !== null) {
-      // eslint-disable-next-line jest/no-conditional-expect
-      expect(selectedMenuItem).toHaveTextContent(defaultValueText);
-    }
+    expect(selectedMenuItem).toHaveTextContent(currentValueText);
   });
 
   it('calls onKeyDown', () => {
@@ -333,48 +327,36 @@ describe('Select', () => {
 
     it('should open menu by method', () => {
       selectRef.current?.open();
-      delay(0);
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
     });
 
     it('should handel onOpen event when open() method has been called', () => {
       selectRef.current?.open();
-      delay(0);
       expect(onOpen).toHaveBeenCalled();
     });
 
     it('should close menu by method', () => {
       selectRef.current?.open();
-      delay(0);
-
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
       selectRef.current?.close();
-      delay(0);
-
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     });
 
     it('should handel onClose event when close() method has been called', () => {
       selectRef.current?.open();
-      delay(0);
-
       selectRef.current?.close();
-      delay(0);
 
       expect(onClose).toHaveBeenCalled();
     });
 
     it('should not call onClose event when menu wasn`t open', () => {
       selectRef.current?.close();
-      delay(0);
-
       expect(onClose).not.toHaveBeenCalled();
     });
 
     it('should focus by method', () => {
       selectRef.current?.focus();
-      delay(0);
       expect(screen.getByRole('button')).toHaveFocus();
     });
   });
@@ -393,8 +375,6 @@ describe('Select', () => {
 
     it('should choose item when pressing enter key', () => {
       userEvent.click(screen.getByRole('button'));
-      delay(0);
-
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       userEvent.keyboard('{arrowdown}');
       userEvent.keyboard('{arrowdown}');
@@ -407,12 +387,9 @@ describe('Select', () => {
 
     it('should move highligted item when pressing arrow down key', () => {
       userEvent.click(screen.getByRole('button'));
-      delay(0);
-
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      screen.debug();
       expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
       userEvent.keyboard('{arrowdown}');
 
@@ -428,12 +405,10 @@ describe('Select', () => {
 
     it('should move highligted item when pressing arrow up key', () => {
       userEvent.click(screen.getByRole('button'));
-      delay(0);
 
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      screen.debug();
       expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
       userEvent.keyboard('{arrowup}');
 
