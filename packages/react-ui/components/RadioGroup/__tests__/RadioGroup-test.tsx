@@ -1,15 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import { RadioGroup, RadioGroupProps } from '../RadioGroup';
-import { Radio } from '../../Radio';
+import { RadioGroup, RadioGroupDataTids, RadioGroupProps } from '../RadioGroup';
+import { Radio, RadioDataTids } from '../../Radio';
 
 const renderRadioGroup = (
   props: Partial<RadioGroupProps<any>> & {
     children?: React.ReactElement<any>;
   },
-) => mount<RadioGroup<any>>(<RadioGroup {...props} />);
+) => render(<RadioGroup {...props} />);
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -19,94 +19,113 @@ function clickOutside() {
 }
 
 describe('<RadioGroup />', () => {
+  const items = ['one', 'two', 'three'];
+  const clickedIndex = 1;
+  const defaultValueIndex = 2;
+  const rgRef = React.createRef<RadioGroup<string>>();
+
   it('renders radios inside for items prop', () => {
-    const items = ['one', 'two', 'three'];
-    const wrapper = renderRadioGroup({ items });
-    expect(wrapper.find(Radio)).toHaveLength(3);
+    renderRadioGroup({ items });
+
+    expect(screen.getAllByTestId(RadioDataTids.root)).toHaveLength(3);
   });
 
   it('renders radios with correct labels', () => {
-    const items = ['one', 'two', 'three'];
-    const radios = renderRadioGroup({ items }).find(Radio);
+    renderRadioGroup({ items });
+    const radios = screen.getAllByTestId(RadioDataTids.root);
     items.forEach((item, index) => {
-      expect(radios.at(index).text()).toBe(item);
+      expect(radios[index]).toHaveTextContent(item);
     });
   });
 
   it('renders radios with correct values', () => {
-    const items = ['one', 'two', 'three'];
-    const radios = renderRadioGroup({ items }).find(Radio);
+    renderRadioGroup({ items });
+    const radios = screen.getAllByRole('radio');
+
     items.forEach((item, index) => {
-      expect(radios.at(index).prop('value')).toBe(item);
+      // eslint-disable-next-line jest-dom/prefer-to-have-value
+      expect(radios[index]).toHaveAttribute('value', item);
     });
   });
 
   it('renders radios with renderItem prop', () => {
-    const items = ['one', 'two', 'three'];
     const renderItem = (x: string) => x.toUpperCase();
-    const radios = renderRadioGroup({ items, renderItem }).find(Radio);
+    renderRadioGroup({ items, renderItem });
+    const radios = screen.getAllByTestId(RadioDataTids.root);
+
     items.forEach((item, index) => {
-      expect(radios.at(index).text()).toBe(renderItem(item));
+      expect(radios[index]).toHaveTextContent(renderItem(item));
     });
   });
 
   it('checks radio on click', () => {
-    const items = ['one', 'two', 'three'];
-    const root = renderRadioGroup({ items });
-    root.find(Radio).at(0).find('input').simulate('change');
+    renderRadioGroup({ items });
+    const radios = screen.getAllByTestId(RadioDataTids.root);
+    userEvent.click(radios[clickedIndex]);
 
-    expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
+    expect(screen.getAllByRole('radio')[clickedIndex]).toBeChecked();
   });
 
   it('calls onValueChange on radio click', () => {
-    const items = ['one', 'two', 'three'];
     const onValueChange = jest.fn();
-    renderRadioGroup({ items, onValueChange }).find(Radio).at(0).find('input').simulate('change');
+
+    renderRadioGroup({ items, onValueChange });
+    const radios = screen.getAllByTestId(RadioDataTids.root);
+    userEvent.click(radios[clickedIndex]);
+
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
-    expect(value).toBe('one');
+    expect(value).toBe(items[clickedIndex]);
   });
 
   it('disables all radios on disabled prop', () => {
-    const items = ['one', 'two', 'three'];
-    const wrapper = renderRadioGroup({ items, disabled: true });
-    const radios = wrapper.find(Radio);
+    renderRadioGroup({ items, disabled: true });
+    const radios = screen.getAllByRole('radio');
     radios.forEach((x) => {
-      expect(x.find('input').prop('disabled')).toBeTruthy();
+      expect(x).toBeDisabled();
     });
   });
 
   it('passes given name to all radios on name prop', () => {
-    const items = ['one', 'two', 'three'];
-    const wrapper = renderRadioGroup({ items, name: 'SupaGroup' });
-    const radios = wrapper.find(Radio);
+    renderRadioGroup({ items, name: 'SupaGroup' });
+    const radios = screen.getAllByRole('radio');
     radios.forEach((x) => {
-      expect(x.find('input').prop('name')).toBe('SupaGroup');
+      expect(x).toHaveProperty('name', 'SupaGroup');
     });
   });
 
   it('activates radio with defaultValue', () => {
-    const items = ['one', 'two', 'three'];
-    const wrapper = renderRadioGroup({ items, defaultValue: 'two' });
-    const radios = wrapper.find(Radio);
-    expect(radios.at(1).find('input').prop('checked')).toBeTruthy();
+    renderRadioGroup({ items, defaultValue: items[defaultValueIndex] });
+    expect(screen.getAllByRole('radio')[defaultValueIndex]).toBeChecked();
   });
 
-  it('passes onMouse* events to radiogroup wrapper', () => {
-    const props = {
-      onMouseOver: () => undefined,
-      onMouseEnter: () => undefined,
-      onMouseLeave: () => undefined,
-    };
-    const wrapper = renderRadioGroup({ items: [], ...props }).first();
-    Object.keys(props).forEach((prop) => {
-      expect(wrapper.prop(prop)).toBe(props[prop as keyof typeof props]);
-    });
+  it('handle onMouseOver event', () => {
+    const onMouseOver = jest.fn();
+
+    render(<RadioGroup items={items} onMouseOver={onMouseOver} />);
+    fireEvent.mouseOver(screen.getByTestId(RadioGroupDataTids.root));
+    expect(onMouseOver).toHaveBeenCalledTimes(1);
+  });
+
+  it('handle onMouseEnter event', () => {
+    const onMouseEnter = jest.fn();
+
+    render(<RadioGroup items={items} onMouseEnter={onMouseEnter} />);
+    fireEvent.mouseEnter(screen.getByTestId(RadioGroupDataTids.root));
+    expect(onMouseEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it('handle onMouseLeave event', () => {
+    const onMouseLeave = jest.fn();
+
+    render(<RadioGroup items={items} onMouseLeave={onMouseLeave} />);
+    fireEvent.mouseLeave(screen.getByTestId(RadioGroupDataTids.root));
+    expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
   it('renders children', () => {
-    const wrapper = renderRadioGroup({ children: <span className="myDupaComponent" /> });
-    expect(wrapper.find('.myDupaComponent')).toHaveLength(1);
+    renderRadioGroup({ children: <span data-tid="myDupaComponent" /> });
+    expect(screen.getByTestId('myDupaComponent')).toBeInTheDocument();
   });
 
   it('checks children radio on click', () => {
@@ -117,10 +136,11 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const root = renderRadioGroup({ children });
-    root.find(Radio).at(0).find('input').simulate('change');
+    renderRadioGroup({ children });
 
-    expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
+    const radios = screen.getAllByRole('radio');
+    userEvent.click(radios[clickedIndex]);
+    expect(screen.getAllByRole('radio')[clickedIndex]).toBeChecked();
   });
 
   it('calls onValueChange on children radio click', () => {
@@ -132,10 +152,14 @@ describe('<RadioGroup />', () => {
       </div>
     );
     const onValueChange = jest.fn();
-    renderRadioGroup({ children, onValueChange }).find(Radio).at(0).find('input').simulate('change');
+    renderRadioGroup({ children, onValueChange });
+
+    const radios = screen.getAllByRole('radio');
+    userEvent.click(radios[clickedIndex]);
+
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
-    expect(value).toBe('one');
+    expect(value).toBe(items[clickedIndex]);
   });
 
   it('disables all children radios on disabled prop', () => {
@@ -146,10 +170,10 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = renderRadioGroup({ children, disabled: true });
-    const radios = wrapper.find(Radio);
+    renderRadioGroup({ children, disabled: true });
+    const radios = screen.getAllByRole('radio');
     radios.forEach((x) => {
-      expect(x.find('input').prop('disabled')).toBeTruthy();
+      expect(x).toBeDisabled();
     });
   });
 
@@ -161,10 +185,10 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = renderRadioGroup({ children, name: 'SupaGroup' });
-    const radios = wrapper.find(Radio);
+    renderRadioGroup({ children, name: 'SupaGroup' });
+    const radios = screen.getAllByRole('radio');
     radios.forEach((x) => {
-      expect(x.find('input').prop('name')).toBe('SupaGroup');
+      expect(x).toHaveProperty('name', 'SupaGroup');
     });
   });
 
@@ -176,36 +200,20 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
-    const radios = wrapper.find(Radio);
-    expect(radios.at(1).find('input').prop('checked')).toBeTruthy();
+    renderRadioGroup({ children, defaultValue: items[defaultValueIndex] });
+    expect(screen.getAllByRole('radio')[defaultValueIndex]).toBeChecked();
   });
 
-  it('has focus method', () => {
-    const children = (
-      <div>
-        <Radio value="one">Hello</Radio>
-        <Radio value="two">Hello</Radio>
-        <Radio value="three">Hello</Radio>
-      </div>
-    );
-    const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
-    const instance = wrapper.instance();
-    expect(instance.focus).toBeInstanceOf(Function);
+  it('should focus on first button in not checked radiogroup', () => {
+    render(<RadioGroup items={items} ref={rgRef} />);
+    rgRef.current?.focus();
+    expect(screen.getAllByRole('radio')[0]).toHaveFocus();
   });
 
-  it('does not fail on focus', () => {
-    const children = (
-      <div>
-        <Radio value="one">Hello</Radio>
-        <Radio value="two">Hello</Radio>
-        <Radio value="three">Hello</Radio>
-      </div>
-    );
-    const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
-    const instance = wrapper.instance();
-
-    expect(() => instance.focus()).not.toThrow();
+  it('should focus on defaultValue button', () => {
+    render(<RadioGroup items={items} ref={rgRef} defaultValue={items[defaultValueIndex]} />);
+    rgRef.current?.focus();
+    expect(screen.getAllByRole('radio')[defaultValueIndex]).toHaveFocus();
   });
 
   it('has Prevent static prop', () => {
@@ -214,18 +222,22 @@ describe('<RadioGroup />', () => {
 
   it('works with number values', () => {
     const items = [1, 2, 3, 4];
-    const root = renderRadioGroup({ items });
-    root.find(Radio).at(0).find('input').simulate('change');
+    renderRadioGroup({ items });
 
-    expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
+    const radios = screen.getAllByRole('radio');
+    userEvent.click(radios[clickedIndex]);
+    expect(screen.getAllByRole('radio')[clickedIndex]).toBeChecked();
   });
 
   it('should call `onBlur` after click outside of radio button', () => {
-    const items = ['one', 'two', 'three'];
     const onBlur = jest.fn();
-    const wrapper = mount<RadioGroup<any>>(<RadioGroup items={items} onBlur={onBlur} />);
-    wrapper.find(Radio).at(0).simulate('focus').simulate('blur').simulate('blur');
+    render(<RadioGroup items={items} onBlur={onBlur} />);
 
+    const radio = screen.getAllByRole('radio')[0];
+
+    fireEvent.focus(radio);
+    fireEvent.blur(radio);
+    fireEvent.blur(radio);
     clickOutside();
 
     expect(onBlur).toHaveBeenCalledTimes(1);
@@ -234,18 +246,18 @@ describe('<RadioGroup />', () => {
   it('should call `onBlur` after click outside of radio group', () => {
     const onBlur = jest.fn();
     const onRadioBlur = jest.fn();
-    const wrapper = mount<RadioGroup<any>>(
-      <RadioGroup onBlur={onBlur}>
+
+    render(
+      <RadioGroup onBlur={onBlur} ref={rgRef}>
         <Radio value="one" onBlur={onRadioBlur} />
         <Radio value="two" onBlur={onRadioBlur} />
       </RadioGroup>,
     );
-    const radioOne = wrapper.find(Radio).at(0).find('input').at(0);
-    const radioTwo = wrapper.find(Radio).at(1).find('input').at(0);
-
-    radioOne.simulate('focus');
-    radioOne.simulate('blur');
-    radioTwo.simulate('blur');
+    const radioOne = screen.getAllByRole('radio')[0];
+    const radioTwo = screen.getAllByRole('radio')[1];
+    userEvent.click(radioOne);
+    fireEvent.blur(radioOne);
+    fireEvent.blur(radioTwo);
 
     clickOutside();
 
