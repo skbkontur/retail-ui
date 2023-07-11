@@ -12,39 +12,39 @@ export const globalClasses = prefix('tab')({
 
 export const styles = memoizeStyle({
   rootSmall(t: Theme) {
-    return cssRoot(t, 'small');
+    return tabRoot(t, 'small');
   },
 
   rootMedium(t: Theme) {
-    return cssRoot(t, 'medium');
+    return tabRoot(t, 'medium');
   },
 
   rootLarge(t: Theme) {
-    return cssRoot(t, 'large');
+    return tabRoot(t, 'large');
   },
 
   verticalSmall(t: Theme) {
-    return cssVertical(t, 'small');
+    return tabVertical(t, 'small');
   },
 
   verticalMedium(t: Theme) {
-    return cssVertical(t, 'medium');
+    return tabVertical(t, 'medium');
   },
 
   verticalLarge(t: Theme) {
-    return cssVertical(t, 'large');
+    return tabVertical(t, 'large');
   },
 
   focusSmall(t: Theme) {
-    return cssFocus(t, 'small');
+    return tabFocus(t, 'small');
   },
 
   focusMedium(t: Theme) {
-    return cssFocus(t, 'medium');
+    return tabFocus(t, 'medium');
   },
 
   focusLarge(t: Theme) {
-    return cssFocus(t, 'large');
+    return tabFocus(t, 'large');
   },
 
   disabled(t: Theme) {
@@ -166,7 +166,7 @@ export const verticalStyles = memoizeStyle({
   },
 });
 
-function cssRoot(t: Theme, size: TabSize) {
+function tabRoot(t: Theme, size: TabSize) {
   return css`
     border-bottom: ${t.tabBorderWidth} solid transparent;
     box-sizing: border-box;
@@ -194,7 +194,7 @@ function cssRoot(t: Theme, size: TabSize) {
   `;
 }
 
-function cssVertical(t: Theme, size: TabSize) {
+function tabVertical(t: Theme, size: TabSize) {
   return css`
     border-bottom: none;
     border-left: ${t.tabBorderWidth} solid transparent;
@@ -217,7 +217,7 @@ function cssVertical(t: Theme, size: TabSize) {
   `;
 }
 
-function cssFocus(t: Theme, size: TabSize) {
+function tabFocus(t: Theme, size: TabSize) {
   return css`
     border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
     bottom: -${t.tabBorderWidth};

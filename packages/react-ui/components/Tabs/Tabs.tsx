@@ -108,7 +108,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public render(): JSX.Element {
     const { value, width, children, indicatorClassName, 'aria-describedby': ariaDescribedby } = this.props;
-    const { vertical, size = 'large' } = this.getProps();
+    const { vertical, size } = this.getProps();
     return (
       <ThemeContext.Consumer>
         {(theme) => {

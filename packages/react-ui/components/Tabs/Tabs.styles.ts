@@ -6,15 +6,15 @@ import { paddingX } from './helpers';
 
 export const styles = memoizeStyle({
   rootSmall(t: Theme) {
-    return cssRoot(t, 'small');
+    return tabsRoot(t, 'small');
   },
 
   rootMedium(t: Theme) {
-    return cssRoot(t, 'medium');
+    return tabsRoot(t, 'medium');
   },
 
   rootLarge(t: Theme) {
-    return cssRoot(t, 'large');
+    return tabsRoot(t, 'large');
   },
 
   vertical() {
@@ -24,7 +24,7 @@ export const styles = memoizeStyle({
   },
 });
 
-function cssRoot(t: Theme, size: TabSize) {
+function tabsRoot(t: Theme, size: TabSize) {
   return css`
     display: inline-block;
     margin: 0 -${paddingX(t, size)};
