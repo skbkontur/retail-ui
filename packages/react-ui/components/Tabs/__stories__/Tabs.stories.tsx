@@ -4,6 +4,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
+import { Parameters } from '@storybook/react';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -458,10 +459,67 @@ const tabsTests: CreeveyTests = {
   },
 };
 
-export const Simple: Story = () => <UncTabs />;
-Simple.storyName = 'simple';
+const tabsSimpleTests: CreeveyTests = {
+  async 'move focus forward'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.ARROW_RIGHT)
+      .pause(500)
+      .sendKeys(this.keys.ARROW_DOWN)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
+  },
+  async 'move focus backward'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
+      .perform();
+    await delay(1000);
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.ARROW_LEFT)
+      .perform();
+    await delay(1000);
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.ARROW_UP)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
+  },
+  async 'reset focus after click'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.ARROW_RIGHT)
+      .pause(500)
+      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('reset focus after click');
+  },
+};
 
-Simple.parameters = {
+const simpleParameters: Parameters = {
   creevey: {
     skip: {
       'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
@@ -474,66 +532,22 @@ Simple.parameters = {
     },
     tests: {
       ...tabsTests,
-      async 'move focus forward'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_RIGHT)
-          .pause(500)
-          .sendKeys(this.keys.ARROW_DOWN)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
-      },
-      async 'move focus backward'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_LEFT)
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_UP)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
-      },
-      async 'reset focus after click'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_RIGHT)
-          .pause(500)
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('reset focus after click');
-      },
+      ...tabsSimpleTests,
     },
   },
 };
+
+export const Simple: Story = () => <UncTabs size="large" />;
+Simple.storyName = 'simple';
+Simple.parameters = simpleParameters;
+
+export const SimpleMedium: Story = () => <UncTabs size="medium" />;
+SimpleMedium.storyName = 'simple (size=medium)';
+SimpleMedium.parameters = simpleParameters;
+
+export const SimpleSmall: Story = () => <UncTabs size="small" />;
+SimpleSmall.storyName = 'simple (size=small)';
+SimpleSmall.parameters = simpleParameters;
 
 export const First = () => <RouterTabs value="first" />;
 First.storyName = 'first';
@@ -561,9 +575,7 @@ export const HrefsSecond = () => (
 HrefsSecond.storyName = 'hrefs second';
 HrefsSecond.parameters = { creevey: { skip: true } };
 
-export const Vertical: Story = () => <UncTabs vertical />;
-Vertical.storyName = 'vertical';
-Vertical.parameters = {
+const verticalParams: Parameters = {
   creevey: {
     skip: {
       'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
@@ -577,6 +589,18 @@ Vertical.parameters = {
     tests: tabsTests,
   },
 };
+
+export const Vertical: Story = () => <UncTabs vertical />;
+Vertical.storyName = 'vertical';
+Vertical.parameters = verticalParams;
+
+export const VerticalMedium: Story = () => <UncTabs vertical size="medium" />;
+VerticalMedium.storyName = 'vertical (size=medium)';
+VerticalMedium.parameters = verticalParams;
+
+export const VerticalSmall: Story = () => <UncTabs vertical size="small" />;
+VerticalSmall.storyName = 'vertical (size=small)';
+VerticalSmall.parameters = verticalParams;
 
 export const WithLink = () => <TabsWithLink />;
 WithLink.parameters = { creevey: { skip: true } };
@@ -675,18 +699,3 @@ TabsWithImage.parameters = {
     delay: 500,
   },
 };
-
-export const Size: Story = () => {
-  const cols: Array<Partial<UncTabsProps>> = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
-  const rows: Array<Partial<UncTabsProps>> = [{ vertical: false }, { vertical: true }];
-  return (
-    <div>
-      <ComponentTable
-        Component={UncTabs}
-        cols={cols.map((x) => ({ props: x }))}
-        rows={rows.map((x) => ({ props: x }))}
-      />
-    </div>
-  );
-};
-Size.storyName = 'size';
