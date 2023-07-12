@@ -1,7 +1,7 @@
 import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineWithoutOpacity } from './Link.mixins';
+import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from './Link.mixins';
 
 export const globalClasses = prefix('link')({
   text: 'text',
@@ -47,7 +47,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkHoverColor};
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -56,7 +56,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkSuccessHoverColor} !important;
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -65,7 +65,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkDangerHoverColor} !important;
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -74,7 +74,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkGrayedHoverColor} !important;
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -116,7 +116,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -127,7 +127,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -138,7 +138,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -149,7 +149,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -182,7 +182,7 @@ export const styles = memoizeStyle({
   disabledDark22Theme(t: Theme) {
     return css`
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
