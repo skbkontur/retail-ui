@@ -119,7 +119,11 @@ export class DefaultTheme {
   public static linkButtonPaddingX = '10px';
 
   public static linkLineBorderBottomStyle = '';
+  public static get linkLineHoverBorderBottomStyle() {
+    return this.linkLineBorderBottomStyle;
+  }
   public static linkLineBorderBottomWidth = '0px';
+  public static linkLineBorderBottomOpacity = '0.5';
 
   //#endregion
   //#region Token
@@ -484,7 +488,13 @@ export class DefaultTheme {
     return this.linkHoverTextDecoration;
   }
   public static btnLinkLineBorderBottomStyle = '';
+  public static get btnLinkHoverLineBorderBottomStyle() {
+    return this.btnLinkLineBorderBottomStyle;
+  }
   public static btnLinkLineBorderBottomWidth = '0px';
+  public static get btnLinkLineBorderBottomOpacity() {
+    return this.linkLineBorderBottomOpacity;
+  }
 
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;

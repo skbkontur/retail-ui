@@ -33,12 +33,13 @@ export const styles = memoizeStyle({
   },
 
   lineText(t: Theme) {
+    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 0.99;
     return css`
       border-bottom-style: ${t.linkLineBorderBottomStyle};
       border-bottom-width: ${t.linkLineBorderBottomWidth};
       animation: ${line} 1s linear !important; // override creevey
       animation-play-state: paused !important;
-      animation-delay: -0.5s !important;
+      animation-delay: ${delay}s !important;
     `;
   },
 
@@ -46,7 +47,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkHoverColor};
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity()}
+        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -55,7 +56,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkSuccessHoverColor} !important;
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity()}
+        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -64,7 +65,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkDangerHoverColor} !important;
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity()}
+        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -73,7 +74,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkGrayedHoverColor} !important;
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity()}
+        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -115,7 +116,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity()}
+          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -126,7 +127,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity()}
+          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -137,7 +138,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity()}
+          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -148,7 +149,7 @@ export const styles = memoizeStyle({
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineWithoutOpacity()}
+          ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
         }
       }
     `;
@@ -178,10 +179,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  disabledDark22Theme() {
+  disabledDark22Theme(t: Theme) {
     return css`
       .${globalClasses.text} {
-        ${linkUseLineWithoutOpacity()}
+        ${linkUseLineWithoutOpacity(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
