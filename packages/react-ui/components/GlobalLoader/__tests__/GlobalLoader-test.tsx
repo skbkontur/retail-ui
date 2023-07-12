@@ -26,7 +26,7 @@ describe('Global Loader', () => {
   });
 
   describe('with props', () => {
-    it.only('should set active', async () => {
+    it('should set active', async () => {
       render(
         <GlobalLoader
           expectedResponseTime={2000}
