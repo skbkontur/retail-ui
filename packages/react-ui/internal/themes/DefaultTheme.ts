@@ -123,7 +123,7 @@ export class DefaultTheme {
     return this.linkLineBorderBottomStyle;
   }
   public static linkLineBorderBottomWidth = '0px';
-  public static linkLineBorderBottomOpacity = '0.5';
+  public static linkLineBorderBottomOpacity = '0.49';
 
   //#endregion
   //#region Token
