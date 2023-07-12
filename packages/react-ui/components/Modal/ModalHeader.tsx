@@ -40,7 +40,7 @@ function ModalHeader(props: ModalHeaderProps) {
 
   const renderContent = (fixed = false) => {
     return (
-      <>
+      <div>
         <div
           data-tid={ModalHeaderDataTids.root}
           className={cx(
@@ -59,7 +59,7 @@ function ModalHeader(props: ModalHeaderProps) {
           {children}
         </div>
         {fixed && <ModalSeparator fixed={fixed} />}
-      </>
+      </div>
     );
   };
 
