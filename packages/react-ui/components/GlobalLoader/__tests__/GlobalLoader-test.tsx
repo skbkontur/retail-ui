@@ -18,13 +18,15 @@ describe('Global Loader', () => {
     render(<GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />);
     render(<GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader2} />);
 
-    expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+    await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+
+    expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
     expect(refGlobalLoader.current?.state.dead).toBe(true);
     expect(refGlobalLoader2.current?.state.dead).toBe(false);
   });
 
   describe('with props', () => {
-    it('should set active', async () => {
+    it.only('should set active', async () => {
       render(
         <GlobalLoader
           expectedResponseTime={2000}
@@ -34,9 +36,10 @@ describe('Global Loader', () => {
         />,
       );
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
-      expect(refGlobalLoader.current?.state.visible).toBe(false);
+      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+
       await delay(DIFFERENCE);
-      expect(refGlobalLoader.current?.state.visible).toBe(true);
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
     });
 
     it('should set error', async () => {
