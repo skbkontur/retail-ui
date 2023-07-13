@@ -214,13 +214,12 @@ export class CurrencyHelper {
       return number.toString();
     }
     if (number > Number.MAX_SAFE_INTEGER) {
-      return number.toExponential().replace(/^(\d)\.?(\d*)e\+(\d+)$/, function (_, lead, rest, exp) {
-        return lead + rest + '0'.repeat(exp - rest.length);
+      return number.toExponential().replace(/^(-)?(\d)\.?(\d*)e\+(\d+)$/, function (_, sign, lead, rest, exp) {
+        return (sign || '') + lead + rest + '0'.repeat(exp - rest.length);
       });
     }
-    const [lead, decimal] = number.toString().split('e-');
-    const [int, fractional] = lead.includes('.') ? lead.split('.') : [lead, ''];
-    const zeros = '0'.repeat(parseInt(decimal) - 1);
-    return '0.' + zeros + int + fractional;
+    return number.toExponential().replace(/^(-)?(\d)\.?(\d*)e-(\d+)$/, function (_, sign, lead, rest, exp) {
+      return (sign || '') + '0.' + '0'.repeat(parseInt(exp) - 1) + lead + rest;
+    });
   };
 }
