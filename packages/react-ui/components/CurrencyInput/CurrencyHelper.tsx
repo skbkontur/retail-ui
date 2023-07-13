@@ -201,25 +201,27 @@ export class CurrencyHelper {
   }
 
   public static destructString(value: string) {
-    const match = /^(-)?(\d*)?(\.)?(\d*)?$/.exec(value);
+    const match = /^(-)?(\d*)?(\.)?(\d*)?(e)?([-+]?\d+)?$/.exec(value);
     if (!match) {
       return null;
     }
-    const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
-    return { sign, integer, delimiter, fraction };
+    const [, sign = '', integer = '', delimiter = '', fraction = '', , exponent = ''] = match;
+    return { sign, integer, delimiter, fraction, exponent };
   }
 
   private static toDecimalString = (number: number) => {
     if (!number.toString().includes('e')) {
       return number.toString();
     }
-    if (number > Number.MAX_SAFE_INTEGER) {
-      return number.toExponential().replace(/^(-)?(\d)\.?(\d*)e\+(\d+)$/, function (_, sign, lead, rest, exp) {
-        return (sign || '') + lead + rest + '0'.repeat(exp - rest.length);
-      });
+    const destructed = this.destructString(number.toExponential());
+    if (destructed === null) {
+      return '';
     }
-    return number.toExponential().replace(/^(-)?(\d)\.?(\d*)e-(\d+)$/, function (_, sign, lead, rest, exp) {
-      return (sign || '') + '0.' + '0'.repeat(parseInt(exp) - 1) + lead + rest;
-    });
+    const { sign, integer, fraction, exponent } = destructed;
+    const intExponent = parseInt(exponent || '0');
+    if (intExponent > 0) {
+      return (sign || '') + integer + fraction + '0'.repeat(intExponent - fraction.length);
+    }
+    return (sign || '') + '0.' + '0'.repeat(-intExponent - 1) + integer + fraction;
   };
 }
