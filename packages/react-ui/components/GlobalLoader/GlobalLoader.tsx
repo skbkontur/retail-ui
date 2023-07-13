@@ -66,6 +66,8 @@ export interface GlobalLoaderState {
 
 export const GlobalLoaderDataTids = {
   root: 'GlobalLoader',
+  rejected: '__rejected',
+  done: '__done'
 } as const;
 
 type DefaultProps = Required<
@@ -159,6 +161,14 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       status = 'accept';
     }
     const { delayBeforeHide, disableAnimations } = this.getProps();
+
+    let stateId = '';
+    if (this.state.rejected) {
+      stateId = GlobalLoaderDataTids.rejected;
+    } else if (this.state.done) {
+      stateId = GlobalLoaderDataTids.done;
+    }
+
     return (
       !this.state.dead &&
       this.state.visible && (
@@ -167,7 +177,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
             expectedResponseTime={this.state.expectedResponseTime}
             delayBeforeHide={delayBeforeHide}
             status={status}
-            data-tid={GlobalLoaderDataTids.root}
+            data-tid={`${GlobalLoaderDataTids.root}${stateId}`}
             disableAnimations={disableAnimations}
           />
         </CommonWrapper>
