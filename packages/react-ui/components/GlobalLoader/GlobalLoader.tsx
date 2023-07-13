@@ -67,7 +67,7 @@ export interface GlobalLoaderState {
 export const GlobalLoaderDataTids = {
   root: 'GlobalLoader',
   rejected: '__rejected',
-  done: '__done'
+  done: '__done',
 } as const;
 
 type DefaultProps = Required<
