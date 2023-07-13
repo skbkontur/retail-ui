@@ -210,15 +210,17 @@ export class CurrencyHelper {
   }
 
   private static toDecimalString = (number: number) => {
+    if (!number.toString().includes('e')) {
+      return number.toString();
+    }
     if (number > Number.MAX_SAFE_INTEGER) {
       return number.toExponential().replace(/^(\d)\.?(\d*)e\+(\d+)$/, function (_, lead, rest, exp) {
         return lead + rest + '0'.repeat(exp - rest.length);
       });
-    } else if (number < 1.0 && number > 0) {
-      const [lead, decimal] = number.toExponential().split('e-');
-      const zeros = '0'.repeat(parseInt(decimal) - 1);
-      return '0.' + zeros + lead;
     }
-    return number.toString();
+    const [lead, decimal] = number.toString().split('e-');
+    const [int, fractional] = lead.includes('.') ? lead.split('.') : [lead, ''];
+    const zeros = '0'.repeat(parseInt(decimal) - 1);
+    return '0.' + zeros + int + fractional;
   };
 }

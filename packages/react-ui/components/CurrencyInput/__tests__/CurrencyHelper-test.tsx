@@ -36,6 +36,12 @@ describe('CurrencyHelper', () => {
       { value: -1, expected: '\u22121' },
       { value: -1234567, expected: '\u22121\u2009234\u2009567' },
       { value: 1e-7, expected: '0,0000001' },
+      { value: 1e22, expected: '10\u2009000\u2009000\u2009000\u2009000\u2009000\u2009000\u2009000' },
+      { value: 1.425e-8, expected: '0,00000001425' },
+      { value: 14.25e-8, expected: '0,0000001425' },
+      { value: 1.425e22, expected: '14\u2009250\u2009000\u2009000\u2009000\u2009000\u2009000\u2009000' },
+      { value: 14.25e22, expected: '142\u2009500\u2009000\u2009000\u2009000\u2009000\u2009000\u2009000' },
+      { value: 0.04e-10, expected: '0,000000000004' },
     ].forEach((x) => {
       it(`format(${x.value}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.format(x.value);
