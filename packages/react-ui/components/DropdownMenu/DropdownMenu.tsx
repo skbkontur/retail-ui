@@ -11,7 +11,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { getDropdownMenuTheme } from './getDropdownMenuTheme';
 
-export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
+export interface DropdownMenuProps
+  extends CommonProps,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -104,6 +106,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           caption={this.props.caption}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
+          preventIconsOffset={this.props.preventIconsOffset}
           popupHasPin={false}
           positions={positions}
           disableAnimations={disableAnimations}

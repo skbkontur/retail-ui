@@ -160,6 +160,34 @@ let Card = ({ title }) => (
 <Card title="С кастомным действием" />
 ```
 
+С иконками и включенным по-умолчанию автоматическим выравниванием текста.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/react-ui';
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<Kebab>
+  <MenuHeader>MenuHeader</MenuHeader>
+  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem>MenuItem3</MenuItem>
+</Kebab>;
+```
+
+С иконками и отключенным автоматическим выравниванием текста.
+
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/react-ui';
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<Kebab preventIconsOffset>
+  <MenuHeader>MenuHeader</MenuHeader>
+  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem>MenuItem3</MenuItem>
+</Kebab>
+```
+
 Отключенное кебаб-меню.
 
 ```jsx harmony

@@ -24,7 +24,9 @@ import { ButtonSize } from '../Button';
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
-export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
+export interface KebabProps
+  extends CommonProps,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   /**
@@ -132,6 +134,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
+          preventIconsOffset={this.props.preventIconsOffset}
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
