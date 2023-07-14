@@ -33,13 +33,14 @@ export const styles = memoizeStyle({
   },
 
   lineText(t: Theme) {
-    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 0.99;
+    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
     return css`
       border-bottom-style: ${t.linkLineBorderBottomStyle};
       border-bottom-width: ${t.linkLineBorderBottomWidth};
       animation: ${line} 1s linear !important; // override creevey
       animation-play-state: paused !important;
       animation-delay: ${delay}s !important;
+      animation-fill-mode: forwards !important;
     `;
   },
 
