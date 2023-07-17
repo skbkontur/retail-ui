@@ -23,6 +23,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [4.15.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.1...@skbkontur/react-ui@4.15.2) (2023-07-17)
+
+
+* **ComboBox:** use `flushSync` only in React@18 ([#3202](https://github.com/skbkontur/retail-ui/issues/3202)) ([9795006](https://github.com/skbkontur/retail-ui/commit/9795006c799b7266fd88bb9dcf5760148c3ad12d))
+* **CurrencyInput:** allow to work with very small or large values ([#3200](https://github.com/skbkontur/retail-ui/issues/3200)) ([ffc234f](https://github.com/skbkontur/retail-ui/commit/ffc234f726479c9a26b3da5c1b768b061dbf52d1))
+* **Link, Button:** add theme variables for border-bottom ([#3203](https://github.com/skbkontur/retail-ui/issues/3203)) ([d418758](https://github.com/skbkontur/retail-ui/commit/d4187586f24d943716b24ac2cfc437e69becf53e))
+
+
+
+
+
 ## [4.15.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.0...@skbkontur/react-ui@4.15.1) (2023-07-04)
 
 
