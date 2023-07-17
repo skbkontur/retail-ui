@@ -243,7 +243,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
-          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(),
+          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
           isFocused && use === 'default' && styles.lineFocus(this.theme),
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
