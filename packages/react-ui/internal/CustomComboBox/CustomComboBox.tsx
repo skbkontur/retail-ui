@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';
@@ -333,20 +332,18 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     let effects: Array<CustomComboBoxEffect<T>>;
     let nextState: Pick<CustomComboBoxState<T>, never>;
 
-    ReactDOM.flushSync(() => {
-      this.setState(
-        (state) => {
-          const stateAndEffect = this.reducer(state, this.props, action);
+    this.setState(
+      (state) => {
+        const stateAndEffect = this.reducer(state, this.props, action);
 
-          [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
+        [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
 
-          return nextState;
-        },
-        () => {
-          effects.forEach(this.handleEffect);
-        },
-      );
-    });
+        return nextState;
+      },
+      () => {
+        effects.forEach(this.handleEffect);
+      },
+    );
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
