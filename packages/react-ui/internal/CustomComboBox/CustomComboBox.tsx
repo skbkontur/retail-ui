@@ -346,7 +346,10 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       );
     };
 
-    if (sync) {
+    // Auto-batching React@18 creates problems that are fixed with flushSync
+    // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
+    const isReact18 = React.version.search('18') === 0;
+    if (sync && isReact18) {
       return ReactDOM.flushSync(() => {
         updateState(action);
       });
