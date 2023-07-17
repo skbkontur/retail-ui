@@ -12,7 +12,6 @@ const { publishVersion } = require('../helpers');
 const styles = {
   StyleGuide: {
     '@global body': {
-      fontFamily: '"Lab Grotesque", Roboto, "Helvetica Neue", Arial, sans-serif',
       fontSize: 14,
     },
     content: {
@@ -243,6 +242,11 @@ module.exports = {
           href: 'https://s.kontur.ru/common-v2/fonts/LabGrotesque/LabGrotesque.css',
         },
       ],
+    },
+  },
+  theme: {
+    fontFamily: {
+      base: '"Lab Grotesque", Roboto, "Helvetica Neue", Arial, sans-serif',
     },
   },
 };
