@@ -1,4 +1,5 @@
 import React, { AriaAttributes } from 'react';
+import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';
@@ -329,21 +330,29 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   private dispatch = (action: CustomComboBoxAction<T>) => {
-    let effects: Array<CustomComboBoxEffect<T>>;
-    let nextState: Pick<CustomComboBoxState<T>, never>;
+    const updateState = (action: CustomComboBoxAction<T>) => {
+      let effects: Array<CustomComboBoxEffect<T>>;
+      let nextState: Pick<CustomComboBoxState<T>, never>;
 
-    this.setState(
-      (state) => {
-        const stateAndEffect = this.reducer(state, this.props, action);
+      this.setState(
+        (state) => {
+          const stateAndEffect = this.reducer(state, this.props, action);
+          [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
+          return nextState;
+        },
+        () => {
+          effects.forEach(this.handleEffect);
+        },
+      );
+    };
 
-        [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
-
-        return nextState;
-      },
-      () => {
-        effects.forEach(this.handleEffect);
-      },
-    );
+    // Auto-batching React@18 creates problems that are fixed with flushSync
+    // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
+    if (React.version.search('18') === 0) {
+      ReactDOM.flushSync(() => updateState(action));
+    } else {
+      updateState(action);
+    }
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
