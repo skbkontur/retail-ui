@@ -217,11 +217,11 @@ export class CurrencyHelper {
     if (destructed === null) {
       return '';
     }
-    const { sign, integer, fraction, exponent } = destructed;
+    const { sign = '', integer, fraction, exponent } = destructed;
     const intExponent = parseInt(exponent || '0');
     if (intExponent > 0) {
-      return (sign || '') + integer + fraction + '0'.repeat(intExponent - fraction.length);
+      return [sign, integer, fraction, '0'.repeat(intExponent - fraction.length)].join('');
     }
-    return (sign || '') + '0.' + '0'.repeat(-intExponent - 1) + integer + fraction;
+    return [sign, '0.', ' 0'.repeat(-intExponent - 1), integer, fraction].join('');
   };
 }
