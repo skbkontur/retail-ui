@@ -1050,7 +1050,7 @@ export class DefaultTheme {
   public static menuPaddingY = '4px';
   public static mobileMenuPaddingY = '0px';
   public static menuPaddingX = '0px';
-  public static mobileMenuPaddingX = '0px';
+  public static mobileMenuPaddingX = '8px';
   public static menuOffsetY = '0px';
   public static menuBoxSizing = 'content-box';
   // menuItem
