@@ -621,6 +621,7 @@ export class DefaultTheme {
     return this.btnIconSizeLarge;
   }
   public static selectRootWidthMobile = 'auto';
+  public static mobileSelectMaxWidth = '100%';
   public static get selectTextColorDisabled() {
     return this.btnDisabledTextColor;
   }
