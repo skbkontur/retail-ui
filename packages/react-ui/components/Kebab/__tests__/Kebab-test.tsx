@@ -33,4 +33,19 @@ describe('Kebab', () => {
     userEvent.tab();
     expect(kebab).not.toHaveFocus();
   });
+
+  it('passes value to aria-describedby prop', () => {
+    const id = 'id';
+    const description = 'description';
+    render(
+      <>
+        <Kebab aria-describedby={id} />
+        <p id={id}>description</p>
+      </>,
+    );
+
+    const caption = screen.getByTestId(KebabDataTids.caption);
+    expect(caption).toHaveAttribute('aria-describedby', id);
+    expect(caption).toHaveAccessibleDescription(description);
+  });
 });
