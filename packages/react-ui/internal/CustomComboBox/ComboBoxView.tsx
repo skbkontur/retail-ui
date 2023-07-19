@@ -1,6 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
-import { isNonNullable } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -137,6 +137,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<DropdownContainer>();
   private theme!: Theme;
+  private menuId = ComboBoxViewIds.menu + getRandomID();
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -202,6 +203,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
       <ComboBoxMenu
+        menuId={this.menuId}
         items={items}
         loading={loading}
         maxMenuHeight={maxMenuHeight}
@@ -338,7 +340,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           warning={warning}
           inputMode={inputMode}
           aria-describedby={ariaDescribedby}
-          aria-controls={ComboBoxViewIds.menu}
+          aria-controls={this.menuId}
         />
       );
     }
@@ -358,7 +360,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         width="100%"
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
-        aria-controls={ComboBoxViewIds.menu}
+        aria-controls={this.menuId}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>

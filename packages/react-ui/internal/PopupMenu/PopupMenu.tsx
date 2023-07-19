@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getRandomID } from '../../lib/utils';
 import { HTMLProps } from '../../typings/html';
 import {
   isKeyArrowVertical,
@@ -107,6 +108,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
   private isMobileLayout!: boolean;
+  private rootId = PopupIds.root + getRandomID();
 
   public static defaultProps: DefaultProps = {
     positions: Positions,
@@ -139,7 +141,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           active={this.state.menuVisible}
         >
           <div
-            id={this.props.popupMenuId ?? PopupIds.root}
+            id={this.props.popupMenuId ?? this.rootId}
             data-tid={PopupMenuDataTids.root}
             className={styles.container()}
             style={{ width: this.props.width }}
@@ -198,7 +200,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     }
 
     return React.cloneElement(caption as React.ReactElement, {
-      'aria-controls': this.props.popupMenuId ?? PopupIds.root,
+      'aria-controls': this.props.popupMenuId ?? this.rootId,
       'aria-expanded': this.state.menuVisible ? 'true' : 'false',
     });
   };

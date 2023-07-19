@@ -52,7 +52,7 @@ describe('Kebab', () => {
     const button = screen.getByRole('button');
     userEvent.click(button);
 
-    expect(button).toHaveAttribute('aria-controls', PopupIds.root);
-    expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('id', PopupIds.root);
+    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
+    expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('id', expect.stringContaining(PopupIds.root));
   });
 });

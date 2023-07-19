@@ -257,12 +257,12 @@ describe('Select', () => {
 
     const button = screen.getByRole('button');
 
-    expect(button).toHaveAttribute('aria-controls', SelectIds.menu);
+    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(SelectIds.menu));
 
     userEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', SelectIds.menu);
+      expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
     });
   });
 

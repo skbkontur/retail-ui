@@ -1403,14 +1403,23 @@ describe('ComboBox', () => {
     it('should connect input and dropdown through aria-controls', async () => {
       render(<ComboBox getItems={jest.fn()} />);
 
-      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveAttribute('aria-controls', ComboBoxViewIds.menu);
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveAttribute(
+        'aria-controls',
+        expect.stringContaining(ComboBoxViewIds.menu),
+      );
 
       userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-      expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute('aria-controls', ComboBoxViewIds.menu);
+      expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute(
+        'aria-controls',
+        expect.stringContaining(ComboBoxViewIds.menu),
+      );
 
       await waitFor(() => {
-        expect(screen.getByTestId(MenuDataTids.root)).toHaveAttribute('id', ComboBoxViewIds.menu);
+        expect(screen.getByTestId(MenuDataTids.root)).toHaveAttribute(
+          'id',
+          expect.stringContaining(ComboBoxViewIds.menu),
+        );
       });
     });
   });

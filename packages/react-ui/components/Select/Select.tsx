@@ -21,7 +21,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -218,6 +218,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
+  private menuId = SelectIds.menu + getRandomID();
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
@@ -456,7 +457,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <DropdownContainer
-        id={SelectIds.menu}
+        id={this.menuId}
         data-tid={SelectDataTids.menu}
         getParent={this.dropdownContainerGetParent}
         align={this.props.menuAlign}
@@ -692,7 +693,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           onBlur: this.props.onBlur,
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
-          'aria-controls': SelectIds.menu,
+          'aria-controls': this.menuId,
         })
       : buttonElement;
   };

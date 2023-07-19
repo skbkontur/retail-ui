@@ -10,7 +10,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -231,6 +231,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
   private hasAnchorElementListeners = false;
+  private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
 
@@ -476,7 +477,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(state: string) => (
           <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
-              id={PopupIds.root}
+              id={this.rootId}
               data-tid={PopupDataTids.root}
               wrapperRef={this.refPopupElement}
               priority={'Popup'}

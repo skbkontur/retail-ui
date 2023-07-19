@@ -310,8 +310,14 @@ describe('<TokenInput />', () => {
 
     userEvent.click(screen.getByRole('textbox'));
 
-    expect(screen.getByTestId(TokenInputDataTids.label)).toHaveAttribute('aria-controls', PopupIds.root);
-    expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toHaveAttribute('id', PopupIds.root);
+    expect(screen.getByTestId(TokenInputDataTids.label)).toHaveAttribute(
+      'aria-controls',
+      expect.stringContaining(PopupIds.root),
+    );
+    expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toHaveAttribute(
+      'id',
+      expect.stringContaining(PopupIds.root),
+    );
   });
 });
 

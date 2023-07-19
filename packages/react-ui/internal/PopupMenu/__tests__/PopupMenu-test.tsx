@@ -124,7 +124,7 @@ describe('PopupMenu', () => {
   it('should set default value for aria-controls attribute', () => {
     render(<PopupMenu caption={<button>test</button>} />);
 
-    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', PopupIds.root);
+    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
   });
 
   it('should set value for aria-controls attribute', () => {

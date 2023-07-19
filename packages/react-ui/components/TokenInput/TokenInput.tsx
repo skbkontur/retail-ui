@@ -27,7 +27,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import { AnyObject, emptyHandler } from '../../lib/utils';
+import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
@@ -300,6 +300,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private wrapper: HTMLLabelElement | null = null;
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
+  private rootId = PopupIds.root + getRandomID();
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -431,7 +432,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}
             htmlFor={this.textareaId}
-            aria-controls={PopupIds.root}
+            aria-controls={this.rootId}
             data-tid={TokenInputDataTids.label}
           >
             <TextWidthHelper

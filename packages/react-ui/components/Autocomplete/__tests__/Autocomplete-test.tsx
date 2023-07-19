@@ -364,9 +364,12 @@ describe('<Autocomplete />', () => {
     const input = screen.getByTestId(InputDataTids.root);
     userEvent.type(input, 'one');
 
-    expect(input).toHaveAttribute('aria-controls', AutocompleteIds.menu);
+    expect(input).toHaveAttribute('aria-controls', expect.stringContaining(AutocompleteIds.menu));
     await waitFor(() => {
-      expect(screen.getByTestId(AutocompleteDataTids.menu)).toHaveAttribute('id', AutocompleteIds.menu);
+      expect(screen.getByTestId(AutocompleteDataTids.menu)).toHaveAttribute(
+        'id',
+        expect.stringContaining(AutocompleteIds.menu),
+      );
     });
   });
 });
