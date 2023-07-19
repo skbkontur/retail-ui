@@ -37,8 +37,9 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
   `;
 };
 
-export const linkUseLineWithoutOpacity = () => {
+export const linkUseLineHovered = (linkLineHoverBorderBottomStyle: string) => {
   return `
     animation: none !important;
+    border-bottom-style: ${linkLineHoverBorderBottomStyle};
   `;
 };

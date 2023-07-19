@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { mount } from 'enzyme';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
+import { MenuItemDataTids } from '../../MenuItem';
+import { MenuDataTids } from '../../../internal/Menu';
 import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -33,7 +34,7 @@ describe('Select', () => {
 
     const SelectExample = Select;
 
-    const wrapper = mount<Select>(
+    render(
       <SelectExample<ValueType>
         value={currentValue}
         items={objectItems}
@@ -42,28 +43,27 @@ describe('Select', () => {
         areValuesEqual={(x1, x2) => x1.id === x2.id}
       />,
     );
+    const currentValueText = currentValue.name;
 
-    wrapper.setState({ opened: true });
+    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
-    const dropdownContainer = wrapper.find('DropdownContainer');
-
-    const defaultValueText = wrapper.prop('renderItem')?.(currentValue, currentValue);
-
-    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
-    const selectedMenuItem = menu.findWhere((node) => node.is('MenuItem') && node.prop('state') === 'selected');
-    expect(selectedMenuItem).toHaveLength(1);
-    expect(selectedMenuItem.text()).toBe(defaultValueText);
+    const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
+    const selectedMenuItem = menuItems.find(
+      (element) => element.hasAttribute('state') && element.getAttribute('state') === 'selected',
+    );
+    expect(selectedMenuItem).toBeInTheDocument();
+    expect(selectedMenuItem).toHaveTextContent(currentValueText);
   });
 
   it('calls onKeyDown', () => {
     const onKeyDown = jest.fn();
-    const wrapper = mount(<Select onKeyDown={onKeyDown} />);
+    render(<Select onKeyDown={onKeyDown} />);
 
-    wrapper.find('button').simulate('keydown', { key: 'k' });
-    const [event] = onKeyDown.mock.calls[0];
+    fireEvent.keyDown(screen.getByRole('button'), { key: 'k' });
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
-    expect(event.key).toBe('k');
+    expect(onKeyDown).toHaveBeenCalledWith(expect.objectContaining({ key: 'k' }));
   });
 
   it('should execute `onFocus` with default button', () => {
@@ -268,37 +268,36 @@ describe('Select', () => {
 
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<Select />);
-      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
-
-      expect(wrapper.text()).toBe(expectedText);
+      render(<Select />);
+      const expectedText = SelectLocaleHelper.get(defaultLangCode)?.placeholder as string;
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('render default locale', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{}}>
           <Select />
         </LocaleContext.Provider>,
       );
-      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
+      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder as string;
 
-      expect(wrapper.text()).toBe(expectedText);
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Select />
         </LocaleContext.Provider>,
       );
-      const expectedText = SelectLocaleHelper.get(LangCodes.en_GB).placeholder;
+      const expectedText = SelectLocaleHelper.get(LangCodes.en_GB).placeholder as string;
 
-      expect(wrapper.text()).toBe(expectedText);
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('render custom locale', () => {
       const customPlaceholder = 'custom loading';
-      const wrapper = mount(
+      render(
         <LocaleContext.Provider
           value={{
             locale: { Select: { placeholder: customPlaceholder } },
@@ -307,21 +306,24 @@ describe('Select', () => {
           <Select />
         </LocaleContext.Provider>,
       );
-
-      expect(wrapper.text()).toBe(customPlaceholder);
+      expect(screen.getByRole('button')).toHaveTextContent(customPlaceholder);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = mount(
+      const { rerender } = render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Select />
         </LocaleContext.Provider>,
       );
-      const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder;
+      const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder as string;
 
-      wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
+      rerender(
+        <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
+          <Select />
+        </LocaleContext.Provider>,
+      );
 
-      expect(wrapper.text()).toBe(expectedText);
+      expect(screen.getByRole('button')).toHaveTextContent(expectedText);
     });
 
     it('props aria-describedby applied correctly', () => {
@@ -334,6 +336,111 @@ describe('Select', () => {
       const select = screen.getByRole('button');
       expect(select).toHaveAttribute('aria-describedby', 'elementId');
       expect(select).toHaveAccessibleDescription('Description');
+    });
+  });
+
+  describe('open/close/focus methods', () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    const selectRef = React.createRef<Select>();
+    const testItems = ['One', 'Two', 'Three', 'Four'];
+
+    beforeEach(() => {
+      render(<Select ref={selectRef} items={testItems} onOpen={onOpen} onClose={onClose} />);
+      onClose.mockClear();
+      onOpen.mockClear();
+    });
+
+    it('should open menu by method', () => {
+      selectRef.current?.open();
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
+
+    it('should handel onOpen event when open() method has been called', () => {
+      selectRef.current?.open();
+      expect(onOpen).toHaveBeenCalled();
+    });
+
+    it('should close menu by method', () => {
+      selectRef.current?.open();
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+
+      selectRef.current?.close();
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    });
+
+    it('should handel onClose event when close() method has been called', () => {
+      selectRef.current?.open();
+      selectRef.current?.close();
+
+      expect(onClose).toHaveBeenCalled();
+    });
+
+    it('should not call onClose event when menu wasn`t open', () => {
+      selectRef.current?.close();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('should focus by method', () => {
+      selectRef.current?.focus();
+      expect(screen.getByRole('button')).toHaveFocus();
+    });
+  });
+
+  describe('handleKey', () => {
+    const testItems = ['One', 'Two', 'Three', 'Four'];
+
+    const Comp = () => {
+      const [value, setValue] = useState('');
+      return <Select items={testItems} onValueChange={setValue} value={value} />;
+    };
+
+    beforeEach(() => {
+      render(<Comp />);
+    });
+
+    it('should choose item when pressing enter key', () => {
+      userEvent.click(screen.getByRole('button'));
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      userEvent.keyboard('{arrowdown}');
+      userEvent.keyboard('{arrowdown}');
+
+      userEvent.keyboard('{enter}');
+
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.getByRole('button')).toHaveTextContent(testItems[1]);
+    });
+
+    it('should move highligted item when pressing arrow down key', () => {
+      userEvent.click(screen.getByRole('button'));
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
+
+      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+      userEvent.keyboard('{arrowdown}');
+
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[0]);
+
+      userEvent.keyboard('{arrowdown}');
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[1]);
+    });
+
+    it('should move highligted item when pressing arrow up key', () => {
+      userEvent.click(screen.getByRole('button'));
+
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
+
+      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+      userEvent.keyboard('{arrowup}');
+
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[testItems.length - 1]);
     });
   });
 });

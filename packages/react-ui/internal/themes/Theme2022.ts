@@ -3,9 +3,10 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 import { DefaultThemeInternal } from './DefaultTheme';
 
 export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
-  public static borderColorDisabled = 'rgba(0, 0, 0, 0.08)';
+  public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
+  public static bgDisabled = '#F0F0F0';
 
   //#region Link
   public static linkColor = '#222222';
@@ -33,13 +34,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#region Button
   public static btnCheckedBg = '#3D3D3D';
   public static btnCheckedDisabledBg = '#ADADAD';
-  public static btnCheckedDisabledColor = '#EBEBEB';
+  public static btnCheckedDisabledColor = '#E6E6E6';
 
   public static btnDefaultBg = '#fff';
-  public static btnDefaultHoverBg = '#f6f6f6';
+  public static btnDefaultHoverBg = '#F0F0F0';
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
-  public static btnDefaultActiveBg = '#ebebeb';
+  public static btnDefaultActiveBg = '#E6E6E6';
 
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16);';
   public static btnDefaultBorderBottomColor = '';
@@ -60,11 +61,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
 
-  public static btnDisabledBg = 'rgba(0, 0, 0, 0.04)';
+  public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
     return this.textColorDisabledContrast;
   }
-  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.08)';
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
@@ -151,10 +152,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuSeparatorMarginX = '8px';
 
   public static popupBorderRadius = '8px';
-  public static popupBoxShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
-  public static popupDropShadow = 'drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08))';
+  public static popupBoxShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.10)';
+  public static popupDropShadow = 'drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.10))';
 
-  public static pickerShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
+  public static pickerShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.10)';
 
   //#region Hint
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
@@ -164,7 +165,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Modal
-  public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.04)';
+  public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.06)';
   public static modalBorderRadius = '16px';
   public static modalBodyBorderRadius = '0px';
   public static fixedPanelShadow = 'none';
@@ -192,7 +193,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   public static modalCloseButtonClickArea = '6px';
   public static modalFixedFooterMarginTop = '0px';
-  public static modalSeparatorBorderBottom = '1px solid #EBEBEB';
+  public static modalSeparatorBorderBottom = '1px solid #E6E6E6';
   public static modalHeaderFontWeight = '700';
   public static modalPaddingRight = '32px';
   public static modalCloseButtonPadding = '32px';
@@ -240,7 +241,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static fileUploaderAfterLinkColor = '#858585';
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderLinkHoverTextDecoration = 'none';
-  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
+  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.06)';
   public static fileUploaderDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static fileUploaderHoveredBorderColor = 'transparent';
   public static get fileUploaderDisabledBg() {
@@ -320,8 +321,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuPaddingX = '4px';
   public static menuOffsetY = '4px';
   public static menuBoxSizing = 'border-box';
-  public static menuItemHoverBg = '#F6F6F6';
-  public static menuItemSelectedBg = '#EBEBEB';
+  public static menuItemHoverBg = '#F0F0F0';
+  public static menuItemSelectedBg = '#E6E6E6';
   public static menuItemBorderRadius = '6px';
   public static menuItemDisabledColor = '#858585';
   public static get menuItemHoverColor() {
@@ -335,7 +336,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   public static menuItemGap = '1px';
   public static menuItemCommentOpacity = '0.6';
-  public static menuShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
+  public static menuShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.10)';
 
   public static tokenInputBorderRadius = '2px';
 
@@ -380,7 +381,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleHandleBoxShadowCheckedHover = 'none';
 
   // disabled
-  public static toggleContainerBgDisabled = '#F6F6F6';
+  public static toggleContainerBgDisabled = '#F0F0F0';
   public static toggleContainerBoxShadowDisabled = 'inset 0 0 0 1px rgba(0, 0, 0, 0.1)';
   public static toggleHandleBgDisabled = 'transparent';
   public static toggleHandleBoxShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.1)';
@@ -388,22 +389,22 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   // disabled checked
   public static toggleContainerBgDisabledChecked = '#D6D6D6';
   public static toggleContainerBoxShadowDisabledChecked = 'none';
-  public static toggleHandleBgDisabledChecked = '#F6F6F6';
+  public static toggleHandleBgDisabledChecked = '#F0F0F0';
   public static toggleHandleBoxShadowDisabledChecked = 'none';
   //#endregion
 
   public static switcherBorderRadius = '8px';
 
   //#region Calendar
-  public static calendarCellHoverBgColor = '#f6f6f6';
+  public static calendarCellHoverBgColor = '#F0F0F0';
   public static calendarCellHoverColor = '';
   public static calendarCellActiveHoverColor = '';
-  public static calendarCellSelectedBgColor = '#EBEBEB';
+  public static calendarCellSelectedBgColor = '#E6E6E6';
   public static calendarCellTodayBorder = '1px solid';
   //#endregion
 
   //#region DateSelect
-  public static dateSelectMenuItemBgActive = '#f6f6f6';
+  public static dateSelectMenuItemBgActive = '#F0F0F0';
   public static dateSelectMenuItemFontActive = '';
   public static dateSelectTextColorInvert = '';
   //#endregion
@@ -447,7 +448,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static pagingDotsDisabledColor = '#ADADAD';
   public static pagingForwardLinkColor = '#222222';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
-  public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.04)';
+  public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
   //#endregion
 
   //#region SidePage
@@ -480,8 +481,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static kebabIconSizeSmall = '16px';
   public static kebabIconSizeMedium = '20px';
   public static kebabIconSizeLarge = '24px';
-  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.04)';
-  public static kebabBackgroundActive = 'rgba(0, 0, 0, 0.08)';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.06)';
+  public static kebabBackgroundActive = 'rgba(0, 0, 0, 0.10)';
   //#endregion
 }
 
