@@ -477,7 +477,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(state: string) => (
           <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
-              id={this.rootId}
+              id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
               wrapperRef={this.refPopupElement}
               priority={'Popup'}

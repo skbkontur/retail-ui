@@ -140,15 +140,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div
-            id={this.props.popupMenuId ?? this.rootId}
-            data-tid={PopupMenuDataTids.root}
-            className={styles.container()}
-            style={{ width: this.props.width }}
-          >
+          <div data-tid={PopupMenuDataTids.root} className={styles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
+                id={this.props.popupMenuId ?? this.rootId}
                 anchorElement={this.captionWrapper}
                 opened={this.state.menuVisible}
                 hasShadow

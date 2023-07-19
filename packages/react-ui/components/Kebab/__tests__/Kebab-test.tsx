@@ -4,16 +4,19 @@ import { render, screen } from '@testing-library/react';
 
 import { PopupDataTids, PopupIds } from '../../../internal/Popup';
 import { MenuItem } from '../../../components/MenuItem';
-import { PopupMenuDataTids } from '../../../internal/PopupMenu';
 import { Kebab, KebabDataTids } from '../Kebab';
 
 describe('Kebab', () => {
   it('prop `popupMenuId` sets an `id` for root of the popup', () => {
     const menuId = 'menu';
-    render(<Kebab popupMenuId={menuId} />);
+    render(
+      <Kebab popupMenuId={menuId}>
+        <p>test</p>
+      </Kebab>,
+    );
     userEvent.click(screen.getByTestId(KebabDataTids.caption));
 
-    const menu = screen.getByTestId(PopupMenuDataTids.root);
+    const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
   });
 

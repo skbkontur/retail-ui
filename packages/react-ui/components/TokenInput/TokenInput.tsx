@@ -292,6 +292,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public state: TokenInputState<T> = DefaultState;
 
   private readonly textareaId: string = getUid();
+  private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
   private input: HTMLTextAreaElement | null = null;
@@ -300,7 +301,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private wrapper: HTMLLabelElement | null = null;
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
-  private rootId = PopupIds.root + getRandomID();
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -463,6 +463,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
             {showMenu && (
               <TokenInputMenu
+                popupMenuId={this.rootId}
                 ref={this.tokensInputMenuRef}
                 items={autocompleteItems}
                 loading={loading}

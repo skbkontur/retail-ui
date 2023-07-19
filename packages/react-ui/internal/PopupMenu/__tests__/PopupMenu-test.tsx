@@ -2,8 +2,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
-import { PopupIds } from '../../../internal/Popup/Popup';
-import { PopupMenu, PopupMenuCaptionProps, PopupMenuDataTids } from '../PopupMenu';
+import { PopupDataTids, PopupIds } from '../../../internal/Popup/Popup';
+import { PopupMenu, PopupMenuCaptionProps } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';
 
 describe('PopupMenu', () => {
@@ -114,17 +114,27 @@ describe('PopupMenu', () => {
 
   it('prop `popupMenuId` sets an `id` for root of the popup', () => {
     const menuId = 'menu';
-    render(<PopupMenu caption={<button>test</button>} popupMenuId={menuId} />);
+    render(
+      <PopupMenu caption={<button>test</button>} popupMenuId={menuId}>
+        <p>test</p>
+      </PopupMenu>,
+    );
     userEvent.click(screen.getByRole('button'));
 
-    const menu = screen.getByTestId(PopupMenuDataTids.root);
+    const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
   });
 
   it('should set default value for aria-controls attribute', () => {
-    render(<PopupMenu caption={<button>test</button>} />);
+    render(
+      <PopupMenu caption={<button>test</button>}>
+        <p>test</p>
+      </PopupMenu>,
+    );
+    const button = screen.getByRole('button');
+    userEvent.click(screen.getByRole('button'));
 
-    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
+    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
   });
 
   it('should set value for aria-controls attribute', () => {
