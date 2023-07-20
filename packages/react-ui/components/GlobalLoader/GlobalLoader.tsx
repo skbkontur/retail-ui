@@ -76,7 +76,6 @@ type DefaultProps = Required<
 >;
 
 let currentGlobalLoader: GlobalLoader;
-
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
@@ -151,16 +150,18 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   public render() {
     let status: GlobalLoaderViewProps['status'] = 'standard';
+    let dataState: GlobalLoaderViewProps['dataState'];
 
     if (this.state.done) {
       status = 'success';
+      dataState = 'done';
     } else if (this.state.rejected) {
       status = 'error';
+      dataState = 'rejected';
     } else if (this.state.accept) {
       status = 'accept';
     }
     const { delayBeforeHide, disableAnimations } = this.getProps();
-
     return (
       !this.state.dead &&
       this.state.visible && (
@@ -171,6 +172,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
             status={status}
             data-tid={GlobalLoaderDataTids.root}
             disableAnimations={disableAnimations}
+            dataState={dataState}
           />
         </CommonWrapper>
       )
