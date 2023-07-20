@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
@@ -252,7 +252,7 @@ describe('Select', () => {
     expect(button).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('should connect dropdown with button through aria-controls', async () => {
+  it('should connect dropdown with button through aria-controls', () => {
     render(<Select items={['one', 'two', 'three']} />);
 
     const button = screen.getByRole('button');
@@ -261,9 +261,7 @@ describe('Select', () => {
 
     userEvent.click(button);
 
-    await waitFor(() => {
-      expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
-    });
+    expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
   });
 
   describe('Locale', () => {
