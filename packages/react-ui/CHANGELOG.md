@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.16.0-next.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.2...@skbkontur/react-ui@4.16.0-next.2) (2023-07-17)
+
+
+### Bug Fixes
+
+* **Calendar:** return customization of current day border in theme 2022 ([#3186](https://github.com/skbkontur/retail-ui/issues/3186)) ([1595e1d](https://github.com/skbkontur/retail-ui/commit/1595e1df80d72d42116f9604b44565733ce4895f))
+* **DropdownMenu,TooltipMenu,Kebab:** add preventIconsOffset prop ([beb6f90](https://github.com/skbkontur/retail-ui/commit/beb6f900f0e4c7c4b9e79d86f8b0066ae75b400d))
+
+
+
+
+
 # [4.16.0-next.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.1...@skbkontur/react-ui@4.16.0-next.1) (2023-07-04)
 
 
@@ -18,6 +30,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [4.16.0-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.0...@skbkontur/react-ui@4.16.0-next.0) (2023-06-13)
 
 **Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
+## [4.15.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.1...@skbkontur/react-ui@4.15.2) (2023-07-17)
+
+
+* **ComboBox:** use `flushSync` only in React@18 ([#3202](https://github.com/skbkontur/retail-ui/issues/3202)) ([9795006](https://github.com/skbkontur/retail-ui/commit/9795006c799b7266fd88bb9dcf5760148c3ad12d))
+* **CurrencyInput:** allow to work with very small or large values ([#3200](https://github.com/skbkontur/retail-ui/issues/3200)) ([ffc234f](https://github.com/skbkontur/retail-ui/commit/ffc234f726479c9a26b3da5c1b768b061dbf52d1))
+* **Link, Button:** add theme variables for border-bottom ([#3203](https://github.com/skbkontur/retail-ui/issues/3203)) ([d418758](https://github.com/skbkontur/retail-ui/commit/d4187586f24d943716b24ac2cfc437e69becf53e))
 
 
 
