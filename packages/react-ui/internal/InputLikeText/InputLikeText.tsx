@@ -451,9 +451,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }
 
-    ReactDOM.flushSync(() => {
+    // Auto-batching React@18 creates problems that are fixed with flushSync
+    // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
+    if (React.version.search('18') === 0) {
+      ReactDOM.flushSync(() => this.setState({ focused: true }));
+    } else {
       this.setState({ focused: true });
-    });
+    }
 
     if (this.props.onFocus) {
       this.props.onFocus(e);
