@@ -1675,7 +1675,7 @@ export class DefaultTheme {
     return this.fontSizeMedium;
   }
   public static get tabFontSizeLarge() {
-    return this.fontSizeLarge;
+    return this.tabFontSize;
   }
   /**
    * @deprecated use tabLineHeightLarge
@@ -1690,7 +1690,7 @@ export class DefaultTheme {
     return this.controlLineHeightMedium;
   }
   public static get tabLineHeightLarge() {
-    return this.controlLineHeightLarge;
+    return this.tabLineHeight;
   }
   /**
    * @deprecated use tabPaddingXLarge
@@ -1698,7 +1698,9 @@ export class DefaultTheme {
   public static tabPaddingX = '12px';
   public static tabPaddingXSmall = '8px';
   public static tabPaddingXMedium = '10px';
-  public static tabPaddingXLarge = '12px';
+  public static get tabPaddingXLarge() {
+    return this.tabPaddingX;
+  }
   /**
    * @deprecated use tabPaddingXLarge
    */
@@ -1709,24 +1711,22 @@ export class DefaultTheme {
    * @deprecated use tabPaddingYLarge
    */
   public static get tabPaddingY() {
-    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingY = parseInt(this.controlPaddingYLarge);
+    const borderWidth = parseInt(this.controlBorderWidth);
     return `${paddingY + borderWidth}px`;
   }
   public static get tabPaddingYSmall() {
-    const paddingY = parseInt(this.controlPaddingYSmall) || 5;
-    const borderWidth = parseInt(this.controlBorderWidth) || 1;
+    const paddingY = parseInt(this.controlPaddingYSmall);
+    const borderWidth = parseInt(this.controlBorderWidth);
     return `${paddingY + borderWidth}px`;
   }
   public static get tabPaddingYMedium() {
-    const paddingY = parseInt(this.controlPaddingYMedium) || 8;
-    const borderWidth = parseInt(this.controlBorderWidth) || 1;
+    const paddingY = parseInt(this.controlPaddingYMedium);
+    const borderWidth = parseInt(this.controlBorderWidth);
     return `${paddingY + borderWidth}px`;
   }
   public static get tabPaddingYLarge() {
-    const paddingY = parseInt(this.controlPaddingYLarge) || 11;
-    const borderWidth = parseInt(this.controlBorderWidth) || 1;
-    return `${paddingY + borderWidth}px`;
+    return this.tabPaddingY;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {
