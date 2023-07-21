@@ -102,7 +102,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   // Async call required for Firefox
-  private selectNodeContentsDebounced = debounce(selectNodeContents, 100);
+  private selectNodeContentsDebounced = debounce(selectNodeContents, 0);
 
   public selectInnerNode = (node: HTMLElement | null, start = 0, end = 1) => {
     if (this.dragging || !node) {
