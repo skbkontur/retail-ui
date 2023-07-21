@@ -49,6 +49,7 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
 export interface InputProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-controls'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
@@ -134,10 +135,6 @@ export interface InputProps
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
-        /**
-         * Атрибут для указания id элемента(-ов), описывающих его
-         */
-        'aria-describedby'?: AriaAttributes['aria-describedby'];
       }
     > {}
 
@@ -362,6 +359,7 @@ export class Input extends React.Component<InputProps, InputState> {
       formatChars,
       corners,
       'aria-describedby': ariaDescribedby,
+      'aria-controls': ariaControls,
       ...rest
     } = props;
 
@@ -380,6 +378,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
         [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
       }),
+      'aria-controls': ariaControls,
       style: { width, ...corners },
       onMouseEnter,
       onMouseLeave,
