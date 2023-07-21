@@ -276,7 +276,7 @@ export const MobileWithLongItem: Story = () => {
   const longItem = 'Two '.repeat(50);
 
   return (
-    <div style={{ width: 'calc(100vw - 8px)' }}>
+    <div style={{ width: '200px' }}>
       <Select items={['One', `${longItem}`, 'Three']} value={longItem}></Select>
     </div>
   );
