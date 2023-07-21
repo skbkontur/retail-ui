@@ -37,6 +37,10 @@ export const styles = memoizeStyle({
       line-height: ${t.radioLineHeight};
       font-size: ${t.radioFontSize};
 
+      .${globalClasses.circle} {
+        transition: background 100ms cubic-bezier(0.5, 1, 0.89, 1);
+      }
+
       &:hover .${globalClasses.circle} {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
