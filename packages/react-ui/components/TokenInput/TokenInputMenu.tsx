@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { HTMLProps } from '../../typings/html';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupProps } from '../../internal/Popup';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
@@ -13,6 +14,12 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: PopupProps['anchorElement'];
   menuWidth: TokenInputProps<string>['menuWidth'];
   menuAlign: TokenInputMenuAlign;
+  /**
+   * Позволяет задать `id` выпадающему меню.
+   *
+   * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
+   */
+  popupMenuId?: HTMLProps['id'];
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -66,6 +73,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
     return (
       <Popup
+        id={this.props.popupMenuId}
         data-tid={TokenInputDataTids.tokenInputMenu}
         opened={!!opened}
         positions={['bottom left', 'top left']}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
@@ -10,7 +10,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -68,7 +68,10 @@ export interface PopupHandlerProps {
   onClose?: () => void;
 }
 
-export interface PopupProps extends Omit<CommonProps, 'children'>, PopupHandlerProps {
+export interface PopupProps
+  extends Omit<CommonProps, 'children'>,
+    PopupHandlerProps,
+    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
@@ -120,10 +123,15 @@ export interface PopupState {
 }
 
 export const PopupDataTids = {
+  root: 'Popup__root',
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
   popupPin: 'PopupPin__root',
 } as const;
+
+export const PopupIds = {
+  root: PopupDataTids.root,
+};
 
 type DefaultProps = Required<
   Pick<
@@ -223,6 +231,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
   private hasAnchorElementListeners = false;
+  private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
 
@@ -468,7 +477,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(state: string) => (
           <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
-              data-tid={'Popup__root'}
+              id={this.props.id ?? this.rootId}
+              data-tid={PopupDataTids.root}
               wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
