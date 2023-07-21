@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.15.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.2...@skbkontur/react-ui@4.15.3) (2023-07-21)
+
+
+### Bug Fixes
+
+* **ComboBox,InputLikeText:** use `flushSync` only in React 18 ([#3206](https://github.com/skbkontur/retail-ui/issues/3206)) ([ee55374](https://github.com/skbkontur/retail-ui/commit/ee55374df69f797f1257d99250366770b513a096))
+
+
+
+
+
 ## [4.15.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.1...@skbkontur/react-ui@4.15.2) (2023-07-17)
 
 
