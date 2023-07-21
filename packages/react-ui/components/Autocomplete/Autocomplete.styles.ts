@@ -6,6 +6,7 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       width: ${t.inputWidth};
+      transition: border-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
     `;
   },
 });

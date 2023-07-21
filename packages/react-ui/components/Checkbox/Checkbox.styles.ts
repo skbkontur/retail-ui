@@ -18,6 +18,10 @@ export const styles = memoizeStyle({
       font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
 
+      .${globalClasses.box} {
+        transition: background 100ms cubic-bezier(0.5, 1, 0.89, 1), box-shadow 100ms cubic-bezier(0.5, 1, 0.89, 1);
+      }
+
       &:hover .${globalClasses.box} {
         background: ${t.checkboxHoverBg};
         box-shadow: ${t.checkboxShadowHover};

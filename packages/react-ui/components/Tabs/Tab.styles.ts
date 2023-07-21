@@ -25,7 +25,7 @@ export const styles = memoizeStyle({
       padding-top: ${paddingTop};
       position: relative;
       text-decoration: inherit;
-      transition: border-bottom 0.2s ease-out;
+      transition: border-bottom 100ms cubic-bezier(0.5, 1, 0.89, 1);
 
       &:hover {
         outline: inherit;

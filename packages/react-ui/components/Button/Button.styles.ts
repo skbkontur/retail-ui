@@ -29,6 +29,7 @@ export const styles = memoizeStyle({
       ${resetButton()};
       ${resetText()};
 
+      transition: background-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
       background-clip: ${t.btnBackgroundClip};
       background-position: center;
       background-repeat: no-repeat;

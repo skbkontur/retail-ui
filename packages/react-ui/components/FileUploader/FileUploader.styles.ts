@@ -65,7 +65,7 @@ const styles = {
       outline: none;
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
-      transition: box-shadow 0.3s ease;
+      transition: background-color 100ms cubic-bezier(0.5, 1, 0.89, 1), border-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
       background-color: ${t.fileUploaderUploadButtonBg};
     `;
   },
