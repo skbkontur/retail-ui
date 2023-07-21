@@ -131,6 +131,12 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'true');
   });
 
+  it('passes `aria-expanded` attribute', () => {
+    render(<Button aria-expanded />);
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true');
+  });
+
   it('passes correct value into `aria-controls` attribute', () => {
     const controlsId = 'controls';
     render(<Button aria-controls={controlsId} />);

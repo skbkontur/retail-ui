@@ -12,6 +12,7 @@ import {
   maskForbiddenTypes,
   selectionErrorMessage,
   selectionAllowedTypes,
+  InputDataTids,
 } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
@@ -498,6 +499,13 @@ describe('<Input />', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveAttribute('aria-describedby', 'elementId');
     expect(input).toHaveAccessibleDescription('Description');
+  });
+
+  it('sets value for aria-controls attribute', () => {
+    const ariaControls = 'test';
+    render(<Input aria-controls={ariaControls} />);
+
+    expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute('aria-controls', ariaControls);
   });
 });
 
