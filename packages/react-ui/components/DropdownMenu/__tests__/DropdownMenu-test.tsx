@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { PopupMenuDataTids } from '../../../internal/PopupMenu';
+import { PopupDataTids } from '../../../internal/Popup';
 import { DropdownMenu } from '../DropdownMenu';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { InternalMenuDataTids } from '../../../internal/InternalMenu';
@@ -140,10 +140,14 @@ describe('<DropdownMenu />', () => {
 
   it('prop `popupMenuId` sets an `id` for root of the popup', () => {
     const menuId = 'menu';
-    render(<DropdownMenu caption={<button>test</button>} popupMenuId={menuId} />);
+    render(
+      <DropdownMenu caption={<button>test</button>} popupMenuId={menuId}>
+        <p>test</p>
+      </DropdownMenu>,
+    );
     userEvent.click(screen.getByRole('button'));
 
-    const menu = screen.getByTestId(PopupMenuDataTids.root);
+    const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
   });
 });
