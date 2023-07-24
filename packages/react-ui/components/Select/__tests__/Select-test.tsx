@@ -8,7 +8,7 @@ import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
-import { Select } from '../Select';
+import { Select, SelectDataTids, SelectIds } from '../Select';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -238,6 +238,30 @@ describe('Select', () => {
     }
 
     expect(() => render(<SelectGeneric />)).not.toThrow();
+  });
+
+  it('should change value of aria-expanded when opening and closing', () => {
+    render(<Select />);
+
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+
+    userEvent.click(button);
+
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('should connect dropdown with button through aria-controls', () => {
+    render(<Select items={['one', 'two', 'three']} />);
+
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(SelectIds.menu));
+
+    userEvent.click(button);
+
+    expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
   });
 
   describe('Locale', () => {

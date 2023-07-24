@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { PopupIds } from '../../../internal/Popup';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
 import { delay } from '../../../lib/utils';
@@ -302,6 +303,21 @@ describe('<TokenInput />', () => {
     const tokenInput = screen.getByRole('textbox');
     expect(tokenInput).toHaveAttribute('aria-describedby', 'elementId');
     expect(tokenInput).toHaveAccessibleDescription('Description');
+  });
+
+  it('should connect input and dropdown through aria-controls', () => {
+    render(<TokenInputWithSelectedItem />);
+
+    userEvent.click(screen.getByRole('textbox'));
+
+    expect(screen.getByTestId(TokenInputDataTids.label)).toHaveAttribute(
+      'aria-controls',
+      expect.stringContaining(PopupIds.root),
+    );
+    expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toHaveAttribute(
+      'id',
+      expect.stringContaining(PopupIds.root),
+    );
   });
 });
 

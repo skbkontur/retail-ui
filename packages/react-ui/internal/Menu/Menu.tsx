@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, HTMLAttributes } from 'react';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
@@ -19,7 +19,9 @@ import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps extends Pick<InternalMenuProps, 'preventIconsOffset'> {
+export interface MenuProps
+  extends Pick<InternalMenuProps, 'preventIconsOffset'>,
+    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -147,6 +149,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}
         style={getStyle(this.props)}
+        id={this.props.id}
         ref={this.setRootNode}
       >
         <ScrollContainer

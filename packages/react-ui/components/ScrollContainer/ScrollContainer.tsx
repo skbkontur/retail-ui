@@ -91,6 +91,8 @@ type DefaultProps = Required<
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
+  public inner: Nullable<HTMLElement>;
+
   public static propTypes = {
     invert: PropTypes.bool,
     maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -113,7 +115,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
-  private inner: Nullable<HTMLElement>;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -230,7 +231,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.inner.scrollLeft = this.inner.scrollWidth - this.inner.offsetWidth;
   }
 
-  private hasScrollBar(axis: ScrollAxis) {
+  public hasScrollBar(axis: ScrollAxis) {
     if (!this.inner) {
       return false;
     }

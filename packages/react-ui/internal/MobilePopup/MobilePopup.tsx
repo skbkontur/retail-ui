@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Transition } from 'react-transition-group';
 
 import { Theme } from '../../lib/theming/Theme';
@@ -11,7 +11,7 @@ import { RenderLayer } from '../RenderLayer';
 import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
 
-interface MobilePopupProps {
+interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
    * Функция, вызываемая при закрытии всплывающего окна
    */
@@ -61,7 +61,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
 
   public renderMain() {
     const content = (
-      <ZIndex className={jsStyles.zIndex()} priority={'MobilePopup'}>
+      <ZIndex id={this.props.id} className={jsStyles.zIndex()} priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
             <RenderLayer onClickOutside={this.close}>
