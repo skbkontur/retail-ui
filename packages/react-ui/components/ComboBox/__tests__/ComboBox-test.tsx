@@ -2,10 +2,11 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HTMLProps } from 'react-ui/typings/html';
 
+import { InputDataTids } from '../../../components/Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -16,6 +17,7 @@ import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
+import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
 
 function clickOutside() {
@@ -1221,32 +1223,57 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 
-  it('props aria-describedby applied correctly on Input', () => {
-    const getItems = () => {
-      return Promise.resolve([{ value: 1, label: 'First' }]);
-    };
+  describe('a11y', () => {
+    it('props aria-describedby applied correctly on Input', () => {
+      const getItems = () => {
+        return Promise.resolve([{ value: 1, label: 'First' }]);
+      };
 
-    render(
-      <div>
-        <ComboBox aria-describedby="elementId" getItems={getItems} autoFocus />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const comboBox = screen.getByRole('textbox');
-    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
-    expect(comboBox).toHaveAccessibleDescription('Description');
-  });
+      render(
+        <div>
+          <ComboBox aria-describedby="elementId" getItems={getItems} autoFocus />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const comboBox = screen.getByRole('textbox');
+      expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+      expect(comboBox).toHaveAccessibleDescription('Description');
+    });
 
-  it('props aria-describedby applied correctly on InputLikeText', () => {
-    render(
-      <div>
-        <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
-    expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
-    expect(comboBox).toHaveAccessibleDescription('Description');
+    it('props aria-describedby applied correctly on InputLikeText', () => {
+      render(
+        <div>
+          <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
+      expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
+      expect(comboBox).toHaveAccessibleDescription('Description');
+    });
+
+    it('should connect input and dropdown through aria-controls', async () => {
+      render(<ComboBox getItems={jest.fn()} />);
+
+      expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveAttribute(
+        'aria-controls',
+        expect.stringContaining(ComboBoxViewIds.menu),
+      );
+
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+      expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute(
+        'aria-controls',
+        expect.stringContaining(ComboBoxViewIds.menu),
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId(MenuDataTids.root)).toHaveAttribute(
+          'id',
+          expect.stringContaining(ComboBoxViewIds.menu),
+        );
+      });
+    });
   });
 
   it('should focus by method', () => {
