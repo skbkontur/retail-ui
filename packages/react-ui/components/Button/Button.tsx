@@ -26,7 +26,10 @@ export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | '
 
 export interface ButtonProps
   extends CommonProps,
-    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked'>,
+    Pick<
+      AriaAttributes,
+      'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked' | 'aria-expanded'
+    >,
     Pick<HTMLAttributes<unknown>, 'role'> {
   /** @ignore */
   _noPadding?: boolean;
@@ -275,6 +278,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
       'aria-checked': ariaChecked,
+      'aria-expanded': ariaExpanded,
       role,
     } = this.props;
     const { use, type, size } = this.getProps();
@@ -346,6 +350,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
       'aria-checked': ariaChecked,
+      'aria-expanded': ariaExpanded,
       className: rootClassName,
       style: {
         textAlign: align,
