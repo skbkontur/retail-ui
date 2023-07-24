@@ -166,6 +166,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
     return (
       <span
+        role="button"
         data-tid={KebabDataTids.caption}
         tabIndex={disabled ? -1 : 0}
         onClick={handleCaptionClick}
