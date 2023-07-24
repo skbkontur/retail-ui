@@ -309,7 +309,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public componentDidMount() {
-    this.dispatch({ type: 'Mount' }, false);
+    this.dispatch({ type: 'Mount' });
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -319,7 +319,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    this.dispatch({ type: 'DidUpdate', prevProps, prevState }, false);
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState });
   }
 
   /**
@@ -329,7 +329,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
+  private dispatch = (action: CustomComboBoxAction<T>) => {
     const updateState = (action: CustomComboBoxAction<T>) => {
       let effects: Array<CustomComboBoxEffect<T>>;
       let nextState: Pick<CustomComboBoxState<T>, never>;
@@ -348,14 +348,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     // Auto-batching React@18 creates problems that are fixed with flushSync
     // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
-    const isReact18 = React.version.search('18') === 0;
-    if (sync && isReact18) {
-      return ReactDOM.flushSync(() => {
-        updateState(action);
-      });
+    if (React.version.search('18') === 0) {
+      ReactDOM.flushSync(() => updateState(action));
+    } else {
+      updateState(action);
     }
-
-    return updateState(action);
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {

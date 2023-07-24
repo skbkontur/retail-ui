@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import isEqual from 'lodash.isequal';
 
+import { PopupIds } from '../../internal/Popup';
 import {
   isKeyArrowHorizontal,
   isKeyArrowLeft,
@@ -26,7 +27,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import { AnyObject, emptyHandler } from '../../lib/utils';
+import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
@@ -221,6 +222,7 @@ export const DefaultState = {
 export const TokenInputDataTids = {
   root: 'TokenInput__root',
   tokenInputMenu: 'TokenInputMenu__root',
+  label: 'TokenInput__label',
 } as const;
 
 type DefaultProps<T> = Required<
@@ -290,6 +292,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public state: TokenInputState<T> = DefaultState;
 
   private readonly textareaId: string = getUid();
+  private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
   private input: HTMLTextAreaElement | null = null;
@@ -429,6 +432,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}
             htmlFor={this.textareaId}
+            aria-controls={this.rootId}
+            data-tid={TokenInputDataTids.label}
           >
             <TextWidthHelper
               ref={this.textHelperRef}
@@ -458,6 +463,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
             {showMenu && (
               <TokenInputMenu
+                popupMenuId={this.rootId}
                 ref={this.tokensInputMenuRef}
                 items={autocompleteItems}
                 loading={loading}

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getRandomID } from '../../lib/utils';
 import { HTMLProps } from '../../typings/html';
 import {
   isKeyArrowVertical,
@@ -8,8 +9,8 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
-import { InternalMenu } from '../InternalMenu';
-import { Popup, PopupPositionsType } from '../Popup';
+import { InternalMenu, InternalMenuProps } from '../InternalMenu';
+import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -27,7 +28,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps {
+export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'preventIconsOffset'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -107,6 +108,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
   private isMobileLayout!: boolean;
+  private rootId = PopupIds.root + getRandomID();
 
   public static defaultProps: DefaultProps = {
     positions: Positions,
@@ -138,15 +140,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div
-            id={this.props.popupMenuId}
-            data-tid={PopupMenuDataTids.root}
-            className={styles.container()}
-            style={{ width: this.props.width }}
-          >
+          <div data-tid={PopupMenuDataTids.root} className={styles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
+                id={this.props.popupMenuId ?? this.rootId}
                 anchorElement={this.captionWrapper}
                 opened={this.state.menuVisible}
                 hasShadow
@@ -164,6 +162,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
+                  preventIconsOffset={this.props.preventIconsOffset}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
@@ -196,7 +195,10 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       return caption;
     }
 
-    return React.cloneElement(caption as React.ReactElement, { 'aria-haspopup': true });
+    return React.cloneElement(caption as React.ReactElement, {
+      'aria-controls': this.props.popupMenuId ?? this.rootId,
+      'aria-expanded': this.state.menuVisible ? 'true' : 'false',
+    });
   };
 
   private renderCaption = () => {
