@@ -1,14 +1,20 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+import { TabSize } from './Tab';
+import { paddingX } from './helpers';
+
 export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
-      display: inline-block;
-      margin: 0 -${t.tabsMarginX};
-      padding: 0;
-      position: relative;
-    `;
+  rootSmall(t: Theme) {
+    return tabsRoot(t, 'small');
+  },
+
+  rootMedium(t: Theme) {
+    return tabsRoot(t, 'medium');
+  },
+
+  rootLarge(t: Theme) {
+    return tabsRoot(t, 'large');
   },
 
   vertical() {
@@ -17,3 +23,12 @@ export const styles = memoizeStyle({
     `;
   },
 });
+
+function tabsRoot(t: Theme, size: TabSize) {
+  return css`
+    display: inline-block;
+    margin: 0 -${paddingX(t, size)};
+    padding: 0;
+    position: relative;
+  `;
+}
