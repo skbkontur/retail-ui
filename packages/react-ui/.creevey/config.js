@@ -249,18 +249,18 @@ const config = {
     //   name: 'infrafront/ie112022Dark',
     //   ...capabilities,
     // },
-    // chromeMobile: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 400, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME_MOBILE',
-    //   },
-    //   name: 'infrafront/chromeMobile',
-    //   browserVersion: '100.0',
-    //   version: '100.0',
-    //   ...capabilities,
-    // },
+    chromeMobile: {
+      browserName: 'chrome',
+      viewport: { width: 400, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DEFAULT_THEME_MOBILE',
+      },
+      name: 'infrafront/chromeMobile',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
   },
 };
 
