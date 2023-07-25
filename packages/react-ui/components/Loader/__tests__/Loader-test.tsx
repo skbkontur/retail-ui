@@ -1,33 +1,19 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
-import { Loader, LoaderProps, LoaderState } from '../Loader';
+import { Loader, LoaderDataTids } from '../Loader';
 import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_SPINNER_SHOW = 1000;
 const MINIMAL_DELAY_BEFORE_SPINNER_HIDE = 1000;
 const DIFFERENCE = 100;
-const VeilSelector = `[data-tid='Loader__Veil']`;
-const SpinnerSelector = `[data-tid='Loader__Spinner']`;
-
-const expectComponentLengthInWrapper = (
-  component: string,
-  wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>,
-  length: number,
-) => expect(wrapper.find(component)).toHaveLength(length);
-
-const expectComponentExistInWrapper = (component: string, wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>) =>
-  expectComponentLengthInWrapper(component, wrapper, 1);
-
-const expectComponentNotExistInWrapper = (component: string, wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>) =>
-  expectComponentLengthInWrapper(component, wrapper, 0);
+const VeilSelector = LoaderDataTids.veil;
+const SpinnerSelector = LoaderDataTids.spinner;
 
 describe('Loader', () => {
-  let loader: ReactWrapper<LoaderProps, LoaderState, Loader>;
-
   describe('with immutable active=false', () => {
     beforeEach(() => {
-      loader = mount<Loader>(
+      render(
         <Loader
           delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
           minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
@@ -35,66 +21,77 @@ describe('Loader', () => {
       );
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
-      loader.update();
 
-      expectComponentNotExistInWrapper(VeilSelector, loader);
-      expectComponentNotExistInWrapper(SpinnerSelector, loader);
+      expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + DIFFERENCE);
-      loader.update();
-      expectComponentNotExistInWrapper(VeilSelector, loader);
-      expectComponentNotExistInWrapper(SpinnerSelector, loader);
+
+      expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE);
-      loader.update();
-      expectComponentNotExistInWrapper(VeilSelector, loader);
-      expectComponentNotExistInWrapper(SpinnerSelector, loader);
+
+      expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
     });
   });
 
   describe('with mutable active=false', () => {
-    beforeEach(() => {
-      loader = mount<Loader>(
+    it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
+      const { rerender } = render(
         <Loader
           delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
           minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
         />,
       );
-    });
 
-    // eslint-disable-next-line jest/expect-expect
-    it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DIFFERENCE * 3);
-      loader.setProps({ active: true });
+
+      rerender(
+        <Loader
+          active
+          delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+          minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+        />,
+      );
+
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
-      loader.update();
-      expectComponentExistInWrapper(VeilSelector, loader);
-      expectComponentNotExistInWrapper(SpinnerSelector, loader);
+      expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+      expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
+      const { rerender } = render(
+        <Loader
+          delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+          minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+        />,
+      );
       await delay(DIFFERENCE * 3);
-      loader.setProps({ active: true });
+      rerender(
+        <Loader
+          active
+          delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+          minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+        />,
+      );
       await delay(DELAY_BEFORE_SPINNER_SHOW);
-      loader.update();
-      expectComponentExistInWrapper(VeilSelector, loader);
-      expectComponentExistInWrapper(SpinnerSelector, loader);
+
+      expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
+      expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
     });
   });
 
   describe('with immutable active=true', () => {
     beforeEach(() => {
-      loader = mount<Loader>(
+      render(
         <Loader
           active
           delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
@@ -103,95 +100,120 @@ describe('Loader', () => {
       );
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
-      loader.update();
-      expectComponentExistInWrapper(VeilSelector, loader);
-      expectComponentNotExistInWrapper(SpinnerSelector, loader);
+
+      expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+      expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + DIFFERENCE);
-      loader.update();
-      expectComponentExistInWrapper(VeilSelector, loader);
-      expectComponentExistInWrapper(SpinnerSelector, loader);
+      expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+      expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE + DIFFERENCE);
-      loader.update();
-      expectComponentExistInWrapper(VeilSelector, loader);
-      expectComponentExistInWrapper(SpinnerSelector, loader);
+      expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+      expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
     });
   });
 
   describe('with mutable active=true', () => {
     describe('change active prop before DELAY_BEFORE_SPINNER_SHOW', () => {
-      beforeEach(() => {
-        loader = mount<Loader>(
+      it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
+        const { rerender } = render(
           <Loader
             active
             delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
             minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
           />,
         );
-      });
 
-      // eslint-disable-next-line jest/expect-expect
-      it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
-        expectComponentExistInWrapper(VeilSelector, loader);
-        expectComponentNotExistInWrapper(SpinnerSelector, loader);
+        expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+        expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+
         await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
-        loader.setProps({ active: false });
+
+        rerender(
+          <Loader
+            delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+            minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+          />,
+        );
+
         await delay(DIFFERENCE);
-        loader.update();
-        expectComponentNotExistInWrapper(VeilSelector, loader);
-        expectComponentNotExistInWrapper(SpinnerSelector, loader);
+        expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
       });
     });
 
     describe('change active prop after DELAY_BEFORE_SPINNER_SHOW', () => {
-      beforeEach(() => {
-        loader = mount<Loader>(
+      it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
+        const { rerender } = render(
           <Loader
             active
             delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
             minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
           />,
         );
-      });
 
-      // eslint-disable-next-line jest/expect-expect
-      it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
         await delay(DELAY_BEFORE_SPINNER_SHOW);
-        loader.setProps({ active: false });
+
+        rerender(
+          <Loader
+            delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+            minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+          />,
+        );
+
         await delay(DIFFERENCE);
-        loader.update();
-        expectComponentExistInWrapper(VeilSelector, loader);
-        expectComponentExistInWrapper(SpinnerSelector, loader);
+        expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+        expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
       });
 
-      // eslint-disable-next-line jest/expect-expect
       it('should show spinner DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
+        const { rerender } = render(
+          <Loader
+            active
+            delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+            minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+          />,
+        );
         await delay(DELAY_BEFORE_SPINNER_SHOW);
-        loader.setProps({ active: false });
+        rerender(
+          <Loader
+            delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+            minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+          />,
+        );
         await delay(MINIMAL_DELAY_BEFORE_SPINNER_HIDE - DIFFERENCE);
-        loader.update();
-        expectComponentExistInWrapper(VeilSelector, loader);
-        expectComponentExistInWrapper(SpinnerSelector, loader);
+
+        expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+        expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
       });
 
-      // eslint-disable-next-line jest/expect-expect
       it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
+        const { rerender } = render(
+          <Loader
+            active
+            delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+            minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+          />,
+        );
+
         await delay(DELAY_BEFORE_SPINNER_SHOW);
-        loader.setProps({ active: false });
+
+        rerender(
+          <Loader
+            delayBeforeSpinnerShow={DELAY_BEFORE_SPINNER_SHOW}
+            minimalDelayBeforeSpinnerHide={MINIMAL_DELAY_BEFORE_SPINNER_HIDE}
+          />,
+        );
         await delay(MINIMAL_DELAY_BEFORE_SPINNER_HIDE);
-        loader.update();
-        expectComponentNotExistInWrapper(VeilSelector, loader);
-        expectComponentNotExistInWrapper(SpinnerSelector, loader);
+        expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
       });
     });
   });
