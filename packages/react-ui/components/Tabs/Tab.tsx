@@ -213,8 +213,12 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
         <Component
           data-tid={TabDataTids.root}
           className={cx({
-            [styles.root(this.theme)]: true,
-            [styles.vertical(this.theme)]: !!isVertical,
+            [styles.rootSmall(this.theme)]: this.context.size === 'small',
+            [styles.rootMedium(this.theme)]: this.context.size === 'medium',
+            [styles.rootLarge(this.theme)]: this.context.size === 'large',
+            [styles.verticalSmall(this.theme)]: !!isVertical && this.context.size === 'small',
+            [styles.verticalMedium(this.theme)]: !!isVertical && this.context.size === 'medium',
+            [styles.verticalLarge(this.theme)]: !!isVertical && this.context.size === 'large',
             [orientationStyles.primary(this.theme)]: !!primary,
             [orientationStyles.success(this.theme)]: !!success,
             [orientationStyles.warning(this.theme)]: !!warning,
@@ -235,7 +239,15 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           aria-label={ariaLabel}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
-          {this.state.focusedByKeyboard && <div className={cx(styles.focus(this.theme), globalClasses.focus)} />}
+          {this.state.focusedByKeyboard && (
+            <div
+              className={cx(globalClasses.focus, {
+                [styles.focusSmall(this.theme)]: this.context.size === 'small',
+                [styles.focusMedium(this.theme)]: this.context.size === 'medium',
+                [styles.focusLarge(this.theme)]: this.context.size === 'large',
+              })}
+            />
+          )}
         </Component>
       </CommonWrapper>
     );
