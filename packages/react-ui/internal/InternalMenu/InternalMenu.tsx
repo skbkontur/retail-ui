@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -64,6 +65,7 @@ type DefaultProps = Required<
   >
 >;
 
+@responsiveLayout
 @rootNode
 export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
@@ -91,6 +93,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -131,12 +134,13 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
       return null;
     }
     const { hasShadow, width, maxHeight, preventWindowScroll } = this.getProps();
-
+    const isMobile = this.isMobileLayout;
     return (
       <div
         data-tid={InternalMenuDataTids.root}
         className={cx({
           [styles.root(this.theme)]: true,
+          [styles.mobileRoot(this.theme)]: isMobile,
           [styles.shadow(this.theme)]: hasShadow,
         })}
         style={{
