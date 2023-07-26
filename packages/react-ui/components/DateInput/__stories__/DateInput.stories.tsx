@@ -440,7 +440,7 @@ WithNoValue.parameters = {
   },
 };
 
-export const WithError = () => (
+export const WithError: Story = () => (
   <Gapped vertical>
     <Gapped>
       <DateInput value="01.01.2020" error /> Error
@@ -450,6 +450,23 @@ export const WithError = () => (
     </Gapped>
   </Gapped>
 );
+
+WithError.parameters = {
+  creevey: {
+    tests: {
+      async focused() {
+        const plain = await this.takeScreenshot();
+        const DateInputPlaceholder = this.browser.findElement({ css: '[data-tid~="DateFragmentsView__placeholder"]' });
+
+        await this.browser.actions({ bridge: true }).click(DateInputPlaceholder).perform();
+        await delay(1000);
+        const focused = await this.takeScreenshot();
+
+        await this.expect([plain, focused]).to.matchImages();
+      },
+    },
+  },
+};
 
 export const ShouldSetFocusOnPlaceholderClick: Story = () => {
   return <DateInput />;
