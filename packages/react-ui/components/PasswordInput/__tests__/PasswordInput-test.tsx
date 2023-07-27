@@ -3,7 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
-import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
+import {
+  EYE_ICON_CLOSED_ARIA_LABEL,
+  EYE_ICON_OPENED_ARIA_LABEL,
+  PasswordInput,
+  PasswordInputDataTids,
+} from '../PasswordInput';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', () => {
@@ -131,5 +136,27 @@ describe('PasswordInput', () => {
 
     userEvent.click(document.body);
     expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'password');
+  });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<PasswordInput aria-label={ariaLabel} />);
+
+      // Clicking on the eye icon to turn input from password to text
+      userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('eye icon has correct aria-label attribute', () => {
+      render(<PasswordInput />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', EYE_ICON_OPENED_ARIA_LABEL);
+
+      userEvent.click(screen.getByRole('button'));
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', EYE_ICON_CLOSED_ARIA_LABEL);
+    });
   });
 });

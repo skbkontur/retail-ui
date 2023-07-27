@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { getRandomID } from '../../lib/utils';
 import { HTMLProps } from '../../typings/html';
@@ -28,7 +28,10 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'preventIconsOffset'> {
+export interface PopupMenuProps
+  extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<InternalMenuProps, 'preventIconsOffset'>,
+    CommonProps {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -198,6 +201,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     return React.cloneElement(caption as React.ReactElement, {
       'aria-controls': this.props.popupMenuId ?? this.rootId,
       'aria-expanded': this.state.menuVisible ? 'true' : 'false',
+      'aria-label': this.props['aria-label'],
     });
   };
 

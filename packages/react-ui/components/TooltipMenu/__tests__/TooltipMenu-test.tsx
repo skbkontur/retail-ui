@@ -82,4 +82,13 @@ describe('<TooltipMenu />', () => {
     userEvent.click(menuItem);
     expect(testText).toBe('Bar foo');
   });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<TooltipMenu aria-label={ariaLabel} caption={<button>test</button>} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
 });

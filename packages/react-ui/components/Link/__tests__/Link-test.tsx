@@ -1,5 +1,6 @@
-import { mount } from 'enzyme';
 import React from 'react';
+import { render as renderRTL, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 
 import { LinkProps } from '..';
 import { Link } from '../Link';
@@ -75,6 +76,15 @@ describe('Link', () => {
 
         expect(wrapper.find('a').prop('rel')).toBe('noopener');
       });
+    });
+  });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      renderRTL(<Link aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 });

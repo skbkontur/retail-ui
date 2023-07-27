@@ -37,7 +37,10 @@ const PASS_PROPS = {
   'aria-describedby': true,
 };
 
-export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
+export interface DropdownProps
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'> {
   /**
    * Подпись на кнопке.
    */
@@ -206,6 +209,7 @@ export class Dropdown extends React.Component<DropdownProps> {
           items={items}
           _icon={icon}
           renderValue={renderValue}
+          aria-label={this.props['aria-label']}
         />
       </CommonWrapper>
     );

@@ -361,6 +361,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       return (
         <div style={{ margin: 8 }}>
           <Button
+            aria-label={'Перейти к сегодняшней дате'}
             data-tid={DatePickerDataTids.pickerTodayWrapper}
             width="100%"
             onClick={this.handleSelectToday(today)}

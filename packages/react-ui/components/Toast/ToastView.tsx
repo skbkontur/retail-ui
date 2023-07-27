@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import { func, shape, string } from 'prop-types';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -13,7 +13,7 @@ import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon'
 import { styles } from './ToastView.styles';
 import { ToastDataTids } from './Toast';
 
-export interface ToastViewProps extends CommonProps {
+export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   /**
    * Toast content
    */
@@ -29,6 +29,8 @@ export interface ToastViewProps extends CommonProps {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
+
+export const TOAST_CLOSE_BUTTON_ARIA_LABEL = 'Закрыть уведомление';
 
 @rootNode
 export class ToastView extends React.Component<ToastViewProps> {
@@ -65,14 +67,24 @@ export class ToastView extends React.Component<ToastViewProps> {
     const { action, onClose, ...rest } = props;
 
     const link = action ? (
-      <span data-tid={ToastDataTids.action} className={styles.link(this.theme)} onClick={action.handler}>
+      <button
+        aria-label={this.props['aria-label']}
+        data-tid={ToastDataTids.action}
+        className={styles.link(this.theme)}
+        onClick={action.handler}
+      >
         {action.label}
-      </span>
+      </button>
     ) : null;
 
     let close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
-        <span data-tid={ToastDataTids.close} className={styles.close(this.theme)} onClick={onClose}>
+        <span
+          aria-label={TOAST_CLOSE_BUTTON_ARIA_LABEL}
+          data-tid={ToastDataTids.close}
+          className={styles.close(this.theme)}
+          onClick={onClose}
+        >
           <CrossIcon />
         </span>
       </span>
@@ -82,6 +94,7 @@ export class ToastView extends React.Component<ToastViewProps> {
       close = (
         <span className={styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
+            aria-label={TOAST_CLOSE_BUTTON_ARIA_LABEL}
             data-tid={ToastDataTids.close}
             onClick={onClose}
             size={parseInt(this.theme.toastCloseSize)}

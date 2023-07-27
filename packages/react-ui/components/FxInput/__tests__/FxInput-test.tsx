@@ -48,4 +48,20 @@ describe('FxInput', () => {
     userEvent.type(input, '123');
     expect(input).toHaveValue('123');
   });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute (input)', () => {
+      const ariaLabel = 'aria-label';
+      render(<FxInput onValueChange={jest.fn()} aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('sets value for aria-label attribute (button)', () => {
+      const ariaLabel = 'aria-label';
+      render(<FxInput onValueChange={jest.fn()} button-aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
 });

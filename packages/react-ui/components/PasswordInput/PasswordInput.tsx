@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -21,7 +21,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
 
-export interface PasswordInputProps extends CommonProps, InputProps {
+export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps, InputProps {
   detectCapsLock?: boolean;
 }
 
@@ -29,6 +29,9 @@ export interface PasswordInputState {
   visible: boolean;
   capsLockEnabled?: boolean | null;
 }
+
+export const EYE_ICON_OPENED_ARIA_LABEL = 'Скрыть символы пароля';
+export const EYE_ICON_CLOSED_ARIA_LABEL = 'Отобразить символы пароля';
 
 export const PasswordInputDataTids = {
   root: 'PasswordInput',
@@ -193,13 +196,18 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         )}
         <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
-            <span onClick={this.handleToggleVisibility} data-tid={PasswordInputDataTids.eyeIcon}>
+            <button
+              aria-label={this.state.visible ? 'Отобразить символы пароля' : 'Скрыть символы пароля'}
+              onClick={this.handleToggleVisibility}
+              className={styles.icon()}
+              data-tid={PasswordInputDataTids.eyeIcon}
+            >
               <PasswordInputIcon
                 size={this.props.size}
                 visible={this.state.visible}
                 isTheme2022={isTheme2022(this.theme)}
               />
-            </span>
+            </button>
           )}
         </span>
       </span>

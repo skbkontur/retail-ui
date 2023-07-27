@@ -53,10 +53,13 @@ export const styles = memoizeStyle({
     const padding = isTheme2022(t) ? `${paddingTop} ${paddingBottom}` : `${paddingTop} 0 ${paddingBottom}`;
 
     return css`
+      border: none;
+      font: inherit;
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
+      background-color: transparent;
 
       margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
 

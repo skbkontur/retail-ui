@@ -25,8 +25,9 @@ import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
-  extends CommonProps,
-    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
+  extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
+    CommonProps {
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   /**
@@ -143,6 +144,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           onOpen={onOpen}
           onClose={onClose}
           popupMenuId={this.props.popupMenuId}
+          aria-label={this.props['aria-label']}
         >
           {!disabled && this.props.children}
         </PopupMenu>

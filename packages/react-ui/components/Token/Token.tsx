@@ -19,7 +19,7 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenProps extends CommonProps {
+export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
   /**
@@ -31,11 +31,6 @@ export interface TokenProps extends CommonProps {
    */
   warning?: boolean;
   disabled?: boolean;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
-
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;
@@ -87,6 +82,7 @@ export class Token extends React.Component<TokenProps> {
       warning,
       disabled,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
       onClick = emptyHandler,
       onDoubleClick = emptyHandler,
       onMouseEnter = emptyHandler,
@@ -100,7 +96,7 @@ export class Token extends React.Component<TokenProps> {
     const validation = getValidation(error, warning);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" tabbable={false} />
+      <CloseButtonIcon aria-label={ariaLabel} side={16} color="inherit" colorHover="inherit" tabbable={false} />
     ) : (
       <CrossIcon />
     );
@@ -143,6 +139,8 @@ export class Token extends React.Component<TokenProps> {
         >
           <span className={styles.text(this.theme)}>{children}</span>
           <span
+            role={isTheme2022(theme) ? undefined : 'button'}
+            aria-label={isTheme2022(theme) ? undefined : ariaLabel}
             className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
             onClick={this.onRemoveClick}
             data-tid={TokenDataTids.removeIcon}

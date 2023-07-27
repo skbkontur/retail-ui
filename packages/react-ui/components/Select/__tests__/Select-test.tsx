@@ -240,28 +240,49 @@ describe('Select', () => {
     expect(() => render(<SelectGeneric />)).not.toThrow();
   });
 
-  it('should change value of aria-expanded when opening and closing', () => {
-    render(<Select />);
+  describe('a11y', () => {
+    it('should change value of aria-expanded when opening and closing', () => {
+      render(<Select />);
 
-    const button = screen.getByRole('button');
+      const button = screen.getByRole('button');
 
-    expect(button).toHaveAttribute('aria-expanded', 'false');
+      expect(button).toHaveAttribute('aria-expanded', 'false');
 
-    userEvent.click(button);
+      userEvent.click(button);
 
-    expect(button).toHaveAttribute('aria-expanded', 'true');
-  });
+      expect(button).toHaveAttribute('aria-expanded', 'true');
+    });
 
-  it('should connect dropdown with button through aria-controls', () => {
-    render(<Select items={['one', 'two', 'three']} />);
+    it('should connect dropdown with button through aria-controls', () => {
+      render(<Select items={['one', 'two', 'three']} />);
 
-    const button = screen.getByRole('button');
+      const button = screen.getByRole('button');
 
-    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(SelectIds.menu));
+      expect(button).toHaveAttribute('aria-controls', expect.stringContaining(SelectIds.menu));
 
-    userEvent.click(button);
+      userEvent.click(button);
 
-    expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
+      expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
+    });
+
+    it('props aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <Select aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const select = screen.getByRole('button');
+      expect(select).toHaveAttribute('aria-describedby', 'elementId');
+      expect(select).toHaveAccessibleDescription('Description');
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<Select aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 
   describe('Locale', () => {
@@ -322,18 +343,6 @@ describe('Select', () => {
       );
 
       expect(screen.getByRole('button')).toHaveTextContent(expectedText);
-    });
-
-    it('props aria-describedby applied correctly', () => {
-      render(
-        <div>
-          <Select aria-describedby="elementId" />
-          <p id="elementId">Description</p>
-        </div>,
-      );
-      const select = screen.getByRole('button');
-      expect(select).toHaveAttribute('aria-describedby', 'elementId');
-      expect(select).toHaveAccessibleDescription('Description');
     });
   });
 

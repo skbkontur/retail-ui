@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -14,7 +14,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
 export interface TooltipMenuProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'preventIconsOffset'> {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
@@ -122,6 +123,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
+          aria-label={this.props['aria-label']}
           data-tid={TooltipMenuDataTids.root}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
