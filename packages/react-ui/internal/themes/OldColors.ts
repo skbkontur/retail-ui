@@ -114,7 +114,6 @@ export class OldColorsTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
-  public static dateInputComponentSelectedBgColor = '#cae0f4';
   //#endregion
   //#region Calendar
   public static calendarCellWeekendColor = '#f00';

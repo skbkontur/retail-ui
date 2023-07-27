@@ -302,11 +302,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActiveBorderColor = 'transparent';
   //#endregion
 
-  //#region DateInput
-  //https://w3c.github.io/csswg-drafts/css-color/#valdef-system-color-highlight
-  public static dateInputComponentSelectedBgColor = 'highlight';
-  //#endregion
-
   //#region Checkbox
   public static checkboxBorderRadius = '4px';
   public static checkboxCheckedBg = '#3D3D3D';
