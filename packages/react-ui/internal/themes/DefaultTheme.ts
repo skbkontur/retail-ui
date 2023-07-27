@@ -668,6 +668,11 @@ export class DefaultTheme {
   public static get selectMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static get selectBorderColorHover() {
+    return this.inputBorderColor;
+  }
+  public static btnDefaultBorderColorTransition = '';
+  public static selectBorderColorTransition = 'box-shadow 100ms cubic-bezier(0.5, 1, 0.89, 1);';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';

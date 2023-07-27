@@ -239,6 +239,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static get selectBorderColorHover() {
+    return this.inputBorderColorHover;
+  }
   //#endregion
 
   //#region FileUploader

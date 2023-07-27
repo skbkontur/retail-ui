@@ -18,6 +18,14 @@ export const styles = memoizeStyle({
       &:hover {
         color: ${t.dateSelectLinkColor};
       }
+
+      & span svg {
+        transition: fill 100ms cubic-bezier(0.5, 1, 0.89, 1);
+      }
+
+      &:hover span svg {
+        fill: ${t.dateSelectTextColorDefault} !important;
+      }
     `;
   },
 

@@ -193,6 +193,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.disabled(this.theme)]: !!disabled,
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
+      [jsInputStyles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
