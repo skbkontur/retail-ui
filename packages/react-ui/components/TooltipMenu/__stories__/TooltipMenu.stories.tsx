@@ -90,6 +90,8 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
       async enterPress() {
