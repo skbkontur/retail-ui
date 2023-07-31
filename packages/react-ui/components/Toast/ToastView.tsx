@@ -22,7 +22,7 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   /**
    * Adds action handling and close icon for toast
    */
-  action: Nullable<Action>;
+  action?: Nullable<Action>;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
