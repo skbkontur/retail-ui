@@ -11,7 +11,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             toastView = this.Find<Label>().By("ToastView");
             notification = new Label(toastView, new BySelector(By.CssSelector("span:first-child")));
-            Action = new Label(toastView, new BySelector(By.CssSelector("button:nth-child(1)")));
+            Action = new Label(toastView, new BySelector(By.CssSelector("button:first-of-type")));
         }
 
         public Label Action { get; }
