@@ -11,6 +11,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileRoot(t: Theme) {
+    return css`
+      padding: 0 ${t.mobileMenuPaddingX};
+    `;
+  },
+
   shadow(t: Theme) {
     return css`
       border: ${t.menuBorder};

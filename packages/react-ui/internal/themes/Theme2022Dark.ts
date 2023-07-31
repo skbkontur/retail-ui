@@ -88,7 +88,6 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
   public static btnErrorSecondary = 'rgba(169, 42, 39, 1)';
 
-  public static btnTextHoverBorderColor = 'transparent';
   public static btnDisabledBg = 'rgba(255, 255, 255, 0.04)';
   public static btnDisabledTextColor = 'rgba(255, 255, 255, 0.32)';
   public static btnDisabledBorderColor = 'transparent';

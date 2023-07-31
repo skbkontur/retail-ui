@@ -12,7 +12,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { Tab } from './Tab';
+import { Tab, TabSize } from './Tab';
 
 type ValueBaseType = string;
 interface TabType<T extends ValueBaseType> {
@@ -35,6 +35,13 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
    * Tabs change event
    */
   onValueChange?: (value: T) => void;
+
+  /**
+   * Задаёт размер контрола.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
+  size?: TabSize;
 
   /**
    * Active tab identifier
@@ -63,7 +70,7 @@ export const TabsDataTids = {
   indicatorRoot: 'Indicator__root',
 } as const;
 
-type DefaultProps = Required<Pick<TabsProps, 'vertical'>>;
+type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 
 /**
  * Tabs wrapper
@@ -76,6 +83,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public static defaultProps: DefaultProps = {
     vertical: false,
+    size: 'large',
   };
 
   private getProps = createPropsGetter(Tabs.defaultProps);
@@ -100,7 +108,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public render(): JSX.Element {
     const { value, width, children, indicatorClassName, 'aria-describedby': ariaDescribedby } = this.props;
-    const vertical = this.getProps().vertical;
+    const { vertical, size } = this.getProps();
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -109,7 +117,12 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <div
                 data-tid={TabsDataTids.root}
-                className={cx(styles.root(this.theme), vertical && styles.vertical())}
+                className={cx({
+                  [styles.rootSmall(this.theme)]: size === 'small',
+                  [styles.rootMedium(this.theme)]: size === 'medium',
+                  [styles.rootLarge(this.theme)]: size === 'large',
+                  [styles.vertical()]: vertical,
+                })}
                 style={{ width }}
                 aria-describedby={ariaDescribedby}
               >
@@ -117,6 +130,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   value={{
                     vertical,
                     activeTab: value,
+                    size,
                     getTab: this.getTab,
                     addTab: this.addTab,
                     removeTab: this.removeTab,

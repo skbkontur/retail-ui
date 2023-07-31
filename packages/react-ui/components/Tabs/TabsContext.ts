@@ -2,11 +2,12 @@ import React from 'react';
 
 import { emptyHandler } from '../../lib/utils';
 
-import { Tab } from './Tab';
+import { Tab, TabSize } from './Tab';
 
 export interface TabsContextType<T extends string = any> {
   vertical: boolean;
   activeTab: T;
+  size: TabSize;
   getTab: (id: T) => Tab<T> | null | void;
   addTab: (id: T, getNode: () => Tab<T>) => void;
   notifyUpdate: () => void;
@@ -18,6 +19,7 @@ export interface TabsContextType<T extends string = any> {
 export const TabsContextDefaultValue: TabsContextType = {
   vertical: false,
   activeTab: '',
+  size: 'large',
   getTab: emptyHandler,
   addTab: emptyHandler,
   notifyUpdate: emptyHandler,
