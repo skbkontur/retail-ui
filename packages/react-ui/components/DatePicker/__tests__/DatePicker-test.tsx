@@ -8,8 +8,8 @@ import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
-import { Calendar } from '../../../internal/Calendar';
-import { DateSelect } from '../../../internal/DateSelect';
+import { Calendar, CalendarDataTids } from '../../../internal/Calendar';
+import { DateSelect, DateSelectDataTids } from '../../../internal/DateSelect';
 import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids, DatePickerProps } from '../DatePicker';
@@ -33,6 +33,7 @@ const renderDatePickerLocale = ({
       <DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />
     </LocaleContext.Provider>,
   );
+const refDatePicker = React.createRef<DatePicker>();
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -51,10 +52,10 @@ describe('DatePicker', () => {
       expect(DatePicker.validate('01.ff.2019')).toBe(false);
     });
   });
-  it.only('renders', () => {
+  it('renders', () => {
     render(<DatePicker onValueChange={handleChange} value="02.07.2017" />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    expect(screen.getByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(DatePickerDataTids.pickerRoot)).toBeInTheDocument();
   });
 
   it('renders date select when open', () => {
@@ -102,32 +103,32 @@ describe('DatePicker', () => {
   });
 
   it("doesn't open on focus if disabled", () => {
-    const datePicker = renderDatePicker({
-      disabled: true,
-    });
-    datePicker.instance().focus();
-    datePicker.update();
-    expect(datePicker.find(DropdownContainer)).toHaveLength(0);
+    render(<DatePicker onValueChange={handleChange} value="02.07.2017" ref={refDatePicker} disabled />)
+
+    refDatePicker.current?.focus();
+    expect(screen.queryByTestId(DatePickerDataTids.pickerRoot)).not.toBeInTheDocument();
   });
 
   it('closes when become disabled', () => {
-    const datePicker = renderDatePicker();
-    datePicker.instance().focus();
-    datePicker.setProps({ disabled: true });
-    datePicker.update();
-    expect(datePicker.find(DropdownContainer)).toHaveLength(0);
+    const { rerender } = render(<DatePicker onValueChange={handleChange} value="02.07.2017" ref={refDatePicker} />);
+
+    refDatePicker.current?.focus();
+    expect(screen.getByTestId(DatePickerDataTids.pickerRoot)).toBeInTheDocument();
+
+    rerender(<DatePicker onValueChange={handleChange} value="02.07.2017" ref={refDatePicker} disabled />)
+    expect(screen.queryByTestId(DatePickerDataTids.pickerRoot)).not.toBeInTheDocument();
   });
 
   it('open when autoFocus enabled', () => {
-    const datePicker = renderDatePicker({
+    renderDatePicker({
       autoFocus: true,
     });
-    expect(datePicker.find(DropdownContainer)).toHaveLength(1);
+    expect(screen.getByTestId(DatePickerDataTids.pickerRoot)).toBeInTheDocument();
   });
 
   describe('Locale', () => {
-    const getTextLoading = (wrapper: ReactWrapper<any>): string => {
-      return wrapper.find(`[data-tid='Picker__todayWrapper']`).text();
+    const getTextLoading = (): string => {
+      return screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)?.textContent ?? "";
     };
     const getToday = (args: InternalDateConstructorProps) =>
       new InternalDate(args)
@@ -135,69 +136,64 @@ describe('DatePicker', () => {
         .toString({ withPad: true, withSeparator: true });
 
     it('render without LocaleProvider', () => {
-      const datePicker = renderDatePicker({ enableTodayLink: true });
+      renderDatePicker({ enableTodayLink: true });
+
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      datePicker.setState({ opened: true });
-      datePicker.update();
-
-      expect(getTextLoading(datePicker)).toBe(`${expectedText} ${today}`);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(getTextLoading()).toBe(`${expectedText} ${today}`);
     });
 
     it('render default locale', () => {
-      const wrapper = renderDatePickerLocale({ props: { enableTodayLink: true } });
-      const datePicker = wrapper.find(DatePicker).instance();
+      renderDatePickerLocale({ props: { enableTodayLink: true } });
+
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      datePicker.setState({ opened: true });
-      wrapper.update();
-
-      expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(getTextLoading()).toBe(`${expectedText} ${today}`);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = renderDatePickerLocale({ props: { enableTodayLink: true }, langCode: LangCodes.en_GB });
-      const datePicker = wrapper.find(DatePicker).instance();
+      renderDatePickerLocale({ props: { enableTodayLink: true }, langCode: LangCodes.en_GB });
+
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-      datePicker.setState({ opened: true });
-      wrapper.update();
-
-      expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
+      expect(getTextLoading()).toBe(`${expectedText} ${today}`);
     });
 
     it('render custom locale', () => {
-      const wrapper = renderDatePickerLocale({
+      renderDatePickerLocale({
         props: { enableTodayLink: true },
         langCode: LangCodes.en_GB,
         locale: { DatePicker: { separator: InternalDateSeparator.Dash } },
       });
-      const datePicker = wrapper.find(DatePicker).instance();
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB, separator: InternalDateSeparator.Dash });
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
-      datePicker.setState({ opened: true });
-      wrapper.update();
-
-      expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
+      expect(getTextLoading()).toBe(`${expectedText} ${today}`);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = renderDatePickerLocale({
-        props: { enableTodayLink: true },
-      });
-      const datePicker = wrapper.find(DatePicker).instance();
+      const { rerender } = render(
+        <LocaleContext.Provider value={{ langCode: defaultLangCode, locale: {} }}>
+          <DatePicker onValueChange={handleChange} value="02.07.2017" enableTodayLink />
+        </LocaleContext.Provider>);
+
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
-      datePicker.setState({ opened: true });
-      wrapper.update();
+      rerender(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB, locale: {} }}>
+        <DatePicker onValueChange={handleChange} value="02.07.2017" enableTodayLink />
+      </LocaleContext.Provider>);
 
-      expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+      expect(getTextLoading()).toBe(`${expectedText} ${today}`);
     });
   });
 
