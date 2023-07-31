@@ -1067,9 +1067,8 @@ export const activeStyles = memoizeStyle({
 
   text(t: Theme) {
     return css`
-      &,
-      &:hover {
-        background: ${t.btnTextActiveBg};
+      & {
+        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, '', t.btnBorderWidth, t.btnArrowBgImageActive)};
       }
     `;
   },
