@@ -89,8 +89,8 @@ SimpleExample.parameters = {
             bridge: true,
           })
           .sendKeys(this.keys.TAB)
+          .pause(1000)
           .perform();
-        await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
