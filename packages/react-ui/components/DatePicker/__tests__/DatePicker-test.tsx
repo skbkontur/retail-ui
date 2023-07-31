@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+// import { mount, ReactWrapper } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -12,13 +12,13 @@ import { Calendar } from '../../../internal/Calendar';
 import { DateSelect } from '../../../internal/DateSelect';
 import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { DatePicker, DatePickerProps } from '../DatePicker';
+import { DatePicker, DatePickerDataTids, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleControls, LocaleContext } from '../../../lib/locale';
 
 const handleChange = () => undefined;
 const renderDatePicker = (props: Partial<DatePickerProps> = {}) =>
-  mount<DatePicker>(<DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />);
+  render(<DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />);
 const renderDatePickerLocale = ({
   props = {},
   langCode = defaultLangCode,
@@ -28,7 +28,7 @@ const renderDatePickerLocale = ({
   langCode?: LangCodes;
   locale?: LocaleControls;
 } = {}) =>
-  mount(
+  render(
     <LocaleContext.Provider value={{ langCode, locale }}>
       <DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />
     </LocaleContext.Provider>,
@@ -51,14 +51,15 @@ describe('DatePicker', () => {
       expect(DatePicker.validate('01.ff.2019')).toBe(false);
     });
   });
-  it('renders', () => {
-    const datePicker = renderDatePicker();
-    expect(datePicker.exists()).toBe(true);
+  it.only('renders', () => {
+    render(<DatePicker onValueChange={handleChange} value="02.07.2017" />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    expect(screen.getByTestId(DatePickerDataTids.root)).toBeInTheDocument();
   });
 
   it('renders date select when open', () => {
-    const datePicker = renderDatePicker();
-    datePicker.setState({ opened: true });
+    renderDatePicker();
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     const dateSelect = datePicker.find('DateSelect');
     expect(dateSelect.exists()).toBe(true);
   });
