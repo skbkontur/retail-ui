@@ -23,8 +23,7 @@ describe('Link', () => {
       renderRTL({ onClick, disabled: true });
 
       const linkElement = screen.getByTestId(LinkDataTids.root);
-      linkElement.style.pointerEvents = 'auto';
-      userEvent.click(linkElement);
+      userEvent.click(linkElement, {}, { skipPointerEventsCheck: true });
 
       expect(onClick).toHaveBeenCalledTimes(0);
     });
