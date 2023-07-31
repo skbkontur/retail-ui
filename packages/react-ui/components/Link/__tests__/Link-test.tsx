@@ -46,7 +46,6 @@ describe('Link', () => {
 
     it("doesn't get filled if there is no href", () => {
       renderRTL();
-      screen.debug();
       expect(screen.getByTestId(LinkDataTids.root)).toHaveProperty('rel', '');
     });
 
