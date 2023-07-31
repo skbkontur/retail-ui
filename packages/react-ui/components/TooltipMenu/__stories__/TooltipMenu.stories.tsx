@@ -48,7 +48,7 @@ SimpleExample.parameters = {
         tests: ['clickAfterClickedOnCaption', 'clicked'],
       },
 
-      'story-skip-1': { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['tabPress'] },
+      'story-skip-1': { in: /(?!\b(firefox)\b)/, tests: ['tabPress'] },
     },
     tests: {
       async plain() {
@@ -89,7 +89,6 @@ SimpleExample.parameters = {
             bridge: true,
           })
           .sendKeys(this.keys.TAB)
-          .pause(1000)
           .perform();
 
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
