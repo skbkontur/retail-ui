@@ -9,7 +9,7 @@ import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { DatePicker, DatePickerDataTids } from '../DatePicker';
+import { DatePicker, DatePickerDataTids, TODAY_LINK_ARIA_LABEL } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
@@ -213,5 +213,18 @@ describe('DatePicker', () => {
     render(<DatePicker onValueChange={jest.fn()} disabled />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      render(<DatePicker enableTodayLink onValueChange={jest.fn()} />);
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
+        'aria-label',
+        TODAY_LINK_ARIA_LABEL,
+      );
+    });
   });
 });

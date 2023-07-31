@@ -43,7 +43,7 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
 
   /**
    * Функция для отрисовки элемента. Аргументы — `label`,
-   * `value`, `buttonProps`, `renderDefault`
+   * `value`, `buttonProps`, `renderDefault`, `ariaLabel`
    */
   renderItem?: (
     label: string,

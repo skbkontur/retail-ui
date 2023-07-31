@@ -28,6 +28,8 @@ export interface SidePageHeaderState {
   focusedByTab: boolean;
 }
 
+export const CLOSE_BUTTON_ARIA_LABEL = 'Закрыть модальное окно';
+
 export const SidePageHeaderDataTids = {
   root: 'SidePageHeader__root',
   close: 'SidePage__close',
@@ -197,6 +199,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     <SidePageContext.Consumer>
       {({ requestClose }) => (
         <button
+          aria-label={CLOSE_BUTTON_ARIA_LABEL}
           className={cx(styles.close(this.theme), {
             [styles.closeFocus(this.theme)]: this.state.focusedByTab,
           })}

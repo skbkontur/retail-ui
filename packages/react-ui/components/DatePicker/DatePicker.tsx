@@ -40,6 +40,7 @@ const INPUT_PASS_PROPS = {
 };
 
 export const MIN_WIDTH = 120;
+export const TODAY_LINK_ARIA_LABEL = 'Перейти к сегодняшей дате';
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
@@ -361,7 +362,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       return (
         <div style={{ margin: 8 }}>
           <Button
-            aria-label={'Перейти к сегодняшней дате'}
+            aria-label={TODAY_LINK_ARIA_LABEL}
             data-tid={DatePickerDataTids.pickerTodayWrapper}
             width="100%"
             onClick={this.handleSelectToday(today)}
@@ -375,6 +376,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     return (
       <button
+        aria-label={TODAY_LINK_ARIA_LABEL}
         data-tid={DatePickerDataTids.pickerTodayWrapper}
         className={cx({
           [styles.todayLinkWrapper(this.theme)]: true,

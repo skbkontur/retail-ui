@@ -13,6 +13,8 @@ import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 import { ModalDataTids } from './Modal';
 
+export const CLOSE_BUTTON_ARIA_LABEL = 'Закрыть модальное окно';
+
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
   const theme = useContext(ThemeContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
@@ -38,6 +40,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
       <ResponsiveLayout>
         {({ isMobile }) => (
           <button
+            aria-label="Закрыть модальное окно"
             className={cx({
               [styles.close(theme)]: true,
               [styles.mobileClose(theme)]: isMobile,

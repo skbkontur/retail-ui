@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import { func, shape, string } from 'prop-types';
 
+import { Nullable } from '../../typings/utility-types';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,7 +12,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './ToastView.styles';
-import { ToastDataTids } from './Toast';
+import { Action, ToastDataTids } from './Toast';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   /**
@@ -21,10 +22,7 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   /**
    * Adds action handling and close icon for toast
    */
-  action?: {
-    label: string;
-    handler: () => void;
-  } | null;
+  action: Nullable<Action>;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -68,7 +66,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     const link = action ? (
       <button
-        aria-label={this.props['aria-label']}
+        aria-label={action['aria-label']}
         data-tid={ToastDataTids.action}
         className={styles.link(this.theme)}
         onClick={action.handler}

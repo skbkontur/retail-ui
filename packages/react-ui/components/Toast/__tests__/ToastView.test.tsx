@@ -24,4 +24,25 @@ describe('ToastView', () => {
 
     expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute('aria-label', TOAST_CLOSE_BUTTON_ARIA_LABEL);
   });
+
+  it('sets value for aria-label attribute (action button)', async () => {
+    const ariaLabel = 'aria-label';
+    const buttonName = 'button';
+    function showComplexNotification() {
+      Toast.push(
+        'Successfully saved',
+        {
+          label: 'Cancel',
+          handler: () => Toast.push('Canceled'),
+          'aria-label': ariaLabel,
+        },
+        15000,
+      );
+    }
+    render(<Button onClick={showComplexNotification}>{buttonName}</Button>);
+
+    userEvent.click(screen.getByRole('button', { name: buttonName }));
+
+    expect(screen.getByTestId(ToastDataTids.action)).toHaveAttribute('aria-label', ariaLabel);
+  });
 });

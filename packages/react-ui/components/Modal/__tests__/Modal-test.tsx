@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { StickyDataTids } from '../../../components/Sticky';
 import { Modal, ModalDataTids } from '../Modal';
+import { CLOSE_BUTTON_ARIA_LABEL } from '../ModalClose';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -213,31 +214,6 @@ describe('Modal', () => {
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
-  it('should have `aria-modal` attribute set to `true`', () => {
-    render(<Modal>test</Modal>);
-    expect(screen.getByTestId(ModalDataTids.content)).toHaveAttribute('aria-modal', 'true');
-  });
-
-  it('should change role to `alertdialog`', () => {
-    render(<Modal role="alertdialog" />);
-
-    expect(screen.getByRole('alertdialog')).toBeInTheDocument();
-  });
-
-  it('passes correct value to `aria-label` attribute', () => {
-    const label = 'label';
-    render(<Modal aria-label={label} />);
-
-    expect(screen.getByLabelText(label)).toBeInTheDocument();
-  });
-
-  it('passes correct value to `aria-labelledby` attribute', () => {
-    const labelId = 'labelId';
-    render(<Modal aria-labelledby={labelId} />);
-
-    expect(screen.getByTestId(ModalDataTids.container)).toHaveAttribute('aria-labelledby', labelId);
-  });
-
   it('correct position in stack', () => {
     const wrapper1 = mount(<Modal />);
 
@@ -250,5 +226,38 @@ describe('Modal', () => {
     wrapper2.unmount();
 
     expect(wrapper1.state('stackPosition')).toBe(0);
+  });
+
+  describe('a11y', () => {
+    it('should have `aria-modal` attribute set to `true`', () => {
+      render(<Modal>test</Modal>);
+      expect(screen.getAllByTestId(ModalDataTids.content)[0]).toHaveAttribute('aria-modal', 'true');
+    });
+
+    it('should change role to `alertdialog`', () => {
+      render(<Modal role="alertdialog" />);
+
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+    });
+
+    it('passes correct value to `aria-label` attribute', () => {
+      const label = 'label';
+      render(<Modal aria-label={label} />);
+
+      expect(screen.getByLabelText(label)).toBeInTheDocument();
+    });
+
+    it('passes correct value to `aria-labelledby` attribute', () => {
+      const labelId = 'labelId';
+      render(<Modal aria-labelledby={labelId} />);
+
+      expect(screen.getAllByTestId(ModalDataTids.container)[1]).toHaveAttribute('aria-labelledby', labelId);
+    });
+
+    it('has correct value on close button aria-label attribute', () => {
+      render(<Modal />);
+
+      expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute('aria-label', CLOSE_BUTTON_ARIA_LABEL);
+    });
   });
 });

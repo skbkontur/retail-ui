@@ -14,6 +14,7 @@ import { ToastStatic } from './ToastStatic';
 export interface Action {
   label: string;
   handler: () => void;
+  'aria-label'?: string;
 }
 
 export interface ToastState {

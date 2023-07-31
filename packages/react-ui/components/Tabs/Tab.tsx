@@ -30,7 +30,9 @@ export const TabDataTids = {
 
 export type TabSize = 'small' | 'medium' | 'large';
 
-export interface TabProps<T extends string = string> extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
+export interface TabProps<T extends string = string>
+  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+    CommonProps {
   /**
    * Tab content
    */
@@ -90,11 +92,6 @@ export interface TabProps<T extends string = string> extends Pick<AriaAttributes
    * Style property
    */
   style?: React.CSSProperties;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface TabState {
