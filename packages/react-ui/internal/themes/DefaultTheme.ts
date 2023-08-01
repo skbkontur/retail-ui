@@ -1072,7 +1072,9 @@ export class DefaultTheme {
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
   public static dropdownMenuBorderColorTransition = '';
-  public static dropdownMenuHoverBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static get dropdownMenuHoverBorderColor() {
+    return this.btnDefaultHoverBorderColor;
+  }
   public static get dropdownMenuHoverBg() {
     //deprecated
     return this.bgActive;
