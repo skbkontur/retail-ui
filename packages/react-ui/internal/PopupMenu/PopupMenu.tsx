@@ -9,7 +9,6 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
-import { InternalMenu, InternalMenuProps } from '../InternalMenu';
 import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
@@ -17,6 +16,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { Menu, MenuProps } from '../Menu';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
@@ -28,7 +28,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps, Pick<InternalMenuProps, 'preventIconsOffset'> {
+export interface PopupMenuProps extends CommonProps, Pick<MenuProps, 'preventIconsOffset'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -128,7 +128,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private captionWrapper: HTMLSpanElement | null = null;
   private savedFocusableElement: HTMLElement | null = null;
-  private menu: Nullable<InternalMenu> = null;
+  private menu: Nullable<Menu> = null;
   private setRootNode!: TSetRootNode;
 
   public render() {
@@ -157,7 +157,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 mobileOnCloseRequest={this.hideMenu}
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
-                <InternalMenu
+                <Menu
                   hasShadow={false}
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
@@ -170,7 +170,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   footer={this.props.footer}
                 >
                   {this.props.children}
-                </InternalMenu>
+                </Menu>
               </Popup>
             )}
           </div>
@@ -182,7 +182,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
-  private refInternalMenu = (element: Nullable<InternalMenu>) => (this.menu = element);
+  private refInternalMenu = (element: Nullable<Menu>) => (this.menu = element);
 
   private handleOpen = () => {
     if (this.menu) {
