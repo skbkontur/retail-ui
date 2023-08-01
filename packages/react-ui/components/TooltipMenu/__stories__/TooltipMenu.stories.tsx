@@ -2,6 +2,7 @@ import React from 'react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
+import { delay } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
@@ -111,6 +112,41 @@ SimpleExample.parameters = {
           .sendKeys(this.keys.ESCAPE)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
+      },
+    },
+  },
+};
+
+export const MobileExampleHorizontalPaddings: Story = () => (
+  <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
+    <MenuHeader>Заголовок меню</MenuHeader>
+    <MenuSeparator />
+    <MenuItem>Раз</MenuItem>
+    <MenuItem>Два</MenuItem>
+    <MenuItem>Три</MenuItem>
+  </TooltipMenu>
+);
+
+MobileExampleHorizontalPaddings.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    captureElement: null,
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '#test-element' }))
+          .perform();
+        await delay(200);
+        await this.browser
+          .actions({ bridge: true })
+          .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
     },
   },

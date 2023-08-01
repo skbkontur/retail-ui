@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
@@ -8,6 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { CommonProps } from '../CommonWrapper';
 
 import { styles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
@@ -19,7 +20,9 @@ export interface DropdownContainerPosition {
   right: Nullable<number>;
 }
 
-export interface DropdownContainerProps {
+export interface DropdownContainerProps
+  extends Pick<CommonProps, 'data-tid'>,
+    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   align?: 'left' | 'right';
   getParent: () => Nullable<Element>;
   children?: React.ReactNode;
@@ -93,6 +96,8 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
     const content = (
       <ZIndex
+        data-tid={this.props['data-tid']}
+        id={this.props.id}
         priority={'DropdownContainer'}
         wrapperRef={this.ZIndexRef}
         style={style}

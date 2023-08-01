@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
-import { isNullable } from '../../lib/utils';
+import { getRandomID, isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -90,6 +90,11 @@ export interface AutocompleteState {
 
 export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
+  menu: 'Autocomplete__menu',
+} as const;
+
+export const AutocompleteIds = {
+  menu: AutocompleteDataTids.menu,
 } as const;
 
 type DefaultProps = Required<
@@ -156,6 +161,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
+  private menuId = AutocompleteIds.menu + getRandomID();
   private rootSpan: Nullable<HTMLSpanElement>;
   private mobilePopup: Nullable<MobilePopup>;
 
@@ -241,7 +247,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           style={{ width }}
           ref={this.refRootSpan}
         >
-          <Input {...inputProps} />
+          <Input aria-controls={this.menuId} {...inputProps} />
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
       </RenderLayer>
@@ -282,7 +288,14 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return (
-      <DropdownContainer getParent={this.getAnchor} align={menuAlign} disablePortal={disablePortal} menuPos={menuPos}>
+      <DropdownContainer
+        id={this.menuId}
+        data-tid={AutocompleteDataTids.menu}
+        getParent={this.getAnchor}
+        align={menuAlign}
+        disablePortal={disablePortal}
+        menuPos={menuPos}
+      >
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );
@@ -302,6 +315,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <MobilePopup
+        id={this.menuId}
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
         opened={this.state.isMobileOpened}

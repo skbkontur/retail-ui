@@ -3,7 +3,6 @@ import React from 'react';
 export interface HTMLProps {
   a: React.AnchorHTMLAttributes<HTMLAnchorElement>;
   abbr: React.HTMLAttributes<HTMLElement>;
-  div: React.HTMLAttributes<HTMLDivElement>;
   address: React.HTMLAttributes<HTMLElement>;
   area: React.AreaHTMLAttributes<HTMLAreaElement>;
   article: React.HTMLAttributes<HTMLElement>;

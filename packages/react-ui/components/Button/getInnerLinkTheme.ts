@@ -4,11 +4,10 @@ import { Theme } from '../../lib/theming/Theme';
 export const getInnerLinkTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(
     {
-      linkLineBorderBottomColor: theme.btnLinkLineBorderBottomColor,
       linkLineBorderBottomStyle: theme.btnLinkLineBorderBottomStyle,
+      linkLineHoverBorderBottomStyle: theme.btnLinkHoverLineBorderBottomStyle,
+      linkLineBorderBottomOpacity: theme.btnLinkLineBorderBottomOpacity,
       linkLineBorderBottomWidth: theme.btnLinkLineBorderBottomWidth,
-      linkLineHoverBorderBottomColor: theme.btnLinkLineHoverBorderBottomColor,
-      linkLineActiveBorderBottomColor: theme.btnLinkLineActiveBorderBottomColor,
       linkDisabledColor: theme.btnLinkDisabledColor,
     },
     theme,

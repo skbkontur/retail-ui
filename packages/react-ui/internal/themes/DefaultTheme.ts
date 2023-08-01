@@ -118,6 +118,7 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
+  public static linkLineBorderBottomOpacity = '0.5';
   public static get linkLineBorderBottomColor() {
     return ColorFunctions.fade(this.linkColor, 0.5);
   }
@@ -341,6 +342,7 @@ export class DefaultTheme {
   public static btnArrowBgImageChecked = 'none';
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
+  public static btnBorderColorTransition = '';
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedDisabledBg = '#a0a0a0';
@@ -519,17 +521,14 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
-  }
-  public static get btnLinkLineHoverBorderBottomColor() {
-    return this.linkLineHoverBorderBottomColor;
-  }
-  public static get btnLinkLineActiveBorderBottomColor() {
-    return this.linkLineActiveBorderBottomColor;
-  }
   public static btnLinkLineBorderBottomStyle = '';
-  public static btnLinkLineBorderBottomWidth = '0';
+  public static get btnLinkHoverLineBorderBottomStyle() {
+    return this.btnLinkLineBorderBottomStyle;
+  }
+  public static btnLinkLineBorderBottomWidth = '0px';
+  public static get btnLinkLineBorderBottomOpacity() {
+    return this.linkLineBorderBottomOpacity;
+  }
 
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
@@ -575,7 +574,9 @@ export class DefaultTheme {
   public static get btnTextTextColor() {
     return this.btnDefaultTextColor;
   }
-  public static btnTextHoverBorderColor = 'transparent';
+  public static get btnTextHoverBorderColor() {
+    return this.btnTextHoverBg;
+  }
   public static btnWithIconPaddingLeftSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
   public static btnWithIconPaddingLeftLarge = '';
@@ -656,6 +657,7 @@ export class DefaultTheme {
     return this.btnIconSizeLarge;
   }
   public static selectRootWidthMobile = 'auto';
+  public static mobileSelectMaxWidth = '100%';
   public static get selectTextColorDisabled() {
     return this.btnDisabledTextColor;
   }
@@ -669,9 +671,8 @@ export class DefaultTheme {
     return this.menuOffsetY;
   }
   public static get selectBorderColorHover() {
-    return this.inputBorderColor;
+    return this.btnDefaultHoverBorderColor;
   }
-  public static btnDefaultBorderColorTransition = '';
   public static selectBorderColorTransition = 'box-shadow 100ms cubic-bezier(0.5, 1, 0.89, 1);';
   //#endregion
   //#region Tooltip
@@ -1090,7 +1091,7 @@ export class DefaultTheme {
   public static menuPaddingY = '4px';
   public static mobileMenuPaddingY = '0px';
   public static menuPaddingX = '0px';
-  public static mobileMenuPaddingX = '0px';
+  public static mobileMenuPaddingX = '8px';
   public static menuOffsetY = '0px';
   public static menuBoxSizing = 'content-box';
   // menuItem
@@ -1178,7 +1179,7 @@ export class DefaultTheme {
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
   }
-  public static menuItemGap = '0';
+  public static menuItemGap = '0px';
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;
@@ -1702,20 +1703,71 @@ export class DefaultTheme {
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
   //#region Tabs
+  /**
+   * @deprecated use tabFontSizeLarge
+   */
   public static get tabFontSize() {
     return this.fontSizeLarge;
   }
+  public static get tabFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get tabFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get tabFontSizeLarge() {
+    return this.tabFontSize;
+  }
+  /**
+   * @deprecated use tabLineHeightLarge
+   */
+  public static get tabLineHeight() {
+    return this.controlLineHeightLarge;
+  }
+  public static get tabLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get tabLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tabLineHeightLarge() {
+    return this.tabLineHeight;
+  }
+  /**
+   * @deprecated use tabPaddingXLarge
+   */
   public static tabPaddingX = '12px';
+  public static tabPaddingXSmall = '8px';
+  public static tabPaddingXMedium = '10px';
+  public static get tabPaddingXLarge() {
+    return this.tabPaddingX;
+  }
+  /**
+   * @deprecated use tabPaddingXLarge
+   */
   public static get tabsMarginX() {
     return this.tabPaddingX;
   }
+  /**
+   * @deprecated use tabPaddingYLarge
+   */
   public static get tabPaddingY() {
-    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingY = parseInt(this.controlPaddingYLarge);
+    const borderWidth = parseInt(this.controlBorderWidth);
     return `${paddingY + borderWidth}px`;
   }
-  public static get tabLineHeight() {
-    return this.controlLineHeightLarge;
+  public static get tabPaddingYSmall() {
+    const paddingY = parseInt(this.controlPaddingYSmall);
+    const borderWidth = parseInt(this.controlBorderWidth);
+    return `${paddingY + borderWidth}px`;
+  }
+  public static get tabPaddingYMedium() {
+    const paddingY = parseInt(this.controlPaddingYMedium);
+    const borderWidth = parseInt(this.controlBorderWidth);
+    return `${paddingY + borderWidth}px`;
+  }
+  public static get tabPaddingYLarge() {
+    return this.tabPaddingY;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {
@@ -1754,7 +1806,7 @@ export class DefaultTheme {
   public static get tabColorHoverPrimary() {
     return ColorFunctions.lighten(this.tabColorPrimary, '25%');
   }
-  public static tabIndicatorBorderRadius = '0';
+  public static tabIndicatorBorderRadius = '0px';
   //#endregion
   //#region Spinner
   public static get spinnerBgColor() {

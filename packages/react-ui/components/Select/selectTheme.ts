@@ -39,7 +39,7 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnDisabledTextColor: theme.selectTextColorDisabled,
 
       btnDefaultHoverBorderColor: theme.selectBorderColorHover,
-      btnDefaultBorderColorTransition: theme.selectBorderColorTransition,
+      btnBorderColorTransition: theme.selectBorderColorTransition,
     },
     theme,
   );

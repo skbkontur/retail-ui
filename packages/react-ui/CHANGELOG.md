@@ -3,9 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.16.0-next.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0-next.3...@skbkontur/react-ui@4.16.0-next.4) (2023-07-24)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
+# [4.16.0-next.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.3...@skbkontur/react-ui@4.16.0-next.3) (2023-07-21)
+
+
+### Bug Fixes
+
+* **Calendar:** return customization of current day border in theme 2022 ([#3186](https://github.com/skbkontur/retail-ui/issues/3186)) ([1595e1d](https://github.com/skbkontur/retail-ui/commit/1595e1df80d72d42116f9604b44565733ce4895f))
+* **DropdownMenu,TooltipMenu,Kebab:** add preventIconsOffset prop ([beb6f90](https://github.com/skbkontur/retail-ui/commit/beb6f900f0e4c7c4b9e79d86f8b0066ae75b400d))
+
+
+### Features
+
+* improve a11y of dropdown lists ([#3194](https://github.com/skbkontur/retail-ui/issues/3194)) ([c25f090](https://github.com/skbkontur/retail-ui/commit/c25f090f25a9e1078cbe882417f4b2c96559d5ec))
+
+
+
+
+
+# [4.16.0-next.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.2...@skbkontur/react-ui@4.16.0-next.2) (2023-07-17)
+
+
+### Bug Fixes
+
+* **Calendar:** return customization of current day border in theme 2022 ([#3186](https://github.com/skbkontur/retail-ui/issues/3186)) ([1595e1d](https://github.com/skbkontur/retail-ui/commit/1595e1df80d72d42116f9604b44565733ce4895f))
+* **DropdownMenu,TooltipMenu,Kebab:** add preventIconsOffset prop ([beb6f90](https://github.com/skbkontur/retail-ui/commit/beb6f900f0e4c7c4b9e79d86f8b0066ae75b400d))
+
+
+
+
+
+# [4.16.0-next.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.1...@skbkontur/react-ui@4.16.0-next.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* **Calendar:** return customization of current day border in theme 2022 ([#3186](https://github.com/skbkontur/retail-ui/issues/3186)) ([1595e1d](https://github.com/skbkontur/retail-ui/commit/1595e1df80d72d42116f9604b44565733ce4895f))
+* **DropdownMenu,TooltipMenu,Kebab:** add preventIconsOffset prop ([beb6f90](https://github.com/skbkontur/retail-ui/commit/beb6f900f0e4c7c4b9e79d86f8b0066ae75b400d))
+
+
+
+
+
 # [4.16.0-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.0...@skbkontur/react-ui@4.16.0-next.0) (2023-06-13)
 
 **Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
+## [4.15.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.2...@skbkontur/react-ui@4.15.3) (2023-07-21)
+
+
+### Bug Fixes
+
+* **ComboBox,InputLikeText:** use `flushSync` only in React 18 ([#3206](https://github.com/skbkontur/retail-ui/issues/3206)) ([ee55374](https://github.com/skbkontur/retail-ui/commit/ee55374df69f797f1257d99250366770b513a096))
+
+
+
+
+
+## [4.15.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.1...@skbkontur/react-ui@4.15.2) (2023-07-17)
+
+
+* **ComboBox:** use `flushSync` only in React@18 ([#3202](https://github.com/skbkontur/retail-ui/issues/3202)) ([9795006](https://github.com/skbkontur/retail-ui/commit/9795006c799b7266fd88bb9dcf5760148c3ad12d))
+* **CurrencyInput:** allow to work with very small or large values ([#3200](https://github.com/skbkontur/retail-ui/issues/3200)) ([ffc234f](https://github.com/skbkontur/retail-ui/commit/ffc234f726479c9a26b3da5c1b768b061dbf52d1))
+* **Link, Button:** add theme variables for border-bottom ([#3203](https://github.com/skbkontur/retail-ui/issues/3203)) ([d418758](https://github.com/skbkontur/retail-ui/commit/d4187586f24d943716b24ac2cfc437e69becf53e))
+
+
+
+
+
+## [4.15.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.0...@skbkontur/react-ui@4.15.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* allow use inherit as a linkColor ([#3185](https://github.com/skbkontur/retail-ui/issues/3185)) ([09218bb](https://github.com/skbkontur/retail-ui/commit/09218bb9bce9746e25b1894b9c3631e0a0b44785))
+* **ComboBox:** flushSync throws an error into console ([#3189](https://github.com/skbkontur/retail-ui/issues/3189)) ([8e0d2d2](https://github.com/skbkontur/retail-ui/commit/8e0d2d20f2bd5e5f034841a8057ce4a06012d23b))
+* **html:** get rid of type duplication ([#3188](https://github.com/skbkontur/retail-ui/issues/3188)) ([5de46a4](https://github.com/skbkontur/retail-ui/commit/5de46a4aef7728239f417c225235f9a97ec23cac))
+* **Modal.Header, Modal.Footer:** passing common props ([#3187](https://github.com/skbkontur/retail-ui/issues/3187)) ([4aa327b](https://github.com/skbkontur/retail-ui/commit/4aa327b9b457912591c57b83342e722ae0802506))
+* **theme:** add missing units to values ([#3184](https://github.com/skbkontur/retail-ui/issues/3184)) ([885a372](https://github.com/skbkontur/retail-ui/commit/885a372d8d6b5e3df3894cfee8f59ed685b0c056))
 
 
 
