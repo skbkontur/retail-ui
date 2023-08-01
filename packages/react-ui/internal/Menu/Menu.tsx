@@ -286,11 +286,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
 
     return React.Children.map(this.props.children, (child, index) => {
-      if (!child) {
-        return child;
-      }
-
-      if (typeof child === 'string' || typeof child === 'number') {
+      if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
         return child;
       }
 
