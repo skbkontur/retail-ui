@@ -10,7 +10,6 @@ export const styles = memoizeStyle({
       overflow: auto;
       padding: 0 ${t.menuPaddingX};
       margin: ${t.menuOffsetY} 0;
-      border-radius: ${t.menuBorderRadius};
     `;
   },
 
