@@ -152,10 +152,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuSeparatorMarginX = '8px';
 
   public static popupBorderRadius = '8px';
-  public static popupBoxShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.10)';
-  public static popupDropShadow = 'drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.10))';
+  public static popupBoxShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
+  public static popupDropShadow =
+    'drop-shadow(0px 32px 32px rgba(0, 0, 0, 0.08)) drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.12))';
 
-  public static pickerShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.10)';
+  public static pickerShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
 
   //#region Hint
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
@@ -335,7 +336,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   public static menuItemGap = '1px';
   public static menuItemCommentOpacity = '0.6';
-  public static menuShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.10)';
+  public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
 
   public static tokenInputBorderRadius = '2px';
 
