@@ -227,6 +227,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           ref={this.refScrollContainer}
           maxHeight={maxHeight}
           preventWindowScroll={preventWindowScroll}
+          onScrollStateChange={this.handleScrollStateChange}
           disabled={this.props.disableScrollContainer}
           offsetY={offsetY}
         >
@@ -498,6 +499,12 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       if (this.highlighted && this.highlighted.props.onClick) {
         this.highlighted.props.onClick(event);
       }
+    }
+  };
+
+  private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
+    if (this.state.scrollState !== scrollState) {
+      this.setState({ scrollState });
     }
   };
 }
