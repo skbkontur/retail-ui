@@ -35,17 +35,30 @@ export interface MenuProps
   align?: 'left' | 'right';
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  initialSelectedItemIndex?: number;
 }
 
 export interface MenuState {
   highlightedIndex: number;
+  maxHeight: number | string;
 }
 
 export const MenuDataTids = {
   root: 'Menu__root',
 } as const;
 
-type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
+type DefaultProps = Required<
+  Pick<
+    MenuProps,
+    | 'align'
+    | 'width'
+    | 'maxHeight'
+    | 'hasShadow'
+    | 'preventWindowScroll'
+    | 'cyclicSelection'
+    | 'initialSelectedItemIndex'
+  >
+>;
 
 @responsiveLayout
 @rootNode
@@ -58,12 +71,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
+    initialSelectedItemIndex: -1,
   };
 
   private getProps = createPropsGetter(Menu.defaultProps);
 
   public state = {
     highlightedIndex: -1,
+    maxHeight: this.getProps().maxHeight || 'none',
   };
 
   private theme!: Theme;
@@ -78,6 +93,34 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   public componentWillUnmount() {
     this.unmounted = true;
   }
+
+  public componentDidMount() {
+    this.setInitialSelection();
+    this.calculateMaxHeight();
+  }
+
+  public componentDidUpdate(prevProps: MenuProps) {
+    if (this.shouldRecalculateMaxHeight(prevProps)) {
+      this.calculateMaxHeight();
+    }
+
+    if (prevProps.maxHeight !== this.getProps().maxHeight) {
+      this.setState({
+        maxHeight: this.props.maxHeight || 'none',
+      });
+    }
+  }
+
+  public focus() {
+    this.focusOnRootElement();
+  }
+
+  private focusOnRootElement = (): void => {
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
+  };
 
   public render() {
     return (
@@ -252,6 +295,53 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       }
 
       return modifiedChild;
+    });
+  };
+
+  private setInitialSelection = () => {
+    for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
+      this.moveDown();
+    }
+  };
+
+  private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
+    const { header, footer, children } = this.props;
+    const maxHeight = this.getProps().maxHeight;
+    const prevMaxHeight = prevProps.maxHeight;
+    const prevHeader = prevProps.header;
+    const prevFooter = prevProps.footer;
+    const prevChildrenCount = React.Children.count(prevProps.children);
+
+    return (
+      maxHeight !== prevMaxHeight ||
+      footer !== prevFooter ||
+      header !== prevHeader ||
+      React.Children.count(children) !== prevChildrenCount
+    );
+  };
+
+  private calculateMaxHeight = () => {
+    const maxHeight = this.getProps().maxHeight;
+    let parsedMaxHeight = maxHeight;
+    const rootNode = getRootNode(this);
+
+    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
+      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
+
+      if (rootElementMaxHeight) {
+        parsedMaxHeight = parseFloat(rootElementMaxHeight);
+      }
+    }
+
+    const calculatedMaxHeight =
+      typeof parsedMaxHeight === 'number'
+        ? parsedMaxHeight +
+          ((this.header && getDOMRect(this.header).height) || 0) +
+          ((this.footer && getDOMRect(this.footer).height) || 0)
+        : maxHeight;
+
+    this.setState({
+      maxHeight: calculatedMaxHeight || 'none',
     });
   };
 
