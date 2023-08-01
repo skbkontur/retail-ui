@@ -33,6 +33,8 @@ export interface MenuProps
    */
   disableScrollContainer?: boolean;
   align?: 'left' | 'right';
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 export interface MenuState {
@@ -70,6 +72,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
   private setRootNode!: TSetRootNode;
+  private header: Nullable<HTMLDivElement>;
+  private footer: Nullable<HTMLDivElement>;
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -152,6 +156,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         id={this.props.id}
         ref={this.setRootNode}
       >
+        {this.props.header && this.renderHeader()}
         <ScrollContainer
           ref={this.refScrollContainer}
           maxHeight={maxHeight}
@@ -168,9 +173,52 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             {this.getChildList()}
           </div>
         </ScrollContainer>
+        {this.props.footer && this.renderFooter()}
       </div>
     );
   }
+
+  private renderHeader = () => {
+    return (
+      <div
+        className={cx({
+          [styles.wrapper()]: true,
+          [styles.headerWrapper()]: true,
+        })}
+        ref={(el) => (this.header = el)}
+      >
+        <div className={styles.contentWrapper()}>{this.props.header}</div>
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
+      </div>
+    );
+  };
+
+  private renderFooter = () => {
+    return (
+      <div
+        className={cx({
+          [styles.wrapper()]: true,
+          [styles.footerWrapper()]: true,
+        })}
+        ref={(el) => (this.footer = el)}
+      >
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
+        <div className={styles.contentWrapper()}>{this.props.footer}</div>
+      </div>
+    );
+  };
+
+  private renderMenuSeparatorWithNoMargin = () => {
+    return (
+      <ThemeContext.Provider value={ThemeFactory.create({ menuSeparatorMarginY: '0' }, this.theme)}>
+        <MenuSeparator />
+      </ThemeContext.Provider>
+    );
+  };
 
   private getChildList = () => {
     const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
