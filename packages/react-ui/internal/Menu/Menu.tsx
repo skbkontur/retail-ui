@@ -1,5 +1,6 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
 
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
@@ -33,6 +34,8 @@ export interface MenuProps
    */
   disableScrollContainer?: boolean;
   align?: 'left' | 'right';
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
+
   header?: React.ReactNode;
   footer?: React.ReactNode;
   /**
@@ -202,6 +205,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         })}
         style={getStyle(this.props)}
         id={this.props.id}
+        onKeyDown={this.handleKeyDown}
         ref={this.setRootNode}
       >
         {this.props.header && this.renderHeader()}
@@ -464,6 +468,28 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     const { children } = this.props;
     return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
+
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (typeof this.props.onKeyDown === 'function') {
+      this.props.onKeyDown(event);
+    }
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    if (isKeyArrowUp(event)) {
+      event.preventDefault();
+      this.moveUp();
+    } else if (isKeyArrowDown(event)) {
+      event.preventDefault();
+      this.moveDown();
+    } else if (isKeyEnter(event)) {
+      if (this.highlighted && this.highlighted.props.onClick) {
+        this.highlighted.props.onClick(event);
+      }
+    }
+  };
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {
