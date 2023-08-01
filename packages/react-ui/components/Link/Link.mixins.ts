@@ -37,20 +37,9 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
   `;
 };
 
-export const linkUseLineColorsMixin = (mainColor: string, activeColor: string) => {
+export const linkUseLineHovered = (linkLineHoverBorderBottomStyle: string) => {
   return `
-    border-bottom-color: ${mainColor};
-    transition: border-bottom-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
-    &:active {
-      border-bottom-color: ${activeColor};
-    }
-  `;
-};
-
-export const linkUseLineColorsHoverMixin = (hoverColor: string, nestedSelector: string) => {
-  return `
-    &:hover ${nestedSelector} {
-      border-bottom-color: ${hoverColor};
-    }
+    animation: none !important;
+    border-bottom-style: ${linkLineHoverBorderBottomStyle};
   `;
 };

@@ -5,7 +5,6 @@ export const styles = memoizeStyle({
   root() {
     return css`
       line-height: normal;
-      //transition: background-color 1000ms cubic-bezier(0.5, 1, 0.89, 1);
     `;
   },
 

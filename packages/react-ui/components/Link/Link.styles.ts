@@ -1,17 +1,20 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import {
-  linkMixin,
-  linkDisabledMixin,
-  linkUseColorsMixin,
-  linkUseLineColorsMixin,
-  linkUseLineColorsHoverMixin,
-} from './Link.mixins';
+import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from './Link.mixins';
 
 export const globalClasses = prefix('link')({
   text: 'text',
 });
+
+const line = keyframes`
+  0% {
+    border-bottom-color: inherit;
+  }
+  100% {
+    border-bottom-color: transparent;
+  }
+`;
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -30,10 +33,14 @@ export const styles = memoizeStyle({
   },
 
   lineText(t: Theme) {
+    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
     return css`
-      border-bottom-color: ${t.linkLineBorderBottomColor};
       border-bottom-style: ${t.linkLineBorderBottomStyle};
       border-bottom-width: ${t.linkLineBorderBottomWidth};
+      animation: ${line} 1s linear !important; // override creevey
+      animation-play-state: paused !important;
+      animation-delay: ${delay}s !important;
+      animation-fill-mode: forwards !important;
     `;
   },
 
@@ -41,7 +48,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkHoverColor};
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkLineHoverBorderBottomColor} !important;
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -50,7 +57,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkSuccessHoverColor} !important;
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkLineHoverBorderBottomColorSuccess} !important;
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -59,7 +66,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkDangerHoverColor} !important;
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkLineHoverBorderBottomColorDanger} !important;
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -68,7 +75,7 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.linkGrayedHoverColor} !important;
       .${globalClasses.text} {
-        border-bottom-color: ${t.linkLineHoverBorderBottomColorGrayed} !important;
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },
@@ -100,12 +107,18 @@ export const styles = memoizeStyle({
     `;
   },
 
+  useRoot() {
+    return css`
+      border-bottom-color: currentColor;
+    `;
+  },
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColor, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColor, t.linkLineActiveBorderBottomColor)};
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
       }
     `;
   },
@@ -113,9 +126,10 @@ export const styles = memoizeStyle({
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorSuccess, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorSuccess, t.linkLineActiveBorderBottomColorSuccess)};
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
       }
     `;
   },
@@ -123,9 +137,10 @@ export const styles = memoizeStyle({
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorDanger, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorDanger, t.linkLineActiveBorderBottomColorDanger)};
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
       }
     `;
   },
@@ -133,9 +148,10 @@ export const styles = memoizeStyle({
   useGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorGrayed, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorGrayed, t.linkLineActiveBorderBottomColorGrayed)};
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
       }
     `;
   },
@@ -158,12 +174,16 @@ export const styles = memoizeStyle({
 
       color: ${t.linkDisabledColor} !important; // override root color
 
-      & .${globalClasses.text}:before {
-        border-bottom-color: ${t.linkDisabledColor} !important; // override root color
-      }
-
       &:hover {
         color: ${t.linkDisabledColor};
+      }
+    `;
+  },
+
+  disabledDark22Theme(t: Theme) {
+    return css`
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },

@@ -118,6 +118,11 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
+  public static linkLineBorderBottomStyle = '';
+  public static get linkLineHoverBorderBottomStyle() {
+    return this.linkLineBorderBottomStyle;
+  }
+  public static linkLineBorderBottomWidth = '0px';
   public static linkLineBorderBottomOpacity = '0.5';
   public static get linkLineBorderBottomColor() {
     return ColorFunctions.fade(this.linkColor, 0.5);
@@ -155,8 +160,6 @@ export class DefaultTheme {
   public static get linkLineActiveBorderBottomColorGrayed() {
     return this.linkGrayedActiveColor;
   }
-  public static linkLineBorderBottomStyle = '';
-  public static linkLineBorderBottomWidth = '0';
 
   //#endregion
   //#region Token
@@ -1068,6 +1071,8 @@ export class DefaultTheme {
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static dropdownMenuBorderColorTransition = '';
+  public static dropdownMenuHoverBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get dropdownMenuHoverBg() {
     //deprecated
     return this.bgActive;
