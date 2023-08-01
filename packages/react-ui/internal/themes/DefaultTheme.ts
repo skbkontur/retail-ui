@@ -833,7 +833,7 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static dateInputMaskColor = '#b8b8b8';
-  public static dateInputComponentSelectedBgColor = ''; //deprecated
+  public static dateInputComponentSelectedBgColor = '#cdedff';
   //#endregion
   //#region Calendar
   public static get calendarBottomSeparatorBorderColor() {

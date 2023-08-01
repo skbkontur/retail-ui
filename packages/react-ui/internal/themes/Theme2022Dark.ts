@@ -323,6 +323,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static globalLoaderColor = 'rgba(238, 80, 66, 1)';
   //#endregion
 
+  //#region DateInput
+  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
+  //#endregion
+
   //#region Calendar
   public static calendarCellHoverBgColor = 'rgba(255, 255, 255, 0.06)';
   public static calendarCellHoverColor = 'rgba(255, 255, 255, 0.87)';

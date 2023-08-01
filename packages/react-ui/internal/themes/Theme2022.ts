@@ -302,6 +302,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActiveBorderColor = 'transparent';
   //#endregion
 
+  //#region DateInput
+  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
+  //#endregion
+
   //#region Checkbox
   public static checkboxBorderRadius = '4px';
   public static checkboxCheckedBg = '#3D3D3D';

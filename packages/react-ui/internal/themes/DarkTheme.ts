@@ -163,6 +163,9 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.08)';
   public static pickerTodayWrapperBorderTop = '1px solid rgba(255, 255, 255, 0.08)';
   //#endregion
+  //#region DateInput
+  public static dateInputComponentSelectedBgColor = '#1c7edf';
+  //#endregion
   //#region Hint
   public static hintBgColor = 'rgba(67, 67, 67, 0.92)';
   //#endregion
