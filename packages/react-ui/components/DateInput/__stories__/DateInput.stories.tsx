@@ -9,6 +9,7 @@ import { Select } from '../../Select';
 import { DateInput, DateInputProps } from '../DateInput';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
+import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;
@@ -239,11 +240,21 @@ class DateInputSimple extends React.Component<DateInputSimpleProps> {
 }
 
 class DateInputLastEvent extends React.Component {
+  private getTodayComponents = InternalDateGetter.getTodayComponents;
   public state = {
     lastEvent: 'none',
   };
 
+  public handleFocus = () => {
+    InternalDateGetter.getTodayComponents = () => ({
+      date: 1,
+      month: 1,
+      year: 2000,
+    });
+  };
+
   public handleBlur = () => {
+    InternalDateGetter.getTodayComponents = this.getTodayComponents;
     this.setState({ lastEvent: 'blur' });
   };
 
@@ -254,7 +265,12 @@ class DateInputLastEvent extends React.Component {
   public render() {
     return (
       <Gapped>
-        <DateInputSimple onValueChange={this.handleChange} onBlur={this.handleBlur} defaultValue="21.12.2012" />
+        <DateInputSimple
+          onValueChange={this.handleChange}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          defaultValue="21.12.2012"
+        />
         <div>{this.state.lastEvent}</div>
       </Gapped>
     );
@@ -380,15 +396,6 @@ BlurAlwaysAfterChange.parameters = {
       },
       async 'value restored'() {
         await this.browser.executeScript(function () {
-          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
-          window.OldDate = window.Date;
-          // @ts-expect-error: Read the comment above.
-          window.Date = function () {
-            // @ts-expect-error: Read the comment above.
-            return new window.OldDate(2000, 0, 1);
-          };
-        });
-        await this.browser.executeScript(function () {
           const input = window.document.querySelector("[data-comp-name~='DateInput']");
           if (input instanceof HTMLElement) {
             input.focus();
@@ -402,10 +409,9 @@ BlurAlwaysAfterChange.parameters = {
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
         await this.browser.executeScript(function () {
-          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
-          if (window.OldDate) {
-            // @ts-expect-error: Read the comment above.
-            window.Date = window.OldDate;
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.blur();
           }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('value restored');
