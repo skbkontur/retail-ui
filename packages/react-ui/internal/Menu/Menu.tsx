@@ -30,7 +30,7 @@ export interface MenuProps
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
-  onItemClick?: () => void;
+  onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
   preventWindowScroll?: boolean;
   /**
@@ -411,7 +411,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         item.props.onClick(event);
       }
       if (this.props.onItemClick) {
-        this.props.onItemClick();
+        this.props.onItemClick(event);
       }
       return true;
     }
