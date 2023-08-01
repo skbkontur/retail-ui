@@ -35,6 +35,10 @@ export interface MenuProps
   align?: 'left' | 'right';
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  /**
+   * Циклический перебор айтемов меню (по-дефолтну включен)
+   */
+  cyclicSelection?: boolean;
   initialSelectedItemIndex?: number;
 }
 
@@ -71,6 +75,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
+    cyclicSelection: true,
     initialSelectedItemIndex: -1,
   };
 
@@ -425,6 +430,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     let index = this.state.highlightedIndex;
     do {
       index += step;
+
+      if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
+        return null;
+      }
+
       if (index < 0) {
         index = children.length - 1;
       } else if (index > children.length) {
