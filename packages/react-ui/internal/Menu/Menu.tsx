@@ -38,6 +38,11 @@ export interface MenuProps
    */
   disableScrollContainer?: boolean;
   align?: 'left' | 'right';
+  /**
+   * Предотвращает выравнивание текста всех пунктов меню относительно друг друга.
+   * Так, если хотя бы у одного пункта меню есть иконка, текст в  остальных пунктах меню будет выровнен относительно пункта меню с иконкой
+   */
+  preventIconsOffset?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   header?: React.ReactNode;
