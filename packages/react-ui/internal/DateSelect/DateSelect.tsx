@@ -21,7 +21,7 @@ import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOp
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
 
-import {globalClasses, styles} from './DateSelect.styles';
+import { globalClasses, styles } from './DateSelect.styles';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
