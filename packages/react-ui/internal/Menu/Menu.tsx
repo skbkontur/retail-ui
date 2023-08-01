@@ -153,14 +153,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   /**
    * @public
    */
-  public up() {
+  public moveUp() {
     this.move(-1);
   }
 
   /**
    * @public
    */
-  public down() {
+  public moveDown() {
     this.move(1);
   }
 

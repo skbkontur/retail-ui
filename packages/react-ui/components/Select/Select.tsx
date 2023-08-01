@@ -526,7 +526,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           const element = item();
 
           if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key: i, isMobile });
+            return React.cloneElement(element, { key: i, isMobile } as MenuItemProps);
           }
 
           return null;
@@ -590,13 +590,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         case isKeyArrowUp(e):
           e.preventDefault();
           if (this.menu) {
-            this.menu.up();
+            this.menu.moveUp();
           }
           break;
         case isKeyArrowDown(e):
           e.preventDefault();
           if (this.menu) {
-            this.menu.down();
+            this.menu.moveDown();
           }
           break;
         case isKeyEnter(e):
