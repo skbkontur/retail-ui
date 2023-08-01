@@ -1,9 +1,13 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
+import { MenuSeparator } from '../../components/MenuSeparator';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { isHTMLElement } from '../../lib/SSRSafe';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { isNonNullable } from '../../lib/utils';
-import { ScrollContainer } from '../../components/ScrollContainer';
+import { isNonNullable, isNullable } from '../../lib/utils';
+import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
