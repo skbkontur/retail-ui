@@ -216,6 +216,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         id={this.props.id}
         onKeyDown={this.handleKeyDown}
         ref={this.setRootNode}
+        tabIndex={0}
       >
         {this.props.header && this.renderHeader()}
         <ScrollContainer
