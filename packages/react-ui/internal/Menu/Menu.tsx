@@ -216,7 +216,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           [styles.mobileRoot(this.theme)]: isMobile,
           [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}
-        style={getStyle(this.props)}
+        style={this.getStyle(this.props)}
         id={this.props.id}
         onKeyDown={this.handleKeyDown}
         ref={this.setRootNode}
@@ -502,6 +502,21 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
   };
 
+  private getStyle = (props: MenuProps): CSSProperties => {
+    if (props.align === 'right') {
+      return {
+        maxWidth: props.width,
+        minWidth: props.width,
+        maxHeight: this.state.maxHeight,
+      };
+    }
+
+    return {
+      width: props.width,
+      maxHeight: this.state.maxHeight,
+    };
+  };
+
   private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
     if (this.state.scrollState !== scrollState) {
       this.setState({ scrollState });
@@ -517,21 +532,6 @@ function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   });
   return ret;
 }
-
-const getStyle = (props: MenuProps): CSSProperties => {
-  if (props.align === 'right') {
-    return {
-      maxWidth: props.width,
-      minWidth: props.width,
-      maxHeight: props.maxHeight,
-    };
-  }
-
-  return {
-    width: props.width,
-    maxHeight: props.maxHeight,
-  };
-};
 
 const getAlignRightClass = (props: MenuProps) => {
   if (props.align === 'right') {
