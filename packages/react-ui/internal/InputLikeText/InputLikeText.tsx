@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import debounce from 'lodash.debounce';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
@@ -100,6 +101,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return this.node;
   }
 
+  // Async call required for Firefox
+  private selectNodeContentsDebounced = debounce(selectNodeContents, 0);
+
   public selectInnerNode = (node: HTMLElement | null, start = 0, end = 1) => {
     if (this.dragging || !node) {
       return;
@@ -112,7 +116,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.frozenBlur = true;
 
     this.lastSelectedInnerNode = [node, start, end];
-    setTimeout(() => selectNodeContents(node, start, end), 0);
+    this.selectNodeContentsDebounced(node, start, end);
+
     if (this.focusTimeout) {
       clearInterval(this.focusTimeout);
     }
@@ -466,6 +471,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    this.selectNodeContentsDebounced.cancel();
     if (isMobile) {
       e.target.removeAttribute('contenteditable');
     }
