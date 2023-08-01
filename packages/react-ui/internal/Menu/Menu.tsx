@@ -18,17 +18,19 @@ import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPart
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { InternalMenuProps } from '../InternalMenu';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps
-  extends Pick<InternalMenuProps, 'preventIconsOffset'>,
-    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
+export interface MenuProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
   hasShadow?: boolean;
+  /**
+   * Максимальная высота применяется только для скролл контейнера
+   *
+   * Высота `header` и `footer` в нее не включены
+   */
   maxHeight?: number | string;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
@@ -57,6 +59,7 @@ export interface MenuProps
 export interface MenuState {
   highlightedIndex: number;
   maxHeight: number | string;
+  scrollState: ScrollContainerScrollState;
 }
 
 export const MenuDataTids = {
@@ -78,7 +81,7 @@ type DefaultProps = Required<
 
 @responsiveLayout
 @rootNode
-export class Menu extends React.Component<MenuProps, MenuState> {
+export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
   public static defaultProps: DefaultProps = {
@@ -93,9 +96,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private getProps = createPropsGetter(Menu.defaultProps);
 
-  public state = {
+  public state: MenuState = {
     highlightedIndex: -1,
     maxHeight: this.getProps().maxHeight || 'none',
+    scrollState: 'top',
   };
 
   private theme!: Theme;
@@ -209,7 +213,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
-          [styles.rootMobile(this.theme)]: isMobile,
+          [styles.mobileRoot(this.theme)]: isMobile,
           [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}
         style={getStyle(this.props)}

@@ -14,7 +14,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  rootMobile(t: Theme) {
+  mobileRoot(t: Theme) {
     return css`
       border-radius: 0;
       margin: 0;
