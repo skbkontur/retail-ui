@@ -1,5 +1,4 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { Theme2022Internal } from './Theme2022';
 
