@@ -58,7 +58,7 @@ InputLikeText.parameters = {
     skip: {
       // TODO @Khlutkova fix after update browsers
       'story-skip-0': {
-        in: [FIREFOX_REGEXP],
+        in: FIREFOX_REGEXP,
         tests: ['focused first element'],
       },
     },
