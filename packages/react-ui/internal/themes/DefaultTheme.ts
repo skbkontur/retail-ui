@@ -127,42 +127,6 @@ export class DefaultTheme {
   }
   public static linkLineBorderBottomWidth = '0px';
   public static linkLineBorderBottomOpacity = '0.5';
-  public static get linkLineBorderBottomColor() {
-    return ColorFunctions.fade(this.linkColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColor() {
-    return this.linkHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColor() {
-    return this.linkActiveColor;
-  }
-  public static get linkLineBorderBottomColorSuccess() {
-    return ColorFunctions.fade(this.linkSuccessColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColorSuccess() {
-    return this.linkSuccessHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColorSuccess() {
-    return this.linkSuccessActiveColor;
-  }
-  public static get linkLineBorderBottomColorDanger() {
-    return ColorFunctions.fade(this.linkDangerColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColorDanger() {
-    return this.linkDangerHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColorDanger() {
-    return this.linkDangerActiveColor;
-  }
-  public static get linkLineBorderBottomColorGrayed() {
-    return ColorFunctions.fade(this.linkGrayedColor, 0.5);
-  }
-  public static get linkLineHoverBorderBottomColorGrayed() {
-    return this.linkGrayedHoverColor;
-  }
-  public static get linkLineActiveBorderBottomColorGrayed() {
-    return this.linkGrayedActiveColor;
-  }
 
   //#endregion
   //#region Token
