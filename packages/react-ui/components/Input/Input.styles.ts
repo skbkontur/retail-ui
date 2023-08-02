@@ -36,6 +36,7 @@ export const styles = memoizeStyle({
       background-color: ${t.inputBg};
       border: ${t.inputBorderWidth} solid ${t.inputBorderColor};
       border-top-color: ${t.inputBorderTopColor};
+      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       box-shadow: ${t.inputShadow};
       box-sizing: border-box;
       color: ${t.inputColor};
