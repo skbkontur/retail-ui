@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.15.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.5...@skbkontur/react-ui@4.15.6) (2023-08-02)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
 ## [4.15.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.4...@skbkontur/react-ui@4.15.5) (2023-08-02)
 
 
