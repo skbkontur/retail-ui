@@ -5,7 +5,6 @@ export const styles = memoizeStyle({
   root(t: Theme) {
     const width = parseInt(t.calendarCellSize) * 7;
     return css`
-      display: inline-block;
       background: ${t.calendarBg};
       box-sizing: content-box;
       border-radius: ${t.pickerBorderRadius};
