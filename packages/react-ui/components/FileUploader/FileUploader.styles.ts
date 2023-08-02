@@ -65,7 +65,8 @@ const styles = {
       outline: none;
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
-      transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction}, border-color ${t.transitionDuration} ${t.transitionTimingFunction};
+      transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction},
+        border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       background-color: ${t.fileUploaderUploadButtonBg};
     `;
   },
