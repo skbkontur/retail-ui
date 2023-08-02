@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.15.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.4...@skbkontur/react-ui@4.15.5) (2023-08-02)
+
+
+### Bug Fixes
+
+* **InputLikeText:** use debounce to control async content selection ([#3226](https://github.com/skbkontur/retail-ui/issues/3226)) ([18e5947](https://github.com/skbkontur/retail-ui/commit/18e5947086f0a6b161b4fc0d40412a600131337f))
+
+
+
+
+
 ## [4.15.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.3...@skbkontur/react-ui@4.15.4) (2023-07-24)
 
 
