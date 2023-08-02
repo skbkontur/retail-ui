@@ -24,7 +24,7 @@ export const styles = memoizeStyle({
       }
 
       & .${globalClasses.arrow} {
-        transition: fill 100ms cubic-bezier(0.5, 1, 0.89, 1);
+        transition: fill ${t.transitionDuration} ${t.transitionTimingFunction};
       }
 
       &:hover .${globalClasses.arrow} {

@@ -181,7 +181,7 @@ function tabRoot(t: Theme, size: TabSize) {
     padding-top: ${paddingY(t, size)};
     position: relative;
     text-decoration: inherit;
-    transition: border-bottom 100ms cubic-bezier(0.5, 1, 0.89, 1);
+    transition: border-bottom ${t.transitionDuration} ${t.transitionTimingFunction};
 
     &:hover {
       outline: inherit;

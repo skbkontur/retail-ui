@@ -38,7 +38,7 @@ export const styles = memoizeStyle({
       font-size: ${t.radioFontSize};
 
       .${globalClasses.circle} {
-        transition: background 100ms cubic-bezier(0.5, 1, 0.89, 1);
+        transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
       }
 
       &:hover .${globalClasses.circle} {

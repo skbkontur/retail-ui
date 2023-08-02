@@ -19,7 +19,7 @@ export const styles = memoizeStyle({
       padding: ${t.checkboxPaddingY} 0;
 
       .${globalClasses.box} {
-        transition: background 100ms cubic-bezier(0.5, 1, 0.89, 1), box-shadow 100ms cubic-bezier(0.5, 1, 0.89, 1);
+        transition: background ${t.transitionDuration} ${t.transitionTimingFunction}, box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
       }
 
       &:hover .${globalClasses.box} {

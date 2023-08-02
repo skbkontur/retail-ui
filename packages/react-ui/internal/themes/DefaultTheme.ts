@@ -88,6 +88,9 @@ export class DefaultTheme {
   public static controlHeightLarge = '48px';
   public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
 
+  public static transitionDuration = '100ms';
+  public static transitionTimingFunction = 'cubic-bezier(0.5, 1, 0.89, 1)';
+
   //#endregion
   //#region Link
   public static linkColor = '#1874cf';
@@ -676,7 +679,7 @@ export class DefaultTheme {
   public static get selectBorderColorHover() {
     return this.btnDefaultHoverBorderColor;
   }
-  public static selectBorderColorTransition = 'box-shadow 100ms cubic-bezier(0.5, 1, 0.89, 1);';
+  public static selectBorderColorTransition = `box-shadow ${this.transitionDuration} ${this.transitionTimingFunction};`;
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';

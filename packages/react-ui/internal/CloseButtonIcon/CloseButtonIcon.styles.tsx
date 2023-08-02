@@ -11,7 +11,7 @@ export const styles = memoizeStyle({
       border-radius: ${t.closeBtnIconBorderRadius};
       color: ${t.closeBtnIconColor};
       cursor: pointer;
-      transition: color 100ms cubic-bezier(0.5, 1, 0.89, 1);
+      transition: color ${t.transitionDuration} ${t.transitionTimingFunction};
 
       &:enabled:focus,
       &:enabled:hover {
