@@ -7,6 +7,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -80,7 +82,7 @@ export class Token extends React.Component<TokenProps> {
     const {
       children,
       isActive,
-      colors,
+      colors = { idle: 'defaultIdle', active: 'defaultActive' },
       error,
       warning,
       disabled,
@@ -97,25 +99,34 @@ export class Token extends React.Component<TokenProps> {
 
     const validation = getValidation(error, warning);
 
-    const disableClassNames = cx(colorStyles.defaultDisabled(theme), {
-      [colorStyles.defaultDisabledWarning(theme)]: warning,
-      [colorStyles.defaultDisabledError(theme)]: error,
-    });
+    const icon = isTheme2022(theme) ? (
+      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" tabbable={false} />
+    ) : (
+      <CrossIcon />
+    );
 
-    let tokenClassName = disabled ? disableClassNames : colorStyles.defaultIdle(theme, validation);
-    let activeTokenClassName = disabled ? disableClassNames : colorStyles.defaultActive(theme, validation);
-
-    if (!disabled && colors) {
-      tokenClassName = colorStyles[colors.idle](theme, validation);
-
-      const activeClassName = colors.active ? colors.active : colors.idle;
-      activeTokenClassName = colorStyles[activeClassName](theme, validation);
+    let classNames = '';
+    if (isTheme2022(theme)) {
+      classNames = cx(
+        styles.tokenDefaultIdle2022(theme),
+        !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
+        isActive && styles.tokenDefaultActive2022(theme),
+        warning && styles.tokenWarning2022(theme),
+        error && styles.tokenError2022(theme),
+        disabled && styles.tokenDisabled2022(theme),
+      );
+    } else {
+      classNames = cx(
+        colorStyles[colors.idle](theme, validation),
+        !!isActive && colorStyles[colors.active || colors.idle](theme, validation),
+        !!disabled && styles.disabled(theme),
+        !!disabled && colorStyles.defaultDisabled(theme),
+        !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
+        !!disabled && error && colorStyles.defaultDisabledError(theme),
+      );
     }
 
-    const tokenClassNames = cx(styles.token(this.theme), tokenClassName, {
-      [activeTokenClassName]: !!isActive,
-      [styles.disabled(theme)]: !!disabled,
-    });
+    const tokenClassNames = cx(styles.token(this.theme), classNames);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -136,7 +147,7 @@ export class Token extends React.Component<TokenProps> {
             onClick={this.onRemoveClick}
             data-tid={TokenDataTids.removeIcon}
           >
-            <CrossIcon />
+            {icon}
           </span>
         </div>
       </CommonWrapper>

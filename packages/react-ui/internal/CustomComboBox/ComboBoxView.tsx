@@ -1,6 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
-import { isNonNullable } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -15,11 +15,17 @@ import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
+import { LoadingIcon } from '../icons2022/LoadingIcon';
 
+import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
+import { getComboBoxTheme } from './getComboBoxTheme';
 
 interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -98,6 +104,10 @@ type DefaultProps<T> = Required<
   >
 >;
 
+export const ComboBoxViewIds = {
+  menu: 'ComboBoxView__menu',
+};
+
 @responsiveLayout
 @rootNode
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
@@ -126,6 +136,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<DropdownContainer>();
+  private theme!: Theme;
+  private menuId = ComboBoxViewIds.menu + getRandomID();
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -147,6 +159,17 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = getComboBoxTheme(theme);
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     const { onMouseEnter, onMouseLeave, onMouseOver, opened } = this.props;
     const { onClickOutside, onFocusOutside, width } = this.getProps();
 
@@ -180,6 +203,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
       <ComboBoxMenu
+        menuId={this.menuId}
         items={items}
         loading={loading}
         maxMenuHeight={maxMenuHeight}
@@ -208,7 +232,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           menuPos={menuPos}
           align={menuAlign}
           getParent={this.getParent}
-          offsetY={1}
           disablePortal={this.props.disablePortal}
           ref={this.dropdownContainerRef}
         >
@@ -317,6 +340,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           warning={warning}
           inputMode={inputMode}
           aria-describedby={ariaDescribedby}
+          aria-controls={this.menuId}
         />
       );
     }
@@ -336,6 +360,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         width="100%"
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
+        aria-controls={this.menuId}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
@@ -376,13 +401,19 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   );
 
   private getRightIcon = () => {
-    const { loading, items, drawArrow, rightIcon } = this.props;
+    const { loading, items, drawArrow, rightIcon, size } = this.props;
 
     if (loading && items && !!items.length) {
+      if (isTheme2022(this.theme)) {
+        return <LoadingIcon size={size} />;
+      }
       return this.renderSpinner();
     }
 
     if (rightIcon || drawArrow) {
+      if (isTheme2022(this.theme)) {
+        return rightIcon || <ArrowDownIcon size={size} />;
+      }
       return <span className={styles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
     }
 

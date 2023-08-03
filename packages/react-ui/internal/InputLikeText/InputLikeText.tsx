@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import debounce from 'lodash.debounce';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
@@ -18,9 +19,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
+import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 
-import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
+import { styles } from './InputLikeText.styles';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {
   children?: React.ReactNode;
@@ -97,6 +101,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return this.node;
   }
 
+  // Async call required for Firefox
+  private selectNodeContentsDebounced = debounce(selectNodeContents, 0);
+
   public selectInnerNode = (node: HTMLElement | null, start = 0, end = 1) => {
     if (this.dragging || !node) {
       return;
@@ -109,7 +116,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.frozenBlur = true;
 
     this.lastSelectedInnerNode = [node, start, end];
-    setTimeout(() => selectNodeContents(node, start, end), 0);
+    this.selectNodeContentsDebounced(node, start, end);
+
     if (this.focusTimeout) {
       clearInterval(this.focusTimeout);
     }
@@ -175,13 +183,22 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     const { focused, blinking } = this.state;
 
-    const leftSide = this.renderLeftSide();
-    const rightSide = this.renderRightSide();
+    const leftSide = isTheme2022(this.theme) ? (
+      <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
+    ) : (
+      this.renderLeftSide()
+    );
+    const rightSide = isTheme2022(this.theme) ? (
+      <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
+    ) : (
+      this.renderRightSide()
+    );
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.disabled(this.theme)]: !!disabled,
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
+      [jsInputStyles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
@@ -194,6 +211,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const wrapperClass = cx(jsInputStyles.wrapper(), {
       [styles.userSelectContain()]: focused,
     });
+
+    const context = InputLayoutContextDefault;
+    Object.assign(context, { disabled, focused, size });
 
     return (
       <span
@@ -208,29 +228,31 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
-        <input
-          data-tid={InputLikeTextDataTids.nativeInput}
-          type="hidden"
-          value={value}
-          disabled={disabled}
-          aria-describedby={ariaDescribedby}
-        />
-        {leftSide}
-        <span className={wrapperClass}>
-          <span
-            data-tid={InputLikeTextDataTids.input}
-            className={cx(jsInputStyles.input(this.theme), {
-              [styles.absolute()]: !takeContentWidth,
-              [jsInputStyles.inputFocus(this.theme)]: focused,
-              [jsInputStyles.inputDisabled(this.theme)]: disabled,
-            })}
-          >
-            {this.props.children}
+        <InputLayoutContext.Provider value={context}>
+          <input
+            data-tid={InputLikeTextDataTids.nativeInput}
+            type="hidden"
+            value={value}
+            disabled={disabled}
+            aria-describedby={ariaDescribedby}
+          />
+          {leftSide}
+          <span className={wrapperClass}>
+            <span
+              data-tid={InputLikeTextDataTids.input}
+              className={cx(jsInputStyles.input(this.theme), {
+                [styles.absolute()]: !takeContentWidth,
+                [jsInputStyles.inputFocus(this.theme)]: focused,
+                [jsInputStyles.inputDisabled(this.theme)]: disabled,
+              })}
+            >
+              {this.props.children}
+            </span>
+            {this.renderPlaceholder()}
           </span>
-          {this.renderPlaceholder()}
-        </span>
-        {rightSide}
-        {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+          {rightSide}
+          {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+        </InputLayoutContext.Provider>
       </span>
     );
   };
@@ -435,9 +457,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }
 
-    ReactDOM.flushSync(() => {
+    // Auto-batching React@18 creates problems that are fixed with flushSync
+    // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
+    if (React.version.search('18') === 0) {
+      ReactDOM.flushSync(() => this.setState({ focused: true }));
+    } else {
       this.setState({ focused: true });
-    });
+    }
 
     if (this.props.onFocus) {
       this.props.onFocus(e);
@@ -445,6 +471,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    this.selectNodeContentsDebounced.cancel();
     if (isMobile) {
       e.target.removeAttribute('contenteditable');
     }

@@ -21,7 +21,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -30,7 +30,10 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
+import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
@@ -44,6 +47,7 @@ export interface ButtonParams {
   opened: boolean;
   isPlaceholder: boolean;
   'aria-describedby'?: AriaAttributes['aria-describedby'];
+  'aria-controls'?: AriaAttributes['aria-controls'];
 }
 
 const PASS_BUTTON_PROPS = {
@@ -60,6 +64,11 @@ const PASS_BUTTON_PROPS = {
 
 export const SelectDataTids = {
   root: 'Select__root',
+  menu: 'Select__menu',
+} as const;
+
+export const SelectIds = {
+  menu: SelectDataTids.menu,
 } as const;
 
 type SelectItem<TValue, TItem> =
@@ -69,7 +78,10 @@ type SelectItem<TValue, TItem> =
   | React.ReactElement
   | (() => React.ReactElement);
 
-export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
+export interface SelectProps<TValue, TItem>
+  extends CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -153,10 +165,6 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Pick<DropdownCo
    * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface SelectState<TValue> {
@@ -210,6 +218,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
+  private menuId = SelectIds.menu + getRandomID();
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
@@ -227,7 +236,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = ThemeFactory.create(
+            {
+              menuOffsetY: theme.selectMenuOffsetY,
+            },
+            theme,
+          );
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
@@ -333,7 +347,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
-      'aria-describedby': this.props['aria-describedby'],
     };
 
     return buttonParams;
@@ -381,7 +394,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
       active: params.opened,
-      'aria-describedby': params['aria-describedby'],
     };
     const use = this.getProps().use;
 
@@ -399,6 +411,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
+    const icon = isTheme2022(this.theme) ? <ArrowDownIcon size={this.props.size} /> : <ArrowChevronDownIcon />;
+
     return (
       <Button {...buttonProps}>
         <div className={styles.selectButtonContainer()}>
@@ -411,7 +425,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
               [styles.customUseArrow()]: useIsCustom,
             })}
           >
-            <ArrowChevronDownIcon />
+            {icon}
           </div>
         </div>
       </Button>
@@ -443,8 +457,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <DropdownContainer
+        id={this.menuId}
+        data-tid={SelectDataTids.menu}
         getParent={this.dropdownContainerGetParent}
-        offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
@@ -676,6 +691,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref: this.buttonRef,
           onFocus: this.props.onFocus,
           onBlur: this.props.onBlur,
+          'aria-describedby': this.props['aria-describedby'],
+          'aria-expanded': this.state.opened ? 'true' : 'false',
+          'aria-controls': this.menuId,
         })
       : buttonElement;
   };

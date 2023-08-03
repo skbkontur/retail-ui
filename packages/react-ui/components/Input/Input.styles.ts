@@ -32,10 +32,11 @@ export const styles = memoizeStyle({
       ${resetText()};
 
       align-items: center;
-      background-clip: padding-box;
+      background-clip: ${t.inputBackgroundClip};
       background-color: ${t.inputBg};
       border: ${t.inputBorderWidth} solid ${t.inputBorderColor};
       border-top-color: ${t.inputBorderTopColor};
+      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       box-shadow: ${t.inputShadow};
       box-sizing: border-box;
       color: ${t.inputColor};
@@ -51,10 +52,19 @@ export const styles = memoizeStyle({
     `;
   },
 
+  hovering(t: Theme) {
+    return css`
+      &:hover {
+        border-color: ${t.inputBorderColorHover};
+      }
+    `;
+  },
+
   borderless() {
     return css`
       box-shadow: none;
       border-color: transparent;
+      background-clip: padding-box;
     `;
   },
 

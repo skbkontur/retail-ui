@@ -272,6 +272,22 @@ MobileSimple.decorators = [
   ),
 ];
 
+export const MobileWithLongItem: Story = () => {
+  const longItem = 'Two '.repeat(50);
+
+  return (
+    <div style={{ width: '200px' }}>
+      <Select items={['One', `${longItem}`, 'Three']} value={longItem}></Select>
+    </div>
+  );
+};
+
+MobileWithLongItem.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
 export const MobileWithSearch: Story = () => (
   <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
 );
@@ -531,6 +547,9 @@ WithSearchAndVariousWidth.storyName = 'with search';
 WithSearchAndVariousWidth.parameters = {
   creevey: {
     captureElement: '#test-element',
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'] },
+    },
     tests: {
       async search() {
         const root = await this.browser.findElement({ css: '[data-tid="root"]' });

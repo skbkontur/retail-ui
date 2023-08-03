@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
-import { styles } from './Link.styles';
+import { globalClasses, styles } from './Link.styles';
 
 export interface LinkProps
   extends CommonProps,
@@ -55,6 +57,21 @@ export interface LinkProps
          * HTML-событие `onclick`.
          */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+
+        /**
+         * Обычный объект с переменными темы.
+         * Он будет объединён с темой из контекста.
+         */
+        theme?: ThemeIn;
+        /**
+         * Компонент, используемый в качестве корневого узла.
+         * @ignore
+         */
+        as?: React.ElementType | keyof React.ReactHTML;
+        /**
+         * @ignore
+         */
+        focused?: boolean;
       }
     > {}
 
@@ -66,7 +83,7 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'href' | 'use'>>;
+type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as'>>;
 type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 
 /**
@@ -89,6 +106,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   public static defaultProps: DefaultProps = {
     href: '',
     use: 'default',
+    as: 'a',
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -104,7 +122,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
@@ -116,7 +134,20 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
+    const {
+      disabled,
+      href,
+      icon,
+      use,
+      loading,
+      _button,
+      _buttonOpened,
+      rel: relOrigin,
+      as: Component,
+      focused = false,
+      ...rest
+    } = props;
+    const _isTheme2022 = isTheme2022(this.theme);
 
     let iconElement = null;
     if (icon) {
@@ -135,39 +166,42 @@ export class Link extends React.Component<LinkProps, LinkState> {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
-    const focused = !disabled && this.state.focusedByTab;
+    const isFocused = !disabled && (this.state.focusedByTab || focused);
 
     const linkProps = {
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [styles.button(this.theme)]: !!_button,
-        [styles.buttonOpened(this.theme)]: !!_buttonOpened,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
-        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        [styles.focus(this.theme)]: focused,
-        [styles.disabled(this.theme)]: !!disabled || !!loading,
-      }),
+      className: cx(
+        styles.useRoot(),
+        use === 'default' && styles.useDefault(this.theme),
+        use === 'success' && styles.useSuccess(this.theme),
+        use === 'danger' && styles.useDanger(this.theme),
+        use === 'grayed' && styles.useGrayed(this.theme),
+        !!_button && styles.button(this.theme),
+        !!_buttonOpened && styles.buttonOpened(this.theme),
+        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+      ),
       href,
       rel,
-      onClick: this._handleClick,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
+      onClick: this.handleClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
       tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
 
+    let child = this.props.children;
+    if (_isTheme2022) {
+      child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
+    }
+
     return (
-      <a data-tid={LinkDataTids.root} {...rest} {...linkProps}>
+      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {iconElement}
-        {this.props.children}
+        {child}
         {arrow}
-      </a>
+      </Component>
     );
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -179,11 +213,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading } = this.props;
     const href = this.getProps().href;
     if (!href) {
@@ -193,4 +227,27 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick(event);
     }
   };
+
+  private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
+    const { use } = this.getProps();
+    const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
+    const isFocused = focused && !disabled;
+
+    return !isBorderBottom
+      ? cx(
+          styles.root(this.theme),
+          isFocused && styles.focus(this.theme),
+          disabled && styles.disabled(this.theme),
+          use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
+        )
+      : cx(
+          styles.lineRoot(),
+          disabled && styles.disabled(this.theme),
+          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
+          isFocused && use === 'default' && styles.lineFocus(this.theme),
+          isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
+          isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
+          isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+        );
+  }
 }

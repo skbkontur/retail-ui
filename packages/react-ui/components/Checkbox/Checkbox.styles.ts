@@ -18,6 +18,11 @@ export const styles = memoizeStyle({
       font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
 
+      .${globalClasses.box} {
+        transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
+          box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
+      }
+
       &:hover .${globalClasses.box} {
         background: ${t.checkboxHoverBg};
         box-shadow: ${t.checkboxShadowHover};
@@ -164,14 +169,18 @@ export const styles = memoizeStyle({
   icon() {
     return css`
       position: absolute;
-      top: 0px;
-      bottom: 0px;
-      right: 0px;
-      left: 0px;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
       display: flex;
       justify-content: center;
       align-items: center;
+    `;
+  },
 
+  iconFixPosition() {
+    return css`
       svg {
         margin: -12.5% 0 0 0;
       }

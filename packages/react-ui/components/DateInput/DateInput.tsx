@@ -13,7 +13,9 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
+import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
@@ -26,6 +28,10 @@ export interface DateInputState {
   focused: boolean;
   dragged: boolean;
 }
+
+export const DateInputDataTids = {
+  icon: 'DateInput__icon',
+} as const;
 
 export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
@@ -239,6 +245,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
+      const icon = isTheme2022(theme) ? <CalendarIcon2022 size={size} /> : <CalendarIcon />;
       const iconStyles = cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',
@@ -247,8 +254,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         [styles.iconDisabled(theme)]: disabled,
       });
       return (
-        <span className={iconStyles}>
-          <CalendarIcon />
+        <span className={iconStyles} data-tid={DateInputDataTids.icon}>
+          {icon}
         </span>
       );
     }

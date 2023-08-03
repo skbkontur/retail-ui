@@ -25,6 +25,7 @@ export const styles = memoizeStyle({
       box-shadow: ${t.tokenInputShadow};
       border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColor};
       border-top-color: ${t.tokenInputBorderTopColor};
+      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       box-sizing: border-box;
       cursor: text;
       padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
@@ -34,6 +35,14 @@ export const styles = memoizeStyle({
       outline: none;
       position: relative;
       border-radius: ${t.tokenInputBorderRadius};
+    `;
+  },
+
+  hovering(t: Theme) {
+    return css`
+      &:hover {
+        border-color: ${t.tokenInputBorderColorHover};
+      }
     `;
   },
 
@@ -61,6 +70,7 @@ export const styles = memoizeStyle({
   labelDisabled(t: Theme) {
     return css`
       background: ${t.tokenInputDisabledBg};
+      background-clip: ${t.inputDisabledBackgroundClip};
       border-color: ${t.tokenInputDisabledBorderColor};
       box-shadow: none;
       cursor: default;

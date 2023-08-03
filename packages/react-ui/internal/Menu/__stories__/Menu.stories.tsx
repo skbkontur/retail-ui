@@ -37,6 +37,19 @@ export const WithItemsWithIcons = () => (
   </Menu>
 );
 
+export const WithItemsWithIconsWithoutTextAlignment = () => (
+  <Menu preventIconsOffset>
+    <MenuHeader>MenuHeader</MenuHeader>
+    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </Menu>
+);
+
+WithItemsWithIconsWithoutTextAlignment.parameters = {
+  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
+};
+
 export const WithHeader = () => (
   <Menu>
     <MenuHeader>MenuHeader</MenuHeader>
@@ -87,6 +100,9 @@ WithMaxHeight.storyName = 'with maxHeight';
 WithMaxHeight.parameters = {
   creevey: {
     captureElement: '[data-tid="menu-container"',
+    skip: {
+      flacky: { in: ['chrome2022'] },
+    },
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');

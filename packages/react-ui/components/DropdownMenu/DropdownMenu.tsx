@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
@@ -10,7 +9,11 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId'> {
+import { getDropdownMenuTheme } from './getDropdownMenuTheme';
+
+export interface DropdownMenuProps
+  extends CommonProps,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -85,18 +88,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupMargin: '0px',
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
+          return <ThemeContext.Provider value={getDropdownMenuTheme(theme)}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
@@ -114,6 +106,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           caption={this.props.caption}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
+          preventIconsOffset={this.props.preventIconsOffset}
           popupHasPin={false}
           positions={positions}
           disableAnimations={disableAnimations}

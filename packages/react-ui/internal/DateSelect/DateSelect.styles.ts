@@ -1,5 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+
+export const globalClasses = prefix('select')({
+  arrow: 'arrow',
+});
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -18,6 +22,21 @@ export const styles = memoizeStyle({
       &:hover {
         color: ${t.dateSelectLinkColor};
       }
+
+      & .${globalClasses.arrow} {
+        transition: fill ${t.transitionDuration} ${t.transitionTimingFunction};
+      }
+
+      &:hover .${globalClasses.arrow} {
+        fill: ${t.dateSelectTextColorDefault} !important;
+      }
+    `;
+  },
+
+  root2022() {
+    return css`
+      display: inline-flex;
+      justify-content: space-between;
     `;
   },
 

@@ -3,73 +3,48 @@ import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
 
+import { TabSize } from './Tab';
+import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
+
 export const globalClasses = prefix('tab')({
   focus: 'focus',
 });
 
 export const styles = memoizeStyle({
-  root(t: Theme) {
-    const paddingTop = t.tabPaddingY;
-    const paddingBottom = `calc(${t.tabPaddingY} - ${t.tabBorderWidth})`;
-    return css`
-      border-bottom: ${t.tabBorderWidth} solid transparent;
-      box-sizing: border-box;
-      color: ${t.tabTextColorDefault};
-      cursor: pointer;
-      display: inline-block;
-      font-size: ${t.tabFontSize};
-      line-height: ${t.tabLineHeight};
-      margin-left: ${t.tabPaddingX};
-      margin-right: ${t.tabPaddingX};
-      padding-bottom: ${paddingBottom};
-      padding-top: ${paddingTop};
-      position: relative;
-      text-decoration: inherit;
-      transition: border-bottom 0.2s ease-out;
-
-      &:hover {
-        outline: inherit;
-        border-bottom: ${t.tabBorderWidth} solid ${t.tabColorHover};
-      }
-
-      &:focus {
-        outline: inherit;
-      }
-    `;
+  rootSmall(t: Theme) {
+    return tabRoot(t, 'small');
   },
 
-  vertical(t: Theme) {
-    return css`
-      border-bottom: none;
-      border-left: ${t.tabBorderWidth} solid transparent;
-      display: block;
-      margin-left: 0;
-      margin-right: 0;
-      padding-left: ${shift(t.tabPaddingX, `-${t.tabBorderWidth}`)};
-      padding-right: ${t.tabPaddingX};
-
-      &:hover {
-        border-bottom: none;
-        border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
-      }
-
-      .${globalClasses.focus} {
-        bottom: 0;
-        left: -${t.tabBorderWidth};
-        right: 0;
-      }
-    `;
+  rootMedium(t: Theme) {
+    return tabRoot(t, 'medium');
   },
 
-  focus(t: Theme) {
-    return css`
-      border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
-      bottom: -${t.tabBorderWidth};
-      left: -${t.tabPaddingX};
-      position: absolute;
-      right: -${t.tabPaddingX};
-      top: 0;
-    `;
+  rootLarge(t: Theme) {
+    return tabRoot(t, 'large');
+  },
+
+  verticalSmall(t: Theme) {
+    return tabVertical(t, 'small');
+  },
+
+  verticalMedium(t: Theme) {
+    return tabVertical(t, 'medium');
+  },
+
+  verticalLarge(t: Theme) {
+    return tabVertical(t, 'large');
+  },
+
+  focusSmall(t: Theme) {
+    return tabFocus(t, 'small');
+  },
+
+  focusMedium(t: Theme) {
+    return tabFocus(t, 'medium');
+  },
+
+  focusLarge(t: Theme) {
+    return tabFocus(t, 'large');
   },
 
   disabled(t: Theme) {
@@ -190,3 +165,65 @@ export const verticalStyles = memoizeStyle({
     `;
   },
 });
+
+function tabRoot(t: Theme, size: TabSize) {
+  return css`
+    border-bottom: ${t.tabBorderWidth} solid transparent;
+    box-sizing: border-box;
+    color: ${t.tabTextColorDefault};
+    cursor: pointer;
+    display: inline-block;
+    font-size: ${fontSize(t, size)};
+    line-height: ${lineHeight(t, size)};
+    margin-left: ${paddingX(t, size)};
+    margin-right: ${paddingX(t, size)};
+    padding-bottom: calc(${paddingY(t, size)} - ${t.tabBorderWidth});
+    padding-top: ${paddingY(t, size)};
+    position: relative;
+    text-decoration: inherit;
+    transition: border-bottom ${t.transitionDuration} ${t.transitionTimingFunction};
+
+    &:hover {
+      outline: inherit;
+      border-bottom: ${t.tabBorderWidth} solid ${t.tabColorHover};
+    }
+
+    &:focus {
+      outline: inherit;
+    }
+  `;
+}
+
+function tabVertical(t: Theme, size: TabSize) {
+  return css`
+    border-bottom: none;
+    border-left: ${t.tabBorderWidth} solid transparent;
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: ${shift(paddingX(t, size), `-${t.tabBorderWidth}`)};
+    padding-right: ${paddingX(t, size)};
+
+    &:hover {
+      border-bottom: none;
+      border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
+    }
+
+    .${globalClasses.focus} {
+      bottom: 0;
+      left: -${t.tabBorderWidth};
+      right: 0;
+    }
+  `;
+}
+
+function tabFocus(t: Theme, size: TabSize) {
+  return css`
+    border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
+    bottom: -${t.tabBorderWidth};
+    left: -${paddingX(t, size)};
+    position: absolute;
+    right: -${paddingX(t, size)};
+    top: 0;
+  `;
+}

@@ -34,7 +34,7 @@ SimpleComboboxStory.parameters = {
   creevey: {
     skip: {
       'story-skip-0': {
-        in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
+        in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark', 'ie112022', 'ie112022Dark'],
         tests: ['hovered', 'selected_2', 'select_1'],
       },
 
@@ -517,6 +517,9 @@ ToogleError.storyName = 'toogle error';
 
 ToogleError.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: ['plain again', 'with error'] },
+    },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -1185,7 +1188,7 @@ WithTooltip.parameters = {
   },
 };
 
-export const MobileSimple = () => (
+export const MobileSimple: Story = () => (
   <>
     <SimpleCombobox />
     <div style={{ height: 15 }} />
@@ -1209,7 +1212,19 @@ MobileSimple.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: { skip: true },
+  creevey: {
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="ComboBoxView__root"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('opened');
+      },
+    },
+  },
 };
 
 export const WithManualPosition: Story = () => {

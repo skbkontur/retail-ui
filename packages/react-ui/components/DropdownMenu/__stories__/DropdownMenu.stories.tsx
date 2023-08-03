@@ -490,3 +490,38 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
     this.setState({ value: '' });
   };
 }
+
+export const MobileExampleWithHorizontalPadding: Story = () => (
+  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+    <MenuHeader>Заголовок меню</MenuHeader>
+    <MenuSeparator />
+    <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
+    <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
+    <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
+  </DropdownMenu>
+);
+
+MobileExampleWithHorizontalPadding.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    captureElement: null,
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="DropdownMenu"]' }))
+          .perform();
+        await delay(200);
+        await this.browser
+          .actions({ bridge: true })
+          .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+      },
+    },
+  },
+};

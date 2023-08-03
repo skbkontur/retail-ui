@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, HTMLAttributes } from 'react';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
@@ -12,11 +12,16 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { InternalMenuProps } from '../InternalMenu';
+import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps {
+export interface MenuProps
+  extends Pick<InternalMenuProps, 'preventIconsOffset'>,
+    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -126,6 +131,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
     const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
+    const offsetY = isTheme2022(this.theme)
+      ? {
+          top: 4,
+          right: 0,
+          bottom: 4,
+        }
+      : {};
+
     const isMobile = this.isMobileLayout;
     return (
       <div
@@ -136,6 +149,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}
         style={getStyle(this.props)}
+        id={this.props.id}
         ref={this.setRootNode}
       >
         <ScrollContainer
@@ -143,6 +157,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           maxHeight={maxHeight}
           preventWindowScroll={preventWindowScroll}
           disabled={this.props.disableScrollContainer}
+          offsetY={offsetY}
         >
           <div
             className={cx({
@@ -158,9 +173,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private getChildList = () => {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
+    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
 
     return React.Children.map(this.props.children, (child, index) => {
       if (!child) {

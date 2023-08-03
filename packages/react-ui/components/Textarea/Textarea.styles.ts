@@ -14,8 +14,8 @@ export const styles = memoizeStyle({
   textarea(t: Theme) {
     return css`
       -webkit-appearance: none;
-      background-clip: padding-box;
       background: ${t.textareaBg};
+      background-clip: ${t.textareaBackgroundClip};
       border: ${t.textareaBorderWidth} solid ${t.textareaBorderColor};
       border-top-color: ${t.textareaBorderTopColor};
       box-shadow: ${t.textareaShadow};
@@ -29,7 +29,7 @@ export const styles = memoizeStyle({
       min-height: ${t.textareaMinHeight};
       outline: none;
       padding: ${t.textareaPaddingY} ${t.textareaPaddingX};
-      transition: height 0.2s ease-out;
+      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction}, height 0.2s ease-out;
       vertical-align: middle;
       width: 100%;
       border-radius: ${t.textareaBorderRadius};
@@ -56,6 +56,14 @@ export const styles = memoizeStyle({
 
       &::-moz-placeholder {
         color: ${t.textareaPlaceholderColor};
+      }
+    `;
+  },
+
+  hovering(t: Theme) {
+    return css`
+      &:enabled:hover:not(:focus) {
+        border-color: ${t.textareaBorderColorHover};
       }
     `;
   },

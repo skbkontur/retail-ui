@@ -1,5 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 const getVerticalPaddingsWithCompensation = (theme: Theme) => {
   const { toastPaddingY, fontFamilyCompensationBaseline } = theme;
@@ -49,6 +50,8 @@ export const styles = memoizeStyle({
   link(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
+    const padding = isTheme2022(t) ? `${paddingTop} ${paddingBottom}` : `${paddingTop} 0 ${paddingBottom}`;
+
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
@@ -57,10 +60,15 @@ export const styles = memoizeStyle({
 
       margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
 
-      padding: ${paddingTop} 0 ${paddingBottom};
-
+      padding: ${padding};
+      transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
       &:hover {
-        text-decoration: underline;
+        background: ${t.toastLinkBgHover};
+        text-decoration: ${t.toastLinkTextDecorationHover};
+      }
+
+      &:active {
+        background: ${t.toastLinkBgActive};
       }
     `;
   },

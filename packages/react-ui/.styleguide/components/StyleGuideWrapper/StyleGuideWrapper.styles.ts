@@ -4,7 +4,6 @@ import { Theme } from '../../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root() {
     return css`
-      font-family: 'Lab Grotesque', Roboto, 'Helvetica Neue', Arial, sans-serif;
       font-weight: 400;
       font-size: 14px;
       padding-left: 300px;
@@ -24,8 +23,6 @@ export const styles = memoizeStyle({
         height: 149px;
         z-index: 999;
         a {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-            'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
           position: relative;
           right: -37px;
           top: -22px;
@@ -164,8 +161,6 @@ export const styles = memoizeStyle({
       p {
         color: #767676;
         margin: 5px 0 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-          'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         font-size: 15px;
         font-weight: normal;
       }
@@ -183,8 +178,6 @@ export const styles = memoizeStyle({
   },
   footerLink() {
     return css`
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
-        'Droid Sans', 'Helvetica Neue', sans-serif;
       position: relative;
       right: -37px;
       top: -22px;

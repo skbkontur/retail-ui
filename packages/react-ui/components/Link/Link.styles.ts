@@ -1,13 +1,82 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
+import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from './Link.mixins';
+
+export const globalClasses = prefix('link')({
+  text: 'text',
+});
+
+const line = keyframes`
+  0% {
+    border-bottom-color: inherit;
+  }
+  100% {
+    border-bottom-color: transparent;
+  }
+`;
 
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       ${linkMixin(t.linkHoverTextDecoration)};
       position: relative;
+    `;
+  },
+
+  lineRoot() {
+    return css`
+      border-radius: 1px;
+      outline: none;
+      text-decoration: none;
+    `;
+  },
+
+  lineText(t: Theme) {
+    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
+    return css`
+      border-bottom-style: ${t.linkLineBorderBottomStyle};
+      border-bottom-width: ${t.linkLineBorderBottomWidth};
+      animation: ${line} 1s linear !important; // override creevey
+      animation-play-state: paused !important;
+      animation-delay: ${delay}s !important;
+      animation-fill-mode: forwards !important;
+    `;
+  },
+
+  lineFocus(t: Theme) {
+    return css`
+      color: ${t.linkHoverColor};
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
+    `;
+  },
+
+  lineFocusSuccess(t: Theme) {
+    return css`
+      color: ${t.linkSuccessHoverColor} !important;
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
+    `;
+  },
+
+  lineFocusDanger(t: Theme) {
+    return css`
+      color: ${t.linkDangerHoverColor} !important;
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
+    `;
+  },
+
+  lineFocusGrayed(t: Theme) {
+    return css`
+      color: ${t.linkGrayedHoverColor} !important;
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
     `;
   },
 
@@ -38,27 +107,52 @@ export const styles = memoizeStyle({
     `;
   },
 
+  useRoot() {
+    return css`
+      border-bottom-color: currentColor;
+    `;
+  },
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
   useGrayed(t: Theme) {
     return css`
-      ${linkUseColorsMixin(t.linkDisabledColor, t.linkDisabledColor, t.linkDisabledColor)};
+      ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
@@ -78,10 +172,18 @@ export const styles = memoizeStyle({
     return css`
       ${linkDisabledMixin()};
 
-      color: ${t.linkDisabledColor};
+      color: ${t.linkDisabledColor} !important; // override root color
 
       &:hover {
         color: ${t.linkDisabledColor};
+      }
+    `;
+  },
+
+  disabledDark22Theme(t: Theme) {
+    return css`
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
   },

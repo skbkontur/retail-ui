@@ -37,6 +37,10 @@ export const styles = memoizeStyle({
       line-height: ${t.radioLineHeight};
       font-size: ${t.radioFontSize};
 
+      .${globalClasses.circle} {
+        transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
+      }
+
       &:hover .${globalClasses.circle} {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
@@ -150,7 +154,7 @@ export const styles = memoizeStyle({
   checkedDisabled(t: Theme) {
     return css`
       &::before {
-        background: ${t.gray};
+        background: ${t.radioCheckedDisabledBulletBg};
       }
     `;
   },
