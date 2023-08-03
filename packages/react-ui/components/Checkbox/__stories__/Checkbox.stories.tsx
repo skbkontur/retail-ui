@@ -444,7 +444,7 @@ CheckboxLabelSelectionWithPressedShift.parameters = {
   },
 };
 
-export const Sizes: Story = () => {
+export const Size: Story = () => {
   return (
     <div>
       <Gapped vertical>
@@ -455,3 +455,4 @@ export const Sizes: Story = () => {
     </div>
   );
 };
+Size.storyName = 'size';
