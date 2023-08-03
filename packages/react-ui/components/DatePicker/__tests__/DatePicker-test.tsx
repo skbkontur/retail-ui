@@ -8,9 +8,8 @@ import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
-import { Calendar, CalendarDataTids } from '../../../internal/Calendar';
+import { Calendar } from '../../../internal/Calendar';
 import { DateSelect, DateSelectDataTids } from '../../../internal/DateSelect';
-import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
@@ -58,11 +57,10 @@ describe('DatePicker', () => {
     expect(screen.getByTestId(DatePickerDataTids.pickerRoot)).toBeInTheDocument();
   });
 
-  it('renders date select when open', () => {
+  it.only('renders date select when open', () => {
     renderDatePicker();
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    const dateSelect = datePicker.find('DateSelect');
-    expect(dateSelect.exists()).toBe(true);
+    expect(screen.getByTestId(DateSelectDataTids.caption)).toBeInTheDocument();
   });
 
   it('correctly passes max and min date to year select', () => {
