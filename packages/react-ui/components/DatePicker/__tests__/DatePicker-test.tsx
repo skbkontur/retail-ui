@@ -65,9 +65,6 @@ describe('DatePicker', () => {
   });
 
   describe('Locale', () => {
-    const getTextLoading = (wrapper: ReactWrapper<any>): string => {
-      return wrapper.find(`[data-tid='Picker__todayWrapper']`).text();
-    };
     const getToday = (args: InternalDateConstructorProps) =>
       new InternalDate(args)
         .setComponents(InternalDateGetter.getTodayComponents())
