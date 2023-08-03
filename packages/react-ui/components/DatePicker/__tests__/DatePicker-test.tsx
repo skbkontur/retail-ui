@@ -64,6 +64,34 @@ describe('DatePicker', () => {
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
+  it('blur() methon works', () => {
+    const datePickerRef = React.createRef<DatePicker>();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+
+    datePickerRef.current?.blur();
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('handle onBlur event', () => {
+    const datePickerRef = React.createRef<DatePicker>();
+    const onBlur = jest.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} onBlur={onBlur} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+
+    datePickerRef.current?.blur();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('handle onFocus event', () => {
+    const onFocus = jest.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(onFocus).toHaveBeenCalled();
+  });
+
   describe('Locale', () => {
     const getToday = (args: InternalDateConstructorProps) =>
       new InternalDate(args)
