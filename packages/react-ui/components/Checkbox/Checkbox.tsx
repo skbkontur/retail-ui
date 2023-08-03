@@ -14,10 +14,14 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { createPropsGetter } from '../../lib/createPropsGetter';
+import { Radio } from '../Radio';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
+
+export type CheckboxSize = 'small' | 'medium' | 'large';
 
 export interface CheckboxProps
   extends CommonProps,
@@ -36,6 +40,8 @@ export interface CheckboxProps
          * Состояние валидации при предупреждении.
          */
         warning?: boolean;
+        /** Размер */
+        size?: CheckboxSize;
         /**
          * HTML-событие `mouseenter`.
          */
@@ -77,9 +83,35 @@ export const CheckboxDataTids = {
   root: 'Checkbox__root',
 } as const;
 
+type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
+
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
+
+  public static defaultProps: DefaultProps = {
+    size: 'small',
+  };
+
+  private getProps = createPropsGetter(Radio.defaultProps);
+
+  private getSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.rootLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.rootMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.rootSmall(this.theme)]: true,
+        });
+    }
+  }
 
   public static propTypes = {
     checked: PropTypes.bool,
@@ -202,6 +234,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     const {
       error,
       warning,
+      size,
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
@@ -236,8 +269,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       <SquareIcon className={iconClass} />
     );
 
-    const rootClass = cx({
-      [styles.root(this.theme)]: true,
+    const rootClass = cx(this.getSizeClassName(), {
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
       [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
@@ -266,7 +298,13 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const box = (
-      <div className={cx(styles.boxWrapper(this.theme))}>
+      <div
+        className={cx({
+          [styles.boxWrapperSmall(this.theme)]: this.getProps().size === 'small',
+          [styles.boxWrapperMedium(this.theme)]: this.getProps().size === 'medium',
+          [styles.boxWrapperLarge(this.theme)]: this.getProps().size === 'large',
+        })}
+      >
         <div
           className={cx(styles.box(this.theme), globalClasses.box, {
             [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,

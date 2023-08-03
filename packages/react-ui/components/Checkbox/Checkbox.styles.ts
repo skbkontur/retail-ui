@@ -3,46 +3,80 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { isChrome } from '../../lib/client';
 
+import { CheckboxSize } from './Checkbox';
+import { checkboxBoxSize, fontSize, lineHeight, paddingY } from './helpers';
+
 export const globalClasses = prefix('checkbox')({
   box: 'box',
 });
 
+function checkboxRoot(t: Theme, size: CheckboxSize) {
+  return css`
+    display: inline-flex;
+    align-items: baseline;
+    cursor: pointer;
+    position: relative;
+    line-height: ${lineHeight(t, size)};
+    font-size: ${fontSize(t, size)};
+    padding: ${paddingY(t, size)} 0;
+
+    .${globalClasses.box} {
+      transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
+        box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
+    }
+
+    &:hover .${globalClasses.box} {
+      background: ${t.checkboxHoverBg};
+      box-shadow: ${t.checkboxShadowHover};
+    }
+
+    &:active .${globalClasses.box} {
+      box-shadow: ${t.checkboxShadowActive};
+      background: ${t.checkboxActiveBg};
+    }
+
+    &::before {
+      // non-breaking space.
+      // makes a correct space for absolutely positioned box,
+      // and also height and baseline for checkbox without caption.
+      content: '\\00A0';
+      display: inline-block;
+      width: ${checkboxBoxSize(t, size)};
+      flex: 0 0 auto;
+    }
+  `;
+}
+
+function boxWrapper(t: Theme, size: CheckboxSize) {
+  const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
+  const fontSize = parseInt(t.checkboxFontSize);
+  const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
+
+  return css`
+    position: absolute;
+    width: ${checkboxBoxSize(t, size)};
+    height: ${checkboxBoxSize(t, size)};
+    box-sizing: border-box;
+    padding: ${t.checkboxBorderWidth};
+    margin-top: calc(${t.checkboxBoxOffsetY} + ${baselineCompensation}px);
+
+    // fix position in ie11
+    display: inline-block;
+    left: 0;
+  `;
+}
+
 export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
-      display: inline-flex;
-      align-items: baseline;
-      cursor: pointer;
-      position: relative;
-      line-height: ${t.checkboxLineHeight};
-      font-size: ${t.checkboxFontSize};
-      padding: ${t.checkboxPaddingY} 0;
+  rootSmall(t: Theme) {
+    return checkboxRoot(t, 'small');
+  },
 
-      .${globalClasses.box} {
-        transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
-          box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
-      }
+  rootMedium(t: Theme) {
+    return checkboxRoot(t, 'medium');
+  },
 
-      &:hover .${globalClasses.box} {
-        background: ${t.checkboxHoverBg};
-        box-shadow: ${t.checkboxShadowHover};
-      }
-
-      &:active .${globalClasses.box} {
-        box-shadow: ${t.checkboxShadowActive};
-        background: ${t.checkboxActiveBg};
-      }
-
-      &::before {
-        // non-breaking space.
-        // makes a correct space for absolutely positioned box,
-        // and also height and baseline for checkbox without caption.
-        content: '\\00A0';
-        display: inline-block;
-        width: ${t.checkboxBoxSize};
-        flex: 0 0 auto;
-      }
-    `;
+  rootLarge(t: Theme) {
+    return checkboxRoot(t, 'large');
   },
 
   rootDisableTextSelect() {
@@ -82,23 +116,16 @@ export const styles = memoizeStyle({
     `;
   },
 
-  boxWrapper(t: Theme) {
-    const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-    const fontSize = parseInt(t.checkboxFontSize);
-    const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
+  boxWrapperSmall(t: Theme) {
+    return boxWrapper(t, 'small');
+  },
 
-    return css`
-      position: absolute;
-      width: ${t.checkboxBoxSize};
-      height: ${t.checkboxBoxSize};
-      box-sizing: border-box;
-      padding: ${t.checkboxBorderWidth};
-      margin-top: calc(${t.checkboxBoxOffsetY} + ${baselineCompensation}px);
+  boxWrapperMedium(t: Theme) {
+    return boxWrapper(t, 'medium');
+  },
 
-      // fix position in ie11
-      display: inline-block;
-      left: 0;
-    `;
+  boxWrapperLarge(t: Theme) {
+    return boxWrapper(t, 'large');
   },
 
   box(t: Theme) {
