@@ -701,6 +701,7 @@ export class DefaultTheme {
   public static kebabIconSizeMedium = '18px';
   public static kebabIconSizeLarge = '20px';
   public static kebabIconColor = '#757575';
+  public static kebabMenuOffsetY = '0px';
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0 5px 10px rgba(0, 0, 0, 0.2);';
