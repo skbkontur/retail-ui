@@ -1,13 +1,27 @@
 import { text, tooltip } from './ErrorRenderer';
-import { ValidationContainer, ValidationContainerProps } from './ValidationContainer';
+import {
+  ValidationContainer,
+  ValidationContainerProps,
+  FocusMode,
+  ValidationSettings,
+  ValidateArgumentType,
+  ScrollOffset,
+} from './ValidationContainer';
 import { TooltipPosition, ValidationTooltip, ValidationTooltipProps } from './ValidationTooltip';
-import { RenderErrorMessage, Validation, ValidationBehaviour } from './ValidationWrapperInternal';
+import {
+  RenderErrorMessage,
+  Validation,
+  ValidationBehaviour,
+  ValidationLevel,
+  TextPosition,
+} from './ValidationWrapperInternal';
 import { ValidationWrapper, ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
 import {
   ValidationContext,
   ValidationContextType,
   ValidationContextWrapper,
   ValidationContextWrapperProps,
+  ValidationContextSettings,
 } from './ValidationContextWrapper';
 
 export {
@@ -30,6 +44,13 @@ export {
   TooltipPosition,
   tooltip,
   text,
+  FocusMode,
+  ValidationSettings,
+  ValidateArgumentType,
+  ValidationContextSettings,
+  ScrollOffset,
+  ValidationLevel,
+  TextPosition,
 };
 
 export * from './Validations';

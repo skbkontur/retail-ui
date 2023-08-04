@@ -21,7 +21,7 @@ import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOp
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
 
-import { styles } from './DateSelect.styles';
+import { globalClasses, styles } from './DateSelect.styles';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -263,7 +263,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(0)}
         </div>
-        {this.isInteractiveElement && <ArrowCollapseCVOpenIcon16Regular color="#ADADAD" />}
+        {this.isInteractiveElement && (
+          <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
+        )}
         {this.state.opened && this.renderMenu(this.menuId)}
       </Tag>
     );
