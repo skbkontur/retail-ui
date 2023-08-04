@@ -678,6 +678,7 @@ export class DefaultTheme {
   public static get tooltipMenuPinSize() {
     return this.popupPinSize;
   }
+  public static tooltipMenuMenuOffsetY = '0px';
   //#endregion
   //#region Kebab
   public static get kebabPinOffset() {
