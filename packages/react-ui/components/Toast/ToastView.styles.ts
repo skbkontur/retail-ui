@@ -64,7 +64,7 @@ export const styles = memoizeStyle({
       margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
 
       padding: ${padding};
-
+      transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
       &:hover {
         background: ${t.toastLinkBgHover};
         text-decoration: ${t.toastLinkTextDecorationHover};

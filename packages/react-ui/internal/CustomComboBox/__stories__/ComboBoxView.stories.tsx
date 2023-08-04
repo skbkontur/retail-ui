@@ -51,12 +51,14 @@ export const InputLikeText: Story = () => (
 );
 InputLikeText.storyName = 'input like text';
 
+const FIREFOX_REGEXP = /.*firefox.*/i;
+
 InputLikeText.parameters = {
   creevey: {
     skip: {
       // TODO @Khlutkova fix after update browsers
       'story-skip-0': {
-        in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'],
+        in: FIREFOX_REGEXP,
         tests: ['focused first element'],
       },
     },

@@ -1,5 +1,4 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { Theme2022Internal } from './Theme2022';
 
@@ -102,23 +101,14 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkColor = '#EBEBEB';
   public static linkHoverColor = '#ffffff';
   public static linkActiveColor = '#c2c2c2';
-  public static get linkLineBorderBottomColor() {
-    return ColorFunctions.fade(this.linkColor, 0.48);
-  }
 
   public static linkSuccessColor = '#78BF2B';
   public static linkSuccessHoverColor = '#B9E96E';
   public static linkSuccessActiveColor = '#5F9C20';
-  public static get linkLineBorderBottomColorSuccess() {
-    return ColorFunctions.fade(this.linkSuccessColor, 0.48);
-  }
 
   public static linkDangerColor = '#FF887B';
   public static linkDangerHoverColor = '#FF9D92';
   public static linkDangerActiveColor = '#EE5042';
-  public static get linkLineBorderBottomColorDanger() {
-    return ColorFunctions.fade(this.linkDangerColor, 0.48);
-  }
 
   public static linkGrayedColor = 'rgba(255, 255, 255, 0.54)';
   public static linkGrayedHoverColor = '#FFFFFF';
@@ -323,7 +313,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region DateInput
-  public static dateInputComponentSelectedBgColor = 'rgba(255, 255, 255, 0.16)';
+  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
   //#endregion
 
   //#region Calendar

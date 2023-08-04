@@ -232,6 +232,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static get selectBorderColorHover() {
+    return this.inputBorderColorHover;
+  }
   //#endregion
 
   //#region FileUploader
@@ -304,8 +307,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region DateInput
-  //https://w3c.github.io/csswg-drafts/css-color/#valdef-system-color-highlight
-  public static dateInputComponentSelectedBgColor = 'highlight';
+  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
   //#endregion
 
   //#region Checkbox
