@@ -8,7 +8,7 @@ export const styles = memoizeStyle({
       border-radius: ${t.menuBorderRadius};
       box-sizing: ${t.menuBoxSizing};
       outline: none;
-      padding: 0 ${t.menuPaddingX};
+      padding: ${t.menuPaddingY} ${t.menuPaddingX};
       margin: ${t.menuOffsetY} 0;
     `;
   },
@@ -43,13 +43,13 @@ export const styles = memoizeStyle({
 
   scrollContainer(t: Theme) {
     return css`
-      padding: ${t.menuPaddingY} 0;
+      padding: ${t.menuScrollContainerContentWrapperPaddingY} 0;
     `;
   },
 
   scrollContainerMobile(t: Theme) {
     return css`
-      padding: ${t.mobileMenuPaddingY} 0;
+      padding: ${t.mobileMenuScrollContainerContentWrapperPaddingY} 0;
     `;
   },
 
