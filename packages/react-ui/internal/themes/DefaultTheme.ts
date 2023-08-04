@@ -88,6 +88,9 @@ export class DefaultTheme {
   public static controlHeightLarge = '48px';
   public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
 
+  public static transitionDuration = '100ms';
+  public static transitionTimingFunction = 'cubic-bezier(0.5, 1, 0.89, 1)';
+
   //#endregion
   //#region Link
   public static linkColor = '#1874cf';
@@ -309,6 +312,7 @@ export class DefaultTheme {
   public static btnArrowBgImageChecked = 'none';
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
+  public static btnBorderColorTransition = '';
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedDisabledBg = '#a0a0a0';
@@ -540,7 +544,9 @@ export class DefaultTheme {
   public static get btnTextTextColor() {
     return this.btnDefaultTextColor;
   }
-  public static btnTextHoverBorderColor = 'transparent';
+  public static get btnTextHoverBorderColor() {
+    return this.btnTextHoverBg;
+  }
   public static btnWithIconPaddingLeftSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
   public static btnWithIconPaddingLeftLarge = '';
@@ -621,6 +627,7 @@ export class DefaultTheme {
     return this.btnIconSizeLarge;
   }
   public static selectRootWidthMobile = 'auto';
+  public static mobileSelectMaxWidth = '100%';
   public static get selectTextColorDisabled() {
     return this.btnDisabledTextColor;
   }
@@ -633,6 +640,10 @@ export class DefaultTheme {
   public static get selectMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static get selectBorderColorHover() {
+    return this.btnDefaultHoverBorderColor;
+  }
+  public static selectBorderColorTransition = `box-shadow ${this.transitionDuration} ${this.transitionTimingFunction};`;
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
@@ -1027,6 +1038,10 @@ export class DefaultTheme {
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static dropdownMenuBorderColorTransition = '';
+  public static get dropdownMenuHoverBorderColor() {
+    return this.btnDefaultHoverBorderColor;
+  }
   public static get dropdownMenuHoverBg() {
     //deprecated
     return this.bgActive;
@@ -1050,7 +1065,7 @@ export class DefaultTheme {
   public static menuPaddingY = '4px';
   public static mobileMenuPaddingY = '0px';
   public static menuPaddingX = '0px';
-  public static mobileMenuPaddingX = '0px';
+  public static mobileMenuPaddingX = '8px';
   public static menuOffsetY = '0px';
   public static menuBoxSizing = 'content-box';
   // menuItem
@@ -1662,20 +1677,71 @@ export class DefaultTheme {
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
   //#region Tabs
+  /**
+   * @deprecated use tabFontSizeLarge
+   */
   public static get tabFontSize() {
     return this.fontSizeLarge;
   }
+  public static get tabFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get tabFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get tabFontSizeLarge() {
+    return this.tabFontSize;
+  }
+  /**
+   * @deprecated use tabLineHeightLarge
+   */
+  public static get tabLineHeight() {
+    return this.controlLineHeightLarge;
+  }
+  public static get tabLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get tabLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tabLineHeightLarge() {
+    return this.tabLineHeight;
+  }
+  /**
+   * @deprecated use tabPaddingXLarge
+   */
   public static tabPaddingX = '12px';
+  public static tabPaddingXSmall = '8px';
+  public static tabPaddingXMedium = '10px';
+  public static get tabPaddingXLarge() {
+    return this.tabPaddingX;
+  }
+  /**
+   * @deprecated use tabPaddingXLarge
+   */
   public static get tabsMarginX() {
     return this.tabPaddingX;
   }
+  /**
+   * @deprecated use tabPaddingYLarge
+   */
   public static get tabPaddingY() {
-    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingY = parseInt(this.controlPaddingYLarge);
+    const borderWidth = parseInt(this.controlBorderWidth);
     return `${paddingY + borderWidth}px`;
   }
-  public static get tabLineHeight() {
-    return this.controlLineHeightLarge;
+  public static get tabPaddingYSmall() {
+    const paddingY = parseInt(this.controlPaddingYSmall);
+    const borderWidth = parseInt(this.controlBorderWidth);
+    return `${paddingY + borderWidth}px`;
+  }
+  public static get tabPaddingYMedium() {
+    const paddingY = parseInt(this.controlPaddingYMedium);
+    const borderWidth = parseInt(this.controlBorderWidth);
+    return `${paddingY + borderWidth}px`;
+  }
+  public static get tabPaddingYLarge() {
+    return this.tabPaddingY;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {

@@ -13,6 +13,7 @@ export const styles = memoizeStyle({
   rootMobile(t: Theme) {
     return css`
       width: ${t.selectRootWidthMobile};
+      max-width: ${t.mobileSelectMaxWidth};
     `;
   },
 
