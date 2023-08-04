@@ -85,58 +85,48 @@ async function getItems(query) {
 />
 ```
 
-Показ определенного количества токенов
+Ограничение количества токенов в выпадающем списке
+
 ```jsx harmony
 import { Token, MenuHeader } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
-const kladr = require('../ComboBox/__mocks__/./kladr.json');
+import { Promise } from 'es6-promise';
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+const cities = require('../ComboBox/__mocks__/./kladr.json');
 
 const maxItems = 5;
 
-const [value, setValue] = React.useState(null);
+const [totalCount, setTotalCount] = React.useState(cities.length);
+const [value, setValue] = React.useState([]);
 
-const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-
-const getCities = (query) => {
-  const items = kladr.map(x => x.City).filter(x => x.toLowerCase().includes(query.toLowerCase()) || x.toString(10) === query);
+const getItems = (query) => {
+  const items = cities
+    .map((x) => x.City)
+    .filter((x) => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query);
   const result = items.slice(0, maxItems);
-  return Promise.resolve({
-    foundItems: result,
-    totalCount: items.length,
-  }).then(delay(300));
+  setTotalCount(items.length);
+
+  return Promise.resolve(result).then(delay(500));
 };
 
-const renderTotalCount = (foundCount, totalCount) =>
-  foundCount < totalCount ? (
-    <MenuHeader>
-      Показано {foundCount} из {totalCount} найденных городов.
-    </MenuHeader>
-  ) : (
-    []
-  );
+const renderTotalCount = (foundCount, totalCount) => (
+  <span>
+    Показано {foundCount} из {totalCount} найденных городов
+  </span>
+);
 
-const getItems = query =>
-  getCities(query).then(({ foundItems, totalCount }) =>
-    [].concat(
-      foundItems,
-      renderTotalCount(foundItems.length, totalCount),
-    ),
-  );
-
-<div style={{ width: '300px' }}>
+<div style={{ width: "300px" }}>
   <TokenInput
     type={TokenInputType.Combined}
-    value={value}
+    selectedItems={value}
     onValueChange={setValue}
     getItems={getItems}
     placeholder="Начните вводить название"
-    renderToken={(item, tokenProps) => (
-      <Token key={item.toString()} {...tokenProps} >
-        {item}
-      </Token>
-    )}
+    renderTotalCount={renderTotalCount}
+    totalCount={totalCount}
   />
-</div>;
+</div>
 ```
 
 Пример с кастомным типом элементов меню
@@ -169,6 +159,7 @@ const getModelItems = async (query) => {
     renderItem={renderItem}
     renderValue={renderValue}
     valueToItem={valueToItem}
+    valueToString={renderValue}
     getItems={getModelItems}
     onValueChange={setSelectedItems}
     placeholder="placeholder"
