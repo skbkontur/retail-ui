@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isNonNullable } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
@@ -66,6 +66,7 @@ const calculatePos = (pos: number, minPos: number, maxPos: number) => {
 export const DateSelectDataTids = {
   caption: 'DateSelect__caption',
   menuItem: 'DateSelect__menuItem',
+  menu: 'DateSelect__menu',
 } as const;
 
 type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
@@ -186,6 +187,12 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     );
   }
 
+  private menuId = DateSelectDataTids.menu + getRandomID();
+  private isInteractiveElement = !this.props.disabled;
+  private rootCommonProps = {
+    'aria-controls': this.isInteractiveElement ? this.menuId : undefined,
+  };
+
   private renderMain() {
     if (isTheme2022(this.theme)) {
       return this.renderMain2022();
@@ -193,6 +200,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
     const { disabled } = this.props;
     const width = this.getProps().width;
+    const Tag = this.isInteractiveElement ? 'button' : 'span';
     const rootProps = {
       className: cx({
         [styles.root(this.theme)]: true,
@@ -200,10 +208,21 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       }),
       style: { width },
       ref: this.refRoot,
+      onClick: this.open,
+      'aria-expanded': this.isInteractiveElement ? this.state.opened : undefined,
+      'aria-label': this.isInteractiveElement
+        ? `${this.locale['select-chosen-aria-label']} ${
+            this.getProps().type === 'year'
+              ? this.locale['select-year-aria-label']
+              : this.locale['select-month-aria-label']
+          } ${this.getItem(0)}`
+        : undefined,
+      ...this.rootCommonProps,
     };
+
     return (
-      <span {...rootProps}>
-        <div data-tid={DateSelectDataTids.caption} className={styles.caption()} onClick={this.open}>
+      <Tag {...rootProps}>
+        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(0)}
           <div
             className={cx({
@@ -214,29 +233,39 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
             <ArrowTriangleUpDownIcon size={12} />
           </div>
         </div>
-        {this.state.opened && this.renderMenu()}
-      </span>
+        {this.state.opened && this.renderMenu(this.menuId)}
+      </Tag>
     );
   }
 
   private renderMain2022() {
     const { disabled } = this.props;
     const width = this.getProps().width;
+    const Tag = this.isInteractiveElement ? 'button' : 'span';
     const rootProps = {
       className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
       style: { width },
       ref: this.refRoot,
       onClick: this.open,
+      'aria-expanded': this.isInteractiveElement ? this.state.opened : undefined,
+      'aria-label': this.isInteractiveElement
+        ? `${this.locale['select-chosen-aria-label']} ${
+            this.getProps().type === 'year'
+              ? this.locale['select-year-aria-label']
+              : this.locale['select-month-aria-label']
+          } ${this.getItem(0)}`
+        : undefined,
+      ...this.rootCommonProps,
     };
 
     return (
-      <span {...rootProps}>
+      <Tag {...rootProps}>
         <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(0)}
         </div>
-        {!disabled && <ArrowCollapseCVOpenIcon16Regular color="#ADADAD" />}
-        {this.state.opened && this.renderMenu()}
-      </span>
+        {this.isInteractiveElement && <ArrowCollapseCVOpenIcon16Regular color="#ADADAD" />}
+        {this.state.opened && this.renderMenu(this.menuId)}
+      </Tag>
     );
   }
 
@@ -274,7 +303,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     }
   }
 
-  private renderMenu(): React.ReactNode {
+  private renderMenu(id?: string): React.ReactNode {
     const { top, height, nodeTop } = this.state;
 
     let shift = this.state.pos % itemHeight;
@@ -299,7 +328,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         onClick: this.handleItemClick(i),
       };
       items.push(
-        <div
+        <button
+          aria-label={`Выбрать ${this.getProps().type === 'year' ? 'год' : 'месяц'} ${this.getItem(i)}`}
           data-tid={DateSelectDataTids.menuItem}
           data-prop-disabled={disableItems}
           key={i}
@@ -309,7 +339,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
           {...clickHandler}
         >
           {this.getItem(i)}
-        </div>,
+        </button>,
       );
     }
     const style: {
@@ -345,43 +375,47 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
     return (
       <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active>
-        <div>
-          <DropdownContainer getParent={this.getAnchor} offsetY={dropdownOffset} offsetX={-10}>
-            <div className={holderClass} style={style}>
-              {!this.state.topCapped && (
-                <div
-                  className={cx(styles.menu(this.theme), styles.menuUp())}
-                  onClick={this.handleUp}
-                  onMouseDown={this.handleLongClickUp}
-                  onMouseUp={this.handleLongClickStop}
-                  onMouseLeave={this.handleLongClickStop}
-                  onTouchStart={this.handleLongClickUp}
-                  onTouchEnd={this.handleLongClickStop}
-                >
-                  <span>{iconUp}</span>
-                </div>
-              )}
-              <div className={styles.itemsHolder()} style={{ height }}>
-                <div ref={this.refItemsContainer} style={shiftStyle}>
-                  {items}
-                </div>
+        <DropdownContainer
+          data-tid={DateSelectDataTids.menu}
+          id={id}
+          getParent={this.getAnchor}
+          offsetY={dropdownOffset}
+          offsetX={-10}
+        >
+          <div className={holderClass} style={style}>
+            {!this.state.topCapped && (
+              <div
+                className={cx(styles.menu(this.theme), styles.menuUp())}
+                onClick={this.handleUp}
+                onMouseDown={this.handleLongClickUp}
+                onMouseUp={this.handleLongClickStop}
+                onMouseLeave={this.handleLongClickStop}
+                onTouchStart={this.handleLongClickUp}
+                onTouchEnd={this.handleLongClickStop}
+              >
+                <span>{iconUp}</span>
               </div>
-              {!this.state.botCapped && (
-                <div
-                  className={cx(styles.menu(this.theme), styles.menuDown())}
-                  onClick={this.handleDown}
-                  onMouseDown={this.handleLongClickDown}
-                  onMouseUp={this.handleLongClickStop}
-                  onMouseLeave={this.handleLongClickStop}
-                  onTouchStart={this.handleLongClickDown}
-                  onTouchEnd={this.handleLongClickStop}
-                >
-                  <span>{iconDown}</span>
-                </div>
-              )}
+            )}
+            <div className={styles.itemsHolder()} style={{ height }}>
+              <div ref={this.refItemsContainer} style={shiftStyle}>
+                {items}
+              </div>
             </div>
-          </DropdownContainer>
-        </div>
+            {!this.state.botCapped && (
+              <div
+                className={cx(styles.menu(this.theme), styles.menuDown())}
+                onClick={this.handleDown}
+                onMouseDown={this.handleLongClickDown}
+                onMouseUp={this.handleLongClickStop}
+                onMouseLeave={this.handleLongClickStop}
+                onTouchStart={this.handleLongClickDown}
+                onTouchEnd={this.handleLongClickStop}
+              >
+                <span>{iconDown}</span>
+              </div>
+            )}
+          </div>
+        </DropdownContainer>
       </RenderLayer>
     );
   }

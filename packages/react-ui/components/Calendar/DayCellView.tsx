@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { DatePickerLocaleHelper } from '../DatePicker/locale';
 
 import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
+import { CalendarDataTids } from './Calendar';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -36,9 +39,15 @@ export function DayCellView(props: DayCellViewProps) {
 
   const isToday = Boolean(today && CDS.isEqual(date, today));
 
+  const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
+
   return (
     <button
+      data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
+      aria-label={`${locale['day-cell-choose-date-aria-label']} ${value?.date}.${value && value.month + 1}.${
+        value?.year
+      }`}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cx({
         [styles.cell(theme)]: true,
