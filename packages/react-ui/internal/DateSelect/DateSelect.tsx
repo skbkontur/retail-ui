@@ -188,10 +188,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   }
 
   private menuId = DateSelectDataTids.menu + getRandomID();
-  private isInteractiveElement = !this.props.disabled;
-  private rootCommonProps = {
-    'aria-controls': this.isInteractiveElement ? this.menuId : undefined,
-  };
 
   private renderMain() {
     if (isTheme2022(this.theme)) {
@@ -200,7 +196,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
     const { disabled } = this.props;
     const width = this.getProps().width;
-    const Tag = this.isInteractiveElement ? 'button' : 'span';
+    const isInteractiveElement = !disabled;
+    const Tag = isInteractiveElement ? 'button' : 'span';
     const rootProps = {
       className: cx({
         [styles.root(this.theme)]: true,
@@ -209,15 +206,15 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       style: { width },
       ref: this.refRoot,
       onClick: this.open,
-      'aria-expanded': this.isInteractiveElement ? this.state.opened : undefined,
-      'aria-label': this.isInteractiveElement
+      'aria-expanded': isInteractiveElement ? this.state.opened : undefined,
+      'aria-controls': !disabled ? this.menuId : undefined,
+      'aria-label': isInteractiveElement
         ? `${this.locale['select-chosen-aria-label']} ${
             this.getProps().type === 'year'
               ? this.locale['select-year-aria-label']
               : this.locale['select-month-aria-label']
           } ${this.getItem(0)}`
         : undefined,
-      ...this.rootCommonProps,
     };
 
     return (
@@ -241,21 +238,21 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private renderMain2022() {
     const { disabled } = this.props;
     const width = this.getProps().width;
-    const Tag = this.isInteractiveElement ? 'button' : 'span';
+    const isInteractiveElement = !disabled;
+    const Tag = isInteractiveElement ? 'button' : 'span';
     const rootProps = {
       className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
       style: { width },
       ref: this.refRoot,
       onClick: this.open,
-      'aria-expanded': this.isInteractiveElement ? this.state.opened : undefined,
-      'aria-label': this.isInteractiveElement
+      'aria-expanded': isInteractiveElement ? this.state.opened : undefined,
+      'aria-label': isInteractiveElement
         ? `${this.locale['select-chosen-aria-label']} ${
             this.getProps().type === 'year'
               ? this.locale['select-year-aria-label']
               : this.locale['select-month-aria-label']
           } ${this.getItem(0)}`
         : undefined,
-      ...this.rootCommonProps,
     };
 
     return (
@@ -263,7 +260,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(0)}
         </div>
-        {this.isInteractiveElement && (
+        {isInteractiveElement && (
           <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
         )}
         {this.state.opened && this.renderMenu(this.menuId)}
