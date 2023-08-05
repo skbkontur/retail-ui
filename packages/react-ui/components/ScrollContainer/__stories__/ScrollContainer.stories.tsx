@@ -543,7 +543,7 @@ export const HideScrollBar: Story = () => (
 );
 HideScrollBar.parameters = {
   creevey: {
-    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox)\b)/ } },
     tests: {
       async hideScroll() {
         const beforeScroll = await this.takeScreenshot();
