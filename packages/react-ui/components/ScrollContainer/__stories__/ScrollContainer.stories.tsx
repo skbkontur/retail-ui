@@ -553,8 +553,13 @@ HideScrollBar.parameters = {
             scrollContainer.scrollTop = 500;
           }
         });
+        this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ origin: this.browser.findElement({ css: 'body' }) });
         const duringScroll = await this.takeScreenshot();
-        await delay(2000);
+        await delay(3000);
         const afterScroll = await this.takeScreenshot();
         await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
       },
