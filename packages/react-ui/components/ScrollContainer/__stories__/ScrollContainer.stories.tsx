@@ -554,7 +554,7 @@ HideScrollBar.parameters = {
           }
         });
         const duringScroll = await this.takeScreenshot();
-        await delay(3000);
+        await delay(2000);
         const afterScroll = await this.takeScreenshot();
         await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
       },
