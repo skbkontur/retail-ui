@@ -3,12 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
-import {
-  EYE_ICON_CLOSED_ARIA_LABEL,
-  EYE_ICON_OPENED_ARIA_LABEL,
-  PasswordInput,
-  PasswordInputDataTids,
-} from '../PasswordInput';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', () => {
@@ -149,14 +145,28 @@ describe('PasswordInput', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
 
-    it('eye icon has correct aria-label attribute', () => {
+    it('eye icon has correct aria-label attribute (ru)', () => {
       render(<PasswordInput />);
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', EYE_ICON_OPENED_ARIA_LABEL);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Скрыть символы пароля');
 
       userEvent.click(screen.getByRole('button'));
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', EYE_ICON_CLOSED_ARIA_LABEL);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Отобразить символы пароля');
+    });
+
+    it('eye icon has correct aria-label attribute (en)', () => {
+      render(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <PasswordInput />
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Hide password symbols');
+
+      userEvent.click(screen.getByRole('button'));
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Show password symbols');
     });
   });
 });

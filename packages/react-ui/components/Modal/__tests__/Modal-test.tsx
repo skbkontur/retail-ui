@@ -3,9 +3,9 @@ import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { StickyDataTids } from '../../../components/Sticky';
 import { Modal, ModalDataTids } from '../Modal';
-import { CLOSE_BUTTON_ARIA_LABEL } from '../ModalClose';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -254,10 +254,20 @@ describe('Modal', () => {
       expect(screen.getAllByTestId(ModalDataTids.container)[1]).toHaveAttribute('aria-labelledby', labelId);
     });
 
-    it('has correct value on close button aria-label attribute', () => {
+    it('has correct value on close button aria-label attribute (ru)', () => {
       render(<Modal />);
 
-      expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute('aria-label', CLOSE_BUTTON_ARIA_LABEL);
+      expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute('aria-label', 'Закрыть модальное окно');
+    });
+
+    it('has correct value on close button aria-label attribute (en)', () => {
+      render(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <Modal />
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute('aria-label', 'Close modal window');
     });
   });
 });

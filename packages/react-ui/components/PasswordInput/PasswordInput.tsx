@@ -3,6 +3,7 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
+import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
@@ -20,6 +21,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
+import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
 
 export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps, InputProps {
   detectCapsLock?: boolean;
@@ -29,9 +31,6 @@ export interface PasswordInputState {
   visible: boolean;
   capsLockEnabled?: boolean | null;
 }
-
-export const EYE_ICON_OPENED_ARIA_LABEL = 'Скрыть символы пароля';
-export const EYE_ICON_CLOSED_ARIA_LABEL = 'Отобразить символы пароля';
 
 export const PasswordInputDataTids = {
   root: 'PasswordInput',
@@ -45,6 +44,7 @@ type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
  * Компонент для ввода пароля
  */
 @rootNode
+@locale('PasswordInput', PasswordInputLocaleHelper)
 export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
@@ -70,6 +70,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
+  private readonly locale!: PasswordInputLocale;
 
   public componentDidMount() {
     if (this.props.detectCapsLock) {
@@ -197,7 +198,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
             <button
-              aria-label={this.state.visible ? 'Отобразить символы пароля' : 'Скрыть символы пароля'}
+              aria-label={
+                this.state.visible ? this.locale['eye-closed-aria-label'] : this.locale['eye-opened-aria-label']
+              }
               onClick={this.handleToggleVisibility}
               className={styles.icon()}
               data-tid={PasswordInputDataTids.eyeIcon}

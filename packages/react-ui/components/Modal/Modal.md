@@ -36,3 +36,19 @@ function close() {
   <Button onClick={open}>Open</Button>
 </div>;
 ```
+
+#### Локали по умолчанию
+
+```typescript static
+interface ModalLocale {
+  'close-button-aria-label': string;
+}
+
+const ru_RU = {
+  'close-button-aria-label': 'Закрыть модальное окно'
+}
+
+const en_GB = {
+  'close-button-aria-label': 'Close modal window'
+}
+```

@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import { func, shape, string } from 'prop-types';
 
+import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
@@ -13,6 +14,7 @@ import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon'
 
 import { styles } from './ToastView.styles';
 import { Action, ToastDataTids } from './Toast';
+import { ToastLocale, ToastLocaleHelper } from './locale';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   /**
@@ -28,9 +30,8 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   onMouseLeave?: () => void;
 }
 
-export const TOAST_CLOSE_BUTTON_ARIA_LABEL = 'Закрыть уведомление';
-
 @rootNode
+@locale('Toast', ToastLocaleHelper)
 export class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
@@ -49,6 +50,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
+  private readonly locale!: ToastLocale;
 
   public render() {
     return (
@@ -78,7 +80,7 @@ export class ToastView extends React.Component<ToastViewProps> {
     let close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
         <span
-          aria-label={TOAST_CLOSE_BUTTON_ARIA_LABEL}
+          aria-label={this.locale['close-button-aria-label']}
           data-tid={ToastDataTids.close}
           className={styles.close(this.theme)}
           onClick={onClose}
@@ -92,7 +94,7 @@ export class ToastView extends React.Component<ToastViewProps> {
       close = (
         <span className={styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
-            aria-label={TOAST_CLOSE_BUTTON_ARIA_LABEL}
+            aria-label={this.locale['close-button-aria-label']}
             data-tid={ToastDataTids.close}
             onClick={onClose}
             size={parseInt(this.theme.toastCloseSize)}

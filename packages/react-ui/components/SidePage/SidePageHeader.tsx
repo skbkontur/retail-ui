@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { locale } from '../../lib/locale/decorators';
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
@@ -16,6 +17,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
+import { SidePageLocale, SidePageLocaleHelper } from './locale';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -27,8 +29,6 @@ export interface SidePageHeaderState {
   isReadyToFix: boolean;
   focusedByTab: boolean;
 }
-
-export const CLOSE_BUTTON_ARIA_LABEL = 'Закрыть модальное окно';
 
 export const SidePageHeaderDataTids = {
   root: 'SidePageHeader__root',
@@ -42,6 +42,7 @@ export const SidePageHeaderDataTids = {
  */
 @responsiveLayout
 @rootNode
+@locale('SidePage', SidePageLocaleHelper)
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
 
@@ -64,6 +65,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
   private setRootNode!: TSetRootNode;
+  private readonly locale!: SidePageLocale;
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -199,7 +201,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     <SidePageContext.Consumer>
       {({ requestClose }) => (
         <button
-          aria-label={CLOSE_BUTTON_ARIA_LABEL}
+          aria-label={this.locale['close-button-aria-label']}
           className={cx(styles.close(this.theme), {
             [styles.closeFocus(this.theme)]: this.state.focusedByTab,
           })}
