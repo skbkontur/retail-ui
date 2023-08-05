@@ -109,6 +109,7 @@ const theme = React.useContext(ThemeContext);
 ```typescript static
 interface CalendarLocale {
   months?: string[];
+  'day-cell-choose-date-aria-label'?: string;
 }
 
 const ru_RU = {
@@ -125,7 +126,8 @@ const ru_RU = {
     'Октябрь',
     'Ноябрь',
     'Декабрь',
-  ]
+  ],
+  'day-cell-choose-date-aria-label': 'Выбрать дату',
 };
 
 const en_GB = {
@@ -142,6 +144,7 @@ const en_GB = {
     'October',
     'November',
     'December',
-  ]
+  ],
+  'day-cell-choose-date-aria-label': 'Choose date',
 };
 ```
