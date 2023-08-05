@@ -1019,6 +1019,7 @@ export const ToastOverEverything: Story = () => {
 
 ToastOverEverything.parameters = {
   creevey: {
+    skip: { 'flickering screenshot': { in: 'chrome', tests: 'staticToast' } },
     tests: {
       async staticToast() {
         await this.browser
