@@ -249,13 +249,13 @@ class MoveControls extends React.Component {
 
   private moveUp = () => {
     if (this.menu) {
-      this.menu.up();
+      this.menu.moveUp();
     }
   };
 
   private moveDown = () => {
     if (this.menu) {
-      this.menu.down();
+      this.menu.moveDown();
     }
   };
 }
