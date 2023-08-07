@@ -43,6 +43,18 @@ export const Default = () => {
 };
 Default.storyName = 'default';
 
+export const Size = () => {
+  return (
+    <Gapped vertical>
+      <Token>Size: no size chosen</Token>
+      <Token size="small">Size: small</Token>
+      <Token size="medium">Size: medium</Token>
+      <Token size="large">Size: large</Token>
+    </Gapped>
+  );
+};
+Size.storyName = 'size';
+
 export const Disabled = () => {
   return (
     <>

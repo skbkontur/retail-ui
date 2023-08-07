@@ -288,7 +288,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActive = '#323232';
   public static tokenBorderRadius = '2px';
 
-  public static tokenPaddingY = '0px';
+  public static tokenPaddingYSmall = '1px';
+  public static tokenPaddingXSmall = '3px';
+  public static tokenPaddingYMedium = '2px';
+  public static tokenPaddingXMedium = '5px';
+  public static tokenPaddingYLarge = '3px';
+  public static tokenPaddingXLarge = '7px';
   public static tokenMarginX = '2px';
   public static tokenOutlineWidth = '1px';
 

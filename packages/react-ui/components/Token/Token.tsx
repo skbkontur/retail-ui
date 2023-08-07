@@ -9,6 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import {createPropsGetter} from "../../lib/createPropsGetter";
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -18,6 +19,8 @@ export interface TokenColors {
   idle: TokenColorName;
   active?: TokenColorName;
 }
+
+export type TokenSize = 'small' | 'medium' | 'large';
 
 export interface TokenProps extends CommonProps {
   colors?: TokenColors;
@@ -31,6 +34,8 @@ export interface TokenProps extends CommonProps {
    */
   warning?: boolean;
   disabled?: boolean;
+  /** Размер */
+  size?: TokenSize;
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
@@ -60,9 +65,35 @@ export const TokenDataTids = {
   removeIcon: 'Token__removeIcon',
 } as const;
 
+type DefaultProps = Required<Pick<TokenProps, 'size'>>;
+
 @rootNode
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
+
+  public static defaultProps: DefaultProps = {
+    size: 'small',
+  };
+
+  private getProps = createPropsGetter(Token.defaultProps);
+
+  private getSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.tokenLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.tokenMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.tokenSmall(this.theme)]: true,
+        });
+    }
+  }
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
@@ -126,7 +157,7 @@ export class Token extends React.Component<TokenProps> {
       );
     }
 
-    const tokenClassNames = cx(styles.token(this.theme), classNames);
+    const tokenClassNames = cx(this.getSizeClassName(), classNames);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

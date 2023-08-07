@@ -2,19 +2,21 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
+import {TokenSize} from "./Token";
+import {fontSize, lineHeight, tokenPaddingX, tokenPaddingY} from "./helpers";
+
 export const globalClasses = prefix('token')({
   removeIcon: 'remove-icon',
 });
 
-export const styles = memoizeStyle({
-  token(t: Theme) {
-    return css`
+function token(t: Theme, size: TokenSize) {
+  return css`
       display: inline-flex;
       align-items: center;
       border-radius: ${t.tokenBorderRadius};
-      padding: ${t.tokenPaddingY} ${t.tokenPaddingX};
-      line-height: ${t.tokenLineHeight};
-      font-size: ${t.tokenFontSize};
+      padding: ${tokenPaddingY(t, size)} ${tokenPaddingX(t, size)};
+      line-height: ${lineHeight(t, size)};
+      font-size: ${fontSize(t, size)};
       margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
       word-break: break-all;
@@ -24,6 +26,20 @@ export const styles = memoizeStyle({
         cursor: pointer;
       }
     `;
+}
+
+export const styles = memoizeStyle({
+
+  tokenSmall(t: Theme) {
+    return token(t, 'small');
+  },
+
+  tokenMedium(t: Theme) {
+    return token(t, 'medium');
+  },
+
+  tokenLarge(t: Theme) {
+    return token(t, 'large');
   },
 
   tokenDefaultIdle2022(t: Theme) {
@@ -69,7 +85,7 @@ export const styles = memoizeStyle({
 
   tokenDisabled2022(t: Theme) {
     return css`
-      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
+      //padding: $ {t.tokenPaddingYDisabled} $ {t.tokenPaddingXDisabled}; // JTODO: зачем другая переменная? она ж туды же ссылается
       margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
@@ -85,7 +101,7 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
+      //padding: $ {t.tokenPaddingYDisabled} $ {t.tokenPaddingXDisabled}; // JTODO: зачем другая переменная? она ж туды же ссылается
       margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;

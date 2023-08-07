@@ -137,13 +137,43 @@ export class DefaultTheme {
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
+  public static get tokenFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get tokenFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get tokenFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
   public static tokenMarginY = '2px';
   public static tokenMarginX = '4px';
   public static get tokenLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get tokenLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get tokenLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tokenLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  /**
+   * @deprecated use tokenPaddingYSmall
+   */
   public static tokenPaddingY = '1px';
+  /**
+   * @deprecated use tokenPaddingXSmall
+   */
   public static tokenPaddingX = '3px';
+  public static tokenPaddingYSmall = '1px';
+  public static tokenPaddingXSmall = '3px';
+  public static tokenPaddingYMedium = '2px';
+  public static tokenPaddingXMedium = '5px';
+  public static tokenPaddingYLarge = '3px';
+  public static tokenPaddingXLarge = '7px';
   public static tokenMarginBeforeIcon = '4px';
   public static tokenRemoveIconSize = '8px';
   public static tokenRemoveIconPaddingY = '4px';
