@@ -163,7 +163,7 @@ const getItems = q =>
       { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
       { approved: false, value: 4, label: 'Надежда Дубова', email: 'fourth@skbkontur.ru' },
       { approved: true, value: 5, label: 'Владислав Сташкеевич', email: 'fifth@skbkontur.ru' },
-      { approved: true, value: 6, label: 'Василиса Поволоцкая', email: 'sixth@skbkontur.ru' },
+      { approved: true, value: 6, label: 'Василиса Александровна Поволоцкая', email: 'sixth@skbkontur.ru' },
     ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
   ).then(delay(500));
 
@@ -195,7 +195,7 @@ const customRenderItem = item => (
   >
     <div
       style={{
-        minWidth: '55%',
+        width: '55%',
         display: 'flex',
       }}
     >
@@ -242,7 +242,9 @@ const customRenderValue = item => (
   >
     <div
       style={{
-        minWidth: '55%',
+        width: '55%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
       }}
     >
       {item.label}
