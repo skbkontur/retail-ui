@@ -68,8 +68,30 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Тогл с кастомным действием при получении и потере фокуса.
+У тоглов есть 3 стандартных размера.
 
+```jsx harmony
+const ToggleWithSize = ({...props}) => {
+  const [checked, setChecked] = React.useState(false);
+  return (
+    <Toggle checked={checked} onValueChange={setChecked} {...props}></Toggle>
+  )
+};
+
+<Gapped vertical>
+  <ToggleWithSize size="small">
+    Маленький
+  </ToggleWithSize>
+  <ToggleWithSize size="medium">
+    Средний
+  </ToggleWithSize>
+  <ToggleWithSize size="large">
+    Большой
+  </ToggleWithSize>
+</Gapped>
+```
+
+Тогл с кастомным действием при получении и потере фокуса.
 
 ```jsx harmony
 import { Toast } from '@skbkontur/react-ui';
@@ -81,7 +103,6 @@ import { Toast } from '@skbkontur/react-ui';
   С кастомными действиями при фокусе и его потере
 </Toggle>
 ```
-
 
 Тогл с кастомным действием при переключении.
 

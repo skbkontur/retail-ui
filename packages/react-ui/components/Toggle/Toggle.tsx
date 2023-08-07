@@ -14,6 +14,8 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles, globalClasses } from './Toggle.styles';
 
+export type ToggleSize = 'small' | 'medium' | 'large';
+
 let colorWarningShown = false;
 
 export interface ToggleProps extends CommonProps {
@@ -62,6 +64,8 @@ export interface ToggleProps extends CommonProps {
    * Если true, выставляет фокус на `тогле` после загрузки страницы.
    */
   autoFocus?: boolean;
+  /** Размер */
+  size?: ToggleSize; //+++
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
@@ -97,7 +101,9 @@ export const ToggleDataTids = {
   root: 'Toggle__root',
 } as const;
 
-type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition' | 'disableAnimations'>>;
+type DefaultProps = Required<
+  Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition' | 'disableAnimations' | 'size'>
+>; //+++
 
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
@@ -127,6 +133,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
     captionPosition: 'right',
     disableAnimations: isTestEnv,
+    size: 'small',
   };
 
   private getProps = createPropsGetter(Toggle.defaultProps);
@@ -172,32 +179,160 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     );
   }
 
+  private getContainerSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.containerLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.containerMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.containerSmall(this.theme)]: true,
+        });
+    }
+  }
+
+  private getHandleSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.handleLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.handleMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.handleSmall(this.theme)]: true,
+        });
+    }
+  }
+
+  private getButtonSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.buttonLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.buttonMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.buttonSmall(this.theme)]: true,
+        });
+    }
+  }
+
+  private getRootSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.rootLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.rootMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.rootSmall(this.theme)]: true,
+        });
+    }
+  }
+
+  private getInputSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.inputLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.inputMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.inputSmall(this.theme)]: true,
+        });
+    }
+  }
+
+  private getActiveHandleSizeClassName() {
+    if (isTheme2022(this.theme)) {
+      return '';
+    }
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.activeHandleLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.activeHandleMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.activeHandleSmall(this.theme)]: true,
+        });
+    }
+  }
+
+  private getCaptionSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx({
+          [styles.captionLarge(this.theme)]: true,
+        });
+      case 'medium':
+        return cx({
+          [styles.captionMedium(this.theme)]: true,
+        });
+      case 'small':
+      default:
+        return cx({
+          [styles.captionSmall(this.theme)]: true,
+        });
+    }
+  }
+
   private renderMain() {
     const { children, warning, error, color, id, 'aria-describedby': ariaDescribedby } = this.props;
     const { loading, captionPosition, disableAnimations } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = cx(styles.container(this.theme), {
-      [styles.containerDisabled(this.theme)]: !!disabled,
+    const containerClassNames = cx(this.getContainerSizeClassName(), {
+      [styles.containerDisabled(this.theme)]: disabled,
       [globalClasses.container]: true,
-      [globalClasses.containerDisabled]: !!disabled,
+      [globalClasses.containerDisabled]: disabled,
       [globalClasses.containerLoading]: loading,
     });
 
-    const labelClassNames = cx(styles.root(this.theme), {
-      [styles.activeHandle(this.theme)]: !isTheme2022(this.theme),
+    const labelClassNames = cx(this.getRootSizeClassName(), this.getActiveHandleSizeClassName(), {
       [styles.rootLeft()]: captionPosition === 'left',
-      [styles.disabled()]: !!disabled,
-      [globalClasses.disabled]: !!disabled,
+      [styles.disabled()]: disabled,
+      [globalClasses.disabled]: disabled,
       [styles.disableAnimation()]: disableAnimations,
     });
 
     let caption = null;
     if (children) {
-      const captionClass = cx(styles.caption(this.theme), {
+      const captionClass = cx(this.getCaptionSizeClassName(), {
         [styles.captionLeft(this.theme)]: captionPosition === 'left',
-        [styles.disabledCaption(this.theme)]: !!disabled,
+        [styles.disabledCaption(this.theme)]: disabled,
       });
       caption = <span className={captionClass}>{children}</span>;
     }
@@ -206,7 +341,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <label data-tid={ToggleDataTids.root} className={labelClassNames}>
           <div
-            className={cx(styles.button(this.theme), {
+            className={cx(this.getButtonSizeClassName(), {
               [styles.buttonRight()]: captionPosition === 'left',
               [styles.isWarning(this.theme)]: !!warning,
               [styles.isError(this.theme)]: !!error,
@@ -217,7 +352,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               type="checkbox"
               checked={checked}
               onChange={this.handleChange}
-              className={cx(styles.input(this.theme), isTheme2022(this.theme) && styles.input2022(this.theme))}
+              className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme))}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               ref={this.inputRef}
@@ -255,7 +390,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               )}
             </div>
             <div
-              className={cx(styles.handle(this.theme), globalClasses.handle, {
+              className={cx(this.getHandleSizeClassName(), globalClasses.handle, {
                 [styles.handleDisabled(this.theme)]: disabled,
               })}
             />

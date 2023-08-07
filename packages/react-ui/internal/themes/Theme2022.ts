@@ -350,6 +350,20 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Toggle
   public static toggleHandleSize = '14px';
+  public static handleSizeSmall = '14px';
+  public static handleSizeMedium = '16px';
+  public static handleSizeLarge = '18px';
+
+  public static get toggleHandleSizeSmall() {
+    return this.handleSizeSmall;
+  }
+  public static get toggleHandleSizeMedium() {
+    return this.handleSizeMedium;
+  }
+  public static get toggleHandleSizeLarge() {
+    return this.handleSizeLarge;
+  }
+
   public static toggleHandleLeft = '3px';
   public static toggleHandleTop = '3px';
   public static toggleHandleActiveWidthIncrement = '0px';

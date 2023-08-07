@@ -1174,26 +1174,67 @@ export class DefaultTheme {
   public static mobileMenuSeparatorMarginX = '24px';
   //#endregion
   //#region Toggle
+  /**
+   * @deprecated use toggleFontSizeSmall
+   */
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
   public static get toggleLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get toggleFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get toggleFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get toggleFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
   public static get toggleTextColor() {
     return this.textColorDefault;
   }
   public static toggleHandleActiveWidthIncrement = '4px';
+  /**
+   * @deprecated use хз что...
+   */
   public static get toggleHandleBorderRadius() {
     const height = parseInt(this.toggleHeight, 10) || 0;
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
   }
+  /**
+   * @deprecated use toggleHeightSmall
+   */
   public static toggleHeight = '20px';
+
+  /**
+   * @deprecated use toggleWidthSmall
+   */
   public static toggleWidth = '32px';
+
+  public static toggleHeightSmall = '20px';
+  public static toggleWidthSmall = '32px';
+  public static handleRadiusSmall = '14px';
+  public static toggleHeightMedium = '22px';
+  public static toggleWidthMedium = '34px';
+  public static handleRadiusMedium = '16px';
+  public static toggleHeightLarge = '24px';
+  public static toggleWidthLarge = '36px';
+  public static handleRadiusLarge = '18px';
   public static get toggleBorderRadius() {
     return `calc(${this.toggleHeight} * 0.5)`;
+  }
+  public static get toggleBorderRadiusSmall() {
+    return `calc(${this.toggleHeightSmall} * 0.5)`;
+  }
+  public static get toggleBorderRadiusMedium() {
+    return `calc(${this.toggleHeightMedium} * 0.5)`;
+  }
+  public static get toggleBorderRadiusLarge() {
+    return `calc(${this.toggleHeightLarge} * 0.5)`;
   }
   /**
    * @deprecated use toggleHandleBg
@@ -1224,8 +1265,27 @@ export class DefaultTheme {
   public static get toggleBorderColorDisabledChecked() {
     return this.toggleBorderColor;
   }
+  /**
+   * @deprecated use toggleHandleSizeSmall
+   */
   public static get toggleHandleSize() {
     const toggleHeight = parseInt(this.toggleHeight, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  // looks like checkboxPaddingY
+  public static get toggleHandleSizeSmall() {
+    const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  public static get toggleHandleSizeMedium() {
+    const toggleHeight = parseInt(this.toggleHeightMedium, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  public static get toggleHandleSizeLarge() {
+    const toggleHeight = parseInt(this.toggleHeightLarge, 10) || 0;
     const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
   }
@@ -1248,7 +1308,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static toggleCaptionGap = '10px';
+  public static toggleCaptionGap = '10px'; // оно правда 10 - 10 - 12 ???
   public static toggleButtonOffsetY = '0px';
 
   public static get toggleOutlineColorFocus() {
