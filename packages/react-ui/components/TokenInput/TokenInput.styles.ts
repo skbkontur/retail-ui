@@ -25,6 +25,7 @@ export const styles = memoizeStyle({
       box-shadow: ${t.tokenInputShadow};
       border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColor};
       border-top-color: ${t.tokenInputBorderTopColor};
+      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       box-sizing: border-box;
       cursor: text;
       padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};

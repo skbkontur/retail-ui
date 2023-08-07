@@ -29,6 +29,9 @@ export const styles = memoizeStyle({
       ${resetButton()};
       ${resetText()};
 
+      transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction}
+        ${t.btnBorderColorTransition ? `, ${t.btnBorderColorTransition}` : ''};
+
       background-clip: ${t.btnBackgroundClip};
       background-position: center;
       background-repeat: no-repeat;
@@ -1067,9 +1070,8 @@ export const activeStyles = memoizeStyle({
 
   text(t: Theme) {
     return css`
-      &,
-      &:hover {
-        background: ${t.btnTextActiveBg};
+      & {
+        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, '', t.btnBorderWidth, t.btnArrowBgImageActive)};
       }
     `;
   },
