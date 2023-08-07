@@ -15,7 +15,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Radio } from '../Radio';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -93,7 +92,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     size: 'small',
   };
 
-  private getProps = createPropsGetter(Radio.defaultProps);
+  private getProps = createPropsGetter(Checkbox.defaultProps);
 
   private getSizeClassName() {
     switch (this.getProps().size) {
