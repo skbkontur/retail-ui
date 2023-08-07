@@ -2055,6 +2055,16 @@ export class DefaultTheme {
   //#region Combobox
   public static comboboxMenuOffsetY = '2px';
   //#endregion
+
+  //#region MiniModal
+  public static miniModalActionGap = '8px';
+  public static miniModalCancelIndent = '16px';
+  public static miniModalFooterPaddingTop = '0';
+  public static miniModalFooterPaddingBottom = '32px';
+  public static get miniModalTitleMarginTop() {
+    return this.modalHeaderPaddingBottom;
+  }
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(DefaultTheme);

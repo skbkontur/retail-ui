@@ -12,7 +12,7 @@ export default {
 
 const BtnMain = (
   <Button size="medium" use="primary">
-    main
+    Main
   </Button>
 );
 const BtnAlt = <Button size="medium">Alt</Button>;

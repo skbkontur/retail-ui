@@ -25,7 +25,7 @@ const PayNotifice = () => {
         description="Это простое, но достаточное важное уведомление, чтобы его показать в МиниМодалке"
         btnMain={<Button size="medium" use="primary" onClick={close}>Понятно</Button>}
       />}
-      <Button use="pay" onClick={open} size="medium" icon={<MoneyTypeCoinsIcon />}>Оплата</Button>
+      <Button use="pay" onClick={open} icon={<MoneyTypeCoinsIcon />}>Оплата</Button>
     </>
   );
 }
@@ -61,12 +61,12 @@ const ConfirmDelete = ({ name, handleDelete }) => {
         btnCancel={<Button size="medium" onClick={close}>Отменить</Button>}
         direction="column"
       />}
-      <Button onClick={open} icon={<TrashCanIcon weight="light" />}>Удалить</Button>
+      <Button onClick={open} icon={<TrashCanIcon weight="light" />} />
     </>
   );
 }
 
-const list = ['Отчёт № 123', 'Отчёт № 321', 'Отчёт № 222'];
+const list = ['Отчёт № 111', 'Отчёт № 222', 'Отчёт № 333'];
 
 <Gapped vertical>
   {list.map((name) => (
@@ -75,7 +75,7 @@ const list = ['Отчёт № 123', 'Отчёт № 321', 'Отчёт № 222'];
         {name}
       </div>
       <span>
-        <ConfirmDelete name={name} handleDelete={() => alert(name)} />
+        <ConfirmDelete name={name} handleDelete={() => alert(`${name} удалён`)} />
       </span>
     </Gapped>
   ))}
@@ -90,7 +90,7 @@ const list = ['Отчёт № 123', 'Отчёт № 321', 'Отчёт № 222'];
 import { Button, Gapped } from '@skbkontur/react-ui';
 import { NotificationBellAlarmIcon } from '@skbkontur/icons/NotificationBellAlarmIcon';
 
-const NotificationEnable = React.forwardRef(({ setStatus }, ref) => {
+const EnableNotification = React.forwardRef(({ setStatus }, ref) => {
   const [isOpened, setIsOpened] = React.useState(false);
 
   const open = () => setIsOpened(true);
@@ -118,7 +118,7 @@ const NotificationEnable = React.forwardRef(({ setStatus }, ref) => {
       btnMain={<Button use="primary" size="medium" onClick={handleAllowAll}>Разрешить все</Button>}
       btnAlt={<Button size="medium" onClick={handleAllowBasic}>Разрешить только основные</Button>}
       btnCancel={<Button size="medium" onClick={handleDenyAll}>Запретить</Button>}
-      hasCancelIndent={true}
+      hasCancelIndent
     />
   );
 });
@@ -131,7 +131,7 @@ const NotificationEnableOpen = () => NotificationEnableRef.current && Notificati
 
 <Gapped vertical>
   <span>
-    <NotificationEnable ref={NotificationEnableRef} setStatus={setStatus} />
+    <EnableNotification ref={NotificationEnableRef} setStatus={setStatus} />
     Статус уведомлений: {status}
   </span>
   <Button onClick={NotificationEnableOpen}>Разрешить уведомления? 1</Button>
@@ -146,7 +146,7 @@ const NotificationEnableOpen = () => NotificationEnableRef.current && Notificati
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
 
-const Save = ({ handleSave, setLastUpdated }) => {
+const WaitingUpdate = ({ handleSave, setLastUpdated }) => {
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [isOpened, setIsOpened] = React.useState(false);
@@ -167,12 +167,11 @@ const Save = ({ handleSave, setLastUpdated }) => {
   return (
     <>
       {isOpened && <MiniModal
-        title={`Сохранить?`}
-        btnMain={<Button use="success" size="medium" onClick={handleMainClick} loading={isLoading}>Сохранить</Button>}
+        title="Обновить?"
+        btnMain={<Button use="success" size="medium" onClick={handleMainClick} loading={isLoading}>Обновить</Button>}
         btnCancel={<Button size="medium" onClick={close} disabled={isLoading}>Отменить</Button>}
-        direction="column"
       />}
-      <Button onClick={open} use="success">Сохранить</Button>
+      <Button onClick={open} use="success">Обновить</Button>
     </>
   );
 }
@@ -186,7 +185,7 @@ const handleSave = () => new Promise((resolve) => {
 });
 
 <Gapped>
-  <Save handleSave={handleSave} setLastUpdated={setLastUpdated} />
+  <WaitingUpdate handleSave={handleSave} setLastUpdated={setLastUpdated} />
   <span>
     Последнее обновление: {dateTimeFormat.format(lastUpdated)}
   </span>

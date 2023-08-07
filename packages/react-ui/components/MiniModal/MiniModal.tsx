@@ -3,13 +3,13 @@ import React, { AriaAttributes, HTMLAttributes, ReactChild, useContext } from 'r
 import { Modal } from '../Modal';
 import { InfoCircleIcon64Regular } from '../../internal/icons2022/InfoCircleIcon/InfoCircleIcon64Regular';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { CommonProps } from '../../internal/CommonWrapper';
 
 import { styles } from './MiniModal.styles';
+import { getMiniModalTheme } from './getMiniModalTheme';
 
 export interface MiniModalProps
   extends CommonProps,
@@ -22,8 +22,6 @@ export interface MiniModalProps
 
   /**
    * Пиктограмма в шапке компонента.
-   *
-   * По-умолчанию это иконка `(i)` на менее 64px по высоте.
    *
    * @default InfoCircleIcon64Regular
    */
@@ -57,7 +55,7 @@ export interface MiniModalProps
   direction?: 'row' | 'column';
 
   /**
-   * Отступ для кнопки отмены. Отступ переключает направление позиционирования кнопок на `column`.
+   * Отступ для кнопки отмены `btnCancel`. Учитывается только если заданы все 3 кнопки.
    *
    * @default false
    */
@@ -89,26 +87,26 @@ export const MiniModal = forwardRefAndName<any, MiniModalProps>(
   ) => {
     const theme = useContext(ThemeContext);
 
-    const _direction = hasCancelIndent || (btnAlt && btnCancel) ? 'column' : direction;
+    const _direction = btnAlt && btnCancel ? 'column' : direction;
+    const _hasCancelIndent = hasCancelIndent && btnAlt && btnCancel;
 
+    // IE11 does not support CSS property `gap`
     const IE11FallbackClasses =
       isIE11 &&
       cx(
-        hasCancelIndent && styles.actionsCancelIndentIE11Fallback(),
-        _direction === 'row' && styles.actionsRowIE11Fallback(),
-        _direction === 'column' && styles.actionsColumnIE11Fallback(),
+        _hasCancelIndent && styles.actionsCancelIndentIE11Fallback(theme),
+        _direction === 'row' && styles.actionsRowIE11Fallback(theme),
+        _direction === 'column' && styles.actionsColumnIE11Fallback(theme),
       );
 
     return (
-      <ThemeContext.Provider
-        value={ThemeFactory.create({ modalFooterPaddingTop: '0', modalFooterPaddingBottom: '32px' }, theme)}
-      >
+      <ThemeContext.Provider value={getMiniModalTheme(theme)}>
         <Modal width={400} noClose ref={ref} {...rest}>
           <Modal.Header>
             <div data-tid={MiniModalDataTids.icon} className={styles.icon()}>
               {icon}
             </div>
-            <div data-tid={MiniModalDataTids.title} className={styles.title()}>
+            <div data-tid={MiniModalDataTids.title} className={styles.title(theme)}>
               {title}
             </div>
           </Modal.Header>
@@ -121,8 +119,8 @@ export const MiniModal = forwardRefAndName<any, MiniModalProps>(
             <div
               data-tid={MiniModalDataTids.actions}
               className={cx(
-                styles.actions(),
-                hasCancelIndent && styles.actionsCancelIndent(),
+                styles.actions(theme),
+                _hasCancelIndent && styles.actionsCancelIndent(theme),
                 _direction === 'row' && styles.actionsRow(),
                 _direction === 'column' && styles.actionsColumn(),
                 IE11FallbackClasses,

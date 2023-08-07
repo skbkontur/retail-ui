@@ -1,4 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   icon() {
@@ -7,19 +8,19 @@ export const styles = memoizeStyle({
     `;
   },
 
-  title() {
+  title(t: Theme) {
     return css`
       text-align: center;
-      margin-top: 16px;
+      margin-top: ${t.miniModalTitleMarginTop};
     `;
   },
 
-  actions() {
+  actions(t: Theme) {
     return css`
       display: flex;
       justify-content: stretch;
       text-align: center;
-      gap: 8px;
+      gap: ${t.miniModalActionGap};
 
       > * {
         width: 100%;
@@ -27,18 +28,18 @@ export const styles = memoizeStyle({
     `;
   },
 
-  actionsCancelIndent() {
+  actionsCancelIndent(t: Theme) {
     return css`
       > *:nth-of-type(3) {
-        margin-top: 8px;
+        margin-top: calc(-${t.miniModalActionGap} + ${t.miniModalCancelIndent});
       }
     `;
   },
 
-  actionsCancelIndentIE11Fallback() {
+  actionsCancelIndentIE11Fallback(t: Theme) {
     return css`
       > *:nth-of-type(3) {
-        margin-top: 16px !important;
+        margin-top: ${t.miniModalCancelIndent} !important;
       }
     `;
   },
@@ -55,24 +56,24 @@ export const styles = memoizeStyle({
     `;
   },
 
-  actionsRowIE11Fallback() {
+  actionsRowIE11Fallback(t: Theme) {
     return css`
       > *:nth-of-type(1) {
-        margin-right: 4px;
+        margin-right: calc(${t.miniModalActionGap} / 2);
       }
       > *:nth-of-type(2) {
-        margin-left: 4px;
+        margin-left: calc(${t.miniModalActionGap} / 2);
       }
     `;
   },
 
-  actionsColumnIE11Fallback() {
+  actionsColumnIE11Fallback(t: Theme) {
     return css`
       > *:nth-of-type(2) {
-        margin-top: 8px;
+        margin-top: ${t.miniModalActionGap};
       }
       > *:nth-of-type(3) {
-        margin-top: 8px;
+        margin-top: ${t.miniModalActionGap};
       }
     `;
   },
