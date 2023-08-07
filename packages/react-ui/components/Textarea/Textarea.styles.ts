@@ -29,7 +29,7 @@ export const styles = memoizeStyle({
       min-height: ${t.textareaMinHeight};
       outline: none;
       padding: ${t.textareaPaddingY} ${t.textareaPaddingX};
-      transition: height 0.2s ease-out;
+      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction}, height 0.2s ease-out;
       vertical-align: middle;
       width: 100%;
       border-radius: ${t.textareaBorderRadius};

@@ -6,6 +6,8 @@ export const getDropdownTheme = (theme: Theme): Theme => {
     {
       selectDefaultBg: theme.btnDefaultBg,
       selectMenuOffsetY: theme.dropdownMenuOffsetY,
+      selectBorderColorHover: theme.dropdownMenuHoverBorderColor,
+      selectBorderColorTransition: theme.dropdownMenuBorderColorTransition,
     },
     theme,
   );
