@@ -36,33 +36,6 @@ const CheckboxWithState = ({children, ...props}) => {
 </Gapped>
 ```
 
-У чекбокса есть 3 стандартных размера.
-
-```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
-
-const CheckboxWithSize = ({children, ...props}) => {
-  const [checked, setChecked] = React.useState(false);
-  return (
-    <Checkbox checked={checked} onValueChange={setChecked} {...props}>
-      {children}
-    </Checkbox>
-  )
-};
-
-<Gapped vertical>
-  <CheckboxWithSize size="small">
-    Маленький
-  </CheckboxWithSize>
-  <CheckboxWithSize size="medium">
-    Средний
-  </CheckboxWithSize>
-  <CheckboxWithSize size="large">
-    Большой
-  </CheckboxWithSize>
-</Gapped>
-```
-
 Пример использования методов чекбокса `focus()` и `blur()`.
 
 ```jsx harmony
