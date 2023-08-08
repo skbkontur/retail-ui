@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { FileUploaderAttachedFile } from '../fileUtils';
 import { formatBytes } from '../../../lib/utils';
@@ -64,7 +64,7 @@ export const FileUploaderFileDataTids = {
   fileIcon: 'FileUploader__fileIcon',
 } as const;
 
-export const FileUploaderFile = (props: FileUploaderFileProps) => {
+export const FileUploaderFile = forwardRef<HTMLDivElement, FileUploaderFileProps>((props, ref) => {
   const { file, showSize, error, multiple, size } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size: fileSize } = originalFile;
@@ -178,6 +178,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       className={jsStyles.root()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      ref={ref}
     >
       <Tooltip data-tid={FileUploaderFileDataTids.fileTooltip} pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
@@ -213,6 +214,6 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       </Tooltip>
     </div>
   );
-};
+});
 
 FileUploaderFile.displayName = 'FileUploaderFile';
