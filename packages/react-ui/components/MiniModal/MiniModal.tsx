@@ -69,7 +69,7 @@ export const MiniModalDataTids = {
   actions: 'MiniModal__actions',
 } as const;
 
-export const MiniModal = forwardRefAndName<any, MiniModalProps>(
+export const MiniModal = forwardRefAndName<Modal, MiniModalProps>(
   'MiniModal',
   (
     {
