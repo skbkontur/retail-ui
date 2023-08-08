@@ -46,6 +46,7 @@ export default {
   parameters: {
     creevey: {
       captureElement: 'body',
+      skip: { 'flickering screenshot': { in: /^(?!\b(firefox))/, tests: 'toastShown' } },
       tests: {
         async toastShown() {
           const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
