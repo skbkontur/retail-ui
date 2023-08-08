@@ -41,25 +41,16 @@ const CheckboxWithState = ({children, ...props}) => {
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 
-const CheckboxWithSize = ({children, ...props}) => {
-  const [checked, setChecked] = React.useState(false);
-  return (
-    <Checkbox checked={checked} onValueChange={setChecked} {...props}>
-      {children}
-    </Checkbox>
-  )
-};
-
 <Gapped vertical>
-  <CheckboxWithSize size="small">
+  <Checkbox size="small" checked>
     Маленький
-  </CheckboxWithSize>
-  <CheckboxWithSize size="medium">
+  </Checkbox>
+  <Checkbox size="medium" checked>
     Средний
-  </CheckboxWithSize>
-  <CheckboxWithSize size="large">
+  </Checkbox>
+  <Checkbox size="large" checked>
     Большой
-  </CheckboxWithSize>
+  </Checkbox>
 </Gapped>
 ```
 
