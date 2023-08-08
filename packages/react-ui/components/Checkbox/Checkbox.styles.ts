@@ -17,6 +17,7 @@ export const styles = memoizeStyle({
       line-height: ${t.checkboxLineHeight};
       font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
+
       .${globalClasses.box} {
         transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
           box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};

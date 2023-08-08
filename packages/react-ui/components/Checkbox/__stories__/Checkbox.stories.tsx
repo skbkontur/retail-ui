@@ -15,7 +15,7 @@ class PlainCheckbox extends React.Component {
   };
 
   public render() {
-    const { checked, } = this.state;
+    const { checked } = this.state;
     return (
       <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked} data-tid="test-checkbox">
         {this.props.children}
