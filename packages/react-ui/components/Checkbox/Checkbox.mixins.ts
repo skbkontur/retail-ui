@@ -1,15 +1,10 @@
 import { css } from '../../lib/theming/Emotion';
-// import {isChrome} from "../../lib/client";
-import {getLabGrotesqueBaselineCompensation} from "../../lib/styles/getLabGrotesqueBaselineCompensation";
+import { isChrome, isFirefox } from '../../lib/client';
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 
 import { globalClasses } from './Checkbox.styles';
 
-export const checkboxSizeMixin = (
-  fontSize: string,
-  lineHeight: string,
-  paddingY: string,
-  checkboxBoxSize: string,
-) => {
+export const checkboxSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, checkboxBoxSize: string) => {
   return css`
     display: inline-flex;
     align-items: baseline;
@@ -66,7 +61,10 @@ export const boxWrapperMixin = (
 ) => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const boxFontSize = parseInt(fontSize.slice(0, -2));
-  const baselineCompensation= getLabGrotesqueBaselineCompensation(boxFontSize, labGrotesqueCompenstation, true);
+  const baselineCompensation =
+    boxFontSize === 18 && isFirefox // TODO: вынести условие в getLabGrotesqueBaselineCompensation, когда проп size будет добавлен для radio
+      ? -labGrotesqueCompenstation
+      : getLabGrotesqueBaselineCompensation(boxFontSize, labGrotesqueCompenstation, isChrome);
 
   return css`
     position: absolute;

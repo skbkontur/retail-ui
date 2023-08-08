@@ -1,82 +1,71 @@
-import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { isChrome } from '../../lib/client';
 
-import { CheckboxSize } from './Checkbox';
-import { checkboxBoxSize, fontSize, lineHeight, paddingY } from './helpers';
+import { boxMixin, boxWrapperMixin, checkboxSizeMixin } from './Checkbox.mixins';
 
 export const globalClasses = prefix('checkbox')({
   box: 'box',
 });
 
-function checkboxRoot(t: Theme, size: CheckboxSize) {
-  return css`
-    display: inline-flex;
-    align-items: baseline;
-    cursor: pointer;
-    position: relative;
-    line-height: ${lineHeight(t, size)};
-    font-size: ${fontSize(t, size)};
-    padding: ${paddingY(t, size)} 0;
-
-    .${globalClasses.box} {
-      transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
-        box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
-    }
-
-    &:hover .${globalClasses.box} {
-      background: ${t.checkboxHoverBg};
-      box-shadow: ${t.checkboxShadowHover};
-    }
-
-    &:active .${globalClasses.box} {
-      box-shadow: ${t.checkboxShadowActive};
-      background: ${t.checkboxActiveBg};
-    }
-
-    &::before {
-      // non-breaking space.
-      // makes a correct space for absolutely positioned box,
-      // and also height and baseline for checkbox without caption.
-      content: '\\00A0';
-      display: inline-block;
-      width: ${checkboxBoxSize(t, size)};
-      flex: 0 0 auto;
-    }
-  `;
-}
-
-function boxWrapper(t: Theme, size: CheckboxSize) {
-  const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-  const fontSize = parseInt(t.checkboxFontSize);
-  const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
-
-  return css`
-    position: absolute;
-    width: ${checkboxBoxSize(t, size)};
-    height: ${checkboxBoxSize(t, size)};
-    box-sizing: border-box;
-    padding: ${t.checkboxBorderWidth};
-    margin-top: calc(${t.checkboxBoxOffsetY} + ${baselineCompensation}px);
-
-    // fix position in ie11
-    display: inline-block;
-    left: 0;
-  `;
-}
-
 export const styles = memoizeStyle({
   rootSmall(t: Theme) {
-    return checkboxRoot(t, 'small');
+    return css`
+      ${checkboxSizeMixin(
+        t.checkboxFontSizeSmall,
+        t.checkboxLineHeightSmall,
+        t.checkboxPaddingYSmall,
+        t.checkboxBoxSizeSmall,
+      )};
+
+      ${boxMixin(
+        t.transitionDuration,
+        t.transitionTimingFunction,
+        t.checkboxHoverBg,
+        t.checkboxShadowHover,
+        t.checkboxShadowActive,
+        t.checkboxActiveBg,
+      )};
+    `;
   },
 
   rootMedium(t: Theme) {
-    return checkboxRoot(t, 'medium');
+    return css`
+      ${checkboxSizeMixin(
+        t.checkboxFontSizeMedium,
+        t.checkboxLineHeightMedium,
+        t.checkboxPaddingYMedium,
+        t.checkboxBoxSizeMedium,
+      )};
+
+      ${boxMixin(
+        t.transitionDuration,
+        t.transitionTimingFunction,
+        t.checkboxHoverBg,
+        t.checkboxShadowHover,
+        t.checkboxShadowActive,
+        t.checkboxActiveBg,
+      )};
+    `;
   },
 
   rootLarge(t: Theme) {
-    return checkboxRoot(t, 'large');
+    return css`
+      ${checkboxSizeMixin(
+        t.checkboxFontSizeLarge,
+        t.checkboxLineHeightLarge,
+        t.checkboxPaddingYLarge,
+        t.checkboxBoxSizeLarge,
+      )};
+
+      ${boxMixin(
+        t.transitionDuration,
+        t.transitionTimingFunction,
+        t.checkboxHoverBg,
+        t.checkboxShadowHover,
+        t.checkboxShadowActive,
+        t.checkboxActiveBg,
+      )};
+    `;
   },
 
   rootDisableTextSelect() {
@@ -117,15 +106,39 @@ export const styles = memoizeStyle({
   },
 
   boxWrapperSmall(t: Theme) {
-    return boxWrapper(t, 'small');
+    return css`
+      ${boxWrapperMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.checkboxFontSizeSmall,
+        t.checkboxBoxSizeSmall,
+        t.checkboxBorderWidth,
+        t.checkboxBoxOffsetY,
+      )};
+    `;
   },
 
   boxWrapperMedium(t: Theme) {
-    return boxWrapper(t, 'medium');
+    return css`
+      ${boxWrapperMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.checkboxFontSizeMedium,
+        t.checkboxBoxSizeMedium,
+        t.checkboxBorderWidth,
+        t.checkboxBoxOffsetY,
+      )};
+    `;
   },
 
   boxWrapperLarge(t: Theme) {
-    return boxWrapper(t, 'large');
+    return css`
+      ${boxWrapperMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.checkboxFontSizeLarge,
+        t.checkboxBoxSizeLarge,
+        t.checkboxBorderWidth,
+        t.checkboxBoxOffsetY,
+      )};
+    `;
   },
 
   box(t: Theme) {

@@ -94,21 +94,39 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
   private getProps = createPropsGetter(Checkbox.defaultProps);
 
-  private getSizeClassName() {
+  private getRootSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.rootLarge(this.theme)]: true,
-        });
+        return styles.rootLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.rootMedium(this.theme)]: true,
-        });
+        return styles.rootMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.rootSmall(this.theme)]: true,
-        });
+        return styles.rootSmall(this.theme);
+    }
+  }
+
+  private getBoxWrapperSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.boxWrapperLarge(this.theme);
+      case 'medium':
+        return styles.boxWrapperMedium(this.theme);
+      case 'small':
+      default:
+        return styles.boxWrapperSmall(this.theme);
+    }
+  }
+
+  private getCheckboxBoxSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return this.theme.checkboxBoxSizeLarge;
+      case 'medium':
+        return this.theme.checkboxBoxSizeMedium;
+      case 'small':
+      default:
+        return this.theme.checkboxBoxSizeSmall;
     }
   }
 
@@ -255,20 +273,20 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     const IconCheck = _isTheme2022 ? (
       <span className={iconClass}>
-        <CheckedIcon size={parseInt(this.theme.checkboxBoxSize)} />
+        <CheckedIcon size={parseInt(this.getCheckboxBoxSizeClassName())} />
       </span>
     ) : (
       <OkIcon className={iconClass} />
     );
     const IconSquare = _isTheme2022 ? (
       <span className={iconClass}>
-        <IndeterminateIcon size={parseInt(this.theme.checkboxBoxSize)} />
+        <IndeterminateIcon size={parseInt(this.getCheckboxBoxSizeClassName())} />
       </span>
     ) : (
       <SquareIcon className={iconClass} />
     );
 
-    const rootClass = cx(this.getSizeClassName(), {
+    const rootClass = cx(this.getRootSizeClassName(), {
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
       [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
@@ -297,13 +315,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const box = (
-      <div
-        className={cx({
-          [styles.boxWrapperSmall(this.theme)]: this.getProps().size === 'small',
-          [styles.boxWrapperMedium(this.theme)]: this.getProps().size === 'medium',
-          [styles.boxWrapperLarge(this.theme)]: this.getProps().size === 'large',
-        })}
-      >
+      <div className={this.getBoxWrapperSizeClassName()}>
         <div
           className={cx(styles.box(this.theme), globalClasses.box, {
             [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,

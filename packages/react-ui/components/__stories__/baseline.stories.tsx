@@ -242,11 +242,7 @@ class DifferentFontsAndSizesThemeM extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  checkboxBoxSize: '20px',
-                  checkboxCaptionGap: '10px',
-                  checkboxPaddingY: '9px',
-                  checkboxFontSize: '16px',
-                  checkboxLineHeight: '22px',
+                  checkboxFontSize: '16px', // TODO:  На этот стиль завязан radio. Уберать при работе с radio
 
                   radioSize: '20px',
                   radioBulletSize: '10px',
@@ -299,11 +295,7 @@ class DifferentFontsAndSizesThemeL extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  checkboxBoxSize: '22px',
-                  checkboxCaptionGap: '12px',
-                  checkboxPaddingY: '11px',
-                  checkboxFontSize: '18px',
-                  checkboxLineHeight: '24px',
+                  checkboxFontSize: '18px', // TODO:  На этот стиль завязан radio. Уберать при работе с radio
 
                   radioSize: '22px',
                   radioBulletSize: '12px',

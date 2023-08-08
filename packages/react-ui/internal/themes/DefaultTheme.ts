@@ -1432,6 +1432,9 @@ export class DefaultTheme {
   public static inputColorScheme = 'light';
   //#endregion
   //#region Checkbox
+  /**
+   * @ deprecated use checkboxFontSizeSmall
+   */
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
@@ -1445,6 +1448,9 @@ export class DefaultTheme {
     return this.fontSizeLarge;
   }
 
+  /**
+   * @ deprecated use checkboxLineHeight
+   */
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
   }
@@ -1457,15 +1463,21 @@ export class DefaultTheme {
   public static get checkboxLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
+  /**
+   * @ deprecated use checkboxBoxSizeSmall
+   */
   public static checkboxBoxSize = '16px';
   public static checkboxBoxSizeSmall = '16px';
   public static checkboxBoxSizeMedium = '20px';
   public static checkboxBoxSizeLarge = '24px';
   public static checkboxCaptionGap = '8px';
 
+  /**
+   * @ deprecated use checkboxPaddingYSmall
+   */
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightSmall, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static get checkboxPaddingYSmall() {
