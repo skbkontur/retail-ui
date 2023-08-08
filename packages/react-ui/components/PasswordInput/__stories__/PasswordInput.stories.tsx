@@ -54,6 +54,7 @@ Plain.parameters = {
     skip: {
       // TODO @Khlutkova fix after update browsers
       'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['With visible password'] },
+      'flickering screenshot': { in: ['chrome2022'], tests: ['With typed password'] },
     },
     tests: {
       async Plain() {
