@@ -413,7 +413,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#region InternalMenu
   public static get internalMenuPaddingY() {
     return this.menuScrollContainerContentWrapperPaddingY;
-  }
+  } // deprecated, use menuLegacyPaddingY
   //#endregion
 
   //#region Menu

@@ -2054,7 +2054,7 @@ export class DefaultTheme {
   //#endregion
 
   //#region InternalMenu
-  public static internalMenuPaddingY = '5px';
+  public static internalMenuPaddingY = '5px'; // deprecated,  use menuLegacyPaddingY
   //#endregion
 
   //#region Autocomplete
