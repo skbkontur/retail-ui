@@ -788,9 +788,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         e.preventDefault();
         if (this.menuRef) {
           if (isKeyArrowUp(e)) {
-            this.menuRef.moveUp();
+            this.menuRef.up();
           } else {
-            this.menuRef.moveDown();
+            this.menuRef.down();
           }
         }
         break;

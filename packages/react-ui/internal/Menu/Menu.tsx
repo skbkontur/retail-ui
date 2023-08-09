@@ -157,14 +157,14 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   /**
    * @public
    */
-  public moveUp() {
+  public up() {
     this.move(-1);
   }
 
   /**
    * @public
    */
-  public moveDown() {
+  public down() {
     this.move(1);
   }
 
@@ -320,7 +320,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private setInitialSelection = () => {
     for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
-      this.moveDown();
+      this.down();
     }
   };
 
@@ -491,10 +491,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
     if (isKeyArrowUp(event)) {
       event.preventDefault();
-      this.moveUp();
+      this.up();
     } else if (isKeyArrowDown(event)) {
       event.preventDefault();
-      this.moveDown();
+      this.down();
     } else if (isKeyEnter(event)) {
       if (this.highlighted && this.highlighted.props.onClick) {
         this.highlighted.props.onClick(event);

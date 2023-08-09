@@ -58,7 +58,7 @@ interface EffectFactory {
   highlightMenuItem: Effect;
   selectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
   inputKeyDown: (event: React.KeyboardEvent<HTMLElement>) => Effect;
-  moveMenuHighlight: (direction: 'moveUp' | 'moveDown') => Effect;
+  moveMenuHighlight: (direction: 'up' | 'down') => Effect;
   resetHighlightedMenuItem: Effect;
   reflow: Effect;
   selectInputText: Effect;
@@ -166,7 +166,7 @@ export const Effect: EffectFactory = {
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      requestAnimationFrame(() => menu && menu.moveDown());
+      requestAnimationFrame(() => menu && menu.down());
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
@@ -266,7 +266,7 @@ export function reducer<T>(
           break;
         case isKeyArrowVertical(e):
           e.preventDefault();
-          effects.push(Effect.moveMenuHighlight(isKeyArrowUp(e) ? 'moveUp' : 'moveDown'));
+          effects.push(Effect.moveMenuHighlight(isKeyArrowUp(e) ? 'up' : 'down'));
           if (!state.opened) {
             effects.push(Effect.search(state.textValue));
           }

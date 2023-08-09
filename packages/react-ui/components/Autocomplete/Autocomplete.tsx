@@ -415,13 +415,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       case isKeyArrowUp(e):
         e.preventDefault();
         if (this.menu) {
-          this.menu.moveUp();
+          this.menu.up();
         }
         return;
       case isKeyArrowDown(e):
         e.preventDefault();
         if (this.menu) {
-          this.menu.moveDown();
+          this.menu.down();
         }
         return;
       case isKeyEnter(e):

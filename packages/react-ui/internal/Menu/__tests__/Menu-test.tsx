@@ -15,7 +15,7 @@ describe('Menu', () => {
     const menu = wrapper.instance();
 
     // Highlight first item.
-    menu.moveDown();
+    menu.down();
 
     // 1. Called initially.
     // 2. Changed with a wrapper function. Previous function called with null.
