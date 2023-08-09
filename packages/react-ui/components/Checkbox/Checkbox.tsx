@@ -316,9 +316,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const box = (
-      <div className={cx(this.getBoxWrapperSizeClassName(), {
-        [styles.boxWrapper(this.theme)]: true,
-      })}>
+      <div
+        className={cx(this.getBoxWrapperSizeClassName(), {
+          [styles.boxWrapper(this.theme)]: true,
+        })}
+      >
         <div
           className={cx(styles.box(this.theme), globalClasses.box, {
             [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
