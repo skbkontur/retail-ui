@@ -1449,7 +1449,7 @@ export class DefaultTheme {
   }
 
   /**
-   * @ deprecated use checkboxLineHeight
+   * @ deprecated use checkboxLineHeightSmall
    */
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;

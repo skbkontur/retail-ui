@@ -118,7 +118,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   }
 
-  private getCheckboxBoxSizeClassName() {
+  private getCheckboxBoxSize() {
     switch (this.getProps().size) {
       case 'large':
         return this.theme.checkboxBoxSizeLarge;
@@ -271,16 +271,17 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       !props.checked && !isIndeterminate && styles.iconUnchecked(),
     );
 
+    const iconSize = parseInt(this.getCheckboxBoxSize())
     const IconCheck = _isTheme2022 ? (
       <span className={iconClass}>
-        <CheckedIcon size={parseInt(this.getCheckboxBoxSizeClassName())} />
+        <CheckedIcon size={iconSize} />
       </span>
     ) : (
       <OkIcon className={iconClass} />
     );
     const IconSquare = _isTheme2022 ? (
       <span className={iconClass}>
-        <IndeterminateIcon size={parseInt(this.getCheckboxBoxSizeClassName())} />
+        <IndeterminateIcon size={iconSize} />
       </span>
     ) : (
       <SquareIcon className={iconClass} />
