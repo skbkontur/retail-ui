@@ -287,6 +287,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     );
 
     const rootClass = cx(this.getRootSizeClassName(), {
+      [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
       [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
@@ -315,7 +316,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const box = (
-      <div className={this.getBoxWrapperSizeClassName()}>
+      <div className={cx(this.getBoxWrapperSizeClassName(), {
+        [styles.boxWrapper(this.theme)]: true,
+      })}>
         <div
           className={cx(styles.box(this.theme), globalClasses.box, {
             [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
