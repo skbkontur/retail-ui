@@ -1,13 +1,46 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { boxMixin, boxWrapperMixin, checkboxSizeMixin } from './Checkbox.mixins';
+import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins';
 
 export const globalClasses = prefix('checkbox')({
   box: 'box',
 });
 
 export const styles = memoizeStyle({
+  root(t: Theme) {
+    return css`
+      display: inline-flex;
+      align-items: baseline;
+      cursor: pointer;
+      position: relative;
+
+      &::before {
+        // non-breaking space.
+        // makes a correct space for absolutely positioned box,
+        // and also height and baseline for checkbox without caption.
+        content: '\\00A0';
+        display: inline-block;
+        flex: 0 0 auto;
+      }
+
+      .${globalClasses.box} {
+        transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
+          box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
+      }
+
+      &:hover .${globalClasses.box} {
+        background: ${t.checkboxHoverBg};
+        box-shadow: ${t.checkboxShadowHover};
+      }
+
+      &:active .${globalClasses.box} {
+        box-shadow: ${t.checkboxShadowActive};
+        background: ${t.checkboxActiveBg};
+      }
+    `;
+  },
+
   rootSmall(t: Theme) {
     return css`
       ${checkboxSizeMixin(
@@ -15,15 +48,6 @@ export const styles = memoizeStyle({
         t.checkboxLineHeightSmall,
         t.checkboxPaddingYSmall,
         t.checkboxBoxSizeSmall,
-      )};
-
-      ${boxMixin(
-        t.transitionDuration,
-        t.transitionTimingFunction,
-        t.checkboxHoverBg,
-        t.checkboxShadowHover,
-        t.checkboxShadowActive,
-        t.checkboxActiveBg,
       )};
     `;
   },
@@ -36,15 +60,6 @@ export const styles = memoizeStyle({
         t.checkboxPaddingYMedium,
         t.checkboxBoxSizeMedium,
       )};
-
-      ${boxMixin(
-        t.transitionDuration,
-        t.transitionTimingFunction,
-        t.checkboxHoverBg,
-        t.checkboxShadowHover,
-        t.checkboxShadowActive,
-        t.checkboxActiveBg,
-      )};
     `;
   },
 
@@ -55,15 +70,6 @@ export const styles = memoizeStyle({
         t.checkboxLineHeightLarge,
         t.checkboxPaddingYLarge,
         t.checkboxBoxSizeLarge,
-      )};
-
-      ${boxMixin(
-        t.transitionDuration,
-        t.transitionTimingFunction,
-        t.checkboxHoverBg,
-        t.checkboxShadowHover,
-        t.checkboxShadowActive,
-        t.checkboxActiveBg,
       )};
     `;
   },
@@ -105,13 +111,25 @@ export const styles = memoizeStyle({
     `;
   },
 
+  boxWrapper(t: Theme) {
+    return css`
+      position: absolute;
+      box-sizing: border-box;
+      padding: ${t.checkboxBorderWidth};
+
+      // fix position in ie11
+      display: inline-block;
+      left: 0;
+    )};
+    `;
+  },
+
   boxWrapperSmall(t: Theme) {
     return css`
-      ${boxWrapperMixin(
+      ${boxWrapperSizeMixin(
         t.labGrotesqueBaselineCompensation,
         t.checkboxFontSizeSmall,
         t.checkboxBoxSizeSmall,
-        t.checkboxBorderWidth,
         t.checkboxBoxOffsetY,
       )};
     `;
@@ -119,11 +137,10 @@ export const styles = memoizeStyle({
 
   boxWrapperMedium(t: Theme) {
     return css`
-      ${boxWrapperMixin(
+      ${boxWrapperSizeMixin(
         t.labGrotesqueBaselineCompensation,
         t.checkboxFontSizeMedium,
         t.checkboxBoxSizeMedium,
-        t.checkboxBorderWidth,
         t.checkboxBoxOffsetY,
       )};
     `;
@@ -131,11 +148,10 @@ export const styles = memoizeStyle({
 
   boxWrapperLarge(t: Theme) {
     return css`
-      ${boxWrapperMixin(
+      ${boxWrapperSizeMixin(
         t.labGrotesqueBaselineCompensation,
         t.checkboxFontSizeLarge,
         t.checkboxBoxSizeLarge,
-        t.checkboxBorderWidth,
         t.checkboxBoxOffsetY,
       )};
     `;
