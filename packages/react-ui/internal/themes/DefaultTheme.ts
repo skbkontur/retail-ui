@@ -1920,6 +1920,8 @@ export class DefaultTheme {
   public static scrollContainerScrollBarHoverSize = '10px';
   public static scrollContainerScrollBarColor = 'rgba(183, 183, 183, 0.7)';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
+  public static scrollContainerScrollBarOffsetY = '4px';
+  public static dropdownMenuScrollContainerScrollBarOffsetY = '0px';
   //#endregion
   //#region PasswordInput
   public static passwordInputVisibilityIconColor = '#000';

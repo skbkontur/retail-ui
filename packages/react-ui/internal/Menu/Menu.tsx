@@ -201,9 +201,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
     const offsetY = isTheme2022(this.theme)
       ? {
-          top: 4,
+          top: `${this.theme.scrollContainerScrollBarOffsetY}`,
           right: 0,
-          bottom: 4,
+          bottom: `${this.theme.scrollContainerScrollBarOffsetY}`,
         }
       : {};
 
