@@ -33,13 +33,11 @@ describe('DatePicker', () => {
 
   it('renders', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-
     expect(screen.getByTestId(DatePickerDataTids.label)).toBeInTheDocument();
   });
 
   it('renders date select when open', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
@@ -47,7 +45,6 @@ describe('DatePicker', () => {
 
   it("doesn't open on focus if disabled", () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
-
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
@@ -55,20 +52,44 @@ describe('DatePicker', () => {
 
   it('closes when become disabled', () => {
     const { rerender } = render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
     rerender(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
-
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('open when autoFocus enabled', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} autoFocus />);
-
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+  });
+
+  it('blur() methon works', () => {
+    const datePickerRef = React.createRef<DatePicker>();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+
+    datePickerRef.current?.blur();
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('handle onBlur event', () => {
+    const datePickerRef = React.createRef<DatePicker>();
+    const onBlur = jest.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} onBlur={onBlur} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+
+    datePickerRef.current?.blur();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('handle onFocus event', () => {
+    const onFocus = jest.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(onFocus).toHaveBeenCalled();
   });
 
   describe('Locale', () => {
@@ -79,7 +100,6 @@ describe('DatePicker', () => {
 
     it('render without LocaleProvider', () => {
       render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);
-
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
@@ -97,7 +117,6 @@ describe('DatePicker', () => {
 
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
-
       userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
@@ -155,63 +174,63 @@ describe('DatePicker', () => {
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
-  });
 
-  it('should rename months using locale', () => {
-    const renamedMonths = [
-      'one',
-      'two',
-      'three',
-      'four',
-      'five',
-      'six',
-      'seven',
-      'eight',
-      'nine',
-      'ten',
-      'eleven',
-      'twelve',
-    ];
-    render(
-      <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
-        <DatePicker value="12.06.2022" onValueChange={jest.fn()} />
-      </LocaleContext.Provider>,
-    );
-
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-
-    expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
-  });
-
-  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
-    const Comp = () => {
-      const [value, setValue] = useState<string | null | undefined>('24.08.2022');
-
-      return (
-        <>
-          <DatePicker value={value} onValueChange={setValue} />
-          <button onClick={() => setValue(testValue)}>Clear</button>
-        </>
+    it('should rename months using locale', () => {
+      const renamedMonths = [
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six',
+        'seven',
+        'eight',
+        'nine',
+        'ten',
+        'eleven',
+        'twelve',
+      ];
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
+          <DatePicker value="12.06.2022" onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
       );
-    };
 
-    render(<Comp />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-    const input = screen.getByTestId(InputLikeTextDataTids.input);
-    expect(input).toHaveTextContent(/^24.08.2022$/);
+      expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
+    });
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
-    const expectedRegExp = new RegExp(`^${expected}$`);
-    expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
+    it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+      const Comp = () => {
+        const [value, setValue] = useState<string | null | undefined>('24.08.2022');
 
-    userEvent.type(input, '24.08.2022');
-    expect(input).toHaveTextContent(/^24.08.2022$/);
-  });
+        return (
+          <>
+            <DatePicker value={value} onValueChange={setValue} />
+            <button onClick={() => setValue(testValue)}>Clear</button>
+          </>
+        );
+      };
 
-  it('should have disabled input', () => {
-    render(<DatePicker onValueChange={jest.fn()} disabled />);
+      render(<Comp />);
 
-    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+      const input = screen.getByTestId(InputLikeTextDataTids.input);
+      expect(input).toHaveTextContent(/^24.08.2022$/);
+
+      userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+      const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
+      const expectedRegExp = new RegExp(`^${expected}$`);
+      expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
+
+      userEvent.type(input, '24.08.2022');
+      expect(input).toHaveTextContent(/^24.08.2022$/);
+    });
+
+    it('should have disabled input', () => {
+      render(<DatePicker onValueChange={jest.fn()} disabled />);
+
+      expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+    });
   });
 });
