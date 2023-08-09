@@ -678,7 +678,7 @@ export class DefaultTheme {
   public static get tooltipMenuPinSize() {
     return this.popupPinSize;
   }
-  public static tooltipMenuMenuOffsetY = '0px';
+
   //#endregion
   //#region Kebab
   public static get kebabPinOffset() {
@@ -702,7 +702,7 @@ export class DefaultTheme {
   public static kebabIconSizeMedium = '18px';
   public static kebabIconSizeLarge = '20px';
   public static kebabIconColor = '#757575';
-  public static kebabMenuOffsetY = '0px';
+
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0 5px 10px rgba(0, 0, 0, 0.2);';
@@ -1043,7 +1043,6 @@ export class DefaultTheme {
     return this.menuOffsetY;
   }
   public static dropdownMenuMenuBoxSizing = 'content-box';
-  public static dropdownMenuMenuMarginY = '0px';
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1300,6 +1299,7 @@ export class DefaultTheme {
   public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
+  public static popupMenuMenuOffsetY = '0px';
   //#endregion
   //#region Input
   public static get inputTextColor() {

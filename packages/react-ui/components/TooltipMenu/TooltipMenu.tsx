@@ -101,7 +101,6 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
                   popupMargin: theme.tooltipMenuMargin,
                   popupPinSize: theme.tooltipMenuPinSize,
                   menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
-                  menuOffsetY: theme.tooltipMenuMenuOffsetY,
                 },
                 theme,
               )}

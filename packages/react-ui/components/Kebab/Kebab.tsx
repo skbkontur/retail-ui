@@ -116,7 +116,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
                   popupMargin: theme.kebabMargin,
                   popupPinSize: theme.kebabPinSize,
                   menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
-                  menuOffsetY: theme.kebabMenuOffsetY,
                 },
                 theme,
               )}

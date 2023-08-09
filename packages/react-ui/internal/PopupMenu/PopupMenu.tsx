@@ -9,6 +9,8 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
@@ -131,7 +133,28 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private menu: Nullable<Menu> = null;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): JSX.Element {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  menuOffsetY: theme.popupMenuMenuOffsetY,
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  private renderMain() {
     const { popupHasPin, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
