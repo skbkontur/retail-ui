@@ -31,5 +31,22 @@ describe('DayCellView', () => {
         `${DayCellViewLocalesEn['day-cell-choose-date-aria-label']} ${date}`,
       );
     });
+
+    it('sets custom value for `day-cell-choose-date-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      const date = '1.2.2021';
+      render(
+        <LocaleContext.Provider
+          value={{ locale: { Calendar: { 'day-cell-choose-date-aria-label': customAriaLabel } } }}
+        >
+          <Calendar value={date} />
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${customAriaLabel} ${date}`,
+      );
+    });
   });
 });

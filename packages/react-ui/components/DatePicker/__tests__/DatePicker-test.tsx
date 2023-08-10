@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
 import { CalendarDataTids } from '../../../components/Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
@@ -231,6 +232,75 @@ describe('DatePicker', () => {
       render(<DatePicker onValueChange={jest.fn()} disabled />);
 
       expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+    });
+  });
+
+  describe('a11y', () => {
+    it('sets custom value for `select-month-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { 'select-month-aria-label': customAriaLabel } } }}>
+          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+        'aria-label',
+        `${DateSelectLocalesRu['select-chosen-aria-label']} ${customAriaLabel} Февраль`,
+      );
+    });
+
+    it('sets custom value for `select-year-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { 'select-year-aria-label': customAriaLabel } } }}>
+          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+        'aria-label',
+        `${DateSelectLocalesRu['select-chosen-aria-label']} ${customAriaLabel} 2021`,
+      );
+    });
+
+    it('sets custom value for `select-chosen-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { 'select-chosen-aria-label': customAriaLabel } } }}>
+          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+        'aria-label',
+        `${customAriaLabel} ${DateSelectLocalesRu['select-year-aria-label']} 2021`,
+      );
+    });
+
+    it('sets custom value for `day-cell-choose-date-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      const date = '1.2.2021';
+      render(
+        <LocaleContext.Provider
+          value={{ locale: { DatePicker: { 'day-cell-choose-date-aria-label': customAriaLabel } } }}
+        >
+          <DatePicker value={date} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${customAriaLabel} ${date}`,
+      );
     });
   });
 });
