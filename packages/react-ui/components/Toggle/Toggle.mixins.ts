@@ -9,9 +9,6 @@ export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWi
     font-size: ${fontSize};
 
     &::before {
-      // non-breaking space.
-      // makes a correct space for absolutely positioned button,
-      // and also height and baseline for toggle without caption.
       width: ${toggleWidth};
     }
   `;
@@ -26,7 +23,7 @@ export const buttonSizeMixin = (
   toggleButtonOffsetY: string,
 ) => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
-  const buttonFontSize = parseInt(fontSize.slice(0, -2));
+  const buttonFontSize = parseInt(fontSize);
   const baselineCompensation = buttonFontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
   return css`
     height: ${toggleHeight};
@@ -63,7 +60,7 @@ export const containerSizeMixin = (toggleBorderRadius: string) => {
 
 export const inputSizeMixin = (toggleHeight: string, toggleWidth: string) => {
   const handleWidthWithBorders = toggleHeight;
-  const height = parseInt(toggleHeight.slice(0, -2));
+  const height = parseInt(toggleHeight);
   return css`
     &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
       border-radius: ${height * 0.5}px 0 0 ${height * 0.5}px;

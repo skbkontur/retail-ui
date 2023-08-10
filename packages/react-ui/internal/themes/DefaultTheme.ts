@@ -1187,7 +1187,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static get toggleLineHeightSmall() {
-    return this.controlLineHeightSmall;
+    return this.toggleLineHeight;
   }
   public static get toggleLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -1196,7 +1196,7 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get toggleFontSizeSmall() {
-    return this.fontSizeSmall;
+    return this.toggleFontSize;
   }
   public static get toggleFontSizeMedium() {
     return this.fontSizeMedium;
@@ -1218,10 +1218,7 @@ export class DefaultTheme {
     return `${handleSize / 2}px`;
   }
   public static get toggleHandleBorderRadiusSmall() {
-    const height = parseInt(this.toggleHeightSmall, 10) || 0;
-    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
-    const handleSize = height - 2 * borderWidth;
-    return `${handleSize / 2}px`;
+    return this.toggleHandleBorderRadius;
   }
   public static get toggleHandleBorderRadiusMedium() {
     const height = parseInt(this.toggleHeightMedium, 10) || 0;
@@ -1245,15 +1242,16 @@ export class DefaultTheme {
    */
   public static toggleWidth = '32px';
 
-  public static toggleHeightSmall = '20px';
-  public static toggleWidthSmall = '32px';
-  public static handleRadiusSmall = '14px';
+  public static get toggleHeightSmall() {
+    return this.toggleHeight;
+  }
+  public static get toggleWidthSmall() {
+    return this.toggleWidth;
+  }
   public static toggleHeightMedium = '22px';
   public static toggleWidthMedium = '34px';
-  public static handleRadiusMedium = '16px';
   public static toggleHeightLarge = '24px';
   public static toggleWidthLarge = '36px';
-  public static handleRadiusLarge = '18px';
   /**
    * @deprecated use toggleBorderRadiusSmall
    */
@@ -1261,7 +1259,7 @@ export class DefaultTheme {
     return `calc(${this.toggleHeightSmall} * 0.5)`;
   }
   public static get toggleBorderRadiusSmall() {
-    return `calc(${this.toggleHeightSmall} * 0.5)`;
+    return this.toggleBorderRadius;
   }
   public static get toggleBorderRadiusMedium() {
     return `calc(${this.toggleHeightMedium} * 0.5)`;
@@ -1307,9 +1305,7 @@ export class DefaultTheme {
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
   }
   public static get toggleHandleSizeSmall() {
-    const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
-    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
-    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+    return this.toggleHandleSize;
   }
   public static get toggleHandleSizeMedium() {
     const toggleHeight = parseInt(this.toggleHeightMedium, 10) || 0;
@@ -1340,7 +1336,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static toggleCaptionGap = '10px';
+  public static toggleCaptionGap = '8px';
   public static toggleButtonOffsetY = '0px';
 
   public static get toggleOutlineColorFocus() {
