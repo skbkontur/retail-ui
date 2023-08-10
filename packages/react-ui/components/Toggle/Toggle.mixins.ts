@@ -77,7 +77,7 @@ export const activeHandleSizeMixin = (
   toggleHandleActiveWidthIncrement: string,
   toggleWidth: string,
 ) => {
-  const handleWidthWithBorders = toggleHandleSize; // надо ли изменить на размер handle
+  const handleWidthWithBorders = toggleHandleSize;
   const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${toggleBorderWidth} + ${toggleHandleActiveWidthIncrement})`;
   return css`
     &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {

@@ -274,17 +274,17 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     const containerClassNames = cx(this.getContainerSizeClassName(), {
       [styles.container(this.theme)]: true,
-      [styles.containerDisabled(this.theme)]: disabled,
+      [styles.containerDisabled(this.theme)]: !!disabled,
       [globalClasses.container]: true,
-      [globalClasses.containerDisabled]: disabled,
+      [globalClasses.containerDisabled]: !!disabled,
       [globalClasses.containerLoading]: loading,
     });
 
     const labelClassNames = cx(this.getRootSizeClassName(), this.getActiveHandleSizeClassName(), {
       [styles.root(this.theme)]: true,
       [styles.rootLeft()]: captionPosition === 'left',
-      [styles.disabled()]: disabled,
-      [globalClasses.disabled]: disabled,
+      [styles.disabled()]: !!disabled,
+      [globalClasses.disabled]: !!disabled,
       [styles.disableAnimation()]: disableAnimations,
     });
 
@@ -293,7 +293,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       const captionClass = cx(this.getCaptionSizeClassName(), {
         [styles.caption(this.theme)]: true,
         [styles.captionLeft(this.theme)]: captionPosition === 'left',
-        [styles.disabledCaption(this.theme)]: disabled,
+        [styles.disabledCaption(this.theme)]: !!disabled,
       });
       caption = <span className={captionClass}>{children}</span>;
     }
