@@ -60,7 +60,7 @@ const differentStatesTest: CreeveyTests = {
 
 export const Default: Story = () => (
   <div id="input">
-    <Input />
+    <Input spellCheck={false} />
   </div>
 );
 
