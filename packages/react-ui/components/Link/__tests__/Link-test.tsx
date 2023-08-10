@@ -1,18 +1,18 @@
-import { mount } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { LinkProps } from '..';
-import { Link } from '../Link';
+import { Link, LinkDataTids } from '../Link';
 
-const render = (props?: LinkProps) => mount(<Link {...props} />);
+const renderRTL = (props?: LinkProps) => render(<Link {...props} />);
 
 describe('Link', () => {
   it('calls `onClick` when link clicked', () => {
     const onClick = jest.fn();
 
-    const wrapper = render({ onClick });
-    wrapper.find('a').simulate('click');
-
+    renderRTL({ onClick });
+    userEvent.click(screen.getByTestId(LinkDataTids.root));
     expect(onClick).toHaveBeenCalled();
   });
 
@@ -20,8 +20,10 @@ describe('Link', () => {
     it('does not call `onClick` when link clicked', () => {
       const onClick = jest.fn();
 
-      const wrapper = render({ onClick, disabled: true });
-      wrapper.find('a').simulate('click');
+      renderRTL({ onClick, disabled: true });
+
+      const linkElement = screen.getByTestId(LinkDataTids.root);
+      userEvent.click(linkElement, {}, { skipPointerEventsCheck: true });
 
       expect(onClick).toHaveBeenCalledTimes(0);
     });
@@ -29,33 +31,30 @@ describe('Link', () => {
     it('does not call `onClick` when Enter pressed', () => {
       const onClick = jest.fn();
 
-      const wrapper = render({ onClick, disabled: true });
-      wrapper.find('a').simulate('focus').simulate('keydown', { key: 'Enter' });
-
+      renderRTL({ onClick, disabled: true });
+      userEvent.type(screen.getByTestId(LinkDataTids.root), '{enter}');
       expect(onClick).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('"rel" attribute', () => {
     it("doesn't change if defined in props", () => {
-      const wrapper = render({ href: 'https://example.com', rel: 'nofollow' });
+      renderRTL({ href: 'https://example.com', rel: 'nofollow' });
 
-      expect(wrapper.find('a').prop('rel')).toBe('nofollow');
+      expect(screen.getByTestId(LinkDataTids.root)).toHaveProperty('rel', 'nofollow');
     });
 
     it("doesn't get filled if there is no href", () => {
-      const wrapper = render();
-
-      expect(wrapper.find('a').prop('rel')).toBeUndefined();
+      renderRTL();
+      expect(screen.getByTestId(LinkDataTids.root)).toHaveProperty('rel', '');
     });
 
     describe('external hrefs', () => {
       it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
         '%s',
         (href) => {
-          const wrapper = render({ href });
-
-          expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
+          renderRTL({ href });
+          expect(screen.getByTestId(LinkDataTids.root)).toHaveProperty('rel', 'noopener noreferrer');
         },
       );
     });
@@ -71,9 +70,8 @@ describe('Link', () => {
         ['page.html'],
         ['#anchor'],
       ])('%s', (href) => {
-        const wrapper = render({ href });
-
-        expect(wrapper.find('a').prop('rel')).toBe('noopener');
+        renderRTL({ href });
+        expect(screen.getByTestId(LinkDataTids.root)).toHaveProperty('rel', 'noopener');
       });
     });
   });
