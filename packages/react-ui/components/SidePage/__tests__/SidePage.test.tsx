@@ -4,6 +4,8 @@ import { render, screen } from '@testing-library/react';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SidePage, SidePageDataTids } from '../SidePage';
 import { SidePageHeaderDataTids } from '../SidePageHeader';
+import { componentsLocales as SidePageLocalesEn } from '../locale/locales/en';
+import { componentsLocales as SidePageLocalesRu } from '../locale/locales/ru';
 
 describe('SidePage', () => {
   describe('a11y', () => {
@@ -33,7 +35,10 @@ describe('SidePage', () => {
         </SidePage>,
       );
 
-      expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute('aria-label', 'Закрыть модальное окно');
+      expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute(
+        'aria-label',
+        SidePageLocalesRu['close-button-aria-label'],
+      );
     });
 
     it('has correct value on close button aria-label attribute (en)', () => {
@@ -45,7 +50,23 @@ describe('SidePage', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute('aria-label', 'Close modal window');
+      expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute(
+        'aria-label',
+        SidePageLocalesEn['close-button-aria-label'],
+      );
+    });
+
+    it('sets custom value for `close-button-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { SidePage: { 'close-button-aria-label': customAriaLabel } } }}>
+          <SidePage>
+            <SidePage.Header />
+          </SidePage>
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute('aria-label', customAriaLabel);
     });
   });
 });

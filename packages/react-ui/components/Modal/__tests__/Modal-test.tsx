@@ -6,6 +6,8 @@ import userEvent from '@testing-library/user-event';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { StickyDataTids } from '../../../components/Sticky';
 import { Modal, ModalDataTids } from '../Modal';
+import { componentsLocales as ModalLocalesRu } from '../locale/locales/ru';
+import { componentsLocales as ModalLocalesEn } from '../locale/locales/en';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -257,7 +259,10 @@ describe('Modal', () => {
     it('has correct value on close button aria-label attribute (ru)', () => {
       render(<Modal />);
 
-      expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute('aria-label', 'Закрыть модальное окно');
+      expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute(
+        'aria-label',
+        ModalLocalesRu['close-button-aria-label'],
+      );
     });
 
     it('has correct value on close button aria-label attribute (en)', () => {
@@ -267,7 +272,10 @@ describe('Modal', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute('aria-label', 'Close modal window');
+      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute(
+        'aria-label',
+        ModalLocalesEn['close-button-aria-label'],
+      );
     });
   });
 });

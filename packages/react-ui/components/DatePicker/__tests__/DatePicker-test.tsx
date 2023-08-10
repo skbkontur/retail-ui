@@ -12,6 +12,8 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { componentsLocales as DatePickerLocalesRu } from '../locale/locales/ru';
+import { componentsLocales as DatePickerLocalesEn } from '../locale/locales/en';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -242,7 +244,7 @@ describe('DatePicker', () => {
 
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
         'aria-label',
-        'Перейти к сегодняшней дате',
+        DatePickerLocalesRu['today-aria-label'],
       );
     });
 
@@ -257,8 +259,21 @@ describe('DatePicker', () => {
 
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
         'aria-label',
-        "Go to today's date",
+        DatePickerLocalesEn['today-aria-label'],
       );
+    });
+
+    it('sets custom value for `today-aria-label` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { 'today-aria-label': customAriaLabel } } }}>
+          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute('aria-label', customAriaLabel);
     });
   });
 });

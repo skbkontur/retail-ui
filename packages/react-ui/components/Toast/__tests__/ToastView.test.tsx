@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../../components/Button';
 import { Toast, ToastDataTids } from '../Toast';
+import { componentsLocales as ToastViewLocaleRu } from '../locale/locales/ru';
 
 describe('ToastView', () => {
   describe('a11y', () => {
@@ -22,7 +23,10 @@ describe('ToastView', () => {
 
       userEvent.click(screen.getByRole('button'));
 
-      expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute('aria-label', 'Закрыть уведомление');
+      expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute(
+        'aria-label',
+        ToastViewLocaleRu['close-button-aria-label'],
+      );
     });
 
     it('sets value for aria-label attribute (action button)', async () => {
