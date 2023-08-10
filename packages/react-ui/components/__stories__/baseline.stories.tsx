@@ -168,9 +168,13 @@ const BaselineFont: React.FC<{
         </Link>
         <Toggle>Tg</Toggle>
         <Toggle />
-        <Checkbox initialIndeterminate>Ch</Checkbox>
-        <Checkbox checked>Ch</Checkbox>
-        <Checkbox />
+        <Checkbox size={size} initialIndeterminate>
+          Ch
+        </Checkbox>
+        <Checkbox size={size} checked>
+          Ch
+        </Checkbox>
+        <Checkbox size={size} />
         <Radio checked value="value">
           Rd
         </Radio>
@@ -238,12 +242,6 @@ class DifferentFontsAndSizesThemeM extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  checkboxBoxSize: '20px',
-                  checkboxCaptionGap: '10px',
-                  checkboxPaddingY: '9px',
-                  checkboxFontSize: '16px',
-                  checkboxLineHeight: '22px',
-
                   radioSize: '20px',
                   radioBulletSize: '10px',
                   radioCaptionGap: '10px',
@@ -295,12 +293,6 @@ class DifferentFontsAndSizesThemeL extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  checkboxBoxSize: '22px',
-                  checkboxCaptionGap: '12px',
-                  checkboxPaddingY: '11px',
-                  checkboxFontSize: '18px',
-                  checkboxLineHeight: '24px',
-
                   radioSize: '22px',
                   radioBulletSize: '12px',
                   radioCaptionGap: '12px',

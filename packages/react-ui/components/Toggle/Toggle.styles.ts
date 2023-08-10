@@ -262,7 +262,7 @@ export const styles = memoizeStyle({
 
   button(t: Theme) {
     const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-    const fontSize = parseInt(t.checkboxFontSize);
+    const fontSize = parseInt(t.toggleFontSize);
     const baselineCompensation = fontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
     return css`
       position: absolute;
