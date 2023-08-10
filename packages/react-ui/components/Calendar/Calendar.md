@@ -103,12 +103,28 @@ const theme = React.useContext(ThemeContext);
 </ThemeContext.Provider>
 ```
 
+### Доступные описания элементов
+`<Calendar />` по умолчанию предоставляет доступные описания, которые позволяют пользователям скрин-ридеров навигироваться по контролу. Все описания переведены на два языка: русский и английский.
+
+У вас есть возможность контролировать текст описания с помощью механизма `LocaleContext`:
+```jsx harmony
+import { LocaleContext } from '@skbkontur/react-ui';
+
+const [date, setDate] = React.useState('24.08.2022');
+
+<LocaleContext.Provider value={{ locale: { Calendar: { 'day-cell-choose-date-aria-label' : 'Дата в фокусе' } } }}>
+  <Calendar value={date} onValueChange={setDate} />
+</LocaleContext.Provider>
+```
 
 #### Локали по умолчанию
 
 ```typescript static
 interface CalendarLocale {
   months?: string[];
+  'select-month-aria-label'?: string;
+  'select-year-aria-label'?: string;
+  'select-chosen-aria-label'?: string;
   'day-cell-choose-date-aria-label'?: string;
 }
 
@@ -127,6 +143,9 @@ const ru_RU = {
     'Ноябрь',
     'Декабрь',
   ],
+  'select-month-aria-label': 'месяц',
+  'select-year-aria-label': 'год',
+  'select-chosen-aria-label': 'Выбранный',
   'day-cell-choose-date-aria-label': 'Выбрать дату',
 };
 
@@ -145,6 +164,9 @@ const en_GB = {
     'November',
     'December',
   ],
-  'day-cell-choose-date-aria-label': 'Choose date',
+  'select-month-aria-label': 'месяц',
+  'select-year-aria-label': 'год',
+  'select-chosen-aria-label': 'Выбранный',
+  'day-cell-choose-date-aria-label': 'Выбрать дату',
 };
 ```
