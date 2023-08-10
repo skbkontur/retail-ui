@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar, CalendarDataTids } from '../Calendar';
+import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru';
+import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en';
 
 describe('DayCellView', () => {
   describe('a11y', () => {
@@ -10,7 +12,10 @@ describe('DayCellView', () => {
       const date = '1.2.2021';
       render(<Calendar value={date} onValueChange={jest.fn()} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', `Выбрать дату ${date}`);
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${DayCellViewLocalesRu['day-cell-choose-date-aria-label']} ${date}`,
+      );
     });
 
     it('has correct aria-label (en)', () => {
@@ -21,7 +26,10 @@ describe('DayCellView', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', `Choose date ${date}`);
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${DayCellViewLocalesEn['day-cell-choose-date-aria-label']} ${date}`,
+      );
     });
   });
 });

@@ -2,6 +2,8 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
+import { componentsLocales as DateSelectLocalesEn } from '../../../internal/DateSelect/locale/locales/en';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { Calendar } from '../Calendar';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -86,7 +88,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `Выбранный месяц Февраль`,
+        `${DateSelectLocalesRu['select-chosen-aria-label']} ${DateSelectLocalesRu['select-month-aria-label']} Февраль`,
       );
     });
 
@@ -100,7 +102,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `Chosen month February`,
+        `${DateSelectLocalesEn['select-chosen-aria-label']} ${DateSelectLocalesEn['select-month-aria-label']} February`,
       );
     });
 
@@ -110,7 +112,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `Выбранный год 2021`,
+        `${DateSelectLocalesRu['select-chosen-aria-label']} ${DateSelectLocalesRu['select-year-aria-label']} 2021`,
       );
     });
 
@@ -124,7 +126,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `Chosen year 2021`,
+        `${DateSelectLocalesEn['select-chosen-aria-label']} ${DateSelectLocalesEn['select-year-aria-label']} 2021`,
       );
     });
 
