@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
-import { Checkbox } from '../Checkbox';
+import { Checkbox, CheckboxSize } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 
 interface PlainCheckboxState {
   checked: false;
+  size?: CheckboxSize;
 }
 class PlainCheckbox extends React.Component {
   public state: PlainCheckboxState = {
@@ -15,9 +16,14 @@ class PlainCheckbox extends React.Component {
   };
 
   public render() {
-    const { checked } = this.state;
+    const { checked, size } = this.state;
     return (
-      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked} data-tid="test-checkbox">
+      <Checkbox
+        onValueChange={() => this.setState({ checked: !checked })}
+        checked={checked}
+        size={size}
+        data-tid="test-checkbox"
+      >
         {this.props.children}
       </Checkbox>
     );
@@ -437,3 +443,16 @@ CheckboxLabelSelectionWithPressedShift.parameters = {
     },
   },
 };
+
+export const Size: Story = () => {
+  return (
+    <div>
+      <Gapped vertical>
+        <Checkbox size={'small'}>Size: small</Checkbox>
+        <Checkbox size={'medium'}>Size: medium</Checkbox>
+        <Checkbox size={'large'}>Size: large</Checkbox>
+      </Gapped>
+    </div>
+  );
+};
+Size.storyName = 'size';
