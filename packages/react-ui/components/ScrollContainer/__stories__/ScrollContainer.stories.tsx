@@ -543,7 +543,7 @@ export const HideScrollBar: Story = () => (
 );
 HideScrollBar.parameters = {
   creevey: {
-    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
     tests: {
       async hideScroll() {
         const beforeScroll = await this.takeScreenshot();
@@ -553,6 +553,12 @@ HideScrollBar.parameters = {
             scrollContainer.scrollTop = 500;
           }
         });
+        this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ origin: this.browser.findElement({ css: 'body' }) });
+        await delay(200);
         const duringScroll = await this.takeScreenshot();
         await delay(3000);
         const afterScroll = await this.takeScreenshot();
