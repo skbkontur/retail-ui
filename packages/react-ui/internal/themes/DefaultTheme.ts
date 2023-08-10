@@ -88,6 +88,9 @@ export class DefaultTheme {
   public static controlHeightLarge = '48px';
   public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
 
+  public static transitionDuration = '100ms';
+  public static transitionTimingFunction = 'cubic-bezier(0.5, 1, 0.89, 1)';
+
   //#endregion
   //#region Link
   public static linkColor = '#1874cf';
@@ -309,6 +312,7 @@ export class DefaultTheme {
   public static btnArrowBgImageChecked = 'none';
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
+  public static btnBorderColorTransition = '';
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedDisabledBg = '#a0a0a0';
@@ -636,6 +640,10 @@ export class DefaultTheme {
   public static get selectMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static get selectBorderColorHover() {
+    return this.btnDefaultHoverBorderColor;
+  }
+  public static selectBorderColorTransition = `box-shadow ${this.transitionDuration} ${this.transitionTimingFunction};`;
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
@@ -1032,6 +1040,10 @@ export class DefaultTheme {
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static dropdownMenuBorderColorTransition = '';
+  public static get dropdownMenuHoverBorderColor() {
+    return this.btnDefaultHoverBorderColor;
+  }
   public static get dropdownMenuHoverBg() {
     //deprecated
     return this.bgActive;
