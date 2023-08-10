@@ -1439,7 +1439,7 @@ export class DefaultTheme {
     return this.fontSizeSmall;
   }
   public static get checkboxFontSizeSmall() {
-    return this.fontSizeSmall;
+    return this.checkboxFontSize;
   }
   public static get checkboxFontSizeMedium() {
     return this.fontSizeMedium;
@@ -1455,7 +1455,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static get checkboxLineHeightSmall() {
-    return this.controlLineHeightSmall;
+    return this.checkboxLineHeight;
   }
   public static get checkboxLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -1481,9 +1481,7 @@ export class DefaultTheme {
     return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static get checkboxPaddingYSmall() {
-    const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeightSmall, 10) || 0;
-    return `${(controlHeight - lineHeight) / 2}px`;
+    return this.checkboxPaddingY;
   }
   public static get checkboxPaddingYMedium() {
     const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;

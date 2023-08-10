@@ -9,9 +9,6 @@ export const checkboxSizeMixin = (fontSize: string, lineHeight: string, paddingY
     padding: ${paddingY} 0;
 
     &::before {
-      // non-breaking space.
-      // makes a correct space for absolutely positioned box,
-      // and also height and baseline for checkbox without caption.
       width: ${checkboxBoxSize};
     }
   `;
@@ -24,7 +21,7 @@ export const boxWrapperSizeMixin = (
   checkboxBoxOffsetY: string,
 ) => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
-  const boxFontSize = parseInt(fontSize.slice(0, -2));
+  const boxFontSize = parseInt(fontSize);
   const baselineCompensation =
     boxFontSize === 18 && (isFirefox || isChrome) // TODO: вынести условие в getLabGrotesqueBaselineCompensation, когда проп size будет добавлен для radio
       ? -labGrotesqueCompenstation
