@@ -168,13 +168,9 @@ const BaselineFont: React.FC<{
         </Link>
         <Toggle>Tg</Toggle>
         <Toggle />
-        <Checkbox size={size} initialIndeterminate>
-          Ch
-        </Checkbox>
-        <Checkbox size={size} checked>
-          Ch
-        </Checkbox>
-        <Checkbox size={size} />
+        <Checkbox initialIndeterminate>Ch</Checkbox>
+        <Checkbox checked>Ch</Checkbox>
+        <Checkbox />
         <Radio checked value="value">
           Rd
         </Radio>
