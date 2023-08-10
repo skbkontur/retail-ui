@@ -1527,52 +1527,14 @@ export class DefaultTheme {
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
-  public static get checkboxFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get checkboxFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get checkboxFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
-
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static get checkboxLineHeightSmall() {
-    return this.controlLineHeightSmall;
-  }
-  public static get checkboxLineHeightMedium() {
-    return this.controlLineHeightMedium;
-  }
-  public static get checkboxLineHeightLarge() {
-    return this.controlLineHeightLarge;
-  }
   public static checkboxBoxSize = '16px';
-  public static checkboxBoxSizeSmall = '16px';
-  public static checkboxBoxSizeMedium = '20px';
-  public static checkboxBoxSizeLarge = '24px';
   public static checkboxCaptionGap = '8px';
-
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
     const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
-    return `${(controlHeight - lineHeight) / 2}px`;
-  }
-  public static get checkboxPaddingYSmall() {
-    const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeightSmall, 10) || 0;
-    return `${(controlHeight - lineHeight) / 2}px`;
-  }
-  public static get checkboxPaddingYMedium() {
-    const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeightMedium, 10) || 0;
-    return `${(controlHeight - lineHeight) / 2}px`;
-  }
-  public static get checkboxPaddingYLarge() {
-    const controlHeight = parseInt(this.controlHeightLarge, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeightLarge, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static checkboxBoxOffsetY = '1px';
