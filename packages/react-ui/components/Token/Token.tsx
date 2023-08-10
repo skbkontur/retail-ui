@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import {createPropsGetter} from "../../lib/createPropsGetter";
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -80,18 +80,12 @@ export class Token extends React.Component<TokenProps> {
   private getSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.tokenLarge(this.theme)]: true,
-        });
+        return styles.tokenLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.tokenMedium(this.theme)]: true,
-        });
+        return styles.tokenMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.tokenSmall(this.theme)]: true,
-        });
+        return styles.tokenSmall(this.theme);
     }
   }
 
@@ -157,7 +151,9 @@ export class Token extends React.Component<TokenProps> {
       );
     }
 
-    const tokenClassNames = cx(this.getSizeClassName(), classNames);
+    const tokenClassNames = cx(this.getSizeClassName(), classNames, {
+      [styles.token(theme)]: true,
+    });
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

@@ -138,7 +138,7 @@ export class DefaultTheme {
     return this.fontSizeSmall;
   }
   public static get tokenFontSizeSmall() {
-    return this.fontSizeSmall;
+    return this.tokenFontSize;
   }
   public static get tokenFontSizeMedium() {
     return this.fontSizeMedium;
@@ -152,7 +152,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static get tokenLineHeightSmall() {
-    return this.controlLineHeightSmall;
+    return this.tokenLineHeight;
   }
   public static get tokenLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -168,8 +168,12 @@ export class DefaultTheme {
    * @deprecated use tokenPaddingXSmall
    */
   public static tokenPaddingX = '3px';
-  public static tokenPaddingYSmall = '1px';
-  public static tokenPaddingXSmall = '3px';
+  public static get tokenPaddingYSmall() {
+    return this.tokenPaddingY;
+  }
+  public static get tokenPaddingXSmall() {
+    return this.tokenPaddingX;
+  }
   public static tokenPaddingYMedium = '2px';
   public static tokenPaddingXMedium = '5px';
   public static tokenPaddingYLarge = '3px';

@@ -2,21 +2,18 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-import {TokenSize} from "./Token";
-import {fontSize, lineHeight, tokenPaddingX, tokenPaddingY} from "./helpers";
+import { tokenSizeMixin } from './Token.mixins';
 
 export const globalClasses = prefix('token')({
   removeIcon: 'remove-icon',
 });
 
-function token(t: Theme, size: TokenSize) {
-  return css`
+export const styles = memoizeStyle({
+  token(t: Theme) {
+    return css`
       display: inline-flex;
       align-items: center;
       border-radius: ${t.tokenBorderRadius};
-      padding: ${tokenPaddingY(t, size)} ${tokenPaddingX(t, size)};
-      line-height: ${lineHeight(t, size)};
-      font-size: ${fontSize(t, size)};
       margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
       word-break: break-all;
@@ -26,20 +23,24 @@ function token(t: Theme, size: TokenSize) {
         cursor: pointer;
       }
     `;
-}
-
-export const styles = memoizeStyle({
+  },
 
   tokenSmall(t: Theme) {
-    return token(t, 'small');
+    return css`
+      ${tokenSizeMixin(t.tokenPaddingYSmall, t.tokenPaddingXSmall, t.tokenLineHeightSmall, t.tokenFontSizeSmall)};
+    `;
   },
 
   tokenMedium(t: Theme) {
-    return token(t, 'medium');
+    return css`
+      ${tokenSizeMixin(t.tokenPaddingYMedium, t.tokenPaddingXMedium, t.tokenLineHeightMedium, t.tokenFontSizeMedium)};
+    `;
   },
 
   tokenLarge(t: Theme) {
-    return token(t, 'large');
+    return css`
+      ${tokenSizeMixin(t.tokenPaddingYLarge, t.tokenPaddingXLarge, t.tokenLineHeightLarge, t.tokenFontSizeLarge)};
+    `;
   },
 
   tokenDefaultIdle2022(t: Theme) {
