@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.12.0...react-ui-validations@1.13.0) (2023-08-10)
+
+
+### Features
+
+* **react-ui-validations:** add type export ([#3227](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3227)) ([e03092a](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/e03092abe52e366cdc21ce74b626f677d6583e27))
+
+
+
+
+
 # [1.12.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.11.3...react-ui-validations@1.12.0) (2023-03-02)
 
 
