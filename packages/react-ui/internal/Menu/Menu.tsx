@@ -447,7 +447,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       index += step;
 
       if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
-        return null;
+        return;
       }
 
       if (index < 0) {
