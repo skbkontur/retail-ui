@@ -71,23 +71,16 @@ import { Gapped } from '@skbkontur/react-ui';
 У тоглов есть 3 стандартных размера.
 
 ```jsx harmony
-const ToggleWithSize = ({...props}) => {
-  const [checked, setChecked] = React.useState(false);
-  return (
-    <Toggle checked={checked} onValueChange={setChecked} {...props}></Toggle>
-  )
-};
-
 <Gapped vertical>
-  <ToggleWithSize size="small">
+  <Toggle size="small">
     Маленький
-  </ToggleWithSize>
-  <ToggleWithSize size="medium">
+  </Toggle>
+  <Toggle size="medium">
     Средний
-  </ToggleWithSize>
-  <ToggleWithSize size="large">
+  </Toggle>
+  <Toggle size="large">
     Большой
-  </ToggleWithSize>
+  </Toggle>
 </Gapped>
 ```
 

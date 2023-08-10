@@ -1180,8 +1180,20 @@ export class DefaultTheme {
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
+  /**
+   * @deprecated use toggleLineHeightSmall
+   */
   public static get toggleLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get toggleLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get toggleLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get toggleLineHeightLarge() {
+    return this.controlLineHeightLarge;
   }
   public static get toggleFontSizeSmall() {
     return this.fontSizeSmall;
@@ -1197,10 +1209,28 @@ export class DefaultTheme {
   }
   public static toggleHandleActiveWidthIncrement = '4px';
   /**
-   * @deprecated use хз что...
+   * @deprecated use toggleHandleBorderRadiusSmall
    */
   public static get toggleHandleBorderRadius() {
-    const height = parseInt(this.toggleHeight, 10) || 0;
+    const height = parseInt(this.toggleHeightSmall, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  public static get toggleHandleBorderRadiusSmall() {
+    const height = parseInt(this.toggleHeightSmall, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  public static get toggleHandleBorderRadiusMedium() {
+    const height = parseInt(this.toggleHeightMedium, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  public static get toggleHandleBorderRadiusLarge() {
+    const height = parseInt(this.toggleHeightLarge, 10) || 0;
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
@@ -1224,8 +1254,11 @@ export class DefaultTheme {
   public static toggleHeightLarge = '24px';
   public static toggleWidthLarge = '36px';
   public static handleRadiusLarge = '18px';
+  /**
+   * @deprecated use toggleBorderRadiusSmall
+   */
   public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeight} * 0.5)`;
+    return `calc(${this.toggleHeightSmall} * 0.5)`;
   }
   public static get toggleBorderRadiusSmall() {
     return `calc(${this.toggleHeightSmall} * 0.5)`;
@@ -1269,11 +1302,10 @@ export class DefaultTheme {
    * @deprecated use toggleHandleSizeSmall
    */
   public static get toggleHandleSize() {
-    const toggleHeight = parseInt(this.toggleHeight, 10) || 0;
+    const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
     const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
   }
-  // looks like checkboxPaddingY
   public static get toggleHandleSizeSmall() {
     const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
     const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
@@ -1308,7 +1340,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static toggleCaptionGap = '10px'; // оно правда 10 - 10 - 12 ???
+  public static toggleCaptionGap = '10px';
   public static toggleButtonOffsetY = '0px';
 
   public static get toggleOutlineColorFocus() {

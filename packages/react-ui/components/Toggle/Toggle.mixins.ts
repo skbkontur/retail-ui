@@ -1,0 +1,93 @@
+import { css } from '../../lib/theming/Emotion';
+import { isChrome } from '../../lib/client';
+
+import { globalClasses } from './Toggle.styles';
+
+export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWidth: string) => {
+  return css`
+    line-height: ${toggleHeight};
+    font-size: ${fontSize};
+
+    &::before {
+      // non-breaking space.
+      // makes a correct space for absolutely positioned button,
+      // and also height and baseline for toggle without caption.
+      width: ${toggleWidth};
+    }
+  `;
+};
+
+export const buttonSizeMixin = (
+  labGrotesqueBaselineCompensation: string,
+  fontSize: string,
+  toggleHeight: string,
+  toggleWidth: string,
+  toggleBorderRadius: string,
+  toggleButtonOffsetY: string,
+) => {
+  const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
+  const buttonFontSize = parseInt(fontSize.slice(0, -2));
+  const baselineCompensation = buttonFontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
+  return css`
+    height: ${toggleHeight};
+    width: ${toggleWidth};
+    flex: 1 0 ${toggleWidth};
+
+    border-radius: ${toggleBorderRadius};
+    line-height: ${toggleHeight};
+
+    margin-top: calc(${toggleButtonOffsetY} + ${baselineCompensation}px);
+  `;
+};
+
+export const captionSizeMixin = (fontSize: string, toggleHeight: string) => {
+  return css`
+    line-height: ${toggleHeight};
+    font-size: ${fontSize};
+  `;
+};
+
+export const handleMixin = (toggleHandleSize: string, toggleHandleBorderRadius: string) => {
+  return css`
+    border-radius: ${toggleHandleBorderRadius};
+    height: ${toggleHandleSize};
+    width: ${toggleHandleSize};
+  `;
+};
+
+export const containerSizeMixin = (toggleBorderRadius: string) => {
+  return css`
+    border-radius: ${toggleBorderRadius};
+  `;
+};
+
+export const inputSizeMixin = (toggleHeight: string, toggleWidth: string) => {
+  const handleWidthWithBorders = toggleHeight;
+  const height = parseInt(toggleHeight.slice(0, -2));
+  return css`
+    &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
+      border-radius: ${height * 0.5}px 0 0 ${height * 0.5}px;
+    }
+    &:checked ~ .${globalClasses.handle} {
+      transform: translateX(${toggleWidth}) translateX(-${handleWidthWithBorders});
+    }
+  `;
+};
+
+export const activeHandleSizeMixin = (
+  toggleHandleSize: string,
+  toggleBorderWidth: string,
+  toggleHandleActiveWidthIncrement: string,
+  toggleWidth: string,
+) => {
+  const handleWidthWithBorders = toggleHandleSize; // надо ли изменить на размер handle
+  const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${toggleBorderWidth} + ${toggleHandleActiveWidthIncrement})`;
+  return css`
+    &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
+      width: ${handleActiveWidth};
+    }
+    &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
+      transform: translateX(${toggleWidth}) translateX(-${handleWidthWithBorders}) translateX(-4px);
+    }
+  `;
+};

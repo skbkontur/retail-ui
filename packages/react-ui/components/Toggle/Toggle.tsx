@@ -65,7 +65,7 @@ export interface ToggleProps extends CommonProps {
    */
   autoFocus?: boolean;
   /** Размер */
-  size?: ToggleSize; //+++
+  size?: ToggleSize;
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
@@ -103,7 +103,7 @@ export const ToggleDataTids = {
 
 type DefaultProps = Required<
   Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition' | 'disableAnimations' | 'size'>
->; //+++
+>;
 
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
@@ -182,90 +182,60 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   private getContainerSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.containerLarge(this.theme)]: true,
-        });
+        return styles.containerLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.containerMedium(this.theme)]: true,
-        });
+        return styles.containerMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.containerSmall(this.theme)]: true,
-        });
+        return styles.containerSmall(this.theme);
     }
   }
 
   private getHandleSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.handleLarge(this.theme)]: true,
-        });
+        return styles.handleLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.handleMedium(this.theme)]: true,
-        });
+        return styles.handleMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.handleSmall(this.theme)]: true,
-        });
+        return styles.handleSmall(this.theme);
     }
   }
 
   private getButtonSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.buttonLarge(this.theme)]: true,
-        });
+        return styles.buttonLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.buttonMedium(this.theme)]: true,
-        });
+        return styles.buttonMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.buttonSmall(this.theme)]: true,
-        });
+        return styles.buttonSmall(this.theme);
     }
   }
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.rootLarge(this.theme)]: true,
-        });
+        return styles.rootLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.rootMedium(this.theme)]: true,
-        });
+        return styles.rootMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.rootSmall(this.theme)]: true,
-        });
+        return styles.rootSmall(this.theme);
     }
   }
 
   private getInputSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.inputLarge(this.theme)]: true,
-        });
+        return styles.inputLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.inputMedium(this.theme)]: true,
-        });
+        return styles.inputMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.inputSmall(this.theme)]: true,
-        });
+        return styles.inputSmall(this.theme);
     }
   }
 
@@ -275,36 +245,24 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.activeHandleLarge(this.theme)]: true,
-        });
+        return styles.activeHandleLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.activeHandleMedium(this.theme)]: true,
-        });
+        return styles.activeHandleMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.activeHandleSmall(this.theme)]: true,
-        });
+        return styles.activeHandleSmall(this.theme);
     }
   }
 
   private getCaptionSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return cx({
-          [styles.captionLarge(this.theme)]: true,
-        });
+        return styles.captionLarge(this.theme);
       case 'medium':
-        return cx({
-          [styles.captionMedium(this.theme)]: true,
-        });
+        return styles.captionMedium(this.theme);
       case 'small':
       default:
-        return cx({
-          [styles.captionSmall(this.theme)]: true,
-        });
+        return styles.captionSmall(this.theme);
     }
   }
 
@@ -315,6 +273,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
     const containerClassNames = cx(this.getContainerSizeClassName(), {
+      [styles.container(this.theme)]: true,
       [styles.containerDisabled(this.theme)]: disabled,
       [globalClasses.container]: true,
       [globalClasses.containerDisabled]: disabled,
@@ -322,6 +281,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     });
 
     const labelClassNames = cx(this.getRootSizeClassName(), this.getActiveHandleSizeClassName(), {
+      [styles.root(this.theme)]: true,
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: disabled,
       [globalClasses.disabled]: disabled,
@@ -331,6 +291,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     let caption = null;
     if (children) {
       const captionClass = cx(this.getCaptionSizeClassName(), {
+        [styles.caption(this.theme)]: true,
         [styles.captionLeft(this.theme)]: captionPosition === 'left',
         [styles.disabledCaption(this.theme)]: disabled,
       });
@@ -342,6 +303,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
         <label data-tid={ToggleDataTids.root} className={labelClassNames}>
           <div
             className={cx(this.getButtonSizeClassName(), {
+              [styles.button(this.theme)]: true,
               [styles.buttonRight()]: captionPosition === 'left',
               [styles.isWarning(this.theme)]: !!warning,
               [styles.isError(this.theme)]: !!error,
@@ -352,7 +314,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               type="checkbox"
               checked={checked}
               onChange={this.handleChange}
-              className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme))}
+              className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
+                [styles.input(this.theme)]: true,
+              })}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               ref={this.inputRef}
@@ -391,6 +355,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
             </div>
             <div
               className={cx(this.getHandleSizeClassName(), globalClasses.handle, {
+                [styles.handle(this.theme)]: true,
                 [styles.handleDisabled(this.theme)]: disabled,
               })}
             />

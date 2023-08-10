@@ -1,9 +1,15 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { isChrome } from '../../lib/client';
 
-import { ToggleSize } from './Toggle';
-import { fontSize, toggleBorderRadius, toggleHandleSize, toggleHeight, toggleWidth } from './helpers';
+import {
+  activeHandleSizeMixin,
+  buttonSizeMixin,
+  captionSizeMixin,
+  containerSizeMixin,
+  handleMixin,
+  inputSizeMixin,
+  toggleSizeMixin,
+} from './Toggle.mixins';
 
 export const globalClasses = prefix('toggle')({
   handle: 'handle',
@@ -15,24 +21,72 @@ export const globalClasses = prefix('toggle')({
 });
 
 export const styles = memoizeStyle({
+  root(t: Theme) {
+    return css`
+      display: inline-flex;
+      cursor: pointer;
+      align-items: baseline;
+      position: relative;
+
+      &::before {
+        // non-breaking space.
+        // makes a correct space for absolutely positioned button,
+        // and also height and baseline for toggle without caption.
+        content: '\\00A0';
+        display: inline-block;
+        flex: 0 0 auto;
+      }
+
+      &:hover .${globalClasses.handle} {
+        background: ${t.toggleBgHover};
+      }
+    `;
+  },
   rootSmall(t: Theme) {
-    return root(t, 'small');
+    return css`
+      ${toggleSizeMixin(t.toggleFontSizeSmall, t.toggleHeightSmall, t.toggleWidthSmall)};
+    `;
   },
   rootMedium(t: Theme) {
-    return root(t, 'medium');
+    return css`
+      ${toggleSizeMixin(t.toggleFontSizeMedium, t.toggleHeightMedium, t.toggleWidthMedium)};
+    `;
   },
   rootLarge(t: Theme) {
-    return root(t, 'large');
+    return css`
+      ${toggleSizeMixin(t.toggleFontSizeLarge, t.toggleHeightLarge, t.toggleWidthLarge)};
+    `;
   },
 
   activeHandleSmall(t: Theme) {
-    return activeHandle(t, 'small');
+    return css`
+      ${activeHandleSizeMixin(
+        t.toggleHandleSizeSmall,
+        t.toggleBorderWidth,
+        t.toggleHandleActiveWidthIncrement,
+        t.toggleWidthSmall,
+      )};
+    `;
   },
   activeHandleMedium(t: Theme) {
-    return activeHandle(t, 'medium');
+    return css`
+      ${activeHandleSizeMixin(
+        t.toggleHandleSizeMedium,
+        t.toggleBorderWidth,
+        t.toggleHandleActiveWidthIncrement,
+        t.toggleWidthMedium,
+      )};
+    `;
   },
   activeHandleLarge(t: Theme) {
-    return activeHandle(t, 'large');
+    return css`
+      ${activeHandleSizeMixin(
+        t.toggleHandleSizeLarge,
+        t.toggleBorderWidth,
+        t.toggleHandleActiveWidthIncrement,
+        t.toggleWidthLarge,
+      )};
+    `;
   },
 
   disableAnimation() {
@@ -44,30 +98,31 @@ export const styles = memoizeStyle({
     `;
   },
 
-  // handle(t: Theme) {
-  //   return css`
-  //     background: ${t.toggleHandleBg};
-  //     border-radius: ${t.toggleHandleBorderRadius};
-  //     bottom: ${t.toggleBorderWidth};
-  //     box-shadow: ${t.toggleHandleBoxShadowOld};
-  //     height: ${t.toggleHandleSize};
-  //     left: ${t.toggleHandleLeft};
-  //     position: absolute;
-  //     top: ${t.toggleHandleTop};
-  //     transition: 0.2s ease-in;
-  //     width: ${t.toggleHandleSize};
-  //   `;
-  // },
+  handle(t: Theme) {
+    return css`
+      background: ${t.toggleHandleBg};
+      bottom: ${t.toggleBorderWidth};
+      box-shadow: ${t.toggleHandleBoxShadowOld};
+      left: ${t.toggleHandleLeft};
+      position: absolute;
+      top: ${t.toggleHandleTop};
+      transition: 0.2s ease-in;
+    `;
+  },
   handleSmall(t: Theme) {
-    return handleSize(t, 'small');
+    return css`
+      ${handleMixin(t.toggleHandleSizeSmall, t.toggleHandleBorderRadiusSmall)};
+    `;
   },
-
   handleMedium(t: Theme) {
-    return handleSize(t, 'medium');
+    return css`
+      ${handleMixin(t.toggleHandleSizeMedium, t.toggleHandleBorderRadiusMedium)};
+    `;
   },
-
   handleLarge(t: Theme) {
-    return handleSize(t, 'large');
+    return css`
+      ${handleMixin(t.toggleHandleSizeLarge, t.toggleHandleBorderRadiusLarge)};
+    `;
   },
 
   handleDisabled(t: Theme) {
@@ -76,14 +131,59 @@ export const styles = memoizeStyle({
     `;
   },
 
+  input(t: Theme) {
+    return css`
+      position: absolute;
+      opacity: 0;
+
+      &:focus {
+        outline: none;
+      }
+      &:checked ~ .${globalClasses.container} {
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
+        background: ${t.toggleBgChecked};
+        transition: background 0s 0.2s;
+      }
+      &:checked ~ .${globalClasses.containerDisabled} {
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColorDisabledChecked};
+        background: ${t.toggleBgDisabledChecked};
+        transition: background 0s 0.2s;
+      }
+      &:checked ~ .${globalClasses.containerLoading} {
+        background: ${t.toggleBorderColor};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
+      }
+      &:checked ~ .${globalClasses.container} .${globalClasses.background} {
+        width: 70%;
+        background: ${t.toggleBgChecked};
+      }
+      &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
+        width: 70%;
+        background: ${t.toggleBgDisabledChecked};
+        box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
+      }
+      &:checked ~ .${globalClasses.handle} {
+        background: ${t.toggleCheckedBg};
+        &:hover {
+          background: ${t.toggleCheckedBgHover};
+        }
+      }
+    `;
+  },
   inputSmall(t: Theme) {
-    return input(t, 'small');
+    return css`
+      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
+    `;
   },
   inputMedium(t: Theme) {
-    return input(t, 'medium');
+    return css`
+      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
+    `;
   },
   inputLarge(t: Theme) {
-    return input(t, 'large');
+    return css`
+      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
+    `;
   },
 
   input2022(t: Theme) {
@@ -160,29 +260,31 @@ export const styles = memoizeStyle({
     `;
   },
 
-  // container(t: Theme) {
-  //   return css`
-  //     border-radius: ${toggleBorderRadius(t, size)};
-  //     box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-  //     height: 100%;
-  //     overflow: hidden;
-  //     position: absolute;
-  //     width: 100%;
-  //     /* fixes overflow issue in Safari: https://bugs.webkit.org/show_bug.cgi?id=98538 */
-  //     z-index: 0;
-  //   `;
-  // },
-
+  container(t: Theme) {
+    return css`
+      box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
+      height: 100%;
+      overflow: hidden;
+      position: absolute;
+      width: 100%;
+      /* fixes overflow issue in Safari: https://bugs.webkit.org/show_bug.cgi?id=98538 */
+      z-index: 0;
+    `;
+  },
   containerSmall(t: Theme) {
-    return containerSize(t, 'small');
+    return css`
+      ${containerSizeMixin(t.toggleBorderRadiusSmall)};
+    `;
   },
-
   containerMedium(t: Theme) {
-    return containerSize(t, 'medium');
+    return css`
+      ${containerSizeMixin(t.toggleBorderRadiusMedium)};
+    `;
   },
-
   containerLarge(t: Theme) {
-    return containerSize(t, 'large');
+    return css`
+      ${containerSizeMixin(t.toggleBorderRadiusLarge)};
+    `;
   },
 
   containerDisabled(t: Theme) {
@@ -234,35 +336,51 @@ export const styles = memoizeStyle({
       box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorError};
     `;
   },
-  // button(t: Theme) {
-  //   const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-  //   const fontSize = parseInt(t.checkboxFontSize);
-  //   const baselineCompensation = fontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
-  //   return css`
-  //     position: absolute;
-  //     left: 0;
-  //     top: 0;
-  //     height: ${t.toggleHeight};
-  //     width: ${t.toggleWidth};
-  //     flex: 1 0 ${t.toggleWidth};
-  //
-  //     background: ${t.toggleBaseBg};
-  //     border-radius: ${t.toggleBorderRadius};
-  //     line-height: ${t.toggleHeight};
-  //
-  //     margin-top: calc(${t.toggleButtonOffsetY} + ${baselineCompensation}px);
-  //   `;
-  // },
+
+  button(t: Theme) {
+    return css`
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: ${t.toggleBaseBg};
+      line-height: ${t.toggleHeight};
+    `;
+  },
   buttonSmall(t: Theme) {
-    return buttonSize(t, 'small');
+    return css`
+      ${buttonSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.toggleFontSizeSmall,
+        t.toggleHeightSmall,
+        t.toggleWidthSmall,
+        t.toggleBorderRadiusSmall,
+        t.toggleButtonOffsetY,
+      )};
+    `;
   },
-
   buttonMedium(t: Theme) {
-    return buttonSize(t, 'medium');
+    return css`
+      ${buttonSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.toggleFontSizeMedium,
+        t.toggleHeightMedium,
+        t.toggleWidthMedium,
+        t.toggleBorderRadiusMedium,
+        t.toggleButtonOffsetY,
+      )};
+    `;
   },
-
   buttonLarge(t: Theme) {
-    return buttonSize(t, 'large');
+    return css`
+      ${buttonSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.toggleFontSizeLarge,
+        t.toggleHeightLarge,
+        t.toggleWidthLarge,
+        t.toggleBorderRadiusLarge,
+        t.toggleButtonOffsetY,
+      )};
+    `;
   },
 
   buttonRight() {
@@ -284,14 +402,26 @@ export const styles = memoizeStyle({
     `;
   },
 
+  caption(t: Theme) {
+    return css`
+      color: ${t.toggleTextColor};
+      padding: 0 0 0 ${t.toggleCaptionGap};
+    `;
+  },
   captionSmall(t: Theme) {
-    return caption(t, 'small');
+    return css`
+      ${captionSizeMixin(t.toggleFontSizeSmall, t.toggleHeightSmall)};
+    `;
   },
   captionMedium(t: Theme) {
-    return caption(t, 'medium');
+    return css`
+      ${captionSizeMixin(t.toggleFontSizeMedium, t.toggleHeightMedium)};
+    `;
   },
   captionLarge(t: Theme) {
-    return caption(t, 'large');
+    return css`
+      ${captionSizeMixin(t.toggleFontSizeLarge, t.toggleHeightLarge)};
+    `;
   },
 
   disabledCaption(t: Theme) {
@@ -303,145 +433,7 @@ export const styles = memoizeStyle({
   captionLeft(t: Theme) {
     return css`
       color: ${t.toggleTextColor};
-      padding: 0 ${t.toggleCaptionGap} 0 0; // надо ли это?
+      padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },
 });
-
-function buttonSize(t: Theme, size: ToggleSize) {
-  const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-  const fontSize_ = parseInt(fontSize(t, size).slice(0, -2));
-  const baselineCompensation = fontSize_ <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
-  return css`
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: ${toggleHeight(t, size)};
-    width: ${toggleWidth(t, size)};
-    flex: 1 0 ${toggleWidth(t, size)};
-
-    background: ${t.toggleBaseBg};
-    border-radius: ${toggleHeight(t, size)};
-    line-height: ${toggleHeight(t, size)};
-
-    margin-top: calc(${t.toggleButtonOffsetY} + ${baselineCompensation}px);
-  `;
-}
-
-function containerSize(t: Theme, size: ToggleSize) {
-  return css`
-    border-radius: ${toggleBorderRadius(t, size)};
-    box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-    height: 100%;
-    overflow: hidden;
-    position: absolute;
-    width: 100%;
-    /* fixes overflow issue in Safari: https://bugs.webkit.org/show_bug.cgi?id=98538 */
-    z-index: 0;
-  `;
-}
-
-function handleSize(t: Theme, size: ToggleSize) {
-  return css`
-    background: ${t.toggleHandleBg};
-    border-radius: ${toggleHandleSize(t, size)};
-    bottom: ${t.toggleBorderWidth};
-    box-shadow: ${t.toggleHandleBoxShadowOld};
-    height: ${toggleHandleSize(t, size)};
-    left: ${t.toggleHandleLeft};
-    position: absolute;
-    top: ${t.toggleHandleTop};
-    transition: 0.2s ease-in;
-    width: ${toggleHandleSize(t, size)};
-  `;
-}
-
-function root(t: Theme, size: ToggleSize) {
-  return css`
-    display: inline-flex;
-    cursor: pointer;
-    align-items: baseline;
-    position: relative;
-    line-height: ${toggleHeight(t, size)}; // $ {t.toggleLineHeight};
-    font-size: ${fontSize(t, size)};
-
-    &:hover .${globalClasses.handle} {
-      background: ${t.toggleBgHover};
-    }
-
-    &::before {
-      // non-breaking space.
-      // makes a correct space for absolutely positioned button,
-      // and also height and baseline for toggle without caption.
-      content: '\\00A0';
-      display: inline-block;
-      width: ${toggleWidth(t, size)};
-      flex: 0 0 auto;
-    }
-  `;
-}
-
-function input(t: Theme, size: ToggleSize) {
-  const handleWidthWithBorders = toggleHeight(t, size);
-  return css`
-    position: absolute;
-    opacity: 0;
-
-    &:focus {
-      outline: none;
-    }
-    &:checked ~ .${globalClasses.container} {
-      box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
-      background: ${t.toggleBgChecked};
-      transition: background 0s 0.2s;
-    }
-    &:checked ~ .${globalClasses.containerDisabled} {
-      box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColorDisabledChecked};
-      background: ${t.toggleBgDisabledChecked};
-      transition: background 0s 0.2s;
-    }
-    &:checked ~ .${globalClasses.containerLoading} {
-      background: ${t.toggleBorderColor};
-      box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-    }
-    &:checked ~ .${globalClasses.container} .${globalClasses.background} {
-      width: 70%;
-      background: ${t.toggleBgChecked};
-    }
-    &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
-      width: 70%;
-      background: ${t.toggleBgDisabledChecked};
-      border-radius: calc(${toggleHeight(t, size)} * 0.5) 0 0 calc(${toggleHeight(t, size)} * 0.5);
-      box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
-    }
-    &:checked ~ .${globalClasses.handle} {
-      transform: translateX(${toggleWidth(t, size)}) translateX(-${handleWidthWithBorders});
-      background: ${t.toggleCheckedBg};
-      &:hover {
-        background: ${t.toggleCheckedBgHover};
-      }
-    }
-  `;
-}
-
-function caption(t: Theme, size: ToggleSize) {
-  return css`
-    color: ${t.toggleTextColor};
-    padding: 0 0 0 ${t.toggleCaptionGap};
-    line-height: ${toggleHeight(t, size)}; // $ {t.toggleLineHeight};
-    font-size: ${fontSize(t, size)};
-  `;
-}
-
-function activeHandle(t: Theme, size: ToggleSize) {
-  const handleWidthWithBorders = toggleHandleSize(t, size); // надо ли изменить на размер handle
-  const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
-  return css`
-    &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
-      width: ${handleActiveWidth};
-    }
-    &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
-      transform: translateX(${toggleWidth(t, size)}) translateX(-${handleWidthWithBorders}) translateX(-4px);
-    }
-  `;
-}
