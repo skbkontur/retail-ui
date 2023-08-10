@@ -78,7 +78,7 @@ export const styles = memoizeStyle({
 
   circle(t: Theme) {
     const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-    const fontSize = parseInt(t.checkboxFontSize);
+    const fontSize = parseInt(t.radioFontSize);
 
     const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
     const circleSize = `calc(${t.radioSize} - 2 * ${t.radioBorderWidthCompensation})`;

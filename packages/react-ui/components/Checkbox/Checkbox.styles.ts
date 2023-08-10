@@ -1,7 +1,7 @@
-import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { isChrome } from '../../lib/client';
+
+import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins';
 
 export const globalClasses = prefix('checkbox')({
   box: 'box',
@@ -14,9 +14,15 @@ export const styles = memoizeStyle({
       align-items: baseline;
       cursor: pointer;
       position: relative;
-      line-height: ${t.checkboxLineHeight};
-      font-size: ${t.checkboxFontSize};
-      padding: ${t.checkboxPaddingY} 0;
+
+      &::before {
+        // non-breaking space.
+        // makes a correct space for absolutely positioned box,
+        // and also height and baseline for checkbox without caption.
+        content: '\\00A0';
+        display: inline-block;
+        flex: 0 0 auto;
+      }
 
       .${globalClasses.box} {
         transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
@@ -32,16 +38,39 @@ export const styles = memoizeStyle({
         box-shadow: ${t.checkboxShadowActive};
         background: ${t.checkboxActiveBg};
       }
+    `;
+  },
 
-      &::before {
-        // non-breaking space.
-        // makes a correct space for absolutely positioned box,
-        // and also height and baseline for checkbox without caption.
-        content: '\\00A0';
-        display: inline-block;
-        width: ${t.checkboxBoxSize};
-        flex: 0 0 auto;
-      }
+  rootSmall(t: Theme) {
+    return css`
+      ${checkboxSizeMixin(
+        t.checkboxFontSizeSmall,
+        t.checkboxLineHeightSmall,
+        t.checkboxPaddingYSmall,
+        t.checkboxBoxSizeSmall,
+      )};
+    `;
+  },
+
+  rootMedium(t: Theme) {
+    return css`
+      ${checkboxSizeMixin(
+        t.checkboxFontSizeMedium,
+        t.checkboxLineHeightMedium,
+        t.checkboxPaddingYMedium,
+        t.checkboxBoxSizeMedium,
+      )};
+    `;
+  },
+
+  rootLarge(t: Theme) {
+    return css`
+      ${checkboxSizeMixin(
+        t.checkboxFontSizeLarge,
+        t.checkboxLineHeightLarge,
+        t.checkboxPaddingYLarge,
+        t.checkboxBoxSizeLarge,
+      )};
     `;
   },
 
@@ -83,21 +112,48 @@ export const styles = memoizeStyle({
   },
 
   boxWrapper(t: Theme) {
-    const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-    const fontSize = parseInt(t.checkboxFontSize);
-    const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
-
     return css`
       position: absolute;
-      width: ${t.checkboxBoxSize};
-      height: ${t.checkboxBoxSize};
       box-sizing: border-box;
       padding: ${t.checkboxBorderWidth};
-      margin-top: calc(${t.checkboxBoxOffsetY} + ${baselineCompensation}px);
 
       // fix position in ie11
       display: inline-block;
       left: 0;
+    )};
+    `;
+  },
+
+  boxWrapperSmall(t: Theme) {
+    return css`
+      ${boxWrapperSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.checkboxFontSizeSmall,
+        t.checkboxBoxSizeSmall,
+        t.checkboxBoxOffsetY,
+      )};
+    `;
+  },
+
+  boxWrapperMedium(t: Theme) {
+    return css`
+      ${boxWrapperSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.checkboxFontSizeMedium,
+        t.checkboxBoxSizeMedium,
+        t.checkboxBoxOffsetY,
+      )};
+    `;
+  },
+
+  boxWrapperLarge(t: Theme) {
+    return css`
+      ${boxWrapperSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.checkboxFontSizeLarge,
+        t.checkboxBoxSizeLarge,
+        t.checkboxBoxOffsetY,
+      )};
     `;
   },
 
