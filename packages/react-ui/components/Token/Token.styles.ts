@@ -86,7 +86,7 @@ export const styles = memoizeStyle({
 
   tokenDisabled2022(t: Theme) {
     return css`
-      //padding: $ {t.tokenPaddingYDisabled} $ {t.tokenPaddingXDisabled}; // JTODO: зачем другая переменная? она ж туды же ссылается
+      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
       margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
@@ -102,7 +102,7 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      //padding: $ {t.tokenPaddingYDisabled} $ {t.tokenPaddingXDisabled}; // JTODO: зачем другая переменная? она ж туды же ссылается
+      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
       margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;

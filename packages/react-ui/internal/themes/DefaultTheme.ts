@@ -134,6 +134,9 @@ export class DefaultTheme {
   public static get tokenTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
+  /**
+   * @deprecated use tokenFontSizeSmall
+   */
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
@@ -148,6 +151,9 @@ export class DefaultTheme {
   }
   public static tokenMarginY = '2px';
   public static tokenMarginX = '4px';
+  /**
+   * @deprecated use tokenLineHeightSmall
+   */
   public static get tokenLineHeight() {
     return this.controlLineHeightSmall;
   }
