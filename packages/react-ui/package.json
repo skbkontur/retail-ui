@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.16.0-next.4",
+  "version": "4.16.0-next.5",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -21,7 +21,7 @@
     "build": "run-p build:esm build:cjs && node scripts/build/postbuild",
     "clean": "git clean -fdxqe node_modules",
     "prerelease": "node scripts/publish/prepublish && yarn build",
-    "release": "cd build && npm publish && cd ..",
+    "release": "npm publish ./build --workspaces=false",
     "postrelease": "yarn deploy",
     "predeploy": "rimraf .styleguide/deploy && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/deploy -r git@github.com:skbkontur/react-ui.git",
