@@ -273,20 +273,6 @@ class DatePickerFormatting extends React.Component {
 <DatePickerFormatting />;
 ```
 
-### Доступные описания элементов
-`<DatePicker />` по умолчанию предоставляет доступные описания, которые позволяют пользователям скрин-ридеров навигироваться по контролу. Все описания переведены на два языка: русский и английский.
-
-У вас есть возможность контролировать текст описания с помощью механизма `LocaleContext`:
-```jsx harmony
-import { LocaleContext } from '@skbkontur/react-ui';
-
-const [value, setValue] = React.useState('24.08.2022');
-
-<LocaleContext.Provider value={{ locale: { DatePicker: { 'day-cell-choose-date-aria-label': 'Дата в фокусе' } } }}>
-  <DatePicker value={value} onValueChange={setValue} enableTodayLink />
-</LocaleContext.Provider>
-```
-
 #### Локали по умолчанию
 
 ```typescript static
