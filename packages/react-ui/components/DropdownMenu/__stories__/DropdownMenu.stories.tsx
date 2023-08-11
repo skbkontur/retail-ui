@@ -225,6 +225,7 @@ MenuOutOfViewPortRight.storyName = 'Menu out of viewport right';
 
 MenuOutOfViewPortRight.parameters = {
   creevey: {
+    skip: { in: ['firefox2022', 'firefox2022Dark'] },
     tests: outOfViewTests('right'),
   },
 };

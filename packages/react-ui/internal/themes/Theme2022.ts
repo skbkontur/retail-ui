@@ -7,15 +7,16 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
   public static bgDisabled = '#F0F0F0';
+  public static errorMain = '#FF5A49';
 
   //#region Link
   public static linkColor = '#222222';
   public static linkHoverColor = '#222222';
   public static linkActiveColor = '#141414';
 
-  public static linkSuccessColor = '#477916';
-  public static linkSuccessHoverColor = '#3A6710';
-  public static linkSuccessActiveColor = '#325A0C';
+  public static linkSuccessColor = '#538A1B';
+  public static linkSuccessHoverColor = '#477916';
+  public static linkSuccessActiveColor = '#3A6710';
 
   public static linkDangerColor = '#CB3D35';
   public static linkDangerHoverColor = '#BA342E';
@@ -60,6 +61,20 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryBorderColor = '#3D3D3D';
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
+
+  public static btnDangerBg = '#FF5A49';
+  public static btnDangerHoverBg = '#EE5042';
+  public static btnDangerHoverBorderColor = '#EE5042';
+  public static btnDangerBorderColor = '#FF5A49';
+  public static btnDangerActiveBg = '#DD473B';
+  public static btnDangerActiveBorderColor = '#DD473B';
+
+  public static btnSuccessBg = '#78BF2B';
+  public static btnSuccessHoverBg = '#6CAD26';
+  public static btnSuccessHoverBorderColor = '#6CAD26';
+  public static btnSuccessBorderColor = '#78BF2B';
+  public static btnSuccessActiveBg = '#5F9C20';
+  public static btnSuccessActiveBorderColor = '#5F9C20';
 
   public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
@@ -349,6 +364,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Toggle
   public static toggleHandleSize = '14px';
+  public static toggleHandleSizeSmall = '14px';
+  public static toggleHandleSizeMedium = '16px';
+  public static toggleHandleSizeLarge = '18px';
+
   public static toggleHandleLeft = '3px';
   public static toggleHandleTop = '3px';
   public static toggleHandleActiveWidthIncrement = '0px';
@@ -414,7 +433,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region InternalMenu
   public static get internalMenuPaddingY() {
-    return this.menuPaddingY;
+    return this.menuScrollContainerContentWrapperPaddingY;
+  } // deprecated, use menuLegacyPaddingY
+  //#endregion
+
+  //#region Menu
+  public static get menuLegacyPaddingY() {
+    return this.menuScrollContainerContentWrapperPaddingY;
   }
   //#endregion
 

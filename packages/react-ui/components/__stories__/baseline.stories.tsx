@@ -166,11 +166,15 @@ const BaselineFont: React.FC<{
         <Link loading icon={<CrownIcon />}>
           Ok
         </Link>
-        <Toggle>Tg</Toggle>
-        <Toggle />
-        <Checkbox initialIndeterminate>Ch</Checkbox>
-        <Checkbox checked>Ch</Checkbox>
-        <Checkbox />
+        <Toggle size={size}>Tg</Toggle>
+        <Toggle size={size} />
+        <Checkbox size={size} initialIndeterminate>
+          Ch
+        </Checkbox>
+        <Checkbox size={size} checked>
+          Ch
+        </Checkbox>
+        <Checkbox size={size} />
         <Radio checked value="value">
           Rd
         </Radio>
@@ -238,12 +242,6 @@ class DifferentFontsAndSizesThemeM extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  checkboxBoxSize: '20px',
-                  checkboxCaptionGap: '10px',
-                  checkboxPaddingY: '9px',
-                  checkboxFontSize: '16px',
-                  checkboxLineHeight: '22px',
-
                   radioSize: '20px',
                   radioBulletSize: '10px',
                   radioCaptionGap: '10px',
@@ -255,12 +253,6 @@ class DifferentFontsAndSizesThemeM extends React.Component {
                   menuItemLineHeight: '22px',
                   menuItemPaddingY: '9px',
                   menuItemPaddingX: '12px',
-
-                  toggleHeight: '22px',
-                  toggleCaptionGap: '10px',
-                  toggleWidth: '34px',
-                  toggleFontSize: '16px',
-                  toggleLineHeight: '22px',
                 },
                 theme,
               )}
@@ -295,12 +287,6 @@ class DifferentFontsAndSizesThemeL extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  checkboxBoxSize: '22px',
-                  checkboxCaptionGap: '12px',
-                  checkboxPaddingY: '11px',
-                  checkboxFontSize: '18px',
-                  checkboxLineHeight: '24px',
-
                   radioSize: '22px',
                   radioBulletSize: '12px',
                   radioCaptionGap: '12px',
@@ -312,12 +298,6 @@ class DifferentFontsAndSizesThemeL extends React.Component {
                   menuItemLineHeight: '24px',
                   menuItemPaddingY: '12px',
                   menuItemPaddingX: '14px',
-
-                  toggleHeight: '24px',
-                  toggleCaptionGap: '12px',
-                  toggleWidth: '36px',
-                  toggleFontSize: '18px',
-                  toggleLineHeight: '24px',
                 },
                 theme,
               )}

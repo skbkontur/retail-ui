@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { TooltipMenu } from '../TooltipMenu';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
-import { InternalMenuDataTids } from '../../../internal/InternalMenu';
+import { MenuDataTids } from '../../../internal/Menu';
 import { TooltipMenuDataTids } from '..';
 
 describe('<TooltipMenu />', () => {
@@ -32,10 +32,10 @@ describe('<TooltipMenu />', () => {
       </TooltipMenu>,
     );
 
-    expect(screen.queryByTestId(InternalMenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button'));
 
-    expect(screen.getByTestId(InternalMenuDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
   });
 
   test("Contains <MenuItem />'s after clicking on caption", () => {
