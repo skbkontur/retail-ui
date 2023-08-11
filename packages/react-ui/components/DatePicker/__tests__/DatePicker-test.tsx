@@ -236,10 +236,10 @@ describe('DatePicker', () => {
   });
 
   describe('a11y', () => {
-    it('sets custom value for `select-month-aria-label` locale', () => {
+    it('sets custom value for `selectMonthAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { DatePicker: { 'select-month-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { DatePicker: { selectMonthAriaLabel: customAriaLabel } } }}>
           <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
         </LocaleContext.Provider>,
       );
@@ -248,14 +248,14 @@ describe('DatePicker', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesRu['select-chosen-aria-label']} ${customAriaLabel} Февраль`,
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} Февраль`,
       );
     });
 
-    it('sets custom value for `select-year-aria-label` locale', () => {
+    it('sets custom value for `selectYearAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { DatePicker: { 'select-year-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { DatePicker: { selectYearAriaLabel: customAriaLabel } } }}>
           <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
         </LocaleContext.Provider>,
       );
@@ -264,14 +264,14 @@ describe('DatePicker', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesRu['select-chosen-aria-label']} ${customAriaLabel} 2021`,
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} 2021`,
       );
     });
 
-    it('sets custom value for `select-chosen-aria-label` locale', () => {
+    it('sets custom value for `selectChosenAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { DatePicker: { 'select-chosen-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { DatePicker: { selectChosenAriaLabel: customAriaLabel } } }}>
           <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
         </LocaleContext.Provider>,
       );
@@ -280,17 +280,15 @@ describe('DatePicker', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${customAriaLabel} ${DateSelectLocalesRu['select-year-aria-label']} 2021`,
+        `${customAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );
     });
 
-    it('sets custom value for `day-cell-choose-date-aria-label` locale', () => {
+    it('sets custom value for `dayCellChooseDateAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       const date = '1.2.2021';
       render(
-        <LocaleContext.Provider
-          value={{ locale: { DatePicker: { 'day-cell-choose-date-aria-label': customAriaLabel } } }}
-        >
+        <LocaleContext.Provider value={{ locale: { DatePicker: { dayCellChooseDateAriaLabel: customAriaLabel } } }}>
           <DatePicker value={date} onValueChange={jest.fn()} />
         </LocaleContext.Provider>,
       );

@@ -209,10 +209,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       'aria-expanded': isInteractiveElement ? this.state.opened : undefined,
       'aria-controls': !disabled ? this.menuId : undefined,
       'aria-label': isInteractiveElement
-        ? `${this.locale['select-chosen-aria-label']} ${
-            this.getProps().type === 'year'
-              ? this.locale['select-year-aria-label']
-              : this.locale['select-month-aria-label']
+        ? `${this.locale.selectChosenAriaLabel} ${
+            this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
           } ${this.getItem(0)}`
         : undefined,
     };
@@ -247,10 +245,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       onClick: this.open,
       'aria-expanded': isInteractiveElement ? this.state.opened : undefined,
       'aria-label': isInteractiveElement
-        ? `${this.locale['select-chosen-aria-label']} ${
-            this.getProps().type === 'year'
-              ? this.locale['select-year-aria-label']
-              : this.locale['select-month-aria-label']
+        ? `${this.locale.selectChosenAriaLabel} ${
+            this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
           } ${this.getItem(0)}`
         : undefined,
     };

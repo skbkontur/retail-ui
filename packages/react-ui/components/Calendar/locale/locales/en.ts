@@ -15,5 +15,5 @@ export const componentsLocales: CalendarLocale = {
     'November',
     'December',
   ],
-  'day-cell-choose-date-aria-label': 'Choose date',
+  dayCellChooseDateAriaLabel: 'Choose date',
 };

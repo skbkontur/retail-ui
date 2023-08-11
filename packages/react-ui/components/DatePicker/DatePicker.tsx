@@ -275,10 +275,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             locale: {
               Calendar: {
                 months: this.locale.months,
-                'day-cell-choose-date-aria-label': this.locale['day-cell-choose-date-aria-label'],
-                'select-month-aria-label': this.locale['select-month-aria-label'],
-                'select-year-aria-label': this.locale['select-year-aria-label'],
-                'select-chosen-aria-label': this.locale['select-chosen-aria-label'],
+                dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
+                selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
+                selectYearAriaLabel: this.locale.selectYearAriaLabel,
+                selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
               },
             },
           }}

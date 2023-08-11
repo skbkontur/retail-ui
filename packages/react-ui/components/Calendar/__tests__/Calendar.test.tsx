@@ -88,7 +88,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesRu['select-chosen-aria-label']} ${DateSelectLocalesRu['select-month-aria-label']} Февраль`,
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Февраль`,
       );
     });
 
@@ -102,7 +102,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesEn['select-chosen-aria-label']} ${DateSelectLocalesEn['select-month-aria-label']} February`,
+        `${DateSelectLocalesEn.selectChosenAriaLabel} ${DateSelectLocalesEn.selectMonthAriaLabel} February`,
       );
     });
 
@@ -112,7 +112,7 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesRu['select-chosen-aria-label']} ${DateSelectLocalesRu['select-year-aria-label']} 2021`,
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );
     });
 
@@ -126,49 +126,49 @@ describe('Calendar', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesEn['select-chosen-aria-label']} ${DateSelectLocalesEn['select-year-aria-label']} 2021`,
+        `${DateSelectLocalesEn.selectChosenAriaLabel} ${DateSelectLocalesEn.selectYearAriaLabel} 2021`,
       );
     });
 
-    it('sets custom value for `select-month-aria-label` locale', () => {
+    it('sets custom value for `selectMonthAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { Calendar: { 'select-month-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { Calendar: { selectMonthAriaLabel: customAriaLabel } } }}>
           <Calendar value={'1.2.2021'} />
         </LocaleContext.Provider>,
       );
 
       expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesRu['select-chosen-aria-label']} ${customAriaLabel} Февраль`,
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} Февраль`,
       );
     });
 
-    it('sets custom value for `select-year-aria-label` locale', () => {
+    it('sets custom value for `selectYearAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { Calendar: { 'select-year-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { Calendar: { selectYearAriaLabel: customAriaLabel } } }}>
           <Calendar value={'1.2.2021'} />
         </LocaleContext.Provider>,
       );
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${DateSelectLocalesRu['select-chosen-aria-label']} ${customAriaLabel} 2021`,
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} 2021`,
       );
     });
 
-    it('sets custom value for `select-chosen-aria-label` locale', () => {
+    it('sets custom value for `selectChosenAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { Calendar: { 'select-chosen-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { Calendar: { selectChosenAriaLabel: customAriaLabel } } }}>
           <Calendar value={'1.2.2021'} />
         </LocaleContext.Provider>,
       );
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
         'aria-label',
-        `${customAriaLabel} ${DateSelectLocalesRu['select-year-aria-label']} 2021`,
+        `${customAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );
     });
 

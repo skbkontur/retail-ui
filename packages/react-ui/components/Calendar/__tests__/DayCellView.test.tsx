@@ -14,7 +14,7 @@ describe('DayCellView', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
         'aria-label',
-        `${DayCellViewLocalesRu['day-cell-choose-date-aria-label']} ${date}`,
+        `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel} ${date}`,
       );
     });
 
@@ -28,17 +28,15 @@ describe('DayCellView', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
         'aria-label',
-        `${DayCellViewLocalesEn['day-cell-choose-date-aria-label']} ${date}`,
+        `${DayCellViewLocalesEn.dayCellChooseDateAriaLabel} ${date}`,
       );
     });
 
-    it('sets custom value for `day-cell-choose-date-aria-label` locale', () => {
+    it('sets custom value for `dayCellChooseDateAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       const date = '1.2.2021';
       render(
-        <LocaleContext.Provider
-          value={{ locale: { Calendar: { 'day-cell-choose-date-aria-label': customAriaLabel } } }}
-        >
+        <LocaleContext.Provider value={{ locale: { Calendar: { dayCellChooseDateAriaLabel: customAriaLabel } } }}>
           <Calendar value={date} />
         </LocaleContext.Provider>,
       );

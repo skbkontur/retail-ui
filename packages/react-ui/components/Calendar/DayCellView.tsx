@@ -45,9 +45,7 @@ export function DayCellView(props: DayCellViewProps) {
     <button
       data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
-      aria-label={`${locale['day-cell-choose-date-aria-label']} ${value?.date}.${value && value.month + 1}.${
-        value?.year
-      }`}
+      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && value.month + 1}.${value?.year}`}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cx({
         [styles.cell(theme)]: true,
