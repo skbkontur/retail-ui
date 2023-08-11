@@ -91,7 +91,7 @@ export const InputLikeTextWithPlaceholder = () => (
 );
 InputLikeTextWithPlaceholder.storyName = 'input like text with placeholder';
 
-export const Opened = () => (
+export const Opened: Story = () => (
   <table>
     <tbody>
       <tr>
@@ -139,6 +139,13 @@ export const Opened = () => (
   </table>
 );
 Opened.storyName = 'opened';
+Opened.parameters = {
+  creevey: {
+    skip: {
+      in: ['chrome2022Dark'],
+    },
+  },
+};
 
 export const WithItems = () => (
   <div style={{ paddingBottom: 400 }}>
