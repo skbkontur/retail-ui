@@ -1180,26 +1180,98 @@ export class DefaultTheme {
   public static mobileMenuSeparatorMarginX = '24px';
   //#endregion
   //#region Toggle
+  /**
+   * @deprecated use toggleFontSizeSmall
+   */
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
+  /**
+   * @deprecated use toggleLineHeightSmall
+   */
   public static get toggleLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get toggleLineHeightSmall() {
+    return this.toggleLineHeight;
+  }
+  public static get toggleLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get toggleLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get toggleFontSizeSmall() {
+    return this.toggleFontSize;
+  }
+  public static get toggleFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get toggleFontSizeLarge() {
+    return this.fontSizeLarge;
   }
   public static get toggleTextColor() {
     return this.textColorDefault;
   }
   public static toggleHandleActiveWidthIncrement = '4px';
+  /**
+   * @deprecated use toggleHandleBorderRadiusSmall
+   */
   public static get toggleHandleBorderRadius() {
-    const height = parseInt(this.toggleHeight, 10) || 0;
+    const height = parseInt(this.toggleHeightSmall, 10) || 0;
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
   }
+  public static get toggleHandleBorderRadiusSmall() {
+    return this.toggleHandleBorderRadius;
+  }
+  public static get toggleHandleBorderRadiusMedium() {
+    const height = parseInt(this.toggleHeightMedium, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  public static get toggleHandleBorderRadiusLarge() {
+    const height = parseInt(this.toggleHeightLarge, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  /**
+   * @deprecated use toggleHeightSmall
+   */
   public static toggleHeight = '20px';
+
+  /**
+   * @deprecated use toggleWidthSmall
+   */
   public static toggleWidth = '32px';
+
+  public static get toggleHeightSmall() {
+    return this.toggleHeight;
+  }
+  public static get toggleWidthSmall() {
+    return this.toggleWidth;
+  }
+  public static toggleHeightMedium = '22px';
+  public static toggleWidthMedium = '34px';
+  public static toggleHeightLarge = '24px';
+  public static toggleWidthLarge = '36px';
+  /**
+   * @deprecated use toggleBorderRadiusSmall
+   */
   public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeight} * 0.5)`;
+    return `calc(${this.toggleHeightSmall} * 0.5)`;
+  }
+  public static get toggleBorderRadiusSmall() {
+    return this.toggleBorderRadius;
+  }
+  public static get toggleBorderRadiusMedium() {
+    return `calc(${this.toggleHeightMedium} * 0.5)`;
+  }
+  public static get toggleBorderRadiusLarge() {
+    return `calc(${this.toggleHeightLarge} * 0.5)`;
   }
   /**
    * @deprecated use toggleHandleBg
@@ -1230,8 +1302,24 @@ export class DefaultTheme {
   public static get toggleBorderColorDisabledChecked() {
     return this.toggleBorderColor;
   }
+  /**
+   * @deprecated use toggleHandleSizeSmall
+   */
   public static get toggleHandleSize() {
-    const toggleHeight = parseInt(this.toggleHeight, 10) || 0;
+    const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  public static get toggleHandleSizeSmall() {
+    return this.toggleHandleSize;
+  }
+  public static get toggleHandleSizeMedium() {
+    const toggleHeight = parseInt(this.toggleHeightMedium, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  public static get toggleHandleSizeLarge() {
+    const toggleHeight = parseInt(this.toggleHeightLarge, 10) || 0;
     const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
   }
@@ -1254,7 +1342,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static toggleCaptionGap = '10px';
+  public static toggleCaptionGap = '8px';
   public static toggleButtonOffsetY = '0px';
 
   public static get toggleOutlineColorFocus() {
@@ -1439,17 +1527,65 @@ export class DefaultTheme {
   public static inputColorScheme = 'light';
   //#endregion
   //#region Checkbox
+  /**
+   * @ deprecated use checkboxFontSizeSmall
+   */
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
+  public static get checkboxFontSizeSmall() {
+    return this.checkboxFontSize;
+  }
+  public static get checkboxFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get checkboxFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @ deprecated use checkboxLineHeightSmall
+   */
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get checkboxLineHeightSmall() {
+    return this.checkboxLineHeight;
+  }
+  public static get checkboxLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get checkboxLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  /**
+   * @ deprecated use checkboxBoxSizeSmall
+   */
   public static checkboxBoxSize = '16px';
+  public static checkboxBoxSizeSmall = '16px';
+  public static checkboxBoxSizeMedium = '20px';
+  public static checkboxBoxSizeLarge = '24px';
   public static checkboxCaptionGap = '8px';
+
+  /**
+   * @ deprecated use checkboxPaddingYSmall
+   */
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightSmall, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+  public static get checkboxPaddingYSmall() {
+    return this.checkboxPaddingY;
+  }
+  public static get checkboxPaddingYMedium() {
+    const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightMedium, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+  public static get checkboxPaddingYLarge() {
+    const controlHeight = parseInt(this.controlHeightLarge, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightLarge, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static checkboxBoxOffsetY = '1px';
