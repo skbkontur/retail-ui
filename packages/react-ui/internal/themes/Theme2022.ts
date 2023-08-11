@@ -364,6 +364,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Toggle
   public static toggleHandleSize = '14px';
+  public static toggleHandleSizeSmall = '14px';
+  public static toggleHandleSizeMedium = '16px';
+  public static toggleHandleSizeLarge = '18px';
+
   public static toggleHandleLeft = '3px';
   public static toggleHandleTop = '3px';
   public static toggleHandleActiveWidthIncrement = '0px';
