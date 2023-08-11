@@ -325,3 +325,17 @@ WithLongDescription.parameters = {
 };
 
 export const WithLeftCaption: Story = () => <Toggle captionPosition="left">left caption</Toggle>;
+
+export const Size: Story = () => {
+  return (
+    <div>
+      <Gapped vertical>
+        <Toggle>Size: no size choosen</Toggle>
+        <Toggle size={'small'}>Size: small</Toggle>
+        <Toggle size={'medium'}>Size: medium</Toggle>
+        <Toggle size={'large'}>Size: large</Toggle>
+      </Gapped>
+    </div>
+  );
+};
+Size.storyName = 'size';

@@ -166,8 +166,8 @@ const BaselineFont: React.FC<{
         <Link loading icon={<CrownIcon />}>
           Ok
         </Link>
-        <Toggle>Tg</Toggle>
-        <Toggle />
+        <Toggle size={size}>Tg</Toggle>
+        <Toggle size={size} />
         <Checkbox size={size} initialIndeterminate>
           Ch
         </Checkbox>
@@ -253,12 +253,6 @@ class DifferentFontsAndSizesThemeM extends React.Component {
                   menuItemLineHeight: '22px',
                   menuItemPaddingY: '9px',
                   menuItemPaddingX: '12px',
-
-                  toggleHeight: '22px',
-                  toggleCaptionGap: '10px',
-                  toggleWidth: '34px',
-                  toggleFontSize: '16px',
-                  toggleLineHeight: '22px',
                 },
                 theme,
               )}
@@ -304,12 +298,6 @@ class DifferentFontsAndSizesThemeL extends React.Component {
                   menuItemLineHeight: '24px',
                   menuItemPaddingY: '12px',
                   menuItemPaddingX: '14px',
-
-                  toggleHeight: '24px',
-                  toggleCaptionGap: '12px',
-                  toggleWidth: '36px',
-                  toggleFontSize: '18px',
-                  toggleLineHeight: '24px',
                 },
                 theme,
               )}
