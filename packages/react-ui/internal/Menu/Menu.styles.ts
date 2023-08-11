@@ -7,14 +7,13 @@ export const styles = memoizeStyle({
       background: ${t.menuBgDefault};
       border-radius: ${t.menuBorderRadius};
       box-sizing: ${t.menuBoxSizing};
-      overflow: auto;
-      padding: 0 ${t.menuPaddingX};
+      outline: none;
+      padding: ${t.menuPaddingY} ${t.menuPaddingX};
       margin: ${t.menuOffsetY} 0;
-      border-radius: ${t.menuBorderRadius};
     `;
   },
 
-  rootMobile(t: Theme) {
+  mobileRoot(t: Theme) {
     return css`
       border-radius: 0;
       margin: 0;
@@ -44,13 +43,13 @@ export const styles = memoizeStyle({
 
   scrollContainer(t: Theme) {
     return css`
-      padding: ${t.menuPaddingY} 0;
+      padding: ${t.menuScrollContainerContentWrapperPaddingY} 0;
     `;
   },
 
   scrollContainerMobile(t: Theme) {
     return css`
-      padding: ${t.mobileMenuPaddingY} 0;
+      padding: ${t.mobileMenuScrollContainerContentWrapperPaddingY} 0;
     `;
   },
 
@@ -58,6 +57,41 @@ export const styles = memoizeStyle({
     return css`
       border: ${t.menuBorder};
       box-shadow: ${t.menuShadow};
+    `;
+  },
+
+  wrapper() {
+    return css`
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      overflow: hidden;
+      line-height: 18px;
+      box-sizing: border-box;
+    `;
+  },
+
+  headerWrapper() {
+    return css`
+      top: -5px;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      bottom: -5px;
+    `;
+  },
+
+  contentWrapper() {
+    return css`
+      padding: 6px 18px 7px 8px;
+    `;
+  },
+
+  menuSeparatorWrapper(t: Theme) {
+    return css`
+      height: ${t.menuSeparatorBorderWidth};
     `;
   },
 });

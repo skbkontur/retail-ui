@@ -726,6 +726,7 @@ export class DefaultTheme {
   public static get tooltipMenuPinSize() {
     return this.popupPinSize;
   }
+
   //#endregion
   //#region Kebab
   public static get kebabPinOffset() {
@@ -749,6 +750,7 @@ export class DefaultTheme {
   public static kebabIconSizeMedium = '18px';
   public static kebabIconSizeLarge = '20px';
   public static kebabIconColor = '#757575';
+
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0 5px 10px rgba(0, 0, 0, 0.2);';
@@ -1092,6 +1094,7 @@ export class DefaultTheme {
   public static get dropdownMenuMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static dropdownMenuMenuBoxSizing = 'content-box';
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1102,8 +1105,11 @@ export class DefaultTheme {
   }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
-  public static menuPaddingY = '4px';
+  public static menuPaddingY = '0px';
+  public static menuLegacyPaddingY = '5px';
+  public static menuScrollContainerContentWrapperPaddingY = '4px';
   public static mobileMenuPaddingY = '0px';
+  public static mobileMenuScrollContainerContentWrapperPaddingY = '0px';
   public static menuPaddingX = '0px';
   public static mobileMenuPaddingX = '8px';
   public static menuOffsetY = '0px';
@@ -1433,6 +1439,7 @@ export class DefaultTheme {
   public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
+  public static popupMenuMenuOffsetY = '0px';
   //#endregion
   //#region Input
   public static get inputTextColor() {
@@ -2101,6 +2108,8 @@ export class DefaultTheme {
   public static scrollContainerScrollBarHoverSize = '10px';
   public static scrollContainerScrollBarColor = 'rgba(183, 183, 183, 0.7)';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
+  public static scrollContainerScrollBarOffsetY = '4px';
+  public static dropdownMenuScrollContainerScrollBarOffsetY = '0px';
   //#endregion
   //#region PasswordInput
   public static passwordInputVisibilityIconColor = '#000';
@@ -2235,7 +2244,7 @@ export class DefaultTheme {
   //#endregion
 
   //#region InternalMenu
-  public static internalMenuPaddingY = '5px';
+  public static internalMenuPaddingY = '5px'; // deprecated,  use menuLegacyPaddingY
   //#endregion
 
   //#region Autocomplete
