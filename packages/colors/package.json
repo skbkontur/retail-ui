@@ -6,6 +6,7 @@
   },
   "module": "dist/esm/colors.js",
   "main": "dist/cjs/colors.js",
+  "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist && node --require ./scripts/babel-register -- scripts/generate.ts",
     "build": "npm run build:cjs && npm run build:esm && npm run build:prettier",
