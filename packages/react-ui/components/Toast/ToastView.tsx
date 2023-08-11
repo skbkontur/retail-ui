@@ -80,7 +80,7 @@ export class ToastView extends React.Component<ToastViewProps> {
     let close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
         <span
-          aria-label={this.locale['close-button-aria-label']}
+          aria-label={this.locale.closeButtonAriaLabel}
           data-tid={ToastDataTids.close}
           className={styles.close(this.theme)}
           onClick={onClose}
@@ -94,7 +94,7 @@ export class ToastView extends React.Component<ToastViewProps> {
       close = (
         <span className={styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
-            aria-label={this.locale['close-button-aria-label']}
+            aria-label={this.locale.closeButtonAriaLabel}
             data-tid={ToastDataTids.close}
             onClick={onClose}
             size={parseInt(this.theme.toastCloseSize)}

@@ -41,14 +41,14 @@ function close() {
 
 ```typescript static
 interface ModalLocale {
-  'close-button-aria-label': string;
+  closeButtonAriaLabel: string;
 }
 
 const ru_RU = {
-  'close-button-aria-label': 'Закрыть модальное окно'
+  closeButtonAriaLabel: 'Закрыть модальное окно'
 }
 
 const en_GB = {
-  'close-button-aria-label': 'Close modal window'
+  closeButtonAriaLabel: 'Close modal window'
 }
 ```

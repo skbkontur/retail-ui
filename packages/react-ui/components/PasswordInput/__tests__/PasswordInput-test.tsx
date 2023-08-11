@@ -150,11 +150,11 @@ describe('PasswordInput', () => {
     it('eye icon has correct aria-label attribute (ru)', () => {
       render(<PasswordInput />);
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleRu['eye-opened-aria-label']);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleRu.eyeOpenedAriaLabel);
 
       userEvent.click(screen.getByRole('button'));
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleRu['eye-closed-aria-label']);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleRu.eyeClosedAriaLabel);
     });
 
     it('eye icon has correct aria-label attribute (en)', () => {
@@ -164,17 +164,17 @@ describe('PasswordInput', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleEn['eye-opened-aria-label']);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleEn.eyeOpenedAriaLabel);
 
       userEvent.click(screen.getByRole('button'));
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleEn['eye-closed-aria-label']);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleEn.eyeClosedAriaLabel);
     });
 
-    it('sets custom value for `eye-opened-aria-label` locale', () => {
+    it('sets custom value for `eyeOpenedAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { PasswordInput: { 'eye-opened-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { PasswordInput: { eyeOpenedAriaLabel: customAriaLabel } } }}>
           <PasswordInput />
         </LocaleContext.Provider>,
       );
@@ -182,10 +182,10 @@ describe('PasswordInput', () => {
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
     });
 
-    it('sets custom value for `eye-closed-aria-label` locale', () => {
+    it('sets custom value for `eyeClosedAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { PasswordInput: { 'eye-closed-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { PasswordInput: { eyeClosedAriaLabel: customAriaLabel } } }}>
           <PasswordInput />
         </LocaleContext.Provider>,
       );

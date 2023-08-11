@@ -3,5 +3,5 @@ import { CalendarLocale } from '../../Calendar/locale/types';
 
 export interface DatePickerLocale extends CalendarLocale, InternalDateLocaleSet {
   today: string;
-  'today-aria-label': string;
+  todayAriaLabel: string;
 }

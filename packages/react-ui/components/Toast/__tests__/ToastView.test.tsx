@@ -25,7 +25,7 @@ describe('ToastView', () => {
 
       expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute(
         'aria-label',
-        ToastViewLocaleRu['close-button-aria-label'],
+        ToastViewLocaleRu.closeButtonAriaLabel,
       );
     });
 

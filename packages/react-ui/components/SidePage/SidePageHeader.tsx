@@ -201,7 +201,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     <SidePageContext.Consumer>
       {({ requestClose }) => (
         <button
-          aria-label={this.locale['close-button-aria-label']}
+          aria-label={this.locale.closeButtonAriaLabel}
           className={cx(styles.close(this.theme), {
             [styles.closeFocus(this.theme)]: this.state.focusedByTab,
           })}

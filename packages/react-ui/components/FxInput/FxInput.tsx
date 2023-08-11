@@ -39,7 +39,7 @@ export interface FxInputProps
         /** Убрать лишние нули после запятой */
         hideTrailingZeros?: boolean;
         /** Позвоялет задать атрибут aria-label кнопке восстановления (restore button) */
-        'button-aria-label'?: AriaAttributes['aria-label'];
+        buttonAriaLabel?: AriaAttributes['aria-label'];
       }
     > {}
 
@@ -117,7 +117,7 @@ export class FxInput extends React.Component<FxInputProps> {
           onRestore={onRestore}
           disabled={rest.disabled}
           borderless={rest.borderless}
-          aria-label={props['button-aria-label']}
+          aria-label={props.buttonAriaLabel}
         />
       );
     }

@@ -41,7 +41,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
       <ResponsiveLayout>
         {({ isMobile }) => (
           <button
-            aria-label={locale['close-button-aria-label']}
+            aria-label={locale.closeButtonAriaLabel}
             className={cx({
               [styles.close(theme)]: true,
               [styles.mobileClose(theme)]: isMobile,

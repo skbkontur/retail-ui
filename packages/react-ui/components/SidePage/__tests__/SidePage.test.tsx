@@ -37,7 +37,7 @@ describe('SidePage', () => {
 
       expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute(
         'aria-label',
-        SidePageLocalesRu['close-button-aria-label'],
+        SidePageLocalesRu.closeButtonAriaLabel,
       );
     });
 
@@ -52,14 +52,14 @@ describe('SidePage', () => {
 
       expect(screen.getByTestId(SidePageHeaderDataTids.close)).toHaveAttribute(
         'aria-label',
-        SidePageLocalesEn['close-button-aria-label'],
+        SidePageLocalesEn.closeButtonAriaLabel,
       );
     });
 
-    it('sets custom value for `close-button-aria-label` locale', () => {
+    it('sets custom value for `closeButtonAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { SidePage: { 'close-button-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { SidePage: { closeButtonAriaLabel: customAriaLabel } } }}>
           <SidePage>
             <SidePage.Header />
           </SidePage>

@@ -261,7 +261,7 @@ describe('Modal', () => {
 
       expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute(
         'aria-label',
-        ModalLocalesRu['close-button-aria-label'],
+        ModalLocalesRu.closeButtonAriaLabel,
       );
     });
 
@@ -274,7 +274,7 @@ describe('Modal', () => {
 
       expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute(
         'aria-label',
-        ModalLocalesEn['close-button-aria-label'],
+        ModalLocalesEn.closeButtonAriaLabel,
       );
     });
   });

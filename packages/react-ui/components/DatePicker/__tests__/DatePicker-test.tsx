@@ -244,7 +244,7 @@ describe('DatePicker', () => {
 
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
         'aria-label',
-        DatePickerLocalesRu['today-aria-label'],
+        DatePickerLocalesRu.todayAriaLabel,
       );
     });
 
@@ -259,14 +259,14 @@ describe('DatePicker', () => {
 
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
         'aria-label',
-        DatePickerLocalesEn['today-aria-label'],
+        DatePickerLocalesEn.todayAriaLabel,
       );
     });
 
-    it('sets custom value for `today-aria-label` locale', () => {
+    it('sets custom value for `todayAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(
-        <LocaleContext.Provider value={{ locale: { DatePicker: { 'today-aria-label': customAriaLabel } } }}>
+        <LocaleContext.Provider value={{ locale: { DatePicker: { todayAriaLabel: customAriaLabel } } }}>
           <DatePicker enableTodayLink onValueChange={jest.fn()} />
         </LocaleContext.Provider>,
       );

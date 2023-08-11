@@ -198,9 +198,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
             <button
-              aria-label={
-                this.state.visible ? this.locale['eye-closed-aria-label'] : this.locale['eye-opened-aria-label']
-              }
+              aria-label={this.state.visible ? this.locale.eyeClosedAriaLabel : this.locale.eyeOpenedAriaLabel}
               onClick={this.handleToggleVisibility}
               className={styles.icon()}
               data-tid={PasswordInputDataTids.eyeIcon}

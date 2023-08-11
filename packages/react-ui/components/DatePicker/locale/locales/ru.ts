@@ -5,7 +5,7 @@ import { componentsLocales as CalendarLocales } from '../../../Calendar/locale/l
 
 export const componentsLocales: DatePickerLocale = {
   today: 'Сегодня',
-  'today-aria-label': 'Перейти к сегодняшней дате',
+  todayAriaLabel: 'Перейти к сегодняшней дате',
   ...CalendarLocales,
   ...internalDateLocale[LangCodes.ru_RU],
 };

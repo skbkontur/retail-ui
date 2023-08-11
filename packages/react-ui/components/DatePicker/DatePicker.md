@@ -281,7 +281,7 @@ interface DatePickerLocale {
   months?: string[];
   order?: DateOrder;
   separator?: DateSeparator;
-  'today-aria-label'?: string
+  todayAriaLabel?: string
 }
 
 const ru_RU = {
@@ -302,7 +302,7 @@ const ru_RU = {
   ],
   order: DateOrder.DMY,
   separator: DateSeparator.Dot,
-  'today-aria-label': 'Перейти к сегодняшней дате',
+  todayAriaLabel: 'Перейти к сегодняшней дате',
 };
 
 const en_GB = {
@@ -323,6 +323,6 @@ const en_GB = {
   ],
   order: DateOrder.MDY,
   separator: DateSeparator.Slash,
-  'today-aria-label': "Go to today's date",
+  todayAriaLabel: "Go to today's date",
 };
 ```

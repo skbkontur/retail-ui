@@ -59,7 +59,7 @@ describe('FxInput', () => {
 
     it('sets value for aria-label attribute (button)', () => {
       const ariaLabel = 'aria-label';
-      render(<FxInput onValueChange={jest.fn()} button-aria-label={ariaLabel} />);
+      render(<FxInput onValueChange={jest.fn()} buttonAriaLabel={ariaLabel} />);
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
     });

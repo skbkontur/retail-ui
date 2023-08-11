@@ -12,17 +12,17 @@
 
 ```typescript static
 interface PasswordInputLocale {
-  'eye-opened-aria-label'?: string;
-  'eye-closed-aria-label'?: string;
+  eyeOpenedAriaLabel?: string;
+  eyeClosedAriaLabel?: string;
 }
 
 const ru_RU = {
-  'eye-opened-aria-label': 'Скрыть символы пароля',
-  'eye-closed-aria-label': 'Отобразить символы пароля',
+  eyeOpenedAriaLabel: 'Скрыть символы пароля',
+  eyeClosedAriaLabel: 'Отобразить символы пароля',
 }
 
 const en_GB = {
-  'eye-opened-aria-label': 'Hide password symbols',
-  'eye-closed-aria-label': 'Show password symbols',
+  eyeOpenedAriaLabel: 'Hide password symbols',
+  eyeClosedAriaLabel: 'Show password symbols',
 }
 ```
