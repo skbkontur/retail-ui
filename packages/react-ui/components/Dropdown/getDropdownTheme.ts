@@ -8,6 +8,34 @@ export const getDropdownTheme = (theme: Theme): Theme => {
       selectMenuOffsetY: theme.dropdownMenuOffsetY,
       selectBorderColorHover: theme.dropdownMenuHoverBorderColor,
       selectBorderColorTransition: theme.dropdownMenuBorderColorTransition,
+
+      selectBorderWidth: theme.btnBorderWidth,
+      selectOutlineWidth: theme.btnOutlineWidth,
+
+      selectLineHeightSmall: theme.btnLineHeightSmall,
+      selectFontSizeSmall: theme.btnFontSizeSmall,
+      selectPaddingXSmall: theme.btnPaddingXSmall,
+      selectPaddingYSmall: theme.btnPaddingYSmall,
+      selectIconSizeSmall: theme.btnIconSizeSmall,
+      selectBorderRadiusSmall: theme.btnBorderRadiusSmall,
+
+      selectLineHeightMedium: theme.btnLineHeightMedium,
+      selectFontSizeMedium: theme.btnFontSizeMedium,
+      selectPaddingXMedium: theme.btnPaddingXMedium,
+      selectPaddingYMedium: theme.btnPaddingYMedium,
+      selectIconSizeMedium: theme.btnIconSizeMedium,
+      selectBorderRadiusMedium: theme.btnBorderRadiusMedium,
+
+      selectLineHeightLarge: theme.btnLineHeightLarge,
+      selectFontSizeLarge: theme.btnFontSizeLarge,
+      selectPaddingXLarge: theme.btnPaddingXLarge,
+      selectPaddingYLarge: theme.btnPaddingYLarge,
+      selectIconSizeLarge: theme.btnIconSizeLarge,
+      selectBorderRadiusLarge: theme.btnBorderRadiusLarge,
+
+      selectBgDisabled: theme.btnDisabledBg,
+      selectBorderColorDisabled: theme.btnDisabledBorderColor,
+      selectTextColorDisabled: theme.btnDisabledTextColor,
     },
     theme,
   );
