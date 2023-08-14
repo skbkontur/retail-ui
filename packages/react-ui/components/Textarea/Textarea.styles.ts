@@ -1,13 +1,28 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+import { counterSizeMixin, rootTextareaSizeMixin, textareaSizeMixin } from './Textarea.mixins';
+
 export const styles = memoizeStyle({
-  root(t: Theme) {
+  root() {
     return css`
       display: inline-block;
-      font-size: ${t.textareaFontSize};
-      line-height: ${t.textareaLineHeight};
       position: relative;
+    `;
+  },
+  rootSmall(t: Theme) {
+    return css`
+      ${rootTextareaSizeMixin(t.textareaFontSizeSmall, t.textareaLineHeightSmall)};
+    `;
+  },
+  rootMedium(t: Theme) {
+    return css`
+      ${rootTextareaSizeMixin(t.textareaFontSizeMedium, t.textareaLineHeightMedium)};
+    `;
+  },
+  rootLarge(t: Theme) {
+    return css`
+      ${rootTextareaSizeMixin(t.textareaFontSizeLarge, t.textareaLineHeightLarge)};
     `;
   },
 
@@ -26,9 +41,7 @@ export const styles = memoizeStyle({
       line-height: inherit;
       max-width: 100%;
       min-width: ${t.textareaWidth};
-      min-height: ${t.textareaMinHeight};
       outline: none;
-      padding: ${t.textareaPaddingY} ${t.textareaPaddingX};
       transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction}, height 0.2s ease-out;
       vertical-align: middle;
       width: 100%;
@@ -57,6 +70,21 @@ export const styles = memoizeStyle({
       &::-moz-placeholder {
         color: ${t.textareaPlaceholderColor};
       }
+    `;
+  },
+  textareaSmall(t: Theme) {
+    return css`
+      ${textareaSizeMixin(t.textareaPaddingYSmall, t.textareaPaddingXSmall, t.textareaMinHeightSmall)};
+    `;
+  },
+  textareaMedium(t: Theme) {
+    return css`
+      ${textareaSizeMixin(t.textareaPaddingYMedium, t.textareaPaddingXMedium, t.textareaMinHeightMedium)};
+    `;
+  },
+  textareaLarge(t: Theme) {
+    return css`
+      ${textareaSizeMixin(t.textareaPaddingYLarge, t.textareaPaddingXLarge, t.textareaMinHeightLarge)};
     `;
   },
 
@@ -147,8 +175,21 @@ export const styles = memoizeStyle({
       background: ${t.textareaCounterBg};
       color: ${t.textareaCounterColor};
       border-radius: 2px;
-      right: ${t.textareaPaddingX};
-      bottom: ${t.textareaPaddingY};
+    `;
+  },
+  counterSmall(t: Theme) {
+    return css`
+      ${counterSizeMixin(t.textareaPaddingYSmall, t.textareaPaddingXSmall)};
+    `;
+  },
+  counterMedium(t: Theme) {
+    return css`
+      ${counterSizeMixin(t.textareaPaddingYMedium, t.textareaPaddingXMedium)};
+    `;
+  },
+  counterLarge(t: Theme) {
+    return css`
+      ${counterSizeMixin(t.textareaPaddingYLarge, t.textareaPaddingXLarge)};
     `;
   },
 
