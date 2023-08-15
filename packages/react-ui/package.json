@@ -21,7 +21,7 @@
     "build": "run-p build:esm build:cjs && node scripts/build/postbuild",
     "clean": "git clean -fdxqe node_modules",
     "prerelease": "node scripts/publish/prepublish && yarn build",
-    "release": "npm publish ./build --workspaces=false",
+    "release": "yarn --cwd ./build publish --non-interactive",
     "postrelease": "yarn deploy",
     "predeploy": "rimraf .styleguide/deploy && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/deploy -r git@github.com:skbkontur/react-ui.git",
