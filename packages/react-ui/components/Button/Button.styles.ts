@@ -372,6 +372,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  coloredUseStateDisabledOutline(t: Theme) {
+    return css`
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
+    `;
+  },
+
   arrowWarning(t: Theme) {
     return css`
       box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
