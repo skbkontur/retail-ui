@@ -272,7 +272,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       picker = (
         <LocaleContext.Provider
           value={{
-            locale: { Calendar: { months: this.locale.months } },
+            locale: {
+              Calendar: {
+                months: this.locale.months,
+                dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
+                selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
+                selectYearAriaLabel: this.locale.selectYearAriaLabel,
+                selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
+              },
+            },
           }}
         >
           <DropdownContainer

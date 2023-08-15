@@ -282,6 +282,10 @@ interface DatePickerLocale {
   order?: DateOrder;
   separator?: DateSeparator;
   todayAriaLabel?: string
+  selectMonthAriaLabel?: string;
+  selectYearAriaLabel?: string;
+  selectChosenAriaLabel?: string;
+  dayCellChooseDateAriaLabel?: string;
 }
 
 const ru_RU = {
@@ -303,6 +307,10 @@ const ru_RU = {
   order: DateOrder.DMY,
   separator: DateSeparator.Dot,
   todayAriaLabel: 'Перейти к сегодняшней дате',
+  selectMonthAriaLabel: 'месяц',
+  selectYearAriaLabel: 'год',
+  selectChosenAriaLabel: 'Выбранный',
+  dayCellChooseDateAriaLabel: 'Выбрать дату',
 };
 
 const en_GB = {
@@ -324,5 +332,9 @@ const en_GB = {
   order: DateOrder.MDY,
   separator: DateSeparator.Slash,
   todayAriaLabel: "Go to today's date",
+  selectMonthAriaLabel: 'month',
+  selectYearAriaLabel: 'year',
+  selectChosenAriaLabel: 'Chosen',
+  dayCellChooseDateAriaLabel: 'Choose date',
 };
 ```

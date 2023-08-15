@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.16.0-next.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0-next.5...@skbkontur/react-ui@4.16.0-next.6) (2023-08-15)
+
+
+### Bug Fixes
+
+* **Calendar:** add accessible descriptions ([#3232](https://github.com/skbkontur/retail-ui/issues/3232)) ([b2b0d78](https://github.com/skbkontur/retail-ui/commit/b2b0d78f2d39daaa45e973034de6a533a7e701a3))
+
+
+
+
+
 # [4.16.0-next.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.6...@skbkontur/react-ui@4.16.0-next.5) (2023-08-11)
 
 
