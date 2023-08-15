@@ -1528,7 +1528,7 @@ export class DefaultTheme {
   //#endregion
   //#region Checkbox
   /**
-   * @ deprecated use checkboxFontSizeSmall
+   * @deprecated use checkboxFontSizeSmall
    */
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
@@ -1544,7 +1544,7 @@ export class DefaultTheme {
   }
 
   /**
-   * @ deprecated use checkboxLineHeightSmall
+   * @deprecated use checkboxLineHeightSmall
    */
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
@@ -1559,7 +1559,7 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   /**
-   * @ deprecated use checkboxBoxSizeSmall
+   * @deprecated use checkboxBoxSizeSmall
    */
   public static checkboxBoxSize = '16px';
   public static checkboxBoxSizeSmall = '16px';
@@ -1568,7 +1568,7 @@ export class DefaultTheme {
   public static checkboxCaptionGap = '8px';
 
   /**
-   * @ deprecated use checkboxPaddingYSmall
+   * @deprecated use checkboxPaddingYSmall
    */
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
@@ -1679,7 +1679,7 @@ export class DefaultTheme {
   public static textareaShadow = 'none';
   public static textareaBackgroundClip = 'border-box';
   /**
-   * @ deprecated use textareaFontSizeSmall
+   * @deprecated use textareaFontSizeSmall
    */
   public static get textareaFontSize() {
     return this.fontSizeSmall;
@@ -1694,7 +1694,7 @@ export class DefaultTheme {
     return this.fontSizeLarge;
   }
   /**
-   * @ deprecated use textareaLineHeightSmall
+   * @deprecated use textareaLineHeightSmall
    */
   public static get textareaLineHeight() {
     return this.controlLineHeightSmall;
@@ -1718,7 +1718,7 @@ export class DefaultTheme {
     return `${outlineWidth - borderWidth}px`;
   }
   /**
-   * @ deprecated use textareaMinHeightSmall
+   * @deprecated use textareaMinHeightSmall
    */
   public static get textareaMinHeight() {
     const lineHeight = parseInt(this.textareaLineHeightSmall, 10) || 0;
@@ -1744,7 +1744,7 @@ export class DefaultTheme {
 
   public static textareaWidth = '250px';
   /**
-   * @ deprecated use textareaPaddingXSmall
+   * @deprecated use textareaPaddingXSmall
    */
   public static textareaPaddingX = '7px';
   static get textareaPaddingXSmall() {
@@ -1754,7 +1754,7 @@ export class DefaultTheme {
   public static textareaPaddingXLarge = '15px';
 
   /**
-   * @ deprecated use textareaPaddingYSmall
+   * @deprecated use textareaPaddingYSmall
    */
   public static get textareaPaddingY() {
     return this.controlPaddingYSmall;
