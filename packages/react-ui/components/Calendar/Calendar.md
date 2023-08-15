@@ -103,12 +103,15 @@ const theme = React.useContext(ThemeContext);
 </ThemeContext.Provider>
 ```
 
-
 #### Локали по умолчанию
 
 ```typescript static
 interface CalendarLocale {
   months?: string[];
+  'select-month-aria-label'?: string;
+  'select-year-aria-label'?: string;
+  'select-chosen-aria-label'?: string;
+  'day-cell-choose-date-aria-label'?: string;
 }
 
 const ru_RU = {
@@ -125,7 +128,11 @@ const ru_RU = {
     'Октябрь',
     'Ноябрь',
     'Декабрь',
-  ]
+  ],
+  'select-month-aria-label': 'месяц',
+  'select-year-aria-label': 'год',
+  'select-chosen-aria-label': 'Выбранный',
+  'day-cell-choose-date-aria-label': 'Выбрать дату',
 };
 
 const en_GB = {
@@ -142,6 +149,10 @@ const en_GB = {
     'October',
     'November',
     'December',
-  ]
+  ],
+  'select-month-aria-label': 'месяц',
+  'select-year-aria-label': 'год',
+  'select-chosen-aria-label': 'Выбранный',
+  'day-cell-choose-date-aria-label': 'Выбрать дату',
 };
 ```

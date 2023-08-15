@@ -1,7 +1,5 @@
-export interface CalendarLocale {
-  months?: string[];
+export interface DateSelectLocale {
   selectMonthAriaLabel?: string;
   selectYearAriaLabel?: string;
   selectChosenAriaLabel?: string;
-  dayCellChooseDateAriaLabel?: string;
 }
