@@ -1,5 +1,6 @@
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 export const getDropdownTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(
@@ -14,21 +15,21 @@ export const getDropdownTheme = (theme: Theme): Theme => {
 
       selectLineHeightSmall: theme.btnLineHeightSmall,
       selectFontSizeSmall: theme.btnFontSizeSmall,
-      selectPaddingXSmall: theme.btnPaddingXSmall,
+      selectPaddingXSmall: isTheme2022(theme) ? theme.btnPaddingXSmall : theme.selectPaddingXSmall,
       selectPaddingYSmall: theme.btnPaddingYSmall,
       selectIconSizeSmall: theme.btnIconSizeSmall,
       selectBorderRadiusSmall: theme.dropdownButtonBorderRadiusSmall,
 
       selectLineHeightMedium: theme.btnLineHeightMedium,
       selectFontSizeMedium: theme.btnFontSizeMedium,
-      selectPaddingXMedium: theme.btnPaddingXMedium,
+      selectPaddingXMedium: isTheme2022(theme) ? theme.btnPaddingXMedium : theme.selectPaddingXMedium,
       selectPaddingYMedium: theme.btnPaddingYMedium,
       selectIconSizeMedium: theme.btnIconSizeMedium,
       selectBorderRadiusMedium: theme.dropdownButtonBorderRadiusMedium,
 
       selectLineHeightLarge: theme.btnLineHeightLarge,
       selectFontSizeLarge: theme.btnFontSizeLarge,
-      selectPaddingXLarge: theme.btnPaddingXLarge,
+      selectPaddingXLarge: isTheme2022(theme) ? theme.btnPaddingXLarge : theme.selectPaddingXLarge,
       selectPaddingYLarge: theme.btnPaddingYLarge,
       selectIconSizeLarge: theme.btnIconSizeLarge,
       selectBorderRadiusLarge: theme.dropdownButtonBorderRadiusLarge,
