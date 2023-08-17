@@ -120,6 +120,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
 
+  //#region Dropdown
+  public static dropdownButtonBorderRadiusSmall = '8px';
+  public static dropdownButtonBorderRadiusMedium = '8px';
+  public static dropdownButtonBorderRadiusLarge = '8px';
+
   //#region Input
   public static inputIconColor = '#858585';
   public static inputBorderColor = 'rgba(0, 0, 0, 0.16)';
