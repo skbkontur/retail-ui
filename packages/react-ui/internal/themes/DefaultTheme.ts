@@ -1055,6 +1055,9 @@ export class DefaultTheme {
     return this.menuOffsetY;
   }
   public static dropdownMenuMenuBoxSizing = 'content-box';
+  public static dropdownButtonBorderRadiusSmall = '1px';
+  public static dropdownButtonBorderRadiusMedium = '1px';
+  public static dropdownButtonBorderRadiusLarge = '1px';
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
