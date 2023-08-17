@@ -184,18 +184,18 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.06)';
   public static modalBorderRadius = '16px';
   public static modalBodyBorderRadius = '0px';
+  public static modalBodyPaddingBottom = '20px';
   public static fixedPanelShadow = 'none';
   public static get modalFooterBg() {
     return this.modalBg;
   }
-  public static get modalFooterPanelPaddingTop() {
-    return this.modalFooterPaddingTop;
-  }
+  public static modalFooterPanelPaddingTop = '20px';
+
   public static get modalFooterPanelPaddingBottom() {
     return this.modalFooterPaddingBottom;
   }
   public static modalFixedPanelShadow = 'none';
-  public static modalFooterPaddingTop = '20px';
+  public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '20px';
   public static modalFixedHeaderMarginBottom = '0px';
   public static get modalFixedHeaderPaddingBottom() {
@@ -205,7 +205,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.modalHeaderPaddingBottom;
   }
   public static get modalFixedFooterPaddingTop() {
-    return this.modalFooterPaddingTop;
+    return this.modalFooterPanelPaddingTop;
   }
   public static modalCloseButtonClickArea = '6px';
   public static modalFixedFooterMarginTop = '0px';
