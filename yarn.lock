@@ -5719,6 +5719,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@skbkontur/icons@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-1.4.1.tgz#995254e8fc0ca1df2daa002d96ed8b61b56cd358"
+  integrity sha512-wLq2KBmPgRIzwaxV/dyicjUzTQdXVUq0G6mTwNukmQkH1DVpaktJNhQaYurlc7SRobIf6o+jCit0awzMOmGQZw==
+
 "@skbkontur/react-icons@5.2.0":
   version "5.2.0"
   resolved "https://registry.npmjs.org/@skbkontur/react-icons/-/react-icons-5.2.0.tgz#b6562c7327eb19f71ad6ff48765dcbd7c8cd1212"
@@ -10758,10 +10763,10 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-creevey@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.npmjs.org/creevey/-/creevey-0.8.1.tgz#5bb29cba035de6b4d241fa277b2ec90206cf80ef"
-  integrity sha512-VSlmW7wFujxp6Um2O4KTCf5NGsKJ/rESmePQYkuqDBZfo77h6N7CSmwZHzTiohdh/CIbzokMTFksm0fXe6UOKg==
+creevey@0.8.0-beta.1:
+  version "0.8.0-beta.1"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.8.0-beta.1.tgz#dae542b20dab966172e6b0d3c8aaac0ccdd91186"
+  integrity sha512-9va7hOrvJjddiRn8Tqc01XB5vagJdbQDIYpugLrx+cOPjR2FK8r34EQGdZCWum5DzyCcHWRlxnhbD+/F8TnoWg==
   dependencies:
     "@babel/code-frame" "^7.18.6"
     "@babel/generator" "^7.18.7"
