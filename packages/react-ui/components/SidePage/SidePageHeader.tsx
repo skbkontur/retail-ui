@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { locale } from '../../lib/locale/decorators';
-import { withContext } from '../../lib/withContext';
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
@@ -18,19 +16,11 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
-import { SidePageLocale, SidePageLocaleHelper } from './locale';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   sticky?: boolean;
   hasSeparator?: boolean;
-  /**
-   * Хак для использования второго контекста в компоненте
-   *
-   * Нужен, так как `@locale` забирает первый контекст, а `React` не умеет адекватно работать с двумя контекстами в классовых компонентах: https://ru.react.js.org/docs/context.html#consuming-multiple-contexts
-   * @ignore
-   */
-  sidePageContext?: SidePageContextType;
 }
 
 export interface SidePageHeaderState {
@@ -50,9 +40,11 @@ export const SidePageHeaderDataTids = {
  */
 @responsiveLayout
 @rootNode
-@locale('SidePage', SidePageLocaleHelper)
-class SidePageHeaderInternal extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
+export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
+
+  public static contextType = SidePageContext;
+  public context: SidePageContextType = this.context;
 
   private isMobileLayout!: boolean;
 
@@ -70,7 +62,6 @@ class SidePageHeaderInternal extends React.Component<SidePageHeaderProps, SidePa
   private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
   private setRootNode!: TSetRootNode;
-  private readonly locale!: SidePageLocale;
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -90,14 +81,14 @@ class SidePageHeaderInternal extends React.Component<SidePageHeaderProps, SidePa
 
   public componentDidMount = () => {
     window.addEventListener('scroll', this.update, true);
-    this.props.sidePageContext?.setHasHeader?.();
-    this.props.sidePageContext?.headerRef(this);
+    this.context.setHasHeader?.();
+    this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
     window.removeEventListener('scroll', this.update, true);
-    this.props.sidePageContext?.setHasHeader?.(false);
-    this.props.sidePageContext?.headerRef(null);
+    this.context.setHasHeader?.(false);
+    this.context.headerRef(null);
   };
 
   public update = () => {
@@ -204,13 +195,12 @@ class SidePageHeaderInternal extends React.Component<SidePageHeaderProps, SidePa
 
   private closeIcon = () => (
     <button
-      aria-label={this.locale.closeButtonAriaLabel}
       className={cx(styles.close(this.theme), {
         [styles.closeFocus(this.theme)]: this.state.focusedByTab,
       })}
       onFocus={this.handleFocus}
       onBlur={this.handleBlur}
-      onClick={this.props.sidePageContext?.requestClose}
+      onClick={this.context.requestClose}
       data-tid={SidePageHeaderDataTids.close}
       tabIndex={0}
     >
@@ -246,9 +236,3 @@ class SidePageHeaderInternal extends React.Component<SidePageHeaderProps, SidePa
     this.setState({ focusedByTab: false });
   };
 }
-
-export const SidePageHeader = withContext<SidePageHeaderProps, SidePageContextType>(
-  'sidePageContext',
-  SidePageContext,
-  SidePageHeaderInternal,
-);
