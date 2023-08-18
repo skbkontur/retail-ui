@@ -1,3 +1,5 @@
+import { TokenLocale } from 'react-ui/components/Token/locale';
+
 import { PasswordInputLocale } from '../../components/PasswordInput/locale';
 import { ComboBoxLocale } from '../../internal/CustomComboBox/locale';
 import { DatePickerLocale } from '../../components/DatePicker/locale';
@@ -12,6 +14,7 @@ export interface LocaleControls {
   [key: string]: any;
   Spinner?: Partial<SpinnerLocale>;
   TokenInput?: Partial<TokenInputLocale>;
+  Token?: Partial<TokenLocale>;
   ComboBox?: Partial<ComboBoxLocale>;
   Select?: Partial<SelectLocale>;
   Paging?: Partial<PagingLocale>;

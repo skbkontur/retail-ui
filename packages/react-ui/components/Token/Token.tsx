@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
+import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,6 +12,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
+import { TokenLocale, TokenLocaleHelper } from './locale';
 
 export type TokenColorName = keyof typeof colorStyles;
 
@@ -19,7 +21,7 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
+export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
   /**
@@ -56,11 +58,13 @@ export const TokenDataTids = {
 } as const;
 
 @rootNode
+@locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
+  private readonly locale!: TokenLocale;
 
   public render() {
     return (
@@ -82,7 +86,6 @@ export class Token extends React.Component<TokenProps> {
       warning,
       disabled,
       'aria-describedby': ariaDescribedby,
-      'aria-label': ariaLabel,
       onClick = emptyHandler,
       onDoubleClick = emptyHandler,
       onMouseEnter = emptyHandler,
@@ -96,7 +99,13 @@ export class Token extends React.Component<TokenProps> {
     const validation = getValidation(error, warning);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon aria-label={ariaLabel} side={16} color="inherit" colorHover="inherit" tabbable={false} />
+      <CloseButtonIcon
+        aria-label={this.locale.removeButtonAriaLabel}
+        side={16}
+        color="inherit"
+        colorHover="inherit"
+        tabbable={false}
+      />
     ) : (
       <CrossIcon />
     );
@@ -140,7 +149,7 @@ export class Token extends React.Component<TokenProps> {
           <span className={styles.text(this.theme)}>{children}</span>
           <span
             role={isTheme2022(theme) ? undefined : 'button'}
-            aria-label={isTheme2022(theme) ? undefined : ariaLabel}
+            aria-label={isTheme2022(theme) ? undefined : this.locale.removeButtonAriaLabel}
             className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
             onClick={this.onRemoveClick}
             data-tid={TokenDataTids.removeIcon}
