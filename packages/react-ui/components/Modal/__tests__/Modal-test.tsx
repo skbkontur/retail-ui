@@ -277,5 +277,16 @@ describe('Modal', () => {
         ModalLocalesEn.closeButtonAriaLabel,
       );
     });
+
+    it('sets custom value for `closeButtonAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { Modal: { closeButtonAriaLabel: customAriaLabel } } }}>
+          <Modal />
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute('aria-label', customAriaLabel);
+    });
   });
 });
