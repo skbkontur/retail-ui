@@ -1055,6 +1055,9 @@ export class DefaultTheme {
     return this.menuOffsetY;
   }
   public static dropdownMenuMenuBoxSizing = 'content-box';
+  public static dropdownButtonBorderRadiusSmall = '1px';
+  public static dropdownButtonBorderRadiusMedium = '1px';
+  public static dropdownButtonBorderRadiusLarge = '1px';
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1528,7 +1531,7 @@ export class DefaultTheme {
   //#endregion
   //#region Checkbox
   /**
-   * @ deprecated use checkboxFontSizeSmall
+   * @deprecated use checkboxFontSizeSmall
    */
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
@@ -1544,7 +1547,7 @@ export class DefaultTheme {
   }
 
   /**
-   * @ deprecated use checkboxLineHeightSmall
+   * @deprecated use checkboxLineHeightSmall
    */
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
@@ -1559,7 +1562,7 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   /**
-   * @ deprecated use checkboxBoxSizeSmall
+   * @deprecated use checkboxBoxSizeSmall
    */
   public static checkboxBoxSize = '16px';
   public static checkboxBoxSizeSmall = '16px';
@@ -1568,7 +1571,7 @@ export class DefaultTheme {
   public static checkboxCaptionGap = '8px';
 
   /**
-   * @ deprecated use checkboxPaddingYSmall
+   * @deprecated use checkboxPaddingYSmall
    */
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
@@ -1678,11 +1681,35 @@ export class DefaultTheme {
   }
   public static textareaShadow = 'none';
   public static textareaBackgroundClip = 'border-box';
+  /**
+   * @deprecated use textareaFontSizeSmall
+   */
   public static get textareaFontSize() {
     return this.fontSizeSmall;
   }
+  public static get textareaFontSizeSmall() {
+    return this.textareaFontSize;
+  }
+  public static get textareaFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get textareaFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  /**
+   * @deprecated use textareaLineHeightSmall
+   */
   public static get textareaLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get textareaLineHeightSmall() {
+    return this.textareaLineHeight;
+  }
+  public static get textareaLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get textareaLineHeightLarge() {
+    return this.controlLineHeightLarge;
   }
   public static textareaBorderRadius = '0px';
   public static get textareaBorderWidth() {
@@ -1693,18 +1720,58 @@ export class DefaultTheme {
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
     return `${outlineWidth - borderWidth}px`;
   }
+  /**
+   * @deprecated use textareaMinHeightSmall
+   */
   public static get textareaMinHeight() {
-    const lineHeight = parseInt(this.textareaLineHeight, 10) || 0;
-    const paddingY = parseInt(this.textareaPaddingY, 10) || 0;
+    const lineHeight = parseInt(this.textareaLineHeightSmall, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingYSmall, 10) || 0;
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
-
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
+  public static get textareaMinHeightSmall() {
+    return this.textareaMinHeight;
+  }
+  public static get textareaMinHeightMedium() {
+    const lineHeight = parseInt(this.textareaLineHeightMedium, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingYMedium, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
+  }
+  public static get textareaMinHeightLarge() {
+    const lineHeight = parseInt(this.textareaLineHeightLarge, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingYLarge, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
+  }
+
   public static textareaWidth = '250px';
+  /**
+   * @deprecated use textareaPaddingXSmall
+   */
   public static textareaPaddingX = '7px';
+  static get textareaPaddingXSmall() {
+    return this.textareaPaddingX;
+  }
+  public static textareaPaddingXMedium = '11px';
+  public static textareaPaddingXLarge = '15px';
+
+  /**
+   * @deprecated use textareaPaddingYSmall
+   */
   public static get textareaPaddingY() {
     return this.controlPaddingYSmall;
   }
+  public static get textareaPaddingYSmall() {
+    return this.textareaPaddingY;
+  }
+  public static get textareaPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get textareaPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
+
   public static get textareaBorderColor() {
     return this.borderColorGrayLight;
   }
