@@ -1,28 +1,11 @@
-import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { isChrome } from '../../lib/client';
+
+import { afterOutline, circleSizeMixin, radioCheckedMixin, radioSizeMixin } from './Radio.mixins';
 
 export const globalClasses = prefix('radio')({
   circle: 'circle',
 });
-
-const mixins = {
-  afterOutline(t: Theme) {
-    return css`
-      content: ' ';
-      position: absolute;
-      left: -${t.radioOutlineWidth};
-      top: -${t.radioOutlineWidth};
-      width: ${t.radioSizeAfter};
-      height: ${t.radioSizeAfter};
-      border-width: ${t.radioOutlineWidth};
-      border-style: solid;
-      border-radius: 50%;
-      box-sizing: border-box;
-    `;
-  },
-};
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -30,12 +13,8 @@ export const styles = memoizeStyle({
       cursor: pointer;
       position: relative;
       white-space: nowrap;
-      padding-top: ${t.radioPaddingY};
-      padding-bottom: ${t.radioPaddingY};
       display: inline-flex;
       align-items: baseline;
-      line-height: ${t.radioLineHeight};
-      font-size: ${t.radioFontSize};
 
       .${globalClasses.circle} {
         transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
@@ -56,9 +35,23 @@ export const styles = memoizeStyle({
         // and also height and baseline for radio without caption.
         content: '\\00A0';
         display: inline-block;
-        width: ${t.radioSize};
         flex: 0 0 auto;
       }
+    `;
+  },
+  rootSmall(t: Theme) {
+    return css`
+      ${radioSizeMixin(t.radioFontSizeSmall, t.radioLineHeightSmall, t.radioPaddingYSmall, t.radioSizeSmall)};
+    `;
+  },
+  rootMedium(t: Theme) {
+    return css`
+      ${radioSizeMixin(t.radioFontSizeMedium, t.radioLineHeightMedium, t.radioPaddingYMedium, t.radioSizeMedium)};
+    `;
+  },
+  rootLarge(t: Theme) {
+    return css`
+      ${radioSizeMixin(t.radioFontSizeLarge, t.radioLineHeightLarge, t.radioPaddingYLarge, t.radioSizeLarge)};
     `;
   },
 
@@ -77,13 +70,6 @@ export const styles = memoizeStyle({
   },
 
   circle(t: Theme) {
-    const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-    const fontSize = parseInt(t.radioFontSize);
-
-    const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
-    const circleSize = `calc(${t.radioSize} - 2 * ${t.radioBorderWidthCompensation})`;
-    const circleOffsetY = `calc(${t.radioCircleOffsetY} + ${t.radioBorderWidthCompensation} + ${baselineCompensation}px)`;
-    const circleMarginX = t.radioBorderWidthCompensation;
     return css`
       background-image: ${t.radioBgImage};
       border-radius: 50%;
@@ -91,19 +77,56 @@ export const styles = memoizeStyle({
       box-shadow: ${t.radioBoxShadow};
       box-sizing: border-box;
       display: inline-block;
-      height: ${circleSize};
-      width: ${circleSize};
       position: absolute;
       left: 0;
-      margin: ${circleOffsetY} ${circleMarginX} 0;
       background-color: ${t.radioBgColor};
+    `;
+  },
+  circleSmall(t: Theme) {
+    return css`
+      ${circleSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.radioFontSizeSmall,
+        t.radioSizeSmall,
+        t.radioBorderWidthCompensation,
+        t.radioCircleOffsetY,
+      )};
+    `;
+  },
+  circleMedium(t: Theme) {
+    return css`
+      ${circleSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.radioFontSizeMedium,
+        t.radioSizeMedium,
+        t.radioBorderWidthCompensation,
+        t.radioCircleOffsetY,
+      )};
+    `;
+  },
+  circleLarge(t: Theme) {
+    return css`
+      ${circleSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.radioFontSizeLarge,
+        t.radioSizeLarge,
+        t.radioBorderWidthCompensation,
+        t.radioCircleOffsetY,
+      )};
     `;
   },
 
   focus(t: Theme) {
     return css`
       &::after {
-        ${mixins.afterOutline(t)};
+        content: ' ';
+        position: absolute;
+        left: -${t.radioOutlineWidth};
+        top: -${t.radioOutlineWidth};
+        border-width: ${t.radioOutlineWidth};
+        border-style: solid;
+        border-radius: 50%;
+        box-sizing: border-box;
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorFocus};
       }
@@ -113,7 +136,14 @@ export const styles = memoizeStyle({
   warning(t: Theme) {
     return css`
       &::after {
-        ${mixins.afterOutline(t)};
+        content: ' ';
+        position: absolute;
+        left: -${t.radioOutlineWidth};
+        top: -${t.radioOutlineWidth};
+        border-width: ${t.radioOutlineWidth};
+        border-style: solid;
+        border-radius: 50%;
+        box-sizing: border-box;
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorWarning};
       }
@@ -123,9 +153,38 @@ export const styles = memoizeStyle({
   error(t: Theme) {
     return css`
       &::after {
-        ${mixins.afterOutline(t)};
+        content: ' ';
+        position: absolute;
+        left: -${t.radioOutlineWidth};
+        top: -${t.radioOutlineWidth};
+        border-width: ${t.radioOutlineWidth};
+        border-style: solid;
+        border-radius: 50%;
+        box-sizing: border-box;
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorError};
+      }
+    `;
+  },
+
+  stateSmall(t: Theme) {
+    return css`
+      &::after {
+        ${afterOutline(t.radioSizeAfterSmall)};
+      }
+    `;
+  },
+  stateMedium(t: Theme) {
+    return css`
+      &::after {
+        ${afterOutline(t.radioSizeAfterMedium)};
+      }
+    `;
+  },
+  stateLarge(t: Theme) {
+    return css`
+      &::after {
+        ${afterOutline(t.radioSizeAfterLarge)};
       }
     `;
   },
@@ -143,11 +202,24 @@ export const styles = memoizeStyle({
         bottom: 0;
         left: 0;
         margin: auto;
-        height: ${t.radioBulletSize};
-        width: ${t.radioBulletSize};
         border-radius: 50%;
         background: ${t.radioCheckedBulletColor};
       }
+    `;
+  },
+  checkedSmall(t: Theme) {
+    return css`
+      ${radioCheckedMixin(t.radioBulletSizeSmall)};
+    `;
+  },
+  checkedMedium(t: Theme) {
+    return css`
+      ${radioCheckedMixin(t.radioBulletSizeMedium)};
+    `;
+  },
+  checkedLarge(t: Theme) {
+    return css`
+      ${radioCheckedMixin(t.radioBulletSizeLarge)};
     `;
   },
 

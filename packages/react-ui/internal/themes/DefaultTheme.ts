@@ -1804,31 +1804,110 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Radio
+  /**
+   * @deprecated use radioBulletSizeSmall
+   */
   public static radioBulletSize = '8px';
+  public static get radioBulletSizeSmall() {
+    return this.radioBulletSize;
+  }
+  public static radioBulletSizeMedium = '10px';
+  public static radioBulletSizeLarge = '12px';
   public static get radioOutlineWidth() {
     return this.controlOutlineWidth;
   }
   public static get radioTextColor() {
     return this.textColorDefault;
   }
+
+  /**
+   * @deprecated use radioSizeSmall
+   */
   public static radioSize = '16px';
+  public static get radioSizeSmall() {
+    return this.radioSize;
+  }
+  public static radioSizeMedium = '20px';
+  public static radioSizeLarge = '24px';
+
+  /**
+   * @deprecated use radioSizeAfterSmall
+   */
   public static get radioSizeAfter() {
     const borderCompensation =
       this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
-    return `calc(${this.radioSize} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
+    return `calc(${this.radioSizeSmall} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
   }
+  public static get radioSizeAfterSmall() {
+    return this.radioSizeAfter;
+  }
+  public static get radioSizeAfterMedium() {
+    const borderCompensation =
+      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
+    return `calc(${this.radioSizeMedium} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
+  }
+  public static get radioSizeAfterLarge() {
+    const borderCompensation =
+      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
+    return `calc(${this.radioSizeLarge} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
+  }
+
+  /**
+   * @deprecated use radioFontSizeSmall
+   */
   public static get radioFontSize() {
     return this.fontSizeSmall;
   }
+  public static get radioFontSizeSmall() {
+    return this.radioFontSize;
+  }
+  public static get radioFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get radioFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @deprecated use radioLineHeightSmall
+   */
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get radioLineHeightSmall() {
+    return this.radioLineHeight;
+  }
+  public static get radioLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get radioLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+
   public static radioCaptionGap = '8px';
+
+  /**
+   * @deprecated use radioPaddingYSmall
+   */
   public static get radioPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.radioLineHeight, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeightSmall, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
+  public static get radioPaddingYSmall() {
+    return this.radioPaddingY;
+  }
+  public static get radioPaddingYMedium() {
+    const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeightMedium, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+  public static get radioPaddingYLarge() {
+    const controlHeight = parseInt(this.controlHeightLarge, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeightLarge, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
   public static radioBgColor = '#fff';

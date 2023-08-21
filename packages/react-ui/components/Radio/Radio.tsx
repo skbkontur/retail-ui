@@ -16,6 +16,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './Radio.styles';
 
+export type RadioSize = 'small' | 'medium' | 'large';
+
 export interface RadioProps<T>
   extends CommonProps,
     Override<
@@ -29,6 +31,10 @@ export interface RadioProps<T>
          * Состояние валидации при предупреждении.
          */
         warning?: boolean;
+        /**
+         * Размер
+         */
+        size?: RadioSize;
         /**
          * Состояние фокуса.
          */
@@ -64,7 +70,7 @@ export const RadioDataTids = {
   root: 'Radio__root',
 } as const;
 
-type DefaultProps = Required<Pick<RadioProps<any>, 'focused'>>;
+type DefaultProps = Required<Pick<RadioProps<any>, 'focused' | 'size'>>;
 
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
@@ -79,6 +85,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public static defaultProps: DefaultProps = {
     focused: false,
+    size: 'small',
   };
 
   private getProps = createPropsGetter(Radio.defaultProps);
@@ -89,6 +96,54 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private inputEl = React.createRef<HTMLInputElement>();
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
+
+  private getRootSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.rootLarge(this.theme);
+      case 'medium':
+        return styles.rootMedium(this.theme);
+      case 'small':
+      default:
+        return styles.rootSmall(this.theme);
+    }
+  }
+
+  private getCircleSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.circleLarge(this.theme);
+      case 'medium':
+        return styles.circleMedium(this.theme);
+      case 'small':
+      default:
+        return styles.circleSmall(this.theme);
+    }
+  }
+
+  private getCheckedSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.checkedLarge(this.theme);
+      case 'medium':
+        return styles.checkedMedium(this.theme);
+      case 'small':
+      default:
+        return styles.checkedSmall(this.theme);
+    }
+  }
+
+  private getStateSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.stateLarge(this.theme);
+      case 'medium':
+        return styles.stateMedium(this.theme);
+      case 'small':
+      default:
+        return styles.stateSmall(this.theme);
+    }
+  }
 
   public render() {
     return (
@@ -125,6 +180,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       disabled = this.context.disabled,
       warning = this.context.warning,
       error = this.context.error,
+      size,
       focused,
       onMouseOver,
       onMouseEnter,
@@ -136,10 +192,13 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     const radioProps = {
       className: cx({
         [styles.circle(this.theme)]: true,
+        [this.getCircleSizeClassName()]: true,
         [styles.checked(this.theme)]: this.props.checked,
+        [this.getCheckedSizeClassName()]: this.props.checked,
         [styles.focus(this.theme)]: this.getProps().focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
+        [this.getStateSizeClassName()]: warning || error || this.getProps().focused || this.state.focusedByKeyboard,
         [styles.disabled(this.theme)]: disabled,
         [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
         [globalClasses.circle]: true,
@@ -165,7 +224,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     };
 
     const labelProps = {
-      className: cx(styles.root(this.theme), {
+      className: cx(styles.root(this.theme), this.getRootSizeClassName(), {
         [styles.rootChecked(this.theme)]: this.props.checked,
         [styles.rootIE11()]: isIE11 || isEdge,
       }),
@@ -180,12 +239,13 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
-      labelProps.className = cx(styles.root(this.theme), {
+      labelProps.className = cx(styles.root(this.theme), this.getRootSizeClassName(), {
         [styles.rootChecked(this.theme)]: checked,
         [styles.rootIE11()]: isIE11 || isEdge,
       });
       radioProps.className = cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
+        [this.getCheckedSizeClassName()]: checked,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
       });
     }
