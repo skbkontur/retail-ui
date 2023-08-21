@@ -16,7 +16,6 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { mergeRefs } from '../../lib/utils';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -321,7 +320,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
         return child;
       }
 
-      if (child.props.icon && !this.state.enableIconPadding) {
+      if (child.props.icon && !this.state.enableIconPadding && !this.getProps().preventIconsOffset) {
         this.setState({ enableIconPadding: true });
       }
 
@@ -341,9 +340,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private addPropsToMenuItem = (menuItem: ReactNode, index: number, highlight: boolean) => {
     const child = menuItem as any;
-    let ref = child?.ref;
+    let ref = child.ref;
     if (highlight && typeof ref !== 'string') {
-      ref = mergeRefs([ref, this.refHighlighted.bind(this, ref)]);
+      ref = this.refHighlighted.bind(this, ref);
     }
 
     return React.cloneElement(child, {
