@@ -205,10 +205,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
     const offsetY = isTheme2022(this.theme)
       ? {
-        top: `${this.theme.scrollContainerScrollBarOffsetY}`,
-        right: 0,
-        bottom: `${this.theme.scrollContainerScrollBarOffsetY}`,
-      }
+          top: `${this.theme.scrollContainerScrollBarOffsetY}`,
+          right: 0,
+          bottom: `${this.theme.scrollContainerScrollBarOffsetY}`,
+        }
       : {};
 
     const isMobile = this.isMobileLayout;
@@ -393,8 +393,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
-        ((this.header && getDOMRect(this.header).height) || 0) +
-        ((this.footer && getDOMRect(this.footer).height) || 0)
+          ((this.header && getDOMRect(this.header).height) || 0) +
+          ((this.footer && getDOMRect(this.footer).height) || 0)
         : maxHeight;
 
     this.setState({
