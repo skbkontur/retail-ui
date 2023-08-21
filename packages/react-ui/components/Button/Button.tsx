@@ -1,4 +1,5 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
+import { HTMLProps } from 'react-ui/typings/html';
 
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
@@ -26,11 +27,17 @@ export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | '
 
 export interface ButtonProps
   extends CommonProps,
+<<<<<<< Updated upstream
     Pick<
       AriaAttributes,
       'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked' | 'aria-expanded'
     >,
     Pick<HTMLAttributes<unknown>, 'role'> {
+=======
+    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked'>,
+    Pick<HTMLAttributes<unknown>, 'role'>,
+    Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
+>>>>>>> Stashed changes
   /** @ignore */
   _noPadding?: boolean;
 
@@ -269,8 +276,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      onMouseDown,
+      onMouseUp,
       onKeyDown,
       onClick,
+      onClickCapture,
       width,
       children,
       'aria-describedby': ariaDescribedby,
@@ -364,6 +374,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      onMouseDown,
+      onMouseUp,
+      onClickCapture,
       tabIndex: disableFocus ? -1 : 0,
       title: this.props.title,
     };
