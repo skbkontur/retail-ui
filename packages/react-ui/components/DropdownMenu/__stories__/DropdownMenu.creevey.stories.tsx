@@ -76,32 +76,39 @@ WithItemsAndIconsWithoutTextAlignment.parameters = {
 };
 
 const navigateInNestedMenuItems: CreeveyTests = {
-  async arrow_down() {
+  async navigate() {
     await this.browser
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
       .sendKeys(this.keys.DOWN)
       .sendKeys(this.keys.DOWN)
       .perform();
-    await delay(1000);
+    const arrowDown = await this.browser.takeScreenshot();
 
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('arrow_down');
-  },
-  async enter() {
     await this.browser
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
-      .sendKeys(this.keys.DOWN)
-      .sendKeys(this.keys.DOWN)
       .sendKeys(this.keys.ENTER)
       .perform();
     await delay(1000);
+    const enter = await this.browser.takeScreenshot();
 
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('enter');
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
+      .sendKeys(this.keys.DOWN)
+      .sendKeys(this.keys.DOWN)
+      .sendKeys(this.keys.DOWN)
+      .sendKeys(this.keys.DOWN)
+      .perform();
+    const circle = await this.browser.takeScreenshot();
+
+    await this.expect({ arrowDown, enter, circle }).to.matchImages();
   },
 };
 
