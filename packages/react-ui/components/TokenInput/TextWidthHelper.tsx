@@ -1,9 +1,12 @@
 import React from 'react';
+import {cx} from "@emotion/css";
 
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './TokenInput.styles';
+import {TokenInputSize} from "./TokenInput";
+
 
 // a thin character to preserve some space
 // for the caret visibillity in the input
@@ -13,6 +16,7 @@ export interface TextWidthHelperProps {
   text?: string;
   classHelp: string;
   theme: Theme;
+  size: TokenInputSize;
 }
 /**
  * Херпер позволяет вычислить размеры блока с текстом
@@ -21,9 +25,21 @@ export interface TextWidthHelperProps {
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
+  private getHelperContainerSizeClassName() {
+    switch (this.props.size) {  // возможно, рациональнее через getProps()
+      case 'large':
+        return styles.helperContainerLarge(this.props.theme);
+      case 'medium':
+        return styles.helperContainerMedium(this.props.theme);
+      case 'small':
+      default:
+        return styles.helperContainerSmall(this.props.theme);
+    }
+  }
+
   public render() {
     return (
-      <div className={styles.helperContainer(this.props.theme)}>
+      <div className={cx(this.getHelperContainerSizeClassName(), styles.helperContainer(this.props.theme))}>
         <div className={this.props.classHelp} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}
         </div>
@@ -32,6 +48,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   }
 
   public getTextWidth(): number {
+    // console.log(this.element);
     return getDOMRect(this.element).width;
   }
 

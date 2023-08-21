@@ -130,12 +130,12 @@ Colored.storyName = 'colored';
 
 export const Validations = () => {
   return (
-    <>
+    <Gapped>
       <Token error>test</Token>
       <Token warning isActive>
         test
       </Token>
-    </>
+    </Gapped>
   );
 };
 Validations.storyName = 'validations';

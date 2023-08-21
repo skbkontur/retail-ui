@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import {TokenInputContext, TokenInputContextType} from "../TokenInput/TokenInputContext";
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -65,20 +65,15 @@ export const TokenDataTids = {
   removeIcon: 'Token__removeIcon',
 } as const;
 
-type DefaultProps = Required<Pick<TokenProps, 'size'>>;
-
 @rootNode
-export class Token extends React.Component<TokenProps> {
+export class Token<T> extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
-  public static defaultProps: DefaultProps = {
-    size: 'small',
-  };
+  public static contextType = TokenInputContext;
+  public context: TokenInputContextType<T> = this.context;
 
-  private getProps = createPropsGetter(Token.defaultProps);
-
-  private getSizeClassName() {
-    switch (this.getProps().size) {
+  private getSizeClassName(size: TokenSize) {
+    switch (size) {
       case 'large':
         return styles.tokenLarge(this.theme);
       case 'medium':
@@ -105,6 +100,7 @@ export class Token extends React.Component<TokenProps> {
 
   private renderMain() {
     const {
+      size = this.context.size,
       children,
       isActive,
       colors = { idle: 'defaultIdle', active: 'defaultActive' },
@@ -151,7 +147,7 @@ export class Token extends React.Component<TokenProps> {
       );
     }
 
-    const tokenClassNames = cx(this.getSizeClassName(), classNames, {
+    const tokenClassNames = cx(this.getSizeClassName(size ? size : 'small'), classNames, {
       [styles.token(theme)]: true,
     });
 

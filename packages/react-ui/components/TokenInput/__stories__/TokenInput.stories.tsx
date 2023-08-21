@@ -762,3 +762,14 @@ CustomRenderTotalCount.parameters = {
     },
   },
 };
+
+export const Size = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Wrapper numberItems={5} getItems={getItems} size="small"/>
+      <Wrapper numberItems={5} getItems={getItems} size="medium"/>
+      <Wrapper numberItems={5} getItems={getItems} size="large"/>
+    </Gapped>
+  );
+};
+Size.storyName = 'size';
