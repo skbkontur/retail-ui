@@ -9,7 +9,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuItem.styles';
 
@@ -132,6 +133,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
 
+  public static contextType = MenuContext;
+  public context: MenuContextType = this.context;
+
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -183,6 +187,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       );
     }
 
+    const enableIconPadding = Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding;
+
     const className = cx({
       [styles.root(this.theme)]: true,
       [styles.rootMobile(this.theme)]: isMobile,
@@ -190,7 +196,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',
       [styles.link(this.theme)]: !!link,
-      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [styles.withIcon(this.theme)]: enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 

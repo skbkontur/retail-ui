@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { delay } from '../../../lib/utils';
 import { Button } from '../../Button';
 import { CreeveyTests, Meta } from '../../../typings/stories';
 import { DropdownMenu } from '../DropdownMenu';
-import { MenuHeader } from '../../../components/MenuHeader';
-import { MenuItem } from '../../../components/MenuItem';
+import { MenuHeader } from '../../MenuHeader';
+import { MenuItem } from '../../MenuItem';
 import { OkIcon } from '../../../internal/icons/16px';
 import { PopupMenuDataTids } from '../../../internal/PopupMenu';
 
@@ -72,5 +72,59 @@ WithItemsAndIconsWithoutTextAlignment.parameters = {
   creevey: {
     tests: textAlignmentTests,
     skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+  },
+};
+
+const navigateInNestedMenuItems: CreeveyTests = {
+  async arrow_down() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'button' }))
+      .sendKeys(this.keys.DOWN)
+      .sendKeys(this.keys.DOWN)
+      .perform();
+    await delay(1000);
+
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('arrow_down');
+  },
+  async enter() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: 'button' }))
+      .sendKeys(this.keys.DOWN)
+      .sendKeys(this.keys.DOWN)
+      .sendKeys(this.keys.ENTER)
+      .perform();
+    await delay(1000);
+
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('enter');
+  },
+};
+
+export const WithNestedMenuItems = () => {
+  const [caption, setCaption] = useState('not selected');
+  const onClick = () => {
+    setCaption('selected');
+  };
+  return (
+    <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
+      <>
+        <div>
+          <MenuItem>Раз</MenuItem>
+          <MenuItem onClick={onClick}>Два</MenuItem>
+        </div>
+        <MenuItem>Три</MenuItem>
+      </>
+    </DropdownMenu>
+  );
+};
+WithNestedMenuItems.storyName = 'With nested menu items';
+WithNestedMenuItems.parameters = {
+  creevey: {
+    tests: navigateInNestedMenuItems,
   },
 };
