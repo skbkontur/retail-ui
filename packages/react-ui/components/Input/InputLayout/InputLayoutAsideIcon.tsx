@@ -13,7 +13,7 @@ export interface InputLayoutAsideIconProps {
   side: 'left' | 'right';
 }
 
-export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon, side }) => {
+export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null, side }) => {
   const theme = React.useContext(ThemeContext);
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
@@ -28,9 +28,9 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     large: parseInt(theme.inputIconGapLarge),
   };
 
-  let _icon = null;
-  if (icon && isElement(icon)) {
-    _icon = isKonturIcon(icon) ? React.cloneElement(icon, { size: icon.props.size ?? sizes[size] }) : icon;
+  let _icon = icon instanceof Function ? icon() : icon;
+  if (isElement(icon) && isKonturIcon(icon)) {
+    _icon = React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
   }
 
   const style: React.CSSProperties = {};
