@@ -218,32 +218,3 @@ const renderCaption = ({ openMenu, closeMenu }) => {
   </MenuItem>
 </DropdownMenu>
 ```
-
-Условный рендер элементов меню (с сохранением поведения [MenuItem](#/Components/MenuItem)).
-
-```jsx harmony
-import {Button, MenuItem, Gapped, MenuSeparator} from '@skbkontur/react-ui';
-
-const [showItems, setShowItems] = React.useState(false);
-
-const hiddenItems = [
-  <MenuSeparator />,
-  <MenuItem>А я скрываюсь</MenuItem>,
-  <MenuItem>И я</MenuItem>,
-  <MenuItem>Я с вами</MenuItem>,
-];
-
-
-<Gapped>
-  <Button onClick={() => setShowItems(!showItems)}>
-    {showItems ? 'Спрятать' : 'Показать'} элементы
-  </Button>
-
-  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-    <MenuItem>Меня видно всегда</MenuItem>
-    <MenuItem>Меня тоже</MenuItem>
-    <MenuItem>Ага, и меня!</MenuItem>
-    {showItems && hiddenItems}
-  </DropdownMenu>
-</Gapped>
-```
