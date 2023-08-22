@@ -7,7 +7,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { isHTMLElement } from '../../lib/SSRSafe';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
-import { isMenuItem, MenuItem } from '../../components/MenuItem';
+import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -338,16 +338,19 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     });
   };
 
-  private addPropsToMenuItem = (menuItem: ReactNode, index: number, highlight: boolean) => {
-    const child = menuItem as any;
-    let ref = child.ref;
+  private addPropsToMenuItem = (
+    menuItem: React.ComponentElement<MenuItemProps, MenuItem>,
+    index: number,
+    highlight: boolean,
+  ) => {
+    let ref = menuItem.ref;
     if (highlight && typeof ref !== 'string') {
       ref = this.refHighlighted.bind(this, ref);
     }
 
-    return React.cloneElement(child, {
+    return React.cloneElement(menuItem, {
       ref,
-      state: highlight ? 'hover' : child.props.state,
+      state: highlight ? 'hover' : menuItem.props.state,
       onClick: this.select.bind(this, index, false),
       onMouseEnter: this.highlight.bind(this, index),
       onMouseLeave: this.unhighlight,
