@@ -6,7 +6,7 @@ import {
   circleSizeMixin,
   outlineColorMixin,
   radioCheckedMixin,
-  radioSizeMixin
+  radioSizeMixin,
 } from './Radio.mixins';
 
 export const globalClasses = prefix('radio')({
