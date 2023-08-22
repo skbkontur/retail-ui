@@ -360,7 +360,7 @@ export const styles = memoizeStyle({
     return css`
       cursor: default;
       pointer-events: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
 
       background-image: none;
       background-color: ${t.btnDisabledBg};
@@ -372,9 +372,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  coloredUseStateDisabledOutline(t: Theme) {
+  disabledWithOutline(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
     `;
   },
 
