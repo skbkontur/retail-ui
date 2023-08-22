@@ -27,17 +27,12 @@ export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | '
 
 export interface ButtonProps
   extends CommonProps,
-<<<<<<< Updated upstream
     Pick<
       AriaAttributes,
       'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked' | 'aria-expanded'
     >,
-    Pick<HTMLAttributes<unknown>, 'role'> {
-=======
-    Pick<AriaAttributes, 'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked'>,
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
->>>>>>> Stashed changes
   /** @ignore */
   _noPadding?: boolean;
 
