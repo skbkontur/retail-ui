@@ -28,7 +28,7 @@ export const circleSizeMixin = (
     labGrotesqueCompenstation,
     isChrome,
     isFirefox,
-  ); // для firefox тоже поди надо
+  );
   const circleSize = `calc(${radioSize} - 2 * ${radioBorderWidthCompensation})`;
   const circleOffsetY = `calc(${radioCircleOffsetY} + ${radioBorderWidthCompensation} + ${baselineCompensation}px)`;
   const circleMarginX = radioBorderWidthCompensation;
@@ -48,9 +48,21 @@ export const radioCheckedMixin = (bulletSize: string) => {
   `;
 };
 
-export const afterOutline = (radioSizeAfter: string) => {
+export const afterOutlineMixin = (radioOutlineWidth: string) => {
   return css`
-    width: ${radioSizeAfter};
-    height: ${radioSizeAfter};
+    content: ' ';
+    position: absolute;
+    inset: -${radioOutlineWidth};
+    border-width: ${radioOutlineWidth};
+    border-style: solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+  `;
+};
+
+export const outlineColorMixin = (shadow: string, borderColor: string) => {
+  return css`
+    box-shadow: ${shadow};
+    border-color: ${borderColor};
   `;
 };

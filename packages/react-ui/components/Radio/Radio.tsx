@@ -133,18 +133,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     }
   }
 
-  private getStateSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.stateLarge(this.theme);
-      case 'medium':
-        return styles.stateMedium(this.theme);
-      case 'small':
-      default:
-        return styles.stateSmall(this.theme);
-    }
-  }
-
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -198,7 +186,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         [styles.focus(this.theme)]: this.getProps().focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
-        [this.getStateSizeClassName()]: warning || error || this.getProps().focused || this.state.focusedByKeyboard,
         [styles.disabled(this.theme)]: disabled,
         [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
         [globalClasses.circle]: true,

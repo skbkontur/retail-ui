@@ -1,7 +1,13 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { afterOutline, circleSizeMixin, radioCheckedMixin, radioSizeMixin } from './Radio.mixins';
+import {
+  afterOutlineMixin,
+  circleSizeMixin,
+  outlineColorMixin,
+  radioCheckedMixin,
+  radioSizeMixin
+} from './Radio.mixins';
 
 export const globalClasses = prefix('radio')({
   circle: 'circle',
@@ -119,16 +125,8 @@ export const styles = memoizeStyle({
   focus(t: Theme) {
     return css`
       &::after {
-        content: ' ';
-        position: absolute;
-        left: -${t.radioOutlineWidth};
-        top: -${t.radioOutlineWidth};
-        border-width: ${t.radioOutlineWidth};
-        border-style: solid;
-        border-radius: 50%;
-        box-sizing: border-box;
-        box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.radioBorderColorFocus};
+        ${afterOutlineMixin(t.radioOutlineWidth)};
+        ${outlineColorMixin(t.radioFocusShadow, t.radioBorderColorFocus)};
       }
     `;
   },
@@ -136,16 +134,8 @@ export const styles = memoizeStyle({
   warning(t: Theme) {
     return css`
       &::after {
-        content: ' ';
-        position: absolute;
-        left: -${t.radioOutlineWidth};
-        top: -${t.radioOutlineWidth};
-        border-width: ${t.radioOutlineWidth};
-        border-style: solid;
-        border-radius: 50%;
-        box-sizing: border-box;
-        box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.radioBorderColorWarning};
+        ${afterOutlineMixin(t.radioOutlineWidth)};
+        ${outlineColorMixin(t.radioFocusShadow, t.radioBorderColorWarning)};
       }
     `;
   },
@@ -153,38 +143,8 @@ export const styles = memoizeStyle({
   error(t: Theme) {
     return css`
       &::after {
-        content: ' ';
-        position: absolute;
-        left: -${t.radioOutlineWidth};
-        top: -${t.radioOutlineWidth};
-        border-width: ${t.radioOutlineWidth};
-        border-style: solid;
-        border-radius: 50%;
-        box-sizing: border-box;
-        box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.radioBorderColorError};
-      }
-    `;
-  },
-
-  stateSmall(t: Theme) {
-    return css`
-      &::after {
-        ${afterOutline(t.radioSizeAfterSmall)};
-      }
-    `;
-  },
-  stateMedium(t: Theme) {
-    return css`
-      &::after {
-        ${afterOutline(t.radioSizeAfterMedium)};
-      }
-    `;
-  },
-  stateLarge(t: Theme) {
-    return css`
-      &::after {
-        ${afterOutline(t.radioSizeAfterLarge)};
+        ${afterOutlineMixin(t.radioOutlineWidth)};
+        ${outlineColorMixin(t.radioFocusShadow, t.radioBorderColorError)};
       }
     `;
   },

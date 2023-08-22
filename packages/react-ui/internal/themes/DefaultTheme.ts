@@ -1838,19 +1838,6 @@ export class DefaultTheme {
       this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
     return `calc(${this.radioSizeSmall} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
   }
-  public static get radioSizeAfterSmall() {
-    return this.radioSizeAfter;
-  }
-  public static get radioSizeAfterMedium() {
-    const borderCompensation =
-      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
-    return `calc(${this.radioSizeMedium} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
-  }
-  public static get radioSizeAfterLarge() {
-    const borderCompensation =
-      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
-    return `calc(${this.radioSizeLarge} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
-  }
 
   /**
    * @deprecated use radioFontSizeSmall
