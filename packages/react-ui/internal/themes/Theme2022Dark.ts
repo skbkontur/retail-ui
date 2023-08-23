@@ -7,10 +7,6 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static outlineColorFocus = '#EBEBEB';
 
   //#region Button
-  public static btnLinkColor = '#ddd';
-  public static btnLinkHoverColor = '#eee';
-  public static btnLinkActiveColor = '#fff';
-
   public static btnFocusShadowWidth = '2px';
   public static btnOutlineColorFocus = '#1f1f1f';
 
@@ -98,7 +94,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Link
-  public static linkColor = '#EBEBEB';
+  public static linkColor = 'rgba(255, 255, 255, 0.87)';
   public static linkHoverColor = '#ffffff';
   public static linkActiveColor = '#c2c2c2';
 
