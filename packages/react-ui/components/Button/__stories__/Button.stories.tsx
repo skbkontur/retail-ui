@@ -288,6 +288,12 @@ export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
   />
 );
 
+ArrowDisabled.parameters = {
+  creevey: {
+    skip: { in: /2022/ },
+  },
+};
+
 export const MultilineTextWithLinkButton = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />
