@@ -279,6 +279,15 @@ export const Disabled: Story = (_, { globals: { theme } }) => (
   />
 );
 
+export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme).filter((state) => state.props.use !== 'link')}
+    rows={disabledDifferentStates.filter((state) => !state.icon).map((state) => ({ props: state }))}
+    presetProps={{ children: 'Button', disabled: true, arrow: true }}
+  />
+);
+
 export const MultilineTextWithLinkButton = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />
