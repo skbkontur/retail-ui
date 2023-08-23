@@ -11,7 +11,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
 
-import { TextareaDataTids, TextareaProps } from './Textarea';
+import { TextareaDataTids, TextareaProps, TextareaSize } from './Textarea';
 import { styles } from './Textarea.styles';
 
 export interface TextareaCounterProps {
@@ -20,6 +20,7 @@ export interface TextareaCounterProps {
   help: TextareaProps['counterHelp'];
   onCloseHelp: () => void;
   textarea: HTMLTextAreaElement;
+  size: TextareaSize;
 }
 
 export interface TextareaCounterRef {
@@ -30,7 +31,7 @@ const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
 export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCounterProps>(
   'TextareaCounter',
-  ({ length, value, help, onCloseHelp, textarea }, ref) => {
+  ({ length, value, help, onCloseHelp, textarea, size }, ref) => {
     const theme = useContext(ThemeContext);
     const [width, setWidth] = useState(textarea.clientWidth);
     const [height, setHeight] = useState(textarea.clientHeight);
@@ -62,10 +63,22 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       </Tooltip>
     );
 
+    const getCounterSizeClassName = () => {
+      switch (size) {
+        case 'large':
+          return styles.counterLarge(theme);
+        case 'medium':
+          return styles.counterMedium(theme);
+        case 'small':
+        default:
+          return styles.counterSmall(theme);
+      }
+    };
+
     return (
-      <div data-tid={TextareaDataTids.counter} className={styles.counterContainer(theme)} style={{ width, height }}>
+      <div data-tid={TextareaDataTids.counter} className={cx(styles.counterContainer(theme))} style={{ width, height }}>
         <span
-          className={cx(styles.counter(theme), {
+          className={cx(getCounterSizeClassName(), styles.counter(theme), {
             [styles.counterError(theme)]: counterValue < 0,
           })}
         >

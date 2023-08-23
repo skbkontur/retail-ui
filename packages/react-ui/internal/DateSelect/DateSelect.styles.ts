@@ -11,13 +11,17 @@ export const styles = memoizeStyle({
       color: ${t.dateSelectTextColorDefault};
       cursor: pointer;
       display: inline-block;
+      font: inherit;
       font-size: ${t.dateSelectFontSize};
-      line-height: ${t.dateSelectLineHeight};
-      outline: 0;
+      padding: 0px;
       padding-right: 2px;
       position: relative;
       text-align: left;
       touch-action: none;
+      border: none;
+      line-height: ${t.dateSelectLineHeight};
+      background-color: transparent;
+      box-sizing: content-box;
 
       &:hover {
         color: ${t.dateSelectLinkColor};
@@ -108,14 +112,20 @@ export const styles = memoizeStyle({
 
   menuItem(t: Theme) {
     return css`
+      display: flex;
       color: ${t.dateSelectTextColorDefault};
       cursor: pointer;
       height: 24px;
-      line-height: 24px;
+      padding: 0;
       padding-left: 10px;
+      width: 100%;
       user-select: none;
       white-space: nowrap;
       touch-action: none;
+      border: none;
+      font: inherit;
+      line-height: 24px;
+      background-color: transparent;
     `;
   },
 
