@@ -303,7 +303,19 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActive = '#323232';
   public static tokenBorderRadius = '2px';
 
+  public static tokenMarginY = '2px';
   public static tokenMarginX = '2px';
+  public static get tokenMarginYSmall(){
+    return this.tokenMarginY;
+  }
+  public static get tokenMarginXSmall(){
+    return this.tokenMarginX;
+  }
+  public static tokenMarginYMedium = '2px';
+  public static tokenMarginXMedium = '2px';
+  public static tokenMarginYLarge = '2px';
+  public static tokenMarginXLarge = '2px';
+
   public static tokenOutlineWidth = '1px';
 
   public static tokenShadowDisabled = '';
@@ -355,10 +367,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemCommentOpacity = '0.6';
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
 
+  public static OOOffset = '2';
+  public static tokenInputLineHeight = '24px';
   public static tokenInputBorderRadius = '2px';
 
-  public static tokenInputPaddingY = '2px';
-  public static tokenInputPaddingX = '2px';
+  // public static tokenInputPaddingY = '1px';
+  public static tokenInputPaddingX = '1px';
+  public static tokenInputPaddingXLarge = '5px';
   public static tokenInputMenuPopupBg = 'transparent';
 
   //#region Toggle

@@ -662,7 +662,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
     if (!this.getProps().hasPin || /center|middle/.test(position.align)) {
-      return 0;
+      return parseInt(this.theme.OOOffset);
     }
 
     const anchorSize = /top|bottom/.test(position.direction) ? anchorRect.width : anchorRect.height;

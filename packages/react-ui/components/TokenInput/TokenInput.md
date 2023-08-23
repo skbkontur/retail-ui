@@ -59,6 +59,81 @@ const tokenColors = {
 </div>;
 ```
 
+У TokenInput есть 3 стандартных размера.
+
+```jsx harmony
+import { Token } from '@skbkontur/react-ui';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
+
+const [selectedItems, setSelectedItems] = React.useState([]);
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+
+const getItems = q =>
+  Promise.resolve(
+    ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
+      x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+    ),
+  ).then(delay(500));
+
+<div style={{ width: '300px' }}>
+  <TokenInput
+    size={'small'}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+    renderToken={(item, tokenProps) => (
+      <Token key={item.toString()} {...tokenProps}>
+        {item}
+      </Token>
+    )}
+  />
+  <TokenInput
+    size={'medium'}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+    renderToken={(item, tokenProps) => (
+      <Token key={item.toString()} {...tokenProps}>
+        {item}
+      </Token>
+    )}
+  />
+  <TokenInput
+    size={'large'}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+    renderToken={(item, tokenProps) => (
+      <Token key={item.toString()} {...tokenProps}>
+        {item}
+      </Token>
+    )}
+  />
+</div>;
+
+
+
+
+<Gapped vertical gap={10}>
+  <TokenInput size="small">
+    <Token>
+      Маленький TokenInput, маленький Token
+    </Token>
+  </TokenInput>
+  <TokenInput size="medium">
+    <Token>
+      Средний TokenInput, средний Token
+    </Token>
+  </TokenInput>
+  <TokenInput size="large">
+    <Token>
+      Большой TokenInput, большой Token
+    </Token>
+  </TokenInput>
+</Gapped>
+```
+
 Заблокированный TokenInput с кастомными Token:
 
 ```jsx harmony

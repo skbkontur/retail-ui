@@ -26,7 +26,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   private getHelperContainerSizeClassName() {
-    switch (this.props.size) {  // возможно, рациональнее через getProps()
+    switch (this.props.size) {
       case 'large':
         return styles.helperContainerLarge(this.props.theme);
       case 'medium':
@@ -39,7 +39,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
 
   public render() {
     return (
-      <div className={cx(this.getHelperContainerSizeClassName(), styles.helperContainer(this.props.theme))}>
+      <div className={cx(this.getHelperContainerSizeClassName(), styles.helperContainer())}>
         <div className={this.props.classHelp} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}
         </div>
@@ -48,7 +48,6 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   }
 
   public getTextWidth(): number {
-    // console.log(this.element);
     return getDOMRect(this.element).width;
   }
 

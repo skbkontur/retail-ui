@@ -149,8 +149,26 @@ export class DefaultTheme {
   public static get tokenFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  public static tokenMarginY = '2px';
-  public static tokenMarginX = '4px';
+
+  /**
+   * @deprecated use tokenMarginYSmall
+   */
+  public static tokenMarginY = '3px';
+  /**
+   * @deprecated use tokenMarginXSmall
+   */
+  public static tokenMarginX = '2px';
+  public static get tokenMarginYSmall(){
+    return this.tokenMarginY;
+  }
+  public static get tokenMarginXSmall(){
+    return this.tokenMarginX;
+  }
+  public static tokenMarginYMedium = '3px';
+  public static tokenMarginXMedium = '3px';
+  public static tokenMarginYLarge = '3px';
+  public static tokenMarginXLarge = '4px';
+
   /**
    * @deprecated use tokenLineHeightSmall
    */
@@ -243,18 +261,69 @@ export class DefaultTheme {
   }
   public static tokenOutlineWidth = '2px';
   public static tokenLegacyTextShift = '0px';
+
+  /**
+   * @deprecated use tokenPaddingYDisabledSmall
+   */
   public static get tokenPaddingYDisabled() {
     return this.tokenPaddingY;
   }
+  /**
+   * @deprecated use tokenPaddingXDisabledSmall
+   */
   public static get tokenPaddingXDisabled() {
     return this.tokenPaddingX;
   }
+  public static get tokenPaddingYDisabledSmall() {
+    return this.tokenPaddingYSmall;
+  }
+  public static get tokenPaddingXDisabledSmall() {
+    return this.tokenPaddingXSmall;
+  }
+  public static get tokenPaddingYDisabledMedium() {
+    return this.tokenPaddingYMedium;
+  }
+  public static get tokenPaddingXDisabledMedium() {
+    return this.tokenPaddingXMedium;
+  }
+  public static get tokenPaddingYDisabledLarge() {
+    return this.tokenPaddingYLarge;
+  }
+  public static get tokenPaddingXDisabledLarge() {
+    return this.tokenPaddingXLarge;
+  }
+
+  /**
+   * @deprecated use tokenMarginYDisabledSmall
+   */
   public static get tokenMarginYDisabled() {
     return this.tokenMarginY;
   }
+  /**
+   * @deprecated use tokenMarginXDisabledSmall
+   */
   public static get tokenMarginXDisabled() {
     return this.tokenMarginX;
   }
+  public static get tokenMarginYDisabledSmall() {
+    return this.tokenMarginYDisabled;
+  }
+  public static get tokenMarginXDisabledSmall() {
+    return this.tokenMarginXDisabled;
+  }
+  public static get tokenMarginYDisabledMedium() {
+    return this.tokenMarginYMedium;
+  }
+  public static get tokenMarginXDisabledMedium() {
+    return this.tokenMarginXMedium;
+  }
+  public static get tokenMarginYDisabledLarge() {
+    return this.tokenMarginYLarge;
+  }
+  public static get tokenMarginXDisabledLarge() {
+    return this.tokenMarginXLarge;
+  }
+
   public static get tokenShadowDisabled() {
     return `0 0 0 ${this.tokenBorderWidth} ${this.borderColorDisabled}`;
   }
@@ -325,21 +394,85 @@ export class DefaultTheme {
   public static get tokenInputPlaceholderColorDisabled() {
     return this.textColorDisabledContrast;
   }
-  public static tokenInputPaddingY = '2px';
-  public static tokenInputPaddingX = '4px';
+
+  /**
+   * @deprecated use tokenInputPaddingYSmall
+   */
+  public static tokenInputPaddingY = '1px';
+  /**
+   * @deprecated use tokenInputPaddingXSmall
+   */
+  public static tokenInputPaddingX = '2px';
+  public static get tokenInputPaddingYSmall(){
+    return this.tokenInputPaddingY;
+  }
+  public static get tokenInputPaddingXSmall(){
+    return this.tokenInputPaddingX;
+  }
+  public static tokenInputPaddingYMedium = '3px';
+  public static tokenInputPaddingXMedium = '3px';
+  public static tokenInputPaddingYLarge = '5px';
+  public static tokenInputPaddingXLarge = '4px';
+
+  /**
+   * @deprecated use tokenInputFontSizeSmall
+   */
   public static get tokenInputFontSize() {
     return this.inputFontSizeSmall;
   }
+  public static get tokenInputFontSizeSmall() {
+    return this.tokenInputFontSize;
+  }
+  public static get tokenInputFontSizeMedium() {
+    return this.inputFontSizeMedium;
+  }
+  public static get tokenInputFontSizeLarge() {
+    return this.inputFontSizeLarge;
+  }
+
+  /**
+   * @deprecated use tokenInputLineHeightSmall
+   */
   public static tokenInputLineHeight = '22px';
+  public static get tokenInputLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get tokenInputLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tokenInputLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
 
   public static tokenInputInputPaddingLeft = '5px';
 
+  /**
+   * @deprecated use tokenInputInputPaddingRightSmall
+   */
   public static get tokenInputInputPaddingRight() {
-    const paddingX = parseInt(this.tokenPaddingX, 10) || 0;
+    const paddingX = parseInt(this.tokenPaddingXSmall, 10) || 0;
     const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
-    const removeIconSizeX = parseInt(this.tokenInputFontSize, 10) || 0;
+    const removeIconSizeX = parseInt(this.tokenInputFontSizeSmall, 10) || 0;
     return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
   }
+  public static get tokenInputInputPaddingRightSmall() {
+    return this.tokenInputInputPaddingRight;
+  }
+  public static get tokenInputInputPaddingRightMedium() {
+    const paddingX = parseInt(this.tokenPaddingXMedium, 10) || 0;
+    const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
+    const removeIconSizeX = parseInt(this.tokenInputFontSizeMedium, 10) || 0;
+    return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  }
+  public static get tokenInputInputPaddingRightLarge() {
+    const paddingX = parseInt(this.tokenPaddingXLarge, 10) || 0;
+    const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
+    const removeIconSizeX = parseInt(this.tokenInputFontSizeLarge, 10) || 0;
+    return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  }
+
+  public static OOOffset = '0';
+
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
@@ -1437,7 +1570,7 @@ export class DefaultTheme {
   public static popupPinOffset = '0px'; // deprecated
   public static popupPinOffsetX = '16px';
   public static popupPinOffsetY = '16px';
-  public static popupMargin = '10px';
+  public static popupMargin = '6px';
   public static popupPinSize = '8px';
   public static popupMenuMenuOffsetY = '0px';
   //#endregion

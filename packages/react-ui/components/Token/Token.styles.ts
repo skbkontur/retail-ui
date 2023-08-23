@@ -14,7 +14,6 @@ export const styles = memoizeStyle({
       display: inline-flex;
       align-items: center;
       border-radius: ${t.tokenBorderRadius};
-      margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
       word-break: break-all;
       user-select: none;
@@ -27,19 +26,19 @@ export const styles = memoizeStyle({
 
   tokenSmall(t: Theme) {
     return css`
-      ${tokenSizeMixin(t.tokenPaddingYSmall, t.tokenPaddingXSmall, t.tokenLineHeightSmall, t.tokenFontSizeSmall)};
+      ${tokenSizeMixin(t.tokenPaddingYSmall, t.tokenPaddingXSmall, t.tokenLineHeightSmall, t.tokenFontSizeSmall, t.tokenMarginYSmall, t.tokenMarginXSmall)};
     `;
   },
 
   tokenMedium(t: Theme) {
     return css`
-      ${tokenSizeMixin(t.tokenPaddingYMedium, t.tokenPaddingXMedium, t.tokenLineHeightMedium, t.tokenFontSizeMedium)};
+      ${tokenSizeMixin(t.tokenPaddingYMedium, t.tokenPaddingXMedium, t.tokenLineHeightMedium, t.tokenFontSizeMedium, t.tokenMarginYMedium, t.tokenMarginXMedium)};
     `;
   },
 
   tokenLarge(t: Theme) {
     return css`
-      ${tokenSizeMixin(t.tokenPaddingYLarge, t.tokenPaddingXLarge, t.tokenLineHeightLarge, t.tokenFontSizeLarge)};
+      ${tokenSizeMixin(t.tokenPaddingYLarge, t.tokenPaddingXLarge, t.tokenLineHeightLarge, t.tokenFontSizeLarge, t.tokenMarginYLarge, t.tokenMarginXLarge)};
     `;
   },
 

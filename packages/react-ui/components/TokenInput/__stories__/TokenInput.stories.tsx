@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
