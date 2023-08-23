@@ -1831,15 +1831,6 @@ export class DefaultTheme {
   public static radioSizeLarge = '24px';
 
   /**
-   * @deprecated use radioSizeAfterSmall
-   */
-  public static get radioSizeAfter() {
-    const borderCompensation =
-      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
-    return `calc(${this.radioSizeSmall} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
-  }
-
-  /**
    * @deprecated use radioFontSizeSmall
    */
   public static get radioFontSize() {

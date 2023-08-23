@@ -52,7 +52,10 @@ export const afterOutlineMixin = (radioOutlineWidth: string) => {
   return css`
     content: ' ';
     position: absolute;
-    inset: -${radioOutlineWidth};
+    top: -${radioOutlineWidth};
+    bottom: -${radioOutlineWidth};
+    left: -${radioOutlineWidth};
+    right: -${radioOutlineWidth};
     border-width: ${radioOutlineWidth};
     border-style: solid;
     border-radius: 50%;
