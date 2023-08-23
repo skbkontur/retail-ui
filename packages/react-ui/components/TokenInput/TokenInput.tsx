@@ -43,6 +43,7 @@ import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
+import {TokenInputContext, TokenInputContextType} from "./TokenInputContext";
 
 export enum TokenInputType {
   WithReference,
@@ -51,6 +52,7 @@ export enum TokenInputType {
 }
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
+export type TokenInputSize = 'small' | 'medium' | 'large';
 
 export interface TokenInputProps<T> extends CommonProps {
   /**
@@ -66,6 +68,8 @@ export interface TokenInputProps<T> extends CommonProps {
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
+  /** Размер */
+  size?: TokenInputSize;
   /**
    * Тип инпута. Возможные значения:
    *
@@ -216,7 +220,7 @@ export const DefaultState = {
   loading: false,
   preventBlur: false,
   inputValueWidth: 2,
-  inputValueHeight: 22,
+  inputValueHeight: 24,
 };
 
 export const TokenInputDataTids = {
@@ -243,6 +247,7 @@ type DefaultProps<T> = Required<
     | 'onMouseLeave'
     | 'menuWidth'
     | 'menuAlign'
+    | 'size'
   >
 >;
 
@@ -285,6 +290,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onMouseLeave: emptyHandler,
     menuWidth: 'auto',
     menuAlign: 'cursor',
+    size: 'small',
   };
 
   private getProps = createPropsGetter(TokenInput.defaultProps);
@@ -352,11 +358,103 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <TokenInputContext.Provider value={this.getTokenInputContextValue()}>
+              {this.renderMain()}
+            </TokenInputContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
   }
+
+  private getLabelSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.labelLarge(this.theme);
+      case 'medium':
+        return styles.labelMedium(this.theme);
+      case 'small':
+      default:
+        return styles.labelSmall(this.theme);
+    }
+  }
+  private getInputEditingSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.inputEditingLarge(this.theme);
+      case 'medium':
+        return styles.inputEditingMedium(this.theme);
+      case 'small':
+      default:
+        return styles.inputEditingSmall(this.theme);
+    }
+  }
+  private getInputSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.inputLarge(this.theme);
+      case 'medium':
+        return styles.inputMedium(this.theme);
+      case 'small':
+      default:
+        return styles.inputSmall(this.theme);
+    }
+  }
+
+  private getHelperTextSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.helperTextLarge(this.theme);
+      case 'medium':
+        return styles.helperTextMedium(this.theme);
+      case 'small':
+      default:
+        return styles.helperTextSmall(this.theme);
+    }
+  }
+
+  private getHelperTextEditingSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.helperTextEditingLarge(this.theme);
+      case 'medium':
+        return styles.helperTextEditingMedium(this.theme);
+      case 'small':
+      default:
+        return styles.helperTextEditingSmall(this.theme);
+    }
+  }
+
+  private getInputDisabledSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.inputEditingLarge(this.theme);
+      case 'medium':
+        return styles.inputEditingMedium(this.theme);
+      case 'small':
+      default:
+        return styles.inputEditingSmall(this.theme);
+    }
+  }
+
+  private getReservedInputSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.reservedInputLarge(this.theme);
+      case 'medium':
+        return styles.reservedInputMedium(this.theme);
+      case 'small':
+      default:
+        return styles.reservedInputSmall(this.theme);
+    }
+  }
+
+  private getTokenInputContextValue = (): TokenInputContextType<T> => {
+    return {
+      size: this.props.size,
+    };
+  };
 
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
@@ -404,22 +502,23 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
       height: Math.max(lineHeight, inputValueHeight),
+      lineHeight: lineHeight+'px',
       // input растягивается на всю ширину чтобы placeholder не обрезался
       flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cx(styles.label(theme), {
+    const labelClassName = cx(styles.label(theme), this.getLabelSizeClassName(), {
       [styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
       [styles.labelDisabled(theme)]: !!disabled,
       [styles.labelFocused(theme)]: !!inFocus,
       [styles.error(theme)]: !!error,
       [styles.warning(theme)]: !!warning,
     });
-    const inputClassName = cx(styles.input(theme), {
+    const inputClassName = cx(styles.input(theme), this.getInputSizeClassName(), this.getInputEditingSizeClassName(), {
       [styles.inputDisabled(theme)]: !!disabled,
-      [styles.inputEditing(theme)]: this.isEditingMode,
+      [this.getInputDisabledSizeClassName()]: !!disabled,
     });
 
     return (
@@ -437,11 +536,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cx(styles.helperText(theme), {
+              classHelp={cx(styles.helperText(), this.getHelperTextSizeClassName(), {
                 [styles.helperTextEditing(theme)]: this.isEditingMode,
+                [this.getHelperTextEditingSizeClassName()]: this.isEditingMode,
               })}
               text={inputValue}
               theme={this.theme}
+              size={this.getProps().size}
             />
             {this.renderTokensStart()}
             <textarea
@@ -481,7 +582,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? <span className={cx(styles.reservedInput(theme), this.getReservedInputSizeClassName())}>{reservedInputValue}</span> : null}
           </label>
         </div>
       </CommonWrapper>
@@ -555,7 +656,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.textHelper) {
       // в IE текст иногда не помещается в input
       // из-за округления, поэтому округляем явно
-      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));
+      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));//+4;
       const inputValueHeight = parseFloat(this.textHelper.getTextHeight().toFixed(2));
 
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);
