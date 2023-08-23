@@ -517,6 +517,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [styles.warning(theme)]: !!warning,
     });
     const inputClassName = cx(styles.input(theme), this.getInputSizeClassName(), this.getInputEditingSizeClassName(), {
+      // [this.getInputEditingSizeClassName()]: this.isEditingMode,
       [styles.inputDisabled(theme)]: !!disabled,
       [this.getInputDisabledSizeClassName()]: !!disabled,
     });

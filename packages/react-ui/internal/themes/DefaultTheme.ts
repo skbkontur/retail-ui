@@ -1570,7 +1570,7 @@ export class DefaultTheme {
   public static popupPinOffset = '0px'; // deprecated
   public static popupPinOffsetX = '16px';
   public static popupPinOffsetY = '16px';
-  public static popupMargin = '6px';
+  public static popupMargin = '10px';
   public static popupPinSize = '8px';
   public static popupMenuMenuOffsetY = '0px';
   //#endregion
