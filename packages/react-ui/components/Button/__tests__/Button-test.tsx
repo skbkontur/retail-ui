@@ -171,4 +171,29 @@ describe('Button', () => {
     userEvent.click(button);
     expect(button).toBeChecked();
   });
+
+  it('event `onClickCapture` works correctly', () => {
+    const onClickCapture = jest.fn();
+    render(<Button onClickCapture={onClickCapture} />);
+
+    expect(onClickCapture).not.toHaveBeenCalled();
+
+    userEvent.click(screen.getByRole('button'));
+
+    expect(onClickCapture).toHaveBeenCalledTimes(1);
+  });
+
+  it('events `onMouseDown` and `onMouseUp` work correctly', () => {
+    const onMouseDown = jest.fn();
+    const onMouseUp = jest.fn();
+    render(<Button onMouseDown={onMouseDown} onMouseUp={onMouseUp} />);
+
+    expect(onMouseDown).not.toHaveBeenCalled();
+    expect(onMouseUp).not.toHaveBeenCalled();
+
+    userEvent.click(screen.getByRole('button'));
+
+    expect(onMouseDown).toHaveBeenCalledTimes(1);
+    expect(onMouseUp).toHaveBeenCalledTimes(1);
+  });
 });
