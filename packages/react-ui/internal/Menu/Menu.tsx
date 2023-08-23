@@ -61,6 +61,7 @@ export interface MenuState {
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
   enableIconPadding: boolean;
+  children: ReactNode;
 }
 
 export const MenuDataTids = {
@@ -102,6 +103,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
     enableIconPadding: false,
+    children: null,
   };
 
   private theme!: Theme;
@@ -113,14 +115,19 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private arrayOfMenuItems: React.ReactNode[] = [];
+  private menuItemsWrapperRef: React.RefObject<HTMLInputElement> = React.createRef();
+  private mutationObserver: MutationObserver | null = null;
 
   public componentWillUnmount() {
     this.unmounted = true;
+    this.disconnectMutationObserver();
   }
 
   public componentDidMount() {
     this.setInitialSelection();
     this.calculateMaxHeight();
+    this.getChildren();
+    this.connectMutationObserver();
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
@@ -132,6 +139,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       this.setState({
         maxHeight: this.props.maxHeight || 'none',
       });
+    }
+
+    if (prevProps.children !== this.getProps().children) {
+      this.getChildren();
     }
   }
 
@@ -239,9 +250,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
               [styles.scrollContainer(this.theme)]: true,
               [styles.scrollContainerMobile(this.theme)]: isMobile,
             })}
+            ref={this.menuItemsWrapperRef}
           >
             <MenuContext.Provider value={{ enableIconPadding: this.state.enableIconPadding }}>
-              {this.renderChildren()}
+              {this.state.children}
             </MenuContext.Provider>
           </div>
         </ScrollContainer>
@@ -292,13 +304,13 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     );
   };
 
-  private renderChildren = () => {
+  private getChildren = () => {
     const updatedArrayOfMenuItems: React.ReactNode[] = [];
     const updatedChildren = this.deepSearch(this.props.children, MAX_LEVEL_OF_DEEP_SEARCH, updatedArrayOfMenuItems);
 
     this.arrayOfMenuItems = updatedArrayOfMenuItems;
 
-    return updatedChildren;
+    this.setState({ children: updatedChildren });
   };
 
   private deepSearch: (
@@ -459,11 +471,11 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private highlight = (index: number) => {
-    this.setState({ highlightedIndex: index });
+    this.setState({ highlightedIndex: index }, this.getChildren);
   };
 
   private unhighlight = () => {
-    this.setState({ highlightedIndex: -1 });
+    this.setState({ highlightedIndex: -1 }, this.getChildren);
   };
 
   private move(step: number) {
@@ -479,6 +491,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       index = 0;
     }
     this.setState({ highlightedIndex: index }, () => {
+      this.getChildren();
       switch (index) {
         case 0:
           this.scrollToTop();
@@ -532,6 +545,24 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
     if (this.state.scrollState !== scrollState) {
       this.setState({ scrollState });
+    }
+  };
+
+  private connectMutationObserver = () => {
+    this.mutationObserver = new MutationObserver(() => {
+      this.getChildren();
+    });
+    if (this.menuItemsWrapperRef.current) {
+      this.mutationObserver.observe(this.menuItemsWrapperRef.current, { childList: true, subtree: true });
+    }
+  };
+
+  private disconnectMutationObserver = () => {
+    this.mutationObserver = new MutationObserver(() => {
+      this.getChildren();
+    });
+    if (this.menuItemsWrapperRef.current) {
+      this.mutationObserver.observe(this.menuItemsWrapperRef.current, { childList: true, subtree: true });
     }
   };
 }
