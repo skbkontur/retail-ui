@@ -108,7 +108,7 @@ export const LeftIcon: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
-    rows={iconsStates.map((x) => ({ props: x }))}
+    rows={iconsLeftStates.map((x) => ({ props: x }))}
     presetProps={{ leftIcon: <SearchIcon /> }}
   />
 );
@@ -117,12 +117,35 @@ export const RightIcon: Story = () => (
   <ComponentTable
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
-    rows={iconsStates.map((x) => ({ props: x }))}
+    rows={iconsRightStates.map((x) => ({ props: x }))}
     presetProps={{ rightIcon: <SearchIcon /> }}
   />
 );
 
+const iconFunc = () => <SearchIcon />;
+iconFunc.toString = () => '() => <SearchIcon />';
+
 const iconsStates: InputState[] = [{}, { defaultValue: 'Value' }, { disabled: true }];
+
+const iconsLeftStates: InputState[] = [
+  ...iconsStates,
+  {
+    leftIcon: iconFunc,
+  },
+  {
+    leftIcon: '₽',
+  },
+];
+
+const iconsRightStates: InputState[] = [
+  ...iconsStates,
+  {
+    rightIcon: iconFunc,
+  },
+  {
+    rightIcon: '₽',
+  },
+];
 
 export const Mask: Story = () => (
   <ComponentTable
