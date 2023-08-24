@@ -371,7 +371,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenInputLineHeight = '24px';
   public static tokenInputBorderRadius = '2px';
 
-  // public static tokenInputPaddingY = '1px';
   public static tokenInputPaddingX = '1px';
   public static tokenInputPaddingXLarge = '5px';
   public static tokenInputMenuPopupBg = 'transparent';

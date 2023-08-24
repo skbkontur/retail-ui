@@ -203,7 +203,7 @@ export const styles = memoizeStyle({
         t.tokenInputInputPaddingLeft,
         t.tokenInputLineHeightSmall,
         t.tokenInputFontSizeSmall,
-      )}; // заменить на размеры
+      )};
     `;
   },
   helperTextMedium(t: Theme) {
@@ -213,7 +213,7 @@ export const styles = memoizeStyle({
         t.tokenInputInputPaddingLeft,
         t.tokenInputLineHeightMedium,
         t.tokenInputFontSizeMedium,
-      )}; // заменить на размеры
+      )};
     `;
   },
   helperTextLarge(t: Theme) {
@@ -223,7 +223,7 @@ export const styles = memoizeStyle({
         t.tokenInputInputPaddingLeft,
         t.tokenInputLineHeightLarge,
         t.tokenInputFontSizeLarge,
-      )}; // заменить на размеры
+      )};
     `;
   },
 

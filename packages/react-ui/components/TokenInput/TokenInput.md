@@ -111,27 +111,6 @@ const getItems = q =>
     )}
   />
 </div>;
-
-
-
-
-<Gapped vertical gap={10}>
-  <TokenInput size="small">
-    <Token>
-      Маленький TokenInput, маленький Token
-    </Token>
-  </TokenInput>
-  <TokenInput size="medium">
-    <Token>
-      Средний TokenInput, средний Token
-    </Token>
-  </TokenInput>
-  <TokenInput size="large">
-    <Token>
-      Большой TokenInput, большой Token
-    </Token>
-  </TokenInput>
-</Gapped>
 ```
 
 Заблокированный TokenInput с кастомными Token:
