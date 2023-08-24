@@ -2,10 +2,13 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import {
-  helperContainerAndLabelCommonSizeMixin, helperTextEditingSizeMixin,
+  helperContainerAndLabelCommonSizeMixin,
+  helperTextEditingSizeMixin,
   inputAndHelperCommonEditingStylesSizeMixin,
-  inputAndHelperCommonStyles, inputSizeMixin, reservedInputSizeMixin
-} from "./TokenInput.mixins";
+  inputAndHelperCommonStyles,
+  inputSizeMixin,
+  reservedInputSizeMixin,
+} from './TokenInput.mixins';
 
 export const styles = memoizeStyle({
   label(t: Theme) {
@@ -126,19 +129,34 @@ export const styles = memoizeStyle({
   inputSmall(t: Theme) {
     return css`
       ${inputSizeMixin(t.tokenLineHeightSmall, t.tokenMarginYSmall, t.tokenMarginXSmall)}
-      ${inputAndHelperCommonStyles(t.tokenInputInputPaddingRightSmall, t.tokenPaddingXSmall, t.tokenInputLineHeightSmall, t.tokenInputFontSizeSmall)};
+      ${inputAndHelperCommonStyles(
+        t.tokenInputInputPaddingRightSmall,
+        t.tokenPaddingXSmall,
+        t.tokenInputLineHeightSmall,
+        t.tokenInputFontSizeSmall,
+      )};
     `;
   },
   inputMedium(t: Theme) {
     return css`
       ${inputSizeMixin(t.tokenLineHeightMedium, t.tokenMarginYMedium, t.tokenMarginXMedium)}
-      ${inputAndHelperCommonStyles(t.tokenInputInputPaddingRightMedium, t.tokenPaddingXMedium, t.tokenInputLineHeightMedium, t.tokenInputFontSizeMedium)};
+      ${inputAndHelperCommonStyles(
+        t.tokenInputInputPaddingRightMedium,
+        t.tokenPaddingXMedium,
+        t.tokenInputLineHeightMedium,
+        t.tokenInputFontSizeMedium,
+      )};
     `;
   },
   inputLarge(t: Theme) {
     return css`
       ${inputSizeMixin(t.tokenLineHeightLarge, t.tokenMarginYLarge, t.tokenMarginXLarge)}
-      ${inputAndHelperCommonStyles(t.tokenInputInputPaddingRightLarge, t.tokenPaddingXLarge, t.tokenInputLineHeightLarge, t.tokenInputFontSizeLarge)};
+      ${inputAndHelperCommonStyles(
+        t.tokenInputInputPaddingRightLarge,
+        t.tokenPaddingXLarge,
+        t.tokenInputLineHeightLarge,
+        t.tokenInputFontSizeLarge,
+      )};
     `;
   },
 
@@ -180,17 +198,32 @@ export const styles = memoizeStyle({
   },
   helperTextSmall(t: Theme) {
     return css`
-      ${inputAndHelperCommonStyles(t.tokenInputInputPaddingRightSmall, t.tokenInputInputPaddingLeft, t.tokenInputLineHeightSmall, t.tokenInputFontSizeSmall)}; // заменить на размеры
+      ${inputAndHelperCommonStyles(
+        t.tokenInputInputPaddingRightSmall,
+        t.tokenInputInputPaddingLeft,
+        t.tokenInputLineHeightSmall,
+        t.tokenInputFontSizeSmall,
+      )}; // заменить на размеры
     `;
   },
   helperTextMedium(t: Theme) {
     return css`
-      ${inputAndHelperCommonStyles(t.tokenInputInputPaddingRightMedium, t.tokenInputInputPaddingLeft, t.tokenInputLineHeightMedium, t.tokenInputFontSizeMedium)}; // заменить на размеры
+      ${inputAndHelperCommonStyles(
+        t.tokenInputInputPaddingRightMedium,
+        t.tokenInputInputPaddingLeft,
+        t.tokenInputLineHeightMedium,
+        t.tokenInputFontSizeMedium,
+      )}; // заменить на размеры
     `;
   },
   helperTextLarge(t: Theme) {
     return css`
-      ${inputAndHelperCommonStyles(t.tokenInputInputPaddingRightLarge, t.tokenInputInputPaddingLeft, t.tokenInputLineHeightLarge, t.tokenInputFontSizeLarge)}; // заменить на размеры
+      ${inputAndHelperCommonStyles(
+        t.tokenInputInputPaddingRightLarge,
+        t.tokenInputInputPaddingLeft,
+        t.tokenInputLineHeightLarge,
+        t.tokenInputFontSizeLarge,
+      )}; // заменить на размеры
     `;
   },
 
@@ -201,19 +234,37 @@ export const styles = memoizeStyle({
   },
   helperTextEditingSmall(t: Theme) {
     return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(t.tokenMarginYSmall, t.tokenMarginXSmall, t.tokenInputInputPaddingRightSmall, t.tokenInputInputPaddingLeft, t.tokenLineHeightSmall)};
+      ${inputAndHelperCommonEditingStylesSizeMixin(
+        t.tokenMarginYSmall,
+        t.tokenMarginXSmall,
+        t.tokenInputInputPaddingRightSmall,
+        t.tokenInputInputPaddingLeft,
+        t.tokenLineHeightSmall,
+      )};
       ${helperTextEditingSizeMixin(t.tokenFontSizeSmall)}
     `;
   },
   helperTextEditingMedium(t: Theme) {
     return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(t.tokenMarginYMedium, t.tokenMarginXMedium, t.tokenInputInputPaddingRightMedium, t.tokenInputInputPaddingLeft, t.tokenLineHeightMedium)};
+      ${inputAndHelperCommonEditingStylesSizeMixin(
+        t.tokenMarginYMedium,
+        t.tokenMarginXMedium,
+        t.tokenInputInputPaddingRightMedium,
+        t.tokenInputInputPaddingLeft,
+        t.tokenLineHeightMedium,
+      )};
       ${helperTextEditingSizeMixin(t.tokenFontSizeMedium)}
     `;
   },
   helperTextEditingLarge(t: Theme) {
     return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(t.tokenMarginYLarge, t.tokenMarginXLarge, t.tokenInputInputPaddingRightLarge, t.tokenInputInputPaddingLeft, t.tokenLineHeightLarge)};
+      ${inputAndHelperCommonEditingStylesSizeMixin(
+        t.tokenMarginYLarge,
+        t.tokenMarginXLarge,
+        t.tokenInputInputPaddingRightLarge,
+        t.tokenInputInputPaddingLeft,
+        t.tokenLineHeightLarge,
+      )};
       ${helperTextEditingSizeMixin(t.tokenFontSizeLarge)}
     `;
   },
@@ -228,17 +279,35 @@ export const styles = memoizeStyle({
   },
   inputEditingSmall(t: Theme) {
     return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(t.tokenMarginYSmall, t.tokenMarginXSmall, t.tokenInputInputPaddingRightSmall, t.tokenPaddingXSmall, t.tokenLineHeightSmall)};
+      ${inputAndHelperCommonEditingStylesSizeMixin(
+        t.tokenMarginYSmall,
+        t.tokenMarginXSmall,
+        t.tokenInputInputPaddingRightSmall,
+        t.tokenPaddingXSmall,
+        t.tokenLineHeightSmall,
+      )};
     `;
   },
   inputEditingMedium(t: Theme) {
     return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(t.tokenMarginYMedium, t.tokenMarginXMedium, t.tokenInputInputPaddingRightMedium, t.tokenPaddingXMedium, t.tokenLineHeightMedium)};
+      ${inputAndHelperCommonEditingStylesSizeMixin(
+        t.tokenMarginYMedium,
+        t.tokenMarginXMedium,
+        t.tokenInputInputPaddingRightMedium,
+        t.tokenPaddingXMedium,
+        t.tokenLineHeightMedium,
+      )};
     `;
   },
   inputEditingLarge(t: Theme) {
     return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(t.tokenMarginYLarge, t.tokenMarginXLarge, t.tokenInputInputPaddingRightLarge, t.tokenPaddingXLarge, t.tokenLineHeightLarge)};
+      ${inputAndHelperCommonEditingStylesSizeMixin(
+        t.tokenMarginYLarge,
+        t.tokenMarginXLarge,
+        t.tokenInputInputPaddingRightLarge,
+        t.tokenPaddingXLarge,
+        t.tokenLineHeightLarge,
+      )};
     `;
   },
 
@@ -251,17 +320,35 @@ export const styles = memoizeStyle({
   },
   reservedInputSmall(t: Theme) {
     return css`
-      ${reservedInputSizeMixin(t.tokenInputLineHeightSmall, t.tokenInputFontSizeSmall, t.tokenMarginYSmall, t.tokenInputInputPaddingRightSmall, t.tokenInputInputPaddingLeft)}
+      ${reservedInputSizeMixin(
+        t.tokenInputLineHeightSmall,
+        t.tokenInputFontSizeSmall,
+        t.tokenMarginYSmall,
+        t.tokenInputInputPaddingRightSmall,
+        t.tokenInputInputPaddingLeft,
+      )}
     `;
   },
   reservedInputMedium(t: Theme) {
     return css`
-      ${reservedInputSizeMixin(t.tokenInputLineHeightMedium, t.tokenInputFontSizeMedium, t.tokenMarginYMedium, t.tokenInputInputPaddingRightMedium, t.tokenInputInputPaddingLeft)}
+      ${reservedInputSizeMixin(
+        t.tokenInputLineHeightMedium,
+        t.tokenInputFontSizeMedium,
+        t.tokenMarginYMedium,
+        t.tokenInputInputPaddingRightMedium,
+        t.tokenInputInputPaddingLeft,
+      )}
     `;
   },
   reservedInputLarge(t: Theme) {
     return css`
-      ${reservedInputSizeMixin(t.tokenInputLineHeightLarge, t.tokenInputFontSizeLarge, t.tokenMarginYLarge, t.tokenInputInputPaddingRightLarge, t.tokenInputInputPaddingLeft)}
+      ${reservedInputSizeMixin(
+        t.tokenInputLineHeightLarge,
+        t.tokenInputFontSizeLarge,
+        t.tokenMarginYLarge,
+        t.tokenInputInputPaddingRightLarge,
+        t.tokenInputInputPaddingLeft,
+      )}
     `;
   },
 });

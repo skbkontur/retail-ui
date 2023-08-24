@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
@@ -766,9 +766,9 @@ CustomRenderTotalCount.parameters = {
 export const Size = () => {
   return (
     <Gapped vertical gap={10}>
-      <Wrapper numberItems={5} getItems={getItems} size="small"/>
-      <Wrapper numberItems={5} getItems={getItems} size="medium"/>
-      <Wrapper numberItems={5} getItems={getItems} size="large"/>
+      <Wrapper numberItems={5} getItems={getItems} size="small" />
+      <Wrapper numberItems={5} getItems={getItems} size="medium" />
+      <Wrapper numberItems={5} getItems={getItems} size="large" />
     </Gapped>
   );
 };

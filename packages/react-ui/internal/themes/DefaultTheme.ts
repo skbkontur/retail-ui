@@ -158,10 +158,10 @@ export class DefaultTheme {
    * @deprecated use tokenMarginXSmall
    */
   public static tokenMarginX = '2px';
-  public static get tokenMarginYSmall(){
+  public static get tokenMarginYSmall() {
     return this.tokenMarginY;
   }
-  public static get tokenMarginXSmall(){
+  public static get tokenMarginXSmall() {
     return this.tokenMarginX;
   }
   public static tokenMarginYMedium = '3px';
@@ -403,10 +403,10 @@ export class DefaultTheme {
    * @deprecated use tokenInputPaddingXSmall
    */
   public static tokenInputPaddingX = '2px';
-  public static get tokenInputPaddingYSmall(){
+  public static get tokenInputPaddingYSmall() {
     return this.tokenInputPaddingY;
   }
-  public static get tokenInputPaddingXSmall(){
+  public static get tokenInputPaddingXSmall() {
     return this.tokenInputPaddingX;
   }
   public static tokenInputPaddingYMedium = '3px';

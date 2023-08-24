@@ -305,10 +305,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static tokenMarginY = '2px';
   public static tokenMarginX = '2px';
-  public static get tokenMarginYSmall(){
+  public static get tokenMarginYSmall() {
     return this.tokenMarginY;
   }
-  public static get tokenMarginXSmall(){
+  public static get tokenMarginXSmall() {
     return this.tokenMarginX;
   }
   public static tokenMarginYMedium = '2px';

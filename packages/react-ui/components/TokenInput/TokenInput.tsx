@@ -43,7 +43,7 @@ import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
-import {TokenInputContext, TokenInputContextType} from "./TokenInputContext";
+import { TokenInputContext, TokenInputContextType } from './TokenInputContext';
 
 export enum TokenInputType {
   WithReference,
@@ -502,7 +502,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
       height: Math.max(lineHeight, inputValueHeight),
-      lineHeight: lineHeight+'px',
+      lineHeight: lineHeight + 'px',
       // input растягивается на всю ширину чтобы placeholder не обрезался
       flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
@@ -583,7 +583,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={cx(styles.reservedInput(theme), this.getReservedInputSizeClassName())}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? (
+              <span className={cx(styles.reservedInput(theme), this.getReservedInputSizeClassName())}>
+                {reservedInputValue}
+              </span>
+            ) : null}
           </label>
         </div>
       </CommonWrapper>
@@ -657,7 +661,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.textHelper) {
       // в IE текст иногда не помещается в input
       // из-за округления, поэтому округляем явно
-      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));//+4;
+      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2)); //+4;
       const inputValueHeight = parseFloat(this.textHelper.getTextHeight().toFixed(2));
 
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);

@@ -1,12 +1,11 @@
 import React from 'react';
-import {cx} from "@emotion/css";
+import { cx } from '@emotion/css';
 
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './TokenInput.styles';
-import {TokenInputSize} from "./TokenInput";
-
+import { TokenInputSize } from './TokenInput';
 
 // a thin character to preserve some space
 // for the caret visibillity in the input

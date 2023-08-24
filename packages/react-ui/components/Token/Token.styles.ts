@@ -26,19 +26,40 @@ export const styles = memoizeStyle({
 
   tokenSmall(t: Theme) {
     return css`
-      ${tokenSizeMixin(t.tokenPaddingYSmall, t.tokenPaddingXSmall, t.tokenLineHeightSmall, t.tokenFontSizeSmall, t.tokenMarginYSmall, t.tokenMarginXSmall)};
+      ${tokenSizeMixin(
+        t.tokenPaddingYSmall,
+        t.tokenPaddingXSmall,
+        t.tokenLineHeightSmall,
+        t.tokenFontSizeSmall,
+        t.tokenMarginYSmall,
+        t.tokenMarginXSmall,
+      )};
     `;
   },
 
   tokenMedium(t: Theme) {
     return css`
-      ${tokenSizeMixin(t.tokenPaddingYMedium, t.tokenPaddingXMedium, t.tokenLineHeightMedium, t.tokenFontSizeMedium, t.tokenMarginYMedium, t.tokenMarginXMedium)};
+      ${tokenSizeMixin(
+        t.tokenPaddingYMedium,
+        t.tokenPaddingXMedium,
+        t.tokenLineHeightMedium,
+        t.tokenFontSizeMedium,
+        t.tokenMarginYMedium,
+        t.tokenMarginXMedium,
+      )};
     `;
   },
 
   tokenLarge(t: Theme) {
     return css`
-      ${tokenSizeMixin(t.tokenPaddingYLarge, t.tokenPaddingXLarge, t.tokenLineHeightLarge, t.tokenFontSizeLarge, t.tokenMarginYLarge, t.tokenMarginXLarge)};
+      ${tokenSizeMixin(
+        t.tokenPaddingYLarge,
+        t.tokenPaddingXLarge,
+        t.tokenLineHeightLarge,
+        t.tokenFontSizeLarge,
+        t.tokenMarginYLarge,
+        t.tokenMarginXLarge,
+      )};
     `;
   },
 

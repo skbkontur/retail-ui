@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import {TokenInputContext, TokenInputContextType} from "../TokenInput/TokenInputContext";
+import { TokenInputContext, TokenInputContextType } from '../TokenInput/TokenInputContext';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 

@@ -12,7 +12,13 @@ export const helperContainerAndLabelCommonSizeMixin = (tokenInputPaddingY: strin
   `;
 };
 
-export const reservedInputSizeMixin = (tokenInputLineHeight: string, tokenInputFontSize: string, tokenMarginY: string, tokenInputInputPaddingRight: string, tokenInputInputPaddingLeft: string) => {
+export const reservedInputSizeMixin = (
+  tokenInputLineHeight: string,
+  tokenInputFontSize: string,
+  tokenMarginY: string,
+  tokenInputInputPaddingRight: string,
+  tokenInputInputPaddingLeft: string,
+) => {
   return css`
     min-height: ${tokenInputLineHeight};
     line-height: ${tokenInputLineHeight};
@@ -22,7 +28,12 @@ export const reservedInputSizeMixin = (tokenInputLineHeight: string, tokenInputF
   `;
 };
 
-export const inputAndHelperCommonStyles = (inputPaddingRight: string, inputPaddingLeft: string, lineHeight: string, fontSize: string) => {
+export const inputAndHelperCommonStyles = (
+  inputPaddingRight: string,
+  inputPaddingLeft: string,
+  lineHeight: string,
+  fontSize: string,
+) => {
   return css`
     padding: 0 ${inputPaddingRight} 0 ${inputPaddingLeft};
     line-height: ${lineHeight};
@@ -33,11 +44,17 @@ export const inputAndHelperCommonStyles = (inputPaddingRight: string, inputPaddi
 export const inputSizeMixin = (lineHeight: string, tokenMarginY: string, tokenMarginX: string) => {
   return css`
     height: ${lineHeight};
-    margin: ${tokenMarginY} 0 ${tokenMarginY} ${tokenMarginX} ;
+    margin: ${tokenMarginY} 0 ${tokenMarginY} ${tokenMarginX};
   `;
 };
 
-export const inputAndHelperCommonEditingStylesSizeMixin = (tokenMarginY: string, tokenMarginX: string, tokenInputInputPaddingRight: string, tokenPaddingX: string, tokenLineHeight: string) => {
+export const inputAndHelperCommonEditingStylesSizeMixin = (
+  tokenMarginY: string,
+  tokenMarginX: string,
+  tokenInputInputPaddingRight: string,
+  tokenPaddingX: string,
+  tokenLineHeight: string,
+) => {
   return css`
     margin: ${tokenMarginY} ${tokenMarginX};
     padding: 0 ${tokenInputInputPaddingRight} 0 ${tokenPaddingX};
