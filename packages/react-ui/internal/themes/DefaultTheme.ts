@@ -1167,11 +1167,40 @@ export class DefaultTheme {
   public static get menuHeaderColor() {
     return this.gray;
   }
+
   public static menuHeaderLineHeight = '16px';
+  public static get menuHeaderLineHeightSmall() {
+    return this.menuHeaderLineHeight;
+  }
+  public static menuHeaderLineHeightMedium = '20px';
+  public static menuHeaderLineHeightLarge = '22px';
+
   public static menuHeaderFontSize = '12px';
+  public static get menuHeaderFontSizeSmall() {
+    return this.menuHeaderFontSize;
+  }
+  public static menuHeaderFontSizeMedium = '14px';
+  public static menuHeaderFontSizeLarge = '16px';
+
   public static menuHeaderPaddingX = '8px';
   public static menuHeaderPaddingTop = '12px';
   public static menuHeaderPaddingBottom = '4px';
+  public static get menuHeaderPaddingXSmall() {
+    return this.menuHeaderPaddingX;
+  }
+  public static get menuHeaderPaddingTopSmall() {
+    return this.menuHeaderPaddingTop;
+  }
+  public static get menuHeaderPaddingBottomSmall() {
+    return this.menuHeaderPaddingBottom;
+  }
+  public static menuHeaderPaddingXMedium = '12px';
+  public static menuHeaderPaddingTopMedium = '14px';
+  public static menuHeaderPaddingBottomMedium = '6px';
+  public static menuHeaderPaddingXLarge = '16px';
+  public static menuHeaderPaddingTopLarge = '18px';
+  public static menuHeaderPaddingBottomLarge = '8px';
+
   public static menuHeaderLegacyPaddingRight = '0px';
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
