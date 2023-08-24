@@ -175,10 +175,10 @@ const BaselineFont: React.FC<{
           Ch
         </Checkbox>
         <Checkbox size={size} />
-        <Radio checked value="value">
+        <Radio checked value="value" size={size}>
           Rd
         </Radio>
-        <Radio value="" />
+        <Radio value="" size={size} />
         <Kebab size={size}>
           <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
         </Kebab>
@@ -242,13 +242,6 @@ class DifferentFontsAndSizesThemeM extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  radioSize: '20px',
-                  radioBulletSize: '10px',
-                  radioCaptionGap: '10px',
-                  radioPaddingY: '9px',
-                  radioFontSize: '16px',
-                  radioLineHeight: '22px',
-
                   menuItemFontSize: '16px',
                   menuItemLineHeight: '22px',
                   menuItemPaddingY: '9px',
@@ -287,13 +280,6 @@ class DifferentFontsAndSizesThemeL extends React.Component {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  radioSize: '22px',
-                  radioBulletSize: '12px',
-                  radioCaptionGap: '12px',
-                  radioPaddingY: '11px',
-                  radioFontSize: '18px',
-                  radioLineHeight: '24px',
-
                   menuItemFontSize: '18px',
                   menuItemLineHeight: '24px',
                   menuItemPaddingY: '12px',
