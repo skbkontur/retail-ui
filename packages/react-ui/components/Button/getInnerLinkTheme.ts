@@ -9,6 +9,12 @@ export const getInnerLinkTheme = (theme: Theme): Theme => {
       linkLineBorderBottomOpacity: theme.btnLinkLineBorderBottomOpacity,
       linkLineBorderBottomWidth: theme.btnLinkLineBorderBottomWidth,
       linkDisabledColor: theme.btnLinkDisabledColor,
+      linkColor: theme.btnLinkColor,
+      linkHoverColor: theme.btnLinkHoverColor,
+      linkActiveColor: theme.btnLinkActiveColor,
+      linkHoverTextDecoration: theme.btnLinkHoverTextDecoration,
+      linkIconMarginRight: theme.btnLinkIconMarginRight,
+      linkBorderRadius: theme.btnLinkBorderRadius,
     },
     theme,
   );

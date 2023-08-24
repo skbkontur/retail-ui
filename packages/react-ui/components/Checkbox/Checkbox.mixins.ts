@@ -22,10 +22,12 @@ export const boxWrapperSizeMixin = (
 ) => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const boxFontSize = parseInt(fontSize);
-  const baselineCompensation =
-    boxFontSize === 18 && (isFirefox || isChrome) // TODO: вынести условие в getLabGrotesqueBaselineCompensation, когда проп size будет добавлен для radio
-      ? -labGrotesqueCompenstation
-      : getLabGrotesqueBaselineCompensation(boxFontSize, labGrotesqueCompenstation, isChrome);
+  const baselineCompensation = getLabGrotesqueBaselineCompensation(
+    boxFontSize,
+    labGrotesqueCompenstation,
+    isChrome,
+    isFirefox,
+  );
 
   return css`
     width: ${checkboxBoxSize};
