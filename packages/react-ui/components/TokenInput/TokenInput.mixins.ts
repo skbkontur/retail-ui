@@ -30,10 +30,10 @@ export const inputAndHelperCommonStyles = (inputPaddingRight: string, inputPaddi
   `;
 };
 
-export const inputSizeMixin = (lineHeight: string, tokenMarginY: string) => {
+export const inputSizeMixin = (lineHeight: string, tokenMarginY: string, tokenMarginX: string) => {
   return css`
     height: ${lineHeight};
-    margin: ${tokenMarginY} 0 ${tokenMarginY} 0;
+    margin: ${tokenMarginY} 0 ${tokenMarginY} ${tokenMarginX} ;
   `;
 };
 

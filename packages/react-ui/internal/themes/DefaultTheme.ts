@@ -471,7 +471,7 @@ export class DefaultTheme {
     return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
   }
 
-  public static OOOffset = '0';
+  public static popupOffset = '0';
 
   //#endregion
   //#region Loader

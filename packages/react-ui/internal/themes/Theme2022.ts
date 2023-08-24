@@ -367,7 +367,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemCommentOpacity = '0.6';
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
 
-  public static OOOffset = '2';
+  public static popupOffset = '2';
   public static tokenInputLineHeight = '24px';
   public static tokenInputBorderRadius = '2px';
 
