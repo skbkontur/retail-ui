@@ -295,9 +295,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
     const isUseStateWithOutlineInDisabledState = [
       'default',
+      'primary',
+      'success',
+      'danger',
+      'pay',
       'backless',
-      !isTheme2022(this.theme) && 'primary',
     ].includes(use);
+    const isUseStateWithOutlineInDisabledState2022 = ['default', 'backless'].includes(use);
     let rootClassName = '';
     if (_isTheme2022) {
       const trueDisabled = disabled || loading;
@@ -312,7 +316,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
-              isUseStateWithOutlineInDisabledState && styles.disabledWithOutline(this.theme),
+              isUseStateWithOutlineInDisabledState2022 && styles.disabledWithOutline(this.theme),
               checked && styles.checkedDisabled(this.theme),
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
