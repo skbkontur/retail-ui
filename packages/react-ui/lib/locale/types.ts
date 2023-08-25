@@ -1,5 +1,5 @@
-import { TokenLocale } from 'react-ui/components/Token/locale';
-
+import { TokenLocale } from '../../components/Token/locale';
+import { SidePageLocale } from '../../components/SidePage/locale';
 import { PasswordInputLocale } from '../../components/PasswordInput/locale';
 import { ComboBoxLocale } from '../../internal/CustomComboBox/locale';
 import { DatePickerLocale } from '../../components/DatePicker/locale';
@@ -22,6 +22,7 @@ export interface LocaleControls {
   Calendar?: Partial<CalendarLocale>;
   FileUploader?: Partial<FileUploaderLocale>;
   PasswordInput?: Partial<PasswordInputLocale>;
+  SidePage?: Partial<SidePageLocale>;
 }
 
 export enum LangCodes {
