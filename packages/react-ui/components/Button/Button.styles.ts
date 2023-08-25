@@ -360,24 +360,24 @@ export const styles = memoizeStyle({
     return css`
       cursor: default;
       pointer-events: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
 
       background-image: none;
       background-color: ${t.btnDisabledBg};
       color: ${t.btnDisabledTextColor};
 
       .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBg};
+        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
       }
     `;
   },
 
-  disabledWithOutline(t: Theme) {
+  disabledWithoutOutline(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
 
       .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
+        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBg};
       }
     `;
   },
@@ -669,7 +669,7 @@ export const styles = memoizeStyle({
       &:hover:enabled {
         box-shadow: none;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none;
+          box-shadow: none !important;
         }
       }
 

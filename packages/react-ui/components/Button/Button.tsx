@@ -293,15 +293,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       { ...this.props, isFocused: Boolean(isFocused) },
       this.theme,
     );
-    const isUseStateWithOutlineInDisabledState = [
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay',
-      'backless',
-    ].includes(use);
-    const isUseStateWithOutlineInDisabledState2022 = ['default', 'backless'].includes(use);
+    const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
     let rootClassName = '';
     if (_isTheme2022) {
       const trueDisabled = disabled || loading;
@@ -316,7 +308,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
-              isUseStateWithOutlineInDisabledState2022 && styles.disabledWithOutline(this.theme),
+              isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
               checked && styles.checkedDisabled(this.theme),
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
@@ -340,7 +332,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.checked(this.theme)]: checked,
         [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
-        [styles.disabledWithOutline(this.theme)]: isUseStateWithOutlineInDisabledState && (disabled || loading),
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
         [styles.narrow()]: narrow,

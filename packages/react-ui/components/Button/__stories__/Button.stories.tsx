@@ -279,10 +279,10 @@ export const Disabled: Story = (_, { globals: { theme } }) => (
   />
 );
 
-export const ArrowDisabled: Story = () => (
+export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
   <ComponentTable
     Component={Button}
-    cols={useStates2022.map((state) => ({ props: state }))}
+    cols={getUseStates(theme)}
     rows={disabledDifferentStates.filter((state) => !state.icon).map((state) => ({ props: state }))}
     presetProps={{ children: 'Button', disabled: true, arrow: true }}
   />
