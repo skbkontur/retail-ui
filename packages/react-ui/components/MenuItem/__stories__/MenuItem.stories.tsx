@@ -5,6 +5,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Meta } from '../../../typings/stories';
 import { MenuItem } from '../MenuItem';
+import { Gapped } from '../../Gapped';
 
 export default {
   title: 'MenuItem',
@@ -34,7 +35,7 @@ export const MenuItemWithBiggerFontSize = () => {
     <ThemeContext.Consumer>
       {(theme) => (
         <ThemeContext.Provider
-          value={ThemeFactory.create({ menuItemFontSize: '18px', menuItemPaddingY: '8px' }, theme)}
+          value={ThemeFactory.create({ menuItemFontSizeSmall: '18px', menuItemPaddingYSmall: '8px' }, theme)}
         >
           <MenuItem icon={<OkIcon />}>Меню айтем с увеличенным размером шрифта</MenuItem>
         </ThemeContext.Provider>
@@ -48,3 +49,24 @@ MenuItemWithBiggerFontSize.parameters = {
     skip: { in: /^(?!\bchrome\b)/ },
   },
 };
+
+export const Size = () => {
+  const comment = <span>Комментарий</span>;
+  return (
+    <Gapped>
+      <MenuItem icon={<OkIcon />} comment={comment}>
+        Без размера
+      </MenuItem>
+      <MenuItem size={'small'} icon={<OkIcon />} comment={comment}>
+        Маленький
+      </MenuItem>
+      <MenuItem size={'medium'} icon={<OkIcon />} comment={comment}>
+        Средний
+      </MenuItem>
+      <MenuItem size={'large'} icon={<OkIcon />} comment={comment}>
+        Большой
+      </MenuItem>
+    </Gapped>
+  );
+};
+Size.storyName = 'size';

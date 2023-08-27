@@ -27,7 +27,6 @@ export const MenuHeaderDataTids = {
  * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
-
   const theme = useContext(ThemeContext);
 
   function getRootSizeClassName() {

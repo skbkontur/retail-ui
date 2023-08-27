@@ -182,7 +182,9 @@ const BaselineFont: React.FC<{
         <Kebab size={size}>
           <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
         </Kebab>
-        <MenuItem state="hover">Menu</MenuItem>
+        <MenuItem size={size} state="hover">
+          Menu
+        </MenuItem>
         <Input size={size} value={content} width={40} />
         <ComboBox
           placeholder={content}
@@ -248,11 +250,6 @@ class DifferentFontsAndSizesThemeM extends React.Component {
                   radioPaddingY: '9px',
                   radioFontSize: '16px',
                   radioLineHeight: '22px',
-
-                  menuItemFontSize: '16px',
-                  menuItemLineHeight: '22px',
-                  menuItemPaddingY: '9px',
-                  menuItemPaddingX: '12px',
                 },
                 theme,
               )}
@@ -293,11 +290,6 @@ class DifferentFontsAndSizesThemeL extends React.Component {
                   radioPaddingY: '11px',
                   radioFontSize: '18px',
                   radioLineHeight: '24px',
-
-                  menuItemFontSize: '18px',
-                  menuItemLineHeight: '24px',
-                  menuItemPaddingY: '12px',
-                  menuItemPaddingX: '14px',
                 },
                 theme,
               )}

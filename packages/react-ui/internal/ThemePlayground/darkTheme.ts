@@ -237,7 +237,7 @@ export const darkTheme = ThemeFactory.create(
     toastCloseColor: '#a0a0a0',
     toastCloseHoverColor: 'white',
     tdDividerBg: '#808080',
-    menuItemPaddingForIcon: '36px',
+    menuItemPaddingForIconSmall: '36px',
     menuBorder: 'rgba(0, 0, 0, 0)',
     menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
     get toggleBaseBg() {
