@@ -1,6 +1,6 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
-import { HTMLProps } from 'react-ui/typings/html';
 
+import { HTMLProps } from '../../typings/html';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
