@@ -3,6 +3,7 @@ import React, { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { MenuContext } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuHeader.styles';
 
@@ -24,6 +25,9 @@ export const MenuHeaderDataTids = {
  */
 function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
+  const menuContext = useContext(MenuContext);
+
+  const enableIconPadding = _enableIconPadding || menuContext.enableIconPadding;
 
   return (
     <CommonWrapper {...rest}>
@@ -31,7 +35,7 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
         data-tid={MenuHeaderDataTids.root}
         className={cx({
           [styles.root(theme)]: true,
-          [styles.withLeftPadding(theme)]: _enableIconPadding,
+          [styles.withLeftPadding(theme)]: enableIconPadding,
         })}
       >
         {children}
