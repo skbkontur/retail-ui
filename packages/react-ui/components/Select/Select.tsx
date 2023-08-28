@@ -39,15 +39,14 @@ import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
 
-export interface ButtonParams {
+export interface ButtonParams
+  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'> {
   disabled?: boolean;
   label: React.ReactNode;
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
-  'aria-controls'?: AriaAttributes['aria-controls'];
 }
 
 const PASS_BUTTON_PROPS = {
@@ -81,7 +80,7 @@ type SelectItem<TValue, TItem> =
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
     Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby'> {
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -694,6 +693,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,
+          'aria-label': this.props['aria-label'],
         })
       : buttonElement;
   };

@@ -9,7 +9,10 @@ import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
+export interface ComboBoxProps<T>
+  extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   /**
    * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
@@ -163,11 +166,6 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
    * Состояние валидации при предупреждении.
    */
   warning?: boolean;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 
   width?: string | number;
 

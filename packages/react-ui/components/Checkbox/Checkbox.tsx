@@ -21,6 +21,7 @@ import { IndeterminateIcon } from './IndeterminateIcon';
 
 export interface CheckboxProps
   extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
@@ -60,10 +61,6 @@ export interface CheckboxProps
          * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
          */
         initialIndeterminate?: boolean;
-        /**
-         * Атрибут для указания id элемента(-ов), описывающих его
-         */
-        'aria-describedby'?: AriaAttributes['aria-describedby'];
       }
     > {}
 
@@ -209,6 +206,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       type,
       initialIndeterminate,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
       ...rest
     } = props;
     const isIndeterminate = this.state.indeterminate;
@@ -290,7 +288,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-describedby={ariaDescribedby} />
+        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
         {box}
         {caption}
       </label>

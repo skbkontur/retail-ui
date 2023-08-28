@@ -89,16 +89,34 @@ describe('Switcher', () => {
     expect(buttons[0]).not.toHaveFocus();
   });
 
-  it('has correct default role', () => {
-    render(<Switcher items={['One']} />);
+  describe('a11y', () => {
+    it('has correct default role', () => {
+      render(<Switcher items={['One']} />);
 
-    expect(screen.getByRole(switchDefaultRole)).toBeInTheDocument();
-  });
+      expect(screen.getByRole(switchDefaultRole)).toBeInTheDocument();
+    });
 
-  it('passes correct value to `role` attribute', () => {
-    const role = 'link';
-    render(<Switcher items={['One']} role={role} />);
+    it('passes correct value to `role` attribute', () => {
+      const role = 'link';
+      render(<Switcher items={['One']} role={role} />);
 
-    expect(screen.getByRole(role)).toBeInTheDocument();
+      expect(screen.getByRole(role)).toBeInTheDocument();
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const firstAriaLabel = 'one';
+      const secondAriaLabel = 'two';
+      render(
+        <Switcher
+          items={[
+            { label: 'One', value: 'One', 'aria-label': firstAriaLabel },
+            { label: 'Two', value: 'Two', 'aria-label': secondAriaLabel },
+          ]}
+        />,
+      );
+
+      expect(screen.getAllByRole('switch')[0]).toHaveAttribute('aria-label', firstAriaLabel);
+      expect(screen.getAllByRole('switch')[1]).toHaveAttribute('aria-label', secondAriaLabel);
+    });
   });
 });

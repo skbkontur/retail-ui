@@ -28,7 +28,11 @@ export const TabDataTids = {
   root: 'Tab__root',
 } as const;
 
-export interface TabProps<T extends string = string> extends CommonProps {
+export type TabSize = 'small' | 'medium' | 'large';
+
+export interface TabProps<T extends string = string>
+  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+    CommonProps {
   /**
    * Tab content
    */
@@ -88,11 +92,6 @@ export interface TabProps<T extends string = string> extends CommonProps {
    * Style property
    */
   style?: React.CSSProperties;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 export interface TabState {
@@ -187,7 +186,16 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   public getUnderlyingNode = () => this.tabComponent;
 
   private renderMain() {
-    const { children, disabled, error, warning, success, primary, 'aria-describedby': ariaDescribedby } = this.props;
+    const {
+      children,
+      disabled,
+      error,
+      warning,
+      success,
+      primary,
+      'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
+    } = this.props;
     const { component: Component, href } = this.getProps();
 
     let isActive = false;
@@ -224,6 +232,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
           href={href}
           aria-describedby={ariaDescribedby}
+          aria-label={ariaLabel}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
           {this.state.focusedByKeyboard && <div className={cx(styles.focus(this.theme), globalClasses.focus)} />}
