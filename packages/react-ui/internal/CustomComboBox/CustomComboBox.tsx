@@ -17,7 +17,10 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
+export interface CustomComboBoxProps<T>
+  extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -50,7 +53,6 @@ export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'me
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
   width?: string | number;
   maxMenuHeight?: number | string;
   renderNotFound?: () => React.ReactNode;
@@ -259,6 +261,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       value: this.props.value,
       warning: this.props.warning,
       'aria-describedby': this.props['aria-describedby'],
+      'aria-label': this.props['aria-label'],
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,

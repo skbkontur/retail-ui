@@ -75,4 +75,13 @@ describe('Link', () => {
       });
     });
   });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<Link aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
 });

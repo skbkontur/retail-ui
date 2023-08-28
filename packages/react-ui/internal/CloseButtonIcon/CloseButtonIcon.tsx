@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { AriaAttributes, CSSProperties } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
@@ -10,7 +10,10 @@ import { CommonWrapper, CommonProps } from '../CommonWrapper';
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
-export interface CloseButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
+export interface CloseButtonIconProps
+  extends Pick<AriaAttributes, 'aria-label'>,
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    CommonProps {
   /**
    * Ширина и высота иконки крестика
    *

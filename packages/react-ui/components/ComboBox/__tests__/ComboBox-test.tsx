@@ -1274,6 +1274,15 @@ describe('ComboBox', () => {
         );
       });
     });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<ComboBox getItems={jest.fn()} aria-label={ariaLabel} />);
+
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 
   it('should focus by method', () => {
