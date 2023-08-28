@@ -375,10 +375,6 @@ export const styles = memoizeStyle({
   disabledWithoutOutline(t: Theme) {
     return css`
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBg};
-      }
     `;
   },
 
