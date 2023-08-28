@@ -101,6 +101,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [4.15.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.6...@skbkontur/react-ui@4.15.7) (2023-08-25)
+
+
+### Bug Fixes
+
+* **ComboBox:** remove flushSync console error for React18 ([#3253](https://github.com/skbkontur/retail-ui/issues/3253)) ([e71cbad](https://github.com/skbkontur/retail-ui/commit/e71cbad60e3c7be20ead3381b49800cda9c383f7))
+* **Input:** repair icon props ([#3248](https://github.com/skbkontur/retail-ui/issues/3248)) ([54d0349](https://github.com/skbkontur/retail-ui/commit/54d03496a834aa044314f51788048eea2af0ed58))
+
+
+
+
+
 ## [4.15.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.15.5...@skbkontur/react-ui@4.15.6) (2023-08-02)
 
 **Note:** Version bump only for package @skbkontur/react-ui
