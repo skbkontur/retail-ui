@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -17,7 +17,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { styles, globalClasses } from './Radio.styles';
 
 export interface RadioProps<T>
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {

@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
@@ -20,7 +20,8 @@ import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 
 export interface CurrencyInputProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       InputProps,
       {
@@ -175,6 +176,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
         onPaste={this.handlePaste}
         onCopy={this.handleCopy}
         onCut={this.handleCut}
+        aria-label={this.props['aria-label']}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}

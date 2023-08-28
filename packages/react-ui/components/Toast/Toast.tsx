@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { RenderContainer } from '../../internal/RenderContainer';
@@ -14,6 +14,7 @@ import { ToastStatic } from './ToastStatic';
 export interface Action {
   label: string;
   handler: () => void;
+  'aria-label'?: string;
 }
 
 export interface ToastState {
@@ -23,7 +24,7 @@ export interface ToastState {
   showTime: Nullable<number>;
 }
 
-export interface ToastProps extends CommonProps {
+export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
 }
@@ -125,6 +126,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       onMouseLeave: this._setTimer,
       onClose: this.close,
       children: notification,
+      'aria-label': this.props['aria-label'],
       action,
     };
 

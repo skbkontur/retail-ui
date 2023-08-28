@@ -190,4 +190,13 @@ describe('Textarea', () => {
     render(<Textarea value="" disabled />);
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<Textarea aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
 });

@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ReactNode } from 'react';
+import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import raf from 'raf';
@@ -28,7 +28,8 @@ const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {

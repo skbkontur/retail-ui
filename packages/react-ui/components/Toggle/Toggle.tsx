@@ -16,7 +16,7 @@ import { styles, globalClasses } from './Toggle.styles';
 
 let colorWarningShown = false;
 
-export interface ToggleProps extends CommonProps {
+export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   children?: React.ReactNode;
   /**
    * Положение `children` относительно переключателя.
@@ -62,10 +62,6 @@ export interface ToggleProps extends CommonProps {
    * Если true, выставляет фокус на `тогле` после загрузки страницы.
    */
   autoFocus?: boolean;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */
@@ -173,7 +169,15 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, warning, error, color, id, 'aria-describedby': ariaDescribedby } = this.props;
+    const {
+      children,
+      warning,
+      error,
+      color,
+      id,
+      'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
+    } = this.props;
     const { loading, captionPosition, disableAnimations } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
@@ -224,6 +228,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               disabled={disabled}
               id={id}
               role="switch"
+              aria-label={ariaLabel}
               aria-describedby={ariaDescribedby}
             />
             <div

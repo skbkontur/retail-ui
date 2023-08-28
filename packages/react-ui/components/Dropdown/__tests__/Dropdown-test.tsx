@@ -49,16 +49,25 @@ describe('Dropdown', () => {
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('props aria-describedby applied correctly', () => {
-    render(
-      <div>
-        <Dropdown caption="button" aria-describedby="elementId" />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const dropdown = screen.getByRole('button');
-    expect(dropdown).toHaveAttribute('aria-describedby', 'elementId');
-    expect(dropdown).toHaveAccessibleDescription('Description');
+  describe('a11y', () => {
+    it('props aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <Dropdown caption="button" aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const dropdown = screen.getByRole('button');
+      expect(dropdown).toHaveAttribute('aria-describedby', 'elementId');
+      expect(dropdown).toHaveAccessibleDescription('Description');
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<Dropdown caption="button" aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 
   it('method open works', () => {

@@ -13,6 +13,8 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { componentsLocales as DatePickerLocalesRu } from '../locale/locales/ru';
+import { componentsLocales as DatePickerLocalesEn } from '../locale/locales/en';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -236,6 +238,44 @@ describe('DatePicker', () => {
   });
 
   describe('a11y', () => {
+    it('sets value for aria-label attribute (ru)', () => {
+      render(<DatePicker enableTodayLink onValueChange={jest.fn()} />);
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
+        'aria-label',
+        DatePickerLocalesRu.todayAriaLabel,
+      );
+    });
+
+    it('sets value for aria-label attribute (en)', () => {
+      render(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
+        'aria-label',
+        DatePickerLocalesEn.todayAriaLabel,
+      );
+    });
+
+    it('sets custom value for `todayAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { todayAriaLabel: customAriaLabel } } }}>
+          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute('aria-label', customAriaLabel);
+    });
+
     it('sets custom value for `selectMonthAriaLabel` locale', () => {
       const customAriaLabel = 'test';
       render(

@@ -281,10 +281,11 @@ interface DatePickerLocale {
   months?: string[];
   order?: DateOrder;
   separator?: DateSeparator;
-  'select-month-aria-label'?: string;
-  'select-year-aria-label'?: string;
-  'select-chosen-aria-label'?: string;
-  'day-cell-choose-date-aria-label'?: string;
+  todayAriaLabel?: string
+  selectMonthAriaLabel?: string;
+  selectYearAriaLabel?: string;
+  selectChosenAriaLabel?: string;
+  dayCellChooseDateAriaLabel?: string;
 }
 
 const ru_RU = {
@@ -305,10 +306,11 @@ const ru_RU = {
   ],
   order: DateOrder.DMY,
   separator: DateSeparator.Dot,
-  'select-month-aria-label': 'месяц',
-  'select-year-aria-label': 'год',
-  'select-chosen-aria-label': 'Выбранный',
-  'day-cell-choose-date-aria-label': 'Выбрать дату',
+  todayAriaLabel: 'Перейти к сегодняшней дате',
+  selectMonthAriaLabel: 'месяц',
+  selectYearAriaLabel: 'год',
+  selectChosenAriaLabel: 'Выбранный',
+  dayCellChooseDateAriaLabel: 'Выбрать дату',
 };
 
 const en_GB = {
@@ -329,9 +331,10 @@ const en_GB = {
   ],
   order: DateOrder.MDY,
   separator: DateSeparator.Slash,
-  'select-month-aria-label': 'month',
-  'select-year-aria-label': 'year',
-  'select-chosen-aria-label': 'Chosen',
-  'day-cell-choose-date-aria-label': 'Choose date',
+  todayAriaLabel: "Go to today's date",
+  selectMonthAriaLabel: 'month',
+  selectYearAriaLabel: 'year',
+  selectChosenAriaLabel: 'Chosen',
+  dayCellChooseDateAriaLabel: 'Choose date',
 };
 ```

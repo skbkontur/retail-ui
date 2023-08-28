@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
@@ -17,7 +17,8 @@ import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { globalClasses, styles } from './Link.styles';
 
 export interface LinkProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
       {

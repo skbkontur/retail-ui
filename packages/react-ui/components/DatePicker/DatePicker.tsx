@@ -369,6 +369,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       return (
         <div style={{ margin: 8 }}>
           <Button
+            aria-label={this.locale.todayAriaLabel}
             data-tid={DatePickerDataTids.pickerTodayWrapper}
             width="100%"
             onClick={this.handleSelectToday(today)}
@@ -382,6 +383,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     return (
       <button
+        aria-label={this.locale.todayAriaLabel}
         data-tid={DatePickerDataTids.pickerTodayWrapper}
         className={cx({
           [styles.todayLinkWrapper(this.theme)]: true,

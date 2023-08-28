@@ -3,8 +3,11 @@ import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { StickyDataTids } from '../../../components/Sticky';
 import { Modal, ModalDataTids } from '../Modal';
+import { componentsLocales as ModalLocalesRu } from '../locale/locales/ru';
+import { componentsLocales as ModalLocalesEn } from '../locale/locales/en';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -213,31 +216,6 @@ describe('Modal', () => {
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
-  it('should have `aria-modal` attribute set to `true`', () => {
-    render(<Modal>test</Modal>);
-    expect(screen.getByTestId(ModalDataTids.content)).toHaveAttribute('aria-modal', 'true');
-  });
-
-  it('should change role to `alertdialog`', () => {
-    render(<Modal role="alertdialog" />);
-
-    expect(screen.getByRole('alertdialog')).toBeInTheDocument();
-  });
-
-  it('passes correct value to `aria-label` attribute', () => {
-    const label = 'label';
-    render(<Modal aria-label={label} />);
-
-    expect(screen.getByLabelText(label)).toBeInTheDocument();
-  });
-
-  it('passes correct value to `aria-labelledby` attribute', () => {
-    const labelId = 'labelId';
-    render(<Modal aria-labelledby={labelId} />);
-
-    expect(screen.getByTestId(ModalDataTids.container)).toHaveAttribute('aria-labelledby', labelId);
-  });
-
   it('correct position in stack', () => {
     const wrapper1 = mount(<Modal />);
 
@@ -250,5 +228,65 @@ describe('Modal', () => {
     wrapper2.unmount();
 
     expect(wrapper1.state('stackPosition')).toBe(0);
+  });
+
+  describe('a11y', () => {
+    it('should have `aria-modal` attribute set to `true`', () => {
+      render(<Modal>test</Modal>);
+      expect(screen.getAllByTestId(ModalDataTids.content)[0]).toHaveAttribute('aria-modal', 'true');
+    });
+
+    it('should change role to `alertdialog`', () => {
+      render(<Modal role="alertdialog" />);
+
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+    });
+
+    it('passes correct value to `aria-label` attribute', () => {
+      const label = 'label';
+      render(<Modal aria-label={label} />);
+
+      expect(screen.getByLabelText(label)).toBeInTheDocument();
+    });
+
+    it('passes correct value to `aria-labelledby` attribute', () => {
+      const labelId = 'labelId';
+      render(<Modal aria-labelledby={labelId} />);
+
+      expect(screen.getAllByTestId(ModalDataTids.container)[1]).toHaveAttribute('aria-labelledby', labelId);
+    });
+
+    it('has correct value on close button aria-label attribute (ru)', () => {
+      render(<Modal />);
+
+      expect(screen.getAllByTestId(ModalDataTids.close)[0]).toHaveAttribute(
+        'aria-label',
+        ModalLocalesRu.closeButtonAriaLabel,
+      );
+    });
+
+    it('has correct value on close button aria-label attribute (en)', () => {
+      render(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <Modal />
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute(
+        'aria-label',
+        ModalLocalesEn.closeButtonAriaLabel,
+      );
+    });
+
+    it('sets custom value for `closeButtonAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { Modal: { closeButtonAriaLabel: customAriaLabel } } }}>
+          <Modal />
+        </LocaleContext.Provider>,
+      );
+
+      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute('aria-label', customAriaLabel);
+    });
   });
 });
