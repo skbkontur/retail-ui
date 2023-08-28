@@ -1,6 +1,6 @@
 import React from 'react';
-import { InputSize } from 'react-ui/components/Input';
 
+import { InputSize } from '../../Input';
 import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
