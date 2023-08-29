@@ -16,6 +16,18 @@ const line = keyframes`
   }
 `;
 
+const oldLineText = function (t: Theme) {
+  const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
+  return css`
+    border-bottom-style: ${t.linkLineBorderBottomStyle};
+    border-bottom-width: ${t.linkLineBorderBottomWidth};
+    animation: ${line} 1s linear !important; // override creevey
+    animation-play-state: paused !important;
+    animation-delay: ${delay}s !important;
+    animation-fill-mode: forwards !important;
+  `;
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
@@ -32,15 +44,40 @@ export const styles = memoizeStyle({
     `;
   },
 
-  lineText(t: Theme) {
-    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
+  lineTextWrapper(t: Theme) {
+    // При hover'е выполняется подчеркивание из прозрачного переходит в currentColor.
+    // За счет наложения этого цвета на подчеркивание lineText (currentColor с половинной прозрачностью)
+    // достигается эффект перехода currentColor с половинной прозрачностью до currentColor.
     return css`
-      border-bottom-style: ${t.linkLineBorderBottomStyle};
-      border-bottom-width: ${t.linkLineBorderBottomWidth};
-      animation: ${line} 1s linear !important; // override creevey
-      animation-play-state: paused !important;
-      animation-delay: ${delay}s !important;
-      animation-fill-mode: forwards !important;
+      display: inline;
+      @supports (border-bottom-color: color-mix(in srgb, currentColor 50%, transparent)) {
+        transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
+        border-bottom-style: ${t.linkLineBorderBottomStyle};
+        border-bottom-width: ${t.linkLineBorderBottomWidth};
+        border-bottom-color: transparent;
+        &:hover {
+          border-bottom-color: currentColor;
+        }
+      }
+    `;
+  },
+
+  lineText(t: Theme) {
+    return css`
+      @supports (border-bottom-color: color-mix(in srgb, currentColor 50%, transparent)) {
+        border-bottom-style: ${t.linkLineBorderBottomStyle};
+        border-bottom-width: ${t.linkLineBorderBottomWidth};
+        border-bottom-color: color-mix(in srgb, currentColor 50%, transparent);
+      }
+      @supports not (border-bottom-color: color-mix(in srgb, currentColor 50%, transparent)) {
+        ${oldLineText(t)};
+      }
+    `;
+  },
+
+  lineTextIE11(t: Theme) {
+    return css`
+      ${oldLineText(t)};
     `;
   },
 

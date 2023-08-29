@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { isIE11 } from '../../lib/client';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -189,7 +190,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let child = this.props.children;
     if (_isTheme2022) {
-      child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
+      // lineTextWrapper нужен для реализации transition у подчеркивания
+      child = (
+        <div className={cx(styles.lineTextWrapper(this.theme))}>
+          <span
+            className={cx(globalClasses.text, {
+              [styles.lineText(this.theme)]: !isIE11,
+              [styles.lineTextIE11(this.theme)]: isIE11,
+            })}
+          >
+            {this.props.children}
+          </span>
+        </div>
+      );
     }
 
     return (
