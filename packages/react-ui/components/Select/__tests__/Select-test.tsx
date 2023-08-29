@@ -283,6 +283,29 @@ describe('Select', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
     });
+
+    it('sets value for aria-label attribute when `_renderButton` is passed', () => {
+      const ariaLabel = 'aria-label';
+      render(<Select _renderButton={(params) => <button {...params}>test</button>} aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('aria-label passed to `_renderButton` overrides aria-label on `Select`', () => {
+      const ariaLabel = 'aria-label';
+      render(
+        <Select
+          _renderButton={(params) => (
+            <button {...params} aria-label={ariaLabel}>
+              test
+            </button>
+          )}
+          aria-label={'test'}
+        />,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 
   describe('Locale', () => {
