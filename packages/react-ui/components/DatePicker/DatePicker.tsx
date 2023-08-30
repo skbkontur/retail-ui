@@ -21,7 +21,7 @@ import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
+import { Calendar, CalendarDateShape, CalendarMonthChangeInfo, CalendarProps } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
@@ -43,7 +43,7 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate'>,
+    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -81,6 +81,23 @@ export interface DatePickerProps
    * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
+
+  /**
+   * Метод отрисовки дат в календаре
+   * @default (date) => date.date as number
+   * @param {CalendarDateShape} date - дата в формате `{ year: number; month: number; date: number; }`
+   *
+   * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
+   */
+  renderDay: (date: CalendarDateShape) => React.ReactNode;
+
+  /**
+   * Вызывается при каждом изменении месяца
+   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+   * `month: number` - номер текущего отображаемого месяца от 1 до 12,
+   * `year: number` - отображаемый год,
+   */
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 export interface DatePickerState {
@@ -97,7 +114,7 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'renderDay'>>;
 
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -152,11 +169,16 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     onMouseOver: PropTypes.func,
 
     isHoliday: PropTypes.func,
+
+    renderDay: PropTypes.func.isRequired,
+
+    onMonthChange: PropTypes.func,
   };
 
   public static defaultProps: DefaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
+    renderDay: (date: CalendarDateShape) => date.date,
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
@@ -302,6 +324,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                 onValueChange={this.handleValueChange}
                 isHoliday={this.props.isHoliday}
                 value={this.parseValueToDate(this.props.value)}
+                renderDay={this.props.renderDay}
+                onMonthChange={this.props.onMonthChange}
               />
               {this.props.enableTodayLink && this.renderTodayLink()}{' '}
             </div>

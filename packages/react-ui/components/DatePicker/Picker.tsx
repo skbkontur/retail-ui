@@ -8,7 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { locale } from '../../lib/locale/decorators';
-import { Calendar } from '../Calendar';
+import { Calendar, CalendarMonthChangeInfo } from '../Calendar';
 import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -29,6 +29,8 @@ interface PickerProps {
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderDay?: (date: CalendarDateShape) => React.ReactNode;
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 interface PickerState {
@@ -96,6 +98,8 @@ export class Picker extends React.Component<PickerProps, PickerState> {
           onValueChange={this.onValueChange}
           isHoliday={this.isHoliday}
           value={this.getDateFromShape(this.props.value)}
+          renderDay={this.props.renderDay}
+          onMonthChange={this.props.onMonthChange}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
