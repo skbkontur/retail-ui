@@ -157,8 +157,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  private getRootSizeClassName(size: MenuItemSize) {
-    switch (size) {
+  private getRootSizeClassName() {
+    switch (this.props.size) {
       case 'large':
         return styles.rootLarge(this.theme);
       case 'medium':
@@ -231,7 +231,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     const className = cx({
       [styles.root(this.theme)]: true,
-      [this.getRootSizeClassName(this.props.size ?? 'small')]: true,
+      [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
       [styles.hover(this.theme)]: hover,

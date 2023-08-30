@@ -40,6 +40,17 @@ function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...r
         return styles.rootSmall(theme);
     }
   }
+  function getWithLeftPaddingSizeClassName() {
+    switch (size) {
+      case 'large':
+        return styles.withLeftPaddingSmall(theme);
+      case 'medium':
+        return styles.withLeftPaddingMedium(theme);
+      case 'small':
+      default:
+        return styles.withLeftPaddingSmall(theme);
+    }
+  }
 
   return (
     <CommonWrapper {...rest}>
@@ -47,7 +58,7 @@ function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...r
         data-tid={MenuHeaderDataTids.root}
         className={cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
-          [styles.withLeftPadding(theme)]: _enableIconPadding,
+          [getWithLeftPaddingSizeClassName()]: _enableIconPadding,
         })}
       >
         {children}

@@ -122,12 +122,12 @@ export const styles = memoizeStyle({
   },
   withIconMedium(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIconMedium};
+      ${withIconSizeMixin(t.menuItemPaddingForIconMedium)}
     `;
   },
   withIconLarge(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIconLarge};
+      ${withIconSizeMixin(t.menuItemPaddingForIconLarge)}
     `;
   },
   comment(t: Theme) {

@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { menuHeaderSizeMixin } from './MenuHeader.mixins';
+import { menuHeaderSizeMixin, withIconSizeMixin } from './MenuHeader.mixins';
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -48,9 +48,19 @@ export const styles = memoizeStyle({
     `;
   },
 
-  withLeftPadding(t: Theme) {
+  withLeftPaddingSmall(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIconSmall};
+      ${withIconSizeMixin(t.menuItemPaddingForIconSmall)}
+    `;
+  },
+  withLeftPaddingMedium(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconMedium)}
+    `;
+  },
+  withLeftPaddingLarge(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconLarge)}
     `;
   },
 });

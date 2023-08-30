@@ -18,3 +18,9 @@ export const menuHeaderSizeMixin = (
     padding: ${menuHeaderPaddingTop} ${paddingRight} ${menuHeaderPaddingBottom} ${menuHeaderPaddingX};
   `;
 };
+
+export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
+  return css`
+    padding-left: ${menuItemPaddingForIcon};
+  `;
+};
