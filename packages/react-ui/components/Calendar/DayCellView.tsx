@@ -19,10 +19,11 @@ interface DayCellViewProps {
   maxDate?: CDS.CalendarDateShape;
   onDateClick?: (day: CDS.CalendarDateShape) => void;
   isWeekend?: boolean;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode | number;
 }
 
 export function DayCellView(props: DayCellViewProps) {
-  const { date, minDate, maxDate, today, value, isWeekend, onDateClick } = props;
+  const { date, minDate, maxDate, today, value, isWeekend, onDateClick, renderItem } = props;
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
 
@@ -32,9 +33,9 @@ export function DayCellView(props: DayCellViewProps) {
   };
 
   const child = _isTheme2022 ? (
-    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{date.date}</span>
+    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{renderItem(date)}</span>
   ) : (
-    date.date
+    renderItem(date)
   );
 
   const isToday = Boolean(today && CDS.isEqual(date, today));

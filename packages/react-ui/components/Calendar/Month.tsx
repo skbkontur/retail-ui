@@ -25,9 +25,10 @@ interface MonthProps {
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderDay?: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
-type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday'>>;
+type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday' | 'renderItem'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
@@ -103,6 +104,7 @@ export class Month extends React.Component<MonthProps> {
         value={this.props.value}
         onDateClick={this.props.onDateClick}
         isHoliday={this.props.isHoliday}
+        renderItem={this.props.renderDay}
       />
     );
   }
@@ -142,6 +144,7 @@ interface MonthDayGridProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
@@ -149,6 +152,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public static defaultProps: DefaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
+    renderItem: (date: CDS.CalendarDateShape) => date.date,
   };
 
   private getProps = createPropsGetter(MonthDayGrid.defaultProps);
@@ -185,7 +189,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
       <div className={styles.monthDayGrid(this.theme)}>
         <div
           style={{
-            width: this.props.offset * themeConfig(this.theme).DAY_SIZE,
+            width: this.props.offset * themeConfig(this.theme).DAY_WIDTH,
             display: 'inline-block',
           }}
         />
@@ -202,6 +206,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
               value={this.props.value}
               isWeekend={isWeekend}
               onDateClick={this.props.onDateClick}
+              renderItem={this.props.renderItem}
             />
           );
         })}
