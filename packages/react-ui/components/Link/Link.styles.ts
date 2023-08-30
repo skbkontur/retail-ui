@@ -28,6 +28,8 @@ const oldLineText = function (t: Theme) {
   `;
 };
 
+const linkLineBorderBottomColor = 'color-mix(in srgb, currentColor ${t.linkLineBorderBottomOpacity}, transparent)';
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
@@ -45,12 +47,11 @@ export const styles = memoizeStyle({
   },
 
   lineTextWrapper(t: Theme) {
-    // При hover'е выполняется подчеркивание из прозрачного переходит в currentColor.
+    // При hover'е подчеркивание из прозрачного переходит в currentColor.
     // За счет наложения этого цвета на подчеркивание lineText (currentColor с половинной прозрачностью)
     // достигается эффект перехода currentColor с половинной прозрачностью до currentColor.
     return css`
-      display: inline;
-      @supports (border-bottom-color: color-mix(in srgb, currentColor 50%, transparent)) {
+      @supports (border-bottom-color: ${linkLineBorderBottomColor}) {
         transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
@@ -64,12 +65,12 @@ export const styles = memoizeStyle({
 
   lineText(t: Theme) {
     return css`
-      @supports (border-bottom-color: color-mix(in srgb, currentColor 50%, transparent)) {
+      @supports (border-bottom-color: ${linkLineBorderBottomColor}) {
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
-        border-bottom-color: color-mix(in srgb, currentColor 50%, transparent);
+        border-bottom-color: ${linkLineBorderBottomColor};
       }
-      @supports not (border-bottom-color: color-mix(in srgb, currentColor 50%, transparent)) {
+      @supports not (border-bottom-color: ${linkLineBorderBottomColor}) {
         ${oldLineText(t)};
       }
     `;

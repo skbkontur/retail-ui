@@ -192,7 +192,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (_isTheme2022) {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
-        <div className={cx(styles.lineTextWrapper(this.theme))}>
+        <span className={cx(styles.lineTextWrapper(this.theme))}>
           <span
             className={cx(globalClasses.text, {
               [styles.lineText(this.theme)]: !isIE11,
@@ -201,7 +201,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
           >
             {this.props.children}
           </span>
-        </div>
+        </span>
       );
     }
 
