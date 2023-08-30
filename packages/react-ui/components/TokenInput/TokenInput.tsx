@@ -43,7 +43,6 @@ import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
-import { TokenInputContext, TokenInputContextType } from './TokenInputContext';
 
 export enum TokenInputType {
   WithReference,
@@ -250,7 +249,7 @@ const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
-  { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
+  { isActive, onClick, onDoubleClick, onRemove, disabled, size }: Partial<TokenProps>,
 ) => (
   <Token
     key={item.toString()}
@@ -259,6 +258,7 @@ const defaultRenderToken = <T extends AnyObject>(
     onDoubleClick={onDoubleClick}
     onRemove={onRemove}
     disabled={disabled}
+    size={size }
   >
     {item}
   </Token>
@@ -353,11 +353,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <TokenInputContext.Provider value={this.getTokenInputContextValue()}>
-              {this.renderMain()}
-            </TokenInputContext.Provider>
-          );
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
@@ -445,11 +441,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   }
 
-  private getTokenInputContextValue = (): TokenInputContextType<T> => {
-    return {
-      size: this.props.size,
-    };
-  };
+  // private getTokenInputContextValue = (): TokenInputContextType<T> => {
+  //   return {
+  //     size: this.props.size,
+  //   };
+  // };
 
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
@@ -1169,7 +1165,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private renderToken = (item: T) => {
-    const { renderToken = defaultRenderToken, disabled } = this.props;
+    const { renderToken = defaultRenderToken, disabled, size } = this.props;
 
     const isActive = this.state.activeTokens.includes(item);
 
@@ -1197,6 +1193,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const renderedToken = renderToken(item as T & AnyObject, {
+      size,
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,

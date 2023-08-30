@@ -10,7 +10,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { TokenInputContext, TokenInputContextType } from '../TokenInput/TokenInputContext';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
@@ -36,13 +35,14 @@ export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, Co
    */
   warning?: boolean;
   disabled?: boolean;
-  /** Размер */
+  /**
+   * Размер
+   */
   size?: TokenSize;
   /**
    * Атрибут для указания id элемента(-ов), описывающих его
    */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
-
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;
@@ -69,11 +69,8 @@ export const TokenDataTids = {
 
 @rootNode
 @locale('Token', TokenLocaleHelper)
-export class Token<T> extends React.Component<TokenProps> {
+export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
-
-  public static contextType = TokenInputContext;
-  public context: TokenInputContextType<T> = this.context;
 
   private getSizeClassName(size: TokenSize) {
     switch (size) {
@@ -104,7 +101,7 @@ export class Token<T> extends React.Component<TokenProps> {
 
   private renderMain() {
     const {
-      size = this.context.size,
+      size, // наверн не контекст ? а просто сайз
       children,
       isActive,
       colors = { idle: 'defaultIdle', active: 'defaultActive' },
