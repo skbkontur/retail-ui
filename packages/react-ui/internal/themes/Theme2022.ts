@@ -309,7 +309,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenBorderRadius = '2px';
 
   public static tokenMarginY = '2px';
-  public static tokenMarginX = '2px';
+  public static tokenMarginX = '1px';
   public static get tokenMarginYSmall() {
     return this.tokenMarginY;
   }
@@ -319,7 +319,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenMarginYMedium = '2px';
   public static tokenMarginXMedium = '2px';
   public static tokenMarginYLarge = '2px';
-  public static tokenMarginXLarge = '2px';
+  public static tokenMarginXLarge = '3px';
 
   public static tokenOutlineWidth = '1px';
 

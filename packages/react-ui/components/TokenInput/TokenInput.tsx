@@ -441,12 +441,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   }
 
-  // private getTokenInputContextValue = (): TokenInputContextType<T> => {
-  //   return {
-  //     size: this.props.size,
-  //   };
-  // };
-
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
