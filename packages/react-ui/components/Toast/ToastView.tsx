@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import { func, shape, string } from 'prop-types';
 
+import { locale } from '../../lib/locale/decorators';
+import { Nullable } from '../../typings/utility-types';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,9 +13,10 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './ToastView.styles';
-import { ToastDataTids } from './Toast';
+import { Action, ToastDataTids } from './Toast';
+import { ToastLocale, ToastLocaleHelper } from './locale';
 
-export interface ToastViewProps extends CommonProps {
+export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   /**
    * Toast content
    */
@@ -21,16 +24,14 @@ export interface ToastViewProps extends CommonProps {
   /**
    * Adds action handling and close icon for toast
    */
-  action?: {
-    label: string;
-    handler: () => void;
-  } | null;
+  action?: Nullable<Action>;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
 
 @rootNode
+@locale('Toast', ToastLocaleHelper)
 export class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
@@ -49,6 +50,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
+  private readonly locale!: ToastLocale;
 
   public render() {
     return (
@@ -65,14 +67,24 @@ export class ToastView extends React.Component<ToastViewProps> {
     const { action, onClose, ...rest } = props;
 
     const link = action ? (
-      <span data-tid={ToastDataTids.action} className={styles.link(this.theme)} onClick={action.handler}>
+      <button
+        aria-label={action['aria-label']}
+        data-tid={ToastDataTids.action}
+        className={styles.link(this.theme)}
+        onClick={action.handler}
+      >
         {action.label}
-      </span>
+      </button>
     ) : null;
 
     let close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
-        <span data-tid={ToastDataTids.close} className={styles.close(this.theme)} onClick={onClose}>
+        <span
+          aria-label={this.locale.closeButtonAriaLabel}
+          data-tid={ToastDataTids.close}
+          className={styles.close(this.theme)}
+          onClick={onClose}
+        >
           <CrossIcon />
         </span>
       </span>
@@ -82,6 +94,7 @@ export class ToastView extends React.Component<ToastViewProps> {
       close = (
         <span className={styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
+            aria-label={this.locale.closeButtonAriaLabel}
             data-tid={ToastDataTids.close}
             onClick={onClose}
             size={parseInt(this.theme.toastCloseSize)}

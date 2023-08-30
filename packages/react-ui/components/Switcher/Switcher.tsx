@@ -22,7 +22,7 @@ export const SwitcherDataTids = {
   root: 'Switcher__root',
 } as const;
 
-export interface SwitcherProps extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'> {
+export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, CommonProps {
   /**
    * Список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }`
    */
@@ -43,13 +43,14 @@ export interface SwitcherProps extends CommonProps, Pick<HTMLAttributes<unknown>
 
   /**
    * Функция для отрисовки элемента. Аргументы — `label`,
-   * `value`, `buttonProps`, `renderDefault`
+   * `value`, `buttonProps`, `renderDefault`, `ariaLabel`
    */
   renderItem?: (
     label: string,
     value: string,
     buttonProps: ButtonProps,
     renderDefault: () => React.ReactNode,
+    ariaLabel?: string,
   ) => React.ReactNode;
 }
 
@@ -60,8 +61,9 @@ export interface SwitcherState {
 }
 
 interface SwitcherItem {
-  label: string;
   value: string;
+  label: string;
+  'aria-label'?: string;
   buttonProps?: Partial<ButtonProps>;
 }
 
@@ -225,7 +227,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private _renderItems = () => {
     const { items, value, size, disabled, role, renderItem } = this.props;
     return items.map((item, i) => {
-      const { label, value: itemValue, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
+      const {
+        'aria-label': ariaLabel,
+        label,
+        value: itemValue,
+        buttonProps: customButtonProps,
+      } = this._extractPropsFromItem(item);
 
       const isChecked = value === itemValue;
       const commonButtonProps = {
@@ -247,14 +254,14 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         ...customButtonProps,
       };
 
-      const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps);
+      const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps, ariaLabel);
 
-      return renderItem ? renderItem(label, itemValue, buttonProps, renderDefault) : renderDefault();
+      return renderItem ? renderItem(label, itemValue, buttonProps, renderDefault, ariaLabel) : renderDefault();
     });
   };
 
-  private renderDefaultItem = (label: string, value: string, buttonProps: ButtonProps) => (
-    <Button key={value} {...buttonProps}>
+  private renderDefaultItem = (label: string, value: string, buttonProps: ButtonProps, ariaLabel?: string) => (
+    <Button aria-label={ariaLabel} key={value} {...buttonProps}>
       {label}
     </Button>
   );

@@ -142,15 +142,24 @@ describe('Checkbox', () => {
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 
-  it('props aria-describedby applied correctly', () => {
-    render(
-      <div>
-        <Checkbox aria-describedby="elementId" />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).toHaveAttribute('aria-describedby', 'elementId');
-    expect(checkbox).toHaveAccessibleDescription('Description');
+  describe('a11y', () => {
+    it('props aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <Checkbox aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const checkbox = screen.getByRole('checkbox');
+      expect(checkbox).toHaveAttribute('aria-describedby', 'elementId');
+      expect(checkbox).toHaveAccessibleDescription('Description');
+    });
+
+    it('passes aria-label to input', () => {
+      const ariaLabel = 'ariaLabel';
+      render(<Checkbox aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 });

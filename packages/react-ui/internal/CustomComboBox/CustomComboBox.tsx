@@ -17,7 +17,10 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
+export interface CustomComboBoxProps<T>
+  extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -50,7 +53,6 @@ export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'me
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
   width?: string | number;
   maxMenuHeight?: number | string;
   renderNotFound?: () => React.ReactNode;
@@ -259,6 +261,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       value: this.props.value,
       warning: this.props.warning,
       'aria-describedby': this.props['aria-describedby'],
+      'aria-label': this.props['aria-label'],
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
@@ -309,7 +312,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public componentDidMount() {
-    this.dispatch({ type: 'Mount' });
+    this.dispatch({ type: 'Mount' }, false);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -319,7 +322,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState }, false);
   }
 
   /**
@@ -329,7 +332,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: CustomComboBoxAction<T>) => {
+  private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
     const updateState = (action: CustomComboBoxAction<T>) => {
       let effects: Array<CustomComboBoxEffect<T>>;
       let nextState: Pick<CustomComboBoxState<T>, never>;
@@ -348,7 +351,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     // Auto-batching React@18 creates problems that are fixed with flushSync
     // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
-    if (React.version.search('18') === 0) {
+    if (sync && React.version.search('18') === 0) {
       ReactDOM.flushSync(() => updateState(action));
     } else {
       updateState(action);

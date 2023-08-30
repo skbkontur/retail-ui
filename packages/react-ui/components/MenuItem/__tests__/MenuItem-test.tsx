@@ -78,16 +78,25 @@ describe('MenuItem', () => {
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('props aria-describedby applied correctly', () => {
-    render(
-      <div>
-        <MenuItem aria-describedby="elementId" />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const menuItem = screen.getByRole('button');
-    expect(menuItem).toHaveAttribute('aria-describedby', 'elementId');
-    expect(menuItem).toHaveAccessibleDescription('Description');
+  describe('a11y', () => {
+    it('props aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <MenuItem aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const menuItem = screen.getByRole('button');
+      expect(menuItem).toHaveAttribute('aria-describedby', 'elementId');
+      expect(menuItem).toHaveAccessibleDescription('Description');
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<MenuItem aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 
   describe('onMouseEnter', () => {

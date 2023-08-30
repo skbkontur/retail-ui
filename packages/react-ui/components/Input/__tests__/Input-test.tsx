@@ -489,23 +489,32 @@ describe('<Input />', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('props aria-describedby applied correctly', () => {
-    render(
-      <div>
-        <Input aria-describedby="elementId" />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const input = screen.getByRole('textbox');
-    expect(input).toHaveAttribute('aria-describedby', 'elementId');
-    expect(input).toHaveAccessibleDescription('Description');
-  });
+  describe('a11y', () => {
+    it('props aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <Input aria-describedby="elementId" />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveAttribute('aria-describedby', 'elementId');
+      expect(input).toHaveAccessibleDescription('Description');
+    });
 
-  it('sets value for aria-controls attribute', () => {
-    const ariaControls = 'test';
-    render(<Input aria-controls={ariaControls} />);
+    it('sets value for aria-controls attribute', () => {
+      const ariaControls = 'test';
+      render(<Input aria-controls={ariaControls} />);
 
-    expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute('aria-controls', ariaControls);
+      expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute('aria-controls', ariaControls);
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<Input aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 });
 

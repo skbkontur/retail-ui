@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Group } from '../Group';
@@ -19,7 +19,8 @@ import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
 export interface FxInputProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       CurrencyInputProps,
       {
@@ -37,6 +38,8 @@ export interface FxInputProps
         refInput?: (element: CurrencyInput | Input | null) => void;
         /** Убрать лишние нули после запятой */
         hideTrailingZeros?: boolean;
+        /** Позвоялет задать атрибут aria-label кнопке восстановления (restore button) */
+        buttonAriaLabel?: AriaAttributes['aria-label'];
       }
     > {}
 
@@ -114,6 +117,7 @@ export class FxInput extends React.Component<FxInputProps> {
           onRestore={onRestore}
           disabled={rest.disabled}
           borderless={rest.borderless}
+          aria-label={props.buttonAriaLabel}
         />
       );
     }

@@ -353,24 +353,33 @@ describe('<Autocomplete />', () => {
     expect(menuItems).toHaveTextContent('1');
   });
 
-  it('should connect dropdown with input through aria-controls', async () => {
-    const Comp = () => {
-      const [value, setValue] = useState('');
+  describe('a11y', () => {
+    it('should connect dropdown with input through aria-controls', async () => {
+      const Comp = () => {
+        const [value, setValue] = useState('');
 
-      return <Autocomplete source={['one', 'oneone', 'oneoneone']} value={value} onValueChange={setValue} />;
-    };
-    render(<Comp />);
+        return <Autocomplete source={['one', 'oneone', 'oneoneone']} value={value} onValueChange={setValue} />;
+      };
+      render(<Comp />);
 
-    const input = screen.getByTestId(InputDataTids.root);
-    userEvent.type(input, 'one');
+      const input = screen.getByTestId(InputDataTids.root);
+      userEvent.type(input, 'one');
 
-    expect(input).toHaveAttribute('aria-controls', expect.stringContaining(AutocompleteIds.menu));
-    await waitFor(() => {
-      expect(screen.getByTestId(AutocompleteDataTids.menu)).toHaveAttribute(
-        'id',
-        expect.stringContaining(AutocompleteIds.menu),
-      );
+      expect(input).toHaveAttribute('aria-controls', expect.stringContaining(AutocompleteIds.menu));
+      await waitFor(() => {
+        expect(screen.getByTestId(AutocompleteDataTids.menu)).toHaveAttribute(
+          'id',
+          expect.stringContaining(AutocompleteIds.menu),
+        );
+      });
     });
+  });
+
+  it('sets value for aria-label attribute', () => {
+    const ariaLabel = 'aria-label';
+    render(<Autocomplete aria-label={ariaLabel} source={['one']} value={'one'} onValueChange={jest.fn()} />);
+
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
   });
 });
 

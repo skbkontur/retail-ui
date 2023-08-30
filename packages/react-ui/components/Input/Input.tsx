@@ -49,7 +49,7 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
 export interface InputProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-controls'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
@@ -360,6 +360,7 @@ export class Input extends React.Component<InputProps, InputState> {
       corners,
       'aria-describedby': ariaDescribedby,
       'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
       ...rest
     } = props;
 
@@ -404,6 +405,7 @@ export class Input extends React.Component<InputProps, InputState> {
       placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
     };
 
     const input =
