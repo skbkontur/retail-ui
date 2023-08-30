@@ -39,38 +39,51 @@ describe('Kebab', () => {
     expect(kebab).not.toHaveFocus();
   });
 
-  it('passes value to aria-describedby prop', () => {
-    const id = 'id';
-    const description = 'description';
-    render(
-      <>
-        <Kebab aria-describedby={id} />
-        <p id={id}>description</p>
-      </>,
-    );
+  describe('a11y', () => {
+    it('passes value to aria-describedby prop', () => {
+      const id = 'id';
+      const description = 'description';
+      render(
+        <>
+          <Kebab aria-describedby={id} />
+          <p id={id}>description</p>
+        </>,
+      );
 
-    const caption = screen.getByTestId(KebabDataTids.caption);
-    expect(caption).toHaveAttribute('aria-describedby', id);
-    expect(caption).toHaveAccessibleDescription(description);
-  });
+      const caption = screen.getByTestId(KebabDataTids.caption);
+      expect(caption).toHaveAttribute('aria-describedby', id);
+      expect(caption).toHaveAccessibleDescription(description);
+    });
 
-  it('should have an element with role="button"', () => {
-    render(<Kebab />);
+    it('should have an element with role="button"', () => {
+      render(<Kebab />);
 
-    expect(screen.getByRole('button')).toBeInTheDocument();
-  });
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
 
-  it('should connect dropdown with button through aria-controls', () => {
-    render(
-      <Kebab>
-        <MenuItem>test</MenuItem>
-      </Kebab>,
-    );
+    it('should connect dropdown with button through aria-controls', () => {
+      render(
+        <Kebab>
+          <MenuItem>test</MenuItem>
+        </Kebab>,
+      );
 
-    const button = screen.getByRole('button');
-    userEvent.click(button);
+      const button = screen.getByRole('button');
+      userEvent.click(button);
 
-    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
-    expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('id', expect.stringContaining(PopupIds.root));
+      expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
+      expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('id', expect.stringContaining(PopupIds.root));
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(
+        <Kebab aria-label={ariaLabel}>
+          <MenuItem>test</MenuItem>
+        </Kebab>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label');
+    });
   });
 });

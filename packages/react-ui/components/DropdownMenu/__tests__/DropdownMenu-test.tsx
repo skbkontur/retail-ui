@@ -150,4 +150,13 @@ describe('<DropdownMenu />', () => {
     const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
   });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<DropdownMenu aria-label={ariaLabel} caption={<button>test</button>} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
 });

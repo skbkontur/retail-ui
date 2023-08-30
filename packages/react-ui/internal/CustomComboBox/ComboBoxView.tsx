@@ -27,7 +27,10 @@ import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
-interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
+interface ComboBoxViewProps<T>
+  extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -52,7 +55,6 @@ interface ComboBoxViewProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, 
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
   width?: string | number;
   maxLength?: number;
   maxMenuHeight?: number | string;
@@ -311,6 +313,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       leftIcon,
       inputMode,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
     } = this.props;
 
     const { renderValue, size } = this.getProps();
@@ -341,6 +344,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           inputMode={inputMode}
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
+          aria-label={ariaLabel}
         />
       );
     }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { AriaAttributes, useContext } from 'react';
 
 import { Input, InputSize } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -9,7 +9,9 @@ import { UndoIcon } from '../../internal/icons/16px';
 import { UndoIcon as UndoIcon2022 } from './UndoIcon';
 import { FxInputProps } from './FxInput';
 
-type FxInputRestoreBtnProps = Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'>;
+interface FxInputRestoreBtnProps
+  extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {}
 
 export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> = (props) => {
   const theme = useContext(ThemeContext);
@@ -55,6 +57,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         ...buttonCorners,
       }}
       icon={iconUndo}
+      aria-label={props['aria-label']}
     />
   ) : (
     <Button
@@ -68,6 +71,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         borderBottomRightRadius: 0,
         ...buttonCorners,
       }}
+      aria-label={props['aria-label']}
     >
       {iconUndo}
     </Button>

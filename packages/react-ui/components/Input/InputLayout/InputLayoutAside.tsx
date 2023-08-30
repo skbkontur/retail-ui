@@ -13,7 +13,7 @@ export interface InputLayoutAsideProps {
   side: 'left' | 'right';
 }
 
-export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = ({ icon = null, text, side }) => {
+export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = ({ icon, text, side }) => {
   const asideClassName = stylesLayout.aside();
 
   const _icon = <InputLayoutAsideIcon key="icon" icon={icon} side={side} />;

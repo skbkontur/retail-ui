@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { cx } from '../../lib/theming/Emotion';
@@ -12,8 +13,10 @@ import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 import { ModalDataTids } from './Modal';
+import { ModalLocaleHelper } from './locale';
 
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
+  const locale = useLocaleForControl('Modal', ModalLocaleHelper);
   const theme = useContext(ThemeContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
@@ -38,6 +41,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
       <ResponsiveLayout>
         {({ isMobile }) => (
           <button
+            aria-label={locale.closeButtonAriaLabel}
             className={cx({
               [styles.close(theme)]: true,
               [styles.mobileClose(theme)]: isMobile,

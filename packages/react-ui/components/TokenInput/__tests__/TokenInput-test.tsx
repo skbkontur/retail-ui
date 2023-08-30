@@ -293,31 +293,40 @@ describe('<TokenInput />', () => {
     expect(screen.getByText('bbb')).toBeInTheDocument();
   });
 
-  it('props aria-describedby applied correctly', () => {
-    render(
-      <div>
-        <TokenInput aria-describedby="elementId" getItems={getItems} type={TokenInputType.Combined} />
-        <p id="elementId">Description</p>
-      </div>,
-    );
-    const tokenInput = screen.getByRole('textbox');
-    expect(tokenInput).toHaveAttribute('aria-describedby', 'elementId');
-    expect(tokenInput).toHaveAccessibleDescription('Description');
-  });
+  describe('a11y', () => {
+    it('prop aria-describedby applied correctly', () => {
+      render(
+        <div>
+          <TokenInput aria-describedby="elementId" getItems={getItems} type={TokenInputType.Combined} />
+          <p id="elementId">Description</p>
+        </div>,
+      );
+      const tokenInput = screen.getByRole('textbox');
+      expect(tokenInput).toHaveAttribute('aria-describedby', 'elementId');
+      expect(tokenInput).toHaveAccessibleDescription('Description');
+    });
 
-  it('should connect input and dropdown through aria-controls', () => {
-    render(<TokenInputWithSelectedItem />);
+    it('should connect input and dropdown through aria-controls', () => {
+      render(<TokenInputWithSelectedItem />);
 
-    userEvent.click(screen.getByRole('textbox'));
+      userEvent.click(screen.getByRole('textbox'));
 
-    expect(screen.getByTestId(TokenInputDataTids.label)).toHaveAttribute(
-      'aria-controls',
-      expect.stringContaining(PopupIds.root),
-    );
-    expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toHaveAttribute(
-      'id',
-      expect.stringContaining(PopupIds.root),
-    );
+      expect(screen.getByTestId(TokenInputDataTids.label)).toHaveAttribute(
+        'aria-controls',
+        expect.stringContaining(PopupIds.root),
+      );
+      expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toHaveAttribute(
+        'id',
+        expect.stringContaining(PopupIds.root),
+      );
+    });
+
+    it('sets value for aria-label attribute on textarea', () => {
+      const ariaLabel = 'aria-label';
+      render(<TokenInput getItems={jest.fn()} aria-label={ariaLabel} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 });
 

@@ -4,8 +4,8 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { HTMLProps } from 'react-ui/typings/html';
 
+import { HTMLProps } from '../../../typings/html';
 import { InputDataTids } from '../../../components/Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
@@ -1273,6 +1273,15 @@ describe('ComboBox', () => {
           expect.stringContaining(ComboBoxViewIds.menu),
         );
       });
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<ComboBox getItems={jest.fn()} aria-label={ariaLabel} />);
+
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 

@@ -54,7 +54,7 @@ export enum TokenInputType {
 export type TokenInputMenuAlign = 'left' | 'cursor';
 export type TokenInputSize = 'small' | 'medium' | 'large';
 
-export interface TokenInputProps<T> extends CommonProps {
+export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   /**
    * Выбранные токены, которые будут отображаться в поле ввода
    */
@@ -169,11 +169,6 @@ export interface TokenInputProps<T> extends CommonProps {
    * Работает только когда тип инпута = `TokenInputType.Combined`
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
-
   /**
    * Функция для обработки ситуации, когда была введена
    * строка в инпут и был потерян фокус с компонента
@@ -473,6 +468,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       renderTotalCount,
       totalCount,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
     } = this.props;
 
     const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
@@ -561,6 +557,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               onKeyDown={this.handleKeyDown}
               onPaste={this.handleInputPaste}
               inputMode={inputMode}
+              aria-label={ariaLabel}
               aria-describedby={ariaDescribedby}
             />
             {showMenu && (

@@ -108,10 +108,10 @@ const theme = React.useContext(ThemeContext);
 ```typescript static
 interface CalendarLocale {
   months?: string[];
-  'select-month-aria-label'?: string;
-  'select-year-aria-label'?: string;
-  'select-chosen-aria-label'?: string;
-  'day-cell-choose-date-aria-label'?: string;
+  selectMonthAriaLabel?: string;
+  selectYearAriaLabel?: string;
+  selectChosenAriaLabel?: string;
+  dayCellChooseDateAriaLabel?: string;
 }
 
 const ru_RU = {
@@ -129,10 +129,10 @@ const ru_RU = {
     'Ноябрь',
     'Декабрь',
   ],
-  'select-month-aria-label': 'месяц',
-  'select-year-aria-label': 'год',
-  'select-chosen-aria-label': 'Выбранный',
-  'day-cell-choose-date-aria-label': 'Выбрать дату',
+  selectMonthAriaLabel: 'месяц',
+  selectYearAriaLabel: 'год',
+  selectChosenAriaLabel: 'Выбранный',
+  dayCellChooseDateAriaLabel: 'Выбрать дату',
 };
 
 const en_GB = {
@@ -150,9 +150,9 @@ const en_GB = {
     'November',
     'December',
   ],
-  'select-month-aria-label': 'месяц',
-  'select-year-aria-label': 'год',
-  'select-chosen-aria-label': 'Выбранный',
-  'day-cell-choose-date-aria-label': 'Выбрать дату',
+  selectMonthAriaLabel: 'месяц',
+  selectYearAriaLabel: 'год',
+  selectChosenAriaLabel: 'Выбранный',
+  dayCellChooseDateAriaLabel: 'Выбрать дату',
 };
 ```

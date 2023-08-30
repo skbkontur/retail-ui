@@ -378,4 +378,13 @@ describe('CurrencyInput', () => {
       expect(input).toHaveValue(expected);
     });
   });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<CurrencyInput aria-label={ariaLabel} onValueChange={jest.fn()} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
 });
