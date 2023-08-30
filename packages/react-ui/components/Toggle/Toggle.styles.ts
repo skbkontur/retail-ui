@@ -127,7 +127,7 @@ export const styles = memoizeStyle({
     return css`
       &:enabled {
         ~ .${globalClasses.container}, ~ .${globalClasses.handle} {
-          transition: 0.2s ease-in !important;
+          transition: 0.2s ease-in;
         }
         :not(:checked) {
           ~ .${globalClasses.container} {
