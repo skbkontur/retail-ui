@@ -867,11 +867,14 @@ export class DefaultTheme {
   public static calendarCellActiveHoverColor = 'white';
   public static calendarCellWeekendColor = '#cb3d35';
   public static calendarCellTodayBorder = '1px solid rgba(0, 0, 0, 0.32)';
+  public static calendarCellBorderRadius = '50%';
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
-  public static calendarCellSize = '32px';
+  public static calendarCellSize = '32px'; // deprecated
+  public static calendarCellHeight = '32px';
+  public static calendarCellWidth = '32px';
   public static get calendarCellLineHeight() {
-    return `calc(${this.calendarCellSize} - 2px)`;
+    return `calc(${this.calendarCellHeight} - 2px)`;
   }
   public static get calendarMonthHeaderStickedBgColor() {
     return this.bgSecondary;
