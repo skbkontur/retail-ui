@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { CalendarDateShape } from '../CalendarDateShape';
 import { Calendar } from '../Calendar';
 import { Story } from '../../../typings/stories';
 
@@ -18,4 +19,15 @@ CalendarWithBottomSeparator.parameters = {
       in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
     },
   },
+};
+
+const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
+  const isEven = (num: number): boolean => num % 2 === 0;
+  const backgroundColor = isEven(date.date) ? { backgroundColor: 'green' } : { backgroundColor: 'transparent' };
+
+  return <div style={{ borderRadius: '50%', ...backgroundColor }}>{date.date}</div>;
+};
+
+export const CalendarWithCustomDates: Story = () => {
+  return <Calendar value={'30.08.2023'} renderDay={(date) => <CustomDayItem date={date} />} />;
 };
