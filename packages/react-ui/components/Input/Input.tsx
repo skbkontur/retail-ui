@@ -17,6 +17,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { globalThat } from '../../lib/globalThat';
+import { isFunction } from '../../lib/utils';
 
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
@@ -235,7 +236,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = window.setTimeout(this.cancelBlink, 150);
+      this.blinkTimeout = setTimeout(this.cancelBlink, 150);
     });
   }
 
@@ -257,7 +258,7 @@ export class Input extends React.Component<InputProps, InputState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (document.activeElement !== this.input) {
+    if (globalThat.document.activeElement !== this.input) {
       this.focus();
     }
     if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
@@ -501,7 +502,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return null;
     }
     const { disabled } = this.props;
-    const iconNode = icon instanceof Function ? icon() : icon;
+    const iconNode = isFunction(icon) ? icon() : icon;
 
     return (
       <span

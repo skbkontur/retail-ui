@@ -12,6 +12,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/globalThat';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -313,7 +314,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed || keyListener.isArrowPressed) {
         this.setState({ focusedByKeyboard: true });
       }

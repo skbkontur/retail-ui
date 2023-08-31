@@ -20,6 +20,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ButtonSize } from '../Button';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -213,7 +214,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

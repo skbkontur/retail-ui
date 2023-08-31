@@ -13,6 +13,7 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -287,7 +288,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     if (!this.context.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame(() => {
         if (keyListener.isArrowPressed || keyListener.isTabPressed) {
           this.setState({ focusedByKeyboard: true });
         }

@@ -1,3 +1,4 @@
+import { isKeyboardEvent } from '../../../lib/globalThat';
 import { isMac } from '../../client';
 
 import { extractCode } from './extractCode';
@@ -11,7 +12,7 @@ type ISSome = (...is: IS[]) => IS;
 // IE 9+ supports char attribute
 // https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent
 const getChar = (e: E & { char?: string; nativeEvent?: { char?: string } }) =>
-  e instanceof KeyboardEvent ? e.char : e.nativeEvent?.char;
+  isKeyboardEvent(e) ? e.char : e.nativeEvent?.char;
 
 export const isShortcutCopy: IS = (e) =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||

@@ -15,6 +15,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -169,13 +170,13 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
 
-    document.addEventListener('keydown', this.handleShiftPress);
-    document.addEventListener('keyup', this.handleShiftRelease);
+    globalThat.document.addEventListener('keydown', this.handleShiftPress);
+    globalThat.document.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    document.removeEventListener('keydown', this.handleShiftPress);
-    document.removeEventListener('keyup', this.handleShiftRelease);
+    globalThat.document.removeEventListener('keydown', this.handleShiftPress);
+    globalThat.document.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   private setRootNode!: TSetRootNode;
@@ -354,7 +355,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

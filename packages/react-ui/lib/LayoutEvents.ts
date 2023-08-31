@@ -1,6 +1,8 @@
 import EventEmitter from 'eventemitter3';
 import { unstable_batchedUpdates } from 'react-dom';
 
+import { globalThat } from './globalThat';
+
 let emitterCache: EventEmitter;
 function getEmitter() {
   if (!emitterCache) {
@@ -10,13 +12,13 @@ function getEmitter() {
 }
 
 function listenBrowserEvents() {
-  window.addEventListener('scroll', emit, { capture: true });
-  window.addEventListener('resize', emit, { capture: true });
+  globalThat.addEventListener('scroll', emit, { capture: true });
+  globalThat.addEventListener('resize', emit, { capture: true });
 }
 
 function unlistenBrowserEvents() {
-  window.removeEventListener('scroll', emit, { capture: true });
-  window.removeEventListener('resize', emit, { capture: true });
+  globalThat.removeEventListener('scroll', emit, { capture: true });
+  globalThat.removeEventListener('resize', emit, { capture: true });
 }
 
 export function addListener(callback: () => void) {

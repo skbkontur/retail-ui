@@ -6,6 +6,7 @@ import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './DateFragmentsView.styles';
 
@@ -86,7 +87,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
       : length;
 
     const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
-      if (document.activeElement && document.activeElement.contains(e.currentTarget)) {
+      if (globalThat.document.activeElement?.contains(e.currentTarget)) {
         onSelectDateComponent(type, e);
       }
     };

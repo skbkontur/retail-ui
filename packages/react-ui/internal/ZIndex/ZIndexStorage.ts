@@ -1,4 +1,4 @@
-import { globalThat } from '../../lib/SSRSafe';
+import { globalThat } from '../../lib/globalThat';
 
 type Priority = number | LayerComponentName;
 const calculatePriority = (priority: Priority) => {

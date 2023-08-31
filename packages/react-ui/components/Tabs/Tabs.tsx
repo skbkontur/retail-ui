@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
+import { isHTMLElement } from '../../lib/globalThat';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -163,7 +164,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tabNode = tab.getNode();
     const htmlNode = getRootNode(tabNode);
 
-    if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
+    if (isHTMLElement(htmlNode) && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };

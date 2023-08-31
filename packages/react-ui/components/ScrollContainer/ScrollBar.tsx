@@ -6,6 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { isWheelEvent, globalThat } from '../../lib/globalThat';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -208,7 +209,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { offset, size, pos, coord } = scrollSizeParametersNames[this.props.axis];
 
     const initialCoord = event[coord];
-    const target: Document = window.document;
+    const target: Document = globalThat.document;
     const initialScrollPos = this.inner[pos];
     const state = this.state;
 
@@ -253,7 +254,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   };
 
   private handleScrollWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !(event instanceof WheelEvent) || (axis === 'x' && !event.shiftKey)) {
+    if (!this.inner || !isWheelEvent(event) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 

@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
+import { globalThat } from '../../lib/globalThat';
 
 import { Toast, Action, ToastDataTids } from './Toast';
 
 export class ToastStatic {
   public static push = (notification: string, action?: Nullable<Action>, showTime?: number) => {
     if (!ToastStatic.node) {
-      ToastStatic.node = document.createElement('div');
-      const { body } = document;
+      ToastStatic.node = globalThat.document.createElement('div');
+      const { body } = globalThat.document;
       if (!body) {
         throw Error('There is no "body" element in "document"');
       }

@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-constructor */
+import { globalThat } from '../../lib/globalThat';
 import { ColorFactory } from '../../lib/styles/ColorFactory';
 
 export class SpinnerFallbackAnimationRunner {
@@ -41,7 +42,7 @@ const rafInterval = (fn: () => void, delay: number) => {
       fn();
       lastcall = timestamp;
     }
-    rafId = requestAnimationFrame(interval);
+    rafId = globalThat.requestAnimationFrame(interval);
   };
   interval();
 

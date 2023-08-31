@@ -5,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { globalThat } from '../../lib/globalThat';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
@@ -45,7 +46,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   private createContainer() {
     if (canUseDOM) {
-      const domContainer = document.createElement('div');
+      const domContainer = globalThat.document.createElement('div');
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
       this.domContainer = domContainer;
@@ -56,14 +57,16 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (!this.domContainer) {
       this.createContainer();
     }
-    if (this.domContainer && this.domContainer.parentNode !== document.body) {
-      document.body.appendChild(this.domContainer);
+    if (this.domContainer && this.domContainer.parentNode !== globalThat.document.body) {
+      globalThat.document.body.appendChild(this.domContainer);
 
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
       }
-      if (window.ReactTesting) {
-        window.ReactTesting.addRenderContainer(this.rootId, this);
+      //@ts-expect-error error
+      if (globalThat.ReactTesting) {
+        //@ts-expect-error error
+        globalThat.ReactTesting.addRenderContainer(this.rootId, this);
       }
     }
   }
@@ -83,8 +86,10 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
-      if (window.ReactTesting) {
-        window.ReactTesting.removeRenderContainer(this.rootId);
+      //@ts-expect-error error
+      if (globalThat.ReactTesting) {
+        //@ts-expect-error error
+        globalThat.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
   }

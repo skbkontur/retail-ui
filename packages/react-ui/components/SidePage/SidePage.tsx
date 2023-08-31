@@ -18,6 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat, isMouseEvent } from '../../lib/globalThat';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -132,12 +133,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
+    globalThat.addEventListener('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    globalThat.removeEventListener('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
@@ -330,7 +331,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private handleClickOutside = (e: Event) => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
-      if (e instanceof MouseEvent && e.clientX > document.documentElement.clientWidth) {
+      if (isMouseEvent(e) && e.clientX > globalThat.document.documentElement.clientWidth) {
         return;
       }
       this.requestClose();

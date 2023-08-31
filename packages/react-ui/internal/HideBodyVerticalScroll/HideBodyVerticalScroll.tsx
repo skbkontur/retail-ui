@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css } from '../../lib/theming/Emotion';
+import { globalThat } from '../../lib/globalThat';
 
 let disposeDocumentStyle: (() => void) | null = null;
 
@@ -15,9 +16,9 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
       this.master = true;
-      this.initialScroll = document.documentElement ? document.documentElement.scrollTop : 0;
+      this.initialScroll = globalThat.document.documentElement ? globalThat.document.documentElement.scrollTop : 0;
       this.updateScrollVisibility();
-      window.addEventListener('resize', this.updateScrollVisibility);
+      globalThat.addEventListener('resize', this.updateScrollVisibility);
     }
   }
 
@@ -31,7 +32,7 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this.restoreStyles();
-      window.removeEventListener('resize', this.updateScrollVisibility);
+      globalThat.removeEventListener('resize', this.updateScrollVisibility);
     }
   }
 
@@ -40,7 +41,7 @@ export class HideBodyVerticalScroll extends React.Component {
   }
 
   private updateScrollVisibility = () => {
-    const { documentElement } = document;
+    const { documentElement } = globalThat.document;
     if (!documentElement) {
       return;
     }
@@ -52,8 +53,8 @@ export class HideBodyVerticalScroll extends React.Component {
 
   private hideScroll = (document: HTMLElement) => {
     const { clientHeight, scrollHeight } = document;
-    const documentComputedStyle = getComputedStyle(document);
-    const scrollbarConst = getComputedStyle(document).overflowY === 'scroll';
+    const documentComputedStyle = globalThat.getComputedStyle(document);
+    const scrollbarConst = globalThat.getComputedStyle(document).overflowY === 'scroll';
     const scrollWidth = clientHeight < scrollHeight || scrollbarConst ? getScrollWidth() : 0;
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
     const className = generateDocumentStyle(documentMargin + scrollWidth);
@@ -73,7 +74,7 @@ export class HideBodyVerticalScroll extends React.Component {
       disposeDocumentStyle();
       disposeDocumentStyle = null;
 
-      const { documentElement } = document;
+      const { documentElement } = globalThat.document;
 
       if (documentElement) {
         documentElement.scrollTop = this.initialScroll;
@@ -84,17 +85,22 @@ export class HideBodyVerticalScroll extends React.Component {
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const counter = window.RetailUIVerticalScrollCounter || 0;
-    return (window.RetailUIVerticalScrollCounter = counter + 1);
+    //@ts-expect-error error
+    const counter = globalThat.RetailUIVerticalScrollCounter || 0;
+    //@ts-expect-error error
+    return (globalThat.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
-    const counter = window.RetailUIVerticalScrollCounter || 0;
-    return (window.RetailUIVerticalScrollCounter = counter - 1);
+    //@ts-expect-error error
+    const counter = globalThat.RetailUIVerticalScrollCounter || 0;
+    //@ts-expect-error error
+    return (globalThat.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
-    return window.RetailUIVerticalScrollCounter || 0;
+    //@ts-expect-error error
+    return globalThat.RetailUIVerticalScrollCounter || 0;
   };
 }
 

@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { globalThat } from '../../lib/globalThat';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -206,7 +207,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

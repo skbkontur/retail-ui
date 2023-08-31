@@ -1,4 +1,4 @@
-import { globalThat } from '../SSRSafe';
+import { globalThat } from '../globalThat';
 
 interface ApiResponseType {
   ok: boolean;

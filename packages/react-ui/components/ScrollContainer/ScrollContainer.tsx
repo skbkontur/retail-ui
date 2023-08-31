@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isWheelEvent } from '../../lib/globalThat';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
@@ -310,7 +311,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleInnerScrollWheel = (event: Event) => {
-    if (!this.inner || !(event instanceof WheelEvent)) {
+    if (!this.inner || !isWheelEvent(event)) {
       return;
     }
 
