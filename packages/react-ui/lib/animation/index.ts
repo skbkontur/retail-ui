@@ -1,4 +1,4 @@
-import requestAnimationFrame, { cancel as cancelAnimationFrame } from 'raf';
+import { globalThat } from '../globalThat';
 
 import { stepper } from './stepper';
 
@@ -31,7 +31,7 @@ export const animation = () => {
   }
 
   function cancel() {
-    cancelAnimationFrame(rafId);
+    globalThat.cancelAnimationFrame(rafId);
     reset();
   }
 
@@ -61,7 +61,7 @@ export const animation = () => {
       currentPosition = nextPosition;
       currentVelocity = nextVelocity;
 
-      rafId = requestAnimationFrame(animateInternal);
+      rafId = globalThat.requestAnimationFrame(animateInternal);
     };
 
     if (!inProgress()) {

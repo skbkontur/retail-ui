@@ -3,7 +3,6 @@
 import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
-import raf from 'raf';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
@@ -19,6 +18,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/globalThat';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -346,11 +346,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private delaySelectAll = (): number => (this.selectAllId = raf(this.selectAll));
+  private delaySelectAll = (): number => (this.selectAllId = globalThat.requestAnimationFrame(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      raf.cancel(this.selectAllId);
+      globalThat.cancelAnimationFrame(this.selectAllId);
       this.selectAllId = null;
     }
   };

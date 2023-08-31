@@ -1,7 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
-import raf from 'raf';
 import warning from 'warning';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
@@ -14,7 +13,8 @@ import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } 
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { globalThat, isElement } from '../../lib/globalThat';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -563,7 +563,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private cancelDelayedUpdateLocation() {
     if (this.locationUpdateId) {
-      raf.cancel(this.locationUpdateId);
+      globalThat.cancelAnimationFrame(this.locationUpdateId);
       this.locationUpdateId = null;
     }
   }
