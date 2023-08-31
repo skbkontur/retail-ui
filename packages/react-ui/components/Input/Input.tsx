@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
 import React, { AriaAttributes, HTMLAttributes } from 'react';
-import raf from 'raf';
 import warning from 'warning';
 
 import { isEdge, isIE11 } from '../../lib/client';
@@ -17,6 +16,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
@@ -305,11 +305,11 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): number => (this.selectAllId = raf(this.selectAll));
+  private delaySelectAll = (): number => (this.selectAllId = globalThat.requestAnimationFrame(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      raf.cancel(this.selectAllId);
+      globalThat.cancelAnimationFrame(this.selectAllId);
       this.selectAllId = null;
     }
   };
