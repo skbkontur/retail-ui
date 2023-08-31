@@ -1,4 +1,5 @@
 import React from 'react';
+import MagicWand from '@skbkontur/react-icons/MagicWand';
 
 import { CalendarDateShape } from '../CalendarDateShape';
 import { Calendar } from '../Calendar';
@@ -23,9 +24,8 @@ CalendarWithBottomSeparator.parameters = {
 
 const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
   const isEven = (num: number): boolean => num % 2 === 0;
-  const backgroundColor = isEven(date.date) ? { backgroundColor: 'green' } : { backgroundColor: 'transparent' };
 
-  return <div style={{ borderRadius: '50%', ...backgroundColor }}>{date.date}</div>;
+  return <div>{isEven(date.date) ? <MagicWand /> : date.date}</div>;
 };
 
 export const CalendarWithCustomDates: Story = () => {
