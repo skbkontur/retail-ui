@@ -6,6 +6,9 @@ let canModifySpecificityLevel = true;
 let specificityClassName = 'react-ui';
 let canModifySpecificityClassName = true;
 
+let _window: Window | undefined;
+let canModifyWindow = true;
+
 //TODO Delete Upgrade in major release if it still doesn't work (https://tech.skbkontur.ru/react-ui/#/Migration)
 export const Upgrade = {
   getSpecificityLevel() {
@@ -32,6 +35,17 @@ export const Upgrade = {
       specificityClassName = className;
     } else {
       warning(false, `specificityClassName=${specificityClassName} уже использован`);
+    }
+  },
+  getWindow() {
+    canModifyWindow = false;
+    return _window;
+  },
+  setWindow(win: Window) {
+    if (canModifyWindow) {
+      _window = win;
+    } else {
+      warning(false, `window уже использован и не может быть переопределен`);
     }
   },
 };

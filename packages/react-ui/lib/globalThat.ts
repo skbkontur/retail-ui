@@ -1,6 +1,8 @@
 import { isBrowser } from './client';
+import { Upgrade } from './Upgrades';
 
 export const globalThat: typeof globalThis =
+  Upgrade.getWindow() ||
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
   (typeof window === 'object' && window) ||
