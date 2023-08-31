@@ -274,6 +274,28 @@ class DatePickerFormatting extends React.Component {
 <DatePickerFormatting />;
 ```
 
+### Кастомизирование отображения даты
+
+```jsx harmony
+import MagicWand from '@skbkontur/react-icons/MagicWand';
+
+const [value, setValue] = React.useState();
+
+const CustomDayItem = ({ date }) => {
+  const isEven = (num) => num % 2 === 0;
+
+  return (
+    <div>
+      {isEven(date.date) ? <MagicWand /> : date.date}
+    </div>
+  );
+};
+
+const renderDay = (date) =>  <CustomDayItem date={date} />;
+
+<DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
+```
+
 #### Локали по умолчанию
 
 ```typescript static
@@ -338,26 +360,4 @@ const en_GB = {
   selectChosenAriaLabel: 'Chosen',
   dayCellChooseDateAriaLabel: 'Choose date',
 };
-```
-
-### Кастомизирование отображения даты
-
-```jsx harmony
-import MagicWand from '@skbkontur/react-icons/MagicWand';
-
-const [value, setValue] = React.useState();
-
-const CustomDayItem = ({ date }) => {
-  const isEven = (num) => num % 2 === 0;
-
-  return (
-    <div>
-      {isEven(date.date) ? <MagicWand /> : date.date}
-    </div>
-  );
-};
-
-const renderDay = (date) =>  <CustomDayItem date={date} />;
-
-<DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```
