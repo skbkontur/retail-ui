@@ -1,4 +1,4 @@
-import { globalThat } from '../../../lib/SSRSafe';
+import { globalThat } from '../../../lib/globalThat';
 import { incrementZIndex, removeZIndex } from '../ZIndexStorage';
 
 const setZIndexes = (indexes: number[]) => (globalThat.__RetailUiZIndexes = indexes);

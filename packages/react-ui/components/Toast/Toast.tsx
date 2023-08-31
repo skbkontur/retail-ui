@@ -59,7 +59,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   }
 
   public _toast: Nullable<ToastView>;
-  private _timeout: Nullable<number> = null;
+  private _timeout: Nullable<NodeJS.Timeout> = null;
   private rootRef = React.createRef<HTMLElement>();
 
   constructor(props: ToastProps) {
@@ -172,8 +172,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     let showTime = this.state.action ? 7000 : 3000;
     showTime = this.state.showTime ?? showTime;
-
-    this._timeout = window.setTimeout(this.close, showTime);
+    this._timeout = setTimeout(this.close, showTime);
   };
 
   private _refToast = (element: ToastView) => {

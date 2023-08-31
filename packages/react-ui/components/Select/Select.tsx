@@ -32,6 +32,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { globalThat } from '../../lib/globalThat';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -224,10 +225,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      window.addEventListener('popstate', this.close);
+      globalThat.addEventListener('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      window.removeEventListener('popstate', this.close);
+      globalThat.removeEventListener('popstate', this.close);
     }
   }
 

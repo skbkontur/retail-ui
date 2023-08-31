@@ -3,6 +3,7 @@ import extraScopePlugin from 'stylis-plugin-extra-scope';
 
 import { Upgrade } from '../Upgrades';
 import { AnyObject, FunctionWithParams } from '../utils';
+import { globalThat } from '../globalThat';
 
 import { Theme } from './Theme';
 
@@ -15,6 +16,7 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
     key: REACT_UI_PREFIX,
     prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
+    container: globalThat.document?.head,
   });
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {

@@ -1,3 +1,4 @@
+import { globalThat } from '../../lib/globalThat';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { PopupPositionsType } from './Popup';
@@ -79,8 +80,8 @@ function _getWindowRelativeRect(): Rect {
   return {
     top: 0,
     left: 0,
-    width: _getViewProperty((x) => x.clientWidth) || window.innerWidth,
-    height: _getViewProperty((x) => x.clientHeight) || window.innerHeight,
+    width: _getViewProperty((x) => x.clientWidth) || globalThat.innerWidth,
+    height: _getViewProperty((x) => x.clientHeight) || globalThat.innerHeight,
   };
 }
 
@@ -96,8 +97,8 @@ function convertRectToAbsolute(rect: Rect): Rect {
 }
 
 function _getAbsoluteOffset(): Offset {
-  const scrollTop = window.pageYOffset || _getViewProperty((x) => x.scrollTop);
-  const scrollLeft = window.pageXOffset || _getViewProperty((x) => x.scrollLeft);
+  const scrollTop = globalThat.pageYOffset || _getViewProperty((x) => x.scrollTop);
+  const scrollLeft = globalThat.pageXOffset || _getViewProperty((x) => x.scrollLeft);
 
   const clientTop = _getViewProperty((x) => x.clientTop);
   const clientLeft = _getViewProperty((x) => x.clientLeft);
@@ -121,7 +122,7 @@ function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
 }
 
 function _getViewProperty(getProperty: (e: Element) => number): number {
-  const views = [document.documentElement, document.body];
+  const views = [globalThat.document.documentElement, globalThat.document.body];
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
 }
 

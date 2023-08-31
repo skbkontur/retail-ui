@@ -19,6 +19,7 @@ import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { isElement } from '../../lib/globalThat';
 
 import { styles } from './Tooltip.styles';
 
@@ -195,7 +196,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
-  private hoverTimeout: Nullable<number> = null;
+  private hoverTimeout: Nullable<NodeJS.Timeout> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
@@ -495,8 +496,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-
-    this.hoverTimeout = window.setTimeout(this.open, Tooltip.delay);
+    this.hoverTimeout = setTimeout(this.open, Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -513,7 +513,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = window.setTimeout(this.close, Tooltip.delay);
+      this.hoverTimeout = setTimeout(this.close, Tooltip.delay);
     }
   };
 
@@ -532,7 +532,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && event.target instanceof Element) {
+    if (this.contentElement && isElement(event.target)) {
       return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 

@@ -11,6 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -77,13 +78,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   public componentDidMount = () => {
-    window.addEventListener('scroll', this.update, true);
+    globalThat.addEventListener('scroll', this.update, true);
     this.context.setHasHeader?.();
     this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
-    window.removeEventListener('scroll', this.update, true);
+    globalThat.removeEventListener('scroll', this.update, true);
     this.context.setHasHeader?.(false);
     this.context.headerRef(null);
   };

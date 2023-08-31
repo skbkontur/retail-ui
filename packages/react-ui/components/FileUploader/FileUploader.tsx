@@ -21,6 +21,7 @@ import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { globalThat } from '../../lib/globalThat';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -204,7 +205,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
 
   if (isBrowser) {
-    windowRef.current = window.document;
+    windowRef.current = globalThat.document;
   }
 
   const focus = useCallback(() => {
@@ -233,7 +234,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     if (!disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame(() => {
         if (keyListener.isTabPressed) {
           setFocusedByTab(true);
         }

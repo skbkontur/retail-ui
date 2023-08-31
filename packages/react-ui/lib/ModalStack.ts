@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3';
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
 
-import { globalThat } from './SSRSafe';
+import { globalThat } from './globalThat';
 
 interface StackInfo {
   emitter: EventEmitter;

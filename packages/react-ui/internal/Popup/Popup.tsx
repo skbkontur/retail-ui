@@ -558,7 +558,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private delayUpdateLocation() {
     this.cancelDelayedUpdateLocation();
-    this.locationUpdateId = raf(this.updateLocation);
+    this.locationUpdateId = globalThat.requestAnimationFrame(this.updateLocation);
   }
 
   private cancelDelayedUpdateLocation() {

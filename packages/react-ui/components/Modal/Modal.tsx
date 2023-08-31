@@ -18,6 +18,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { globalThat } from '../../lib/globalThat';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -132,11 +133,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      window.addEventListener('resize', this.throttledCheckHorizontalScroll);
+      globalThat.addEventListener('resize', this.throttledCheckHorizontalScroll);
     }
 
     mountedModalsCount++;
-    window.addEventListener('keydown', this.handleKeyDown);
+    globalThat.addEventListener('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
     if (this.containerNode) {
@@ -146,11 +147,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      window.removeEventListener('resize', this.throttledCheckHorizontalScroll);
+      globalThat.removeEventListener('resize', this.throttledCheckHorizontalScroll);
       LayoutEvents.emit();
     }
 
-    window.removeEventListener('keydown', this.handleKeyDown);
+    globalThat.removeEventListener('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }

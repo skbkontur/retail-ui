@@ -112,7 +112,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     position: DUMMY_LOCATION.position,
   };
 
-  private timer: Nullable<number> = null;
+  private timer: Nullable<NodeJS.Timeout> = null;
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
@@ -217,7 +217,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseEnter = (e: MouseEventType) => {
     if (!this.getProps().manual && !this.timer) {
-      this.timer = window.setTimeout(this.open, 400);
+      this.timer = setTimeout(this.open, 400);
     }
 
     if (this.props.onMouseEnter) {

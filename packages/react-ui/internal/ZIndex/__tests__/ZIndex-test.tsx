@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { ZIndex } from '../ZIndex';
-import { globalThat } from '../../../lib/SSRSafe';
+import { globalThat } from '../../../lib/globalThat';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {

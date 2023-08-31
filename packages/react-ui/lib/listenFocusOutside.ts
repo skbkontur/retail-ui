@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import { isBrowser, isFirefox } from './client';
+import { globalThat, isElement } from './globalThat';
 
 interface FocusOutsideEventHandler {
   elements: Element[] | (() => Element[]);
@@ -19,7 +20,7 @@ function addHandleEvent() {
    * Mozilla Firefix
    *   ¯\_(ツ)_/¯
    */
-  document.body.addEventListener(
+  globalThat.document.body.addEventListener(
     isFirefox ? 'focus' : ('focusin' as 'focus'),
     isFirefox ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
     { capture: true },
@@ -27,10 +28,10 @@ function addHandleEvent() {
 }
 
 if (isBrowser) {
-  if (document.readyState === 'complete') {
+  if (globalThat.document.readyState === 'complete') {
     addHandleEvent();
   } else {
-    window.addEventListener('load', addHandleEvent);
+    globalThat.addEventListener('load', addHandleEvent);
   }
 }
 
@@ -73,16 +74,16 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     !currentNode ||
     node === rootNode ||
     currentNode === rootNode ||
-    currentNode === document.body ||
-    currentNode === document.documentElement ||
-    !(currentNode instanceof Element)
+    currentNode === globalThat.document.body ||
+    currentNode === globalThat.document.documentElement ||
+    !isElement(currentNode)
   ) {
     return container ? container : null;
   }
 
   const newContainerId = currentNode.getAttribute('data-rendered-container-id');
   if (newContainerId) {
-    const nextNode = document.querySelector(`[data-render-container-id~="${newContainerId}"]`);
+    const nextNode = globalThat.document.querySelector(`[data-render-container-id~="${newContainerId}"]`);
 
     if (!nextNode) {
       throw Error(`Origin node for render container was not found`);

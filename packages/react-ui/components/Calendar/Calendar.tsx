@@ -15,6 +15,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTouchEvent, isWheelEvent } from '../../lib/globalThat';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
@@ -106,7 +107,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
-  private wheelEndTimeout: Nullable<number>;
+  private wheelEndTimeout: Nullable<NodeJS.Timeout>;
   private root: Nullable<HTMLElement>;
   private animation = animation();
   private touchStartY: Nullable<number> = null;
@@ -395,7 +396,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 
@@ -404,7 +405,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 
@@ -419,7 +420,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
-    if (!(event instanceof WheelEvent)) {
+    if (!isWheelEvent(event)) {
       return;
     }
     event.preventDefault();
@@ -432,7 +433,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.wheelEndTimeout) {
       clearTimeout(this.wheelEndTimeout);
     }
-    this.wheelEndTimeout = window.setTimeout(this.scrollToNearestWeek, 300);
+    this.wheelEndTimeout = setTimeout(this.scrollToNearestWeek, 300);
   };
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;

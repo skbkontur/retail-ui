@@ -5,6 +5,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat, isElement } from '../../lib/globalThat';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -84,9 +85,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     }
 
     this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
-    window.addEventListener('blur', this.handleFocusOutside);
-    document.addEventListener(
-      'ontouchstart' in document.documentElement && 'onpointerup' in document.documentElement
+    globalThat.addEventListener('blur', this.handleFocusOutside);
+    globalThat.document.addEventListener(
+      'ontouchstart' in globalThat.document.documentElement && 'onpointerup' in globalThat.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -99,9 +100,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    window.removeEventListener('blur', this.handleFocusOutside);
-    document.removeEventListener(
-      'ontouchstart' in document.documentElement && 'onpointerup' in document.documentElement
+    globalThat.removeEventListener('blur', this.handleFocusOutside);
+    globalThat.document.removeEventListener(
+      'ontouchstart' in globalThat.document.documentElement && 'onpointerup' in globalThat.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -118,7 +119,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (target instanceof Element && containsTargetOrRenderContainer(target)(node))) {
+    if (!node || (isElement(target) && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 

@@ -20,6 +20,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
+import { globalThat, isTouchEvent, isWheelEvent } from '../../lib/globalThat';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -115,8 +116,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private timeout: NodeJS.Timeout | undefined;
-  private longClickTimer = 0;
-  private setPositionRepeatTimer = 0;
+  private longClickTimer: NodeJS.Timeout | undefined;
+  private setPositionRepeatTimer: NodeJS.Timeout | undefined;
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
 
@@ -127,7 +128,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   public componentDidMount() {
     this.listener = LayoutEvents.addListener(this.setNodeTop);
     this.setNodeTop();
-    window.addEventListener('keydown', this.handleKey);
+    globalThat.addEventListener('keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
@@ -143,7 +144,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     if (this.setPositionRepeatTimer) {
       clearTimeout(this.setPositionRepeatTimer);
     }
-    window.removeEventListener('keydown', this.handleKey);
+    globalThat.removeEventListener('keydown', this.handleKey);
   }
 
   /**
@@ -439,27 +440,31 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = window.setTimeout(() => {
-      this.setPositionRepeatTimer = window.setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
+    this.longClickTimer = setTimeout(() => {
+      this.setPositionRepeatTimer = setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
     }, 200);
   };
 
   private handleLongClickDown = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = window.setTimeout(() => {
-      this.setPositionRepeatTimer = window.setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
+    this.longClickTimer = setTimeout(() => {
+      this.setPositionRepeatTimer = setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
     }, 200);
   };
 
   private handleLongClickStop = () => {
-    clearTimeout(this.longClickTimer);
-    clearTimeout(this.setPositionRepeatTimer);
+    if (this.longClickTimer) {
+      clearTimeout(this.longClickTimer);
+    }
+    if (this.setPositionRepeatTimer) {
+      clearTimeout(this.setPositionRepeatTimer);
+    }
   };
 
   private getAnchor = () => this.root;
 
   private handleWheel = (event: Event) => {
-    if (!(event instanceof WheelEvent)) {
+    if (!isWheelEvent(event)) {
       return;
     }
     event.preventDefault();
@@ -476,7 +481,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 
@@ -484,7 +489,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 

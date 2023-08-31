@@ -46,7 +46,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private subscription: { remove: () => void } | null = null;
   private rootElement: HTMLElement | null = null;
   private readonly debounceTimeout = 500;
-  private debounceInterval: number | undefined = undefined;
+  private debounceInterval: NodeJS.Timeout | undefined = undefined;
 
   public render() {
     const { variable, theme, baseVariables } = this.props;
@@ -177,7 +177,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     });
 
     if (this.debounceInterval === undefined) {
-      this.debounceInterval = window.setInterval(this.debounceHandler, this.debounceTimeout);
+      this.debounceInterval = setInterval(this.debounceHandler, this.debounceTimeout);
     }
   };
 
@@ -185,8 +185,11 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     const { variable, onChange } = this.props;
 
     onChange(variable as keyof Theme, this.state.value);
-    clearInterval(this.debounceInterval);
-    this.debounceInterval = undefined;
+
+    if (this.debounceInterval) {
+      clearInterval(this.debounceInterval);
+      this.debounceInterval = undefined;
+    }
   };
 
   private handleBlur = () => {

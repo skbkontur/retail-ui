@@ -10,6 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './MenuItem.styles';
 
@@ -153,7 +154,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public componentDidMount() {
     if (this.rootRef) {
-      this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
+      this.setState({ iconOffsetTop: globalThat.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
   }
 

@@ -1,3 +1,4 @@
+import { globalThat } from '../globalThat';
 import { isBrowser } from '../client';
 
 import { isKeyArrow, isKeyTab } from './keyboard/identifiers';
@@ -7,11 +8,11 @@ class KeyListener {
   public isArrowPressed = false;
   constructor() {
     if (isBrowser) {
-      window.addEventListener('keydown', (e) => {
+      globalThat.addEventListener('keydown', (e) => {
         this.isTabPressed = isKeyTab(e);
         this.isArrowPressed = isKeyArrow(e);
       });
-      window.addEventListener('mousedown', () => {
+      globalThat.addEventListener('mousedown', () => {
         this.isTabPressed = false;
         this.isArrowPressed = false;
       });

@@ -31,7 +31,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
     groups: [],
     isLoading: true,
   };
-  private updateTimeout?: number;
+  private updateTimeout?: NodeJS.Timeout;
 
   public render() {
     return this.state.isLoading ? (
@@ -44,13 +44,15 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
   }
 
   public componentDidMount() {
-    this.updateTimeout = window.setTimeout(() => {
+    this.updateTimeout = setTimeout(() => {
       this.setState({ groups: VARIABLES_GROUPS, isLoading: false });
     }, 500);
   }
 
   public componentWillUnmount(): void {
-    clearTimeout(this.updateTimeout);
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
   }
 
   private renderGroups = () => {

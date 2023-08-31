@@ -5,6 +5,7 @@ import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageLocaleHelper } from './locale';
@@ -19,7 +20,7 @@ export const SidePageCloseButton = () => {
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         setIsFocusedByTab(true);
       }

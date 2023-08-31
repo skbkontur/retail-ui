@@ -15,6 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { globalThat, isElement } from '../../lib/globalThat';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -332,7 +333,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const isArrowRight = isKeyArrowRight(e);
 
     if (
-      target instanceof Element &&
+      isElement(target) &&
       (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;
@@ -372,7 +373,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
@@ -472,13 +473,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    document.addEventListener('keydown', this.handleKeyDown);
+    globalThat.document.addEventListener('keydown', this.handleKeyDown);
     this.addedGlobalListener = true;
   };
 
   private removeGlobalListener = () => {
     if (this.addedGlobalListener) {
-      document.removeEventListener('keydown', this.handleKeyDown);
+      globalThat.document.removeEventListener('keydown', this.handleKeyDown);
 
       this.addedGlobalListener = false;
     }

@@ -1,5 +1,5 @@
 export const isBrowser = typeof window !== 'undefined';
-export const canUseDOM = isBrowser && window.document && window.document.createElement;
+export const canUseDOM = Boolean(isBrowser && document && document.createElement);
 
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
 const platform = ((isBrowser && navigator && navigator.platform) || '').toLowerCase();
@@ -18,6 +18,6 @@ export const isIE11 = userAgent.includes('trident/');
 
 export const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) &&
-  'ontouchstart' in window.document.documentElement;
+  'ontouchstart' in document.documentElement;
 
 export const isIOS = /(ip[ao]d|iphone)/gi.test(userAgent);

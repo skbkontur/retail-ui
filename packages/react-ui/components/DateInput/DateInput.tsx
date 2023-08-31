@@ -14,6 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { globalThat } from '../../lib/globalThat';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -309,7 +310,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    const selection = getSelection();
+    const selection = globalThat.getSelection();
     if (
       selection &&
       selection.toString().length === LENGTH_FULLDATE &&

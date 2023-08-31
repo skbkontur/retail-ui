@@ -9,6 +9,7 @@ import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
+import { globalThat } from '../../lib/globalThat';
 
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -23,7 +24,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
   const handleFocus = () => {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         setFocusedByTab(true);
       }

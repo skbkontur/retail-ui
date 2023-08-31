@@ -330,7 +330,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (document.activeElement !== this.node) {
+    if (globalThat.document.activeElement !== this.node) {
       this.focus();
     }
 

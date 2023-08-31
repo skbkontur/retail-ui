@@ -17,6 +17,7 @@ import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './Loader.styles';
 
@@ -309,8 +310,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       width: containerWidth,
     } = getDOMRect(this.spinnerContainerNode);
 
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+    const windowHeight = globalThat.innerHeight;
+    const windowWidth = globalThat.innerWidth;
 
     // Если контейнер не больше высоты и не шире окна,
     // то просто выравниваем по центру
@@ -391,7 +392,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private enableChildrenFocus = () => {
     this.makeUnobservable();
     // NOTE: NodeList doesn't support 'forEach' method in IE11 and other older browsers
-    Array.from(document.querySelectorAll('[origin-tabindex]')).forEach((el) => {
+    Array.from(globalThat.document.querySelectorAll('[origin-tabindex]')).forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
