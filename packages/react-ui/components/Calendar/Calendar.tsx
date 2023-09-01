@@ -498,7 +498,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   };
 
-  private handleMouseLeaveDay = (_date: CalendarDateShape) => {
+  private handleMouseLeaveDay = () => {
     if (this.state.hoveredDate) {
       this.setState((prev) => ({ ...prev, hoveredDate: undefined }));
     }

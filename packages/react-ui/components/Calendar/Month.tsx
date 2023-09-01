@@ -271,11 +271,11 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
       return true;
     }
     if (minPeriodDate && !maxPeriodDate) {
-      return Boolean(CDS.isLessOrEqual(date, minPeriodDate)) && !Boolean(CDS.isEqual(minPeriodDate, date));
+      return Boolean(CDS.isLessOrEqual(date, minPeriodDate)) && !CDS.isEqual(minPeriodDate, date);
     }
 
     if (!minPeriodDate && maxPeriodDate) {
-      return Boolean(CDS.isLessOrEqual(maxPeriodDate, date)) && !Boolean(CDS.isEqual(maxPeriodDate, date));
+      return Boolean(CDS.isLessOrEqual(maxPeriodDate, date)) && !CDS.isEqual(maxPeriodDate, date);
     }
     return false;
   };

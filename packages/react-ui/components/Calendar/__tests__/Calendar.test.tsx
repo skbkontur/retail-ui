@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -274,7 +274,7 @@ describe('Calendar', () => {
       fireEvent.click(button);
 
       expect(screen.getByText(/Август/i)).toBeInTheDocument();
-      expect(periodEndDate).toEqual('30.08.2022');
+      expect(periodEndDate).toBe('30.08.2022');
     });
 
     it('should set periodStartDate', () => {
@@ -299,7 +299,7 @@ describe('Calendar', () => {
       fireEvent.click(button);
 
       expect(screen.getByText(/Август/i)).toBeInTheDocument();
-      expect(periodStartDate).toEqual('20.08.2022');
+      expect(periodStartDate).toBe('20.08.2022');
     });
 
     it('should change periodStartDate', () => {
@@ -324,7 +324,7 @@ describe('Calendar', () => {
       fireEvent.click(button);
 
       expect(screen.getByText(/Август/i)).toBeInTheDocument();
-      expect(periodStartDate).toEqual('21.08.2022');
+      expect(periodStartDate).toBe('21.08.2022');
     });
 
     it('should change periodEndDate', () => {
@@ -349,7 +349,7 @@ describe('Calendar', () => {
       fireEvent.click(button);
 
       expect(screen.getByText(/Август/i)).toBeInTheDocument();
-      expect(periodEndDate).toEqual('31.08.2022');
+      expect(periodEndDate).toBe('31.08.2022');
     });
 
     it('the days to the right should be blocked', () => {
@@ -371,7 +371,7 @@ describe('Calendar', () => {
       fireEvent.click(freeDayButton);
       fireEvent.click(blockedDayButton);
 
-      expect(value).toEqual('20.08.2023');
+      expect(value).toBe('20.08.2023');
 
       expect(screen.getByText(/Август/i)).toBeInTheDocument();
     });
@@ -397,7 +397,7 @@ describe('Calendar', () => {
       fireEvent.click(freeDayButton);
       fireEvent.click(blockedDayButton);
 
-      expect(value).toEqual('20.08.2023');
+      expect(value).toBe('20.08.2023');
       expect(screen.getByText(/Август/i)).toBeInTheDocument();
     });
   });

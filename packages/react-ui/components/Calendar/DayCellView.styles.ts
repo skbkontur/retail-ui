@@ -63,14 +63,14 @@ export const styles = memoizeStyle({
     `;
   },
 
-  periodStart(t: Theme) {
+  periodStart() {
     return css`
       border-top-left-radius: 50%;
       border-bottom-left-radius: 50%;
     `;
   },
 
-  periodEnd(t: Theme) {
+  periodEnd() {
     return css`
       border-top-right-radius: 50%;
       border-bottom-right-radius: 50%;

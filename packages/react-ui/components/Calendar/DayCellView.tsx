@@ -28,7 +28,7 @@ interface DayCellViewProps {
   onMouseLeave?: (hoveredDate: CDS.CalendarDateShape) => void;
 }
 
-export const DayCellView: React.FC<DayCellViewProps> = React.memo((props) => {
+export function DayCellView(props: DayCellViewProps) {
   const {
     date,
     periodStartDate,
@@ -71,8 +71,8 @@ export const DayCellView: React.FC<DayCellViewProps> = React.memo((props) => {
         [styles.cell(theme)]: true,
         [styles.weekend(theme)]: Boolean(isWeekend),
         [styles.period(theme)]: isDayInSelectedPeriod,
-        [styles.periodStart(theme)]: isPeriodStart,
-        [styles.periodEnd(theme)]: isPeriodEnd,
+        [styles.periodStart()]: isPeriodStart,
+        [styles.periodEnd()]: isPeriodEnd,
       })}
       onClick={handleClick}
       onMouseEnter={() => onMouseEnter?.(date)}
@@ -91,4 +91,4 @@ export const DayCellView: React.FC<DayCellViewProps> = React.memo((props) => {
       </div>
     </button>
   );
-});
+}
