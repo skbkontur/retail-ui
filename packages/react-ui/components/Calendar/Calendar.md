@@ -82,6 +82,79 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
+В календаре можно задать период
+```jsx harmony
+const [min, setMin] = React.useState('05.08.2023');
+const [max, setMax] = React.useState('30.08.2023');
+const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2023');
+const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2023');
+const [focus, setFocus] = React.useState('periodStartDate');
+
+const getFocusStyle = (type) => focus === type ? { background: '#80A6FF' } : {};
+
+const periodClearing = () => {
+  setFocus('periodStartDate');
+  setPeriodStartDate('');
+  setPeriodEndDate('');
+};
+
+const onValueChange = (date) => {
+  if (focus === 'periodEndDate') {
+    setPeriodEndDate(date);
+    setFocus('periodStartDate');
+  }
+  if (focus === 'periodStartDate') {
+    setPeriodStartDate(date);
+    setFocus('periodEndDate');
+  }
+}
+
+<div style={{ display: 'flex'}}>
+  <Calendar
+    value={periodStartDate || periodEndDate}
+    periodStartDate={periodStartDate}
+    periodEndDate={periodEndDate}
+    minDate={min}
+    maxDate={max}
+    onValueChange={onValueChange}
+  />
+  <div style={{ display: 'flex', flexDirection: 'column'}}> 
+    <label>
+      Свободные дни с: <input type="text" value={min} onChange={(e) => setMin(e.target.value)} />
+    </label>
+    <label>
+      Свободные дни до: <input type="text" value={max} onChange={(e) => setMax(e.target.value)} />
+    </label>
+    <br />
+    <label>
+      Начало периода:
+      <input
+        type="text"
+        style={getFocusStyle('periodStartDate')}
+        onFocus={() => setFocus('periodStartDate')}
+        value={periodStartDate}
+        onChange={(e) => {
+          setPeriodStartDate(e.target.value);
+        }}
+      />
+    </label>
+    <label>
+      Окончание периода:
+      <input
+        type="text"
+        onFocus={() => setFocus('periodEndDate')}
+        style={getFocusStyle('periodEndDate')}
+        value={periodEndDate}
+        onChange={(e) => setPeriodEndDate(e.target.value)}
+      />
+    </label>
+    <br />
+    <button data-tid="period_clearing" onClick={periodClearing} style={{width: 250}}>
+      Очистить период
+    </button>
+  </div>
+</div>
+```
 
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
 - Базовая высота календаря - `330px`

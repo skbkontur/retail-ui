@@ -13,16 +13,38 @@ import { CalendarDataTids } from './Calendar';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
-  today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
-  minDate?: CDS.CalendarDateShape;
-  maxDate?: CDS.CalendarDateShape;
-  onDateClick?: (day: CDS.CalendarDateShape) => void;
+  periodStartDate?: CDS.CalendarDateShape;
+  periodEndDate?: CDS.CalendarDateShape;
+  hoveredDate?: CDS.CalendarDateShape;
   isWeekend?: boolean;
+  isToday?: boolean;
+  isDayInSelectedPeriod?: boolean;
+  isPeriodStart?: boolean;
+  isPeriodEnd?: boolean;
+  isDisabled?: boolean;
+  onDateClick?: (day: CDS.CalendarDateShape) => void;
+  onMouseEnter?: (hoveredDate: CDS.CalendarDateShape) => void;
+  onMouseLeave?: (hoveredDate: CDS.CalendarDateShape) => void;
 }
 
-export function DayCellView(props: DayCellViewProps) {
-  const { date, minDate, maxDate, today, value, isWeekend, onDateClick } = props;
+export const DayCellView: React.FC<DayCellViewProps> = React.memo((props) => {
+  const {
+    date,
+    periodStartDate,
+    periodEndDate,
+    value,
+    isWeekend,
+    hoveredDate,
+    isDisabled,
+    isToday,
+    isPeriodStart,
+    isPeriodEnd,
+    isDayInSelectedPeriod,
+    onDateClick,
+    onMouseEnter,
+    onMouseLeave,
+  } = props;
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
 
@@ -37,8 +59,6 @@ export function DayCellView(props: DayCellViewProps) {
     date.date
   );
 
-  const isToday = Boolean(today && CDS.isEqual(date, today));
-
   const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
 
   return (
@@ -46,17 +66,29 @@ export function DayCellView(props: DayCellViewProps) {
       data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
       aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && value.month + 1}.${value?.year}`}
-      disabled={!CDS.isBetween(date, minDate, maxDate)}
+      disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,
-        [styles.today(theme)]: isToday && !_isTheme2022,
-        [styles.today2022(theme)]: isToday && _isTheme2022,
-        [styles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
         [styles.weekend(theme)]: Boolean(isWeekend),
+        [styles.period(theme)]: isDayInSelectedPeriod,
+        [styles.periodStart(theme)]: isPeriodStart,
+        [styles.periodEnd(theme)]: isPeriodEnd,
       })}
       onClick={handleClick}
+      onMouseEnter={() => onMouseEnter?.(date)}
+      onMouseLeave={() => onMouseLeave?.(date)}
     >
-      {child}
+      <div
+        className={cx({
+          [styles.element(theme)]: true,
+          [styles.today(theme)]: isToday && !_isTheme2022,
+          [styles.today2022(theme)]: isToday && _isTheme2022,
+          [styles.selected(theme)]: Boolean((!periodStartDate || !periodEndDate) && value && CDS.isEqual(date, value)),
+          [styles.elementHover(theme)]: Boolean(hoveredDate && CDS.isEqual(date, hoveredDate)),
+        })}
+      >
+        {child}
+      </div>
     </button>
   );
-}
+});

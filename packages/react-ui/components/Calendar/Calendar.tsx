@@ -21,7 +21,7 @@ import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
-import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
+import { CalendarDateShape, create, isGreater, isLess, isEqual } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
 
 export interface CalendarProps extends CommonProps {
@@ -50,6 +50,18 @@ export interface CalendarProps extends CommonProps {
    */
   minDate?: string;
   /**
+   * Задаёт начальную дату периода
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
+  periodStartDate?: string;
+  /**
+   * Задаёт конечную дату периода
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
+  periodEndDate?: string;
+  /**
    * Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
    * @param {string} day - строка в формате `dd.mm.yyyy`
@@ -74,6 +86,7 @@ export interface CalendarState {
   today: CalendarDateShape;
   scrollDirection: number;
   scrollTarget: number;
+  hoveredDate?: CalendarDateShape;
 }
 
 export const CalendarDataTids = {
@@ -321,6 +334,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const date = this.getDateInNativeFormat(this.props.value);
     const minDate = this.getDateInNativeFormat(this.props.minDate);
     const maxDate = this.getDateInNativeFormat(this.props.maxDate);
+    const periodEndDate = this.getDateInNativeFormat(this.props.periodEndDate);
+    const periodStartDate = this.getDateInNativeFormat(this.props.periodStartDate);
 
     return (
       <Month
@@ -329,11 +344,16 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         month={month}
         maxDate={maxDate}
         minDate={minDate}
+        periodStartDate={periodStartDate}
+        periodEndDate={periodEndDate}
         today={this.state.today}
         value={date}
         onDateClick={this.handleDateChange}
         onMonthYearChange={this.handleMonthYearChange}
         isHoliday={this.isHoliday}
+        hoveredDate={this.state.hoveredDate}
+        onMouseEnterDay={this.handleMouseEnterDay}
+        onMouseLeaveDay={this.handleMouseLeaveDay}
       />
     );
   }
@@ -470,5 +490,17 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       },
       onEnd,
     );
+  };
+
+  private handleMouseEnterDay = (hoveredDate: CalendarDateShape) => {
+    if (!isEqual(this.state.hoveredDate, hoveredDate)) {
+      this.setState((prev) => ({ ...prev, hoveredDate }));
+    }
+  };
+
+  private handleMouseLeaveDay = (_date: CalendarDateShape) => {
+    if (this.state.hoveredDate) {
+      this.setState((prev) => ({ ...prev, hoveredDate: undefined }));
+    }
   };
 }

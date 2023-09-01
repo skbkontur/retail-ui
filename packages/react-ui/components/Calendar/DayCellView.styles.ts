@@ -12,31 +12,41 @@ export const styles = memoizeStyle({
       ${resetButton()};
 
       background: ${t.calendarCellBg};
-      border: 1px solid transparent;
       display: inline-block;
       font-size: 14px;
       padding: 0;
       text-align: center;
       user-select: none;
       position: relative;
+      cursor: pointer;
 
       width: ${t.calendarCellSize};
       height: ${t.calendarCellSize};
       line-height: ${t.calendarCellLineHeight};
-      border-radius: 50%;
 
-      &:hover {
-        background-color: ${t.calendarCellHoverBgColor};
-        color: ${t.calendarCellHoverColor};
-        cursor: pointer;
-      }
       &:disabled {
         opacity: 0.5;
         pointer-events: none;
       }
+    `;
+  },
+
+  element(t: Theme) {
+    return css`
+      border-radius: 50%;
+      border: 1px solid transparent;
+
       &:active:hover:enabled {
         color: ${t.calendarCellActiveHoverColor};
       }
+    `;
+  },
+
+  elementHover(t: Theme) {
+    return css`
+      background-color: ${t.calendarCellHoverBgColor};
+      color: ${t.calendarCellHoverColor};
+      cursor: pointer;
     `;
   },
 
@@ -44,6 +54,26 @@ export const styles = memoizeStyle({
     return css`
       background-color: ${t.calendarCellSelectedBgColor};
       color: ${t.calendarCellSelectedFontColor};
+    `;
+  },
+
+  period(t: Theme) {
+    return css`
+      background-color: ${t.calendarCellSelectedBgColor};
+    `;
+  },
+
+  periodStart(t: Theme) {
+    return css`
+      border-top-left-radius: 50%;
+      border-bottom-left-radius: 50%;
+    `;
+  },
+
+  periodEnd(t: Theme) {
+    return css`
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
     `;
   },
 

@@ -120,3 +120,153 @@ ScrollsCalendarOnDateChange.parameters = {
     },
   },
 };
+
+export const CalendarWithPeriod: Story = () => {
+  const [min, setMin] = React.useState('05.08.2022');
+  const [max, setMax] = React.useState('30.08.2022');
+  const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
+  const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
+  const [focus, setFocus] = useState<'periodStartDate' | 'periodEndDate'>('periodStartDate');
+
+  const getFocusStyle = (type: 'periodStartDate' | 'periodEndDate') =>
+    focus === type ? { background: '#80A6FF' } : {};
+
+  const periodClearing = () => {
+    setFocus('periodStartDate');
+    setPeriodStartDate('');
+    setPeriodEndDate('');
+  };
+
+  const onValueChange = (date: string) => {
+    if (focus === 'periodEndDate') {
+      setPeriodEndDate(date);
+      setFocus('periodStartDate');
+    }
+    if (focus === 'periodStartDate') {
+      setPeriodStartDate(date);
+      setFocus('periodEndDate');
+    }
+  };
+
+  return (
+    <Gapped vertical gap={10}>
+      <label>
+        Свободные дни с: <input type="text" value={min} placeholder="min" onChange={(e) => setMin(e.target.value)} />
+      </label>
+      <label>
+        Свободные дни до: <input type="text" value={max} placeholder="max" onChange={(e) => setMax(e.target.value)} />
+      </label>
+      <label>
+        Начало периода:
+        <input
+          type="text"
+          style={getFocusStyle('periodStartDate')}
+          onFocus={() => setFocus('periodStartDate')}
+          value={periodStartDate}
+          data-tid="input_period_start"
+          onChange={(e) => setPeriodStartDate(e.target.value)}
+        />
+      </label>
+      <label>
+        Окончание периода:
+        <input
+          type="text"
+          onFocus={() => setFocus('periodEndDate')}
+          style={getFocusStyle('periodEndDate')}
+          value={periodEndDate}
+          data-tid="input_period_end"
+          onChange={(e) => setPeriodEndDate(e.target.value)}
+        />
+      </label>
+      <LocaleContext.Provider
+        value={{
+          locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
+        }}
+      >
+        <button data-tid="period_clearing" onClick={periodClearing}>
+          Очистить период
+        </button>
+        <Calendar
+          value={periodStartDate || periodEndDate}
+          periodStartDate={periodStartDate}
+          periodEndDate={periodEndDate}
+          minDate={min}
+          maxDate={max}
+          onValueChange={onValueChange}
+        />
+      </LocaleContext.Provider>
+    </Gapped>
+  );
+};
+CalendarWithPeriod.storyName = 'Calendar with period';
+
+CalendarWithPeriod.parameters = {
+  creevey: {
+    tests: {
+      async 'Period selection'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="period_clearing"]' }))
+          .perform();
+        await delay(1000);
+        const day10 = this.browser.findElement({
+          css: '[data-tid="DayCellView__root"]:nth-child(11) ',
+        });
+        const day15 = this.browser.findElement({
+          css: '[data-tid="DayCellView__root"]:nth-child(16) ',
+        });
+        await this.browser.actions({ bridge: true }).click(day10).click(day15).perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+      },
+      async 'Period change'() {
+        await delay(1000);
+        const day10 = this.browser.findElement({
+          css: '[data-tid="DayCellView__root"]:nth-child(6) ',
+        });
+        const day15 = this.browser.findElement({
+          css: '[data-tid="DayCellView__root"]:nth-child(11) ',
+        });
+        await this.browser.actions({ bridge: true }).click(day10).click(day15).perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+      },
+      async 'Checking blocked left days'() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="period_clearing"]' }))
+          .perform();
+        const day10 = this.browser.findElement({
+          css: '[data-tid="DayCellView__root"]:nth-child(11) ',
+        });
+
+        await this.browser.actions({ bridge: true }).click(day10).perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+      },
+      async 'Checking blocked right days'() {
+        await delay(1000);
+
+        const inputPeriodStart = this.browser.findElement({
+          css: '[data-tid="input_period_start"]',
+        });
+        console.info(inputPeriodStart);
+        await this.browser
+          .actions({ bridge: true })
+          .click(inputPeriodStart)
+          .keyDown(this.keys.CONTROL)
+          .sendKeys('a')
+          .keyDown(this.keys.DELETE)
+          .perform();
+        await delay(1000);
+
+        await this.keys.DELETE;
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+      },
+    },
+  },
+};

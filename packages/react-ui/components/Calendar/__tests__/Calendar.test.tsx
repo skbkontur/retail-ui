@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -248,6 +248,157 @@ describe('Calendar', () => {
       render(<Calendar value={'31.12.2021'} />);
 
       expect(screen.getAllByTestId(CalendarDataTids.headerYear)[1].querySelector('span')).toBeInTheDocument();
+    });
+  });
+
+  describe('Calendar with period', () => {
+    it('should set periodEndDate', () => {
+      let periodEndDate = '';
+      const periodStartDate = '20.08.2022';
+      const onValueChange = (date: string) => (periodEndDate = date);
+
+      render(
+        <Calendar
+          value={periodStartDate}
+          periodStartDate={periodStartDate}
+          periodEndDate={periodEndDate}
+          onValueChange={onValueChange}
+        />,
+      );
+
+      //где 29 это 30.08.2023.
+      const button = screen.getAllByTestId(CalendarDataTids.dayCell)?.[29];
+
+      expect(button).toBeInTheDocument();
+
+      fireEvent.click(button);
+
+      expect(screen.getByText(/Август/i)).toBeInTheDocument();
+      expect(periodEndDate).toEqual('30.08.2022');
+    });
+
+    it('should set periodStartDate', () => {
+      let periodStartDate = '';
+      const periodEndDate = '30.08.2023';
+      const onValueChange = (date: string) => (periodStartDate = date);
+
+      render(
+        <Calendar
+          value="30.08.2022"
+          periodStartDate={periodStartDate}
+          periodEndDate={periodEndDate}
+          onValueChange={onValueChange}
+        />,
+      );
+
+      //где 19 это 20.08.2023.
+      const button = screen.getAllByTestId(CalendarDataTids.dayCell)?.[19];
+
+      expect(button).toBeInTheDocument();
+
+      fireEvent.click(button);
+
+      expect(screen.getByText(/Август/i)).toBeInTheDocument();
+      expect(periodStartDate).toEqual('20.08.2022');
+    });
+
+    it('should change periodStartDate', () => {
+      let periodStartDate = '20.08.2023';
+      const periodEndDate = '25.08.2023';
+      const onValueChange = (date: string) => (periodStartDate = date);
+
+      render(
+        <Calendar
+          value="20.08.2022"
+          periodStartDate={periodStartDate}
+          periodEndDate={periodEndDate}
+          onValueChange={onValueChange}
+        />,
+      );
+
+      //где 20 это 21.08.2023.
+      const button = screen.getAllByTestId(CalendarDataTids.dayCell)?.[20];
+
+      expect(button).toBeInTheDocument();
+
+      fireEvent.click(button);
+
+      expect(screen.getByText(/Август/i)).toBeInTheDocument();
+      expect(periodStartDate).toEqual('21.08.2022');
+    });
+
+    it('should change periodEndDate', () => {
+      let periodEndDate = '25.08.2023';
+      const periodStartDate = '20.08.2023';
+      const onValueChange = (date: string) => (periodEndDate = date);
+
+      render(
+        <Calendar
+          value="20.08.2022"
+          periodStartDate={periodStartDate}
+          periodEndDate={periodEndDate}
+          onValueChange={onValueChange}
+        />,
+      );
+
+      //где 30 это 31.08.2023.
+      const button = screen.getAllByTestId(CalendarDataTids.dayCell)?.[30];
+
+      expect(button).toBeInTheDocument();
+
+      fireEvent.click(button);
+
+      expect(screen.getByText(/Август/i)).toBeInTheDocument();
+      expect(periodEndDate).toEqual('31.08.2022');
+    });
+
+    it('the days to the right should be blocked', () => {
+      let value = '20.08.2023';
+      const periodEndDate = '20.08.2023';
+      const maxDate = '22.08.2023';
+      const onValueChange = (date: string) => (value = date);
+
+      render(<Calendar value={value} periodEndDate={periodEndDate} onValueChange={onValueChange} maxDate={maxDate} />);
+
+      //где 20 это 21.08.2023.
+      const freeDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[20];
+      //где 22 это 23.08.2023.
+      const blockedDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[22];
+
+      expect(freeDayButton).toBeInTheDocument();
+      expect(blockedDayButton).toBeInTheDocument();
+
+      fireEvent.click(freeDayButton);
+      fireEvent.click(blockedDayButton);
+
+      expect(value).toEqual('20.08.2023');
+
+      expect(screen.getByText(/Август/i)).toBeInTheDocument();
+    });
+
+    it('the days to the left should be blocked', () => {
+      let value = '20.08.2023';
+      const minDate = '18.08.2023';
+      const periodStartDate = '20.08.2023';
+      const onValueChange = (date: string) => (value = date);
+
+      render(
+        <Calendar value={value} periodStartDate={periodStartDate} onValueChange={onValueChange} minDate={minDate} />,
+      );
+
+      //где 18 это 19.08.2023.
+      const freeDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[18];
+      //где 16 это 17.08.2023.
+      const blockedDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[16];
+
+      expect(freeDayButton).toBeInTheDocument();
+      expect(blockedDayButton).toBeInTheDocument();
+
+      fireEvent.click(freeDayButton);
+      fireEvent.click(blockedDayButton);
+
+      expect(value).toEqual('20.08.2023');
+      expect(screen.getByText(/Август/i)).toBeInTheDocument();
     });
   });
 });

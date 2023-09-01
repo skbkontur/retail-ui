@@ -20,11 +20,16 @@ interface MonthProps {
   month: MonthViewModel;
   maxDate?: CDS.CalendarDateShape;
   minDate?: CDS.CalendarDateShape;
+  periodStartDate?: CDS.CalendarDateShape;
+  periodEndDate?: CDS.CalendarDateShape;
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
+  hoveredDate?: CDS.CalendarDateShape;
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  onMouseEnterDay?: (hoveredDate: CDS.CalendarDateShape) => void;
+  onMouseLeaveDay?: (hoveredDate: CDS.CalendarDateShape) => void;
 }
 
 type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday'>>;
@@ -34,6 +39,11 @@ export class Month extends React.Component<MonthProps> {
 
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
+
+  constructor(props: MonthProps) {
+    super(props);
+    this.state = {};
+  }
 
   public shouldComponentUpdate(nextProps: MonthProps) {
     if (this.props.top !== nextProps.top) {
@@ -51,6 +61,16 @@ export class Month extends React.Component<MonthProps> {
     if (!CDS.isEqual(nextProps.maxDate, this.props.maxDate)) {
       return true;
     }
+    if (!CDS.isEqual(nextProps.periodEndDate, this.props.periodEndDate)) {
+      return true;
+    }
+    if (!CDS.isEqual(nextProps.periodStartDate, this.props.periodStartDate)) {
+      return true;
+    }
+    if (!CDS.isEqual(nextProps.hoveredDate, this.props.hoveredDate)) {
+      return true;
+    }
+
     return this.props.month !== nextProps.month;
   }
 
@@ -99,10 +119,15 @@ export class Month extends React.Component<MonthProps> {
         offset={this.props.month.offset}
         minDate={this.props.minDate}
         maxDate={this.props.maxDate}
+        periodStartDate={this.props.periodStartDate}
+        periodEndDate={this.props.periodEndDate}
         today={this.props.today}
         value={this.props.value}
         onDateClick={this.props.onDateClick}
         isHoliday={this.props.isHoliday}
+        hoveredDate={this.props.hoveredDate}
+        onMouseEnterDay={this.props.onMouseEnterDay}
+        onMouseLeaveDay={this.props.onMouseLeaveDay}
       />
     );
   }
@@ -138,10 +163,15 @@ interface MonthDayGridProps {
   offset: number;
   minDate?: CDS.CalendarDateShape;
   maxDate?: CDS.CalendarDateShape;
+  periodStartDate?: CDS.CalendarDateShape;
+  periodEndDate?: CDS.CalendarDateShape;
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
+  hoveredDate?: CDS.CalendarDateShape;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  onMouseEnterDay?: (hoveredDate: CDS.CalendarDateShape) => void;
+  onMouseLeaveDay?: (hoveredDate: CDS.CalendarDateShape) => void;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
@@ -150,6 +180,11 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   public static defaultProps: DefaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
   };
+
+  constructor(props: MonthDayGridProps) {
+    super(props);
+    this.state = {};
+  }
 
   private getProps = createPropsGetter(MonthDayGrid.defaultProps);
 
@@ -166,6 +201,16 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
     if (!CDS.isEqual(nextProps.maxDate, this.props.maxDate)) {
       return true;
     }
+    if (!CDS.isEqual(nextProps.periodStartDate, this.props.periodStartDate)) {
+      return true;
+    }
+    if (!CDS.isEqual(nextProps.periodEndDate, this.props.periodEndDate)) {
+      return true;
+    }
+    if (!CDS.isEqual(nextProps.hoveredDate, this.props.hoveredDate)) {
+      return true;
+    }
+
     return this.props.days !== nextProps.days;
   }
 
@@ -196,16 +241,72 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
             <DayCellView
               date={day}
               key={`${day.date}.${day.month}.${day.year}`}
-              minDate={this.props.minDate}
-              maxDate={this.props.maxDate}
-              today={this.props.today}
+              isDisabled={this.isDisabled(day)}
+              isToday={this.isToday(day)}
+              periodStartDate={this.props.periodStartDate}
+              periodEndDate={this.props.periodEndDate}
               value={this.props.value}
+              hoveredDate={this.props.hoveredDate}
               isWeekend={isWeekend}
+              isPeriodStart={this.isPeriodStart(day)}
+              isPeriodEnd={this.isPeriodEnd(day)}
+              isDayInSelectedPeriod={this.isDayInSelectedPeriod(day)}
               onDateClick={this.props.onDateClick}
+              onMouseEnter={this.props.onMouseEnterDay}
+              onMouseLeave={this.props.onMouseLeaveDay}
             />
           );
         })}
       </div>
     );
   }
+
+  private isToday = (day: DayCellViewModel) => {
+    return Boolean(this.props.today && CDS.isEqual(day, this.props.today));
+  };
+
+  private isDisabled = (date: DayCellViewModel) => {
+    const { minDate, maxDate, periodStartDate: minPeriodDate, periodEndDate: maxPeriodDate } = this.props;
+    if (!CDS.isBetween(date, minDate, maxDate)) {
+      return true;
+    }
+    if (minPeriodDate && !maxPeriodDate) {
+      return Boolean(CDS.isLessOrEqual(date, minPeriodDate)) && !Boolean(CDS.isEqual(minPeriodDate, date));
+    }
+
+    if (!minPeriodDate && maxPeriodDate) {
+      return Boolean(CDS.isLessOrEqual(maxPeriodDate, date)) && !Boolean(CDS.isEqual(maxPeriodDate, date));
+    }
+    return false;
+  };
+
+  private isDayInSelectedPeriod = (date: DayCellViewModel) => {
+    const { hoveredDate, periodEndDate: maxPeriodDate, periodStartDate: minPeriodDate } = this.props;
+    if (hoveredDate) {
+      if (maxPeriodDate && !minPeriodDate) {
+        return CDS.isBetween(date, hoveredDate, maxPeriodDate);
+      }
+      if (minPeriodDate && !maxPeriodDate) {
+        return CDS.isBetween(date, minPeriodDate, hoveredDate);
+      }
+    }
+
+    return Boolean(minPeriodDate && maxPeriodDate && CDS.isBetween(date, minPeriodDate, maxPeriodDate));
+  };
+
+  private isPeriodStart = (date: DayCellViewModel) => {
+    const { periodStartDate, hoveredDate } = this.props;
+    return (
+      (!periodStartDate && Boolean(hoveredDate && CDS.isEqual(date, hoveredDate))) ||
+      Boolean(periodStartDate && CDS.isEqual(date, periodStartDate))
+    );
+  };
+
+  private isPeriodEnd = (date: DayCellViewModel) => {
+    const { periodEndDate, hoveredDate } = this.props;
+    return (
+      (!periodEndDate && Boolean(hoveredDate && CDS.isEqual(date, hoveredDate))) ||
+      Boolean(periodEndDate && CDS.isEqual(date, periodEndDate))
+    );
+  };
 }
