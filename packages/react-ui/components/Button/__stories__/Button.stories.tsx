@@ -279,6 +279,21 @@ export const Disabled: Story = (_, { globals: { theme } }) => (
   />
 );
 
+export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getUseStates(theme)}
+    rows={disabledDifferentStates.filter((state) => !state.icon).map((state) => ({ props: state }))}
+    presetProps={{ children: 'Button', disabled: true, arrow: true }}
+  />
+);
+
+ArrowDisabled.parameters = {
+  creevey: {
+    skip: { in: /2022/ },
+  },
+};
+
 export const MultilineTextWithLinkButton = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />

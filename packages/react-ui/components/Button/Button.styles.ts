@@ -372,6 +372,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  disabledWithoutOutline(t: Theme) {
+    return css`
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
+    `;
+  },
+
   arrowWarning(t: Theme) {
     return css`
       box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
@@ -659,7 +665,7 @@ export const styles = memoizeStyle({
       &:hover:enabled {
         box-shadow: none;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none;
+          box-shadow: none !important;
         }
       }
 
