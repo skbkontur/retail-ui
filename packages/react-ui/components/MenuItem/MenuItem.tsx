@@ -9,9 +9,11 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './MenuItem.styles';
+
+export type MenuItemSize = 'small' | 'medium' | 'large';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -38,6 +40,10 @@ export interface MenuItemProps
    * Меняет цвет текста на синий.
    */
   link?: boolean;
+  /**
+   * Размер
+   */
+  size?: MenuItemSize;
   /**
    * @ignore
    */
@@ -151,6 +157,42 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
+  private getRootSizeClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.rootLarge(this.theme);
+      case 'medium':
+        return styles.rootMedium(this.theme);
+      case 'small':
+      default:
+        return styles.rootSmall(this.theme);
+    }
+  }
+
+  private getIconSizeClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.iconLarge(this.theme);
+      case 'medium':
+        return styles.iconMedium(this.theme);
+      case 'small':
+      default:
+        return styles.iconSmall(this.theme);
+    }
+  }
+
+  private getWithIconSizeClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.withIconLarge(this.theme);
+      case 'medium':
+        return styles.withIconMedium(this.theme);
+      case 'small':
+      default:
+        return styles.withIconSmall(this.theme);
+    }
+  }
+
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
     const {
       link,
@@ -158,6 +200,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       icon,
       loose,
       state,
+      size,
       _enableIconPadding,
       component,
       onMouseEnter,
@@ -174,7 +217,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
     let iconElement = null;
     if (icon) {
       iconElement = (
-        <div style={{ top: this.state.iconOffsetTop }} className={cx({ [styles.icon(this.theme)]: true })}>
+        <div
+          style={{ top: this.state.iconOffsetTop }}
+          className={cx({
+            [styles.icon(this.theme)]: true,
+            [this.getIconSizeClassName()]: true,
+          })}
+        >
           {icon}
         </div>
       );
@@ -182,12 +231,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     const className = cx({
       [styles.root(this.theme)]: true,
+      [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',
       [styles.link(this.theme)]: !!link,
-      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 

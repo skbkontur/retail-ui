@@ -182,7 +182,9 @@ const BaselineFont: React.FC<{
         <Kebab size={size}>
           <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
         </Kebab>
-        <MenuItem state="hover">Menu</MenuItem>
+        <MenuItem size={size} state="hover">
+          Menu
+        </MenuItem>
         <Input size={size} value={content} width={40} />
         <ComboBox
           placeholder={content}
@@ -239,17 +241,7 @@ class DifferentFontsAndSizesThemeM extends React.Component {
       <div style={{ fontSize: '16px', lineHeight: '22px' }}>
         <ThemeContext.Consumer>
           {(theme) => (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  menuItemFontSize: '16px',
-                  menuItemLineHeight: '22px',
-                  menuItemPaddingY: '9px',
-                  menuItemPaddingX: '12px',
-                },
-                theme,
-              )}
-            >
+            <ThemeContext.Provider value={ThemeFactory.create({}, theme)}>
               <BaselineSize
                 width="140px"
                 size="medium"
@@ -277,17 +269,7 @@ class DifferentFontsAndSizesThemeL extends React.Component {
       <div style={{ fontSize: '18px', lineHeight: '24px' }}>
         <ThemeContext.Consumer>
           {(theme) => (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  menuItemFontSize: '18px',
-                  menuItemLineHeight: '24px',
-                  menuItemPaddingY: '12px',
-                  menuItemPaddingX: '14px',
-                },
-                theme,
-              )}
-            >
+            <ThemeContext.Provider value={ThemeFactory.create({}, theme)}>
               <BaselineSize
                 width="160px"
                 size="large"
