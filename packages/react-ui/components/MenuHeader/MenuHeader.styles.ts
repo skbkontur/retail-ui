@@ -1,24 +1,66 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+import { menuHeaderSizeMixin, withIconSizeMixin } from './MenuHeader.mixins';
+
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const legacyPaddingRight = parseFloat(t.menuHeaderLegacyPaddingRight);
-    const paddingRight =
-      legacyPaddingRight !== 0 ? `${parseFloat(t.menuHeaderPaddingX) + legacyPaddingRight}px` : t.menuHeaderPaddingX;
-
     return css`
       color: ${t.menuHeaderColor};
       cursor: default;
-      font-size: ${t.menuHeaderFontSize};
-      line-height: ${t.menuHeaderLineHeight};
-      padding: ${t.menuHeaderPaddingTop} ${paddingRight} ${t.menuHeaderPaddingBottom} ${t.menuHeaderPaddingX};
     `;
   },
 
-  withLeftPadding(t: Theme) {
+  rootSmall(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon};
+      ${menuHeaderSizeMixin(
+        t.menuHeaderLegacyPaddingRight,
+        t.menuHeaderPaddingXSmall,
+        t.menuHeaderFontSizeSmall,
+        t.menuHeaderLineHeightSmall,
+        t.menuHeaderPaddingTopSmall,
+        t.menuHeaderPaddingBottomSmall,
+      )};
+    `;
+  },
+  rootMedium(t: Theme) {
+    return css`
+      ${menuHeaderSizeMixin(
+        t.menuHeaderLegacyPaddingRight,
+        t.menuHeaderPaddingXMedium,
+        t.menuHeaderFontSizeMedium,
+        t.menuHeaderLineHeightMedium,
+        t.menuHeaderPaddingTopMedium,
+        t.menuHeaderPaddingBottomMedium,
+      )};
+    `;
+  },
+  rootLarge(t: Theme) {
+    return css`
+      ${menuHeaderSizeMixin(
+        t.menuHeaderLegacyPaddingRight,
+        t.menuHeaderPaddingXLarge,
+        t.menuHeaderFontSizeLarge,
+        t.menuHeaderLineHeightLarge,
+        t.menuHeaderPaddingTopLarge,
+        t.menuHeaderPaddingBottomLarge,
+      )};
+    `;
+  },
+
+  withLeftPaddingSmall(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconSmall)}
+    `;
+  },
+  withLeftPaddingMedium(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconMedium)}
+    `;
+  },
+  withLeftPaddingLarge(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconLarge)}
     `;
   },
 });

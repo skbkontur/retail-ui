@@ -107,3 +107,13 @@ const LinkMenuItem = ({link, title}) => {
     />
 </DropdownMenu>
 ```
+
+У MenuHeader есть 3 стандартных размера.
+
+```jsx harmony
+<Gapped vertical>
+  <MenuItem size={'small'}>Маленький</MenuItem>
+  <MenuItem size={'medium'}>Средний</MenuItem>
+  <MenuItem size={'large'}>Большой</MenuItem>
+</Gapped>
+```
