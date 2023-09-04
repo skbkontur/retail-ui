@@ -7,7 +7,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { Meta, Story } from '../../../typings/stories';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
-import { MenuItem } from '../../MenuItem';
+import { MenuItem, MenuItemState } from '../../MenuItem';
 import { MenuSeparator } from '../../MenuSeparator';
 import { Nullable } from '../../../typings/utility-types';
 import { Toggle } from '../../Toggle';
@@ -1303,3 +1303,67 @@ WithManualPosition.parameters = {
     },
   },
 };
+
+export const WithExtendedItem: Story = () => {
+  const [value, setValue] = React.useState<ValueType>();
+
+  const CustomItem = ({ id, name }: ValueType) => (
+    <span>
+      CustomItem: {id} + {name}
+    </span>
+  );
+
+  const RenderItem = ({ id, name, state = null }: ValueType & { state?: MenuItemState }) => (
+    <span>
+      RenderItem: {id} + {name} (state: {state})
+    </span>
+  );
+
+  const ItemWrapper = ({ id, name }: ValueType) => (
+    <span>
+      ItemWrapper: {id} + {name}
+    </span>
+  );
+
+  return (
+    <>
+      Пример передачи в getItems всех допустимых типов.
+      <br />
+      Должны работать навигация клавишами и выбор пункта.
+      <br />
+      <ComboBox<ValueType>
+        value={value}
+        onValueChange={setValue}
+        itemToValue={(item) => item.id}
+        renderValue={(item) => item.name}
+        valueToString={(item) => item.name}
+        getItems={() =>
+          Promise.resolve([
+            { id: 1, name: 'Paris' },
+            { id: 2, name: 'Madrid' },
+            <MenuSeparator key={2} />,
+            <hr key={3} />,
+            <MenuItem key={1} {...{ id: 3, name: 'London' }}>
+              <CustomItem id={3} name="London" />
+            </MenuItem>,
+            () => (
+              <MenuItem {...{ id: 4, name: 'Berlin' }}>
+                <CustomItem id={4} name="Berlin" />
+              </MenuItem>
+            ),
+            { id: 5, name: 'Rome' },
+            { id: 6, name: 'Amsterdam' },
+          ])
+        }
+        renderItem={(item, state) => <RenderItem {...{ ...item, state }} />}
+        itemWrapper={(item) =>
+          function itemWrapper(props) {
+            const isJust2Items = item.id === 5 || item.id === 6;
+            return <button {...props}>{isJust2Items ? props.children : <ItemWrapper {...item} />}</button>;
+          }
+        }
+      />
+    </>
+  );
+};
+WithExtendedItem.parameters = { creevey: { skip: true } };

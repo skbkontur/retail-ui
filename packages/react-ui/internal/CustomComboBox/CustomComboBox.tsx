@@ -12,6 +12,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
+import { ComboBoxExtendedItem } from '../../components/ComboBox';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -58,12 +59,12 @@ export interface CustomComboBoxProps<T>
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<unknown>;
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
-  getItems: (query: string) => Promise<T[]>;
+  getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
@@ -72,7 +73,7 @@ export interface CustomComboBoxState<T> {
   loading: boolean;
   opened: boolean;
   textValue: string;
-  items: Nullable<T[]>;
+  items: Nullable<Array<ComboBoxExtendedItem<T>>>;
   inputChanged: boolean;
   focused: boolean;
   repeatRequest: () => void;
