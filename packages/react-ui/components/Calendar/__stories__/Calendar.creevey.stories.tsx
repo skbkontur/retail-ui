@@ -219,6 +219,8 @@ CalendarWithPeriod.parameters = {
           css: '[data-tid="DayCellView__root"]:nth-child(16) ',
         });
         await this.browser.actions({ bridge: true }).click(day10).click(day15).perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
       async 'Period change'() {
@@ -245,15 +247,14 @@ CalendarWithPeriod.parameters = {
         });
 
         await this.browser.actions({ bridge: true }).click(day10).perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
       async 'Checking blocked right days'() {
-        await delay(1000);
-
         const inputPeriodStart = this.browser.findElement({
           css: '[data-tid="input_period_start"]',
         });
-        console.info(inputPeriodStart);
         await this.browser
           .actions({ bridge: true })
           .click(inputPeriodStart)
