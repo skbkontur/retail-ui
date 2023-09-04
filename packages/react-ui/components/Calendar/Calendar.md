@@ -131,7 +131,7 @@ const onValueChange = (date) => {
       <input
         type="text"
         style={getFocusStyle('periodStartDate')}
-        onFocus={() => setFocus('periodStartDate')}
+        onClick={() => setFocus('periodStartDate')}
         value={periodStartDate}
         onChange={(e) => {
           setPeriodStartDate(e.target.value);
@@ -142,7 +142,7 @@ const onValueChange = (date) => {
       Окончание периода:
       <input
         type="text"
-        onFocus={() => setFocus('periodEndDate')}
+        onClick={() => setFocus('periodEndDate')}
         style={getFocusStyle('periodEndDate')}
         value={periodEndDate}
         onChange={(e) => setPeriodEndDate(e.target.value)}
