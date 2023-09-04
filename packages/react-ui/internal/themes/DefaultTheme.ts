@@ -339,13 +339,13 @@ export class DefaultTheme {
   public static tokenDefaultActiveBorderColor = '';
 
   public static get tokenTextareaWidthOffsetSmall() {
-    return `${parseInt(this.tokenMarginXSmall, 10)}px`;
+    return parseInt(this.tokenMarginXSmall, 10);
   }
   public static get tokenTextareaWidthOffsetMedium() {
-    return `${parseInt(this.tokenMarginXMedium, 10)}px`;
+    return parseInt(this.tokenMarginXMedium, 10);
   }
   public static get tokenTextareaWidthOffsetLarge() {
-    return `${parseInt(this.tokenMarginXLarge, 10)}px`;
+    return parseInt(this.tokenMarginXLarge, 10);
   }
   //#endregion
   //#region TokenInput
