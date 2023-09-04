@@ -128,33 +128,33 @@ export const styles = memoizeStyle({
   },
   inputSmall(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenLineHeightSmall, t.tokenMarginYSmall, t.tokenMarginXSmall)}
+      ${inputSizeMixin(t.tokenInputInputLineHeightSmall, t.tokenMarginYSmall, t.tokenMarginXSmall)}
       ${inputAndHelperCommonStyles(
         t.tokenInputInputPaddingRightSmall,
         t.tokenPaddingXSmall,
-        t.tokenInputLineHeightSmall,
+        t.tokenInputInputLineHeightSmall,
         t.tokenInputFontSizeSmall,
       )};
     `;
   },
   inputMedium(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenLineHeightMedium, t.tokenMarginYMedium, t.tokenMarginXMedium)}
+      ${inputSizeMixin(t.tokenInputInputLineHeightMedium, t.tokenMarginYMedium, t.tokenMarginXMedium)}
       ${inputAndHelperCommonStyles(
         t.tokenInputInputPaddingRightMedium,
         t.tokenPaddingXMedium,
-        t.tokenInputLineHeightMedium,
+        t.tokenInputInputLineHeightMedium,
         t.tokenInputFontSizeMedium,
       )};
     `;
   },
   inputLarge(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenLineHeightLarge, t.tokenMarginYLarge, t.tokenMarginXLarge)}
+      ${inputSizeMixin(t.tokenInputInputLineHeightLarge, t.tokenMarginYLarge, t.tokenMarginXLarge)}
       ${inputAndHelperCommonStyles(
         t.tokenInputInputPaddingRightLarge,
         t.tokenPaddingXLarge,
-        t.tokenInputLineHeightLarge,
+        t.tokenInputInputLineHeightLarge,
         t.tokenInputFontSizeLarge,
       )};
     `;

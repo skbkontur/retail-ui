@@ -337,6 +337,16 @@ export class DefaultTheme {
   public static tokenDefaultActiveBg = '';
   public static tokenDefaultActiveColor = '';
   public static tokenDefaultActiveBorderColor = '';
+
+  public static get tokenTextareaWidthOffsetSmall() {
+    return `${parseInt(this.tokenMarginXSmall, 10)}px`;
+  }
+  public static get tokenTextareaWidthOffsetMedium() {
+    return `${parseInt(this.tokenMarginXMedium, 10)}px`;
+  }
+  public static get tokenTextareaWidthOffsetLarge() {
+    return `${parseInt(this.tokenMarginXLarge, 10)}px`;
+  }
   //#endregion
   //#region TokenInput
   public static get tokenInputBorderColor() {
@@ -469,6 +479,16 @@ export class DefaultTheme {
     const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
     const removeIconSizeX = parseInt(this.tokenInputFontSizeLarge, 10) || 0;
     return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  }
+
+  public static get tokenInputInputLineHeightSmall() {
+    return `${parseInt(this.tokenLineHeightSmall, 10) + 2 * parseInt(this.tokenPaddingYSmall, 10)}px`;
+  }
+  public static get tokenInputInputLineHeightMedium() {
+    return `${parseInt(this.tokenLineHeightMedium, 10) + 2 * parseInt(this.tokenPaddingYMedium, 10)}px`;
+  }
+  public static get tokenInputInputLineHeightLarge() {
+    return `${parseInt(this.tokenLineHeightLarge, 10) + 2 * parseInt(this.tokenPaddingYLarge, 10)}px`;
   }
 
   public static popupOffset = '0';

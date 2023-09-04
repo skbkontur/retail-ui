@@ -199,7 +199,6 @@ export interface TokenInputState<T> {
   inputValue: string;
   reservedInputValue: string | undefined;
   inputValueWidth: number;
-  inputValueHeight: number;
   preventBlur?: boolean;
   loading?: boolean;
 }
@@ -214,7 +213,6 @@ export const DefaultState = {
   loading: false,
   preventBlur: false,
   inputValueWidth: 2,
-  inputValueHeight: 24,
 };
 
 export const TokenInputDataTids = {
@@ -258,7 +256,7 @@ const defaultRenderToken = <T extends AnyObject>(
     onDoubleClick={onDoubleClick}
     onRemove={onRemove}
     disabled={disabled}
-    size={size }
+    size={size}
   >
     {item}
   </Token>
@@ -440,6 +438,29 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         return styles.reservedInputSmall(this.theme);
     }
   }
+  private getInputLineHeight() {
+    switch (this.getProps().size) {
+      case 'large':
+        return this.theme.tokenInputInputLineHeightLarge;
+      case 'medium':
+        return this.theme.tokenInputInputLineHeightMedium;
+      case 'small':
+      default:
+        return this.theme.tokenInputInputLineHeightSmall;
+    }
+  }
+
+  private getInputWidthOffset() {
+    switch (this.getProps().size) {
+      case 'large':
+        return this.theme.tokenTextareaWidthOffsetLarge;
+      case 'medium':
+        return this.theme.tokenTextareaWidthOffsetMedium;
+      case 'small':
+      default:
+        return this.theme.tokenTextareaWidthOffsetSmall;
+    }
+  }
 
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
@@ -463,16 +484,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
 
-    const {
-      activeTokens,
-      inFocus,
-      inputValueWidth,
-      inputValue,
-      reservedInputValue,
-      autocompleteItems,
-      loading,
-      inputValueHeight,
-    } = this.state;
+    const { activeTokens, inFocus, inputValueWidth, inputValue, reservedInputValue, autocompleteItems, loading } =
+      this.state;
 
     const showMenu =
       this.type !== TokenInputType.WithoutReference &&
@@ -482,13 +495,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const theme = this.theme;
 
-    const lineHeight = parseInt(theme.tokenInputLineHeight, 10) || 0;
+    const lineHeight = this.getInputLineHeight();
 
     const inputInlineStyles: React.CSSProperties = {
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
-      height: Math.max(lineHeight, inputValueHeight),
-      lineHeight: lineHeight + 'px',
+      height: lineHeight,
+      lineHeight,
       // input растягивается на всю ширину чтобы placeholder не обрезался
       flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
@@ -648,11 +661,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.textHelper) {
       // в IE текст иногда не помещается в input
       // из-за округления, поэтому округляем явно
-      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));
-      const inputValueHeight = parseFloat(this.textHelper.getTextHeight().toFixed(2));
+      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2)) + parseInt(this.getInputWidthOffset());
 
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);
-      this.dispatch({ type: 'SET_INPUT_VALUE_HEIGHT', payload: inputValueHeight }, LayoutEvents.emit);
     }
   }
 
