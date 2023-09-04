@@ -693,7 +693,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,
-          'aria-label': this.props['aria-label'],
+          'aria-label': buttonElement.props['aria-label'] ?? this.props['aria-label'],
         })
       : buttonElement;
   };

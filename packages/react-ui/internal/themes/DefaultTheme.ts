@@ -1280,26 +1280,100 @@ export class DefaultTheme {
   public static get menuItemHoverBg() {
     return this.dropdownMenuHoverBg;
   }
+  /**
+   * @deprecated use menuItemIconWidthSmall
+   */
   public static menuItemIconWidth = '16px';
+  public static get menuItemIconWidthSmall() {
+    return this.menuItemIconWidth;
+  }
+  public static menuItemIconWidthMedium = '20px';
+  public static menuItemIconWidthLarge = '24px';
   public static menuItemIconGap = '4px';
   public static menuItemIconLegacyMargin = '0px';
   public static menuItemIconLegacyShift = '0px';
+
+  /**
+   * @deprecated use menuItemPaddingForIconSmall
+   */
   public static get menuItemPaddingForIcon() {
     return `${
-      parseInt(this.menuItemPaddingX) +
-      parseInt(this.menuItemIconWidth) +
+      parseInt(this.menuItemPaddingXSmall) +
+      parseInt(this.menuItemIconWidthSmall) +
       parseInt(this.menuItemIconGap) +
       parseInt(this.menuItemIconLegacyMargin)
     }px`;
   }
+  public static get menuItemPaddingForIconSmall() {
+    return this.menuItemPaddingForIcon;
+  }
+  public static get menuItemPaddingForIconMedium() {
+    return `${
+      parseInt(this.menuItemPaddingXMedium) +
+      parseInt(this.menuItemIconWidthMedium) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)
+    }px`;
+  }
+  public static get menuItemPaddingForIconLarge() {
+    return `${
+      parseInt(this.menuItemPaddingXLarge) +
+      parseInt(this.menuItemIconWidthLarge) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)
+    }px`;
+  }
+
+  /**
+   * @deprecated use menuItemLineHeightSmall
+   */
   public static get menuItemLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get menuItemLineHeightSmall() {
+    return this.menuItemLineHeight;
+  }
+  public static get menuItemLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get menuItemLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+
+  /**
+   * @deprecated use menuItemFontSizeSmall
+   */
   public static get menuItemFontSize() {
     return this.fontSizeSmall;
   }
+  public static get menuItemFontSizeSmall() {
+    return this.menuItemFontSize;
+  }
+  public static get menuItemFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get menuItemFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @deprecated use menuItemPaddingXSmall
+   */
   public static menuItemPaddingX = '8px';
+  /**
+   * @deprecated use menuItemPaddingYSmall
+   */
   public static menuItemPaddingY = '6px';
+  public static get menuItemPaddingXSmall() {
+    return this.menuItemPaddingX;
+  }
+  public static get menuItemPaddingYSmall() {
+    return this.menuItemPaddingY;
+  }
+  public static menuItemPaddingXMedium = '12px';
+  public static menuItemPaddingYMedium = '9px';
+  public static menuItemPaddingXLarge = '16px';
+  public static menuItemPaddingYLarge = '12px';
   public static menuItemBorderRadius = '0px';
   public static menuItemLegacyPaddingX = '0px';
   public static menuItemLegacyPaddingY = '0px';
@@ -1332,10 +1406,10 @@ export class DefaultTheme {
     return this.menuItemDisabledBg;
   }
   public static get menuMessagePaddingY() {
-    return this.menuItemPaddingY;
+    return this.menuItemPaddingYSmall;
   }
   public static get menuMessagePaddingX() {
-    return this.menuItemPaddingX;
+    return this.menuItemPaddingXSmall;
   }
   public static get menuMessageDisplay() {
     return this.menuItemDisplay;
@@ -1344,13 +1418,13 @@ export class DefaultTheme {
     return this.menuItemPaddingMobile;
   }
   public static get menuMessageLineHeight() {
-    return this.menuItemLineHeight;
+    return this.menuItemLineHeightSmall;
   }
   public static get menuMessageLineHeightMobile() {
     return this.menuItemLineHeightMobile;
   }
   public static get menuMessageFontSize() {
-    return this.menuItemFontSize;
+    return this.menuItemFontSizeSmall;
   }
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
@@ -1360,11 +1434,55 @@ export class DefaultTheme {
   public static get menuHeaderColor() {
     return this.gray;
   }
+
+  /**
+   * @deprecated use menuHeaderLineHeightSmall
+   */
   public static menuHeaderLineHeight = '16px';
+  public static get menuHeaderLineHeightSmall() {
+    return this.menuHeaderLineHeight;
+  }
+  public static menuHeaderLineHeightMedium = '20px';
+  public static menuHeaderLineHeightLarge = '22px';
+
+  /**
+   * @deprecated use menuHeaderFontSizeSmall
+   */
   public static menuHeaderFontSize = '12px';
+  public static get menuHeaderFontSizeSmall() {
+    return this.menuHeaderFontSize;
+  }
+  public static menuHeaderFontSizeMedium = '14px';
+  public static menuHeaderFontSizeLarge = '16px';
+
+  /**
+   * @deprecated use menuHeaderPaddingXSmall
+   */
   public static menuHeaderPaddingX = '8px';
+  /**
+   * @deprecated use menuHeaderPaddingTopSmall
+   */
   public static menuHeaderPaddingTop = '12px';
+  /**
+   * @deprecated use menuHeaderPaddingBottomSmall
+   */
   public static menuHeaderPaddingBottom = '4px';
+  public static get menuHeaderPaddingXSmall() {
+    return this.menuHeaderPaddingX;
+  }
+  public static get menuHeaderPaddingTopSmall() {
+    return this.menuHeaderPaddingTop;
+  }
+  public static get menuHeaderPaddingBottomSmall() {
+    return this.menuHeaderPaddingBottom;
+  }
+  public static menuHeaderPaddingXMedium = '12px';
+  public static menuHeaderPaddingTopMedium = '14px';
+  public static menuHeaderPaddingBottomMedium = '6px';
+  public static menuHeaderPaddingXLarge = '16px';
+  public static menuHeaderPaddingTopLarge = '18px';
+  public static menuHeaderPaddingBottomLarge = '8px';
+
   public static menuHeaderLegacyPaddingRight = '0px';
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
