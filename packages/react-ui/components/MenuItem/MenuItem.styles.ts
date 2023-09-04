@@ -2,6 +2,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
+import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins';
+
 export const getMenuItemPaddings = ({
   menuItemLegacyPaddingX,
   menuItemPaddingX,
@@ -19,21 +21,11 @@ export const getMenuItemPaddings = ({
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const { paddingX, paddingY } = getMenuItemPaddings({
-      menuItemLegacyPaddingX: t.menuItemLegacyPaddingX,
-      menuItemPaddingX: t.menuItemPaddingX,
-      menuItemLegacyPaddingY: t.menuItemLegacyPaddingY,
-      menuItemPaddingY: t.menuItemPaddingY,
-    });
-
     return css`
       ${resetButton()};
 
       cursor: pointer;
       display: ${t.menuItemDisplay};
-      line-height: ${t.menuItemLineHeight};
-      font-size: ${t.menuItemFontSize};
-      padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
       position: relative;
       text-decoration: none;
       color: ${t.menuItemTextColor};
@@ -46,6 +38,43 @@ export const styles = memoizeStyle({
       &:nth-last-of-type(n + 2) {
         margin-bottom: ${t.menuItemGap};
       }
+    `;
+  },
+
+  rootSmall(t: Theme) {
+    return css`
+      ${menuItemSizeMixin(
+        t.menuItemLegacyPaddingX,
+        t.menuItemPaddingXSmall,
+        t.menuItemLegacyPaddingY,
+        t.menuItemPaddingYSmall,
+        t.menuItemLineHeightSmall,
+        t.menuItemFontSizeSmall,
+      )};
+    `;
+  },
+  rootMedium(t: Theme) {
+    return css`
+      ${menuItemSizeMixin(
+        t.menuItemLegacyPaddingX,
+        t.menuItemPaddingXMedium,
+        t.menuItemLegacyPaddingY,
+        t.menuItemPaddingYMedium,
+        t.menuItemLineHeightMedium,
+        t.menuItemFontSizeMedium,
+      )};
+    `;
+  },
+  rootLarge(t: Theme) {
+    return css`
+      ${menuItemSizeMixin(
+        t.menuItemLegacyPaddingX,
+        t.menuItemPaddingXLarge,
+        t.menuItemLegacyPaddingY,
+        t.menuItemPaddingYLarge,
+        t.menuItemLineHeightLarge,
+        t.menuItemFontSizeLarge,
+      )};
     `;
   },
 
@@ -86,9 +115,19 @@ export const styles = memoizeStyle({
       padding-left: 15px;
     `;
   },
-  withIcon(t: Theme) {
+  withIconSmall(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon};
+      ${withIconSizeMixin(t.menuItemPaddingForIconSmall)}
+    `;
+  },
+  withIconMedium(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconMedium)}
+    `;
+  },
+  withIconLarge(t: Theme) {
+    return css`
+      ${withIconSizeMixin(t.menuItemPaddingForIconLarge)}
     `;
   },
   comment(t: Theme) {
@@ -96,6 +135,7 @@ export const styles = memoizeStyle({
       color: ${t.menuItemCommentColor};
       opacity: ${t.menuItemCommentOpacity};
       white-space: normal;
+      padding-top: 4px;
     `;
   },
   commentHover(t: Theme) {
@@ -106,11 +146,24 @@ export const styles = memoizeStyle({
   },
   icon(t: Theme) {
     return css`
-      width: ${t.menuItemIconWidth};
       display: inline-block;
       position: absolute;
-      left: ${parseInt(t.menuItemPaddingX) + parseInt(t.menuItemIconLegacyMargin)}px;
       transform: translateY(${t.menuItemIconLegacyShift});
+    `;
+  },
+  iconSmall(t: Theme) {
+    return css`
+      ${iconSizeMixin(t.menuItemIconWidthSmall, t.menuItemPaddingXSmall, t.menuItemIconLegacyMargin)};
+    `;
+  },
+  iconMedium(t: Theme) {
+    return css`
+      ${iconSizeMixin(t.menuItemIconWidthMedium, t.menuItemPaddingXMedium, t.menuItemIconLegacyMargin)};
+    `;
+  },
+  iconLarge(t: Theme) {
+    return css`
+      ${iconSizeMixin(t.menuItemIconWidthLarge, t.menuItemPaddingXLarge, t.menuItemIconLegacyMargin)};
     `;
   },
   mobileContentWithIcon() {
