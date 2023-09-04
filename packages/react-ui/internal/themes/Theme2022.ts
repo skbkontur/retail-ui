@@ -337,13 +337,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActiveBorderColor = 'transparent';
 
   public static get tokenTextareaWidthOffsetSmall() {
-    return parseInt(this.tokenMarginXSmall, 10) + parseInt(this.tokenBorderWidth, 10);
+    return `${parseInt(this.tokenMarginXSmall, 10) + parseInt(this.tokenBorderWidth, 10)}px`;
   }
   public static get tokenTextareaWidthOffsetMedium() {
-    return parseInt(this.tokenMarginXMedium, 10) + parseInt(this.tokenBorderWidth, 10);
+    return `${parseInt(this.tokenMarginXMedium, 10) + parseInt(this.tokenBorderWidth, 10)}px`;
   }
   public static get tokenTextareaWidthOffsetLarge() {
-    return parseInt(this.tokenMarginXLarge, 10) + parseInt(this.tokenBorderWidth, 10);
+    return `${parseInt(this.tokenMarginXLarge, 10) + parseInt(this.tokenBorderWidth, 10)}px`;
   }
   //#endregion
 
