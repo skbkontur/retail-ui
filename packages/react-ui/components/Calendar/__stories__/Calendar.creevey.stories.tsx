@@ -161,7 +161,7 @@ export const CalendarWithPeriod: Story = () => {
         <input
           type="text"
           style={getFocusStyle('periodStartDate')}
-          onFocus={() => setFocus('periodStartDate')}
+          onClick={() => setFocus('periodStartDate')}
           value={periodStartDate}
           data-tid="input_period_start"
           onChange={(e) => setPeriodStartDate(e.target.value)}
@@ -171,7 +171,7 @@ export const CalendarWithPeriod: Story = () => {
         Окончание периода:
         <input
           type="text"
-          onFocus={() => setFocus('periodEndDate')}
+          onClick={() => setFocus('periodEndDate')}
           style={getFocusStyle('periodEndDate')}
           value={periodEndDate}
           data-tid="input_period_end"
