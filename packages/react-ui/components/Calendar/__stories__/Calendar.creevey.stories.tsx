@@ -204,7 +204,6 @@ CalendarWithPeriod.parameters = {
   creevey: {
     tests: {
       async 'Period selection'() {
-        await delay(1000);
         await this.browser
           .actions({
             bridge: true,
@@ -224,7 +223,6 @@ CalendarWithPeriod.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
       async 'Period change'() {
-        await delay(1000);
         const day10 = this.browser.findElement({
           css: '[data-tid="DayCellView__root"]:nth-child(6) ',
         });
@@ -232,10 +230,11 @@ CalendarWithPeriod.parameters = {
           css: '[data-tid="DayCellView__root"]:nth-child(11) ',
         });
         await this.browser.actions({ bridge: true }).click(day10).click(day15).perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
       async 'Checking blocked left days'() {
-        await delay(1000);
         await this.browser
           .actions({
             bridge: true,
@@ -260,11 +259,10 @@ CalendarWithPeriod.parameters = {
           .click(inputPeriodStart)
           .keyDown(this.keys.CONTROL)
           .sendKeys('a')
-          .keyDown(this.keys.DELETE)
+          .keyUp(this.keys.CONTROL)
+          .sendKeys(this.keys.DELETE)
           .perform();
         await delay(1000);
-
-        await this.keys.DELETE;
 
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
