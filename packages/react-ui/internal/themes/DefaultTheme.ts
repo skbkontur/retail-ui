@@ -127,9 +127,6 @@ export class DefaultTheme {
   }
   public static linkLineBorderBottomWidth = '0px';
   public static linkLineBorderBottomOpacity = '0.5';
-  public static linkLineBorderBottomColor = `color-mix(in srgb, currentColor ${
-    parseFloat(this.linkLineBorderBottomOpacity) * 100
-  }%, transparent)`;
 
   //#endregion
   //#region Token

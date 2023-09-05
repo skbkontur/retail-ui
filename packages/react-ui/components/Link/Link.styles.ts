@@ -28,6 +28,8 @@ const oldLineText = function (t: Theme) {
   `;
 };
 
+const linkLineBorderBottomColor = 'color-mix(in srgb, currentColor ${t.linkLineBorderBottomOpacity}, transparent)';
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
@@ -52,7 +54,7 @@ export const styles = memoizeStyle({
     // Планировалось добавить transition и color-mix(in srgb, currentColor 50%, transparent) в lineText.
     // Однако, в chrome и edge сочетание transition, color-mix и currentColor вызывает моргание при transition.
     return css`
-      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+      @supports (border-bottom-color: ${linkLineBorderBottomColor}) {
         transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
@@ -66,12 +68,12 @@ export const styles = memoizeStyle({
 
   lineText(t: Theme) {
     return css`
-      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+      @supports (border-bottom-color: ${linkLineBorderBottomColor}) {
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
-        border-bottom-color: ${t.linkLineBorderBottomColor};
+        border-bottom-color: ${linkLineBorderBottomColor};
       }
-      else {
+      @supports not (border-bottom-color: ${linkLineBorderBottomColor}) {
         ${oldLineText(t)};
       }
     `;
