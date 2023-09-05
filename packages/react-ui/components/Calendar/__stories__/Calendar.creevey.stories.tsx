@@ -213,24 +213,24 @@ CalendarWithPeriod.parameters = {
           .perform();
         await delay(1000);
         const day10 = this.browser.findElement({
-          css: '[data-tid="DayCellView__root"]:nth-child(11) ',
+          css: '[data-tid="DayCellView__root"]:nth-child(11)',
         });
         const day15 = this.browser.findElement({
-          css: '[data-tid="DayCellView__root"]:nth-child(16) ',
+          css: '[data-tid="DayCellView__root"]:nth-child(16)',
         });
         await this.browser.actions({ bridge: true }).click(day10).click(day15).perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+        await this.expect(await this.takeScreenshot()).to.matchImage('Period selection');
       },
       async 'Period change'() {
         await delay(1000);
         const day10 = this.browser.findElement({
-          css: '[data-tid="DayCellView__root"]:nth-child(6) ',
+          css: '[data-tid="DayCellView__root"]:nth-child(6)',
         });
         const day15 = this.browser.findElement({
-          css: '[data-tid="DayCellView__root"]:nth-child(11) ',
+          css: '[data-tid="DayCellView__root"]:nth-child(11)',
         });
         await this.browser.actions({ bridge: true }).click(day10).click(day15).perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+        await this.expect(await this.takeScreenshot()).to.matchImage('Period change');
       },
       async 'Checking blocked left days'() {
         await delay(1000);
@@ -245,7 +245,7 @@ CalendarWithPeriod.parameters = {
         });
 
         await this.browser.actions({ bridge: true }).click(day10).perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+        await this.expect(await this.takeScreenshot()).to.matchImage('Checking blocked left days');
       },
       async 'Checking blocked right days'() {
         await delay(1000);
@@ -253,7 +253,6 @@ CalendarWithPeriod.parameters = {
         const inputPeriodStart = this.browser.findElement({
           css: '[data-tid="input_period_start"]',
         });
-        console.info(inputPeriodStart);
         await this.browser
           .actions({ bridge: true })
           .click(inputPeriodStart)
@@ -263,9 +262,7 @@ CalendarWithPeriod.parameters = {
           .perform();
         await delay(1000);
 
-        await this.keys.DELETE;
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+        await this.expect(await this.takeScreenshot()).to.matchImage('Checking blocked right days');
       },
     },
   },
