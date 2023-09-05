@@ -256,9 +256,9 @@ CalendarWithPeriod.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(inputPeriodStart)
-          .keyDown(this.keys.CONTROL)
+          .sendKeys(this.keys.CONTROL)
           .sendKeys('a')
-          .keyDown(this.keys.DELETE)
+          .sendKeys(this.keys.DELETE)
           .perform();
         await delay(1000);
 
