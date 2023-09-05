@@ -131,7 +131,6 @@ export class DefaultTheme {
     parseFloat(this.linkLineBorderBottomOpacity) * 100
   }%, transparent)`;
 
-
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
