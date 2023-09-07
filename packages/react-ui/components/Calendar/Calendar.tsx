@@ -66,7 +66,21 @@ export interface CalendarProps extends CommonProps {
    * Позволяет задать начальный год
    */
   initialYear?: number;
+  /**
+   * Метод отрисовки дат в календаре
+   * @default (date) => date.date as number
+   * @param {CalendarDateShape} date - дата в формате `{ year: number; month: number; date: number; }`
+   *
+   * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
+   */
   renderDay?: (date: CalendarDateShape) => React.ReactNode;
+
+  /**
+   * Вызывается при каждом изменении месяца
+   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+   * `month: number` - номер текущего отображаемого месяца от 1 до 12,
+   * `year: number` - отображаемый год,
+   */
   onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
