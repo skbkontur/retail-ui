@@ -29,7 +29,7 @@ const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
 };
 
 export const CalendarWithCustomDates: Story = () => {
-  return <Calendar value={'30.08.2023'} renderDay={(date) => <CustomDayItem date={date} />} />;
+  return <Calendar value={'12.05.2022'} renderDay={(date) => <CustomDayItem date={date} />} />;
 };
 
 CalendarWithCustomDates.parameters = {
