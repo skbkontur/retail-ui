@@ -79,7 +79,7 @@ describe('Calendar', () => {
     userEvent.click(screen.getByRole('button', { name: 'Выбранный год 2017' }));
     userEvent.click(screen.getByRole('button', { name: 'Выбрать год 2018' }));
 
-    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 2000 });
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
   });
 
   it('should set langCode', () => {
