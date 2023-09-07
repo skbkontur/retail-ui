@@ -31,3 +31,9 @@ const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
 export const CalendarWithCustomDates: Story = () => {
   return <Calendar value={'30.08.2023'} renderDay={(date) => <CustomDayItem date={date} />} />;
 };
+
+CalendarWithCustomDates.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+  },
+};
