@@ -279,7 +279,7 @@ class DatePickerFormatting extends React.Component {
 ```jsx harmony
 import MagicWand from '@skbkontur/react-icons/MagicWand';
 
-const [value, setValue] = React.useState();
+const [value, setValue] = React.useState('12.05.2022');
 
 const CustomDayItem = ({ date }) => {
   const isEven = (num) => num % 2 === 0;
