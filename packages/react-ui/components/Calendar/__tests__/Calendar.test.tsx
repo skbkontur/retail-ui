@@ -7,7 +7,7 @@ import { componentsLocales as DateSelectLocalesEn } from '../../../internal/Date
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { Calendar } from '../Calendar';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { CalendarDataTids } from '..';
+import { CalendarDataTids, CalendarDateShape } from '..';
 import { CalendarLocaleHelper } from '../locale';
 
 describe('Calendar', () => {
@@ -45,6 +45,21 @@ describe('Calendar', () => {
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[0] as string)).toBeInTheDocument();
     expect(screen.getByText('2000')).toBeInTheDocument();
+  });
+
+  it('renders day cells with renderDay prop', async () => {
+    const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => (
+      <span data-tid="customDayItem">{date.date === 1 ? 'Custom' : date.date}</span>
+    );
+    render(
+      <Calendar
+        value="02.07.2017"
+        onValueChange={jest.fn()}
+        renderDay={(date: CalendarDateShape): React.ReactNode => <CustomDayItem date={date} />}
+      />,
+    );
+
+    expect(screen.getAllByTestId('customDayItem')[0]).toBeInTheDocument();
   });
 
   it('should set langCode', () => {
