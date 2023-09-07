@@ -62,6 +62,26 @@ describe('Calendar', () => {
     expect(screen.getAllByTestId('customDayItem')[0]).toBeInTheDocument();
   });
 
+  it('onMonthChange returns correct month', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+
+    userEvent.click(screen.getByRole('button', { name: 'Выбранный месяц Июнь' }));
+    userEvent.click(screen.getByRole('button', { name: 'Выбрать месяц Июль' }));
+
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 2000 });
+  });
+
+  it('onMonthChange returns correct year', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+
+    userEvent.click(screen.getByRole('button', { name: 'Выбранный год 2017' }));
+    userEvent.click(screen.getByRole('button', { name: 'Выбрать год 2018' }));
+
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 2000 });
+  });
+
   it('should set langCode', () => {
     render(
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
