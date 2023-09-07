@@ -871,10 +871,14 @@ export class DefaultTheme {
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px'; // deprecated
-  public static calendarCellHeight = '32px';
-  public static calendarCellWidth = '32px';
+  public static get calendarCellHeight() {
+    return this.calendarCellSize;
+  }
+  public static get calendarCellWidth() {
+    return this.calendarCellSize;
+  }
   public static get calendarCellLineHeight() {
-    return `calc(${this.calendarCellHeight} - 2px)`;
+    return `${parseInt(this.calendarCellHeight) - 2}px`;
   }
   public static get calendarMonthHeaderStickedBgColor() {
     return this.bgSecondary;
