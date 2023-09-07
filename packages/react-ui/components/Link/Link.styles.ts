@@ -28,8 +28,6 @@ const oldLineText = function (t: Theme) {
   `;
 };
 
-// const linkLineBorderBottomColor = 'color-mix(in srgb, currentColor ${t.linkLineBorderBottomOpacity}, transparent)';
-//
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
