@@ -52,7 +52,7 @@ export const CalendarWithCustomCellSize: Story = () => {
   );
 };
 
-CalendarWithCustomDates.parameters = {
+CalendarWithCustomCellSize.parameters = {
   creevey: {
     skip: { in: /^(?!\b(chrome|firefox)\b)/ },
   },

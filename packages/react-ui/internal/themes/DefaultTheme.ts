@@ -867,7 +867,7 @@ export class DefaultTheme {
   public static calendarCellActiveHoverColor = 'white';
   public static calendarCellWeekendColor = '#cb3d35';
   public static calendarCellTodayBorder = '1px solid rgba(0, 0, 0, 0.32)';
-  public static calendarCellBorderRadius = '50%';
+  public static calendarCellBorderRadius = '9999px';
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px'; // deprecated
