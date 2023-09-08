@@ -281,21 +281,33 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   };
 
   private isDayInSelectedPeriod = (date: DayCellViewModel) => {
-    const { hoveredDate, periodEndDate: maxPeriodDate, periodStartDate: minPeriodDate } = this.props;
+    const { hoveredDate, periodEndDate, periodStartDate } = this.props;
     if (hoveredDate) {
-      if (maxPeriodDate && !minPeriodDate) {
-        return CDS.isBetween(date, hoveredDate, maxPeriodDate);
+      if (periodEndDate && !periodStartDate) {
+        return CDS.isBetween(date, hoveredDate, periodEndDate);
       }
-      if (minPeriodDate && !maxPeriodDate) {
-        return CDS.isBetween(date, minPeriodDate, hoveredDate);
+      if (periodStartDate && !periodEndDate) {
+        return CDS.isBetween(date, periodStartDate, hoveredDate);
       }
     }
 
-    return Boolean(minPeriodDate && maxPeriodDate && CDS.isBetween(date, minPeriodDate, maxPeriodDate));
+    //включаю подсветку у periodEndDate или periodStartDate
+    if (!periodStartDate && periodEndDate) return Boolean(CDS.isEqual(date, periodEndDate));
+    if (!periodEndDate && periodStartDate) return Boolean(CDS.isEqual(date, periodStartDate));
+
+    return Boolean(
+      periodStartDate &&
+        periodEndDate &&
+        CDS.isLess(periodStartDate, periodEndDate) &&
+        CDS.isBetween(date, periodStartDate, periodEndDate),
+    );
   };
 
   private isPeriodStart = (date: DayCellViewModel) => {
-    const { periodStartDate, hoveredDate } = this.props;
+    const { periodStartDate, periodEndDate, hoveredDate } = this.props;
+    // полностью делаю круглым periodEndDate когда курсор мышки смотрит в сторону или на заблокированный день
+    if (!periodStartDate && !hoveredDate) return Boolean(CDS.isEqual(date, periodEndDate));
+
     return (
       (!periodStartDate && Boolean(hoveredDate && CDS.isEqual(date, hoveredDate))) ||
       Boolean(periodStartDate && CDS.isEqual(date, periodStartDate))
@@ -303,7 +315,12 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   };
 
   private isPeriodEnd = (date: DayCellViewModel) => {
-    const { periodEndDate, hoveredDate } = this.props;
+    const { periodStartDate, periodEndDate, hoveredDate } = this.props;
+    // полностью делаю круглым periodStartDate когда курсор мышки смотрит в сторону или на заблокированный день
+    if (!periodEndDate && !hoveredDate) {
+      return Boolean(CDS.isEqual(date, periodStartDate));
+    }
+
     return (
       (!periodEndDate && Boolean(hoveredDate && CDS.isEqual(date, hoveredDate))) ||
       Boolean(periodEndDate && CDS.isEqual(date, periodEndDate))
