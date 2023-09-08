@@ -20,14 +20,18 @@ export interface InstanceWithRootNode {
 interface ComponentWithDefaultRootNode {
   defaultRootNode?: Element | null;
 }
+interface ComponentWithKonturReactUI {
+  __KONTUR_REACT_UI__?: string;
+}
 
-interface DecoratableClassComponent extends ComponentWithDefaultRootNode {
+interface DecoratableClassComponent extends ComponentWithDefaultRootNode, ComponentWithKonturReactUI {
   new (...args: any[]): React.Component;
 }
 
 export function rootNode<T extends DecoratableClassComponent>(Component: T) {
   const rootNode = class extends Component implements InstanceWithRootNode {
     public rootNode: Nullable<Element> = Component.defaultRootNode;
+    public static __KONTUR_REACT_UI__ = Component.__KONTUR_REACT_UI__;
     public rootNodeEmitter = new EventEmitter();
     public constructor(...args: any[]) {
       super(args[0]);
