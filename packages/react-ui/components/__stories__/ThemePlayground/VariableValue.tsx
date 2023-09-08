@@ -3,15 +3,15 @@ import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';
 
-import { isColor } from '../../lib/styles/ColorHelpers';
-import { Input } from '../../components/Input';
-import { Gapped } from '../../components/Gapped';
-import { Theme } from '../../lib/theming/Theme';
-import { Link } from '../../components/Link';
-import { Hint } from '../../components/Hint';
-import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isColor } from '../../../lib/styles/ColorHelpers';
+import { Input } from '../../Input';
+import { Gapped } from '../../Gapped';
+import { Theme } from '../../../lib/theming/Theme';
+import { Link } from '../../Link';
+import { Hint } from '../../Hint';
+import { isFunction } from '../../../lib/utils';
+import { cx } from '../../../lib/theming/Emotion';
+import { createPropsGetter } from '../../../lib/createPropsGetter';
 
 import { styles } from './Playground.styles';
 

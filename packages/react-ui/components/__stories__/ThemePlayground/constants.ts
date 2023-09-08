@@ -1,4 +1,4 @@
-import { Theme } from '../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 
 export enum ThemeType {
   Default = 'default',

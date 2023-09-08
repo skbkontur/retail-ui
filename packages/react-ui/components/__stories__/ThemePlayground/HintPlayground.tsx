@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped';
-import { Button } from '../../components/Button';
-import { Hint } from '../../components/Hint';
-import { Toast } from '../../components/Toast';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
+import { Hint } from '../../Hint';
+import { Toast } from '../../Toast';
 
 export class HintPlayground extends React.Component {
   public render() {
