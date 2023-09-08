@@ -1,3 +1,4 @@
+import { increaseMonthByOne } from '../../components/Calendar/CalendarUtils';
 import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
 
@@ -35,7 +36,7 @@ export const upMonthOfShape = (DateShape: CalendarDateShape | undefined): Calend
     return undefined;
   }
 
-  return { ...DateShape, month: DateShape.month + 1 };
+  return { ...DateShape, month: increaseMonthByOne(DateShape.month) };
 };
 
 export const getShapeFromNativeDate = (nativeDate: Nullable<string>): CalendarDateShape | undefined => {
