@@ -356,9 +356,11 @@ export const styles = memoizeStyle({
   columnFlexContainer() {
     return css`
       height: 100%;
+      width: 100%;
       display: flex;
       flex-flow: column;
       overflow-y: auto;
+      overflow-x: hidden;
     `;
   },
 
