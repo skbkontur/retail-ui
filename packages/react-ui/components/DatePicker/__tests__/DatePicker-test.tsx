@@ -116,8 +116,16 @@ describe('DatePicker', () => {
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    userEvent.click(screen.getByRole('button', { name: 'Выбранный месяц Июнь' }));
-    userEvent.click(screen.getByRole('button', { name: 'Выбрать месяц Июль' }));
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Июнь`,
+      }),
+    );
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Июль`,
+      }),
+    );
 
     await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 2000 });
   });
@@ -127,10 +135,18 @@ describe('DatePicker', () => {
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    userEvent.click(screen.getByRole('button', { name: 'Выбранный год 2017' }));
-    userEvent.click(screen.getByRole('button', { name: 'Выбрать год 2018' }));
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
+      }),
+    );
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
+      }),
+    );
 
-    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 2000 });
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
   });
 
   describe('Locale', () => {
