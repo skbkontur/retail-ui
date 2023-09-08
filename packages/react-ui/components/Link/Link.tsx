@@ -13,7 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLAnchorElement } from '../../lib/globalThat';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -120,7 +120,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, ReactElement } from 'react';
 import invariant from 'invariant';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
@@ -11,6 +11,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { FocusEvent, HTMLSpanElement, HTMLInputElement } from '../../lib/globalThat';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -226,7 +227,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     return items ? mapItems<T>(this.renderRadio, items) : children;
   }
 
-  private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
+  private renderRadio = (itemValue: T, data: React.ReactNode, index: number): ReactElement => {
     const itemProps = {
       key: this.getKeyByItem(itemValue),
       className: cx({

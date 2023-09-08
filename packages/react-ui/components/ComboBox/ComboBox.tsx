@@ -8,6 +8,7 @@ import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { HTMLElement, HTMLInputElement } from '../../lib/globalThat';
 
 export interface ComboBoxProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,

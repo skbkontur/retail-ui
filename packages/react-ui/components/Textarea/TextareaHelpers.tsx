@@ -1,4 +1,4 @@
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, CSSStyleDeclaration, HTMLTextAreaElement } from '../../lib/globalThat';
 
 export function getTextAreaHeight(params: GetTextAreaHeightParams) {
   const { node, minRows, maxRows, extraRow } = params;

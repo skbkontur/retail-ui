@@ -9,6 +9,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { HTMLInputElement } from '../../lib/globalThat';
 
 import { styles } from './MaskedInput.styles';
 

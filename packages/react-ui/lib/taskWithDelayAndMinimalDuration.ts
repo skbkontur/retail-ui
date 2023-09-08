@@ -1,5 +1,7 @@
 import { Nullable } from '../typings/utility-types';
 
+import { globalThat, Timeout } from './globalThat';
+
 export interface TaskWithDelayAndMinimalDurationProps {
   delayBeforeTaskStart: number;
   durationOfTask: number;
@@ -8,8 +10,8 @@ export interface TaskWithDelayAndMinimalDurationProps {
 }
 
 export class TaskWithDelayAndMinimalDuration {
-  private timeoutBeforeTaskStart: Nullable<NodeJS.Timeout>;
-  private timeoutBeforeTaskStop: Nullable<NodeJS.Timeout>;
+  private timeoutBeforeTaskStart: Nullable<Timeout>;
+  private timeoutBeforeTaskStop: Nullable<Timeout>;
   private taskParams: TaskWithDelayAndMinimalDurationProps;
   private isTaskActive = false;
 
@@ -18,7 +20,7 @@ export class TaskWithDelayAndMinimalDuration {
   }
 
   private setTimeoutBeforeTaskStart = () => {
-    this.timeoutBeforeTaskStart = setTimeout(() => {
+    this.timeoutBeforeTaskStart = globalThat.setTimeout(() => {
       this.isTaskActive && this.taskParams.taskStartCallback();
       this.clearTimeoutBeforeTaskStart();
       this.setTimeoutBeforeTaskStop();
@@ -26,19 +28,19 @@ export class TaskWithDelayAndMinimalDuration {
   };
 
   private setTimeoutBeforeTaskStop = () => {
-    this.timeoutBeforeTaskStop = setTimeout(() => {
+    this.timeoutBeforeTaskStop = globalThat.setTimeout(() => {
       !this.isTaskActive && this.taskParams.taskStopCallback();
       this.clearTimeoutBeforeTaskStop();
     }, this.taskParams.durationOfTask);
   };
 
   private clearTimeoutBeforeTaskStart = () => {
-    this.timeoutBeforeTaskStart && clearTimeout(this.timeoutBeforeTaskStart);
+    this.timeoutBeforeTaskStart && globalThat.clearTimeout(this.timeoutBeforeTaskStart);
     this.timeoutBeforeTaskStart = null;
   };
 
   private clearTimeoutBeforeTaskStop = () => {
-    this.timeoutBeforeTaskStop && clearTimeout(this.timeoutBeforeTaskStop);
+    this.timeoutBeforeTaskStop && globalThat.clearTimeout(this.timeoutBeforeTaskStop);
     this.timeoutBeforeTaskStop = null;
   };
 

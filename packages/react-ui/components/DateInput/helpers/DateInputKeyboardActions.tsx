@@ -3,6 +3,7 @@ import React from 'react';
 import { SEPARATOR } from '../../../lib/date/constants';
 import * as Keyboard from '../../../lib/events/keyboard/identifiers';
 import { KeyboardActionExctracterBuilder } from '../../../lib/extractKeyboardAction';
+import { HTMLElement, KeyboardEvent } from '../../../lib/globalThat';
 
 const delimiters = [
   (e: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => new RegExp(SEPARATOR).test(e.key),

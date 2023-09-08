@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -51,7 +51,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     LayoutEvents.emit();
   };
 
-  public renderMain(): JSX.Element {
+  public renderMain(): ReactElement {
     const { noPadding } = this.props;
     return (
       <ModalContext.Consumer>

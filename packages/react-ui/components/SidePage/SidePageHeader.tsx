@@ -11,7 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -94,7 +94,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     this.updateReadyToFix();
   };
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

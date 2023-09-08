@@ -6,6 +6,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat, Timeout } from '../../lib/globalThat';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
@@ -78,7 +79,7 @@ type DefaultProps = Required<
 let currentGlobalLoader: GlobalLoader;
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
-  private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
+  private successAnimationInProgressTimeout: Nullable<Timeout>;
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
@@ -145,7 +146,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentWillUnmount() {
-    this.successAnimationInProgressTimeout && clearTimeout(this.successAnimationInProgressTimeout);
+    this.successAnimationInProgressTimeout && globalThat.clearTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
@@ -226,7 +227,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
-      this.successAnimationInProgressTimeout = setTimeout(() => {
+      this.successAnimationInProgressTimeout = globalThat.setTimeout(() => {
         this.setActive();
       }, delayBeforeHide);
     } else {

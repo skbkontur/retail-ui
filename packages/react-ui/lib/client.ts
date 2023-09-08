@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 export const isBrowser = typeof window !== 'undefined';
 export const canUseDOM = Boolean(isBrowser && document && document.createElement);
 

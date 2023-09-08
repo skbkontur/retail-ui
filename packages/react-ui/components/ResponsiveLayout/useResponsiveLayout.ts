@@ -1,5 +1,6 @@
 import React, { createRef, useCallback, useContext, useEffect, useState } from 'react';
 
+import { MediaQueryListEvent } from '../../lib/globalThat';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';

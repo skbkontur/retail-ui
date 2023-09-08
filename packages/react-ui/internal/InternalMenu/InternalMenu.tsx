@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { globalThat, isHTMLElement } from '../../lib/globalThat';
+import { globalThat, isHTMLElement, HTMLDivElement, HTMLElement } from '../../lib/globalThat';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';

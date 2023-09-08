@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import { isBrowser, isFirefox } from './client';
-import { globalThat, isElement } from './globalThat';
+import { globalThat, isElement, Element, Event, UIEvent } from './globalThat';
 
 interface FocusOutsideEventHandler {
   elements: Element[] | (() => Element[]);

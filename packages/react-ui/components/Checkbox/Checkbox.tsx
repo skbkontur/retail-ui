@@ -15,7 +15,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLInputElement, HTMLLabelElement, KeyboardEvent } from '../../lib/globalThat';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -170,7 +170,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
 
-    globalThat.document.addEventListener('keydown', this.handleShiftPress);
+    globalThat.document?.addEventListener('keydown', this.handleShiftPress);
     globalThat.document.addEventListener('keyup', this.handleShiftRelease);
   };
 

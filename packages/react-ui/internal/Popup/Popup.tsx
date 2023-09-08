@@ -14,7 +14,7 @@ import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
-import { globalThat, isElement } from '../../lib/globalThat';
+import { globalThat, isElement, HTMLDivElement, HTMLElement, Element, EventListener } from '../../lib/globalThat';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';

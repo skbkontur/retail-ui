@@ -18,7 +18,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLTextAreaElement } from '../../lib/globalThat';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -241,7 +241,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
+  private textareaObserver = isBrowser ? new globalThat.MutationObserver(this.reflowCounter) : null;
   private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты

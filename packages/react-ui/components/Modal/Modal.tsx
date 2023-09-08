@@ -18,7 +18,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLDivElement, KeyboardEvent, EventTarget } from '../../lib/globalThat';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -162,7 +162,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
   }
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

@@ -17,7 +17,7 @@ import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLDivElement, MutationObserver } from '../../lib/globalThat';
 
 import { styles } from './Loader.styles';
 
@@ -407,7 +407,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       childList: true,
       subtree: true,
     };
-    const observer = new MutationObserver(this.disableChildrenFocus);
+    const observer = new globalThat.MutationObserver(this.disableChildrenFocus);
     observer.observe(target, config);
     this.childrenObserver = observer;
   };

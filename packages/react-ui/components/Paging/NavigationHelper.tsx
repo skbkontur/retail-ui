@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { globalThat, HTMLElement, KeyboardEvent } from '../../lib/globalThat';
 import { Nullable } from '../../typings/utility-types';
 
 export interface KeyDescriptionType {
@@ -12,7 +13,7 @@ let keyDescription: Nullable<KeyDescriptionType> = null;
 const getKeyDescription = () => keyDescription || (keyDescription = createKeyDescription());
 
 const createKeyDescription = () =>
-  navigator.platform.includes('Mac')
+  globalThat.navigator.platform.includes('Mac')
     ? {
         name: 'Alt',
         checkPressed: (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => event.altKey,

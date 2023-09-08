@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';

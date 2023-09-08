@@ -1,4 +1,4 @@
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, Element } from '../../lib/globalThat';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { PopupPositionsType } from './Popup';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
@@ -6,7 +6,7 @@ import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLSpanElement, HTMLElement, EventTarget } from '../../lib/globalThat';
 
 import { styles } from './DateFragmentsView.styles';
 
@@ -55,7 +55,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     );
   }
 
-  private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
+  private renderSeparator(fragment: InternalDateFragment, index: number): ReactElement {
     const separatorClassName = cx({
       [styles.mask(this.theme)]: true,
       [styles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
@@ -68,7 +68,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     );
   }
 
-  private renderDateComponent(fragment: InternalDateFragment, index: number): JSX.Element {
+  private renderDateComponent(fragment: InternalDateFragment, index: number): ReactElement {
     const { inputMode, onSelectDateComponent, selected } = this.props;
     const { type, value, length, valueWithPad } = fragment;
 
@@ -87,7 +87,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
       : length;
 
     const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
-      if (globalThat.document.activeElement?.contains(e.currentTarget)) {
+      if (globalThat.document?.activeElement?.contains(e.currentTarget)) {
         onSelectDateComponent(type, e);
       }
     };

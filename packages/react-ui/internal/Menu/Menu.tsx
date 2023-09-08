@@ -4,7 +4,7 @@ import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keybo
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { isHTMLElement, globalThat } from '../../lib/globalThat';
+import { isHTMLElement, globalThat, HTMLDivElement, HTMLElement } from '../../lib/globalThat';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -15,7 +15,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
-import { isIE11 } from '../../lib/client';
+import { isBrowser, isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
@@ -345,8 +345,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
-      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && isBrowser && rootNode) {
+      const rootElementMaxHeight = globalThat.getComputedStyle(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -409,7 +409,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
         if (item.props.target) {
           globalThat.open(item.props.href, item.props.target);
         } else {
-          location.href = item.props.href;
+          globalThat.location.href = item.props.href;
         }
       }
       if (item.props.onClick) {

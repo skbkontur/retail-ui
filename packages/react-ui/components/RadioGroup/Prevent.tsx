@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { HTMLSpanElement } from '../../lib/globalThat';
+
 export interface PreventProps {
   children?: React.ReactNode;
 }

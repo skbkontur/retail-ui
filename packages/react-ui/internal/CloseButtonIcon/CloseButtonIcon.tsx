@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../CommonWrapper';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLButtonElement } from '../../lib/globalThat';
 
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';

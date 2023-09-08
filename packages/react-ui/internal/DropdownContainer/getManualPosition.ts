@@ -1,3 +1,4 @@
+import { Element, globalThat } from '../../lib/globalThat';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { DropdownContainerProps } from './DropdownContainer';
@@ -31,11 +32,11 @@ export const getManualPosition = ({ menuPos, target, offsetY, clientHeight }: Ma
   if (menuPos === 'top') {
     return {
       top: null,
-      bottom: getTopAlignment({ clientHeight, offsetY, scrollY, target }),
+      bottom: getTopAlignment({ clientHeight, offsetY, scrollY: globalThat.scrollY, target }),
     };
   }
 
   if (menuPos === 'bottom') {
-    return { top: scrollY + getDOMRect(target).top + target.clientHeight + offsetY };
+    return { top: globalThat.scrollY + getDOMRect(target).top + target.clientHeight + offsetY };
   }
 };

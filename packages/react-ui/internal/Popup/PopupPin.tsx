@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Element } from '../../lib/globalThat';
 import { Nullable } from '../../typings/utility-types';
 
 import { PopupHelper, PositionObject, Rect } from './PopupHelper';

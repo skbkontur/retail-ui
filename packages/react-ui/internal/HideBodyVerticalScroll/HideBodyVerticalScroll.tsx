@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css } from '../../lib/theming/Emotion';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 let disposeDocumentStyle: (() => void) | null = null;
 

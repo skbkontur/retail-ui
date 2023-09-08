@@ -20,7 +20,15 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
-import { globalThat, isTouchEvent, isWheelEvent } from '../../lib/globalThat';
+import {
+  globalThat,
+  isTouchEvent,
+  isWheelEvent,
+  HTMLElement,
+  Timeout,
+  Event,
+  KeyboardEvent,
+} from '../../lib/globalThat';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -115,9 +123,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private timeout: NodeJS.Timeout | undefined;
-  private longClickTimer: NodeJS.Timeout | undefined;
-  private setPositionRepeatTimer: NodeJS.Timeout | undefined;
+  private timeout: Timeout | undefined;
+  private longClickTimer: Timeout | undefined;
+  private setPositionRepeatTimer: Timeout | undefined;
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
 
@@ -136,13 +144,13 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       this.listener.remove();
     }
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      globalThat.clearTimeout(this.timeout);
     }
     if (this.longClickTimer) {
-      clearTimeout(this.longClickTimer);
+      globalThat.clearTimeout(this.longClickTimer);
     }
     if (this.setPositionRepeatTimer) {
-      clearTimeout(this.setPositionRepeatTimer);
+      globalThat.clearTimeout(this.setPositionRepeatTimer);
     }
     globalThat.removeEventListener('keydown', this.handleKey);
   }
@@ -275,9 +283,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       return;
     }
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      globalThat.clearTimeout(this.timeout);
     }
-    this.timeout = setTimeout(() =>
+    this.timeout = globalThat.setTimeout(() =>
       this.setState({
         nodeTop: getDOMRect(root).top,
       }),
@@ -440,24 +448,24 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = setTimeout(() => {
-      this.setPositionRepeatTimer = setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
+    this.longClickTimer = globalThat.setTimeout(() => {
+      this.setPositionRepeatTimer = globalThat.setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
     }, 200);
   };
 
   private handleLongClickDown = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = setTimeout(() => {
-      this.setPositionRepeatTimer = setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
+    this.longClickTimer = globalThat.setTimeout(() => {
+      this.setPositionRepeatTimer = globalThat.setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
     }, 200);
   };
 
   private handleLongClickStop = () => {
     if (this.longClickTimer) {
-      clearTimeout(this.longClickTimer);
+      globalThat.clearTimeout(this.longClickTimer);
     }
     if (this.setPositionRepeatTimer) {
-      clearTimeout(this.setPositionRepeatTimer);
+      globalThat.clearTimeout(this.setPositionRepeatTimer);
     }
   };
 
@@ -494,7 +502,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     }
 
     const { clientY } = event.changedTouches[0];
-    const pixelRatio = window.devicePixelRatio;
+    const pixelRatio = globalThat.devicePixelRatio;
 
     const deltaY = ((this.touchStartY || 0) - clientY) / pixelRatio;
     const pos = this.state.pos + deltaY + deltaY / itemHeight;

@@ -37,7 +37,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLDivElement, HTMLTextAreaElement, HTMLLabelElement, HTMLElement } from '../../lib/globalThat';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';

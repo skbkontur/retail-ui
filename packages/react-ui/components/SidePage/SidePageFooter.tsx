@@ -12,6 +12,7 @@ import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -96,7 +97,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
     return true;
   }
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

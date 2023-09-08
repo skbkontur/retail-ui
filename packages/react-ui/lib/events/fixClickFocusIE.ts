@@ -1,6 +1,6 @@
 import { getClosestFocusableElement } from '../dom/tabbableHelpers';
 import { isIE11, isEdge } from '../client';
-import { isHTMLElement, globalThat } from '../globalThat';
+import { isHTMLElement, globalThat, Event } from '../globalThat';
 
 export const fixClickFocusIE = (e: Event) => {
   if (isIE11 || isEdge) {

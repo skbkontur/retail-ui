@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isElement } from '../../lib/globalThat';
+import { isElement, Element, Event } from '../../lib/globalThat';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CommonWrapper } from '../CommonWrapper';
 

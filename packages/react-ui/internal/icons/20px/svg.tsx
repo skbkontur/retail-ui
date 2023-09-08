@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+import { HTMLSpanElement } from '../../../lib/globalThat';
+
 import { styles } from './icon.styles';
 
 export interface SVGIconProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -9,7 +11,7 @@ export interface SVGIconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color = 'currentColor', ...rest }) => (
   <span className={styles.root()} {...rest}>
-    {React.cloneElement(children as JSX.Element, {
+    {React.cloneElement(children as React.ReactElement, {
       className: styles.icon(),
       fill: color,
       focusable: 'false',

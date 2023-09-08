@@ -11,7 +11,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './Sticky.styles';
 

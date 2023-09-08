@@ -1,4 +1,8 @@
+import React from 'react';
+
+import { DOMRect, Element } from '../globalThat';
 import { Nullable } from '../../typings/utility-types';
+
 type DOMRectDefaultValues = Omit<DOMRect, 'toJSON'>;
 /**
  * Возвращает размер элемента и его позицию относительно viewport

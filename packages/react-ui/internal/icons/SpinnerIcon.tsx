@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { isIE11 } from '../../lib/client';
+import { SVGSVGElement, CSSStyleDeclaration } from '../../lib/globalThat';
 import {
   SpinnerFallbackAnimationRunner,
   createOffsetAnimation,

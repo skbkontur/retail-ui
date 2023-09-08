@@ -1,3 +1,5 @@
+import { Event } from '../globalThat';
+
 export const stopPropagation = (nativeEvent: Event) => {
   if (nativeEvent.stopPropagation) {
     nativeEvent.stopPropagation();

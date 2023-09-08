@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { css } from '../../lib/theming/Emotion';
+import { HTMLInputElement } from '../../lib/globalThat';
 
 interface Props extends React.HTMLAttributes<HTMLInputElement> {
   nodeRef: (ref: HTMLInputElement | null) => void;

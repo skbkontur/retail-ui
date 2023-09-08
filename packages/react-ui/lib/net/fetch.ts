@@ -37,7 +37,7 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 
 function createXHR() {
   if ('XDomainRequest' in globalThat) {
-    return new XDomainRequest();
+    return new globalThat.XDomainRequest();
   }
-  return new XMLHttpRequest();
+  return new globalThat.XMLHttpRequest();
 }

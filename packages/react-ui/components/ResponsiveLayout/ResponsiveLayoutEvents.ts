@@ -1,5 +1,6 @@
 import { matchMediaSSRSafe } from '../../lib/SSRSafe';
 import { canUseDOM } from '../../lib/client';
+import { MediaQueryListEvent, MediaQueryList } from '../../lib/globalThat';
 
 interface mediaQueryData {
   mql: MediaQueryList;

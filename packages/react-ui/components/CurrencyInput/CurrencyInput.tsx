@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 
-import { isHTMLInputElement } from '../../lib/globalThat';
+import { isHTMLInputElement, HTMLInputElement, EventTarget } from '../../lib/globalThat';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';

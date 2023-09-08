@@ -10,6 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { HTMLInputElement } from '../../lib/globalThat';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';

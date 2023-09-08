@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import { Transition } from 'react-transition-group';
 
+import { HTMLDivElement } from '../../lib/globalThat';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { RenderContainer } from '../RenderContainer';

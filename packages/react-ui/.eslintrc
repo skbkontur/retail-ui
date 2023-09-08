@@ -11,7 +11,18 @@
       ],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
-        "import/no-default-export": 0
+        "import/no-default-export": 0,
+        "no-undef": ["error", { "typeof": true }]
+      },
+      "env": {
+        "browser": false,
+        "node": false
+      }
+    },
+    {
+      "files": ["**/__stories__/**/*", "**/__tests__/**/*", "**/__mocks__/**/*"],
+      "rules": {
+        "no-undef": "off"
       }
     }
   ]

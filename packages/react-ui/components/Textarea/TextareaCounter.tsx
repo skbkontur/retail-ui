@@ -10,6 +10,7 @@ import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
+import { HTMLTextAreaElement, HTMLElement } from '../../lib/globalThat';
 
 import { TextareaDataTids, TextareaProps, TextareaSize } from './Textarea';
 import { styles } from './Textarea.styles';

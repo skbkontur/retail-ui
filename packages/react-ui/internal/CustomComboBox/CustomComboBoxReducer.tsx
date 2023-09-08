@@ -6,7 +6,7 @@ import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';

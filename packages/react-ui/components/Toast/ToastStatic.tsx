@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLDivElement } from '../../lib/globalThat';
 
 import { Toast, Action, ToastDataTids } from './Toast';
 

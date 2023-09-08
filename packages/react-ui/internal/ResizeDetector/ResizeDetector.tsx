@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { UIEvent, Window, HTMLIFrameElement } from '../../lib/globalThat';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './ResizeDetector.styles';

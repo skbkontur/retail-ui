@@ -1,5 +1,7 @@
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 
+import { Event, globalThat, HTMLElement, Timeout } from '../lib/globalThat';
+
 interface IUseDropProps {
   onDrop?: (event: Event) => void;
 }
@@ -16,11 +18,11 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
 
   const droppableRef = useRef<TElement>(null);
   const overRef = useRef<boolean>(false);
-  const timerId = useRef<NodeJS.Timeout>();
+  const timerId = useRef<Timeout>();
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
 
   const clearTimer = useCallback(() => {
-    timerId.current && clearTimeout(timerId.current);
+    timerId.current && globalThat.clearTimeout(timerId.current);
   }, []);
 
   const handleDragOver = useCallback(
@@ -29,7 +31,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
       setIsDraggable(true);
 
       clearTimer();
-      timerId.current = setTimeout(() => {
+      timerId.current = globalThat.setTimeout(() => {
         overRef.current = false;
         setIsDraggable(false);
       }, 200);

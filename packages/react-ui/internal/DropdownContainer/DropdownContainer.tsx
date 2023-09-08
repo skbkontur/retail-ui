@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { CommonProps } from '../CommonWrapper';
-import { globalThat, isElement } from '../../lib/globalThat';
+import { globalThat, isElement, HTMLDivElement, Element } from '../../lib/globalThat';
 
 import { styles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
