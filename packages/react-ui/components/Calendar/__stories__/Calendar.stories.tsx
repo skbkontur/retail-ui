@@ -111,14 +111,14 @@ CalendarWithMonthChangeHandle.parameters = {
   creevey: {
     skip: { in: /^(?!\b(chrome|firefox)\b)/ },
     tests: {
-      async 'month and year changes when selecting day'() {
+      async 'month and year change when selecting day'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid~="CustomDayItem"]' }))
           .perform();
         await delay(2000);
 
-        await this.expect(await this.takeScreenshot()).matchImage('month and year changes when selecting day');
+        await this.expect(await this.takeScreenshot()).matchImage('month and year change when selecting day');
       },
     },
   },
