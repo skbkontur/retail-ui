@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FxInput } from '../../components/FxInput';
+import { FxInput } from '../../FxInput';
 
 interface FxInputPlaygroundState {
   auto: boolean;

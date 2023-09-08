@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped';
-import { Toggle } from '../../components/Toggle';
+import { Gapped } from '../../Gapped';
+import { Toggle } from '../../Toggle';
 
 export class TogglePlayground extends React.Component {
   public render() {

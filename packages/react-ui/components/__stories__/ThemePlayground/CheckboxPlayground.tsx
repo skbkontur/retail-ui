@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped';
-import { Checkbox, CheckboxProps } from '../../components/Checkbox';
+import { Gapped } from '../../Gapped';
+import { Checkbox, CheckboxProps } from '../../Checkbox';
 
 import { getComponentsFromPropsList } from './helpers';
 

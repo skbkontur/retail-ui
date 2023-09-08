@@ -2,9 +2,9 @@ import React from 'react';
 import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
 
-import { Input } from '../../components/Input';
-import { Gapped } from '../../components/Gapped';
-import { Button } from '../../components/Button';
+import { Input } from '../../Input';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
 
 import { SelectPlayground } from './SelectPlayground';
 
