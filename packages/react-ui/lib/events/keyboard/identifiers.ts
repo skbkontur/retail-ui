@@ -1,4 +1,6 @@
-import { isKeyboardEvent } from '../../../lib/globalThat';
+import React from 'react';
+
+import { isKeyboardEvent, HTMLElement, KeyboardEvent } from '../../../lib/globalThat';
 import { isMac } from '../../client';
 
 import { extractCode } from './extractCode';

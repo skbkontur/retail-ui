@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isWheelEvent } from '../../lib/globalThat';
+import { isWheelEvent, HTMLElement, HTMLDivElement, Event } from '../../lib/globalThat';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';

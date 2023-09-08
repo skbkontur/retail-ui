@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
+import { HTMLIFrameElement } from '../lib/globalThat';
 import { createPropsGetter } from '../lib/createPropsGetter';
 
 export interface BGRulerProps {

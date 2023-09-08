@@ -20,7 +20,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ButtonSize } from '../Button';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement, HTMLDivElement } from '../../lib/globalThat';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -105,7 +105,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     this.listener.remove();
   }
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

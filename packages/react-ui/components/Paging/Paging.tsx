@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { func, number } from 'prop-types';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -15,7 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, isElement } from '../../lib/globalThat';
+import { globalThat, isElement, HTMLSpanElement, KeyboardEvent, HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -215,7 +215,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     );
   };
 
-  private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
+  private renderForwardLink = (disabled: boolean, focused: boolean): ReactElement => {
     const classes = isTheme2022(this.theme)
       ? cx(
           styles.pageLink(this.theme),
@@ -255,7 +255,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     );
   };
 
-  private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
+  private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): ReactElement => {
     const classes = cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,
@@ -318,7 +318,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      setTimeout(() => this.container && this.container.focus(), 0);
+      globalThat.setTimeout(() => this.container && this.container.focus(), 0);
     }
   };
 

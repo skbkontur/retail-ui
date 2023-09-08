@@ -15,7 +15,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTouchEvent, isWheelEvent } from '../../lib/globalThat';
+import { globalThat, isTouchEvent, isWheelEvent, HTMLElement, Timeout, Event } from '../../lib/globalThat';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
@@ -107,7 +107,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
-  private wheelEndTimeout: Nullable<NodeJS.Timeout>;
+  private wheelEndTimeout: Nullable<Timeout>;
   private root: Nullable<HTMLElement>;
   private animation = animation();
   private touchStartY: Nullable<number> = null;
@@ -175,7 +175,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
-      await new Promise((r) => setTimeout(r));
+      await new Promise((r) => globalThat.setTimeout(r));
     }
 
     const minDate = this.getDateInNativeFormat(this.getProps().minDate);
@@ -431,9 +431,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private handleWheelEnd = () => {
     if (this.wheelEndTimeout) {
-      clearTimeout(this.wheelEndTimeout);
+      globalThat.clearTimeout(this.wheelEndTimeout);
     }
-    this.wheelEndTimeout = setTimeout(this.scrollToNearestWeek, 300);
+    this.wheelEndTimeout = globalThat.setTimeout(this.scrollToNearestWeek, 300);
   };
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;

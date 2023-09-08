@@ -10,6 +10,7 @@ import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
+import { globalThat, HTMLTextAreaElement } from '../../lib/globalThat';
 
 import { TextareaDataTids, TextareaProps, TextareaSize } from './Textarea';
 import { styles } from './Textarea.styles';
@@ -95,5 +96,5 @@ TextareaCounter.propTypes = {
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   help: propTypes.oneOfType([propTypes.node, propTypes.func]),
   onCloseHelp: propTypes.func.isRequired,
-  textarea: safePropTypesInstanceOf(() => HTMLElement).isRequired,
+  textarea: safePropTypesInstanceOf(() => globalThat.HTMLElement).isRequired,
 };

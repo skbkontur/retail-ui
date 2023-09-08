@@ -5,6 +5,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import { HTMLDivElement } from '../../lib/globalThat';
 
 import { styles } from './Center.styles';
 

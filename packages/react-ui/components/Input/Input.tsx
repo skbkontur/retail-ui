@@ -16,7 +16,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLInputElement, HTMLLabelElement } from '../../lib/globalThat';
 import { isFunction } from '../../lib/utils';
 
 import { styles } from './Input.styles';
@@ -194,7 +194,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
-      clearTimeout(this.blinkTimeout);
+      globalThat.clearTimeout(this.blinkTimeout);
     }
     this.cancelDelayedSelectAll();
   }
@@ -236,7 +236,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = setTimeout(this.cancelBlink, 150);
+      this.blinkTimeout = globalThat.setTimeout(this.cancelBlink, 150);
     });
   }
 
@@ -262,7 +262,7 @@ export class Input extends React.Component<InputProps, InputState> {
       this.focus();
     }
     if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
-      setTimeout(() => {
+      globalThat.setTimeout(() => {
         this.input?.setSelectionRange(start, end);
       }, 150);
     } else {
@@ -276,7 +276,7 @@ export class Input extends React.Component<InputProps, InputState> {
     return Boolean(mask && (focused || alwaysShowMask));
   }
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -317,7 +317,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private cancelBlink = (callback?: () => void): void => {
     if (this.blinkTimeout) {
-      clearTimeout(this.blinkTimeout);
+      globalThat.clearTimeout(this.blinkTimeout);
       this.blinkTimeout = 0;
       if (this.state.blinking) {
         this.setState({ blinking: false }, callback);

@@ -1,4 +1,4 @@
-import { globalThat } from '../../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../../lib/globalThat';
 
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
   if (!node) {

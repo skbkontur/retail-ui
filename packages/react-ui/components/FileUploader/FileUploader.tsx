@@ -21,7 +21,14 @@ import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat } from '../../lib/globalThat';
+import {
+  globalThat,
+  HTMLInputElement,
+  HTMLDivElement,
+  HTMLLabelElement,
+  Document,
+  FileList,
+} from '../../lib/globalThat';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';

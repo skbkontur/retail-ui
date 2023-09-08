@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import propTypes from 'prop-types';
 
+import { HTMLElement, HTMLSpanElement } from '../../../lib/globalThat';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 
 import { styles } from './icon.styles';
@@ -18,7 +19,7 @@ const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
   ({ color, size, style, children, ...rest }, ref) => {
     return (
       <span ref={ref} className={styles.root()} style={{ ...style, fontSize: size, color }} {...rest}>
-        {React.cloneElement(children as JSX.Element, {
+        {React.cloneElement(children as ReactElement, {
           className: styles.icon(),
           fill: 'currentColor',
           focusable: 'false',

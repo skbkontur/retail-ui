@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { HTMLDivElement } from '../../lib/globalThat';
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 

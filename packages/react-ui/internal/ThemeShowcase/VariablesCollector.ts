@@ -2,6 +2,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
+import { globalThat } from '../../lib/globalThat';
 
 export interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -125,9 +126,9 @@ function getProxyHandler(accumulator: Set<keyof Theme>, dependencies: VariableDe
       }
 
       accessLevel++;
-      const start = performance.now();
+      const start = globalThat.performance.now();
       const result = Reflect.get(target, prop, receiver);
-      executionTime += performance.now() - start;
+      executionTime += globalThat.performance.now() - start;
       callsCount++;
       accessLevel--;
       return result;

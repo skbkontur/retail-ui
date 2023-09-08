@@ -6,7 +6,15 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import { isWheelEvent, globalThat } from '../../lib/globalThat';
+import {
+  isWheelEvent,
+  globalThat,
+  HTMLElement,
+  HTMLDivElement,
+  Event,
+  MouseEvent,
+  Document,
+} from '../../lib/globalThat';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';

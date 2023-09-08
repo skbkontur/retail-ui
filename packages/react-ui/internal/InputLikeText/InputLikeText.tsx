@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
@@ -22,7 +22,15 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
-import { isNode, globalThat } from '../../lib/globalThat';
+import {
+  isNode,
+  globalThat,
+  HTMLElement,
+  HTMLInputElement,
+  Timeout,
+  MouseEvent,
+  KeyboardEvent,
+} from '../../lib/globalThat';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -64,8 +72,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private frozen = false;
   private frozenBlur = false;
   private dragging = false;
-  private focusTimeout: Nullable<NodeJS.Timeout>;
-  private blinkTimeout: Nullable<NodeJS.Timeout>;
+  private focusTimeout: Nullable<Timeout>;
+  private blinkTimeout: Nullable<Timeout>;
   private setRootNode!: TSetRootNode;
 
   /**
@@ -94,7 +102,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = setTimeout(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = globalThat.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
@@ -120,9 +128,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.selectNodeContentsDebounced(node, start, end);
 
     if (this.focusTimeout) {
-      clearInterval(this.focusTimeout);
+      globalThat.clearInterval(this.focusTimeout);
     }
-    this.focusTimeout = setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
+    this.focusTimeout = globalThat.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
   };
 
   public componentDidMount() {
@@ -135,7 +143,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
-      clearTimeout(this.blinkTimeout);
+      globalThat.clearTimeout(this.blinkTimeout);
     }
     MouseDrag.stop(this.node);
     globalThat.document.removeEventListener('mousedown', this.handleDocumentMouseDown);
@@ -278,7 +286,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
   };
 
-  private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
+  private renderIcon = (icon: InputIconType, className: string): ReactElement | null => {
     if (!icon) {
       return null;
     }
@@ -297,7 +305,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderPrefix = (): JSX.Element | null => {
+  private renderPrefix = (): ReactElement | null => {
     const { prefix, disabled } = this.props;
 
     if (!prefix) {
@@ -311,7 +319,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderSuffix = (): JSX.Element | null => {
+  private renderSuffix = (): ReactElement | null => {
     const { suffix, disabled } = this.props;
 
     if (!suffix) {
@@ -325,7 +333,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderLeftSide = (): JSX.Element | null => {
+  private renderLeftSide = (): ReactElement | null => {
     const leftIcon = this.renderLeftIcon();
     const prefix = this.renderPrefix();
 
@@ -341,7 +349,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderRightSide = (): JSX.Element | null => {
+  private renderRightSide = (): ReactElement | null => {
     const rightIcon = this.renderRightIcon();
     const suffix = this.renderSuffix();
 
@@ -357,7 +365,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderPlaceholder = (): JSX.Element | null => {
+  private renderPlaceholder = (): ReactElement | null => {
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
     const hasValue = isNonNullable(children) && children !== '';
@@ -400,7 +408,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (isIE11 && isShortcutPaste(e) && this.hiddenInput) {
       this.frozen = true;
-      setTimeout(() => {
+      globalThat.setTimeout(() => {
         if (this.lastSelectedInnerNode) {
           this.selectInnerNode(...this.lastSelectedInnerNode);
         }
@@ -428,7 +436,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragEnd: MouseDragEventHandler = (e) => {
     // Дожидаемся onMouseUp
-    setTimeout(() => {
+    globalThat.setTimeout(() => {
       this.dragging = false;
 
       if (this.props.onMouseDragEnd) {

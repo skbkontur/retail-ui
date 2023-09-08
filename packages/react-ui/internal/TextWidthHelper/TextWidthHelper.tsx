@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { HTMLDivElement } from '../../lib/globalThat';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { jsStyles } from './TextWidthHelper.styles';

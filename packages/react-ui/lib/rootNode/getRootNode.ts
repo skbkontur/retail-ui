@@ -4,7 +4,7 @@ import React from 'react';
 import warning from 'warning';
 
 import { Nullable } from '../../typings/utility-types';
-import { isElement, isNode } from '../globalThat';
+import { isElement, isNode, Element } from '../globalThat';
 import { canUseDOM } from '../client';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';

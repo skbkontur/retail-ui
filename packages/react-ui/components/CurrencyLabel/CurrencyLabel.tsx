@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
@@ -28,7 +28,7 @@ export const CurrencyLabel = ({
   currencySymbol,
   hideTrailingZeros = false,
   ...rest
-}: CurrencyLabelProps): JSX.Element => {
+}: CurrencyLabelProps): ReactElement => {
   return (
     <CommonWrapper {...rest}>
       <span data-tid={CurrencyLabelDataTids.root}>

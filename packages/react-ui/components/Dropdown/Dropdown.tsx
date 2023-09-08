@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
+import { HTMLElement } from '../../lib/globalThat';
 
 import { getDropdownTheme } from './getDropdownTheme';
 
@@ -52,7 +53,7 @@ export interface DropdownProps
   width?: React.CSSProperties['width'];
 
   /** @ignore */
-  _renderButton?: (params: any) => JSX.Element;
+  _renderButton?: (params: any) => ReactElement;
 
   /**
    * Отключает использование портала

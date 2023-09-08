@@ -1,8 +1,15 @@
-import { forwardRef } from 'react';
+import {
+  ForwardRefExoticComponent,
+  ForwardRefRenderFunction,
+  NamedExoticComponent,
+  PropsWithoutRef,
+  RefAttributes,
+  forwardRef,
+} from 'react';
 
 export interface ReactUIComponentWithRef<T, P>
-  extends React.NamedExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>>,
-    Pick<React.ForwardRefExoticComponent<P>, 'propTypes'> {
+  extends NamedExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>,
+    Pick<ForwardRefExoticComponent<P>, 'propTypes'> {
   __KONTUR_REACT_UI__: string;
 }
 
@@ -17,7 +24,7 @@ function forwardName<ElementType, Props>(
 
 export function forwardRefAndName<ElementType, Props>(
   name: string,
-  render: React.ForwardRefRenderFunction<ElementType, Props>,
+  render: ForwardRefRenderFunction<ElementType, Props>,
 ): ReactUIComponentWithRef<ElementType, Props> {
   return forwardName<ElementType, Props>(name, forwardRef(render) as ReactUIComponentWithRef<ElementType, Props>);
 }
@@ -38,7 +45,7 @@ function forwardIconName<ElementType, Props>(
 
 export function forwardRefAndIconName<ElementType, Props>(
   name: string,
-  render: React.ForwardRefRenderFunction<ElementType, Props>,
+  render: ForwardRefRenderFunction<ElementType, Props>,
 ): ReactUIIconWithRef<ElementType, Props> {
   return forwardIconName<ElementType, Props>(name, forwardRef(render) as ReactUIIconWithRef<ElementType, Props>);
 }

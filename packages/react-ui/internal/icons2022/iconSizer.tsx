@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { SVGSVGElement } from '../../lib/globalThat';
 import { forwardRefAndIconName } from '../../lib/forwardRefAndName';
 
 import { IconProps as BaseIconProps } from './BaseIcon';

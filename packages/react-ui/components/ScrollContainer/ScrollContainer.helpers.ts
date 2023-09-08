@@ -1,3 +1,5 @@
+import { HTMLElement } from '../../lib/globalThat';
+
 import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { ScrollBarScrollState } from './ScrollBar';
 import { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer';

@@ -1,5 +1,7 @@
 import warning from 'warning';
 
+import { Window } from './globalThat';
+
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
 

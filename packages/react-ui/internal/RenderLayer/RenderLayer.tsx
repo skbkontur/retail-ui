@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, isElement } from '../../lib/globalThat';
+import { globalThat, isElement, Event, Element } from '../../lib/globalThat';
 
 export interface RenderLayerProps extends CommonProps {
-  children: JSX.Element;
+  children: ReactElement;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;

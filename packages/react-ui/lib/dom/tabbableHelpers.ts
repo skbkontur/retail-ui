@@ -1,6 +1,6 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
 
-import { isElement, globalThat } from '../globalThat';
+import { isElement, globalThat, Element, Document, HTMLElement } from '../globalThat';
 
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе

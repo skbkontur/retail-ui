@@ -16,7 +16,7 @@ import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { FileUploaderSize } from '../../../components/FileUploader';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { globalThat } from '../../../lib/globalThat';
+import { globalThat, HTMLElement, HTMLSpanElement, HTMLDivElement } from '../../../lib/globalThat';
 
 import { jsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';

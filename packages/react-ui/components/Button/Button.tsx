@@ -15,7 +15,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLButtonElement } from '../../lib/globalThat';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
@@ -241,7 +241,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     this.node?.blur();
   }
 
-  public render(): JSX.Element {
+  public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

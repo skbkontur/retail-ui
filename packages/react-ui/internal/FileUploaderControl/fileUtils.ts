@@ -1,3 +1,4 @@
+import { File } from '../../lib/globalThat';
 import { getUid } from '../../lib/uidUtils';
 
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';

@@ -1,4 +1,4 @@
-import { globalThat } from '../globalThat';
+import { globalThat, MouseEvent, HTMLElement, Event } from '../globalThat';
 import { canUseDOM } from '../client';
 
 enum MouseDragEventType {
@@ -158,8 +158,8 @@ export class MouseDrag {
   };
 
   private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent => {
-    if (typeof MouseEvent === 'function') {
-      return new MouseEvent(type, e);
+    if (typeof globalThat.MouseEvent === 'function') {
+      return new globalThat.MouseEvent(type, e);
     }
     // <=IE11
     const eIE11 = globalThat.document.createEvent('MouseEvent');

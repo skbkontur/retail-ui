@@ -7,7 +7,7 @@ import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../..
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { globalThat } from '../../lib/globalThat';
+import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';

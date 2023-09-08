@@ -1,5 +1,7 @@
 import { Nullable } from '../typings/utility-types';
 
+import { Element } from './globalThat';
+
 export interface InstanceWithAnchorElement {
   getAnchorElement: () => Nullable<Element>;
 }

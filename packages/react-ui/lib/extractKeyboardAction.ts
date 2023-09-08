@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { HTMLElement } from './globalThat';
+
 type ActionCheck = (x0: React.KeyboardEvent<HTMLElement>) => boolean;
 
 interface KeyboardActionMatcher<Actions> {

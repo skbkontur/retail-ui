@@ -3,7 +3,7 @@ import React from 'react';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isElement, globalThat } from '../../lib/globalThat';
+import { isElement, globalThat, FocusEvent, Event } from '../../lib/globalThat';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
