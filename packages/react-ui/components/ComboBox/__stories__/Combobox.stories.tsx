@@ -14,7 +14,7 @@ import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
-import { delay } from '../../../lib/utils';
+import { delay, mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
@@ -831,17 +831,24 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
   private setRootNode!: TSetRootNode;
+  private comboBoxRef: React.RefObject<ComboBox> = React.createRef<ComboBox>();
 
   public render() {
     return (
       <ComboBox
         {...this.props}
-        ref={this.setRootNode}
+        ref={mergeRefs([this.setRootNode, this.comboBoxRef])}
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
       />
     );
+  }
+
+  public open() {
+    if (this.comboBoxRef.current) {
+      this.comboBoxRef.current.open();
+    }
   }
 
   private getItems = (query: string) =>
@@ -1299,6 +1306,69 @@ WithManualPosition.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
+      },
+    },
+  },
+};
+
+export const Size: Story = () => {
+  let small: SimpleCombobox | null = null;
+  let medium: SimpleCombobox | null = null;
+  let large: SimpleCombobox | null = null;
+  const handleClick = () => {
+    if (small) {
+      small.open();
+    }
+    if (medium) {
+      medium.open();
+    }
+    if (large) {
+      large.open();
+    }
+  };
+  return (
+    <div>
+      <Button onClick={handleClick} data-tid="open-all">
+        Open All
+      </Button>
+      <Gapped style={{ paddingBottom: 230, paddingRight: 40 }}>
+        <SimpleCombobox
+          size={'small'}
+          ref={(element) => {
+            small = element;
+          }}
+        />
+        <SimpleCombobox
+          size={'medium'}
+          ref={(element) => {
+            medium = element;
+          }}
+        />
+        <SimpleCombobox
+          size={'large'}
+          ref={(element) => {
+            large = element;
+          }}
+        />
+      </Gapped>
+    </div>
+  );
+};
+
+Size.storyName = 'size';
+Size.parameters = {
+  creevey: {
+    tests: {
+      async ClickedAll() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
       },
     },
   },

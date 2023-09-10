@@ -31,6 +31,7 @@ export interface ComboBoxMenuProps<T> {
   requestStatus?: ComboBoxRequestStatus;
   isMobile?: boolean;
   menuId?: string;
+  size?: 'small' | 'medium' | 'large';
 }
 
 export const ComboBoxMenuDataTids = {
@@ -41,7 +42,7 @@ export const ComboBoxMenuDataTids = {
   item: 'ComboBoxMenu__item',
 } as const;
 
-type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus'>>;
+type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus' | 'size'>>;
 
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
@@ -50,6 +51,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
   public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
+    size: 'small',
   };
 
   private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
