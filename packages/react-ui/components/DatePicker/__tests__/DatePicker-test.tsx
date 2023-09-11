@@ -118,12 +118,16 @@ describe('DatePicker', () => {
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     userEvent.click(
       screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Июнь`,
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[5]
+        }`,
       }),
     );
     userEvent.click(
       screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Июль`,
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[6]
+        }`,
       }),
     );
 

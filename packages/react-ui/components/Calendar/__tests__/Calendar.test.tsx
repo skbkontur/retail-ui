@@ -68,12 +68,16 @@ describe('Calendar', () => {
 
     userEvent.click(
       screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Июнь`,
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[5]
+        }`,
       }),
     );
     userEvent.click(
       screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Июль`,
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6]
+        }`,
       }),
     );
 
