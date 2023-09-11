@@ -1,4 +1,4 @@
-import { increaseMonthByOne } from '../../components/Calendar/CalendarUtils';
+import { getMonthInHumanFormat } from '../../components/Calendar/CalendarUtils';
 
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from './constants';
 import { InternalDate } from './InternalDate';
@@ -11,7 +11,7 @@ import {
 
 const calculateMonth = (month: number) => {
   if (month <= 7) {
-    return increaseMonthByOne(month);
+    return getMonthInHumanFormat(month);
   }
 
   return month;

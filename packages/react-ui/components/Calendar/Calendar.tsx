@@ -371,7 +371,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({
       date,
-      month: CalendarUtils.increaseMonthByOne(month),
+      month: CalendarUtils.getMonthInHumanFormat(month),
       year,
     });
 
@@ -381,7 +381,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private handleDateChange = (dateShape: CalendarDateShape) => {
     const value = InternalDateTransformer.dateToInternalString({
       date: dateShape.date,
-      month: CalendarUtils.increaseMonthByOne(dateShape.month),
+      month: CalendarUtils.getMonthInHumanFormat(dateShape.month),
       year: dateShape.year,
     });
 
@@ -417,7 +417,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   ): void {
     const currentMonth = visibleMonths[0];
     const changeInfo = {
-      month: CalendarUtils.increaseMonthByOne(currentMonth.month),
+      month: CalendarUtils.getMonthInHumanFormat(currentMonth.month),
       year: currentMonth.year,
     };
 

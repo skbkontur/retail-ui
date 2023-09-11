@@ -10,7 +10,7 @@ import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
-import { increaseMonthByOne } from './CalendarUtils';
+import { getMonthInHumanFormat } from './CalendarUtils';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -47,7 +47,7 @@ export function DayCellView(props: DayCellViewProps) {
     <button
       data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
-      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && increaseMonthByOne(value.month)}.${
+      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && getMonthInHumanFormat(value.month)}.${
         value?.year
       }`}
       disabled={!CDS.isBetween(date, minDate, maxDate)}

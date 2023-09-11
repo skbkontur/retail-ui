@@ -1,7 +1,7 @@
 import { memo } from '../../lib/memo';
 import { Theme } from '../../lib/theming/Theme';
 
-import { increaseMonthByOne } from './CalendarUtils';
+import { getMonthInHumanFormat } from './CalendarUtils';
 import { themeConfig } from './config';
 import { DayCellViewModel } from './DayCellViewModel';
 
@@ -76,7 +76,7 @@ const getMonthHeight = memo(
   (daysCount: number, offset: number, dayHeight: number, titleHeight: number, marginBottom: number) =>
     Math.ceil((daysCount + offset) / 7) * dayHeight + titleHeight + marginBottom,
 );
-const getMonthsDays = memo((month: number, year: number) => new Date(year, increaseMonthByOne(month), 0).getDate());
+const getMonthsDays = memo((month: number, year: number) => new Date(year, getMonthInHumanFormat(month), 0).getDate());
 
 const getMonthOffset = memo((month: number, year: number) => {
   const day = new Date(year, month, 1).getDay() - 1;
