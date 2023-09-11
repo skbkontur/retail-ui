@@ -220,7 +220,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static modalCloseButtonPadding = '32px';
   public static modalCloseIconSize = '20px';
   public static mobileModalCloseIconSize = '20px';
-  public static mobileModalCloseButtonRightPadding = '12px';
+  public static mobileModalCloseButtonRightPadding = '16px';
   public static mobileModalCloseButtonTopPadding = '8px';
   public static modalHeaderPaddingBottom = '16px';
   public static modalBackBg = '#000';
