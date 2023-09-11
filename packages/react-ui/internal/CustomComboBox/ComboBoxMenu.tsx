@@ -9,9 +9,12 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { MenuMessage } from '../MenuMessage';
+import { cx } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
+import { styles } from './CustomComboBox.styles';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -32,6 +35,7 @@ export interface ComboBoxMenuProps<T> {
   isMobile?: boolean;
   menuId?: string;
   size?: 'small' | 'medium' | 'large';
+  theme: Theme;
 }
 
 export const ComboBoxMenuDataTids = {
@@ -42,7 +46,7 @@ export const ComboBoxMenuDataTids = {
   item: 'ComboBoxMenu__item',
 } as const;
 
-type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus' | 'size'>>;
+type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus'>>;
 
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
@@ -51,12 +55,23 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
   public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
-    size: 'small',
   };
 
   private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
 
   private readonly locale!: ComboBoxLocale;
+
+  private getNotFoundSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return cx(styles.notFoundFontSizeLarge(this.props.theme));
+      case 'medium':
+        return cx(styles.notFoundFontSizeMedium(this.props.theme));
+      case 'small':
+      default:
+        return cx(styles.notFoundFontSizeSmall(this.props.theme));
+    }
+  }
 
   public render() {
     const {
@@ -65,7 +80,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       totalCount,
       loading,
       refMenu,
-      renderNotFound = () => notFound,
+      renderNotFound = () => <span className={cx({ [this.getNotFoundSizeClassName()]: true })}>{notFound}</span>,
       renderTotalCount,
       maxMenuHeight,
       isMobile,
@@ -114,7 +129,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           <MenuMessage key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuMessage>
-          <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
+          <MenuItem link onClick={this.getProps().repeatRequest} size={this.props.size} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
         </Menu>
@@ -194,6 +209,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         data-tid={ComboBoxMenuDataTids.item}
         onClick={() => onValueChange(item)}
         key={index}
+        size={this.props.size}
         isMobile={this.props.isMobile}
       >
         {(state) => renderItem(item, state)}

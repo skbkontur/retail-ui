@@ -32,6 +32,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { MenuHeaderProps } from '../MenuHeader';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -539,6 +540,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         if (React.isValidElement(item)) {
           if (isReactUINode('MenuItem', item)) {
             return React.cloneElement(item, { key: i, isMobile, size } as MenuItemProps);
+          }
+          if (isReactUINode('MenuHeader', item)) {
+            return React.cloneElement(item, { size } as MenuHeaderProps);
           }
           return React.cloneElement(item, { key: i });
         }

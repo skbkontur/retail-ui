@@ -10,6 +10,7 @@ import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
 import { delay } from '../../../lib/utils';
 import { Gapped } from '../../Gapped';
+import { MenuHeader } from '../../MenuHeader';
 
 export default {
   title: 'Dropdown',
@@ -329,6 +330,7 @@ export const Size: Story = () => {
             small = element;
           }}
         >
+          <MenuHeader>This is header</MenuHeader>
           {items}
         </Dropdown>
         <Dropdown
@@ -338,6 +340,7 @@ export const Size: Story = () => {
             medium = element;
           }}
         >
+          <MenuHeader>This is header</MenuHeader>
           {items}
         </Dropdown>
         <Dropdown
@@ -347,6 +350,7 @@ export const Size: Story = () => {
             large = element;
           }}
         >
+          <MenuHeader>This is header</MenuHeader>
           {items}
         </Dropdown>
       </Gapped>
@@ -357,7 +361,7 @@ Size.storyName = 'size';
 Size.parameters = {
   creevey: {
     tests: {
-      async ClickedAll() {
+      async 'clicked all'() {
         await this.browser
           .actions({
             bridge: true,

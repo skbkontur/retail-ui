@@ -851,6 +851,12 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     }
   }
 
+  public search(query?: string) {
+    if (this.comboBoxRef.current) {
+      this.comboBoxRef.current.search(query);
+    }
+  }
+
   private getItems = (query: string) =>
     Promise.resolve(
       [
@@ -953,7 +959,7 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps> {
   private renderTotalCount = (foundCount: number, totalCount: number) => {
     if (foundCount < totalCount) {
       return (
-        <MenuHeader>
+        <MenuHeader size={this.props.size}>
           Показано {foundCount} из {totalCount} найденных городов.
         </MenuHeader>
       );
@@ -1317,17 +1323,20 @@ export const Size: Story = () => {
   let large: SimpleCombobox | null = null;
   const handleClick = () => {
     if (small) {
+      small.search('');
       small.open();
     }
     if (medium) {
+      medium.search('');
       medium.open();
     }
     if (large) {
+      large.search('');
       large.open();
     }
   };
   return (
-    <div>
+    <div style={{ height: 500, width: 900 }}>
       <Button onClick={handleClick} data-tid="open-all">
         Open All
       </Button>
@@ -1359,7 +1368,7 @@ Size.storyName = 'size';
 Size.parameters = {
   creevey: {
     tests: {
-      async ClickedAll() {
+      async 'clicked all'() {
         await this.browser
           .actions({
             bridge: true,

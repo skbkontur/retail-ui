@@ -2455,6 +2455,25 @@ export class DefaultTheme {
 
   //#region Combobox
   public static comboboxMenuOffsetY = '2px';
+  public static get comboboxFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get comboboxFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get comboboxFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  public static get comboboxLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get comboboxLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get comboboxLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
   //#endregion
 }
 

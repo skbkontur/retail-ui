@@ -96,6 +96,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
           renderNotFound={renderNotFound}
           totalCount={totalCount}
           renderAddButton={renderAddButton}
+          theme={this.theme}
         />
       </Popup>
     );
