@@ -16,13 +16,14 @@ interface DayCellViewProps {
   value?: Nullable<CDS.CalendarDateShape>;
   periodStartDate?: CDS.CalendarDateShape;
   periodEndDate?: CDS.CalendarDateShape;
-  hoveredDate?: CDS.CalendarDateShape;
   isWeekend?: boolean;
   isToday?: boolean;
   isDayInSelectedPeriod?: boolean;
   isPeriodStart?: boolean;
   isPeriodEnd?: boolean;
+  isSelected?: boolean;
   isDisabled?: boolean;
+  isHovered?: boolean;
   onDateClick?: (day: CDS.CalendarDateShape) => void;
   onMouseEnter?: (hoveredDate: CDS.CalendarDateShape) => void;
   onMouseLeave?: (hoveredDate: CDS.CalendarDateShape) => void;
@@ -31,11 +32,10 @@ interface DayCellViewProps {
 export function DayCellView(props: DayCellViewProps) {
   const {
     date,
-    periodStartDate,
-    periodEndDate,
     value,
     isWeekend,
-    hoveredDate,
+    isHovered,
+    isSelected,
     isDisabled,
     isToday,
     isPeriodStart,
@@ -69,7 +69,7 @@ export function DayCellView(props: DayCellViewProps) {
       disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,
-        [styles.weekend(theme)]: Boolean(isWeekend),
+        [styles.weekend(theme)]: isWeekend,
         [styles.period(theme)]: isDayInSelectedPeriod,
         [styles.periodStart()]: isPeriodStart,
         [styles.periodEnd()]: isPeriodEnd,
@@ -83,8 +83,8 @@ export function DayCellView(props: DayCellViewProps) {
           [styles.element(theme)]: true,
           [styles.today(theme)]: isToday && !_isTheme2022,
           [styles.today2022(theme)]: isToday && _isTheme2022,
-          [styles.selected(theme)]: Boolean((!periodStartDate || !periodEndDate) && value && CDS.isEqual(date, value)),
-          [styles.elementHover(theme)]: Boolean(hoveredDate && CDS.isEqual(date, hoveredDate)),
+          [styles.selected(theme)]: isSelected,
+          [styles.elementHover(theme)]: isHovered,
         })}
       >
         {child}

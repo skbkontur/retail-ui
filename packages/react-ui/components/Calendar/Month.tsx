@@ -241,12 +241,13 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
             <DayCellView
               date={day}
               key={`${day.date}.${day.month}.${day.year}`}
+              isSelected={this.isSelected(day)}
               isDisabled={this.isDisabled(day)}
               isToday={this.isToday(day)}
+              isHovered={this.isHovered(day)}
               periodStartDate={this.props.periodStartDate}
               periodEndDate={this.props.periodEndDate}
               value={this.props.value}
-              hoveredDate={this.props.hoveredDate}
               isWeekend={isWeekend}
               isPeriodStart={this.isPeriodStart(day)}
               isPeriodEnd={this.isPeriodEnd(day)}
@@ -262,55 +263,54 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   }
 
   private isToday = (day: DayCellViewModel) => {
-    return Boolean(this.props.today && CDS.isEqual(day, this.props.today));
+    return this.props.today && CDS.isEqual(day, this.props.today);
+  };
+
+  private isSelected = (date: DayCellViewModel) => {
+    const { value, periodStartDate, periodEndDate } = this.props;
+
+    return Boolean((!periodStartDate || !periodEndDate) && value && CDS.isEqual(date, value));
+  };
+
+  private isHovered = (date: DayCellViewModel) => {
+    const { hoveredDate } = this.props;
+
+    if (!hoveredDate) return false;
+
+    return CDS.isEqual(date, hoveredDate);
   };
 
   private isDisabled = (date: DayCellViewModel) => {
-    const { minDate, maxDate, periodStartDate: minPeriodDate, periodEndDate: maxPeriodDate } = this.props;
-    if (!CDS.isBetween(date, minDate, maxDate)) {
-      return true;
-    }
-    if (minPeriodDate && !maxPeriodDate) {
-      return Boolean(CDS.isLessOrEqual(date, minPeriodDate)) && !CDS.isEqual(minPeriodDate, date);
-    }
+    const { minDate, maxDate } = this.props;
 
-    if (!minPeriodDate && maxPeriodDate) {
-      return Boolean(CDS.isLessOrEqual(maxPeriodDate, date)) && !CDS.isEqual(maxPeriodDate, date);
-    }
-    return false;
+    return !CDS.isBetween(date, minDate, maxDate);
   };
 
   private isDayInSelectedPeriod = (date: DayCellViewModel) => {
-    const { hoveredDate, periodEndDate, periodStartDate } = this.props;
-    if (hoveredDate) {
-      if (periodEndDate && !periodStartDate) {
-        return CDS.isBetween(date, hoveredDate, periodEndDate);
-      }
-      if (periodStartDate && !periodEndDate) {
-        return CDS.isBetween(date, periodStartDate, hoveredDate);
-      }
+    const { hoveredDate, periodStartDate = hoveredDate, periodEndDate = hoveredDate } = this.props;
+
+    if (periodStartDate && periodEndDate && periodStartDate !== periodEndDate) {
+      return CDS.isGreaterOrEqual(date, periodStartDate) && CDS.isLessOrEqual(date, periodEndDate);
     }
 
-    //включаю подсветку у periodEndDate или periodStartDate
-    if (!periodStartDate && periodEndDate) return Boolean(CDS.isEqual(date, periodEndDate));
-    if (!periodEndDate && periodStartDate) return Boolean(CDS.isEqual(date, periodStartDate));
+    //включаю подсветку при отсутствии periodEndDate или periodStartDate
+    if (!periodEndDate || !periodStartDate) {
+      return CDS.isEqual(date, periodEndDate || periodStartDate);
+    }
 
-    return Boolean(
-      periodStartDate &&
-        periodEndDate &&
-        CDS.isLess(periodStartDate, periodEndDate) &&
-        CDS.isBetween(date, periodStartDate, periodEndDate),
-    );
+    return false;
   };
 
   private isPeriodStart = (date: DayCellViewModel) => {
     const { periodStartDate, periodEndDate, hoveredDate } = this.props;
     // полностью делаю круглым periodEndDate когда курсор мышки смотрит в сторону или на заблокированный день
-    if (!periodStartDate && !hoveredDate) return Boolean(CDS.isEqual(date, periodEndDate));
+    if (!periodStartDate && !hoveredDate) {
+      return CDS.isEqual(date, periodEndDate);
+    }
 
     return (
-      (!periodStartDate && Boolean(hoveredDate && CDS.isEqual(date, hoveredDate))) ||
-      Boolean(periodStartDate && CDS.isEqual(date, periodStartDate))
+      (!periodStartDate && hoveredDate && CDS.isEqual(date, hoveredDate)) ||
+      (periodStartDate && CDS.isEqual(date, periodStartDate))
     );
   };
 
@@ -318,12 +318,12 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
     const { periodStartDate, periodEndDate, hoveredDate } = this.props;
     // полностью делаю круглым periodStartDate когда курсор мышки смотрит в сторону или на заблокированный день
     if (!periodEndDate && !hoveredDate) {
-      return Boolean(CDS.isEqual(date, periodStartDate));
+      return CDS.isEqual(date, periodStartDate);
     }
 
     return (
-      (!periodEndDate && Boolean(hoveredDate && CDS.isEqual(date, hoveredDate))) ||
-      Boolean(periodEndDate && CDS.isEqual(date, periodEndDate))
+      (!periodEndDate && hoveredDate && CDS.isEqual(date, hoveredDate)) ||
+      (periodEndDate && CDS.isEqual(date, periodEndDate))
     );
   };
 }

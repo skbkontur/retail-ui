@@ -84,75 +84,58 @@ const isHoliday = (day, isWeekend) => {
 
 В календаре можно задать период
 ```jsx harmony
-const [min, setMin] = React.useState('05.08.2023');
-const [max, setMax] = React.useState('30.08.2023');
-const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2023');
-const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2023');
+import { DateInput, Gapped, Radio, RadioGroup } from '@skbkontur/react-ui'
+
+const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
+const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
 const [focus, setFocus] = React.useState('periodStartDate');
 
-const getFocusStyle = (type) => focus === type ? { background: '#80A6FF' } : {};
-
-const periodClearing = () => {
-  setFocus('periodStartDate');
-  setPeriodStartDate('');
-  setPeriodEndDate('');
-};
+const getFocusStyle = (type) => focus === type ? { borderColor: '#80A6FF' } : {};
 
 const onValueChange = (date) => {
   if (focus === 'periodEndDate') {
     setPeriodEndDate(date);
-    setFocus('periodStartDate');
   }
   if (focus === 'periodStartDate') {
     setPeriodStartDate(date);
-    setFocus('periodEndDate');
   }
 }
-
-<div style={{ display: 'flex'}}>
-  <Calendar
-    value={periodStartDate || periodEndDate}
-    periodStartDate={periodStartDate}
-    periodEndDate={periodEndDate}
-    minDate={min}
-    maxDate={max}
-    onValueChange={onValueChange}
-  />
-  <div style={{ display: 'flex', flexDirection: 'column'}}> 
-    <label>
-      Свободные дни с: <input type="text" value={min} onChange={(e) => setMin(e.target.value)} />
-    </label>
-    <label>
-      Свободные дни до: <input type="text" value={max} onChange={(e) => setMax(e.target.value)} />
-    </label>
-    <br />
-    <label>
-      Начало периода:
-      <input
-        type="text"
+<div style={{ display: 'flex' }}>
+  <div style={{ display: 'flex', flexDirection: 'column'}}>
+    <div style={{marginBottom: 2}}>
+      <DateInput 
+        onValueChange={value => setPeriodStartDate(value)}
         style={getFocusStyle('periodStartDate')}
         onClick={() => setFocus('periodStartDate')}
-        value={periodStartDate}
-        onChange={(e) => {
-          setPeriodStartDate(e.target.value);
-        }}
-      />
-    </label>
-    <label>
-      Окончание периода:
-      <input
-        type="text"
+        value={periodStartDate} 
+      /> 
+      - 
+      <DateInput 
+        onValueChange={value => setPeriodEndDate(value)}
         onClick={() => setFocus('periodEndDate')}
-        style={getFocusStyle('periodEndDate')}
-        value={periodEndDate}
-        onChange={(e) => setPeriodEndDate(e.target.value)}
+        style={getFocusStyle('periodEndDate')} 
+        value={periodEndDate} 
       />
-    </label>
-    <br />
-    <button data-tid="period_clearing" onClick={periodClearing} style={{width: 250}}>
-      Очистить период
-    </button>
+    </div>
+    <Calendar
+      value={periodStartDate || periodEndDate}
+      periodStartDate={periodStartDate}
+      periodEndDate={periodEndDate}
+      onValueChange={onValueChange}
+      minDate={!periodEndDate && periodStartDate}
+      maxDate={!periodStartDate && periodEndDate}
+    />
   </div>
+  <RadioGroup onValueChange={(value) => setFocus(value)} style={{marginLeft: 4}}>
+    <Gapped gap={3} vertical>
+      <Radio value="periodStartDate" checked={ focus === 'periodStartDate' }>
+        Редактировать начало периода
+      </Radio>
+      <Radio value="periodEndDate" checked={ focus === 'periodEndDate' }>
+        Редактировать конец периода
+      </Radio>
+    </Gapped>
+  </RadioGroup>
 </div>
 ```
 

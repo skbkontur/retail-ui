@@ -355,20 +355,16 @@ describe('Calendar', () => {
     it('the days to the right should be blocked', () => {
       let value = '20.08.2023';
       const periodEndDate = '20.08.2023';
-      const maxDate = '22.08.2023';
+      const maxDate = '20.08.2023';
       const onValueChange = (date: string) => (value = date);
 
       render(<Calendar value={value} periodEndDate={periodEndDate} onValueChange={onValueChange} maxDate={maxDate} />);
 
       //где 20 это 21.08.2023.
-      const freeDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[20];
-      //где 22 это 23.08.2023.
-      const blockedDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[22];
+      const blockedDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[20];
 
-      expect(freeDayButton).toBeInTheDocument();
       expect(blockedDayButton).toBeInTheDocument();
 
-      fireEvent.click(freeDayButton);
       fireEvent.click(blockedDayButton);
 
       expect(value).toBe('20.08.2023');
@@ -378,7 +374,7 @@ describe('Calendar', () => {
 
     it('the days to the left should be blocked', () => {
       let value = '20.08.2023';
-      const minDate = '18.08.2023';
+      const minDate = '20.08.2023';
       const periodStartDate = '20.08.2023';
       const onValueChange = (date: string) => (value = date);
 
@@ -387,14 +383,10 @@ describe('Calendar', () => {
       );
 
       //где 18 это 19.08.2023.
-      const freeDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[18];
-      //где 16 это 17.08.2023.
-      const blockedDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[16];
+      const blockedDayButton = screen.getAllByTestId(CalendarDataTids.dayCell)?.[18];
 
-      expect(freeDayButton).toBeInTheDocument();
       expect(blockedDayButton).toBeInTheDocument();
 
-      fireEvent.click(freeDayButton);
       fireEvent.click(blockedDayButton);
 
       expect(value).toBe('20.08.2023');
