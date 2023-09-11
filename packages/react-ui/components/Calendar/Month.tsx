@@ -275,7 +275,9 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private isHovered = (date: DayCellViewModel) => {
     const { hoveredDate } = this.props;
 
-    if (!hoveredDate) return false;
+    if (!hoveredDate) {
+      return false;
+    }
 
     return CDS.isEqual(date, hoveredDate);
   };
