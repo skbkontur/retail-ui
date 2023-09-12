@@ -9,14 +9,10 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { MenuMessage } from '../MenuMessage';
-import { cx } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import {ThemeContext} from "../../lib/theming/ThemeContext";
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
-import { styles } from './CustomComboBox.styles';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -58,43 +54,18 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     requestStatus: ComboBoxRequestStatus.Unknown,
   };
 
-  private theme!: Theme;
-
   private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
 
   private readonly locale!: ComboBoxLocale;
 
-  private getNotFoundSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return cx(styles.notFoundFontSizeLarge(this.theme));
-      case 'medium':
-        return cx(styles.notFoundFontSizeMedium(this.theme));
-      case 'small':
-      default:
-        return cx(styles.notFoundFontSizeSmall(this.theme));
-    }
-  }
-
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
     const {
       opened,
       items,
       totalCount,
       loading,
       refMenu,
-      renderNotFound = () => <span className={cx({ [this.getNotFoundSizeClassName()]: true })}>{notFound}</span>,
+      renderNotFound = () => notFound,
       renderTotalCount,
       maxMenuHeight,
       isMobile,

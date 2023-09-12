@@ -1227,17 +1227,42 @@ export class DefaultTheme {
   public static get menuMessagePaddingMobile() {
     return this.menuItemPaddingMobile;
   }
+  /**
+   * @deprecated use menuMessageLineHeightSmall
+   */
   public static get menuMessageLineHeight() {
     return this.menuItemLineHeightSmall;
   }
   public static get menuMessageLineHeightMobile() {
     return this.menuItemLineHeightMobile;
   }
+  /**
+   * @deprecated use menuMessageFontSizeSmall
+   */
   public static get menuMessageFontSize() {
     return this.menuItemFontSizeSmall;
   }
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
+  }
+  public static get menuMessageFontSizeSmall() {
+    return this.menuItemFontSizeSmall;
+  }
+  public static get menuMessageFontSizeMedium() {
+    return this.menuItemFontSizeMedium;
+  }
+  public static get menuMessageFontSizeLarge() {
+    return this.menuItemFontSizeLarge;
+  }
+
+  public static get menuMessageLineHeightSmall() {
+    return this.menuItemLineHeightSmall;
+  }
+  public static get menuMessageLineHeightMedium() {
+    return this.menuItemLineHeightMedium;
+  }
+  public static get menuMessageLineHeightLarge() {
+    return this.menuItemLineHeightLarge;
   }
   public static menuItemGap = '0px';
   //menuHeader
@@ -2458,25 +2483,6 @@ export class DefaultTheme {
 
   //#region Combobox
   public static comboboxMenuOffsetY = '2px';
-  public static get comboboxFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get comboboxFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get comboboxFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
-
-  public static get comboboxLineHeightSmall() {
-    return this.controlLineHeightSmall;
-  }
-  public static get comboboxLineHeightMedium() {
-    return this.controlLineHeightMedium;
-  }
-  public static get comboboxLineHeightLarge() {
-    return this.controlLineHeightLarge;
-  }
   //#endregion
 }
 
