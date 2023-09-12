@@ -167,7 +167,7 @@ export const styles = memoizeStyle({
 
   focus(t: Theme) {
     return css`
-      outline: ${t.focusLinkOutlineColor} solid ${t.focusLinkOutlineWidth};
+      outline: ${t.focusLinkOutline};
     `;
   },
 

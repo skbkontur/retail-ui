@@ -135,6 +135,10 @@ export class DefaultTheme {
   public static get focusLinkOutlineWidth() {
     return this.controlOutlineWidth;
   }
+  public static get focusLinkOutline() {
+    return `${this.focusLinkOutlineWidth} solid ${this.focusLinkOutlineColor}`;
+  }
+
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
