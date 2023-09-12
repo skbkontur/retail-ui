@@ -5,6 +5,7 @@ import { Story, CreeveyTests } from '../../../typings/stories';
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
+import { delay } from '../../../lib/utils';
 
 const linkTests: CreeveyTests = {
   async idle() {
@@ -122,5 +123,25 @@ Loading.parameters = {
       // TODO @Khlutkova fix after update browsers
       'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
+  },
+};
+
+const focusedLinkTest: CreeveyTests = {
+  async 'tab press'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .perform();
+    await delay(1000);
+    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+  },
+};
+
+export const FocusedLink: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
+FocusedLink.parameters = {
+  creevey: {
+    tests: focusedLinkTest,
   },
 };

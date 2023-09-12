@@ -151,6 +151,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
 
+    const isFocused = !disabled && (this.state.focusedByTab || focused);
+
     let iconElement = null;
     if (icon) {
       iconElement = (
@@ -168,11 +170,9 @@ export class Link extends React.Component<LinkProps, LinkState> {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
-    const isFocused = !disabled && (this.state.focusedByTab || focused);
-
     const linkProps = {
       className: cx(
-        styles.useRoot(),
+        !isFocused && styles.useRoot(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
@@ -193,11 +193,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (_isTheme2022) {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
-        <span className={cx(styles.lineTextWrapper(this.theme))}>
+        <span className={cx({ [styles.lineTextWrapper(this.theme)]: !isFocused })}>
           <span
             className={cx(globalClasses.text, {
-              [styles.lineText(this.theme)]: !isIE11,
-              [styles.lineTextIE11(this.theme)]: isIE11,
+              [styles.lineText(this.theme)]: !isIE11 && !isFocused,
+              [styles.lineTextIE11(this.theme)]: isIE11 && !isFocused,
             })}
           >
             {this.props.children}
@@ -243,25 +243,16 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
-    const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
 
     return !isBorderBottom
-      ? cx(
-          styles.root(this.theme),
-          isFocused && styles.focus(this.theme),
-          disabled && styles.disabled(this.theme),
-          use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
-        )
+      ? cx(styles.root(this.theme), isFocused && styles.focus(this.theme), disabled && styles.disabled(this.theme))
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
           disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
-          isFocused && use === 'default' && styles.lineFocus(this.theme),
-          isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
-          isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
-          isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+          isFocused && styles.focus(this.theme),
         );
   }
 }

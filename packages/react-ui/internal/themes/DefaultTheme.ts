@@ -131,6 +131,10 @@ export class DefaultTheme {
     parseFloat(this.linkLineBorderBottomOpacity) * 100
   }%, transparent)`;
 
+  public static focusLinkOutlineColor = '#3d3d3d';
+  public static get focusLinkOutlineWidth() {
+    return this.controlOutlineWidth;
+  }
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';

@@ -83,42 +83,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  lineFocus(t: Theme) {
-    return css`
-      color: ${t.linkHoverColor};
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
-    `;
-  },
-
-  lineFocusSuccess(t: Theme) {
-    return css`
-      color: ${t.linkSuccessHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
-    `;
-  },
-
-  lineFocusDanger(t: Theme) {
-    return css`
-      color: ${t.linkDangerHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
-    `;
-  },
-
-  lineFocusGrayed(t: Theme) {
-    return css`
-      color: ${t.linkGrayedHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
-    `;
-  },
-
   button(t: Theme) {
     return css`
       display: inline-block;
@@ -203,7 +167,7 @@ export const styles = memoizeStyle({
 
   focus(t: Theme) {
     return css`
-      text-decoration: ${t.linkHoverTextDecoration};
+      outline: ${t.focusLinkOutlineColor} solid ${t.focusLinkOutlineWidth};
     `;
   },
 
