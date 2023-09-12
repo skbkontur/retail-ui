@@ -224,7 +224,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         totalCount={totalCount}
         isMobile={this.isMobileLayout}
         size={size}
-        theme={this.theme}
       />
     );
   };

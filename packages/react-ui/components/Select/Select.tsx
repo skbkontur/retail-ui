@@ -349,7 +349,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
-      size: this.props.size || 'small',
+      size: this.getProps().size,
     };
 
     return buttonParams;
