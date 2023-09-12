@@ -31,7 +31,7 @@ export const animation = () => {
   }
 
   function cancel() {
-    globalThat.cancelAnimationFrame(rafId);
+    globalThat.cancelAnimationFrame?.(rafId);
     reset();
   }
 
@@ -61,7 +61,9 @@ export const animation = () => {
       currentPosition = nextPosition;
       currentVelocity = nextVelocity;
 
-      rafId = globalThat.requestAnimationFrame(animateInternal);
+      if (globalThat.requestAnimationFrame) {
+        rafId = globalThat.requestAnimationFrame(animateInternal);
+      }
     };
 
     if (!inProgress()) {

@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { CommonProps } from '../CommonWrapper';
-import { globalThat, isElement, HTMLDivElement, Element } from '../../lib/globalThat';
+import { globalThat, isElement, HTMLDivElement, Element, isBrowser } from '../../lib/globalThat';
 
 import { styles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
@@ -121,7 +121,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const target = this.props.getParent();
     const dom = this.dom;
 
-    if (target && isElement(target) && dom) {
+    if (target && isElement(target) && dom && isBrowser(globalThat)) {
       const targetRect = getDOMRect(target);
       const { body, documentElement: docEl } = globalThat.document;
 
@@ -207,6 +207,9 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 }
 
 const getIsDocumentElementRoot = () => {
+  if (!isBrowser(globalThat)) {
+    return;
+  }
   const { body, documentElement } = globalThat.document;
   const htmlPosition = globalThat.getComputedStyle(documentElement).position;
   const bodyPosition = globalThat.getComputedStyle(body).position;

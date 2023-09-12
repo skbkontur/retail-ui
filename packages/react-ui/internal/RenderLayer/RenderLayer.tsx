@@ -85,8 +85,8 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     }
 
     this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
-    globalThat.addEventListener('blur', this.handleFocusOutside);
-    globalThat.document.addEventListener(
+    globalThat.addEventListener?.('blur', this.handleFocusOutside);
+    globalThat.document?.addEventListener(
       'ontouchstart' in globalThat.document.documentElement && 'onpointerup' in globalThat.document.documentElement
         ? 'pointerup'
         : 'mousedown',
@@ -100,8 +100,8 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    globalThat.removeEventListener('blur', this.handleFocusOutside);
-    globalThat.document.removeEventListener(
+    globalThat.removeEventListener?.('blur', this.handleFocusOutside);
+    globalThat.document?.removeEventListener(
       'ontouchstart' in globalThat.document.documentElement && 'onpointerup' in globalThat.document.documentElement
         ? 'pointerup'
         : 'mousedown',

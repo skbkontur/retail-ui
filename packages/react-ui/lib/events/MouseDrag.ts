@@ -1,5 +1,4 @@
 import { globalThat, MouseEvent, HTMLElement, Event } from '../globalThat';
-import { canUseDOM } from '../client';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',
@@ -19,9 +18,7 @@ const items: Map<HTMLElement, MouseDrag> = new Map();
 
 const documentHandleMouseUp: HandlerNative = (e) => items.forEach((mouseDrag) => mouseDrag.handleMouseUp(e));
 
-if (canUseDOM) {
-  globalThat.document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
-}
+globalThat.document?.documentElement.addEventListener('mouseup', documentHandleMouseUp);
 
 /**
  * ## Класс для отслеживания эффекта перетаскивания мышкой
@@ -157,18 +154,20 @@ export class MouseDrag {
     return 0;
   };
 
-  private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent => {
+  private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent | undefined => {
     if (typeof globalThat.MouseEvent === 'function') {
       return new globalThat.MouseEvent(type, e);
     }
     // <=IE11
-    const eIE11 = globalThat.document.createEvent('MouseEvent');
-    eIE11.initEvent(type, true, true);
-    return eIE11;
+    const eIE11 = globalThat.document?.createEvent('MouseEvent');
+    if (eIE11) {
+      eIE11.initEvent(type, true, true);
+      return eIE11;
+    }
   };
 
-  private dispatchEvent = (mouseDragEvent: MouseDragEvent): void => {
-    if (this.elem !== null) {
+  private dispatchEvent = (mouseDragEvent?: MouseDragEvent): void => {
+    if (mouseDragEvent && this.elem !== null) {
       this.elem.dispatchEvent(mouseDragEvent);
     }
   };

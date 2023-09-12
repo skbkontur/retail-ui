@@ -6,15 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import {
-  isWheelEvent,
-  globalThat,
-  HTMLElement,
-  HTMLDivElement,
-  Event,
-  MouseEvent,
-  Document,
-} from '../../lib/globalThat';
+import { isWheelEvent, globalThat, HTMLElement, HTMLDivElement, Event, MouseEvent } from '../../lib/globalThat';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -217,7 +209,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { offset, size, pos, coord } = scrollSizeParametersNames[this.props.axis];
 
     const initialCoord = event[coord];
-    const target: Document = globalThat.document;
+    const target = globalThat.document;
     const initialScrollPos = this.inner[pos];
     const state = this.state;
 
@@ -248,14 +240,14 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     };
 
     const mouseUp = () => {
-      target.removeEventListener('mousemove', mouseMove);
-      target.removeEventListener('mouseup', mouseUp);
+      target?.removeEventListener('mousemove', mouseMove);
+      target?.removeEventListener('mouseup', mouseUp);
       this.setState({ ...this.state, scrollingByMouseDrag: false });
       this.hideScrollBar();
     };
 
-    target.addEventListener('mousemove', mouseMove);
-    target.addEventListener('mouseup', mouseUp);
+    target?.addEventListener('mousemove', mouseMove);
+    target?.addEventListener('mouseup', mouseUp);
     this.setState({ ...this.state, scrollingByMouseDrag: true });
 
     event.preventDefault();

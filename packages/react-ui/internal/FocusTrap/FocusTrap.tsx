@@ -55,7 +55,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     if (!this.focusOutsideListenerToken && rootNode) {
       this.focusOutsideListenerToken = listenFocusOutside([rootNode], this.onClickOutside);
 
-      globalThat.document.addEventListener(
+      globalThat.document?.addEventListener(
         'ontouchstart' in globalThat.document.documentElement ? 'touchstart' : 'mousedown',
         this.handleNativeDocClick,
       );
@@ -67,7 +67,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
       this.focusOutsideListenerToken.remove();
       this.focusOutsideListenerToken = null;
 
-      globalThat.document.removeEventListener(
+      globalThat.document?.removeEventListener(
         'ontouchstart' in globalThat.document.documentElement ? 'touchstart' : 'mousedown',
         this.handleNativeDocClick,
       );

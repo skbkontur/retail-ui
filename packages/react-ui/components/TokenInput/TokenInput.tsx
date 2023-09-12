@@ -300,7 +300,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public componentDidMount() {
     this.updateInputTextWidth();
-    globalThat.document.addEventListener('copy', this.handleCopy);
+    globalThat.document?.addEventListener('copy', this.handleCopy);
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -326,7 +326,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
-    globalThat.document.removeEventListener('copy', this.handleCopy);
+    globalThat.document?.removeEventListener('copy', this.handleCopy);
   }
 
   /**
@@ -578,7 +578,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input?.focus();
       // в firefox не работает без второго focus
-      globalThat.requestAnimationFrame(() => this.input?.focus());
+      globalThat.requestAnimationFrame?.(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -645,9 +645,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    if (this.menuRef) {
+    if (this.menuRef && globalThat.document) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = (event.relatedTarget || globalThat.document.activeElement) as HTMLElement;
+      const relatedTarget = event.relatedTarget || globalThat.document.activeElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;
@@ -820,7 +820,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    globalThat.requestAnimationFrame(() => this.input?.focus());
+    globalThat.requestAnimationFrame?.(() => this.input?.focus());
   };
 
   private selectInputText = () => {

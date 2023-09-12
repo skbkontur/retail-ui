@@ -78,13 +78,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   public componentDidMount = () => {
-    globalThat.addEventListener('scroll', this.update, true);
+    globalThat.addEventListener?.('scroll', this.update, true);
     this.context.setHasHeader?.();
     this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
-    globalThat.removeEventListener('scroll', this.update, true);
+    globalThat.removeEventListener?.('scroll', this.update, true);
     this.context.setHasHeader?.(false);
     this.context.headerRef(null);
   };

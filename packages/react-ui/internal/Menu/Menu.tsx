@@ -4,7 +4,7 @@ import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keybo
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { isHTMLElement, globalThat, HTMLDivElement, HTMLElement } from '../../lib/globalThat';
+import { isHTMLElement, globalThat, HTMLDivElement, HTMLElement, isBrowser } from '../../lib/globalThat';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -15,7 +15,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
-import { isBrowser, isIE11 } from '../../lib/client';
+import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
@@ -346,7 +346,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     const rootNode = getRootNode(this);
 
     if (typeof maxHeight === 'string' && isBrowser && rootNode) {
-      const rootElementMaxHeight = globalThat.getComputedStyle(rootNode).maxHeight;
+      const rootElementMaxHeight = globalThat.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -404,7 +404,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
-    if (isActiveElement(item)) {
+    if (isActiveElement(item) && isBrowser(globalThat)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
           globalThat.open(item.props.href, item.props.target);

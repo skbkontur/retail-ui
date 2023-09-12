@@ -80,8 +80,8 @@ function _getWindowRelativeRect(): Rect {
   return {
     top: 0,
     left: 0,
-    width: _getViewProperty((x) => x.clientWidth) || globalThat.innerWidth,
-    height: _getViewProperty((x) => x.clientHeight) || globalThat.innerHeight,
+    width: _getViewProperty((x) => x.clientWidth) || globalThat.innerWidth || 0,
+    height: _getViewProperty((x) => x.clientHeight) || globalThat.innerHeight || 0,
   };
 }
 
@@ -122,7 +122,7 @@ function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
 }
 
 function _getViewProperty(getProperty: (e: Element) => number): number {
-  const views = [globalThat.document.documentElement, globalThat.document.body];
+  const views = [globalThat.document?.documentElement, globalThat.document?.body];
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
 }
 

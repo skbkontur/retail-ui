@@ -373,7 +373,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    globalThat.requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
@@ -473,13 +473,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    globalThat.document.addEventListener('keydown', this.handleKeyDown);
+    globalThat.document?.addEventListener('keydown', this.handleKeyDown);
     this.addedGlobalListener = true;
   };
 
   private removeGlobalListener = () => {
     if (this.addedGlobalListener) {
-      globalThat.document.removeEventListener('keydown', this.handleKeyDown);
+      globalThat.document?.removeEventListener('keydown', this.handleKeyDown);
 
       this.addedGlobalListener = false;
     }

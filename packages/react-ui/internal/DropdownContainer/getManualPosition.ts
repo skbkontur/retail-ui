@@ -1,4 +1,4 @@
-import { Element, globalThat } from '../../lib/globalThat';
+import { Element, globalThat, isBrowser } from '../../lib/globalThat';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { DropdownContainerProps } from './DropdownContainer';
@@ -25,7 +25,7 @@ interface ManualPositionFuncArgs
 }
 
 export const getManualPosition = ({ menuPos, target, offsetY, clientHeight }: ManualPositionFuncArgs) => {
-  if (!menuPos) {
+  if (!menuPos || !isBrowser(globalThat)) {
     return undefined;
   }
 

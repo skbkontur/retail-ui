@@ -288,7 +288,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     if (!this.context.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame?.(() => {
         if (keyListener.isArrowPressed || keyListener.isTabPressed) {
           this.setState({ focusedByKeyboard: true });
         }

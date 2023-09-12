@@ -1,6 +1,4 @@
-import { matchMediaSSRSafe } from '../../lib/SSRSafe';
-import { canUseDOM } from '../../lib/client';
-import { MediaQueryListEvent, MediaQueryList } from '../../lib/globalThat';
+import { MediaQueryListEvent, MediaQueryList, globalThat } from '../../lib/globalThat';
 
 interface mediaQueryData {
   mql: MediaQueryList;
@@ -42,7 +40,7 @@ function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryLis
 }
 
 function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
-  const mql = matchMediaSSRSafe(mediaQuery);
+  const mql = globalThat.matchMedia?.(mediaQuery);
   if (mql) {
     const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
@@ -81,12 +79,8 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
 }
 
 export function checkMatches(mediaQuery: string) {
-  if (!canUseDOM) {
-    return false;
-  }
-
   if (!eventListenersMap.has(mediaQuery)) {
-    return !!matchMediaSSRSafe(mediaQuery)?.matches;
+    return !!globalThat.matchMedia?.(mediaQuery)?.matches;
   }
 
   const eventListener = eventListenersMap.get(mediaQuery);

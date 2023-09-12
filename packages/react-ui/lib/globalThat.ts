@@ -1,16 +1,18 @@
 /* eslint-disable no-undef */
-import { isBrowser } from './client';
 import { Upgrade } from './Upgrades';
 
-export const globalThat: typeof globalThis =
+export const isBrowser = (globalObject: unknown): globalObject is typeof globalThis => {
+  return typeof window !== 'undefined' && globalObject === Upgrade.getWindow();
+};
+
+export const globalThat: Partial<typeof globalThis> & NodeJS.Global =
   Upgrade.getWindow() ||
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
-  (typeof window === 'object' && window) ||
   Function('return this')();
 
 export function isElement(el: unknown): el is Element {
-  if (isBrowser) {
+  if (globalThat.Element) {
     return el instanceof globalThat.Element;
   }
 
@@ -18,7 +20,7 @@ export function isElement(el: unknown): el is Element {
 }
 
 export function isHTMLElement(el: unknown): el is HTMLElement {
-  if (isBrowser) {
+  if (globalThat.HTMLElement) {
     return el instanceof globalThat.HTMLElement;
   }
 
@@ -26,7 +28,7 @@ export function isHTMLElement(el: unknown): el is HTMLElement {
 }
 
 export function isHTMLInputElement(el: unknown): el is HTMLInputElement {
-  if (isBrowser) {
+  if (globalThat.HTMLInputElement) {
     return el instanceof globalThat.HTMLInputElement;
   }
 
@@ -34,7 +36,7 @@ export function isHTMLInputElement(el: unknown): el is HTMLInputElement {
 }
 
 export function isNode(node: unknown): node is Node {
-  if (isBrowser) {
+  if (globalThat.Node) {
     return node instanceof globalThat.Node;
   }
 
@@ -42,7 +44,7 @@ export function isNode(node: unknown): node is Node {
 }
 
 export function isTouchEvent(node: unknown): node is TouchEvent {
-  if (isBrowser) {
+  if (globalThat.TouchEvent) {
     return node instanceof globalThat.TouchEvent;
   }
 
@@ -50,7 +52,7 @@ export function isTouchEvent(node: unknown): node is TouchEvent {
 }
 
 export function isWheelEvent(node: unknown): node is WheelEvent {
-  if (isBrowser) {
+  if (globalThat.WheelEvent) {
     return node instanceof globalThat.WheelEvent;
   }
 
@@ -58,7 +60,7 @@ export function isWheelEvent(node: unknown): node is WheelEvent {
 }
 
 export function isMouseEvent(node: unknown): node is MouseEvent {
-  if (isBrowser) {
+  if (globalThat.MouseEvent) {
     return node instanceof globalThat.MouseEvent;
   }
 
@@ -66,14 +68,12 @@ export function isMouseEvent(node: unknown): node is MouseEvent {
 }
 
 export function isKeyboardEvent(node: unknown): node is KeyboardEvent {
-  if (isBrowser) {
+  if (globalThat.KeyboardEvent) {
     return node instanceof globalThat.KeyboardEvent;
   }
 
   return false;
 }
-
-export type TGlobal = typeof globalThat;
 
 type _Element = Element;
 type _SVGElement = SVGElement;

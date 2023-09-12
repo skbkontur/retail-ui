@@ -149,7 +149,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(() => HTMLElement), PropTypes.node]).isRequired,
+    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(globalThat.HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина
@@ -558,12 +558,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private delayUpdateLocation() {
     this.cancelDelayedUpdateLocation();
-    this.locationUpdateId = globalThat.requestAnimationFrame(this.updateLocation);
+    this.locationUpdateId = globalThat.requestAnimationFrame?.(this.updateLocation);
   }
 
   private cancelDelayedUpdateLocation() {
     if (this.locationUpdateId) {
-      globalThat.cancelAnimationFrame(this.locationUpdateId);
+      globalThat.cancelAnimationFrame?.(this.locationUpdateId);
       this.locationUpdateId = null;
     }
   }

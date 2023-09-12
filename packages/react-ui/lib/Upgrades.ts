@@ -8,7 +8,8 @@ let canModifySpecificityLevel = true;
 let specificityClassName = 'react-ui';
 let canModifySpecificityClassName = true;
 
-let _window: Window | undefined;
+// eslint-disable-next-line no-undef
+let _window = typeof window !== 'undefined' ? window : undefined;
 let canModifyWindow = true;
 
 //TODO Delete Upgrade in major release if it still doesn't work (https://tech.skbkontur.ru/react-ui/#/Migration)
@@ -43,7 +44,7 @@ export const Upgrade = {
     canModifyWindow = false;
     return _window;
   },
-  setWindow(win: Window) {
+  setWindow(win: Window & typeof globalThis) {
     if (canModifyWindow) {
       _window = win;
     } else {

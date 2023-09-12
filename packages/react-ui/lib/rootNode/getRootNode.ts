@@ -4,8 +4,7 @@ import React from 'react';
 import warning from 'warning';
 
 import { Nullable } from '../../typings/utility-types';
-import { isElement, isNode, Element } from '../globalThat';
-import { canUseDOM } from '../client';
+import { globalThat, isElement, isNode, Element } from '../globalThat';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
 
@@ -28,7 +27,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
    *  4. literally anything, returned from useImperativeHandle
    */
 
-  if (!canUseDOM || !instance) {
+  if (!globalThat.document || !instance) {
     // instance can be `null` if component was unmounted
     // also checking undefined for convenient usage
     return null;

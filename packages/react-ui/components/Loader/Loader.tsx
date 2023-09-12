@@ -17,7 +17,7 @@ import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, HTMLDivElement, MutationObserver } from '../../lib/globalThat';
+import { globalThat, HTMLDivElement, isBrowser, MutationObserver } from '../../lib/globalThat';
 
 import { styles } from './Loader.styles';
 
@@ -297,7 +297,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private checkSpinnerPosition = () => {
-    if (!this.spinnerContainerNode) {
+    if (!this.spinnerContainerNode || !isBrowser(globalThat)) {
       return;
     }
 
@@ -392,7 +392,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private enableChildrenFocus = () => {
     this.makeUnobservable();
     // NOTE: NodeList doesn't support 'forEach' method in IE11 and other older browsers
-    Array.from(globalThat.document.querySelectorAll('[origin-tabindex]')).forEach((el) => {
+    Array.from(globalThat.document?.querySelectorAll('[origin-tabindex]') ?? []).forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
@@ -400,7 +400,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private makeObservable = () => {
     const target = this.childrenContainerNode;
-    if (!target) {
+    if (!target || !isBrowser(globalThat)) {
       return;
     }
     const config = {

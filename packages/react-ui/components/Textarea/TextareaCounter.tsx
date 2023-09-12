@@ -96,5 +96,5 @@ TextareaCounter.propTypes = {
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   help: propTypes.oneOfType([propTypes.node, propTypes.func]),
   onCloseHelp: propTypes.func.isRequired,
-  textarea: safePropTypesInstanceOf(() => globalThat.HTMLElement).isRequired,
+  textarea: safePropTypesInstanceOf(globalThat.HTMLElement).isRequired,
 };

@@ -157,13 +157,11 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
    * @public
    */
   public reflow = () => {
-    const { documentElement } = globalThat.document;
-
-    if (!documentElement) {
+    if (!globalThat.document?.documentElement) {
       throw Error('There is no "documentElement" in document');
     }
 
-    const windowHeight = globalThat.innerHeight || documentElement.clientHeight;
+    const windowHeight = globalThat.innerHeight || globalThat.document.documentElement.clientHeight;
     if (!this.wrapper || !this.inner) {
       return;
     }

@@ -12,13 +12,13 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isBrowser, isIE11 } from '../../lib/client';
+import { isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, HTMLTextAreaElement } from '../../lib/globalThat';
+import { globalThat, isBrowser, HTMLTextAreaElement } from '../../lib/globalThat';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -241,7 +241,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = isBrowser ? new globalThat.MutationObserver(this.reflowCounter) : null;
+  private textareaObserver = isBrowser(globalThat) ? new globalThat.MutationObserver(this.reflowCounter) : null;
   private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
@@ -330,7 +330,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (globalThat.document.activeElement !== this.node) {
+    if (globalThat.document?.activeElement !== this.node) {
       this.focus();
     }
 
@@ -346,11 +346,12 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private delaySelectAll = (): number => (this.selectAllId = globalThat.requestAnimationFrame(this.selectAll));
+  private delaySelectAll = (): number | null =>
+    (this.selectAllId = globalThat.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      globalThat.cancelAnimationFrame(this.selectAllId);
+      globalThat.cancelAnimationFrame?.(this.selectAllId);
       this.selectAllId = null;
     }
   };
@@ -537,12 +538,19 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (rows === undefined || maxRows === undefined) {
       return;
     }
-    const { height, exceededMaxHeight } = getTextAreaHeight({
-      node: fakeNode,
-      minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
-      maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-      extraRow: this.getProps().extraRow,
-    });
+
+    const { height, exceededMaxHeight } =
+      getTextAreaHeight({
+        node: fakeNode,
+        minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
+        maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
+        extraRow: this.getProps().extraRow,
+      }) || {};
+
+    if (height === undefined || exceededMaxHeight === undefined) {
+      return;
+    }
+
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

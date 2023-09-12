@@ -20,7 +20,7 @@ export const SidePageCloseButton = () => {
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {
-    globalThat.requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         setIsFocusedByTab(true);
       }

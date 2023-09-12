@@ -15,29 +15,35 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
   const xhr = createXHR();
 
   const promise = new Promise<ApiResponseType>((resolve, reject) => {
-    xhr.onerror = reject;
-    xhr.ontimeout = reject;
+    if (xhr) {
+      xhr.onerror = reject;
+      xhr.ontimeout = reject;
 
-    xhr.onload = () => {
-      resolve({
-        ok: xhr.status >= 200 && xhr.status < 300,
-        status: xhr.status,
-        statusText: xhr.statusText,
-        text: () => Promise.resolve(xhr.responseText),
-        json: () => Promise.resolve(JSON.parse(xhr.responseText)),
-      });
-    };
+      xhr.onload = () => {
+        resolve({
+          ok: xhr.status >= 200 && xhr.status < 300,
+          status: xhr.status,
+          statusText: xhr.statusText,
+          text: () => Promise.resolve(xhr.responseText),
+          json: () => Promise.resolve(JSON.parse(xhr.responseText)),
+        });
+      };
+    }
   });
 
-  xhr.open(method, uri);
-  xhr.send(options.body);
+  if (xhr) {
+    xhr.open(method, uri);
+    xhr.send(options.body);
+  }
 
   return promise;
 }
 
 function createXHR() {
-  if ('XDomainRequest' in globalThat) {
+  if (globalThat.XDomainRequest) {
     return new globalThat.XDomainRequest();
   }
-  return new globalThat.XMLHttpRequest();
+  if (globalThat.XMLHttpRequest) {
+    return new globalThat.XMLHttpRequest();
+  }
 }

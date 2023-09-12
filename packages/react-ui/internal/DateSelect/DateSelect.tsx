@@ -28,6 +28,7 @@ import {
   Timeout,
   Event,
   KeyboardEvent,
+  isBrowser,
 } from '../../lib/globalThat';
 
 import { globalClasses, styles } from './DateSelect.styles';
@@ -136,7 +137,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   public componentDidMount() {
     this.listener = LayoutEvents.addListener(this.setNodeTop);
     this.setNodeTop();
-    globalThat.addEventListener('keydown', this.handleKey);
+    globalThat.addEventListener?.('keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
@@ -152,7 +153,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     if (this.setPositionRepeatTimer) {
       globalThat.clearTimeout(this.setPositionRepeatTimer);
     }
-    globalThat.removeEventListener('keydown', this.handleKey);
+    globalThat.removeEventListener?.('keydown', this.handleKey);
   }
 
   /**
@@ -497,7 +498,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!isTouchEvent(event)) {
+    if (!isTouchEvent(event) || !isBrowser(globalThat)) {
       return;
     }
 

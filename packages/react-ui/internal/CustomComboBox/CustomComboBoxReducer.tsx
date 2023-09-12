@@ -163,12 +163,12 @@ export const Effect: EffectFactory = {
 
     if (index >= 0) {
       // @ts-expect-error: Use of private property.
-      globalThat.requestAnimationFrame(() => menu && menu.scrollToSelected());
+      globalThat.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
       return;
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      globalThat.requestAnimationFrame(() => menu && menu.down());
+      globalThat.requestAnimationFrame?.(() => menu && menu.down());
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {

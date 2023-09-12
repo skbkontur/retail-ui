@@ -7,8 +7,7 @@ import { InputProps } from '../components/Input';
 import { AutocompleteProps } from '../components/Autocomplete';
 import { FxInputProps } from '../components/FxInput';
 
-import { isBrowser } from './client';
-import { globalThat } from './globalThat';
+import { globalThat, isBrowser } from './globalThat';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -74,7 +73,7 @@ export function escapeRegExpSpecChars(s: string): string {
 export const getRandomID = (): string => Math.random().toString(16).slice(2);
 
 export const isExternalLink = (link: string): boolean => {
-  return new RegExp(`^(https?:)?//${isBrowser ? `(?!${globalThat.location.host})` : ``}\\S+`, 'gi').test(link);
+  return isBrowser(globalThat) && new RegExp(`^(https?:)?//(?!${globalThat.location.host})\\S+`, 'gi').test(link);
 };
 
 /**

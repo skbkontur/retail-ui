@@ -1,8 +1,8 @@
 import { globalThat } from './globalThat';
-import { canUseDOM, isIE11 } from './client';
+import { isIE11 } from './client';
 
 const needsPolyfillPlaceholderInternal = () => {
-  if (canUseDOM) {
+  if (globalThat.document) {
     const supportsPlaceholder = 'placeholder' in globalThat.document.createElement('input');
     if (!supportsPlaceholder || isIE11) {
       return true;

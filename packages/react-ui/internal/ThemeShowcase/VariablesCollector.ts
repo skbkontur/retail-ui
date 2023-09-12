@@ -126,9 +126,9 @@ function getProxyHandler(accumulator: Set<keyof Theme>, dependencies: VariableDe
       }
 
       accessLevel++;
-      const start = globalThat.performance.now();
+      const start = globalThat.performance?.now() || 0;
       const result = Reflect.get(target, prop, receiver);
-      executionTime += globalThat.performance.now() - start;
+      executionTime += (globalThat.performance?.now() || 0) - start;
       callsCount++;
       accessLevel--;
       return result;

@@ -258,7 +258,7 @@ export class Input extends React.Component<InputProps, InputState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (globalThat.document.activeElement !== this.input) {
+    if (globalThat.document?.activeElement !== this.input) {
       this.focus();
     }
     if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
@@ -306,11 +306,12 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): number => (this.selectAllId = globalThat.requestAnimationFrame(this.selectAll));
+  private delaySelectAll = (): number | null =>
+    (this.selectAllId = globalThat.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      globalThat.cancelAnimationFrame(this.selectAllId);
+      globalThat.cancelAnimationFrame?.(this.selectAllId);
       this.selectAllId = null;
     }
   };

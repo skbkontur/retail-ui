@@ -1,10 +1,9 @@
 import { globalThat } from '../globalThat';
-import { canUseDOM } from '../client';
 
 let scrollbarWidth: number | null = null;
 
 export function getScrollWidth() {
-  if (!canUseDOM) {
+  if (!globalThat.document) {
     return 0;
   }
   const { body } = globalThat.document;

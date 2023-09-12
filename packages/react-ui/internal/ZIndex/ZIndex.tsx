@@ -2,9 +2,8 @@ import React from 'react';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isBrowser } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, HTMLDivElement } from '../../lib/globalThat';
+import { globalThat, isBrowser, HTMLDivElement } from '../../lib/globalThat';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -124,7 +123,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
             if (createStackingContext) {
-              isBrowser && 'isolation' in globalThat.document.body.style
+              isBrowser(globalThat) && 'isolation' in globalThat.document.body.style
                 ? (wrapperStyle.isolation = 'isolate')
                 : (wrapperStyle.transform = 'rotate(0)');
             }

@@ -42,14 +42,16 @@ const rafInterval = (fn: () => void, delay: number) => {
       fn();
       lastcall = timestamp;
     }
-    rafId = globalThat.requestAnimationFrame(interval);
+    if (globalThat.requestAnimationFrame) {
+      rafId = globalThat.requestAnimationFrame(interval);
+    }
   };
   interval();
 
   return {
     clear: () => {
       cleared = true;
-      globalThat.cancelAnimationFrame(rafId);
+      globalThat.cancelAnimationFrame?.(rafId);
     },
   };
 };

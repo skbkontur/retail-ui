@@ -148,7 +148,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const handleFocus = useCallback(() => {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           setFocusedByTab(true);
         }

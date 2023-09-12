@@ -310,7 +310,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    const selection = globalThat.getSelection();
+    const selection = globalThat.getSelection?.();
     if (
       selection &&
       selection.toString().length === LENGTH_FULLDATE &&

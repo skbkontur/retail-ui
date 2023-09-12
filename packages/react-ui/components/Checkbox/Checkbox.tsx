@@ -171,12 +171,12 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     globalThat.document?.addEventListener('keydown', this.handleShiftPress);
-    globalThat.document.addEventListener('keyup', this.handleShiftRelease);
+    globalThat.document?.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    globalThat.document.removeEventListener('keydown', this.handleShiftPress);
-    globalThat.document.removeEventListener('keyup', this.handleShiftRelease);
+    globalThat.document?.removeEventListener('keydown', this.handleShiftPress);
+    globalThat.document?.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   private setRootNode!: TSetRootNode;
@@ -355,7 +355,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

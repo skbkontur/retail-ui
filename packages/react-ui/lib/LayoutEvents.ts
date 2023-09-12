@@ -12,13 +12,13 @@ function getEmitter() {
 }
 
 function listenBrowserEvents() {
-  globalThat.addEventListener('scroll', emit, { capture: true });
-  globalThat.addEventListener('resize', emit, { capture: true });
+  globalThat.addEventListener?.('scroll', emit, { capture: true });
+  globalThat.addEventListener?.('resize', emit, { capture: true });
 }
 
 function unlistenBrowserEvents() {
-  globalThat.removeEventListener('scroll', emit, { capture: true });
-  globalThat.removeEventListener('resize', emit, { capture: true });
+  globalThat.removeEventListener?.('scroll', emit, { capture: true });
+  globalThat.removeEventListener?.('resize', emit, { capture: true });
 }
 
 export function addListener(callback: () => void) {

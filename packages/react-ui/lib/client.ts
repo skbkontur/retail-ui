@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
 
-export const isBrowser = typeof window !== 'undefined';
-export const canUseDOM = Boolean(isBrowser && document && document.createElement);
+import { globalThat } from './globalThat';
+
+// export const canUseDOM = Boolean(isBrowser(globalThat) && document && document.createElement);
 
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
-const platform = ((isBrowser && navigator && navigator.platform) || '').toLowerCase();
-const userAgent = ((isBrowser && navigator && navigator.userAgent) || '').toLowerCase();
-const vendor = ((isBrowser && navigator && navigator.vendor) || '').toLowerCase();
+const platform = (globalThat.navigator?.platform || '').toLowerCase();
+const userAgent = (globalThat.navigator?.userAgent || '').toLowerCase();
+const vendor = (globalThat.navigator?.vendor || '').toLowerCase();
 
 export const isMac = platform.includes('mac');
 export const isWindows = platform.includes('win');

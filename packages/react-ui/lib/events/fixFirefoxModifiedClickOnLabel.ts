@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isFirefox } from '../client';
-import { globalThat, HTMLInputElement, HTMLLabelElement } from '../globalThat';
+import { globalThat, isBrowser, HTMLInputElement, HTMLLabelElement } from '../globalThat';
 
 // Checkbox not checked in Firefox if key of modifier was active
 // shift+click, ctrl+click on Win and cmd+click on Mac
@@ -9,7 +9,7 @@ import { globalThat, HTMLInputElement, HTMLLabelElement } from '../globalThat';
 export const fixFirefoxModifiedClickOnLabel =
   (ref: React.RefObject<HTMLInputElement>) => (e: React.MouseEvent<HTMLLabelElement>) => {
     const input = ref.current;
-    if (input && !input.disabled && isFirefox && (e.shiftKey || e.ctrlKey || e.metaKey)) {
+    if (input && !input.disabled && isBrowser(globalThat) && isFirefox && (e.shiftKey || e.ctrlKey || e.metaKey)) {
       // Currently only valid for Radio and Checkbox
       input.checked = !input.checked;
       const type = input.type;

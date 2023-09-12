@@ -1,5 +1,6 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
 
+import { Nullable } from '../../typings/utility-types';
 import { isElement, globalThat, Element, Document, HTMLElement } from '../globalThat';
 
 /**
@@ -10,7 +11,7 @@ import { isElement, globalThat, Element, Document, HTMLElement } from '../global
  * @return {FocusableElement[]} - Массив найденных элементов
  */
 
-export const getTabbableElements = (parent: Element | Document | null = globalThat.document): FocusableElement[] => {
+export const getTabbableElements = (parent: Nullable<Element | Document> = globalThat.document): FocusableElement[] => {
   if (!parent || !parent.children.length || !isElement(parent)) {
     return [];
   }

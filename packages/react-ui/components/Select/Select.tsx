@@ -225,10 +225,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      globalThat.addEventListener('popstate', this.close);
+      globalThat.addEventListener?.('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      globalThat.removeEventListener('popstate', this.close);
+      globalThat.removeEventListener?.('popstate', this.close);
     }
   }
 

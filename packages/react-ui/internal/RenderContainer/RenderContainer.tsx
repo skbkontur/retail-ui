@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
@@ -21,7 +20,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   constructor(props: RenderContainerProps) {
     super(props);
 
-    if (isBrowser && props.children) {
+    if (props.children) {
       this.mountContainer();
     }
   }
@@ -45,8 +44,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private createContainer() {
-    if (canUseDOM) {
-      const domContainer = globalThat.document.createElement('div');
+    const domContainer = globalThat.document?.createElement('div');
+    if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
       this.domContainer = domContainer;
@@ -57,8 +56,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (!this.domContainer) {
       this.createContainer();
     }
-    if (this.domContainer && this.domContainer.parentNode !== globalThat.document.body) {
-      globalThat.document.body.appendChild(this.domContainer);
+    if (this.domContainer && this.domContainer.parentNode !== globalThat.document?.body) {
+      globalThat.document?.body.appendChild(this.domContainer);
 
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);

@@ -79,7 +79,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
 
     // @ts-expect-error: IE-specific API.
-    if (isIE11 && !globalThat.document.msCapsLockWarningOff) {
+    if (isIE11 && !globalThat.document && !globalThat.document.msCapsLockWarningOff) {
       // @ts-expect-error: Read the comment above.
       // turns off default ie capslock warning
       globalThat.document.msCapsLockWarningOff = true;

@@ -8,7 +8,7 @@ import { Toast, Action, ToastDataTids } from './Toast';
 
 export class ToastStatic {
   public static push = (notification: string, action?: Nullable<Action>, showTime?: number) => {
-    if (!ToastStatic.node) {
+    if (!ToastStatic.node && globalThat.document) {
       ToastStatic.node = globalThat.document.createElement('div');
       const { body } = globalThat.document;
       if (!body) {

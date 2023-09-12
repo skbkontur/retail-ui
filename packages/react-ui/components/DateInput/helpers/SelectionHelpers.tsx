@@ -1,10 +1,10 @@
-import { globalThat, HTMLElement } from '../../../lib/globalThat';
+import { globalThat, HTMLElement, isBrowser } from '../../../lib/globalThat';
 
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
   if (!node) {
     return;
   }
-  if ('createRange' in globalThat.document) {
+  if (isBrowser(globalThat) && 'createRange' in globalThat.document) {
     try {
       const selection = globalThat.getSelection();
       const range = globalThat.document.createRange();
@@ -25,9 +25,8 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
     }
   }
 
-  // @ts-expect-error: IE-specific API.
-  if (typeof globalThat.document.body.createTextRange === 'function') {
-    // @ts-expect-error: Read the comment above.
+  if (isBrowser(globalThat) && 'createTextRange' in globalThat.document.body) {
+    // @ts-expect-error: IE-specific API.
     const range = globalThat.document.body.createTextRange();
     range.moveToElementText(node);
     if (typeof range.select === 'function') {
@@ -38,8 +37,8 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
 };
 
 export const removeAllSelections = () => {
-  const selection = globalThat.getSelection();
-  if (selection !== null) {
+  const selection = globalThat.getSelection?.();
+  if (selection) {
     try {
       // Fix IE from issue not working (https://github.com/skbkontur/retail-ui/issues/1205)
       selection.removeAllRanges();
