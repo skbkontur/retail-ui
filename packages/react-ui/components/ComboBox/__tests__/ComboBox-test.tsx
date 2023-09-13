@@ -154,6 +154,29 @@ describe('ComboBox', () => {
     expect(search).toHaveBeenCalledTimes(2);
   });
 
+  it('does not submit the form on the first Enter key press but submits on the second', async () => {
+    const handleSubmit = jest.fn();
+
+    const getItems = () => {
+      return Promise.resolve(['one', 'two', 'three']);
+    };
+    render(
+      <form onSubmit={handleSubmit}>
+        <ComboBox getItems={getItems} renderItem={(x) => x} value={'one'} />
+      </form>,
+    );
+
+    const input = screen.getByTestId(InputLikeTextDataTids.root);
+    fireEvent.click(input);
+    fireEvent.keyPress(input, { key: 'Enter', code: 'Enter' });
+
+    expect(handleSubmit).not.toHaveBeenCalled();
+
+    fireEvent.submit(input);
+
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
+  });
+
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     render(<ComboBox getItems={search} renderItem={(x) => x} />);
