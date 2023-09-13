@@ -162,7 +162,7 @@ describe('ComboBox', () => {
     };
     render(
       <form onSubmit={handleSubmit}>
-        <ComboBox getItems={getItems} renderItem={(x) => x} value={'one'} />
+        <ComboBox getItems={getItems} value={'one'} />
       </form>,
     );
 
