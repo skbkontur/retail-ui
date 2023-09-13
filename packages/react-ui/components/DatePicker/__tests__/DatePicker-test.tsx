@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { CalendarDataTids } from '../../../components/Calendar';
+import { CalendarDataTids, CalendarDateShape } from '../../../components/Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
@@ -93,6 +93,64 @@ describe('DatePicker', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('renders day cells with renderItem prop', async () => {
+    const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => (
+      <span data-tid="customDayItem">{date.date === 1 ? 'Custom' : date.date}</span>
+    );
+    render(
+      <DatePicker
+        value="02.07.2017"
+        onValueChange={jest.fn()}
+        renderDay={(date: CalendarDateShape): React.ReactNode => <CustomDayItem date={date} />}
+      />,
+    );
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+    expect(screen.getAllByTestId('customDayItem')[0]).toBeInTheDocument();
+  });
+
+  it('onMonthChange returns correct month', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[5]
+        }`,
+      }),
+    );
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[6]
+        }`,
+      }),
+    );
+
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 2000 });
+  });
+
+  it('onMonthChange returns correct year', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
+      }),
+    );
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
+      }),
+    );
+
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
   });
 
   describe('Locale', () => {

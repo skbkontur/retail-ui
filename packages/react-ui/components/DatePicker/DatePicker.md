@@ -60,6 +60,7 @@ let removeTooltip = () => setTooltip(false);
 ```
 
 Очистить значение в `DatePicker`'е можно с помощью пустой строки, `null` или `undefined`
+
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
 
@@ -131,7 +132,7 @@ const isHoliday = (day, isWeekend) => {
 <details><summary>`data.gov.ru`</summary>
 
 Docs:
-https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
+<https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo>
 
 Request:
 
@@ -271,6 +272,28 @@ class DatePickerFormatting extends React.Component {
 }
 
 <DatePickerFormatting />;
+```
+
+### Кастомизирование отображения даты
+
+```jsx harmony
+import MagicWand from '@skbkontur/react-icons/MagicWand';
+
+const [value, setValue] = React.useState('12.05.2022');
+
+const CustomDayItem = ({ date }) => {
+  const isEven = (num) => num % 2 === 0;
+
+  return (
+    <div>
+      {isEven(date.date) ? <MagicWand /> : date.date}
+    </div>
+  );
+};
+
+const renderDay = (date) =>  <CustomDayItem date={date} />;
+
+<DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```
 
 #### Локали по умолчанию
