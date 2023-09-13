@@ -30,9 +30,10 @@ interface MonthProps {
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
   onMouseEnterDay?: (hoveredDate: CDS.CalendarDateShape) => void;
   onMouseLeaveDay?: (hoveredDate: CDS.CalendarDateShape) => void;
+  renderDay?: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
-type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday'>>;
+type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday' | 'renderItem'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
@@ -128,6 +129,7 @@ export class Month extends React.Component<MonthProps> {
         hoveredDate={this.props.hoveredDate}
         onMouseEnterDay={this.props.onMouseEnterDay}
         onMouseLeaveDay={this.props.onMouseLeaveDay}
+        renderItem={this.props.renderDay}
       />
     );
   }
@@ -172,6 +174,7 @@ interface MonthDayGridProps {
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
   onMouseEnterDay?: (hoveredDate: CDS.CalendarDateShape) => void;
   onMouseLeaveDay?: (hoveredDate: CDS.CalendarDateShape) => void;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
@@ -179,6 +182,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public static defaultProps: DefaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
+    renderItem: (date: CDS.CalendarDateShape) => date.date,
   };
 
   constructor(props: MonthDayGridProps) {
@@ -230,7 +234,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
       <div className={styles.monthDayGrid(this.theme)}>
         <div
           style={{
-            width: this.props.offset * themeConfig(this.theme).DAY_SIZE,
+            width: this.props.offset * themeConfig(this.theme).DAY_WIDTH,
             display: 'inline-block',
           }}
         />
@@ -255,6 +259,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
               onDateClick={this.props.onDateClick}
               onMouseEnter={this.props.onMouseEnterDay}
               onMouseLeave={this.props.onMouseLeaveDay}
+              renderItem={this.props.renderItem}
             />
           );
         })}

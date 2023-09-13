@@ -81,6 +81,8 @@ export const getMonthInNativeFormat = (initialMonth: number | undefined) => {
   }
 };
 
+export const getMonthInHumanFormat = (month: number) => month + 1;
+
 export const getInitialDate = ({
   today,
   date,

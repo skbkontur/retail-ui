@@ -10,6 +10,7 @@ import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
+import { getMonthInHumanFormat } from './CalendarUtils';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -27,6 +28,7 @@ interface DayCellViewProps {
   onDateClick?: (day: CDS.CalendarDateShape) => void;
   onMouseEnter?: (hoveredDate: CDS.CalendarDateShape) => void;
   onMouseLeave?: (hoveredDate: CDS.CalendarDateShape) => void;
+  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode | number;
 }
 
 export function DayCellView(props: DayCellViewProps) {
@@ -44,6 +46,7 @@ export function DayCellView(props: DayCellViewProps) {
     onDateClick,
     onMouseEnter,
     onMouseLeave,
+    renderItem,
   } = props;
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
@@ -54,9 +57,9 @@ export function DayCellView(props: DayCellViewProps) {
   };
 
   const child = _isTheme2022 ? (
-    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{date.date}</span>
+    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{renderItem(date)}</span>
   ) : (
-    date.date
+    renderItem(date)
   );
 
   const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
@@ -65,7 +68,9 @@ export function DayCellView(props: DayCellViewProps) {
     <button
       data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
-      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && value.month + 1}.${value?.year}`}
+      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && getMonthInHumanFormat(value.month)}.${
+        value?.year
+      }`}
       disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,

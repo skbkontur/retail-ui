@@ -1,6 +1,7 @@
 import { memo } from '../../lib/memo';
 import { Theme } from '../../lib/theming/Theme';
 
+import { getMonthInHumanFormat } from './CalendarUtils';
 import { themeConfig } from './config';
 import { DayCellViewModel } from './DayCellViewModel';
 
@@ -48,8 +49,8 @@ export class MonthViewModel {
   public isFirstInYear: boolean;
 
   public getHeight(theme: Theme): number {
-    const { DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN } = themeConfig(theme);
-    return getMonthHeight(this.daysCount, this.offset, DAY_SIZE, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN);
+    const { DAY_HEIGHT, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN } = themeConfig(theme);
+    return getMonthHeight(this.daysCount, this.offset, DAY_HEIGHT, MONTH_TITLE_OFFSET_HEIGHT, MONTH_BOTTOM_MARGIN);
   }
 
   private constructor(month: number, year: number) {
@@ -75,7 +76,7 @@ const getMonthHeight = memo(
   (daysCount: number, offset: number, dayHeight: number, titleHeight: number, marginBottom: number) =>
     Math.ceil((daysCount + offset) / 7) * dayHeight + titleHeight + marginBottom,
 );
-const getMonthsDays = memo((month: number, year: number) => new Date(year, month + 1, 0).getDate());
+const getMonthsDays = memo((month: number, year: number) => new Date(year, getMonthInHumanFormat(month), 0).getDate());
 
 const getMonthOffset = memo((month: number, year: number) => {
   const day = new Date(year, month, 1).getDay() - 1;

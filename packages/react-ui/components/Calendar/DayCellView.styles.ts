@@ -20,9 +20,10 @@ export const styles = memoizeStyle({
       position: relative;
       cursor: pointer;
 
-      width: ${t.calendarCellSize};
-      height: ${t.calendarCellSize};
+      width: ${t.calendarCellWidth};
+      height: ${t.calendarCellHeight};
       line-height: ${t.calendarCellLineHeight};
+      border-radius: ${t.calendarCellBorderRadius};
 
       &:disabled {
         opacity: 0.5;

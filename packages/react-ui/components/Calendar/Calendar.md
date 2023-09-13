@@ -103,18 +103,18 @@ const onValueChange = (date) => {
 <div style={{ display: 'flex' }}>
   <div style={{ display: 'flex', flexDirection: 'column'}}>
     <div style={{marginBottom: 2}}>
-      <DateInput 
+      <DateInput
         onValueChange={value => setPeriodStartDate(value)}
         style={getFocusStyle('periodStartDate')}
         onClick={() => setFocus('periodStartDate')}
-        value={periodStartDate} 
-      /> 
-      - 
-      <DateInput 
+        value={periodStartDate}
+      />
+      -
+      <DateInput
         onValueChange={value => setPeriodEndDate(value)}
         onClick={() => setFocus('periodEndDate')}
-        style={getFocusStyle('periodEndDate')} 
-        value={periodEndDate} 
+        style={getFocusStyle('periodEndDate')}
+        value={periodEndDate}
       />
     </div>
     <Calendar
@@ -140,8 +140,10 @@ const onValueChange = (date) => {
 ```
 
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
+
 - Базовая высота календаря - `330px`
 - Максимальная высота календаря - `450px`
+
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
@@ -157,6 +159,28 @@ const theme = React.useContext(ThemeContext);
     onValueChange={setDate}
   />
 </ThemeContext.Provider>
+```
+
+### Кастомизирование отображения даты
+
+```jsx harmony
+import MagicWand from '@skbkontur/react-icons/MagicWand';
+
+const [value, setValue] = React.useState('12.05.2022');
+
+const CustomDayItem = ({ date }) => {
+  const isEven = (num) => num % 2 === 0;
+
+  return (
+    <div>
+      {isEven(date.date) ? <MagicWand /> : date.date}
+    </div>
+  );
+};
+
+const renderDay = (date) =>  <CustomDayItem date={date} />;
+
+<Calendar value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```
 
 #### Локали по умолчанию
