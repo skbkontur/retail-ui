@@ -272,6 +272,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
+      onMobileFocus: this.handleMobileFocus,
+      onMobileClose: this.handleMobileClose,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
@@ -382,6 +384,18 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Focus' });
   };
 
+  private handleMobileFocus = (mobileInput?: Nullable<Input>) => () => {
+    this.dispatch({ type: 'Search', query: '' });
+
+    if (mobileInput) {
+      mobileInput.focus();
+    }
+  };
+
+  private handleMobileClose = () => {
+    this.handleInputBlur();
+  };
+
   private handleClickOutside = (e: Event) => {
     fixClickFocusIE(e);
     this.handleBlur();
@@ -409,9 +423,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // it would call handleFocusOutside
     // In that way handleBlur would be called
 
-    // TODO: add check for mobile layout, to call `handleBlur`
-
-    if (this.state.opened) {
+    if (this.state.opened && !this.isMobileLayout) {
       return;
     }
     this.handleBlur();
