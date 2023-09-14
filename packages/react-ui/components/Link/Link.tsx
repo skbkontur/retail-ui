@@ -172,7 +172,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     const linkProps = {
       className: cx(
-        !isFocused && styles.useRoot(),
+        styles.useRoot(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),

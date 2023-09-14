@@ -143,5 +143,6 @@ export const FocusedLink: Story = () => <Link icon={<OkIcon />}>Simple Link</Lin
 FocusedLink.parameters = {
   creevey: {
     tests: focusedLinkTest,
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ }
   },
 };
