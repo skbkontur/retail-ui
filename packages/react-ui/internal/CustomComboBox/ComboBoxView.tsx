@@ -65,8 +65,8 @@ interface ComboBoxViewProps<T>
   onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
   onFocus?: () => void;
-  onMobileFocus: (mobileInput: Nullable<Input>) => () => void;
-  onMobileClose: () => void;
+  onMobileFocus?: (mobileInput: Nullable<Input>) => () => void;
+  onMobileClose?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
   onInputValueChange?: (value: string) => void;
@@ -318,7 +318,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onBlur={isMobile ? undefined : onInputBlur}
           onValueChange={onInputValueChange}
           onFocus={onInputFocus}
-          onClick={isMobile ? onMobileFocus(this.mobileInput) : onInputClick}
+          onClick={isMobile ? onMobileFocus && onMobileFocus(this.mobileInput) : onInputClick}
           leftIcon={leftIcon}
           rightIcon={rightIcon}
           value={textValue || ''}
@@ -364,7 +364,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     if (this.isMobileLayout) {
-      this.props.onMobileClose();
+      this.props.onMobileClose && this.props.onMobileClose();
     }
   };
 
