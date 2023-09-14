@@ -858,6 +858,54 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
+class ComboBoxWithRenderAddButtonProp extends React.Component<
+  SimpleComboboxProps & ComboBoxProps<any>,
+  SimpleComboboxState
+> {
+  public static defaultProps = {
+    ...ComboBox.defaultProps,
+    getItems: () => Promise.resolve([]),
+  };
+  public state = {
+    value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
+  };
+  public combobox: ComboBox | null = null;
+
+  public render() {
+    const handleClick = () => this.combobox?.close();
+
+    return (
+      <ComboBox
+        {...this.props}
+        ref={(el) => (this.combobox = el)}
+        value={this.state.value}
+        getItems={this.getItems}
+        onValueChange={(value) => this.setState({ value })}
+        renderAddButton={(query) =>
+          query && (
+            <MenuItem data-tid={'AddButton'} key={'mobileAddButton'} isMobile onClick={handleClick}>
+              Добавить {query}
+            </MenuItem>
+          )
+        }
+      />
+    );
+  }
+
+  private getItems = (query: string) =>
+    Promise.resolve(
+      [
+        { value: 1, label: 'First' },
+        { value: 2, label: 'Second' },
+        { value: 3, label: 'Third' },
+        { value: 4, label: 'Fourth' },
+        { value: 5, label: 'Fifth' },
+        { value: 6, label: 'Sixth' },
+        { value: 7, label: 'A long long long long long long time ago' },
+      ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
+    ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
+}
+
 interface ComplexComboboxItem {
   value: number;
   label: string;
@@ -1299,6 +1347,57 @@ WithManualPosition.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
+      },
+    },
+  },
+};
+
+export const MobileWithRenderAddButton: Story = () => {
+  return <ComboBoxWithRenderAddButtonProp />;
+};
+MobileWithRenderAddButton.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: {
+      async 'closes when using public close method'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="ComboBoxView__root"]' }))
+          .perform();
+        await delay(1000);
+        const opened = await this.browser.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="AddButton"]' }))
+          .perform();
+        await delay(1000);
+        const closed = await this.browser.takeScreenshot();
+
+        await this.expect({ opened, closed }).to.matchImages();
+      },
+      async 'opens again after closing with public close method'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="ComboBoxView__root"]' }))
+          .perform();
+        await delay(1000);
+        const opened = await this.browser.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
+          .perform();
+        await delay(1000);
+        const closed = await this.browser.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="ComboBoxView__root"]' }))
+          .perform();
+        await delay(1000);
+        const openedAgain = await this.browser.takeScreenshot();
+
+        await this.expect({ opened, closed, openedAgain }).to.matchImages();
       },
     },
   },
