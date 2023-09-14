@@ -13,7 +13,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { MenuHeader } from '../../MenuHeader';
+import { MenuHeader, MenuHeaderSize } from '../../MenuHeader';
 import { delay, mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
@@ -810,6 +810,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
 interface SimpleComboboxProps {
   noInitialValue?: boolean;
   delay?: number;
+  renderTotalCount?: (found: number, total: number) => React.ReactNode;
 }
 
 interface SimpleComboboxState {
@@ -857,8 +858,8 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     }
   }
 
-  private getItems = (query: string) =>
-    Promise.resolve(
+  private getItems = async (query: string) => {
+    const items = await Promise.resolve(
       [
         { value: 1, label: 'First' },
         { value: 2, label: 'Second' },
@@ -868,7 +869,13 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         { value: 6, label: 'Sixth' },
         { value: 7, label: 'A long long long long long long time ago' },
       ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
-    ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
+    ).then<(ComboboxItem | React.ReactNode)[]>(
+      (result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)),
+    );
+    return this.props.renderTotalCount
+      ? items.concat(this.props.renderTotalCount(items.length, items.length + 1))
+      : items;
+  };
 }
 
 interface ComplexComboboxItem {
@@ -1399,29 +1406,42 @@ export const Size: Story = () => {
       large.open();
     }
   };
+  const renderTotalCount = (sizeCombobox: MenuHeaderSize) => (foundCount: number, totalCount: number) => {
+    if (foundCount < totalCount) {
+      return (
+        <MenuHeader size={sizeCombobox}>
+          Показано {foundCount} из {totalCount} пунктов меню.
+        </MenuHeader>
+      );
+    }
+    return [];
+  };
   return (
-    <div style={{ height: 500, width: 900 }}>
+    <div style={{ height: 400, width: 1000 }}>
       <Button onClick={handleClick} data-tid="open-all">
         Open All
       </Button>
-      <Gapped style={{ paddingBottom: 230, paddingRight: 40 }}>
+      <Gapped gap={60} style={{ paddingBottom: 230, paddingRight: 40 }}>
         <SimpleCombobox
           size={'small'}
           ref={(element) => {
             small = element;
           }}
+          renderTotalCount={renderTotalCount('small')}
         />
         <SimpleCombobox
           size={'medium'}
           ref={(element) => {
             medium = element;
           }}
+          renderTotalCount={renderTotalCount('medium')}
         />
         <SimpleCombobox
           size={'large'}
           ref={(element) => {
             large = element;
           }}
+          renderTotalCount={renderTotalCount('large')}
         />
       </Gapped>
     </div>
@@ -1440,6 +1460,10 @@ Size.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
           .pause(500)
           .perform();
+        await this.browser.executeScript(function () {
+          const containers = document.querySelectorAll('[data-tid~="ScrollContainer__inner"]');
+          for (let i = 0; i < containers.length; i++) containers[i].scrollTop += 300;
+        });
         await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
       },
