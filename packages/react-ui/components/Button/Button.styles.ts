@@ -331,7 +331,6 @@ export const styles = memoizeStyle({
   linkDisabled(t: Theme) {
     return css`
       cursor: default;
-      pointer-events: none;
 
       &,
       &:hover:enabled,
@@ -359,7 +358,6 @@ export const styles = memoizeStyle({
   disabled(t: Theme) {
     return css`
       cursor: default;
-      pointer-events: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
 
       background-image: none;

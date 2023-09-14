@@ -19,6 +19,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
+import { ComboBoxExtendedItem } from '../../components/ComboBox';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -41,7 +42,7 @@ interface ComboBoxViewProps<T>
    * Cостояние валидации при ошибке.
    */
   error?: boolean;
-  items?: Nullable<T[]>;
+  items?: Nullable<Array<ComboBoxExtendedItem<T>>>;
   loading?: boolean;
   menuAlign?: 'left' | 'right';
   opened?: boolean;
@@ -77,7 +78,7 @@ interface ComboBoxViewProps<T>
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<unknown>;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;

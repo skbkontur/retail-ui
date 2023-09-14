@@ -9,13 +9,14 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { MenuMessage } from '../MenuMessage';
+import { ComboBoxExtendedItem } from '../../components/ComboBox';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
-  items?: Nullable<T[]>;
+  items?: Nullable<Array<ComboBoxExtendedItem<T>>>;
   totalCount?: number;
   loading?: boolean;
   maxMenuHeight?: number | string;
@@ -23,7 +24,7 @@ export interface ComboBoxMenuProps<T> {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<unknown>;
   onValueChange: (value: T) => any;
   renderAddButton?: () => React.ReactNode;
   caption?: React.ReactNode;
@@ -170,11 +171,12 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     );
   }
 
-  private renderItem = (item: T, index: number): React.ReactNode => {
+  private renderItem = (item: ComboBoxExtendedItem<T>, index: number): React.ReactNode => {
     // NOTE this is undesireable feature, better
     // to remove it from further versions
     const { renderItem, onValueChange, itemWrapper } = this.props;
-    if (isFunction(item) || React.isValidElement(item)) {
+
+    if (!isSimpleItem<T>(item)) {
       const element = isFunction(item) ? item() : item;
       const props = Object.assign(
         {
@@ -198,4 +200,8 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       </MenuItem>
     );
   };
+}
+
+function isSimpleItem<T>(item: ComboBoxExtendedItem<T>): item is T {
+  return !isFunction(item) && !React.isValidElement(item);
 }

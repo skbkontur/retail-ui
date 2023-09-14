@@ -16,6 +16,18 @@ const line = keyframes`
   }
 `;
 
+const oldLineText = function (t: Theme) {
+  const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
+  return css`
+    border-bottom-style: ${t.linkLineBorderBottomStyle};
+    border-bottom-width: ${t.linkLineBorderBottomWidth};
+    animation: ${line} 1s linear !important; // override creevey
+    animation-play-state: paused !important;
+    animation-delay: ${delay}s !important;
+    animation-fill-mode: forwards !important;
+  `;
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
@@ -32,15 +44,42 @@ export const styles = memoizeStyle({
     `;
   },
 
-  lineText(t: Theme) {
-    const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
+  lineTextWrapper(t: Theme) {
+    // При hover'е подчеркивание из прозрачного переходит в currentColor.
+    // За счет наложения этого цвета на подчеркивание lineText (currentColor с половинной прозрачностью)
+    // достигается эффект перехода currentColor с половинной прозрачностью до currentColor.
+
+    // Планировалось добавить transition и color-mix(in srgb, currentColor 50%, transparent) в lineText.
+    // Однако, в chrome и edge сочетание transition, color-mix и currentColor вызывает моргание при transition.
     return css`
-      border-bottom-style: ${t.linkLineBorderBottomStyle};
-      border-bottom-width: ${t.linkLineBorderBottomWidth};
-      animation: ${line} 1s linear !important; // override creevey
-      animation-play-state: paused !important;
-      animation-delay: ${delay}s !important;
-      animation-fill-mode: forwards !important;
+      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+        transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
+        border-bottom-style: ${t.linkLineBorderBottomStyle};
+        border-bottom-width: ${t.linkLineBorderBottomWidth};
+        border-bottom-color: transparent;
+        &:hover {
+          border-bottom-color: currentColor;
+        }
+      }
+    `;
+  },
+
+  lineText(t: Theme) {
+    return css`
+      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+        border-bottom-style: ${t.linkLineBorderBottomStyle};
+        border-bottom-width: ${t.linkLineBorderBottomWidth};
+        border-bottom-color: ${t.linkLineBorderBottomColor};
+      }
+      @supports not (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+        ${oldLineText(t)};
+      }
+    `;
+  },
+
+  lineTextIE11(t: Theme) {
+    return css`
+      ${oldLineText(t)};
     `;
   },
 
