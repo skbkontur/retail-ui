@@ -1,4 +1,4 @@
-import { HTMLElement } from '../../lib/globalThat';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { ScrollBarScrollState } from './ScrollBar';

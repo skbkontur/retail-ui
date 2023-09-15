@@ -1,7 +1,7 @@
 import React from 'react';
+import { SVGSVGElement, CSSStyleDeclaration } from '@skbkontur/global-object/lib';
 
 import { isIE11 } from '../../lib/client';
-import { SVGSVGElement, CSSStyleDeclaration } from '../../lib/globalThat';
 import {
   SpinnerFallbackAnimationRunner,
   createOffsetAnimation,

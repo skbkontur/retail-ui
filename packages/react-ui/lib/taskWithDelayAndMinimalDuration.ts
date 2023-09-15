@@ -1,6 +1,6 @@
-import { Nullable } from '../typings/utility-types';
+import { globalObject } from '@skbkontur/global-object';
 
-import { globalThat, Timeout } from './globalThat';
+import { Nullable } from '../typings/utility-types';
 
 export interface TaskWithDelayAndMinimalDurationProps {
   delayBeforeTaskStart: number;
@@ -10,8 +10,8 @@ export interface TaskWithDelayAndMinimalDurationProps {
 }
 
 export class TaskWithDelayAndMinimalDuration {
-  private timeoutBeforeTaskStart: Nullable<Timeout>;
-  private timeoutBeforeTaskStop: Nullable<Timeout>;
+  private timeoutBeforeTaskStart: Nullable<number>;
+  private timeoutBeforeTaskStop: Nullable<number>;
   private taskParams: TaskWithDelayAndMinimalDurationProps;
   private isTaskActive = false;
 
@@ -20,7 +20,7 @@ export class TaskWithDelayAndMinimalDuration {
   }
 
   private setTimeoutBeforeTaskStart = () => {
-    this.timeoutBeforeTaskStart = globalThat.setTimeout(() => {
+    this.timeoutBeforeTaskStart = globalObject.setTimeout(() => {
       this.isTaskActive && this.taskParams.taskStartCallback();
       this.clearTimeoutBeforeTaskStart();
       this.setTimeoutBeforeTaskStop();
@@ -28,19 +28,19 @@ export class TaskWithDelayAndMinimalDuration {
   };
 
   private setTimeoutBeforeTaskStop = () => {
-    this.timeoutBeforeTaskStop = globalThat.setTimeout(() => {
+    this.timeoutBeforeTaskStop = globalObject.setTimeout(() => {
       !this.isTaskActive && this.taskParams.taskStopCallback();
       this.clearTimeoutBeforeTaskStop();
     }, this.taskParams.durationOfTask);
   };
 
   private clearTimeoutBeforeTaskStart = () => {
-    this.timeoutBeforeTaskStart && globalThat.clearTimeout(this.timeoutBeforeTaskStart);
+    this.timeoutBeforeTaskStart && globalObject.clearTimeout(this.timeoutBeforeTaskStart);
     this.timeoutBeforeTaskStart = null;
   };
 
   private clearTimeoutBeforeTaskStop = () => {
-    this.timeoutBeforeTaskStop && globalThat.clearTimeout(this.timeoutBeforeTaskStop);
+    this.timeoutBeforeTaskStop && globalObject.clearTimeout(this.timeoutBeforeTaskStop);
     this.timeoutBeforeTaskStop = null;
   };
 

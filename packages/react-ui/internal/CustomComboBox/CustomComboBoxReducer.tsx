@@ -1,13 +1,14 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -163,12 +164,12 @@ export const Effect: EffectFactory = {
 
     if (index >= 0) {
       // @ts-expect-error: Use of private property.
-      globalThat.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
+      globalObject.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
       return;
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      globalThat.requestAnimationFrame?.(() => menu && menu.down());
+      globalObject.requestAnimationFrame?.(() => menu && menu.down());
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {

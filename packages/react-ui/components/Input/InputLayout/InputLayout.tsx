@@ -1,8 +1,8 @@
 import React from 'react';
+import { HTMLLabelElement } from '@skbkontur/global-object/lib';
 
 import { InputDataTids, InputProps } from '../Input';
 import { CommonWrapper } from '../../../internal/CommonWrapper';
-import { HTMLLabelElement } from '../../../lib/globalThat';
 
 import { InputLayoutAside } from './InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault, InputLayoutContextProps } from './InputLayoutContext';

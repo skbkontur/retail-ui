@@ -1,6 +1,7 @@
 import React from 'react';
+import { isKeyboardEvent } from '@skbkontur/global-object';
+import { HTMLElement, KeyboardEvent } from '@skbkontur/global-object/lib';
 
-import { isKeyboardEvent, HTMLElement, KeyboardEvent } from '../../../lib/globalThat';
 import { isMac } from '../../client';
 
 import { extractCode } from './extractCode';

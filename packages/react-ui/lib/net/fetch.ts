@@ -1,4 +1,4 @@
-import { globalThat } from '../globalThat';
+import { globalObject } from '@skbkontur/global-object';
 
 interface ApiResponseType {
   ok: boolean;
@@ -40,10 +40,10 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
-  if (globalThat.XDomainRequest) {
-    return new globalThat.XDomainRequest();
+  if (globalObject.XDomainRequest) {
+    return new globalObject.XDomainRequest();
   }
-  if (globalThat.XMLHttpRequest) {
-    return new globalThat.XMLHttpRequest();
+  if (globalObject.XMLHttpRequest) {
+    return new globalObject.XMLHttpRequest();
   }
 }

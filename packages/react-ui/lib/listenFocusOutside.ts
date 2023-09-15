@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
+import { globalObject, isElement } from '@skbkontur/global-object';
+import { Element, Event, UIEvent } from '@skbkontur/global-object/lib';
 
 import { isFirefox } from './client';
-import { globalThat, isElement, Element, Event, UIEvent } from './globalThat';
 
 interface FocusOutsideEventHandler {
   elements: Element[] | (() => Element[]);
@@ -20,17 +21,17 @@ function addHandleEvent() {
    * Mozilla Firefix
    *   ¯\_(ツ)_/¯
    */
-  globalThat.document?.body.addEventListener(
+  globalObject.document?.body.addEventListener(
     isFirefox ? 'focus' : ('focusin' as 'focus'),
     isFirefox ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
     { capture: true },
   );
 }
 
-if (globalThat.document?.readyState === 'complete') {
+if (globalObject.document?.readyState === 'complete') {
   addHandleEvent();
 } else {
-  globalThat.addEventListener?.('load', addHandleEvent);
+  globalObject.addEventListener?.('load', addHandleEvent);
 }
 
 function handleNativeFocus(event: UIEvent) {
@@ -72,8 +73,8 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     !currentNode ||
     node === rootNode ||
     currentNode === rootNode ||
-    currentNode === globalThat.document?.body ||
-    currentNode === globalThat.document?.documentElement ||
+    currentNode === globalObject.document?.body ||
+    currentNode === globalObject.document?.documentElement ||
     !isElement(currentNode)
   ) {
     return container ? container : null;
@@ -81,7 +82,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
 
   const newContainerId = currentNode.getAttribute('data-rendered-container-id');
   if (newContainerId) {
-    const nextNode = globalThat.document?.querySelector(`[data-render-container-id~="${newContainerId}"]`);
+    const nextNode = globalObject.document?.querySelector(`[data-render-container-id~="${newContainerId}"]`);
 
     if (!nextNode) {
       throw Error(`Origin node for render container was not found`);

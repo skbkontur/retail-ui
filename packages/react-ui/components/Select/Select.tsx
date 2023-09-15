@@ -1,5 +1,7 @@
 import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import {
   isKeyArrowDown,
@@ -32,7 +34,6 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -225,10 +226,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      globalThat.addEventListener?.('popstate', this.close);
+      globalObject.addEventListener?.('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      globalThat.removeEventListener?.('popstate', this.close);
+      globalObject.removeEventListener?.('popstate', this.close);
     }
   }
 
@@ -560,7 +561,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal
-    globalThat.setTimeout(() => input?.focus(), 0);
+    globalObject.setTimeout(() => input?.focus(), 0);
   };
 
   private refMenu = (menu: Menu) => {

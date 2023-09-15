@@ -1,4 +1,5 @@
 import React, { AriaAttributes } from 'react';
+import { HTMLDivElement, HTMLElement, MouseEvent } from '@skbkontur/global-object/lib';
 
 import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -10,7 +11,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { HTMLDivElement, HTMLElement, MouseEvent } from '../../lib/globalThat';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';

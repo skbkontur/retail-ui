@@ -1,4 +1,6 @@
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Sticky } from '../Sticky';
 import { isFunction } from '../../lib/utils';
@@ -11,7 +13,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -78,13 +79,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   public componentDidMount = () => {
-    globalThat.addEventListener?.('scroll', this.update, true);
+    globalObject.addEventListener?.('scroll', this.update, true);
     this.context.setHasHeader?.();
     this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
-    globalThat.removeEventListener?.('scroll', this.update, true);
+    globalObject.removeEventListener?.('scroll', this.update, true);
     this.context.setHasHeader?.(false);
     this.context.headerRef(null);
   };

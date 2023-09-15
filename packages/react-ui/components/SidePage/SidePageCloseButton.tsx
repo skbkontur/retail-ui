@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
-import { globalThat } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageLocaleHelper } from './locale';
@@ -20,7 +20,7 @@ export const SidePageCloseButton = () => {
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {
-    globalThat.requestAnimationFrame?.(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         setIsFocusedByTab(true);
       }

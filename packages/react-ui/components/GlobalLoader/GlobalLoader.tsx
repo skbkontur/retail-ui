@@ -1,12 +1,12 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, Timeout } from '../../lib/globalThat';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
@@ -79,7 +79,7 @@ type DefaultProps = Required<
 let currentGlobalLoader: GlobalLoader;
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
-  private successAnimationInProgressTimeout: Nullable<Timeout>;
+  private successAnimationInProgressTimeout: Nullable<number>;
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
@@ -146,7 +146,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentWillUnmount() {
-    this.successAnimationInProgressTimeout && globalThat.clearTimeout(this.successAnimationInProgressTimeout);
+    this.successAnimationInProgressTimeout && globalObject.clearTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
@@ -227,7 +227,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
-      this.successAnimationInProgressTimeout = globalThat.setTimeout(() => {
+      this.successAnimationInProgressTimeout = globalObject.setTimeout(() => {
         this.setActive();
       }, delayBeforeHide);
     } else {

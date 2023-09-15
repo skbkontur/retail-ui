@@ -1,10 +1,11 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
+import { isHTMLElement, globalObject, isBrowser } from '@skbkontur/global-object';
+import { HTMLDivElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { isHTMLElement, globalThat, HTMLDivElement, HTMLElement, isBrowser } from '../../lib/globalThat';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -346,7 +347,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     const rootNode = getRootNode(this);
 
     if (typeof maxHeight === 'string' && isBrowser && rootNode) {
-      const rootElementMaxHeight = globalThat.getComputedStyle?.(rootNode).maxHeight;
+      const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -404,12 +405,12 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
-    if (isActiveElement(item) && isBrowser(globalThat)) {
+    if (isActiveElement(item) && isBrowser(globalObject)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
-          globalThat.open(item.props.href, item.props.target);
+          globalObject.open(item.props.href, item.props.target);
         } else {
-          globalThat.location.href = item.props.href;
+          globalObject.location.href = item.props.href;
         }
       }
       if (item.props.onClick) {

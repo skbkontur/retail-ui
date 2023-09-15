@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
+import { HTMLOrSVGElement } from '@skbkontur/global-object/lib';
 
-import { HTMLOrSVGElement } from '../../lib/globalThat';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';

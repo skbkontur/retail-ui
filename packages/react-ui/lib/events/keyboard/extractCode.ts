@@ -1,7 +1,7 @@
 import React from 'react';
+import { HTMLElement, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { Entries } from '../../../typings/utility-types';
-import { HTMLElement, KeyboardEvent } from '../../globalThat';
 
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 import { KeyboardKey, KeyboardMapKeys } from './KeyboardMapKeys';

@@ -1,6 +1,8 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement, HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -20,7 +22,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ButtonSize } from '../Button';
-import { globalThat, HTMLElement, HTMLDivElement } from '../../lib/globalThat';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -214,7 +215,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame?.(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

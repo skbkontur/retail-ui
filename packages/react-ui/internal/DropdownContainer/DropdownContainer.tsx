@@ -1,4 +1,6 @@
 import React, { HTMLAttributes } from 'react';
+import { globalObject, isElement, isBrowser } from '@skbkontur/global-object';
+import { HTMLDivElement, Element } from '@skbkontur/global-object/lib';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
@@ -9,7 +11,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { CommonProps } from '../CommonWrapper';
-import { globalThat, isElement, HTMLDivElement, Element, isBrowser } from '../../lib/globalThat';
 
 import { styles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
@@ -121,16 +122,16 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const target = this.props.getParent();
     const dom = this.dom;
 
-    if (target && isElement(target) && dom && isBrowser(globalThat)) {
+    if (target && isElement(target) && dom && isBrowser(globalObject)) {
       const targetRect = getDOMRect(target);
-      const { body, documentElement: docEl } = globalThat.document;
+      const { body, documentElement: docEl } = globalObject.document;
 
       if (!docEl) {
         throw Error('There is no "documentElement" in "document"');
       }
 
-      const scrollX = globalThat.pageXOffset || docEl.scrollLeft || 0;
-      const scrollY = globalThat.pageYOffset || docEl.scrollTop || 0;
+      const scrollX = globalObject.pageXOffset || docEl.scrollLeft || 0;
+      const scrollY = globalObject.pageYOffset || docEl.scrollTop || 0;
 
       let left = null;
       let right = null;
@@ -207,12 +208,12 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 }
 
 const getIsDocumentElementRoot = () => {
-  if (!isBrowser(globalThat)) {
+  if (!isBrowser(globalObject)) {
     return;
   }
-  const { body, documentElement } = globalThat.document;
-  const htmlPosition = globalThat.getComputedStyle(documentElement).position;
-  const bodyPosition = globalThat.getComputedStyle(body).position;
+  const { body, documentElement } = globalObject.document;
+  const htmlPosition = globalObject.getComputedStyle(documentElement).position;
+  const bodyPosition = globalObject.getComputedStyle(body).position;
 
   const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
   const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';

@@ -2,9 +2,10 @@
 import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
+import { globalObject, isElement, isNode } from '@skbkontur/global-object';
+import { Element } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
-import { globalThat, isElement, isNode, Element } from '../globalThat';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
 
@@ -27,7 +28,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
    *  4. literally anything, returned from useImperativeHandle
    */
 
-  if (!globalThat.document || !instance) {
+  if (!globalObject.document || !instance) {
     // instance can be `null` if component was unmounted
     // also checking undefined for convenient usage
     return null;

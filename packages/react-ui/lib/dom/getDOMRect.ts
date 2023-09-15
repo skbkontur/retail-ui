@@ -1,6 +1,6 @@
 import React from 'react';
+import { DOMRect, Element } from '@skbkontur/global-object/lib';
 
-import { DOMRect, Element } from '../globalThat';
 import { Nullable } from '../../typings/utility-types';
 
 type DOMRectDefaultValues = Omit<DOMRect, 'toJSON'>;

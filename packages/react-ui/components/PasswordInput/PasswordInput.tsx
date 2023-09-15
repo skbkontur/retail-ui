@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -18,7 +20,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, HTMLInputElement } from '../../lib/globalThat';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -79,10 +80,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
 
     // @ts-expect-error: IE-specific API.
-    if (isIE11 && !globalThat.document && !globalThat.document.msCapsLockWarningOff) {
+    if (isIE11 && !globalObject.document && !globalObject.document.msCapsLockWarningOff) {
       // @ts-expect-error: Read the comment above.
       // turns off default ie capslock warning
-      globalThat.document.msCapsLockWarningOff = true;
+      globalObject.document.msCapsLockWarningOff = true;
     }
   }
 

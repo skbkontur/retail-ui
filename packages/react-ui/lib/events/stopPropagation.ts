@@ -1,4 +1,4 @@
-import { Event } from '../globalThat';
+import { Event } from '@skbkontur/global-object/lib';
 
 export const stopPropagation = (nativeEvent: Event) => {
   if (nativeEvent.stopPropagation) {

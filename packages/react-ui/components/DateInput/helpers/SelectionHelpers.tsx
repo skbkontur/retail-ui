@@ -1,13 +1,14 @@
-import { globalThat, HTMLElement, isBrowser } from '../../../lib/globalThat';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
   if (!node) {
     return;
   }
-  if (isBrowser(globalThat) && 'createRange' in globalThat.document) {
+  if (isBrowser(globalObject) && 'createRange' in globalObject.document) {
     try {
-      const selection = globalThat.getSelection();
-      const range = globalThat.document.createRange();
+      const selection = globalObject.getSelection();
+      const range = globalObject.document.createRange();
       if (start !== undefined && end !== undefined) {
         range.setStart(node, start);
         range.setEnd(node, end);
@@ -25,9 +26,9 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
     }
   }
 
-  if (isBrowser(globalThat) && 'createTextRange' in globalThat.document.body) {
+  if (isBrowser(globalObject) && 'createTextRange' in globalObject.document.body) {
     // @ts-expect-error: IE-specific API.
-    const range = globalThat.document.body.createTextRange();
+    const range = globalObject.document.body.createTextRange();
     range.moveToElementText(node);
     if (typeof range.select === 'function') {
       range.select();
@@ -37,7 +38,7 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
 };
 
 export const removeAllSelections = () => {
-  const selection = globalThat.getSelection?.();
+  const selection = globalObject.getSelection?.();
   if (selection) {
     try {
       // Fix IE from issue not working (https://github.com/skbkontur/retail-ui/issues/1205)

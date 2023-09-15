@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
-import { globalThat, HTMLDivElement } from '../../lib/globalThat';
 
 import { Toast, Action, ToastDataTids } from './Toast';
 
 export class ToastStatic {
   public static push = (notification: string, action?: Nullable<Action>, showTime?: number) => {
-    if (!ToastStatic.node && globalThat.document) {
-      ToastStatic.node = globalThat.document.createElement('div');
-      const { body } = globalThat.document;
+    if (!ToastStatic.node && globalObject.document) {
+      ToastStatic.node = globalObject.document.createElement('div');
+      const { body } = globalObject.document;
       if (!body) {
         throw Error('There is no "body" element in "document"');
       }

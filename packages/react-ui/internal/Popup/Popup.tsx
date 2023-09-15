@@ -2,6 +2,8 @@ import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
+import { globalObject, isElement } from '@skbkontur/global-object';
+import { HTMLDivElement, HTMLElement, Element, EventListener } from '@skbkontur/global-object/lib';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
@@ -14,7 +16,6 @@ import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
-import { globalThat, isElement, HTMLDivElement, HTMLElement, Element, EventListener } from '../../lib/globalThat';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -149,7 +150,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(globalThat.HTMLElement), PropTypes.node]).isRequired,
+    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(globalObject.HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина
@@ -558,12 +559,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private delayUpdateLocation() {
     this.cancelDelayedUpdateLocation();
-    this.locationUpdateId = globalThat.requestAnimationFrame?.(this.updateLocation);
+    this.locationUpdateId = globalObject.requestAnimationFrame?.(this.updateLocation);
   }
 
   private cancelDelayedUpdateLocation() {
     if (this.locationUpdateId) {
-      globalThat.cancelAnimationFrame?.(this.locationUpdateId);
+      globalObject.cancelAnimationFrame?.(this.locationUpdateId);
       this.locationUpdateId = null;
     }
   }

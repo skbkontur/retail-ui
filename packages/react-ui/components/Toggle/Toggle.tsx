@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
+import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,7 +12,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { HTMLInputElement } from '../../lib/globalThat';
 
 import { styles, globalClasses } from './Toggle.styles';
 

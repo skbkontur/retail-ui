@@ -1,4 +1,5 @@
-import { globalThat, MouseEvent, HTMLElement, Event } from '../globalThat';
+import { globalObject } from '@skbkontur/global-object';
+import { MouseEvent, HTMLElement, Event } from '@skbkontur/global-object/lib';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',
@@ -18,7 +19,7 @@ const items: Map<HTMLElement, MouseDrag> = new Map();
 
 const documentHandleMouseUp: HandlerNative = (e) => items.forEach((mouseDrag) => mouseDrag.handleMouseUp(e));
 
-globalThat.document?.documentElement.addEventListener('mouseup', documentHandleMouseUp);
+globalObject.document?.documentElement.addEventListener('mouseup', documentHandleMouseUp);
 
 /**
  * ## Класс для отслеживания эффекта перетаскивания мышкой
@@ -155,11 +156,11 @@ export class MouseDrag {
   };
 
   private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent | undefined => {
-    if (typeof globalThat.MouseEvent === 'function') {
-      return new globalThat.MouseEvent(type, e);
+    if (typeof globalObject.MouseEvent === 'function') {
+      return new globalObject.MouseEvent(type, e);
     }
     // <=IE11
-    const eIE11 = globalThat.document?.createEvent('MouseEvent');
+    const eIE11 = globalObject.document?.createEvent('MouseEvent');
     if (eIE11) {
       eIE11.initEvent(type, true, true);
       return eIE11;

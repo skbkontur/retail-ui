@@ -1,12 +1,13 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import debounce from 'lodash.debounce';
+import { isWheelEvent, globalObject } from '@skbkontur/global-object';
+import { HTMLElement, HTMLDivElement, Event, MouseEvent } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import { isWheelEvent, globalThat, HTMLElement, HTMLDivElement, Event, MouseEvent } from '../../lib/globalThat';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -209,7 +210,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { offset, size, pos, coord } = scrollSizeParametersNames[this.props.axis];
 
     const initialCoord = event[coord];
-    const target = globalThat.document;
+    const target = globalObject.document;
     const initialScrollPos = this.inner[pos];
     const state = this.state;
 

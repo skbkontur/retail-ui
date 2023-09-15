@@ -1,4 +1,6 @@
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import { Element } from '@skbkontur/global-object/lib';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -12,7 +14,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, Timeout, Element } from '../../lib/globalThat';
 
 import { styles } from './Hint.styles';
 
@@ -113,7 +114,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     position: DUMMY_LOCATION.position,
   };
 
-  private timer: Nullable<Timeout> = null;
+  private timer: Nullable<number> = null;
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
@@ -125,7 +126,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return;
     }
     if (this.timer) {
-      globalThat.clearTimeout(this.timer);
+      globalObject.clearTimeout(this.timer);
       this.timer = null;
     }
     if (opened !== prevProps.opened) {
@@ -135,7 +136,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public componentWillUnmount() {
     if (this.timer) {
-      globalThat.clearTimeout(this.timer);
+      globalObject.clearTimeout(this.timer);
       this.timer = null;
     }
   }
@@ -218,7 +219,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseEnter = (e: MouseEventType) => {
     if (!this.getProps().manual && !this.timer) {
-      this.timer = globalThat.setTimeout(this.open, 400);
+      this.timer = globalObject.setTimeout(this.open, 400);
     }
 
     if (this.props.onMouseEnter) {
@@ -228,7 +229,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseLeave = (e: MouseEventType) => {
     if (!this.getProps().manual && this.timer) {
-      globalThat.clearTimeout(this.timer);
+      globalObject.clearTimeout(this.timer);
       this.timer = null;
       this.setState({ opened: false });
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import throttle from 'lodash.throttle';
+import { isHTMLElement } from '@skbkontur/global-object';
 
-import { isHTMLElement } from '../../lib/globalThat';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

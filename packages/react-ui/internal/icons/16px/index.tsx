@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import propTypes from 'prop-types';
+import { HTMLElement, HTMLSpanElement } from '@skbkontur/global-object/lib';
 
-import { HTMLElement, HTMLSpanElement } from '../../../lib/globalThat';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 
 import { styles } from './icon.styles';

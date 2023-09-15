@@ -1,9 +1,10 @@
 import React from 'react';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
+import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, isBrowser, HTMLDivElement } from '../../lib/globalThat';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -123,7 +124,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
             if (createStackingContext) {
-              isBrowser(globalThat) && 'isolation' in globalThat.document.body.style
+              isBrowser(globalObject) && 'isolation' in globalObject.document.body.style
                 ? (wrapperStyle.isolation = 'isolate')
                 : (wrapperStyle.transform = 'rotate(0)');
             }

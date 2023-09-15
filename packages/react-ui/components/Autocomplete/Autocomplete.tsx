@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
+import { HTMLElement, HTMLInputElement, HTMLSpanElement, Event } from '@skbkontur/global-object/lib';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
@@ -22,7 +23,6 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { HTMLElement, HTMLInputElement, HTMLSpanElement, Event } from '../../lib/globalThat';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';

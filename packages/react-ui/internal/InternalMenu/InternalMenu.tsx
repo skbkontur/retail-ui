@@ -1,7 +1,8 @@
 import React from 'react';
+import { globalObject, isHTMLElement, isBrowser } from '@skbkontur/global-object';
+import { HTMLDivElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { globalThat, isHTMLElement, HTMLDivElement, HTMLElement, isBrowser } from '../../lib/globalThat';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -276,8 +277,8 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof globalThat !== 'undefined' && rootNode) {
-      const rootElementMaxHeight = globalThat.getComputedStyle?.(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && typeof globalObject !== 'undefined' && rootNode) {
+      const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -337,12 +338,12 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
 
-    if (isActiveElement(item) && isBrowser(globalThat)) {
+    if (isActiveElement(item) && isBrowser(globalObject)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
-          globalThat.open(item.props.href, item.props.target);
+          globalObject.open(item.props.href, item.props.target);
         } else {
-          globalThat.location.href = item.props.href;
+          globalObject.location.href = item.props.href;
         }
       }
       if (item.props.onClick) {

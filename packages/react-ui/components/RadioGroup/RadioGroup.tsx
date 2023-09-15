@@ -1,5 +1,6 @@
 import React, { AriaAttributes, ReactElement } from 'react';
 import invariant from 'invariant';
+import { FocusEvent, HTMLSpanElement, HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
@@ -11,7 +12,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { FocusEvent, HTMLSpanElement, HTMLInputElement } from '../../lib/globalThat';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';

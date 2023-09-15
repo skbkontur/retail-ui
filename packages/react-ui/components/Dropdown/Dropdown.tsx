@@ -1,5 +1,6 @@
 import React, { AriaAttributes, ReactElement } from 'react';
 import PropTypes from 'prop-types';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
@@ -13,7 +14,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
-import { HTMLElement } from '../../lib/globalThat';
 
 import { getDropdownTheme } from './getDropdownTheme';
 

@@ -1,6 +1,8 @@
 import React, { ReactElement } from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
+import { isElement, globalObject } from '@skbkontur/global-object';
+import { Element, HTMLElement, Event } from '@skbkontur/global-object/lib';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -19,7 +21,6 @@ import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { isElement, HTMLElement, Event, Timeout, globalThat, Element } from '../../lib/globalThat';
 
 import { styles } from './Tooltip.styles';
 
@@ -196,7 +197,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
-  private hoverTimeout: Nullable<Timeout> = null;
+  private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
@@ -484,7 +485,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private clearHoverTimeout() {
     if (this.hoverTimeout) {
-      globalThat.clearTimeout(this.hoverTimeout);
+      globalObject.clearTimeout(this.hoverTimeout);
       this.hoverTimeout = null;
     }
   }
@@ -496,7 +497,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-    this.hoverTimeout = globalThat.setTimeout(this.open, Tooltip.delay);
+    this.hoverTimeout = globalObject.setTimeout(this.open, Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -513,7 +514,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = globalThat.setTimeout(this.close, Tooltip.delay);
+      this.hoverTimeout = globalObject.setTimeout(this.close, Tooltip.delay);
     }
   };
 

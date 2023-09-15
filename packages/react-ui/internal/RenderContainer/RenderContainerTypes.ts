@@ -1,6 +1,6 @@
 import React from 'react';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
-import { HTMLElement } from '../../lib/globalThat';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps } from '../CommonWrapper';
 

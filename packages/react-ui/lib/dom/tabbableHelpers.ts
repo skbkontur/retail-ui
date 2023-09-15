@@ -1,7 +1,8 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
+import { isElement, globalObject } from '@skbkontur/global-object';
+import { Element, Document, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
-import { isElement, globalThat, Element, Document, HTMLElement } from '../globalThat';
 
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе
@@ -11,7 +12,9 @@ import { isElement, globalThat, Element, Document, HTMLElement } from '../global
  * @return {FocusableElement[]} - Массив найденных элементов
  */
 
-export const getTabbableElements = (parent: Nullable<Element | Document> = globalThat.document): FocusableElement[] => {
+export const getTabbableElements = (
+  parent: Nullable<Element | Document> = globalObject.document,
+): FocusableElement[] => {
   if (!parent || !parent.children.length || !isElement(parent)) {
     return [];
   }

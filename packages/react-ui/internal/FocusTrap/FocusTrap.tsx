@@ -1,9 +1,10 @@
 import React from 'react';
+import { isElement, globalObject } from '@skbkontur/global-object';
+import { FocusEvent, Event } from '@skbkontur/global-object/lib';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isElement, globalThat, FocusEvent, Event } from '../../lib/globalThat';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
@@ -55,8 +56,8 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     if (!this.focusOutsideListenerToken && rootNode) {
       this.focusOutsideListenerToken = listenFocusOutside([rootNode], this.onClickOutside);
 
-      globalThat.document?.addEventListener(
-        'ontouchstart' in globalThat.document.documentElement ? 'touchstart' : 'mousedown',
+      globalObject.document?.addEventListener(
+        'ontouchstart' in globalObject.document.documentElement ? 'touchstart' : 'mousedown',
         this.handleNativeDocClick,
       );
     }
@@ -67,8 +68,8 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
       this.focusOutsideListenerToken.remove();
       this.focusOutsideListenerToken = null;
 
-      globalThat.document?.removeEventListener(
-        'ontouchstart' in globalThat.document.documentElement ? 'touchstart' : 'mousedown',
+      globalObject.document?.removeEventListener(
+        'ontouchstart' in globalObject.document.documentElement ? 'touchstart' : 'mousedown',
         this.handleNativeDocClick,
       );
     }

@@ -1,6 +1,6 @@
 import React from 'react';
+import { SVGElement, SVGSVGElement, HTMLElement } from '@skbkontur/global-object/lib';
 
-import { SVGElement, SVGSVGElement, HTMLElement } from '../../lib/globalThat';
 import { forwardRefAndName, ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
 import { SvgIconProps } from '../icons/16px';
 import { ZERO_WIDTH_SPACE } from '../../lib/chars';

@@ -1,4 +1,6 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLButtonElement } from '@skbkontur/global-object/lib';
 
 import { HTMLProps } from '../../typings/html';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
@@ -15,7 +17,6 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { globalThat, HTMLButtonElement } from '../../lib/globalThat';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
@@ -535,7 +536,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame?.(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

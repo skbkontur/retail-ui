@@ -3,6 +3,8 @@
 import invariant from 'invariant';
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import warning from 'warning';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLInputElement, HTMLLabelElement } from '@skbkontur/global-object/lib';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -16,7 +18,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, HTMLInputElement, HTMLLabelElement } from '../../lib/globalThat';
 import { isFunction } from '../../lib/utils';
 
 import { styles } from './Input.styles';
@@ -194,7 +195,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
-      globalThat.clearTimeout(this.blinkTimeout);
+      globalObject.clearTimeout(this.blinkTimeout);
     }
     this.cancelDelayedSelectAll();
   }
@@ -236,7 +237,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalThat.setTimeout(this.cancelBlink, 150);
+      this.blinkTimeout = globalObject.setTimeout(this.cancelBlink, 150);
     });
   }
 
@@ -258,11 +259,11 @@ export class Input extends React.Component<InputProps, InputState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (globalThat.document?.activeElement !== this.input) {
+    if (globalObject.document?.activeElement !== this.input) {
       this.focus();
     }
     if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
-      globalThat.setTimeout(() => {
+      globalObject.setTimeout(() => {
         this.input?.setSelectionRange(start, end);
       }, 150);
     } else {
@@ -307,18 +308,18 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private delaySelectAll = (): number | null =>
-    (this.selectAllId = globalThat.requestAnimationFrame?.(this.selectAll) ?? null);
+    (this.selectAllId = globalObject.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      globalThat.cancelAnimationFrame?.(this.selectAllId);
+      globalObject.cancelAnimationFrame?.(this.selectAllId);
       this.selectAllId = null;
     }
   };
 
   private cancelBlink = (callback?: () => void): void => {
     if (this.blinkTimeout) {
-      globalThat.clearTimeout(this.blinkTimeout);
+      globalObject.clearTimeout(this.blinkTimeout);
       this.blinkTimeout = 0;
       if (this.state.blinking) {
         this.setState({ blinking: false }, callback);

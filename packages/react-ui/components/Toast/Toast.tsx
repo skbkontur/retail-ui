@@ -1,12 +1,13 @@
 import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement, Element } from '@skbkontur/global-object/lib';
 
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { HTMLElement, Timeout, Element, globalThat } from '../../lib/globalThat';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
@@ -60,7 +61,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   }
 
   public _toast: Nullable<ToastView>;
-  private _timeout: Nullable<Timeout> = null;
+  private _timeout: Nullable<number> = null;
   private rootRef = React.createRef<HTMLElement>();
 
   constructor(props: ToastProps) {
@@ -163,7 +164,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private _clearTimer = () => {
     if (this._timeout) {
-      globalThat.clearTimeout(this._timeout);
+      globalObject.clearTimeout(this._timeout);
       this._timeout = null;
     }
   };
@@ -173,7 +174,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     let showTime = this.state.action ? 7000 : 3000;
     showTime = this.state.showTime ?? showTime;
-    this._timeout = globalThat.setTimeout(this.close, showTime);
+    this._timeout = globalObject.setTimeout(this.close, showTime);
   };
 
   private _refToast = (element: ToastView) => {

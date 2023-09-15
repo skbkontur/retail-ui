@@ -1,4 +1,6 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement, HTMLSpanElement, HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import { FileUploaderAttachedFile } from '../fileUtils';
@@ -16,7 +18,6 @@ import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { FileUploaderSize } from '../../../components/FileUploader';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { globalThat, HTMLElement, HTMLSpanElement, HTMLDivElement } from '../../../lib/globalThat';
 
 import { jsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
@@ -148,7 +149,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const handleFocus = useCallback(() => {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame?.(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           setFocusedByTab(true);
         }

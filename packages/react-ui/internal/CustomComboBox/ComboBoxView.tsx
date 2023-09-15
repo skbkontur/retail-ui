@@ -1,4 +1,5 @@
 import React, { AriaAttributes } from 'react';
+import { HTMLInputElement, Event } from '@skbkontur/global-object/lib';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
@@ -20,7 +21,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { HTMLInputElement, Event } from '../../lib/globalThat';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';

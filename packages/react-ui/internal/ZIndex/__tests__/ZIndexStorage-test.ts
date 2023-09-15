@@ -1,7 +1,8 @@
-import { globalThat } from '../../../lib/globalThat';
+import { globalObject } from '@skbkontur/global-object';
+
 import { incrementZIndex, removeZIndex } from '../ZIndexStorage';
 
-const setZIndexes = (indexes: number[]) => (globalThat.__RetailUiZIndexes = indexes);
+const setZIndexes = (indexes: number[]) => (globalObject.__RetailUiZIndexes = indexes);
 
 beforeEach(() => setZIndexes([]));
 
@@ -10,27 +11,27 @@ describe('removeZIndex', () => {
     setZIndexes([1, 2, 3]);
     removeZIndex(3);
 
-    expect(globalThat.__RetailUiZIndexes).toEqual([1, 2]);
+    expect(globalObject.__RetailUiZIndexes).toEqual([1, 2]);
   });
 
   it('should not change array if value does not exist', () => {
     setZIndexes([1, 2, 3]);
     removeZIndex(4);
 
-    expect(globalThat.__RetailUiZIndexes).toEqual([1, 2, 3]);
+    expect(globalObject.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should removes just first value', () => {
     setZIndexes([1, 2, 2, 3]);
     removeZIndex(2);
 
-    expect(globalThat.__RetailUiZIndexes).toEqual([1, 2, 3]);
+    expect(globalObject.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should not change empty array', () => {
     removeZIndex(2);
 
-    expect(globalThat.__RetailUiZIndexes).toEqual([]);
+    expect(globalObject.__RetailUiZIndexes).toEqual([]);
   });
 });
 
@@ -104,7 +105,7 @@ describe('incrementZindex', () => {
       const result = incrementZIndex(priority, delta);
 
       expect(result).toBe(expected.result);
-      expect(globalThat.__RetailUiZIndexes).toEqual(expected.storage);
+      expect(globalObject.__RetailUiZIndexes).toEqual(expected.storage);
     });
   });
 });

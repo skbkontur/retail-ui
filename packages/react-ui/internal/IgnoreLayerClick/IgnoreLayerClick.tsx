@@ -1,6 +1,7 @@
 import React from 'react';
+import { isElement } from '@skbkontur/global-object';
+import { Element, Event } from '@skbkontur/global-object/lib';
 
-import { isElement, Element, Event } from '../../lib/globalThat';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CommonWrapper } from '../CommonWrapper';
 

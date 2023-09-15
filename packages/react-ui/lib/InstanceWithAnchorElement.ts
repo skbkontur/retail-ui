@@ -1,6 +1,6 @@
-import { Nullable } from '../typings/utility-types';
+import { Element } from '@skbkontur/global-object/lib';
 
-import { Element } from './globalThat';
+import { Nullable } from '../typings/utility-types';
 
 export interface InstanceWithAnchorElement {
   getAnchorElement: () => Nullable<Element>;

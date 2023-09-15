@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react';
+import { globalObject, isElement } from '@skbkontur/global-object';
+import { Event, Element } from '@skbkontur/global-object/lib';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, isElement, Event, Element } from '../../lib/globalThat';
 
 export interface RenderLayerProps extends CommonProps {
   children: ReactElement;
@@ -85,9 +86,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     }
 
     this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
-    globalThat.addEventListener?.('blur', this.handleFocusOutside);
-    globalThat.document?.addEventListener(
-      'ontouchstart' in globalThat.document.documentElement && 'onpointerup' in globalThat.document.documentElement
+    globalObject.addEventListener?.('blur', this.handleFocusOutside);
+    globalObject.document?.addEventListener(
+      'ontouchstart' in globalObject.document.documentElement && 'onpointerup' in globalObject.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -100,9 +101,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    globalThat.removeEventListener?.('blur', this.handleFocusOutside);
-    globalThat.document?.removeEventListener(
-      'ontouchstart' in globalThat.document.documentElement && 'onpointerup' in globalThat.document.documentElement
+    globalObject.removeEventListener?.('blur', this.handleFocusOutside);
+    globalObject.document?.removeEventListener(
+      'ontouchstart' in globalObject.document.documentElement && 'onpointerup' in globalObject.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,

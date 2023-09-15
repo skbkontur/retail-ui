@@ -1,6 +1,6 @@
 import React, { AriaAttributes } from 'react';
+import { isHTMLElement } from '@skbkontur/global-object';
 
-import { isHTMLElement } from '../../lib/globalThat';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';

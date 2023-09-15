@@ -1,5 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLAnchorElement } from '@skbkontur/global-object/lib';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
@@ -14,7 +16,6 @@ import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
-import { globalThat, HTMLAnchorElement } from '../../lib/globalThat';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -220,7 +221,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame?.(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

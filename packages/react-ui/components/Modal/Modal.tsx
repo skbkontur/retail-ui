@@ -1,6 +1,8 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLDivElement, KeyboardEvent, EventTarget } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -18,7 +20,6 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
-import { globalThat, HTMLDivElement, KeyboardEvent, EventTarget } from '../../lib/globalThat';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -133,11 +134,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      globalThat.addEventListener?.('resize', this.throttledCheckHorizontalScroll);
+      globalObject.addEventListener?.('resize', this.throttledCheckHorizontalScroll);
     }
 
     mountedModalsCount++;
-    globalThat.addEventListener?.('keydown', this.handleKeyDown);
+    globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
     if (this.containerNode) {
@@ -147,11 +148,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      globalThat.removeEventListener?.('resize', this.throttledCheckHorizontalScroll);
+      globalObject.removeEventListener?.('resize', this.throttledCheckHorizontalScroll);
       LayoutEvents.emit();
     }
 
-    globalThat.removeEventListener?.('keydown', this.handleKeyDown);
+    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }

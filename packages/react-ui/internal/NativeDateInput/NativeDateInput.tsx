@@ -1,6 +1,6 @@
 import React from 'react';
+import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
-import { HTMLInputElement } from '../../lib/globalThat';
 import { Nullable } from '../../typings/utility-types';
 
 import { getDateForNative, getDateForComponent } from './utils';

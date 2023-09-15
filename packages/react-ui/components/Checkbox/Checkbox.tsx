@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLInputElement, HTMLLabelElement, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
@@ -15,7 +17,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, HTMLInputElement, HTMLLabelElement, KeyboardEvent } from '../../lib/globalThat';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -170,13 +171,13 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
 
-    globalThat.document?.addEventListener('keydown', this.handleShiftPress);
-    globalThat.document?.addEventListener('keyup', this.handleShiftRelease);
+    globalObject.document?.addEventListener('keydown', this.handleShiftPress);
+    globalObject.document?.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    globalThat.document?.removeEventListener('keydown', this.handleShiftPress);
-    globalThat.document?.removeEventListener('keyup', this.handleShiftRelease);
+    globalObject.document?.removeEventListener('keydown', this.handleShiftPress);
+    globalObject.document?.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   private setRootNode!: TSetRootNode;
@@ -355,7 +356,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalThat.requestAnimationFrame?.(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

@@ -1,7 +1,7 @@
 import React from 'react';
+import { HTMLElement, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { isMac } from '../../lib/client';
-import { HTMLElement, KeyboardEvent } from '../../lib/globalThat';
 import { Nullable } from '../../typings/utility-types';
 
 export interface KeyDescriptionType {

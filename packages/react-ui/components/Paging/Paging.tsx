@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 import { func, number } from 'prop-types';
+import { globalObject, isElement } from '@skbkontur/global-object';
+import { HTMLSpanElement, KeyboardEvent, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
@@ -15,7 +17,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, isElement, HTMLSpanElement, KeyboardEvent, HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -318,7 +319,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      globalThat.setTimeout(() => this.container && this.container.focus(), 0);
+      globalObject.setTimeout(() => this.container && this.container.focus(), 0);
     }
   };
 
@@ -373,7 +374,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    globalThat.requestAnimationFrame?.(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
@@ -473,13 +474,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    globalThat.document?.addEventListener('keydown', this.handleKeyDown);
+    globalObject.document?.addEventListener('keydown', this.handleKeyDown);
     this.addedGlobalListener = true;
   };
 
   private removeGlobalListener = () => {
     if (this.addedGlobalListener) {
-      globalThat.document?.removeEventListener('keydown', this.handleKeyDown);
+      globalObject.document?.removeEventListener('keydown', this.handleKeyDown);
 
       this.addedGlobalListener = false;
     }

@@ -1,10 +1,10 @@
 import React, { useContext, useRef } from 'react';
+import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { HTMLDivElement } from '../../lib/globalThat';
 
 import { animations, styles } from './GlobalLoaderView.styles';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';

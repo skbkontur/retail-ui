@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
+import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -9,7 +10,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { HTMLInputElement } from '../../lib/globalThat';
 
 import { styles } from './MaskedInput.styles';
 

@@ -1,11 +1,11 @@
 import React from 'react';
+import { HTMLElement, Element } from '@skbkontur/global-object/lib';
 
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode, rootNode, TSetRootNode, TRootNodeSubscription, isInstanceWithRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import { HTMLElement, Element } from '../../lib/globalThat';
 
 export interface CommonProps {
   /**

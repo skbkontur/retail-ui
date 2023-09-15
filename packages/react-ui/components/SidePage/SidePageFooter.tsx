@@ -1,4 +1,5 @@
 import React from 'react';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -12,7 +13,6 @@ import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';

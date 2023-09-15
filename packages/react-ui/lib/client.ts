@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 
-import { globalThat } from './globalThat';
+import { globalObject } from '@skbkontur/global-object';
 
-// export const canUseDOM = Boolean(isBrowser(globalThat) && document && document.createElement);
+// export const canUseDOM = Boolean(isBrowser(globalObject) && document && document.createElement);
 
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
-const platform = (globalThat.navigator?.platform || '').toLowerCase();
-const userAgent = (globalThat.navigator?.userAgent || '').toLowerCase();
-const vendor = (globalThat.navigator?.vendor || '').toLowerCase();
+const platform = (globalObject.navigator?.platform || '').toLowerCase();
+const userAgent = (globalObject.navigator?.userAgent || '').toLowerCase();
+const vendor = (globalObject.navigator?.vendor || '').toLowerCase();
 
 export const isMac = platform.includes('mac');
 export const isWindows = platform.includes('win');

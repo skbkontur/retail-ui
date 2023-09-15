@@ -1,5 +1,7 @@
 /* eslint-disable no-useless-constructor */
-import { globalThat, CSSStyleDeclaration } from '../../lib/globalThat';
+import { globalObject } from '@skbkontur/global-object';
+import { CSSStyleDeclaration } from '@skbkontur/global-object/lib';
+
 import { ColorFactory } from '../../lib/styles/ColorFactory';
 
 export class SpinnerFallbackAnimationRunner {
@@ -42,8 +44,8 @@ const rafInterval = (fn: () => void, delay: number) => {
       fn();
       lastcall = timestamp;
     }
-    if (globalThat.requestAnimationFrame) {
-      rafId = globalThat.requestAnimationFrame(interval);
+    if (globalObject.requestAnimationFrame) {
+      rafId = globalObject.requestAnimationFrame(interval);
     }
   };
   interval();
@@ -51,7 +53,7 @@ const rafInterval = (fn: () => void, delay: number) => {
   return {
     clear: () => {
       cleared = true;
-      globalThat.cancelAnimationFrame?.(rafId);
+      globalObject.cancelAnimationFrame?.(rafId);
     },
   };
 };

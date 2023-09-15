@@ -1,4 +1,5 @@
-import { File } from '../../lib/globalThat';
+import { File } from '@skbkontur/global-object/lib';
+
 import { getUid } from '../../lib/uidUtils';
 
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';

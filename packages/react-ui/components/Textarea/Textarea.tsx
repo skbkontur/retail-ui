@@ -3,6 +3,8 @@
 import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
+import { HTMLTextAreaElement } from '@skbkontur/global-object/lib';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
@@ -18,7 +20,6 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, isBrowser, HTMLTextAreaElement } from '../../lib/globalThat';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -241,7 +242,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = isBrowser(globalThat) ? new globalThat.MutationObserver(this.reflowCounter) : null;
+  private textareaObserver = isBrowser(globalObject) ? new globalObject.MutationObserver(this.reflowCounter) : null;
   private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
@@ -330,7 +331,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (globalThat.document?.activeElement !== this.node) {
+    if (globalObject.document?.activeElement !== this.node) {
       this.focus();
     }
 
@@ -347,11 +348,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private delaySelectAll = (): number | null =>
-    (this.selectAllId = globalThat.requestAnimationFrame?.(this.selectAll) ?? null);
+    (this.selectAllId = globalObject.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      globalThat.cancelAnimationFrame?.(this.selectAllId);
+      globalObject.cancelAnimationFrame?.(this.selectAllId);
       this.selectAllId = null;
     }
   };

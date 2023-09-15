@@ -3,6 +3,8 @@
 import React, { ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
+import { isNode, globalObject } from '@skbkontur/global-object';
+import { HTMLElement, HTMLInputElement, MouseEvent, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
@@ -22,15 +24,6 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
-import {
-  isNode,
-  globalThat,
-  HTMLElement,
-  HTMLInputElement,
-  Timeout,
-  MouseEvent,
-  KeyboardEvent,
-} from '../../lib/globalThat';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -72,8 +65,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private frozen = false;
   private frozenBlur = false;
   private dragging = false;
-  private focusTimeout: Nullable<Timeout>;
-  private blinkTimeout: Nullable<Timeout>;
+  private focusTimeout: Nullable<number>;
+  private blinkTimeout: Nullable<number>;
   private setRootNode!: TSetRootNode;
 
   /**
@@ -102,7 +95,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalThat.setTimeout(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = globalObject.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
@@ -117,7 +110,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.dragging || !node) {
       return;
     }
-    if (isIE11 && globalThat.document && findRenderContainer(node, globalThat.document.body)) {
+    if (isIE11 && globalObject.document && findRenderContainer(node, globalObject.document.body)) {
       // Code below causes Popup to close after triggering the focus event on the body in IE11
       return;
     }
@@ -128,26 +121,26 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.selectNodeContentsDebounced(node, start, end);
 
     if (this.focusTimeout) {
-      globalThat.clearInterval(this.focusTimeout);
+      globalObject.clearInterval(this.focusTimeout);
     }
-    this.focusTimeout = globalThat.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
+    this.focusTimeout = globalObject.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
   };
 
   public componentDidMount() {
     if (this.node) {
       MouseDrag.listen(this.node).onMouseDragStart(this.handleMouseDragStart).onMouseDragEnd(this.handleMouseDragEnd);
     }
-    globalThat.document?.addEventListener('mousedown', this.handleDocumentMouseDown);
-    globalThat.document?.addEventListener('keydown', this.handleDocumentKeyDown);
+    globalObject.document?.addEventListener('mousedown', this.handleDocumentMouseDown);
+    globalObject.document?.addEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
-      globalThat.clearTimeout(this.blinkTimeout);
+      globalObject.clearTimeout(this.blinkTimeout);
     }
     MouseDrag.stop(this.node);
-    globalThat.document?.removeEventListener('mousedown', this.handleDocumentMouseDown);
-    globalThat.document?.removeEventListener('keydown', this.handleDocumentKeyDown);
+    globalObject.document?.removeEventListener('mousedown', this.handleDocumentMouseDown);
+    globalObject.document?.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   public render() {
@@ -408,7 +401,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (isIE11 && isShortcutPaste(e) && this.hiddenInput) {
       this.frozen = true;
-      globalThat.setTimeout(() => {
+      globalObject.setTimeout(() => {
         if (this.lastSelectedInnerNode) {
           this.selectInnerNode(...this.lastSelectedInnerNode);
         }
@@ -427,7 +420,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragStart: MouseDragEventHandler = (e) => {
     this.dragging = true;
-    globalThat.document?.documentElement.classList.add(styles.userSelectNone());
+    globalObject.document?.documentElement.classList.add(styles.userSelectNone());
 
     if (this.props.onMouseDragStart) {
       this.props.onMouseDragStart(e);
@@ -436,7 +429,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragEnd: MouseDragEventHandler = (e) => {
     // Дожидаемся onMouseUp
-    globalThat.setTimeout(() => {
+    globalObject.setTimeout(() => {
       this.dragging = false;
 
       if (this.props.onMouseDragEnd) {
@@ -444,7 +437,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }, 0);
 
-    globalThat.document?.documentElement.classList.remove(styles.userSelectNone());
+    globalObject.document?.documentElement.classList.remove(styles.userSelectNone());
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
@@ -453,8 +446,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     if (this.props.disabled) {
-      if (isIE11 && globalThat.document) {
-        selectNodeContents(globalThat.document.body, 0, 0);
+      if (isIE11 && globalObject.document) {
+        selectNodeContents(globalObject.document.body, 0, 0);
       }
       return;
     }

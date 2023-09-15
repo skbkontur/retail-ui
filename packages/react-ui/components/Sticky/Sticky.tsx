@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -11,7 +13,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, HTMLElement } from '../../lib/globalThat';
 
 import { styles } from './Sticky.styles';
 
@@ -157,11 +158,11 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
    * @public
    */
   public reflow = () => {
-    if (!globalThat.document?.documentElement) {
+    if (!globalObject.document?.documentElement) {
       throw Error('There is no "documentElement" in document');
     }
 
-    const windowHeight = globalThat.innerHeight || globalThat.document.documentElement.clientHeight;
+    const windowHeight = globalObject.innerHeight || globalObject.document.documentElement.clientHeight;
     if (!this.wrapper || !this.inner) {
       return;
     }

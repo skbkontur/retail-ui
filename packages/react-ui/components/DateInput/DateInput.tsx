@@ -1,4 +1,6 @@
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLElement, HTMLSpanElement } from '@skbkontur/global-object/lib';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -14,7 +16,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, HTMLElement, HTMLSpanElement } from '../../lib/globalThat';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -310,7 +311,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    const selection = globalThat.getSelection?.();
+    const selection = globalObject.getSelection?.();
     if (
       selection &&
       selection.toString().length === LENGTH_FULLDATE &&

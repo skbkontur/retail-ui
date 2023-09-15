@@ -8,6 +8,8 @@ import React, {
   ReactNode,
 } from 'react';
 import isEqual from 'lodash.isequal';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLDivElement, HTMLTextAreaElement, HTMLLabelElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { PopupIds } from '../../internal/Popup';
 import {
@@ -37,7 +39,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
-import { globalThat, HTMLDivElement, HTMLTextAreaElement, HTMLLabelElement, HTMLElement } from '../../lib/globalThat';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -300,7 +301,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public componentDidMount() {
     this.updateInputTextWidth();
-    globalThat.document?.addEventListener('copy', this.handleCopy);
+    globalObject.document?.addEventListener('copy', this.handleCopy);
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -326,7 +327,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
-    globalThat.document?.removeEventListener('copy', this.handleCopy);
+    globalObject.document?.removeEventListener('copy', this.handleCopy);
   }
 
   /**
@@ -578,7 +579,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input?.focus();
       // в firefox не работает без второго focus
-      globalThat.requestAnimationFrame?.(() => this.input?.focus());
+      globalObject.requestAnimationFrame?.(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -645,9 +646,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    if (this.menuRef && globalThat.document) {
+    if (this.menuRef && globalObject.document) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = event.relatedTarget || globalThat.document.activeElement;
+      const relatedTarget = event.relatedTarget || globalObject.document.activeElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;
@@ -820,7 +821,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    globalThat.requestAnimationFrame?.(() => this.input?.focus());
+    globalObject.requestAnimationFrame?.(() => this.input?.focus());
   };
 
   private selectInputText = () => {

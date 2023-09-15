@@ -1,6 +1,8 @@
 import React, { AriaAttributes, HTMLAttributes, ReactElement } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
+import { globalObject, isMouseEvent } from '@skbkontur/global-object';
+import { HTMLElement, HTMLDivElement, Event, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -18,7 +20,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, isMouseEvent, HTMLElement, HTMLDivElement, Event, KeyboardEvent } from '../../lib/globalThat';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -133,12 +134,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
-    globalThat.addEventListener?.('keydown', this.handleKeyDown);
+    globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
-    globalThat.removeEventListener?.('keydown', this.handleKeyDown);
+    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
@@ -331,7 +332,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private handleClickOutside = (e: Event) => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
-      if (isMouseEvent(e) && globalThat.document && e.clientX > globalThat.document.documentElement.clientWidth) {
+      if (isMouseEvent(e) && globalObject.document && e.clientX > globalObject.document.documentElement.clientWidth) {
         return;
       }
       this.requestClose();

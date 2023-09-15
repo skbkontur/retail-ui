@@ -1,4 +1,6 @@
 import React, { AriaAttributes, CSSProperties } from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import { HTMLButtonElement } from '@skbkontur/global-object/lib';
 
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
@@ -6,7 +8,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../CommonWrapper';
-import { globalThat, HTMLButtonElement } from '../../lib/globalThat';
 
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
@@ -69,7 +70,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   const handleFocus = () => {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    globalThat.requestAnimationFrame?.(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         setFocusedByTab(true);
       }

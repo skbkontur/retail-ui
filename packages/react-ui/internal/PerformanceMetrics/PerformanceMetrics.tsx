@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HTMLElement } from '@skbkontur/global-object/lib';
 
-import { HTMLElement } from '../../lib/globalThat';
 import { Button } from '../../components/Button';
 import { Nullable } from '../../typings/utility-types';
 import { Spinner } from '../../components/Spinner';

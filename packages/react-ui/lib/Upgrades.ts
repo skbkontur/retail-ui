@@ -1,6 +1,5 @@
 import warning from 'warning';
-
-import { Window } from './globalThat';
+import { Window } from '@skbkontur/global-object/lib';
 
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
