@@ -26,7 +26,9 @@ export const clickableStyles = memoizeStyle({
   },
   buttonDefault() {
     return css`
-      .defaultDarkTheme & {
+      background-color: aliceblue;
+
+      .react-ui-dark & {
         background-color: green;
       }
     `;

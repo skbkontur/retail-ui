@@ -1,22 +1,29 @@
 import React from 'react';
 
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps } from '../../internal/CommonWrapper';
 
 import { clickableStyles as styles } from './Clickable.styles';
 
-export interface ClickableProps extends Omit<CommonProps, 'children'> {
-  render: React.ComponentType<any>;
-}
+export type ClickableProps = CommonProps;
 
 export const ClickableDataTids = {
   root: 'Clickable__root',
 } as const;
 
-export function Clickable({ render: Component, className, ...rest }: ClickableProps) {
-  return <Component className={cx(styles.root(), className)} data-tid={ClickableDataTids.root} {...rest} />;
-}
+export const Clickable = forwardRefAndName<HTMLElement, ClickableProps>(
+  'Clickable',
+  ({ children, className, ...rest }: ClickableProps, ref) => {
+    if (!React.isValidElement(children)) {
+      return null;
+    }
 
-const componentName = 'Clickable';
-Clickable.displayName = componentName;
-Clickable.__KONTUR_REACT_UI__ = componentName;
+    return React.cloneElement(children as React.ReactElement, {
+      className: cx(styles.root(), className),
+      'data-tid': ClickableDataTids.root,
+      ref,
+      ...rest,
+    });
+  },
+);
