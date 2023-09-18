@@ -1,4 +1,4 @@
-`<Clickable />` отрендерит всё, что вы передали ему в качестве детей.
+Сам по себе `<Clickable />` ничего не рендерит. Компонент становится разметкой, которую вы передаёте в качестве детей.
 ```jsx harmony
 import { Clickable, clickableStyles } from '@skbkontur/react-ui';
 
@@ -14,19 +14,29 @@ import { Clickable, clickableStyles } from '@skbkontur/react-ui';
 
 По умолчанию `<Clickable />` предоставляет лишь небольшой набор полезных стилей. Для того, чтобы изменить внешний вид элемента вы можете использовать набор классов предоставляемых библиотекой, либо передать в компонент собственные классы.
 ```jsx harmony
+import { Clickable, clickableStyles } from '@skbkontur/react-ui';
+
+<Clickable className={clickableStyles.buttonDefault()}>
+  <button>Кнопка</button>
+</Clickable>
+```
+
+Для того, чтобы добавить стили для тёмной темы воспользуйтесь селектором `.dark *название вашего класса*`. Чтобы переключиться на тёмную тему используйте хук `useTheme`.
+```jsx harmony
 import { Clickable, clickableStyles, useTheme } from '@skbkontur/react-ui';
 
-const { setTheme, toggleTheme } = useTheme();
+const { theme, toggleTheme } = useTheme({ useOSTheme: false });
 
 <>
-  <Clickable className={clickableStyles.buttonDefault()}>
-    <button>Кнопка</button>
-  </Clickable>
-  <button onClick={() => toggleTheme()}>change theme to dark</button>
+<p>Текущая тема: <span style={{ fontWeight: 'bold' }}>{theme}</span></p>
+<Clickable className={clickableStyles.buttonDefault()}>
+  <button onClick={() => toggleTheme()}>Переключить тему</button>
+</Clickable>
 </>
 ```
 
-Компонент использует внутри себя пропы `style`, `className`, `data-tid` и `ref`. Чтобы у вас не возникло проблем с использованием компонента вам следует передавать эти пропы на `<Clickable />`, а не на корневого ребёнка, либо научить ваш кастомный React-компонент работать с ними
+
+Компонент использует внутри себя пропы `style`, `className`, `aria-disabled`, `tabIndex`, `data-tid` и `ref`. Чтобы у вас не возникло проблем с использованием компонента вам следует передавать эти пропы на `<Clickable />`, а не на корневого ребёнка, либо научить ваш кастомный React-компонент работать с ними
 
 _В качестве правила большого пальца: не прокидывайте на корневого ребёнка пропы доступные `<Clickable />`._
 ```jsx harmony
