@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLSpanElement } from '@skbkontur/global-object/lib';
 
 export interface PreventProps {
   children?: React.ReactNode;

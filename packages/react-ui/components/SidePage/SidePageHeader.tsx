@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Sticky } from '../Sticky';
 import { isFunction } from '../../lib/utils';

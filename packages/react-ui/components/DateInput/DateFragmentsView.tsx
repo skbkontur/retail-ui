@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLSpanElement, HTMLElement, EventTarget } from '@skbkontur/global-object/lib';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';

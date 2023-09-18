@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { HTMLOrSVGElement } from '@skbkontur/global-object/lib';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';

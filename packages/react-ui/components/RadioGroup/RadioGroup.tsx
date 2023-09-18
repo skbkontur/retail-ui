@@ -1,6 +1,5 @@
 import React, { AriaAttributes, ReactElement } from 'react';
 import invariant from 'invariant';
-import { FocusEvent, HTMLSpanElement, HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';

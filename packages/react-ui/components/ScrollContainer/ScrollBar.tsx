@@ -2,7 +2,6 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import debounce from 'lodash.debounce';
 import { isWheelEvent, globalObject } from '@skbkontur/global-object';
-import { HTMLElement, HTMLDivElement, Event, MouseEvent } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';

@@ -3,7 +3,6 @@ import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
 import { globalObject, isTouchEvent, isWheelEvent } from '@skbkontur/global-object';
-import { HTMLElement, Event } from '@skbkontur/global-object/lib';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';

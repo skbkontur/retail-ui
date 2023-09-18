@@ -1,5 +1,4 @@
 import React from 'react';
-import { DOMRect, Element } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

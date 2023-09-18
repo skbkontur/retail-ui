@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css } from '../../lib/theming/Emotion';

@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 import { isElement, globalObject } from '@skbkontur/global-object';
-import { Element, HTMLElement, Event } from '@skbkontur/global-object/lib';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';

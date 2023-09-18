@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLElement, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { SEPARATOR } from '../../../lib/date/constants';
 import * as Keyboard from '../../../lib/events/keyboard/identifiers';

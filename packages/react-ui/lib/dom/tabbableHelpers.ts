@@ -1,6 +1,5 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
 import { isElement, globalObject } from '@skbkontur/global-object';
-import { Element, Document, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

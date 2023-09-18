@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import { HTMLElement, HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { CustomComboBox } from '../../internal/CustomComboBox';

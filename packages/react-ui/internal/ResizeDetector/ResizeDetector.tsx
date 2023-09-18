@@ -1,5 +1,4 @@
 import React from 'react';
-import { UIEvent, Window, HTMLIFrameElement } from '@skbkontur/global-object/lib';
 
 import { cx } from '../../lib/theming/Emotion';
 

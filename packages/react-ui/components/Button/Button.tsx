@@ -1,6 +1,5 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLButtonElement } from '@skbkontur/global-object/lib';
 
 import { HTMLProps } from '../../typings/html';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';

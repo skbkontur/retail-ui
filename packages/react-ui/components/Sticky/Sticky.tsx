@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';

@@ -2,7 +2,6 @@ import React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';

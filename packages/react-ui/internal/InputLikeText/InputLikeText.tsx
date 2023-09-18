@@ -4,7 +4,6 @@ import React, { ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { isNode, globalObject } from '@skbkontur/global-object';
-import { HTMLElement, HTMLInputElement, MouseEvent, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';

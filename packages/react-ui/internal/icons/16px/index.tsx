@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import propTypes from 'prop-types';
-import { HTMLElement, HTMLSpanElement } from '@skbkontur/global-object/lib';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 

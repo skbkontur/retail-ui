@@ -3,7 +3,6 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';

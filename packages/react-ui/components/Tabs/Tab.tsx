@@ -1,7 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';

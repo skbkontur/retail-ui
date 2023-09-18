@@ -2,7 +2,6 @@ import React, { AriaAttributes, HTMLAttributes, ReactElement } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 import { globalObject, isMouseEvent } from '@skbkontur/global-object';
-import { HTMLElement, HTMLDivElement, Event, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';

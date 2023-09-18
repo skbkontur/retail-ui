@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLInputElement, HTMLDivElement, HTMLLabelElement, Document, FileList } from '@skbkontur/global-object/lib';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';

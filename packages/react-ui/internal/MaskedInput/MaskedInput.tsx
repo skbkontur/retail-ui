@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
-import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

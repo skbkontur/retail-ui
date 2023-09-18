@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject, isElement } from '@skbkontur/global-object';
-import { HTMLDivElement, HTMLElement, Element, EventListener } from '@skbkontur/global-object/lib';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';

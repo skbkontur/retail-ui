@@ -1,6 +1,5 @@
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { Event, HTMLElement } from '@skbkontur/global-object/lib';
 
 interface IUseDropProps {
   onDrop?: (event: Event) => void;

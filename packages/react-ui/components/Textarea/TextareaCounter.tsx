@@ -1,7 +1,6 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLTextAreaElement } from '@skbkontur/global-object/lib';
 
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';

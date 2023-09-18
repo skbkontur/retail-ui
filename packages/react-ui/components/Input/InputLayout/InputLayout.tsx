@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLLabelElement } from '@skbkontur/global-object/lib';
 
 import { InputDataTids, InputProps } from '../Input';
 import { CommonWrapper } from '../../../internal/CommonWrapper';

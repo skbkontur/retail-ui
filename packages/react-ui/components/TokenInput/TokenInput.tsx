@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLDivElement, HTMLTextAreaElement, HTMLLabelElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { PopupIds } from '../../internal/Popup';
 import {

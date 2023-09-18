@@ -1,6 +1,5 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
 import { isHTMLElement, globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLDivElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';

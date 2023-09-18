@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLElement, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { Entries } from '../../../typings/utility-types';
 

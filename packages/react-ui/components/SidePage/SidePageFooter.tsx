@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

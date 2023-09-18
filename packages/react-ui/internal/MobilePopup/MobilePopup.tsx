@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from 'react';
 import { Transition } from 'react-transition-group';
-import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

@@ -1,7 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
-import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

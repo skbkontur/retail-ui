@@ -1,5 +1,4 @@
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
   if (!node) {

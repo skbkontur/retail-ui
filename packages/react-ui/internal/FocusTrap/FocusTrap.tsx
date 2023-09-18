@@ -1,6 +1,5 @@
 import React from 'react';
 import { isElement, globalObject } from '@skbkontur/global-object';
-import { FocusEvent, Event } from '@skbkontur/global-object/lib';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';

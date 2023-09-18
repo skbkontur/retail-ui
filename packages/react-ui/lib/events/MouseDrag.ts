@@ -1,5 +1,4 @@
 import { globalObject } from '@skbkontur/global-object';
-import { MouseEvent, HTMLElement, Event } from '@skbkontur/global-object/lib';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',

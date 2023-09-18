@@ -1,5 +1,4 @@
 import { globalObject } from '@skbkontur/global-object';
-import { MediaQueryListEvent, MediaQueryList } from '@skbkontur/global-object/lib';
 
 interface mediaQueryData {
   mql: MediaQueryList;

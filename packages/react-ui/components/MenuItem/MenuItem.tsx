@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { isBrowser } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
@@ -10,7 +11,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { globalThat, HTMLElement, HTMLAnchorElement, isBrowser } from '../../lib/globalThat';
 
 import { styles } from './MenuItem.styles';
 

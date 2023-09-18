@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 type ActionCheck = (x0: React.KeyboardEvent<HTMLElement>) => boolean;
 

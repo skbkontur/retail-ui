@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLElement, Element } from '@skbkontur/global-object/lib';
 
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';

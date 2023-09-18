@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { MutationObserver, HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';

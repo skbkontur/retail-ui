@@ -1,5 +1,4 @@
 import React, { createRef, useCallback, useContext, useEffect, useState } from 'react';
-import { MediaQueryListEvent } from '@skbkontur/global-object/lib';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 

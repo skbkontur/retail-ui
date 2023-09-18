@@ -1,5 +1,4 @@
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLTextAreaElement } from '@skbkontur/global-object/lib';
 
 export function getTextAreaHeight(params: GetTextAreaHeightParams) {
   if (!isBrowser(globalObject)) {

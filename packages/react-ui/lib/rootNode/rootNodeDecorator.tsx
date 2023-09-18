@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import EventEmitter from 'eventemitter3';
-import { Element } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

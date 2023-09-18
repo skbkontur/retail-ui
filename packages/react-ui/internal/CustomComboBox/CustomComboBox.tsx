@@ -1,7 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement, HTMLInputElement, Event } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLIFrameElement } from '@skbkontur/global-object/lib';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
 import { createPropsGetter } from '../lib/createPropsGetter';

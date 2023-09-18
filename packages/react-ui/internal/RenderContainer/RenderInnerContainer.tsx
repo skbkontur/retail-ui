@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';

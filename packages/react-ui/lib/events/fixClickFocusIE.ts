@@ -1,5 +1,4 @@
 import { isHTMLElement, globalObject } from '@skbkontur/global-object';
-import { Event } from '@skbkontur/global-object/lib';
 
 import { getClosestFocusableElement } from '../dom/tabbableHelpers';
 import { isIE11, isEdge } from '../client';

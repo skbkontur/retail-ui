@@ -4,7 +4,6 @@ import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLTextAreaElement } from '@skbkontur/global-object/lib';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';

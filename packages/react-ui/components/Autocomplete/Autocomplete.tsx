@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
-import { HTMLElement, HTMLInputElement, HTMLSpanElement, Event } from '@skbkontur/global-object/lib';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';

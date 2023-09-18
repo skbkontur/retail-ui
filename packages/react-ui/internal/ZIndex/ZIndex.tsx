@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';

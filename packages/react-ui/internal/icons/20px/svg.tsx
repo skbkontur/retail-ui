@@ -1,6 +1,5 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { HTMLSpanElement } from '@skbkontur/global-object/lib';
 
 import { styles } from './icon.styles';
 

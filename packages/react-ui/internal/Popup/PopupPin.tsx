@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

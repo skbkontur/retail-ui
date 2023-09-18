@@ -1,6 +1,5 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement, HTMLSpanElement, HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import { FileUploaderAttachedFile } from '../fileUtils';

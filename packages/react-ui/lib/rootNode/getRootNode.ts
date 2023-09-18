@@ -3,7 +3,6 @@ import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
 import { globalObject, isElement, isNode } from '@skbkontur/global-object';
-import { Element } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

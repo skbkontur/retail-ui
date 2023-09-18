@@ -2,7 +2,6 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement, HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import { isHTMLInputElement } from '@skbkontur/global-object';
-import { HTMLInputElement, EventTarget } from '@skbkontur/global-object/lib';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';

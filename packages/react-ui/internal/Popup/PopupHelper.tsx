@@ -1,5 +1,4 @@
 import { globalObject } from '@skbkontur/global-object';
-import { Element } from '@skbkontur/global-object/lib';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 

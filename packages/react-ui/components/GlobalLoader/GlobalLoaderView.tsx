@@ -1,5 +1,4 @@
 import React, { useContext, useRef } from 'react';
-import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../../internal/ZIndex';

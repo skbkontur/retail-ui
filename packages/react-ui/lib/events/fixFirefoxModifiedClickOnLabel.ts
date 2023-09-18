@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
-import { HTMLInputElement, HTMLLabelElement } from '@skbkontur/global-object/lib';
 
 import { isFirefox } from '../client';
 

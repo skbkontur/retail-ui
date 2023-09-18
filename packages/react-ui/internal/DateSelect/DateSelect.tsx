@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isTouchEvent, isWheelEvent, isBrowser } from '@skbkontur/global-object';
-import { HTMLElement, Event, KeyboardEvent } from '@skbkontur/global-object/lib';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';

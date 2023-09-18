@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { func, number } from 'prop-types';
 import { globalObject, isElement } from '@skbkontur/global-object';
-import { HTMLSpanElement, KeyboardEvent, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';

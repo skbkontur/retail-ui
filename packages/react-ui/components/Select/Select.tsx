@@ -1,7 +1,6 @@
 import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import {
   isKeyArrowDown,

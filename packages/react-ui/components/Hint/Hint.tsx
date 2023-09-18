@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { Element } from '@skbkontur/global-object/lib';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';

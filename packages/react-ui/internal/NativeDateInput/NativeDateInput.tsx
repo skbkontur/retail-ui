@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

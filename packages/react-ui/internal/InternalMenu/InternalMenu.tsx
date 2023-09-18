@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject, isHTMLElement, isBrowser } from '@skbkontur/global-object';
-import { HTMLDivElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';

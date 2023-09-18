@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 

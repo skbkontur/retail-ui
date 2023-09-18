@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from 'react';
 import { globalObject, isElement, isBrowser } from '@skbkontur/global-object';
-import { HTMLDivElement, Element } from '@skbkontur/global-object/lib';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';

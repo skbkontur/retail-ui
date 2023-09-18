@@ -1,6 +1,5 @@
 import React, { AriaAttributes, ReactElement } from 'react';
 import PropTypes from 'prop-types';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';

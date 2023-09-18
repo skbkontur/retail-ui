@@ -1,6 +1,5 @@
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLSpanElement, HTMLElement } from '@skbkontur/global-object/lib';
 
 import { getRandomID } from '../../lib/utils';
 import { HTMLProps } from '../../typings/html';

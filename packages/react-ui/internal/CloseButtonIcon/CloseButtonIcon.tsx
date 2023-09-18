@@ -1,6 +1,5 @@
 import React, { AriaAttributes, CSSProperties } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLButtonElement } from '@skbkontur/global-object/lib';
 
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';

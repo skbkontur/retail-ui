@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Button } from '../../components/Button';
 import { Nullable } from '../../typings/utility-types';

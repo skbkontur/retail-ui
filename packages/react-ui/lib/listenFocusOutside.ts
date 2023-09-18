@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject, isElement } from '@skbkontur/global-object';
-import { Element, Event, UIEvent } from '@skbkontur/global-object/lib';
 
 import { isFirefox } from './client';
 

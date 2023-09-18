@@ -1,5 +1,4 @@
 import React from 'react';
-import { HTMLDivElement } from '@skbkontur/global-object/lib';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 

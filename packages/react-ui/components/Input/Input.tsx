@@ -4,7 +4,6 @@ import invariant from 'invariant';
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLInputElement, HTMLLabelElement } from '@skbkontur/global-object/lib';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';

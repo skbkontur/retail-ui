@@ -1,5 +1,4 @@
 import React from 'react';
-import { SVGSVGElement } from '@skbkontur/global-object/lib';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import { BaseIcon, IconProps } from '../BaseIcon';

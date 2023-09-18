@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLInputElement, HTMLLabelElement } from '@skbkontur/global-object/lib';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

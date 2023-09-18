@@ -1,7 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement, Element } from '@skbkontur/global-object/lib';
 
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';

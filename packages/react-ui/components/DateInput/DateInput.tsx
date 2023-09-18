@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement, HTMLSpanElement } from '@skbkontur/global-object/lib';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';

@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
-import { HTMLInputElement } from '@skbkontur/global-object/lib';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { getButtonCorners, Group } from '../Group';

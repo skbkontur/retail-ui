@@ -2,7 +2,6 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLDivElement, KeyboardEvent, EventTarget } from '@skbkontur/global-object/lib';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';

@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import { HTMLInputElement, Event } from '@skbkontur/global-object/lib';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';

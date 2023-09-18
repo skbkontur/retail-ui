@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-constructor */
 import { globalObject } from '@skbkontur/global-object';
-import { CSSStyleDeclaration } from '@skbkontur/global-object/lib';
 
 import { ColorFactory } from '../../lib/styles/ColorFactory';
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { HTMLElement } from '@skbkontur/global-object/lib';
 
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
