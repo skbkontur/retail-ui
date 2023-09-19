@@ -30,6 +30,14 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkLineBorderBottomWidth = '1px';
 
   public static linkDisabledColor = '#858585';
+
+  public static focusLinkOutlineColor = '#3D3D3D';
+  public static get focusLinkOutlineWidth() {
+    return this.controlOutlineWidth;
+  }
+  public static get focusLinkOutline() {
+    return `${this.focusLinkOutlineWidth} solid ${this.focusLinkOutlineColor}`;
+  }
   //#endregion Link
 
   //#region Button

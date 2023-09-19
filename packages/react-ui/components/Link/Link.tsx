@@ -243,16 +243,28 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
+    const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
 
     return !isBorderBottom
-      ? cx(styles.root(this.theme), isFocused && styles.focus(this.theme), disabled && styles.disabled(this.theme))
+      ? cx(
+        styles.root(this.theme),
+        isFocused && !_isTheme2022 && styles.focus(this.theme),
+        isFocused && _isTheme2022 && styles.focus2022(this.theme),
+        disabled && styles.disabled(this.theme),
+        !_isTheme2022 && use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
+      )
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
           disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
-          isFocused && styles.focus(this.theme),
+          !_isTheme2022 && isFocused && use === 'default' && styles.lineFocus(this.theme),
+          !_isTheme2022 && isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
+          !_isTheme2022 && isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
+          !_isTheme2022 && isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+          isFocused && !_isTheme2022 && styles.focus(this.theme),
+          isFocused && _isTheme2022 && styles.focus2022(this.theme),
         );
   }
 }
