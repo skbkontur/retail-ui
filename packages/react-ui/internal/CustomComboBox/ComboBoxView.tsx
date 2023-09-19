@@ -364,7 +364,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     if (this.isMobileLayout) {
-      this.props.onMobileClose && this.props.onMobileClose();
+      this.props.onMobileClose?.();
     }
   };
 
