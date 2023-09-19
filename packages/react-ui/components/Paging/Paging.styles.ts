@@ -103,6 +103,7 @@ export const styles = memoizeStyle({
   pageLinkDisabled(t: Theme) {
     return css`
       color: ${t.linkDisabledColor};
+      pointer-events: none;
     `;
   },
 
