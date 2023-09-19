@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
-import { isBrowser } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
@@ -153,8 +153,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentDidMount() {
-    if (this.rootRef && isBrowser(globalThat)) {
-      this.setState({ iconOffsetTop: globalThat.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
+    if (this.rootRef && isBrowser(globalObject)) {
+      this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
   }
 
