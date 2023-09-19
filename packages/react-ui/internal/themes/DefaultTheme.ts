@@ -1318,6 +1318,14 @@ export class DefaultTheme {
   public static menuHeaderPaddingTopLarge = '18px';
   public static menuHeaderPaddingBottomLarge = '8px';
 
+  public static menuHeaderTotalCountPaddingTopSmall = '4px';
+  public static menuHeaderTotalCountPaddingTopMedium = '6px';
+  public static menuHeaderTotalCountPaddingTopLarge = '8px';
+
+  public static menuHeaderTotalCountPaddingBottomSmall = '12px';
+  public static menuHeaderTotalCountPaddingBottomMedium = '14px';
+  public static menuHeaderTotalCountPaddingBottomLarge = '18px';
+
   public static menuHeaderLegacyPaddingRight = '0px';
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';

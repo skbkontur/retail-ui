@@ -10,9 +10,13 @@ import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { MenuMessage } from '../MenuMessage';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { MenuHeader } from '../../components/MenuHeader';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
+import { getComboBoxTheme } from './getComboBoxTheme';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -58,7 +62,42 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
   private readonly locale!: ComboBoxLocale;
 
+  private theme!: Theme;
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = getComboBoxTheme(theme);
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  private getPaddingTopMenuHeaderTotalCountName() {
+    switch (this.props.size) {
+      case 'large':
+        return this.theme.menuHeaderTotalCountPaddingTopLarge;
+      case 'medium':
+        return this.theme.menuHeaderTotalCountPaddingTopMedium;
+      case 'small':
+      default:
+        return this.theme.menuHeaderTotalCountPaddingTopSmall;
+    }
+  }
+  private getPaddingBottomMenuHeaderTotalCountName() {
+    switch (this.props.size) {
+      case 'large':
+        return this.theme.menuHeaderTotalCountPaddingBottomLarge;
+      case 'medium':
+        return this.theme.menuHeaderTotalCountPaddingBottomMedium;
+      case 'small':
+      default:
+        return this.theme.menuHeaderTotalCountPaddingBottomSmall;
+    }
+  }
+
+  public renderMain() {
     const {
       opened,
       items,
@@ -95,7 +134,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           id={this.props.menuId}
           data-tid={ComboBoxMenuDataTids.loading}
         >
-          <MenuMessage as="div">
+          <MenuMessage size={this.props.size} as="div">
             <Spinner type="mini" dimmed />
           </MenuMessage>
         </Menu>
@@ -111,7 +150,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           id={this.props.menuId}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuMessage key="message">
+          <MenuMessage size={this.props.size} key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuMessage>
           <MenuItem link onClick={this.getProps().repeatRequest} size={this.props.size} key="retry" isMobile={isMobile}>
@@ -134,7 +173,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       if (notFoundValue) {
         return (
           <Menu id={this.props.menuId} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
-            <MenuMessage data-tid={ComboBoxMenuDataTids.notFound}>{notFoundValue}</MenuMessage>
+            <MenuMessage size={this.props.size} data-tid={ComboBoxMenuDataTids.notFound}>
+              {notFoundValue}
+            </MenuMessage>
           </Menu>
         );
       }
@@ -148,12 +189,19 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       return isMenuItem(item);
     });
     const countItems = menuItems?.length;
-
+    console.log(this.theme);
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuMessage key="total" as="div">
-          <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
-        </MenuMessage>
+        <MenuHeader
+          style={{
+            paddingTop: this.getPaddingTopMenuHeaderTotalCountName(),
+            paddingBottom: this.getPaddingBottomMenuHeaderTotalCountName(),
+          }}
+          size={this.props.size}
+          key="total"
+        >
+          <div>{renderTotalCount(countItems, totalCount)}</div>
+        </MenuHeader>
       );
     }
 

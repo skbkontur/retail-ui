@@ -13,7 +13,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { MenuHeader, MenuHeaderSize } from '../../MenuHeader';
+import { MenuHeader } from '../../MenuHeader';
 import { delay, mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
@@ -810,7 +810,6 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
 interface SimpleComboboxProps {
   noInitialValue?: boolean;
   delay?: number;
-  renderTotalCount?: (found: number, total: number) => React.ReactNode;
 }
 
 interface SimpleComboboxState {
@@ -842,6 +841,8 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
+        totalCount={this.props.renderTotalCount ? this.items.length + 1 : undefined}
+        renderTotalCount={this.props.renderTotalCount}
       />
     );
   }
@@ -858,24 +859,19 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     }
   }
 
-  private getItems = async (query: string) => {
-    const items = await Promise.resolve(
-      [
-        { value: 1, label: 'First' },
-        { value: 2, label: 'Second' },
-        { value: 3, label: 'Third' },
-        { value: 4, label: 'Fourth' },
-        { value: 5, label: 'Fifth' },
-        { value: 6, label: 'Sixth' },
-        { value: 7, label: 'A long long long long long long time ago' },
-      ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
-    ).then<(ComboboxItem | React.ReactNode)[]>(
-      (result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)),
-    );
-    return this.props.renderTotalCount
-      ? items.concat(this.props.renderTotalCount(items.length, items.length + 1))
-      : items;
-  };
+  private items: ComboboxItem[] = [
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+    { value: 4, label: 'Fourth' },
+    { value: 5, label: 'Fifth' },
+    { value: 6, label: 'Sixth' },
+    { value: 7, label: 'A long long long long long long time ago' },
+  ];
+  private getItems = (query: string) =>
+    Promise.resolve(
+      this.items.filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
+    ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
 interface ComplexComboboxItem {
@@ -1406,16 +1402,6 @@ export const Size: Story = () => {
       large.open();
     }
   };
-  const renderTotalCount = (sizeCombobox: MenuHeaderSize) => (foundCount: number, totalCount: number) => {
-    if (foundCount < totalCount) {
-      return (
-        <MenuHeader size={sizeCombobox}>
-          Показано {foundCount} из {totalCount} пунктов меню.
-        </MenuHeader>
-      );
-    }
-    return [];
-  };
   return (
     <div style={{ height: 400, width: 1000 }}>
       <Button onClick={handleClick} data-tid="open-all">
@@ -1427,21 +1413,27 @@ export const Size: Story = () => {
           ref={(element) => {
             small = element;
           }}
-          renderTotalCount={renderTotalCount('small')}
+          renderTotalCount={(foundCount: number, totalCount: number) =>
+            `Показано ${foundCount} из ${totalCount} найденных элементов.`
+          }
         />
         <SimpleCombobox
           size={'medium'}
           ref={(element) => {
             medium = element;
           }}
-          renderTotalCount={renderTotalCount('medium')}
+          renderTotalCount={(foundCount: number, totalCount: number) =>
+            `Показано ${foundCount} из ${totalCount} найденных элементов.`
+          }
         />
         <SimpleCombobox
           size={'large'}
           ref={(element) => {
             large = element;
           }}
-          renderTotalCount={renderTotalCount('large')}
+          renderTotalCount={(foundCount: number, totalCount: number) =>
+            `Показано ${foundCount} из ${totalCount} найденных элементов.`
+          }
         />
       </Gapped>
     </div>
