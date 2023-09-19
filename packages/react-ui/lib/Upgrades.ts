@@ -1,14 +1,11 @@
 import warning from 'warning';
+import { setWindow } from '@skbkontur/global-object';
 
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
 
 let specificityClassName = 'react-ui';
 let canModifySpecificityClassName = true;
-
-// eslint-disable-next-line no-undef
-let _window = typeof window !== 'undefined' ? window : undefined;
-let canModifyWindow = true;
 
 //TODO Delete Upgrade in major release if it still doesn't work (https://tech.skbkontur.ru/react-ui/#/Migration)
 export const Upgrade = {
@@ -38,15 +35,5 @@ export const Upgrade = {
       warning(false, `specificityClassName=${specificityClassName} уже использован`);
     }
   },
-  getWindow() {
-    canModifyWindow = false;
-    return _window;
-  },
-  setWindow(win: Window & typeof globalThis) {
-    if (canModifyWindow) {
-      _window = win;
-    } else {
-      warning(false, `window уже использован и не может быть переопределен`);
-    }
-  },
+  setWindow,
 };
