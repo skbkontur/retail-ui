@@ -195,6 +195,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     this.menuNavigation?.highlightByIndex(index);
   }
 
+  public scrollToSelected() {
+    this.menuNavigation?.scrollToSelected?.(this.scrollContainer);
+  }
+
   private renderMain() {
     if (this.isEmpty()) {
       return null;

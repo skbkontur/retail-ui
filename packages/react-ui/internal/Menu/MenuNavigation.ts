@@ -21,7 +21,6 @@ export class MenuNavigation {
   private update() {
     if (this.root) {
       const menuItems = Array.from(this.root.querySelectorAll('noscript'));
-
       this.items = menuItems
         .map((item) => this.tagsAndItems.get(item))
         .filter((item): item is MenuItem => item !== undefined);
@@ -124,7 +123,7 @@ export class MenuNavigation {
     this.highlightedItem = null;
   }
 
-  private scrollToSelected = (scrollContainer: Nullable<ScrollContainer>) => {
+  public scrollToSelected = (scrollContainer: Nullable<ScrollContainer>) => {
     if (scrollContainer && this.highlightedItem) {
       const rootNode = getRootNode(this.highlightedItem);
       // TODO: Remove this check once IF-647 is resolved

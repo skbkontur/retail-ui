@@ -158,10 +158,9 @@ export const Effect: EffectFactory = {
     if (items && items.length && isNonNullable(value)) {
       index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
     }
-    menu.highlightItem(index);
+    setTimeout(() => menu.highlightItem(index), 0);
 
     if (index >= 0) {
-      // @ts-expect-error: Use of private property.
       requestAnimationFrame(() => menu && menu.scrollToSelected());
       return;
     }
