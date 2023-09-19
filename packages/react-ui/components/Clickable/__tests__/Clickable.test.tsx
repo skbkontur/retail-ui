@@ -1,5 +1,6 @@
 import React, { createRef, forwardRef } from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Clickable, ClickableDataTids } from '../Clickable';
 
@@ -38,8 +39,8 @@ describe('Clickable', () => {
   it('should change default root data-tid', () => {
     const dataTid = 'test';
     render(
-      <Clickable data-tid={dataTid}>
-        <div>test</div>
+      <Clickable>
+        <div data-tid={dataTid}>test</div>
       </Clickable>,
     );
 
@@ -64,5 +65,63 @@ describe('Clickable', () => {
     );
 
     expect(ref.current).toBeDefined();
+  });
+
+  it('should not be able to click on button', () => {
+    const onClick = jest.fn();
+    render(
+      <Clickable>
+        <button onClick={onClick}>test</button>
+      </Clickable>,
+    );
+
+    const button = screen.getByRole('button');
+    userEvent.click(button);
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not be able to click on disabled button', () => {
+    const onClick = jest.fn();
+    render(
+      <Clickable disabled>
+        <button onClick={onClick}>test</button>
+      </Clickable>,
+    );
+
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+
+    expect(onClick).toHaveBeenCalledTimes(0);
+  });
+
+  it('should add `data-disabled` attribute when disabled is passed', () => {
+    const { container } = render(
+      <Clickable disabled>
+        <button>test</button>
+      </Clickable>,
+    );
+
+    expect(container.querySelector('[data-disabled]')).toBeInTheDocument();
+  });
+
+  it('should add `disabled` attribute when disabled is passed to button', () => {
+    render(
+      <Clickable disabled>
+        <button>test</button>
+      </Clickable>,
+    );
+
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('should add `aria-disabled` attribute when disabled is passed', () => {
+    render(
+      <Clickable disabled>
+        <button>test</button>
+      </Clickable>,
+    );
+
+    expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
   });
 });
