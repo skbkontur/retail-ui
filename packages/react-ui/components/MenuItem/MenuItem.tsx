@@ -283,7 +283,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
-        onMouseEnter={this.handleMouseEnter}
+        onClick={this.handleClick}
         className={className}
         href={href}
         rel={href ? rel : undefined}
@@ -330,8 +330,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
     this.unhighlight();
   };
 
-  private handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    this.props.onClick?.(e);
+  private handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    this.context.navigation?.select?.(false, e);
   };
 
   private setRootRef = (element: HTMLElement) => {
