@@ -1267,7 +1267,7 @@ export class DefaultTheme {
   public static menuItemGap = '0px';
   //menuHeader
   public static get menuHeaderColor() {
-    return this.gray;
+    return '#757575';
   }
 
   /**
