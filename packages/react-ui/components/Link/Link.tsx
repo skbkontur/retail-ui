@@ -249,12 +249,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     return !isBorderBottom
       ? cx(
-        styles.root(this.theme),
-        isFocused && !_isTheme2022 && styles.focus(this.theme),
-        isFocused && _isTheme2022 && styles.focus2022(this.theme),
-        disabled && styles.disabled(this.theme),
-        !_isTheme2022 && use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
-      )
+          styles.root(this.theme),
+          isFocused && !_isTheme2022 && styles.focus(this.theme),
+          isFocused && _isTheme2022 && styles.focus2022(this.theme),
+          disabled && styles.disabled(this.theme),
+          !_isTheme2022 && use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
+        )
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
