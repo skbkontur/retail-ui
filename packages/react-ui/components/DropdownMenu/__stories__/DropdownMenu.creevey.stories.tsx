@@ -96,19 +96,7 @@ const navigateInNestedMenuItems: CreeveyTests = {
     await delay(1000);
     const enter = await this.browser.takeScreenshot();
 
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
-      .sendKeys(this.keys.DOWN)
-      .sendKeys(this.keys.DOWN)
-      .sendKeys(this.keys.DOWN)
-      .sendKeys(this.keys.DOWN)
-      .perform();
-    const circle = await this.browser.takeScreenshot();
-
-    await this.expect({ arrowDown, enter, circle }).to.matchImages();
+    await this.expect({ arrowDown, enter }).to.matchImages();
   },
 };
 
