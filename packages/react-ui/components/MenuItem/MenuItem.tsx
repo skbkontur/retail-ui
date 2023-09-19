@@ -331,6 +331,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    this.props.onClick?.(e);
     this.context.navigation?.select?.(false, e);
   };
 

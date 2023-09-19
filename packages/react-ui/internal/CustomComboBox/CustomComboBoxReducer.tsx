@@ -166,7 +166,7 @@ export const Effect: EffectFactory = {
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      requestAnimationFrame(() => menu && menu.down());
+      setTimeout(() => requestAnimationFrame(() => menu && menu.down()), 0);
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
