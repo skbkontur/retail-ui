@@ -10,6 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuItem.styles';
 
@@ -129,12 +130,18 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public state = {
     iconOffsetTop: 0,
+    highlighted: false,
   };
 
   private theme!: Theme;
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
+  private uid = Math.random().toString().substring(2, 6);
+  private noscriptRef = React.createRef<HTMLElement>();
+  static contextType = MenuContext;
+
+  public context!: MenuContextType;
 
   public render() {
     return (
@@ -155,7 +162,24 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef) {
       this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
+    if (this.noscriptRef.current) {
+      this.context.navigation?.add(this.noscriptRef.current, this);
+    }
   }
+
+  public componentWillUnmount() {
+    if (this.noscriptRef.current) {
+      this.context.navigation?.remove(this.noscriptRef.current);
+    }
+  }
+
+  public highlight = () => {
+    this.setState({ highlighted: true });
+  };
+
+  public unhighlight = () => {
+    this.setState({ highlighted: false });
+  };
 
   private getRootSizeClassName() {
     switch (this.props.size) {
@@ -234,8 +258,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
-      [styles.hover(this.theme)]: hover,
-      [styles.selected(this.theme)]: state === 'selected',
+      [styles.hover(this.theme)]: this.state.highlighted,
+      [styles.selected(this.theme)]: state === 'selected' && !this.state.highlighted,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
@@ -259,6 +283,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
+        onMouseEnter={this.handleMouseEnter}
         className={className}
         href={href}
         rel={href ? rel : undefined}
@@ -270,6 +295,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
             [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
           })}
         >
+          <noscript ref={this.noscriptRef} data-uid={this.uid} />
           {content}
         </span>
         {this.props.comment && (
@@ -290,17 +316,22 @@ export class MenuItem extends React.Component<MenuItemProps> {
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button
   private handleMouseEnterFix = (e: React.MouseEvent<HTMLElement>) => {
-    if (!this.mouseEntered && this.props.onMouseEnter) {
+    if (!this.mouseEntered) {
       this.mouseEntered = true;
-      this.props.onMouseEnter(e);
+      this.props.onMouseEnter?.(e);
+      this.context.navigation?.highlight(this);
     }
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     this.mouseEntered = false;
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(e);
-    }
+    this.props.onMouseLeave?.(e);
+    this.context.navigation?.unhighlight();
+    this.unhighlight();
+  };
+
+  private handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    this.props.onClick?.(e);
   };
 
   private setRootRef = (element: HTMLElement) => {
