@@ -13,6 +13,8 @@ import { Clickable, clickableStyles } from '@skbkontur/react-ui';
 ```
 
 По умолчанию `<Clickable />` предоставляет лишь небольшой набор полезных стилей. Для того, чтобы изменить внешний вид элемента вы можете использовать набор классов предоставляемых библиотекой, либо передать в компонент собственные классы.
+
+Для того, чтобы модифицировать состояния компонента вы можете использовать `data`-атрибуты, предоставляемые библиотекой.
 ```jsx harmony
 import { Clickable, clickableStyles } from '@skbkontur/react-ui';
 
@@ -36,23 +38,12 @@ const { theme, toggleTheme } = useTheme({ useOSTheme: false });
 ```
 
 
-Компонент использует внутри себя пропы `style`, `className`, `aria-disabled`, `tabIndex`, `data-tid` и `ref`. Чтобы у вас не возникло проблем с использованием компонента вам следует передавать эти пропы на `<Clickable />`, а не на корневого ребёнка, либо научить ваш кастомный React-компонент работать с ними
-
-_В качестве правила большого пальца: не прокидывайте на корневого ребёнка пропы доступные `<Clickable />`._
+Если вы прокинете в компонент неинтерактивный элемент - библиотека автоматически добавит ему необходимые атрибуты для обеспечения доступности. Это нежелательный сценарий, но библиотека никак не ограничивает вас. Вы можете использовать любой тег, в качестве ребёнка.
 ```jsx harmony
 import { Clickable } from '@skbkontur/react-ui';
 
-const CustomChildComponent = React.forwardRef(({ style, children, ...rest }, ref) => {
-  return (
-    // Деструктурируем проп `style`, чтобы у `<Clickable />` был доступ к нему.
-    <button ref={ref} style={{ backgroundColor: 'blue', ...style}} {...rest}>
-      {children}
-    </button>
-  )
-});
-
 <Clickable>
-  <CustomChildComponent>Кастомный React-компонент</CustomChildComponent>
+  <div onClick={() => alert('Это на самом деле <div />!')}>Как бы кнопка</div>
 </Clickable>
 ```
 

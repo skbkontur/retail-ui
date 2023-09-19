@@ -18,6 +18,26 @@ export const clickableStyles = memoizeStyle({
       }
     `;
   },
+  disabled() {
+    return css`
+      cursor: default;
+      pointer-events: none;
+    `;
+  },
+  disabledLink() {
+    return css`
+      box-shadow: none;
+      color: #858585;
+
+      &:hover {
+        color: #858585;
+      }
+
+      .react-ui-dark & {
+        animation: none;
+      }
+    `;
+  },
   baseButton() {
     return css`
       transition: background-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
@@ -26,7 +46,7 @@ export const clickableStyles = memoizeStyle({
   },
   buttonDefault() {
     return css`
-      background-color: aliceblue;
+      background-color: antiquewhite;
 
       .react-ui-dark & {
         background-color: green;
