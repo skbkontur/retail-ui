@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Story } from '../../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { ThemeContextPlayground } from '../ThemeContextPlayground';
-import { delay } from '../../../../lib/utils';
+import { delay } from '../../../lib/utils';
 
 export default { title: 'ThemeProvider' };
 

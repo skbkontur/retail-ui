@@ -1,4 +1,3 @@
-/*global process*/
 // eslint-disable-next-line no-var
 declare var REACT_UI_TEST: unknown;
 

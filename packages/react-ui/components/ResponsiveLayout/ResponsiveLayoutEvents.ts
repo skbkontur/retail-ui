@@ -79,8 +79,12 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
 }
 
 export function checkMatches(mediaQuery: string) {
+  if (!globalObject.matchMedia) {
+    return false;
+  }
+
   if (!eventListenersMap.has(mediaQuery)) {
-    return !!globalObject.matchMedia?.(mediaQuery)?.matches;
+    return !!globalObject.matchMedia(mediaQuery)?.matches;
   }
 
   const eventListener = eventListenersMap.get(mediaQuery);

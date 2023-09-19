@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 import { isElement, globalObject } from '@skbkontur/global-object';
@@ -347,7 +347,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
     popupProps: Partial<PopupProps>,
-    content: ReactElement | null,
+    content: JSX.Element | null,
   ) {
     const { disableAnimations, trigger } = this.getProps();
     return (

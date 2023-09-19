@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Checkbox } from '../../Checkbox';
-import { Gapped } from '../../Gapped';
-import { Button } from '../../Button';
-import { Input } from '../../Input';
-import { Toggle } from '../../Toggle';
-import { Radio } from '../../Radio';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { Checkbox } from '../../components/Checkbox';
+import { Gapped } from '../../components/Gapped';
+import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
+import { Toggle } from '../../components/Toggle';
+import { Radio } from '../../components/Radio';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 interface ShowcaseGroupProps {
   title?: string;

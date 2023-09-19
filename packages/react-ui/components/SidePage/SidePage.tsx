@@ -1,4 +1,4 @@
-import React, { AriaAttributes, HTMLAttributes, ReactElement } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 import { globalObject, isMouseEvent } from '@skbkontur/global-object';
@@ -163,7 +163,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getProps = createPropsGetter(SidePage.defaultProps);
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -211,7 +211,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private renderContainer(isMobile: boolean): ReactElement {
+  private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { disableFocusLock, offset, role } = this.getProps();
 
@@ -284,7 +284,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return this.layout.clientWidth;
   };
 
-  private renderShadow(): ReactElement {
+  private renderShadow(): JSX.Element {
     return (
       <ZIndex priority={'Sidepage'} className={styles.overlay()} onScroll={LayoutEvents.emit}>
         <HideBodyVerticalScroll key="hbvs" />

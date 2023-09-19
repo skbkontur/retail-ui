@@ -208,7 +208,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
 const getIsDocumentElementRoot = () => {
   if (!isBrowser(globalObject)) {
-    return;
+    return false;
   }
   const { body, documentElement } = globalObject.document;
   const htmlPosition = globalObject.getComputedStyle(documentElement).position;

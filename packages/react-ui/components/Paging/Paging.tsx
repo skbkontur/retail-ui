@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { func, number } from 'prop-types';
 import { globalObject, isElement } from '@skbkontur/global-object';
 
@@ -215,7 +215,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     );
   };
 
-  private renderForwardLink = (disabled: boolean, focused: boolean): ReactElement => {
+  private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
     const classes = isTheme2022(this.theme)
       ? cx(
           styles.pageLink(this.theme),
@@ -255,7 +255,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     );
   };
 
-  private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): ReactElement => {
+  private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
     const classes = cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,

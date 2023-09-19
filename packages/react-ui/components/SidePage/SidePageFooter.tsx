@@ -96,7 +96,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
     return true;
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

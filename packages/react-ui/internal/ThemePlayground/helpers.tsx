@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Checkbox } from '../../Checkbox';
+import { Checkbox } from '../../components/Checkbox';
 
 export const getComponentsFromPropsList = <P extends Record<string, string>>(
   component: React.ReactElement<P>,

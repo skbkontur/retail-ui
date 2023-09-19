@@ -162,7 +162,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

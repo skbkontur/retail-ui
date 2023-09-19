@@ -276,7 +276,7 @@ export class Input extends React.Component<InputProps, InputState> {
     return Boolean(mask && (focused || alwaysShowMask));
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

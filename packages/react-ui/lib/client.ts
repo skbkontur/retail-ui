@@ -1,8 +1,4 @@
-/* eslint-disable no-undef */
-
 import { globalObject } from '@skbkontur/global-object';
-
-// export const canUseDOM = Boolean(isBrowser(globalObject) && document && document.createElement);
 
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
 const platform = (globalObject.navigator?.platform || '').toLowerCase();

@@ -9,7 +9,7 @@ export interface SVGIconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color = 'currentColor', ...rest }) => (
   <span className={styles.root()} {...rest}>
-    {React.cloneElement(children as React.ReactElement, {
+    {React.cloneElement(children as JSX.Element, {
       className: styles.icon(),
       fill: color,
       focusable: 'false',

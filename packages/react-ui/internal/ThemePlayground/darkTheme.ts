@@ -1,5 +1,5 @@
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { DEFAULT_THEME_8PX_OLD } from '../../../lib/theming/themes/DefaultTheme8pxOld';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
 
 export const darkTheme = ThemeFactory.create(
   {

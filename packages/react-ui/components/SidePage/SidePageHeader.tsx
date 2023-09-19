@@ -94,7 +94,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     this.updateReadyToFix();
   };
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

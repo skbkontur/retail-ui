@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
@@ -55,7 +55,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     );
   }
 
-  private renderSeparator(fragment: InternalDateFragment, index: number): ReactElement {
+  private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
     const separatorClassName = cx({
       [styles.mask(this.theme)]: true,
       [styles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
@@ -68,7 +68,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     );
   }
 
-  private renderDateComponent(fragment: InternalDateFragment, index: number): ReactElement {
+  private renderDateComponent(fragment: InternalDateFragment, index: number): JSX.Element {
     const { inputMode, onSelectDateComponent, selected } = this.props;
     const { type, value, length, valueWithPad } = fragment;
 

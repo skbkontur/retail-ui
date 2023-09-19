@@ -186,6 +186,7 @@ export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React
 export const extractDataProps = <T>(props: T) => {
   const dataProps: Record<string, any> = {};
   const restWithoutDataProps: Record<string, any> = {};
+
   Object.entries(props).map(([name, value]) => {
     if (name.startsWith('data-')) {
       return (dataProps[name] = value);

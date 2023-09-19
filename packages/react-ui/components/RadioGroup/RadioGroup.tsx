@@ -1,4 +1,4 @@
-import React, { AriaAttributes, ReactElement } from 'react';
+import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
@@ -226,7 +226,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     return items ? mapItems<T>(this.renderRadio, items) : children;
   }
 
-  private renderRadio = (itemValue: T, data: React.ReactNode, index: number): ReactElement => {
+  private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: this.getKeyByItem(itemValue),
       className: cx({

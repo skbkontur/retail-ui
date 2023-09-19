@@ -116,8 +116,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private timeout: number | undefined;
-  private longClickTimer: number | undefined;
-  private setPositionRepeatTimer: number | undefined;
+  private longClickTimer = 0;
+  private setPositionRepeatTimer = 0;
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
 
@@ -453,12 +453,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleLongClickStop = () => {
-    if (this.longClickTimer) {
-      globalObject.clearTimeout(this.longClickTimer);
-    }
-    if (this.setPositionRepeatTimer) {
-      globalObject.clearTimeout(this.setPositionRepeatTimer);
-    }
+    globalObject.clearTimeout(this.longClickTimer);
+    globalObject.clearTimeout(this.setPositionRepeatTimer);
   };
 
   private getAnchor = () => this.root;

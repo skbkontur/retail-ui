@@ -241,7 +241,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     this.node?.blur();
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

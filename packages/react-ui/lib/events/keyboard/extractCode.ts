@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Entries } from '../../../typings/utility-types';
 
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';

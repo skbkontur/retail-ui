@@ -1,4 +1,4 @@
-import React, { AriaAttributes, ReactElement } from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -52,7 +52,7 @@ export interface DropdownProps
   width?: React.CSSProperties['width'];
 
   /** @ignore */
-  _renderButton?: (params: any) => ReactElement;
+  _renderButton?: (params: any) => JSX.Element;
 
   /**
    * Отключает использование портала

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Theme } from '../../../lib/theming/Theme';
-import { Gapped } from '../../Gapped';
-import { Loader } from '../../Loader';
-import { isNonNullable } from '../../../lib/utils';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { Theme } from '../../lib/theming/Theme';
+import { Gapped } from '../../components/Gapped';
+import { Loader } from '../../components/Loader';
+import { isNonNullable } from '../../lib/utils';
 
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
@@ -31,7 +31,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
     groups: [],
     isLoading: true,
   };
-  private updateTimeout?: NodeJS.Timeout;
+  private updateTimeout?: number;
 
   public render() {
     return this.state.isLoading ? (
@@ -44,15 +44,13 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
   }
 
   public componentDidMount() {
-    this.updateTimeout = setTimeout(() => {
+    this.updateTimeout = window.setTimeout(() => {
       this.setState({ groups: VARIABLES_GROUPS, isLoading: false });
     }, 500);
   }
 
   public componentWillUnmount(): void {
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout);
-    }
+    clearTimeout(this.updateTimeout);
   }
 
   private renderGroups = () => {

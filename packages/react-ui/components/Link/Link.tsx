@@ -121,7 +121,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

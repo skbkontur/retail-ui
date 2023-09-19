@@ -107,7 +107,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   private listeners: Array<typeof emptyHandler> = [];
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): JSX.Element {
     const { value, width, children, indicatorClassName, 'aria-describedby': ariaDescribedby } = this.props;
     const { vertical, size } = this.getProps();
     return (

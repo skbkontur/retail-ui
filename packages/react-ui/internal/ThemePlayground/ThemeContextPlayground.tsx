@@ -1,21 +1,21 @@
 import React, { ReactNode } from 'react';
 
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { Theme, ThemeIn } from '../../../lib/theming/Theme';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { FLAT_THEME_8PX_OLD } from '../../../lib/theming/themes/FlatTheme8pxOld';
-import { DEFAULT_THEME_8PX_OLD } from '../../../lib/theming/themes/DefaultTheme8pxOld';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
-import { SidePage } from '../../SidePage';
-import { Gapped } from '../../Gapped';
-import { ComboBox } from '../../ComboBox';
-import { Link } from '../../Link';
-import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
-import { Writeable } from '../../../typings/utility-types';
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
-import { findPropertyDescriptor } from '../../../lib/theming/ThemeHelpers';
-import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { FLAT_THEME_8PX_OLD } from '../../lib/theming/themes/FlatTheme8pxOld';
+import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
+import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
+import { SidePage } from '../../components/SidePage';
+import { Gapped } from '../../components/Gapped';
+import { ComboBox } from '../../components/ComboBox';
+import { Link } from '../../components/Link';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { Writeable } from '../../typings/utility-types';
+import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
+import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
+import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
 
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';

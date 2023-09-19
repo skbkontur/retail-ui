@@ -137,7 +137,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private menu: Nullable<Menu> = null;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {

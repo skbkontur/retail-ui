@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ReactElement } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { isNode, globalObject } from '@skbkontur/global-object';
@@ -278,7 +278,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
   };
 
-  private renderIcon = (icon: InputIconType, className: string): ReactElement | null => {
+  private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
     if (!icon) {
       return null;
     }
@@ -297,7 +297,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderPrefix = (): ReactElement | null => {
+  private renderPrefix = (): JSX.Element | null => {
     const { prefix, disabled } = this.props;
 
     if (!prefix) {
@@ -311,7 +311,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderSuffix = (): ReactElement | null => {
+  private renderSuffix = (): JSX.Element | null => {
     const { suffix, disabled } = this.props;
 
     if (!suffix) {
@@ -325,7 +325,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderLeftSide = (): ReactElement | null => {
+  private renderLeftSide = (): JSX.Element | null => {
     const leftIcon = this.renderLeftIcon();
     const prefix = this.renderPrefix();
 
@@ -341,7 +341,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderRightSide = (): ReactElement | null => {
+  private renderRightSide = (): JSX.Element | null => {
     const rightIcon = this.renderRightIcon();
     const suffix = this.renderSuffix();
 
@@ -357,7 +357,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderPlaceholder = (): ReactElement | null => {
+  private renderPlaceholder = (): JSX.Element | null => {
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
     const hasValue = isNonNullable(children) && children !== '';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { isKeyboardEvent } from '@skbkontur/global-object';
 
 import { isMac } from '../../client';

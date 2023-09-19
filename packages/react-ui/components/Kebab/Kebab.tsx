@@ -105,7 +105,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     this.listener.remove();
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
