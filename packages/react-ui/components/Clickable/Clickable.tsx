@@ -105,7 +105,12 @@ export const Clickable = forwardRefAndName<HTMLElement, ClickableProps>(
     const onMouseDownHandler = useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
         if (!isInteractive && e.detail > 1) {
+          // Disables selection of text when user clicks twice on non-interactive element
           e.preventDefault();
+        }
+
+        if (onMouseDown) {
+          onMouseDown(e);
         }
       },
       [onMouseDown, isInteractive],
