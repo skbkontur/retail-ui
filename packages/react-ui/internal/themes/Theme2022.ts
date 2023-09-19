@@ -78,9 +78,14 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
-    return this.textColorDisabledContrast;
+    return this.textColorDisabled;
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
+
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06) !important';
+
+  public static btnTextBg = 'transparent !important';
+  public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06) !important';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
