@@ -16,7 +16,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
-import { getComboBoxTheme } from './getComboBoxTheme';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -67,7 +66,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = getComboBoxTheme(theme);
+          this.theme = theme; //ThemeFactory.create(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
