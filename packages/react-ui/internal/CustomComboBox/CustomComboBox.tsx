@@ -272,7 +272,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
-      onMobileFocus: this.handleMobileFocus,
       onMobileClose: this.handleMobileClose,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
@@ -382,14 +381,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     }
     this.focused = true;
     this.dispatch({ type: 'Focus' });
-  };
-
-  private handleMobileFocus = (mobileInput?: Nullable<Input>) => () => {
-    this.dispatch({ type: 'Search', query: '' });
-
-    if (mobileInput) {
-      mobileInput.focus();
-    }
   };
 
   private handleMobileClose = () => {
