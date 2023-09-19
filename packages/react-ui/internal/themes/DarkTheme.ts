@@ -140,6 +140,10 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Menu
   // menuItem
   public static menuItemCommentColor = 'rgba(255, 255, 255, 0.48)';
+  // menuHeader
+  public static get menuHeaderColor() {
+    return this.gray;
+  }
   //menuSeparator
   public static menuSeparatorBorderColor = 'rgba(255, 255, 255, 0.08)';
   //#endregion
