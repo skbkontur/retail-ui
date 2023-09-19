@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 export const isTag = (tagName: React.ElementType) => {
   return (children: React.ReactElement): boolean => {
@@ -21,7 +21,7 @@ export const getTabIndex = (isInteractive: boolean, tabIndex: number, disabled?:
   return tabIndex;
 };
 
-export const getRole = (isInteractive: boolean, role: HTMLElement['role']) => {
+export const getRole = (isInteractive: boolean, role: HTMLAttributes<unknown>['role']) => {
   if (!isInteractive) {
     return role ?? 'button';
   }

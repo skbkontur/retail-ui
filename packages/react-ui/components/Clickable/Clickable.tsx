@@ -1,4 +1,4 @@
-import React, { AriaAttributes, useCallback, useEffect, useState } from 'react';
+import React, { AriaAttributes, HTMLAttributes, useCallback, useEffect, useState } from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
@@ -15,7 +15,7 @@ export interface ClickableProps extends Pick<CommonProps, 'children'> {
 interface ClickableRootProps
   extends Omit<CommonProps, 'children'>,
     Pick<React.DOMAttributes<HTMLButtonElement>, 'onKeyDown' | 'onClick' | 'onMouseDown'>,
-    Pick<HTMLElement, 'tabIndex' | 'role'>,
+    Pick<HTMLAttributes<unknown>, 'tabIndex' | 'role'>,
     Pick<AriaAttributes, 'aria-disabled'> {
   disabled?: boolean;
   'data-disabled': boolean;
