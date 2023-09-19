@@ -66,7 +66,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme; //ThemeFactory.create(theme);
+          this.theme = theme;
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
