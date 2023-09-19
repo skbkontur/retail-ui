@@ -18,8 +18,8 @@ import { Clickable, clickableStyles } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Clickable, clickableStyles } from '@skbkontur/react-ui';
 
-<Clickable className={clickableStyles.buttonDefault()}>
-  <button>Кнопка</button>
+<Clickable>
+  <button className={clickableStyles.buttonDefault()}>Кнопка</button>
 </Clickable>
 ```
 
@@ -31,8 +31,13 @@ const { theme, toggleTheme } = useTheme({ useOSTheme: false });
 
 <>
 <p>Текущая тема: <span style={{ fontWeight: 'bold' }}>{theme}</span></p>
-<Clickable className={clickableStyles.buttonDefault()}>
-  <button onClick={() => toggleTheme()}>Переключить тему</button>
+<Clickable>
+  <button
+    className={clickableStyles.buttonDefault()}
+    onClick={() => toggleTheme()}
+  >
+    Переключить тему
+  </button>
 </Clickable>
 </>
 ```
