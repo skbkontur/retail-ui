@@ -1,9 +1,8 @@
 import React, { CSSProperties, useState } from 'react';
-import MagicWand from '@skbkontur/react-icons/MagicWand';
+import { ShapeCircleMIcon } from '@skbkontur/icons/ShapeCircleMIcon';
 
 import { delay } from '../../../lib/utils';
-import { CalendarDateShape } from '../CalendarDateShape';
-import { Calendar } from '../Calendar';
+import { Calendar, CalendarProps } from '../Calendar';
 import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -114,14 +113,20 @@ CalendarWithPeriod.parameters = {
   },
 };
 
-const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
+const customDayItem: CalendarProps['renderDay'] = (date, defaultProps, RenderDefault) => {
+  const [dd] = date.split('.').map(Number);
+
   const isEven = (num: number): boolean => num % 2 === 0;
 
-  return <div>{isEven(date.date) ? <MagicWand /> : date.date}</div>;
+  return (
+    <RenderDefault {...defaultProps}>
+      <div>{isEven(dd) ? <ShapeCircleMIcon /> : dd}</div>
+    </RenderDefault>
+  );
 };
 
 export const CalendarWithCustomDates: Story = () => {
-  return <Calendar value={'12.05.2022'} renderDay={(date) => <CustomDayItem date={date} />} />;
+  return <Calendar value={'12.05.2022'} renderDay={customDayItem} />;
 };
 
 CalendarWithCustomDates.parameters = {
@@ -148,17 +153,13 @@ CalendarWithCustomCellSize.parameters = {
   },
 };
 
-const CustomDay: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
-  const isCustomDate = date.date === 2 && date.month === 0 && date.year === 2018;
-  return isCustomDate ? <div data-tid="CustomDayItem">{date.date}</div> : <div>{date.date}</div>;
-};
-
 export const CalendarWithMonthChangeHandle: Story = () => {
   const [month, setMonth] = useState(12);
   const [year, setYear] = useState(2017);
   const [value, setValue] = useState('02.12.2017');
 
   const onMonthChange = (changeInfo: CalendarMonthChangeInfo): void => {
+    console.log('onMonthChange', changeInfo);
     setMonth(changeInfo.month);
     setYear(changeInfo.year);
   };
@@ -176,12 +177,7 @@ export const CalendarWithMonthChangeHandle: Story = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <Calendar
-        value={value}
-        onValueChange={setValue}
-        onMonthChange={onMonthChange}
-        renderDay={(date) => <CustomDay date={date} />}
-      />
+      <Calendar value={value} onValueChange={setValue} onMonthChange={onMonthChange} />
       <div style={containerWithInfoStyle}>
         <div style={containersStyle}>
           <span>Отображаемый месяц</span>
@@ -202,7 +198,7 @@ CalendarWithMonthChangeHandle.parameters = {
       async 'month and year change when selecting day'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="CustomDayItem"]' }))
+          .click(this.browser.findElement({ css: '[data-tid~="DayCellView__root"]' }))
           .perform();
         await delay(2000);
 

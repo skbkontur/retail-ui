@@ -23,10 +23,13 @@ export const styles = memoizeStyle({
       width: ${t.calendarCellWidth};
       height: ${t.calendarCellHeight};
       line-height: ${t.calendarCellLineHeight};
-      border-radius: ${t.calendarCellBorderRadius};
 
       &:disabled {
         opacity: 0.5;
+        pointer-events: none;
+      }
+
+      > * {
         pointer-events: none;
       }
     `;
@@ -34,7 +37,7 @@ export const styles = memoizeStyle({
 
   element(t: Theme) {
     return css`
-      border-radius: 50%;
+      border-radius: ${t.calendarCellBorderRadius};
       border: 1px solid transparent;
 
       &:active:hover:enabled {

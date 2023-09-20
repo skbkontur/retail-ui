@@ -9,6 +9,7 @@ import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 import { CalendarDataTids } from './Calendar';
+import { CalendarContext } from './CalendarContext';
 
 interface MonthViewProps {
   children: React.ReactNode;
@@ -16,8 +17,6 @@ interface MonthViewProps {
   height: number;
   isFirstInYear?: boolean;
   isLastInYear?: boolean;
-  maxDate?: CDS.CalendarDateShape;
-  minDate?: CDS.CalendarDateShape;
   month: number;
   top: number;
   year: number;
@@ -29,14 +28,13 @@ interface MonthViewProps {
 
 export function MonthView(props: MonthViewProps) {
   const theme = useContext(ThemeContext);
+  const { minDate, maxDate } = useContext(CalendarContext);
 
   const {
     children,
     height,
     isFirstInYear,
     isLastInYear,
-    maxDate,
-    minDate,
     month,
     top,
     year,

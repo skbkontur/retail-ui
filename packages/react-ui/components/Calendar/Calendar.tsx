@@ -4,7 +4,6 @@ import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
 
 import { InternalDate } from '../../lib/date/InternalDate';
-import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -21,8 +20,10 @@ import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
-import { CalendarDateShape, create, isGreater, isLess, isEqual } from './CalendarDateShape';
+import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
+import { CalendarContext, getDefaultizedCalendarContext } from './CalendarContext';
+import { DayProps } from './DayCellView';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -85,7 +86,11 @@ export interface CalendarProps extends CommonProps {
    *
    * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
    */
-  renderDay?: (date: CalendarDateShape) => React.ReactNode;
+  renderDay?: (
+    date: string,
+    defaultProps: React.PropsWithChildren<DayProps>,
+    renderDefault: React.FunctionComponent<DayProps>,
+  ) => React.ReactNode;
 
   /**
    * Вызывается при каждом изменении месяца
@@ -99,10 +104,9 @@ export interface CalendarProps extends CommonProps {
 export interface CalendarState {
   scrollPosition: number;
   months: MonthViewModel[];
-  today: CalendarDateShape;
   scrollDirection: number;
   scrollTarget: number;
-  hoveredDate?: CalendarDateShape;
+  hoveredDate: CalendarDateShape | null;
 }
 
 export interface CalendarMonthChangeInfo {
@@ -169,9 +173,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     this.state = {
       scrollPosition: 0,
       months: CalendarUtils.getMonths(initialMonth, initialYear),
-      today,
       scrollDirection: 1,
       scrollTarget: 0,
+      hoveredDate: null,
     };
   }
 
@@ -327,11 +331,31 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const props = this.getProps();
 
+    const context = getDefaultizedCalendarContext({
+      hoveredDate: this.state.hoveredDate,
+      value: this.getDateInNativeFormat(props.value),
+      minDate: this.getDateInNativeFormat(props.minDate),
+      maxDate: this.getDateInNativeFormat(props.maxDate),
+      periodEndDate: this.getDateInNativeFormat(props.periodEndDate),
+      periodStartDate: this.getDateInNativeFormat(props.periodStartDate),
+      isHoliday: props.isHoliday,
+      renderDay: props.renderDay,
+    });
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
-        <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
+        <div
+          ref={this.refRoot}
+          data-tid={CalendarDataTids.root}
+          className={cx(styles.root(this.theme))}
+          onMouseOver={this.handleMouseHits}
+          onMouseOut={this.handleMouseHits}
+          onClick={this.handleClick}
+        >
           <div style={wrapperStyle} className={styles.wrapper()}>
-            {monthsForRender.map(this.renderMonth, this)}
+            <CalendarContext.Provider value={context}>
+              {monthsForRender.map(this.renderMonth, this)}
+            </CalendarContext.Provider>
           </div>
           <div className={styles.separator(this.theme)} />
         </div>
@@ -360,55 +384,15 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMonth([top, month]: [number, MonthViewModel]) {
-    const date = this.getDateInNativeFormat(this.props.value);
-    const minDate = this.getDateInNativeFormat(this.props.minDate);
-    const maxDate = this.getDateInNativeFormat(this.props.maxDate);
-    const periodEndDate = this.getDateInNativeFormat(this.props.periodEndDate);
-    const periodStartDate = this.getDateInNativeFormat(this.props.periodStartDate);
-
     return (
       <Month
         key={month.month + '-' + month.year}
         top={top}
         month={month}
-        maxDate={maxDate}
-        minDate={minDate}
-        periodStartDate={periodStartDate}
-        periodEndDate={periodEndDate}
-        today={this.state.today}
-        value={date}
-        onDateClick={this.handleDateChange}
         onMonthYearChange={this.handleMonthYearChange}
-        isHoliday={this.isHoliday}
-        hoveredDate={this.state.hoveredDate}
-        onMouseEnterDay={this.handleMouseEnterDay}
-        onMouseLeaveDay={this.handleMouseLeaveDay}
-        renderDay={this.props.renderDay}
       />
     );
   }
-
-  private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
-    const dateString = InternalDateTransformer.dateToInternalString({
-      date,
-      month: CalendarUtils.getMonthInHumanFormat(month),
-      year,
-    });
-
-    return this.getProps().isHoliday(dateString, isWeekend);
-  };
-
-  private handleDateChange = (dateShape: CalendarDateShape) => {
-    const value = InternalDateTransformer.dateToInternalString({
-      date: dateShape.date,
-      month: CalendarUtils.getMonthInHumanFormat(dateShape.month),
-      year: dateShape.year,
-    });
-
-    if (this.props.onValueChange) {
-      this.props.onValueChange(value);
-    }
-  };
 
   private getDateInNativeFormat(date: Nullable<string>) {
     return new InternalDate().parseValue(date).toNativeFormat();
@@ -548,15 +532,22 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     );
   };
 
-  private handleMouseEnterDay = (hoveredDate: CalendarDateShape) => {
-    if (!isEqual(this.state.hoveredDate, hoveredDate)) {
-      this.setState((prev) => ({ ...prev, hoveredDate }));
+  private handleMouseHits: React.MouseEventHandler = (e) => {
+    if (e.target instanceof HTMLElement && e.target.getAttribute('data-tid') === CalendarDataTids.dayCell) {
+      const date = e.target.dataset.date && this.getDateInNativeFormat(e.target.dataset.date);
+      if (e.type === 'mouseover' && date) {
+        this.setState({ hoveredDate: date });
+      }
+      if (e.type === 'mouseout') {
+        this.setState({ hoveredDate: null });
+      }
     }
   };
 
-  private handleMouseLeaveDay = () => {
-    if (this.state.hoveredDate) {
-      this.setState((prev) => ({ ...prev, hoveredDate: undefined }));
+  private handleClick: React.MouseEventHandler = (e) => {
+    if (e.target instanceof HTMLElement && e.target.getAttribute('data-tid') === CalendarDataTids.dayCell) {
+      const date = e.target.dataset.date;
+      date && this.props.onValueChange?.(date);
     }
   };
 }

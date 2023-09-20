@@ -1,76 +1,133 @@
-import React, { useContext } from 'react';
+import React, { FunctionComponent, PropsWithChildren, useContext } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
+import { InternalDate } from '../../lib/date/InternalDate';
+import { LocaleContext } from '../../lib/locale';
 
-import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
-import { getMonthInHumanFormat } from './CalendarUtils';
+import { CalendarContext } from './CalendarContext';
+import * as CalendarUtils from './CalendarUtils';
+import { DayCellViewModel } from './DayCellViewModel';
+import { isBetween, isEqual, isGreaterOrEqual, isLess, isLessOrEqual } from './CalendarDateShape';
 
-interface DayCellViewProps {
-  date: CDS.CalendarDateShape;
-  value?: Nullable<CDS.CalendarDateShape>;
-  periodStartDate?: CDS.CalendarDateShape;
-  periodEndDate?: CDS.CalendarDateShape;
-  isWeekend?: boolean;
-  isToday?: boolean;
-  isDayInSelectedPeriod?: boolean;
-  isPeriodStart?: boolean;
-  isPeriodEnd?: boolean;
-  isSelected?: boolean;
-  isDisabled?: boolean;
-  isHovered?: boolean;
-  onDateClick?: (day: CDS.CalendarDateShape) => void;
-  onMouseEnter?: (hoveredDate: CDS.CalendarDateShape) => void;
-  onMouseLeave?: (hoveredDate: CDS.CalendarDateShape) => void;
-  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode | number;
+export interface DayCellViewProps {
+  date: DayCellViewModel;
 }
 
-export function DayCellView(props: DayCellViewProps) {
-  const {
-    date,
-    value,
-    isWeekend,
-    isHovered,
+export interface DayCellViewFlags {
+  isSelected: boolean;
+  isHovered: boolean;
+  isDisabled: boolean;
+  isToday: boolean;
+  isWeekend: boolean;
+  isDayInSelectedPeriod: boolean;
+  isPeriodStart: boolean;
+  isPeriodEnd: boolean;
+}
+
+export const DayCellView = (props: DayCellViewProps) => {
+  const { date } = props;
+  const { value, hoveredDate, periodStartDate, periodEndDate, minDate, maxDate, isHoliday, renderDay, today } =
+    useContext(CalendarContext);
+  const { langCode } = useContext(LocaleContext);
+  const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
+
+  const stringDate = InternalDateTransformer.dateToInternalString({
+    date: date.date,
+    month: CalendarUtils.getMonthInHumanFormat(date.month),
+    year: date.year,
+  });
+
+  const isWeekend = isHoliday?.(stringDate, date.isWeekend) ?? date.isWeekend;
+  const isSelected = Boolean((!periodStartDate || !periodEndDate) && value && isEqual(date, value));
+  const isHovered = isEqual(date, hoveredDate);
+  const isDisabled = !isBetween(date, minDate, maxDate);
+  const isToday = isEqual(today, date);
+
+  let isDayInSelectedPeriod = false,
+    isPeriodStart = false,
+    isPeriodEnd = false;
+
+  const periodStart = periodStartDate || hoveredDate;
+  const periodEnd = periodEndDate || hoveredDate;
+  if (periodStart && periodEnd) {
+    const [earliestDate, latestDate] = isLess(periodStart, periodEnd)
+      ? [periodStart, periodEnd]
+      : [periodEnd, periodStart];
+
+    isDayInSelectedPeriod = isGreaterOrEqual(date, earliestDate) && isLessOrEqual(date, latestDate);
+    isPeriodStart = isEqual(date, earliestDate);
+    isPeriodEnd = isEqual(date, latestDate);
+  }
+
+  const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${new InternalDate({ langCode })
+    .setComponents({ ...date }, true)
+    .toA11YFormat()}`;
+
+  const defaultProps: PropsWithChildren<Required<DayProps>> = {
+    ariaLabel,
+    stringDate,
     isSelected,
+    isHovered,
     isDisabled,
     isToday,
+    isWeekend,
+    isDayInSelectedPeriod,
     isPeriodStart,
     isPeriodEnd,
-    isDayInSelectedPeriod,
-    onDateClick,
-    onMouseEnter,
-    onMouseLeave,
-    renderItem,
-  } = props;
+    children: date.date,
+  };
+
+  return renderDay ? (renderDay(stringDate, defaultProps, Day) as JSX.Element) : <Day {...defaultProps} />;
+};
+
+export interface DayProps {
+  ariaLabel: string;
+  stringDate: string;
+  isSelected: boolean;
+  isHovered: boolean;
+  isDisabled: boolean;
+  isToday: boolean;
+  isWeekend: boolean;
+  isDayInSelectedPeriod: boolean;
+  isPeriodStart: boolean;
+  isPeriodEnd: boolean;
+}
+
+const Day: FunctionComponent<DayProps> = ({
+  ariaLabel,
+  stringDate,
+  children,
+  isSelected,
+  isHovered,
+  isDisabled,
+  isToday,
+  isWeekend,
+  isDayInSelectedPeriod,
+  isPeriodStart,
+  isPeriodEnd,
+}) => {
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
 
-  const handleClick = () => {
-    const { date, month, year } = props.date;
-    onDateClick?.({ date, month, year });
-  };
-
   const child = _isTheme2022 ? (
-    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{renderItem(date)}</span>
+    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{children}</span>
   ) : (
-    renderItem(date)
+    children
   );
-
-  const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
 
   return (
     <button
       data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
-      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && getMonthInHumanFormat(value.month)}.${
-        value?.year
-      }`}
+      aria-label={ariaLabel}
+      data-date={stringDate}
       disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,
@@ -79,9 +136,6 @@ export function DayCellView(props: DayCellViewProps) {
         [styles.periodStart()]: isPeriodStart,
         [styles.periodEnd()]: isPeriodEnd,
       })}
-      onClick={handleClick}
-      onMouseEnter={() => onMouseEnter?.(date)}
-      onMouseLeave={() => onMouseLeave?.(date)}
     >
       <div
         className={cx({
@@ -96,4 +150,4 @@ export function DayCellView(props: DayCellViewProps) {
       </div>
     </button>
   );
-}
+};

@@ -82,61 +82,70 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
-В календаре можно задать период
+### Период дат
+
+В календаре можно задать период пропами `periodStartDate` и `periodEndDate`.
+Если задан только один из пропов, то при наведении мышью будет подсвечиваться период между заданным пропом и датой под указателем мыши.
 ```jsx harmony
-import { DateInput, Gapped, Radio, RadioGroup } from '@skbkontur/react-ui'
+import { Button, DateInput, Gapped, Radio, RadioGroup, Group } from '@skbkontur/react-ui';
+import { XCircleIcon16Light } from '@skbkontur/icons/XCircleIcon16Light';
+import { ArrowShapeALeftIcon16Solid } from '@skbkontur/icons/ArrowShapeALeftIcon16Solid';
+import { ArrowShapeALeftIcon16Light } from '@skbkontur/icons/ArrowShapeALeftIcon16Light';
 
 const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
 const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
-const [focus, setFocus] = React.useState('periodStartDate');
-
-const getFocusStyle = (type) => focus === type ? { borderColor: '#80A6FF' } : {};
+const [period, setPeriod] = React.useState('start');
 
 const onValueChange = (date) => {
-  if (focus === 'periodEndDate') {
-    setPeriodEndDate(date);
-  }
-  if (focus === 'periodStartDate') {
+  if (period === 'start') {
     setPeriodStartDate(date);
   }
+  if (period === 'end') {
+    setPeriodEndDate(date);
+  }
 }
-<div style={{ display: 'flex' }}>
-  <div style={{ display: 'flex', flexDirection: 'column'}}>
-    <div style={{marginBottom: 2}}>
-      <DateInput
-        onValueChange={value => setPeriodStartDate(value)}
-        style={getFocusStyle('periodStartDate')}
-        onClick={() => setFocus('periodStartDate')}
-        value={periodStartDate}
-      />
-      -
-      <DateInput
-        onValueChange={value => setPeriodEndDate(value)}
-        onClick={() => setFocus('periodEndDate')}
-        style={getFocusStyle('periodEndDate')}
-        value={periodEndDate}
-      />
-    </div>
-    <Calendar
-      value={periodStartDate || periodEndDate}
-      periodStartDate={periodStartDate}
-      periodEndDate={periodEndDate}
-      onValueChange={onValueChange}
-      minDate={!periodEndDate && periodStartDate}
-      maxDate={!periodStartDate && periodEndDate}
-    />
-  </div>
-  <RadioGroup onValueChange={(value) => setFocus(value)} style={{marginLeft: 4}}>
-    <Gapped gap={3} vertical>
-      <Radio value="periodStartDate" checked={ focus === 'periodStartDate' }>
-        Редактировать начало периода
-      </Radio>
-      <Radio value="periodEndDate" checked={ focus === 'periodEndDate' }>
-        Редактировать конец периода
-      </Radio>
+<Gapped verticalAlign="top" wrap>
+  <Calendar
+    value={periodStartDate || periodEndDate}
+    periodStartDate={periodStartDate}
+    periodEndDate={periodEndDate}
+    onValueChange={onValueChange}
+    minDate="05.08.2022"
+  />
+  <RadioGroup value={period} onValueChange={setPeriod}>
+    <Gapped vertical gap={40}>
+      <Gapped gap={0} vertical>
+        <span>Как сохранять дату из <tt>onValueChange</tt></span>
+        <Radio value="start">Как начало периода</Radio>
+        <Radio value="end">Как окончание периода</Radio>
+      </Gapped>
+      <Gapped vertical>
+        <span>Начало периода</span>
+        <Gapped>
+          <Group>
+            <DateInput
+              onValueChange={setPeriodStartDate}
+              value={periodStartDate}
+            />
+            <Button icon={<XCircleIcon16Light />} onClick={() => setPeriodStartDate(null)} />
+          </Group>
+        </Gapped>
+      </Gapped>
+      <Gapped vertical>
+        <span>Окончание периода</span>
+        <Gapped>
+          <Group>
+            <DateInput
+              onValueChange={setPeriodEndDate}
+              value={periodEndDate}
+            />
+            <Button icon={<XCircleIcon16Light />} onClick={() => setPeriodEndDate(null)} />
+          </Group>
+        </Gapped>
+      </Gapped>
     </Gapped>
   </RadioGroup>
-</div>
+</Gapped>
 ```
 
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
@@ -164,23 +173,49 @@ const theme = React.useContext(ThemeContext);
 ### Кастомизирование отображения даты
 
 ```jsx harmony
-import MagicWand from '@skbkontur/react-icons/MagicWand';
+import { Tooltip, Hint } from '@skbkontur/react-ui';
+import { ToolMagicWandIcon } from '@skbkontur/icons/ToolMagicWandIcon';
+import { ShapeCircleMIcon } from '@skbkontur/icons/ShapeCircleMIcon';
 
-const [value, setValue] = React.useState('12.05.2022');
+const initialValue = "02.09.2023";
+const [day, month, year] = initialValue.split('.').map(Number);
 
-const CustomDayItem = ({ date }) => {
-  const isEven = (num) => num % 2 === 0;
+const [value, setValue] = React.useState(initialValue);
 
-  return (
-    <div>
-      {isEven(date.date) ? <MagicWand /> : date.date}
-    </div>
-  );
+const renderDay = (date, defaultProps, RenderDefault) => {
+  const [dd, mm, yyyy] = date.split('.').map(Number);
+
+  if (mm === month && dd > 7 && dd < 11) {
+    return (
+      <Tooltip render={() => "Кастомный период"}>
+        <RenderDefault
+          {...defaultProps}
+          isDayInSelectedPeriod={true}
+          isPeriodStart={dd === 8}
+          isPeriodEnd={dd === 10}
+        />
+      </Tooltip>
+    );
+  }
+
+  if (mm === month && dd === 20) {
+    return (
+      <Hint text={date} pos="right middle">
+        <RenderDefault {...defaultProps}>
+          <ShapeCircleMIcon size={12} align="center" weight="solid" color="orange" />
+        </RenderDefault>
+      </Hint>
+    );
+  }
+
+  return <RenderDefault {...defaultProps} />
 };
 
-const renderDay = (date) =>  <CustomDayItem date={date} />;
-
-<Calendar value={value} onValueChange={setValue} renderDay={renderDay} />;
+<Calendar
+  value={value}
+  onValueChange={setValue}
+  renderDay={renderDay}
+/>;
 ```
 
 #### Локали по умолчанию
