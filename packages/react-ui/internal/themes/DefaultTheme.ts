@@ -1328,25 +1328,58 @@ export class DefaultTheme {
   public static menuHeaderLegacyPaddingRight = '0px';
 
   //menuFooter
-  public static menuFooterColor = '#757575';
-  public static menuFooterLineHeightSmall = '16px';
-  public static menuFooterLineHeightMedium = '20px';
-  public static menuFooterLineHeightLarge = '22px';
-  public static menuFooterFontSizeSmall = '12px';
-  public static menuFooterFontSizeMedium = '14px';
-  public static menuFooterFontSizeLarge = '16px';
+  public static get menuFooterColor() {
+    return this.menuHeaderColor;
+  }
+  public static get menuFooterLineHeightSmall() {
+    return this.menuHeaderLineHeightSmall;
+  }
+  public static get menuFooterLineHeightMedium() {
+    return this.menuHeaderLineHeightMedium;
+  }
+  public static get menuFooterLineHeightLarge() {
+    return this.menuHeaderLineHeightLarge;
+  }
 
-  public static menuFooterPaddingXSmall = '8px';
-  public static menuFooterPaddingXMedium = '12px';
-  public static menuFooterPaddingXLarge = '16px';
+  public static get menuFooterFontSizeSmall() {
+    return this.menuHeaderFontSizeSmall;
+  }
+  public static get menuFooterFontSizeMedium() {
+    return this.menuHeaderFontSizeMedium;
+  }
+  public static get menuFooterFontSizeLarge() {
+    return this.menuHeaderFontSizeLarge;
+  }
 
-  public static menuFooterPaddingTopSmall = '4px';
-  public static menuFooterPaddingTopMedium = '6px';
-  public static menuFooterPaddingTopLarge = '8px';
+  public static get menuFooterPaddingXSmall() {
+    return this.menuHeaderPaddingXSmall;
+  }
+  public static get menuFooterPaddingXMedium() {
+    return this.menuHeaderPaddingXMedium;
+  }
+  public static get menuFooterPaddingXLarge() {
+    return this.menuHeaderPaddingXLarge;
+  }
 
-  public static menuFooterPaddingBottomSmall = '12px';
-  public static menuFooterPaddingBottomMedium = '14px';
-  public static menuFooterPaddingBottomLarge = '18px';
+  public static get menuFooterPaddingTopSmall() {
+    return this.menuHeaderPaddingBottomSmall;
+  }
+  public static get menuFooterPaddingTopMedium() {
+    return this.menuHeaderPaddingBottomMedium;
+  }
+  public static get menuFooterPaddingTopLarge() {
+    return this.menuHeaderPaddingBottomLarge;
+  }
+
+  public static get menuFooterPaddingBottomSmall() {
+    return this.menuHeaderPaddingTopSmall;
+  }
+  public static get menuFooterPaddingBottomMedium() {
+    return this.menuHeaderPaddingTopMedium;
+  }
+  public static get menuFooterPaddingBottomLarge() {
+    return this.menuHeaderPaddingTopLarge;
+  }
 
   public static menuFooterLegacyPaddingRight = '0px';
 

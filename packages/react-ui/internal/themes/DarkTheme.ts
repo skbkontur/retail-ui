@@ -146,7 +146,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   // menuFooter
   public static get menuFooterColor() {
-    return this.gray;
+    return this.menuHeaderColor;
   }
   //menuSeparator
   public static menuSeparatorBorderColor = 'rgba(255, 255, 255, 0.08)';
