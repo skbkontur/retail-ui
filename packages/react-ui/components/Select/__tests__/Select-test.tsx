@@ -449,14 +449,10 @@ describe('Select', () => {
       expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
       userEvent.keyboard('{arrowdown}');
 
-      expect(
-        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
-      ).toHaveTextContent(testItems[0]);
+      expect(window.getComputedStyle(menuItems[0]).getPropertyValue('background-color')).not.toBe('transparent');
 
       userEvent.keyboard('{arrowdown}');
-      expect(
-        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
-      ).toHaveTextContent(testItems[1]);
+      expect(window.getComputedStyle(menuItems[1]).getPropertyValue('background-color')).not.toBe('transparent');
     });
 
     it('should move highligted item when pressing arrow up key', () => {
@@ -468,9 +464,11 @@ describe('Select', () => {
       expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
       userEvent.keyboard('{arrowup}');
 
-      expect(
-        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
-      ).toHaveTextContent(testItems[testItems.length - 1]);
+      const choosenMenuItem = menuItems.find(
+        (item) => window.getComputedStyle(item).getPropertyValue('background-color') !== 'transparent',
+      );
+
+      expect(choosenMenuItem).toHaveTextContent(testItems[testItems.length - 1]);
     });
   });
 });
