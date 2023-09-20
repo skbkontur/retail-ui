@@ -158,7 +158,6 @@ export const CalendarWithMonthChangeHandle: Story = () => {
   const [value, setValue] = useState('02.12.2017');
 
   const onMonthChange = (changeInfo: CalendarMonthChangeInfo): void => {
-    console.log('onMonthChange', changeInfo);
     setMonth(changeInfo.month);
     setYear(changeInfo.year);
   };
