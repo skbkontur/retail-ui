@@ -73,7 +73,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     );
   }
 
-
   public renderMain() {
     const {
       opened,
