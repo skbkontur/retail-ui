@@ -1,6 +1,6 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
 
-import { isKeyArrowDown, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
@@ -385,6 +385,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     } else if (isKeyArrowDown(event)) {
       event.preventDefault();
       this.down();
+    } else if (isKeyEnter(event)) {
+      this.menuNavigation?.select(false, event);
     }
   };
 
