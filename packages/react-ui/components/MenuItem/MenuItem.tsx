@@ -236,7 +236,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = props;
 
-    const hover = state === 'hover' && !disabled;
+    const hover = (this.state.highlighted || state === 'hover') && !disabled;
 
     let iconElement = null;
     if (icon) {
@@ -258,7 +258,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
-      [styles.hover(this.theme)]: this.state.highlighted,
+      [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected' && !this.state.highlighted,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding,
