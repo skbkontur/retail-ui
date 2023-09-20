@@ -86,6 +86,7 @@ ComboBox with popular values, complex menu items and total count message
 ```jsx harmony
 import { getCities } from './__mocks__/getCities';
 import { Gapped, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
+import {MenuFooter} from "@skbkontur/react-ui/components/MenuFooter";
 
 let popularItems = [
   { Id: 956, City: 'Махачкала' },
@@ -113,9 +114,9 @@ let prepareItems = (query, items) =>
 
 let renderTotalCount = (foundCount, totalCount) =>
   foundCount < totalCount ? (
-    <MenuHeader>
+    <MenuFooter>
       Показано {foundCount} из {totalCount} найденных городов.
-    </MenuHeader>
+    </MenuFooter>
   ) : (
     []
   );

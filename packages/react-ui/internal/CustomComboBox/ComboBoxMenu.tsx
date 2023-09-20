@@ -10,9 +10,9 @@ import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { MenuMessage } from '../MenuMessage';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { MenuHeader } from '../../components/MenuHeader';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { MenuFooter } from '../../components/MenuFooter';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -73,28 +73,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     );
   }
 
-  private getPaddingTopMenuHeaderTotalCountName() {
-    switch (this.props.size) {
-      case 'large':
-        return this.theme.menuHeaderTotalCountPaddingTopLarge;
-      case 'medium':
-        return this.theme.menuHeaderTotalCountPaddingTopMedium;
-      case 'small':
-      default:
-        return this.theme.menuHeaderTotalCountPaddingTopSmall;
-    }
-  }
-  private getPaddingBottomMenuHeaderTotalCountName() {
-    switch (this.props.size) {
-      case 'large':
-        return this.theme.menuHeaderTotalCountPaddingBottomLarge;
-      case 'medium':
-        return this.theme.menuHeaderTotalCountPaddingBottomMedium;
-      case 'small':
-      default:
-        return this.theme.menuHeaderTotalCountPaddingBottomSmall;
-    }
-  }
 
   public renderMain() {
     const {
@@ -191,16 +169,9 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     console.log(this.theme);
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
-        <MenuHeader
-          style={{
-            paddingTop: this.getPaddingTopMenuHeaderTotalCountName(),
-            paddingBottom: this.getPaddingBottomMenuHeaderTotalCountName(),
-          }}
-          size={this.props.size}
-          key="total"
-        >
+        <MenuFooter size={this.props.size} key="total">
           <div>{renderTotalCount(countItems, totalCount)}</div>
-        </MenuHeader>
+        </MenuFooter>
       );
     }
 
