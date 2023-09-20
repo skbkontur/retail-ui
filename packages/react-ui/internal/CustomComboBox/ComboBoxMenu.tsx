@@ -166,7 +166,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       return isMenuItem(item);
     });
     const countItems = menuItems?.length;
-    console.log(this.theme);
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
         <MenuFooter size={this.props.size} key="total">
