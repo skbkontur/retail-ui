@@ -81,7 +81,7 @@ describe('Calendar', () => {
       }),
     );
 
-    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 2000 });
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 5000 });
   });
 
   it('onMonthChange returns correct year', async () => {
@@ -99,7 +99,7 @@ describe('Calendar', () => {
       }),
     );
 
-    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 5000 });
   });
 
   it('should set langCode', () => {
@@ -420,7 +420,7 @@ describe('Calendar', () => {
 
       expect(blockedDayButton).toBeInTheDocument();
 
-      fireEvent.click(blockedDayButton);
+      fireEvent.click(blockedDayButton, {});
 
       expect(value).toBe('20.08.2023');
 

@@ -24,6 +24,7 @@ import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShap
 import * as CalendarUtils from './CalendarUtils';
 import { CalendarContext, getDefaultizedCalendarContext } from './CalendarContext';
 import { DayProps } from './DayCellView';
+import { containsDayCellButtonElement } from './CalendarUtils';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -533,10 +534,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleMouseHits: React.MouseEventHandler = (e) => {
-    if (e.target instanceof HTMLElement && e.target.getAttribute('data-tid') === CalendarDataTids.dayCell) {
-      const date = e.target.dataset.date && this.getDateInNativeFormat(e.target.dataset.date);
-      if (e.type === 'mouseover' && date) {
-        this.setState({ hoveredDate: date });
+    if (containsDayCellButtonElement(e)) {
+      const hoveredDate = this.getDateInNativeFormat(e.target.dataset.date);
+      if (e.type === 'mouseover' && hoveredDate) {
+        this.setState({ hoveredDate });
       }
       if (e.type === 'mouseout') {
         this.setState({ hoveredDate: null });
@@ -545,9 +546,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleClick: React.MouseEventHandler = (e) => {
-    if (e.target instanceof HTMLElement && e.target.getAttribute('data-tid') === CalendarDataTids.dayCell) {
-      const date = e.target.dataset.date;
-      date && this.props.onValueChange?.(date);
+    if (containsDayCellButtonElement(e)) {
+      this.props.onValueChange?.(e.target.dataset.date);
     }
   };
 }

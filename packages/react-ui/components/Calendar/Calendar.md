@@ -174,8 +174,6 @@ const theme = React.useContext(ThemeContext);
 
 ```jsx harmony
 import { Tooltip, Hint } from '@skbkontur/react-ui';
-import { ToolMagicWandIcon } from '@skbkontur/icons/ToolMagicWandIcon';
-import { ShapeCircleMIcon } from '@skbkontur/icons/ShapeCircleMIcon';
 
 const initialValue = "02.09.2023";
 const [day, month, year] = initialValue.split('.').map(Number);
@@ -202,7 +200,7 @@ const renderDay = (date, defaultProps, RenderDefault) => {
     return (
       <Hint text={date} pos="right middle">
         <RenderDefault {...defaultProps}>
-          <ShapeCircleMIcon size={12} align="center" weight="solid" color="orange" />
+          #
         </RenderDefault>
       </Hint>
     );

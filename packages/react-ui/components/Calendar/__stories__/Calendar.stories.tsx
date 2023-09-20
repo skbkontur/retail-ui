@@ -1,5 +1,4 @@
 import React, { CSSProperties, useState } from 'react';
-import { ShapeCircleMIcon } from '@skbkontur/icons/ShapeCircleMIcon';
 
 import { delay } from '../../../lib/utils';
 import { Calendar, CalendarProps } from '../Calendar';
@@ -120,7 +119,7 @@ const customDayItem: CalendarProps['renderDay'] = (date, defaultProps, RenderDef
 
   return (
     <RenderDefault {...defaultProps}>
-      <div>{isEven(dd) ? <ShapeCircleMIcon /> : dd}</div>
+      <div>{isEven(dd) ? '#' : dd}</div>
     </RenderDefault>
   );
 };
