@@ -22,6 +22,10 @@ export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Omit<CommonProps, 'children'> {
   /**
+   * @ignore
+   */
+  _enableIconPadding?: boolean;
+  /**
    * Добавляет описание для элемента меню.
    */
   comment?: React.ReactNode;
@@ -220,6 +224,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       loose,
       state,
       size,
+      _enableIconPadding,
       component,
       onMouseEnter,
       onMouseLeave,
@@ -255,7 +260,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected' && !this.state.highlighted,
       [styles.link(this.theme)]: !!link,
-      [this.getWithIconSizeClassName()]: Boolean(iconElement) || this.context.enableIconPadding,
+      [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 

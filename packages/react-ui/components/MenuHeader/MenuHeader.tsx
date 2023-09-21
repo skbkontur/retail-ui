@@ -10,6 +10,7 @@ import { styles } from './MenuHeader.styles';
 export type MenuHeaderSize = 'small' | 'medium' | 'large';
 
 export interface MenuHeaderProps extends CommonProps {
+  _enableIconPadding?: boolean;
   children: ReactNode;
   /** Размер */
   size?: MenuHeaderSize;
@@ -26,7 +27,7 @@ export const MenuHeaderDataTids = {
  *
  * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
-function MenuHeader({ children, size = 'small', ...rest }: MenuHeaderProps) {
+function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
   const menuContext = useContext(MenuContext);
 
@@ -59,7 +60,7 @@ function MenuHeader({ children, size = 'small', ...rest }: MenuHeaderProps) {
         data-tid={MenuHeaderDataTids.root}
         className={cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
-          [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding,
+          [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding || _enableIconPadding,
         })}
       >
         {children}
