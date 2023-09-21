@@ -260,6 +260,10 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderColorHover() {
     return this.inputBorderColorHover;
   }
+  public static get selectPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
+
   //#endregion
 
   //#region FileUploader

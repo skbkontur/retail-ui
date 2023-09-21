@@ -567,7 +567,7 @@ export class DefaultTheme {
     return this.controlBorderWidth;
   }
   public static get selectPlaceholderColorDisabled() {
-    return this.textColorDisabled;
+    return this.textColorDisabledContrast;
   }
   public static get selectOutlineWidth() {
     return this.controlOutlineWidth;
