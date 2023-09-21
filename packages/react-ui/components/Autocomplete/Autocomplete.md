@@ -19,3 +19,18 @@ const [value, setValue] = React.useState('Kappa');
   <Button onClick={() => setValue('')}>Очистить</Button>
 </Group>
 ```
+
+У Autocomplete есть 3 стандартных размера.
+```jsx harmony
+const items = ['Маленький', 'Средний', 'Большой'];
+
+const [valueSmall, setValueSmall] = React.useState('Маленький');
+const [valueMedium, setValueMedium] = React.useState('Средний');
+const [valueLarge, setValueLarge] = React.useState('Большой');
+
+<Gapped vertical>
+  <Autocomplete source={items} value={valueSmall} onValueChange={setValueSmall} size={'small'} />
+  <Autocomplete source={items} value={valueMedium} onValueChange={setValueMedium} size={'medium'} />
+  <Autocomplete source={items} value={valueLarge} onValueChange={setValueLarge} size={'large'} />
+</Gapped>
+```

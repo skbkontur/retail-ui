@@ -86,6 +86,7 @@ ComboBox with popular values, complex menu items and total count message
 ```jsx harmony
 import { getCities } from './__mocks__/getCities';
 import { Gapped, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
+import {MenuFooter} from "@skbkontur/react-ui/components/MenuFooter";
 
 let popularItems = [
   { Id: 956, City: 'Махачкала' },
@@ -113,9 +114,9 @@ let prepareItems = (query, items) =>
 
 let renderTotalCount = (foundCount, totalCount) =>
   foundCount < totalCount ? (
-    <MenuHeader>
+    <MenuFooter>
       Показано {foundCount} из {totalCount} найденных городов.
-    </MenuHeader>
+    </MenuFooter>
   ) : (
     []
   );
@@ -527,4 +528,45 @@ const en_GB = {
   errorNetworkButton: 'Refresh',
   errorNetworkMessage: 'Something went wrong. Check your internet connection and try again',
 };
+```
+
+У ComboBox есть 3 стандартных размера.
+```jsx harmony
+const getItems = q => {
+  return Promise.resolve(
+    [
+      { value: 1, label: 'Маленький' },
+      { value: 2, label: 'Средний' },
+      { value: 3, label: 'Большой' },
+    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+  )
+};
+
+const [valueSmall, setValueSmall] = React.useState('Маленький');
+const [valueMedium, setValueMedium] = React.useState('Средний');
+const [valueLarge, setValueLarge] = React.useState('Большой');
+
+<Gapped vertical>
+  <ComboBox
+    getItems={getItems}
+    onValueChange={setValueSmall}
+    placeholder="Введите число"
+    value={valueSmall}
+    size={'small'}
+  />
+  <ComboBox
+    getItems={getItems}
+    onValueChange={setValueMedium}
+    placeholder="Введите число"
+    value={valueMedium}
+    size={'medium'}
+  />
+  <ComboBox
+    getItems={getItems}
+    onValueChange={setValueLarge}
+    placeholder="Введите число"
+    value={valueLarge}
+    size={'large'}
+  />
+</Gapped>
 ```
