@@ -173,6 +173,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const linkProps = {
       className: cx(
         styles.useRoot(),
+        !this.state.focusedByTab && styles.useNotTabFocused(this.theme),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
@@ -259,10 +260,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
           disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
-          !_isTheme2022 && isFocused && use === 'default' && styles.lineFocus(this.theme),
-          !_isTheme2022 && isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
-          !_isTheme2022 && isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
-          !_isTheme2022 && isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+          isFocused && use === 'default' && styles.lineFocus(this.theme),
+          isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
+          isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
+          isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
           isFocused && !_isTheme2022 && styles.focus(this.theme),
           isFocused && _isTheme2022 && styles.focus2022(this.theme),
         );

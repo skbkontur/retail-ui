@@ -136,6 +136,16 @@ const focusedLinkTest: CreeveyTests = {
       .perform();
     await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: 'a' }),
+      })
+      .perform();
+    await delay(1000);
+    await this.expect(await this.takeScreenshot()).to.matchImage('tabPressHovered');
   },
 };
 
@@ -143,6 +153,6 @@ export const FocusedLink: Story = () => <Link icon={<OkIcon />}>Simple Link</Lin
 FocusedLink.parameters = {
   creevey: {
     tests: focusedLinkTest,
-    skip: { in: /^(?!\b(chrome(2022)*|firefox(2022)*)\b)/ },
+    skip: { in: /^(?!\b(chrome|firefox)(2022)*(Dark)*\b)/ },
   },
 };

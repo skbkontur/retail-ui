@@ -86,36 +86,24 @@ export const styles = memoizeStyle({
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
   lineFocusSuccess(t: Theme) {
     return css`
       color: ${t.linkSuccessHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
   lineFocusDanger(t: Theme) {
     return css`
       color: ${t.linkDangerHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
   lineFocusGrayed(t: Theme) {
     return css`
       color: ${t.linkGrayedHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
@@ -151,47 +139,38 @@ export const styles = memoizeStyle({
       border-bottom-color: currentColor;
     `;
   },
-  useDefault(t: Theme) {
+
+  useNotTabFocused(t: Theme) {
     return css`
-      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
       .${globalClasses.text} {
         :hover {
           ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
       }
+    `;
+  },
+
+  useDefault(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
     `;
   },
 
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-        }
-      }
     `;
   },
 
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-        }
-      }
     `;
   },
 
   useGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-        }
-      }
     `;
   },
 
