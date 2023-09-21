@@ -3,13 +3,13 @@ import React, { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { MenuContext } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuHeader.styles';
 
 export type MenuHeaderSize = 'small' | 'medium' | 'large';
 
 export interface MenuHeaderProps extends CommonProps {
-  _enableIconPadding?: boolean;
   children: ReactNode;
   /** Размер */
   size?: MenuHeaderSize;
@@ -26,8 +26,9 @@ export const MenuHeaderDataTids = {
  *
  * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
-function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
+function MenuHeader({ children, size = 'small', ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
+  const menuContext = useContext(MenuContext);
 
   function getRootSizeClassName() {
     switch (size) {
@@ -58,7 +59,7 @@ function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...r
         data-tid={MenuHeaderDataTids.root}
         className={cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
-          [getWithLeftPaddingSizeClassName()]: _enableIconPadding,
+          [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding,
         })}
       >
         {children}

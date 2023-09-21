@@ -13,11 +13,10 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
+import { MenuItem } from '../../components/MenuItem';
 
 import { styles } from './Menu.styles';
 import { MenuNavigation } from './MenuNavigation';
@@ -60,6 +59,7 @@ export interface MenuState {
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
   isMounted: boolean;
+  enableIconPadding: boolean;
 }
 
 export const MenuDataTids = {
@@ -101,6 +101,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
     isMounted: false,
+    enableIconPadding: false,
   };
 
   private theme!: Theme;
@@ -120,6 +121,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     this.calculateMaxHeight();
     this.menuNavigation = new MenuNavigation(getRootNode(this));
     this.setState({ isMounted: true });
+    this.setEnableIconPadding();
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
@@ -247,6 +249,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
               value={{
                 navigation: this.menuNavigation,
                 onItemClick: this.props.onItemClick,
+                enableIconPadding: this.state.enableIconPadding,
               }}
             >
               {this.getChildList()}
@@ -304,15 +307,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (!this.state.isMounted) {
       return null;
     }
-    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
-
-    return React.Children.map(this.props.children, (child) => {
-      if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
-        return child;
-      }
-
-      return addIconPaddingIfPartOfMenu(child, enableIconPadding);
-    });
+    return this.props.children;
   };
 
   private setInitialSelection = () => {
@@ -410,6 +405,17 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.state.scrollState !== scrollState) {
       this.setState({ scrollState });
     }
+  };
+
+  private setEnableIconPadding = () => {
+    React.Children.map(this.props.children, (child) => {
+      if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
+        return;
+      }
+      if ((child as MenuItem).props?.icon && !this.state.enableIconPadding && !this.getProps().preventIconsOffset) {
+        this.setState({ enableIconPadding: true });
+      }
+    });
   };
 }
 
