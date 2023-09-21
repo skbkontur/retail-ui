@@ -7,15 +7,13 @@ import { ScrollContainer } from '../../components/ScrollContainer';
 
 export class MenuNavigation {
   private readonly root: Nullable<Element>;
-  private onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   private tagsAndItems: WeakMap<HTMLElement, MenuItem> = new WeakMap();
 
   public highlightedItem: MenuItem | null = null;
   private items: MenuItem[] = [];
 
-  constructor(root: Nullable<Element>, onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void) {
+  constructor(root: Nullable<Element>) {
     this.root = root;
-    this.onItemClick = onItemClick;
   }
 
   private update() {
@@ -101,7 +99,7 @@ export class MenuNavigation {
   public select(
     shouldHandleHref: boolean,
     event: React.SyntheticEvent<HTMLElement>,
-    // onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void,
+    onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void,
   ) {
     if (this.highlightedItem && !this.highlightedItem.props.disabled) {
       if (shouldHandleHref && this.highlightedItem.props.href) {
@@ -112,7 +110,7 @@ export class MenuNavigation {
         }
       }
       this.highlightedItem.props.onClick?.(event);
-      this.onItemClick?.(event);
+      onItemClick?.(event);
       return true;
     }
     return false;

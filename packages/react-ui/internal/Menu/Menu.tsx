@@ -118,7 +118,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public componentDidMount() {
     this.setInitialSelection();
     this.calculateMaxHeight();
-    this.menuNavigation = new MenuNavigation(getRootNode(this), this.props.onItemClick);
+    this.menuNavigation = new MenuNavigation(getRootNode(this));
     this.setState({ isMounted: true });
   }
 
@@ -174,7 +174,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    return this.menuNavigation?.select(true, event);
+    return this.menuNavigation?.select(true, event, this.props.onItemClick);
   }
 
   /**
@@ -246,6 +246,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
             <MenuContext.Provider
               value={{
                 navigation: this.menuNavigation,
+                onItemClick: this.props.onItemClick,
               }}
             >
               {this.getChildList()}
@@ -386,7 +387,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
-      this.menuNavigation?.select(false, event);
+      this.menuNavigation?.select(false, event, this.props.onItemClick);
     }
   };
 
