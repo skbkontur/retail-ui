@@ -137,7 +137,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
-  private uid = Math.random().toString().substring(2, 6);
   private noscriptRef = React.createRef<HTMLElement>();
   static contextType = MenuContext;
 
@@ -295,7 +294,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
             [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
           })}
         >
-          <noscript ref={this.noscriptRef} data-uid={this.uid} />
+          <noscript ref={this.noscriptRef} />
           {content}
         </span>
         {this.props.comment && (
