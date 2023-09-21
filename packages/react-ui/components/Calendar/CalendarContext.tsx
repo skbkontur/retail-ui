@@ -2,7 +2,6 @@ import { createContext } from 'react';
 
 import { CalendarDateShape } from './CalendarDateShape';
 import { CalendarProps, CalendarState } from './Calendar';
-import { getTodayDate } from './CalendarUtils';
 
 export interface CalendarContextProps {
   hoveredDate: CalendarState['hoveredDate'];
@@ -13,7 +12,7 @@ export interface CalendarContextProps {
   minDate?: CalendarDateShape;
   maxDate?: CalendarDateShape;
   isHoliday?: CalendarProps['isHoliday'];
-  today: CalendarDateShape;
+  today?: CalendarDateShape;
 }
 
 export const getDefaultizedCalendarContext = ({
@@ -22,7 +21,6 @@ export const getDefaultizedCalendarContext = ({
 }: Partial<CalendarContextProps>): CalendarContextProps => ({
   ...props,
   hoveredDate: hoveredDate || null,
-  today: getTodayDate(),
 });
 
 export const CalendarContext = createContext<CalendarContextProps>(getDefaultizedCalendarContext({}));

@@ -341,6 +341,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       periodStartDate: this.getDateInNativeFormat(props.periodStartDate),
       isHoliday: props.isHoliday,
       renderDay: props.renderDay,
+      today: CalendarUtils.getTodayDate(),
     });
 
     return (
