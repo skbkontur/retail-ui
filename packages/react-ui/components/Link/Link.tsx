@@ -173,7 +173,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const linkProps = {
       className: cx(
         styles.useRoot(),
-        !this.state.focusedByTab && styles.useNotTabFocused(this.theme),
+        !this.state.focusedByTab && styles.useNotTabFocused(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),

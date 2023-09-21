@@ -140,11 +140,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  useNotTabFocused(t: Theme) {
+  useNotTabFocused() {
     return css`
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+          ${linkUseLineHovered('')}
         }
       }
     `;
