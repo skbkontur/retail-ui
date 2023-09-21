@@ -96,6 +96,7 @@ export interface MenuItemProps
 
 export const MenuItemDataTids = {
   root: 'MenuItem__root',
+  content: 'MenuItem__content',
   comment: 'MenuItem__comment',
 } as const;
 
@@ -137,7 +138,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
-  private noscriptRef = React.createRef<HTMLElement>();
+  private contentRef = React.createRef<HTMLElement>();
   static contextType = MenuContext;
 
   public context!: MenuContextType;
@@ -161,14 +162,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef) {
       this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
-    if (this.noscriptRef.current) {
-      this.context.navigation?.add(this.noscriptRef.current, this);
+    if (this.contentRef.current) {
+      this.context.navigation?.add(this.contentRef.current, this);
     }
   }
 
   public componentWillUnmount() {
-    if (this.noscriptRef.current) {
-      this.context.navigation?.remove(this.noscriptRef.current);
+    if (this.contentRef.current) {
+      this.context.navigation?.remove(this.contentRef.current);
     }
   }
 
@@ -293,8 +294,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
           className={cx({
             [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
           })}
+          ref={this.contentRef}
+          data-tid={MenuItemDataTids.content}
         >
-          <noscript ref={this.noscriptRef} />
           {content}
         </span>
         {this.props.comment && (

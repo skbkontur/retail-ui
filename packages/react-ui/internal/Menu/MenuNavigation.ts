@@ -7,7 +7,7 @@ import { ScrollContainer } from '../../components/ScrollContainer';
 
 export class MenuNavigation {
   private readonly root: Nullable<Element>;
-  private tagsAndItems: WeakMap<HTMLElement, MenuItem> = new WeakMap();
+  private tagsAndItems: WeakMap<Element, MenuItem> = new WeakMap();
 
   public highlightedItem: MenuItem | null = null;
   private items: MenuItem[] = [];
@@ -18,14 +18,14 @@ export class MenuNavigation {
 
   private update() {
     if (this.root) {
-      const menuItems = Array.from(this.root.querySelectorAll('noscript'));
+      const menuItems = Array.from(this.root.querySelectorAll('span[data-tid="MenuItem__content"]'));
       this.items = menuItems
         .map((item) => this.tagsAndItems.get(item))
         .filter((item): item is MenuItem => item !== undefined);
     }
   }
 
-  public add(tag: HTMLElement, item: MenuItem) {
+  public add(tag: Element, item: MenuItem) {
     this.tagsAndItems.set(tag, item);
     this.update();
   }
