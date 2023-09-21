@@ -105,6 +105,22 @@ export const WithClassChildren = () => (
 
 Подробнее в [пулл-реквесте](https://github.com/skbkontur/retail-ui/pull/2518)
 
+### Получение корневого элемента через ref
+
+Библиотека эскпортирует тип `InstanceWithRootNode`, который позволяет получить доступ к корневому элементу в классовых компонентах, используя `ref`, вместо `findDOMNode`.
+
+```js static
+import { Button } from '@skbkontur/react-ui';
+
+const ref = React.useRef<Button & InstanceWithRootNode>(null);
+
+React.useEffect(() => {
+  ref.current?.getRootNode();
+}, []);
+
+<Button ref={ref}>Кнопка</Button>
+```
+
 ## FAQ
 
 ### Отключение анимаций во время тестирования
