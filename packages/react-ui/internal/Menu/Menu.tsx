@@ -107,7 +107,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private isMobileLayout!: boolean;
-
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
