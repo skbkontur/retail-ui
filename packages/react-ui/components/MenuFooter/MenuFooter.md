@@ -14,9 +14,11 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-У MenuHeader есть 3 стандартных размера.
+У MenuFooter есть 3 стандартных размера.
 
 ```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
 <Gapped vertical>
   <MenuFooter size={'small'}>Маленький</MenuFooter>
   <MenuFooter size={'medium'}>Средний</MenuFooter>

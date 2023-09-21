@@ -82,6 +82,8 @@ const en_GB = {
 
 У Select есть 3 стандартных размера.
 ```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
 const [valueSmall, setValueSmall] = React.useState('Маленький');
 const [valueMedium, setValueMedium] = React.useState('Средний');
 const [valueLarge, setValueLarge] = React.useState('Большой');
