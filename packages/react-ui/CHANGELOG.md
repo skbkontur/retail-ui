@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.16.0-next.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0-next.9...@skbkontur/react-ui@4.16.0-next.10) (2023-09-21)
+
+
+### Bug Fixes
+
+* **Button:** now disabled state don't fire bubbling on click ([#3262](https://github.com/skbkontur/retail-ui/issues/3262)) ([79a46a6](https://github.com/skbkontur/retail-ui/commit/79a46a6cc06971b36fc7bff0855b9daaf3bd2750))
+* Kontur field in rootNode decorator ([#3261](https://github.com/skbkontur/retail-ui/issues/3261)) ([5169967](https://github.com/skbkontur/retail-ui/commit/5169967f9772468a9b90aa59c38f9d1c2837152c))
+* **Button:** remove outline in disabled state for colored use buttons ([#3244](https://github.com/skbkontur/retail-ui/issues/3244)) ([bd50313](https://github.com/skbkontur/retail-ui/commit/bd503130fff703396ea2e475f1f5998e710dcf98))
+* **ComboBox:** extend getItems type ([#3260](https://github.com/skbkontur/retail-ui/issues/3260)) ([1da0591](https://github.com/skbkontur/retail-ui/commit/1da0591dc2ef91de8c124258da7b167dc6a9fc6c))
+* **Link:** add transition on underline ([#3254](https://github.com/skbkontur/retail-ui/issues/3254)) ([6b9d106](https://github.com/skbkontur/retail-ui/commit/6b9d106369b963e9da6fbc54effb562f4e3467b1))
+* **Toggle:** disable animations for `THEME_2022` ([#3256](https://github.com/skbkontur/retail-ui/issues/3256)) ([cdc9513](https://github.com/skbkontur/retail-ui/commit/cdc95137ce1a46d2720b67435c7c622919068440))
+
+
+### Features
+
+* **Autocomplete,ComboBox,Dropdown,Select:** forward size to MenuItems ([#3265](https://github.com/skbkontur/retail-ui/issues/3265)) ([c0732e5](https://github.com/skbkontur/retail-ui/commit/c0732e51124140e7c1f4a9f7c970e92ca6ddc17a))
+* **MenuHeader,MenuItem:** add prop size ([#3252](https://github.com/skbkontur/retail-ui/issues/3252)) ([e0e981a](https://github.com/skbkontur/retail-ui/commit/e0e981ad61389b04d9cc0ca885ee64c19de389b6))
+
+
+
+
+
 # [4.16.0-next.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0-next.8...@skbkontur/react-ui@4.16.0-next.9) (2023-08-31)
 
 **Note:** Version bump only for package @skbkontur/react-ui
