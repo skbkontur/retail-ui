@@ -59,6 +59,7 @@ export const styles = memoizeStyle({
         border-bottom-color: transparent;
         &:hover {
           border-bottom-color: currentColor;
+          border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
         }
       }
     `;
@@ -70,9 +71,15 @@ export const styles = memoizeStyle({
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
         border-bottom-color: ${t.linkLineBorderBottomColor};
+        &:hover {
+          border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
+        }
       }
       @supports not (border-bottom-color: ${t.linkLineBorderBottomColor}) {
         ${oldLineText(t)};
+        &:hover {
+          border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
+        }
       }
     `;
   },
@@ -140,11 +147,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  useNotTabFocused() {
+  tabFocused() {
     return css`
       .${globalClasses.text} {
         :hover {
-          ${linkUseLineHovered('')}
+          ${linkUseLineHovered('none')}
         }
       }
     `;
@@ -153,24 +160,44 @@ export const styles = memoizeStyle({
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 
   useGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+        }
+      }
     `;
   },
 

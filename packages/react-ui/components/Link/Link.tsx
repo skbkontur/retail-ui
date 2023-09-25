@@ -173,7 +173,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const linkProps = {
       className: cx(
         styles.useRoot(),
-        !this.state.focusedByTab && styles.useNotTabFocused(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
@@ -181,6 +180,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
         this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+        this.state.focusedByTab && styles.tabFocused(),
       ),
       href,
       rel,
@@ -199,6 +199,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
             className={cx(globalClasses.text, {
               [styles.lineText(this.theme)]: !isIE11 && !isFocused,
               [styles.lineTextIE11(this.theme)]: isIE11 && !isFocused,
+              [styles.tabFocused()]: this.state.focusedByTab,
             })}
           >
             {this.props.children}
@@ -251,21 +252,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
     return !isBorderBottom
       ? cx(
           styles.root(this.theme),
-          isFocused && !_isTheme2022 && styles.focus(this.theme),
-          isFocused && _isTheme2022 && styles.focus2022(this.theme),
+          isFocused && styles.focus(this.theme),
           disabled && styles.disabled(this.theme),
-          !_isTheme2022 && use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
+          use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
         )
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
-          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
+          disabled && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
           isFocused && use === 'default' && styles.lineFocus(this.theme),
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
-          isFocused && !_isTheme2022 && styles.focus(this.theme),
-          isFocused && _isTheme2022 && styles.focus2022(this.theme),
+          isFocused && styles.focus2022(this.theme),
         );
   }
 }

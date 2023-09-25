@@ -6,6 +6,8 @@ import { Link } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 const linkTests: CreeveyTests = {
   async idle() {
@@ -154,5 +156,55 @@ FocusedLink.parameters = {
   creevey: {
     tests: focusedLinkTest,
     skip: { in: /^(?!\b(chrome|firefox)(2022)*(Dark)*\b)/ },
+  },
+};
+
+const focusedStyledLinkTest: CreeveyTests = {
+  async 'tab press'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: 'a' }),
+      })
+      .perform();
+    await delay(1000);
+    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: 'a' }),
+      })
+      .perform();
+    await delay(1000);
+    await this.expect(await this.takeScreenshot()).to.matchImage('tabPressHovered');
+  },
+};
+export const FocusedStyledLink: Story = () => {
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider value={ThemeFactory.create({ linkLineHoverBorderBottomStyle: 'dotted' }, theme)}>
+            <Link icon={<OkIcon />}>Simple Link</Link>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+FocusedStyledLink.parameters = {
+  creevey: {
+    tests: focusedStyledLinkTest,
+    skip: { in: /^(?!\b(chrome|firefox)(2022)\b)/ },
   },
 };
