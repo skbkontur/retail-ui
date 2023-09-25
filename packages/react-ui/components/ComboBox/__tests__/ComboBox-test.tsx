@@ -140,19 +140,12 @@ describe('ComboBox', () => {
 
   it('opens menu on arrow down', async () => {
     const items = ['one', 'two', 'three'];
-    const [search] = searchFactory(Promise.resolve(items));
+    const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} renderItem={(x) => x} value={'one'} />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-
-    await delay(0);
-
     userEvent.keyboard('{enter}');
-
-    await delay(0);
-
     userEvent.keyboard('{arrowdown}');
-
-    await delay(0);
+    await promise;
 
     expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
   });
