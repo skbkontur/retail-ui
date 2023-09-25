@@ -201,7 +201,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   private getComboBoxMenu = () => {
-    const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount } = this.props;
+    const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount, size } =
+      this.props;
 
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
@@ -222,6 +223,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         requestStatus={requestStatus}
         totalCount={totalCount}
         isMobile={this.isMobileLayout}
+        size={size}
       />
     );
   };
@@ -313,11 +315,12 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       refInputLikeText,
       leftIcon,
       inputMode,
+      size,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
     } = this.props;
 
-    const { renderValue, size } = this.getProps();
+    const { renderValue } = this.getProps();
 
     const rightIcon = this.getRightIcon();
 
