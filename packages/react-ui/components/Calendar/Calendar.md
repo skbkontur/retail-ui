@@ -88,9 +88,6 @@ const isHoliday = (day, isWeekend) => {
 Если задан только один из пропов, то при наведении мышью будет подсвечиваться период между заданным пропом и датой под указателем мыши.
 ```jsx harmony
 import { Button, DateInput, Gapped, Radio, RadioGroup, Group } from '@skbkontur/react-ui';
-import { XCircleIcon16Light } from '@skbkontur/icons/XCircleIcon16Light';
-import { ArrowShapeALeftIcon16Solid } from '@skbkontur/icons/ArrowShapeALeftIcon16Solid';
-import { ArrowShapeALeftIcon16Light } from '@skbkontur/icons/ArrowShapeALeftIcon16Light';
 
 const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
 const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
@@ -127,7 +124,7 @@ const onValueChange = (date) => {
               onValueChange={setPeriodStartDate}
               value={periodStartDate}
             />
-            <Button icon={<XCircleIcon16Light />} onClick={() => setPeriodStartDate(null)} />
+            <Button onClick={() => setPeriodStartDate(null)}>x</Button>
           </Group>
         </Gapped>
       </Gapped>
@@ -139,7 +136,7 @@ const onValueChange = (date) => {
               onValueChange={setPeriodEndDate}
               value={periodEndDate}
             />
-            <Button icon={<XCircleIcon16Light />} onClick={() => setPeriodEndDate(null)} />
+            <Button icon={<span>x</span>} onClick={() => setPeriodEndDate(null)} />
           </Group>
         </Gapped>
       </Gapped>
@@ -170,7 +167,7 @@ const theme = React.useContext(ThemeContext);
 </ThemeContext.Provider>
 ```
 
-### Кастомизирование отображения даты
+### Кастомный рендер дня
 
 ```jsx harmony
 import { Tooltip, Hint } from '@skbkontur/react-ui';
@@ -200,7 +197,7 @@ const renderDay = (date, defaultProps, RenderDefault) => {
     return (
       <Hint text={date} pos="right middle">
         <RenderDefault {...defaultProps}>
-          #
+          <b style={{color: 'orange'}}>#</b>
         </RenderDefault>
       </Hint>
     );
@@ -213,6 +210,8 @@ const renderDay = (date, defaultProps, RenderDefault) => {
   value={value}
   onValueChange={setValue}
   renderDay={renderDay}
+  onMonthSelect={(...args) => console.log('onMonthSelect', ...args)}
+  onStuckMonth={(...args) => console.log('onStuckMonth', ...args)}
 />;
 ```
 

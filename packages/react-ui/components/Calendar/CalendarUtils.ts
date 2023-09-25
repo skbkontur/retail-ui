@@ -118,9 +118,9 @@ export const getTodayDate = () => {
   };
 };
 
-export const containsDayCellButtonElement = <T extends React.MouseEvent<Element>>(
-  e: T,
-): e is T & { target: HTMLButtonElement & { dataset: { date: string } } } =>
+export const hasDayElement = (
+  e: React.MouseEvent<Element>,
+): e is typeof e & { target: HTMLButtonElement & { dataset: { date: string } } } =>
   e.target instanceof HTMLButtonElement &&
   !e.target.disabled &&
   e.target.getAttribute('data-tid') === CalendarDataTids.dayCell &&

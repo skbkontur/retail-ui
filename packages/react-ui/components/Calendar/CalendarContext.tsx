@@ -13,6 +13,7 @@ export interface CalendarContextProps {
   maxDate?: CalendarDateShape;
   isHoliday?: CalendarProps['isHoliday'];
   today?: CalendarDateShape;
+  onStuckMonth?: CalendarProps['onStuckMonth'];
 }
 
 export const getDefaultizedCalendarContext = ({

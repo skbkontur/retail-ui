@@ -4,6 +4,7 @@ import { DateSelect } from '../../internal/DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { cx } from '../../lib/theming/Emotion';
+import { usePrevious } from '../../hooks/usePrevious';
 
 import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
@@ -28,7 +29,7 @@ interface MonthViewProps {
 
 export function MonthView(props: MonthViewProps) {
   const theme = useContext(ThemeContext);
-  const { minDate, maxDate } = useContext(CalendarContext);
+  const { minDate, maxDate, onStuckMonth } = useContext(CalendarContext);
 
   const {
     children,
@@ -53,6 +54,16 @@ export function MonthView(props: MonthViewProps) {
   const yearTop = isHeaderSticky && !isLastInYear ? -headerTop - top : 0;
   const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
   const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
+  const prevMonthSelectDisabled = usePrevious(monthSelectDisabled);
+
+  const monthInfo = {
+    month: month + 1,
+    year,
+  };
+
+  if (onStuckMonth && prevMonthSelectDisabled && !monthSelectDisabled) {
+    onStuckMonth(monthInfo);
+  }
 
   const getMinMonth = (value: number) => {
     let min = 0;

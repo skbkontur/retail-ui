@@ -43,7 +43,7 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
+    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onStuckMonth' | 'onMonthSelect'>,
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -155,7 +155,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     renderDay: PropTypes.func,
 
-    onMonthChange: PropTypes.func,
+    onStuckMonth: PropTypes.func,
   };
 
   public static defaultProps: DefaultProps = {
@@ -307,7 +307,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                 isHoliday={this.props.isHoliday}
                 value={this.parseValueToDate(this.props.value)}
                 renderDay={this.props.renderDay}
-                onMonthChange={this.props.onMonthChange}
+                onStuckMonth={this.props.onStuckMonth}
+                onMonthSelect={this.props.onMonthSelect}
               />
               {this.props.enableTodayLink && this.renderTodayLink()}{' '}
             </div>

@@ -70,7 +70,7 @@ export const DayCellView = (props: DayCellViewProps) => {
     .setComponents({ ...date }, true)
     .toA11YFormat()}`;
 
-  const defaultProps: PropsWithChildren<Required<DayProps>> = {
+  const defaultProps: Required<DayProps> = {
     ariaLabel,
     stringDate,
     isSelected,
@@ -87,7 +87,7 @@ export const DayCellView = (props: DayCellViewProps) => {
   return renderDay ? (renderDay(stringDate, defaultProps, Day) as JSX.Element) : <Day {...defaultProps} />;
 };
 
-export interface DayProps {
+export type DayProps = PropsWithChildren<{
   ariaLabel: string;
   stringDate: string;
   isSelected: boolean;
@@ -98,7 +98,7 @@ export interface DayProps {
   isDayInSelectedPeriod: boolean;
   isPeriodStart: boolean;
   isPeriodEnd: boolean;
-}
+}>;
 
 const Day: FunctionComponent<DayProps> = ({
   ariaLabel,

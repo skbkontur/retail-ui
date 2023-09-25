@@ -5,7 +5,7 @@ import { Calendar, CalendarProps } from '../Calendar';
 import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { CalendarMonthChangeInfo } from '../';
+import { CalendarMonthInfo } from '../';
 import { Gapped } from '../../Gapped';
 import { LocaleContext } from '../../../lib/locale';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -157,7 +157,7 @@ export const CalendarWithMonthChangeHandle: Story = () => {
   const [year, setYear] = useState(2017);
   const [value, setValue] = useState('02.12.2017');
 
-  const onMonthChange = (changeInfo: CalendarMonthChangeInfo): void => {
+  const onStuckMonth = (changeInfo: CalendarMonthInfo): void => {
     setMonth(changeInfo.month);
     setYear(changeInfo.year);
   };
@@ -175,7 +175,7 @@ export const CalendarWithMonthChangeHandle: Story = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <Calendar value={value} onValueChange={setValue} onMonthChange={onMonthChange} />
+      <Calendar value={value} onValueChange={setValue} onStuckMonth={onStuckMonth} />
       <div style={containerWithInfoStyle}>
         <div style={containersStyle}>
           <span>Отображаемый месяц</span>

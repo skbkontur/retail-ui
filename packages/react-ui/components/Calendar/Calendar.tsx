@@ -2,6 +2,7 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
+import debounce from 'lodash.debounce';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -24,7 +25,6 @@ import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShap
 import * as CalendarUtils from './CalendarUtils';
 import { CalendarContext, getDefaultizedCalendarContext } from './CalendarContext';
 import { DayProps } from './DayCellView';
-import { containsDayCellButtonElement } from './CalendarUtils';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -81,25 +81,51 @@ export interface CalendarProps extends CommonProps {
    */
   initialYear?: number;
   /**
-   * Метод отрисовки дат в календаре
-   * @default (date) => date.date as number
-   * @param {CalendarDateShape} date - дата в формате `{ year: number; month: number; date: number; }`
+   * Метод отрисовки ячеки даты в календаре
+   *
+   * @default undefined
+   *
+   * @param date - дата в формате `dd.mm.yyyy`
+   * @param defaultProps - дефолтные пропы `DayProps`
+   * @param RenderDefault - дефолтный комопнент для рендера ячейки
    *
    * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
    */
   renderDay?: (
     date: string,
-    defaultProps: React.PropsWithChildren<DayProps>,
-    renderDefault: React.FunctionComponent<DayProps>,
+    defaultProps: DayProps,
+    RenderDefault: React.FunctionComponent<DayProps>,
   ) => React.ReactNode;
 
   /**
-   * Вызывается при каждом изменении месяца
-   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
-   * `month: number` - номер текущего отображаемого месяца от 1 до 12,
-   * `year: number` - отображаемый год,
+   * Вызывается для каждого залипшего месяца. Залипшим считается месяц, оставшийся сверху после:
+   * <br />
+   * - ручного скролинга
+   * <br />
+   * - ручной смены месяца или года
+   * <br />
+   * - автоскролинга при обновлении `value`
+   *
+   * @type ({ month: number; year: number; }) => void
+   * @default undefined
+   *
+   * @param monthInfo
+   * @param monthInfo.month - 1-12
+   * @param monthInfo.year
    */
-  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
+  onStuckMonth?: (monthInfo: CalendarMonthInfo) => void;
+
+  /**
+   * Вызывается при ручной смене месяца или года
+   *
+   * @type ({ month: number; year: number; }) => void
+   * @default undefined
+   *
+   * @param monthInfo
+   * @param monthInfo.month - 1-12
+   * @param monthInfo.year
+   */
+  onMonthSelect?: (monthInfo: CalendarMonthInfo) => void;
 }
 
 export interface CalendarState {
@@ -110,7 +136,7 @@ export interface CalendarState {
   hoveredDate: CalendarDateShape | null;
 }
 
-export interface CalendarMonthChangeInfo {
+export interface CalendarMonthInfo {
   month: number;
   year: number;
 }
@@ -180,22 +206,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     };
   }
 
-  public componentDidUpdate(prevProps: Readonly<CalendarProps>, prevState: Readonly<CalendarState>): void {
+  public componentDidUpdate(prevProps: Readonly<CalendarProps>): void {
     const { value } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       const date = new InternalDate().parseValue(value).getComponentsLikeNumber();
       this.scrollToMonth(date.month - 1, date.year);
-    }
-
-    if (this.props.onMonthChange) {
-      const visibleMonthsModels = this.getVisibleMonths(this.state).map(this.getViewModel);
-      const prevFirstVisibleMonthModels = this.getVisibleMonths(prevState).map(this.getViewModel);
-      const currentMonth = visibleMonthsModels[0].month;
-      const prevCurrentMonth = prevFirstVisibleMonthModels[0].month;
-
-      if (currentMonth !== prevCurrentMonth) {
-        this.monthsChangeHandle(this.props.onMonthChange, visibleMonthsModels);
-      }
     }
   }
 
@@ -326,6 +341,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   };
 
+  private debouncedStuckMonth = this.props.onStuckMonth && debounce(this.props.onStuckMonth, 100);
+
   private renderMain = () => {
     const monthsForRender = this.getVisibleMonths(this.state);
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
@@ -342,6 +359,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       isHoliday: props.isHoliday,
       renderDay: props.renderDay,
       today: CalendarUtils.getTodayDate(),
+      onStuckMonth: this.debouncedStuckMonth,
     });
 
     return (
@@ -418,23 +436,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme));
   }
 
-  private monthsChangeHandle(
-    handler: (changeInfo: CalendarMonthChangeInfo) => void,
-    visibleMonths: MonthViewModel[],
-  ): void {
-    const currentMonth = visibleMonths[0];
-    const changeInfo = {
-      month: CalendarUtils.getMonthInHumanFormat(currentMonth.month),
-      year: currentMonth.year,
-    };
-
-    handler(changeInfo);
-  }
-
-  private getViewModel = (item: [number, MonthViewModel]): MonthViewModel => item[1];
-
   private handleMonthYearChange = (month: number, year: number) => {
     this.scrollToMonth(month, year);
+
+    this.props.onMonthSelect?.({ month: CalendarUtils.getMonthInHumanFormat(month), year });
   };
 
   private executeAnimations = (pixelY: number) => {
@@ -535,7 +540,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleMouseHits: React.MouseEventHandler = (e) => {
-    if (containsDayCellButtonElement(e)) {
+    if (CalendarUtils.hasDayElement(e)) {
       const hoveredDate = this.getDateInNativeFormat(e.target.dataset.date);
       if (e.type === 'mouseover' && hoveredDate) {
         this.setState({ hoveredDate });
@@ -547,7 +552,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleClick: React.MouseEventHandler = (e) => {
-    if (containsDayCellButtonElement(e)) {
+    if (CalendarUtils.hasDayElement(e)) {
       this.props.onValueChange?.(e.target.dataset.date);
     }
   };
