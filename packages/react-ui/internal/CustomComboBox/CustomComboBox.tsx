@@ -280,7 +280,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onInputClick: this.handleInputClick,
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
-        this.state.opened && this.dispatch({ type: 'KeyPress', event });
+        this.dispatch({ type: 'KeyPress', event });
       },
       onMouseEnter: this.props.onMouseEnter,
       onMouseOver: this.props.onMouseOver,
