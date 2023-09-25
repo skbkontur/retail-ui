@@ -9,12 +9,14 @@ import { Meta, Story } from '../../../typings/stories';
 import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
 import { delay } from '../../../lib/utils';
+import { Gapped } from '../../Gapped';
+import { MenuHeader } from '../../MenuHeader';
 
 export default {
   title: 'Dropdown',
   decorators: [
     (Story) => (
-      <div className="dropdown-test-container" style={{ height: 150, width: 400, padding: 4, overflow: 'auto' }}>
+      <div className="dropdown-test-container" style={{ minHeight: 150, minWidth: 400, padding: 4, overflow: 'auto' }}>
         <Story />
       </div>
     ),
@@ -156,10 +158,12 @@ WithIconAndOverflow.storyName = 'With icon and overflow';
 WithIconAndOverflow.parameters = { creevey: { captureElement: '.dropdown-test-container' } };
 
 export const InsideScrollableContainer: Story = () => (
-  <div style={{ height: '200%' }}>
-    <Dropdown caption="Menu">
-      <MenuItem>Menu item</MenuItem>
-    </Dropdown>
+  <div style={{ height: '150px' }}>
+    <div style={{ height: 'calc(200% + 4px)' }}>
+      <Dropdown caption="Menu">
+        <MenuItem>Menu item</MenuItem>
+      </Dropdown>
+    </div>
   </div>
 );
 InsideScrollableContainer.parameters = {
@@ -292,6 +296,81 @@ WithManualPosition.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
+      },
+    },
+  },
+};
+
+export const Size: Story = () => {
+  const items = [<MenuItem key={1}>one</MenuItem>, 'two', <MenuItem key={3}>three</MenuItem>];
+  let small: Dropdown | null = null;
+  let medium: Dropdown | null = null;
+  let large: Dropdown | null = null;
+  const handleClick = () => {
+    if (small) {
+      small.open();
+    }
+    if (medium) {
+      medium.open();
+    }
+    if (large) {
+      large.open();
+    }
+  };
+  return (
+    <div>
+      <Button onClick={handleClick} data-tid="open-all">
+        Open All
+      </Button>
+      <Gapped style={{ height: '250px' }}>
+        <Dropdown
+          size={'small'}
+          caption="Items small"
+          ref={(element) => {
+            small = element;
+          }}
+        >
+          <MenuHeader>This is header</MenuHeader>
+          {items}
+        </Dropdown>
+        <Dropdown
+          size={'medium'}
+          caption="Items medium"
+          ref={(element) => {
+            medium = element;
+          }}
+        >
+          <MenuHeader>This is header</MenuHeader>
+          {items}
+        </Dropdown>
+        <Dropdown
+          size={'large'}
+          caption="Items large"
+          ref={(element) => {
+            large = element;
+          }}
+        >
+          <MenuHeader>This is header</MenuHeader>
+          {items}
+        </Dropdown>
+      </Gapped>
+    </div>
+  );
+};
+Size.storyName = 'size';
+Size.parameters = {
+  creevey: {
+    tests: {
+      async 'clicked all'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
       },
     },
   },

@@ -339,7 +339,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return items
       ? items.map((item, i) => {
           return (
-            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile}>
+            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile} size={this.props.size}>
               {this.getProps().renderItem(item)}
             </MenuItem>
           );

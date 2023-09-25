@@ -93,6 +93,7 @@ export const DefaultState = {
   textValue: '',
   repeatRequest: () => undefined,
   requestStatus: ComboBoxRequestStatus.Unknown,
+  size: 'small',
 };
 
 export const CustomComboBoxDataTids = {
@@ -307,7 +308,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     return (
       <CommonWrapper {...this.props}>
-        <ComboBoxView {...viewProps} ref={this.setRootNode} />
+        <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
       </CommonWrapper>
     );
   }
