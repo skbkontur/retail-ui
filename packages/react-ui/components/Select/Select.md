@@ -79,3 +79,20 @@ const en_GB = {
   placeholder: 'Nothing selected',
 };
 ```
+
+У Select есть 3 стандартных размера.
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
+const [valueSmall, setValueSmall] = React.useState('Маленький');
+const [valueMedium, setValueMedium] = React.useState('Средний');
+const [valueLarge, setValueLarge] = React.useState('Большой');
+
+const items = ['Маленький', 'Средний', 'Большой'];
+
+<Gapped vertical>
+  <Select items={items} value={valueSmall} onValueChange={setValueSmall} size={'small'} />
+  <Select items={items} value={valueMedium} onValueChange={setValueMedium} size={'medium'} />
+  <Select items={items} value={valueLarge} onValueChange={setValueLarge} size={'large'} />
+</Gapped>
+```

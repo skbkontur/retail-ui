@@ -125,6 +125,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
     target: PropTypes.string,
 
     onClick: PropTypes.func,
+
+    size: PropTypes.string,
   };
 
   public state = {

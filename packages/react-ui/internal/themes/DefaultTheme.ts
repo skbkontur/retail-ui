@@ -1231,23 +1231,47 @@ export class DefaultTheme {
   public static get menuMessagePaddingMobile() {
     return this.menuItemPaddingMobile;
   }
+  /**
+   * @deprecated use menuMessageLineHeightSmall
+   */
   public static get menuMessageLineHeight() {
     return this.menuItemLineHeightSmall;
   }
   public static get menuMessageLineHeightMobile() {
     return this.menuItemLineHeightMobile;
   }
+  /**
+   * @deprecated use menuMessageFontSizeSmall
+   */
   public static get menuMessageFontSize() {
     return this.menuItemFontSizeSmall;
   }
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
   }
-  public static menuItemGap = '0px';
-  //menuHeader
-  public static get menuHeaderColor() {
-    return this.gray;
+  public static get menuMessageFontSizeSmall() {
+    return this.menuItemFontSizeSmall;
   }
+  public static get menuMessageFontSizeMedium() {
+    return this.menuItemFontSizeMedium;
+  }
+  public static get menuMessageFontSizeLarge() {
+    return this.menuItemFontSizeLarge;
+  }
+
+  public static get menuMessageLineHeightSmall() {
+    return this.menuItemLineHeightSmall;
+  }
+  public static get menuMessageLineHeightMedium() {
+    return this.menuItemLineHeightMedium;
+  }
+  public static get menuMessageLineHeightLarge() {
+    return this.menuItemLineHeightLarge;
+  }
+  public static menuItemGap = '0px';
+
+  //menuHeader
+  public static menuHeaderColor = '#757575';
 
   /**
    * @deprecated use menuHeaderLineHeightSmall
@@ -1297,7 +1321,72 @@ export class DefaultTheme {
   public static menuHeaderPaddingTopLarge = '18px';
   public static menuHeaderPaddingBottomLarge = '8px';
 
+  public static menuHeaderTotalCountPaddingTopSmall = '4px';
+  public static menuHeaderTotalCountPaddingTopMedium = '6px';
+  public static menuHeaderTotalCountPaddingTopLarge = '8px';
+
+  public static menuHeaderTotalCountPaddingBottomSmall = '12px';
+  public static menuHeaderTotalCountPaddingBottomMedium = '14px';
+  public static menuHeaderTotalCountPaddingBottomLarge = '18px';
+
   public static menuHeaderLegacyPaddingRight = '0px';
+
+  //menuFooter
+  public static get menuFooterColor() {
+    return this.menuHeaderColor;
+  }
+  public static get menuFooterLineHeightSmall() {
+    return this.menuHeaderLineHeightSmall;
+  }
+  public static get menuFooterLineHeightMedium() {
+    return this.menuHeaderLineHeightMedium;
+  }
+  public static get menuFooterLineHeightLarge() {
+    return this.menuHeaderLineHeightLarge;
+  }
+
+  public static get menuFooterFontSizeSmall() {
+    return this.menuHeaderFontSizeSmall;
+  }
+  public static get menuFooterFontSizeMedium() {
+    return this.menuHeaderFontSizeMedium;
+  }
+  public static get menuFooterFontSizeLarge() {
+    return this.menuHeaderFontSizeLarge;
+  }
+
+  public static get menuFooterPaddingXSmall() {
+    return this.menuHeaderPaddingXSmall;
+  }
+  public static get menuFooterPaddingXMedium() {
+    return this.menuHeaderPaddingXMedium;
+  }
+  public static get menuFooterPaddingXLarge() {
+    return this.menuHeaderPaddingXLarge;
+  }
+
+  public static get menuFooterPaddingTopSmall() {
+    return this.menuHeaderPaddingBottomSmall;
+  }
+  public static get menuFooterPaddingTopMedium() {
+    return this.menuHeaderPaddingBottomMedium;
+  }
+  public static get menuFooterPaddingTopLarge() {
+    return this.menuHeaderPaddingBottomLarge;
+  }
+
+  public static get menuFooterPaddingBottomSmall() {
+    return this.menuHeaderPaddingTopSmall;
+  }
+  public static get menuFooterPaddingBottomMedium() {
+    return this.menuHeaderPaddingTopMedium;
+  }
+  public static get menuFooterPaddingBottomLarge() {
+    return this.menuHeaderPaddingTopLarge;
+  }
+
+  public static menuFooterLegacyPaddingRight = '0px';
+
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
