@@ -179,7 +179,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
-        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+        this.getLinkClassName(isFocused, Boolean(disabled || loading)),
         this.state.focusedByTab && styles.tabFocused(),
       ),
       href,
@@ -244,7 +244,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
+  private getLinkClassName(focused: boolean, disabled: boolean): string {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
