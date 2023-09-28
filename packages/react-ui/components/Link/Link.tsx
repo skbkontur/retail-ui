@@ -199,7 +199,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
             className={cx(globalClasses.text, {
               [styles.lineText(this.theme)]: !isIE11 && !isFocused,
               [styles.lineTextIE11(this.theme)]: isIE11 && !isFocused,
-              [styles.tabFocused()]: this.state.focusedByTab,
             })}
           >
             {this.props.children}
