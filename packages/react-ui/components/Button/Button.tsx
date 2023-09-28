@@ -422,7 +422,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (loading && !icon) {
       const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
       loadingNode = (
-        <div data-tid={_isTheme2022 ? ButtonDataTids.spinner : undefined} className={styles.loading()}>
+        <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
           {loadingIcon}
         </div>
       );
