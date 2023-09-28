@@ -28,15 +28,13 @@ const findComponentsInSection = (dirPath, name) => {
   // Looks for entries like `ParentCompChildComp.tsx`
   // In `ModalClose` the word `Modal` represents parent component and the word `Close` child component
   const surnamePattern = new RegExp(`${name}[a-zA-Z]*\.tsx`);
-  // Looks for entries like `Parents.tsx`
-  // In `Tabs` the word `Tabs` represents parent component and the word `Tab` child component
-  const substringPattern = name.slice(0, -1) + '.tsx';
+  // Component `<Tabs />` utilizes it's own pattern, where deleting the last letter forms child component `<Tab />`
+  const tabPattern = 'Tab.tsx';
   const components = fs
     .readdirSync(dirPath)
     .filter(
       (item) =>
-        (surnamePattern.test(item) || substringPattern === item) &&
-        !excludedComponents.includes(path.basename(item, '.tsx')),
+        (surnamePattern.test(item) || tabPattern === item) && !excludedComponents.includes(path.basename(item, '.tsx')),
     )
     .map((item) => path.join(dirPath, item));
   return {
