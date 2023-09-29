@@ -80,7 +80,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get btnDisabledTextColor() {
     return this.textColorDisabled;
   }
-  public static btnTextDisabledBg = 'transparent';
 
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 

@@ -972,12 +972,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  textDisabled2022(t: Theme) {
-    return css`
-      background-color: ${t.btnTextDisabledBg};
-    `;
-  },
-
   loading() {
     return css`
       position: absolute;

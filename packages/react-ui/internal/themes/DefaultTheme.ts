@@ -544,9 +544,6 @@ export class DefaultTheme {
   public static btnTextBg = 'transparent';
   public static btnTextHoverBg = 'rgba(0, 0, 0, 0.04)';
   public static btnTextActiveBg = 'rgba(0, 0, 0, 0.1)';
-  public static get btnTextDisabledBg() {
-    return this.btnDisabledBg;
-  }
   public static get btnTextBorderColor() {
     return this.btnDefaultBorderColor;
   }
