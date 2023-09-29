@@ -187,6 +187,7 @@ export interface ButtonState {
 
 export const ButtonDataTids = {
   root: 'Button__root',
+  spinner: 'Button__spinner',
 } as const;
 
 type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
@@ -420,7 +421,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     let loadingNode = null;
     if (loading && !icon) {
       const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
-      loadingNode = <div className={styles.loading()}>{loadingIcon}</div>;
+      loadingNode = (
+        <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
+          {loadingIcon}
+        </div>
+      );
     }
 
     // Force disable all props and features, that cannot be use with Link
