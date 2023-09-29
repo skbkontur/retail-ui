@@ -22,6 +22,8 @@ const [value, setValue] = React.useState('Kappa');
 
 У Autocomplete есть 3 стандартных размера.
 ```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
 const items = ['Маленький', 'Средний', 'Большой'];
 
 const [valueSmall, setValueSmall] = React.useState('Маленький');

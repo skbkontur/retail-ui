@@ -13,6 +13,8 @@ import { Dropdown, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-
 У Dropdown есть 3 стандартных размера.
 
 ```jsx harmony
+import { Gapped, MenuItem, MenuSeparator, MenuHeader } from '@skbkontur/react-ui';
+
 <Gapped vertical>
   <Dropdown caption="Маленький" size={'small'}>
     <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>
