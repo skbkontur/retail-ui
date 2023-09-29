@@ -532,7 +532,7 @@ export class DefaultTheme {
     return this.btnDefaultBorderColor;
   }
   public static get btnBacklessDisabledBorderColor() {
-    return this.btnBacklessBorderColor;
+    return this.btnDisabledBorderColor;
   }
   public static get btnBacklessHoverBorderColor() {
     return this.btnBacklessBorderColor;
