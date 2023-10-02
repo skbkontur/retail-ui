@@ -1335,8 +1335,9 @@ describe('mobile comboBox', () => {
       items.filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
     ).then<typeof items>((result) => new Promise((resolve) => setTimeout(resolve, 0, result)));
 
-  const open = jest.fn(() => comboBoxRef.current?.search(''));
-  const close = jest.fn(() => comboBoxRef.current?.close());
+  const close = () => comboBoxRef.current?.close();
+  const menuItemsWithAddButtonCount = 4;
+
   beforeEach(() => {
     window.matchMedia = matchMediaMock;
   });
@@ -1345,31 +1346,42 @@ describe('mobile comboBox', () => {
     window.matchMedia = oldMatchMedia;
   });
 
-  it('should close and open again after being closed by public method', async () => {
-    render(
-      <ComboBox
-        ref={comboBoxRef}
-        getItems={getItems}
-        value={state}
-        renderAddButton={(query) =>
-          query && (
-            <MenuItem data-tid={'AddButton'} key={'mobileAddButton'} isMobile onClick={close}>
-              Добавить {query}
-            </MenuItem>
-          )
-        }
-      />,
-    );
+  const TestComponent = () => (
+    <ComboBox
+      ref={comboBoxRef}
+      getItems={getItems}
+      value={state}
+      renderAddButton={(query) =>
+        query && (
+          <MenuItem data-tid={'AddButton'} key={'mobileAddButton'} isMobile onClick={close}>
+            Добавить {query}
+          </MenuItem>
+        )
+      }
+    />
+  );
+
+  it('should fully close by method', async () => {
+    render(<TestComponent />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(500);
-    expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
-    expect(await screen.findAllByRole('button')).toHaveLength(items.length + 1);
+
+    userEvent.click(screen.getByTestId('AddButton'));
+    expect(screen.queryByTestId(MobilePopupDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('should close and open again after being closed by public method', async () => {
+    render(<TestComponent />);
+
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(500);
 
     userEvent.click(screen.getByTestId('AddButton'));
 
-    open();
+    userEvent.click(screen.getByTestId(InputDataTids.root));
     await delay(500);
+
     expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
-    expect(await screen.findAllByRole('button')).toHaveLength(items.length + 1);
+    expect(await screen.findAllByRole('button')).toHaveLength(menuItemsWithAddButtonCount);
   });
 });
