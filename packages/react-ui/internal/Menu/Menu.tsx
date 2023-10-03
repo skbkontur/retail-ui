@@ -161,21 +161,41 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public up() {
-    this.menuNavigation?.move(-1, this.getProps().cyclicSelection, this.scrollContainer);
+    this.menuNavigation?.move(
+      -1,
+      this.getProps().cyclicSelection,
+      this.scrollToTop,
+      this.scrollToBottom,
+      this.scrollToSelected,
+    );
   }
 
   /**
    * @public
    */
   public down() {
-    this.menuNavigation?.move(1, this.getProps().cyclicSelection, this.scrollContainer);
+    this.menuNavigation?.move(
+      1,
+      this.getProps().cyclicSelection,
+      this.scrollToTop,
+      this.scrollToBottom,
+      this.scrollToSelected,
+    );
   }
 
   /**
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    return this.menuNavigation?.select(true, event, this.props.onItemClick);
+    const highlightedItem = this.menuNavigation?.highlightedItem;
+    if (highlightedItem?.props.href) {
+      if (highlightedItem.props.target) {
+        window.open(highlightedItem.props.href, highlightedItem.props.target);
+      } else {
+        location.href = highlightedItem.props.href;
+      }
+    }
+    return this.menuNavigation?.select(event, this.props.onItemClick);
   }
 
   /**
@@ -194,10 +214,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   public highlightItem(index: number) {
     this.menuNavigation?.highlightByIndex(index);
-  }
-
-  public scrollToSelected() {
-    this.menuNavigation?.scrollToSelected?.(this.scrollContainer);
   }
 
   private renderMain() {
@@ -315,6 +331,28 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
   };
 
+  public scrollToSelected = () => {
+    if (this.scrollContainer && this.menuNavigation?.highlightedItem) {
+      const rootNode = getRootNode(this.menuNavigation.highlightedItem);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
+    }
+  };
+
+  private scrollToTop = () => {
+    if (this.scrollContainer) {
+      this.scrollContainer.scrollToTop();
+    }
+  };
+
+  private scrollToBottom = () => {
+    if (this.scrollContainer) {
+      this.scrollContainer.scrollToBottom();
+    }
+  };
+
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
     const { header, footer, children } = this.props;
     const maxHeight = this.getProps().maxHeight;
@@ -381,7 +419,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
-      this.menuNavigation?.select(false, event, this.props.onItemClick);
+      this.menuNavigation?.select(event, this.props.onItemClick);
     }
   };
 
