@@ -138,6 +138,18 @@ describe('ComboBox', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
+  it('opens menu on arrow down', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    render(<ComboBox getItems={search} renderItem={(x) => x} value={'one'} />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    userEvent.keyboard('{enter}');
+    userEvent.keyboard('{arrowdown}');
+    await promise;
+
+    expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
+  });
+
   it('retries request on Enter if rejected', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     render(<ComboBox getItems={search} renderItem={(x) => x} />);
@@ -152,6 +164,29 @@ describe('ComboBox', () => {
 
     expect(search).toHaveBeenCalledWith('');
     expect(search).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not submit the form on the first Enter key press but submits on the second', async () => {
+    const handleSubmit = jest.fn();
+
+    const getItems = () => {
+      return Promise.resolve(['one', 'two', 'three']);
+    };
+    render(
+      <form onSubmit={handleSubmit}>
+        <ComboBox getItems={getItems} value={'one'} />
+      </form>,
+    );
+
+    const input = screen.getByTestId(InputLikeTextDataTids.root);
+    fireEvent.click(input);
+    fireEvent.keyPress(input, { key: 'Enter', code: 'Enter' });
+
+    expect(handleSubmit).not.toHaveBeenCalled();
+
+    fireEvent.submit(input);
+
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
   });
 
   it('keeps focus after a click on the refresh button', async () => {
