@@ -83,7 +83,6 @@ type DefaultProps = Required<
 @rootNode
 export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
-  private menuNavigation: MenuNavigation | null = null;
 
   public static defaultProps: DefaultProps = {
     align: 'left',
@@ -110,6 +109,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
+  private contentRef = React.createRef<HTMLDivElement>();
+  private menuNavigation: MenuNavigation = new MenuNavigation(this.contentRef);
 
   public componentWillUnmount() {
     this.setState({ isMounted: false });
@@ -118,7 +119,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public componentDidMount() {
     this.setInitialSelection();
     this.calculateMaxHeight();
-    this.menuNavigation = new MenuNavigation(getRootNode(this));
     this.setState({ isMounted: true });
     this.setEnableIconPadding();
   }
@@ -259,6 +259,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
               [styles.scrollContainer(this.theme)]: true,
               [styles.scrollContainerMobile(this.theme)]: isMobile,
             })}
+            ref={this.contentRef}
           >
             <MenuContext.Provider
               value={{

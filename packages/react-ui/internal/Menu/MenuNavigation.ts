@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
-import { Nullable } from '../../typings/utility-types';
 import { MenuItem } from '../../components/MenuItem';
 
 export class MenuNavigation {
-  private readonly root: Nullable<Element>;
+  private readonly root: RefObject<HTMLDivElement> | null;
   private tagsAndItems: WeakMap<Element, MenuItem> = new WeakMap();
 
   public highlightedItem: MenuItem | null = null;
   private items: MenuItem[] = [];
 
-  constructor(root: Nullable<Element>) {
+  constructor(root: RefObject<HTMLDivElement> | null) {
     this.root = root;
   }
 
   private update() {
-    if (this.root) {
-      const menuItems = Array.from(this.root.querySelectorAll('span[data-tid="MenuItem__content"]'));
+    if (this.root && this.root.current) {
+      const menuItems = Array.from(this.root.current.querySelectorAll('span[data-tid="MenuItem__content"]'));
       this.items = menuItems
         .map((item) => this.tagsAndItems.get(item))
         .filter((item): item is MenuItem => item !== undefined);
