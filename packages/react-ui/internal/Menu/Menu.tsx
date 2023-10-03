@@ -328,7 +328,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private setInitialSelection = () => {
     for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
-      this.down();
+      setTimeout(() => this.down(), 0);
     }
   };
 
