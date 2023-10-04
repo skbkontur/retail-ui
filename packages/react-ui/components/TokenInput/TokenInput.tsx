@@ -215,7 +215,7 @@ export const DefaultState = {
   loading: false,
   preventBlur: false,
   inputValueWidth: 2,
-  inputValueHeight: 42,
+  inputValueHeight: 22,
 };
 
 export const TokenInputDataTids = {
@@ -487,13 +487,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               })}
               text={inputValue}
               theme={this.theme}
-              size={this.getProps().size}
             />
             {this.renderTokensStart()}
 
             <TokenView
-              textHOLDER={textHOLDER}
-              hideCross
+              textHolder={textHOLDER}
+              isEditing
               size={this.props.size}
               disabled={disabled}
               isActive={false}
@@ -521,7 +520,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={cx(styles.reservedInput(theme))}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
           </label>
         </div>
       </CommonWrapper>
@@ -597,6 +596,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // из-за округления, поэтому округляем явно
       const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));
       const inputValueHeight = parseFloat(this.textHelper.getTextHeight().toFixed(2));
+
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);
       this.dispatch({ type: 'SET_INPUT_VALUE_HEIGHT', payload: inputValueHeight }, LayoutEvents.emit);
     }

@@ -16,8 +16,8 @@ import { TokenLocale, TokenLocaleHelper } from './locale';
 import { colorStyles, globalClasses, styles } from './Token.styles';
 
 export interface TokenViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
-  textHOLDER?: ReactNode;
-  hideCross?: boolean;
+  textHolder?: ReactNode;
+  isEditing?: boolean;
   disabled?: boolean;
   colors?: TokenColors;
 
@@ -86,7 +86,7 @@ export class TokenView extends React.Component<TokenViewProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<TokenViewProps>) => {
-    const { textHOLDER, hideCross, size, disabled, error, warning, isActive, colors, ...rest } = props;
+    const { textHolder, isEditing, size, disabled, error, warning, isActive, colors, ...rest } = props;
     const icon = isTheme2022(this.theme) ? (
       <CloseButtonIcon
         aria-label={this.locale.removeButtonAriaLabel}
@@ -128,7 +128,7 @@ export class TokenView extends React.Component<TokenViewProps> {
 
     return (
       <div ref={this.setRootNode} data-tid={TokenDataTids.view} className={tokenClassNames} {...rest}>
-        {textHOLDER}
+        {textHolder}
         <span
           role={isTheme2022(this.theme) ? undefined : 'button'}
           aria-label={isTheme2022(this.theme) ? undefined : this.locale.removeButtonAriaLabel}

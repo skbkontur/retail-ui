@@ -102,8 +102,8 @@ export class Token extends React.Component<TokenProps> {
         <TokenView
           size={size}
           data-tid={TokenDataTids.root}
-          textHOLDER={tokenChildren}
-          hideCross={false}
+          textHolder={tokenChildren}
+          isEditing={false}
           disabled={disabled}
           isActive={isActive}
           colors={colors}
