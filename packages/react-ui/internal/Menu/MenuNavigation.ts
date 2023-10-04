@@ -1,13 +1,20 @@
 import React, { RefObject } from 'react';
 
-import { MenuItem } from '../../components/MenuItem';
+interface Highlightable {
+  highlight(): void;
+  unhighlight(): void;
+  props: {
+    disabled?: boolean;
+    onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  };
+}
 
-export class MenuNavigation {
+export class MenuNavigation<T extends Highlightable> {
   private readonly root: RefObject<HTMLDivElement> | null;
-  private tagsAndItems: WeakMap<Element, MenuItem> = new WeakMap();
+  private tagsAndItems: WeakMap<Element, T> = new WeakMap();
 
-  public highlightedItem: MenuItem | null = null;
-  private items: MenuItem[] = [];
+  public highlightedItem: T | null = null;
+  private items: T[] = [];
 
   constructor(root: RefObject<HTMLDivElement> | null) {
     this.root = root;
@@ -16,13 +23,11 @@ export class MenuNavigation {
   private update() {
     if (this.root && this.root.current) {
       const menuItems = Array.from(this.root.current.querySelectorAll('span[data-tid="MenuItem__content"]'));
-      this.items = menuItems
-        .map((item) => this.tagsAndItems.get(item))
-        .filter((item): item is MenuItem => item !== undefined);
+      this.items = menuItems.map((item) => this.tagsAndItems.get(item)).filter((item): item is T => item !== undefined);
     }
   }
 
-  public add(tag: Element, item: MenuItem) {
+  public add(tag: Element, item: T) {
     this.tagsAndItems.set(tag, item);
     this.update();
   }
@@ -73,7 +78,7 @@ export class MenuNavigation {
     }
   }
 
-  public highlight(item: MenuItem | null) {
+  public highlight(item: T | null) {
     this.items.forEach((_item) => {
       if (item === _item) {
         _item.highlight();

@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { MenuItem } from '../../components/MenuItem';
+
 import { MenuNavigation } from './MenuNavigation';
 
 export interface MenuContextType {
-  navigation: MenuNavigation | null;
+  navigation: MenuNavigation<MenuItem> | null;
   enableIconPadding: boolean;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }

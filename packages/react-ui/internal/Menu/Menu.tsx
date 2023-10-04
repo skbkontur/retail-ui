@@ -110,7 +110,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private contentRef = React.createRef<HTMLDivElement>();
-  private menuNavigation: MenuNavigation = new MenuNavigation(this.contentRef);
+  private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef);
 
   public componentWillUnmount() {
     this.setState({ isMounted: false });
