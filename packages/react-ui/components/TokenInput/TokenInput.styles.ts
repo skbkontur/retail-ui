@@ -1,14 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import {
-  helperContainerAndLabelCommonSizeMixin,
-  helperTextEditingSizeMixin,
-  inputAndHelperCommonEditingStylesSizeMixin,
-  inputAndHelperCommonStyles,
-  inputSizeMixin,
-  reservedInputSizeMixin,
-} from './TokenInput.mixins';
+import { paddingSizeMixin, inputSizeMixin } from './TokenInput.mixins';
 
 export const styles = memoizeStyle({
   label(t: Theme) {
@@ -30,17 +23,17 @@ export const styles = memoizeStyle({
   },
   labelSmall(t: Theme) {
     return css`
-      ${helperContainerAndLabelCommonSizeMixin(t.tokenInputPaddingYSmall, t.tokenInputPaddingXSmall)}
+      ${paddingSizeMixin(t.tokenInputPaddingYSmall, t.tokenInputPaddingXSmall)}
     `;
   },
   labelMedium(t: Theme) {
     return css`
-      ${helperContainerAndLabelCommonSizeMixin(t.tokenInputPaddingYMedium, t.tokenInputPaddingXMedium)}
+      ${paddingSizeMixin(t.tokenInputPaddingYMedium, t.tokenInputPaddingXMedium)}
     `;
   },
   labelLarge(t: Theme) {
     return css`
-      ${helperContainerAndLabelCommonSizeMixin(t.tokenInputPaddingYLarge, t.tokenInputPaddingXLarge)}
+      ${paddingSizeMixin(t.tokenInputPaddingYLarge, t.tokenInputPaddingXLarge)}
     `;
   },
 
@@ -102,6 +95,7 @@ export const styles = memoizeStyle({
       color: ${t.tokenInputTextColor};
       box-sizing: border-box;
       word-break: break-all;
+      padding: 1px 0;
       &::-ms-clear {
         display: none;
       }
@@ -128,35 +122,17 @@ export const styles = memoizeStyle({
   },
   inputSmall(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenInputInputLineHeightSmall, t.tokenMarginYSmall, t.tokenMarginXSmall)}
-      ${inputAndHelperCommonStyles(
-        t.tokenInputInputPaddingRightSmall,
-        t.tokenPaddingXSmall,
-        t.tokenInputInputLineHeightSmall,
-        t.tokenInputFontSizeSmall,
-      )};
+      ${inputSizeMixin(t.tokenFontSizeSmall, t.tokenLineHeightSmall)};
     `;
   },
   inputMedium(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenInputInputLineHeightMedium, t.tokenMarginYMedium, t.tokenMarginXMedium)}
-      ${inputAndHelperCommonStyles(
-        t.tokenInputInputPaddingRightMedium,
-        t.tokenPaddingXMedium,
-        t.tokenInputInputLineHeightMedium,
-        t.tokenInputFontSizeMedium,
-      )};
+      ${inputSizeMixin(t.tokenFontSizeMedium, t.tokenLineHeightMedium)};
     `;
   },
   inputLarge(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenInputInputLineHeightLarge, t.tokenMarginYLarge, t.tokenMarginXLarge)}
-      ${inputAndHelperCommonStyles(
-        t.tokenInputInputPaddingRightLarge,
-        t.tokenPaddingXLarge,
-        t.tokenInputInputLineHeightLarge,
-        t.tokenInputFontSizeLarge,
-      )};
+      ${inputSizeMixin(t.tokenFontSizeLarge, t.tokenLineHeightLarge)};
     `;
   },
 
@@ -170,21 +146,6 @@ export const styles = memoizeStyle({
       visibility: hidden;
     `;
   },
-  helperContainerSmall(t: Theme) {
-    return css`
-      ${helperContainerAndLabelCommonSizeMixin(t.tokenInputPaddingYSmall, t.tokenInputPaddingXSmall)}
-    `;
-  },
-  helperContainerMedium(t: Theme) {
-    return css`
-      ${helperContainerAndLabelCommonSizeMixin(t.tokenInputPaddingYMedium, t.tokenInputPaddingXMedium)}
-    `;
-  },
-  helperContainerLarge(t: Theme) {
-    return css`
-      ${helperContainerAndLabelCommonSizeMixin(t.tokenInputPaddingYLarge, t.tokenInputPaddingXLarge)}
-    `;
-  },
 
   helperText() {
     return css`
@@ -196,76 +157,10 @@ export const styles = memoizeStyle({
       white-space: pre-wrap;
     `;
   },
-  helperTextSmall(t: Theme) {
-    return css`
-      ${inputAndHelperCommonStyles(
-        t.tokenInputInputPaddingRightSmall,
-        t.tokenInputInputPaddingLeft,
-        t.tokenInputLineHeightSmall,
-        t.tokenInputFontSizeSmall,
-      )};
-    `;
-  },
-  helperTextMedium(t: Theme) {
-    return css`
-      ${inputAndHelperCommonStyles(
-        t.tokenInputInputPaddingRightMedium,
-        t.tokenInputInputPaddingLeft,
-        t.tokenInputLineHeightMedium,
-        t.tokenInputFontSizeMedium,
-      )};
-    `;
-  },
-  helperTextLarge(t: Theme) {
-    return css`
-      ${inputAndHelperCommonStyles(
-        t.tokenInputInputPaddingRightLarge,
-        t.tokenInputInputPaddingLeft,
-        t.tokenInputLineHeightLarge,
-        t.tokenInputFontSizeLarge,
-      )};
-    `;
-  },
 
   helperTextEditing(t: Theme) {
     return css`
       padding-bottom: ${t.tokenLegacyTextShift};
-    `;
-  },
-  helperTextEditingSmall(t: Theme) {
-    return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(
-        t.tokenMarginYSmall,
-        t.tokenMarginXSmall,
-        t.tokenInputInputPaddingRightSmall,
-        t.tokenInputInputPaddingLeft,
-        t.tokenLineHeightSmall,
-      )};
-      ${helperTextEditingSizeMixin(t.tokenFontSizeSmall)}
-    `;
-  },
-  helperTextEditingMedium(t: Theme) {
-    return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(
-        t.tokenMarginYMedium,
-        t.tokenMarginXMedium,
-        t.tokenInputInputPaddingRightMedium,
-        t.tokenInputInputPaddingLeft,
-        t.tokenLineHeightMedium,
-      )};
-      ${helperTextEditingSizeMixin(t.tokenFontSizeMedium)}
-    `;
-  },
-  helperTextEditingLarge(t: Theme) {
-    return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(
-        t.tokenMarginYLarge,
-        t.tokenMarginXLarge,
-        t.tokenInputInputPaddingRightLarge,
-        t.tokenInputInputPaddingLeft,
-        t.tokenLineHeightLarge,
-      )};
-      ${helperTextEditingSizeMixin(t.tokenFontSizeLarge)}
     `;
   },
 
@@ -277,78 +172,12 @@ export const styles = memoizeStyle({
       color: ${t.tokenInputTextColorDisabled};
     `;
   },
-  inputEditingSmall(t: Theme) {
-    return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(
-        t.tokenMarginYSmall,
-        t.tokenMarginXSmall,
-        t.tokenInputInputPaddingRightSmall,
-        t.tokenPaddingXSmall,
-        t.tokenLineHeightSmall,
-      )};
-    `;
-  },
-  inputEditingMedium(t: Theme) {
-    return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(
-        t.tokenMarginYMedium,
-        t.tokenMarginXMedium,
-        t.tokenInputInputPaddingRightMedium,
-        t.tokenPaddingXMedium,
-        t.tokenLineHeightMedium,
-      )};
-    `;
-  },
-  inputEditingLarge(t: Theme) {
-    return css`
-      ${inputAndHelperCommonEditingStylesSizeMixin(
-        t.tokenMarginYLarge,
-        t.tokenMarginXLarge,
-        t.tokenInputInputPaddingRightLarge,
-        t.tokenPaddingXLarge,
-        t.tokenLineHeightLarge,
-      )};
-    `;
-  },
 
   reservedInput(t: Theme) {
     return css`
       min-width: 2px;
       color: ${t.tokenInputTextColorDisabled};
       word-break: break-all;
-    `;
-  },
-  reservedInputSmall(t: Theme) {
-    return css`
-      ${reservedInputSizeMixin(
-        t.tokenInputLineHeightSmall,
-        t.tokenInputFontSizeSmall,
-        t.tokenMarginYSmall,
-        t.tokenInputInputPaddingRightSmall,
-        t.tokenInputInputPaddingLeft,
-      )}
-    `;
-  },
-  reservedInputMedium(t: Theme) {
-    return css`
-      ${reservedInputSizeMixin(
-        t.tokenInputLineHeightMedium,
-        t.tokenInputFontSizeMedium,
-        t.tokenMarginYMedium,
-        t.tokenInputInputPaddingRightMedium,
-        t.tokenInputInputPaddingLeft,
-      )}
-    `;
-  },
-  reservedInputLarge(t: Theme) {
-    return css`
-      ${reservedInputSizeMixin(
-        t.tokenInputLineHeightLarge,
-        t.tokenInputFontSizeLarge,
-        t.tokenMarginYLarge,
-        t.tokenInputInputPaddingRightLarge,
-        t.tokenInputInputPaddingLeft,
-      )}
     `;
   },
 });
