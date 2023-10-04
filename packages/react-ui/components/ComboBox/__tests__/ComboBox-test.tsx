@@ -1333,10 +1333,10 @@ describe('mobile comboBox', () => {
   const getItems = (query: string) =>
     Promise.resolve(
       items.filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
-    ).then<typeof items>((result) => new Promise((resolve) => setTimeout(resolve, 0, result)));
+    );
 
   const close = () => comboBoxRef.current?.close();
-  const menuItemsWithAddButtonCount = 4;
+  const menuItemsCount = items.length;
 
   beforeEach(() => {
     window.matchMedia = matchMediaMock;
@@ -1346,27 +1346,14 @@ describe('mobile comboBox', () => {
     window.matchMedia = oldMatchMedia;
   });
 
-  const TestComponent = () => (
-    <ComboBox
-      ref={comboBoxRef}
-      getItems={getItems}
-      value={state}
-      renderAddButton={(query) =>
-        query && (
-          <MenuItem data-tid={'AddButton'} key={'mobileAddButton'} isMobile onClick={close}>
-            Добавить {query}
-          </MenuItem>
-        )
-      }
-    />
-  );
+  const TestComponent = () => <ComboBox ref={comboBoxRef} getItems={getItems} value={state} />;
 
   it('should fully close by method', async () => {
     render(<TestComponent />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(500);
 
-    userEvent.click(screen.getByTestId('AddButton'));
+    close();
     expect(screen.queryByTestId(MobilePopupDataTids.root)).not.toBeInTheDocument();
   });
 
@@ -1376,12 +1363,12 @@ describe('mobile comboBox', () => {
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(500);
 
-    userEvent.click(screen.getByTestId('AddButton'));
+    close();
 
     userEvent.click(screen.getByTestId(InputDataTids.root));
     await delay(500);
 
     expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
-    expect(await screen.findAllByRole('button')).toHaveLength(menuItemsWithAddButtonCount);
+    expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
   });
 });
