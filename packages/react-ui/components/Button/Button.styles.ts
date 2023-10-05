@@ -367,6 +367,14 @@ export const styles = memoizeStyle({
       .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
       }
+
+      :hover,
+      :enabled {
+        .${globalClasses.icon} svg,
+        .${globalClasses.arrow} svg {
+          color: ${t.btnDisabledTextColor};
+        }
+      }
     `;
   },
 
