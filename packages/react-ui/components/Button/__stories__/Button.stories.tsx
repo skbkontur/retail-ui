@@ -431,7 +431,11 @@ const buttonTests: CreeveyTests = {
   },
 };
 
-export const PlaygroundDefault = () => <Button data-tid="test-button">Hello</Button>;
+export const PlaygroundDefault = () => (
+  <Button icon={<OkIcon />} data-tid="test-button">
+    Hello
+  </Button>
+);
 
 PlaygroundDefault.parameters = {
   creevey: {
@@ -447,7 +451,7 @@ PlaygroundDefault.parameters = {
 };
 
 export const PlaygroundDisabled = () => (
-  <Button disabled data-tid="test-button">
+  <Button icon={<OkIcon />} disabled data-tid="test-button">
     Hello
   </Button>
 );
