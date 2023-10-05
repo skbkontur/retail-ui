@@ -147,16 +147,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  tabFocused() {
-    return css`
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered('none')}
-        }
-      }
-    `;
-  },
-
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
@@ -216,6 +206,11 @@ export const styles = memoizeStyle({
   focus2022(t: Theme) {
     return css`
       outline: ${t.focusLinkOutline};
+      .${globalClasses.text} {
+        :hover {
+          ${linkUseLineHovered('none')}
+        }
+      }
     `;
   },
 

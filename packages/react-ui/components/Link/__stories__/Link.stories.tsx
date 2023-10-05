@@ -37,6 +37,29 @@ export default {
   },
 };
 
+const focusedLinkTest: CreeveyTests = {
+  async 'tab press'() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .perform();
+    await delay(1000);
+    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: 'a' }),
+      })
+      .perform();
+    await delay(1000);
+    await this.expect(await this.takeScreenshot()).to.matchImage('tabPressHovered');
+  },
+};
+
 export const Simple: Story = () => <Link>Simple Link</Link>;
 Simple.parameters = {
   creevey: {
@@ -51,10 +74,15 @@ Simple.parameters = {
 export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
 WithIcon.parameters = {
   creevey: {
-    tests: linkTests,
+    tests: {
+      idle: linkTests['idle'],
+      hover: linkTests['hover'],
+      'tab press': focusedLinkTest['tab press'],
+    },
     skip: {
       // TODO @Khlutkova fix after update browsers
       'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+      'story-skip-1': { in: /^(?!\b(chrome|firefox)(2022)*(Dark)*\b)/, tests: ['tab press'] },
     },
   },
 };
@@ -125,37 +153,6 @@ Loading.parameters = {
       // TODO @Khlutkova fix after update browsers
       'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
-  },
-};
-
-const focusedLinkTest: CreeveyTests = {
-  async 'tab press'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPressHovered');
-  },
-};
-
-export const FocusedLink: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
-FocusedLink.parameters = {
-  creevey: {
-    tests: focusedLinkTest,
-    skip: { in: /^(?!\b(chrome|firefox)(2022)*(Dark)*\b)/ },
   },
 };
 

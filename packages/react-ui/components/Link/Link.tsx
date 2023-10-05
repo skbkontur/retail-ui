@@ -179,8 +179,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
-        this.getLinkClassName(isFocused, Boolean(disabled || loading)),
-        this.state.focusedByTab && styles.tabFocused(),
+        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
       ),
       href,
       rel,
@@ -243,7 +242,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private getLinkClassName(focused: boolean, disabled: boolean): string {
+  private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
@@ -258,7 +257,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
-          disabled && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
+          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
           isFocused && use === 'default' && styles.lineFocus(this.theme),
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
