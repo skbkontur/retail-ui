@@ -531,9 +531,6 @@ export class DefaultTheme {
   public static get btnBacklessBorderColor() {
     return this.btnDefaultBorderColor;
   }
-  public static get btnBacklessDisabledBorderColor() {
-    return this.btnDisabledBorderColor;
-  }
   public static get btnBacklessHoverBorderColor() {
     return this.btnBacklessBorderColor;
   }
