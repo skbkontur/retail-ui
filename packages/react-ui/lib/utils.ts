@@ -21,7 +21,7 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export type AnyObject = Record<string, unknown>;
 
-export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout(resolve, ms));
+export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout?.(resolve, ms));
 
 export const emptyHandler = () => {
   /* noop */
@@ -36,7 +36,7 @@ export function taskWithDelay(task: () => void, ms: number) {
 
   new Promise((resolve, reject) => {
     cancelationToken = reject;
-    globalObject.setTimeout(resolve, ms);
+    globalObject.setTimeout?.(resolve, ms);
   })
     .then(task)
     .catch(() => null);

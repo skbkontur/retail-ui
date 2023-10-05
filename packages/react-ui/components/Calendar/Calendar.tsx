@@ -2,7 +2,7 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
-import { globalObject, isTouchEvent, isWheelEvent } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -175,7 +175,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
-      await new Promise((r) => globalObject.setTimeout(r));
+      await new Promise((r) => globalObject.setTimeout?.(r));
     }
 
     const minDate = this.getDateInNativeFormat(this.getProps().minDate);
@@ -396,7 +396,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!isTouchEvent(event)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -405,7 +405,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!isTouchEvent(event)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -420,7 +420,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
-    if (!isWheelEvent(event)) {
+    if (!isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();
@@ -431,9 +431,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private handleWheelEnd = () => {
     if (this.wheelEndTimeout) {
-      globalObject.clearTimeout(this.wheelEndTimeout);
+      globalObject.clearTimeout?.(this.wheelEndTimeout);
     }
-    this.wheelEndTimeout = globalObject.setTimeout(this.scrollToNearestWeek, 300);
+    this.wheelEndTimeout = globalObject.setTimeout?.(this.scrollToNearestWeek, 300);
   };
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;

@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 declare interface Window {
   RetailUIVerticalScrollCounter: number;
   ReactTesting: any;

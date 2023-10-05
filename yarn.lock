@@ -5719,10 +5719,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@skbkontur/global-object@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.1.0.tgz#2a9f945297137267d7dfbfbfdbfdedd5115be1a9"
-  integrity sha512-lCK3HONjnpEFtqyxpOPuyzbrHR6F1K8JX05FkKsPUHMDxIMeYxXn3bFfGuoHgemShgy4K7dRRS46GagSMy6hUw==
+"@skbkontur/global-object@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.2.1.tgz#4577cc18594ac38a6902cc35a18a2aafe6fef9cf"
+  integrity sha512-AvURT4Ub/biW9b9Z42fdYJF++utkNcYmS074nzfsgp4e75YGK5VRAnLoADzpIe7F4SwiQrhHDGsA4xvgOve8QA==
 
 "@skbkontur/react-icons@5.2.0":
   version "5.2.0"

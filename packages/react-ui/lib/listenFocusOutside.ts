@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import { globalObject, isElement } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { isFirefox } from './client';
 
@@ -74,7 +74,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     currentNode === rootNode ||
     currentNode === globalObject.document?.body ||
     currentNode === globalObject.document?.documentElement ||
-    !isElement(currentNode)
+    !isInstanceOf(currentNode, globalObject.Element)
   ) {
     return container ? container : null;
   }

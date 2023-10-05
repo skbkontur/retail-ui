@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import debounce from 'lodash.debounce';
-import { isWheelEvent, globalObject } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -254,7 +254,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   };
 
   private handleScrollWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !isWheelEvent(event) || (axis === 'x' && !event.shiftKey)) {
+    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 

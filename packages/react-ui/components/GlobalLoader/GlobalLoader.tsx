@@ -146,7 +146,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentWillUnmount() {
-    this.successAnimationInProgressTimeout && globalObject.clearTimeout(this.successAnimationInProgressTimeout);
+    this.successAnimationInProgressTimeout && globalObject.clearTimeout?.(this.successAnimationInProgressTimeout);
   }
 
   public render() {
@@ -227,7 +227,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
-      this.successAnimationInProgressTimeout = globalObject.setTimeout(() => {
+      this.successAnimationInProgressTimeout = globalObject.setTimeout?.(() => {
         this.setActive();
       }, delayBeforeHide);
     } else {

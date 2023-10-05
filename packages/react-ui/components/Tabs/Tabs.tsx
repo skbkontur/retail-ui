@@ -1,5 +1,5 @@
 import React, { AriaAttributes } from 'react';
-import { isHTMLElement } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -164,7 +164,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tabNode = tab.getNode();
     const htmlNode = getRootNode(tabNode);
 
-    if (isHTMLElement(htmlNode) && typeof htmlNode.focus === 'function') {
+    if (isInstanceOf(htmlNode, globalObject.HTMLElement) && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };

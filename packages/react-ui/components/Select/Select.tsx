@@ -560,7 +560,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal
-    globalObject.setTimeout(() => input?.focus(), 0);
+    globalObject.setTimeout?.(() => input?.focus(), 0);
   };
 
   private refMenu = (menu: Menu) => {

@@ -125,7 +125,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return;
     }
     if (this.timer) {
-      globalObject.clearTimeout(this.timer);
+      globalObject.clearTimeout?.(this.timer);
       this.timer = null;
     }
     if (opened !== prevProps.opened) {
@@ -135,7 +135,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public componentWillUnmount() {
     if (this.timer) {
-      globalObject.clearTimeout(this.timer);
+      globalObject.clearTimeout?.(this.timer);
       this.timer = null;
     }
   }
@@ -218,7 +218,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseEnter = (e: MouseEventType) => {
     if (!this.getProps().manual && !this.timer) {
-      this.timer = globalObject.setTimeout(this.open, 400);
+      this.timer = globalObject.setTimeout?.(this.open, 400);
     }
 
     if (this.props.onMouseEnter) {
@@ -228,7 +228,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseLeave = (e: MouseEventType) => {
     if (!this.getProps().manual && this.timer) {
-      globalObject.clearTimeout(this.timer);
+      globalObject.clearTimeout?.(this.timer);
       this.timer = null;
       this.setState({ opened: false });
     }

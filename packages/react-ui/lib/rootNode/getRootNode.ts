@@ -2,7 +2,7 @@
 import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
-import { globalObject, isElement, isNode } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 
@@ -33,7 +33,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     return null;
   }
 
-  if (isElement(instance)) {
+  if (isInstanceOf(instance, globalObject.Element)) {
     // instance can be an Element already if its coming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
@@ -46,7 +46,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     // the "getRootNode" method, but we can ignore it here
     // because we'd already checked the instance on being an Element
     // which is a subclass of Node, so, just fixing types here
-    if (!isNode(instance)) {
+    if (!isInstanceOf(instance, globalObject.Node)) {
       rootNode = instance.getRootNode();
     }
   }
@@ -79,5 +79,5 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
   }
 
   // the findDOMNode can also return Text, but we are only interested in Elements, so just filter it
-  return isElement(rootNode) ? rootNode : null;
+  return isInstanceOf(rootNode, globalObject.Element) ? rootNode : null;
 };

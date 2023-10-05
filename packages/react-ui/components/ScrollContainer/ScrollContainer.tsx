@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isWheelEvent } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -311,7 +311,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleInnerScrollWheel = (event: Event) => {
-    if (!this.inner || !isWheelEvent(event)) {
+    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
 

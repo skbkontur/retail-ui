@@ -17,6 +17,7 @@ export const isIE11 = userAgent.includes('trident/');
 
 export const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) &&
-  'ontouchstart' in document.documentElement;
+  globalObject.document &&
+  'ontouchstart' in globalObject.document.documentElement;
 
 export const isIOS = /(ip[ao]d|iphone)/gi.test(userAgent);

@@ -1,7 +1,7 @@
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
-import { isElement, globalObject } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -484,7 +484,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private clearHoverTimeout() {
     if (this.hoverTimeout) {
-      globalObject.clearTimeout(this.hoverTimeout);
+      globalObject.clearTimeout?.(this.hoverTimeout);
       this.hoverTimeout = null;
     }
   }
@@ -496,7 +496,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-    this.hoverTimeout = globalObject.setTimeout(this.open, Tooltip.delay);
+    this.hoverTimeout = globalObject.setTimeout?.(this.open, Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -513,7 +513,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = globalObject.setTimeout(this.close, Tooltip.delay);
+      this.hoverTimeout = globalObject.setTimeout?.(this.close, Tooltip.delay);
     }
   };
 
@@ -532,7 +532,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && isElement(event.target)) {
+    if (this.contentElement && isInstanceOf(event.target, globalObject.Element)) {
       return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 

@@ -163,7 +163,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private _clearTimer = () => {
     if (this._timeout) {
-      globalObject.clearTimeout(this._timeout);
+      globalObject.clearTimeout?.(this._timeout);
       this._timeout = null;
     }
   };
@@ -173,7 +173,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     let showTime = this.state.action ? 7000 : 3000;
     showTime = this.state.showTime ?? showTime;
-    this._timeout = globalObject.setTimeout(this.close, showTime);
+    this._timeout = globalObject.setTimeout?.(this.close, showTime);
   };
 
   private _refToast = (element: ToastView) => {

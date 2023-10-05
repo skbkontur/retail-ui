@@ -4,7 +4,7 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
-import { isHTMLInputElement } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
@@ -471,7 +471,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 }
 
 function getInputSelectionFromEvent(input: EventTarget): Selection {
-  if (!isHTMLInputElement(input)) {
+  if (!isInstanceOf(input, globalObject.HTMLInputElement)) {
     throw new Error('input is not HTMLInputElement');
   }
 

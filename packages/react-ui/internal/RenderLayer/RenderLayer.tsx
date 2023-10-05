@@ -1,5 +1,5 @@
 import React from 'react';
-import { globalObject, isElement } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
@@ -119,7 +119,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (isElement(target) && containsTargetOrRenderContainer(target)(node))) {
+    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 

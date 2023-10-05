@@ -1,5 +1,5 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
-import { isHTMLElement, globalObject, isBrowser } from '@skbkontur/global-object';
+import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
@@ -138,7 +138,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isHTMLElement(rootNode)) {
+    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
@@ -384,7 +384,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (isHTMLElement(rootNode)) {
+      if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }

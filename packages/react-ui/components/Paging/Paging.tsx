@@ -1,6 +1,6 @@
 import React from 'react';
 import { func, number } from 'prop-types';
-import { globalObject, isElement } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
@@ -318,7 +318,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      globalObject.setTimeout(() => this.container && this.container.focus(), 0);
+      globalObject.setTimeout?.(() => this.container && this.container.focus(), 0);
     }
   };
 
@@ -333,7 +333,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const isArrowRight = isKeyArrowRight(e);
 
     if (
-      isElement(target) &&
+      isInstanceOf(target, globalObject.Element) &&
       (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;

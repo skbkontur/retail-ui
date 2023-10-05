@@ -1,5 +1,5 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
-import { isElement, globalObject } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 
@@ -14,7 +14,7 @@ import { Nullable } from '../../typings/utility-types';
 export const getTabbableElements = (
   parent: Nullable<Element | Document> = globalObject.document,
 ): FocusableElement[] => {
-  if (!parent || !parent.children.length || !isElement(parent)) {
+  if (!parent || !parent.children.length || !isInstanceOf(parent, globalObject.Element)) {
     return [];
   }
   return tabbable(parent);
