@@ -48,8 +48,8 @@ export const buttonUseMixin = (
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
 
-    :not([disabled]):hover,
-    :not([disabled]):enabled {
+    :enabled:hover,
+    :enabled {
       .${globalClasses.icon} svg,
       .${globalClasses.arrow} svg {
         color: ${color};
