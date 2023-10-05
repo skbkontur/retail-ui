@@ -966,12 +966,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  backlessDisabled2022(t: Theme) {
-    return css`
-      box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
-    `;
-  },
-
   loading() {
     return css`
       position: absolute;
