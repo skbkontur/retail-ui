@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { MobilePopupDataTids } from '../../../internal/MobilePopup';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { HTMLProps } from '../../../typings/html';
 import { InputDataTids } from '../../../components/Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
@@ -1336,5 +1338,72 @@ describe('ComboBox', () => {
     await delay(0);
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+});
+
+describe('mobile comboBox', () => {
+  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const oldMatchMedia = window.matchMedia;
+  const matchMediaMock = jest.fn().mockImplementation((query) => {
+    return {
+      matches: calcMatches(query),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    };
+  });
+
+  const comboBoxRef = React.createRef<ComboBox<{ value: number; label: string }>>();
+  const state = { value: 1, label: 'First' };
+
+  const items = [
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+  ];
+
+  const getItems = (query: string) =>
+    Promise.resolve(
+      items.filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
+    );
+
+  const close = () => comboBoxRef.current?.close();
+  const menuItemsCount = items.length;
+
+  beforeEach(() => {
+    window.matchMedia = matchMediaMock;
+  });
+
+  afterEach(() => {
+    window.matchMedia = oldMatchMedia;
+  });
+
+  const TestComponent = () => <ComboBox ref={comboBoxRef} getItems={getItems} value={state} />;
+
+  it('should fully close by method', async () => {
+    render(<TestComponent />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(500);
+
+    close();
+    expect(screen.queryByTestId(MobilePopupDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('should close and open again after being closed by public method', async () => {
+    render(<TestComponent />);
+
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(500);
+
+    close();
+
+    userEvent.click(screen.getByTestId(InputDataTids.root));
+    await delay(500);
+
+    expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
+    expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
   });
 });
