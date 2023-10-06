@@ -8,9 +8,11 @@ export const styles = memoizeStyle({
 
       & ::selection {
         background: ${t.dateInputComponentSelectedBgColor};
+        color: ${t.dateInputComponentSelectedTextColor};
       }
       & ::-moz-selection {
         background: ${t.dateInputComponentSelectedBgColor};
+        color: ${t.dateInputComponentSelectedTextColor};
       }
     `;
   },
@@ -19,6 +21,7 @@ export const styles = memoizeStyle({
     return css`
       border-color: ${t.dateInputComponentSelectedBgColor};
       background-color: ${t.dateInputComponentSelectedBgColor};
+      color: ${t.dateInputComponentSelectedTextColor};
     `;
   },
 

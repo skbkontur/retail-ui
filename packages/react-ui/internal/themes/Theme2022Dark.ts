@@ -309,7 +309,8 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region DateInput
-  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
+  public static dateInputComponentSelectedBgColor = 'highlight';
+  public static dateInputComponentSelectedTextColor = 'highlightText';
   //#endregion
 
   //#region Calendar
