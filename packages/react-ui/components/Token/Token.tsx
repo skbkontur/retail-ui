@@ -51,7 +51,7 @@ export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, Co
 }
 
 export const TokenDataTids = {
-  root: 'Token__root',
+  // root: 'Token__root',
   view: 'TokenView__root',
   removeIcon: 'Token__removeIcon',
 } as const;
@@ -101,7 +101,7 @@ export class Token extends React.Component<TokenProps> {
       <CommonWrapper rootNodeRef={this.setRootNode}>
         <TokenView
           size={size}
-          data-tid={TokenDataTids.root}
+          // data-tid={TokenDataTids.root}
           textHolder={tokenChildren}
           isEditing={false}
           disabled={disabled}
