@@ -205,7 +205,7 @@ export const styles = memoizeStyle({
 
   focus2022(t: Theme) {
     return css`
-      outline: ${t.focusLinkOutline};
+      outline: ${t.linkFocusOutline};
       .${globalClasses.text} {
         :hover {
           ${linkUseLineHovered('none')}

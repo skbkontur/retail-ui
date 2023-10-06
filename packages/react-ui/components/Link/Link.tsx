@@ -262,7 +262,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
-          isFocused && styles.focus2022(this.theme),
+          isFocused && _isTheme2022 && styles.focus2022(this.theme),
         );
   }
 }

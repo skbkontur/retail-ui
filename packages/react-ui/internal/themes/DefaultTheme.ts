@@ -131,9 +131,9 @@ export class DefaultTheme {
     parseFloat(this.linkLineBorderBottomOpacity) * 100
   }%, transparent)`;
 
-  public static linkOutlineFocusedColor = 'transparent';
-  public static focusLinkOutlineWidth = '0px';
-  public static focusLinkOutline = 'none';
+  public static linkFocusOutlineColor = 'transparent';
+  public static linkFocusOutlineWidth = '0px';
+  public static linkFocusOutline = 'none';
 
   //#endregion
   //#region Token

@@ -43,7 +43,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static linkDangerActiveColor = '#ee5042';
   public static fixedPanelShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.4)';
 
-  public static linkOutlineFocusedColor = 'transparent';
+  public static linkFocusOutlineColor = 'transparent';
   //#endregion
   //#region Button
   public static btnInsetColor = '#1f1f1f';
