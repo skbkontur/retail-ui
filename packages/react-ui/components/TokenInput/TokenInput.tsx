@@ -25,7 +25,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
-import { Token, TokenProps } from '../Token';
+import { Token, TokenProps, TokenSize } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -52,7 +52,6 @@ export enum TokenInputType {
 }
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
-export type TokenInputSize = 'small' | 'medium' | 'large';
 
 export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   /**
@@ -69,7 +68,7 @@ export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-described
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   /** Размер */
-  size?: TokenInputSize;
+  size?: TokenSize;
   /**
    * Тип инпута. Возможные значения:
    *
@@ -485,8 +484,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               classHelp={cx(styles.helperText(), this.getInputSizeClassName(), {
                 [styles.helperTextEditing(theme)]: this.isEditingMode,
               })}
-              text={inputValue}
+              text={inputValue === '' ? placeholder : inputValue}
               theme={this.theme}
+              size={this.getProps().size}
             />
             {this.renderTokensStart()}
 
@@ -517,10 +517,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 menuAlign={menuAlign}
                 renderTotalCount={renderTotalCount}
                 totalCount={totalCount}
+                size={this.getProps().size}
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? (
+              <TokenView
+                textHolder={<span className={styles.reservedInput(theme)}>{reservedInputValue}</span>}
+                isEditing
+                size={this.props.size}
+              />
+            ) : null}
           </label>
         </div>
       </CommonWrapper>

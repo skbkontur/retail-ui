@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-
-import { styles } from './TokenInput.styles';
+import { TokenView } from '../Token/TokenView';
+import { TokenSize } from '../Token/Token';
 
 // a thin character to preserve some space
 // for the caret visibillity in the input
@@ -13,6 +13,7 @@ export interface TextWidthHelperProps {
   text?: string;
   classHelp: string;
   theme: Theme;
+  size: TokenSize;
 }
 /**
  * Херпер позволяет вычислить размеры блока с текстом
@@ -22,13 +23,12 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   public render() {
-    return (
-      <div className={styles.helperContainer()}>
-        <div className={this.props.classHelp} ref={this.elementRef}>
-          {this.props.text || THIN_SPACE}
-        </div>
+    const textHolder = (
+      <div className={this.props.classHelp} ref={this.elementRef}>
+        {this.props.text || THIN_SPACE}
       </div>
     );
+    return <TokenView size={this.props.size} textHolder={textHolder} isEditing={false} isHelper />;
   }
 
   public getTextWidth(): number {

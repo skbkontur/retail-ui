@@ -7,6 +7,7 @@ import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { TokenSize } from '../Token';
 
 import { TokenInputDataTids, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
@@ -20,6 +21,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
    * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
    */
   popupMenuId?: HTMLProps['id'];
+  size?: TokenSize;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -54,6 +56,18 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   public getMenuRef = (): any | null => this.menu;
 
+  private getPopupMarginSizeClassName(t: Theme) {
+    switch (this.props.size) {
+      case 'large':
+        return t.popupMarginLarge;
+      case 'medium':
+        return t.popupMarginMedium;
+      case 'small':
+      default:
+        return t.popupMarginSmall;
+    }
+  }
+
   private renderMain() {
     const {
       loading,
@@ -78,8 +92,8 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         opened={!!opened}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}
-        popupOffset={menuAlign === 'left' ? parseInt(this.theme.popupOffset) : 5 + parseInt(this.theme.popupOffset)}
-        margin={menuAlign === 'left' ? 1 : undefined}
+        popupOffset={menuAlign === 'left' ? parseInt(this.theme.popupOffset) : 8 + parseInt(this.theme.popupOffset)}
+        margin={menuAlign === 'left' ? 1 : parseInt(this.getPopupMarginSizeClassName(this.theme))}
         hasShadow
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
         withoutMobile

@@ -18,6 +18,7 @@ import { colorStyles, globalClasses, styles } from './Token.styles';
 export interface TokenViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   textHolder?: ReactNode;
   isEditing?: boolean;
+  isHelper?: boolean;
   disabled?: boolean;
   colors?: TokenColors;
 
@@ -85,8 +86,20 @@ export class TokenView extends React.Component<TokenViewProps> {
     }
   }
 
+  private getWidthHelperSizeClassName(size: TokenSize) {
+    switch (size) {
+      case 'large':
+        return styles.helperContainerLarge(this.theme);
+      case 'medium':
+        return styles.helperContainerMedium(this.theme);
+      case 'small':
+      default:
+        return styles.helperContainerSmall(this.theme);
+    }
+  }
+
   private renderMain = (props: CommonWrapperRestProps<TokenViewProps>) => {
-    const { textHolder, isEditing, size, disabled, error, warning, isActive, colors, ...rest } = props;
+    const { textHolder, isEditing, isHelper, size, disabled, error, warning, isActive, colors, ...rest } = props;
     const icon = isTheme2022(this.theme) ? (
       <CloseButtonIcon
         aria-label={this.locale.removeButtonAriaLabel}
@@ -94,7 +107,6 @@ export class TokenView extends React.Component<TokenViewProps> {
         color="inherit"
         colorHover="inherit"
         tabbable={false}
-        // hideCross ? сделать прозрачный стиль : не делать
       />
     ) : (
       <CrossIcon />
@@ -104,8 +116,9 @@ export class TokenView extends React.Component<TokenViewProps> {
     let classNames = '';
     if (isTheme2022(this.theme)) {
       classNames = cx(
-        styles.tokenDefaultIdle2022(this.theme),
-        !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(this.theme),
+        isEditing && styles.transparentBorder(this.theme),
+        !isEditing && styles.tokenDefaultIdle2022(this.theme),
+        !isEditing && !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(this.theme),
         isActive && styles.tokenDefaultActive2022(this.theme),
         warning && styles.tokenWarning2022(this.theme),
         error && styles.tokenError2022(this.theme),
@@ -116,7 +129,8 @@ export class TokenView extends React.Component<TokenViewProps> {
         colors && colorStyles[colors.idle](this.theme, validation),
         !!isActive && colors && colorStyles[colors.active || colors.idle](this.theme, validation),
         !!disabled && styles.disabled(this.theme),
-        !!disabled && colorStyles.defaultDisabled(this.theme),
+        isEditing && !!disabled && colorStyles.defaultEditingDisabled(),
+        !isEditing && !!disabled && colorStyles.defaultDisabled(this.theme),
         !!disabled && warning && colorStyles.defaultDisabledWarning(this.theme),
         !!disabled && error && colorStyles.defaultDisabledError(this.theme),
       );
@@ -124,6 +138,8 @@ export class TokenView extends React.Component<TokenViewProps> {
 
     const tokenClassNames = cx(this.getSizeClassName(size ? size : 'small'), classNames, {
       [styles.token(this.theme)]: true,
+      [styles.helperContainer()]: isHelper,
+      [this.getWidthHelperSizeClassName(size ? size : 'small')]: isHelper,
     });
 
     return (
@@ -132,7 +148,7 @@ export class TokenView extends React.Component<TokenViewProps> {
         <span
           role={isTheme2022(this.theme) ? undefined : 'button'}
           aria-label={isTheme2022(this.theme) ? undefined : this.locale.removeButtonAriaLabel}
-          className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
+          className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon, { [styles.hideCross()]: isEditing })}
           onClick={this.onRemoveClick}
           data-tid={TokenDataTids.removeIcon}
         >

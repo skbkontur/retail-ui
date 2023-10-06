@@ -12,6 +12,7 @@ export const tokenSizeMixin = (
     padding: ${tokenPaddingY} ${tokenPaddingX};
     margin: ${tokenMarginY} ${tokenMarginX};
     line-height: ${lineHeight};
+    height: ${lineHeight};
     font-size: ${fontSize};
   `;
 };

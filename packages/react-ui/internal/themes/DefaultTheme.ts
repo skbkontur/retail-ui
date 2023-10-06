@@ -492,6 +492,9 @@ export class DefaultTheme {
   }
 
   public static popupOffset = '0';
+  public static popupMarginSmall = '7';
+  public static popupMarginMedium = '10';
+  public static popupMarginLarge = '13';
 
   //#endregion
   //#region Loader

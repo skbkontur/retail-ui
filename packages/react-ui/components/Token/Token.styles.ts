@@ -62,7 +62,11 @@ export const styles = memoizeStyle({
       )};
     `;
   },
-
+  transparentBorder(t: Theme) {
+    return css`
+      border: solid ${t.tokenBorderWidth} transparent;
+    `;
+  },
   tokenDefaultIdle2022(t: Theme) {
     return css`
       color: ${t.tokenDefaultIdleColor};
@@ -160,12 +164,45 @@ export const styles = memoizeStyle({
       }
     `;
   },
+
+  hideCross() {
+    return css`
+      visibility: hidden;
+    `;
+  },
+
+  helperContainer() {
+    return css`
+      display: flex;
+      position: absolute;
+      visibility: hidden;
+    `;
+  },
+  helperContainerSmall(t: Theme) {
+    return css`
+      left: ${t.tokenPaddingXSmall};
+      right: ${t.tokenPaddingXSmall};
+    `;
+  },
+  helperContainerMedium(t: Theme) {
+    return css`
+      left: ${t.tokenPaddingXMedium};
+      right: ${t.tokenPaddingXMedium};
+    `;
+  },
+  helperContainerLarge(t: Theme) {
+    return css`
+      left: ${t.tokenPaddingXLarge};
+      right: ${t.tokenPaddingXLarge};
+    `;
+  },
 });
 
 interface TokenColors {
   defaultIdle: (t: Theme, v: 'error' | 'warning' | null) => string;
   defaultActive: (t: Theme, v: 'error' | 'warning' | null) => string;
   defaultDisabled: (t: Theme) => string;
+  defaultEditingDisabled: () => string;
   defaultDisabledWarning: (t: Theme) => string;
   defaultDisabledError: (t: Theme) => string;
   grayIdle: (t: Theme, v: 'error' | 'warning' | null) => string;
@@ -233,6 +270,12 @@ export const colorStyles = [
       return css`
         background-color: ${t.tokenDisabledBg};
         box-shadow: ${t.tokenShadowDisabled};
+      `;
+    },
+    defaultEditingDisabled() {
+      return css`
+        background-color: transparent;
+        box-shadow: none;
       `;
     },
     defaultDisabledWarning(t: Theme) {

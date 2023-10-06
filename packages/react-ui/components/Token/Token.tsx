@@ -62,7 +62,7 @@ export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
   public _token: Nullable<TokenView>;
-  private theme!: Theme; // убрать ?
+  private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
   public render() {
@@ -98,7 +98,7 @@ export class Token extends React.Component<TokenProps> {
     const tokenChildren = <span className={styles.text(this.theme)}>{children}</span>;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode}>
         <TokenView
           size={size}
           data-tid={TokenDataTids.root}
