@@ -262,6 +262,9 @@ export function reducer<T>(
 
       switch (true) {
         case isKeyEnter(e):
+          if (!state.opened) {
+            break;
+          }
           e.preventDefault();
           effects.push(Effect.selectMenuItem(e));
           break;
