@@ -180,6 +180,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     if (fixed) {
+      this.setState({ width });
       const stop = getStop && getStop();
       if (stop) {
         const deltaHeight = prevHeight - height;
@@ -196,7 +197,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
           relativeTop = stopRect.bottom - top;
         }
 
-        this.setState({ relativeTop, deltaHeight, stopped, width });
+        this.setState({ relativeTop, deltaHeight, stopped });
       }
     }
   };
