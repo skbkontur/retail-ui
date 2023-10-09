@@ -66,10 +66,11 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnBacklessHoverBg = 'rgba(255, 255, 255, 0.1) !important';
   public static btnBacklessActiveBg = 'rgba(255, 255, 255, 0.06) !important';
   public static btnBacklessBorderColor = 'rgba(255, 255, 255, 0.16) !important';
+  public static btnBacklessDisabledBorderColor = 'rgba(255, 255, 255, 0.06) !important';
   public static btnBacklessHoverBorderColor = 'rgba(255, 255, 255, 0.1)';
   public static btnBacklessTextColor = 'rgba(255, 255, 255, 0.87)';
 
-  public static btnTextBg = 'transparent';
+  public static btnTextBg = 'transparent !important';
   public static btnTextHoverBg = 'rgba(255, 255, 255, 0.1)';
   public static btnTextActiveBg = 'rgba(255, 255, 255, 0.06)';
   public static btnTextBorderColor = 'transparent';
