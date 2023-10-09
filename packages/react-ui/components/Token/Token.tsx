@@ -6,7 +6,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { Nullable } from '../../typings/utility-types';
 
 import { colorStyles, styles } from './Token.styles';
 import { TokenLocaleHelper } from './locale';
@@ -51,7 +50,6 @@ export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, Co
 }
 
 export const TokenDataTids = {
-  // root: 'Token__root',
   view: 'TokenView__root',
   removeIcon: 'Token__removeIcon',
 } as const;
@@ -61,7 +59,6 @@ export const TokenDataTids = {
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
-  public _token: Nullable<TokenView>;
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
@@ -101,7 +98,6 @@ export class Token extends React.Component<TokenProps> {
       <CommonWrapper rootNodeRef={this.setRootNode}>
         <TokenView
           size={size}
-          // data-tid={TokenDataTids.root}
           textHolder={tokenChildren}
           isEditing={false}
           disabled={disabled}

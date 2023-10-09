@@ -1,19 +1,18 @@
-import React, { AriaAttributes, ReactNode } from 'react';
+import React, { AriaAttributes, ReactNode, useContext } from 'react';
 
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { locale } from '../../lib/locale/decorators';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { cx } from '../../lib/theming/Emotion';
 import { emptyHandler } from '../../lib/utils';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 
 import { TokenColors, TokenDataTids, TokenProps, TokenSize } from './Token';
-import { TokenLocale, TokenLocaleHelper } from './locale';
 import { colorStyles, globalClasses, styles } from './Token.styles';
+import { TokenLocaleHelper } from './locale';
 
 export interface TokenViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   textHolder?: ReactNode;
@@ -43,66 +42,66 @@ const getValidation = (error: TokenProps['error'], warning: TokenProps['warning'
   } else if (warning) {
     return 'warning';
   }
-
   return null;
 };
 
-@rootNode
-@locale('Token', TokenLocaleHelper)
-export class TokenView extends React.Component<TokenViewProps> {
-  private theme!: Theme;
-  private setRootNode!: TSetRootNode;
-  private readonly locale!: TokenLocale;
-  private onRemoveClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const { disabled, onRemove = emptyHandler } = this.props;
+export const TokenView = forwardRefAndName<HTMLDivElement, TokenViewProps>(
+  'TokenView',
+  (
+    {
+      textHolder,
+      isEditing,
+      isHelper,
+      size,
+      disabled,
+      error,
+      warning,
+      isActive,
+      colors,
+      onRemove = emptyHandler,
+      className,
+      ...rest
+    },
+    ref,
+  ) => {
+    const theme = useContext(ThemeContext);
+    const locale = useLocaleForControl('TokenLocale', TokenLocaleHelper);
 
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
+    const onRemoveClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      if (disabled) {
+        event.preventDefault();
+        return;
+      }
+      onRemove(event);
+    };
 
-    onRemove(event);
-  };
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
+    const getSizeClassName = (size: TokenSize) => {
+      switch (size) {
+        case 'large':
+          return styles.tokenLarge(theme);
+        case 'medium':
+          return styles.tokenMedium(theme);
+        case 'small':
+        default:
+          return styles.tokenSmall(theme);
+      }
+    };
 
-  private getSizeClassName(size: TokenSize) {
-    switch (size) {
-      case 'large':
-        return styles.tokenLarge(this.theme);
-      case 'medium':
-        return styles.tokenMedium(this.theme);
-      case 'small':
-      default:
-        return styles.tokenSmall(this.theme);
-    }
-  }
+    const getWidthHelperSizeClassName = (size: TokenSize) => {
+      switch (size) {
+        case 'large':
+          return styles.helperContainerLarge(theme);
+        case 'medium':
+          return styles.helperContainerMedium(theme);
+        case 'small':
+        default:
+          return styles.helperContainerSmall(theme);
+      }
+    };
 
-  private getWidthHelperSizeClassName(size: TokenSize) {
-    switch (size) {
-      case 'large':
-        return styles.helperContainerLarge(this.theme);
-      case 'medium':
-        return styles.helperContainerMedium(this.theme);
-      case 'small':
-      default:
-        return styles.helperContainerSmall(this.theme);
-    }
-  }
-
-  private renderMain = (props: CommonWrapperRestProps<TokenViewProps>) => {
-    const { textHolder, isEditing, isHelper, size, disabled, error, warning, isActive, colors, ...rest } = props;
-    const icon = isTheme2022(this.theme) ? (
+    const icon = isTheme2022(theme) ? (
       <CloseButtonIcon
-        aria-label={this.locale.removeButtonAriaLabel}
+        aria-label={locale.removeButtonAriaLabel}
         side={16}
         color="inherit"
         colorHover="inherit"
@@ -111,50 +110,52 @@ export class TokenView extends React.Component<TokenViewProps> {
     ) : (
       <CrossIcon />
     );
-
     const validation = getValidation(error, warning);
     let classNames = '';
-    if (isTheme2022(this.theme)) {
+    if (isTheme2022(theme)) {
       classNames = cx(
-        isEditing && styles.transparentBorder(this.theme),
-        !isEditing && styles.tokenDefaultIdle2022(this.theme),
-        !isEditing && !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(this.theme),
-        isActive && styles.tokenDefaultActive2022(this.theme),
-        warning && styles.tokenWarning2022(this.theme),
-        error && styles.tokenError2022(this.theme),
-        disabled && styles.tokenDisabled2022(this.theme),
+        isEditing && styles.transparentBorder(theme),
+        !isEditing && styles.tokenDefaultIdle2022(theme),
+        !isEditing && !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
+        isActive && styles.tokenDefaultActive2022(theme),
+        warning && styles.tokenWarning2022(theme),
+        error && styles.tokenError2022(theme),
+        disabled && styles.tokenDisabled2022(theme),
       );
     } else {
       classNames = cx(
-        colors && colorStyles[colors.idle](this.theme, validation),
-        !!isActive && colors && colorStyles[colors.active || colors.idle](this.theme, validation),
-        !!disabled && styles.disabled(this.theme),
+        colors && colorStyles[colors.idle](theme, validation),
+        !!isActive && colors && colorStyles[colors.active || colors.idle](theme, validation),
+        !!disabled && styles.disabled(theme),
         isEditing && !!disabled && colorStyles.defaultEditingDisabled(),
-        !isEditing && !!disabled && colorStyles.defaultDisabled(this.theme),
-        !!disabled && warning && colorStyles.defaultDisabledWarning(this.theme),
-        !!disabled && error && colorStyles.defaultDisabledError(this.theme),
+        !isEditing && !!disabled && colorStyles.defaultDisabled(theme),
+        !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
+        !!disabled && error && colorStyles.defaultDisabledError(theme),
       );
     }
 
-    const tokenClassNames = cx(this.getSizeClassName(size ? size : 'small'), classNames, {
-      [styles.token(this.theme)]: true,
-      [styles.helperContainer()]: isHelper,
-      [this.getWidthHelperSizeClassName(size ? size : 'small')]: isHelper,
-    });
-
     return (
-      <div ref={this.setRootNode} data-tid={TokenDataTids.view} className={tokenClassNames} {...rest}>
+      <div
+        ref={ref}
+        data-tid={TokenDataTids.view}
+        className={cx(getSizeClassName(size ? size : 'small'), classNames, {
+          [styles.token(theme)]: true,
+          [styles.helperContainer()]: isHelper,
+          [getWidthHelperSizeClassName(size ? size : 'small')]: isHelper,
+        })}
+        {...rest}
+      >
         {textHolder}
         <span
-          role={isTheme2022(this.theme) ? undefined : 'button'}
-          aria-label={isTheme2022(this.theme) ? undefined : this.locale.removeButtonAriaLabel}
-          className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon, { [styles.hideCross()]: isEditing })}
-          onClick={this.onRemoveClick}
+          role={isTheme2022(theme) ? undefined : 'button'}
+          aria-label={isTheme2022(theme) ? undefined : locale.removeButtonAriaLabel}
+          className={cx(styles.removeIcon(theme), globalClasses.removeIcon, { [styles.hideCross()]: isEditing })}
+          onClick={onRemoveClick}
           data-tid={TokenDataTids.removeIcon}
         >
           {icon}
         </span>
       </div>
     );
-  };
-}
+  },
+);
