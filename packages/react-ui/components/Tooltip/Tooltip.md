@@ -6,7 +6,7 @@ import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 import { Button, Gapped, Input, Select, Tooltip } from '@skbkontur/react-ui';
 
-const [size, setSize] = React.useState('small');
+const [size, setSize] = React.useState(SizeType.Small);
 
 const render = () => (
   <div
@@ -25,7 +25,7 @@ const render = () => (
   <Gapped vertical>
     <Gapped>
       <div style={{ width: 40 }}>Size</div>
-      <Select width={120} value={size} items={['small', 'medium', 'large']} onValueChange={setSize} size={size} />
+      <Select width={120} value={size} items={[SizeType.Small, SizeType.Medium, SizeType.Large]} onValueChange={setSize} size={size} />
     </Gapped>
     <Tooltip render={render} pos="right top">
       <Input size={size} leftIcon={<SearchIcon />} width={170} />

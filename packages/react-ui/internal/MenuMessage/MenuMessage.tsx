@@ -21,7 +21,7 @@ export const MenuMessageDataTids = {
 
 export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>(
   'MenuMessage',
-  ({ children, className, size = 'small', as: Tag = 'p', ...rest }, ref) => {
+  ({ children, className, size = SizeType.Small, as: Tag = 'p', ...rest }, ref) => {
     const { isMobile } = useResponsiveLayout();
 
     const theme = useContext(ThemeContext);

@@ -146,7 +146,7 @@ export class Dropdown extends React.Component<DropdownProps> {
 
     menuWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: SizeType,
 
     /**
      * Смотри Button.

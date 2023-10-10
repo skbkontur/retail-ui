@@ -114,8 +114,8 @@ const LinkMenuItem = ({link, title}) => {
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <MenuItem size={'small'}>Маленький</MenuItem>
-  <MenuItem size={'medium'}>Средний</MenuItem>
-  <MenuItem size={'large'}>Большой</MenuItem>
+  <MenuItem size={SizeType.Small}>Маленький</MenuItem>
+  <MenuItem size={SizeType.Medium}>Средний</MenuItem>
+  <MenuItem size={SizeType.Large}>Большой</MenuItem>
 </Gapped>
 ```

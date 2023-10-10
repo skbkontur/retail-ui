@@ -1410,7 +1410,7 @@ export const Size: Story = () => {
       </Button>
       <Gapped gap={60} style={{ paddingBottom: 230, paddingRight: 40 }}>
         <SimpleCombobox
-          size={'small'}
+          size={SizeType.Small}
           ref={(element) => {
             small = element;
           }}
@@ -1419,7 +1419,7 @@ export const Size: Story = () => {
           }
         />
         <SimpleCombobox
-          size={'medium'}
+          size={SizeType.Medium}
           ref={(element) => {
             medium = element;
           }}
@@ -1428,7 +1428,7 @@ export const Size: Story = () => {
           }
         />
         <SimpleCombobox
-          size={'large'}
+          size={SizeType.Large}
           ref={(element) => {
             large = element;
           }}
@@ -1455,7 +1455,9 @@ Size.parameters = {
           .perform();
         await this.browser.executeScript(function () {
           const containers = document.querySelectorAll('[data-tid~="ScrollContainer__inner"]');
-          for (let i = 0; i < containers.length; i++) containers[i].scrollTop += 300;
+          for (let i = 0; i < containers.length; i++) {
+            containers[i].scrollTop += 300;
+          }
         });
         await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');

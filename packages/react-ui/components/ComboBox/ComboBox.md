@@ -554,21 +554,21 @@ const [valueLarge, setValueLarge] = React.useState('Большой');
     onValueChange={setValueSmall}
     placeholder="Введите число"
     value={valueSmall}
-    size={'small'}
+    size={SizeType.Small}
   />
   <ComboBox
     getItems={getItems}
     onValueChange={setValueMedium}
     placeholder="Введите число"
     value={valueMedium}
-    size={'medium'}
+    size={SizeType.Medium}
   />
   <ComboBox
     getItems={getItems}
     onValueChange={setValueLarge}
     placeholder="Введите число"
     value={valueLarge}
-    size={'large'}
+    size={SizeType.Large}
   />
 </Gapped>
 ```
