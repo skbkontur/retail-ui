@@ -3,6 +3,7 @@ import React from 'react';
 import { Meta } from '../../../typings/stories';
 import { MenuFooter } from '../MenuFooter';
 import { Gapped } from '../../Gapped';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'MenuFooter',
