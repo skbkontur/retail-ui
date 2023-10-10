@@ -205,6 +205,7 @@ export class Dropdown extends React.Component<DropdownProps> {
           items={items}
           _icon={icon}
           renderValue={renderValue}
+          size={this.props.size}
           aria-label={this.props['aria-label']}
         />
       </CommonWrapper>

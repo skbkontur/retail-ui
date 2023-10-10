@@ -14,7 +14,7 @@ import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
-import { delay } from '../../../lib/utils';
+import { delay, mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 import { SizeType } from '../../../internal/ThemePlayground/constants';
@@ -832,30 +832,46 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
   private setRootNode!: TSetRootNode;
+  private comboBoxRef: React.RefObject<ComboBox> = React.createRef<ComboBox>();
 
   public render() {
     return (
       <ComboBox
         {...this.props}
-        ref={this.setRootNode}
+        ref={mergeRefs([this.setRootNode, this.comboBoxRef])}
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
+        totalCount={this.props.renderTotalCount ? this.items.length + 1 : undefined}
+        renderTotalCount={this.props.renderTotalCount}
       />
     );
   }
 
+  public open() {
+    if (this.comboBoxRef.current) {
+      this.comboBoxRef.current.open();
+    }
+  }
+
+  public search(query?: string) {
+    if (this.comboBoxRef.current) {
+      this.comboBoxRef.current.search(query);
+    }
+  }
+
+  private items: ComboboxItem[] = [
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+    { value: 4, label: 'Fourth' },
+    { value: 5, label: 'Fifth' },
+    { value: 6, label: 'Sixth' },
+    { value: 7, label: 'A long long long long long long time ago' },
+  ];
   private getItems = (query: string) =>
     Promise.resolve(
-      [
-        { value: 1, label: 'First' },
-        { value: 2, label: 'Second' },
-        { value: 3, label: 'Third' },
-        { value: 4, label: 'Fourth' },
-        { value: 5, label: 'Fifth' },
-        { value: 6, label: 'Sixth' },
-        { value: 7, label: 'A long long long long long long time ago' },
-      ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
+      this.items.filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
     ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
@@ -947,7 +963,7 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps> {
   private renderTotalCount = (foundCount: number, totalCount: number) => {
     if (foundCount < totalCount) {
       return (
-        <MenuHeader>
+        <MenuHeader size={this.props.size}>
           Показано {foundCount} из {totalCount} найденных городов.
         </MenuHeader>
       );
@@ -1368,3 +1384,82 @@ export const WithExtendedItem: Story = () => {
   );
 };
 WithExtendedItem.parameters = { creevey: { skip: true } };
+
+export const Size: Story = () => {
+  let small: SimpleCombobox | null = null;
+  let medium: SimpleCombobox | null = null;
+  let large: SimpleCombobox | null = null;
+  const handleClick = () => {
+    if (small) {
+      small.search('');
+      small.open();
+    }
+    if (medium) {
+      medium.search('');
+      medium.open();
+    }
+    if (large) {
+      large.search('');
+      large.open();
+    }
+  };
+  return (
+    <div style={{ height: 400, width: 1000 }}>
+      <Button onClick={handleClick} data-tid="open-all">
+        Open All
+      </Button>
+      <Gapped gap={60} style={{ paddingBottom: 230, paddingRight: 40 }}>
+        <SimpleCombobox
+          size={'small'}
+          ref={(element) => {
+            small = element;
+          }}
+          renderTotalCount={(foundCount: number, totalCount: number) =>
+            `Показано ${foundCount} из ${totalCount} найденных элементов.`
+          }
+        />
+        <SimpleCombobox
+          size={'medium'}
+          ref={(element) => {
+            medium = element;
+          }}
+          renderTotalCount={(foundCount: number, totalCount: number) =>
+            `Показано ${foundCount} из ${totalCount} найденных элементов.`
+          }
+        />
+        <SimpleCombobox
+          size={'large'}
+          ref={(element) => {
+            large = element;
+          }}
+          renderTotalCount={(foundCount: number, totalCount: number) =>
+            `Показано ${foundCount} из ${totalCount} найденных элементов.`
+          }
+        />
+      </Gapped>
+    </div>
+  );
+};
+
+Size.storyName = 'size';
+Size.parameters = {
+  creevey: {
+    tests: {
+      async 'clicked all'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
+          .pause(500)
+          .perform();
+        await this.browser.executeScript(function () {
+          const containers = document.querySelectorAll('[data-tid~="ScrollContainer__inner"]');
+          for (let i = 0; i < containers.length; i++) containers[i].scrollTop += 300;
+        });
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
+      },
+    },
+  },
+};

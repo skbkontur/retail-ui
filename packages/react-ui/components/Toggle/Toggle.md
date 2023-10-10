@@ -71,6 +71,8 @@ import { Gapped } from '@skbkontur/react-ui';
 У тоглов есть 3 стандартных размера.
 
 ```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
 <Gapped vertical>
   <Toggle size={SizeType.Small}>
     Маленький
