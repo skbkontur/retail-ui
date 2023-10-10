@@ -151,6 +151,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
 
+    const isFocused = !disabled && (this.state.focusedByTab || focused);
+
     let iconElement = null;
     if (icon) {
       iconElement = (
@@ -167,8 +169,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (typeof rel === 'undefined' && href) {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
-
-    const isFocused = !disabled && (this.state.focusedByTab || focused);
 
     const linkProps = {
       className: cx(
@@ -193,11 +193,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (_isTheme2022) {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
-        <span className={cx(styles.lineTextWrapper(this.theme))}>
+        <span className={cx({ [styles.lineTextWrapper(this.theme)]: !isFocused })}>
           <span
             className={cx(globalClasses.text, {
-              [styles.lineText(this.theme)]: !isIE11,
-              [styles.lineTextIE11(this.theme)]: isIE11,
+              [styles.lineText(this.theme)]: !isIE11 && !isFocused,
+              [styles.lineTextIE11(this.theme)]: isIE11 && !isFocused,
             })}
           >
             {this.props.children}
@@ -262,6 +262,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+          isFocused && _isTheme2022 && styles.focus2022(this.theme),
         );
   }
 }
