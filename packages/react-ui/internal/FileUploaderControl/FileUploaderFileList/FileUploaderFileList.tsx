@@ -4,15 +4,15 @@ import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderAttachedFile } from '../fileUtils';
-import { FileUploaderSize } from '../../../components/FileUploader';
 import { cx } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
+import { SizeType } from '../../ThemePlayground/constants';
 
 import { jsStyles } from './FileUploaderFileList.styles';
 
 interface FileUploaderFileListProps {
   renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
-  size: FileUploaderSize;
+  size: SizeType;
 }
 
 export const FileUploaderFileDataTids = {

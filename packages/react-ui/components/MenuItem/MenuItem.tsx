@@ -10,10 +10,9 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles } from './MenuItem.styles';
-
-export type MenuItemSize = 'small' | 'medium' | 'large';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -43,7 +42,7 @@ export interface MenuItemProps
   /**
    * Размер
    */
-  size?: MenuItemSize;
+  size?: SizeType;
   /**
    * @ignore
    */

@@ -18,6 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -56,7 +57,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
+    size: SizeType.Small,
   };
 
   private getProps = createPropsGetter(PasswordInput.defaultProps);

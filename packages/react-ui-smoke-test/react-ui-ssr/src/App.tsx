@@ -36,8 +36,6 @@ import {
   Switcher,
   Tabs,
   Textarea,
-  ThemeFactory,
-  ThemeContext,
   Toast,
   Toggle,
   Token,
@@ -48,6 +46,7 @@ import {
 } from '@skbkontur/react-ui';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import { ValidationContainer, ValidationWrapper } from 'react-ui-validations/src';
+import { SizeType } from '@skbkontur/react-ui/internal/ThemePlayground/constants';
 
 export const App = () => {
   return (
@@ -94,7 +93,7 @@ export const App = () => {
       </Group>
       <Hint text="World">Hello</Hint>
       <Input />
-      <Kebab size="large">
+      <Kebab size={SizeType.Large}>
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Nope')}>
           Редактировать
         </MenuItem>

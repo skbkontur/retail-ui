@@ -21,7 +21,7 @@ let Card = ({ name, post }) => (
       <p style={{ color: 'gray' }}>{post}</p>
     </div>
 
-    <Kebab size="large">
+    <Kebab size={SizeType.Large}>
       <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
@@ -78,9 +78,9 @@ let Card = ({ title, size }) => (
 );
 
 <Gapped>
-  <Card title="Маленький кебаб" size="small" />
-  <Card title="Средний кебаб" size="medium" />
-  <Card title="Большой кебаб" size="large" />
+  <Card title="Маленький кебаб" size={SizeType.Small} />
+  <Card title="Средний кебаб" size={SizeType.Medium} />
+  <Card title="Большой кебаб" size={SizeType.Large} />
 </Gapped>
 ```
 
@@ -107,7 +107,7 @@ let Card = ({ title }) => (
       <h3>{title}</h3>
     </div>
 
-    <Kebab positions={['left middle']} size="large">
+    <Kebab positions={['left middle']} size={SizeType.Large}>
       <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
@@ -145,7 +145,7 @@ let Card = ({ title }) => (
 
     <Kebab
       onOpen={() => Toast.push('Кебаб-меню открылось!')}
-      size="large"
+      size={SizeType.Large}
       >
       <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
@@ -210,7 +210,7 @@ let Card = ({ title }) => (
       <h3>{title}</h3>
     </div>
 
-    <Kebab disabled size="large">
+    <Kebab disabled size={SizeType.Large}>
       <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
@@ -246,7 +246,7 @@ let Card = ({ title }) => (
       <h3>{title}</h3>
     </div>
 
-    <Kebab disableAnimations size="large">
+    <Kebab disableAnimations size={SizeType.Large}>
       <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
@@ -284,7 +284,7 @@ let Card = ({ title }) => (
 
     <Kebab
       menuMaxHeight="100px"
-      size="large"
+      size={SizeType.Large}
       >
       <MenuItem>
         Действие

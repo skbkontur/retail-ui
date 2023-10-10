@@ -20,7 +20,7 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 
 #### 15.02.2018
 
-- [Button/Input] — вернули размер шрифта в `14px` при `size="medium"`. Размер `16px`
+- [Button/Input] — вернули размер шрифта в `14px` при `size={SizeType.Medium}`. Размер `16px`
   теперь можно включить используя метод `Upgrades.enableSizeMedium16px` из `/lib/upgrades`
 - [RenderLayer] — поправили обработку `onFocusOutside`
 

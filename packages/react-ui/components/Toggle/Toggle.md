@@ -72,13 +72,13 @@ import { Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 <Gapped vertical>
-  <Toggle size="small">
+  <Toggle size={SizeType.Small}>
     Маленький
   </Toggle>
-  <Toggle size="medium">
+  <Toggle size={SizeType.Medium}>
     Средний
   </Toggle>
-  <Toggle size="large">
+  <Toggle size={SizeType.Large}>
     Большой
   </Toggle>
 </Gapped>

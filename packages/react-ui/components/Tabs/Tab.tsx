@@ -27,9 +27,6 @@ export interface TabIndicators {
 export const TabDataTids = {
   root: 'Tab__root',
 } as const;
-
-export type TabSize = 'small' | 'medium' | 'large';
-
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps {

@@ -19,12 +19,11 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
-
-export type TextareaSize = 'small' | 'medium' | 'large';
 
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
@@ -46,7 +45,7 @@ export interface TextareaProps
         /** Не активное состояние */
         disabled?: boolean;
         /** Размер */
-        size?: TextareaSize;
+        size?: SizeType;
         /**
          * Автоматический ресайз
          * в зависимости от содержимого
@@ -195,7 +194,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 3,
     maxRows: 15,
     extraRow: true,
-    size: 'small',
+    size: SizeType.Small,
     disableAnimations: isTestEnv,
   };
 

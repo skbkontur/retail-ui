@@ -14,6 +14,7 @@ import { Checkbox } from '../../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { delay } from '../../../lib/utils';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 interface TestTooltipProps {
   pos?: PopupPositionsType;
@@ -814,7 +815,7 @@ class DynamicContentTooltip extends React.Component {
         closeButton={false}
         useWrapper={false}
       >
-        <Button size={'small'} width={'100%'} onClick={this.buttonClickHandler}>
+        <Button size={SizeType.Small} width={'100%'} onClick={this.buttonClickHandler}>
           Toggle content
         </Button>
       </Tooltip>
@@ -957,7 +958,7 @@ class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
         closeButton={false}
         useWrapper={false}
       >
-        <Button size={'small'} width={'100%'} onClick={this.buttonClickHandler}>
+        <Button size={SizeType.Small} width={'100%'} onClick={this.buttonClickHandler}>
           Toggle content
         </Button>
       </Tooltip>
@@ -984,7 +985,7 @@ class TooltipWithDynamicContent extends React.Component {
     return (
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <div style={{ marginRight: 10 }}>
-          <Button size={'small'} onClick={this.buttonClickHandler}>
+          <Button size={SizeType.Small} onClick={this.buttonClickHandler}>
             Toggle
           </Button>
         </div>

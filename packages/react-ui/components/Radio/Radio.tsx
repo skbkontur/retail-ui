@@ -13,10 +13,9 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles, globalClasses } from './Radio.styles';
-
-export type RadioSize = 'small' | 'medium' | 'large';
 
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -35,7 +34,7 @@ export interface RadioProps<T>
         /**
          * Размер
          */
-        size?: RadioSize;
+        size?: SizeType;
         /**
          * Состояние фокуса.
          */
@@ -86,7 +85,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public static defaultProps: DefaultProps = {
     focused: false,
-    size: 'small',
+    size: SizeType.Small,
   };
 
   private getProps = createPropsGetter(Radio.defaultProps);

@@ -14,6 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -65,7 +66,7 @@ export interface DateInputProps extends CommonProps {
    * Размер поля
    * @default 'small'
    */
-  size?: 'small' | 'large' | 'medium';
+  size?: SizeType;
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
@@ -89,7 +90,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
-    size: 'small',
+    size: SizeType.Small,
     width: 125,
   };
 

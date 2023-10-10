@@ -22,6 +22,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -72,7 +73,7 @@ export interface AutocompleteProps
         /** onBlur */
         onBlur?: () => void;
         /** Размер инпута */
-        size?: InputProps['size'];
+        size?: SizeType;
         /** value */
         value: string;
         /**
@@ -141,7 +142,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   public static defaultProps: DefaultProps = {
     renderItem,
-    size: 'small',
+    size: SizeType.Small,
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,

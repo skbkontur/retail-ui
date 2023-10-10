@@ -11,10 +11,9 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles, globalClasses } from './Toggle.styles';
-
-export type ToggleSize = 'small' | 'medium' | 'large';
 
 let colorWarningShown = false;
 
@@ -65,7 +64,7 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
    */
   autoFocus?: boolean;
   /** Размер */
-  size?: ToggleSize;
+  size?: SizeType;
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */
@@ -129,7 +128,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
     captionPosition: 'right',
     disableAnimations: isTestEnv,
-    size: 'small',
+    size: SizeType.Small,
   };
 
   private getProps = createPropsGetter(Toggle.defaultProps);

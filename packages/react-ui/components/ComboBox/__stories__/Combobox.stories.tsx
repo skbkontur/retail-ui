@@ -17,6 +17,7 @@ import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 // eslint-disable-next-line jest/no-mocks-import
 const { getCities } = require('../__mocks__/getCities.js');
@@ -1135,9 +1136,9 @@ class ComboBoxWithExternalValue extends React.Component {
 export const WithLeftIcon = () => (
   <Gapped vertical>
     <SimpleCombobox leftIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox leftIcon={<SearchIcon />} size="small" drawArrow={false} />
-    <SimpleCombobox leftIcon={<SearchIcon />} size="medium" drawArrow={false} />
-    <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size={SizeType.Small} drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size={SizeType.Medium} drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size={SizeType.Large} drawArrow={false} />
   </Gapped>
 );
 WithLeftIcon.storyName = 'with left icon';
@@ -1145,9 +1146,9 @@ WithLeftIcon.storyName = 'with left icon';
 export const WithRightIcon = () => (
   <Gapped vertical>
     <SimpleCombobox rightIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="small" />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="medium" />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="large" />
+    <SimpleCombobox rightIcon={<SearchIcon />} size={SizeType.Small} />
+    <SimpleCombobox rightIcon={<SearchIcon />} size={SizeType.Medium} />
+    <SimpleCombobox rightIcon={<SearchIcon />} size={SizeType.Large} />
   </Gapped>
 );
 WithRightIcon.storyName = 'with right icon';

@@ -10,8 +10,9 @@ import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
-import { TextareaDataTids, TextareaProps, TextareaSize } from './Textarea';
+import { TextareaDataTids, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
 
 export interface TextareaCounterProps {
@@ -20,7 +21,7 @@ export interface TextareaCounterProps {
   help: TextareaProps['counterHelp'];
   onCloseHelp: () => void;
   textarea: HTMLTextAreaElement;
-  size: TextareaSize;
+  size: SizeType;
 }
 
 export interface TextareaCounterRef {

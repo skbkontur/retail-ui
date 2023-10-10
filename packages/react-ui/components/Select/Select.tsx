@@ -11,7 +11,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
-import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
+import { Button, ButtonProps, ButtonUse } from '../Button';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
@@ -32,6 +32,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -157,7 +158,7 @@ export interface SelectProps<TValue, TItem>
    */
   warning?: boolean;
   use?: ButtonUse;
-  size?: ButtonSize;
+  size?: SizeType;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
   /**
@@ -368,7 +369,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
-  private getLeftIconClass(size: ButtonSize | undefined) {
+  private getLeftIconClass(size: SizeType | undefined) {
     if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }

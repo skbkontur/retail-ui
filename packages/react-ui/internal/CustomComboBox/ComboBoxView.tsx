@@ -10,7 +10,7 @@ import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
@@ -20,6 +20,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { SizeType } from '../ThemePlayground/constants';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -48,7 +49,7 @@ interface ComboBoxViewProps<T>
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeType;
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
@@ -128,7 +129,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     onFocusOutside: () => {
       /**/
     },
-    size: 'small',
+    size: SizeType.Small,
     width: 250,
   };
 

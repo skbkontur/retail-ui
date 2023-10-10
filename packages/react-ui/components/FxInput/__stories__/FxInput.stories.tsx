@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { InputSize } from '../../Input';
 import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
@@ -8,6 +7,7 @@ import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default { title: 'FxInput' } as Meta;
 
@@ -16,9 +16,9 @@ TypeText.storyName = 'type text';
 
 export const DifferentSizesFxInput = () => (
   <Gapped vertical>
-    <TestFxInput size="small" />
-    <TestFxInput size="medium" />
-    <TestFxInput size="large" />
+    <TestFxInput size={SizeType.Small} />
+    <TestFxInput size={SizeType.Medium} />
+    <TestFxInput size={SizeType.Large} />
   </Gapped>
 );
 DifferentSizesFxInput.storyName = 'different sizes';
@@ -63,7 +63,7 @@ WithWidthStory.parameters = {
 interface TestFxInputProps {
   type: FxInputProps['type'];
   borderless?: boolean;
-  size?: InputSize;
+  size?: SizeType;
   fractionDigits?: number;
 }
 interface TestFxInputState {

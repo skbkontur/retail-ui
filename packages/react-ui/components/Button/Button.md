@@ -62,9 +62,9 @@ import { Button } from '@skbkontur/react-ui';
     justifyContent: "space-between",
     width: "330px"
   }}>
-  <Button size="small">Маленькая</Button>
-  <Button size="medium">Средняя</Button>
-  <Button size="large">Большая</Button>
+  <Button size={SizeType.Small}>Маленькая</Button>
+  <Button size={SizeType.Medium}>Средняя</Button>
+  <Button size={SizeType.Large}>Большая</Button>
 </div>
 ```
 
@@ -75,10 +75,10 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 
 <Gapped gap={25}>
   <Gapped gap={5}>
-    <Button arrow="left" size="medium">
+    <Button arrow="left" size={SizeType.Medium}>
       Назад
     </Button>
-    <Button arrow size="medium">
+    <Button arrow size={SizeType.Medium}>
       Далее
     </Button>
   </Gapped>

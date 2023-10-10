@@ -10,6 +10,7 @@ import { Select } from '../../../components/Select';
 import { RenderLayer } from '../../RenderLayer';
 import { isTestEnv } from '../../../lib/currentEnvironment';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SizeType } from '../../ThemePlayground/constants';
 
 export default { title: 'Popup' };
 
@@ -491,7 +492,7 @@ class TooltipWithCombobox extends React.Component<HoverTestProps> {
           'Sample text'
         ) : (
           <ComboBox
-            size={'large'}
+            size={SizeType.Large}
             getItems={getComboboxItems}
             value={this.state.selected}
             onValueChange={this.handleOnChange}
@@ -518,7 +519,7 @@ class HintWithSelect extends React.Component<HoverTestProps, HasDropdownState> {
           'Sample text'
         ) : (
           <Select<DropdownValue>
-            size={'large'}
+            size={SizeType.Large}
             items={SELECT_ITEMS}
             value={this.state.selected}
             onValueChange={this.handleOnChange}

@@ -17,6 +17,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
@@ -24,7 +25,6 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
-export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
 export type InputType = typeof inputTypes[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
@@ -89,7 +89,7 @@ export interface InputProps
         /** Показывать символы маски */
         alwaysShowMask?: boolean;
         /** Размер */
-        size?: InputSize;
+        size?: SizeType;
         /** onValueChange */
         onValueChange?: (value: string) => void;
         /** Вызывается на label */
@@ -159,7 +159,7 @@ export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
+    size: SizeType.Small,
     type: 'text',
   };
 

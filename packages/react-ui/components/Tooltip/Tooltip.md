@@ -201,7 +201,7 @@ const isManual = trigger === 'manual';
         Trigger
         <Select
           width={S * 2}
-          size="small"
+          size={SizeType.Small}
           value={trigger}
           items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
           onValueChange={setTrigger}

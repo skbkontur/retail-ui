@@ -42,13 +42,13 @@ const CheckboxWithState = ({children, ...props}) => {
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <Checkbox size="small" checked>
+  <Checkbox size={SizeType.Small} checked>
     Маленький
   </Checkbox>
-  <Checkbox size="medium" checked>
+  <Checkbox size={SizeType.Medium} checked>
     Средний
   </Checkbox>
-  <Checkbox size="large" checked>
+  <Checkbox size={SizeType.Large} checked>
     Большой
   </Checkbox>
 </Gapped>

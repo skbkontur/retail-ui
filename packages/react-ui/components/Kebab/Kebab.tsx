@@ -19,7 +19,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ButtonSize } from '../Button';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -29,7 +29,7 @@ export interface KebabProps
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   disabled?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeType;
   /**
    * Список позиций доступных для расположения выпадашки.
    *
@@ -75,7 +75,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
-    size: 'small',
+    size: SizeType.Small,
     disableAnimations: isTestEnv,
   };
 
@@ -247,7 +247,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon)) {
-      const sizes: Record<ButtonSize, number> = {
+      const sizes: Record<SizeType, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),

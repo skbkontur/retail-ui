@@ -7,6 +7,7 @@ import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'Button',
@@ -136,11 +137,11 @@ export const ArrowSize: Story = (_, { globals: { theme } }) => (
 
 const arrowDifferentSizeStates: ButtonState[] = [
   { arrow: true },
-  { arrow: true, size: 'medium' },
-  { arrow: true, size: 'large' },
+  { arrow: true, size: SizeType.Medium },
+  { arrow: true, size: SizeType.Large },
   { arrow: 'left' },
-  { arrow: 'left', size: 'medium' },
-  { arrow: 'left', size: 'large' },
+  { arrow: 'left', size: SizeType.Medium },
+  { arrow: 'left', size: SizeType.Large },
 ];
 
 export const Borderless: Story = (_, { globals: { theme } }) => (
@@ -172,7 +173,11 @@ export const Size: Story = (_, { globals: { theme } }) => (
   />
 );
 
-const sizeDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+const sizeDifferentStates: ButtonState[] = [
+  { size: SizeType.Small },
+  { size: SizeType.Medium },
+  { size: SizeType.Large },
+];
 
 export const Loading: Story = (_, { globals: { theme } }) => (
   <ComponentTable
@@ -201,7 +206,11 @@ export const Narrow: Story = (_, { globals: { theme } }) => (
   />
 );
 
-const narrowDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+const narrowDifferentStates: ButtonState[] = [
+  { size: SizeType.Small },
+  { size: SizeType.Medium },
+  { size: SizeType.Large },
+];
 
 export const Align: Story = (_, { globals: { theme } }) => (
   <ComponentTable
@@ -235,20 +244,20 @@ const linkDifferentStates: ButtonState[] = [
   { width: 'auto' },
   { width: 200 },
   { warning: true },
-  { warning: true, size: 'medium' },
-  { warning: true, size: 'large' },
+  { warning: true, size: SizeType.Medium },
+  { warning: true, size: SizeType.Large },
   { error: true },
-  { error: true, size: 'medium' },
-  { error: true, size: 'large' },
+  { error: true, size: SizeType.Medium },
+  { error: true, size: SizeType.Large },
   { visuallyFocused: true },
-  { visuallyFocused: true, size: 'medium' },
-  { visuallyFocused: true, size: 'large' },
+  { visuallyFocused: true, size: SizeType.Medium },
+  { visuallyFocused: true, size: SizeType.Large },
   { disabled: true },
-  { disabled: true, size: 'medium' },
-  { disabled: true, size: 'large' },
+  { disabled: true, size: SizeType.Medium },
+  { disabled: true, size: SizeType.Large },
   { loading: true },
-  { loading: true, size: 'medium' },
-  { loading: true, size: 'large' },
+  { loading: true, size: SizeType.Medium },
+  { loading: true, size: SizeType.Large },
 ];
 
 export const Icon: Story = (_, { globals: { theme } }) => (
@@ -265,8 +274,8 @@ const iconDifferentStates: ButtonState[] = [
   { icon: <OkIcon /> },
   { icon: <OkIcon />, loading: true },
   { icon: <OkIcon />, children: 'Button' },
-  { icon: <OkIcon />, children: 'Button', size: 'medium' },
-  { icon: <OkIcon />, children: 'Button', size: 'large' },
+  { icon: <OkIcon />, children: 'Button', size: SizeType.Medium },
+  { icon: <OkIcon />, children: 'Button', size: SizeType.Large },
   { icon: <OkIcon />, children: 'Button', loading: true },
 ];
 

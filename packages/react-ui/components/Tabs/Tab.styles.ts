@@ -2,8 +2,8 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
-import { TabSize } from './Tab';
 import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
 
 export const globalClasses = prefix('tab')({
@@ -12,39 +12,39 @@ export const globalClasses = prefix('tab')({
 
 export const styles = memoizeStyle({
   rootSmall(t: Theme) {
-    return tabRoot(t, 'small');
+    return tabRoot(t, SizeType.Small);
   },
 
   rootMedium(t: Theme) {
-    return tabRoot(t, 'medium');
+    return tabRoot(t, SizeType.Medium);
   },
 
   rootLarge(t: Theme) {
-    return tabRoot(t, 'large');
+    return tabRoot(t, SizeType.Large);
   },
 
   verticalSmall(t: Theme) {
-    return tabVertical(t, 'small');
+    return tabVertical(t, SizeType.Small);
   },
 
   verticalMedium(t: Theme) {
-    return tabVertical(t, 'medium');
+    return tabVertical(t, SizeType.Medium);
   },
 
   verticalLarge(t: Theme) {
-    return tabVertical(t, 'large');
+    return tabVertical(t, SizeType.Large);
   },
 
   focusSmall(t: Theme) {
-    return tabFocus(t, 'small');
+    return tabFocus(t, SizeType.Small);
   },
 
   focusMedium(t: Theme) {
-    return tabFocus(t, 'medium');
+    return tabFocus(t, SizeType.Medium);
   },
 
   focusLarge(t: Theme) {
-    return tabFocus(t, 'large');
+    return tabFocus(t, SizeType.Large);
   },
 
   disabled(t: Theme) {
@@ -166,7 +166,7 @@ export const verticalStyles = memoizeStyle({
   },
 });
 
-function tabRoot(t: Theme, size: TabSize) {
+function tabRoot(t: Theme, size: SizeType) {
   return css`
     border-bottom: ${t.tabBorderWidth} solid transparent;
     box-sizing: border-box;
@@ -194,7 +194,7 @@ function tabRoot(t: Theme, size: TabSize) {
   `;
 }
 
-function tabVertical(t: Theme, size: TabSize) {
+function tabVertical(t: Theme, size: SizeType) {
   return css`
     border-bottom: none;
     border-left: ${t.tabBorderWidth} solid transparent;
@@ -217,7 +217,7 @@ function tabVertical(t: Theme, size: TabSize) {
   `;
 }
 
-function tabFocus(t: Theme, size: TabSize) {
+function tabFocus(t: Theme, size: SizeType) {
   return css`
     border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
     bottom: -${t.tabBorderWidth};

@@ -19,7 +19,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { FileUploader } from '../../components/FileUploader';
 
-import { ThemeType } from './constants';
+import { SizeType, ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
 import { DatePickerPlayground } from './AnotherInputsPlayground';
 import { TogglePlayground } from './TogglePlayground';
@@ -140,9 +140,9 @@ export class Playground extends React.Component<PlaygroundProps> {
   private renderSizesGroup = () => {
     return (
       <ComponentsGroup title={'Размеры'} theme={this.theme}>
-        <SizesGroup size={'small'} />
-        <SizesGroup size={'medium'} />
-        <SizesGroup size={'large'} />
+        <SizesGroup size={SizeType.Small} />
+        <SizesGroup size={SizeType.Medium} />
+        <SizesGroup size={SizeType.Large} />
       </ComponentsGroup>
     );
   };
@@ -172,14 +172,14 @@ export class Playground extends React.Component<PlaygroundProps> {
       { children: 'Pay', use: 'pay' },
       { children: 'Success', use: 'success' },
       { children: 'Disabled', disabled: true },
-      { children: 'Back', arrow: 'left', size: 'medium', width: 110 },
-      { children: 'Forward', arrow: true, size: 'medium', use: 'primary', width: 110 },
-      { children: 'Loading', size: 'medium', loading: true },
+      { children: 'Back', arrow: 'left', size: SizeType.Medium, width: 110 },
+      { children: 'Forward', arrow: true, size: SizeType.Medium, use: 'primary', width: 110 },
+      { children: 'Loading', size: SizeType.Medium, loading: true },
     ];
 
     return (
       <ComponentsGroup title={'Кнопки'} theme={this.theme}>
-        {getComponentsFromPropsList(<Button width={120} size={'small'} />, propsList)}
+        {getComponentsFromPropsList(<Button width={120} size={SizeType.Small} />, propsList)}
       </ComponentsGroup>
     );
   };

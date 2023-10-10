@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { emptyHandler } from '../../lib/utils';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
-import { Tab, TabSize } from './Tab';
+import { Tab } from './Tab';
 
 export interface TabsContextType<T extends string = any> {
   vertical: boolean;
   activeTab: T;
-  size: TabSize;
+  size: SizeType;
   getTab: (id: T) => Tab<T> | null | void;
   addTab: (id: T, getNode: () => Tab<T>) => void;
   notifyUpdate: () => void;
@@ -19,7 +20,7 @@ export interface TabsContextType<T extends string = any> {
 export const TabsContextDefaultValue: TabsContextType = {
   vertical: false,
   activeTab: '',
-  size: 'large',
+  size: SizeType.Large,
   getTab: emptyHandler,
   addTab: emptyHandler,
   notifyUpdate: emptyHandler,

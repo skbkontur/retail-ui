@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { FileUploaderSize } from '../../../components/FileUploader';
+import { SizeType } from '../../ThemePlayground/constants';
 
-export function useFileUploaderSize<T>(size: FileUploaderSize, { small, medium, large }: Record<FileUploaderSize, T>) {
+export function useFileUploaderSize<T>(size: SizeType, { small, medium, large }: Record<SizeType, T>) {
   return useMemo(() => {
     switch (size) {
       case 'large':

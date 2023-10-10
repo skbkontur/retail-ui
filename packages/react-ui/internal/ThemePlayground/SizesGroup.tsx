@@ -7,9 +7,10 @@ import { Gapped } from '../../components/Gapped';
 import { Button } from '../../components/Button';
 
 import { SelectPlayground } from './SelectPlayground';
+import { SizeType } from './constants';
 
 export interface SizesGroupProps {
-  size: 'small' | 'medium' | 'large';
+  size: SizeType;
 }
 
 export const SizesGroup = ({ size }: SizesGroupProps) => (

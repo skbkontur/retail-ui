@@ -4,8 +4,8 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../../lib/theming/ThemeHelpers';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { FileUploaderFileStatus } from '../fileUtils';
-import { FileUploaderSize } from '../../../components/FileUploader';
 import { LoadingIcon } from '../../icons2022/LoadingIcon';
+import { SizeType } from '../../ThemePlayground/constants';
 
 import { DeleteIcon as DeleteIcon2022 } from './DeleteIcon';
 import { ErrorIcon as ErrorIcon2022 } from './ErrorIcon';
@@ -17,7 +17,7 @@ interface FileUploaderFileStatusIconProps {
   focusedByTab: boolean;
   isInvalid: boolean;
   status: FileUploaderFileStatus;
-  size: FileUploaderSize;
+  size: SizeType;
 }
 
 export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFileStatusIconProps> = ({

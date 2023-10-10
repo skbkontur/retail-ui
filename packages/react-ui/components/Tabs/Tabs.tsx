@@ -8,11 +8,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { Tab, TabSize } from './Tab';
+import { Tab } from './Tab';
 
 type ValueBaseType = string;
 interface TabType<T extends ValueBaseType> {
@@ -38,10 +39,8 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
 
   /**
    * Задаёт размер контрола.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: TabSize;
+  size?: SizeType;
 
   /**
    * Active tab identifier
@@ -83,7 +82,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public static defaultProps: DefaultProps = {
     vertical: false,
-    size: 'large',
+    size: SizeType.Large,
   };
 
   private getProps = createPropsGetter(Tabs.defaultProps);

@@ -6,6 +6,7 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Meta } from '../../../typings/stories';
 import { MenuItem } from '../MenuItem';
 import { Gapped } from '../../Gapped';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'MenuItem',
@@ -57,13 +58,13 @@ export const Size = () => {
       <MenuItem icon={<OkIcon />} comment={comment}>
         Без размера
       </MenuItem>
-      <MenuItem size={'small'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size={SizeType.Small} icon={<OkIcon />} comment={comment}>
         Маленький
       </MenuItem>
-      <MenuItem size={'medium'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size={SizeType.Medium} icon={<OkIcon />} comment={comment}>
         Средний
       </MenuItem>
-      <MenuItem size={'large'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size={SizeType.Large} icon={<OkIcon />} comment={comment}>
         Большой
       </MenuItem>
     </Gapped>

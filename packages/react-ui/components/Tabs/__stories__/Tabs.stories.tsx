@@ -9,11 +9,12 @@ import { Parameters } from '@storybook/react';
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
-import { TabProps, TabSize } from '../Tab';
+import { TabProps } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
 import { TabsProps } from '..';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (
@@ -33,7 +34,7 @@ enum Mountain {
 
 interface UncTabsProps {
   vertical?: boolean;
-  size?: TabSize;
+  size?: SizeType;
 }
 interface UncTabsState {
   value: Mountain;
@@ -537,15 +538,15 @@ const simpleParameters: Parameters = {
   },
 };
 
-export const Simple: Story = () => <UncTabs size="large" />;
+export const Simple: Story = () => <UncTabs size={SizeType.Large} />;
 Simple.storyName = 'simple';
 Simple.parameters = simpleParameters;
 
-export const SimpleMedium: Story = () => <UncTabs size="medium" />;
+export const SimpleMedium: Story = () => <UncTabs size={SizeType.Medium} />;
 SimpleMedium.storyName = 'simple (size=medium)';
 SimpleMedium.parameters = simpleParameters;
 
-export const SimpleSmall: Story = () => <UncTabs size="small" />;
+export const SimpleSmall: Story = () => <UncTabs size={SizeType.Small} />;
 SimpleSmall.storyName = 'simple (size=small)';
 SimpleSmall.parameters = simpleParameters;
 
@@ -594,11 +595,11 @@ export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
 Vertical.parameters = verticalParams;
 
-export const VerticalMedium: Story = () => <UncTabs vertical size="medium" />;
+export const VerticalMedium: Story = () => <UncTabs vertical size={SizeType.Medium} />;
 VerticalMedium.storyName = 'vertical (size=medium)';
 VerticalMedium.parameters = verticalParams;
 
-export const VerticalSmall: Story = () => <UncTabs vertical size="small" />;
+export const VerticalSmall: Story = () => <UncTabs vertical size={SizeType.Small} />;
 VerticalSmall.storyName = 'vertical (size=small)';
 VerticalSmall.parameters = verticalParams;
 

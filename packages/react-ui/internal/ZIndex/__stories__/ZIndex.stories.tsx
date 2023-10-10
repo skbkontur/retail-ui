@@ -24,6 +24,7 @@ import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SizeType } from '../../ThemePlayground/constants';
 
 const linearLightGradient = `repeating-linear-gradient(
                                 60deg,
@@ -419,7 +420,7 @@ class TooltipAndSelect extends React.Component {
             width={120}
             value={'small'}
             items={['small', 'medium', 'large']}
-            size={'small'}
+            size={SizeType.Small}
             data-tid="test-select"
           />
         </Tooltip>
@@ -1066,7 +1067,7 @@ export const ModalWithDropdown: Story = () => {
           data-tid="dropdown_top"
           menuPos="top"
           caption={'Open'}
-          size="medium"
+          size={SizeType.Medium}
           width="50%"
           menuWidth="250px"
           disablePortal
@@ -1080,7 +1081,7 @@ export const ModalWithDropdown: Story = () => {
           data-tid="dropdown_bottom"
           menuPos="bottom"
           caption={'Open'}
-          size="medium"
+          size={SizeType.Medium}
           width="50%"
           menuWidth="250px"
           disablePortal

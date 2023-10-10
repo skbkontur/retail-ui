@@ -5,6 +5,7 @@ import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
@@ -464,9 +465,9 @@ export const DifferentSizes: Story = () => {
   return (
     <Gapped vertical>
       <Textarea value={'Size: no size choosen'} autoResize rows={1} />
-      <Textarea size={'small'} value={'Size: small'} autoResize rows={1} />
-      <Textarea size={'medium'} value={'Size: medium'} autoResize rows={1} />
-      <Textarea size={'large'} value={'Size: large'} autoResize rows={1} />
+      <Textarea size={SizeType.Small} value={'Size: small'} autoResize rows={1} />
+      <Textarea size={SizeType.Medium} value={'Size: medium'} autoResize rows={1} />
+      <Textarea size={SizeType.Large} value={'Size: large'} autoResize rows={1} />
     </Gapped>
   );
 };

@@ -16,6 +16,7 @@ import { Gapped } from '../Gapped';
 import { Group } from '../Group';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 export default { title: 'Baseline' };
 
@@ -28,14 +29,14 @@ ButtonAndText.storyName = 'Button and text';
 
 export const MediumButtonAndText = () => (
   <div>
-    <Button size="medium">yay</Button> Simple text
+    <Button size={SizeType.Medium}>yay</Button> Simple text
   </div>
 );
 MediumButtonAndText.storyName = 'Medium Button and text';
 
 export const LargeButtonAndText = () => (
   <div>
-    <Button size="large">Yay</Button> Simple text
+    <Button size={SizeType.Large}>Yay</Button> Simple text
   </div>
 );
 LargeButtonAndText.storyName = 'Large Button and text';
@@ -77,8 +78,8 @@ InputWithButton.parameters = { creevey: { skip: true } };
 export const TextInputInputLikeText = () => (
   <div>
     <span>Text</span>
-    <Input size="small" value="Small Input" width={80} />
-    <Input size="medium" value="Medium Input" width={80} />
+    <Input size={SizeType.Small} value="Small Input" width={80} />
+    <Input size={SizeType.Medium} value="Medium Input" width={80} />
     <ComboBox
       placeholder="InputLikeText"
       width={120}
@@ -93,7 +94,7 @@ TextInputInputLikeText.storyName = 'Text, Input, InputLikeText';
 export const TextLargeInput = () => (
   <div>
     <span>Text</span>
-    <Input size="large" value="Large Input" width={120} />
+    <Input size={SizeType.Large} value="Large Input" width={120} />
   </div>
 );
 TextLargeInput.storyName = 'Text, Large Input';
@@ -101,8 +102,8 @@ TextLargeInput.storyName = 'Text, Large Input';
 export const TextButtons = () => (
   <div>
     <span>Text</span>
-    <Button size="small">Small</Button>
-    <Button size="medium">Medium</Button>
+    <Button size={SizeType.Small}>Small</Button>
+    <Button size={SizeType.Medium}>Medium</Button>
   </div>
 );
 TextButtons.storyName = 'Text, Buttons';
@@ -110,7 +111,7 @@ TextButtons.storyName = 'Text, Buttons';
 export const TextLargeButton = () => (
   <div>
     <span>Text</span>
-    <Button size="large">Large</Button>
+    <Button size={SizeType.Large}>Large</Button>
   </div>
 );
 TextLargeButton.storyName = 'Text, Large Button';
@@ -144,7 +145,7 @@ Checkboxes.storyName = 'Checkbox';
 
 const BaselineFont: React.FC<{
   fontFamily: string;
-  size: 'small' | 'medium' | 'large';
+  size: SizeType;
   bg: string;
   width?: string;
 }> = ({ fontFamily, size, width = '120px', bg }) => {
@@ -205,11 +206,7 @@ const BaselineFont: React.FC<{
   );
 };
 
-const BaselineSize: React.FC<{ size: 'small' | 'medium' | 'large'; bg: string; width?: string }> = ({
-  size,
-  bg,
-  width,
-}) => (
+const BaselineSize: React.FC<{ size: SizeType; bg: string; width?: string }> = ({ size, bg, width }) => (
   <div>
     <Gapped vertical gap={4}>
       {['Arial', 'Lab Grotesque', 'Segoe UI', 'Times New Roman'].map((fontFamily, i) => (
@@ -221,7 +218,7 @@ const BaselineSize: React.FC<{ size: 'small' | 'medium' | 'large'; bg: string; w
 
 export const DifferentFontsAndSizes = () => (
   <BaselineSize
-    size="small"
+    size={SizeType.Small}
     bg={`
   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
   linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
@@ -244,7 +241,7 @@ class DifferentFontsAndSizesThemeM extends React.Component {
             <ThemeContext.Provider value={ThemeFactory.create({}, theme)}>
               <BaselineSize
                 width="140px"
-                size="medium"
+                size={SizeType.Medium}
                 bg={`
                   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
                   linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
@@ -272,7 +269,7 @@ class DifferentFontsAndSizesThemeL extends React.Component {
             <ThemeContext.Provider value={ThemeFactory.create({}, theme)}>
               <BaselineSize
                 width="160px"
-                size="large"
+                size={SizeType.Large}
                 bg={`
                 linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
                 linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),

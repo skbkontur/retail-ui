@@ -4,7 +4,7 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Group } from '../Group';
-import { Input, InputProps, InputSize } from '../Input';
+import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
@@ -14,6 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
@@ -99,7 +100,7 @@ export class FxInput extends React.Component<FxInputProps> {
 
     if (isTheme2022(this.theme)) {
       inputCorners = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      const iconSizes: Record<InputSize, number> = {
+      const iconSizes: Record<SizeType, number> = {
         small: parseInt(this.theme.inputIconSizeSmall),
         medium: parseInt(this.theme.inputIconSizeMedium),
         large: parseInt(this.theme.inputIconSizeLarge),

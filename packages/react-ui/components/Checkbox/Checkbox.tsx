@@ -15,13 +15,11 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
-
-export type CheckboxSize = 'small' | 'medium' | 'large';
-
 export interface CheckboxProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
@@ -41,7 +39,7 @@ export interface CheckboxProps
          */
         warning?: boolean;
         /** Размер */
-        size?: CheckboxSize;
+        size?: SizeType;
         /**
          * HTML-событие `mouseenter`.
          */
@@ -86,7 +84,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
+    size: SizeType.Small,
   };
 
   private getProps = createPropsGetter(Checkbox.defaultProps);

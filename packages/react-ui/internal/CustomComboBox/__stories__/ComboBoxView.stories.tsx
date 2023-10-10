@@ -8,6 +8,7 @@ import { Modal } from '../../../components/Modal';
 import { MenuItem } from '../../../components/MenuItem';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 import { MenuHeader } from '../../../components/MenuHeader';
+import { SizeType } from '../../ThemePlayground/constants';
 
 export default { title: 'ComboBoxView' };
 
@@ -24,7 +25,7 @@ export const InputLikeText: Story = () => (
     </div>
     <div>
       <ComboBoxView
-        size="medium"
+        size={SizeType.Medium}
         value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
         renderValue={complexRenderValue}
       />{' '}
@@ -32,7 +33,7 @@ export const InputLikeText: Story = () => (
     </div>
     <div>
       <ComboBoxView
-        size="large"
+        size={SizeType.Large}
         value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
         renderValue={complexRenderValue}
       />{' '}

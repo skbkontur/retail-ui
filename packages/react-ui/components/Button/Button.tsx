@@ -15,13 +15,13 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
+import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 
-export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
@@ -139,10 +139,8 @@ export interface ButtonProps
 
   /**
    * Задаёт размер кнопки.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: ButtonSize;
+  size?: SizeType;
 
   /**
    * HTML-атрибут `type`.
@@ -198,7 +196,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public static defaultProps: DefaultProps = {
     use: 'default',
-    size: 'small',
+    size: SizeType.Small,
     type: 'button',
   };
 

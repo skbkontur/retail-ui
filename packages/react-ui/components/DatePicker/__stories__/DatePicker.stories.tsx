@@ -7,13 +7,14 @@ import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/type
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
-import { DatePicker, DatePickerProps } from '../DatePicker';
+import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
-  size?: DatePickerProps['size'];
+  size?: SizeType;
 }
 interface DatePickerWithErrorState {
   tooltip: boolean;
@@ -213,8 +214,8 @@ DatePickerDisabled.parameters = { creevey: { skip: true } };
 export const DifferentSizes = () => (
   <Gapped>
     <DatePicker value="20.20.2020" onValueChange={() => void 0} />
-    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="medium" />
-    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="large" />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size={SizeType.Medium} />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size={SizeType.Large} />
   </Gapped>
 );
 

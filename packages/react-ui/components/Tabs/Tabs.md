@@ -42,7 +42,7 @@ const renderCaption = (caption) => <span style={{display: "inline-block", width:
 <div>
   <div>
     {renderCaption("small")}
-    <Tabs value={active} onValueChange={setActive} size="small">
+    <Tabs value={active} onValueChange={setActive} size={SizeType.Small}>
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
       <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
       <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
@@ -50,7 +50,7 @@ const renderCaption = (caption) => <span style={{display: "inline-block", width:
   </div>
   <div>
     {renderCaption("medium")}
-    <Tabs value={active} onValueChange={setActive} size="medium">
+    <Tabs value={active} onValueChange={setActive} size={SizeType.Medium}>
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
       <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
       <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
@@ -58,7 +58,7 @@ const renderCaption = (caption) => <span style={{display: "inline-block", width:
   </div>
   <div>
     {renderCaption("large")}
-    <Tabs value={active} onValueChange={setActive} size="large">
+    <Tabs value={active} onValueChange={setActive} size={SizeType.Large}>
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
       <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
       <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
