@@ -49,7 +49,7 @@ export interface ButtonParams
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-  size: ButtonSize;
+  size: SizeType;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -197,7 +197,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     areValuesEqual,
     filterItem,
     use: 'default',
-    size: 'small',
+    size: SizeType.Small,
   };
 
   public static Item = Item;

@@ -5,14 +5,14 @@ import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../CommonWrapper';
-import { MenuItemSize } from '../../components/MenuItem';
+import { SizeType } from '../ThemePlayground/constants';
 
 import { styles } from './MenuMessage.styles';
 
 export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
   as?: React.ElementType;
-  size?: MenuItemSize;
+  size?: SizeType;
 }
 
 export const MenuMessageDataTids = {

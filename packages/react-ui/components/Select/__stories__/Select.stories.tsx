@@ -11,9 +11,10 @@ import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
-import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
+import { ResponsiveLayout } from '../../ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
+import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 const mobileDecorator: DecoratorFn = (Story) => {
   return (
@@ -802,21 +803,21 @@ export const Size: Story = () => {
       </Button>
       <Gapped style={{ height: '250px' }}>
         <Select
-          size={'small'}
+          size={SizeType.Small}
           items={items}
           ref={(element) => {
             small = element;
           }}
         />
         <Select
-          size={'medium'}
+          size={SizeType.Medium}
           items={items}
           ref={(element) => {
             medium = element;
           }}
         />
         <Select
-          size={'large'}
+          size={SizeType.Large}
           items={items}
           ref={(element) => {
             large = element;
