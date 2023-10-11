@@ -208,7 +208,7 @@ EmptyWithReference.parameters = {
     captureElement: '.tokens-test-container',
     tests: {
       async idle() {
-        await delay(100);
+        await delay(400);
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async clicked() {
@@ -472,6 +472,7 @@ CustomAddButton.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('zzz')
           .perform();
+        await delay(400);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
@@ -726,6 +727,7 @@ FullWidthMenu.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('a')
           .perform();
+        await delay(400);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
@@ -755,7 +757,7 @@ CustomRenderTotalCount.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .perform();
-        await delay(1000);
+        await delay(1500);
 
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
