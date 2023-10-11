@@ -2,6 +2,7 @@ import React from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
@@ -431,8 +432,11 @@ const buttonTests: CreeveyTests = {
   },
 };
 
-export const PlaygroundDefault = () => (
-  <Button icon={<OkIcon />} data-tid="test-button">
+export const PlaygroundDefault: Story = (_, { globals: { theme } }) => (
+  <Button
+    icon={theme === 'THEME_2022' || theme === 'THEME_2022_DARK' ? <CheckAIcon /> : <OkIcon />}
+    data-tid="test-button"
+  >
     Hello
   </Button>
 );
@@ -450,8 +454,12 @@ PlaygroundDefault.parameters = {
   },
 };
 
-export const PlaygroundDisabled = () => (
-  <Button icon={<OkIcon />} disabled data-tid="test-button">
+export const PlaygroundDisabled: Story = (_, { globals: { theme } }) => (
+  <Button
+    icon={theme === 'THEME_2022' || theme === 'THEME_2022_DARK' ? <CheckAIcon /> : <OkIcon />}
+    disabled
+    data-tid="test-button"
+  >
     Hello
   </Button>
 );
