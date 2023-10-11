@@ -1,6 +1,6 @@
 import React, { AriaAttributes, ReactNode, useContext } from 'react';
 
-import { CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
@@ -65,7 +65,7 @@ export const TokenView = forwardRefAndName<HTMLDivElement, TokenViewProps>(
     ref,
   ) => {
     const theme = useContext(ThemeContext);
-    const locale = useLocaleForControl('TokenLocale', TokenLocaleHelper);
+    const locale = useLocaleForControl('Token', TokenLocaleHelper);
 
     const onRemoveClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
       if (disabled) {
@@ -135,27 +135,41 @@ export const TokenView = forwardRefAndName<HTMLDivElement, TokenViewProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        data-tid={TokenDataTids.view}
-        className={cx(getSizeClassName(size ? size : 'small'), classNames, {
-          [styles.token(theme)]: true,
-          [styles.helperContainer()]: isHelper,
-          [getWidthHelperSizeClassName(size ? size : 'small')]: isHelper,
-        })}
+      <CommonWrapper
+        textHolder={textHolder}
+        isEditing={isEditing}
+        isHelper={isHelper}
+        size={size}
+        disabled={disabled}
+        error={error}
+        warning={warning}
+        isActive={isActive}
+        colors={colors}
+        onRemove={onRemove}
+        className={className}
         {...rest}
       >
-        {textHolder}
-        <span
-          role={isTheme2022(theme) ? undefined : 'button'}
-          aria-label={isTheme2022(theme) ? undefined : locale.removeButtonAriaLabel}
-          className={cx(styles.removeIcon(theme), globalClasses.removeIcon, { [styles.hideCross()]: isEditing })}
-          onClick={onRemoveClick}
-          data-tid={TokenDataTids.removeIcon}
+        <div
+          ref={ref}
+          className={cx(getSizeClassName(size ? size : 'small'), classNames, {
+            [styles.token(theme)]: true,
+            [styles.helperContainer()]: isHelper,
+            [getWidthHelperSizeClassName(size ? size : 'small')]: isHelper,
+          })}
+          {...rest}
         >
-          {icon}
-        </span>
-      </div>
+          {textHolder}
+          <span
+            role={isTheme2022(theme) ? undefined : 'button'}
+            aria-label={isTheme2022(theme) ? undefined : locale.removeButtonAriaLabel}
+            className={cx(styles.removeIcon(theme), globalClasses.removeIcon, { [styles.hideCross()]: isEditing })}
+            onClick={onRemoveClick}
+            data-tid={TokenDataTids.removeIcon}
+          >
+            {icon}
+          </span>
+        </div>
+      </CommonWrapper>
     );
   },
 );

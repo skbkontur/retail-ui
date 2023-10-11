@@ -95,8 +95,9 @@ export class Token extends React.Component<TokenProps> {
     const tokenChildren = <span className={styles.text(this.theme)}>{children}</span>;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <TokenView
+          data-tid={TokenDataTids.view}
           size={size}
           textHolder={tokenChildren}
           isEditing={false}
