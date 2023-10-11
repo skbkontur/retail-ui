@@ -106,8 +106,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnWithIconPaddingLeftMedium = '10px';
   public static btnWithIconPaddingLeftLarge = '12px';
 
-  public static btnLinkHoverTextDecoration = 'none';
-
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
   }
