@@ -472,7 +472,7 @@ CustomAddButton.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('zzz')
           .perform();
-        await delay(400);
+        await delay(1500);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
