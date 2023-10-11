@@ -208,7 +208,7 @@ EmptyWithReference.parameters = {
     captureElement: '.tokens-test-container',
     tests: {
       async idle() {
-        await delay(400);
+        await delay(2000);
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async clicked() {
@@ -472,7 +472,7 @@ CustomAddButton.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('zzz')
           .perform();
-        await delay(1500);
+        await delay(2000);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
