@@ -400,7 +400,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private makeObservable = () => {
     const target = this.childrenContainerNode;
-    if (!target || !isBrowser(globalObject)) {
+    if (!target || !globalObject.MutationObserver) {
       return;
     }
     const config = {

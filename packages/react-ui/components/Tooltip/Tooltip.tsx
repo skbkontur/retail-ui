@@ -1,7 +1,7 @@
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -196,7 +196,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
-  private hoverTimeout: Nullable<number> = null;
+  private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
@@ -484,7 +484,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private clearHoverTimeout() {
     if (this.hoverTimeout) {
-      globalObject.clearTimeout?.(this.hoverTimeout);
+      globalObject.clearTimeout(this.hoverTimeout);
       this.hoverTimeout = null;
     }
   }
@@ -496,7 +496,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-    this.hoverTimeout = globalObject.setTimeout?.(this.open, Tooltip.delay);
+    this.hoverTimeout = globalObject.setTimeout(this.open, Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -513,7 +513,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = globalObject.setTimeout?.(this.close, Tooltip.delay);
+      this.hoverTimeout = globalObject.setTimeout(this.close, Tooltip.delay);
     }
   };
 

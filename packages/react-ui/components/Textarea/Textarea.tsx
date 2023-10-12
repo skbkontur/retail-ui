@@ -3,7 +3,7 @@
 import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
@@ -241,7 +241,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = isBrowser(globalObject) ? new globalObject.MutationObserver(this.reflowCounter) : null;
+  private textareaObserver = globalObject.MutationObserver
+    ? new globalObject.MutationObserver(this.reflowCounter)
+    : null;
   private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты

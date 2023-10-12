@@ -171,7 +171,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
-          globalObject.setTimeout?.(resolve, LOADER_SHOW_TIME);
+          globalObject.setTimeout(resolve, LOADER_SHOW_TIME);
         }, DELAY_BEFORE_SHOW_LOADER);
 
         cancelPromise.catch(() => cancelLoader());
@@ -401,7 +401,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // workaround for the similar bug with focusout
     // in Firefox, Chrome and IE
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-    globalObject.setTimeout?.(() => {
+    globalObject.setTimeout(() => {
       this.dispatch({ type: 'Blur' });
     });
   };

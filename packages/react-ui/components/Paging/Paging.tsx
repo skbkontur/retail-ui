@@ -318,7 +318,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      globalObject.setTimeout?.(() => this.container && this.container.focus(), 0);
+      globalObject.setTimeout(() => this.container && this.container.focus(), 0);
     }
   };
 

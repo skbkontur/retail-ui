@@ -3,13 +3,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
 
 import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
-import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
@@ -64,8 +63,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private frozen = false;
   private frozenBlur = false;
   private dragging = false;
-  private focusTimeout: Nullable<number>;
-  private blinkTimeout: Nullable<number>;
+  private focusTimeout: SafeTimer;
+  private blinkTimeout: SafeTimer;
   private setRootNode!: TSetRootNode;
 
   /**
@@ -94,7 +93,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalObject.setTimeout?.(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = globalObject.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
@@ -120,9 +119,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.selectNodeContentsDebounced(node, start, end);
 
     if (this.focusTimeout) {
-      globalObject.clearInterval?.(this.focusTimeout);
+      globalObject.clearInterval(this.focusTimeout);
     }
-    this.focusTimeout = globalObject.setTimeout?.(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
+    this.focusTimeout = globalObject.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
   };
 
   public componentDidMount() {
@@ -135,7 +134,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
-      globalObject.clearTimeout?.(this.blinkTimeout);
+      globalObject.clearTimeout(this.blinkTimeout);
     }
     MouseDrag.stop(this.node);
     globalObject.document?.removeEventListener('mousedown', this.handleDocumentMouseDown);
@@ -400,7 +399,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (isIE11 && isShortcutPaste(e) && this.hiddenInput) {
       this.frozen = true;
-      globalObject.setTimeout?.(() => {
+      globalObject.setTimeout(() => {
         if (this.lastSelectedInnerNode) {
           this.selectInnerNode(...this.lastSelectedInnerNode);
         }
@@ -428,7 +427,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragEnd: MouseDragEventHandler = (e) => {
     // Дожидаемся onMouseUp
-    globalObject.setTimeout?.(() => {
+    globalObject.setTimeout(() => {
       this.dragging = false;
 
       if (this.props.onMouseDragEnd) {

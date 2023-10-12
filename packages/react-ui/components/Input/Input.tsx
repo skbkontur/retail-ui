@@ -3,7 +3,7 @@
 import invariant from 'invariant';
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import warning from 'warning';
-import { globalObject } from '@skbkontur/global-object';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -174,7 +174,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private selectAllId: number | null = null;
   private theme!: Theme;
-  private blinkTimeout: number | undefined = 0;
+  private blinkTimeout: SafeTimer;
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
@@ -194,7 +194,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
-      globalObject.clearTimeout?.(this.blinkTimeout);
+      globalObject.clearTimeout(this.blinkTimeout);
     }
     this.cancelDelayedSelectAll();
   }
@@ -236,7 +236,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return;
     }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalObject.setTimeout?.(this.cancelBlink, 150);
+      this.blinkTimeout = globalObject.setTimeout(this.cancelBlink, 150);
     });
   }
 
@@ -262,7 +262,7 @@ export class Input extends React.Component<InputProps, InputState> {
       this.focus();
     }
     if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
-      globalObject.setTimeout?.(() => {
+      globalObject.setTimeout(() => {
         this.input?.setSelectionRange(start, end);
       }, 150);
     } else {
@@ -318,7 +318,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private cancelBlink = (callback?: () => void): void => {
     if (this.blinkTimeout) {
-      globalObject.clearTimeout?.(this.blinkTimeout);
+      globalObject.clearTimeout(this.blinkTimeout);
       this.blinkTimeout = 0;
       if (this.state.blinking) {
         this.setState({ blinking: false }, callback);

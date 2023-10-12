@@ -15,7 +15,9 @@ export const fixFirefoxModifiedClickOnLabel =
       const type = input.type;
       input.type = 'text';
       e.persist();
-      input.dispatchEvent(new globalObject.MouseEvent('change', e.nativeEvent));
+      if (globalObject.MouseEvent) {
+        input.dispatchEvent(new globalObject.MouseEvent('change', e.nativeEvent));
+      }
       input.type = type;
     }
   };
