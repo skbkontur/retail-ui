@@ -331,9 +331,9 @@ export const Size: Story = () => {
     <div>
       <Gapped vertical>
         <Toggle>Size: no size choosen</Toggle>
-        <Toggle size="small">Size: small</Toggle>
-        <Toggle size="medium">Size: medium</Toggle>
-        <Toggle size="large">Size: large</Toggle>
+        <Toggle size={'small'}>Size: small</Toggle>
+        <Toggle size={'medium'}>Size: medium</Toggle>
+        <Toggle size={'large'}>Size: large</Toggle>
       </Gapped>
     </div>
   );

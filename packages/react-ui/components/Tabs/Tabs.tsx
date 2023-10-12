@@ -29,6 +29,8 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
 
   /**
    * Задаёт размер контрола.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
   size?: SizeProp;
 

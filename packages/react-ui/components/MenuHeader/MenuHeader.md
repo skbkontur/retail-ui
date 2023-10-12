@@ -28,8 +28,8 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <MenuHeader size="small">Маленький</MenuHeader>
-  <MenuHeader size="medium">Средний</MenuHeader>
-  <MenuHeader size="large">Большой</MenuHeader>
+  <MenuHeader size={'small'}>Маленький</MenuHeader>
+  <MenuHeader size={'medium'}>Средний</MenuHeader>
+  <MenuHeader size={'large'}>Большой</MenuHeader>
 </Gapped>
 ```

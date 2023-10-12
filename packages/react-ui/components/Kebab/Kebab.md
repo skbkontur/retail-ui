@@ -14,18 +14,18 @@ let style = {
   width: 250,
 };
 
-let Card = ({name, post}) => (
+let Card = ({ name, post }) => (
   <div style={style}>
     <div>
       <h3>{name}</h3>
-      <p style={{color: 'gray'}}>{post}</p>
+      <p style={{ color: 'gray' }}>{post}</p>
     </div>
 
     <Kebab size="large">
-      <MenuItem icon={<EditIcon/>} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon/>} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -34,12 +34,12 @@ let Card = ({name, post}) => (
 
 <Gapped gap={-1} wrap>
   <Gapped gap={-1}>
-    <Card name="Баранова Анастасия" post="SEO GazPro"/>
-    <Card name="Слуцкий Антон" post="Junior Front-Back Developer"/>
+    <Card name="Баранова Анастасия" post="SEO GazPro" />
+    <Card name="Слуцкий Антон" post="Junior Front-Back Developer" />
   </Gapped>
   <Gapped gap={-1}>
-    <Card name="Иванов Иван" post="Head Ivan Co"/>
-    <Card name="Сашка Егоров" post="KungFu Master"/>
+    <Card name="Иванов Иван" post="Head Ivan Co" />
+    <Card name="Сашка Егоров" post="KungFu Master" />
   </Gapped>
 </Gapped>;
 ```
@@ -49,7 +49,7 @@ let Card = ({name, post}) => (
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import { Gapped, MenuItem, Toast } from '@skbkontur/react-ui';
+import { Gapped, MenuItem, Toast} from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
@@ -60,17 +60,17 @@ let style = {
   width: 230,
 };
 
-let Card = ({title, size}) => (
+let Card = ({ title, size }) => (
   <div style={style}>
     <div>
       <h3>{title}</h3>
     </div>
 
     <Kebab size={size}>
-      <MenuItem icon={<EditIcon/>} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon/>} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -78,9 +78,9 @@ let Card = ({title, size}) => (
 );
 
 <Gapped>
-  <Card title="Маленький кебаб" size="small"/>
-  <Card title="Средний кебаб" size="medium"/>
-  <Card title="Большой кебаб" size="large"/>
+  <Card title="Маленький кебаб" size="small" />
+  <Card title="Средний кебаб" size="medium" />
+  <Card title="Большой кебаб" size="large" />
 </Gapped>
 ```
 
@@ -89,7 +89,7 @@ let Card = ({title, size}) => (
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import {MenuItem, Toast} from '@skbkontur/react-ui';
+import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
@@ -101,17 +101,17 @@ let style = {
 };
 
 
-let Card = ({title}) => (
+let Card = ({ title }) => (
   <div style={style}>
     <div>
       <h3>{title}</h3>
     </div>
 
     <Kebab positions={['left middle']} size="large">
-      <MenuItem icon={<EditIcon/>} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon/>} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -126,7 +126,7 @@ let Card = ({title}) => (
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import {MenuItem, Toast} from '@skbkontur/react-ui';
+import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
@@ -137,7 +137,7 @@ let style = {
   width: 250,
 };
 
-let Card = ({title}) => (
+let Card = ({ title }) => (
   <div style={style}>
     <div>
       <h3>{title}</h3>
@@ -147,10 +147,10 @@ let Card = ({title}) => (
       onOpen={() => Toast.push('Кебаб-меню открылось!')}
       size="large"
     >
-      <MenuItem icon={<EditIcon/>} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon/>} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -167,7 +167,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/r
 import OkIcon from '@skbkontur/react-icons/Ok';
 
 <Kebab>
-    <MenuHeader>MenuHeader</MenuHeader>
+  <MenuHeader>MenuHeader</MenuHeader>
   <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
   <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
@@ -193,7 +193,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import {MenuItem, Toast} from '@skbkontur/react-ui';
+import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
@@ -204,17 +204,17 @@ let style = {
   width: 250,
 };
 
-let Card = ({title}) => (
+let Card = ({ title }) => (
   <div style={style}>
     <div>
       <h3>{title}</h3>
     </div>
 
     <Kebab disabled size="large">
-      <MenuItem icon={<EditIcon/>} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon/>} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -240,17 +240,17 @@ let style = {
   width: 250,
 };
 
-let Card = ({title}) => (
+let Card = ({ title }) => (
   <div style={style}>
     <div>
       <h3>{title}</h3>
     </div>
 
     <Kebab disableAnimations size="large">
-      <MenuItem icon={<EditIcon/>} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon/>} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -265,7 +265,7 @@ let Card = ({title}) => (
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import {MenuItem, Toast} from '@skbkontur/react-ui';
+import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
@@ -276,7 +276,7 @@ let style = {
   width: 250,
 };
 
-let Card = ({title}) => (
+let Card = ({ title }) => (
   <div style={style}>
     <div>
       <h3>{title}</h3>
@@ -285,7 +285,7 @@ let Card = ({title}) => (
     <Kebab
       menuMaxHeight="100px"
       size="large"
-    >
+      >
       <MenuItem>
         Действие
       </MenuItem>

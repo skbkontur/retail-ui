@@ -449,9 +449,9 @@ export const Size: Story = () => {
   return (
     <div>
       <Gapped vertical>
-        <Checkbox size="small">Size: small</Checkbox>
-        <Checkbox size="medium">Size: medium</Checkbox>
-        <Checkbox size="large">Size: large</Checkbox>
+        <Checkbox size={'small'}>Size: small</Checkbox>
+        <Checkbox size={'medium'}>Size: medium</Checkbox>
+        <Checkbox size={'large'}>Size: large</Checkbox>
       </Gapped>
     </div>
   );

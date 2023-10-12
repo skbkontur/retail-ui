@@ -1409,7 +1409,7 @@ export const Size: Story = () => {
       </Button>
       <Gapped gap={60} style={{ paddingBottom: 230, paddingRight: 40 }}>
         <SimpleCombobox
-          size="small"
+          size={'small'}
           ref={(element) => {
             small = element;
           }}
@@ -1418,7 +1418,7 @@ export const Size: Story = () => {
           }
         />
         <SimpleCombobox
-          size="medium"
+          size={'medium'}
           ref={(element) => {
             medium = element;
           }}
@@ -1427,7 +1427,7 @@ export const Size: Story = () => {
           }
         />
         <SimpleCombobox
-          size="large"
+          size={'large'}
           ref={(element) => {
             large = element;
           }}

@@ -538,9 +538,9 @@ import { Gapped } from '@skbkontur/react-ui';
 const getItems = q => {
   return Promise.resolve(
     [
-      {value: 1, label: 'Маленький'},
-      {value: 2, label: 'Средний'},
-      {value: 3, label: 'Большой'},
+      { value: 1, label: 'Маленький' },
+      { value: 2, label: 'Средний' },
+      { value: 3, label: 'Большой' },
     ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
   )
 };
@@ -555,21 +555,21 @@ const [valueLarge, setValueLarge] = React.useState('Большой');
     onValueChange={setValueSmall}
     placeholder="Введите число"
     value={valueSmall}
-    size="small"
+    size={'small'}
   />
-<ComboBox
+  <ComboBox
     getItems={getItems}
     onValueChange={setValueMedium}
     placeholder="Введите число"
     value={valueMedium}
-    size="medium"
+    size={'medium'}
   />
   <ComboBox
     getItems={getItems}
     onValueChange={setValueLarge}
     placeholder="Введите число"
     value={valueLarge}
-    size="large"
+    size={'large'}
   />
 </Gapped>
 ```

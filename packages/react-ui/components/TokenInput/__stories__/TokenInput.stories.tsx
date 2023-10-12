@@ -434,7 +434,7 @@ UseRenderToken.parameters = { creevey: { skip: true } };
 export const IdenticalAlignmentWithOtherControls = () => (
   <Gapped gap={10} vertical>
     <Wrapper getItems={getItems} width={'100%'} />
-    <Input value={'value'} width={'100%'} size="medium" />
+    <Input value={'value'} width={'100%'} size={'medium'} />
   </Gapped>
 );
 IdenticalAlignmentWithOtherControls.storyName = 'identical alignment with other controls';

@@ -419,7 +419,7 @@ class TooltipAndSelect extends React.Component {
             width={120}
             value={'small'}
             items={['small', 'medium', 'large']}
-            size="small"
+            size={'small'}
             data-tid="test-select"
           />
         </Tooltip>

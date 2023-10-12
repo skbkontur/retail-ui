@@ -49,8 +49,8 @@ const [value, setValue] = React.useState('');
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <Textarea size="small" value={'Маленький'} autoResize rows={1}/>
-  <Textarea size="medium" value={'Средний'} autoResize rows={1}/>
-  <Textarea size="large" value={'Большой'} autoResize rows={1}/>
+  <Textarea size={'small'} value={'Маленький'} autoResize rows={1} />
+  <Textarea size={'medium'} value={'Средний'} autoResize rows={1} />
+  <Textarea size={'large'} value={'Большой'} autoResize rows={1} />
 </Gapped>
 ```

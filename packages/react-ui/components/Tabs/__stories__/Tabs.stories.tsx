@@ -15,7 +15,6 @@ import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
 import { TabsProps } from '..';
 import { SizeProp } from '../../../lib/types/props';
-
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (

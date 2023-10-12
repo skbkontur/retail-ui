@@ -43,14 +43,14 @@ const [chosen, setChosen] = React.useState(null);
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <Radio size="small" value="value">
-      Маленький
+  <Radio size="small" value="value" >
+    Маленький
   </Radio>
-  <Radio size="medium" value="value">
-      Средний
+  <Radio size="medium" value="value" >
+    Средний
   </Radio>
-  <Radio size="large" value="value">
-      Большой
+  <Radio size="large" value="value" >
+    Большой
   </Radio>
 </Gapped>
 ```
