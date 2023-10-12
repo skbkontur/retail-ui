@@ -146,7 +146,7 @@ let Card = ({ title }) => (
     <Kebab
       onOpen={() => Toast.push('Кебаб-меню открылось!')}
       size="large"
-    >
+      >
       <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>

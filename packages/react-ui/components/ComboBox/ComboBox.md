@@ -531,7 +531,6 @@ const en_GB = {
 ```
 
 У ComboBox есть 3 стандартных размера.
-
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 
