@@ -227,9 +227,16 @@ EmptyWithReference.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          // .sendKeys('a')
+          .perform();
+        await delay(2000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
           .sendKeys('a')
           .perform();
-        await delay(200);
+        await delay(2000);
         await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
       },
     },
@@ -472,9 +479,17 @@ CustomAddButton.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          // .sendKeys('zzz')
+          .perform();
+        await delay(2000);
+        this.browser
+          .actions({
+            bridge: true,
+          })
           .sendKeys('zzz')
           .perform();
         await delay(2000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
