@@ -179,6 +179,11 @@ export interface ButtonProps
    * Он будет объединён с темой из контекста.
    */
   theme?: ThemeIn;
+
+  /**
+   * Добавить подчеркивание только при хавере
+   */
+  addUnderlineOnHover?: boolean;
 }
 
 export interface ButtonState {
@@ -463,7 +468,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (_isTheme2022 && isLink && !loading) {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link focused={isFocused} disabled={disabled} icon={this.renderIcon2022(icon)} as="span" tabIndex={-1}>
+          <Link
+            focused={isFocused}
+            disabled={disabled}
+            icon={this.renderIcon2022(icon)}
+            as="span"
+            tabIndex={-1}
+            addUnderlineOnHover={this.props.addUnderlineOnHover}
+          >
             {children}
           </Link>
         </ThemeContext.Provider>

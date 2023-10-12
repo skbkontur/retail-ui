@@ -83,6 +83,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  lineTextWithUnderlineOnHover() {
+    return css`
+      border-bottom-color: transparent !important; //override
+    `;
+  },
+
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};

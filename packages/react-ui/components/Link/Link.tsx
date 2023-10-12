@@ -74,6 +74,10 @@ export interface LinkProps
          * @ignore
          */
         focused?: boolean;
+        /**
+         * Добавить подчеркивание только при хавере
+         */
+        addUnderlineOnHover?: boolean;
       }
     > {}
 
@@ -196,6 +200,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         <span className={cx(styles.lineTextWrapper(this.theme))}>
           <span
             className={cx(globalClasses.text, {
+              [styles.lineTextWithUnderlineOnHover()]: this.props.addUnderlineOnHover,
               [styles.lineText(this.theme)]: !isIE11,
               [styles.lineTextIE11(this.theme)]: isIE11,
             })}
