@@ -2,7 +2,7 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -107,7 +107,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
-  private wheelEndTimeout: unknown;
+  private wheelEndTimeout: SafeTimer;
   private root: Nullable<HTMLElement>;
   private animation = animation();
   private touchStartY: Nullable<number> = null;
