@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { Button } from '../../components/Button';
 import { Nullable } from '../../typings/utility-types';
 import { Spinner } from '../../components/Spinner';
-import { SizeType } from '../ThemePlayground/constants';
 
 const PANEL_WRAPPER_STYLES = { width: '45%', display: 'inline-block', verticalAlign: 'top' };
 
@@ -50,7 +49,7 @@ class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelPro
       <div>
         <h1 style={{ lineHeight: '2em' }}>{this.props.title}</h1>
         <div style={{ marginBottom: 10 }}>
-          <Button onClick={this.toggleMountedState} size={SizeType.Small}>
+          <Button onClick={this.toggleMountedState} size={'small'}>
             {this.state.mounted ? 'Unmount' : 'Mount'}
           </Button>
         </div>

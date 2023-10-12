@@ -224,3 +224,5 @@ export const isInputLike =
 export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
+
+export type SizeType = 'small' | 'medium' | 'large';

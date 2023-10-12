@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
-import { isKonturIcon } from '../../lib/utils';
+import { isKonturIcon, SizeType } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { ButtonProps } from './Button';
 import { globalClasses, styles } from './Button.styles';
@@ -29,7 +28,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   hasChildren,
   use,
   loading = false,
-  size = SizeType.Small,
+  size = 'small',
 }) => {
   const theme = useContext(ThemeContext);
   const isLink = use === 'link';

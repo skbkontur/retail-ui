@@ -7,7 +7,6 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { AutocompleteProps } from '..';
 import { delay } from '../../../lib/utils';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'Autocomplete',
@@ -423,9 +422,9 @@ export const Size = () => {
   return (
     <div>
       <Gapped style={{ height: '300px', width: '1000px' }}>
-        <UncontrolledAutocomplete source={source} size={SizeType.Small} />
-        <UncontrolledAutocomplete source={source} size={SizeType.Medium} />
-        <UncontrolledAutocomplete source={source} size={SizeType.Large} />
+        <UncontrolledAutocomplete source={source} size={'small'} />
+        <UncontrolledAutocomplete source={source} size={'medium'} />
+        <UncontrolledAutocomplete source={source} size={'large'} />
       </Gapped>
     </div>
   );

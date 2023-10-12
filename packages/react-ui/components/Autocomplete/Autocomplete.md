@@ -21,8 +21,9 @@ const [value, setValue] = React.useState('Kappa');
 ```
 
 У Autocomplete есть 3 стандартных размера.
+
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
+import {Gapped} from '@skbkontur/react-ui';
 
 const items = ['Маленький', 'Средний', 'Большой'];
 
@@ -31,8 +32,8 @@ const [valueMedium, setValueMedium] = React.useState('Средний');
 const [valueLarge, setValueLarge] = React.useState('Большой');
 
 <Gapped vertical>
-  <Autocomplete source={items} value={valueSmall} onValueChange={setValueSmall} size={SizeType.Small} />
-  <Autocomplete source={items} value={valueMedium} onValueChange={setValueMedium} size={SizeType.Medium} />
-  <Autocomplete source={items} value={valueLarge} onValueChange={setValueLarge} size={SizeType.Large} />
+    <Autocomplete source={items} value={valueSmall} onValueChange={setValueSmall} size={'small'}/>
+    <Autocomplete source={items} value={valueMedium} onValueChange={setValueMedium} size={'medium'}/>
+    <Autocomplete source={items} value={valueLarge} onValueChange={setValueLarge} size={'large'}/>
 </Gapped>
 ```

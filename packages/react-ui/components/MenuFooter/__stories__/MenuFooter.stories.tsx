@@ -3,7 +3,6 @@ import React from 'react';
 import { Meta } from '../../../typings/stories';
 import { MenuFooter } from '../MenuFooter';
 import { Gapped } from '../../Gapped';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'MenuFooter',
@@ -12,9 +11,9 @@ export default {
 export const Size = () => {
   return (
     <Gapped>
-      <MenuFooter size={SizeType.Small}>Маленький</MenuFooter>
-      <MenuFooter size={SizeType.Medium}>Средний</MenuFooter>
-      <MenuFooter size={SizeType.Large}>Большой</MenuFooter>
+      <MenuFooter size={'small'}>Маленький</MenuFooter>
+      <MenuFooter size={'medium'}>Средний</MenuFooter>
+      <MenuFooter size={'large'}>Большой</MenuFooter>
     </Gapped>
   );
 };

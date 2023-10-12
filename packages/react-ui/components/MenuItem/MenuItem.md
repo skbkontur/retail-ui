@@ -111,11 +111,11 @@ const LinkMenuItem = ({link, title}) => {
 У MenuItem есть 3 стандартных размера.
 
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
+import {Gapped} from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <MenuItem size={SizeType.Small}>Маленький</MenuItem>
-  <MenuItem size={SizeType.Medium}>Средний</MenuItem>
-  <MenuItem size={SizeType.Large}>Большой</MenuItem>
+  <MenuItem size={'small'}>Маленький</MenuItem>
+  <MenuItem size={'medium'}>Средний</MenuItem>
+  <MenuItem size={'large'}>Большой</MenuItem>
 </Gapped>
 ```

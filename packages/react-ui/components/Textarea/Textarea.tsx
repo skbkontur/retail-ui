@@ -19,7 +19,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -194,7 +194,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 3,
     maxRows: 15,
     extraRow: true,
-    size: SizeType.Small,
+    size: 'small',
     disableAnimations: isTestEnv,
   };
 

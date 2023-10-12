@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { emptyHandler } from '../../lib/utils';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { emptyHandler, SizeType } from '../../lib/utils';
 
 import { Tab } from './Tab';
 
@@ -20,7 +19,7 @@ export interface TabsContextType<T extends string = any> {
 export const TabsContextDefaultValue: TabsContextType = {
   vertical: false,
   activeTab: '',
-  size: SizeType.Large,
+  size: 'large',
   getTab: emptyHandler,
   addTab: emptyHandler,
   notifyUpdate: emptyHandler,

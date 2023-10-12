@@ -5,7 +5,7 @@ import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../CommonWrapper';
-import { SizeType } from '../ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { styles } from './MenuMessage.styles';
 
@@ -21,7 +21,7 @@ export const MenuMessageDataTids = {
 
 export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>(
   'MenuMessage',
-  ({ children, className, size = SizeType.Small, as: Tag = 'p', ...rest }, ref) => {
+  ({ children, className, size = 'small', as: Tag = 'p', ...rest }, ref) => {
     const { isMobile } = useResponsiveLayout();
 
     const theme = useContext(ThemeContext);

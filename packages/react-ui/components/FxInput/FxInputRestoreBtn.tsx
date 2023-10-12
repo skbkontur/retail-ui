@@ -5,7 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
 import { UndoIcon } from '../../internal/icons/16px';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { UndoIcon as UndoIcon2022 } from './UndoIcon';
 import { FxInputProps } from './FxInput';

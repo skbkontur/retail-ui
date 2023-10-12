@@ -1,20 +1,20 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { paddingX } from './helpers';
 
 export const styles = memoizeStyle({
   rootSmall(t: Theme) {
-    return tabsRoot(t, SizeType.Small);
+    return tabsRoot(t, 'small');
   },
 
   rootMedium(t: Theme) {
-    return tabsRoot(t, SizeType.Medium);
+    return tabsRoot(t, 'medium');
   },
 
   rootLarge(t: Theme) {
-    return tabsRoot(t, SizeType.Large);
+    return tabsRoot(t, 'large');
   },
 
   vertical() {

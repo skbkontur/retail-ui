@@ -3,7 +3,7 @@ import React, { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { styles } from './MenuFooter.styles';
 
@@ -25,7 +25,7 @@ export const MenuFooterDataTids = {
  *
  * Сущности в которых может быть использован `MenuFooter`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
-function MenuFooter({ _enableIconPadding = false, children, size = SizeType.Small, ...rest }: MenuFooterProps) {
+function MenuFooter({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
   const theme = useContext(ThemeContext);
 
   function getRootSizeClassName() {

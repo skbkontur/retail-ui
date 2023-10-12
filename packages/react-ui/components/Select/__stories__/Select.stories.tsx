@@ -14,7 +14,6 @@ import { Gapped } from '../../Gapped';
 import { ResponsiveLayout } from '../../ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 const mobileDecorator: DecoratorFn = (Story) => {
   return (
@@ -803,21 +802,21 @@ export const Size: Story = () => {
       </Button>
       <Gapped style={{ height: '250px' }}>
         <Select
-          size={SizeType.Small}
+          size={'small'}
           items={items}
           ref={(element) => {
             small = element;
           }}
         />
         <Select
-          size={SizeType.Medium}
+          size={'medium'}
           items={items}
           ref={(element) => {
             medium = element;
           }}
         />
         <Select
-          size={SizeType.Large}
+          size={'large'}
           items={items}
           ref={(element) => {
             large = element;

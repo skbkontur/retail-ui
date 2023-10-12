@@ -11,7 +11,6 @@ import { MenuItem } from '../../MenuItem';
 import { delay } from '../../../lib/utils';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'Dropdown',
@@ -325,7 +324,7 @@ export const Size: Story = () => {
       </Button>
       <Gapped style={{ height: '250px' }}>
         <Dropdown
-          size={SizeType.Small}
+          size={'small'}
           caption="Items small"
           ref={(element) => {
             small = element;
@@ -335,7 +334,7 @@ export const Size: Story = () => {
           {items}
         </Dropdown>
         <Dropdown
-          size={SizeType.Medium}
+          size={'medium'}
           caption="Items medium"
           ref={(element) => {
             medium = element;
@@ -345,7 +344,7 @@ export const Size: Story = () => {
           {items}
         </Dropdown>
         <Dropdown
-          size={SizeType.Large}
+          size={'large'}
           caption="Items large"
           ref={(element) => {
             large = element;

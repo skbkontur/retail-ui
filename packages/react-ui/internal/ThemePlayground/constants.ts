@@ -9,12 +9,6 @@ export enum ThemeType {
   Theme2022Dark = 'theme2022Dark',
 }
 
-export enum SizeType {
-  Small = 'small',
-  Medium = 'medium',
-  Large = 'large',
-}
-
 export const VARIABLES_GROUPS = [
   { title: 'Common', prefix: 'null', isCommon: true },
   { title: 'Button', prefix: 'btn' },

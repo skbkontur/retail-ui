@@ -12,7 +12,6 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -83,7 +82,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     leftIcon: PropTypes.element,
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
-    size: SizeType,
+    size: PropTypes.string,
     value: (props: CurrencyInputProps) => {
       warning(isValidNumber(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
     },

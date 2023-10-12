@@ -14,7 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -90,7 +90,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
-    size: SizeType.Small,
+    size: 'small',
     width: 125,
   };
 

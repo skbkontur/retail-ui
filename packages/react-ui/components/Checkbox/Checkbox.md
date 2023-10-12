@@ -39,18 +39,18 @@ const CheckboxWithState = ({children, ...props}) => {
 У чекбокса есть 3 стандартных размера.
 
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
+import {Gapped} from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <Checkbox size={SizeType.Small} checked>
-    Маленький
-  </Checkbox>
-  <Checkbox size={SizeType.Medium} checked>
-    Средний
-  </Checkbox>
-  <Checkbox size={SizeType.Large} checked>
-    Большой
-  </Checkbox>
+    <Checkbox size={'small'} checked>
+        Маленький
+    </Checkbox>
+    <Checkbox size={'medium'} checked>
+        Средний
+    </Checkbox>
+    <Checkbox size={'large'} checked>
+        Большой
+    </Checkbox>
 </Gapped>
 ```
 

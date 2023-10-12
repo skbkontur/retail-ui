@@ -3,7 +3,6 @@ import React from 'react';
 import { Story } from '../../../typings/stories';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileStatus } from '../fileUtils';
-import { SizeType } from '../../ThemePlayground/constants';
 
 export default {
   title: 'FileUploaderFile',
@@ -34,7 +33,7 @@ export const FileUploaderFileWithValidationError: Story = () => {
           status: FileUploaderFileStatus.Error,
           validationResult: { isValid: false, message: 'Валидация не прошла' },
         }}
-        size={SizeType.Small}
+        size={'small'}
       />
     </div>
   );

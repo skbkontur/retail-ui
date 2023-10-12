@@ -4,9 +4,9 @@
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-import { Button, Gapped, Input, Select, Tooltip } from '@skbkontur/react-ui';
+import {Button, Gapped, Input, Select, Tooltip} from '@skbkontur/react-ui';
 
-const [size, setSize] = React.useState(SizeType.Small);
+const [size, setSize] = React.useState('small');
 
 const render = () => (
   <div
@@ -21,22 +21,23 @@ const render = () => (
   </div>
 );
 
-<div style={{ fontFamily: 'Segoe UI' }}>
+<div style={{fontFamily: 'Segoe UI'}}>
   <Gapped vertical>
     <Gapped>
-      <div style={{ width: 40 }}>Size</div>
-      <Select width={120} value={size} items={[SizeType.Small, SizeType.Medium, SizeType.Large]} onValueChange={setSize} size={size} />
+      <div style={{width: 40}}>Size</div>
+      <Select width={120} value={size} items={['small', 'medium', 'large']}
+              onValueChange={setSize} size={size}/>
     </Gapped>
     <Tooltip render={render} pos="right top">
-      <Input size={size} leftIcon={<SearchIcon />} width={170} />
+      <Input size={size} leftIcon={<SearchIcon/>} width={170}/>
     </Tooltip>
     <Tooltip render={render} pos="right top">
-      <Button size={size} icon={<MenuIcon />}>
+      <Button size={size} icon={<MenuIcon/>}>
         Menu
       </Button>
     </Tooltip>
     <Tooltip render={render} pos="right top">
-      <HelpDotIcon />
+      <HelpDotIcon/>
     </Tooltip>
   </Gapped>
 </div>;
@@ -201,7 +202,7 @@ const isManual = trigger === 'manual';
         Trigger
         <Select
           width={S * 2}
-          size={SizeType.Small}
+          size={'small'}
           value={trigger}
           items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
           onValueChange={setTrigger}

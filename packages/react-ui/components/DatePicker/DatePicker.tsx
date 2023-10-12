@@ -19,14 +19,13 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isNonNullable } from '../../lib/utils';
+import { isNonNullable, SizeType } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
-import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';

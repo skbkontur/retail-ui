@@ -13,7 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { getDropdownTheme } from './getDropdownTheme';
 
@@ -146,7 +146,7 @@ export class Dropdown extends React.Component<DropdownProps> {
 
     menuWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    size: SizeType,
+    size: PropTypes.string,
 
     /**
      * Смотри Button.

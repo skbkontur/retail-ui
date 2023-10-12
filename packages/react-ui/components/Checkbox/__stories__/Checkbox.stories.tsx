@@ -4,8 +4,7 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
-import { delay } from '../../../lib/utils';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
+import { delay, SizeType } from '../../../lib/utils';
 
 interface PlainCheckboxState {
   checked: false;
@@ -449,9 +448,9 @@ export const Size: Story = () => {
   return (
     <div>
       <Gapped vertical>
-        <Checkbox size={SizeType.Small}>Size: small</Checkbox>
-        <Checkbox size={SizeType.Medium}>Size: medium</Checkbox>
-        <Checkbox size={SizeType.Large}>Size: large</Checkbox>
+        <Checkbox size={'small'}>Size: small</Checkbox>
+        <Checkbox size={'medium'}>Size: medium</Checkbox>
+        <Checkbox size={'large'}>Size: large</Checkbox>
       </Gapped>
     </div>
   );

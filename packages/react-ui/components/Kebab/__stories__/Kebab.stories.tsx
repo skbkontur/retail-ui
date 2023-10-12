@@ -7,7 +7,6 @@ import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
 import { KebabProps } from '..';
 import { delay } from '../../../lib/utils';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
@@ -104,7 +103,7 @@ export default {
   ],
 } as Meta;
 
-export const Small: Story = () => <SomethingWithKebab size={SizeType.Small} />;
+export const Small: Story = () => <SomethingWithKebab size={'small'} />;
 Small.storyName = '14px';
 
 Small.parameters = {
@@ -122,7 +121,7 @@ Small.parameters = {
   },
 };
 
-export const Medium: Story = () => <SomethingWithKebab size={SizeType.Medium} />;
+export const Medium: Story = () => <SomethingWithKebab size={'medium'} />;
 Medium.storyName = '18px';
 
 Medium.parameters = {
@@ -140,7 +139,7 @@ Medium.parameters = {
   },
 };
 
-export const Large: Story = () => <SomethingWithKebab size={SizeType.Large} />;
+export const Large: Story = () => <SomethingWithKebab size={'large'} />;
 Large.storyName = '20px';
 
 Large.parameters = {
@@ -161,24 +160,24 @@ Large.parameters = {
 export const KebabWithCustomIcon: Story = () => {
   return (
     <>
-      <SomethingWithKebab size={SizeType.Small} icon={<OkIcon color="#757575" />} />
-      <SomethingWithKebab size={SizeType.Medium} icon={<OkIcon color="#757575" />} />
-      <SomethingWithKebab size={SizeType.Large} icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size={'small'} icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size={'medium'} icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size={'large'} icon={<OkIcon color="#757575" />} />
     </>
   );
 };
 
-export const LargeDisabled = () => <SomethingWithKebab size={SizeType.Large} disabled />;
+export const LargeDisabled = () => <SomethingWithKebab size={'large'} disabled />;
 LargeDisabled.storyName = '20px-disabled';
 LargeDisabled.parameters = { creevey: { skip: true } };
 
 export const WithFixedMenuHeight = () => (
-  <SomethingWithKebab size={SizeType.Large} menuMaxHeight={'200px'} items={manyItemsList} />
+  <SomethingWithKebab size={'large'} menuMaxHeight={'200px'} items={manyItemsList} />
 );
 WithFixedMenuHeight.storyName = 'With fixed menu height';
 WithFixedMenuHeight.parameters = { creevey: { skip: true } };
 
-export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size={SizeType.Small} />;
+export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size={'small'} />;
 KebabWithoutAnimations.storyName = 'Kebab without animations';
 KebabWithoutAnimations.parameters = { creevey: { skip: true } };
 
@@ -220,7 +219,7 @@ class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
   }
 }
 
-export const MobileExampleWithHorizontalPadding: Story = () => <SomethingWithKebab size={SizeType.Medium} />;
+export const MobileExampleWithHorizontalPadding: Story = () => <SomethingWithKebab size={'medium'} />;
 
 MobileExampleWithHorizontalPadding.parameters = {
   viewport: {

@@ -5,7 +5,6 @@ import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'Radio',
@@ -114,13 +113,13 @@ export const Size: Story = () => {
   return (
     <div>
       <Gapped vertical>
-        <Radio size={SizeType.Small} value="value">
+        <Radio size={'small'} value="value">
           Size: small
         </Radio>
-        <Radio size={SizeType.Medium} value="value">
+        <Radio size={'medium'} value="value">
           Size: medium
         </Radio>
-        <Radio size={SizeType.Large} value="value">
+        <Radio size={'large'} value="value">
           Size: large
         </Radio>
       </Gapped>

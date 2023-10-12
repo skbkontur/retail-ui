@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SizeType } from '../../../internal/ThemePlayground/constants';
+import { SizeType } from '../../../lib/utils';
 
 export interface InputLayoutContextProps {
   focused: boolean;
@@ -11,7 +11,7 @@ export interface InputLayoutContextProps {
 export const InputLayoutContextDefault: InputLayoutContextProps = {
   focused: false,
   disabled: false,
-  size: SizeType.Small,
+  size: 'small',
 };
 
 export const InputLayoutContext = React.createContext<InputLayoutContextProps>(InputLayoutContextDefault);

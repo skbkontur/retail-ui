@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { HTMLProps } from '../../typings/html';
-import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
+import { isKonturIcon, isReactUIComponent, SizeType } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -15,7 +15,6 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { SizeType } from '../../internal/ThemePlayground/constants';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
@@ -196,7 +195,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public static defaultProps: DefaultProps = {
     use: 'default',
-    size: SizeType.Small,
+    size: 'small',
     type: 'button',
   };
 

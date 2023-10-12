@@ -7,7 +7,7 @@ import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
+import { SizeType } from '../../../lib/utils';
 
 export default { title: 'FxInput' } as Meta;
 
@@ -16,9 +16,9 @@ TypeText.storyName = 'type text';
 
 export const DifferentSizesFxInput = () => (
   <Gapped vertical>
-    <TestFxInput size={SizeType.Small} />
-    <TestFxInput size={SizeType.Medium} />
-    <TestFxInput size={SizeType.Large} />
+    <TestFxInput size={'small'} />
+    <TestFxInput size={'medium'} />
+    <TestFxInput size={'large'} />
   </Gapped>
 );
 DifferentSizesFxInput.storyName = 'different sizes';

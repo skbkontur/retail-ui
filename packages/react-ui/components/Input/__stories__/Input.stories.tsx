@@ -7,7 +7,6 @@ import { ComponentTable } from '../../../internal/ComponentTable';
 import { Meta, Story } from '../../../typings/stories';
 import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'Input',
@@ -15,7 +14,7 @@ export default {
 
 type InputState = Partial<InputProps>;
 
-const sizeStates: InputState[] = [{ size: SizeType.Small }, { size: SizeType.Medium }, { size: SizeType.Large }];
+const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
 const inputDefaultState: InputState[] = [{}, { defaultValue: 'Value' }];
 

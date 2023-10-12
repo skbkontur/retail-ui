@@ -11,7 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -128,7 +128,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
     captionPosition: 'right',
     disableAnimations: isTestEnv,
-    size: SizeType.Small,
+    size: 'small',
   };
 
   private getProps = createPropsGetter(Toggle.defaultProps);

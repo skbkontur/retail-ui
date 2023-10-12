@@ -1,6 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
-import { getRandomID, isNonNullable } from '../../lib/utils';
+import { getRandomID, isNonNullable, SizeType } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -20,7 +20,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { SizeType } from '../ThemePlayground/constants';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -126,7 +125,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     onFocusOutside: () => {
       /**/
     },
-    size: SizeType.Small,
+    size: 'small',
     width: 250,
   };
 

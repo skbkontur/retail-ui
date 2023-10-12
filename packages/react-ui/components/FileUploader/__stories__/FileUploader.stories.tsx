@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { FileUploader, FileUploaderRef } from '../FileUploader';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 export default {
   title: 'FileUploader',
@@ -104,26 +103,26 @@ export const DifferentSizes = () => (
       <FileUploader width={200} /> default
     </Gapped>
     <Gapped>
-      <FileUploader size={SizeType.Small} width={200} /> small
+      <FileUploader size={'small'} width={200} /> small
     </Gapped>
     <Gapped>
-      <FileUploader size={SizeType.Medium} width={200} /> medium
+      <FileUploader size={'medium'} width={200} /> medium
     </Gapped>
     <Gapped>
-      <FileUploader size={SizeType.Large} width={200} /> large
+      <FileUploader size={'large'} width={200} /> large
     </Gapped>
     Multiple
     <Gapped>
       <FileUploader width={200} multiple /> default
     </Gapped>
     <Gapped>
-      <FileUploader width={200} size={SizeType.Small} multiple /> small
+      <FileUploader width={200} size={'small'} multiple /> small
     </Gapped>
     <Gapped>
-      <FileUploader width={200} size={SizeType.Medium} multiple /> medium
+      <FileUploader width={200} size={'medium'} multiple /> medium
     </Gapped>
     <Gapped>
-      <FileUploader width={200} size={SizeType.Large} multiple /> large
+      <FileUploader width={200} size={'large'} multiple /> large
     </Gapped>
   </Gapped>
 );

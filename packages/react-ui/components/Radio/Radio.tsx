@@ -13,7 +13,7 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -85,7 +85,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public static defaultProps: DefaultProps = {
     focused: false,
-    size: SizeType.Small,
+    size: 'small',
   };
 
   private getProps = createPropsGetter(Radio.defaultProps);

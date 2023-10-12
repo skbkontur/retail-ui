@@ -8,7 +8,6 @@ import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
 import { isTestEnv } from '../../../lib/currentEnvironment';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 interface TokenModel {
   id?: string;
@@ -435,7 +434,7 @@ UseRenderToken.parameters = { creevey: { skip: true } };
 export const IdenticalAlignmentWithOtherControls = () => (
   <Gapped gap={10} vertical>
     <Wrapper getItems={getItems} width={'100%'} />
-    <Input value={'value'} width={'100%'} size={SizeType.Medium} />
+    <Input value={'value'} width={'100%'} size={'medium'} />
   </Gapped>
 );
 IdenticalAlignmentWithOtherControls.storyName = 'identical alignment with other controls';

@@ -45,7 +45,6 @@ import {
   TooltipMenu,
 } from '@skbkontur/react-ui';
 import EditIcon from '@skbkontur/react-icons/Edit';
-import { SizeType } from '@skbkontur/react-ui/internal/ThemePlayground/constants';
 
 export const App = () => {
   // TODO App must be pure render function
@@ -98,7 +97,7 @@ export const App = () => {
       </Group>
       <Hint text="World">Hello</Hint>
       <Input />
-      <Kebab size={SizeType.Large}>
+      <Kebab size={'large'}>
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Nope')}>
           Редактировать
         </MenuItem>

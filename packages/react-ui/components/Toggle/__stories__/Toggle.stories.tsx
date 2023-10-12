@@ -8,7 +8,6 @@ import { Button } from '../../Button';
 import { Checkbox, CheckboxProps } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
 import { delay } from '../../../lib/utils';
-import { SizeType } from '../../../internal/ThemePlayground/constants';
 
 interface PlaygroundState {
   loadingActive: CheckboxProps['checked'];
@@ -332,9 +331,9 @@ export const Size: Story = () => {
     <div>
       <Gapped vertical>
         <Toggle>Size: no size choosen</Toggle>
-        <Toggle size={SizeType.Small}>Size: small</Toggle>
-        <Toggle size={SizeType.Medium}>Size: medium</Toggle>
-        <Toggle size={SizeType.Large}>Size: large</Toggle>
+        <Toggle size={'small'}>Size: small</Toggle>
+        <Toggle size={'medium'}>Size: medium</Toggle>
+        <Toggle size={'large'}>Size: large</Toggle>
       </Gapped>
     </div>
   );

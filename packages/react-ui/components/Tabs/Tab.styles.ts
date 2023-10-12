@@ -2,7 +2,7 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
-import { SizeType } from '../../internal/ThemePlayground/constants';
+import { SizeType } from '../../lib/utils';
 
 import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
 
@@ -12,39 +12,39 @@ export const globalClasses = prefix('tab')({
 
 export const styles = memoizeStyle({
   rootSmall(t: Theme) {
-    return tabRoot(t, SizeType.Small);
+    return tabRoot(t, 'small');
   },
 
   rootMedium(t: Theme) {
-    return tabRoot(t, SizeType.Medium);
+    return tabRoot(t, 'medium');
   },
 
   rootLarge(t: Theme) {
-    return tabRoot(t, SizeType.Large);
+    return tabRoot(t, 'large');
   },
 
   verticalSmall(t: Theme) {
-    return tabVertical(t, SizeType.Small);
+    return tabVertical(t, 'small');
   },
 
   verticalMedium(t: Theme) {
-    return tabVertical(t, SizeType.Medium);
+    return tabVertical(t, 'medium');
   },
 
   verticalLarge(t: Theme) {
-    return tabVertical(t, SizeType.Large);
+    return tabVertical(t, 'large');
   },
 
   focusSmall(t: Theme) {
-    return tabFocus(t, SizeType.Small);
+    return tabFocus(t, 'small');
   },
 
   focusMedium(t: Theme) {
-    return tabFocus(t, SizeType.Medium);
+    return tabFocus(t, 'medium');
   },
 
   focusLarge(t: Theme) {
-    return tabFocus(t, SizeType.Large);
+    return tabFocus(t, 'large');
   },
 
   disabled(t: Theme) {

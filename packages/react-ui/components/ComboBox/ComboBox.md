@@ -531,17 +531,18 @@ const en_GB = {
 ```
 
 У ComboBox есть 3 стандартных размера.
+
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
+import {Gapped} from '@skbkontur/react-ui';
 
 const getItems = q => {
-  return Promise.resolve(
-    [
-      { value: 1, label: 'Маленький' },
-      { value: 2, label: 'Средний' },
-      { value: 3, label: 'Большой' },
-    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
-  )
+    return Promise.resolve(
+        [
+            {value: 1, label: 'Маленький'},
+            {value: 2, label: 'Средний'},
+            {value: 3, label: 'Большой'},
+        ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    )
 };
 
 const [valueSmall, setValueSmall] = React.useState('Маленький');
@@ -549,26 +550,26 @@ const [valueMedium, setValueMedium] = React.useState('Средний');
 const [valueLarge, setValueLarge] = React.useState('Большой');
 
 <Gapped vertical>
-  <ComboBox
-    getItems={getItems}
-    onValueChange={setValueSmall}
-    placeholder="Введите число"
-    value={valueSmall}
-    size={SizeType.Small}
-  />
-  <ComboBox
-    getItems={getItems}
-    onValueChange={setValueMedium}
-    placeholder="Введите число"
-    value={valueMedium}
-    size={SizeType.Medium}
-  />
-  <ComboBox
-    getItems={getItems}
-    onValueChange={setValueLarge}
-    placeholder="Введите число"
-    value={valueLarge}
-    size={SizeType.Large}
-  />
+    <ComboBox
+        getItems={getItems}
+        onValueChange={setValueSmall}
+        placeholder="Введите число"
+        value={valueSmall}
+        size={'small'}
+    />
+    <ComboBox
+        getItems={getItems}
+        onValueChange={setValueMedium}
+        placeholder="Введите число"
+        value={valueMedium}
+        size={'medium'}
+    />
+    <ComboBox
+        getItems={getItems}
+        onValueChange={setValueLarge}
+        placeholder="Введите число"
+        value={valueLarge}
+        size={'large'}
+    />
 </Gapped>
 ```
