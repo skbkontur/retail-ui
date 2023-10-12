@@ -175,7 +175,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
-      await new Promise((r) => globalObject.setTimeout(r));
+      await new Promise((r) => globalObject.setTimeout(r, 0));
     }
 
     const minDate = this.getDateInNativeFormat(this.getProps().minDate);

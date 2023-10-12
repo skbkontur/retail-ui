@@ -403,7 +403,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
     globalObject.setTimeout(() => {
       this.dispatch({ type: 'Blur' });
-    });
+    }, 0);
   };
 
   private handleInputBlur = () => {

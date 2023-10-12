@@ -277,10 +277,12 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     if (this.timeout) {
       globalObject.clearTimeout(this.timeout);
     }
-    this.timeout = globalObject.setTimeout(() =>
-      this.setState({
-        nodeTop: getDOMRect(root).top,
-      }),
+    this.timeout = globalObject.setTimeout(
+      () =>
+        this.setState({
+          nodeTop: getDOMRect(root).top,
+        }),
+      0,
     );
   };
 
