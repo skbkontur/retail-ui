@@ -97,7 +97,7 @@ export const App = () => {
       </Group>
       <Hint text="World">Hello</Hint>
       <Input />
-      <Kebab size={'large'}>
+      <Kebab size="large">
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Nope')}>
           Редактировать
         </MenuItem>

@@ -10,7 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -37,7 +37,7 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
   error?: boolean;
 
   /** Размер */
-  size?: SizeType;
+  size?: SizeProp;
 
   disabled?: boolean;
 

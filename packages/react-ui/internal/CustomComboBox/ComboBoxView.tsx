@@ -20,7 +20,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -49,7 +49,7 @@ interface ComboBoxViewProps<T>
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
-  size?: SizeType;
+  size?: SizeProp;
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;

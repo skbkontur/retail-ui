@@ -17,7 +17,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
@@ -89,7 +89,7 @@ export interface InputProps
         /** Показывать символы маски */
         alwaysShowMask?: boolean;
         /** Размер */
-        size?: SizeType;
+        size?: SizeProp;
         /** onValueChange */
         onValueChange?: (value: string) => void;
         /** Вызывается на label */

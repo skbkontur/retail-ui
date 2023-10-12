@@ -33,7 +33,7 @@ export const FileUploaderFileWithValidationError: Story = () => {
           status: FileUploaderFileStatus.Error,
           validationResult: { isValid: false, message: 'Валидация не прошла' },
         }}
-        size={'small'}
+        size="small"
       />
     </div>
   );

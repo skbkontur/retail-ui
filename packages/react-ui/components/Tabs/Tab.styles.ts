@@ -2,7 +2,7 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
 
@@ -166,7 +166,7 @@ export const verticalStyles = memoizeStyle({
   },
 });
 
-function tabRoot(t: Theme, size: SizeType) {
+function tabRoot(t: Theme, size: SizeProp) {
   return css`
     border-bottom: ${t.tabBorderWidth} solid transparent;
     box-sizing: border-box;
@@ -194,7 +194,7 @@ function tabRoot(t: Theme, size: SizeType) {
   `;
 }
 
-function tabVertical(t: Theme, size: SizeType) {
+function tabVertical(t: Theme, size: SizeProp) {
   return css`
     border-bottom: none;
     border-left: ${t.tabBorderWidth} solid transparent;
@@ -217,7 +217,7 @@ function tabVertical(t: Theme, size: SizeType) {
   `;
 }
 
-function tabFocus(t: Theme, size: SizeType) {
+function tabFocus(t: Theme, size: SizeProp) {
   return css`
     border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
     bottom: -${t.tabBorderWidth};

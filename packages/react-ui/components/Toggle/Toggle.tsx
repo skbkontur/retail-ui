@@ -11,7 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -64,7 +64,7 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
    */
   autoFocus?: boolean;
   /** Размер */
-  size?: SizeType;
+  size?: SizeProp;
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */

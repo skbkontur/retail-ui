@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 export interface InputLayoutContextProps {
   focused: boolean;
   disabled: boolean;
-  size: SizeType;
+  size: SizeProp;
 }
 
 export const InputLayoutContextDefault: InputLayoutContextProps = {

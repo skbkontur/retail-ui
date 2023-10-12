@@ -21,7 +21,7 @@ import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -41,8 +41,10 @@ interface _FileUploaderProps
   width?: React.CSSProperties['width'];
   /**
    * Задаёт размер контрола.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large".
    */
-  size?: SizeType;
+  size?: SizeProp;
   /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
 
@@ -284,7 +286,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const rootNodeRef = useRef(null);
 
-  const iconSizes: Record<SizeType, number> = {
+  const iconSizes: Record<SizeProp, number> = {
     small: parseInt(theme.btnIconSizeSmall),
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),

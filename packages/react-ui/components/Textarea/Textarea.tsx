@@ -19,7 +19,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -45,7 +45,7 @@ export interface TextareaProps
         /** Не активное состояние */
         disabled?: boolean;
         /** Размер */
-        size?: SizeType;
+        size?: SizeProp;
         /**
          * Автоматический ресайз
          * в зависимости от содержимого

@@ -15,7 +15,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -39,7 +39,7 @@ export interface CheckboxProps
          */
         warning?: boolean;
         /** Размер */
-        size?: SizeType;
+        size?: SizeProp;
         /**
          * HTML-событие `mouseenter`.
          */

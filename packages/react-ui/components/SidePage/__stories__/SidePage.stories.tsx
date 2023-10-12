@@ -124,7 +124,7 @@ class Sample extends React.Component<SampleProps> {
             </SidePage.Body>
             {!this.props.withoutFooter && (
               <SidePage.Footer panel={this.state.panel}>
-                <Button size={'large'} onClick={this.close}>
+                <Button size="large" onClick={this.close}>
                   Close
                 </Button>
               </SidePage.Footer>
@@ -197,7 +197,7 @@ class SidePageWithInputInHeader extends React.Component {
       <SidePage onClose={this.close}>
         <SidePage.Header>
           <Input placeholder="Some input placeholder..." value="" />{' '}
-          <Input size={'large'} placeholder="Some large input placeholder..." value="" />
+          <Input size="large" placeholder="Some large input placeholder..." value="" />
           <br />
           <Textarea placeholder="Some textarea placeholder" value="" />
         </SidePage.Header>

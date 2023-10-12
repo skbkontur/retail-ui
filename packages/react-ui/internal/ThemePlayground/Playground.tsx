@@ -140,9 +140,9 @@ export class Playground extends React.Component<PlaygroundProps> {
   private renderSizesGroup = () => {
     return (
       <ComponentsGroup title={'Размеры'} theme={this.theme}>
-        <SizesGroup size={'small'} />
-        <SizesGroup size={'medium'} />
-        <SizesGroup size={'large'} />
+        <SizesGroup size="small" />
+        <SizesGroup size="medium" />
+        <SizesGroup size="large" />
       </ComponentsGroup>
     );
   };
@@ -179,7 +179,7 @@ export class Playground extends React.Component<PlaygroundProps> {
 
     return (
       <ComponentsGroup title={'Кнопки'} theme={this.theme}>
-        {getComponentsFromPropsList(<Button width={120} size={'small'} />, propsList)}
+        {getComponentsFromPropsList(<Button width={120} size="small" />, propsList)}
       </ComponentsGroup>
     );
   };

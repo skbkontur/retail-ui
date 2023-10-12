@@ -26,7 +26,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
@@ -57,7 +57,7 @@ export interface DatePickerProps
    */
   error?: boolean;
   menuAlign?: 'left' | 'right';
-  size?: SizeType;
+  size?: SizeProp;
   value?: string | null;
   /**
    * Состояние валидации при предупреждении.

@@ -24,7 +24,7 @@ export const InputLikeText: Story = () => (
     </div>
     <div>
       <ComboBoxView
-        size={'medium'}
+        size="medium"
         value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
         renderValue={complexRenderValue}
       />{' '}
@@ -32,7 +32,7 @@ export const InputLikeText: Story = () => (
     </div>
     <div>
       <ComboBoxView
-        size={'large'}
+        size="large"
         value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
         renderValue={complexRenderValue}
       />{' '}

@@ -7,7 +7,7 @@ import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 export default { title: 'FxInput' } as Meta;
 
@@ -16,9 +16,9 @@ TypeText.storyName = 'type text';
 
 export const DifferentSizesFxInput = () => (
   <Gapped vertical>
-    <TestFxInput size={'small'} />
-    <TestFxInput size={'medium'} />
-    <TestFxInput size={'large'} />
+    <TestFxInput size="small" />
+    <TestFxInput size="medium" />
+    <TestFxInput size="large" />
   </Gapped>
 );
 DifferentSizesFxInput.storyName = 'different sizes';
@@ -63,7 +63,7 @@ WithWidthStory.parameters = {
 interface TestFxInputProps {
   type: FxInputProps['type'];
   borderless?: boolean;
-  size?: SizeType;
+  size?: SizeProp;
   fractionDigits?: number;
 }
 interface TestFxInputState {

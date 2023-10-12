@@ -49,7 +49,7 @@ class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelPro
       <div>
         <h1 style={{ lineHeight: '2em' }}>{this.props.title}</h1>
         <div style={{ marginBottom: 10 }}>
-          <Button onClick={this.toggleMountedState} size={'small'}>
+          <Button onClick={this.toggleMountedState} size="small">
             {this.state.mounted ? 'Unmount' : 'Mount'}
           </Button>
         </div>

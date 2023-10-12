@@ -802,21 +802,21 @@ export const Size: Story = () => {
       </Button>
       <Gapped style={{ height: '250px' }}>
         <Select
-          size={'small'}
+          size="small"
           items={items}
           ref={(element) => {
             small = element;
           }}
         />
         <Select
-          size={'medium'}
+          size="medium"
           items={items}
           ref={(element) => {
             medium = element;
           }}
         />
         <Select
-          size={'large'}
+          size="large"
           items={items}
           ref={(element) => {
             large = element;

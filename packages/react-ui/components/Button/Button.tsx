@@ -15,7 +15,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
@@ -139,8 +139,10 @@ export interface ButtonProps
 
   /**
    * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: SizeType;
+  size?: SizeProp;
 
   /**
    * HTML-атрибут `type`.

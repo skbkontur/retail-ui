@@ -10,7 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuItem.styles';
 
@@ -42,7 +42,7 @@ export interface MenuItemProps
   /**
    * Размер
    */
-  size?: SizeType;
+  size?: SizeProp;
   /**
    * @ignore
    */

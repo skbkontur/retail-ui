@@ -13,7 +13,7 @@ import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MenuFooter } from '../../components/MenuFooter';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -36,7 +36,7 @@ export interface ComboBoxMenuProps<T> {
   requestStatus?: ComboBoxRequestStatus;
   isMobile?: boolean;
   menuId?: string;
-  size?: SizeType;
+  size?: SizeProp;
 }
 
 export const ComboBoxMenuDataTids = {

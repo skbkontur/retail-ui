@@ -105,29 +105,19 @@ class ModalWithIconInput extends React.Component {
     return (
       <Modal onClose={this.close}>
         <Modal.Header>
-          <Input size={'large'} placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input
-            size={'medium'}
-            placeholder="Modal.Header"
-            leftIcon={<BorderAllIcon />}
-            rightIcon={<BorderAllIcon />}
-          />
-          <Input size={'small'} placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="large" placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="medium" placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="small" placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
         </Modal.Header>
         <Modal.Body>
-          <Input size={'large'} placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size={'medium'} placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size={'small'} placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="large" placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="medium" placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="small" placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
         </Modal.Body>
         <Modal.Footer>
-          <Input size={'large'} placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input
-            size={'medium'}
-            placeholder="Modal.Footer"
-            leftIcon={<BorderAllIcon />}
-            rightIcon={<BorderAllIcon />}
-          />
-          <Input size={'small'} placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="large" placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="medium" placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input size="small" placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
         </Modal.Footer>
       </Modal>
     );

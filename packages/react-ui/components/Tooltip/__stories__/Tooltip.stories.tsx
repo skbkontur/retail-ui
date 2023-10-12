@@ -814,7 +814,7 @@ class DynamicContentTooltip extends React.Component {
         closeButton={false}
         useWrapper={false}
       >
-        <Button size={'small'} width={'100%'} onClick={this.buttonClickHandler}>
+        <Button size="small" width={'100%'} onClick={this.buttonClickHandler}>
           Toggle content
         </Button>
       </Tooltip>
@@ -957,7 +957,7 @@ class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
         closeButton={false}
         useWrapper={false}
       >
-        <Button size={'small'} width={'100%'} onClick={this.buttonClickHandler}>
+        <Button size="small" width={'100%'} onClick={this.buttonClickHandler}>
           Toggle content
         </Button>
       </Tooltip>
@@ -984,7 +984,7 @@ class TooltipWithDynamicContent extends React.Component {
     return (
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <div style={{ marginRight: 10 }}>
-          <Button size={'small'} onClick={this.buttonClickHandler}>
+          <Button size="small" onClick={this.buttonClickHandler}>
             Toggle
           </Button>
         </div>

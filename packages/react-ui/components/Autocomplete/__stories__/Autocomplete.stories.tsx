@@ -422,9 +422,9 @@ export const Size = () => {
   return (
     <div>
       <Gapped style={{ height: '300px', width: '1000px' }}>
-        <UncontrolledAutocomplete source={source} size={'small'} />
-        <UncontrolledAutocomplete source={source} size={'medium'} />
-        <UncontrolledAutocomplete source={source} size={'large'} />
+        <UncontrolledAutocomplete source={source} size="small" />
+        <UncontrolledAutocomplete source={source} size="medium" />
+        <UncontrolledAutocomplete source={source} size="large" />
       </Gapped>
     </div>
   );

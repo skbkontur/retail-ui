@@ -11,9 +11,9 @@ export default {
 export const Size = () => {
   return (
     <Gapped>
-      <MenuFooter size={'small'}>Маленький</MenuFooter>
-      <MenuFooter size={'medium'}>Средний</MenuFooter>
-      <MenuFooter size={'large'}>Большой</MenuFooter>
+      <MenuFooter size="small">Маленький</MenuFooter>
+      <MenuFooter size="medium">Средний</MenuFooter>
+      <MenuFooter size="large">Большой</MenuFooter>
     </Gapped>
   );
 };

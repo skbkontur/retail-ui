@@ -15,7 +15,7 @@ import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 import { jsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
@@ -24,7 +24,7 @@ interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
   multiple?: boolean;
-  size: SizeType;
+  size: SizeProp;
   /** Состояние ошибки контрола файла */
   error?: boolean;
 }

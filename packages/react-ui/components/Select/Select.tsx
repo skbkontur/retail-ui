@@ -33,7 +33,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -49,7 +49,7 @@ export interface ButtonParams
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-  size: SizeType;
+  size: SizeProp;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -160,7 +160,7 @@ export interface SelectProps<TValue, TItem>
    */
   warning?: boolean;
   use?: ButtonUse;
-  size?: SizeType;
+  size?: SizeProp;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
   /**
@@ -373,7 +373,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
-  private getLeftIconClass(size: SizeType | undefined) {
+  private getLeftIconClass(size: SizeProp | undefined) {
     if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }

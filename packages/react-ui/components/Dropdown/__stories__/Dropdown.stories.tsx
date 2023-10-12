@@ -324,7 +324,7 @@ export const Size: Story = () => {
       </Button>
       <Gapped style={{ height: '250px' }}>
         <Dropdown
-          size={'small'}
+          size="small"
           caption="Items small"
           ref={(element) => {
             small = element;
@@ -334,7 +334,7 @@ export const Size: Story = () => {
           {items}
         </Dropdown>
         <Dropdown
-          size={'medium'}
+          size="medium"
           caption="Items medium"
           ref={(element) => {
             medium = element;
@@ -344,7 +344,7 @@ export const Size: Story = () => {
           {items}
         </Dropdown>
         <Dropdown
-          size={'large'}
+          size="large"
           caption="Items large"
           ref={(element) => {
             large = element;

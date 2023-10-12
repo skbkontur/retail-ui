@@ -5,11 +5,11 @@ import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 interface PlainCheckboxState {
   checked: false;
-  size?: SizeType;
+  size?: SizeProp;
 }
 class PlainCheckbox extends React.Component {
   public state: PlainCheckboxState = {
@@ -449,9 +449,9 @@ export const Size: Story = () => {
   return (
     <div>
       <Gapped vertical>
-        <Checkbox size={'small'}>Size: small</Checkbox>
-        <Checkbox size={'medium'}>Size: medium</Checkbox>
-        <Checkbox size={'large'}>Size: large</Checkbox>
+        <Checkbox size="small">Size: small</Checkbox>
+        <Checkbox size="medium">Size: medium</Checkbox>
+        <Checkbox size="large">Size: large</Checkbox>
       </Gapped>
     </div>
   );

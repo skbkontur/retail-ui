@@ -5,7 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
 import { UndoIcon } from '../../internal/icons/16px';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { UndoIcon as UndoIcon2022 } from './UndoIcon';
 import { FxInputProps } from './FxInput';
@@ -23,12 +23,12 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
   if (isTheme2022(theme)) {
     const size = props.size || Input.defaultProps.size;
 
-    const iconSizes: Record<SizeType, number> = {
+    const iconSizes: Record<SizeProp, number> = {
       small: parseInt(theme.inputIconSizeSmall),
       medium: parseInt(theme.inputIconSizeMedium),
       large: parseInt(theme.inputIconSizeLarge),
     };
-    const cornersSizes: Record<SizeType, React.CSSProperties> = {
+    const cornersSizes: Record<SizeProp, React.CSSProperties> = {
       small: {
         borderTopLeftRadius: theme.inputBorderRadiusSmall,
         borderBottomLeftRadius: theme.inputBorderRadiusSmall,

@@ -464,9 +464,9 @@ export const DifferentSizes: Story = () => {
   return (
     <Gapped vertical>
       <Textarea value={'Size: no size choosen'} autoResize rows={1} />
-      <Textarea size={'small'} value={'Size: small'} autoResize rows={1} />
-      <Textarea size={'medium'} value={'Size: medium'} autoResize rows={1} />
-      <Textarea size={'large'} value={'Size: large'} autoResize rows={1} />
+      <Textarea size="small" value={'Size: small'} autoResize rows={1} />
+      <Textarea size="medium" value={'Size: medium'} autoResize rows={1} />
+      <Textarea size="large" value={'Size: large'} autoResize rows={1} />
     </Gapped>
   );
 };

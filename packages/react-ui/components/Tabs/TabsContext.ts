@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { emptyHandler } from '../../lib/utils';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { Tab } from './Tab';
 
 export interface TabsContextType<T extends string = any> {
   vertical: boolean;
   activeTab: T;
-  size: SizeType;
+  size: SizeProp;
   getTab: (id: T) => Tab<T> | null | void;
   addTab: (id: T, getNode: () => Tab<T>) => void;
   notifyUpdate: () => void;

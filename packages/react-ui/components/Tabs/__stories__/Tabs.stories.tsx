@@ -14,7 +14,7 @@ import { Modal } from '../../Modal';
 import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
 import { TabsProps } from '..';
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 const { Tab } = Tabs;
 
@@ -35,7 +35,7 @@ enum Mountain {
 
 interface UncTabsProps {
   vertical?: boolean;
-  size?: SizeType;
+  size?: SizeProp;
 }
 interface UncTabsState {
   value: Mountain;
@@ -539,15 +539,15 @@ const simpleParameters: Parameters = {
   },
 };
 
-export const Simple: Story = () => <UncTabs size={'large'} />;
+export const Simple: Story = () => <UncTabs size="large" />;
 Simple.storyName = 'simple';
 Simple.parameters = simpleParameters;
 
-export const SimpleMedium: Story = () => <UncTabs size={'medium'} />;
+export const SimpleMedium: Story = () => <UncTabs size="medium" />;
 SimpleMedium.storyName = 'simple (size=medium)';
 SimpleMedium.parameters = simpleParameters;
 
-export const SimpleSmall: Story = () => <UncTabs size={'small'} />;
+export const SimpleSmall: Story = () => <UncTabs size="small" />;
 SimpleSmall.storyName = 'simple (size=small)';
 SimpleSmall.parameters = simpleParameters;
 
@@ -596,11 +596,11 @@ export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
 Vertical.parameters = verticalParams;
 
-export const VerticalMedium: Story = () => <UncTabs vertical size={'medium'} />;
+export const VerticalMedium: Story = () => <UncTabs vertical size="medium" />;
 VerticalMedium.storyName = 'vertical (size=medium)';
 VerticalMedium.parameters = verticalParams;
 
-export const VerticalSmall: Story = () => <UncTabs vertical size={'small'} />;
+export const VerticalSmall: Story = () => <UncTabs vertical size="small" />;
 VerticalSmall.storyName = 'vertical (size=small)';
 VerticalSmall.parameters = verticalParams;
 

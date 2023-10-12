@@ -10,11 +10,11 @@ import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
-  size?: SizeType;
+  size?: SizeProp;
 }
 interface DatePickerWithErrorState {
   tooltip: boolean;
@@ -214,8 +214,8 @@ DatePickerDisabled.parameters = { creevey: { skip: true } };
 export const DifferentSizes = () => (
   <Gapped>
     <DatePicker value="20.20.2020" onValueChange={() => void 0} />
-    <DatePicker value="20.20.2020" onValueChange={() => void 0} size={'medium'} />
-    <DatePicker value="20.20.2020" onValueChange={() => void 0} size={'large'} />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="medium" />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="large" />
   </Gapped>
 );
 

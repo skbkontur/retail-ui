@@ -8,7 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -30,7 +30,7 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
   /**
    * Задаёт размер контрола.
    */
-  size?: SizeType;
+  size?: SizeProp;
 
   /**
    * Задаёт текущий активный `<Tab />`. Принимает `id` таба.

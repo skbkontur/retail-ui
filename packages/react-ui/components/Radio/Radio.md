@@ -40,17 +40,17 @@ const [chosen, setChosen] = React.useState(null);
 У Radio есть 3 стандартных размера.
 
 ```jsx harmony
-import {Gapped} from '@skbkontur/react-ui';
+import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-    <Radio size={'small'} value="value">
-        Маленький
-    </Radio>
-    <Radio size={'medium'} value="value">
-        Средний
-    </Radio>
-    <Radio size={'large'} value="value">
-        Большой
-    </Radio>
+  <Radio size="small" value="value">
+      Маленький
+  </Radio>
+  <Radio size="medium" value="value">
+      Средний
+  </Radio>
+  <Radio size="large" value="value">
+      Большой
+  </Radio>
 </Gapped>
 ```

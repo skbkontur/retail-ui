@@ -6,13 +6,13 @@ import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderAttachedFile } from '../fileUtils';
 import { cx } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { SizeType } from '../../../lib/SizeType';
+import { SizeProp } from '../../../lib/types/props';
 
 import { jsStyles } from './FileUploaderFileList.styles';
 
 interface FileUploaderFileListProps {
   renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
-  size: SizeType;
+  size: SizeProp;
 }
 
 export const FileUploaderFileDataTids = {

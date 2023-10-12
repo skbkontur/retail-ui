@@ -8,7 +8,7 @@ import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 export interface ComboBoxProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
@@ -162,7 +162,7 @@ export interface ComboBoxProps<T>
    */
   valueToString?: (item: T) => string;
 
-  size?: SizeType;
+  size?: SizeProp;
   /**
    * Состояние валидации при предупреждении.
    */

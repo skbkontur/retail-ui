@@ -57,13 +57,13 @@ export const Size = () => {
       <MenuItem icon={<OkIcon />} comment={comment}>
         Без размера
       </MenuItem>
-      <MenuItem size={'small'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size="small" icon={<OkIcon />} comment={comment}>
         Маленький
       </MenuItem>
-      <MenuItem size={'medium'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size="medium" icon={<OkIcon />} comment={comment}>
         Средний
       </MenuItem>
-      <MenuItem size={'large'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size="large" icon={<OkIcon />} comment={comment}>
         Большой
       </MenuItem>
     </Gapped>

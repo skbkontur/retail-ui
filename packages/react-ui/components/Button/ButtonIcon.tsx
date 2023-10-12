@@ -7,7 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { ButtonProps } from './Button';
 import { globalClasses, styles } from './Button.styles';
@@ -16,7 +16,7 @@ type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled
   hasChildren: boolean;
 };
 
-export const getButtonIconSizes = (theme: Theme): Record<SizeType, number> => {
+export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
   return {
     small: parseInt(theme.btnIconSizeSmall),
     medium: parseInt(theme.btnIconSizeMedium),

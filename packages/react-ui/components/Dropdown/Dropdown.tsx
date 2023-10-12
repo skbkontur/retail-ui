@@ -13,7 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
-import { SizeType } from '../../lib/SizeType';
+import { SizeProp } from '../../lib/types/props';
 
 import { getDropdownTheme } from './getDropdownTheme';
 
@@ -76,7 +76,7 @@ export interface DropdownProps
   maxMenuHeight?: number;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
-  size?: SizeType;
+  size?: SizeProp;
 
   /**
    * Смотри Button.

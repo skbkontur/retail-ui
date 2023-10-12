@@ -113,13 +113,13 @@ export const Size: Story = () => {
   return (
     <div>
       <Gapped vertical>
-        <Radio size={'small'} value="value">
+        <Radio size="small" value="value">
           Size: small
         </Radio>
-        <Radio size={'medium'} value="value">
+        <Radio size="medium" value="value">
           Size: medium
         </Radio>
-        <Radio size={'large'} value="value">
+        <Radio size="large" value="value">
           Size: large
         </Radio>
       </Gapped>

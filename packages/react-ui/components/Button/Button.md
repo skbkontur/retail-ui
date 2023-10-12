@@ -56,32 +56,32 @@ import { Button } from '@skbkontur/react-ui';
 
 ```jsx harmony
 <div
-    style={{
-        display: "flex",
-        alignItems: "end",
-        justifyContent: "space-between",
-        width: "330px"
-    }}>
-    <Button size={'small'}>Маленькая</Button>
-    <Button size={'medium'}>Средняя</Button>
-    <Button size={'large'}>Большая</Button>
+  style={{
+    display: "flex",
+    alignItems: "end",
+    justifyContent: "space-between",
+    width: "330px"
+  }}>
+  <Button size="small">Маленькая</Button>
+  <Button size="medium">Средняя</Button>
+  <Button size="large">Большая</Button>
 </div>
 ```
 
 Кнопки в виде стрелок.
 
 ```jsx harmony
-import {Gapped, Button} from '@skbkontur/react-ui';
+import { Gapped, Button } from '@skbkontur/react-ui';
 
 <Gapped gap={25}>
-    <Gapped gap={5}>
-        <Button arrow="left" size={'medium'}>
-            Назад
-        </Button>
-        <Button arrow size={'medium'}>
-            Далее
-        </Button>
-    </Gapped>
+  <Gapped gap={5}>
+    <Button arrow="left" size="medium">
+      Назад
+    </Button>
+    <Button arrow size="medium">
+      Далее
+    </Button>
+  </Gapped>
 </Gapped>;
 ```
 

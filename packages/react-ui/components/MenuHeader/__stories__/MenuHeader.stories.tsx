@@ -11,9 +11,9 @@ export default {
 export const Size = () => {
   return (
     <Gapped>
-      <MenuHeader size={'small'}>Маленький</MenuHeader>
-      <MenuHeader size={'medium'}>Средний</MenuHeader>
-      <MenuHeader size={'large'}>Большой</MenuHeader>
+      <MenuHeader size="small">Маленький</MenuHeader>
+      <MenuHeader size="medium">Средний</MenuHeader>
+      <MenuHeader size="large">Большой</MenuHeader>
     </Gapped>
   );
 };
