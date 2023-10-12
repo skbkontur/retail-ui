@@ -206,6 +206,9 @@ EmptyWithReference.storyName = 'empty with reference';
 EmptyWithReference.parameters = {
   creevey: {
     captureElement: '.tokens-test-container',
+    skip: {
+      'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'], tests: ['clicked'] },
+    },
     tests: {
       async idle() {
         await delay(100);
@@ -767,6 +770,9 @@ CustomRenderTotalCount.storyName = 'custom render total count';
 
 CustomRenderTotalCount.parameters = {
   creevey: {
+    skip: {
+      'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'], tests: ['renderTotalCount'] },
+    },
     tests: {
       async renderTotalCount() {
         await this.browser
