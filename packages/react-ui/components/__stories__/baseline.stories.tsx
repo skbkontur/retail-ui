@@ -16,7 +16,7 @@ import { Gapped } from '../Gapped';
 import { Group } from '../Group';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 export default { title: 'Baseline' };
 

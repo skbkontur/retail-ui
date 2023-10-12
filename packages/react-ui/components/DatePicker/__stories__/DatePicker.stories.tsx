@@ -9,7 +9,8 @@ import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
-import { delay, emptyHandler, SizeType } from '../../../lib/utils';
+import { delay, emptyHandler } from '../../../lib/utils';
+import { SizeType } from '../../../lib/SizeType';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;

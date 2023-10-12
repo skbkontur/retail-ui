@@ -5,7 +5,7 @@ import LinkIcon from '@skbkontur/react-icons/Link';
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
 import { Button } from '../../components/Button';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 import { SelectPlayground } from './SelectPlayground';
 

@@ -13,7 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 import { getDropdownTheme } from './getDropdownTheme';
 

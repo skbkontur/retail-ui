@@ -6,13 +6,14 @@ import { Input, InputIconType } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
-import { CancelationError, SizeType, taskWithDelay } from '../../lib/utils';
+import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { SizeType } from '../../lib/SizeType';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';

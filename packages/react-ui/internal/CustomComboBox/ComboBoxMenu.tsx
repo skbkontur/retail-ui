@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isFunction, isNullable, SizeType } from '../../lib/utils';
+import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
 import { isMenuItem, MenuItem, MenuItemState } from '../../components/MenuItem';
@@ -13,6 +13,7 @@ import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MenuFooter } from '../../components/MenuFooter';
+import { SizeType } from '../../lib/SizeType';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';

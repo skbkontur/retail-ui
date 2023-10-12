@@ -1,10 +1,11 @@
 import React from 'react';
 import { isElement } from 'react-is';
 
-import { isKonturIcon, SizeType } from '../../../lib/utils';
+import { isKonturIcon } from '../../../lib/utils';
 import { InputProps } from '../Input';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SizeType } from '../../../lib/SizeType';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { stylesLayout } from './InputLayout.styles';

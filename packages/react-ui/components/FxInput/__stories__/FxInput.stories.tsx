@@ -7,7 +7,7 @@ import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
-import { SizeType } from '../../../lib/utils';
+import { SizeType } from '../../../lib/SizeType';
 
 export default { title: 'FxInput' } as Meta;
 

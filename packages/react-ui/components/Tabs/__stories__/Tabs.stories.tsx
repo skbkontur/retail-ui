@@ -12,8 +12,10 @@ import { Tabs } from '../Tabs';
 import { TabProps } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
-import { delay, SizeType } from '../../../lib/utils';
+import { delay } from '../../../lib/utils';
 import { TabsProps } from '..';
+import { SizeType } from '../../../lib/SizeType';
+
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (

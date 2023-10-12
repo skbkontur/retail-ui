@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, 
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import { FileUploaderAttachedFile } from '../fileUtils';
-import { formatBytes, SizeType } from '../../../lib/utils';
+import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
@@ -15,6 +15,7 @@ import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
+import { SizeType } from '../../../lib/SizeType';
 
 import { jsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';

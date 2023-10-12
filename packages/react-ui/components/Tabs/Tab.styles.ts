@@ -2,7 +2,7 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
 

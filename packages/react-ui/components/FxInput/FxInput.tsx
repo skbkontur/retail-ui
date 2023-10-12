@@ -14,7 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';

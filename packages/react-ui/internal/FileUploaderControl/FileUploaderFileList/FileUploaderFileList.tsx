@@ -6,7 +6,7 @@ import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderAttachedFile } from '../fileUtils';
 import { cx } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { SizeType } from '../../../lib/utils';
+import { SizeType } from '../../../lib/SizeType';
 
 import { jsStyles } from './FileUploaderFileList.styles';
 

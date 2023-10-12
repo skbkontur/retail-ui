@@ -2,7 +2,7 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 
-import { isKonturIcon, SizeType } from '../../lib/utils';
+import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { keyListener } from '../../lib/events/keyListener';
@@ -19,6 +19,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeType } from '../../lib/SizeType';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';

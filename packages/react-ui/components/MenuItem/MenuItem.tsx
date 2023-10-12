@@ -4,12 +4,13 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
-import { isExternalLink, isFunction, isNonNullable, isReactUIComponent, SizeType } from '../../lib/utils';
+import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { SizeType } from '../../lib/SizeType';
 
 import { styles } from './MenuItem.styles';
 

@@ -5,7 +5,7 @@ import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../CommonWrapper';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 import { styles } from './MenuMessage.styles';
 

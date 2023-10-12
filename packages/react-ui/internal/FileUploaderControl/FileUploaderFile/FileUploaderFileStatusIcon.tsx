@@ -5,7 +5,7 @@ import { isTheme2022 } from '../../../lib/theming/ThemeHelpers';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { FileUploaderFileStatus } from '../fileUtils';
 import { LoadingIcon } from '../../icons2022/LoadingIcon';
-import { SizeType } from '../../../lib/utils';
+import { SizeType } from '../../../lib/SizeType';
 
 import { DeleteIcon as DeleteIcon2022 } from './DeleteIcon';
 import { ErrorIcon as ErrorIcon2022 } from './ErrorIcon';

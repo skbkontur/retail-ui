@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { emptyHandler, SizeType } from '../../lib/utils';
+import { emptyHandler } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 import { Tab } from './Tab';
 

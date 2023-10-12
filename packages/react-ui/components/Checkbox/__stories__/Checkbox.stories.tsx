@@ -4,7 +4,8 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
-import { delay, SizeType } from '../../../lib/utils';
+import { delay } from '../../../lib/utils';
+import { SizeType } from '../../../lib/SizeType';
 
 interface PlainCheckboxState {
   checked: false;

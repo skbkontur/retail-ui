@@ -1,5 +1,5 @@
 import { Theme } from '../../lib/theming/Theme';
-import { SizeType } from '../../lib/utils';
+import { SizeType } from '../../lib/SizeType';
 
 export function fontSize(t: Theme, size: SizeType) {
   return mapSize(size, t.tabFontSizeSmall, t.tabFontSizeMedium, t.tabFontSizeLarge);
