@@ -45,7 +45,7 @@ export interface CheckboxProps
          */
         warning?: boolean;
         /** Размер */
-        size?: CheckboxSize;
+        size?: SizeProp;
         /**
          * HTML-событие `mouseenter`.
          */

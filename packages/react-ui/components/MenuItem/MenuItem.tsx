@@ -47,7 +47,7 @@ export interface MenuItemProps
   /**
    * Размер
    */
-  size?: MenuItemSize;
+  size?: SizeProp;
   /**
    * @ignore
    */

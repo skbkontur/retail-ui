@@ -39,7 +39,7 @@ export interface RadioProps<T>
         /**
          * Размер
          */
-        size?: RadioSize;
+        size?: SizeProp;
         /**
          * Состояние фокуса.
          */

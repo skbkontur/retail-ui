@@ -16,7 +16,7 @@ export interface MenuHeaderProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
   /** Размер */
-  size?: MenuHeaderSize;
+  size?: SizeProp;
 }
 
 export const MenuHeaderDataTids = {

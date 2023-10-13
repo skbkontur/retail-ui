@@ -41,7 +41,7 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
   error?: boolean;
 
   /** Размер */
-  size?: SwitcherSize;
+  size?: SizeProp;
 
   disabled?: boolean;
 

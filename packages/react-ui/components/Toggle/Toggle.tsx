@@ -69,7 +69,7 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
    */
   autoFocus?: boolean;
   /** Размер */
-  size?: ToggleSize;
+  size?: SizeProp;
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */

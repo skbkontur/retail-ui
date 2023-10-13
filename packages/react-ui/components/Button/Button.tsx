@@ -146,7 +146,7 @@ export interface ButtonProps
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: ButtonSize;
+  size?: SizeProp;
 
   /**
    * HTML-атрибут `type`.

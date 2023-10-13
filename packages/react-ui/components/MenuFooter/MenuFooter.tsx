@@ -16,7 +16,7 @@ export interface MenuFooterProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
   /** Размер */
-  size?: MenuFooterSize;
+  size?: SizeProp;
 }
 
 export const MenuFooterDataTids = {

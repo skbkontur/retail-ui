@@ -50,7 +50,7 @@ export interface TextareaProps
         /** Не активное состояние */
         disabled?: boolean;
         /** Размер */
-        size?: TextareaSize;
+        size?: SizeProp;
         /**
          * Автоматический ресайз
          * в зависимости от содержимого

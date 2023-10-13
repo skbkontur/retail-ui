@@ -49,7 +49,7 @@ interface _FileUploaderProps
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: FileUploaderSize;
+  size?: SizeProp;
   /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
 
@@ -291,7 +291,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const rootNodeRef = useRef(null);
 
-  const iconSizes: Record<FileUploaderSize, number> = {
+  const iconSizes: Record<SizeProp, number> = {
     small: parseInt(theme.btnIconSizeSmall),
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),
