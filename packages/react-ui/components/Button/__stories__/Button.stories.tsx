@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
@@ -55,6 +55,10 @@ const getUseStates = (theme: string) => {
     return useStates2022.map((x) => ({ props: x }));
   }
   return useStates.map((x) => ({ props: x }));
+};
+
+const getIcon = (theme: string, newIcon: ReactElement, oldIcon: ReactElement) => {
+  return theme === 'THEME_2022' || theme === 'THEME_2022_DARK' ? newIcon : oldIcon;
 };
 
 export const Use: Story = (_, { globals: { theme } }) => (
@@ -433,10 +437,7 @@ const buttonTests: CreeveyTests = {
 };
 
 export const PlaygroundDefault: Story = (_, { globals: { theme } }) => (
-  <Button
-    icon={theme === 'THEME_2022' || theme === 'THEME_2022_DARK' ? <CheckAIcon /> : <OkIcon />}
-    data-tid="test-button"
-  >
+  <Button icon={getIcon(theme, <CheckAIcon />, <OkIcon />)} data-tid="test-button">
     Hello
   </Button>
 );
@@ -455,11 +456,7 @@ PlaygroundDefault.parameters = {
 };
 
 export const PlaygroundDisabled: Story = (_, { globals: { theme } }) => (
-  <Button
-    icon={theme === 'THEME_2022' || theme === 'THEME_2022_DARK' ? <CheckAIcon /> : <OkIcon />}
-    disabled
-    data-tid="test-button"
-  >
+  <Button icon={getIcon(theme, <CheckAIcon />, <OkIcon />)} disabled data-tid="test-button">
     Hello
   </Button>
 );
