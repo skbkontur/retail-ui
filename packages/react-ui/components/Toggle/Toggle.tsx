@@ -15,6 +15,11 @@ import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Toggle.styles';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type ToggleSize = SizeProp;
+
 let colorWarningShown = false;
 
 export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
@@ -64,7 +69,7 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
    */
   autoFocus?: boolean;
   /** Размер */
-  size?: SizeProp;
+  size?: ToggleSize;
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */

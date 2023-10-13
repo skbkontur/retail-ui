@@ -17,6 +17,11 @@ import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Radio.styles';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type RadioSize = SizeProp;
+
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
@@ -34,7 +39,7 @@ export interface RadioProps<T>
         /**
          * Размер
          */
-        size?: SizeProp;
+        size?: RadioSize;
         /**
          * Состояние фокуса.
          */

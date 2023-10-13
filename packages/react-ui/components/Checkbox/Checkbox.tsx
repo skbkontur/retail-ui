@@ -20,6 +20,12 @@ import { SizeProp } from '../../lib/types/props';
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
+
+/**
+ * @deprecated use SizeProp
+ */
+export type CheckboxSize = SizeProp;
+
 export interface CheckboxProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
@@ -39,7 +45,7 @@ export interface CheckboxProps
          */
         warning?: boolean;
         /** Размер */
-        size?: SizeProp;
+        size?: CheckboxSize;
         /**
          * HTML-событие `mouseenter`.
          */

@@ -22,6 +22,10 @@ import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
@@ -142,7 +146,7 @@ export interface ButtonProps
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: SizeProp;
+  size?: ButtonSize;
 
   /**
    * HTML-атрибут `type`.

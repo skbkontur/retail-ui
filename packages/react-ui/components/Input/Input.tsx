@@ -25,6 +25,10 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
+/**
+ * @deprecated use SizeProp
+ */
+export type InputSize = SizeProp;
 export type InputAlign = 'left' | 'center' | 'right';
 export type InputType = typeof inputTypes[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);

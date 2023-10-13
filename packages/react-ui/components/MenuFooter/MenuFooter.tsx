@@ -7,11 +7,16 @@ import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuFooter.styles';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type MenuFooterSize = SizeProp;
+
 export interface MenuFooterProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
   /** Размер */
-  size?: SizeProp;
+  size?: MenuFooterSize;
 }
 
 export const MenuFooterDataTids = {

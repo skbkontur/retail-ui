@@ -25,6 +25,11 @@ import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type TextareaSize = SizeProp;
+
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
@@ -45,7 +50,7 @@ export interface TextareaProps
         /** Не активное состояние */
         disabled?: boolean;
         /** Размер */
-        size?: SizeProp;
+        size?: TextareaSize;
         /**
          * Автоматический ресайз
          * в зависимости от содержимого

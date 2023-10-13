@@ -28,6 +28,11 @@ import { globalClasses, jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
+/**
+ * @deprecated use SizeProp
+ */
+export type FileUploaderSize = SizeProp;
+
 type FileUploaderOverriddenProps = 'size';
 
 interface _FileUploaderProps
@@ -44,7 +49,7 @@ interface _FileUploaderProps
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: SizeProp;
+  size?: FileUploaderSize;
   /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
 
@@ -286,7 +291,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const rootNodeRef = useRef(null);
 
-  const iconSizes: Record<SizeProp, number> = {
+  const iconSizes: Record<FileUploaderSize, number> = {
     small: parseInt(theme.btnIconSizeSmall),
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),

@@ -82,7 +82,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     leftIcon: PropTypes.element,
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     value: (props: CurrencyInputProps) => {
       warning(isValidNumber(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
     },
