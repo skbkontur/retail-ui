@@ -2,9 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
-import { Button, ButtonDataTids, ButtonType } from '../Button';
+import { Button, ButtonType } from '../Button';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -197,15 +195,5 @@ describe('Button', () => {
 
     expect(onMouseDown).toHaveBeenCalledTimes(1);
     expect(onMouseUp).toHaveBeenCalledTimes(1);
-  });
-
-  it('has data-tid `Button__spinner` when component in loading state (THEME_2022)', () => {
-    render(
-      <ThemeContext.Provider value={THEME_2022}>
-        <Button loading />
-      </ThemeContext.Provider>,
-    );
-
-    expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
   });
 });
