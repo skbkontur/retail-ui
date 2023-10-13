@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { getButtonCorners, Group } from '../Group';
-import { Button, ButtonProps, ButtonSize } from '../Button';
+import { Button, ButtonProps } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -18,7 +19,7 @@ import { mod } from './helpers';
 /**
  * @deprecated use SizeProp
  */
-export type SwitcherSize = ButtonSize;
+export type SwitcherSize = SizeProp;
 type SwitcherItems = string | SwitcherItem;
 
 export const SwitcherDataTids = {
