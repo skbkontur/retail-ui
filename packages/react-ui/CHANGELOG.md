@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0...@skbkontur/react-ui@4.16.1) (2023-10-16)
+
+
+### Bug Fixes
+
+* **Button:** fix icons styles on hover in disabled state ([#3281](https://github.com/skbkontur/retail-ui/issues/3281)) ([276e82d](https://github.com/skbkontur/retail-ui/commit/276e82d44ba483ef08ff26827150885ceaaff930))
+* **CurrencyInput:** remove `findDOMNode` console warning in `THEME_2022` ([#3278](https://github.com/skbkontur/retail-ui/issues/3278)) ([21a2a1f](https://github.com/skbkontur/retail-ui/commit/21a2a1f479d243746cf73b40f7300735600a464f))
+* **DateInput:** use `flushSync` in React@18 ([#3286](https://github.com/skbkontur/retail-ui/issues/3286)) ([69efd4d](https://github.com/skbkontur/retail-ui/commit/69efd4d6da9b6546e8bdfbba52fccf676ddea07f))
+
+
+### Features
+
+* **Button:** add data-tid for spinner icon ([#3277](https://github.com/skbkontur/retail-ui/issues/3277)) ([88a2d15](https://github.com/skbkontur/retail-ui/commit/88a2d1502c537280434ed3004c77d9516e6971af))
+
+
+### Reverts
+
+* Revert "chore: add export of type `InstanceWithRootNode` to use rootNode API (#3276)" ([acb3612](https://github.com/skbkontur/retail-ui/commit/acb361218c256e391a0c7e1e3474ea81695589d8)), closes [#3276](https://github.com/skbkontur/retail-ui/issues/3276)
+
+
+
+
+
 # [4.16.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0-next.10...@skbkontur/react-ui@4.16.0) (2023-09-21)
 
 ### Features
