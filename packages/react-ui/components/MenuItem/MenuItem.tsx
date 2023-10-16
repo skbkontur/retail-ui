@@ -10,10 +10,14 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuItem.styles';
 
-export type MenuItemSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type MenuItemSize = SizeProp;
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -43,7 +47,7 @@ export interface MenuItemProps
   /**
    * Размер
    */
-  size?: MenuItemSize;
+  size?: SizeProp;
   /**
    * @ignore
    */

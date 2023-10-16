@@ -19,12 +19,16 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
-export type TextareaSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type TextareaSize = SizeProp;
 
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
@@ -46,7 +50,7 @@ export interface TextareaProps
         /** Не активное состояние */
         disabled?: boolean;
         /** Размер */
-        size?: TextareaSize;
+        size?: SizeProp;
         /**
          * Автоматический ресайз
          * в зависимости от содержимого

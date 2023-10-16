@@ -22,6 +22,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -72,7 +73,7 @@ export interface AutocompleteProps
         /** onBlur */
         onBlur?: () => void;
         /** Размер инпута */
-        size?: InputProps['size'];
+        size?: SizeProp;
         /** value */
         value: string;
         /**

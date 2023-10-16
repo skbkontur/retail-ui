@@ -13,10 +13,14 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Radio.styles';
 
-export type RadioSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type RadioSize = SizeProp;
 
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -35,7 +39,7 @@ export interface RadioProps<T>
         /**
          * Размер
          */
-        size?: RadioSize;
+        size?: SizeProp;
         /**
          * Состояние фокуса.
          */

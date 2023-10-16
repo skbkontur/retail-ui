@@ -1454,7 +1454,9 @@ Size.parameters = {
           .perform();
         await this.browser.executeScript(function () {
           const containers = document.querySelectorAll('[data-tid~="ScrollContainer__inner"]');
-          for (let i = 0; i < containers.length; i++) containers[i].scrollTop += 300;
+          for (let i = 0; i < containers.length; i++) {
+            containers[i].scrollTop += 300;
+          }
         });
         await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');

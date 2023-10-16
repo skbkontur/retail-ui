@@ -3,16 +3,20 @@ import React, { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuHeader.styles';
 
-export type MenuHeaderSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type MenuHeaderSize = SizeProp;
 
 export interface MenuHeaderProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
   /** Размер */
-  size?: MenuHeaderSize;
+  size?: SizeProp;
 }
 
 export const MenuHeaderDataTids = {
