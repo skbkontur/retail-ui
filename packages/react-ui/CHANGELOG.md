@@ -8,17 +8,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **Button:** update styles in disabled Button ([#3279](https://github.com/skbkontur/retail-ui/issues/3279)) ([80e2f91](https://github.com/skbkontur/retail-ui/commit/80e2f919d47a29c14c7fcd0d6612b22e9f4f1449))
 * **ComboBox:** fix mobile overlay not closing when using public methods ([#3268](https://github.com/skbkontur/retail-ui/issues/3268)) ([46ffefa](https://github.com/skbkontur/retail-ui/commit/46ffefad121c0525f502d169c5d0052bff49129e))
 * **ComboBox:** submit form on Enter if closed ([#3264](https://github.com/skbkontur/retail-ui/issues/3264)) ([3646b08](https://github.com/skbkontur/retail-ui/commit/3646b08bb6e4e5b05c54513301626ab52eb9a2f9))
-* **CurrencyInput:** remove `findDOMNode` console warning in `THEME_2022` ([#3278](https://github.com/skbkontur/retail-ui/issues/3278)) ([21a2a1f](https://github.com/skbkontur/retail-ui/commit/21a2a1f479d243746cf73b40f7300735600a464f))
-* **DateInput:** use `flushSync` in React@18 ([#3286](https://github.com/skbkontur/retail-ui/issues/3286)) ([69efd4d](https://github.com/skbkontur/retail-ui/commit/69efd4d6da9b6546e8bdfbba52fccf676ddea07f))
 * **Sticky:** fix width calc in fixed state on page resize ([#3285](https://github.com/skbkontur/retail-ui/issues/3285)) ([8d19d82](https://github.com/skbkontur/retail-ui/commit/8d19d82d2ac07c16e442e8dd0478603ba7e84fb6))
-
-
-### Features
-
-* **Button:** add data-tid for spinner icon ([#3277](https://github.com/skbkontur/retail-ui/issues/3277)) ([88a2d15](https://github.com/skbkontur/retail-ui/commit/88a2d1502c537280434ed3004c77d9516e6971af))
 
 
 
@@ -36,6 +28,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **Kebab/Hint/Toast:** remove Pin and update style ([#3274](https://github.com/skbkontur/retail-ui/issues/3274)) ([b248448](https://github.com/skbkontur/retail-ui/commit/b248448241ae75eeaf70d2137c6e8aca779c3edf))
+
+
+
+
+
+## [4.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0...@skbkontur/react-ui@4.16.1) (2023-10-16)
+
+
+### Bug Fixes
+
+* **Button:** fix icons styles on hover in disabled state ([#3281](https://github.com/skbkontur/retail-ui/issues/3281)) ([276e82d](https://github.com/skbkontur/retail-ui/commit/276e82d44ba483ef08ff26827150885ceaaff930))
+* **CurrencyInput:** remove `findDOMNode` console warning in `THEME_2022` ([#3278](https://github.com/skbkontur/retail-ui/issues/3278)) ([21a2a1f](https://github.com/skbkontur/retail-ui/commit/21a2a1f479d243746cf73b40f7300735600a464f))
+* **DateInput:** use `flushSync` in React@18 ([#3286](https://github.com/skbkontur/retail-ui/issues/3286)) ([69efd4d](https://github.com/skbkontur/retail-ui/commit/69efd4d6da9b6546e8bdfbba52fccf676ddea07f))
+* **Button:** add data-tid for spinner icon ([#3277](https://github.com/skbkontur/retail-ui/issues/3277)) ([88a2d15](https://github.com/skbkontur/retail-ui/commit/88a2d1502c537280434ed3004c77d9516e6971af))
 
 
 
