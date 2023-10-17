@@ -7,7 +7,7 @@ export interface CalendarDateShape {
 }
 
 export const isEqual = (a: Nullable<CalendarDateShape>, b: Nullable<CalendarDateShape>) =>
-  (!a && !b) || (a && b && a.year === b.year && a.month === b.month && a.date === b.date);
+  Boolean((!a && !b) || (a && b && a.year === b.year && a.month === b.month && a.date === b.date));
 
 export const comparator = (a: CalendarDateShape, b: CalendarDateShape) => {
   if (a.year < b.year) {

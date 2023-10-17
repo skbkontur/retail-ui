@@ -1,13 +1,14 @@
 import React, { CSSProperties, useState } from 'react';
-import MagicWand from '@skbkontur/react-icons/MagicWand';
 
 import { delay } from '../../../lib/utils';
-import { CalendarDateShape } from '../CalendarDateShape';
-import { Calendar } from '../Calendar';
+import { Calendar, CalendarProps } from '../Calendar';
 import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { CalendarMonthChangeInfo } from '../';
+import { CalendarMonthInfo } from '../';
+import { Gapped } from '../../Gapped';
+import { LocaleContext } from '../../../lib/locale';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 
 export default { title: 'Calendar' };
 
@@ -16,6 +17,7 @@ export const CalendarWithBottomSeparator: Story = () => {
 
   return <Calendar value={date} onValueChange={setDate} />;
 };
+
 CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
   creevey: {
@@ -26,14 +28,104 @@ CalendarWithBottomSeparator.parameters = {
   },
 };
 
-const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
+export const CalendarWithPeriod: Story = () => {
+  const [min, setMin] = React.useState('05.08.2022');
+  const [max, setMax] = React.useState('30.08.2022');
+  const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
+  const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
+  const [focus, setFocus] = useState<'periodStartDate' | 'periodEndDate'>('periodStartDate');
+
+  const getFocusStyle = (type: 'periodStartDate' | 'periodEndDate') =>
+    focus === type ? { background: '#80A6FF' } : {};
+
+  const periodClearing = () => {
+    setFocus('periodStartDate');
+    setPeriodStartDate('');
+    setPeriodEndDate('');
+  };
+
+  const onValueChange = (date: string) => {
+    if (focus === 'periodEndDate') {
+      setPeriodEndDate(date);
+      setFocus('periodStartDate');
+    }
+    if (focus === 'periodStartDate') {
+      setPeriodStartDate(date);
+      setFocus('periodEndDate');
+    }
+  };
+
+  return (
+    <Gapped vertical gap={10}>
+      <label>
+        Свободные дни с: <input type="text" value={min} placeholder="min" onChange={(e) => setMin(e.target.value)} />
+      </label>
+      <label>
+        Свободные дни до: <input type="text" value={max} placeholder="max" onChange={(e) => setMax(e.target.value)} />
+      </label>
+      <label>
+        Начало периода:
+        <input
+          type="text"
+          style={getFocusStyle('periodStartDate')}
+          onClick={() => setFocus('periodStartDate')}
+          value={periodStartDate}
+          onChange={(e) => setPeriodStartDate(e.target.value)}
+        />
+      </label>
+      <label>
+        Окончание периода:
+        <input
+          type="text"
+          onClick={() => setFocus('periodEndDate')}
+          style={getFocusStyle('periodEndDate')}
+          value={periodEndDate}
+          onChange={(e) => setPeriodEndDate(e.target.value)}
+        />
+      </label>
+      <LocaleContext.Provider
+        value={{
+          locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
+        }}
+      >
+        <button onClick={periodClearing}>Очистить период</button>
+        <div>
+          <Calendar
+            value={periodStartDate || periodEndDate}
+            data-tid="calendar_with_period"
+            periodStartDate={periodStartDate}
+            periodEndDate={periodEndDate}
+            minDate={periodStartDate && !periodEndDate ? periodStartDate : min}
+            maxDate={!periodStartDate && periodEndDate ? periodEndDate : max}
+            onValueChange={onValueChange}
+          />
+        </div>
+      </LocaleContext.Provider>
+    </Gapped>
+  );
+};
+CalendarWithPeriod.storyName = 'Calendar with period';
+CalendarWithPeriod.parameters = {
+  creevey: {
+    captureElement: '[data-tid="calendar_with_period"]',
+    skip: { 'logic is covered with unit tests': { in: /^(?!\bchrome\b)/ } },
+  },
+};
+
+const customDayItem: CalendarProps['renderDay'] = (date, defaultProps, RenderDefault) => {
+  const [dd] = date.split('.').map(Number);
+
   const isEven = (num: number): boolean => num % 2 === 0;
 
-  return <div>{isEven(date.date) ? <MagicWand /> : date.date}</div>;
+  return (
+    <RenderDefault {...defaultProps}>
+      <div>{isEven(dd) ? '#' : dd}</div>
+    </RenderDefault>
+  );
 };
 
 export const CalendarWithCustomDates: Story = () => {
-  return <Calendar value={'12.05.2022'} renderDay={(date) => <CustomDayItem date={date} />} />;
+  return <Calendar value={'12.05.2022'} renderDay={customDayItem} />;
 };
 
 CalendarWithCustomDates.parameters = {
@@ -60,17 +152,12 @@ CalendarWithCustomCellSize.parameters = {
   },
 };
 
-const CustomDay: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
-  const isCustomDate = date.date === 2 && date.month === 0 && date.year === 2018;
-  return isCustomDate ? <div data-tid="CustomDayItem">{date.date}</div> : <div>{date.date}</div>;
-};
-
 export const CalendarWithMonthChangeHandle: Story = () => {
   const [month, setMonth] = useState(12);
   const [year, setYear] = useState(2017);
   const [value, setValue] = useState('02.12.2017');
 
-  const onMonthChange = (changeInfo: CalendarMonthChangeInfo): void => {
+  const onStuckMonth = (changeInfo: CalendarMonthInfo): void => {
     setMonth(changeInfo.month);
     setYear(changeInfo.year);
   };
@@ -88,12 +175,7 @@ export const CalendarWithMonthChangeHandle: Story = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <Calendar
-        value={value}
-        onValueChange={setValue}
-        onMonthChange={onMonthChange}
-        renderDay={(date) => <CustomDay date={date} />}
-      />
+      <Calendar value={value} onValueChange={setValue} onStuckMonth={onStuckMonth} />
       <div style={containerWithInfoStyle}>
         <div style={containersStyle}>
           <span>Отображаемый месяц</span>
@@ -114,7 +196,7 @@ CalendarWithMonthChangeHandle.parameters = {
       async 'month and year change when selecting day'() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="CustomDayItem"]' }))
+          .click(this.browser.findElement({ css: '[data-tid~="DayCellView__root"]' }))
           .perform();
         await delay(2000);
 

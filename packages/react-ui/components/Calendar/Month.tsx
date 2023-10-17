@@ -3,11 +3,8 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../../internal/DateSelect';
-import { Nullable } from '../../typings/utility-types';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
-import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
@@ -18,17 +15,8 @@ import { styles } from './MonthView.styles';
 interface MonthProps {
   top: number;
   month: MonthViewModel;
-  maxDate?: CDS.CalendarDateShape;
-  minDate?: CDS.CalendarDateShape;
-  today?: CDS.CalendarDateShape;
-  value?: Nullable<CDS.CalendarDateShape>;
-  onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
-  isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderDay?: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
-
-type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday' | 'renderItem'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
@@ -36,22 +24,17 @@ export class Month extends React.Component<MonthProps> {
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
 
+  constructor(props: MonthProps) {
+    super(props);
+    this.state = {};
+  }
+
   public shouldComponentUpdate(nextProps: MonthProps) {
+    // console.log('Month shouldComponentUpdate', nextProps);
     if (this.props.top !== nextProps.top) {
       return true;
     }
-    if (!CDS.isEqual(nextProps.value, this.props.value)) {
-      return true;
-    }
-    if (!CDS.isEqual(nextProps.today, this.props.today)) {
-      return true;
-    }
-    if (!CDS.isEqual(nextProps.minDate, this.props.minDate)) {
-      return true;
-    }
-    if (!CDS.isEqual(nextProps.maxDate, this.props.maxDate)) {
-      return true;
-    }
+
     return this.props.month !== nextProps.month;
   }
 
@@ -71,15 +54,13 @@ export class Month extends React.Component<MonthProps> {
   }
 
   public renderMain() {
-    const { month, maxDate, minDate, top } = this.props;
+    const { month, top } = this.props;
     return (
       <MonthView
         firstDayOffset={month.offset}
         height={month.getHeight(this.theme)}
         isFirstInYear={month.isFirstInYear}
         isLastInYear={month.isLastInYear}
-        maxDate={maxDate}
-        minDate={minDate}
         month={month.month}
         top={top}
         year={month.year}
@@ -94,19 +75,7 @@ export class Month extends React.Component<MonthProps> {
   }
 
   private renderCells() {
-    return (
-      <MonthDayGrid
-        days={this.props.month.days}
-        offset={this.props.month.offset}
-        minDate={this.props.minDate}
-        maxDate={this.props.maxDate}
-        today={this.props.today}
-        value={this.props.value}
-        onDateClick={this.props.onDateClick}
-        isHoliday={this.props.isHoliday}
-        renderItem={this.props.renderDay}
-      />
-    );
+    return <MonthDayGrid days={this.props.month.days} offset={this.props.month.offset} />;
   }
 
   private closeSelects = () => {
@@ -138,38 +107,17 @@ export class Month extends React.Component<MonthProps> {
 interface MonthDayGridProps {
   days: DayCellViewModel[];
   offset: number;
-  minDate?: CDS.CalendarDateShape;
-  maxDate?: CDS.CalendarDateShape;
-  today?: CDS.CalendarDateShape;
-  value?: Nullable<CDS.CalendarDateShape>;
-  onDateClick?: (x0: CDS.CalendarDateShape) => void;
-  isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
 
-  public static defaultProps: DefaultProps = {
-    isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
-    renderItem: (date: CDS.CalendarDateShape) => date.date,
-  };
-
-  private getProps = createPropsGetter(MonthDayGrid.defaultProps);
+  constructor(props: MonthDayGridProps) {
+    super(props);
+    this.state = {};
+  }
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
-    if (!CDS.isEqual(nextProps.value, this.props.value)) {
-      return true;
-    }
-    if (!CDS.isEqual(nextProps.today, this.props.today)) {
-      return true;
-    }
-    if (!CDS.isEqual(nextProps.minDate, this.props.minDate)) {
-      return true;
-    }
-    if (!CDS.isEqual(nextProps.maxDate, this.props.maxDate)) {
-      return true;
-    }
     return this.props.days !== nextProps.days;
   }
 
@@ -193,23 +141,9 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
             display: 'inline-block',
           }}
         />
-        {this.props.days.map((day) => {
-          const isWeekend = this.getProps().isHoliday(day);
-
-          return (
-            <DayCellView
-              date={day}
-              key={`${day.date}.${day.month}.${day.year}`}
-              minDate={this.props.minDate}
-              maxDate={this.props.maxDate}
-              today={this.props.today}
-              value={this.props.value}
-              isWeekend={isWeekend}
-              onDateClick={this.props.onDateClick}
-              renderItem={this.props.renderItem}
-            />
-          );
-        })}
+        {this.props.days.map((day) => (
+          <DayCellView date={day} key={`${day.date}.${day.month}.${day.year}`} />
+        ))}
       </div>
     );
   }
