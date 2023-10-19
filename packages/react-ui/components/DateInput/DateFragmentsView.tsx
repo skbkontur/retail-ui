@@ -6,6 +6,7 @@ import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './DateFragmentsView.styles';
 
@@ -19,6 +20,7 @@ interface DateFragmentViewProps {
 export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   private theme!: Theme;
   private rootNode: HTMLSpanElement | null = null;
+  private _isTheme2022 = isTheme2022(this.theme);
 
   public isFragment = (el: HTMLElement | EventTarget): boolean => {
     if (this.rootNode) {
@@ -44,7 +46,14 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
 
   private renderMain() {
     return (
-      <span ref={this.rootRef} className={styles.root(this.theme)}>
+      <span
+        ref={this.rootRef}
+        className={cx({
+          [styles.root()]: true,
+          [styles.selected(this.theme)]: !this._isTheme2022,
+          [styles.selectedFor22Themes(this.theme)]: this._isTheme2022,
+        })}
+      >
         {this.props.fragments.map((fragment, index) =>
           fragment.type === InternalDateComponentType.Separator
             ? this.renderSeparator(fragment, index)
