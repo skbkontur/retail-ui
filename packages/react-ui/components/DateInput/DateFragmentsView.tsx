@@ -20,7 +20,6 @@ interface DateFragmentViewProps {
 export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   private theme!: Theme;
   private rootNode: HTMLSpanElement | null = null;
-  private _isTheme2022 = isTheme2022(this.theme);
 
   public isFragment = (el: HTMLElement | EventTarget): boolean => {
     if (this.rootNode) {
@@ -45,13 +44,15 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   }
 
   private renderMain() {
+    const _isTheme2022 = isTheme2022(this.theme);
+
     return (
       <span
         ref={this.rootRef}
         className={cx({
           [styles.root()]: true,
-          [styles.selected(this.theme)]: !this._isTheme2022,
-          [styles.selectedFor22Themes(this.theme)]: this._isTheme2022,
+          [styles.selected(this.theme)]: !_isTheme2022,
+          [styles.selectedFor22Themes(this.theme)]: _isTheme2022,
         })}
       >
         {this.props.fragments.map((fragment, index) =>
