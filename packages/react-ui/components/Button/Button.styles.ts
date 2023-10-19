@@ -294,15 +294,25 @@ export const styles = memoizeStyle({
       padding: 0 !important; // override size mixin
       height: auto !important; // override size mixin
 
+      &:active:enabled {
+        ${activeStyles.link(t)}
+      }
+    `;
+  },
+
+  linkHovered(t: Theme) {
+    return css`
       &:hover:enabled,
       &:active:enabled {
         color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
+    `;
+  },
 
-      &:active:enabled {
-        ${activeStyles.link(t)}
-      }
+  linkUnderlined() {
+    return css`
+      text-decoration: underline;
     `;
   },
 

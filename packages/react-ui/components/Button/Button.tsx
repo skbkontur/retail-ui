@@ -24,6 +24,7 @@ import { getInnerLinkTheme } from './getInnerLinkTheme';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
+export type Underline = 'always' | 'onHover' | 'none';
 
 export interface ButtonProps
   extends CommonProps,
@@ -181,9 +182,9 @@ export interface ButtonProps
   theme?: ThemeIn;
 
   /**
-   * Добавить подчеркивание только при хавере
+   * Стиль подчеркивания: 'always' | 'onHover' | 'none'
    */
-  addUnderlineOnHover?: boolean;
+  underline?: Underline;
 }
 
 export interface ButtonState {
@@ -430,14 +431,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
+      const withoutUnderline = this.props.underline === 'none';
       rootProps.className = cx({
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
         [styles.link(this.theme)]: true,
+        [styles.linkHovered(this.theme)]: !withoutUnderline,
         [styles.linkLineHeight()]: !isSafari || (isSafari && !_isTheme2022),
         [styles.linkLineHeightSafariFallback()]: isSafari && _isTheme2022,
-        [styles.linkFocus(this.theme)]: isFocused,
+        [styles.linkFocus(this.theme)]: isFocused && !withoutUnderline,
         [styles.linkDisabled(this.theme)]: disabled || loading,
+        [styles.linkUnderlined()]: this.props.underline === 'always' && !_isTheme2022,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
@@ -474,7 +478,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             icon={this.renderIcon2022(icon)}
             as="span"
             tabIndex={-1}
-            addUnderlineOnHover={this.props.addUnderlineOnHover}
+            underline={this.props.underline}
           >
             {children}
           </Link>

@@ -19,8 +19,6 @@ const line = keyframes`
 const oldLineText = function (t: Theme) {
   const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
   return css`
-    border-bottom-style: ${t.linkLineBorderBottomStyle};
-    border-bottom-width: ${t.linkLineBorderBottomWidth};
     animation: ${line} 1s linear !important; // override creevey
     animation-play-state: paused !important;
     animation-delay: ${delay}s !important;
@@ -29,10 +27,18 @@ const oldLineText = function (t: Theme) {
 };
 
 export const styles = memoizeStyle({
-  root(t: Theme) {
+  root() {
+    return css`
+      position: relative;
+      border-radius: 1px;
+      outline: none;
+      text-decoration: none;
+    `;
+  },
+
+  rootHovered(t: Theme) {
     return css`
       ${linkMixin(t.linkHoverTextDecoration)};
-      position: relative;
     `;
   },
 
@@ -66,9 +72,14 @@ export const styles = memoizeStyle({
 
   lineText(t: Theme) {
     return css`
+      border-bottom-style: ${t.linkLineBorderBottomStyle};
+      border-bottom-width: ${t.linkLineBorderBottomWidth};
+    `;
+  },
+
+  lineTextDefault(t: Theme) {
+    return css`
       @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
-        border-bottom-style: ${t.linkLineBorderBottomStyle};
-        border-bottom-width: ${t.linkLineBorderBottomWidth};
         border-bottom-color: ${t.linkLineBorderBottomColor};
       }
       @supports not (border-bottom-color: ${t.linkLineBorderBottomColor}) {
@@ -85,17 +96,28 @@ export const styles = memoizeStyle({
 
   lineTextWithUnderlineOnHover(t: Theme) {
     return css`
-      border-bottom-color: transparent !important;
+      border-bottom-color: transparent;
       transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
       &:hover {
-        border-bottom-color: currentColor !important;
+        border-bottom-color: currentColor;
       }
+    `;
+  },
+
+  lineTextWithAlwaysUnderline() {
+    return css`
+      border-bottom-color: currentColor;
     `;
   },
 
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
+    `;
+  },
+
+  lineFocusHover(t: Theme) {
+    return css`
       .${globalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
@@ -105,27 +127,18 @@ export const styles = memoizeStyle({
   lineFocusSuccess(t: Theme) {
     return css`
       color: ${t.linkSuccessHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
   lineFocusDanger(t: Theme) {
     return css`
       color: ${t.linkDangerHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
   lineFocusGrayed(t: Theme) {
     return css`
       color: ${t.linkGrayedHoverColor} !important;
-      .${globalClasses.text} {
-        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-      }
     `;
   },
 
@@ -161,9 +174,15 @@ export const styles = memoizeStyle({
       border-bottom-color: currentColor;
     `;
   },
+
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+    `;
+  },
+
+  useHoveredRoot(t: Theme) {
+    return css`
       .${globalClasses.text} {
         :hover {
           ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
@@ -175,39 +194,30 @@ export const styles = memoizeStyle({
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-        }
-      }
     `;
   },
 
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-        }
-      }
     `;
   },
 
   useGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      .${globalClasses.text} {
-        :hover {
-          ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
-        }
-      }
     `;
   },
 
   useGrayedFocus(t: Theme) {
     return css`
       color: ${t.linkDisabledColor};
+    `;
+  },
+
+  underlined() {
+    return css`
+      text-decoration: underline;
     `;
   },
 
