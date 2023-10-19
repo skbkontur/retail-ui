@@ -3,25 +3,17 @@ import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   root(t: Theme) {
+    const getSelection = (background: string, color: string) =>
+      (background || color) &&
+      `& ::selection {
+      background: ${background};
+      color: ${color};
+    }`;
+
     return css`
       cursor: text;
 
-      & ::selection {
-        background: ${t.dateInputComponentSelectedBgColor};
-        color: ${t.dateInputComponentSelectedTextColor};
-      }
-      & ::-moz-selection {
-        background: ${t.dateInputComponentSelectedBgColor};
-        color: ${t.dateInputComponentSelectedTextColor};
-      }
-    `;
-  },
-
-  selected(t: Theme) {
-    return css`
-      border-color: ${t.dateInputComponentSelectedBgColor};
-      background-color: ${t.dateInputComponentSelectedBgColor};
-      color: ${t.dateInputComponentSelectedTextColor};
+      ${getSelection(t.dateInputComponentSelectedBgColor, t.dateInputComponentSelectedTextColor)}
     `;
   },
 

@@ -1,10 +1,6 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
-import { isBrowser, isChrome, isWindows } from '../../lib/client';
 
 import { DefaultThemeInternal } from './DefaultTheme';
-
-// Chrome default selection background in Windows is not equal to system color (highlight)
-const highlight = isBrowser && isWindows && isChrome ? '' : 'highlight';
 
 export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
@@ -331,8 +327,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region DateInput
-  public static dateInputComponentSelectedBgColor = highlight;
-  public static dateInputComponentSelectedTextColor = 'highlightText';
+  public static dateInputComponentSelectedBgColor = '';
+  public static dateInputComponentSelectedTextColor = '';
   //#endregion
 
   //#region Checkbox
