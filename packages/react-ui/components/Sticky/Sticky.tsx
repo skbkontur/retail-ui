@@ -99,8 +99,9 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         this.reflowCounter += 1;
         return;
       }
+    } else {
+      this.reflowCounter = 0;
     }
-    this.reflowCounter = 0;
   }
 
   public render() {
