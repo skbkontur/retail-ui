@@ -15,12 +15,16 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
 
-export type CheckboxSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type CheckboxSize = SizeProp;
 
 export interface CheckboxProps
   extends CommonProps,
@@ -41,7 +45,7 @@ export interface CheckboxProps
          */
         warning?: boolean;
         /** Размер */
-        size?: CheckboxSize;
+        size?: SizeProp;
         /**
          * HTML-событие `mouseenter`.
          */

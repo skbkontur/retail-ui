@@ -21,13 +21,17 @@ import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeProp } from '../../lib/types/props';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-export type FileUploaderSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type FileUploaderSize = SizeProp;
 
 type FileUploaderOverriddenProps = 'size';
 
@@ -45,7 +49,7 @@ interface _FileUploaderProps
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: FileUploaderSize;
+  size?: SizeProp;
   /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
 
@@ -287,7 +291,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const rootNodeRef = useRef(null);
 
-  const iconSizes: Record<FileUploaderSize, number> = {
+  const iconSizes: Record<SizeProp, number> = {
     small: parseInt(theme.btnIconSizeSmall),
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),

@@ -12,6 +12,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -28,7 +29,10 @@ export const TabDataTids = {
   root: 'Tab__root',
 } as const;
 
-export type TabSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type TabSize = SizeProp;
 
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
