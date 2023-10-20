@@ -104,7 +104,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  lineTextWithAlwaysUnderline() {
+  lineTextWithUnderline() {
     return css`
       border-bottom-color: currentColor;
     `;

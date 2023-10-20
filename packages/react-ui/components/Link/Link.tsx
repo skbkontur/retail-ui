@@ -214,7 +214,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
               [styles.lineTextDefault(this.theme)]: !isIE11 && underline === undefined,
               [styles.lineTextIE11(this.theme)]: isIE11,
               [styles.lineTextWithUnderlineOnHover(this.theme)]: underlineOnHover,
-              [styles.lineTextWithAlwaysUnderline()]: alwaysUnderline,
+              [styles.lineTextWithUnderline()]: alwaysUnderline,
             })}
           >
             {this.props.children}
