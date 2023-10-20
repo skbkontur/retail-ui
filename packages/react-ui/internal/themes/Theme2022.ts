@@ -344,7 +344,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region DateInput
-  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
+  public static dateInputComponentSelectedBgColor = '';
+  public static dateInputComponentSelectedTextColor = '';
   //#endregion
 
   //#region Checkbox
