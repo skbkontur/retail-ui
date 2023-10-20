@@ -93,6 +93,7 @@ export const DefaultState = {
   textValue: '',
   repeatRequest: () => undefined,
   requestStatus: ComboBoxRequestStatus.Unknown,
+  size: 'small',
 };
 
 export const CustomComboBoxDataTids = {
@@ -273,6 +274,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
+      onMobileClose: this.handleMobileClose,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
@@ -307,7 +309,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     return (
       <CommonWrapper {...this.props}>
-        <ComboBoxView {...viewProps} ref={this.setRootNode} />
+        <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
       </CommonWrapper>
     );
   }
@@ -383,6 +385,10 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Focus' });
   };
 
+  private handleMobileClose = () => {
+    this.handleInputBlur();
+  };
+
   private handleClickOutside = (e: Event) => {
     fixClickFocusIE(e);
     this.handleBlur();
@@ -410,9 +416,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // it would call handleFocusOutside
     // In that way handleBlur would be called
 
-    // TODO: add check for mobile layout, to call `handleBlur`
-
-    if (this.state.opened) {
+    if (this.state.opened && !this.isMobileLayout) {
       return;
     }
     this.handleBlur();

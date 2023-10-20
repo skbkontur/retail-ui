@@ -269,7 +269,16 @@ export const DisabledPaging = () => {
 };
 DisabledPaging.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|chromeDark)\b)/ },
+    skip: { in: /^(?!\b(chrome|chromeDark|chrome2022|chrome2022Dark)\b)/ },
+  },
+};
+
+export const PagingDisabledForwardLink = () => {
+  return <Paging onPageChange={emptyHandler} activePage={8} pagesCount={8} />;
+};
+PagingDisabledForwardLink.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|chromeDark|chrome2022|chrome2022Dark)\b)/ },
   },
 };
 
