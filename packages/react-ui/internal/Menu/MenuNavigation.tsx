@@ -41,27 +41,20 @@ export class MenuNavigation<T extends Highlightable> {
 
   public move(
     step: number,
-    cyclicSelection: boolean,
+    isCyclic: boolean,
     scrollToTop?: () => void,
     scrollToBottom?: () => void,
     scrollToSelected?: () => void,
   ) {
     const currentIndex = this.highlightedItem ? this.items.indexOf(this.highlightedItem) : -1;
-
+    const minIndex = 0;
+    const maxIndex = this.items.length - 1;
     let nextIndex = currentIndex + step;
-    if (nextIndex < 0) {
-      if (cyclicSelection) {
-        nextIndex = this.items.length - 1;
-      } else {
-        nextIndex = 0;
-      }
+    if (nextIndex < minIndex) {
+      nextIndex = isCyclic ? maxIndex : minIndex;
     }
-    if (nextIndex > this.items.length - 1) {
-      if (cyclicSelection) {
-        nextIndex = 0;
-      } else {
-        nextIndex = this.items.length - 1;
-      }
+    if (nextIndex > maxIndex) {
+      nextIndex = isCyclic ? minIndex : maxIndex;
     }
 
     const nextItem = this.items[nextIndex];
