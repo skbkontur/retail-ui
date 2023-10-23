@@ -218,6 +218,7 @@ EmptyWithReference.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
       async withMenu() {
@@ -226,8 +227,15 @@ EmptyWithReference.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .perform();
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
           .sendKeys('a')
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
       },
     },
@@ -470,8 +478,16 @@ CustomAddButton.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .perform();
+        await delay(1000);
+        this.browser
+          .actions({
+            bridge: true,
+          })
           .sendKeys('zzz')
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
@@ -726,6 +742,7 @@ FullWidthMenu.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('a')
           .perform();
+        await delay(400);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },

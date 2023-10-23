@@ -154,10 +154,62 @@ export const styles = memoizeStyle({
       fill: currentColor;
       opacity: 0.5;
       line-height: 0;
+      display: inline-block;
 
       &:hover {
         opacity: 1;
       }
+    `;
+  },
+
+  crosslessGapSmall(t: Theme) {
+    return css`
+      margin-right: ${parseInt(t.tokenMarginXSmall) +
+      parseInt(t.tokenRemoveIconSize) +
+      parseInt(t.tokenRemoveIconGap) +
+      2 * parseInt(t.tokenRemoveIconPaddingX)}px;
+    `;
+  },
+  crosslessGapMedium(t: Theme) {
+    return css`
+      margin-right: ${parseInt(t.tokenMarginXMedium) +
+      parseInt(t.tokenRemoveIconSize) +
+      parseInt(t.tokenRemoveIconGap) +
+      2 * parseInt(t.tokenRemoveIconPaddingX)}px;
+    `;
+  },
+  crosslessGapLarge(t: Theme) {
+    return css`
+      margin-right: ${parseInt(t.tokenMarginXLarge) +
+      parseInt(t.tokenRemoveIconSize) +
+      parseInt(t.tokenRemoveIconGap) +
+      2 * parseInt(t.tokenRemoveIconPaddingX)}px;
+    `;
+  },
+
+  helperContainer() {
+    return css`
+      display: flex;
+      position: absolute;
+      visibility: hidden;
+    `;
+  },
+  helperContainerSmall(t: Theme) {
+    return css`
+      left: ${t.tokenPaddingXSmall};
+      right: ${t.tokenPaddingXSmall};
+    `;
+  },
+  helperContainerMedium(t: Theme) {
+    return css`
+      left: ${t.tokenPaddingXMedium};
+      right: ${t.tokenPaddingXMedium};
+    `;
+  },
+  helperContainerLarge(t: Theme) {
+    return css`
+      left: ${t.tokenPaddingXLarge};
+      right: ${t.tokenPaddingXLarge};
     `;
   },
 });

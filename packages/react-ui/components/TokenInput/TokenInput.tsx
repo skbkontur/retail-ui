@@ -25,7 +25,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
-import { Token, TokenProps } from '../Token';
+import { Token, TokenProps, TokenSize } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -37,6 +37,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
+import { TokenView } from '../Token/TokenView';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -51,7 +53,6 @@ export enum TokenInputType {
 }
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
-export type TokenInputSize = 'small' | 'medium' | 'large';
 
 export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   /**
@@ -68,7 +69,7 @@ export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-described
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   /** Размер */
-  size?: TokenInputSize;
+  size?: TokenSize;
   /**
    * Тип инпута. Возможные значения:
    *
@@ -199,6 +200,7 @@ export interface TokenInputState<T> {
   inputValue: string;
   reservedInputValue: string | undefined;
   inputValueWidth: number;
+  inputValueHeight: number;
   preventBlur?: boolean;
   loading?: boolean;
 }
@@ -213,6 +215,7 @@ export const DefaultState = {
   loading: false,
   preventBlur: false,
   inputValueWidth: 2,
+  inputValueHeight: 22,
 };
 
 export const TokenInputDataTids = {
@@ -368,17 +371,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         return styles.labelSmall(this.theme);
     }
   }
-  private getInputEditingSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.inputEditingLarge(this.theme);
-      case 'medium':
-        return styles.inputEditingMedium(this.theme);
-      case 'small':
-      default:
-        return styles.inputEditingSmall(this.theme);
-    }
-  }
+
   private getInputSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
@@ -388,77 +381,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       case 'small':
       default:
         return styles.inputSmall(this.theme);
-    }
-  }
-
-  private getHelperTextSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.helperTextLarge(this.theme);
-      case 'medium':
-        return styles.helperTextMedium(this.theme);
-      case 'small':
-      default:
-        return styles.helperTextSmall(this.theme);
-    }
-  }
-
-  private getHelperTextEditingSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.helperTextEditingLarge(this.theme);
-      case 'medium':
-        return styles.helperTextEditingMedium(this.theme);
-      case 'small':
-      default:
-        return styles.helperTextEditingSmall(this.theme);
-    }
-  }
-
-  private getInputDisabledSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.inputEditingLarge(this.theme);
-      case 'medium':
-        return styles.inputEditingMedium(this.theme);
-      case 'small':
-      default:
-        return styles.inputEditingSmall(this.theme);
-    }
-  }
-
-  private getReservedInputSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.reservedInputLarge(this.theme);
-      case 'medium':
-        return styles.reservedInputMedium(this.theme);
-      case 'small':
-      default:
-        return styles.reservedInputSmall(this.theme);
-    }
-  }
-  private getInputLineHeight() {
-    switch (this.getProps().size) {
-      case 'large':
-        return this.theme.tokenInputInputLineHeightLarge;
-      case 'medium':
-        return this.theme.tokenInputInputLineHeightMedium;
-      case 'small':
-      default:
-        return this.theme.tokenInputInputLineHeightSmall;
-    }
-  }
-
-  private getInputWidthOffset() {
-    switch (this.getProps().size) {
-      case 'large':
-        return this.theme.tokenTextareaWidthOffsetLarge;
-      case 'medium':
-        return this.theme.tokenTextareaWidthOffsetMedium;
-      case 'small':
-      default:
-        return this.theme.tokenTextareaWidthOffsetSmall;
     }
   }
 
@@ -484,8 +406,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
 
-    const { activeTokens, inFocus, inputValueWidth, inputValue, reservedInputValue, autocompleteItems, loading } =
-      this.state;
+    const {
+      activeTokens,
+      inFocus,
+      inputValueWidth,
+      inputValueHeight,
+      inputValue,
+      reservedInputValue,
+      autocompleteItems,
+      loading,
+    } = this.state;
 
     const showMenu =
       this.type !== TokenInputType.WithoutReference &&
@@ -495,13 +425,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const theme = this.theme;
 
-    const lineHeight = this.getInputLineHeight();
-
     const inputInlineStyles: React.CSSProperties = {
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
-      height: lineHeight,
-      lineHeight,
+      height: inputValueHeight,
       // input растягивается на всю ширину чтобы placeholder не обрезался
       flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
@@ -516,10 +443,29 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [styles.warning(theme)]: !!warning,
     });
     const inputClassName = cx(styles.input(theme), this.getInputSizeClassName(), {
-      [this.getInputEditingSizeClassName()]: this.isEditingMode,
       [styles.inputDisabled(theme)]: !!disabled,
-      [this.getInputDisabledSizeClassName()]: !!disabled,
     });
+
+    const textHolder = (
+      <textarea
+        id={this.textareaId}
+        ref={this.inputRef}
+        value={inputValue}
+        style={inputInlineStyles}
+        spellCheck={false}
+        disabled={disabled}
+        className={inputClassName}
+        placeholder={selectedItems.length > 0 ? undefined : placeholder}
+        onFocus={this.handleInputFocus}
+        onBlur={this.handleInputBlur}
+        onChange={this.handleChangeInputValue}
+        onKeyDown={this.handleKeyDown}
+        onPaste={this.handleInputPaste}
+        inputMode={inputMode}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedby}
+      />
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -536,32 +482,19 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cx(styles.helperText(), this.getHelperTextSizeClassName(), {
+              classHelp={cx(styles.helperText(), this.getInputSizeClassName(), {
                 [styles.helperTextEditing(theme)]: this.isEditingMode,
-                [this.getHelperTextEditingSizeClassName()]: this.isEditingMode,
               })}
-              text={inputValue}
+              text={inputValue === '' ? placeholder : inputValue}
               theme={this.theme}
               size={this.getProps().size}
             />
             {this.renderTokensStart()}
-            <textarea
-              id={this.textareaId}
-              ref={this.inputRef}
-              value={inputValue}
-              style={inputInlineStyles}
-              spellCheck={false}
-              disabled={disabled}
-              className={inputClassName}
-              placeholder={selectedItems.length > 0 ? undefined : placeholder}
-              onFocus={this.handleInputFocus}
-              onBlur={this.handleInputBlur}
-              onChange={this.handleChangeInputValue}
-              onKeyDown={this.handleKeyDown}
-              onPaste={this.handleInputPaste}
-              inputMode={inputMode}
-              aria-label={ariaLabel}
-              aria-describedby={ariaDescribedby}
+
+            <TokenView
+              textHolder={textHolder}
+              size={this.getProps().size}
+              className={cx({ [styles.transparentBorder(theme)]: isTheme2022(theme) })}
             />
             {showMenu && (
               <TokenInputMenu
@@ -584,9 +517,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             )}
             {this.renderTokensEnd()}
             {this.isEditingMode ? (
-              <span className={cx(styles.reservedInput(theme), this.getReservedInputSizeClassName())}>
-                {reservedInputValue}
-              </span>
+              <TokenView
+                textHolder={<span className={styles.reservedInput(theme)}>{reservedInputValue}</span>}
+                size={this.props.size}
+                className={cx({ [styles.transparentBorder(theme)]: isTheme2022(theme) })}
+              />
             ) : null}
           </label>
         </div>
@@ -661,10 +596,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.textHelper) {
       // в IE текст иногда не помещается в input
       // из-за округления, поэтому округляем явно
-      const inputValueWidth =
-        parseFloat(this.textHelper.getTextWidth().toFixed(2)) + parseInt(this.getInputWidthOffset());
+      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));
+      const inputValueHeight = parseFloat(this.textHelper.getTextHeight().toFixed(2));
 
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);
+      this.dispatch({ type: 'SET_INPUT_VALUE_HEIGHT', payload: inputValueHeight }, LayoutEvents.emit);
     }
   }
 
