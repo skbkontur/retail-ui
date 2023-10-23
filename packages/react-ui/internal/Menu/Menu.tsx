@@ -161,26 +161,16 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public up() {
-    this.menuNavigation?.move(
-      -1,
-      this.getProps().cyclicSelection,
-      this.scrollToTop,
-      this.scrollToBottom,
-      this.scrollToSelected,
-    );
+    const nextIndex = this.menuNavigation?.move(-1, this.getProps().cyclicSelection);
+    this.scroll(nextIndex);
   }
 
   /**
    * @public
    */
   public down() {
-    this.menuNavigation?.move(
-      1,
-      this.getProps().cyclicSelection,
-      this.scrollToTop,
-      this.scrollToBottom,
-      this.scrollToSelected,
-    );
+    const nextIndex = this.menuNavigation?.move(1, this.getProps().cyclicSelection);
+    this.scroll(nextIndex);
   }
 
   /**
@@ -351,6 +341,19 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private scrollToBottom = () => {
     if (this.scrollContainer) {
       this.scrollContainer.scrollToBottom();
+    }
+  };
+
+  private scroll = (nextIndex: number) => {
+    switch (nextIndex) {
+      case 0:
+        this.scrollToTop?.();
+        break;
+      case this.menuNavigation.items.length - 1:
+        this.scrollToBottom?.();
+        break;
+      default:
+        this.scrollToSelected?.();
     }
   };
 

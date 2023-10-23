@@ -13,7 +13,7 @@ export class MenuNavigation<T extends Highlightable> {
   private tagsAndItems: WeakMap<Element, T> = new WeakMap();
 
   public highlightedItem: T | null = null;
-  private items: T[] = [];
+  public items: T[] = [];
 
   constructor(root: RefObject<HTMLDivElement> | null) {
     this.root = root;
@@ -36,13 +36,7 @@ export class MenuNavigation<T extends Highlightable> {
     this.update();
   }
 
-  public move(
-    step: number,
-    isCyclic: boolean,
-    scrollToTop?: () => void,
-    scrollToBottom?: () => void,
-    scrollToSelected?: () => void,
-  ) {
+  public move(step: number, isCyclic: boolean) {
     const currentIndex = this.highlightedItem ? this.items.indexOf(this.highlightedItem) : -1;
     const minIndex = 0;
     const maxIndex = this.items.length - 1;
@@ -58,16 +52,7 @@ export class MenuNavigation<T extends Highlightable> {
 
     this.highlight(nextItem);
 
-    switch (nextIndex) {
-      case 0:
-        scrollToTop?.();
-        break;
-      case this.items.length - 1:
-        scrollToBottom?.();
-        break;
-      default:
-        scrollToSelected?.();
-    }
+    return nextIndex;
   }
 
   public highlight(item: T | null) {
