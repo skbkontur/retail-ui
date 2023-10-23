@@ -93,6 +93,7 @@ export class MenuNavigation<T extends Highlightable> {
   }
 
   public unhighlight() {
+    this.highlightedItem?.unhighlight();
     this.highlightedItem = null;
   }
 

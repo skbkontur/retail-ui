@@ -343,7 +343,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
     this.mouseEntered = false;
     this.props.onMouseLeave?.(e);
     this.context.navigation?.unhighlight();
-    this.unhighlight();
   };
 
   private handleClick = (e: React.MouseEvent<HTMLElement>) => {
