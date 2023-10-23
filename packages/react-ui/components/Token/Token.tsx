@@ -73,6 +73,18 @@ export const TokenDataTids = {
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
+  private getSizeClassName(size: TokenSize) {
+    switch (size) {
+      case 'large':
+        return styles.tokenLarge(this.theme);
+      case 'medium':
+        return styles.tokenMedium(this.theme);
+      case 'small':
+      default:
+        return styles.tokenSmall(this.theme);
+    }
+  }
+
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
   private readonly locale!: TokenLocale;

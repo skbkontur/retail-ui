@@ -168,7 +168,7 @@ describe('<TokenInput />', () => {
     element.click();
     userEvent.keyboard('aaa,bbb,ccc,');
     delay(1);
-    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
+    expect(screen.queryAllByTestId(TokenDataTids.view)).toHaveLength(3);
   });
 
   it('should render custom AddButton', async () => {
@@ -234,7 +234,7 @@ describe('<TokenInput />', () => {
 
   it('should handle Token DoubleClick', async () => {
     render(<TokenInputWithSelectedItem />);
-    const token = screen.getByTestId(TokenDataTids.root);
+    const token = screen.getByTestId(TokenDataTids.view);
 
     expect(token).toBeInTheDocument();
     expect(screen.getByRole('textbox')).not.toHaveTextContent('xxx');
@@ -248,22 +248,22 @@ describe('<TokenInput />', () => {
   it('should delete token if value was deleted in editing token mode', async () => {
     render(<TokenInputWithSelectedItem />);
     const input = screen.getByRole('textbox');
-    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+    userEvent.dblClick(screen.getByTestId(TokenDataTids.view));
     await userEvent.keyboard('[Backspace]');
     input.blur();
 
-    expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(TokenDataTids.view)).not.toBeInTheDocument();
   });
 
   it('should render token if the token value has not changed during editing', async () => {
     render(<TokenInputWithSelectedItem />);
     const input = screen.getByRole('textbox');
-    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+    userEvent.dblClick(screen.getByTestId(TokenDataTids.view));
     await delay(0);
-    expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(TokenDataTids.view)).not.toBeInTheDocument();
     input.blur();
 
-    expect(screen.getByTestId(TokenDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(TokenDataTids.view)).toBeInTheDocument();
   });
 
   it('should delete Token with Backspace', async () => {
