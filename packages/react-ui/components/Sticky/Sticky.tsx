@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
+import isEqual from 'lodash.isequal';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -15,6 +16,31 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { styles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
+
+// Flattens all child elements into a single list
+const flatten = (children: ReactElement, flat: ReactNode[] = []): ReactNode[] => {
+  // eslint-disable-next-line no-param-reassign
+  flat = [...flat, ...React.Children.toArray(children)];
+
+  if (children.props && children.props.children) {
+    return flatten(children.props.children, flat);
+  }
+
+  return flat;
+};
+
+// Strips all circular references and internal fields
+const simplify = (children: ReactElement) => {
+  const flat = flatten(children);
+
+  // @ts-expect-error xxx
+  return flat.map(({ key, ref, type, props: { children, ...props } }) => ({
+    key,
+    ref,
+    type,
+    props,
+  }));
+};
 
 export interface StickyProps extends Omit<CommonProps, 'children'> {
   side: 'top' | 'bottom';
@@ -93,7 +119,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   }
 
   public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
-    if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
+    if (
+      !shallowEqual(prevProps, this.props, (prev, curr, key) => {
+        return key === 'children' ? isEqual(simplify(prev), simplify(curr)) : void 0;
+      }) ||
+      !shallowEqual(prevState, this.state)
+    ) {
       if (this.reflowCounter < MAX_REFLOW_RETRIES) {
         LayoutEvents.emit();
         this.reflowCounter += 1;
