@@ -1,5 +1,7 @@
 import React, { RefObject } from 'react';
 
+import { MenuItemDataTids } from '../../components/MenuItem';
+
 interface Highlightable {
   highlight(): void;
   unhighlight(): void;
@@ -22,7 +24,7 @@ export class MenuNavigation<T extends Highlightable> {
 
   private update() {
     if (this.root && this.root.current) {
-      const menuItems = Array.from(this.root.current.querySelectorAll('span[data-tid="MenuItem__content"]'));
+      const menuItems = Array.from(this.root.current.querySelectorAll(`span[data-tid="${MenuItemDataTids.content}"]`));
       this.items = menuItems.map((item) => this.tagsAndItems.get(item)).filter((item): item is T => item !== undefined);
     }
   }

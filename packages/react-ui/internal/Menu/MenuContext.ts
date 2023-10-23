@@ -11,6 +11,6 @@ export interface MenuContextType {
 }
 
 export const MenuContext = React.createContext<MenuContextType>({
-  navigation: new MenuNavigation(null),
+  navigation: null,
   enableIconPadding: false,
 });
