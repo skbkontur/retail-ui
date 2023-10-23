@@ -124,21 +124,21 @@ export class Token extends React.Component<TokenProps> {
 
     const classNames = isTheme2022(theme)
       ? cx(
-        styles.tokenDefaultIdle2022(theme),
-        !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
-        isActive && styles.tokenDefaultActive2022(theme),
-        warning && styles.tokenWarning2022(theme),
-        error && styles.tokenError2022(theme),
-        disabled && styles.tokenDisabled2022(theme),
-      )
+          styles.tokenDefaultIdle2022(theme),
+          !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
+          isActive && styles.tokenDefaultActive2022(theme),
+          warning && styles.tokenWarning2022(theme),
+          error && styles.tokenError2022(theme),
+          disabled && styles.tokenDisabled2022(theme),
+        )
       : cx(
-        colorStyles[colors.idle](theme, validation),
-        !!isActive && colorStyles[colors.active || colors.idle](theme, validation),
-        !!disabled && styles.disabled(theme),
-        !!disabled && colorStyles.defaultDisabled(theme),
-        !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
-        !!disabled && error && colorStyles.defaultDisabledError(theme),
-      );
+          colorStyles[colors.idle](theme, validation),
+          !!isActive && colorStyles[colors.active || colors.idle](theme, validation),
+          !!disabled && styles.disabled(theme),
+          !!disabled && colorStyles.defaultDisabled(theme),
+          !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
+          !!disabled && error && colorStyles.defaultDisabledError(theme),
+        );
 
     const textholder = <span className={styles.text(this.theme)}>{children}</span>;
 
