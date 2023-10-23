@@ -53,7 +53,7 @@ export interface ComboBoxProps<T>
    * Элементы могут быть любого типа. В этом случае необходимо определить
    * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
    */
-  getItems: (query: string) => Promise<T[]>;
+  getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
 
   /**
    * Необходим для сравнения полученных результатов с `value`
@@ -117,7 +117,7 @@ export interface ComboBoxProps<T>
    *    }
    * }}
    */
-  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<unknown>;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
@@ -186,6 +186,8 @@ export interface ComboBoxItem {
   value: string;
   label: string;
 }
+
+export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.ReactElement<T>;
 
 type DefaultProps<T> = Required<
   Pick<
@@ -292,7 +294,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.getProps()} ref={this.customComboBoxRef} />;
+    return <CustomComboBox {...this.getProps()} size={this.props.size} ref={this.customComboBoxRef} />;
   }
 
   private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {

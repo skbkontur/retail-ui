@@ -13,11 +13,7 @@ export const styles = memoizeStyle({
 
     return css`
       margin: 0;
-      padding: 0;
-
       display: ${t.menuMessageDisplay};
-      line-height: ${t.menuMessageLineHeight};
-      font-size: ${t.menuMessageFontSize};
       padding: ${t.menuMessagePaddingY} ${paddingX} ${paddingY} ${t.menuMessagePaddingX};
       color: ${t.menuMessageTextColor};
       background: ${t.menuMessageBg};
@@ -29,6 +25,25 @@ export const styles = memoizeStyle({
       font-size: ${t.menuMessageFontSizeMobile};
       line-height: ${t.menuMessageLineHeightMobile};
       padding: ${t.menuMessagePaddingMobile};
+    `;
+  },
+
+  rootSmall(t: Theme) {
+    return css`
+      font-size: ${t.menuMessageFontSizeSmall};
+      line-height: ${t.menuMessageLineHeightSmall};
+    `;
+  },
+  rootMedium(t: Theme) {
+    return css`
+      font-size: ${t.menuMessageFontSizeMedium};
+      line-height: ${t.menuMessageLineHeightMedium};
+    `;
+  },
+  rootLarge(t: Theme) {
+    return css`
+      font-size: ${t.menuMessageFontSizeLarge};
+      line-height: ${t.menuMessageLineHeightLarge};
     `;
   },
 });
