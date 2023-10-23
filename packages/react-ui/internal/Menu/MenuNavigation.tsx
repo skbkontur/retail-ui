@@ -97,13 +97,9 @@ export class MenuNavigation<T extends Highlightable> {
     this.highlightedItem = null;
   }
 
-  public select(
-    event: React.SyntheticEvent<HTMLElement>,
-    onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void,
-  ) {
+  public select(event: React.SyntheticEvent<HTMLElement>) {
     if (this.highlightedItem) {
       this.highlightedItem.select(event);
-      onItemClick?.(event);
       return true;
     }
     return false;

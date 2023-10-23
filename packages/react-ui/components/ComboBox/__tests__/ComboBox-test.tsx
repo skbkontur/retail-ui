@@ -202,7 +202,7 @@ describe('ComboBox', () => {
     userEvent.click(screen.getByTestId(MenuItemDataTids.root));
     await delay(0);
 
-    expect(search).toHaveBeenCalledTimes(3);
+    expect(search).toHaveBeenCalledTimes(2);
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 

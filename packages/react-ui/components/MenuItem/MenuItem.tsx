@@ -168,13 +168,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef) {
       this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
-    if (this.contentRef.current) {
+    if (this.contentRef.current && !this.props.disabled) {
       this.context.navigation?.add(this.contentRef.current, this);
     }
   }
 
   public componentDidUpdate(prevProps: MenuItemProps) {
-    if (this.contentRef.current && this.props.disabled) {
+    if (this.contentRef.current && prevProps.disabled !== this.props.disabled && this.props.disabled) {
       this.context.navigation?.remove(this.contentRef.current);
     }
   }
@@ -193,7 +193,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   public select = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.props.onClick?.(event);
+    this.handleClick(event as React.MouseEvent<HTMLElement>);
   };
 
   private getRootSizeClassName() {
@@ -347,7 +347,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private handleClick = (e: React.MouseEvent<HTMLElement>) => {
     this.props.onClick?.(e);
-    this.context.navigation?.select?.(e, this.context.onItemClick);
+    this.context.onItemClick?.(e);
   };
 
   private setRootRef = (element: HTMLElement) => {

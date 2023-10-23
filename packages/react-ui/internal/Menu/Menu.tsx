@@ -195,7 +195,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
         location.href = highlightedItem.props.href;
       }
     }
-    return this.menuNavigation?.select(event, this.props.onItemClick);
+    return this.menuNavigation?.select(event);
   }
 
   /**
@@ -420,7 +420,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
-      this.menuNavigation?.select(event, this.props.onItemClick);
+      this.menuNavigation?.select(event);
     }
   };
 
