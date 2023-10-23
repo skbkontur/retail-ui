@@ -218,7 +218,7 @@ EmptyWithReference.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .perform();
-        await delay(1000);
+        await delay(10000);
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
       async withMenu() {
@@ -479,14 +479,14 @@ CustomAddButton.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .perform();
-        await delay(1000);
+        await delay(10000);
         this.browser
           .actions({
             bridge: true,
           })
           .sendKeys('zzz')
           .perform();
-        await delay(1000);
+        await delay(10000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
