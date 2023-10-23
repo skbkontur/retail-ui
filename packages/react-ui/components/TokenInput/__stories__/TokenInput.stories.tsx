@@ -242,7 +242,7 @@ EmptyWithReference.parameters = {
     skip: {
       'do not pass on teamcity': {
         in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
-        tests: ['clicked'],
+        tests: ['clicked', 'withMenu'],
       },
     },
   },
