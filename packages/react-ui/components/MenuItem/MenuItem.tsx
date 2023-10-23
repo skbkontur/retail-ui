@@ -173,6 +173,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
+  public componentDidUpdate(prevProps: MenuItemProps) {
+    if (this.contentRef.current && this.props.disabled) {
+      this.context.navigation?.remove(this.contentRef.current);
+    }
+  }
   public componentWillUnmount() {
     if (this.contentRef.current) {
       this.context.navigation?.remove(this.contentRef.current);
@@ -185,6 +190,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public unhighlight = () => {
     this.setState({ highlighted: false });
+  };
+
+  public select = (event: React.SyntheticEvent<HTMLElement>) => {
+    this.props.onClick?.(event);
   };
 
   private getRootSizeClassName() {

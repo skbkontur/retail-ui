@@ -5,10 +5,7 @@ import { MenuItemDataTids } from '../../components/MenuItem';
 interface Highlightable {
   highlight(): void;
   unhighlight(): void;
-  props: {
-    disabled?: boolean;
-    onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  };
+  select(...args: unknown[]): void;
 }
 
 export class MenuNavigation<T extends Highlightable> {
@@ -103,8 +100,8 @@ export class MenuNavigation<T extends Highlightable> {
     event: React.SyntheticEvent<HTMLElement>,
     onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void,
   ) {
-    if (this.highlightedItem && !this.highlightedItem.props.disabled) {
-      this.highlightedItem.props.onClick?.(event);
+    if (this.highlightedItem) {
+      this.highlightedItem.select(event);
       onItemClick?.(event);
       return true;
     }
