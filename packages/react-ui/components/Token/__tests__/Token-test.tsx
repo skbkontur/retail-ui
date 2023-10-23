@@ -41,7 +41,7 @@ describe('Token', () => {
           <p id="elementId">Description</p>
         </div>,
       );
-      const token = screen.getByTestId(TokenDataTids.view);
+      const token = screen.getByTestId(TokenDataTids.root);
       expect(token).toHaveAttribute('aria-describedby', 'elementId');
       expect(token).toHaveAccessibleDescription('Description');
     });
