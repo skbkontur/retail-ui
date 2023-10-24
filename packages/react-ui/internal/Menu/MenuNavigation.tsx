@@ -4,6 +4,7 @@ interface Highlightable {
   highlight(): void;
   unhighlight(): void;
   select(...args: unknown[]): void;
+  isEnabled(): boolean;
 }
 
 export class MenuNavigation<T extends Highlightable> {
@@ -37,9 +38,10 @@ export class MenuNavigation<T extends Highlightable> {
   }
 
   public move(step: number, isCyclic: boolean) {
-    const currentIndex = this.highlightedItem ? this.items.indexOf(this.highlightedItem) : -1;
+    const enabledItems = this.getEnabledItems();
+    const currentIndex = this.highlightedItem ? enabledItems.indexOf(this.highlightedItem) : -1;
     const minIndex = 0;
-    const maxIndex = this.items.length - 1;
+    const maxIndex = enabledItems.length - 1;
     let nextIndex = currentIndex + step;
     if (nextIndex < minIndex) {
       nextIndex = isCyclic ? maxIndex : minIndex;
@@ -48,7 +50,7 @@ export class MenuNavigation<T extends Highlightable> {
       nextIndex = isCyclic ? minIndex : maxIndex;
     }
 
-    const nextItem = this.items[nextIndex];
+    const nextItem = enabledItems[nextIndex];
 
     this.highlight(nextItem);
 
@@ -56,7 +58,8 @@ export class MenuNavigation<T extends Highlightable> {
   }
 
   public highlight(item: T | null) {
-    this.items.forEach((_item) => {
+    const enabledItems = this.getEnabledItems();
+    enabledItems.forEach((_item) => {
       if (item === _item) {
         _item.highlight();
         this.highlightedItem = item;
@@ -68,7 +71,7 @@ export class MenuNavigation<T extends Highlightable> {
 
   public highlightByIndex(index: number) {
     this.items.forEach((_item, i) => {
-      if (index === i) {
+      if (index === i && _item.isEnabled()) {
         _item.highlight();
         this.highlightedItem = _item;
       } else {
@@ -94,4 +97,8 @@ export class MenuNavigation<T extends Highlightable> {
     this.highlight(null);
     this.highlightedItem = null;
   }
+
+  private getEnabledItems = () => {
+    return this.items.filter((item) => item.isEnabled());
+  };
 }

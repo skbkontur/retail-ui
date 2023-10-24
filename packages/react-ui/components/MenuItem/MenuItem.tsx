@@ -168,16 +168,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef) {
       this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
-    if (this.contentRef.current && !this.props.disabled) {
+    if (this.contentRef.current) {
       this.context.navigation?.add(this.contentRef.current, this);
     }
   }
 
-  public componentDidUpdate(prevProps: MenuItemProps) {
-    if (this.contentRef.current && prevProps.disabled !== this.props.disabled && this.props.disabled) {
-      this.context.navigation?.remove(this.contentRef.current);
-    }
-  }
   public componentWillUnmount() {
     if (this.contentRef.current) {
       this.context.navigation?.remove(this.contentRef.current);
@@ -194,6 +189,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public select = (event: React.SyntheticEvent<HTMLElement>) => {
     this.handleClick(event as React.MouseEvent<HTMLElement>);
+  };
+
+  public isEnabled = () => {
+    return !this.props.disabled;
   };
 
   private getRootSizeClassName() {
