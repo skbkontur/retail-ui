@@ -492,10 +492,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             {this.renderTokensStart()}
 
             <TokenView
-              textHolder={textHolder}
               size={this.getProps().size}
               className={cx({ [styles.transparentBorder(theme)]: isTheme2022(theme) })}
-            />
+            >
+              {textHolder}
+            </TokenView>
             {showMenu && (
               <TokenInputMenu
                 popupMenuId={this.rootId}
@@ -518,10 +519,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             {this.renderTokensEnd()}
             {this.isEditingMode ? (
               <TokenView
-                textHolder={<span className={styles.reservedInput(theme)}>{reservedInputValue}</span>}
                 size={this.props.size}
                 className={cx({ [styles.transparentBorder(theme)]: isTheme2022(theme) })}
-              />
+              >
+                <span className={styles.reservedInput(theme)}>{reservedInputValue}</span>
+              </TokenView>
             ) : null}
           </label>
         </div>

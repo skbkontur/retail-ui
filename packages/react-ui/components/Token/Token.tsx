@@ -11,7 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
-import { styles, colorStyles, globalClasses } from './Token.styles';
+import { styles, colorStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
 import { TokenView } from './TokenView';
 
@@ -146,7 +146,6 @@ export class Token extends React.Component<TokenProps> {
       <span
         role={isTheme2022(theme) ? undefined : 'button'}
         aria-label={isTheme2022(theme) ? undefined : this.locale.removeButtonAriaLabel}
-        className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
         onClick={this.onRemoveClick}
         data-tid={TokenDataTids.removeIcon}
       >
@@ -157,7 +156,6 @@ export class Token extends React.Component<TokenProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <TokenView
-          textHolder={textholder}
           className={classNames}
           size={size}
           closeButton={closeButton}
@@ -169,7 +167,9 @@ export class Token extends React.Component<TokenProps> {
           onMouseLeave={onMouseLeave}
           onFocus={onFocus}
           onBlur={onBlur}
-        />
+        >
+          {textholder}
+        </TokenView>
       </CommonWrapper>
     );
   }

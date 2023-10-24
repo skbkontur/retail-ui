@@ -158,31 +158,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  crosslessGapSmall(t: Theme) {
-    return css`
-      margin-right: ${parseInt(t.tokenMarginXSmall) +
-      parseInt(t.tokenRemoveIconSize) +
-      parseInt(t.tokenRemoveIconGap) +
-      2 * parseInt(t.tokenRemoveIconPaddingX)}px;
-    `;
-  },
-  crosslessGapMedium(t: Theme) {
-    return css`
-      margin-right: ${parseInt(t.tokenMarginXMedium) +
-      parseInt(t.tokenRemoveIconSize) +
-      parseInt(t.tokenRemoveIconGap) +
-      2 * parseInt(t.tokenRemoveIconPaddingX)}px;
-    `;
-  },
-  crosslessGapLarge(t: Theme) {
-    return css`
-      margin-right: ${parseInt(t.tokenMarginXLarge) +
-      parseInt(t.tokenRemoveIconSize) +
-      parseInt(t.tokenRemoveIconGap) +
-      2 * parseInt(t.tokenRemoveIconPaddingX)}px;
-    `;
-  },
-
   helperContainer() {
     return css`
       display: flex;

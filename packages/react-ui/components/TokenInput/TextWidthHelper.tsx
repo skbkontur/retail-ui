@@ -4,7 +4,7 @@ import { cx } from '@emotion/css';
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { TokenView } from '../Token/TokenView';
-import { TokenSize } from '../Token/Token';
+import { TokenSize } from '../Token';
 import { styles } from '../Token/Token.styles';
 
 // a thin character to preserve some space
@@ -45,7 +45,11 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
     const helperClassName = cx(this.getSizeClassName(this.props.size), {
       [styles.helperContainer()]: true,
     });
-    return <TokenView size={this.props.size} textHolder={textHolder} className={helperClassName} />;
+    return (
+      <TokenView size={this.props.size} className={helperClassName}>
+        {textHolder}
+      </TokenView>
+    );
   }
 
   public getTextWidth(): number {
