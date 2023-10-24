@@ -59,6 +59,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
   private setRootNode!: TSetRootNode;
+  private closeIcon = (<SidePageCloseButton />);
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -180,10 +181,10 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
         })}
       >
         {this.isMobileLayout ? (
-          <SidePageCloseButton />
+          this.closeIcon
         ) : (
           <Sticky side="top" offset={stickyOffset}>
-            <SidePageCloseButton />
+            {this.closeIcon}
           </Sticky>
         )}
       </div>
