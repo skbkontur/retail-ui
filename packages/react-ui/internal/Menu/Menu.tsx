@@ -16,7 +16,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { MenuItem } from '../../components/MenuItem';
+import { MenuItem, MenuItemDataTids } from '../../components/MenuItem';
 
 import { styles } from './Menu.styles';
 import { MenuNavigation } from './MenuNavigation';
@@ -110,7 +110,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private contentRef = React.createRef<HTMLDivElement>();
-  private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef);
+  private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef, MenuItemDataTids.content);
 
   public componentWillUnmount() {
     this.setState({ isMounted: false });

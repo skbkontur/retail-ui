@@ -1,7 +1,5 @@
 import React, { RefObject } from 'react';
 
-import { MenuItemDataTids } from '../../components/MenuItem';
-
 interface Highlightable {
   highlight(): void;
   unhighlight(): void;
@@ -10,18 +8,20 @@ interface Highlightable {
 
 export class MenuNavigation<T extends Highlightable> {
   private readonly root: RefObject<HTMLDivElement> | null;
+  private readonly itemsContentDataTid: string;
   private tagsAndItems: WeakMap<Element, T> = new WeakMap();
 
   public highlightedItem: T | null = null;
   public items: T[] = [];
 
-  constructor(root: RefObject<HTMLDivElement> | null) {
+  constructor(root: RefObject<HTMLDivElement> | null, itemsContentDataTid: string) {
     this.root = root;
+    this.itemsContentDataTid = itemsContentDataTid;
   }
 
   private update() {
     if (this.root && this.root.current) {
-      const menuItems = Array.from(this.root.current.querySelectorAll(`span[data-tid="${MenuItemDataTids.content}"]`));
+      const menuItems = Array.from(this.root.current.querySelectorAll(`span[data-tid="${this.itemsContentDataTid}"]`));
       this.items = menuItems.map((item) => this.tagsAndItems.get(item)).filter((item): item is T => item !== undefined);
     }
   }
