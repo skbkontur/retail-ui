@@ -106,8 +106,6 @@ export const styles = memoizeStyle({
 
   tokenDisabled2022(t: Theme) {
     return css`
-      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
-      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled};
@@ -122,8 +120,6 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
-      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled};

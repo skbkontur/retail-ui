@@ -345,15 +345,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActiveBg = '#3D3D3D';
   public static tokenDefaultActiveBorderColor = 'transparent';
 
-  public static get tokenTextareaWidthOffsetSmall() {
-    return `${parseInt(this.tokenMarginXSmall, 10) + parseInt(this.tokenBorderWidth, 10)}px`;
-  }
-  public static get tokenTextareaWidthOffsetMedium() {
-    return `${parseInt(this.tokenMarginXMedium, 10) + parseInt(this.tokenBorderWidth, 10)}px`;
-  }
-  public static get tokenTextareaWidthOffsetLarge() {
-    return `${parseInt(this.tokenMarginXLarge, 10) + parseInt(this.tokenBorderWidth, 10)}px`;
-  }
   //#endregion
 
   //#region DateInput
@@ -392,8 +383,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
 
   //#region TokenInput
-  public static popupOffset = '2';
-  public static tokenInputLineHeight = '24px';
+  public static tokenInputPopupOffset = '2px';
   public static tokenInputBorderRadius = '2px';
 
   public static tokenInputPaddingX = '2px';
@@ -401,27 +391,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static tokenInputMenuPopupBg = 'transparent';
 
-  public static get tokenInputInputLineHeightSmall() {
-    return `${
-      parseInt(this.tokenLineHeightSmall, 10) +
-      2 * parseInt(this.tokenPaddingYSmall, 10) +
-      2 * parseInt(this.tokenBorderWidth, 10)
-    }px`;
-  }
-  public static get tokenInputInputLineHeightMedium() {
-    return `${
-      parseInt(this.tokenLineHeightMedium, 10) +
-      2 * parseInt(this.tokenPaddingYMedium, 10) +
-      2 * parseInt(this.tokenBorderWidth, 10)
-    }px`;
-  }
-  public static get tokenInputInputLineHeightLarge() {
-    return `${
-      parseInt(this.tokenLineHeightLarge, 10) +
-      2 * parseInt(this.tokenPaddingYLarge, 10) +
-      2 * parseInt(this.tokenBorderWidth, 10)
-    }px`;
-  }
   //#endregion
 
   //#region Toggle

@@ -56,15 +56,15 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   public getMenuRef = (): any | null => this.menu;
 
-  private getPopupMarginSizeClassName(t: Theme) {
+  private getPopupMarginSize(t: Theme) {
     switch (this.props.size) {
       case 'large':
-        return t.popupMarginLarge;
+        return t.tokenInputPopupMarginLarge;
       case 'medium':
-        return t.popupMarginMedium;
+        return t.tokenInputPopupMarginMedium;
       case 'small':
       default:
-        return t.popupMarginSmall;
+        return t.tokenInputPopupMarginSmall;
     }
   }
 
@@ -92,8 +92,8 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         opened={!!opened}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}
-        popupOffset={menuAlign === 'left' ? parseInt(this.theme.popupOffset) : 8 + parseInt(this.theme.popupOffset)}
-        margin={menuAlign === 'left' ? 1 : parseInt(this.getPopupMarginSizeClassName(this.theme))}
+        popupOffset={menuAlign === 'left' ? parseInt(this.theme.tokenInputPopupOffset) : 8 + parseInt(this.theme.tokenInputPopupOffset)}
+        margin={menuAlign === 'left' ? 1 : parseInt(this.getPopupMarginSize(this.theme))}
         hasShadow
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
         withoutMobile
