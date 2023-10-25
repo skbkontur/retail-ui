@@ -127,6 +127,9 @@ export class DefaultTheme {
   }
   public static linkLineBorderBottomWidth = '0px';
   public static linkLineBorderBottomOpacity = '0.5';
+  public static linkLineBorderBottomColor = `color-mix(in srgb, currentColor ${
+    parseFloat(this.linkLineBorderBottomOpacity) * 100
+  }%, transparent)`;
 
   //#endregion
   //#region Token
@@ -686,6 +689,7 @@ export class DefaultTheme {
   public static get tooltipMenuPinSize() {
     return this.popupPinSize;
   }
+
   //#endregion
   //#region Kebab
   public static get kebabPinOffset() {
@@ -709,6 +713,7 @@ export class DefaultTheme {
   public static kebabIconSizeMedium = '18px';
   public static kebabIconSizeLarge = '20px';
   public static kebabIconColor = '#757575';
+
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0 5px 10px rgba(0, 0, 0, 0.2);';
@@ -1052,6 +1057,10 @@ export class DefaultTheme {
   public static get dropdownMenuMenuOffsetY() {
     return this.menuOffsetY;
   }
+  public static dropdownMenuMenuBoxSizing = 'content-box';
+  public static dropdownButtonBorderRadiusSmall = '1px';
+  public static dropdownButtonBorderRadiusMedium = '1px';
+  public static dropdownButtonBorderRadiusLarge = '1px';
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1062,8 +1071,11 @@ export class DefaultTheme {
   }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
-  public static menuPaddingY = '4px';
+  public static menuPaddingY = '0px';
+  public static menuLegacyPaddingY = '5px';
+  public static menuScrollContainerContentWrapperPaddingY = '4px';
   public static mobileMenuPaddingY = '0px';
+  public static mobileMenuScrollContainerContentWrapperPaddingY = '0px';
   public static menuPaddingX = '0px';
   public static mobileMenuPaddingX = '8px';
   public static menuOffsetY = '0px';
@@ -1078,26 +1090,100 @@ export class DefaultTheme {
   public static get menuItemHoverBg() {
     return this.dropdownMenuHoverBg;
   }
+  /**
+   * @deprecated use menuItemIconWidthSmall
+   */
   public static menuItemIconWidth = '16px';
+  public static get menuItemIconWidthSmall() {
+    return this.menuItemIconWidth;
+  }
+  public static menuItemIconWidthMedium = '20px';
+  public static menuItemIconWidthLarge = '24px';
   public static menuItemIconGap = '4px';
   public static menuItemIconLegacyMargin = '0px';
   public static menuItemIconLegacyShift = '0px';
+
+  /**
+   * @deprecated use menuItemPaddingForIconSmall
+   */
   public static get menuItemPaddingForIcon() {
     return `${
-      parseInt(this.menuItemPaddingX) +
-      parseInt(this.menuItemIconWidth) +
+      parseInt(this.menuItemPaddingXSmall) +
+      parseInt(this.menuItemIconWidthSmall) +
       parseInt(this.menuItemIconGap) +
       parseInt(this.menuItemIconLegacyMargin)
     }px`;
   }
+  public static get menuItemPaddingForIconSmall() {
+    return this.menuItemPaddingForIcon;
+  }
+  public static get menuItemPaddingForIconMedium() {
+    return `${
+      parseInt(this.menuItemPaddingXMedium) +
+      parseInt(this.menuItemIconWidthMedium) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)
+    }px`;
+  }
+  public static get menuItemPaddingForIconLarge() {
+    return `${
+      parseInt(this.menuItemPaddingXLarge) +
+      parseInt(this.menuItemIconWidthLarge) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)
+    }px`;
+  }
+
+  /**
+   * @deprecated use menuItemLineHeightSmall
+   */
   public static get menuItemLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get menuItemLineHeightSmall() {
+    return this.menuItemLineHeight;
+  }
+  public static get menuItemLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get menuItemLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+
+  /**
+   * @deprecated use menuItemFontSizeSmall
+   */
   public static get menuItemFontSize() {
     return this.fontSizeSmall;
   }
+  public static get menuItemFontSizeSmall() {
+    return this.menuItemFontSize;
+  }
+  public static get menuItemFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get menuItemFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @deprecated use menuItemPaddingXSmall
+   */
   public static menuItemPaddingX = '8px';
+  /**
+   * @deprecated use menuItemPaddingYSmall
+   */
   public static menuItemPaddingY = '6px';
+  public static get menuItemPaddingXSmall() {
+    return this.menuItemPaddingX;
+  }
+  public static get menuItemPaddingYSmall() {
+    return this.menuItemPaddingY;
+  }
+  public static menuItemPaddingXMedium = '12px';
+  public static menuItemPaddingYMedium = '9px';
+  public static menuItemPaddingXLarge = '16px';
+  public static menuItemPaddingYLarge = '12px';
   public static menuItemBorderRadius = '0px';
   public static menuItemLegacyPaddingX = '0px';
   public static menuItemLegacyPaddingY = '0px';
@@ -1130,10 +1216,10 @@ export class DefaultTheme {
     return this.menuItemDisabledBg;
   }
   public static get menuMessagePaddingY() {
-    return this.menuItemPaddingY;
+    return this.menuItemPaddingYSmall;
   }
   public static get menuMessagePaddingX() {
-    return this.menuItemPaddingX;
+    return this.menuItemPaddingXSmall;
   }
   public static get menuMessageDisplay() {
     return this.menuItemDisplay;
@@ -1141,29 +1227,162 @@ export class DefaultTheme {
   public static get menuMessagePaddingMobile() {
     return this.menuItemPaddingMobile;
   }
+  /**
+   * @deprecated use menuMessageLineHeightSmall
+   */
   public static get menuMessageLineHeight() {
-    return this.menuItemLineHeight;
+    return this.menuItemLineHeightSmall;
   }
   public static get menuMessageLineHeightMobile() {
     return this.menuItemLineHeightMobile;
   }
+  /**
+   * @deprecated use menuMessageFontSizeSmall
+   */
   public static get menuMessageFontSize() {
-    return this.menuItemFontSize;
+    return this.menuItemFontSizeSmall;
   }
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
   }
-  public static menuItemGap = '0px';
-  //menuHeader
-  public static get menuHeaderColor() {
-    return this.gray;
+  public static get menuMessageFontSizeSmall() {
+    return this.menuItemFontSizeSmall;
   }
+  public static get menuMessageFontSizeMedium() {
+    return this.menuItemFontSizeMedium;
+  }
+  public static get menuMessageFontSizeLarge() {
+    return this.menuItemFontSizeLarge;
+  }
+
+  public static get menuMessageLineHeightSmall() {
+    return this.menuItemLineHeightSmall;
+  }
+  public static get menuMessageLineHeightMedium() {
+    return this.menuItemLineHeightMedium;
+  }
+  public static get menuMessageLineHeightLarge() {
+    return this.menuItemLineHeightLarge;
+  }
+  public static menuItemGap = '0px';
+
+  //menuHeader
+  public static menuHeaderColor = '#757575';
+
+  /**
+   * @deprecated use menuHeaderLineHeightSmall
+   */
   public static menuHeaderLineHeight = '16px';
+  public static get menuHeaderLineHeightSmall() {
+    return this.menuHeaderLineHeight;
+  }
+  public static menuHeaderLineHeightMedium = '20px';
+  public static menuHeaderLineHeightLarge = '22px';
+
+  /**
+   * @deprecated use menuHeaderFontSizeSmall
+   */
   public static menuHeaderFontSize = '12px';
+  public static get menuHeaderFontSizeSmall() {
+    return this.menuHeaderFontSize;
+  }
+  public static menuHeaderFontSizeMedium = '14px';
+  public static menuHeaderFontSizeLarge = '16px';
+
+  /**
+   * @deprecated use menuHeaderPaddingXSmall
+   */
   public static menuHeaderPaddingX = '8px';
+  /**
+   * @deprecated use menuHeaderPaddingTopSmall
+   */
   public static menuHeaderPaddingTop = '12px';
+  /**
+   * @deprecated use menuHeaderPaddingBottomSmall
+   */
   public static menuHeaderPaddingBottom = '4px';
+  public static get menuHeaderPaddingXSmall() {
+    return this.menuHeaderPaddingX;
+  }
+  public static get menuHeaderPaddingTopSmall() {
+    return this.menuHeaderPaddingTop;
+  }
+  public static get menuHeaderPaddingBottomSmall() {
+    return this.menuHeaderPaddingBottom;
+  }
+  public static menuHeaderPaddingXMedium = '12px';
+  public static menuHeaderPaddingTopMedium = '14px';
+  public static menuHeaderPaddingBottomMedium = '6px';
+  public static menuHeaderPaddingXLarge = '16px';
+  public static menuHeaderPaddingTopLarge = '18px';
+  public static menuHeaderPaddingBottomLarge = '8px';
+
+  public static menuHeaderTotalCountPaddingTopSmall = '4px';
+  public static menuHeaderTotalCountPaddingTopMedium = '6px';
+  public static menuHeaderTotalCountPaddingTopLarge = '8px';
+
+  public static menuHeaderTotalCountPaddingBottomSmall = '12px';
+  public static menuHeaderTotalCountPaddingBottomMedium = '14px';
+  public static menuHeaderTotalCountPaddingBottomLarge = '18px';
+
   public static menuHeaderLegacyPaddingRight = '0px';
+
+  //menuFooter
+  public static get menuFooterColor() {
+    return this.menuHeaderColor;
+  }
+  public static get menuFooterLineHeightSmall() {
+    return this.menuHeaderLineHeightSmall;
+  }
+  public static get menuFooterLineHeightMedium() {
+    return this.menuHeaderLineHeightMedium;
+  }
+  public static get menuFooterLineHeightLarge() {
+    return this.menuHeaderLineHeightLarge;
+  }
+
+  public static get menuFooterFontSizeSmall() {
+    return this.menuHeaderFontSizeSmall;
+  }
+  public static get menuFooterFontSizeMedium() {
+    return this.menuHeaderFontSizeMedium;
+  }
+  public static get menuFooterFontSizeLarge() {
+    return this.menuHeaderFontSizeLarge;
+  }
+
+  public static get menuFooterPaddingXSmall() {
+    return this.menuHeaderPaddingXSmall;
+  }
+  public static get menuFooterPaddingXMedium() {
+    return this.menuHeaderPaddingXMedium;
+  }
+  public static get menuFooterPaddingXLarge() {
+    return this.menuHeaderPaddingXLarge;
+  }
+
+  public static get menuFooterPaddingTopSmall() {
+    return this.menuHeaderPaddingBottomSmall;
+  }
+  public static get menuFooterPaddingTopMedium() {
+    return this.menuHeaderPaddingBottomMedium;
+  }
+  public static get menuFooterPaddingTopLarge() {
+    return this.menuHeaderPaddingBottomLarge;
+  }
+
+  public static get menuFooterPaddingBottomSmall() {
+    return this.menuHeaderPaddingTopSmall;
+  }
+  public static get menuFooterPaddingBottomMedium() {
+    return this.menuHeaderPaddingTopMedium;
+  }
+  public static get menuFooterPaddingBottomLarge() {
+    return this.menuHeaderPaddingTopLarge;
+  }
+
+  public static menuFooterLegacyPaddingRight = '0px';
+
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
@@ -1174,26 +1393,98 @@ export class DefaultTheme {
   public static mobileMenuSeparatorMarginX = '24px';
   //#endregion
   //#region Toggle
+  /**
+   * @deprecated use toggleFontSizeSmall
+   */
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
+  /**
+   * @deprecated use toggleLineHeightSmall
+   */
   public static get toggleLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get toggleLineHeightSmall() {
+    return this.toggleLineHeight;
+  }
+  public static get toggleLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get toggleLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get toggleFontSizeSmall() {
+    return this.toggleFontSize;
+  }
+  public static get toggleFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get toggleFontSizeLarge() {
+    return this.fontSizeLarge;
   }
   public static get toggleTextColor() {
     return this.textColorDefault;
   }
   public static toggleHandleActiveWidthIncrement = '4px';
+  /**
+   * @deprecated use toggleHandleBorderRadiusSmall
+   */
   public static get toggleHandleBorderRadius() {
-    const height = parseInt(this.toggleHeight, 10) || 0;
+    const height = parseInt(this.toggleHeightSmall, 10) || 0;
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
   }
+  public static get toggleHandleBorderRadiusSmall() {
+    return this.toggleHandleBorderRadius;
+  }
+  public static get toggleHandleBorderRadiusMedium() {
+    const height = parseInt(this.toggleHeightMedium, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  public static get toggleHandleBorderRadiusLarge() {
+    const height = parseInt(this.toggleHeightLarge, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
+  }
+  /**
+   * @deprecated use toggleHeightSmall
+   */
   public static toggleHeight = '20px';
+
+  /**
+   * @deprecated use toggleWidthSmall
+   */
   public static toggleWidth = '32px';
+
+  public static get toggleHeightSmall() {
+    return this.toggleHeight;
+  }
+  public static get toggleWidthSmall() {
+    return this.toggleWidth;
+  }
+  public static toggleHeightMedium = '22px';
+  public static toggleWidthMedium = '34px';
+  public static toggleHeightLarge = '24px';
+  public static toggleWidthLarge = '36px';
+  /**
+   * @deprecated use toggleBorderRadiusSmall
+   */
   public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeight} * 0.5)`;
+    return `calc(${this.toggleHeightSmall} * 0.5)`;
+  }
+  public static get toggleBorderRadiusSmall() {
+    return this.toggleBorderRadius;
+  }
+  public static get toggleBorderRadiusMedium() {
+    return `calc(${this.toggleHeightMedium} * 0.5)`;
+  }
+  public static get toggleBorderRadiusLarge() {
+    return `calc(${this.toggleHeightLarge} * 0.5)`;
   }
   /**
    * @deprecated use toggleHandleBg
@@ -1224,8 +1515,24 @@ export class DefaultTheme {
   public static get toggleBorderColorDisabledChecked() {
     return this.toggleBorderColor;
   }
+  /**
+   * @deprecated use toggleHandleSizeSmall
+   */
   public static get toggleHandleSize() {
-    const toggleHeight = parseInt(this.toggleHeight, 10) || 0;
+    const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  public static get toggleHandleSizeSmall() {
+    return this.toggleHandleSize;
+  }
+  public static get toggleHandleSizeMedium() {
+    const toggleHeight = parseInt(this.toggleHeightMedium, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+  public static get toggleHandleSizeLarge() {
+    const toggleHeight = parseInt(this.toggleHeightLarge, 10) || 0;
     const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
   }
@@ -1248,7 +1555,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static toggleCaptionGap = '10px';
+  public static toggleCaptionGap = '8px';
   public static toggleButtonOffsetY = '0px';
 
   public static get toggleOutlineColorFocus() {
@@ -1305,6 +1612,7 @@ export class DefaultTheme {
   public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
+  public static popupMenuMenuOffsetY = '0px';
   //#endregion
   //#region Input
   public static get inputTextColor() {
@@ -1432,17 +1740,65 @@ export class DefaultTheme {
   public static inputColorScheme = 'light';
   //#endregion
   //#region Checkbox
+  /**
+   * @deprecated use checkboxFontSizeSmall
+   */
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
+  public static get checkboxFontSizeSmall() {
+    return this.checkboxFontSize;
+  }
+  public static get checkboxFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get checkboxFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @deprecated use checkboxLineHeightSmall
+   */
   public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get checkboxLineHeightSmall() {
+    return this.checkboxLineHeight;
+  }
+  public static get checkboxLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get checkboxLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  /**
+   * @deprecated use checkboxBoxSizeSmall
+   */
   public static checkboxBoxSize = '16px';
+  public static checkboxBoxSizeSmall = '16px';
+  public static checkboxBoxSizeMedium = '20px';
+  public static checkboxBoxSizeLarge = '24px';
   public static checkboxCaptionGap = '8px';
+
+  /**
+   * @deprecated use checkboxPaddingYSmall
+   */
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightSmall, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+  public static get checkboxPaddingYSmall() {
+    return this.checkboxPaddingY;
+  }
+  public static get checkboxPaddingYMedium() {
+    const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightMedium, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+  public static get checkboxPaddingYLarge() {
+    const controlHeight = parseInt(this.controlHeightLarge, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeightLarge, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static checkboxBoxOffsetY = '1px';
@@ -1535,11 +1891,35 @@ export class DefaultTheme {
   }
   public static textareaShadow = 'none';
   public static textareaBackgroundClip = 'border-box';
+  /**
+   * @deprecated use textareaFontSizeSmall
+   */
   public static get textareaFontSize() {
     return this.fontSizeSmall;
   }
+  public static get textareaFontSizeSmall() {
+    return this.textareaFontSize;
+  }
+  public static get textareaFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get textareaFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  /**
+   * @deprecated use textareaLineHeightSmall
+   */
   public static get textareaLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get textareaLineHeightSmall() {
+    return this.textareaLineHeight;
+  }
+  public static get textareaLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get textareaLineHeightLarge() {
+    return this.controlLineHeightLarge;
   }
   public static textareaBorderRadius = '0px';
   public static get textareaBorderWidth() {
@@ -1550,18 +1930,58 @@ export class DefaultTheme {
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
     return `${outlineWidth - borderWidth}px`;
   }
+  /**
+   * @deprecated use textareaMinHeightSmall
+   */
   public static get textareaMinHeight() {
-    const lineHeight = parseInt(this.textareaLineHeight, 10) || 0;
-    const paddingY = parseInt(this.textareaPaddingY, 10) || 0;
+    const lineHeight = parseInt(this.textareaLineHeightSmall, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingYSmall, 10) || 0;
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
-
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
+  public static get textareaMinHeightSmall() {
+    return this.textareaMinHeight;
+  }
+  public static get textareaMinHeightMedium() {
+    const lineHeight = parseInt(this.textareaLineHeightMedium, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingYMedium, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
+  }
+  public static get textareaMinHeightLarge() {
+    const lineHeight = parseInt(this.textareaLineHeightLarge, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingYLarge, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
+  }
+
   public static textareaWidth = '250px';
+  /**
+   * @deprecated use textareaPaddingXSmall
+   */
   public static textareaPaddingX = '7px';
+  static get textareaPaddingXSmall() {
+    return this.textareaPaddingX;
+  }
+  public static textareaPaddingXMedium = '11px';
+  public static textareaPaddingXLarge = '15px';
+
+  /**
+   * @deprecated use textareaPaddingYSmall
+   */
   public static get textareaPaddingY() {
     return this.controlPaddingYSmall;
   }
+  public static get textareaPaddingYSmall() {
+    return this.textareaPaddingY;
+  }
+  public static get textareaPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get textareaPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
+
   public static get textareaBorderColor() {
     return this.borderColorGrayLight;
   }
@@ -1594,31 +2014,88 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Radio
+  /**
+   * @deprecated use radioBulletSizeSmall
+   */
   public static radioBulletSize = '8px';
+  public static get radioBulletSizeSmall() {
+    return this.radioBulletSize;
+  }
+  public static radioBulletSizeMedium = '10px';
+  public static radioBulletSizeLarge = '12px';
   public static get radioOutlineWidth() {
     return this.controlOutlineWidth;
   }
   public static get radioTextColor() {
     return this.textColorDefault;
   }
+
+  /**
+   * @deprecated use radioSizeSmall
+   */
   public static radioSize = '16px';
-  public static get radioSizeAfter() {
-    const borderCompensation =
-      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
-    return `calc(${this.radioSize} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
+  public static get radioSizeSmall() {
+    return this.radioSize;
   }
+  public static radioSizeMedium = '20px';
+  public static radioSizeLarge = '24px';
+
+  /**
+   * @deprecated use radioFontSizeSmall
+   */
   public static get radioFontSize() {
     return this.fontSizeSmall;
   }
+  public static get radioFontSizeSmall() {
+    return this.radioFontSize;
+  }
+  public static get radioFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get radioFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @deprecated use radioLineHeightSmall
+   */
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get radioLineHeightSmall() {
+    return this.radioLineHeight;
+  }
+  public static get radioLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get radioLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+
   public static radioCaptionGap = '8px';
+
+  /**
+   * @deprecated use radioPaddingYSmall
+   */
   public static get radioPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
-    const lineHeight = parseInt(this.radioLineHeight, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeightSmall, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
+  public static get radioPaddingYSmall() {
+    return this.radioPaddingY;
+  }
+  public static get radioPaddingYMedium() {
+    const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeightMedium, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+  public static get radioPaddingYLarge() {
+    const controlHeight = parseInt(this.controlHeightLarge, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeightLarge, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
+
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
   public static radioBgColor = '#fff';
@@ -1925,6 +2402,8 @@ export class DefaultTheme {
   public static scrollContainerScrollBarHoverSize = '10px';
   public static scrollContainerScrollBarColor = 'rgba(183, 183, 183, 0.7)';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
+  public static scrollContainerScrollBarOffsetY = '4px';
+  public static dropdownMenuScrollContainerScrollBarOffsetY = '0px';
   //#endregion
   //#region PasswordInput
   public static passwordInputVisibilityIconColor = '#000';
@@ -2059,7 +2538,7 @@ export class DefaultTheme {
   //#endregion
 
   //#region InternalMenu
-  public static internalMenuPaddingY = '5px';
+  public static internalMenuPaddingY = '5px'; // deprecated,  use menuLegacyPaddingY
   //#endregion
 
   //#region Autocomplete

@@ -8,16 +8,21 @@ import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
+import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
+export interface CustomComboBoxProps<T>
+  extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -43,25 +48,24 @@ export interface CustomComboBoxProps<T> extends Pick<DropdownContainerProps, 'me
   onMouseLeave?: (e: React.MouseEvent) => void;
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
   /**
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
   width?: string | number;
   maxMenuHeight?: number | string;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<unknown>;
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
-  getItems: (query: string) => Promise<T[]>;
+  getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
@@ -70,7 +74,7 @@ export interface CustomComboBoxState<T> {
   loading: boolean;
   opened: boolean;
   textValue: string;
-  items: Nullable<T[]>;
+  items: Nullable<Array<ComboBoxExtendedItem<T>>>;
   inputChanged: boolean;
   focused: boolean;
   repeatRequest: () => void;
@@ -90,6 +94,7 @@ export const DefaultState = {
   textValue: '',
   repeatRequest: () => undefined,
   requestStatus: ComboBoxRequestStatus.Unknown,
+  size: 'small',
 };
 
 export const CustomComboBoxDataTids = {
@@ -259,6 +264,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       value: this.props.value,
       warning: this.props.warning,
       'aria-describedby': this.props['aria-describedby'],
+      'aria-label': this.props['aria-label'],
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
@@ -269,6 +275,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
+      onMobileClose: this.handleMobileClose,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
@@ -303,13 +310,13 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     return (
       <CommonWrapper {...this.props}>
-        <ComboBoxView {...viewProps} ref={this.setRootNode} />
+        <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
       </CommonWrapper>
     );
   }
 
   public componentDidMount() {
-    this.dispatch({ type: 'Mount' });
+    this.dispatch({ type: 'Mount' }, false);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -319,7 +326,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState }, false);
   }
 
   /**
@@ -329,7 +336,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: CustomComboBoxAction<T>) => {
+  private dispatch = (action: CustomComboBoxAction<T>, sync = true) => {
     const updateState = (action: CustomComboBoxAction<T>) => {
       let effects: Array<CustomComboBoxEffect<T>>;
       let nextState: Pick<CustomComboBoxState<T>, never>;
@@ -348,7 +355,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     // Auto-batching React@18 creates problems that are fixed with flushSync
     // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
-    if (React.version.search('18') === 0) {
+    if (sync && React.version.search('18') === 0) {
       ReactDOM.flushSync(() => updateState(action));
     } else {
       updateState(action);
@@ -379,6 +386,10 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Focus' });
   };
 
+  private handleMobileClose = () => {
+    this.handleInputBlur();
+  };
+
   private handleClickOutside = (e: Event) => {
     fixClickFocusIE(e);
     this.handleBlur();
@@ -406,9 +417,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // it would call handleFocusOutside
     // In that way handleBlur would be called
 
-    // TODO: add check for mobile layout, to call `handleBlur`
-
-    if (this.state.opened) {
+    if (this.state.opened && !this.isMobileLayout) {
       return;
     }
     this.handleBlur();

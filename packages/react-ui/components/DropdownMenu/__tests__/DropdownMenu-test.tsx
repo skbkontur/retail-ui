@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { PopupDataTids } from '../../../internal/Popup';
 import { DropdownMenu } from '../DropdownMenu';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
-import { InternalMenuDataTids } from '../../../internal/InternalMenu';
+import { MenuDataTids } from '../../../internal/Menu';
 
 describe('<DropdownMenu />', () => {
   const captionDatatid = 'captionForTest';
@@ -31,10 +31,10 @@ describe('<DropdownMenu />', () => {
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
-    expect(screen.queryByTestId(InternalMenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     userEvent.click(screen.getByTestId(captionDatatid));
 
-    expect(screen.getByTestId(InternalMenuDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
   });
 
   it("Contains <MenuItem />'s after clicking on caption", () => {
@@ -149,5 +149,14 @@ describe('<DropdownMenu />', () => {
 
     const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
+  });
+
+  describe('a11y', () => {
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<DropdownMenu aria-label={ariaLabel} caption={<button>test</button>} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 });

@@ -7,10 +7,6 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static outlineColorFocus = '#EBEBEB';
 
   //#region Button
-  public static btnLinkColor = '#ddd';
-  public static btnLinkHoverColor = '#eee';
-  public static btnLinkActiveColor = '#fff';
-
   public static btnFocusShadowWidth = '2px';
   public static btnOutlineColorFocus = '#1f1f1f';
 
@@ -98,7 +94,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Link
-  public static linkColor = '#EBEBEB';
+  public static linkColor = 'rgba(255, 255, 255, 0.87)';
   public static linkHoverColor = '#ffffff';
   public static linkActiveColor = '#c2c2c2';
 
@@ -289,13 +285,18 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Toast
-  public static toastBg = 'rgba(67, 67, 67, 0.92)';
-  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.16)';
-  public static toastLinkBgActive = '';
+  public static toastColor = 'rgba(44, 44, 44, 1.0)';
+  public static toastBg = 'rgba(255, 255, 255, 0.8)';
+  public static toastLinkColor = 'rgba(44, 44, 44, 1.0)';
+  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.87)';
+  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.16)';
+  public static toastCloseColor = 'rgba(0, 0, 0, 0.32)';
+  public static toastCloseHoverColor = 'rgba(0, 0, 0, 0.87)';
   //#endregion
 
   //#region Hint
-  public static hintBgColor = 'rgba(67, 67, 67, 0.92)';
+  public static hintColor = 'rgba(44, 44, 44, 1.0)';
+  public static hintBgColor = 'rgba(255, 255, 255, 0.8)';
   //#endregion
 
   //#region Tooltip

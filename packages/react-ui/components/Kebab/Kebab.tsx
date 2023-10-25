@@ -19,16 +19,17 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ButtonSize } from '../Button';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
-  extends CommonProps,
-    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'> {
+  extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
+    CommonProps {
   disabled?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   /**
    * Список позиций доступных для расположения выпадашки.
    *
@@ -115,6 +116,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
                   popupPinOffset: theme.kebabPinOffset,
                   popupMargin: theme.kebabMargin,
                   popupPinSize: theme.kebabPinSize,
+                  menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
                 },
                 theme,
               )}
@@ -133,7 +135,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
-          popupHasPin
+          popupHasPin={!isTheme2022(this.theme)}
           preventIconsOffset={this.props.preventIconsOffset}
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
@@ -143,6 +145,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           onOpen={onOpen}
           onClose={onClose}
           popupMenuId={this.props.popupMenuId}
+          aria-label={this.props['aria-label']}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -244,7 +247,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon)) {
-      const sizes: Record<ButtonSize, number> = {
+      const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),

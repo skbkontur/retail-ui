@@ -53,6 +53,7 @@ export * from './lib/theming/themes/DefaultTheme8pxOld';
 export * from './lib/theming/themes/FlatTheme8pxOld';
 export * from './lib/theming/themes/Theme2022';
 export * from './lib/theming/themes/Theme2022Dark';
+export * from './lib/types/props';
 export * from './internal/Popup/types';
 export * as ColorFunctions from './lib/styles/ColorFunctions';
 export * as DimensionFunctions from './lib/styles/DimensionFunctions';

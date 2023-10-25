@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -14,6 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeProp } from '../../lib/types/props';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -65,7 +67,7 @@ export interface DateInputProps extends CommonProps {
    * Размер поля
    * @default 'small'
    */
-  size?: 'small' | 'large' | 'medium';
+  size?: SizeProp;
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
@@ -140,7 +142,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       prevProps.maxDate !== maxDate ||
       this.iDateMediator.isChangedLocale(this.locale)
     ) {
-      this.updateFromProps();
+      this.updateFromProps(false);
     }
     this.selectNode();
   }
@@ -162,7 +164,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   public componentDidMount(): void {
-    this.updateFromProps();
+    this.updateFromProps(false);
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -352,16 +354,22 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.setState({ selected, inputMode: false });
   };
 
-  private updateValue = (state: Partial<DateInputState> = {}): void => {
+  private updateValue = (state: Partial<DateInputState> = {}, sync = true): void => {
     const valueFormatted = this.iDateMediator.getString();
 
-    this.setState({ ...state, valueFormatted } as DateInputState, this.emitChange);
+    const update = () => this.setState({ ...state, valueFormatted } as DateInputState, this.emitChange);
+
+    if (sync && React.version.search('18') === 0) {
+      ReactDOM.flushSync(update);
+    } else {
+      update();
+    }
   };
 
-  private updateFromProps = (): void => {
+  private updateFromProps = (sync: boolean): void => {
     this.iDateMediator.update(this.props, this.locale);
 
-    this.updateValue();
+    this.updateValue({}, sync);
   };
 
   private fullSelection = (): void => {

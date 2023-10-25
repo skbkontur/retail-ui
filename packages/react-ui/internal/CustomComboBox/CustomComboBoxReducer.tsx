@@ -6,6 +6,7 @@ import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
+import { ComboBoxExtendedItem } from '../../components/ComboBox';
 
 import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -28,7 +29,7 @@ export type CustomComboBoxAction<T> =
   | { type: 'Close' }
   | { type: 'Search'; query: string }
   | { type: 'RequestItems' }
-  | { type: 'ReceiveItems'; items: T[] }
+  | { type: 'ReceiveItems'; items: Array<ComboBoxExtendedItem<T>> }
   | { type: 'RequestFailure'; repeatRequest: () => void }
   | { type: 'CancelRequest' };
 
@@ -261,6 +262,9 @@ export function reducer<T>(
 
       switch (true) {
         case isKeyEnter(e):
+          if (!state.opened) {
+            break;
+          }
           e.preventDefault();
           effects.push(Effect.selectMenuItem(e));
           break;

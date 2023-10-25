@@ -26,6 +26,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
@@ -56,7 +57,7 @@ export interface DatePickerProps
    */
   error?: boolean;
   menuAlign?: 'left' | 'right';
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   value?: string | null;
   /**
    * Состояние валидации при предупреждении.
@@ -272,7 +273,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       picker = (
         <LocaleContext.Provider
           value={{
-            locale: { Calendar: { months: this.locale.months } },
+            locale: {
+              Calendar: {
+                months: this.locale.months,
+                dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
+                selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
+                selectYearAriaLabel: this.locale.selectYearAriaLabel,
+                selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
+              },
+            },
           }}
         >
           <DropdownContainer
@@ -361,6 +370,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       return (
         <div style={{ margin: 8 }}>
           <Button
+            aria-label={this.locale.todayAriaLabel}
             data-tid={DatePickerDataTids.pickerTodayWrapper}
             width="100%"
             onClick={this.handleSelectToday(today)}
@@ -374,6 +384,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     return (
       <button
+        aria-label={this.locale.todayAriaLabel}
         data-tid={DatePickerDataTids.pickerTodayWrapper}
         className={cx({
           [styles.todayLinkWrapper(this.theme)]: true,

@@ -2,9 +2,10 @@ import React from 'react';
 import { isElement } from 'react-is';
 
 import { isKonturIcon } from '../../../lib/utils';
-import { InputProps, InputSize } from '../Input';
+import { InputProps } from '../Input';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SizeProp } from '../../../lib/types/props';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { stylesLayout } from './InputLayout.styles';
@@ -13,24 +14,24 @@ export interface InputLayoutAsideIconProps {
   side: 'left' | 'right';
 }
 
-export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon, side }) => {
+export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null, side }) => {
   const theme = React.useContext(ThemeContext);
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
-  const sizes: Record<InputSize, number> = {
+  const sizes: Record<SizeProp, number> = {
     small: parseInt(theme.inputIconSizeSmall),
     medium: parseInt(theme.inputIconSizeMedium),
     large: parseInt(theme.inputIconSizeLarge),
   };
-  const gaps: Record<InputSize, number> = {
+  const gaps: Record<SizeProp, number> = {
     small: parseInt(theme.inputIconGapSmall),
     medium: parseInt(theme.inputIconGapMedium),
     large: parseInt(theme.inputIconGapLarge),
   };
 
-  let _icon = null;
-  if (icon && isElement(icon)) {
-    _icon = isKonturIcon(icon) ? React.cloneElement(icon, { size: icon.props.size ?? sizes[size] }) : icon;
+  let _icon = icon instanceof Function ? icon() : icon;
+  if (isElement(icon) && isKonturIcon(icon)) {
+    _icon = React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
   }
 
   const style: React.CSSProperties = {};

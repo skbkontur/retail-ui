@@ -71,4 +71,14 @@ export const styles = memoizeStyle({
       min-width: ${t.inputIconSizeLarge};
     `;
   },
+  icon() {
+    return css`
+      padding: 0;
+      border: none;
+      font: inherit;
+      color: inherit;
+      background-color: transparent;
+      cursor: pointer;
+    `;
+  },
 });

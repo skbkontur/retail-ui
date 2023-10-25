@@ -1,10 +1,10 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { Group } from '../Group';
-import { Input, InputProps, InputSize } from '../Input';
+import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
@@ -14,12 +14,14 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { SizeProp } from '../../lib/types/props';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
 export interface FxInputProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       CurrencyInputProps,
       {
@@ -37,6 +39,8 @@ export interface FxInputProps
         refInput?: (element: CurrencyInput | Input | null) => void;
         /** Убрать лишние нули после запятой */
         hideTrailingZeros?: boolean;
+        /** Позвоялет задать атрибут aria-label кнопке восстановления (restore button) */
+        buttonAriaLabel?: AriaAttributes['aria-label'];
       }
     > {}
 
@@ -96,7 +100,7 @@ export class FxInput extends React.Component<FxInputProps> {
 
     if (isTheme2022(this.theme)) {
       inputCorners = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      const iconSizes: Record<InputSize, number> = {
+      const iconSizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.inputIconSizeSmall),
         medium: parseInt(this.theme.inputIconSizeMedium),
         large: parseInt(this.theme.inputIconSizeLarge),
@@ -114,6 +118,7 @@ export class FxInput extends React.Component<FxInputProps> {
           onRestore={onRestore}
           disabled={rest.disabled}
           borderless={rest.borderless}
+          aria-label={props.buttonAriaLabel}
         />
       );
     }

@@ -7,12 +7,13 @@ import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
-import { ButtonSize, ButtonUse } from '../Button';
+import { ButtonUse } from '../Button';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
+import { SizeProp } from '../../lib/types/props';
 
 import { getDropdownTheme } from './getDropdownTheme';
 
@@ -37,7 +38,10 @@ const PASS_PROPS = {
   'aria-describedby': true,
 };
 
-export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps, 'menuPos'> {
+export interface DropdownProps
+  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+    CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'> {
   /**
    * Подпись на кнопке.
    */
@@ -72,7 +76,7 @@ export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps,
   maxMenuHeight?: number;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
-  size?: ButtonSize;
+  size?: SizeProp;
 
   /**
    * Смотри Button.
@@ -90,11 +94,6 @@ export interface DropdownProps extends CommonProps, Pick<DropdownContainerProps,
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
@@ -206,6 +205,8 @@ export class Dropdown extends React.Component<DropdownProps> {
           items={items}
           _icon={icon}
           renderValue={renderValue}
+          size={this.props.size}
+          aria-label={this.props['aria-label']}
         />
       </CommonWrapper>
     );

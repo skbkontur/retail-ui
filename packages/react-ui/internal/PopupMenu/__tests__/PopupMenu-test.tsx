@@ -125,33 +125,42 @@ describe('PopupMenu', () => {
     expect(menu).toHaveAttribute('id', menuId);
   });
 
-  it('should set default value for aria-controls attribute', () => {
-    render(
-      <PopupMenu caption={<button>test</button>}>
-        <p>test</p>
-      </PopupMenu>,
-    );
-    const button = screen.getByRole('button');
-    userEvent.click(screen.getByRole('button'));
+  describe('a11y', () => {
+    it('should set default value for aria-controls attribute', () => {
+      render(
+        <PopupMenu caption={<button>test</button>}>
+          <p>test</p>
+        </PopupMenu>,
+      );
+      const button = screen.getByRole('button');
+      userEvent.click(screen.getByRole('button'));
 
-    expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
-  });
+      expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
+    });
 
-  it('should set value for aria-controls attribute', () => {
-    const ariaControls = 'test';
-    render(<PopupMenu popupMenuId={ariaControls} caption={<button>test</button>} />);
+    it('should set value for aria-controls attribute', () => {
+      const ariaControls = 'test';
+      render(<PopupMenu popupMenuId={ariaControls} caption={<button>test</button>} />);
 
-    expect(screen.getByRole('button')).toHaveAttribute('aria-controls', ariaControls);
-  });
+      expect(screen.getByRole('button')).toHaveAttribute('aria-controls', ariaControls);
+    });
 
-  it('should change value of aria-expanded when opening and closing', () => {
-    render(<PopupMenu caption={<button>test</button>} />);
+    it('should change value of aria-expanded when opening and closing', () => {
+      render(<PopupMenu caption={<button>test</button>} />);
 
-    const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-expanded', 'false');
+      const button = screen.getByRole('button');
+      expect(button).toHaveAttribute('aria-expanded', 'false');
 
-    userEvent.click(button);
+      userEvent.click(button);
 
-    expect(button).toHaveAttribute('aria-expanded', 'true');
+      expect(button).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('sets value for aria-label attribute', () => {
+      const ariaLabel = 'aria-label';
+      render(<PopupMenu aria-label={ariaLabel} caption={<button>test</button>} />);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
   });
 });

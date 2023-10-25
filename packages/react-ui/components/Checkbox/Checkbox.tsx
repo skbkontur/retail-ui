@@ -14,13 +14,21 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type CheckboxSize = SizeProp;
+
 export interface CheckboxProps
   extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
@@ -36,6 +44,8 @@ export interface CheckboxProps
          * Состояние валидации при предупреждении.
          */
         warning?: boolean;
+        /** Размер */
+        size?: SizeProp;
         /**
          * HTML-событие `mouseenter`.
          */
@@ -60,10 +70,6 @@ export interface CheckboxProps
          * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
          */
         initialIndeterminate?: boolean;
-        /**
-         * Атрибут для указания id элемента(-ов), описывающих его
-         */
-        'aria-describedby'?: AriaAttributes['aria-describedby'];
       }
     > {}
 
@@ -77,9 +83,53 @@ export const CheckboxDataTids = {
   root: 'Checkbox__root',
 } as const;
 
+type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
+
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
+
+  public static defaultProps: DefaultProps = {
+    size: 'small',
+  };
+
+  private getProps = createPropsGetter(Checkbox.defaultProps);
+
+  private getRootSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.rootLarge(this.theme);
+      case 'medium':
+        return styles.rootMedium(this.theme);
+      case 'small':
+      default:
+        return styles.rootSmall(this.theme);
+    }
+  }
+
+  private getBoxWrapperSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.boxWrapperLarge(this.theme);
+      case 'medium':
+        return styles.boxWrapperMedium(this.theme);
+      case 'small':
+      default:
+        return styles.boxWrapperSmall(this.theme);
+    }
+  }
+
+  private getCheckboxBoxSize() {
+    switch (this.getProps().size) {
+      case 'large':
+        return this.theme.checkboxBoxSizeLarge;
+      case 'medium':
+        return this.theme.checkboxBoxSizeMedium;
+      case 'small':
+      default:
+        return this.theme.checkboxBoxSizeSmall;
+    }
+  }
 
   public static propTypes = {
     checked: PropTypes.bool,
@@ -202,6 +252,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     const {
       error,
       warning,
+      size,
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
@@ -209,6 +260,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       type,
       initialIndeterminate,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
       ...rest
     } = props;
     const isIndeterminate = this.state.indeterminate;
@@ -221,22 +273,23 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       !props.checked && !isIndeterminate && styles.iconUnchecked(),
     );
 
+    const iconSize = parseInt(this.getCheckboxBoxSize());
     const IconCheck = _isTheme2022 ? (
       <span className={iconClass}>
-        <CheckedIcon size={parseInt(this.theme.checkboxBoxSize)} />
+        <CheckedIcon size={iconSize} />
       </span>
     ) : (
       <OkIcon className={iconClass} />
     );
     const IconSquare = _isTheme2022 ? (
       <span className={iconClass}>
-        <IndeterminateIcon size={parseInt(this.theme.checkboxBoxSize)} />
+        <IndeterminateIcon size={iconSize} />
       </span>
     ) : (
       <SquareIcon className={iconClass} />
     );
 
-    const rootClass = cx({
+    const rootClass = cx(this.getRootSizeClassName(), {
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
@@ -266,7 +319,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const box = (
-      <div className={cx(styles.boxWrapper(this.theme))}>
+      <div
+        className={cx(this.getBoxWrapperSizeClassName(), {
+          [styles.boxWrapper(this.theme)]: true,
+        })}
+      >
         <div
           className={cx(styles.box(this.theme), globalClasses.box, {
             [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
@@ -290,7 +347,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-describedby={ariaDescribedby} />
+        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
         {box}
         {caption}
       </label>

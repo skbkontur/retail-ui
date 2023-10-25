@@ -8,8 +8,12 @@ import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
-export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'>, CommonProps {
+export interface ComboBoxProps<T>
+  extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   /**
    * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
@@ -50,7 +54,7 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
    * Элементы могут быть любого типа. В этом случае необходимо определить
    * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
    */
-  getItems: (query: string) => Promise<T[]>;
+  getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
 
   /**
    * Необходим для сравнения полученных результатов с `value`
@@ -114,7 +118,7 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
    *    }
    * }}
    */
-  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<unknown>;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
@@ -158,16 +162,11 @@ export interface ComboBoxProps<T> extends Pick<DropdownContainerProps, 'menuPos'
    */
   valueToString?: (item: T) => string;
 
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   /**
    * Состояние валидации при предупреждении.
    */
   warning?: boolean;
-
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
 
   width?: string | number;
 
@@ -188,6 +187,8 @@ export interface ComboBoxItem {
   value: string;
   label: string;
 }
+
+export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.ReactElement<T>;
 
 type DefaultProps<T> = Required<
   Pick<
@@ -294,7 +295,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.getProps()} ref={this.customComboBoxRef} />;
+    return <CustomComboBox {...this.getProps()} size={this.props.size} ref={this.customComboBoxRef} />;
   }
 
   private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {

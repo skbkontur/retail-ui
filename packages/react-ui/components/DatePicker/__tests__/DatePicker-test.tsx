@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
 import { CalendarDataTids } from '../../../components/Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
@@ -12,6 +13,8 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { componentsLocales as DatePickerLocalesRu } from '../locale/locales/ru';
+import { componentsLocales as DatePickerLocalesEn } from '../locale/locales/en';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -33,13 +36,11 @@ describe('DatePicker', () => {
 
   it('renders', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-
     expect(screen.getByTestId(DatePickerDataTids.label)).toBeInTheDocument();
   });
 
   it('renders date select when open', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
@@ -47,7 +48,6 @@ describe('DatePicker', () => {
 
   it("doesn't open on focus if disabled", () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
-
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
@@ -55,20 +55,44 @@ describe('DatePicker', () => {
 
   it('closes when become disabled', () => {
     const { rerender } = render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
     rerender(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
-
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('open when autoFocus enabled', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} autoFocus />);
-
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+  });
+
+  it('blur() methon works', () => {
+    const datePickerRef = React.createRef<DatePicker>();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+
+    datePickerRef.current?.blur();
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('handle onBlur event', () => {
+    const datePickerRef = React.createRef<DatePicker>();
+    const onBlur = jest.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} onBlur={onBlur} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+
+    datePickerRef.current?.blur();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('handle onFocus event', () => {
+    const onFocus = jest.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
+    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(onFocus).toHaveBeenCalled();
   });
 
   describe('Locale', () => {
@@ -79,7 +103,6 @@ describe('DatePicker', () => {
 
     it('render without LocaleProvider', () => {
       render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);
-
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
@@ -97,7 +120,6 @@ describe('DatePicker', () => {
 
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
-
       userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
@@ -155,63 +177,168 @@ describe('DatePicker', () => {
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
-  });
 
-  it('should rename months using locale', () => {
-    const renamedMonths = [
-      'one',
-      'two',
-      'three',
-      'four',
-      'five',
-      'six',
-      'seven',
-      'eight',
-      'nine',
-      'ten',
-      'eleven',
-      'twelve',
-    ];
-    render(
-      <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
-        <DatePicker value="12.06.2022" onValueChange={jest.fn()} />
-      </LocaleContext.Provider>,
-    );
-
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-
-    expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
-  });
-
-  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
-    const Comp = () => {
-      const [value, setValue] = useState<string | null | undefined>('24.08.2022');
-
-      return (
-        <>
-          <DatePicker value={value} onValueChange={setValue} />
-          <button onClick={() => setValue(testValue)}>Clear</button>
-        </>
+    it('should rename months using locale', () => {
+      const renamedMonths = [
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six',
+        'seven',
+        'eight',
+        'nine',
+        'ten',
+        'eleven',
+        'twelve',
+      ];
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
+          <DatePicker value="12.06.2022" onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
       );
-    };
 
-    render(<Comp />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-    const input = screen.getByTestId(InputLikeTextDataTids.input);
-    expect(input).toHaveTextContent(/^24.08.2022$/);
+      expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
+    });
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
-    const expectedRegExp = new RegExp(`^${expected}$`);
-    expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
+    it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+      const Comp = () => {
+        const [value, setValue] = useState<string | null | undefined>('24.08.2022');
 
-    userEvent.type(input, '24.08.2022');
-    expect(input).toHaveTextContent(/^24.08.2022$/);
+        return (
+          <>
+            <DatePicker value={value} onValueChange={setValue} />
+            <button onClick={() => setValue(testValue)}>Clear</button>
+          </>
+        );
+      };
+
+      render(<Comp />);
+
+      const input = screen.getByTestId(InputLikeTextDataTids.input);
+      expect(input).toHaveTextContent(/^24.08.2022$/);
+
+      userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+      const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
+      const expectedRegExp = new RegExp(`^${expected}$`);
+      expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
+
+      userEvent.type(input, '24.08.2022');
+      expect(input).toHaveTextContent(/^24.08.2022$/);
+    });
+
+    it('should have disabled input', () => {
+      render(<DatePicker onValueChange={jest.fn()} disabled />);
+
+      expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+    });
   });
 
-  it('should have disabled input', () => {
-    render(<DatePicker onValueChange={jest.fn()} disabled />);
+  describe('a11y', () => {
+    it('sets value for aria-label attribute (ru)', () => {
+      render(<DatePicker enableTodayLink onValueChange={jest.fn()} />);
 
-    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
+        'aria-label',
+        DatePickerLocalesRu.todayAriaLabel,
+      );
+    });
+
+    it('sets value for aria-label attribute (en)', () => {
+      render(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
+        'aria-label',
+        DatePickerLocalesEn.todayAriaLabel,
+      );
+    });
+
+    it('sets custom value for `todayAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { todayAriaLabel: customAriaLabel } } }}>
+          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute('aria-label', customAriaLabel);
+    });
+
+    it('sets custom value for `selectMonthAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { selectMonthAriaLabel: customAriaLabel } } }}>
+          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+        'aria-label',
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} Февраль`,
+      );
+    });
+
+    it('sets custom value for `selectYearAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { selectYearAriaLabel: customAriaLabel } } }}>
+          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+        'aria-label',
+        `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} 2021`,
+      );
+    });
+
+    it('sets custom value for `selectChosenAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { selectChosenAriaLabel: customAriaLabel } } }}>
+          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+        'aria-label',
+        `${customAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
+      );
+    });
+
+    it('sets custom value for `dayCellChooseDateAriaLabel` locale', () => {
+      const customAriaLabel = 'test';
+      const date = '1.2.2021';
+      render(
+        <LocaleContext.Provider value={{ locale: { DatePicker: { dayCellChooseDateAriaLabel: customAriaLabel } } }}>
+          <DatePicker value={date} onValueChange={jest.fn()} />
+        </LocaleContext.Provider>,
+      );
+
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${customAriaLabel} ${date}`,
+      );
+    });
   });
 });

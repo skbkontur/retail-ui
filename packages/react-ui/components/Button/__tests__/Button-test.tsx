@@ -2,7 +2,9 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 
-import { Button, ButtonType } from '../Button';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
+import { Button, ButtonDataTids, ButtonType } from '../Button';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -170,5 +172,40 @@ describe('Button', () => {
     expect(button).not.toBeChecked();
     userEvent.click(button);
     expect(button).toBeChecked();
+  });
+
+  it('event `onClickCapture` works correctly', () => {
+    const onClickCapture = jest.fn();
+    render(<Button onClickCapture={onClickCapture} />);
+
+    expect(onClickCapture).not.toHaveBeenCalled();
+
+    userEvent.click(screen.getByRole('button'));
+
+    expect(onClickCapture).toHaveBeenCalledTimes(1);
+  });
+
+  it('events `onMouseDown` and `onMouseUp` work correctly', () => {
+    const onMouseDown = jest.fn();
+    const onMouseUp = jest.fn();
+    render(<Button onMouseDown={onMouseDown} onMouseUp={onMouseUp} />);
+
+    expect(onMouseDown).not.toHaveBeenCalled();
+    expect(onMouseUp).not.toHaveBeenCalled();
+
+    userEvent.click(screen.getByRole('button'));
+
+    expect(onMouseDown).toHaveBeenCalledTimes(1);
+    expect(onMouseUp).toHaveBeenCalledTimes(1);
+  });
+
+  it('has data-tid `Button__spinner` when component in loading state (THEME_2022)', () => {
+    render(
+      <ThemeContext.Provider value={THEME_2022}>
+        <Button loading />
+      </ThemeContext.Provider>,
+    );
+
+    expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
   });
 });

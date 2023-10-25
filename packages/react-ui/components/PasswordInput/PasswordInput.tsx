@@ -1,8 +1,9 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
+import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
@@ -20,8 +21,9 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
+import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
 
-export interface PasswordInputProps extends CommonProps, InputProps {
+export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps, InputProps {
   detectCapsLock?: boolean;
 }
 
@@ -42,6 +44,7 @@ type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
  * Компонент для ввода пароля
  */
 @rootNode
+@locale('PasswordInput', PasswordInputLocaleHelper)
 export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
@@ -67,6 +70,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
+  private readonly locale!: PasswordInputLocale;
 
   public componentDidMount() {
     if (this.props.detectCapsLock) {
@@ -193,13 +197,18 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         )}
         <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
-            <span onClick={this.handleToggleVisibility} data-tid={PasswordInputDataTids.eyeIcon}>
+            <button
+              aria-label={this.state.visible ? this.locale.eyeClosedAriaLabel : this.locale.eyeOpenedAriaLabel}
+              onClick={this.handleToggleVisibility}
+              className={styles.icon()}
+              data-tid={PasswordInputDataTids.eyeIcon}
+            >
               <PasswordInputIcon
                 size={this.props.size}
                 visible={this.state.visible}
                 isTheme2022={isTheme2022(this.theme)}
               />
-            </span>
+            </button>
           )}
         </span>
       </span>

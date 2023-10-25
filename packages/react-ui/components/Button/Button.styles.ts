@@ -331,7 +331,6 @@ export const styles = memoizeStyle({
   linkDisabled(t: Theme) {
     return css`
       cursor: default;
-      pointer-events: none;
 
       &,
       &:hover:enabled,
@@ -359,7 +358,6 @@ export const styles = memoizeStyle({
   disabled(t: Theme) {
     return css`
       cursor: default;
-      pointer-events: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
 
       background-image: none;
@@ -369,6 +367,12 @@ export const styles = memoizeStyle({
       .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
       }
+    `;
+  },
+
+  disabledWithoutOutline(t: Theme) {
+    return css`
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
     `;
   },
 
@@ -659,7 +663,7 @@ export const styles = memoizeStyle({
       &:hover:enabled {
         box-shadow: none;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none;
+          box-shadow: none !important;
         }
       }
 

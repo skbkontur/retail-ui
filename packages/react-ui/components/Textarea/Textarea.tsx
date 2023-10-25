@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ReactNode } from 'react';
+import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import raf from 'raf';
@@ -19,16 +19,23 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
+/**
+ * @deprecated use SizeProp
+ */
+export type TextareaSize = SizeProp;
+
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
-  extends CommonProps,
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
@@ -42,7 +49,8 @@ export interface TextareaProps
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
-
+        /** Размер */
+        size?: SizeProp;
         /**
          * Автоматический ресайз
          * в зависимости от содержимого
@@ -120,7 +128,7 @@ export const TextareaDataTids = {
   helpIcon: 'TextareaCounter__helpIcon',
 } as const;
 
-type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
+type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations' | 'size'>>;
 
 /**
  * Компонент для ввода многострочного текста.
@@ -191,10 +199,35 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 3,
     maxRows: 15,
     extraRow: true,
+    size: 'small',
     disableAnimations: isTestEnv,
   };
 
   private getProps = createPropsGetter(Textarea.defaultProps);
+
+  private getRootSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.rootLarge(this.theme);
+      case 'medium':
+        return styles.rootMedium(this.theme);
+      case 'small':
+      default:
+        return styles.rootSmall(this.theme);
+    }
+  }
+
+  private getTextareaSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.textareaLarge(this.theme);
+      case 'medium':
+        return styles.textareaMedium(this.theme);
+      case 'small':
+      default:
+        return styles.textareaSmall(this.theme);
+    }
+  }
 
   public state = {
     needsPolyfillPlaceholder,
@@ -331,6 +364,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       width = DEFAULT_WIDTH,
       error,
       warning,
+      size,
       autoResize,
       resize,
       onCut,
@@ -357,7 +391,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       },
     };
 
-    const textareaClassNames = cx({
+    const textareaClassNames = cx(this.getTextareaSizeClassName(), {
       [styles.textarea(this.theme)]: true,
       [styles.hovering(this.theme)]: !error && !warning,
       [styles.disabled(this.theme)]: disabled,
@@ -390,6 +424,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     const counter = showLengthCounter && isCounterVisible && this.node && (
       <TextareaCounter
         textarea={this.node}
+        size={this.getProps().size}
         help={counterHelp}
         value={textareaProps.value}
         length={textareaProps.maxLength ?? lengthCounter ?? 0}
@@ -404,7 +439,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label data-tid={TextareaDataTids.root} {...rootProps} className={styles.root(this.theme)}>
+        <label
+          data-tid={TextareaDataTids.root}
+          {...rootProps}
+          className={cx(this.getRootSizeClassName(), {
+            [styles.root()]: true,
+          })}
+        >
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea

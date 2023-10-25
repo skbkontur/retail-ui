@@ -64,7 +64,9 @@ type DefaultProps = Required<
     'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'cyclicSelection' | 'initialSelectedItemIndex'
   >
 >;
-
+/**
+ * @deprecated use Menu component instead
+ */
 @responsiveLayout
 @rootNode
 export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuState> {

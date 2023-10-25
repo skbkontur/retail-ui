@@ -16,6 +16,7 @@ import { Gapped } from '../Gapped';
 import { Group } from '../Group';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { SizeProp } from '../../lib/types/props';
 
 export default { title: 'Baseline' };
 
@@ -144,7 +145,7 @@ Checkboxes.storyName = 'Checkbox';
 
 const BaselineFont: React.FC<{
   fontFamily: string;
-  size: 'small' | 'medium' | 'large';
+  size: SizeProp;
   bg: string;
   width?: string;
 }> = ({ fontFamily, size, width = '120px', bg }) => {
@@ -166,19 +167,25 @@ const BaselineFont: React.FC<{
         <Link loading icon={<CrownIcon />}>
           Ok
         </Link>
-        <Toggle>Tg</Toggle>
-        <Toggle />
-        <Checkbox initialIndeterminate>Ch</Checkbox>
-        <Checkbox checked>Ch</Checkbox>
-        <Checkbox />
-        <Radio checked value="value">
+        <Toggle size={size}>Tg</Toggle>
+        <Toggle size={size} />
+        <Checkbox size={size} initialIndeterminate>
+          Ch
+        </Checkbox>
+        <Checkbox size={size} checked>
+          Ch
+        </Checkbox>
+        <Checkbox size={size} />
+        <Radio checked value="value" size={size}>
           Rd
         </Radio>
-        <Radio value="" />
+        <Radio value="" size={size} />
         <Kebab size={size}>
           <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
         </Kebab>
-        <MenuItem state="hover">Menu</MenuItem>
+        <MenuItem size={size} state="hover">
+          Menu
+        </MenuItem>
         <Input size={size} value={content} width={40} />
         <ComboBox
           placeholder={content}
@@ -199,11 +206,7 @@ const BaselineFont: React.FC<{
   );
 };
 
-const BaselineSize: React.FC<{ size: 'small' | 'medium' | 'large'; bg: string; width?: string }> = ({
-  size,
-  bg,
-  width,
-}) => (
+const BaselineSize: React.FC<{ size: SizeProp; bg: string; width?: string }> = ({ size, bg, width }) => (
   <div>
     <Gapped vertical gap={4}>
       {['Arial', 'Lab Grotesque', 'Segoe UI', 'Times New Roman'].map((fontFamily, i) => (
@@ -235,36 +238,7 @@ class DifferentFontsAndSizesThemeM extends React.Component {
       <div style={{ fontSize: '16px', lineHeight: '22px' }}>
         <ThemeContext.Consumer>
           {(theme) => (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  checkboxBoxSize: '20px',
-                  checkboxCaptionGap: '10px',
-                  checkboxPaddingY: '9px',
-                  checkboxFontSize: '16px',
-                  checkboxLineHeight: '22px',
-
-                  radioSize: '20px',
-                  radioBulletSize: '10px',
-                  radioCaptionGap: '10px',
-                  radioPaddingY: '9px',
-                  radioFontSize: '16px',
-                  radioLineHeight: '22px',
-
-                  menuItemFontSize: '16px',
-                  menuItemLineHeight: '22px',
-                  menuItemPaddingY: '9px',
-                  menuItemPaddingX: '12px',
-
-                  toggleHeight: '22px',
-                  toggleCaptionGap: '10px',
-                  toggleWidth: '34px',
-                  toggleFontSize: '16px',
-                  toggleLineHeight: '22px',
-                },
-                theme,
-              )}
-            >
+            <ThemeContext.Provider value={ThemeFactory.create({}, theme)}>
               <BaselineSize
                 width="140px"
                 size="medium"
@@ -292,36 +266,7 @@ class DifferentFontsAndSizesThemeL extends React.Component {
       <div style={{ fontSize: '18px', lineHeight: '24px' }}>
         <ThemeContext.Consumer>
           {(theme) => (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  checkboxBoxSize: '22px',
-                  checkboxCaptionGap: '12px',
-                  checkboxPaddingY: '11px',
-                  checkboxFontSize: '18px',
-                  checkboxLineHeight: '24px',
-
-                  radioSize: '22px',
-                  radioBulletSize: '12px',
-                  radioCaptionGap: '12px',
-                  radioPaddingY: '11px',
-                  radioFontSize: '18px',
-                  radioLineHeight: '24px',
-
-                  menuItemFontSize: '18px',
-                  menuItemLineHeight: '24px',
-                  menuItemPaddingY: '12px',
-                  menuItemPaddingX: '14px',
-
-                  toggleHeight: '24px',
-                  toggleCaptionGap: '12px',
-                  toggleWidth: '36px',
-                  toggleFontSize: '18px',
-                  toggleLineHeight: '24px',
-                },
-                theme,
-              )}
-            >
+            <ThemeContext.Provider value={ThemeFactory.create({}, theme)}>
               <BaselineSize
                 width="160px"
                 size="large"

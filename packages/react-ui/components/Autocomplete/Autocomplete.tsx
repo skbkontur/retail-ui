@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { KeyboardEvent } from 'react';
+import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
 import { MenuMessage } from '../../internal/MenuMessage';
@@ -22,6 +22,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -47,6 +48,7 @@ function renderItem(item: any) {
 export interface AutocompleteProps
   extends CommonProps,
     Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<AriaAttributes, 'aria-label'>,
     Override<
       InputProps,
       {
@@ -71,7 +73,7 @@ export interface AutocompleteProps
         /** onBlur */
         onBlur?: () => void;
         /** Размер инпута */
-        size?: InputProps['size'];
+        size?: SizeProp;
         /** value */
         value: string;
         /**
@@ -227,6 +229,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       source,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
+      'aria-label': ariaLabel,
       ...rest
     } = props;
 
@@ -247,7 +250,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           style={{ width }}
           ref={this.refRootSpan}
         >
-          <Input aria-controls={this.menuId} {...inputProps} />
+          <Input aria-label={ariaLabel} aria-controls={this.menuId} {...inputProps} />
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
       </RenderLayer>
@@ -337,7 +340,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return items
       ? items.map((item, i) => {
           return (
-            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile}>
+            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile} size={this.props.size}>
               {this.getProps().renderItem(item)}
             </MenuItem>
           );

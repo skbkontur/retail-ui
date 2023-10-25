@@ -1,15 +1,18 @@
-import React, { useContext } from 'react';
+import React, { AriaAttributes, useContext } from 'react';
 
-import { Input, InputSize } from '../Input';
+import { Input } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
 import { UndoIcon } from '../../internal/icons/16px';
+import { SizeProp } from '../../lib/types/props';
 
 import { UndoIcon as UndoIcon2022 } from './UndoIcon';
 import { FxInputProps } from './FxInput';
 
-type FxInputRestoreBtnProps = Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'>;
+interface FxInputRestoreBtnProps
+  extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {}
 
 export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> = (props) => {
   const theme = useContext(ThemeContext);
@@ -20,12 +23,12 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
   if (isTheme2022(theme)) {
     const size = props.size || Input.defaultProps.size;
 
-    const iconSizes: Record<InputSize, number> = {
+    const iconSizes: Record<SizeProp, number> = {
       small: parseInt(theme.inputIconSizeSmall),
       medium: parseInt(theme.inputIconSizeMedium),
       large: parseInt(theme.inputIconSizeLarge),
     };
-    const cornersSizes: Record<InputSize, React.CSSProperties> = {
+    const cornersSizes: Record<SizeProp, React.CSSProperties> = {
       small: {
         borderTopLeftRadius: theme.inputBorderRadiusSmall,
         borderBottomLeftRadius: theme.inputBorderRadiusSmall,
@@ -55,6 +58,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         ...buttonCorners,
       }}
       icon={iconUndo}
+      aria-label={props['aria-label']}
     />
   ) : (
     <Button
@@ -68,6 +72,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         borderBottomRightRadius: 0,
         ...buttonCorners,
       }}
+      aria-label={props['aria-label']}
     >
       {iconUndo}
     </Button>

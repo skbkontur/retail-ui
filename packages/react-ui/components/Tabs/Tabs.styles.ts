@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { SizeProp } from '../../lib/types/props';
 
-import { TabSize } from './Tab';
 import { paddingX } from './helpers';
 
 export const styles = memoizeStyle({
@@ -24,7 +24,7 @@ export const styles = memoizeStyle({
   },
 });
 
-function tabsRoot(t: Theme, size: TabSize) {
+function tabsRoot(t: Theme, size: SizeProp) {
   return css`
     display: inline-block;
     margin: 0 -${paddingX(t, size)};

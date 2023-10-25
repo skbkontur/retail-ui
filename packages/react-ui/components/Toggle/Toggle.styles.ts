@@ -1,6 +1,15 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { isChrome } from '../../lib/client';
+
+import {
+  activeHandleSizeMixin,
+  buttonSizeMixin,
+  captionSizeMixin,
+  containerSizeMixin,
+  handleMixin,
+  inputSizeMixin,
+  toggleSizeMixin,
+} from './Toggle.mixins';
 
 export const globalClasses = prefix('toggle')({
   handle: 'handle',
@@ -18,12 +27,6 @@ export const styles = memoizeStyle({
       cursor: pointer;
       align-items: baseline;
       position: relative;
-      line-height: ${t.toggleLineHeight};
-      font-size: ${t.toggleFontSize};
-
-      &:hover .${globalClasses.handle} {
-        background: ${t.toggleBgHover};
-      }
 
       &::before {
         // non-breaking space.
@@ -31,22 +34,58 @@ export const styles = memoizeStyle({
         // and also height and baseline for toggle without caption.
         content: '\\00A0';
         display: inline-block;
-        width: ${t.toggleWidth};
         flex: 0 0 auto;
+      }
+
+      &:hover .${globalClasses.handle} {
+        background: ${t.toggleBgHover};
       }
     `;
   },
-
-  activeHandle(t: Theme) {
-    const handleWidthWithBorders = t.toggleHeight;
-    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
+  rootSmall(t: Theme) {
     return css`
-      &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
-        width: ${handleActiveWidth};
-      }
-      &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
-        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders}) translateX(-4px);
-      }
+      ${toggleSizeMixin(t.toggleFontSizeSmall, t.toggleHeightSmall, t.toggleWidthSmall)};
+    `;
+  },
+  rootMedium(t: Theme) {
+    return css`
+      ${toggleSizeMixin(t.toggleFontSizeMedium, t.toggleHeightMedium, t.toggleWidthMedium)};
+    `;
+  },
+  rootLarge(t: Theme) {
+    return css`
+      ${toggleSizeMixin(t.toggleFontSizeLarge, t.toggleHeightLarge, t.toggleWidthLarge)};
+    `;
+  },
+
+  activeHandleSmall(t: Theme) {
+    return css`
+      ${activeHandleSizeMixin(
+        t.toggleHandleSizeSmall,
+        t.toggleBorderWidth,
+        t.toggleHandleActiveWidthIncrement,
+        t.toggleWidthSmall,
+      )};
+    `;
+  },
+  activeHandleMedium(t: Theme) {
+    return css`
+      ${activeHandleSizeMixin(
+        t.toggleHandleSizeMedium,
+        t.toggleBorderWidth,
+        t.toggleHandleActiveWidthIncrement,
+        t.toggleWidthMedium,
+      )};
+    `;
+  },
+  activeHandleLarge(t: Theme) {
+    return css`
+      ${activeHandleSizeMixin(
+        t.toggleHandleSizeLarge,
+        t.toggleBorderWidth,
+        t.toggleHandleActiveWidthIncrement,
+        t.toggleWidthLarge,
+      )};
     `;
   },
 
@@ -62,15 +101,27 @@ export const styles = memoizeStyle({
   handle(t: Theme) {
     return css`
       background: ${t.toggleHandleBg};
-      border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
       box-shadow: ${t.toggleHandleBoxShadowOld};
-      height: ${t.toggleHandleSize};
       left: ${t.toggleHandleLeft};
       position: absolute;
       top: ${t.toggleHandleTop};
       transition: 0.2s ease-in;
-      width: ${t.toggleHandleSize};
+    `;
+  },
+  handleSmall(t: Theme) {
+    return css`
+      ${handleMixin(t.toggleHandleSizeSmall, t.toggleHandleBorderRadiusSmall)};
+    `;
+  },
+  handleMedium(t: Theme) {
+    return css`
+      ${handleMixin(t.toggleHandleSizeMedium, t.toggleHandleBorderRadiusMedium)};
+    `;
+  },
+  handleLarge(t: Theme) {
+    return css`
+      ${handleMixin(t.toggleHandleSizeLarge, t.toggleHandleBorderRadiusLarge)};
     `;
   },
 
@@ -81,7 +132,6 @@ export const styles = memoizeStyle({
   },
 
   input(t: Theme) {
-    const handleWidthWithBorders = t.toggleHeight;
     return css`
       position: absolute;
       opacity: 0;
@@ -110,11 +160,9 @@ export const styles = memoizeStyle({
       &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
         width: 70%;
         background: ${t.toggleBgDisabledChecked};
-        border-radius: calc(${t.toggleHeight} * 0.5) 0 0 calc(${t.toggleHeight} * 0.5);
         box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
       }
       &:checked ~ .${globalClasses.handle} {
-        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
         background: ${t.toggleCheckedBg};
         &:hover {
           background: ${t.toggleCheckedBgHover};
@@ -122,12 +170,27 @@ export const styles = memoizeStyle({
       }
     `;
   },
+  inputSmall(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
+    `;
+  },
+  inputMedium(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
+    `;
+  },
+  inputLarge(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
+    `;
+  },
 
   input2022(t: Theme) {
     return css`
       &:enabled {
         ~ .${globalClasses.container}, ~ .${globalClasses.handle} {
-          transition: 0.2s ease-in !important;
+          transition: 0.2s ease-in;
         }
         :not(:checked) {
           ~ .${globalClasses.container} {
@@ -199,7 +262,6 @@ export const styles = memoizeStyle({
 
   container(t: Theme) {
     return css`
-      border-radius: ${t.toggleBorderRadius};
       box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
       height: 100%;
       overflow: hidden;
@@ -207,6 +269,21 @@ export const styles = memoizeStyle({
       width: 100%;
       /* fixes overflow issue in Safari: https://bugs.webkit.org/show_bug.cgi?id=98538 */
       z-index: 0;
+    `;
+  },
+  containerSmall(t: Theme) {
+    return css`
+      ${containerSizeMixin(t.toggleBorderRadiusSmall)};
+    `;
+  },
+  containerMedium(t: Theme) {
+    return css`
+      ${containerSizeMixin(t.toggleBorderRadiusMedium)};
+    `;
+  },
+  containerLarge(t: Theme) {
+    return css`
+      ${containerSizeMixin(t.toggleBorderRadiusLarge)};
     `;
   },
 
@@ -261,22 +338,48 @@ export const styles = memoizeStyle({
   },
 
   button(t: Theme) {
-    const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
-    const fontSize = parseInt(t.checkboxFontSize);
-    const baselineCompensation = fontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
     return css`
       position: absolute;
       left: 0;
       top: 0;
-      height: ${t.toggleHeight};
-      width: ${t.toggleWidth};
-      flex: 1 0 ${t.toggleWidth};
-
       background: ${t.toggleBaseBg};
-      border-radius: ${t.toggleBorderRadius};
       line-height: ${t.toggleHeight};
-
-      margin-top: calc(${t.toggleButtonOffsetY} + ${baselineCompensation}px);
+    `;
+  },
+  buttonSmall(t: Theme) {
+    return css`
+      ${buttonSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.toggleFontSizeSmall,
+        t.toggleHeightSmall,
+        t.toggleWidthSmall,
+        t.toggleBorderRadiusSmall,
+        t.toggleButtonOffsetY,
+      )};
+    `;
+  },
+  buttonMedium(t: Theme) {
+    return css`
+      ${buttonSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.toggleFontSizeMedium,
+        t.toggleHeightMedium,
+        t.toggleWidthMedium,
+        t.toggleBorderRadiusMedium,
+        t.toggleButtonOffsetY,
+      )};
+    `;
+  },
+  buttonLarge(t: Theme) {
+    return css`
+      ${buttonSizeMixin(
+        t.labGrotesqueBaselineCompensation,
+        t.toggleFontSizeLarge,
+        t.toggleHeightLarge,
+        t.toggleWidthLarge,
+        t.toggleBorderRadiusLarge,
+        t.toggleButtonOffsetY,
+      )};
     `;
   },
 
@@ -303,8 +406,21 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.toggleTextColor};
       padding: 0 0 0 ${t.toggleCaptionGap};
-      line-height: ${t.toggleLineHeight};
-      font-size: ${t.toggleFontSize};
+    `;
+  },
+  captionSmall(t: Theme) {
+    return css`
+      ${captionSizeMixin(t.toggleFontSizeSmall, t.toggleHeightSmall)};
+    `;
+  },
+  captionMedium(t: Theme) {
+    return css`
+      ${captionSizeMixin(t.toggleFontSizeMedium, t.toggleHeightMedium)};
+    `;
+  },
+  captionLarge(t: Theme) {
+    return css`
+      ${captionSizeMixin(t.toggleFontSizeLarge, t.toggleHeightLarge)};
     `;
   },
 
