@@ -1,6 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -291,7 +292,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     if (!this.context.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isArrowPressed || keyListener.isTabPressed) {
           this.setState({ focusedByKeyboard: true });
         }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -296,7 +297,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private checkSpinnerPosition = () => {
-    if (!this.spinnerContainerNode) {
+    if (!this.spinnerContainerNode || !isBrowser(globalObject)) {
       return;
     }
 
@@ -309,8 +310,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       width: containerWidth,
     } = getDOMRect(this.spinnerContainerNode);
 
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+    const windowHeight = globalObject.innerHeight;
+    const windowWidth = globalObject.innerWidth;
 
     // Если контейнер не больше высоты и не шире окна,
     // то просто выравниваем по центру
@@ -391,7 +392,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private enableChildrenFocus = () => {
     this.makeUnobservable();
     // NOTE: NodeList doesn't support 'forEach' method in IE11 and other older browsers
-    Array.from(document.querySelectorAll('[origin-tabindex]')).forEach((el) => {
+    Array.from(globalObject.document?.querySelectorAll('[origin-tabindex]') ?? []).forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
@@ -399,14 +400,14 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private makeObservable = () => {
     const target = this.childrenContainerNode;
-    if (!target) {
+    if (!target || !globalObject.MutationObserver) {
       return;
     }
     const config = {
       childList: true,
       subtree: true,
     };
-    const observer = new MutationObserver(this.disableChildrenFocus);
+    const observer = new globalObject.MutationObserver(this.disableChildrenFocus);
     observer.observe(target, config);
     this.childrenObserver = observer;
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Sticky } from '../Sticky';
 import { isFunction } from '../../lib/utils';
@@ -77,13 +78,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   public componentDidMount = () => {
-    window.addEventListener('scroll', this.update, true);
+    globalObject.addEventListener?.('scroll', this.update, true);
     this.context.setHasHeader?.();
     this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
-    window.removeEventListener('scroll', this.update, true);
+    globalObject.removeEventListener?.('scroll', this.update, true);
     this.context.setHasHeader?.(false);
     this.context.headerRef(null);
   };

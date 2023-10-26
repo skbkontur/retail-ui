@@ -1,6 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import debounce from 'lodash.debounce';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -208,7 +209,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { offset, size, pos, coord } = scrollSizeParametersNames[this.props.axis];
 
     const initialCoord = event[coord];
-    const target: Document = window.document;
+    const target = globalObject.document;
     const initialScrollPos = this.inner[pos];
     const state = this.state;
 
@@ -239,21 +240,21 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     };
 
     const mouseUp = () => {
-      target.removeEventListener('mousemove', mouseMove);
-      target.removeEventListener('mouseup', mouseUp);
+      target?.removeEventListener('mousemove', mouseMove);
+      target?.removeEventListener('mouseup', mouseUp);
       this.setState({ ...this.state, scrollingByMouseDrag: false });
       this.hideScrollBar();
     };
 
-    target.addEventListener('mousemove', mouseMove);
-    target.addEventListener('mouseup', mouseUp);
+    target?.addEventListener('mousemove', mouseMove);
+    target?.addEventListener('mouseup', mouseUp);
     this.setState({ ...this.state, scrollingByMouseDrag: true });
 
     event.preventDefault();
   };
 
   private handleScrollWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !(event instanceof WheelEvent) || (axis === 'x' && !event.shiftKey)) {
+    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import throttle from 'lodash.throttle';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -118,7 +119,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   private getStyles(node: any): React.CSSProperties {
     const htmlNode = getRootNode(node);
 
-    if (htmlNode && htmlNode instanceof HTMLElement) {
+    if (isInstanceOf(htmlNode, globalObject.HTMLElement)) {
       const rect = getDOMRect(htmlNode);
       if (this.props.vertical) {
         return {
