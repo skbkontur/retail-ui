@@ -54,6 +54,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+
+## [4.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.1...@skbkontur/react-ui@4.16.2) (2023-10-24)
+
+
+### Bug Fixes
+
+* **Button:** enable linkHoverTextDecoration var for THEME_2022 ([#3290](https://github.com/skbkontur/retail-ui/issues/3290)) ([1beb6da](https://github.com/skbkontur/retail-ui/commit/1beb6da47b0d782a2f62c1612b26fe221128f5fc))
+* **SidePage,Sticky:** fix max update depth error ([#3293](https://github.com/skbkontur/retail-ui/issues/3293)) ([950988f](https://github.com/skbkontur/retail-ui/commit/950988f9b3b612b1ac8f3a4f634bd3b001e28a9b))
+
+
+
+
+
 ## [4.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0...@skbkontur/react-ui@4.16.1) (2023-10-16)
 
 
