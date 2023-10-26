@@ -482,7 +482,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cx(styles.helperText(), this.getInputSizeClassName(), {
+              classHelp={cx(this.getInputSizeClassName(), {
                 [styles.helperTextEditing(theme)]: this.isEditingMode,
               })}
               text={inputValue === '' ? placeholder : inputValue}

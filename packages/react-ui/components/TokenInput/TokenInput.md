@@ -82,33 +82,18 @@ const getItems = q =>
     getItems={getItems}
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
-    renderToken={(item, tokenProps) => (
-      <Token key={item.toString()} {...tokenProps}>
-        {item}
-      </Token>
-    )}
   />
   <TokenInput
     size={'medium'}
     getItems={getItems}
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
-    renderToken={(item, tokenProps) => (
-      <Token key={item.toString()} {...tokenProps}>
-        {item}
-      </Token>
-    )}
   />
   <TokenInput
     size={'large'}
     getItems={getItems}
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
-    renderToken={(item, tokenProps) => (
-      <Token key={item.toString()} {...tokenProps}>
-        {item}
-      </Token>
-    )}
   />
 </div>;
 ```

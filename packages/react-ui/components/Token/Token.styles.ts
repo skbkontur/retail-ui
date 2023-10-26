@@ -158,29 +158,21 @@ export const styles = memoizeStyle({
     `;
   },
 
+  helperText() {
+    return css`
+      max-width: 100%;
+      word-break: break-all;
+
+      // don't collapse spaces
+      // so they get counted in width
+      white-space: pre-wrap;
+    `;
+  },
   helperContainer() {
     return css`
       display: flex;
       position: absolute;
       visibility: hidden;
-    `;
-  },
-  helperContainerSmall(t: Theme) {
-    return css`
-      left: ${t.tokenPaddingXSmall};
-      right: ${t.tokenPaddingXSmall};
-    `;
-  },
-  helperContainerMedium(t: Theme) {
-    return css`
-      left: ${t.tokenPaddingXMedium};
-      right: ${t.tokenPaddingXMedium};
-    `;
-  },
-  helperContainerLarge(t: Theme) {
-    return css`
-      left: ${t.tokenPaddingXLarge};
-      right: ${t.tokenPaddingXLarge};
     `;
   },
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import { cx } from '@emotion/css';
 
+import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { TokenView } from '../Token/TokenView';
@@ -24,25 +24,13 @@ export interface TextWidthHelperProps {
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
-  private getSizeClassName(size: TokenSize) {
-    switch (size) {
-      case 'large':
-        return styles.helperContainerLarge(this.props.theme);
-      case 'medium':
-        return styles.helperContainerMedium(this.props.theme);
-      case 'small':
-      default:
-        return styles.helperContainerSmall(this.props.theme);
-    }
-  }
-
   public render() {
     const textHolder = (
-      <div className={this.props.classHelp} ref={this.elementRef}>
+      <div className={cx(this.props.classHelp, styles.helperText())} ref={this.elementRef}>
         {this.props.text || THIN_SPACE}
       </div>
     );
-    const helperClassName = cx(this.getSizeClassName(this.props.size), {
+    const helperClassName = cx( {
       [styles.helperContainer()]: true,
     });
     return (

@@ -40,10 +40,6 @@ export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, Co
    * Размер
    */
   size?: TokenSize;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
-  'aria-describedby'?: AriaAttributes['aria-describedby'];
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;

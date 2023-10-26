@@ -141,16 +141,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  helperContainer() {
-    return css`
-      display: flex;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      visibility: hidden;
-    `;
-  },
 
   helperText() {
     return css`

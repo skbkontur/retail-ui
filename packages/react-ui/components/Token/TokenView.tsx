@@ -3,13 +3,12 @@ import React, { ReactNode, useContext } from 'react';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import { HTMLProps } from '../../typings/html';
 
 import { TokenSize } from './Token';
 import { globalClasses, styles } from './Token.styles';
 
 export interface TokenViewProps
-  extends Pick<HTMLProps['div'], 'onClick' | 'onDoubleClick' | 'onMouseEnter' | 'onMouseLeave' | 'onFocus' | 'onBlur'> {
+  extends React.HTMLAttributes<HTMLDivElement> {
   size?: TokenSize;
   children: ReactNode;
   closeButton?: ReactNode;
