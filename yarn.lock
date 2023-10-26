@@ -5724,6 +5724,11 @@
   resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.4.2.tgz#c5e42388ec6424b27093e5cd1ebc2225b1fdf316"
   integrity sha512-Sn1F4+rJkgagzxlgmcyQQHiD0s66kVWXBh3Efy8writSMxc/7dsNxPW4zFJGynaJhgzn3ZHOfY9d08G9M/Yjyw==
 
+"@skbkontur/icons@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@skbkontur/icons/-/icons-1.5.1.tgz#764301ba2e9e3a2fe876b9bdc92a45de8d7c7652"
+  integrity sha512-MzeOo8rTDBZZpD5CjziB6c9CrI1IZ2nHyoeDzu1E6aHJVrwFijzKfBpP9c9fmfW8cfBWlpYHKr8DBOjaBaatjQ==
+
 "@skbkontur/react-icons@5.2.0":
   version "5.2.0"
   resolved "https://registry.npmjs.org/@skbkontur/react-icons/-/react-icons-5.2.0.tgz#b6562c7327eb19f71ad6ff48765dcbd7c8cd1212"
@@ -13352,9 +13357,9 @@ get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
 get-func-name@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/get-func-name/-/get-func-name-2.0.0.tgz#ead774abee72e20409433a066366023dd6887a41"
-  integrity sha512-Hm0ixYtaSZ/V7C8FJrtZIuBBI+iSgL+1Aq82zSu8VQNB4S3Gk8e7Qs3VwBDJAhmRZcFqkl3tQu36g/Foh5I5ig==
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.2.tgz#0d7cf20cd13fda808669ffa88f4ffc7a3943fc41"
+  integrity sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==
 
 get-intrinsic@^1.0.2:
   version "1.1.3"
