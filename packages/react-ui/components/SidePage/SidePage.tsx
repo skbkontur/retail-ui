@@ -185,7 +185,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             <ResponsiveLayout>
               {({ isMobile }) => (
                 <>
-                  {!isMobile && blockBackground && this.renderShadow()}
+                  {blockBackground && this.renderShadow(isMobile)}
                   <CSSTransition
                     in
                     classNames={this.getTransitionNames()}
@@ -284,17 +284,21 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return this.layout.clientWidth;
   };
 
-  private renderShadow(): JSX.Element {
+  private renderShadow(isMobile: boolean): JSX.Element {
     return (
       <ZIndex priority={'Sidepage'} className={styles.overlay()} onScroll={LayoutEvents.emit}>
-        <HideBodyVerticalScroll key="hbvs" />
-        <div
-          key="overlay"
-          className={cx({
-            [styles.background()]: true,
-            [styles.backgroundGray(this.theme)]: this.state.hasBackground,
-          })}
-        />
+        {!isMobile && (
+          <>
+            <HideBodyVerticalScroll key="hbvs" />
+            <div
+              key="overlay"
+              className={cx({
+                [styles.background()]: true,
+                [styles.backgroundGray(this.theme)]: this.state.hasBackground,
+              })}
+            />
+          </>
+        )}
       </ZIndex>
     );
   }

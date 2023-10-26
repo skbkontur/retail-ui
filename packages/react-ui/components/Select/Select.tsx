@@ -12,7 +12,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
-import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
+import { Button, ButtonProps, ButtonUse } from '../Button';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
@@ -33,6 +33,8 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { MenuHeaderProps } from '../MenuHeader';
+import { SizeProp } from '../../lib/types/props';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -48,6 +50,7 @@ export interface ButtonParams
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
+  size: SizeProp;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -158,7 +161,7 @@ export interface SelectProps<TValue, TItem>
    */
   warning?: boolean;
   use?: ButtonUse;
-  size?: ButtonSize;
+  size?: SizeProp;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
   /**
@@ -178,7 +181,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 type DefaultProps<TValue, TItem> = Required<
-  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use'>
+  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
 >;
 
 @responsiveLayout
@@ -195,6 +198,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     areValuesEqual,
     filterItem,
     use: 'default',
+    size: 'small',
   };
 
   public static Item = Item;
@@ -347,6 +351,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
+      size: this.getProps().size,
     };
 
     return buttonParams;
@@ -369,7 +374,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
-  private getLeftIconClass(size: ButtonSize | undefined) {
+  private getLeftIconClass(size: SizeProp | undefined) {
     if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
@@ -394,6 +399,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
       active: params.opened,
+      size: params.size,
     };
     const use = this.getProps().use;
 
@@ -519,6 +525,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getMenuItems = (value: Nullable<TValue>) => {
     const isMobile = this.isMobileLayout;
+    const size = this.props.size;
 
     return this.mapItems(
       (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
@@ -526,7 +533,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           const element = item();
 
           if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key: i, isMobile });
+            return React.cloneElement(element, { key: i, isMobile, size });
           }
 
           return null;
@@ -534,7 +541,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
         if (React.isValidElement(item)) {
           if (isReactUINode('MenuItem', item)) {
-            return React.cloneElement(item, { key: i, isMobile } as MenuItemProps);
+            return React.cloneElement(item, { key: i, isMobile, size } as MenuItemProps);
+          }
+          if (isReactUINode('MenuHeader', item)) {
+            return React.cloneElement(item, { size } as MenuHeaderProps);
           }
           return React.cloneElement(item, { key: i });
         }
@@ -546,6 +556,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             onClick={this.select.bind(this, iValue)}
             comment={comment}
             isMobile={isMobile}
+            size={this.props.size}
           >
             {this.getProps().renderItem(iValue, item)}
           </MenuItem>
@@ -691,6 +702,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref: this.buttonRef,
           onFocus: this.props.onFocus,
           onBlur: this.props.onBlur,
+          size: this.props.size,
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,

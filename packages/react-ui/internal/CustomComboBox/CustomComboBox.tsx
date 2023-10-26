@@ -9,11 +9,12 @@ import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -48,7 +49,7 @@ export interface CustomComboBoxProps<T>
   onMouseLeave?: (e: React.MouseEvent) => void;
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
   /**
@@ -94,6 +95,7 @@ export const DefaultState = {
   textValue: '',
   repeatRequest: () => undefined,
   requestStatus: ComboBoxRequestStatus.Unknown,
+  size: 'small',
 };
 
 export const CustomComboBoxDataTids = {
@@ -274,6 +276,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
+      onMobileClose: this.handleMobileClose,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
@@ -308,7 +311,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     return (
       <CommonWrapper {...this.props}>
-        <ComboBoxView {...viewProps} ref={this.setRootNode} />
+        <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
       </CommonWrapper>
     );
   }
@@ -384,6 +387,10 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({ type: 'Focus' });
   };
 
+  private handleMobileClose = () => {
+    this.handleInputBlur();
+  };
+
   private handleClickOutside = (e: Event) => {
     fixClickFocusIE(e);
     this.handleBlur();
@@ -411,9 +418,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // it would call handleFocusOutside
     // In that way handleBlur would be called
 
-    // TODO: add check for mobile layout, to call `handleBlur`
-
-    if (this.state.opened) {
+    if (this.state.opened && !this.isMobileLayout) {
       return;
     }
     this.handleBlur();

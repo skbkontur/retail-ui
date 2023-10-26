@@ -22,13 +22,20 @@ const excludedComponents = [
   'SidePageContext',
 ];
 
-const sectionComponents = ['Modal', 'SidePage'];
+const sectionComponents = ['Modal', 'SidePage', 'Tabs'];
 
 const findComponentsInSection = (dirPath, name) => {
-  const reg = new RegExp(`${name}[a-zA-Z]*\.tsx`);
+  // Looks for entries like `ParentCompChildComp.tsx`
+  // In `ModalClose` the word `Modal` represents parent component and the word `Close` child component
+  const surnamePattern = new RegExp(`${name}[a-zA-Z]*\.tsx`);
+  // Component `<Tabs />` utilizes it's own pattern, where deleting the last letter forms child component `<Tab />`
+  const tabPattern = 'Tab.tsx';
   const components = fs
     .readdirSync(dirPath)
-    .filter((item) => reg.test(item) && !excludedComponents.includes(path.basename(item, '.tsx')))
+    .filter(
+      (item) =>
+        (surnamePattern.test(item) || tabPattern === item) && !excludedComponents.includes(path.basename(item, '.tsx')),
+    )
     .map((item) => path.join(dirPath, item));
   return {
     name,
@@ -58,13 +65,13 @@ const findComponentsRecursively = (dirPath) => {
   return components.filter(Boolean);
 };
 
-const findInComponents = (dir) => {
+const findInComponents = (parentDirName) => {
   const sections = [];
   const components = [];
-  fs.readdirSync(dir).forEach((name) => {
-    const dirPath = path.join(dir, name);
-    if (sectionComponents.includes(name)) {
-      sections.push(findComponentsInSection(dirPath, name));
+  fs.readdirSync(parentDirName).forEach((childDirName) => {
+    const dirPath = path.join(parentDirName, childDirName);
+    if (sectionComponents.includes(childDirName)) {
+      sections.push(findComponentsInSection(dirPath, childDirName));
     } else {
       components.push(...findComponentsRecursively(dirPath));
     }

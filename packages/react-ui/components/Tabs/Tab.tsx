@@ -13,6 +13,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -29,70 +30,63 @@ export const TabDataTids = {
   root: 'Tab__root',
 } as const;
 
-export type TabSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type TabSize = SizeProp;
 
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps {
   /**
-   * Tab content
-   */
-  children?: React.ReactNode;
-
-  /**
-   * Component to use as a tab
+   * Позволяет передавать свой компонент, строку или функцию, которая заменит собой элемент используемый в компоненте по умолчанию. Реализует паттерн [render prop](https://www.patterns.dev/posts/render-props-pattern).
    */
   component?: React.ComponentType<any> | string;
 
   /**
-   * Link href
+   * `HTML`-аттрибут `href`.
    */
   href?: string;
 
   /**
-   * Tab identifier
+   * Уникальный идентификатор таба. По нему компонент `<Tabs />` определяет какой `<Tab />` сейчас выбран.
    */
   id?: T;
 
   /**
-   * Click event
+   * `HTML`-событие `onclick`.
    */
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 
   /**
-   * Click event
+   * `HTML`-событие `onkeydown`.
    */
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   /**
-   * Disabled indicator
+   * Переводит компонент в отключенное состояние.
    */
   disabled?: boolean;
 
   /**
-   * Состояние валидации при ошибке.
+   * Визуальное состояние ошибки.
    */
   error?: boolean;
 
   /**
-   * Состояние валидации при предупреждении.
+   * Визуальное состояние предупреждения.
    */
   warning?: boolean;
 
   /**
-   * Success indicator
+   * Визуальное состояние успеха.
    */
   success?: boolean;
 
   /**
-   * Primary indicator
+   * Визуальное состояние главного элемента.
    */
   primary?: boolean;
-
-  /**
-   * Style property
-   */
-  style?: React.CSSProperties;
 }
 
 export interface TabState {
@@ -102,19 +96,7 @@ export interface TabState {
 type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 
 /**
- * Tab element of Tabs component
- *
- * Can be used for creating custom tabs
- * ```js
- *
- * const RouteTab = (props) => (
- *   <Tab id={props.to} component={RouteLink} {...props}/>
- * )
- *
- * const MyAwesomeTab = (props) => <Tab id={props.id}>8) {props.children}</Tab>
- * ```
- *
- * Works only inside Tabs component, otherwise throws
+ * Вложенный элемент компонента `<Tabs />`.
  */
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
