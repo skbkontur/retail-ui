@@ -304,3 +304,26 @@ let Card = ({ title }) => (
 
 <Card title="С заданной высотой" />
 ```
+
+Внутри `Kebab` можно использовать различные обертки для пунктов меню
+
+```jsx harmony
+import { MenuHeader, MenuItem } from '@skbkontur/react-ui';
+
+const groupedMenuItems = (
+  <div>
+    <MenuItem>MenuItem1</MenuItem>
+    <MenuItem>MenuItem2</MenuItem>
+  </div>
+  );
+
+<Kebab>
+  <>
+    <MenuHeader>MenuHeader</MenuHeader>
+    {groupedMenuItems}
+  </>
+  <div>
+    <MenuItem>MenuItem3</MenuItem>
+  </div>
+</Kebab>;
+```
