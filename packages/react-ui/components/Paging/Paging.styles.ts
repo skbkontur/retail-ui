@@ -136,20 +136,12 @@ export const styles = memoizeStyle({
     `;
   },
 
-  pageLinkHintPlaceHolder(t: Theme) {
-    const pagingPageLinkHintMarginY =
-      parseInt(t.pagingPageLinkHintMargin.split(' ')[0]) + parseInt(t.pagingPageLinkHintMargin.split(' ')[2] ?? 0);
-    return css`
-      height: ${parseInt(t.pagingPageLinkHintLineHeight) + pagingPageLinkHintMarginY}px;
-      line-height: ${parseInt(t.pagingPageLinkHintLineHeight) + pagingPageLinkHintMarginY}px;
-    `;
-  },
-
   pageLinkHint(t: Theme) {
     return css`
       display: inline-block;
       margin: ${t.pagingPageLinkHintMargin};
       font-size: ${t.pagingPageLinkHintFontSize};
+      height: ${t.pagingPageLinkHintLineHeight};
       line-height: ${t.pagingPageLinkHintLineHeight};
       color: ${t.pagingPageLinkHintColor};
     `;
