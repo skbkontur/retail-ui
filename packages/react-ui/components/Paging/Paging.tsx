@@ -220,7 +220,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
           styles.pageLink(this.theme),
           styles.forwardLink(this.theme),
           focused && styles.pageLinkFocused(this.theme),
-          disabled || (this.props.disabled && styles.pageLinkDisabled(this.theme)),
+          (disabled || this.props.disabled) && styles.pageLinkDisabled(this.theme),
         )
       : cx({
           [styles.forwardLink(this.theme)]: true,

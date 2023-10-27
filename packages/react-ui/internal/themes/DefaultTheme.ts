@@ -131,6 +131,10 @@ export class DefaultTheme {
     parseFloat(this.linkLineBorderBottomOpacity) * 100
   }%, transparent)`;
 
+  public static linkFocusOutlineColor = 'transparent';
+  public static linkFocusOutlineWidth = '0px';
+  public static linkFocusOutline = 'none';
+
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
@@ -531,6 +535,9 @@ export class DefaultTheme {
   public static get btnBacklessBorderColor() {
     return this.btnDefaultBorderColor;
   }
+  public static get btnBacklessDisabledBorderColor() {
+    return this.btnDisabledBorderColor;
+  }
   public static get btnBacklessHoverBorderColor() {
     return this.btnBacklessBorderColor;
   }
@@ -849,6 +856,9 @@ export class DefaultTheme {
   }
   public static dateInputMaskColor = '#b8b8b8';
   public static dateInputComponentSelectedBgColor = '#cdedff';
+  public static get dateInputComponentSelectedTextColor() {
+    return this.textColorDefault;
+  }
   //#endregion
   //#region Calendar
   public static get calendarBottomSeparatorBorderColor() {
