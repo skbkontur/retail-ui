@@ -95,7 +95,8 @@ export const styles = memoizeStyle({
       color: ${t.tokenInputTextColor};
       box-sizing: border-box;
       word-break: break-all;
-      padding: 1px 0;
+      padding: 0;
+      margin: 0;
       &::-ms-clear {
         display: none;
       }
@@ -138,18 +139,6 @@ export const styles = memoizeStyle({
   transparentBorder(t: Theme) {
     return css`
       border: solid ${t.tokenBorderWidth} transparent;
-    `;
-  },
-
-
-  helperText() {
-    return css`
-      max-width: 100%;
-      word-break: break-all;
-
-      // don't collapse spaces
-      // so they get counted in width
-      white-space: pre-wrap;
     `;
   },
 

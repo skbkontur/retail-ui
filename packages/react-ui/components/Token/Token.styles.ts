@@ -175,6 +175,24 @@ export const styles = memoizeStyle({
       visibility: hidden;
     `;
   },
+  helperContainerSmall(t: Theme) {
+    return css`
+      left: ${t.tokenInputPaddingXSmall};
+      right: ${t.tokenInputPaddingXSmall};
+    `;
+  },
+  helperContainerMedium(t: Theme) {
+    return css`
+      left: ${t.tokenInputPaddingXMedium};
+      right: ${t.tokenInputPaddingXMedium};
+    `;
+  },
+  helperContainerLarge(t: Theme) {
+    return css`
+      left: ${t.tokenInputPaddingXLarge};
+      right: ${t.tokenInputPaddingXLarge};
+    `;
+  },
 });
 
 interface TokenColors {

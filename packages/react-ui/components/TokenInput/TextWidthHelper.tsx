@@ -24,18 +24,27 @@ export interface TextWidthHelperProps {
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
+  private getSizeClassName(size: TokenSize) {
+    switch (size) {
+      case 'large':
+        return styles.helperContainerLarge(this.props.theme);
+      case 'medium':
+        return styles.helperContainerMedium(this.props.theme);
+      case 'small':
+      default:
+        return styles.helperContainerSmall(this.props.theme);
+    }
+  }
+
   public render() {
-    const textHolder = (
-      <div className={cx(this.props.classHelp, styles.helperText())} ref={this.elementRef}>
-        {this.props.text || THIN_SPACE}
-      </div>
-    );
-    const helperClassName = cx( {
-      [styles.helperContainer()]: true,
-    });
     return (
-      <TokenView size={this.props.size} className={helperClassName}>
-        {textHolder}
+      <TokenView
+        size={this.props.size}
+        className={cx(styles.helperContainer(), this.getSizeClassName(this.props.size))}
+      >
+        <div className={cx(this.props.classHelp, styles.helperText())} ref={this.elementRef}>
+          {this.props.text || THIN_SPACE}
+        </div>
       </TokenView>
     );
   }

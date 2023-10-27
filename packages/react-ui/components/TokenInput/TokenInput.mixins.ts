@@ -10,5 +10,6 @@ export const inputSizeMixin = (fontSize: string, lineHeight: string) => {
   return css`
     font-size: ${fontSize};
     height: ${lineHeight};
+    line-height: ${lineHeight};
   `;
 };

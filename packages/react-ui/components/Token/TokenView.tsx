@@ -7,8 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { TokenSize } from './Token';
 import { globalClasses, styles } from './Token.styles';
 
-export interface TokenViewProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: TokenSize;
   children: ReactNode;
   closeButton?: ReactNode;
