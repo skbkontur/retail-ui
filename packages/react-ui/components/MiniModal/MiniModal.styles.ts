@@ -1,5 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { globalClasses as buttonGlobalClasses } from '../Button/Button.styles';
 
 export const styles = memoizeStyle({
   icon() {
@@ -8,9 +9,26 @@ export const styles = memoizeStyle({
     `;
   },
 
-  title(t: Theme) {
+  toModal() {
+    return css`
+      backdrop-filter: blur(3px);
+    `;
+  },
+
+  description() {
     return css`
       text-align: center;
+    `;
+  },
+
+  title() {
+    return css`
+      text-align: center;
+    `;
+  },
+
+  titleWithIcon(t: Theme) {
+    return css`
       margin-top: ${t.miniModalTitleMarginTop};
     `;
   },
@@ -22,25 +40,15 @@ export const styles = memoizeStyle({
       text-align: center;
       gap: ${t.miniModalActionGap};
 
-      > * {
+      .${buttonGlobalClasses.root} {
         width: 100%;
       }
     `;
   },
 
-  actionsCancelIndent(t: Theme) {
+  actionsIndent(t: Theme) {
     return css`
-      > *:nth-of-type(3) {
-        margin-top: calc(-${t.miniModalActionGap} + ${t.miniModalCancelIndent});
-      }
-    `;
-  },
-
-  actionsCancelIndentIE11Fallback(t: Theme) {
-    return css`
-      > *:nth-of-type(3) {
-        margin-top: ${t.miniModalCancelIndent} !important;
-      }
+      height: ${t.miniModalCancelIndent};
     `;
   },
 

@@ -220,17 +220,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
           <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
-            <div
-              aria-labelledby={ariaLabelledby}
-              ref={this.refContainer}
-              className={styles.container()}
-              onMouseDown={this.handleContainerMouseDown}
-              onMouseUp={this.handleContainerMouseUp}
-              onClick={this.handleContainerClick}
-              data-tid={ModalDataTids.container}
-            >
-              <ResponsiveLayout>
-                {({ isMobile }) => (
+            <ResponsiveLayout>
+              {({ isMobile }) => (
+                <div
+                  aria-labelledby={ariaLabelledby}
+                  ref={this.refContainer}
+                  className={cx(styles.container(), isMobile && styles.containerMobile(this.theme))}
+                  onMouseDown={this.handleContainerMouseDown}
+                  onMouseUp={this.handleContainerMouseUp}
+                  onClick={this.handleContainerClick}
+                  data-tid={ModalDataTids.container}
+                >
                   <div
                     aria-modal
                     aria-label={ariaLabel}
@@ -274,9 +274,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       </ResizeDetector>
                     </div>
                   </div>
-                )}
-              </ResponsiveLayout>
-            </div>
+                </div>
+              )}
+            </ResponsiveLayout>
           </ZIndex>
         </CommonWrapper>
       </RenderContainer>
