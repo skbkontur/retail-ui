@@ -1,10 +1,10 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
+import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { isHTMLElement } from '../../lib/SSRSafe';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -138,7 +138,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isHTMLElement(rootNode)) {
+    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
@@ -345,8 +345,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
-      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && isBrowser && rootNode) {
+      const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -384,7 +384,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (rootNode instanceof HTMLElement) {
+      if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }
@@ -404,12 +404,12 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
-    if (isActiveElement(item)) {
+    if (isActiveElement(item) && isBrowser(globalObject)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
-          window.open(item.props.href, item.props.target);
+          globalObject.open(item.props.href, item.props.target);
         } else {
-          location.href = item.props.href;
+          globalObject.location.href = item.props.href;
         }
       }
       if (item.props.onClick) {

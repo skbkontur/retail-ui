@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
@@ -59,7 +60,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   }
 
   public _toast: Nullable<ToastView>;
-  private _timeout: Nullable<number> = null;
+  private _timeout: SafeTimer;
   private rootRef = React.createRef<HTMLElement>();
 
   constructor(props: ToastProps) {
@@ -162,7 +163,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private _clearTimer = () => {
     if (this._timeout) {
-      clearTimeout(this._timeout);
+      globalObject.clearTimeout(this._timeout);
       this._timeout = null;
     }
   };
@@ -172,8 +173,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     let showTime = this.state.action ? 7000 : 3000;
     showTime = this.state.showTime ?? showTime;
-
-    this._timeout = window.setTimeout(this.close, showTime);
+    this._timeout = globalObject.setTimeout(this.close, showTime);
   };
 
   private _refToast = (element: ToastView) => {

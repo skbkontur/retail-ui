@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.17.0-next.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.2...@skbkontur/react-ui@4.17.0-next.3) (2023-10-26)
+
+
+### Bug Fixes
+
+* **Button:** update disabled and hover styles ([#3272](https://github.com/skbkontur/retail-ui/issues/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
+* **Button:** update styles in disabled Button ([#3279](https://github.com/skbkontur/retail-ui/issues/3279)) ([80e2f91](https://github.com/skbkontur/retail-ui/commit/80e2f919d47a29c14c7fcd0d6612b22e9f4f1449))
+* **ComboBox:** fix mobile overlay not closing when using public methods ([#3268](https://github.com/skbkontur/retail-ui/issues/3268)) ([46ffefa](https://github.com/skbkontur/retail-ui/commit/46ffefad121c0525f502d169c5d0052bff49129e))
+* **ComboBox:** submit form on Enter if closed ([#3264](https://github.com/skbkontur/retail-ui/issues/3264)) ([3646b08](https://github.com/skbkontur/retail-ui/commit/3646b08bb6e4e5b05c54513301626ab52eb9a2f9))
+* **Paging:** disable forward button when current page is last ([#3273](https://github.com/skbkontur/retail-ui/issues/3273)) ([9b3a0b7](https://github.com/skbkontur/retail-ui/commit/9b3a0b74cafaa7753a62da43a8edaef30eae617c))
+* **SidePage:** fix overlay when changing desktop->mobile->desktop ([#3292](https://github.com/skbkontur/retail-ui/issues/3292)) ([fa4ac39](https://github.com/skbkontur/retail-ui/commit/fa4ac399d41b3457346d3e3187d212bf92581347))
+* **Sticky:** fix width calc in fixed state on page resize ([#3285](https://github.com/skbkontur/retail-ui/issues/3285)) ([8d19d82](https://github.com/skbkontur/retail-ui/commit/8d19d82d2ac07c16e442e8dd0478603ba7e84fb6))
+
+
+### Features
+
+* ability to set up window ([#3259](https://github.com/skbkontur/retail-ui/issues/3259)) ([f19378c](https://github.com/skbkontur/retail-ui/commit/f19378c9609f4f0867658480456b6b976bb3f2af))
+* **Kebab/Hint/Toast:** remove Pin and update style ([#3274](https://github.com/skbkontur/retail-ui/issues/3274)) ([b248448](https://github.com/skbkontur/retail-ui/commit/b248448241ae75eeaf70d2137c6e8aca779c3edf))
+
+
+
+
+
 # [4.17.0-next.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.1...@skbkontur/react-ui@4.17.0-next.2) (2023-10-16)
 
 
@@ -49,6 +72,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **Kebab/Hint/Toast:** remove Pin and update style ([#3274](https://github.com/skbkontur/retail-ui/issues/3274)) ([b248448](https://github.com/skbkontur/retail-ui/commit/b248448241ae75eeaf70d2137c6e8aca779c3edf))
+
+
+
+
+
+
+## [4.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.1...@skbkontur/react-ui@4.16.2) (2023-10-24)
+
+
+### Bug Fixes
+
+* **Button:** enable linkHoverTextDecoration var for THEME_2022 ([#3290](https://github.com/skbkontur/retail-ui/issues/3290)) ([1beb6da](https://github.com/skbkontur/retail-ui/commit/1beb6da47b0d782a2f62c1612b26fe221128f5fc))
+* **SidePage,Sticky:** fix max update depth error ([#3293](https://github.com/skbkontur/retail-ui/issues/3293)) ([950988f](https://github.com/skbkontur/retail-ui/commit/950988f9b3b612b1ac8f3a4f634bd3b001e28a9b))
 
 
 

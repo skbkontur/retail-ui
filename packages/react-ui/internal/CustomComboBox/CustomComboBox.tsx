@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import ReactDOM from 'react-dom';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';
@@ -172,7 +173,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
-          setTimeout(resolve, LOADER_SHOW_TIME);
+          globalObject.setTimeout(resolve, LOADER_SHOW_TIME);
         }, DELAY_BEFORE_SHOW_LOADER);
 
         cancelPromise.catch(() => cancelLoader());
@@ -407,9 +408,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // workaround for the similar bug with focusout
     // in Firefox, Chrome and IE
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-    setTimeout(() => {
+    globalObject.setTimeout(() => {
       this.dispatch({ type: 'Blur' });
-    });
+    }, 0);
   };
 
   private handleInputBlur = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
+import { globalObject, isInstanceOf, isBrowser } from '@skbkontur/global-object';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { isHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -250,7 +250,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isHTMLElement(rootNode)) {
+    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
@@ -276,8 +276,8 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
-      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && typeof globalObject !== 'undefined' && rootNode) {
+      const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -328,7 +328,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (rootNode instanceof HTMLElement) {
+      if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }
@@ -337,12 +337,12 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
 
-    if (isActiveElement(item)) {
+    if (isActiveElement(item) && isBrowser(globalObject)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
-          window.open(item.props.href, item.props.target);
+          globalObject.open(item.props.href, item.props.target);
         } else {
-          location.href = item.props.href;
+          globalObject.location.href = item.props.href;
         }
       }
       if (item.props.onClick) {
@@ -360,7 +360,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     this.setState({ highlightedIndex: index });
 
     const rootNode = getRootNode(this);
-    if (isHTMLElement(rootNode)) {
+    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };

@@ -1,6 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -132,12 +133,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
+    globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
@@ -334,7 +335,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private handleClickOutside = (e: Event) => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
-      if (e instanceof MouseEvent && e.clientX > document.documentElement.clientWidth) {
+      if (
+        isInstanceOf(e, globalObject.MouseEvent) &&
+        globalObject.document &&
+        e.clientX > globalObject.document.documentElement.clientWidth
+      ) {
         return;
       }
       this.requestClose();

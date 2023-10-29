@@ -185,6 +185,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     const { variable, onChange } = this.props;
 
     onChange(variable as keyof Theme, this.state.value);
+
     clearInterval(this.debounceInterval);
     this.debounceInterval = undefined;
   };

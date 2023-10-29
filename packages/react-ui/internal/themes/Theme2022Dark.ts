@@ -97,6 +97,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkColor = 'rgba(255, 255, 255, 0.87)';
   public static linkHoverColor = '#ffffff';
   public static linkActiveColor = '#c2c2c2';
+  public static linkHoverTextDecoration = 'none';
 
   public static linkSuccessColor = '#78BF2B';
   public static linkSuccessHoverColor = '#B9E96E';

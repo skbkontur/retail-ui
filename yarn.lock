@@ -5719,10 +5719,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@skbkontur/icons@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-1.4.1.tgz#995254e8fc0ca1df2daa002d96ed8b61b56cd358"
-  integrity sha512-wLq2KBmPgRIzwaxV/dyicjUzTQdXVUq0G6mTwNukmQkH1DVpaktJNhQaYurlc7SRobIf6o+jCit0awzMOmGQZw==
+"@skbkontur/global-object@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.4.2.tgz#c5e42388ec6424b27093e5cd1ebc2225b1fdf316"
+  integrity sha512-Sn1F4+rJkgagzxlgmcyQQHiD0s66kVWXBh3Efy8writSMxc/7dsNxPW4zFJGynaJhgzn3ZHOfY9d08G9M/Yjyw==
+
+"@skbkontur/icons@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-1.5.1.tgz#764301ba2e9e3a2fe876b9bdc92a45de8d7c7652"
+  integrity sha512-MzeOo8rTDBZZpD5CjziB6c9CrI1IZ2nHyoeDzu1E6aHJVrwFijzKfBpP9c9fmfW8cfBWlpYHKr8DBOjaBaatjQ==
 
 "@skbkontur/react-icons@5.2.0":
   version "5.2.0"
@@ -7274,11 +7279,6 @@
   version "6.9.6"
   resolved "https://registry.npmjs.org/@types/qs/-/qs-6.9.6.tgz#df9c3c8b31a247ec315e6996566be3171df4b3b1"
   integrity sha512-0/HnwIfW4ki2D8L8c9GVcG5I72s9jP5GSLVF0VIXDW00kmIpA6O33G7a8n59Tmh7Nz0WUC3rSb7PTY/sdW2JzA==
-
-"@types/raf@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.npmjs.org/@types/raf/-/raf-3.4.0.tgz#2b72cbd55405e071f1c4d29992638e022b20acc2"
-  integrity sha512-taW5/WYqo36N7V39oYyHP9Ipfd5pNFvGTIQsNGj86xV88YQ7GnI30/yMfKDF7Zgin0m3e+ikX88FvImnK4RjGw==
 
 "@types/react-dom@17.0.11", "@types/react-dom@>=16.9.0":
   version "17.0.11"
@@ -16949,7 +16949,7 @@ jss@10.5.1, jss@^10.0.0:
     array-includes "^3.1.2"
     object.assign "^4.1.2"
 
-jszip@^3.10.1:
+jszip@^3.6.0:
   version "3.10.1"
   resolved "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
@@ -21814,14 +21814,15 @@ select@^1.1.2:
   resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selenium-webdriver@^4.3.1:
-  version "4.10.0"
-  resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.10.0.tgz#0508cdfbb5ad8470d8fd19db1a69d3e87f474b79"
-  integrity sha512-hSQPw6jgc+ej/UEcdQPG/iBwwMeCEgZr9HByY/J8ToyXztEqXzU9aLsIyrlj1BywBcStO4JQK/zMUWWrV8+riA==
+selenium-webdriver@4.0.0-beta.4, selenium-webdriver@^4.3.1:
+  version "4.0.0-beta.4"
+  resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.0.0-beta.4.tgz#db4fc7505a515ea3b4a95ded031b738a1544eddd"
+  integrity sha512-+s/CIYkWzmnC9WASBxxVj7Lm0dcyl6OaFxwIJaFCT5WCuACiimEEr4lUnOOFP/QlKfkDQ56m+aRczaq2EvJEJg==
   dependencies:
-    jszip "^3.10.1"
+    jszip "^3.6.0"
+    rimraf "^3.0.2"
     tmp "^0.2.1"
-    ws ">=8.13.0"
+    ws ">=7.4.6"
 
 selfsigned@^1.10.7, selfsigned@^1.10.8:
   version "1.10.8"
@@ -24770,10 +24771,10 @@ write-pkg@^4.0.0:
     type-fest "^0.4.1"
     write-json-file "^3.2.0"
 
-ws@>=8.13.0:
-  version "8.13.0"
-  resolved "https://registry.npmjs.org/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
-  integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
+ws@>=7.4.6:
+  version "8.14.2"
+  resolved "https://registry.npmjs.org/ws/-/ws-8.14.2.tgz#6c249a806eb2db7a20d26d51e7709eab7b2e6c7f"
+  integrity sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==
 
 ws@^5.2.0:
   version "5.2.3"

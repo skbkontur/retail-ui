@@ -13,6 +13,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkColor = '#222222';
   public static linkHoverColor = '#222222';
   public static linkActiveColor = '#141414';
+  public static linkHoverTextDecoration = 'none';
 
   public static linkSuccessColor = '#538A1B';
   public static linkSuccessHoverColor = '#477916';
@@ -110,8 +111,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnWithIconPaddingLeftSmall = '8px';
   public static btnWithIconPaddingLeftMedium = '10px';
   public static btnWithIconPaddingLeftLarge = '12px';
-
-  public static btnLinkHoverTextDecoration = 'none';
 
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;

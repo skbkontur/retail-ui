@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { globalObject } from '@skbkontur/global-object';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -311,7 +312,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    const selection = getSelection();
+    const selection = globalObject.getSelection?.();
     if (
       selection &&
       selection.toString().length === LENGTH_FULLDATE &&
