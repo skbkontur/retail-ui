@@ -297,17 +297,17 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
+    let hint = null;
     if (keyboardControl && (canGoBackward || canGoForward)) {
-      return (
-        <span className={styles.pageLinkHint(this.theme)}>
+      hint = (
+        <>
           <span className={canGoBackward ? '' : styles.transparent()}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent()}>{'→'}</span>
-        </span>
+        </>
       );
     }
-
-    return <div className={styles.pageLinkHintPlaceHolder(this.theme)} />;
+    return <div className={styles.pageLinkHint(this.theme)}>{hint}</div>;
   };
 
   private handleMouseDown = () => {
