@@ -2557,7 +2557,7 @@ export class DefaultTheme {
   //#endregion
 
   //#region MiniModal
-  public static miniModalBackdropFilter = 'blur(3px)';
+  public static miniModalBackdropFilter = 'blur(8px)';
   public static miniModalHeaderPaddingBottom = '0';
   public static miniModalBodyPaddingTop = '16px';
   public static miniModalBodyPaddingBottom = '0';
