@@ -366,7 +366,7 @@ export const styles = memoizeStyle({
 
   mobileBodyAddPaddingForPanel(t: Theme) {
     return css`
-      padding-bottom: ${t.mobileModalBodyPadding};
+      padding: ${t.mobileModalBodyPadding};
     `;
   },
 
