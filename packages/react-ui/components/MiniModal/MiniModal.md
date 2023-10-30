@@ -10,7 +10,7 @@
 
 ### Уведомление
 
-Самый простой вариант использование.
+Самый простой вариант использования:
 
 ```jsx harmony
 import { MiniModal, Button, Gapped } from '@skbkontur/react-ui';
@@ -150,7 +150,7 @@ const EnableNotification = React.forwardRef(({ setStatus }, ref) => {
   );
 });
 
-const [status, setStatus] = React.useState();
+const [status, setStatus] = React.useState('-не выбрано-');
 
 const NotificationEnableRef = React.useRef(null);
 
@@ -160,7 +160,7 @@ const NotificationEnableOpen = () => NotificationEnableRef.current && Notificati
   <EnableNotification ref={NotificationEnableRef} setStatus={setStatus}/>
   <Gapped vertical>
     <span>
-      <NotificationBellAlarmIcon16Solid/> Статус уведомлений : {status}
+      <NotificationBellAlarmIcon16Solid/> Статус уведомлений: {status}
     </span>
     <Button use="text" theme={{ btnTextBg: '#D6D6D6' }} onClick={NotificationEnableOpen}>Разрешить уведомления?</Button>
     <Button use="text" theme={{ btnTextBg: '#E6E6E6' }} onClick={NotificationEnableOpen}>Разрешить уведомления?</Button>

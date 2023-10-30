@@ -8,13 +8,14 @@ export const modalGlobalClasses = prefix('modal')({
 });
 
 export const styles = memoizeStyle({
-  root() {
+  root(t: Theme) {
     return css`
       height: 100%;
       left: 0;
       position: fixed;
       top: 0;
       width: 100%;
+      backdrop-filter: ${t.modalBackdropFilter};
     `;
   },
 

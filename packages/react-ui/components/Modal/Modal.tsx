@@ -13,7 +13,7 @@ import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -66,6 +66,12 @@ export interface ModalProps
    * По умолчанию true для IE11.
    */
   disableFocusLock?: boolean;
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
 }
 
 export interface ModalState {
@@ -166,7 +172,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = getModalTheme(theme);
+          this.theme = getModalTheme(theme, this.props.theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
@@ -218,7 +224,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <RenderContainer>
         <CommonWrapper {...this.props}>
-          <ZIndex priority={'Modal'} className={styles.root()}>
+          <ZIndex priority={'Modal'} className={styles.root(this.theme)}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
             <ResponsiveLayout>

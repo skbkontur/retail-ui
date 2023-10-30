@@ -9,12 +9,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  toModal() {
-    return css`
-      backdrop-filter: blur(3px);
-    `;
-  },
-
   description() {
     return css`
       text-align: center;

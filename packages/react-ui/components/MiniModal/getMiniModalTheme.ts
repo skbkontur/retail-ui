@@ -1,7 +1,8 @@
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 
-export const getMiniModalTheme = (theme: Theme): Theme => {
+export const getMiniModalTheme = (contextTheme: Theme, propsTheme: ThemeIn = {}) => {
+  const theme = ThemeFactory.create(propsTheme, contextTheme);
   return ThemeFactory.create(
     {
       modalBackdropFilter: theme.miniModalBackdropFilter,

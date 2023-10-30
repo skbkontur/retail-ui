@@ -9,7 +9,6 @@ import { MiniModalFooter } from './MiniModalFooter';
 import { MiniModalHeader } from './MiniModalHeader';
 import { MiniModalBody } from './MiniModalBody';
 import { MiniModalIndent } from './MiniModalIndent';
-import { styles } from './MiniModal.styles';
 
 export const MiniModalDataTids = {
   icon: 'MiniModal__icon',
@@ -28,14 +27,12 @@ export const MiniModal = forwardRefAndName<
     Footer: typeof MiniModalFooter;
     Body: typeof MiniModalBody;
   }
->('MiniModal', ({ children, ...rest }, ref) => {
-  const theme = useContext(ThemeContext);
-
-  const className = styles.toModal();
+>('MiniModal', ({ children, theme: propsTheme, ...rest }, ref) => {
+  const contextTheme = useContext(ThemeContext);
 
   return (
-    <ThemeContext.Provider value={getMiniModalTheme(theme)}>
-      <Modal width={400} noClose ref={ref} className={className} {...rest}>
+    <ThemeContext.Provider value={getMiniModalTheme(contextTheme, propsTheme)}>
+      <Modal width={400} noClose ref={ref} {...rest}>
         {children}
       </Modal>
     </ThemeContext.Provider>
