@@ -384,7 +384,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: cx(globalClasses.root,{
+      className: cx(globalClasses.root, {
         [styles.wrap(this.theme)]: true,
         [wrapClassNameWithArrow]: true,
         [this.getSizeWrapClassName()]: true,
