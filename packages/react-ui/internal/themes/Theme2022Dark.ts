@@ -75,12 +75,6 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnTextActiveBg = 'rgba(255, 255, 255, 0.06)';
   public static btnTextBorderColor = 'transparent';
 
-  public static btnIconColor = 'rgba(255, 255, 255, 0.54)';
-  public static btnIconHoverColor = 'rgba(255, 255, 255, 0.87)';
-  public static get btnIconDisabledColor() {
-    return this.btnDisabledTextColor;
-  }
-
   public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
   public static btnErrorSecondary = 'rgba(169, 42, 39, 1)';
 
@@ -92,6 +86,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnCheckedTextColor = 'rgba(0, 0, 0, 0.865)';
   public static btnCheckedDisabledBg = 'rgba(255, 255, 255, 0.32) !important';
   public static btnCheckedDisabledColor = 'rgba(0, 0, 0, 0.48)';
+  //#endregion
+
+  //#region Select
+  public static selectMenuArrowColor = 'rgba(255, 255, 255, 0.54)';
   //#endregion
 
   //#region Link
