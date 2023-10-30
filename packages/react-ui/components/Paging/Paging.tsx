@@ -22,7 +22,6 @@ import { getItems } from './PagingHelper';
 import { PagingLocale, PagingLocaleHelper } from './locale';
 import { PagingDefaultComponent } from './PagingDefaultComponent';
 import { ForwardIcon } from './ForwardIcon';
-import { HintPlaceholder } from './HintPlaceholder';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
@@ -297,7 +296,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
-    let hint;
+    let hint = null;
     if (keyboardControl && (canGoBackward || canGoForward)) {
       hint = (
         <>
@@ -307,7 +306,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         </>
       );
     }
-    return <HintPlaceholder>{hint}</HintPlaceholder>;
+    return <div className={styles.pageLinkHint(this.theme)}>{hint}</div>;
   };
 
   private handleMouseDown = () => {
