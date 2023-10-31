@@ -234,19 +234,27 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toggleHandleBoxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
 
   // idle :hover
-  public static toggleContainerBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toggleBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static get toggleContainerBgHover() {
+    return this.toggleBgHover;
+  }
   public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgHover = 'rgba(255, 255, 255, 0.32)';
   public static toggleHandleBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
 
   // checked
-  public static toggleContainerBgChecked = 'rgba(255, 255, 255, 0.1)';
+  public static toggleBgChecked = 'rgba(255, 255, 255, 0.1)';
+  public static get toggleContainerBgChecked() {
+    return this.toggleBgChecked;
+  }
   public static toggleContainerBoxShadowChecked = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgChecked = '#EBEBEB';
   public static toggleHandleBoxShadowChecked = 'none';
 
   // checked :hover
-  public static toggleContainerBgCheckedHover = 'rgba(255, 255, 255, 0.16)';
+  public static get toggleContainerBgCheckedHover() {
+    return this.toggleContainerBgHover;
+  }
   public static toggleContainerBoxShadowCheckedHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgCheckedHover = '#FFFFFF';
   public static toggleHandleBoxShadowCheckedHover = 'none';
