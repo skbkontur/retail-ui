@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.17.0-next.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.0-next.3...@skbkontur/react-ui@4.17.0-next.4) (2023-10-31)
+
+
+### Bug Fixes
+
+* **Paging:** fix hint height ([#3295](https://github.com/skbkontur/retail-ui/issues/3295)) ([67363ca](https://github.com/skbkontur/retail-ui/commit/67363ca7fb28242a88dfb6b59fc67a55880bd9d5))
+
+
+
+
+
 # [4.17.0-next.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.2...@skbkontur/react-ui@4.17.0-next.3) (2023-10-26)
 
 
