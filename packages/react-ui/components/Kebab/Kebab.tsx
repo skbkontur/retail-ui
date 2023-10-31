@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -19,7 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ButtonSize } from '../Button';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -29,7 +30,7 @@ export interface KebabProps
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   disabled?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   /**
    * Список позиций доступных для расположения выпадашки.
    *
@@ -213,7 +214,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
@@ -247,7 +248,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon)) {
-      const sizes: Record<ButtonSize, number> = {
+      const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),

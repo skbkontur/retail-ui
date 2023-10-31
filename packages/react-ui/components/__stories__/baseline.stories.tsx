@@ -16,6 +16,7 @@ import { Gapped } from '../Gapped';
 import { Group } from '../Group';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { SizeProp } from '../../lib/types/props';
 
 export default { title: 'Baseline' };
 
@@ -144,7 +145,7 @@ Checkboxes.storyName = 'Checkbox';
 
 const BaselineFont: React.FC<{
   fontFamily: string;
-  size: 'small' | 'medium' | 'large';
+  size: SizeProp;
   bg: string;
   width?: string;
 }> = ({ fontFamily, size, width = '120px', bg }) => {
@@ -205,11 +206,7 @@ const BaselineFont: React.FC<{
   );
 };
 
-const BaselineSize: React.FC<{ size: 'small' | 'medium' | 'large'; bg: string; width?: string }> = ({
-  size,
-  bg,
-  width,
-}) => (
+const BaselineSize: React.FC<{ size: SizeProp; bg: string; width?: string }> = ({ size, bg, width }) => (
   <div>
     <Gapped vertical gap={4}>
       {['Arial', 'Lab Grotesque', 'Segoe UI', 'Times New Roman'].map((fontFamily, i) => (

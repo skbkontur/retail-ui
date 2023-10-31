@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
@@ -219,7 +220,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

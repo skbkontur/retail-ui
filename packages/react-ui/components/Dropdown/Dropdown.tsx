@@ -7,12 +7,13 @@ import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
-import { ButtonSize, ButtonUse } from '../Button';
+import { ButtonUse } from '../Button';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
+import { SizeProp } from '../../lib/types/props';
 
 import { getDropdownTheme } from './getDropdownTheme';
 
@@ -75,7 +76,7 @@ export interface DropdownProps
   maxMenuHeight?: number;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
-  size?: ButtonSize;
+  size?: SizeProp;
 
   /**
    * Смотри Button.

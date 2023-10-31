@@ -1,10 +1,9 @@
 import React from 'react';
 import EventEmitter from 'eventemitter3';
+import { globalObject } from '@skbkontur/global-object';
 
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
-
-import { globalThat } from './SSRSafe';
 
 interface StackInfo {
   emitter: EventEmitter;
@@ -68,7 +67,7 @@ export class ModalStack {
   }
 
   private static getStackInfo(): StackInfo {
-    const globalWithStack = globalThat as GlobalWithStackInfo;
+    const globalWithStack = globalObject as GlobalWithStackInfo;
     return (
       globalWithStack.__ReactUIStackInfo ||
       (globalWithStack.__ReactUIStackInfo = {

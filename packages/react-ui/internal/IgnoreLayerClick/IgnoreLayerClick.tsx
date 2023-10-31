@@ -1,4 +1,5 @@
 import React from 'react';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CommonWrapper } from '../CommonWrapper';
@@ -29,7 +30,7 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
 
   public componentDidMount() {
     const element = getRootNode(this);
-    if (element && element instanceof Element) {
+    if (isInstanceOf(element, globalObject.Element)) {
       element.addEventListener('mousedown', this.handleMouseDown);
       this.element = element;
     }

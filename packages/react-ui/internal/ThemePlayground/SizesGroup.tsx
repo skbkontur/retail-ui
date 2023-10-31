@@ -5,11 +5,12 @@ import LinkIcon from '@skbkontur/react-icons/Link';
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
 import { Button } from '../../components/Button';
+import { SizeProp } from '../../lib/types/props';
 
 import { SelectPlayground } from './SelectPlayground';
 
 export interface SizesGroupProps {
-  size: 'small' | 'medium' | 'large';
+  size: SizeProp;
 }
 
 export const SizesGroup = ({ size }: SizesGroupProps) => (

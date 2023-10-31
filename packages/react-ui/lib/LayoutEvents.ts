@@ -1,5 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { unstable_batchedUpdates } from 'react-dom';
+import { globalObject } from '@skbkontur/global-object';
 
 let emitterCache: EventEmitter;
 function getEmitter() {
@@ -10,13 +11,13 @@ function getEmitter() {
 }
 
 function listenBrowserEvents() {
-  window.addEventListener('scroll', emit, { capture: true });
-  window.addEventListener('resize', emit, { capture: true });
+  globalObject.addEventListener?.('scroll', emit, { capture: true });
+  globalObject.addEventListener?.('resize', emit, { capture: true });
 }
 
 function unlistenBrowserEvents() {
-  window.removeEventListener('scroll', emit, { capture: true });
-  window.removeEventListener('resize', emit, { capture: true });
+  globalObject.removeEventListener?.('scroll', emit, { capture: true });
+  globalObject.removeEventListener?.('resize', emit, { capture: true });
 }
 
 export function addListener(callback: () => void) {

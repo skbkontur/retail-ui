@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -78,10 +79,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
 
     // @ts-expect-error: IE-specific API.
-    if (isIE11 && !window.document.msCapsLockWarningOff) {
+    if (isIE11 && isBrowser(globalObject) && !globalObject.document.msCapsLockWarningOff) {
       // @ts-expect-error: Read the comment above.
       // turns off default ie capslock warning
-      window.document.msCapsLockWarningOff = true;
+      globalObject.document.msCapsLockWarningOff = true;
     }
   }
 

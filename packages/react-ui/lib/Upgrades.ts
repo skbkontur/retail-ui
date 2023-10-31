@@ -1,4 +1,5 @@
 import warning from 'warning';
+import { setWindow } from '@skbkontur/global-object';
 
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
@@ -34,4 +35,5 @@ export const Upgrade = {
       warning(false, `specificityClassName=${specificityClassName} уже использован`);
     }
   },
+  setWindow,
 };
