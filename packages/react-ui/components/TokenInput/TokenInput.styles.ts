@@ -136,11 +136,6 @@ export const styles = memoizeStyle({
       ${inputSizeMixin(t.tokenFontSizeLarge, t.tokenLineHeightLarge)};
     `;
   },
-  transparentBorder(t: Theme) {
-    return css`
-      border: solid ${t.tokenBorderWidth} transparent;
-    `;
-  },
 
   helperTextEditing(t: Theme) {
     return css`

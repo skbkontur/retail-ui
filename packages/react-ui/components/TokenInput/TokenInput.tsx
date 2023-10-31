@@ -39,7 +39,6 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -489,12 +488,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
             {this.renderTokensStart()}
 
-            <TokenView
-              size={this.getProps().size}
-              className={cx({ [styles.transparentBorder(theme)]: isTheme2022(theme) })}
-            >
-              {textHolder}
-            </TokenView>
+            <TokenView size={this.getProps().size}>{textHolder}</TokenView>
             {showMenu && (
               <TokenInputMenu
                 popupMenuId={this.rootId}
@@ -516,10 +510,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             )}
             {this.renderTokensEnd()}
             {this.isEditingMode ? (
-              <TokenView
-                size={this.props.size}
-                className={cx({ [styles.transparentBorder(theme)]: isTheme2022(theme) })}
-              >
+              <TokenView size={this.props.size}>
                 <span className={styles.reservedInput(theme)}>{reservedInputValue}</span>
               </TokenView>
             ) : null}
