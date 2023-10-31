@@ -1,5 +1,6 @@
 import createEmotion from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Upgrade } from '../Upgrades';
 import { AnyObject, FunctionWithParams } from '../utils';
@@ -15,6 +16,7 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
     key: REACT_UI_PREFIX,
     prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
+    container: globalObject.document?.head,
   });
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {

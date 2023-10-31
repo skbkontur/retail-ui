@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.17.0-next.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.0-next.3...@skbkontur/react-ui@4.17.0-next.4) (2023-10-31)
+
+
+### Bug Fixes
+
+* **Paging:** fix hint height ([#3295](https://github.com/skbkontur/retail-ui/issues/3295)) ([67363ca](https://github.com/skbkontur/retail-ui/commit/67363ca7fb28242a88dfb6b59fc67a55880bd9d5))
+
+
+
+
+
+# [4.17.0-next.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.2...@skbkontur/react-ui@4.17.0-next.3) (2023-10-26)
+
+
+### Bug Fixes
+
+* **Button:** update disabled and hover styles ([#3272](https://github.com/skbkontur/retail-ui/issues/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
+* **Button:** update styles in disabled Button ([#3279](https://github.com/skbkontur/retail-ui/issues/3279)) ([80e2f91](https://github.com/skbkontur/retail-ui/commit/80e2f919d47a29c14c7fcd0d6612b22e9f4f1449))
+* **ComboBox:** fix mobile overlay not closing when using public methods ([#3268](https://github.com/skbkontur/retail-ui/issues/3268)) ([46ffefa](https://github.com/skbkontur/retail-ui/commit/46ffefad121c0525f502d169c5d0052bff49129e))
+* **ComboBox:** submit form on Enter if closed ([#3264](https://github.com/skbkontur/retail-ui/issues/3264)) ([3646b08](https://github.com/skbkontur/retail-ui/commit/3646b08bb6e4e5b05c54513301626ab52eb9a2f9))
+* **Paging:** disable forward button when current page is last ([#3273](https://github.com/skbkontur/retail-ui/issues/3273)) ([9b3a0b7](https://github.com/skbkontur/retail-ui/commit/9b3a0b74cafaa7753a62da43a8edaef30eae617c))
+* **SidePage:** fix overlay when changing desktop->mobile->desktop ([#3292](https://github.com/skbkontur/retail-ui/issues/3292)) ([fa4ac39](https://github.com/skbkontur/retail-ui/commit/fa4ac399d41b3457346d3e3187d212bf92581347))
+* **Sticky:** fix width calc in fixed state on page resize ([#3285](https://github.com/skbkontur/retail-ui/issues/3285)) ([8d19d82](https://github.com/skbkontur/retail-ui/commit/8d19d82d2ac07c16e442e8dd0478603ba7e84fb6))
+
+
+### Features
+
+* ability to set up window ([#3259](https://github.com/skbkontur/retail-ui/issues/3259)) ([f19378c](https://github.com/skbkontur/retail-ui/commit/f19378c9609f4f0867658480456b6b976bb3f2af))
+* **Kebab/Hint/Toast:** remove Pin and update style ([#3274](https://github.com/skbkontur/retail-ui/issues/3274)) ([b248448](https://github.com/skbkontur/retail-ui/commit/b248448241ae75eeaf70d2137c6e8aca779c3edf))
+
+
+
+
+
+# [4.17.0-next.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.1...@skbkontur/react-ui@4.17.0-next.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* **Button:** update disabled and hover styles ([#3272](https://github.com/skbkontur/retail-ui/issues/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
+* **Button:** update styles in disabled Button ([#3279](https://github.com/skbkontur/retail-ui/issues/3279)) ([80e2f91](https://github.com/skbkontur/retail-ui/commit/80e2f919d47a29c14c7fcd0d6612b22e9f4f1449))
+* **ComboBox:** fix mobile overlay not closing when using public methods ([#3268](https://github.com/skbkontur/retail-ui/issues/3268)) ([46ffefa](https://github.com/skbkontur/retail-ui/commit/46ffefad121c0525f502d169c5d0052bff49129e))
+* **ComboBox:** submit form on Enter if closed ([#3264](https://github.com/skbkontur/retail-ui/issues/3264)) ([3646b08](https://github.com/skbkontur/retail-ui/commit/3646b08bb6e4e5b05c54513301626ab52eb9a2f9))
+* **Paging:** disable forward button when current page is last ([#3273](https://github.com/skbkontur/retail-ui/issues/3273)) ([9b3a0b7](https://github.com/skbkontur/retail-ui/commit/9b3a0b74cafaa7753a62da43a8edaef30eae617c))
+* **Sticky:** fix width calc in fixed state on page resize ([#3285](https://github.com/skbkontur/retail-ui/issues/3285)) ([8d19d82](https://github.com/skbkontur/retail-ui/commit/8d19d82d2ac07c16e442e8dd0478603ba7e84fb6))
+
+
+### Features
+
+* **Kebab/Hint/Toast:** remove Pin and update style ([#3274](https://github.com/skbkontur/retail-ui/issues/3274)) ([b248448](https://github.com/skbkontur/retail-ui/commit/b248448241ae75eeaf70d2137c6e8aca779c3edf))
+
+
+
+
+
+# [4.17.0-next.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.0-next.0...@skbkontur/react-ui@4.17.0-next.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix mobile overlay not closing when using public methods ([#3268](https://github.com/skbkontur/retail-ui/issues/3268)) ([46ffefa](https://github.com/skbkontur/retail-ui/commit/46ffefad121c0525f502d169c5d0052bff49129e))
+* **ComboBox:** submit form on Enter if closed ([#3264](https://github.com/skbkontur/retail-ui/issues/3264)) ([3646b08](https://github.com/skbkontur/retail-ui/commit/3646b08bb6e4e5b05c54513301626ab52eb9a2f9))
+* **Sticky:** fix width calc in fixed state on page resize ([#3285](https://github.com/skbkontur/retail-ui/issues/3285)) ([8d19d82](https://github.com/skbkontur/retail-ui/commit/8d19d82d2ac07c16e442e8dd0478603ba7e84fb6))
+
+
+
+
+
 # [4.17.0-next.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0...@skbkontur/react-ui@4.17.0-next.0) (2023-09-23)
 
 
@@ -15,6 +83,33 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **Kebab/Hint/Toast:** remove Pin and update style ([#3274](https://github.com/skbkontur/retail-ui/issues/3274)) ([b248448](https://github.com/skbkontur/retail-ui/commit/b248448241ae75eeaf70d2137c6e8aca779c3edf))
+
+
+
+
+
+
+## [4.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.1...@skbkontur/react-ui@4.16.2) (2023-10-24)
+
+
+### Bug Fixes
+
+* **Button:** enable linkHoverTextDecoration var for THEME_2022 ([#3290](https://github.com/skbkontur/retail-ui/issues/3290)) ([1beb6da](https://github.com/skbkontur/retail-ui/commit/1beb6da47b0d782a2f62c1612b26fe221128f5fc))
+* **SidePage,Sticky:** fix max update depth error ([#3293](https://github.com/skbkontur/retail-ui/issues/3293)) ([950988f](https://github.com/skbkontur/retail-ui/commit/950988f9b3b612b1ac8f3a4f634bd3b001e28a9b))
+
+
+
+
+
+## [4.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.0...@skbkontur/react-ui@4.16.1) (2023-10-16)
+
+
+### Bug Fixes
+
+* **Button:** fix icons styles on hover in disabled state ([#3281](https://github.com/skbkontur/retail-ui/issues/3281)) ([276e82d](https://github.com/skbkontur/retail-ui/commit/276e82d44ba483ef08ff26827150885ceaaff930))
+* **CurrencyInput:** remove `findDOMNode` console warning in `THEME_2022` ([#3278](https://github.com/skbkontur/retail-ui/issues/3278)) ([21a2a1f](https://github.com/skbkontur/retail-ui/commit/21a2a1f479d243746cf73b40f7300735600a464f))
+* **DateInput:** use `flushSync` in React@18 ([#3286](https://github.com/skbkontur/retail-ui/issues/3286)) ([69efd4d](https://github.com/skbkontur/retail-ui/commit/69efd4d6da9b6546e8bdfbba52fccf676ddea07f))
+* **Button:** add data-tid for spinner icon ([#3277](https://github.com/skbkontur/retail-ui/issues/3277)) ([88a2d15](https://github.com/skbkontur/retail-ui/commit/88a2d1502c537280434ed3004c77d9516e6971af))
 
 
 

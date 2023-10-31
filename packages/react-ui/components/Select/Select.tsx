@@ -1,5 +1,6 @@
 import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
+import { globalObject } from '@skbkontur/global-object';
 
 import {
   isKeyArrowDown,
@@ -11,7 +12,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
-import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
+import { Button, ButtonProps, ButtonUse } from '../Button';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
@@ -33,6 +34,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
+import { SizeProp } from '../../lib/types/props';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -48,7 +50,7 @@ export interface ButtonParams
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-  size: ButtonSize;
+  size: SizeProp;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -159,7 +161,7 @@ export interface SelectProps<TValue, TItem>
    */
   warning?: boolean;
   use?: ButtonUse;
-  size?: ButtonSize;
+  size?: SizeProp;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
   /**
@@ -227,10 +229,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      window.addEventListener('popstate', this.close);
+      globalObject.addEventListener?.('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      window.removeEventListener('popstate', this.close);
+      globalObject.removeEventListener?.('popstate', this.close);
     }
   }
 
@@ -372,7 +374,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
-  private getLeftIconClass(size: ButtonSize | undefined) {
+  private getLeftIconClass(size: SizeProp | undefined) {
     if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
@@ -569,7 +571,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal
-    setTimeout(() => input?.focus(), 0);
+    globalObject.setTimeout(() => input?.focus(), 0);
   };
 
   private refMenu = (menu: Menu) => {

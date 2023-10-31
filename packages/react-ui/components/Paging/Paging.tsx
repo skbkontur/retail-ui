@@ -1,5 +1,6 @@
 import React from 'react';
 import { func, number } from 'prop-types';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
@@ -296,17 +297,17 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
+    let hint = null;
     if (keyboardControl && (canGoBackward || canGoForward)) {
-      return (
-        <span className={styles.pageLinkHint(this.theme)}>
+      hint = (
+        <>
           <span className={canGoBackward ? '' : styles.transparent()}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent()}>{'→'}</span>
-        </span>
+        </>
       );
     }
-
-    return <div className={styles.pageLinkHintPlaceHolder(this.theme)} />;
+    return <div className={styles.pageLinkHint(this.theme)}>{hint}</div>;
   };
 
   private handleMouseDown = () => {
@@ -317,7 +318,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      setTimeout(() => this.container && this.container.focus(), 0);
+      globalObject.setTimeout(() => this.container && this.container.focus(), 0);
     }
   };
 
@@ -332,7 +333,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const isArrowRight = isKeyArrowRight(e);
 
     if (
-      target instanceof Element &&
+      isInstanceOf(target, globalObject.Element) &&
       (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;
@@ -372,7 +373,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
@@ -472,13 +473,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    document.addEventListener('keydown', this.handleKeyDown);
+    globalObject.document?.addEventListener('keydown', this.handleKeyDown);
     this.addedGlobalListener = true;
   };
 
   private removeGlobalListener = () => {
     if (this.addedGlobalListener) {
-      document.removeEventListener('keydown', this.handleKeyDown);
+      globalObject.document?.removeEventListener('keydown', this.handleKeyDown);
 
       this.addedGlobalListener = false;
     }

@@ -1,8 +1,10 @@
-import { canUseDOM, isIE11 } from './client';
+import { globalObject } from '@skbkontur/global-object';
+
+import { isIE11 } from './client';
 
 const needsPolyfillPlaceholderInternal = () => {
-  if (canUseDOM) {
-    const supportsPlaceholder = 'placeholder' in document.createElement('input');
+  if (globalObject.document) {
+    const supportsPlaceholder = 'placeholder' in globalObject.document.createElement('input');
     if (!supportsPlaceholder || isIE11) {
       return true;
     }

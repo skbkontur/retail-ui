@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 
@@ -7,9 +8,9 @@ import { Toast, Action, ToastDataTids } from './Toast';
 
 export class ToastStatic {
   public static push = (notification: string, action?: Nullable<Action>, showTime?: number) => {
-    if (!ToastStatic.node) {
-      ToastStatic.node = document.createElement('div');
-      const { body } = document;
+    if (!ToastStatic.node && globalObject.document) {
+      ToastStatic.node = globalObject.document.createElement('div');
+      const { body } = globalObject.document;
       if (!body) {
         throw Error('There is no "body" element in "document"');
       }

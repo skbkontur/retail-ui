@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
+import { globalObject } from '@skbkontur/global-object';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
@@ -12,6 +13,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -28,7 +30,10 @@ export const TabDataTids = {
   root: 'Tab__root',
 } as const;
 
-export type TabSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type TabSize = SizeProp;
 
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
@@ -291,7 +296,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
-    requestAnimationFrame(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed || keyListener.isArrowPressed) {
         this.setState({ focusedByKeyboard: true });
       }

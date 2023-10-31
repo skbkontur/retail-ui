@@ -1,4 +1,5 @@
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
@@ -96,7 +97,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
       : length;
 
     const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
-      if (document.activeElement && document.activeElement.contains(e.currentTarget)) {
+      if (globalObject.document?.activeElement?.contains(e.currentTarget)) {
         onSelectDateComponent(type, e);
       }
     };

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
@@ -10,10 +11,14 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuItem.styles';
 
-export type MenuItemSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type MenuItemSize = SizeProp;
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -43,7 +48,7 @@ export interface MenuItemProps
   /**
    * Размер
    */
-  size?: MenuItemSize;
+  size?: SizeProp;
   /**
    * @ignore
    */
@@ -154,8 +159,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentDidMount() {
-    if (this.rootRef) {
-      this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
+    if (this.rootRef && isBrowser(globalObject)) {
+      this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
   }
 

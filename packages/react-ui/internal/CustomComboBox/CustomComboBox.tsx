@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import ReactDOM from 'react-dom';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';
@@ -8,11 +9,12 @@ import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -47,7 +49,7 @@ export interface CustomComboBoxProps<T>
   onMouseLeave?: (e: React.MouseEvent) => void;
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
   /**
@@ -171,7 +173,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
-          setTimeout(resolve, LOADER_SHOW_TIME);
+          globalObject.setTimeout(resolve, LOADER_SHOW_TIME);
         }, DELAY_BEFORE_SHOW_LOADER);
 
         cancelPromise.catch(() => cancelLoader());
@@ -406,9 +408,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // workaround for the similar bug with focusout
     // in Firefox, Chrome and IE
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-    setTimeout(() => {
+    globalObject.setTimeout(() => {
       this.dispatch({ type: 'Blur' });
-    });
+    }, 0);
   };
 
   private handleInputBlur = () => {

@@ -1,4 +1,6 @@
 /* eslint-disable no-useless-constructor */
+import { globalObject } from '@skbkontur/global-object';
+
 import { ColorFactory } from '../../lib/styles/ColorFactory';
 
 export class SpinnerFallbackAnimationRunner {
@@ -41,14 +43,16 @@ const rafInterval = (fn: () => void, delay: number) => {
       fn();
       lastcall = timestamp;
     }
-    rafId = requestAnimationFrame(interval);
+    if (globalObject.requestAnimationFrame) {
+      rafId = globalObject.requestAnimationFrame(interval);
+    }
   };
   interval();
 
   return {
     clear: () => {
       cleared = true;
-      cancelAnimationFrame(rafId);
+      globalObject.cancelAnimationFrame?.(rafId);
     },
   };
 };
