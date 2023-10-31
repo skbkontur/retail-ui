@@ -32,12 +32,11 @@ export function TokenView(props: TokenViewProps) {
   return (
     <CommonWrapper {...props}>
       <div
+        {...rest}
         className={cx(getSizeClassName(size), {
           [styles.token(theme)]: true,
           [styles.token2022(theme)]: isTheme2022(theme),
-          [className ?? '']: true,
         })}
-        {...rest}
       >
         {children}
         <span className={cx(styles.removeIcon(theme), globalClasses.removeIcon)}>{closeButton}</span>
