@@ -9,9 +9,7 @@ import { globalClasses, styles } from './Token.styles';
 
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: TokenSize;
-  children: ReactNode;
   closeButton?: ReactNode;
-  className?: string;
   onRemove?: React.MouseEventHandler<HTMLElement>;
 }
 

@@ -10,6 +10,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, colorStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
@@ -22,7 +23,7 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export type TokenSize = 'small' | 'medium' | 'large';
+export type TokenSize = SizeProp;
 
 export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, CommonProps {
   colors?: TokenColors;

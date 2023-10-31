@@ -13,7 +13,6 @@ const THIN_SPACE = '\u2009';
 
 export interface TextWidthHelperProps {
   text?: string;
-  classHelp: string;
   theme: Theme;
   size: TokenSize;
 }
@@ -42,7 +41,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
         size={this.props.size}
         className={cx(styles.helperContainer(), this.getSizeClassName(this.props.size))}
       >
-        <div className={cx(this.props.classHelp, styles.helperText())} ref={this.elementRef}>
+        <div className={styles.helperText()} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}
         </div>
       </TokenView>
