@@ -226,7 +226,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         <CommonWrapper {...this.props}>
           <ZIndex priority={'Modal'} className={styles.root(this.theme)}>
             <HideBodyVerticalScroll />
-            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
+            {this.state.hasBackground && (
+              <div
+                onMouseDown={this.handleContainerMouseDown}
+                onMouseUp={this.handleContainerMouseUp}
+                onClick={this.handleContainerClick}
+                className={styles.bg(this.theme)}
+              />
+            )}
             <ResponsiveLayout>
               {({ isMobile }) => (
                 <div
