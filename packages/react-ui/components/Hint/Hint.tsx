@@ -13,7 +13,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Hint.styles';
 
@@ -171,7 +170,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
-          hasPin={!isTheme2022(this.theme)}
+          hasPin
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}
