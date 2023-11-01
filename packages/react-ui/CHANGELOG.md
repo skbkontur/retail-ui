@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.17.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.2...@skbkontur/react-ui@4.17.0) (2023-11-01)
+
+
+### Features
+
+* ability to set up window ([#3259](https://github.com/skbkontur/retail-ui/issues/3259)) ([f19378c](https://github.com/skbkontur/retail-ui/commit/f19378c9609f4f0867658480456b6b976bb3f2af))
+
+
+### Bug Fixes
+
+* **ComboBox:** fix mobile overlay not closing when using public methods ([#3268](https://github.com/skbkontur/retail-ui/issues/3268)) ([46ffefa](https://github.com/skbkontur/retail-ui/commit/46ffefad121c0525f502d169c5d0052bff49129e))
+* **ComboBox:** submit form on Enter if closed ([#3264](https://github.com/skbkontur/retail-ui/issues/3264)) ([3646b08](https://github.com/skbkontur/retail-ui/commit/3646b08bb6e4e5b05c54513301626ab52eb9a2f9))
+* **Sticky:** fix width calc in fixed state on page resize ([#3285](https://github.com/skbkontur/retail-ui/issues/3285)) ([8d19d82](https://github.com/skbkontur/retail-ui/commit/8d19d82d2ac07c16e442e8dd0478603ba7e84fb6))
+* **Paging:** disable forward button when current page is last ([#3273](https://github.com/skbkontur/retail-ui/issues/3273)) ([9b3a0b7](https://github.com/skbkontur/retail-ui/commit/9b3a0b74cafaa7753a62da43a8edaef30eae617c))
+* **SidePage:** fix overlay when changing desktop->mobile->desktop ([#3292](https://github.com/skbkontur/retail-ui/issues/3292)) ([fa4ac39](https://github.com/skbkontur/retail-ui/commit/fa4ac399d41b3457346d3e3187d212bf92581347))
+* **Paging:** fix hint height ([#3295](https://github.com/skbkontur/retail-ui/issues/3295)) ([67363ca](https://github.com/skbkontur/retail-ui/commit/67363ca7fb28242a88dfb6b59fc67a55880bd9d5))
+
+
+
+
+
 ## [4.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.1...@skbkontur/react-ui@4.16.2) (2023-10-24)
 
 
