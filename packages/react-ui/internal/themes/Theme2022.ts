@@ -123,6 +123,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static dropdownButtonBorderRadiusSmall = '8px';
   public static dropdownButtonBorderRadiusMedium = '8px';
   public static dropdownButtonBorderRadiusLarge = '8px';
+  public static get dropdownPaddingXSmall() {
+    return this.btnPaddingXSmall;
+  }
+
+  public static get dropdownPaddingXMedium() {
+    return this.btnPaddingXMedium;
+  }
+
+  public static get dropdownPaddingXLarge() {
+    return this.btnPaddingXLarge;
+  }
 
   //#region Input
   public static inputIconColor = '#858585';
