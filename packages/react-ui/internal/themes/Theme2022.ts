@@ -187,8 +187,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Hint
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
-  public static hintBorderRadius = '8px';
-  public static hintPaddingY = '8px';
+  public static hintBorderRadius = '6px';
+  public static hintPaddingY = '4px';
   public static hintPaddingX = '8px';
   //#endregion
 
