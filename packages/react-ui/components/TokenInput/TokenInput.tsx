@@ -26,7 +26,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
-import { Token, TokenProps } from '../Token';
+import { Token, TokenProps, TokenSize } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -38,6 +38,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
+import { TokenView } from '../Token/TokenView';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -67,6 +68,8 @@ export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-described
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
+  /** Размер */
+  size?: TokenSize;
   /**
    * Тип инпута. Возможные значения:
    *
@@ -239,6 +242,7 @@ type DefaultProps<T> = Required<
     | 'onMouseLeave'
     | 'menuWidth'
     | 'menuAlign'
+    | 'size'
   >
 >;
 
@@ -246,7 +250,7 @@ const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
-  { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
+  { isActive, onClick, onDoubleClick, onRemove, disabled, size }: Partial<TokenProps>,
 ) => (
   <Token
     key={item.toString()}
@@ -255,6 +259,7 @@ const defaultRenderToken = <T extends AnyObject>(
     onDoubleClick={onDoubleClick}
     onRemove={onRemove}
     disabled={disabled}
+    size={size}
   >
     {item}
   </Token>
@@ -281,6 +286,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onMouseLeave: emptyHandler,
     menuWidth: 'auto',
     menuAlign: 'cursor',
+    size: 'small',
   };
 
   private getProps = createPropsGetter(TokenInput.defaultProps);
@@ -354,6 +360,30 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
   }
 
+  private getLabelSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.labelLarge(this.theme);
+      case 'medium':
+        return styles.labelMedium(this.theme);
+      case 'small':
+      default:
+        return styles.labelSmall(this.theme);
+    }
+  }
+
+  private getInputSizeClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.inputLarge(this.theme);
+      case 'medium':
+        return styles.inputMedium(this.theme);
+      case 'small':
+      default:
+        return styles.inputSmall(this.theme);
+    }
+  }
+
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
@@ -380,11 +410,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       activeTokens,
       inFocus,
       inputValueWidth,
+      inputValueHeight,
       inputValue,
       reservedInputValue,
       autocompleteItems,
       loading,
-      inputValueHeight,
     } = this.state;
 
     const showMenu =
@@ -395,29 +425,47 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const theme = this.theme;
 
-    const lineHeight = parseInt(theme.tokenInputLineHeight, 10) || 0;
-
     const inputInlineStyles: React.CSSProperties = {
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
-      height: Math.max(lineHeight, inputValueHeight),
+      height: inputValueHeight,
       // input растягивается на всю ширину чтобы placeholder не обрезался
       flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cx(styles.label(theme), {
+    const labelClassName = cx(styles.label(theme), this.getLabelSizeClassName(), {
       [styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
       [styles.labelDisabled(theme)]: !!disabled,
       [styles.labelFocused(theme)]: !!inFocus,
       [styles.error(theme)]: !!error,
       [styles.warning(theme)]: !!warning,
     });
-    const inputClassName = cx(styles.input(theme), {
+    const inputClassName = cx(styles.input(theme), this.getInputSizeClassName(), {
       [styles.inputDisabled(theme)]: !!disabled,
-      [styles.inputEditing(theme)]: this.isEditingMode,
     });
+
+    const textHolder = (
+      <textarea
+        id={this.textareaId}
+        ref={this.inputRef}
+        value={inputValue}
+        style={inputInlineStyles}
+        spellCheck={false}
+        disabled={disabled}
+        className={inputClassName}
+        placeholder={selectedItems.length > 0 ? undefined : placeholder}
+        onFocus={this.handleInputFocus}
+        onBlur={this.handleInputBlur}
+        onChange={this.handleChangeInputValue}
+        onKeyDown={this.handleKeyDown}
+        onPaste={this.handleInputPaste}
+        inputMode={inputMode}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedby}
+      />
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -434,31 +482,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cx(styles.helperText(theme), {
-                [styles.helperTextEditing(theme)]: this.isEditingMode,
-              })}
-              text={inputValue}
+              text={inputValue === '' ? placeholder : inputValue}
               theme={this.theme}
+              size={this.getProps().size}
             />
             {this.renderTokensStart()}
-            <textarea
-              id={this.textareaId}
-              ref={this.inputRef}
-              value={inputValue}
-              style={inputInlineStyles}
-              spellCheck={false}
-              disabled={disabled}
-              className={inputClassName}
-              placeholder={selectedItems.length > 0 ? undefined : placeholder}
-              onFocus={this.handleInputFocus}
-              onBlur={this.handleInputBlur}
-              onChange={this.handleChangeInputValue}
-              onKeyDown={this.handleKeyDown}
-              onPaste={this.handleInputPaste}
-              inputMode={inputMode}
-              aria-label={ariaLabel}
-              aria-describedby={ariaDescribedby}
-            />
+
+            <TokenView size={this.getProps().size}>{textHolder}</TokenView>
             {showMenu && (
               <TokenInputMenu
                 popupMenuId={this.rootId}
@@ -479,7 +509,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? (
+              <TokenView size={this.props.size}>
+                <span className={styles.reservedInput(theme)}>{reservedInputValue}</span>
+              </TokenView>
+            ) : null}
           </label>
         </div>
       </CommonWrapper>
@@ -1064,7 +1098,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private renderToken = (item: T) => {
-    const { renderToken = defaultRenderToken, disabled } = this.props;
+    const { renderToken = defaultRenderToken, disabled, size } = this.props;
 
     const isActive = this.state.activeTokens.includes(item);
 
@@ -1092,6 +1126,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const renderedToken = renderToken(item as T & AnyObject, {
+      size,
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,

@@ -59,6 +59,45 @@ const tokenColors = {
 </div>;
 ```
 
+У TokenInput есть 3 стандартных размера.
+
+```jsx harmony
+import { Token } from '@skbkontur/react-ui';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
+
+const [selectedItems, setSelectedItems] = React.useState([]);
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+
+const getItems = q =>
+  Promise.resolve(
+    ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
+      x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+    ),
+  ).then(delay(500));
+
+<div style={{ width: '300px' }}>
+  <TokenInput
+    size={'small'}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+  />
+  <TokenInput
+    size={'medium'}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+  />
+  <TokenInput
+    size={'large'}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+  />
+</div>;
+```
+
 Заблокированный TokenInput с кастомными Token:
 
 ```jsx harmony

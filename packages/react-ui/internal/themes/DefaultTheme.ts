@@ -141,16 +141,74 @@ export class DefaultTheme {
   public static get tokenTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
+  /**
+   * @deprecated use tokenFontSizeSmall
+   */
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
-  public static tokenMarginY = '2px';
-  public static tokenMarginX = '4px';
+  public static get tokenFontSizeSmall() {
+    return this.tokenFontSize;
+  }
+  public static get tokenFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get tokenFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+
+  /**
+   * @deprecated use tokenMarginYSmall
+   */
+  public static tokenMarginY = '3px';
+  /**
+   * @deprecated use tokenMarginXSmall
+   */
+  public static tokenMarginX = '2px';
+  public static get tokenMarginYSmall() {
+    return this.tokenMarginY;
+  }
+  public static get tokenMarginXSmall() {
+    return this.tokenMarginX;
+  }
+  public static tokenMarginYMedium = '3px';
+  public static tokenMarginXMedium = '3px';
+  public static tokenMarginYLarge = '3px';
+  public static tokenMarginXLarge = '4px';
+
+  /**
+   * @deprecated use tokenLineHeightSmall
+   */
   public static get tokenLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static get tokenLineHeightSmall() {
+    return this.tokenLineHeight;
+  }
+  public static get tokenLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tokenLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  /**
+   * @deprecated use tokenPaddingYSmall
+   */
   public static tokenPaddingY = '1px';
+  /**
+   * @deprecated use tokenPaddingXSmall
+   */
   public static tokenPaddingX = '3px';
+  public static get tokenPaddingYSmall() {
+    return this.tokenPaddingY;
+  }
+  public static get tokenPaddingXSmall() {
+    return this.tokenPaddingX;
+  }
+  public static tokenPaddingYMedium = '2px';
+  public static tokenPaddingXMedium = '5px';
+  public static tokenPaddingYLarge = '3px';
+  public static tokenPaddingXLarge = '7px';
   public static tokenMarginBeforeIcon = '4px';
   public static tokenRemoveIconSize = '8px';
   public static tokenRemoveIconPaddingY = '4px';
@@ -210,18 +268,21 @@ export class DefaultTheme {
   }
   public static tokenOutlineWidth = '2px';
   public static tokenLegacyTextShift = '0px';
+
   public static get tokenPaddingYDisabled() {
     return this.tokenPaddingY;
   }
   public static get tokenPaddingXDisabled() {
     return this.tokenPaddingX;
   }
+
   public static get tokenMarginYDisabled() {
     return this.tokenMarginY;
   }
   public static get tokenMarginXDisabled() {
     return this.tokenMarginX;
   }
+
   public static get tokenShadowDisabled() {
     return `0 0 0 ${this.tokenBorderWidth} ${this.borderColorDisabled}`;
   }
@@ -235,6 +296,7 @@ export class DefaultTheme {
   public static tokenDefaultActiveBg = '';
   public static tokenDefaultActiveColor = '';
   public static tokenDefaultActiveBorderColor = '';
+
   //#endregion
   //#region TokenInput
   public static get tokenInputBorderColor() {
@@ -292,21 +354,31 @@ export class DefaultTheme {
   public static get tokenInputPlaceholderColorDisabled() {
     return this.textColorDisabledContrast;
   }
-  public static tokenInputPaddingY = '2px';
-  public static tokenInputPaddingX = '4px';
-  public static get tokenInputFontSize() {
-    return this.inputFontSizeSmall;
-  }
-  public static tokenInputLineHeight = '22px';
 
-  public static tokenInputInputPaddingLeft = '5px';
-
-  public static get tokenInputInputPaddingRight() {
-    const paddingX = parseInt(this.tokenPaddingX, 10) || 0;
-    const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
-    const removeIconSizeX = parseInt(this.tokenInputFontSize, 10) || 0;
-    return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  /**
+   * @deprecated use tokenInputPaddingYSmall
+   */
+  public static tokenInputPaddingY = '1px';
+  /**
+   * @deprecated use tokenInputPaddingXSmall
+   */
+  public static tokenInputPaddingX = '2px';
+  public static get tokenInputPaddingYSmall() {
+    return this.tokenInputPaddingY;
   }
+  public static get tokenInputPaddingXSmall() {
+    return this.tokenInputPaddingX;
+  }
+  public static tokenInputPaddingYMedium = '3px';
+  public static tokenInputPaddingXMedium = '3px';
+  public static tokenInputPaddingYLarge = '5px';
+  public static tokenInputPaddingXLarge = '4px';
+
+  public static tokenInputPopupOffset = '0px';
+  public static tokenInputPopupMarginSmall = '7px';
+  public static tokenInputPopupMarginMedium = '10px';
+  public static tokenInputPopupMarginLarge = '13px';
+
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';

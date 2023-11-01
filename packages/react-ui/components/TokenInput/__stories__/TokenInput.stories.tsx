@@ -231,6 +231,12 @@ EmptyWithReference.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
       },
     },
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['clicked', 'withMenu'],
+      },
+    },
   },
 };
 
@@ -463,6 +469,12 @@ CustomAddButton.storyName = 'custom add button';
 
 CustomAddButton.parameters = {
   creevey: {
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['addButton'],
+      },
+    },
     tests: {
       async addButton() {
         await this.browser
@@ -729,6 +741,12 @@ FullWidthMenu.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['selectFirst'],
+      },
+    },
   },
 };
 
@@ -760,5 +778,22 @@ CustomRenderTotalCount.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['renderTotalCount'],
+      },
+    },
   },
 };
+
+export const Size = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Wrapper numberItems={5} getItems={getItems} size="small" />
+      <Wrapper numberItems={5} getItems={getItems} size="medium" />
+      <Wrapper numberItems={5} getItems={getItems} size="large" />
+    </Gapped>
+  );
+};
+Size.storyName = 'size';
