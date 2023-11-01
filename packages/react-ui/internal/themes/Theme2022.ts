@@ -389,17 +389,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleHandleBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.16)';
 
   // idle :hover
-  public static get toggleContainerBgHover() {
-    return this.toggleBgHover;
-  }
   public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
   public static toggleHandleBgHover = '#FFFFFF';
   public static toggleHandleBoxShadowHover = '0 0 0 1px rgba(0, 0, 0, 0.16)';
 
   // checked
-  public static get toggleContainerBgChecked() {
-    return this.toggleBgChecked;
-  }
   public static toggleContainerBoxShadowChecked = 'none';
   public static toggleHandleBgChecked = '#FFFFFF';
   public static toggleHandleBoxShadowChecked = 'none';
