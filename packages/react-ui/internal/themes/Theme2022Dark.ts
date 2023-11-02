@@ -246,6 +246,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toggleHandleBoxShadowChecked = 'none';
 
   // checked :hover
+  public static get toggleContainerBgCheckedHover() {
+    return this.toggleContainerBgHover;
+  }
   public static toggleContainerBoxShadowCheckedHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgCheckedHover = '#FFFFFF';
   public static toggleHandleBoxShadowCheckedHover = 'none';
