@@ -56,10 +56,25 @@ export const styles = memoizeStyle({
         transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
+      }
+    `;
+  },
+
+  lineTextWrapperNotFocused(t: Theme) {
+    return css`
+      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
         border-bottom-color: transparent;
         &:hover {
           border-bottom-color: currentColor;
         }
+      }
+    `;
+  },
+
+  lineTextWrapperFocused(t: Theme) {
+    return css`
+      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+        border-bottom-color: currentColor;
       }
     `;
   },
