@@ -1567,8 +1567,12 @@ export class DefaultTheme {
   }
 
   public static toggleContainerBg = '';
-  public static toggleContainerBgHover = '';
-  public static toggleContainerBgChecked = '';
+  public static get toggleContainerBgHover() {
+    return this.toggleBgHover;
+  }
+  public static get toggleContainerBgChecked() {
+    return this.toggleBgChecked;
+  }
   public static toggleContainerBgCheckedHover = '';
   public static toggleContainerBoxShadow = '';
   public static toggleContainerBoxShadowHover = '';
