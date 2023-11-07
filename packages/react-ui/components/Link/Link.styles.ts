@@ -52,14 +52,12 @@ export const styles = memoizeStyle({
     // Планировалось добавить transition и color-mix(in srgb, currentColor 50%, transparent) в lineText.
     // Однако, в chrome и edge сочетание transition, color-mix и currentColor вызывает моргание при transition.
     return css`
-      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
-        transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
-        border-bottom-style: ${t.linkLineBorderBottomStyle};
-        border-bottom-width: ${t.linkLineBorderBottomWidth};
-        border-bottom-color: transparent;
-        &:hover {
-          border-bottom-color: currentColor;
-        }
+      transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
+      border-bottom-style: ${t.linkLineBorderBottomStyle};
+      border-bottom-width: ${t.linkLineBorderBottomWidth};
+      border-bottom-color: transparent;
+      &:hover {
+        border-bottom-color: currentColor;
       }
     `;
   },
@@ -83,13 +81,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  lineTextWithUnderlineOnHover(t: Theme) {
+  lineTextWithUnderlineOnHover() {
     return css`
-      border-bottom-color: transparent !important;
-      transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
-      &:hover {
-        border-bottom-color: currentColor !important;
-      }
+      border-bottom-color: transparent !important; //override
     `;
   },
 
