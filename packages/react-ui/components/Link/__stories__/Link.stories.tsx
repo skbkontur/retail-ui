@@ -40,10 +40,7 @@ Simple.parameters = {
     tests: linkTests,
     skip: {
       // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
   },
 };
@@ -54,10 +51,7 @@ WithIcon.parameters = {
     tests: linkTests,
     skip: {
       // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
   },
 };
@@ -72,10 +66,7 @@ Danger.parameters = {
     tests: linkTests,
     skip: {
       // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
   },
 };
@@ -86,10 +77,7 @@ Grayed.parameters = {
     tests: linkTests,
     skip: {
       // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
   },
 };
@@ -100,10 +88,7 @@ Disabled.parameters = {
     tests: linkTests,
     skip: {
       // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
   },
 };
@@ -135,10 +120,7 @@ Loading.parameters = {
     tests: linkTests,
     skip: {
       // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
     },
   },
 };
