@@ -20,7 +20,7 @@
   - [Storybook](#storybook)
   - [Скриншотные тесты](#скриншотные-тесты)
 - [Документация](#документация)
-- [Система фича-флагов](#Использование флагов для внесения ломающих изменений)
+- [Система фича-флагов](#использование-флагов-для-внесения-ломающих-изменений)
 - [Pull Request](#pull-request)
 - [Помощь](#помощь)
 
@@ -336,21 +336,42 @@ function foo() {}
 
 ## Добавление нового флага
 
-1) Сформируйте название флага по правилу [Название компонента или области]+[Вид изменения]+[Изменившийся подэлемент]
+1) Сформируйте название флага по правилу [Название компонента или области]+[Описание изменения]
+Стоит избегать общих слов, таких как "change". Вместо этого опишите в чем конкретно произошло изменение.
 
    Примеры:
-  - ValidationsWrapperAlignTooltip - В ValidationsWrapper выровняли Tooltip
-  - TokenInputChangeDefaultSeparator - В TokenInput изменили разделитель по умолчанию
-  - HTMLElementChangeToElement - Сменили использование HTMLElement на Element
-  - ThemeDeleteDeprecatedVariables - Удалили из тем переменные, помеченные deprecated
+  - ValidationTooltipRemoveWrapper - Избавиться от обертки в ValidationTooltip
+  - TokenInputRemoveWhitespaceFromDefaultSeparator - В TokenInput изменили разделитель по умолчанию
 
-2) Добавьте флаг в featureFlagObject в файле FeatureFlagContext.tsx
-3) Задайте "[Название флага]: false," в featureFlagDefault в файле FeatureFlagContext.tsx
+2) Добавьте флаг в FeatureFlags в файле FeatureFlagsContext.tsx
+3) Задайте "[Название флага]: false," в featureFlagDefault в файле FeatureFlagsContext.tsx
 4) Добавьте флаг в документацию FEATUREFLAGCONTEXT.md:
-  - Добавьте флаг в featureFlagObject
-  - Добавьте флаг и его описание в "Список существующих флагов"
+  - Добавьте флаг в FeatureFlags
   - Добавьте новый подраздел с названием флага в разделе "Использование" и пропишите в нем примеры использования
 
+## Получение контекста созданных флагов
+
+Получить заданные флаги в компоненте можно через `FeatureFlagsContext.Consumer`:
+
+```jsx static
+import { FeatureFlagsContext, Button } from '@skbkontur/react-ui';
+
+<FeatureFlagsContext.Consumer>
+  {flags => {/* ... */} }
+</FeatureFlagsContext.Consumer>
+```
+
+`useContext` в функциональных компонентах:
+
+```typescript static
+const flags = useContext(FeatureFlagsContext);
+```
+
+Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullFlagContext к объекту заданных флагов:
+
+```typescript static
+const allFlage = getFullFlagContext(useContext(FeatureFlagsContext));
+```
 
 # Pull Request
 
