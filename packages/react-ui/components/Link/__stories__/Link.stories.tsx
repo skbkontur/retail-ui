@@ -142,17 +142,3 @@ Loading.parameters = {
     },
   },
 };
-
-export const AddUnderlineOnHover: Story = () => <Link addUnderlineOnHover>Simple link</Link>;
-AddUnderlineOnHover.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022', 'chrome2022Dark'],
-        tests: ['hover'],
-      },
-    },
-  },
-};
