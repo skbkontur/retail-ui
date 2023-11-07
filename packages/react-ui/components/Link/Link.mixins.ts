@@ -1,5 +1,9 @@
 export const linkMixin = (hoverTextDecoration: string) => {
   return `
+    border-radius: 1px;
+    outline: none;
+    text-decoration: none;
+
     &:hover {
       text-decoration: ${hoverTextDecoration};
     }

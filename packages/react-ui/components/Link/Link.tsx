@@ -14,7 +14,6 @@ import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
-import { Underline } from '../Button';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -76,9 +75,9 @@ export interface LinkProps
          */
         focused?: boolean;
         /**
-         * Стиль подчеркивания: 'always' | 'onHover' | 'none'
+         * Добавить подчеркивание только при хавере
          */
-        underline?: Underline;
+        addUnderlineOnHover?: boolean;
       }
     > {}
 
@@ -152,13 +151,9 @@ export class Link extends React.Component<LinkProps, LinkState> {
       rel: relOrigin,
       as: Component,
       focused = false,
-      underline,
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
-    const withoutUnderline = underline === 'none';
-    const underlineOnHover = underline === 'onHover';
-    const alwaysUnderline = underline === 'always';
 
     let iconElement = null;
     if (icon) {
@@ -182,7 +177,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const linkProps = {
       className: cx(
         styles.useRoot(),
-        !withoutUnderline && styles.useHoveredRoot(this.theme),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
@@ -205,16 +199,14 @@ export class Link extends React.Component<LinkProps, LinkState> {
       child = (
         <span
           className={cx({
-            [styles.lineTextWrapper(this.theme)]: !underlineOnHover && !underlineOnHover && !withoutUnderline,
+            [styles.lineTextWrapper(this.theme)]: !this.props.addUnderlineOnHover,
           })}
         >
           <span
             className={cx(globalClasses.text, {
-              [styles.lineText(this.theme)]: !withoutUnderline,
-              [styles.lineTextDefault(this.theme)]: !isIE11 && underline === undefined,
+              [styles.lineTextWithUnderlineOnHover(this.theme)]: this.props.addUnderlineOnHover,
+              [styles.lineText(this.theme)]: !isIE11,
               [styles.lineTextIE11(this.theme)]: isIE11,
-              [styles.lineTextWithUnderlineOnHover(this.theme)]: underlineOnHover,
-              [styles.lineTextWithAlwaysUnderline()]: alwaysUnderline,
             })}
           >
             {this.props.children}
@@ -260,26 +252,22 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
-    const { use, underline } = this.getProps();
+    const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
-    const withoutUnderline = underline === 'none';
 
     return !isBorderBottom
       ? cx(
-          styles.root(),
-          !withoutUnderline && styles.rootHovered(this.theme),
-          !withoutUnderline && isFocused && styles.focus(this.theme),
+          styles.root(this.theme),
+          isFocused && styles.focus(this.theme),
           disabled && styles.disabled(this.theme),
           use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
-          underline === 'always' && styles.underlined(),
         )
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
           disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
           isFocused && use === 'default' && styles.lineFocus(this.theme),
-          isFocused && !withoutUnderline && styles.lineFocusHover(this.theme),
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),

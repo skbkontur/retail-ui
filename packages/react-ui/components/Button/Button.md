@@ -43,20 +43,6 @@ const bgStyle = {
 </Gapped>
 ```
 
-
-Кнопка-ссылка может иметь различные стили подчеркивания.
-
-```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
-
-<Gapped gap={15} vertical>
-  <Button use="link">Кнопка-ссылка с дефолтным подчеркиванием</Button>
-  <Button use="link" underline={'always'}>Кнопка-ссылка с постоянным подчеркиванием</Button>
-  <Button use="link" underline={'onHover'}>Кнопка-ссылка с  подчеркиванием при наведении</Button>
-  <Button use="link" underline={'none'}>Кнопка-ссылка без подчеркивания</Button>
-</Gapped>;
-```
-
 Пример кнопки с иконкой.
 
 ```jsx harmony

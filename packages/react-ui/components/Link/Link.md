@@ -18,19 +18,6 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-Ссылка может иметь различные стили подчеркивания.
-
-```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
-
-<Gapped gap={15} vertical>
-  <Link>Ссылка с дефолтным подчеркиванием</Link>
-  <Link underline={'always'}>Ссылка с постоянным подчеркиванием</Link>
-  <Link underline={'onHover'}>Ссылка с  подчеркиванием при наведении</Link>
-  <Link underline={'none'}>Ссылка без подчеркивания</Link>
-</Gapped>;
-```
-
 Пример ссылки с иконкой.
 
 ```jsx harmony
