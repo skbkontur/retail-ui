@@ -4,9 +4,9 @@ export interface FeatureFlags {
   ValidationTooltipRemoveWrapper: boolean;
 }
 
-export const featureFlagDefault: FeatureFlags = {
+export const featureFlagsDefault: FeatureFlags = {
   ValidationTooltipRemoveWrapper: false,
 };
 
-export const FeatureFlagsContext = React.createContext<FeatureFlags>(featureFlagDefault);
+export const FeatureFlagsContext = React.createContext<FeatureFlags>(featureFlagsDefault);
 FeatureFlagsContext.displayName = 'FeatureFlagsContext';

@@ -332,7 +332,7 @@ function foo() {}
 ## Система фича-флагов
 
 Для того, чтобы была возможность применять ломающие изменения не дожидаясь мажорной версии, существует система фича-флагов.
-Подробнее ознакомиться с механизмом и способами его использования можно в FEATUREFLAGCONTEXT.md
+Подробнее ознакомиться с механизмом и способами его использования можно в FEATUREFLAGSCONTEXT.md
 
 ## Добавление нового флага
 
@@ -344,8 +344,8 @@ function foo() {}
   - TokenInputRemoveWhitespaceFromDefaultSeparator - В TokenInput изменили разделитель по умолчанию
 
 2) Добавьте флаг в FeatureFlags в файле FeatureFlagsContext.tsx
-3) Задайте "[Название флага]: false," в featureFlagDefault в файле FeatureFlagsContext.tsx
-4) Добавьте флаг в документацию FEATUREFLAGCONTEXT.md:
+3) Задайте "[Название флага]: false," в featureFlagsDefault в файле FeatureFlagsContext.tsx
+4) Добавьте флаг в документацию FEATUREFLAGSCONTEXT.md:
   - Добавьте флаг в FeatureFlags
   - Добавьте новый подраздел с названием флага в разделе "Использование" и пропишите в нем примеры использования
 

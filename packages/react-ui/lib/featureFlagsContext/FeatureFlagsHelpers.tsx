@@ -1,5 +1,5 @@
-import { featureFlagDefault, FeatureFlags } from './FeatureFlagsContext';
+import { featureFlagsDefault, FeatureFlags } from './FeatureFlagsContext';
 
 export const getFullFlagContext = (flags: FeatureFlags) => {
-  return { ...featureFlagDefault, ...flags };
+  return { ...featureFlagsDefault, ...flags };
 };
