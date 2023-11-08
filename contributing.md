@@ -20,8 +20,8 @@
   - [Storybook](#storybook)
   - [Скриншотные тесты](#скриншотные-тесты)
 - [Документация](#документация)
-- [Система фича-флагов](#использование-флагов-для-внесения-ломающих-изменений)
 - [Pull Request](#pull-request)
+- [Соглашения](#соглашения)
 - [Помощь](#помощь)
 
 ## Общие сведения
@@ -327,52 +327,6 @@ function foo() {}
 
 В неочевидных и сложных для понимания местах кода следует оставлять поясняющие комментарии.
 
-# Использование флагов для внесения ломающих изменений
-
-## Система фича-флагов
-
-Для того, чтобы была возможность применять ломающие изменения не дожидаясь мажорной версии, существует система фича-флагов.
-Подробнее ознакомиться с механизмом и способами его использования можно в FEATUREFLAGSCONTEXT.md
-
-## Добавление нового флага
-
-1) Сформируйте название флага по правилу [Название компонента или области]+[Описание изменения]
-Стоит избегать общих слов, таких как "change". Вместо этого опишите в чем конкретно произошло изменение.
-
-   Примеры:
-  - ValidationTooltipRemoveWrapper - Избавиться от обертки в ValidationTooltip
-  - TokenInputRemoveWhitespaceFromDefaultSeparator - В TokenInput изменили разделитель по умолчанию
-
-2) Добавьте флаг в FeatureFlags в файле FeatureFlagsContext.tsx
-3) Задайте "[Название флага]: false," в featureFlagsDefault в файле FeatureFlagsContext.tsx
-4) Добавьте флаг в документацию FEATUREFLAGSCONTEXT.md:
-  - Добавьте флаг в FeatureFlags
-  - Добавьте новый подраздел с названием флага в разделе "Использование" и пропишите в нем примеры использования
-
-## Получение контекста созданных флагов
-
-Получить заданные флаги в компоненте можно через `FeatureFlagsContext.Consumer`:
-
-```jsx static
-import { FeatureFlagsContext, Button } from '@skbkontur/react-ui';
-
-<FeatureFlagsContext.Consumer>
-  {flags => {/* ... */} }
-</FeatureFlagsContext.Consumer>
-```
-
-`useContext` в функциональных компонентах:
-
-```typescript static
-const flags = useContext(FeatureFlagsContext);
-```
-
-Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullFlagContext к объекту заданных флагов:
-
-```typescript static
-const allFlage = getFullFlagContext(useContext(FeatureFlagsContext));
-```
-
 # Pull Request
 
 После отправки изменений на сервер появится возможность [создать](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) pull request (PR) в основной репозиторий. Опишите сделанные вами изменения по [специальному шаблону](https://github.com/skbkontur/retail-ui/blob/master/pull_request_template.md), чтобы проверяющим было проще в нем ориентироваться. PR следует делать в ту ветку, от которой была создана [рабочая ветка](#ветки).
@@ -386,6 +340,20 @@ const allFlage = getFullFlagContext(useContext(FeatureFlagsContext));
 3. Резолв тредов во время ревью осуществляется их автором
 4. Все договоренности и результаты ревью, даже если они происходили вне github, следует зафиксировать в PR
 5. После запроса ревью делать force-push уже нежелательно
+
+# Соглашения
+
+## Соглашения по фича-флагам
+
+Добавление нового флага реализуется по алгоритму:
+1) Сформируйте название флага по правилу [Название компонента или области]+[Описание изменения].
+   Стоит избегать общих слов, таких как "change". Вместо этого опишите в чем конкретно произошло изменение.
+
+   Примеры:
+   - ValidationTooltipRemoveWrapper - Избавиться от обертки в ValidationTooltip
+   - TokenInputRemoveWhitespaceFromDefaultSeparator - В TokenInput изменили разделитель по умолчанию
+
+2) Добавьте флаг в FeatureFlags в файл FeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md
 
 # Помощь
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface FeatureFlags {
-  ValidationTooltipRemoveWrapper: boolean;
+  ValidationTooltipRemoveWrapper?: boolean;
 }
 
 export const featureFlagsDefault: FeatureFlags = {
