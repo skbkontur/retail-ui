@@ -106,6 +106,7 @@ const underlineOnHoverStyles = {
 const differentColorStyles = {
   linkColor: 'blue',
   linkHoverColor: 'blue',
+  linkActiveColor: 'blue',
 }
 
 const stringify = (styles) => {
