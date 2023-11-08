@@ -64,6 +64,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  lineTextWrapperFocused(t: Theme) {
+    return css`
+      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+        border-bottom-color: currentColor;
+      }
+    `;
+  },
+
   lineText(t: Theme) {
     return css`
       @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
