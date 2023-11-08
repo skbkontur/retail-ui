@@ -196,8 +196,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       child = (
         <span
           className={cx(styles.lineTextWrapper(this.theme), {
-            [styles.lineTextWrapperNotFocused(this.theme)]: !this.state.focusedByTab,
-            [styles.lineTextWrapperFocused(this.theme)]: this.state.focusedByTab,
+            [styles.lineTextWrapperFocused(this.theme)]: isFocused,
           })}
         >
           <span
