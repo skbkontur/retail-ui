@@ -1,4 +1,5 @@
 import React from 'react';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
@@ -84,9 +85,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     }
 
     this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
-    window.addEventListener('blur', this.handleFocusOutside);
-    document.addEventListener(
-      'ontouchstart' in document.documentElement && 'onpointerup' in document.documentElement
+    globalObject.addEventListener?.('blur', this.handleFocusOutside);
+    globalObject.document?.addEventListener(
+      'ontouchstart' in globalObject.document.documentElement && 'onpointerup' in globalObject.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -99,9 +100,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    window.removeEventListener('blur', this.handleFocusOutside);
-    document.removeEventListener(
-      'ontouchstart' in document.documentElement && 'onpointerup' in document.documentElement
+    globalObject.removeEventListener?.('blur', this.handleFocusOutside);
+    globalObject.document?.removeEventListener(
+      'ontouchstart' in globalObject.document.documentElement && 'onpointerup' in globalObject.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -118,7 +119,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (target instanceof Element && containsTargetOrRenderContainer(target)(node))) {
+    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -23,7 +24,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
   const handleFocus = () => {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         setFocusedByTab(true);
       }

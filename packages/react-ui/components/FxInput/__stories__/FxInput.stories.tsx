@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { InputSize } from '../../Input';
 import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
@@ -8,6 +7,7 @@ import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
+import { SizeProp } from '../../../lib/types/props';
 
 export default { title: 'FxInput' } as Meta;
 
@@ -63,7 +63,7 @@ WithWidthStory.parameters = {
 interface TestFxInputProps {
   type: FxInputProps['type'];
   borderless?: boolean;
-  size?: InputSize;
+  size?: SizeProp;
   fractionDigits?: number;
 }
 interface TestFxInputState {

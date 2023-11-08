@@ -1,6 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -132,11 +133,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      window.addEventListener('resize', this.throttledCheckHorizontalScroll);
+      globalObject.addEventListener?.('resize', this.throttledCheckHorizontalScroll);
     }
 
     mountedModalsCount++;
-    window.addEventListener('keydown', this.handleKeyDown);
+    globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
     if (this.containerNode) {
@@ -146,11 +147,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      window.removeEventListener('resize', this.throttledCheckHorizontalScroll);
+      globalObject.removeEventListener?.('resize', this.throttledCheckHorizontalScroll);
       LayoutEvents.emit();
     }
 
-    window.removeEventListener('keydown', this.handleKeyDown);
+    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }

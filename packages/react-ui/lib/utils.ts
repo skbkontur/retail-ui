@@ -1,13 +1,12 @@
 import React from 'react';
 import { isForwardRef } from 'react-is';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { CurrencyInputProps } from '../components/CurrencyInput';
 import { PasswordInputProps } from '../components/PasswordInput';
 import { InputProps } from '../components/Input';
 import { AutocompleteProps } from '../components/Autocomplete';
 import { FxInputProps } from '../components/FxInput';
-
-import { isBrowser } from './client';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -22,7 +21,7 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export type AnyObject = Record<string, unknown>;
 
-export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout(resolve, ms));
 
 export const emptyHandler = () => {
   /* noop */
@@ -37,7 +36,7 @@ export function taskWithDelay(task: () => void, ms: number) {
 
   new Promise((resolve, reject) => {
     cancelationToken = reject;
-    setTimeout(resolve, ms);
+    globalObject.setTimeout(resolve, ms);
   })
     .then(task)
     .catch(() => null);
@@ -73,7 +72,7 @@ export function escapeRegExpSpecChars(s: string): string {
 export const getRandomID = (): string => Math.random().toString(16).slice(2);
 
 export const isExternalLink = (link: string): boolean => {
-  return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
+  return isBrowser(globalObject) && new RegExp(`^(https?:)?//(?!${globalObject.location.host})\\S+`, 'gi').test(link);
 };
 
 /**
