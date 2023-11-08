@@ -79,14 +79,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
-    return this.textColorDisabled;
+    return this.textColorDisabledContrast;
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
-
-  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06) !important';
-
-  public static btnTextBg = 'transparent !important';
-  public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06) !important';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
@@ -184,8 +179,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Hint
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
-  public static hintBorderRadius = '6px';
-  public static hintPaddingY = '4px';
+  public static hintBorderRadius = '8px';
+  public static hintPaddingY = '8px';
   public static hintPaddingX = '8px';
   //#endregion
 
@@ -259,10 +254,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderColorHover() {
     return this.inputBorderColorHover;
   }
-  public static get selectPlaceholderColorDisabled() {
-    return this.textColorDisabled;
-  }
-
   //#endregion
 
   //#region FileUploader
