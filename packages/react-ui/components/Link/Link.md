@@ -91,7 +91,7 @@ import { Link, Gapped } from '@skbkontur/react-ui';
 Пример кастомизации ссылки
 
 ```jsx harmony
-import { Textarea, Toast, Button } from "@skbkontur/react-ui";
+import { Toast, Button } from "@skbkontur/react-ui";
 import { Copy } from "@skbkontur/react-icons"
 
 const textDecorationStyles = {
