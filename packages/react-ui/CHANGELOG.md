@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.0...@skbkontur/react-ui@4.17.1) (2023-11-09)
+
+
+### Bug Fixes
+
+* **Dropdown:** add 21 theme variables ([#3310](https://github.com/skbkontur/retail-ui/issues/3310)) ([47b69ad](https://github.com/skbkontur/retail-ui/commit/47b69adf48fbbdce93d73ee8bb2a8ab61f7e8534))
+* **FileUploader:** hide native input in Safari ([#3309](https://github.com/skbkontur/retail-ui/issues/3309)) ([3454e50](https://github.com/skbkontur/retail-ui/commit/3454e500cd8b0ac434f7417bbf9fbbb973d251f6))
+* **Link:** fix link underline on focus ([#3311](https://github.com/skbkontur/retail-ui/issues/3311)) ([7be897e](https://github.com/skbkontur/retail-ui/commit/7be897eb57a66d3966d442f1a4a0bc6b37b8924a))
+* **Toggle:** link toggleContainerBg to toggleBg variables ([#3303](https://github.com/skbkontur/retail-ui/issues/3303)) ([d881c90](https://github.com/skbkontur/retail-ui/commit/d881c904bc6074ef85065038cc0b62d8cd22a183))
+
+
+
+
+
 # [4.17.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.2...@skbkontur/react-ui@4.17.0) (2023-11-01)
 
 
