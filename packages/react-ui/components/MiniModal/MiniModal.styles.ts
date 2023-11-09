@@ -46,6 +46,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  actionsIndentIE11Fallback(t: Theme) {
+    return css`
+      padding: ${t.miniModalCancelIndent} 0;
+    `;
+  },
+
   actionsRow() {
     return css`
       flex-direction: row;
