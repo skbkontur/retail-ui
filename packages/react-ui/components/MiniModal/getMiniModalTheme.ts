@@ -5,7 +5,6 @@ export const getMiniModalTheme = (contextTheme: Theme, propsTheme: ThemeIn = {})
   const theme = ThemeFactory.create(propsTheme, contextTheme);
   return ThemeFactory.create(
     {
-      modalBackdropFilter: theme.miniModalBackdropFilter,
       modalBodyPaddingTop: theme.miniModalBodyPaddingTop,
       modalBodyPaddingBottom: theme.miniModalBodyPaddingBottom,
       modalHeaderPaddingTop: theme.miniModalHeaderPaddingTop,

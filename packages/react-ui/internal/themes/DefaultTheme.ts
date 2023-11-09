@@ -722,7 +722,6 @@ export class DefaultTheme {
     return this.bgSecondary;
   }
   public static modalBackOpacity = '0.6';
-  public static modalBackdropFilter = 'none';
   public static modalCloseButtonColor = 'rgba(0, 0, 0, 0.32)';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
@@ -2557,7 +2556,6 @@ export class DefaultTheme {
   //#endregion
 
   //#region MiniModal
-  public static miniModalBackdropFilter = 'blur(8px)';
   public static miniModalHeaderPaddingBottom = '0';
   public static miniModalBodyPaddingTop = '16px';
   public static miniModalBodyPaddingBottom = '0';
