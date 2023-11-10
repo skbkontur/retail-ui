@@ -104,7 +104,7 @@
     "@types/shallowequal": "^1.1.1",
     "@types/warning": "^3.0.0",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.6",
-    "axios": "^0.24.0",
+    "axios": "^1.6.0",
     "babel-jest": "27.4.5",
     "babel-loader": "^8.2.3",
     "chalk": "4.1.0",
