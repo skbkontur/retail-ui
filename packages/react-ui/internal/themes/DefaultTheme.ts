@@ -494,6 +494,9 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
+  public static get btnLinkLineBorderBottomColor() {
+    return this.linkLineBorderBottomColor;
+  }
   public static btnLinkLineBorderBottomStyle = '';
   public static get btnLinkHoverLineBorderBottomStyle() {
     return this.btnLinkLineBorderBottomStyle;
