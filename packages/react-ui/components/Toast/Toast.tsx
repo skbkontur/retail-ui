@@ -17,22 +17,26 @@ export interface Action {
   handler: () => void;
   'aria-label'?: string;
 }
+
 export interface ToastState {
   notification: Nullable<string>;
   action: Nullable<Action>;
   id: number;
   showTime: Nullable<number>;
 }
+
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
 }
+
 export const ToastDataTids = {
   toastStatic: 'StaticToast',
   toastView: 'ToastView__root',
   action: 'ToastView__action',
   close: 'ToastView__close',
 } as const;
+
 /**
  * Показывает уведомления.
  *
