@@ -10,41 +10,37 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
-import { ToastStatic } from './ToastStatic';
+import { ToastStaticInternal } from './ToastStaticInternal';
 
 export interface Action {
   label: string;
   handler: () => void;
   'aria-label'?: string;
 }
-
 export interface ToastState {
   notification: Nullable<string>;
   action: Nullable<Action>;
   id: number;
   showTime: Nullable<number>;
 }
-
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
 }
-
 export const ToastDataTids = {
   toastStatic: 'StaticToast',
   toastView: 'ToastView__root',
   action: 'ToastView__action',
   close: 'ToastView__close',
 } as const;
-
 /**
  * Показывает уведомления.
  *
  * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
- * Однако, при его использовании не работает кастомизация и могут быть проблемы
- * с перекрытием уведомления другими элементами страницы.
+ * Однако, при его использовании не работает кастомизация, они не поддерживаются в `React@18`, а также могут быть проблемы с перекрытием уведомления другими элементами страницы.
  *
- * Рекомендуется использовать Toast через `ref` (см. примеры).
+ * Для статических тостов <u>рекомендуется</u> использовать компонент [ToastStatic](https://tech.skbkontur.ru/react-ui/#/Components/ToastStatic) - в нём исправлены эти проблемы.
+ *
  */
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {
@@ -52,11 +48,11 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private setRootNode!: TSetRootNode;
 
   public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
-    ToastStatic.push(notification, action, showTime);
+    ToastStaticInternal.push(notification, action, showTime);
   }
 
   public static close() {
-    ToastStatic.close();
+    ToastStaticInternal.close();
   }
 
   public _toast: Nullable<ToastView>;

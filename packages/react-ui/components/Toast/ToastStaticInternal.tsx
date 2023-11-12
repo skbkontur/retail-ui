@@ -6,35 +6,35 @@ import { Nullable } from '../../typings/utility-types';
 
 import { Toast, Action, ToastDataTids } from './Toast';
 
-export class ToastStatic {
+export class ToastStaticInternal {
   public static push = (notification: string, action?: Nullable<Action>, showTime?: number) => {
-    if (!ToastStatic.node && globalObject.document) {
-      ToastStatic.node = globalObject.document.createElement('div');
+    if (!ToastStaticInternal.node && globalObject.document) {
+      ToastStaticInternal.node = globalObject.document.createElement('div');
       const { body } = globalObject.document;
       if (!body) {
         throw Error('There is no "body" element in "document"');
       }
-      body.appendChild(ToastStatic.node);
+      body.appendChild(ToastStaticInternal.node);
 
       ReactDOM.render(
-        <Toast data-tid={ToastDataTids.toastStatic} ref={(el) => (ToastStatic.instance = el)} />,
-        ToastStatic.node,
-        () => ToastStatic._push(notification, action, showTime),
+        <Toast data-tid={ToastDataTids.toastStatic} ref={(el) => (ToastStaticInternal.instance = el)} />,
+        ToastStaticInternal.node,
+        () => ToastStaticInternal._push(notification, action, showTime),
       );
     } else {
-      ToastStatic._push(notification, action, showTime);
+      ToastStaticInternal._push(notification, action, showTime);
     }
   };
 
   public static _push = (notification: string, action?: Nullable<Action>, showTime?: number) => {
-    if (ToastStatic.instance) {
-      ToastStatic.instance.push(notification, action, showTime);
+    if (ToastStaticInternal.instance) {
+      ToastStaticInternal.instance.push(notification, action, showTime);
     }
   };
 
   public static close = () => {
-    if (ToastStatic.instance) {
-      ToastStatic.instance.close();
+    if (ToastStaticInternal.instance) {
+      ToastStaticInternal.instance.close();
     }
   };
 
