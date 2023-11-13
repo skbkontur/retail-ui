@@ -4,7 +4,7 @@
 
 ```typescript static
 export interface FeatureFlags {
-  ValidationTooltipRemoveWrapper?: boolean;
+  TokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
 }
 ```
 
@@ -15,26 +15,29 @@ export interface FeatureFlags {
 ```jsx static
 import { FeatureFlagsContext } from '@skbkontur/react-ui';
 
-<FeatureFlagsContext.Provider value={{ ValidationTooltipRemoveWrapper: true }}>{/* ... */}</FeatureFlagsContext.Provider>;
+<FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</FeatureFlagsContext.Provider>;
 ```
 
 ## Использование
 
-### ValidationTooltipRemoveWrapper
+### TokenInputRemoveWhitespaceFromDefaultDelimiters
 
+В TokenInput в качестве разделителя по умолчанию используются только запятая.
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
-import { useContext } from 'react';
-import { FeatureFlagsContext, TestComponent, getFullFlagsContext } from '@skbkontur/react-ui';
+import { FeatureFlagsContext, TokenInput, TokenInputType, Token } from '@skbkontur/react-ui';
 
-function FlagUsedByHook() {
-  const flagContext = getFullFlagsContext(useContext(FeatureFlagsContext));
-  return <div>{flagContext.ValidationTooltipRemoveWrapper ? 'flag on' : 'flag off'}</div>;
-}
+const [selectedItems, setSelectedItems] = React.useState([]);
+const getItems = () => {};
 
-<FeatureFlagsContext.Provider value={{ ValidationTooltipRemoveWrapper: true }}>
-  <FlagUsedByHook />
+<FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+  <TokenInput
+    type={TokenInputType.Combined}
+    getItems={getItems}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
+  />
 </FeatureFlagsContext.Provider>
 ```
 

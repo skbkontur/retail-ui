@@ -395,20 +395,20 @@ export const WithLongItem1 = () => {
 WithLongItem1.storyName = 'with long item 1';
 WithLongItem1.parameters = { creevey: { skip: true } };
 
-export const WithTokenInputRemoveWhitespaceFromDefaultSeparatorFeatureFlag: Story = () => {
+export const WithTokenInputRemoveWhitespaceFromDefaultDelimitersFeatureFlag: Story = () => {
   return (
     <>
-      <span>With TokenInputRemoveWhitespaceFromDefaultSeparator FeatureFlag</span>
+      <span>With TokenInputRemoveWhitespaceFromDefaultDelimiters FeatureFlag</span>
       <WrapperWithFeatureFlagsContext type={TokenInputType.Combined} getItems={getItems} />
 
-      <span>With custom delimiters and TokenInputRemoveWhitespaceFromDefaultSeparator FeatureFlag</span>
+      <span>With custom delimiters and TokenInputRemoveWhitespaceFromDefaultDelimiters FeatureFlag</span>
       <WrapperWithFeatureFlagsContext type={TokenInputType.Combined} getItems={getItems} delimiters={[';']} />
     </>
   );
 };
-WithTokenInputRemoveWhitespaceFromDefaultSeparatorFeatureFlag.storyName =
+WithTokenInputRemoveWhitespaceFromDefaultDelimitersFeatureFlag.storyName =
   'with TokenInputRemoveWhitespaceFromDefaultDelimiters featureFlag';
-WithTokenInputRemoveWhitespaceFromDefaultSeparatorFeatureFlag.parameters = {
+WithTokenInputRemoveWhitespaceFromDefaultDelimitersFeatureFlag.parameters = {
   creevey: {
     skip: {
       'do not pass on teamcity': {
