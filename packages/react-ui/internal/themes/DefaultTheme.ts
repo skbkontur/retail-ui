@@ -494,6 +494,9 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
+  public static get btnLinkLineBorderBottomColor() {
+    return this.linkLineBorderBottomColor;
+  }
   public static btnLinkLineBorderBottomStyle = '';
   public static get btnLinkHoverLineBorderBottomStyle() {
     return this.btnLinkLineBorderBottomStyle;
@@ -1061,6 +1064,70 @@ export class DefaultTheme {
   public static dropdownButtonBorderRadiusSmall = '1px';
   public static dropdownButtonBorderRadiusMedium = '1px';
   public static dropdownButtonBorderRadiusLarge = '1px';
+
+  public static get dropdownDefaultBg() {
+    return this.btnDefaultBg;
+  }
+  public static get dropdownBorderWidth() {
+    return this.btnBorderWidth;
+  }
+  public static get dropdownOutlineWidth() {
+    return this.btnOutlineWidth;
+  }
+  public static get dropdownLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get dropdownFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get dropdownPaddingXSmall() {
+    return this.selectPaddingXSmall;
+  }
+  public static get dropdownPaddingYSmall() {
+    return this.btnPaddingYSmall;
+  }
+  public static get dropdownIconSizeSmall() {
+    return this.btnIconSizeSmall;
+  }
+  public static get dropdownLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get dropdownFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get dropdownPaddingXMedium() {
+    return this.selectPaddingXMedium;
+  }
+  public static get dropdownPaddingYMedium() {
+    return this.btnPaddingYMedium;
+  }
+  public static get dropdownIconSizeMedium() {
+    return this.btnIconSizeMedium;
+  }
+  public static get dropdownLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get dropdownFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get dropdownPaddingXLarge() {
+    return this.selectPaddingXLarge;
+  }
+  public static get dropdownPaddingYLarge() {
+    return this.btnPaddingYLarge;
+  }
+  public static get dropdownIconSizeLarge() {
+    return this.btnIconSizeLarge;
+  }
+  public static get dropdownBgDisabled() {
+    return this.btnDisabledBg;
+  }
+  public static get dropdownBorderColorDisabled() {
+    return this.btnDisabledBorderColor;
+  }
+  public static get dropdownTextColorDisabled() {
+    return this.btnDisabledTextColor;
+  }
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1567,8 +1634,12 @@ export class DefaultTheme {
   }
 
   public static toggleContainerBg = '';
-  public static toggleContainerBgHover = '';
-  public static toggleContainerBgChecked = '';
+  public static get toggleContainerBgHover() {
+    return this.toggleBgHover;
+  }
+  public static get toggleContainerBgChecked() {
+    return this.toggleBgChecked;
+  }
   public static toggleContainerBgCheckedHover = '';
   public static toggleContainerBoxShadow = '';
   public static toggleContainerBoxShadowHover = '';
