@@ -2,7 +2,8 @@ import React from 'react';
 
 import { forwardRefAndName, ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
 import { SvgIconProps } from '../icons/16px';
-import { ZERO_WIDTH_SPACE } from '../../lib/chars';
+
+import { styles } from './BaseIcon.styles';
 
 export type IconProps = {
   size?: number;
@@ -43,8 +44,7 @@ export const BaseIcon = forwardRefAndName<SVGSVGElement, IconProps>(
 
     if (align === 'center') {
       return (
-        <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-          {ZERO_WIDTH_SPACE}
+        <span className={styles.centeredIcon()} style={{ display: 'inline-flex', alignItems: 'center' }}>
           {icon}
         </span>
       );

@@ -1,3 +1,4 @@
+import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -922,6 +923,10 @@ export const styles = memoizeStyle({
   icon() {
     return css`
       display: inline-block;
+
+      &::before {
+        content: ${ZERO_WIDTH_SPACE_CSS};
+      }
     `;
   },
   iconSmall(t: Theme) {
