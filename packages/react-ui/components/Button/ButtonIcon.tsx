@@ -10,10 +10,12 @@ import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { SizeProp } from '../../lib/types/props';
 
 import { ButtonProps } from './Button';
-import { globalClasses, styles } from './Button.styles';
+import { globalClasses } from './Button.styles';
+import { styles } from './ButtonIcon.styles';
 
 type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
   hasChildren: boolean;
+  position: 'right' | 'left';
 };
 
 export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
@@ -28,6 +30,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   icon,
   hasChildren,
   use,
+  position,
   loading = false,
   size = 'small',
 }) => {
@@ -37,12 +40,21 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   const getSizeIconClassName = () => {
     switch (size) {
       case 'large':
-        return styles.iconLarge(theme);
+        return [
+          styles.iconLarge(theme),
+          position === 'left' ? styles.iconLargeLeft(theme) : styles.iconLargeRight(theme),
+        ];
       case 'medium':
-        return styles.iconMedium(theme);
+        return [
+          styles.iconMedium(theme),
+          position === 'left' ? styles.iconMediumLeft(theme) : styles.iconMediumRight(theme),
+        ];
       case 'small':
       default:
-        return styles.iconSmall(theme);
+        return [
+          styles.iconSmall(theme),
+          position === 'left' ? styles.iconSmallLeft(theme) : styles.iconSmallRight(theme),
+        ];
     }
   };
 
@@ -64,8 +76,9 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
     <span
       style={style}
       className={cx(globalClasses.icon, styles.icon(), getSizeIconClassName(), {
-        [styles.iconNoRightMargin()]: !hasChildren,
-        [styles.iconLink(theme)]: isLink,
+        [styles.iconNoMargin()]: !hasChildren,
+        [styles.iconLeftLink(theme)]: isLink && position === 'left',
+        [styles.iconRightLink(theme)]: isLink && position === 'right',
       })}
     >
       {space}

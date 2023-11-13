@@ -98,6 +98,11 @@ export interface ButtonProps
   icon?: React.ReactElement<any>;
 
   /**
+   * Иконка справа от текста кнопки.
+   */
+  rightIcon?: React.ReactElement<any>;
+
+  /**
    * Переводит кнопку в состояние загрузки.
    */
   loading?: boolean;
@@ -269,6 +274,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       loading,
       narrow,
       icon,
+      rightIcon,
       _noPadding,
       _noRightPadding,
       visuallyFocused,
@@ -413,18 +419,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       );
     }
 
-    const iconNode = icon && (
-      <ButtonIcon
-        icon={icon}
-        size={size}
-        hasChildren={Boolean(children)}
-        disabled={disabled || false}
-        loading={loading || false}
-        use={use}
-      />
-    );
+    const iconProps = {
+      use,
+      size,
+      hasChildren: Boolean(children),
+      disabled: disabled || false,
+      loading: loading || false,
+    };
+    const leftIconNode = icon && <ButtonIcon position="left" icon={icon} {...iconProps} />;
+    const rightIconNode = rightIcon && <ButtonIcon position="right" icon={rightIcon} {...iconProps} />;
+
     let loadingNode = null;
-    if (loading && !icon) {
+    if (loading && !icon && !rightIcon) {
       const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
       loadingNode = (
         <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
@@ -460,7 +466,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         })}
       >
         {loadingNode}
-        {iconNode}
+        {leftIconNode}
         <span
           className={cx(globalClasses.text, {
             [styles.visibilityHidden()]: !!loadingNode,
@@ -468,6 +474,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         >
           {children}
         </span>
+        {rightIconNode}
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {

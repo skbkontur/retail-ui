@@ -43,13 +43,16 @@ const bgStyle = {
 </Gapped>
 ```
 
-Пример кнопки с иконкой.
+Пример кнопок с иконками. Иконка может находиться как слева от текста, так и справа.
 
 ```jsx harmony
-import PrintIcon from '@skbkontur/react-icons/Print';
-import { Button } from '@skbkontur/react-ui';
+import { Button, Gapped } from '@skbkontur/react-ui';
+import { XIcon16Regular } from '@skbkontur/react-ui/internal/icons2022/XIcon/XIcon16Regular';
 
-<Button icon={<PrintIcon />}>Напечатать</Button>;
+<Gapped gap={5}>
+  <Button icon={<XIcon16Regular />}>Закрыть</Button>
+  <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
+</Gapped>
 ```
 
 У кнопки есть 3 стандартных размера.
@@ -73,16 +76,14 @@ import { Button } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
 
-<Gapped gap={25}>
-  <Gapped gap={5}>
-    <Button arrow="left" size="medium">
-      Назад
-    </Button>
-    <Button arrow size="medium">
-      Далее
-    </Button>
-  </Gapped>
-</Gapped>;
+<Gapped gap={5}>
+  <Button arrow="left" size="medium">
+    Назад
+  </Button>
+  <Button arrow size="medium">
+    Далее
+  </Button>
+</Gapped>
 ```
 
 Кнопка в состоянии загрузки.
@@ -96,7 +97,7 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import BookmarkIcon from '@skbkontur/react-icons/Bookmark';
+import { MinusCircleIcon16Light } from '@skbkontur/react-ui/internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
 
 const [loading, setLoading] = React.useState(false);
 
@@ -116,10 +117,16 @@ const handleClick = () => {
 
 <Gapped>
   <Button width={150} onClick={handleClick} loading={loading}>
-    Сохранить
+    Удалить
   </Button>
-  <Button icon={<BookmarkIcon />} width={150} onClick={handleClick} loading={loading}>
-    Сохранить
+  <Button icon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+    Удалить
+  </Button>
+  <Button rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+    Удалить
+  </Button>
+  <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+    Удалить
   </Button>
 </Gapped>
 

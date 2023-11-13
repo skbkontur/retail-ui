@@ -506,6 +506,9 @@ export class DefaultTheme {
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
   }
+  public static get btnLinkIconMarginLeft() {
+    return this.linkIconMarginRight;
+  }
   public static get btnErrorSecondary() {
     return this.errorSecondary;
   }
