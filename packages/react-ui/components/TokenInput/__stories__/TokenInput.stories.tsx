@@ -8,6 +8,7 @@ import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
 import { isTestEnv } from '../../../lib/currentEnvironment';
+import { FeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 interface TokenModel {
   id?: string;
@@ -172,6 +173,31 @@ class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapper
 }
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
+
+class WrapperWithFeatureFlagsContext extends React.Component<WrapperProps, WrapperState> {
+  constructor(props: WrapperProps) {
+    super(props);
+
+    this.state = { selectedItems: getSelectedItems(props) };
+  }
+
+  public render() {
+    return (
+      <FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+        <TokenInput
+          {...this.props}
+          selectedItems={this.state.selectedItems}
+          onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
+          renderToken={(item, tokenProps) => (
+            <Token key={item.toString()} {...tokenProps}>
+              {item}
+            </Token>
+          )}
+        />
+      </FeatureFlagsContext.Provider>
+    );
+  }
+}
 
 export default {
   title: 'TokenInput',
@@ -368,6 +394,82 @@ export const WithLongItem1 = () => {
 };
 WithLongItem1.storyName = 'with long item 1';
 WithLongItem1.parameters = { creevey: { skip: true } };
+
+export const WithTokenInputRemoveWhitespaceFromDefaultSeparatorFeatureFlag: Story = () => {
+  return (
+    <>
+      <span>With TokenInputRemoveWhitespaceFromDefaultSeparator FeatureFlag</span>
+      <WrapperWithFeatureFlagsContext type={TokenInputType.Combined} getItems={getItems} />
+
+      <span>With custom delimiters and TokenInputRemoveWhitespaceFromDefaultSeparator FeatureFlag</span>
+      <WrapperWithFeatureFlagsContext type={TokenInputType.Combined} getItems={getItems} delimiters={[';']} />
+    </>
+  );
+};
+WithTokenInputRemoveWhitespaceFromDefaultSeparatorFeatureFlag.storyName =
+  'with TokenInputRemoveWhitespaceFromDefaultDelimiters featureFlag';
+WithTokenInputRemoveWhitespaceFromDefaultSeparatorFeatureFlag.parameters = {
+  creevey: {
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox2022', 'firefox2022Dark'],
+        tests: ['without custom delimiters', 'with custom delimiters'],
+      },
+    },
+    tests: {
+      async 'without custom delimiters'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('white space ')
+          .perform();
+        const withWhitespace = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('comma,')
+          .perform();
+        const withComma = await this.takeScreenshot();
+
+        await this.expect({
+          withWhitespace,
+          withComma,
+        }).to.matchImages();
+      },
+
+      async 'with custom delimiters'() {
+        const tokenInputs = await this.browser.findElements({ css: '[data-comp-name~="TokenInput"]' });
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(tokenInputs[1])
+          .sendKeys('comma with whitespace, ')
+          .perform();
+        const withWhitespace = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(tokenInputs[1])
+          .sendKeys('semicolon;')
+          .perform();
+        const withComma = await this.takeScreenshot();
+
+        await this.expect({
+          withWhitespace,
+          withComma,
+        }).to.matchImages();
+      },
+    },
+  },
+};
 
 export const WithLongItem2 = () => {
   return (

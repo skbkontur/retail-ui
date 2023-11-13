@@ -1,11 +1,11 @@
 import React from 'react';
 
 export interface FeatureFlags {
-  ValidationTooltipRemoveWrapper?: boolean;
+  TokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
 }
 
 export const featureFlagsDefault: FeatureFlags = {
-  ValidationTooltipRemoveWrapper: false,
+  TokenInputRemoveWhitespaceFromDefaultDelimiters: false,
 };
 
 export const FeatureFlagsContext = React.createContext<FeatureFlags>(featureFlagsDefault);

@@ -351,7 +351,7 @@ function foo() {}
 
    Примеры:
    - ValidationTooltipRemoveWrapper - Избавиться от обертки в ValidationTooltip
-   - TokenInputRemoveWhitespaceFromDefaultSeparator - В TokenInput изменили разделитель по умолчанию
+   - TokenInputRemoveWhitespaceFromDefaultDelimiters - В TokenInput изменили разделитель по умолчанию
 
 2) Добавьте флаг в FeatureFlags в файл FeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md
 
