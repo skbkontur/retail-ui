@@ -8,7 +8,7 @@ export const styles = memoizeStyle({
       align-items: center;
 
       &::before {
-        content: ${ZERO_WIDTH_SPACE_CSS};
+        content: '${ZERO_WIDTH_SPACE_CSS}';
       }
     `;
   },

@@ -43,11 +43,7 @@ export const BaseIcon = forwardRefAndName<SVGSVGElement, IconProps>(
     );
 
     if (align === 'center') {
-      return (
-        <span className={styles.centeredIcon()} style={{ display: 'inline-flex', alignItems: 'center' }}>
-          {icon}
-        </span>
-      );
+      return <span className={styles.centeredIcon()}>{icon}</span>;
     }
 
     return icon;
