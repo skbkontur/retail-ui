@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.2...@skbkontur/react-ui@4.17.3) (2023-11-14)
+
+
+### Bug Fixes
+
+* **Link:** return underline when hovering over icon ([#3313](https://github.com/skbkontur/retail-ui/issues/3313)) ([aa4c9f0](https://github.com/skbkontur/retail-ui/commit/aa4c9f0e2fb2a15b61c52709356baeaac1bbb313))
+
+
+
+
+
 ## [4.17.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.1...@skbkontur/react-ui@4.17.2) (2023-11-13)
 
 **Note:** Version bump only for package @skbkontur/react-ui
