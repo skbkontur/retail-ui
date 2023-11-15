@@ -143,3 +143,71 @@ import { Button, Gapped } from '@skbkontur/react-ui';
   <Button>Ok</Button>
 </Gapped>
 ```
+
+
+Пример кастомизации кнопки-ссылки
+
+```jsx harmony
+import { Toast } from "@skbkontur/react-ui";
+import { Copy } from "@skbkontur/react-icons"
+
+const textDecorationStyles = {
+  btnLinkLineBorderBottomWidth: '0',
+  btnLinkHoverTextDecoration: 'underline'
+}
+
+const underlineOnHoverStyles = {
+  btnLinkLineBorderBottomColor: 'transparent',
+}
+
+const differentColorStyles = {
+  btnLinkColor: 'blue',
+  btnLinkHoverColor: 'blue',
+  btnLinkActiveColor: 'blue',
+}
+
+const stringify = (styles) => {
+    return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
+}
+
+const copyStyles = (styles) => {
+  navigator.clipboard.writeText(stringify(styles));
+  Toast.push('Copied');
+}
+
+const tableStyle = {
+  borderCollapse: 'collapse',
+  width: '100%',
+};
+
+const tdStyle = {
+  border: '1px solid',
+  padding: '8px',
+};
+
+const renderExampleRow = (title, styles, index) => {
+    return (
+        <tr>
+          <td style={tdStyle}>{title}</td>
+          <td style={tdStyle}><Button use={'link'} theme={styles}>Button-link</Button></td>
+          <td style={tdStyle}>
+            <div style={{display: 'flex'}}>
+              <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
+              <Button icon={<Copy />} use={'text'} onClick={() => copyStyles(styles)}/>
+            </div>
+          </td>
+        </tr>
+    )
+}
+
+<table style={tableStyle}>
+  <tr style={{textAlign: 'left'}}>
+    <th style={tdStyle}></th>
+    <th style={tdStyle}>Пример</th>
+    <th style={tdStyle}>Переменные темы</th>
+  </tr>
+  {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+  {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
+  {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
+</table>
+```

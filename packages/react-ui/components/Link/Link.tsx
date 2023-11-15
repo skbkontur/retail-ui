@@ -194,7 +194,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (_isTheme2022) {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
-        <span className={cx(styles.lineTextWrapper(this.theme))}>
+        <span
+          className={cx(styles.lineTextWrapper(this.theme), {
+            [styles.lineTextWrapperFocused(this.theme)]: isFocused,
+          })}
+        >
           <span
             className={cx(globalClasses.text, {
               [styles.lineText(this.theme)]: !isIE11,

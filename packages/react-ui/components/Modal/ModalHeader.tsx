@@ -50,7 +50,7 @@ function ModalHeader(props: ModalHeaderProps) {
             fixed && styles.fixedHeader(theme),
             fixed && layout.isMobile && styles.mobileFixedHeader(theme),
             Boolean(modal.close) && styles.headerWithClose(theme),
-            layout.isMobile && styles.mobileHeaderWithClose(theme),
+            Boolean(modal.close) && layout.isMobile && styles.mobileHeaderWithClose(theme),
           )}
         >
           {modal.close && (
