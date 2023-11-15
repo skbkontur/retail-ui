@@ -22,7 +22,7 @@ export const styles = memoizeStyle({
 
   iconSmallRight(t: Theme) {
     return css`
-      margin-left: ${t.btnIconGapSmall};
+      margin-left: ${t.btnIconGapSmallRight};
     `;
   },
 
@@ -34,7 +34,7 @@ export const styles = memoizeStyle({
 
   iconMediumLeft(t: Theme) {
     return css`
-      margin-right: ${t.btnIconGapMedium};
+      margin-right: ${t.btnIconGapMediumRight};
     `;
   },
 
@@ -58,7 +58,7 @@ export const styles = memoizeStyle({
 
   iconLargeRight(t: Theme) {
     return css`
-      margin-left: ${t.btnIconGapLarge};
+      margin-left: ${t.btnIconGapLargeRight};
     `;
   },
 
