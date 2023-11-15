@@ -288,14 +288,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private getDelimiters(): string[] {
-    const delimiters = this.props.delimiters;
-    if (delimiters && delimiters[2] !== TEMP_FAKE_FLAG) {
+    const delimiters = this.props.delimiters ?? [];
+    if (delimiters.every((delimiter) => delimiter !== TEMP_FAKE_FLAG)) {
       return delimiters;
     }
-    if (getFullFlagsContext(this.featureFlags).TokenInputRemoveWhitespaceFromDefaultDelimiters) {
-      return [','];
+    if (this.featureFlags.TokenInputRemoveWhitespaceFromDefaultDelimiters) {
+      return delimiters.filter((delimiter) => delimiter !== ' ' && delimiter !== TEMP_FAKE_FLAG);
     }
-    return delimiters ? delimiters.slice(0, 2) : [];
+    return delimiters.filter((delimiter) => delimiter !== TEMP_FAKE_FLAG);
   }
 
   private getProps() {
@@ -367,7 +367,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return (
       <FeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = flags;
+          this.featureFlags = getFullFlagsContext(flags);
           return (
             <ThemeContext.Consumer>
               {(theme) => {

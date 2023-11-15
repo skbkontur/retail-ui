@@ -22,7 +22,7 @@ import { FeatureFlagsContext } from '@skbkontur/react-ui';
 
 ### TokenInputRemoveWhitespaceFromDefaultDelimiters
 
-В TokenInput в качестве разделителя по умолчанию используются только запятая.
+В TokenInput из дефолтных разделителей удалён пробел.
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
