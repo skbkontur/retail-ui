@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 import { PopupIds } from '../../../internal/Popup';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -10,7 +11,6 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
-import { FeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -295,6 +295,22 @@ describe('<TokenInput />', () => {
   });
 
   describe('with TokenInputRemoveWhitespaceFromDefaultDelimiters flag', () => {
+    const TokenInputWithFeatureFlagsContext = (props: { customDelimiters?: string[] }) => {
+      const [selectedItems, setSelectedItems] = useState(['']);
+
+      return (
+        <FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+          <TokenInput
+            type={TokenInputType.Combined}
+            getItems={getItems}
+            selectedItems={selectedItems}
+            onValueChange={setSelectedItems}
+            delimiters={props.customDelimiters}
+          />
+        </FeatureFlagsContext.Provider>
+      );
+    };
+
     it('should not handle whitespace keydown separator', async () => {
       render(<TokenInputWithFeatureFlagsContext />);
       const tokenInput = screen.getByRole('textbox');
@@ -407,26 +423,5 @@ function TokenInputWithSelectedItem() {
         </Token>
       )}
     />
-  );
-}
-
-function TokenInputWithFeatureFlagsContext(props: { customDelimiters?: string[] }) {
-  const [selectedItems, setSelectedItems] = useState(['']);
-
-  return (
-    <FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
-      <TokenInput
-        type={TokenInputType.Combined}
-        getItems={getItems}
-        selectedItems={selectedItems}
-        onValueChange={setSelectedItems}
-        {...(props.customDelimiters ? { delimiters: props.customDelimiters } : {})}
-        renderToken={(item, tokenProps) => (
-          <Token key={item.toString()} {...tokenProps}>
-            {item}
-          </Token>
-        )}
-      />
-    </FeatureFlagsContext.Provider>
   );
 }

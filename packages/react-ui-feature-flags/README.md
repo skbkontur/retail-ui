@@ -13,7 +13,7 @@ export interface FeatureFlags {
 Флаги задаются с помощью `FeatureFlagsContext.Provider`.
 
 ```jsx static
-import { FeatureFlagsContext } from '@skbkontur/react-ui';
+import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 <FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</FeatureFlagsContext.Provider>;
 ```
@@ -26,7 +26,8 @@ import { FeatureFlagsContext } from '@skbkontur/react-ui';
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
-import { FeatureFlagsContext, TokenInput, TokenInputType, Token } from '@skbkontur/react-ui';
+import { TokenInput, TokenInputType, Token } from '@skbkontur/react-ui';
+import { FeatureFlagsContextn } from '@skbkontur/react-ui-feature-flags';
 
 const [selectedItems, setSelectedItems] = React.useState([]);
 const getItems = () => {};
