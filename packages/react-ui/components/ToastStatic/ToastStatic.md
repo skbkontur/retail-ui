@@ -1,7 +1,7 @@
 `<ToastStatic>` можно добавить в единственном месте в проекте, а статические методы будут всегда использовать последний отрендеренный экземпляр `<Toast>`.
 
 ```jsx harmony
-import { Button, ToastStatic, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
+import { Button, ToastStatic } from '@skbkontur/react-ui';
 
 <div>
   <ToastStatic />
@@ -9,7 +9,6 @@ import { Button, ToastStatic, ThemeContext, ThemeFactory, THEME_2022 } from '@sk
     Показать статический тост
   </Button>
 </div>
-;
 ```
 
 `<ToastStatic>` можно кастомизировать с помощью переменных темы для `toast`.
