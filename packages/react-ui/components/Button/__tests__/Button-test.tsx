@@ -19,7 +19,7 @@ describe('Button', () => {
     });
   });
 
-  it('handels click event', async () => {
+  it('$:button.callback', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
