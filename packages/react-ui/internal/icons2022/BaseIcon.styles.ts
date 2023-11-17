@@ -3,15 +3,13 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 export const styles = memoizeStyle({
   centeredIcon() {
-    // Такая запись используется намеренно смотри
-    // https://github.com/skbkontur/retail-ui/pull/3316
-    return css({
-      display: 'inline-flex',
-      alignItems: 'center',
+    return css`
+      display: inline-flex;
+      align-items: center;
 
-      '::before': {
-        content: `'${ZERO_WIDTH_SPACE_CSS}'`,
-      },
-    });
+      &::before {
+        content: '${ZERO_WIDTH_SPACE_CSS}';
+      }
+    `;
   },
 });
