@@ -6,7 +6,7 @@ import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { isNonNullable, isNullable } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -120,7 +120,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     this.setInitialSelection();
     this.calculateMaxHeight();
     this.setState({ isMounted: true });
-    this.setEnableIconPadding();
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
@@ -256,6 +255,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
                 navigation: this.menuNavigation,
                 onItemClick: this.props.onItemClick,
                 enableIconPadding: this.state.enableIconPadding,
+                setEnableIconPadding: this.setEnableIconPadding,
+                preventIconsOffset: this.getProps().preventIconsOffset,
               }}
             >
               {this.getChildList()}
@@ -449,14 +450,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private setEnableIconPadding = () => {
-    React.Children.map(this.props.children, (child) => {
-      if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
-        return;
-      }
-      if ((child as MenuItem).props?.icon && !this.state.enableIconPadding && !this.getProps().preventIconsOffset) {
-        this.setState({ enableIconPadding: true });
-      }
-    });
+    this.setState({ enableIconPadding: true });
   };
 }
 
