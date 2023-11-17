@@ -162,13 +162,12 @@ export const Effect: EffectFactory = {
     setTimeout(() => menu.highlightItem(index), 0);
 
     if (index >= 0) {
-      // @ts-expect-error: Use of private property.
       globalObject.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
       return;
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      setTimeout(() => globalObject.requestAnimationFrame(() => menu && menu.down()), 0);
+      setTimeout(() => globalObject.requestAnimationFrame?.(() => menu && menu.down()), 0);
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
