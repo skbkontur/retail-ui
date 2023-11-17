@@ -136,18 +136,12 @@ export const styles = memoizeStyle({
     `;
   },
 
-  pageLinkHintPlaceHolder(t: Theme) {
-    return css`
-      height: ${t.pagingPageLinkHintLineHeight};
-      line-height: ${t.pagingPageLinkHintLineHeight};
-    `;
-  },
-
   pageLinkHint(t: Theme) {
     return css`
       display: inline-block;
       margin: ${t.pagingPageLinkHintMargin};
       font-size: ${t.pagingPageLinkHintFontSize};
+      height: ${t.pagingPageLinkHintLineHeight};
       line-height: ${t.pagingPageLinkHintLineHeight};
       color: ${t.pagingPageLinkHintColor};
     `;

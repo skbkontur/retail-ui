@@ -8,6 +8,7 @@ import React, {
   ReactNode,
 } from 'react';
 import isEqual from 'lodash.isequal';
+import { globalObject } from '@skbkontur/global-object';
 
 import { PopupIds } from '../../internal/Popup';
 import {
@@ -299,7 +300,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public componentDidMount() {
     this.updateInputTextWidth();
-    document.addEventListener('copy', this.handleCopy);
+    globalObject.document?.addEventListener('copy', this.handleCopy);
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -325,7 +326,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
-    document.removeEventListener('copy', this.handleCopy);
+    globalObject.document?.removeEventListener('copy', this.handleCopy);
   }
 
   /**
@@ -577,7 +578,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input?.focus();
       // в firefox не работает без второго focus
-      requestAnimationFrame(() => this.input?.focus());
+      globalObject.requestAnimationFrame?.(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -644,9 +645,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    if (this.menuRef) {
+    if (this.menuRef && globalObject.document) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
+      const relatedTarget = event.relatedTarget || globalObject.document.activeElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;
@@ -819,7 +820,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    requestAnimationFrame(() => this.input?.focus());
+    globalObject.requestAnimationFrame?.(() => this.input?.focus());
   };
 
   private selectInputText = () => {

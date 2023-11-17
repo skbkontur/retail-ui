@@ -1,4 +1,5 @@
 import React from 'react';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css } from '../../lib/theming/Emotion';
@@ -15,9 +16,9 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
       this.master = true;
-      this.initialScroll = document.documentElement ? document.documentElement.scrollTop : 0;
+      this.initialScroll = globalObject.document?.documentElement ? globalObject.document.documentElement.scrollTop : 0;
       this.updateScrollVisibility();
-      window.addEventListener('resize', this.updateScrollVisibility);
+      globalObject.addEventListener?.('resize', this.updateScrollVisibility);
     }
   }
 
@@ -31,7 +32,7 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this.restoreStyles();
-      window.removeEventListener('resize', this.updateScrollVisibility);
+      globalObject.removeEventListener?.('resize', this.updateScrollVisibility);
     }
   }
 
@@ -40,25 +41,25 @@ export class HideBodyVerticalScroll extends React.Component {
   }
 
   private updateScrollVisibility = () => {
-    const { documentElement } = document;
-    if (!documentElement) {
-      return;
-    }
     const shouldHide = !disposeDocumentStyle;
     if (shouldHide) {
-      this.hideScroll(documentElement);
+      this.hideScroll();
     }
   };
 
-  private hideScroll = (document: HTMLElement) => {
-    const { clientHeight, scrollHeight } = document;
-    const documentComputedStyle = getComputedStyle(document);
-    const scrollbarConst = getComputedStyle(document).overflowY === 'scroll';
+  private hideScroll = () => {
+    if (!isBrowser(globalObject)) {
+      return;
+    }
+    const { documentElement } = globalObject.document;
+    const { clientHeight, scrollHeight } = documentElement;
+    const documentComputedStyle = globalObject.getComputedStyle(documentElement);
+    const scrollbarConst = globalObject.getComputedStyle(documentElement).overflowY === 'scroll';
     const scrollWidth = clientHeight < scrollHeight || scrollbarConst ? getScrollWidth() : 0;
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
     const className = generateDocumentStyle(documentMargin + scrollWidth);
 
-    disposeDocumentStyle = this.attachStyle(document, className);
+    disposeDocumentStyle = this.attachStyle(documentElement, className);
   };
 
   private attachStyle = (element: HTMLElement, className: string) => {
@@ -73,10 +74,8 @@ export class HideBodyVerticalScroll extends React.Component {
       disposeDocumentStyle();
       disposeDocumentStyle = null;
 
-      const { documentElement } = document;
-
-      if (documentElement) {
-        documentElement.scrollTop = this.initialScroll;
+      if (globalObject.document) {
+        globalObject.document.documentElement.scrollTop = this.initialScroll;
       }
     }
   };
@@ -84,17 +83,17 @@ export class HideBodyVerticalScroll extends React.Component {
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const counter = window.RetailUIVerticalScrollCounter || 0;
-    return (window.RetailUIVerticalScrollCounter = counter + 1);
+    const counter = globalObject.RetailUIVerticalScrollCounter || 0;
+    return (globalObject.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
-    const counter = window.RetailUIVerticalScrollCounter || 0;
-    return (window.RetailUIVerticalScrollCounter = counter - 1);
+    const counter = globalObject.RetailUIVerticalScrollCounter || 0;
+    return (globalObject.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
-    return window.RetailUIVerticalScrollCounter || 0;
+    return globalObject.RetailUIVerticalScrollCounter || 0;
   };
 }
 

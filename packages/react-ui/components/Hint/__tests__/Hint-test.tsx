@@ -97,14 +97,14 @@ describe('Hint', () => {
     );
 
     // @ts-expect-error: Use of private property.
-    expect(hintRef.current.timer).toBeNull();
+    expect(hintRef.current.timer).toBeUndefined();
 
     userEvent.hover(screen.getByText('Anchor'));
 
     // @ts-expect-error: Use of private property.
     const { timer } = hintRef.current;
 
-    expect(timer).not.toBeNull();
+    expect(timer).toBeDefined();
 
     unmount();
 

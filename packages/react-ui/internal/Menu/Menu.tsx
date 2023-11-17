@@ -1,10 +1,10 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
+import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { isHTMLElement } from '../../lib/SSRSafe';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -141,7 +141,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isHTMLElement(rootNode)) {
+    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
@@ -378,8 +378,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
-      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && isBrowser && rootNode) {
+      const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);

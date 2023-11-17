@@ -1,4 +1,4 @@
-import { canUseDOM } from '../client';
+import { globalObject } from '@skbkontur/global-object';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',
@@ -18,9 +18,7 @@ const items: Map<HTMLElement, MouseDrag> = new Map();
 
 const documentHandleMouseUp: HandlerNative = (e) => items.forEach((mouseDrag) => mouseDrag.handleMouseUp(e));
 
-if (canUseDOM) {
-  document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
-}
+globalObject.document?.documentElement.addEventListener('mouseup', documentHandleMouseUp);
 
 /**
  * ## Класс для отслеживания эффекта перетаскивания мышкой
@@ -156,18 +154,20 @@ export class MouseDrag {
     return 0;
   };
 
-  private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent => {
-    if (typeof MouseEvent === 'function') {
-      return new MouseEvent(type, e);
+  private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent | undefined => {
+    if (typeof globalObject.MouseEvent === 'function') {
+      return new globalObject.MouseEvent(type, e);
     }
     // <=IE11
-    const eIE11 = document.createEvent('MouseEvent');
-    eIE11.initEvent(type, true, true);
-    return eIE11;
+    const eIE11 = globalObject.document?.createEvent('MouseEvent');
+    if (eIE11) {
+      eIE11.initEvent(type, true, true);
+      return eIE11;
+    }
   };
 
-  private dispatchEvent = (mouseDragEvent: MouseDragEvent): void => {
-    if (this.elem !== null) {
+  private dispatchEvent = (mouseDragEvent?: MouseDragEvent): void => {
+    if (mouseDragEvent && this.elem !== null) {
       this.elem.dispatchEvent(mouseDragEvent);
     }
   };

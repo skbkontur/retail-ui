@@ -1,5 +1,6 @@
 import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
+import { globalObject } from '@skbkontur/global-object';
 
 import {
   isKeyArrowDown,
@@ -228,10 +229,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      window.addEventListener('popstate', this.close);
+      globalObject.addEventListener?.('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      window.removeEventListener('popstate', this.close);
+      globalObject.removeEventListener?.('popstate', this.close);
     }
   }
 
@@ -570,7 +571,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal
-    setTimeout(() => input?.focus(), 0);
+    globalObject.setTimeout(() => input?.focus(), 0);
   };
 
   private refMenu = (menu: Menu) => {

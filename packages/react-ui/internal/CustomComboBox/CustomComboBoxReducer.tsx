@@ -1,6 +1,7 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -161,12 +162,13 @@ export const Effect: EffectFactory = {
     setTimeout(() => menu.highlightItem(index), 0);
 
     if (index >= 0) {
-      requestAnimationFrame(() => menu && menu.scrollToSelected());
+      // @ts-expect-error: Use of private property.
+      globalObject.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
       return;
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      setTimeout(() => requestAnimationFrame(() => menu && menu.down()), 0);
+      setTimeout(() => globalObject.requestAnimationFrame(() => menu && menu.down()), 0);
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {

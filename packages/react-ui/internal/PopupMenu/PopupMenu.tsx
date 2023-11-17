@@ -1,4 +1,5 @@
 import React, { AriaAttributes } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { getRandomID } from '../../lib/utils';
 import { HTMLProps } from '../../typings/html';
@@ -320,8 +321,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   };
 
   private saveFocus = (): void => {
-    if (document) {
-      this.savedFocusableElement = document.activeElement as HTMLElement;
+    if (globalObject.document) {
+      this.savedFocusableElement = globalObject.document.activeElement as HTMLElement;
     }
   };
 

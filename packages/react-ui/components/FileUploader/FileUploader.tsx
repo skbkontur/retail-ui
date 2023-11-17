@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -15,7 +16,6 @@ import { withFileUploaderControlProvider } from '../../internal/FileUploaderCont
 import { keyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
-import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
@@ -207,8 +207,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const { isDraggable, ref: labelRef } = useDrop<HTMLLabelElement>({ onDrop: handleDrop });
   const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
 
-  if (isBrowser) {
-    windowRef.current = window.document;
+  if (isBrowser(globalObject)) {
+    windowRef.current = globalObject.document;
   }
 
   const focus = useCallback(() => {
@@ -237,7 +237,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     if (!disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           setFocusedByTab(true);
         }
