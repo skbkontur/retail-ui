@@ -9,7 +9,6 @@ export interface MenuContextType {
   enableIconPadding: boolean;
   setEnableIconPadding?: () => void;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  preventIconsOffset?: boolean;
 }
 
 export const MenuContext = React.createContext<MenuContextType>({

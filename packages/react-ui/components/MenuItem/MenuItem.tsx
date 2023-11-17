@@ -172,7 +172,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.contentRef.current) {
       this.context.navigation?.add(this.contentRef.current, this);
     }
-    if (this.props.icon && !this.context.preventIconsOffset) {
+    if (this.props.icon) {
       this.context.setEnableIconPadding?.();
     }
   }

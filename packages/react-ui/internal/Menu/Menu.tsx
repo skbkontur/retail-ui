@@ -256,7 +256,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
                 onItemClick: this.props.onItemClick,
                 enableIconPadding: this.state.enableIconPadding,
                 setEnableIconPadding: this.setEnableIconPadding,
-                preventIconsOffset: this.getProps().preventIconsOffset,
               }}
             >
               {this.getChildList()}
@@ -450,7 +449,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private setEnableIconPadding = () => {
-    this.setState({ enableIconPadding: true });
+    !this.getProps().preventIconsOffset && this.setState({ enableIconPadding: true });
   };
 }
 
