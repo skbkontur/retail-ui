@@ -17,15 +17,17 @@ export const stylesLayout = memoizeStyle({
     `;
   },
   aside() {
-    return css`
-      display: inline-flex;
-      align-items: center;
-      flex-shrink: 0;
+    // Такая запись используется намеренно смотри
+    // https://github.com/skbkontur/retail-ui/pull/3316
+    return css({
+      display: 'inline-flex',
+      alignItems: 'center',
+      flexShrink: 0,
 
-      &::before {
-        content: ${ZERO_WIDTH_SPACE_CSS};
-      }
-    `;
+      '::before': {
+        content: `'${ZERO_WIDTH_SPACE_CSS}'`,
+      },
+    });
   },
   icon(t: Theme) {
     return css`
