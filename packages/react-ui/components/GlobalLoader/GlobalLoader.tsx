@@ -241,12 +241,18 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setDone = () => {
+    if (!this.state.started) {
+      return;
+    }
     this.setState({ done: true, successAnimationInProgress: true });
     this.startTask.cancel();
     this.stopTask();
   };
 
   public setReject = (reject: boolean) => {
+    if (!this.state.started) {
+      return;
+    }
     if (!this.state.visible && (this.state.started || this.getProps().active)) {
       this.setState({ visible: true });
     }
