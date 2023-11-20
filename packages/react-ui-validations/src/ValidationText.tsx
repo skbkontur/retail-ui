@@ -1,4 +1,5 @@
 import React from 'react';
+import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 import { Nullable } from '../typings/Types';
 
@@ -23,25 +24,34 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     );
   }
 
+  let featureFlags: FeatureFlags;
+
   return (
-    <span style={{ position: 'relative', display: 'inline-block' }}>
-      {children}
-      <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
-        <span
-          data-tid={dataTid}
-          data-validation-message="text"
-          style={{
-            color: '#d43517',
-            overflow: 'visible',
-            whiteSpace: 'nowrap',
-            position: 'absolute',
-            top: '2px',
-            left: 0,
-          }}
-        >
-          {(validation && validation.message) || ''}
-        </span>
-      </span>
-    </span>
+    <FeatureFlagsContext.Consumer>
+      {(flags) => {
+        featureFlags = getFullFlagsContext(flags);
+        return (
+          <span style={{ position: 'relative', display: 'inline-block', width: featureFlags ? '' : '100%' }}>
+            {children}
+            <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
+              <span
+                data-tid={dataTid}
+                data-validation-message="text"
+                style={{
+                  color: '#d43517',
+                  overflow: 'visible',
+                  whiteSpace: 'nowrap',
+                  position: 'absolute',
+                  top: '2px',
+                  left: 0,
+                }}
+              >
+                {(validation && validation.message) || ''}
+              </span>
+            </span>
+          </span>
+        );
+      }}
+    </FeatureFlagsContext.Consumer>
   );
 };
