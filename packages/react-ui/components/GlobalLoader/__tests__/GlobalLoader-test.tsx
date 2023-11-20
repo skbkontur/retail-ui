@@ -156,18 +156,10 @@ describe('Global Loader', () => {
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
     });
 
-    it('should not change state unless there was a call to "start" before "done", "reject", "accept"', async () => {
+    it('should not change state unless there was a call to "start" before "done"', async () => {
       const defaultState = refGlobalLoader.current?.state || {};
 
       GlobalLoader.done();
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(defaultState).toEqual(refGlobalLoader.current?.state);
-
-      GlobalLoader.reject();
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(defaultState).toEqual(refGlobalLoader.current?.state);
-
-      GlobalLoader.accept();
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(defaultState).toEqual(refGlobalLoader.current?.state);
     });
