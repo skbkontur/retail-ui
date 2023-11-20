@@ -47,7 +47,7 @@ describe('Global Loader', () => {
 
       rerender(<GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} rejected />);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-state', 'rejected');
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'error');
     });
 
     it('should set success', async () => {
@@ -128,7 +128,7 @@ describe('Global Loader', () => {
 
       GlobalLoader.reject();
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-state', 'rejected');
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'error');
     });
 
     it('should set success', async () => {
@@ -137,7 +137,7 @@ describe('Global Loader', () => {
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
 
       GlobalLoader.done();
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-state', 'done');
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'success');
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
