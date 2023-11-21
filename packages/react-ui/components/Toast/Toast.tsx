@@ -10,7 +10,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
-import { ToastStaticInternal } from './ToastStaticInternal';
+import { ToastStatic } from './ToastStatic';
 
 export interface Action {
   label: string;
@@ -52,11 +52,11 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private setRootNode!: TSetRootNode;
 
   public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
-    ToastStaticInternal.push(notification, action, showTime);
+    ToastStatic.push(notification, action, showTime);
   }
 
   public static close() {
-    ToastStaticInternal.close();
+    ToastStatic.close();
   }
 
   public _toast: Nullable<ToastView>;

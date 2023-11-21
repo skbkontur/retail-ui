@@ -1,19 +1,19 @@
-`<ToastStatic>` можно добавить в единственном месте в проекте, а статические методы будут всегда использовать последний отрендеренный экземпляр `<Toast>`.
+`<SingleToast>` можно добавить в единственном месте в проекте, а статические методы будут всегда использовать последний отрендеренный экземпляр `<Toast>`.
 
 ```jsx harmony
-import { Button, ToastStatic } from '@skbkontur/react-ui';
+import { Button, SingleToast } from '@skbkontur/react-ui';
 
 <div>
-  <ToastStatic />
-  <Button onClick={() => ToastStatic.push('Статический тост')}>
+  <SingleToast />
+  <Button onClick={() => SingleToast.push('Статический тост')}>
     Показать статический тост
   </Button>
 </div>
 ```
 
-`<ToastStatic>` можно кастомизировать с помощью переменных темы для `toast`.
+`<SingleToast>` можно кастомизировать с помощью переменных темы для `toast`.
 ```jsx harmony
-import { Button, ToastStatic, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
+import { Button, SingleToast, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
 
 const RedToast = () => (
@@ -28,7 +28,7 @@ const RedToast = () => (
           theme
         )}
       >
-        <ToastStatic />
+        <SingleToast />
       </ThemeContext.Provider>
     }}
   </ThemeContext.Consumer>
@@ -37,9 +37,9 @@ const RedToast = () => (
 const rand = () => "Пример красного тоста №" + Math.round(Math.random() * 100).toString();
 
 const pushToast = () => {
-  ToastStatic.push(rand(), {
+  SingleToast.push(rand(), {
     label: "Cancel",
-    handler: () => ToastStatic.push("Canceled")
+    handler: () => SingleToast.push("Canceled")
   });
 };
 
