@@ -103,7 +103,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   }
 
   public getChildWrappersSortedByPosition(): ValidationWrapperInternal[] {
-    const wrappersWithPosition = [...this.childWrappers].map((x) => ({
+    const wrappersWithPosition = this.childWrappers.map((x) => ({
       target: x,
       position: x.getControlPosition(),
     }));
