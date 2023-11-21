@@ -1,5 +1,7 @@
 `<SingleToast>` можно добавить в единственном месте в проекте, а статические методы будут всегда использовать последний отрендеренный экземпляр `<Toast>`.
 
+_На внешний вид этого примера влияет следующий пример_
+
 ```jsx harmony
 import { Button, SingleToast } from '@skbkontur/react-ui';
 
@@ -22,8 +24,7 @@ const RedToast = () => (
       return <ThemeContext.Provider
         value={ThemeFactory.create(
           {
-            toastBg: "rgba(210, 15, 0, 0.76)",
-            toastLinkBgActive: "rgba(210, 15, 0, 0.76)"
+            toastBg: "#000000",
           },
           theme
         )}
@@ -34,7 +35,7 @@ const RedToast = () => (
   </ThemeContext.Consumer>
 );
 
-const rand = () => "Пример красного тоста №" + Math.round(Math.random() * 100).toString();
+const rand = () => "Пример тёмного тоста № " + Math.round(Math.random() * 100).toString();
 
 const pushToast = () => {
   SingleToast.push(rand(), {
@@ -46,7 +47,7 @@ const pushToast = () => {
 <div>
   <RedToast />
   <Button onClick={pushToast}>
-    Показать красный тост
+    Показать тост с тёмным фоном
   </Button>
 </div>
 ```

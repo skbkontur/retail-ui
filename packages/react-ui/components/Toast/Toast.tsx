@@ -43,7 +43,7 @@ export const ToastDataTids = {
  * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
  * Однако, при его использовании не работает кастомизация, они не поддерживаются в `React@18`, а также могут быть проблемы с перекрытием уведомления другими элементами страницы.
  *
- * Для статических тостов <u>рекомендуется</u> использовать компонент [ToastStatic](https://tech.skbkontur.ru/react-ui/#/Components/ToastStatic) - в нём исправлены эти проблемы.
+ * Для статических тостов <u>рекомендуется</u> использовать компонент [SingleToast](https://tech.skbkontur.ru/react-ui/#/Components/SingleToast) - в нём исправлены эти проблемы.
  *
  */
 @rootNode
