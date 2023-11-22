@@ -1,6 +1,6 @@
 import React from 'react';
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
+import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { TextPosition, Validation } from './ValidationWrapperInternal';
@@ -31,7 +31,13 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
       {(flags) => {
         featureFlags = getFullFlagsContext(flags);
         return (
-          <span style={{ position: 'relative', display: 'inline-block', width: featureFlags ? '' : '100%' }}>
+          <span
+            style={{
+              position: 'relative',
+              display: 'inline-block',
+              width: featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? '' : '100%',
+            }}
+          >
             {children}
             <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
               <span

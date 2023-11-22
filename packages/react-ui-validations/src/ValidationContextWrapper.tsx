@@ -1,5 +1,6 @@
 import React from 'react';
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '@skbkontur/react-ui-feature-flags';
+
+import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../lib/featureFlagsContext';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { FocusMode, ScrollOffset, ValidateArgumentType } from './ValidationContainer';

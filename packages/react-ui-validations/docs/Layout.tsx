@@ -7,6 +7,7 @@ import { Displaying } from './Pages/Displaying';
 import { Validator } from './Pages/Validator';
 import { Examples } from './Pages/Examples';
 import { Concepts } from './Pages/Concepts';
+import { FeatureFlags } from './Pages/FeatureFlags';
 
 export const Layout = withRouter((props) => {
   window.scrollTo(0, 0);
@@ -22,7 +23,7 @@ export const Layout = withRouter((props) => {
             API reference
           </NavigationLink>
           <Divider />
-          {[Displaying, Validator, Examples, Concepts].map((x, i) => (
+          {[Displaying, Validator, Examples, Concepts, FeatureFlags].map((x, i) => (
             <React.Fragment key={i}>
               <Header>{x.caption}</Header>
               {x.items.map((page) => (

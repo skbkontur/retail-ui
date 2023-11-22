@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 import { PopupIds } from '../../../internal/Popup';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -11,6 +10,7 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
+import { FeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));

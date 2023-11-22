@@ -1,7 +1,7 @@
 import React, { ReactInstance } from 'react';
 import warning from 'warning';
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
+import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { getRootNode } from './utils/getRootNode';

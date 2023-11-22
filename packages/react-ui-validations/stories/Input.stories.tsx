@@ -4,10 +4,10 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Center, Gapped } from '@skbkontur/react-ui';
-import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
+import { FeatureFlagsContext } from '../lib/featureFlagsContext';
 
 class Example1 extends React.Component {
   public state = {

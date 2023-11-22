@@ -1,7 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "importHelpers": false,
-    "module": "ES6"
-  }
-}

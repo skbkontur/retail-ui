@@ -13,7 +13,7 @@ export interface FeatureFlags {
 Флаги задаются с помощью `FeatureFlagsContext.Provider`.
 
 ```jsx static
-import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
+import { FeatureFlagsContext } from '@skbkontur/react-ui';
 
 <FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</FeatureFlagsContext.Provider>;
 ```
@@ -26,8 +26,7 @@ import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
-import { TokenInput, TokenInputType, Token } from '@skbkontur/react-ui';
-import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
+import { TokenInput, TokenInputType, Token, FeatureFlagsContext } from '@skbkontur/react-ui';
 
 const [selectedItems, setSelectedItems] = React.useState([]);
 const getItems = () => {};
@@ -39,33 +38,6 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
-</FeatureFlagsContext.Provider>
-```
-
-### ValidationsWrapperAndContainerRemoveExtraSpan
-
-В ValidationsContainer и ValidationsWrapper из корня удалён лишний span.
-В React UI 5.0 фича будет применена по умолчанию.
-
-```jsx harmony
-import { TokenInput, TokenInputType, Token } from '@skbkontur/react-ui';
-import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
-
-const [selectedItems, setSelectedItems] = React.useState([]);
-const getItems = () => {};
-
-<FeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
-  <ValidationContainer ref={this.refContainer}>
-    <ValidationWrapper validationInfo={this.validateSex()}>
-      <Checkbox
-        checked={this.state.checked ? this.state.checked : false}
-        onValueChange={(v) => this.setState({ checked: v })}
-      >
-        Checkbox
-      </Checkbox>
-    </ValidationWrapper>
-    <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-  </ValidationContainer>
 </FeatureFlagsContext.Provider>
 ```
 

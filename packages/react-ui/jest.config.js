@@ -11,5 +11,5 @@ module.exports = {
   testRegex: '__tests__(\\\\|/).*(\\.|-)test\\.(j|t)sx?$',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/test-setup.js'],
-  transformIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/../react-ui-feature-flags/'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
 };

@@ -2,10 +2,10 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
-import { FeatureFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
+import { FeatureFlagsContext } from '../lib/featureFlagsContext';
 
 storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
 

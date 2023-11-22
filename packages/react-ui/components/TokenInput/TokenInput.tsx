@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '@skbkontur/react-ui-feature-flags';
 
 import { PopupIds } from '../../internal/Popup';
 import {
@@ -39,6 +38,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
+import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../../lib/featureFlagsContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
