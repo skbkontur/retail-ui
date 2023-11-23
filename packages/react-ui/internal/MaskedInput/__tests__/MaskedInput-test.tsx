@@ -76,4 +76,11 @@ describe('MaskedInput', () => {
       expect(input).toHaveValue(expected);
     },
   );
+
+  it('custom format chars', () => {
+    render(<MaskedInput value={'789012345XYZ'} mask='+7 XXX XXX XX XX' formatChars={{'X': '[0-9]'}} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('+7 890 123 45 ');
+  });
 });

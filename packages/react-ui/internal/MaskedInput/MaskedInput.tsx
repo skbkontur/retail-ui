@@ -11,7 +11,7 @@ import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInput.styles';
-import { getDefinitions } from "./MaskedInput.helpers";
+import { getCurrentValue, getDefinitions, getMaskChar } from './MaskedInput.helpers';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -49,6 +49,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
+  private acceptedChanges = false;
 
   public constructor(props: MaskedInputProps) {
     super(props);
@@ -103,17 +104,10 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       style,
       ...inputProps
     } = this.props;
-    const { emptyValue, value, originValue } = this.state;
-
-    const leftHelper = style?.textAlign !== 'right' && (
-      <span style={{ color: 'transparent' }}>{emptyValue.slice(0, originValue.length)}</span>
-    );
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
-
-    const rightHelper = emptyValue
-      .slice(originValue.length)
-      .split('')
-      .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
+    const [currentValue, left, right] = getCurrentValue(this.state, this.props.maskChar);
+    const rightHelper = right.split('').map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
+    const leftHelper = style?.textAlign !== 'right' && <span style={{ color: 'transparent' }}>{left}</span>;
 
     return (
       <span data-tid={MaskedInputDataTids.root} className={styles.container()} x-ms-format-detection="none">
@@ -121,12 +115,13 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
           {...inputProps}
           mask={mask}
           definitions={getDefinitions(formatChars)}
-          eager={"append"}
-          onInput={this.handleAccept}
+          eager
+          onAccept={this.handleAccept}
+          onInput={this.handleInput}
           onChange={this.props.onChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          value={value}
+          value={currentValue}
           inputRef={this.refInput}
           style={{ ...style }}
         />
@@ -156,21 +151,33 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     this.input = input;
   };
 
-  private handleAccept = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /** В imask вызывается только когда значение с маской меняется*/
+  private handleAccept = (value: string) => {
+    this.acceptedChanges = true;
+    this.setState({ value, originValue: value });
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
+    }
+  };
+
+  /** Отслеживаем неправильные нажатия,
+   * handleAccept не вызывается когда значение с маской не меняется, а handleInput вызывается
+   * Сначала вызывается handleAccept, затем handleInput
+   * */
+  private handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (value === this.state.value) {
+    if (!this.acceptedChanges && value === this.state.originValue) {
       this.handleUnexpectedInput();
-    } else {
-      this.setState({ value, originValue: value });
-      if (this.props.onValueChange) {
-        this.props.onValueChange(value);
-      }
     }
+
+    this.acceptedChanges = false;
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ focused: true });
+
+    this.acceptedChanges = false;
 
     if (this.props.onFocus) {
       this.props.onFocus(event);
@@ -190,7 +197,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       mask: this.props.mask,
       definitions: getDefinitions(this.props.formatChars),
       lazy: false,
-      placeholderChar: this.props.maskChar ?? "",
+      placeholderChar: getMaskChar(this.props.maskChar),
     });
     const emptyValue = mask.appendTail('').inserted;
     this.setState({ emptyValue });
