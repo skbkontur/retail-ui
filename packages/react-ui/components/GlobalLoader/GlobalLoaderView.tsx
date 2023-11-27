@@ -13,7 +13,6 @@ export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
   delayBeforeHide: number;
   status?: 'success' | 'error' | 'standard' | 'accept';
   disableAnimations: boolean;
-  dataState?: 'done' | 'rejected';
 }
 
 export interface GlobalLoaderViewRef {
@@ -26,7 +25,6 @@ export const GlobalLoaderView = ({
   delayBeforeHide,
   status,
   disableAnimations,
-  dataState,
   ...rest
 }: GlobalLoaderViewProps) => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
@@ -66,7 +64,7 @@ export const GlobalLoaderView = ({
   };
 
   return (
-    <CommonWrapper {...rest} data-state={dataState}>
+    <CommonWrapper {...rest} data-status={status}>
       <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
         <div ref={ref} className={cx(styles.inner(theme), getAnimationClass(status))} />
       </ZIndex>
