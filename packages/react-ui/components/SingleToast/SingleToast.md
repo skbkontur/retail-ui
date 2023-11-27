@@ -18,7 +18,7 @@ import { Button, SingleToast } from '@skbkontur/react-ui';
 import { Button, SingleToast, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
 
-const RedToast = () => (
+const CustomToast = () => (
   <ThemeContext.Consumer>
     {(theme) => {
       return <ThemeContext.Provider
@@ -45,7 +45,7 @@ const pushToast = () => {
 };
 
 <div>
-  <RedToast />
+  <CustomToast />
   <Button onClick={pushToast}>
     Показать тост с тёмным фоном
   </Button>
