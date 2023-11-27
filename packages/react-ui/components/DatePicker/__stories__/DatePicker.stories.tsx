@@ -196,6 +196,17 @@ export const WithMobileNativeDatePicker = () => {
 WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
 WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
 
+export const MobilePicker: Story = () => {
+  const [date, setDate] = useState('02.07.2017');
+  return <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />;
+};
+MobilePicker.storyName = 'MobilePicker';
+MobilePicker.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
 );

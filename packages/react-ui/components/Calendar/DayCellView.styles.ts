@@ -13,7 +13,7 @@ export const styles = memoizeStyle({
 
       background: ${t.calendarCellBg};
       display: inline-block;
-      font-size: 14px;
+      font-size: ${t.calendarCellFontSize};
       padding: 0;
       text-align: center;
       user-select: none;
@@ -23,6 +23,7 @@ export const styles = memoizeStyle({
       width: ${t.calendarCellWidth};
       height: ${t.calendarCellHeight};
       line-height: ${t.calendarCellLineHeight};
+      flex: 1 1;
 
       &:disabled {
         opacity: 0.5;
