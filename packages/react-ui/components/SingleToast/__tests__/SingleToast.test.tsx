@@ -2,10 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { LangCodes } from '../../../lib/locale';
 import { Button } from '../../Button';
 import { SingleToast } from '../SingleToast';
 import { ToastDataTids } from '../../Toast';
-import { componentsLocales as ToastViewLocaleRu } from '../../Toast/locale/locales/ru';
+import { ToastLocaleHelper } from '../../Toast/locale';
 
 describe('ToastView', () => {
   describe('a11y', () => {
@@ -31,7 +32,7 @@ describe('ToastView', () => {
 
       expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute(
         'aria-label',
-        ToastViewLocaleRu.closeButtonAriaLabel,
+        ToastLocaleHelper.get(LangCodes.ru_RU).closeButtonAriaLabel,
       );
     });
 
