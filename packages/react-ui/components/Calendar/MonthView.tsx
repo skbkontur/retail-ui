@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
 
-import { DateSelectCaption } from '../../internal/DateSelect/DateSelectCaption';
 import { DateSelect } from '../../internal/DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { cx } from '../../lib/theming/Emotion';
 import { usePrevious } from '../../hooks/usePrevious';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
-import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { Nullable } from '../..//typings/utility-types';
 
 import { styles } from './MonthView.styles';
@@ -58,7 +55,6 @@ export function MonthView(props: MonthViewProps) {
   const theme = useContext(ThemeContext);
   const { minDate, maxDate, onStuckMonth } = useContext(CalendarContext);
   const { isMobile } = useResponsiveLayout();
-  const locale = useLocaleForControl('DatePicker', DatePickerLocaleHelper);
 
   const {
     children,
@@ -110,17 +106,10 @@ export function MonthView(props: MonthViewProps) {
       >
         <div style={{ borderBottomColor }} className={styles.monthTitle(theme)}>
           <div data-tid={CalendarDataTids.headerMonth} className={styles.headerMonth(theme)}>
-            {isMobile ? (
-              <DateSelectCaption
-                disabled={monthSelectDisabled}
-                width="6em"
-                caption={locale.months?.[month]}
-                menu={monthSelectDisabled ? null : getMonthsSelect(props, locale, minDate, maxDate)}
-              />
-            ) : (
+            {
               <DateSelect
                 disabled={monthSelectDisabled}
-                width={85}
+                width={isMobile ? '6em' : 85}
                 type="month"
                 value={month}
                 onValueChange={onMonthSelect}
@@ -128,21 +117,14 @@ export function MonthView(props: MonthViewProps) {
                 minValue={getMinMonth(year, minDate)}
                 maxValue={getMaxMonth(year, maxDate)}
               />
-            )}
+            }
           </div>
           {isYearVisible && (
             <div data-tid={CalendarDataTids.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
-              {isMobile ? (
-                <DateSelectCaption
-                  disabled={yearSelectDisabled}
-                  width="3.5em"
-                  caption={year}
-                  menu={yearSelectDisabled ? null : getYearsSelect(props, minDate, maxDate)}
-                />
-              ) : (
+              {
                 <DateSelect
                   disabled={yearSelectDisabled}
-                  width={50}
+                  width={isMobile ? '3.5em' : 50}
                   type="year"
                   value={year}
                   minValue={minDate ? minDate.year : undefined}
@@ -150,7 +132,7 @@ export function MonthView(props: MonthViewProps) {
                   onValueChange={onYearSelect}
                   ref={!yearSelectDisabled ? yearSelectRef : undefined}
                 />
-              )}
+              }
             </div>
           )}
         </div>
@@ -159,67 +141,3 @@ export function MonthView(props: MonthViewProps) {
     </div>
   );
 }
-
-const defaultMinYear = 1900;
-const defaultMaxYear = 2100;
-
-const getYearsSelect = (
-  props: MonthViewProps,
-  minDate: Nullable<CDS.CalendarDateShape>,
-  maxDate: Nullable<CDS.CalendarDateShape>,
-) => {
-  const min = minDate?.year ?? defaultMinYear;
-  const max = maxDate?.year ?? defaultMaxYear;
-  const years = [];
-  for (let year = min; year <= max; ++year) {
-    years.push({ year, disabled: year < min || year > max });
-  }
-  return (
-    // eslint-disable-next-line jsx-a11y/no-onchange
-    <select
-      data-tid={CalendarDataTids.yearSelectMobile}
-      className={styles.nativeSelect()}
-      value={props.year}
-      onChange={(e) => {
-        props.onYearSelect(parseInt(e.target.value));
-      }}
-    >
-      {years.map((year) => (
-        <option key={year.year} value={year.year} disabled={year.disabled}>
-          {year.year}
-        </option>
-      ))}
-    </select>
-  );
-};
-
-const getMonthsSelect = (
-  props: MonthViewProps,
-  locale: DatePickerLocale,
-  minDate: Nullable<CDS.CalendarDateShape>,
-  maxDate: Nullable<CDS.CalendarDateShape>,
-) => {
-  const min = getMinMonth(props.year, minDate);
-  const max = getMaxMonth(props.year, maxDate);
-  const months = [];
-  for (let month = 0; month < 12; ++month) {
-    months.push({ month, disabled: month < min || month > max });
-  }
-  return (
-    // eslint-disable-next-line jsx-a11y/no-onchange
-    <select
-      data-tid={CalendarDataTids.monthSelectMobile}
-      className={styles.nativeSelect()}
-      value={props.month}
-      onChange={(e) => {
-        props.onMonthSelect(parseInt(e.target.value));
-      }}
-    >
-      {months.map((month) => (
-        <option key={month.month} value={month.month} disabled={month.disabled}>
-          {locale.months?.[month.month]}
-        </option>
-      ))}
-    </select>
-  );
-};

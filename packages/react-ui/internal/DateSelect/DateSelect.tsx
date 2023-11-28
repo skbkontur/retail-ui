@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { CalendarDataTids } from '../../components/Calendar/Calendar';
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
@@ -27,6 +28,8 @@ const itemHeight = 24;
 const visibleYearsCount = 11;
 const itemsToMoveCount = -5;
 const monthsCount = 12;
+const defaultMinMonth = 0;
+const defaultMaxMonth = 11;
 const defaultMinYear = 1900;
 const defaultMaxYear = 2100;
 
@@ -228,7 +231,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
             <ArrowTriangleUpDownIcon size={12} />
           </div>
         </div>
-        {this.state.opened && this.renderMenu(this.menuId)}
+        {isMobile
+          ? !disabled && this.renderMobileMenu(this.props, this.menuId)
+          : this.state.opened && this.renderMenu(this.menuId)}
       </Tag>
     );
   }
@@ -259,7 +264,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         {isInteractiveElement && (
           <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
         )}
-        {this.state.opened && this.renderMenu(this.menuId)}
+        {isMobile
+          ? !disabled && this.renderMobileMenu(this.props, this.menuId)
+          : this.state.opened && this.renderMenu(this.menuId)}
       </Tag>
     );
   }
@@ -412,6 +419,41 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
           </div>
         </DropdownContainer>
       </RenderLayer>
+    );
+  }
+
+  private renderMobileMenu(
+    { value, minValue, maxValue, onValueChange, type }: DateSelectProps,
+    id?: string,
+  ): JSX.Element {
+    const from = type === 'month' ? defaultMinMonth : minValue ?? defaultMinYear;
+    const to = type === 'month' ? defaultMaxMonth : maxValue ?? defaultMaxYear;
+
+    const min = type === 'month' ? minValue ?? defaultMinMonth : minValue ?? defaultMinYear;
+    const max = type === 'month' ? maxValue ?? defaultMaxMonth : maxValue ?? defaultMaxYear;
+
+    const items: Array<{ item: number; disabled: boolean }> = [];
+    for (let item = from; item <= to; ++item) {
+      items.push({ item, disabled: item < min || item > max });
+    }
+
+    return (
+      // eslint-disable-next-line jsx-a11y/no-onchange
+      <select
+        id={id}
+        data-tid={CalendarDataTids.monthSelectMobile}
+        className={styles.nativeSelect()}
+        value={value}
+        onChange={(e) => {
+          onValueChange(parseInt(e.target.value));
+        }}
+      >
+        {items.map(({ item, disabled }) => (
+          <option key={item} value={item} disabled={disabled}>
+            {type === 'month' ? this.locale.months?.[item] : item}
+          </option>
+        ))}
+      </select>
     );
   }
 
