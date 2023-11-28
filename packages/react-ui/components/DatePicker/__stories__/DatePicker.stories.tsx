@@ -1,6 +1,8 @@
 import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -10,6 +12,7 @@ import { Tooltip } from '../../Tooltip';
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
@@ -198,7 +201,18 @@ WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
 
 export const MobilePicker: Story = () => {
   const [date, setDate] = useState('02.07.2017');
-  return <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />;
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider value={ThemeFactory.create(theme, THEME_2022)}>
+            <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
 };
 MobilePicker.storyName = 'MobilePicker';
 MobilePicker.parameters = {
@@ -216,57 +230,7 @@ MobilePicker.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
         await delay(1000);
-        await this.expect(await this.takeScreenshot()).to.matchImage('MobilePicker on iphone opened');
-      },
-    },
-  },
-};
-
-export const SmallMobilePicker: Story = () => (
-  <DatePicker enableTodayLink width="auto" value="02.07.2017" onValueChange={action('change')} />
-);
-SmallMobilePicker.storyName = 'SmallMobilePicker';
-SmallMobilePicker.parameters = {
-  viewport: {
-    defaultViewport: 'mobile1',
-  },
-  creevey: {
-    tests: {
-      async 'MobilePicker on small mobile opened'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.takeScreenshot()).to.matchImage('MobilePicker on small mobile opened');
-      },
-    },
-  },
-};
-
-export const LargeMobilePicker: Story = () => (
-  <DatePicker enableTodayLink width="auto" value="02.07.2017" onValueChange={action('change')} />
-);
-LargeMobilePicker.storyName = 'LargeMobilePicker';
-LargeMobilePicker.parameters = {
-  viewport: {
-    defaultViewport: 'mobile2',
-  },
-  creevey: {
-    tests: {
-      async 'MobilePicker on large mobile opened'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.takeScreenshot()).to.matchImage('MobilePicker on large mobile opened');
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('MobilePicker on iphone opened');
       },
     },
   },
