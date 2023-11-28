@@ -623,7 +623,7 @@ object Validations_LintTest : BuildType({
         nunit {
             name = "Run tests"
             id = "RUNNER_7"
-            nunitPath = "%teamcity.tool.NUnit.Console.DEFAULT%"
+            nunitPath = "%teamcity.tool.NUnit.Console.3.16.2%"
             includeTests = """packages\react-ui-validations\selenium-tests\ValidationTests\bin\Debug\ValidationTests.dll"""
         }
     }
