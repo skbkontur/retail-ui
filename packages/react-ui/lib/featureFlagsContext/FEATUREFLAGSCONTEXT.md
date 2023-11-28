@@ -1,21 +1,21 @@
-Включение и отключение отдельных фич через `FeatureFlagsContext`
+Включение и отключение отдельных фич через `ReactUIFeatureFlagsContext`
 
 Доступные флаги
 
 ```typescript static
-export interface FeatureFlags {
+export interface ReactUIFeatureFlags {
   TokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
 }
 ```
 
 Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
 
-Флаги задаются с помощью `FeatureFlagsContext.Provider`.
+Флаги задаются с помощью `ReactUIFeatureFlagsContext.Provider`.
 
 ```jsx static
-import { FeatureFlagsContext } from '@skbkontur/react-ui';
+import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</FeatureFlagsContext.Provider>;
+<ReactUIFeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
 ```
 
 ## Использование
@@ -26,25 +26,25 @@ import { FeatureFlagsContext } from '@skbkontur/react-ui';
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
-import { TokenInput, TokenInputType, Token, FeatureFlagsContext } from '@skbkontur/react-ui';
+import { TokenInput, TokenInputType, Token, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 const [selectedItems, setSelectedItems] = React.useState([]);
 const getItems = () => {};
 
-<FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+<ReactUIFeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
   <TokenInput
     type={TokenInputType.Combined}
     getItems={getItems}
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
-</FeatureFlagsContext.Provider>
+</ReactUIFeatureFlagsContext.Provider>
 ```
 
 ## Объект со всеми флагами
 
-Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullFlagsContext к объекту заданных флагов:
+Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
 
 ```typescript static
-const allFlags = getFullFlagsContext(useContext(FeatureFlagsContext));
+const allFlags = getFullValidationsFlagsContext(useContext(ReactUIFeatureFlagsContext));
 ```

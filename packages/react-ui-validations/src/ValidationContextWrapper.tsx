@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../lib/featureFlagsContext';
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from '../lib/featureFlagsContext';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { FocusMode, ScrollOffset, ValidateArgumentType } from './ValidationContainer';
@@ -157,13 +161,13 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
-  private featureFlags!: FeatureFlags;
+  private featureFlags!: ValidationsFeatureFlags;
 
   public render() {
     return (
-      <FeatureFlagsContext.Consumer>
+      <ValidationsFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullFlagsContext(flags);
+          this.featureFlags = getFullValidationsFlagsContext(flags);
           return (
             <ValidationContext.Provider value={this}>
               {this.featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
@@ -174,7 +178,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
             </ValidationContext.Provider>
           );
         }}
-      </FeatureFlagsContext.Consumer>
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 }

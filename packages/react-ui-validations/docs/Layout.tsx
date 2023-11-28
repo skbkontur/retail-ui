@@ -7,7 +7,7 @@ import { Displaying } from './Pages/Displaying';
 import { Validator } from './Pages/Validator';
 import { Examples } from './Pages/Examples';
 import { Concepts } from './Pages/Concepts';
-import { FeatureFlags } from './Pages/FeatureFlags';
+import { FeatureFlags } from './Pages/ReactUIFeatureFlags';
 
 export const Layout = withRouter((props) => {
   window.scrollTo(0, 0);

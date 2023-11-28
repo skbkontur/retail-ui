@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../lib/featureFlagsContext';
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { TextPosition, Validation } from './ValidationWrapperInternal';
@@ -24,12 +28,12 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     );
   }
 
-  let featureFlags: FeatureFlags;
+  let featureFlags: ValidationsFeatureFlags;
 
   return (
-    <FeatureFlagsContext.Consumer>
+    <ValidationsFeatureFlagsContext.Consumer>
       {(flags) => {
-        featureFlags = getFullFlagsContext(flags);
+        featureFlags = getFullValidationsFlagsContext(flags);
         return (
           <span
             style={{
@@ -58,6 +62,6 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
           </span>
         );
       }}
-    </FeatureFlagsContext.Consumer>
+    </ValidationsFeatureFlagsContext.Consumer>
   );
 };

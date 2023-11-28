@@ -353,7 +353,7 @@ function foo() {}
    - ValidationTooltipRemoveWrapper - Избавиться от обертки в ValidationTooltip
    - TokenInputRemoveWhitespaceFromDefaultDelimiters - В TokenInput изменили разделитель по умолчанию
 
-2) Добавьте флаг в FeatureFlags в файл FeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md
+2) Добавьте флаг в ReactUIFeatureFlags в файл ReactUIFeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md
 
 # Помощь
 

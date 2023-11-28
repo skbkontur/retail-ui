@@ -3,7 +3,7 @@ import { Button, Checkbox } from '@skbkontur/react-ui';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import { FeatureFlagsContext } from '../../../../lib/featureFlagsContext';
+import { ValidationsFeatureFlagsContext } from '../../../../lib/featureFlagsContext';
 
 interface CheckboxState {
   checked: boolean;
@@ -27,7 +27,7 @@ export default class FeatureFlagsExampleValidationsWrapperAndContainerRemoveExtr
 
   render() {
     return (
-      <FeatureFlagsContext.Provider
+      <ValidationsFeatureFlagsContext.Provider
         value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}
       >
         <ValidationContainer ref={this.refContainer}>
@@ -43,7 +43,7 @@ export default class FeatureFlagsExampleValidationsWrapperAndContainerRemoveExtr
             Check
           </Button>
         </ValidationContainer>
-      </FeatureFlagsContext.Provider>
+      </ValidationsFeatureFlagsContext.Provider>
     );
   }
 }

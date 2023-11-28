@@ -10,7 +10,7 @@ import { Examples } from './Pages/Examples';
 import { Displaying } from './Pages/Displaying';
 import { Validator } from './Pages/Validator';
 import { Concepts } from './Pages/Concepts';
-import { FeatureFlags } from './Pages/FeatureFlags';
+import { FeatureFlags } from './Pages/ReactUIFeatureFlags';
 
 import 'docs/styles/reset.less';
 import 'docs/styles/typography.less';

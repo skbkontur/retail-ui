@@ -7,7 +7,7 @@ import { Center, Gapped } from '@skbkontur/react-ui';
 
 import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
-import { FeatureFlagsContext } from '../lib/featureFlagsContext';
+import { ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
 
 class Example1 extends React.Component {
   public state = {
@@ -27,15 +27,13 @@ class Example1 extends React.Component {
 
   public render() {
     return (
-      <FeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
-        <ValidationContainer>
-          <div style={{ padding: 10 }}>
-            <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-              <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-            </ValidationWrapper>
-          </div>
-        </ValidationContainer>
-      </FeatureFlagsContext.Provider>
+      <ValidationContainer>
+        <div style={{ padding: 10 }}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
+          </ValidationWrapper>
+        </div>
+      </ValidationContainer>
     );
   }
 }
@@ -306,7 +304,7 @@ class Example6 extends React.Component {
 
   public render() {
     return (
-      <FeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
         <ValidationContainer ref={this.refContainer}>
           <div style={{ padding: 50, height: 200, position: 'relative' }}>
             <div style={{ position: 'absolute', top: 100 }}>
@@ -322,7 +320,7 @@ class Example6 extends React.Component {
           </div>
           <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
         </ValidationContainer>
-      </FeatureFlagsContext.Provider>
+      </ValidationsFeatureFlagsContext.Provider>
     );
   }
 
@@ -502,7 +500,7 @@ class Example11 extends React.Component {
             container?.submit();
           }}
         >
-          <FeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
+          <ValidationsFeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
             <ValidationContainer ref={(el) => (container = el)}>
               <ValidationWrapper
                 renderMessage={tooltip('left middle')}
@@ -513,10 +511,10 @@ class Example11 extends React.Component {
               <br />
               <br />
               <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
-                <Input width="150%" placeholder={'Валидация'} />
+                <Input width="200%" placeholder={'Валидация'} />
               </ValidationWrapper>
             </ValidationContainer>
-          </FeatureFlagsContext.Provider>
+          </ValidationsFeatureFlagsContext.Provider>
           <br />
           <br />
           <br />

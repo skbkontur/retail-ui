@@ -38,7 +38,11 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../../lib/featureFlagsContext';
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -310,7 +314,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
-  private featureFlags!: FeatureFlags;
+  private featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -365,9 +369,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <FeatureFlagsContext.Consumer>
+      <ReactUIFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullFlagsContext(flags);
+          this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
             <ThemeContext.Consumer>
               {(theme) => {
@@ -377,7 +381,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             </ThemeContext.Consumer>
           );
         }}
-      </FeatureFlagsContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 

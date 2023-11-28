@@ -1,3 +1,3 @@
-export * from './FeatureFlagsContext';
+export * from './ValidationsFeatureFlagsContext';
 
 export * from './FeatureFlagsHelpers';

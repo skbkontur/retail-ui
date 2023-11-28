@@ -1,7 +1,11 @@
 import React, { ReactInstance } from 'react';
 import warning from 'warning';
 
-import { FeatureFlags, FeatureFlagsContext, getFullFlagsContext } from '../lib/featureFlagsContext';
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { getRootNode } from './utils/getRootNode';
@@ -66,7 +70,7 @@ export class ValidationWrapperInternal extends React.Component<
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
 
-  private featureFlags!: FeatureFlags;
+  private featureFlags!: ValidationsFeatureFlags;
 
   public componentDidMount() {
     warning(
@@ -146,9 +150,9 @@ export class ValidationWrapperInternal extends React.Component<
     }
 
     return (
-      <FeatureFlagsContext.Consumer>
+      <ValidationsFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullFlagsContext(flags);
+          this.featureFlags = getFullValidationsFlagsContext(flags);
           return React.cloneElement(
             this.props.errorMessage(
               this.featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
@@ -164,7 +168,7 @@ export class ValidationWrapperInternal extends React.Component<
             },
           );
         }}
-      </FeatureFlagsContext.Consumer>
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 

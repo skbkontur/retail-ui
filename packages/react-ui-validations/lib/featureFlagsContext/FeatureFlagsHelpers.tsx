@@ -1,5 +1,5 @@
-import { featureFlagsDefault, FeatureFlags } from './FeatureFlagsContext';
+import { validationsFeatureFlagsDefault, ValidationsFeatureFlags } from './ValidationsFeatureFlagsContext';
 
-export const getFullFlagsContext = (flags: FeatureFlags) => {
-  return { ...featureFlagsDefault, ...flags };
+export const getFullValidationsFlagsContext = (flags: ValidationsFeatureFlags) => {
+  return { ...validationsFeatureFlagsDefault, ...flags };
 };

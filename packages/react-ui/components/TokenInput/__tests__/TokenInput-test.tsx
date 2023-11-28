@@ -10,7 +10,7 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
-import { FeatureFlagsContext } from '../../../lib/featureFlagsContext';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -299,7 +299,7 @@ describe('<TokenInput />', () => {
       const [selectedItems, setSelectedItems] = useState(['']);
 
       return (
-        <FeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+        <ReactUIFeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
           <TokenInput
             type={TokenInputType.Combined}
             getItems={getItems}
@@ -307,7 +307,7 @@ describe('<TokenInput />', () => {
             onValueChange={setSelectedItems}
             delimiters={props.customDelimiters}
           />
-        </FeatureFlagsContext.Provider>
+        </ReactUIFeatureFlagsContext.Provider>
       );
     };
 
