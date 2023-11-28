@@ -65,7 +65,7 @@ export interface ScrollContainerProps extends CommonProps {
   /**
    * Скрывать скроллбар при отсутствии активности пользователя
    */
-  hideScrollBar?: boolean;
+  hideScrollBar?: boolean | 'onHover';
   /**
    * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true`
    */
@@ -118,6 +118,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private scrollY: Nullable<ScrollBar>;
   private setRootNode!: TSetRootNode;
 
+  public state = {
+    hovered: false,
+  };
+
   public componentDidMount() {
     this.updateInnerElement();
   }
@@ -159,6 +163,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         <div
           data-tid={ScrollContainerDataTids.root}
           className={styles.root()}
+          onMouseEnter={this.handleMouseEnter}
           onMouseMove={this.handleMouseMove}
           onMouseLeave={this.handleMouseLeave}
         >
@@ -255,9 +260,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         invert={invert}
         onScrollStateChange={this.handleScrollStateChange}
         offset={offset}
-        hideScrollBar={hideScrollBar}
+        hideScrollBarOnInactivity={hideScrollBar === true}
         disableAnimations={disableAnimations}
         hideScrollBarDelay={hideScrollBarDelay}
+        showScrollBar={(this.state.hovered && hideScrollBar === 'onHover') || !hideScrollBar}
       />
     );
   };
@@ -331,6 +337,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     }
   };
 
+  private handleMouseEnter = () => {
+    this.setState({ hovered: true });
+  };
+
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const right = getDOMRect(event.currentTarget).right - event.pageX;
     const bottom = getDOMRect(event.currentTarget).bottom - event.pageY;
@@ -342,6 +352,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private handleMouseLeave = () => {
     this.scrollY?.setHover(false);
     this.scrollX?.setHover(false);
+    this.setState({ hovered: false });
   };
 
   private updateInnerElement = () => {

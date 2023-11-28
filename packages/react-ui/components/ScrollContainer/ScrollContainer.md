@@ -193,3 +193,30 @@ var divStyle = {
   </ScrollContainer>
 </div>
 ```
+
+Проп `hideScrollBar='onHover'` позволяет показывать скроллбар только когда мышь находится над скроллконтейнером
+
+```jsx harmony
+var divStyle = {
+  display: 'inline-block',
+  border: '1px solid #f99',
+  height: 200,
+  margin: 1,
+  position: 'relative',
+  verticalAlign: 'top',
+  width: 200,
+};
+
+
+<span>
+  <div style={divStyle}>
+    <ScrollContainer hideScrollBar={'onHover'}>
+      {Array(30).fill(null).map((_,i) => (
+        <div key={i}>
+          {i}
+        </div>
+      ))}
+    </ScrollContainer>
+  </div>
+</span>
+```
