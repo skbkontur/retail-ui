@@ -39,7 +39,7 @@ changeBuildType(RelativeId("SeleniumTesting_Publish")) {
     steps {
         update<NuGetPublishStep>(2) {
             clearConditions()
-            apiKey = "credentialsJSON:82b6df38-b542-4e4a-ac1f-95f48fc217e8"
+            apiKey = "credentialsJSON:9c594bdb-ecae-416b-ab54-3b85ce110c13"
         }
     }
 }
