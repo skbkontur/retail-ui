@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { CalendarDataTids } from '../../components/Calendar/Calendar';
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -74,6 +75,7 @@ export const DateSelectDataTids = {
 
 type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
 
+@responsiveLayout
 @locale('Calendar', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
@@ -122,6 +124,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private setPositionRepeatTimer = 0;
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
+  private isMobileLayout!: boolean;
 
   public componentDidUpdate() {
     this.setNodeTop();
@@ -196,7 +199,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     if (isTheme2022(this.theme)) {
       return this.renderMain2022();
     }
-
+    const isMobile = this.isMobileLayout;
     const { disabled } = this.props;
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
@@ -239,6 +242,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   }
 
   private renderMain2022() {
+    const isMobile = this.isMobileLayout;
     const { disabled } = this.props;
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
