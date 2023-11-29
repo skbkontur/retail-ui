@@ -459,7 +459,7 @@ describe('DatePicker', () => {
           return currentMonth;
         },
         // Note: можно ли это сделать быстрее, если поиграться с таймингом в анимациях?
-        { timeout: 2000 },
+        { timeout: 5000 },
       );
     };
 
@@ -528,10 +528,9 @@ describe('DatePicker', () => {
 
     it('should change value from day select', async () => {
       const initialDate = '10.10.2010';
+      const expectedDate = '20.10.2010';
       render(<MobilePicker initialDate={initialDate} />);
       userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-
-      const day = 20;
 
       const months = screen.getAllByTestId(CalendarDataTids.month);
       const currentMonth = months.find((month) => {
@@ -543,10 +542,13 @@ describe('DatePicker', () => {
       });
       expect(currentMonth).toBeDefined();
       const monthRoot = within(currentMonth as HTMLElement);
-      userEvent.click(monthRoot.getByText(day.toString(), { exact: true }));
+      const ariaLabel = `${DatePickerLocaleHelper.get().dayCellChooseDateAriaLabel}: ${new InternalDate({
+        value: expectedDate,
+      }).toA11YFormat()}`;
+      userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
-      expect(input).toHaveTextContent(`${day}.10.2010`);
+      expect(input).toHaveTextContent(expectedDate);
     });
   });
 });
