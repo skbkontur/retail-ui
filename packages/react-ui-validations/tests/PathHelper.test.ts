@@ -47,6 +47,9 @@ describe('PathHelper', () => {
         const path = extractPath('function(x) { return  x  [  v djf g" dsd] f[sl dfgj   }  ');
         expect(path).toStrictEqual('[  v djf g" dsd] f[sl dfgj');
       });
+      it('does not throw error for $', () => {
+        expect(() => extractPath('$ => $.somProperty')).not.toThrow();
+      });
     });
     describe('arrow function', () => {
       it('empty path', () => {
