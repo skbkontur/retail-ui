@@ -4,6 +4,7 @@ module.exports = {
   addons: [
     'creevey',
     'creevey/preset/ie11',
+    'hermione-storybook',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
     '@storybook/addon-ie11',
@@ -20,6 +21,7 @@ module.exports = {
   },
   features: {
     postcss: false,
+    buildStoriesJson: true,
   },
   managerWebpack: (config) => {
     config.module.rules.push({

@@ -12,4 +12,16 @@ injectGlobal`
   textarea::selection {
     color: white;
   }
+
+  *,
+  *:hover,
+  *::before,
+  *::after {
+    animation-delay: -0.0001ms !important;
+    animation-duration: 0s !important;
+    animation-play-state: paused !important;
+    cursor: none !important;
+    caret-color: transparent !important;
+    transition: 0s !important;
+  }
 `;
