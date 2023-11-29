@@ -42,6 +42,7 @@ const testingButtonUseStates2022: ButtonState[] = [
   { use: 'link' },
 ];
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
+const testingDefaultState: ButtonState[] = [{ use: 'default' }];
 
 const getButtonUseStates = (theme: string) => {
   if (theme === 'THEME_2022' || theme === 'THEME_2022_DARK') {
@@ -506,45 +507,27 @@ export const TextStylesReset = () => (
 );
 
 export const UnusedPropValues: Story = () => {
-  const style: React.CSSProperties = {
-    display: 'flex',
-    gap: '15px',
-    alignItems: 'center',
-  };
   return (
-    <div>
-      <div style={style}>
-        <Button arrow={false}>Button</Button>
-        arrow = false
-      </div>
-      <div style={style}>
-        <Button checked={false}>Button</Button>
-        checked = false
-      </div>
-      <div style={style}>
-        <Button disabled={false}>Button</Button>
-        disabled = false
-      </div>
-      <div style={style}>
-        <Button warning={false}>Button</Button>
-        warning = false
-      </div>
-      <div style={style}>
-        <Button error={false}>Button</Button>
-        error = false
-      </div>
-      <div style={style}>
-        <Button style={{}}>Button</Button>
-        style = {}
-      </div>
-      <div style={style}>
-        <Button className="">Button</Button>
-        className = &apos;&apos;
-      </div>
-      <div style={style}>
-        <Button data-tid="">Button</Button>
-        data-tid = &apos;&apos;
-      </div>
-    </div>
+    <ComponentTable
+      Component={Button}
+      cols={testingDefaultState.map((x) => ({ props: x }))}
+      rows={unusedDifferentStates.map((x) => ({ props: x }))}
+      presetProps={{ children: 'Button', use: 'default' }}
+    />
   );
+};
+const unusedDifferentStates: ButtonState[] = [
+  { arrow: false },
+  { checked: false },
+  { disabled: false },
+  { warning: false },
+  { error: false },
+  { style: {} },
+  { className: '' },
+  { 'data-tid': '' },
+];
+UnusedPropValues.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome(2022)?\b)/ },
+  },
 };
