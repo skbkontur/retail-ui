@@ -42,7 +42,6 @@ const testingButtonUseStates2022: ButtonState[] = [
   { use: 'link' },
 ];
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
-const testingDefaultState: ButtonState[] = [{ use: 'default' }];
 
 const getButtonUseStates = (theme: string) => {
   if (theme === 'THEME_2022' || theme === 'THEME_2022_DARK') {
@@ -506,16 +505,14 @@ export const TextStylesReset = () => (
   </div>
 );
 
-export const UnusedPropValues: Story = () => {
-  return (
-    <ComponentTable
-      Component={Button}
-      cols={testingDefaultState.map((x) => ({ props: x }))}
-      rows={unusedDifferentStates.map((x) => ({ props: x }))}
-      presetProps={{ children: 'Button', use: 'default' }}
-    />
-  );
-};
+export const UnusedPropValues: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme)}
+    rows={unusedDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
 const unusedDifferentStates: ButtonState[] = [
   { arrow: false },
   { checked: false },
