@@ -34,12 +34,31 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     <ValidationsFeatureFlagsContext.Consumer>
       {(flags) => {
         featureFlags = getFullValidationsFlagsContext(flags);
-        return (
+        return featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
+          <>
+            {children}
+            <span style={{ position: 'absolute', display: 'block' }}>
+              <span
+                data-tid={dataTid}
+                data-validation-message="text"
+                style={{
+                  color: '#d43517',
+                  overflow: 'visible',
+                  whiteSpace: 'nowrap',
+                  position: 'absolute',
+                  top: '2px',
+                  left: 0,
+                }}
+              >
+                {(validation && validation.message) || ''}
+              </span>
+            </span>
+          </>
+        ) : (
           <span
             style={{
               position: 'relative',
               display: 'inline-block',
-              width: featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? '' : '100%',
             }}
           >
             {children}

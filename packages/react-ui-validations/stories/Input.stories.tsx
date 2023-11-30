@@ -511,7 +511,7 @@ class Example11 extends React.Component {
               <br />
               <br />
               <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
-                <Input width="200%" placeholder={'Валидация'} />
+                <Input width="100%" placeholder={'Валидация'} />
               </ValidationWrapper>
             </ValidationContainer>
           </ValidationsFeatureFlagsContext.Provider>

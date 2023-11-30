@@ -1,5 +1,10 @@
 import React from 'react';
 
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { tooltip } from './ErrorRenderer';
@@ -11,6 +16,7 @@ import {
   ValidationWrapperInternal,
   ValidationWrapperInternalProps,
 } from './ValidationWrapperInternal';
+import { ReactUiDetection } from './ReactUiDetection';
 
 export interface ValidationInfo {
   type?: Nullable<ValidationBehaviour>;
@@ -38,14 +44,33 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
           independent: validationInfo.independent || false,
         }
       : null;
+
+    let featureFlags: ValidationsFeatureFlags;
+
+    const onlyChild = React.Children.only(children);
+    const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
     return (
-      <ValidationWrapperInternal
-        data-tid={datTid}
-        errorMessage={renderMessage || tooltip('right top')}
-        validation={validation}
-      >
-        {children}
-      </ValidationWrapperInternal>
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          featureFlags = getFullValidationsFlagsContext(flags);
+          return (
+            <ValidationWrapperInternal
+              data-tid={datTid}
+              errorMessage={renderMessage || tooltip('right top')}
+              validation={validation}
+            >
+              {featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan &&
+              (ReactUiDetection.isRadioGroup(child) ||
+                ReactUiDetection.isTokenInput(child) ||
+                ReactUiDetection.isSwitcher(child)) ? (
+                <div> {children} </div>
+              ) : (
+                children
+              )}
+            </ValidationWrapperInternal>
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 }
