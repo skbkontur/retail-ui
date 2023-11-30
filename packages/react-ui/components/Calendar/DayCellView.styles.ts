@@ -18,7 +18,6 @@ export const styles = memoizeStyle({
       text-align: center;
       user-select: none;
       position: relative;
-      cursor: pointer;
 
       width: ${t.calendarCellWidth};
       height: ${t.calendarCellHeight};
@@ -51,7 +50,6 @@ export const styles = memoizeStyle({
     return css`
       background-color: ${t.calendarCellHoverBgColor};
       color: ${t.calendarCellHoverColor};
-      cursor: pointer;
     `;
   },
 
@@ -105,6 +103,14 @@ export const styles = memoizeStyle({
   todayCaption() {
     return css`
       padding-bottom: 2px;
+    `;
+  },
+  /*
+  На мобильных из-за cursor: pointer появилось системное выделение ячейки дня, оставил только для десктопа.
+   */
+  cursorPointer() {
+    return css`
+      cursor: pointer;
     `;
   },
 });

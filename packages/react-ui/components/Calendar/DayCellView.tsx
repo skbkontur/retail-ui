@@ -1,5 +1,6 @@
 import React, { FunctionComponent, PropsWithChildren, useContext } from 'react';
 
+import { isMobile } from '../../lib/client';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
@@ -131,6 +132,7 @@ const Day: FunctionComponent<DayProps> = ({
       disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,
+        [styles.cursorPointer()]: !isMobile,
         [styles.weekend(theme)]: isWeekend,
         [styles.period(theme)]: isDayInSelectedPeriod,
         [styles.periodStart()]: isPeriodStart,
@@ -144,6 +146,7 @@ const Day: FunctionComponent<DayProps> = ({
           [styles.today2022(theme)]: isToday && _isTheme2022,
           [styles.selected(theme)]: isSelected,
           [styles.elementHover(theme)]: isHovered,
+          [styles.cursorPointer()]: !isMobile,
         })}
       >
         {child}
