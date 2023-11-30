@@ -1,24 +1,24 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.Swabra
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPublisher
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.sshAgent
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetBuild
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetTest
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetMsBuild
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.DotnetMsBuildStep
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetInstaller
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nunit
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
-import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
-import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.githubConnection
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.*
+import jetbrains.buildServer.configs.kotlin.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.buildFeatures.Swabra
+import jetbrains.buildServer.configs.kotlin.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
+import jetbrains.buildServer.configs.kotlin.buildFeatures.sshAgent
+import jetbrains.buildServer.configs.kotlin.buildFeatures.swabra
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetMsBuild
+import jetbrains.buildServer.configs.kotlin.buildSteps.DotnetMsBuildStep
+import jetbrains.buildServer.configs.kotlin.buildSteps.nuGetInstaller
+import jetbrains.buildServer.configs.kotlin.buildSteps.nuGetPublish
+import jetbrains.buildServer.configs.kotlin.buildSteps.nunit
+import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.failureConditions.failOnMetricChange
+import jetbrains.buildServer.configs.kotlin.projectFeatures.githubConnection
+import jetbrains.buildServer.configs.kotlin.triggers.schedule
+import jetbrains.buildServer.configs.kotlin.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -42,7 +42,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2021.2"
+version = "2022.10"
 
 project {
 
@@ -363,7 +363,7 @@ object ReactUI_Publish : BuildType({
     features {
         sshAgent {
             id = "BUILD_EXT_1"
-            teamcitySshKey = "GitHub"
+            teamcitySshKey = "GitHub_ skbkontur-bot"
         }
     }
 
@@ -456,7 +456,7 @@ object SeleniumTesting_Publish : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
             serverUrl = "https://api.nuget.org/v3/index.json"
-            apiKey = "credentialsJSON:025012f8-2dc9-43bf-9e45-d5dabbcf7258"
+            apiKey = "credentialsJSON:9c594bdb-ecae-416b-ab54-3b85ce110c13"
         }
     }
 
