@@ -514,14 +514,21 @@ export const UnusedPropValues: Story = (_, { globals: { theme } }) => (
   />
 );
 const unusedDifferentStates: ButtonState[] = [
+  { active: false },
   { arrow: false },
-  { checked: false },
-  { disabled: false },
-  { warning: false },
-  { error: false },
-  { style: {} },
+  { autoFocus: false },
+  { borderless: false },
   { className: '' },
   { 'data-tid': '' },
+  { disabled: false },
+  { error: false },
+  { loading: false },
+  { narrow: false },
+  { style: {} },
+  { theme: {} },
+  { title: '' },
+  { warning: false },
+  { width: '' },
 ];
 UnusedPropValues.parameters = {
   creevey: {
