@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.3...@skbkontur/react-ui@4.17.4) (2023-12-04)
+
+
+### Bug Fixes
+
+* **GlobalLoader:** repair of call chain done()➔start()➔done() ([#3319](https://github.com/skbkontur/retail-ui/issues/3319)) ([9be8e35](https://github.com/skbkontur/retail-ui/commit/9be8e35c9216e055e4b213467115023d8b6d6282))
+* **Select:** reject focus of unmounted input ([#3318](https://github.com/skbkontur/retail-ui/issues/3318)) ([f3ac028](https://github.com/skbkontur/retail-ui/commit/f3ac028e4b0e83564c693dde1f22a5592d6cb3d3))
+
+
+
+
+
 ## [4.17.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.2...@skbkontur/react-ui@4.17.3) (2023-11-14)
 
 
