@@ -1,6 +1,7 @@
 import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
+import debounce from 'lodash.debounce';
 
 import {
   isKeyArrowDown,
@@ -488,7 +489,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private getSearch = () => {
     return (
       <div className={styles.search()} onKeyDown={this.handleKey}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+        <Input ref={this.debouncedFocusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );
   };
@@ -516,7 +517,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <Input
         autoFocus
         value={this.state.searchPattern}
-        ref={this.focusInput}
+        ref={this.debouncedFocusInput}
         onValueChange={this.handleSearch}
         width="100%"
       />
@@ -569,10 +570,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return getRootNode(this);
   };
 
-  private focusInput = (input: Input) => {
-    // fix cases when an Input is rendered in portal
-    globalObject.setTimeout(() => input?.focus(), 0);
-  };
+  // fix cases when an Input is rendered in portal
+  // https://github.com/skbkontur/retail-ui/issues/1995
+  private focusInput = (input: Input) => input?.focus();
+  private debouncedFocusInput = debounce(this.focusInput);
 
   private refMenu = (menu: Menu) => {
     this.menu = menu;
