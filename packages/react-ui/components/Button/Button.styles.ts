@@ -1,3 +1,4 @@
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
@@ -920,12 +921,13 @@ export const styles = memoizeStyle({
     `;
   },
 
-  icon() {
+  icon(t: Theme) {
+    const space = isTheme2022(t) ? `'${ZERO_WIDTH_SPACE_CSS}'` : null;
     return css`
       display: inline-block;
 
       &::before {
-        content: '${ZERO_WIDTH_SPACE_CSS}';
+        content: ${space};
       }
     `;
   },

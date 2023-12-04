@@ -61,7 +61,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   return (
     <span
       style={style}
-      className={cx(globalClasses.icon, styles.icon(), getSizeIconClassName(), {
+      className={cx(globalClasses.icon, styles.icon(theme), getSizeIconClassName(), {
         [styles.iconNoRightMargin()]: !hasChildren,
         [styles.iconLink(theme)]: isLink,
       })}
