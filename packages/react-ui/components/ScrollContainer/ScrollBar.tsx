@@ -1,5 +1,4 @@
 import React from 'react';
-import { CSSTransition } from 'react-transition-group';
 import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
@@ -86,34 +85,18 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     return (
       <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
-        <CSSTransition
-          appear={!props.disableAnimations}
-          exit={!props.disableAnimations}
-          in={props.isShown}
-          classNames={{
-            enter: styles.transition(),
-            enterActive: styles.transitionActive(),
-            exit: styles.transitionLeave(),
-            exitActive: styles.transitionLeaveActive(),
-          }}
-          timeout={{
-            enter: 100,
-            exit: 300,
-          }}
-        >
-          <div
-            ref={this.refScroll}
-            style={inlineStyles}
-            className={classNames}
-            onMouseDown={this.handleScrollMouseDown}
-            data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
-          />
-        </CSSTransition>
+        <div
+          ref={this.refScroll}
+          style={inlineStyles}
+          className={classNames}
+          onMouseDown={this.handleScrollMouseDown}
+          data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
+        />
       </div>
     );
   };
 
-  public reflow = (event?: React.UIEvent<HTMLDivElement>) => {
+  public reflow = () => {
     if (!this.inner) {
       return;
     }
