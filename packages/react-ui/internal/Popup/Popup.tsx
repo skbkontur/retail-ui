@@ -1,8 +1,8 @@
 import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
-import raf from 'raf';
 import warning from 'warning';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
@@ -14,7 +14,7 @@ import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } 
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -149,7 +149,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(() => HTMLElement), PropTypes.node]).isRequired,
+    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(globalObject.HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина
@@ -320,7 +320,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const useWrapper = this.getProps().useWrapper;
 
     let anchor: Nullable<React.ReactNode> = null;
-    if (isElement(anchorElement)) {
+    if (isInstanceOf(anchorElement, globalObject.Element)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -345,7 +345,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
-    const canGetAnchorNode = !!anchorWithRef || isElement(anchorElement);
+    const canGetAnchorNode = !!anchorWithRef || isInstanceOf(anchorElement, globalObject.Element);
 
     return (
       <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
@@ -368,7 +368,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private addEventListeners(element: Nullable<Element>) {
-    if (element && isElement(element)) {
+    if (element && isInstanceOf(element, globalObject.Element)) {
       // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.addEventListener('mouseenter', this.handleMouseEnter);
       // @ts-expect-error: See the comment above
@@ -383,7 +383,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private removeEventListeners(element: Nullable<Element>) {
-    if (element && isElement(element)) {
+    if (element && isInstanceOf(element, globalObject.Element)) {
       // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.removeEventListener('mouseenter', this.handleMouseEnter);
       // @ts-expect-error: See the comment above
@@ -558,12 +558,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private delayUpdateLocation() {
     this.cancelDelayedUpdateLocation();
-    this.locationUpdateId = raf(this.updateLocation);
+    this.locationUpdateId = globalObject.requestAnimationFrame?.(this.updateLocation);
   }
 
   private cancelDelayedUpdateLocation() {
     if (this.locationUpdateId) {
-      raf.cancel(this.locationUpdateId);
+      globalObject.cancelAnimationFrame?.(this.locationUpdateId);
       this.locationUpdateId = null;
     }
   }
@@ -616,9 +616,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { positions, tryPreserveFirstRenderedPosition } = this.props;
     const anchorElement = this.anchorElement;
 
-    warning(anchorElement && isElement(anchorElement), 'Anchor element is not defined or not instance of Element');
+    warning(
+      anchorElement && isInstanceOf(anchorElement, globalObject.Element),
+      'Anchor element is not defined or not instance of Element',
+    );
 
-    if (!(anchorElement && isElement(anchorElement))) {
+    if (!(anchorElement && isInstanceOf(anchorElement, globalObject.Element))) {
       return location;
     }
 

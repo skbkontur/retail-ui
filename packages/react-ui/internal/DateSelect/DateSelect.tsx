@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { globalObject, isBrowser, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -114,9 +115,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private timeout: NodeJS.Timeout | undefined;
-  private longClickTimer = 0;
-  private setPositionRepeatTimer = 0;
+  private timeout: SafeTimer;
+  private longClickTimer: SafeTimer;
+  private setPositionRepeatTimer: SafeTimer;
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
 
@@ -127,7 +128,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   public componentDidMount() {
     this.listener = LayoutEvents.addListener(this.setNodeTop);
     this.setNodeTop();
-    window.addEventListener('keydown', this.handleKey);
+    globalObject.addEventListener?.('keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
@@ -135,15 +136,15 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       this.listener.remove();
     }
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      globalObject.clearTimeout(this.timeout);
     }
     if (this.longClickTimer) {
-      clearTimeout(this.longClickTimer);
+      globalObject.clearTimeout(this.longClickTimer);
     }
     if (this.setPositionRepeatTimer) {
-      clearTimeout(this.setPositionRepeatTimer);
+      globalObject.clearTimeout(this.setPositionRepeatTimer);
     }
-    window.removeEventListener('keydown', this.handleKey);
+    globalObject.removeEventListener?.('keydown', this.handleKey);
   }
 
   /**
@@ -274,12 +275,14 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       return;
     }
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      globalObject.clearTimeout(this.timeout);
     }
-    this.timeout = setTimeout(() =>
-      this.setState({
-        nodeTop: getDOMRect(root).top,
-      }),
+    this.timeout = globalObject.setTimeout(
+      () =>
+        this.setState({
+          nodeTop: getDOMRect(root).top,
+        }),
+      0,
     );
   };
 
@@ -439,27 +442,27 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = window.setTimeout(() => {
-      this.setPositionRepeatTimer = window.setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
+    this.longClickTimer = globalObject.setTimeout(() => {
+      this.setPositionRepeatTimer = globalObject.setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
     }, 200);
   };
 
   private handleLongClickDown = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = window.setTimeout(() => {
-      this.setPositionRepeatTimer = window.setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
+    this.longClickTimer = globalObject.setTimeout(() => {
+      this.setPositionRepeatTimer = globalObject.setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
     }, 200);
   };
 
   private handleLongClickStop = () => {
-    clearTimeout(this.longClickTimer);
-    clearTimeout(this.setPositionRepeatTimer);
+    globalObject.clearTimeout(this.longClickTimer);
+    globalObject.clearTimeout(this.setPositionRepeatTimer);
   };
 
   private getAnchor = () => this.root;
 
   private handleWheel = (event: Event) => {
-    if (!(event instanceof WheelEvent)) {
+    if (!isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();
@@ -476,7 +479,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -484,12 +487,12 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent) || !isBrowser(globalObject)) {
       return;
     }
 
     const { clientY } = event.changedTouches[0];
-    const pixelRatio = window.devicePixelRatio;
+    const pixelRatio = globalObject.devicePixelRatio;
 
     const deltaY = ((this.touchStartY || 0) - clientY) / pixelRatio;
     const pos = this.state.pos + deltaY + deltaY / itemHeight;

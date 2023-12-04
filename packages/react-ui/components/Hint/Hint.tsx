@@ -1,4 +1,5 @@
 import React from 'react';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -112,7 +113,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     position: DUMMY_LOCATION.position,
   };
 
-  private timer: Nullable<number> = null;
+  private timer: SafeTimer;
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
@@ -124,7 +125,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return;
     }
     if (this.timer) {
-      clearTimeout(this.timer);
+      globalObject.clearTimeout(this.timer);
       this.timer = null;
     }
     if (opened !== prevProps.opened) {
@@ -134,7 +135,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public componentWillUnmount() {
     if (this.timer) {
-      clearTimeout(this.timer);
+      globalObject.clearTimeout(this.timer);
       this.timer = null;
     }
   }
@@ -217,7 +218,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseEnter = (e: MouseEventType) => {
     if (!this.getProps().manual && !this.timer) {
-      this.timer = window.setTimeout(this.open, 400);
+      this.timer = globalObject.setTimeout(this.open, 400);
     }
 
     if (this.props.onMouseEnter) {
@@ -227,7 +228,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseLeave = (e: MouseEventType) => {
     if (!this.getProps().manual && this.timer) {
-      clearTimeout(this.timer);
+      globalObject.clearTimeout(this.timer);
       this.timer = null;
       this.setState({ opened: false });
     }

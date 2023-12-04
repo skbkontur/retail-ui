@@ -1,7 +1,7 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -78,7 +78,7 @@ type DefaultProps = Required<
 let currentGlobalLoader: GlobalLoader;
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
-  private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
+  private successAnimationInProgressTimeout: SafeTimer;
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
@@ -145,19 +145,16 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentWillUnmount() {
-    this.successAnimationInProgressTimeout && clearTimeout(this.successAnimationInProgressTimeout);
+    this.successAnimationInProgressTimeout && globalObject.clearTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
     let status: GlobalLoaderViewProps['status'] = 'standard';
-    let dataState: GlobalLoaderViewProps['dataState'];
 
     if (this.state.done) {
       status = 'success';
-      dataState = 'done';
     } else if (this.state.rejected) {
       status = 'error';
-      dataState = 'rejected';
     } else if (this.state.accept) {
       status = 'accept';
     }
@@ -172,7 +169,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
             status={status}
             data-tid={GlobalLoaderDataTids.root}
             disableAnimations={disableAnimations}
-            dataState={dataState}
           />
         </CommonWrapper>
       )
@@ -226,7 +222,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
-      this.successAnimationInProgressTimeout = setTimeout(() => {
+      this.successAnimationInProgressTimeout = globalObject.setTimeout(() => {
         this.setActive();
       }, delayBeforeHide);
     } else {
@@ -241,6 +237,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setDone = () => {
+    if (!this.state.started) {
+      return;
+    }
     this.setState({ done: true, successAnimationInProgress: true });
     this.startTask.cancel();
     this.stopTask();

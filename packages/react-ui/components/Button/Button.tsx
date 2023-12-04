@@ -1,4 +1,5 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { HTMLProps } from '../../typings/html';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
@@ -15,13 +16,17 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 
-export type ButtonSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
@@ -142,7 +147,7 @@ export interface ButtonProps
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: ButtonSize;
+  size?: SizeProp;
 
   /**
    * HTML-атрибут `type`.
@@ -187,6 +192,7 @@ export interface ButtonState {
 
 export const ButtonDataTids = {
   root: 'Button__root',
+  spinner: 'Button__spinner',
 } as const;
 
 type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
@@ -378,7 +384,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: cx({
+      className: cx(globalClasses.root, {
         [styles.wrap(this.theme)]: true,
         [wrapClassNameWithArrow]: true,
         [this.getSizeWrapClassName()]: true,
@@ -420,7 +426,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     let loadingNode = null;
     if (loading && !icon) {
       const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
-      loadingNode = <div className={styles.loading()}>{loadingIcon}</div>;
+      loadingNode = (
+        <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
+          {loadingIcon}
+        </div>
+      );
     }
 
     // Force disable all props and features, that cannot be use with Link
@@ -534,7 +544,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

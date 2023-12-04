@@ -11,8 +11,9 @@ import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
-import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
+import { ResponsiveLayout } from '../../ResponsiveLayout';
 import { delay } from '../../../lib/utils';
+import { MenuItem } from '../../MenuItem';
 
 const mobileDecorator: DecoratorFn = (Story) => {
   return (
@@ -175,7 +176,7 @@ const selectTests: CreeveyTests = {
 };
 
 export const Simple: Story = () => (
-  <div style={{ height: '1000px' }}>
+  <div style={{ height: '150px' }}>
     <Select items={['one', 'two', 'three']} />
   </div>
 );
@@ -435,9 +436,7 @@ export const ExternalFocus = () => {
       );
     }
 
-    private refSelect = (element: Select<any, any> | null) => {
-      this.selectElem = element;
-    };
+    private refSelect: React.RefObject<Select> = React.createRef<Select>();
 
     private handleClick = () => {
       if (this.selectElem) {
@@ -692,7 +691,7 @@ export default {
         ![WithMenuAlignAndVariousWidth, WithManualPosition].includes(context.originalStoryFn as Story)
       ) {
         return (
-          <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+          <div className="dropdown-test-container" style={{ minHeight: 150, minWidth: 200, padding: 4 }}>
             <Story />
           </div>
         );
@@ -775,6 +774,72 @@ WithManualPosition.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without portal');
+      },
+    },
+  },
+};
+
+export const Size: Story = () => {
+  const items = ['one', <MenuItem key={2}>two</MenuItem>, 'three'];
+  let small: Select<string | JSX.Element, string | JSX.Element> | null = null;
+  let medium: Select<string | JSX.Element, string | JSX.Element> | null = null;
+  let large: Select<string | JSX.Element, string | JSX.Element> | null = null;
+  const handleClick = () => {
+    if (small) {
+      small.open();
+    }
+    if (medium) {
+      medium.open();
+    }
+    if (large) {
+      large.open();
+    }
+  };
+  return (
+    <div>
+      <Button onClick={handleClick} data-tid="open-all">
+        Open All
+      </Button>
+      <Gapped style={{ height: '250px' }}>
+        <Select
+          size={'small'}
+          items={items}
+          ref={(element) => {
+            small = element;
+          }}
+        />
+        <Select
+          size={'medium'}
+          items={items}
+          ref={(element) => {
+            medium = element;
+          }}
+        />
+        <Select
+          size={'large'}
+          items={items}
+          ref={(element) => {
+            large = element;
+          }}
+        />
+      </Gapped>
+    </div>
+  );
+};
+
+Size.parameters = {
+  creevey: {
+    tests: {
+      async ClickedAll() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
       },
     },
   },

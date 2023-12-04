@@ -1,6 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -13,10 +14,14 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Radio.styles';
 
-export type RadioSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type RadioSize = SizeProp;
 
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -35,7 +40,7 @@ export interface RadioProps<T>
         /**
          * Размер
          */
-        size?: RadioSize;
+        size?: SizeProp;
         /**
          * Состояние фокуса.
          */
@@ -287,7 +292,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     if (!this.context.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isArrowPressed || keyListener.isTabPressed) {
           this.setState({ focusedByKeyboard: true });
         }

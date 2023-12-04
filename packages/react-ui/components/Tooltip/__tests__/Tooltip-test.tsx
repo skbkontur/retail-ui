@@ -647,14 +647,14 @@ describe('Tooltip', () => {
     );
 
     // @ts-expect-error: Use of private property.
-    expect(tooltipRef.current.hoverTimeout).toBeNull();
+    expect(tooltipRef.current.hoverTimeout).toBeUndefined();
 
     userEvent.hover(screen.getByRole('button'));
 
     // @ts-expect-error: Use of private property.
     const { hoverTimeout } = tooltipRef.current;
 
-    expect(hoverTimeout).not.toBeNull();
+    expect(hoverTimeout).toBeDefined();
 
     unmount();
 

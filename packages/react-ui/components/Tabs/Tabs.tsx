@@ -1,4 +1,5 @@
 import React, { AriaAttributes } from 'react';
+import { globalObject, isInstanceOf } from '@skbkontur/global-object';
 
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -8,11 +9,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { Tab, TabSize } from './Tab';
+import { Tab } from './Tab';
 
 type ValueBaseType = string;
 interface TabType<T extends ValueBaseType> {
@@ -22,45 +24,40 @@ interface TabType<T extends ValueBaseType> {
 
 export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
   /**
-   * Tab component should be child of Tabs component
-   */
-  children?: React.ReactNode;
-
-  /**
-   * Classname of indicator
+   * Позволяет задать кастомный класс подчёркиванию таба.
    */
   indicatorClassName?: string;
-
-  /**
-   * Tabs change event
-   */
-  onValueChange?: (value: T) => void;
 
   /**
    * Задаёт размер контрола.
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: TabSize;
+  size?: SizeProp;
 
   /**
-   * Active tab identifier
+   * Задаёт текущий активный `<Tab />`. Принимает `id` таба.
    */
   value: T;
 
   /**
-   * Vertical indicator
+   * Функция, позволяющая изменить текущий активный `<Tab />`.
+   */
+  onValueChange?: (value: T) => void;
+
+  /**
+   * Переводит компонент в режим вертикального отображения.
    * @default false
    */
   vertical?: boolean;
 
   /**
-   * Width of tabs container
+   * `CSS`-свойство `width`.
    */
   width?: number | string;
 
   /**
-   * Атрибут для указания id элемента(-ов), описывающих его
+   * Атрибут для указания id элемента(-ов), описывающих его.
    */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
@@ -73,9 +70,7 @@ export const TabsDataTids = {
 type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 
 /**
- * Tabs wrapper
- *
- * contains static property `Tab`
+ * Родитель компонента `<Tab />`. Связывает `Tab`'ы в группу и позволяет управлять их состоянием.
  */
 @rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
@@ -163,7 +158,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tabNode = tab.getNode();
     const htmlNode = getRootNode(tabNode);
 
-    if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
+    if (isInstanceOf(htmlNode, globalObject.HTMLElement) && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };

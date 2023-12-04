@@ -9,11 +9,12 @@ import { Parameters } from '@storybook/react';
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
-import { TabProps, TabSize } from '../Tab';
+import { TabProps } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
 import { TabsProps } from '..';
+import { SizeProp } from '../../../lib/types/props';
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (
@@ -33,7 +34,7 @@ enum Mountain {
 
 interface UncTabsProps {
   vertical?: boolean;
-  size?: TabSize;
+  size?: SizeProp;
 }
 interface UncTabsState {
   value: Mountain;

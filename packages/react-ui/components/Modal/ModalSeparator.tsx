@@ -10,6 +10,11 @@ export interface ModalSeparatorProps extends CommonProps {
   fixed?: boolean;
 }
 
+/**
+ * Разделитель
+ *
+ * @visibleName Modal.Separator
+ */
 export function ModalSeparator({ fixed }: ModalSeparatorProps) {
   const theme = useContext(ThemeContext);
 

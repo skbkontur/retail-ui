@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { FileUploaderSize } from '../../../components/FileUploader';
+import { SizeProp } from '../../../lib/types/props';
 
-export function useFileUploaderSize<T>(size: FileUploaderSize, { small, medium, large }: Record<FileUploaderSize, T>) {
+export function useFileUploaderSize<T>(size: SizeProp, { small, medium, large }: Record<SizeProp, T>) {
   return useMemo(() => {
     switch (size) {
       case 'large':

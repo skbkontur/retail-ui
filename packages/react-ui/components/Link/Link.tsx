@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
@@ -193,7 +194,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (_isTheme2022) {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
-        <span className={cx(styles.lineTextWrapper(this.theme))}>
+        <span
+          className={cx(styles.lineTextWrapper(this.theme), {
+            [styles.lineTextWrapperFocused(this.theme)]: isFocused,
+          })}
+        >
           <span
             className={cx(globalClasses.text, {
               [styles.lineText(this.theme)]: !isIE11,
@@ -219,7 +224,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

@@ -494,6 +494,9 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
+  public static get btnLinkLineBorderBottomColor() {
+    return this.linkLineBorderBottomColor;
+  }
   public static btnLinkLineBorderBottomStyle = '';
   public static get btnLinkHoverLineBorderBottomStyle() {
     return this.btnLinkLineBorderBottomStyle;
@@ -769,6 +772,7 @@ export class DefaultTheme {
   public static modalSeparatorBorderBottom = 'none';
   public static modalBodyTextColor = 'inherit';
   public static modalFooterTextColor = 'inherit';
+  public static modalBodyPaddingTop = '0';
   public static modalBodyPaddingBottom = '24px';
   public static modalBodyBorderRadius = '0px';
   public static modalFooterPaddingTop = '0px';
@@ -783,10 +787,15 @@ export class DefaultTheme {
   public static mobileModalHeaderFontSize = '24px';
   public static mobileModalHeaderLineHeight = '32px';
   public static mobileModalHeaderPadding = '16px';
-  public static mobileModalBodyPadding = '16px';
+  public static mobileModalBodyPadding = '0 16px 16px 16px';
   public static mobileModalBodyFontSize = '16px';
   public static mobileModalFooterPadding = '16px';
   public static mobileModalPaddingBottom = '16px';
+  public static mobileModalContainerHeight = '100%';
+  public static mobileModalContainerMarginTop = '0';
+  public static mobileModalContainerMarginRight = '0';
+  public static mobileModalContainerMarginBottom = '0';
+  public static mobileModalContainerMarginLeft = '0';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#ebebeb';
@@ -1061,6 +1070,70 @@ export class DefaultTheme {
   public static dropdownButtonBorderRadiusSmall = '1px';
   public static dropdownButtonBorderRadiusMedium = '1px';
   public static dropdownButtonBorderRadiusLarge = '1px';
+
+  public static get dropdownDefaultBg() {
+    return this.btnDefaultBg;
+  }
+  public static get dropdownBorderWidth() {
+    return this.btnBorderWidth;
+  }
+  public static get dropdownOutlineWidth() {
+    return this.btnOutlineWidth;
+  }
+  public static get dropdownLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get dropdownFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get dropdownPaddingXSmall() {
+    return this.selectPaddingXSmall;
+  }
+  public static get dropdownPaddingYSmall() {
+    return this.btnPaddingYSmall;
+  }
+  public static get dropdownIconSizeSmall() {
+    return this.btnIconSizeSmall;
+  }
+  public static get dropdownLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get dropdownFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get dropdownPaddingXMedium() {
+    return this.selectPaddingXMedium;
+  }
+  public static get dropdownPaddingYMedium() {
+    return this.btnPaddingYMedium;
+  }
+  public static get dropdownIconSizeMedium() {
+    return this.btnIconSizeMedium;
+  }
+  public static get dropdownLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get dropdownFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get dropdownPaddingXLarge() {
+    return this.selectPaddingXLarge;
+  }
+  public static get dropdownPaddingYLarge() {
+    return this.btnPaddingYLarge;
+  }
+  public static get dropdownIconSizeLarge() {
+    return this.btnIconSizeLarge;
+  }
+  public static get dropdownBgDisabled() {
+    return this.btnDisabledBg;
+  }
+  public static get dropdownBorderColorDisabled() {
+    return this.btnDisabledBorderColor;
+  }
+  public static get dropdownTextColorDisabled() {
+    return this.btnDisabledTextColor;
+  }
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
@@ -1227,23 +1300,47 @@ export class DefaultTheme {
   public static get menuMessagePaddingMobile() {
     return this.menuItemPaddingMobile;
   }
+  /**
+   * @deprecated use menuMessageLineHeightSmall
+   */
   public static get menuMessageLineHeight() {
     return this.menuItemLineHeightSmall;
   }
   public static get menuMessageLineHeightMobile() {
     return this.menuItemLineHeightMobile;
   }
+  /**
+   * @deprecated use menuMessageFontSizeSmall
+   */
   public static get menuMessageFontSize() {
     return this.menuItemFontSizeSmall;
   }
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
   }
-  public static menuItemGap = '0px';
-  //menuHeader
-  public static get menuHeaderColor() {
-    return this.gray;
+  public static get menuMessageFontSizeSmall() {
+    return this.menuItemFontSizeSmall;
   }
+  public static get menuMessageFontSizeMedium() {
+    return this.menuItemFontSizeMedium;
+  }
+  public static get menuMessageFontSizeLarge() {
+    return this.menuItemFontSizeLarge;
+  }
+
+  public static get menuMessageLineHeightSmall() {
+    return this.menuItemLineHeightSmall;
+  }
+  public static get menuMessageLineHeightMedium() {
+    return this.menuItemLineHeightMedium;
+  }
+  public static get menuMessageLineHeightLarge() {
+    return this.menuItemLineHeightLarge;
+  }
+  public static menuItemGap = '0px';
+
+  //menuHeader
+  public static menuHeaderColor = '#757575';
 
   /**
    * @deprecated use menuHeaderLineHeightSmall
@@ -1293,7 +1390,72 @@ export class DefaultTheme {
   public static menuHeaderPaddingTopLarge = '18px';
   public static menuHeaderPaddingBottomLarge = '8px';
 
+  public static menuHeaderTotalCountPaddingTopSmall = '4px';
+  public static menuHeaderTotalCountPaddingTopMedium = '6px';
+  public static menuHeaderTotalCountPaddingTopLarge = '8px';
+
+  public static menuHeaderTotalCountPaddingBottomSmall = '12px';
+  public static menuHeaderTotalCountPaddingBottomMedium = '14px';
+  public static menuHeaderTotalCountPaddingBottomLarge = '18px';
+
   public static menuHeaderLegacyPaddingRight = '0px';
+
+  //menuFooter
+  public static get menuFooterColor() {
+    return this.menuHeaderColor;
+  }
+  public static get menuFooterLineHeightSmall() {
+    return this.menuHeaderLineHeightSmall;
+  }
+  public static get menuFooterLineHeightMedium() {
+    return this.menuHeaderLineHeightMedium;
+  }
+  public static get menuFooterLineHeightLarge() {
+    return this.menuHeaderLineHeightLarge;
+  }
+
+  public static get menuFooterFontSizeSmall() {
+    return this.menuHeaderFontSizeSmall;
+  }
+  public static get menuFooterFontSizeMedium() {
+    return this.menuHeaderFontSizeMedium;
+  }
+  public static get menuFooterFontSizeLarge() {
+    return this.menuHeaderFontSizeLarge;
+  }
+
+  public static get menuFooterPaddingXSmall() {
+    return this.menuHeaderPaddingXSmall;
+  }
+  public static get menuFooterPaddingXMedium() {
+    return this.menuHeaderPaddingXMedium;
+  }
+  public static get menuFooterPaddingXLarge() {
+    return this.menuHeaderPaddingXLarge;
+  }
+
+  public static get menuFooterPaddingTopSmall() {
+    return this.menuHeaderPaddingBottomSmall;
+  }
+  public static get menuFooterPaddingTopMedium() {
+    return this.menuHeaderPaddingBottomMedium;
+  }
+  public static get menuFooterPaddingTopLarge() {
+    return this.menuHeaderPaddingBottomLarge;
+  }
+
+  public static get menuFooterPaddingBottomSmall() {
+    return this.menuHeaderPaddingTopSmall;
+  }
+  public static get menuFooterPaddingBottomMedium() {
+    return this.menuHeaderPaddingTopMedium;
+  }
+  public static get menuFooterPaddingBottomLarge() {
+    return this.menuHeaderPaddingTopLarge;
+  }
+
+  public static menuFooterLegacyPaddingRight = '0px';
+
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
@@ -1478,8 +1640,12 @@ export class DefaultTheme {
   }
 
   public static toggleContainerBg = '';
-  public static toggleContainerBgHover = '';
-  public static toggleContainerBgChecked = '';
+  public static get toggleContainerBgHover() {
+    return this.toggleBgHover;
+  }
+  public static get toggleContainerBgChecked() {
+    return this.toggleBgChecked;
+  }
   public static toggleContainerBgCheckedHover = '';
   public static toggleContainerBoxShadow = '';
   public static toggleContainerBoxShadowHover = '';
@@ -2458,6 +2624,25 @@ export class DefaultTheme {
 
   //#region Combobox
   public static comboboxMenuOffsetY = '2px';
+  //#endregion
+
+  //#region MiniModal
+  public static miniModalHeaderPaddingBottom = '0';
+  public static miniModalBodyPaddingTop = '16px';
+  public static miniModalBodyPaddingBottom = '0';
+  public static miniModalHeaderPaddingTop = '32px';
+  public static miniModalActionGap = '8px';
+  public static miniModalCancelIndent = '8px';
+  public static miniModalFooterPaddingTop = '24px';
+  public static miniModalFooterPaddingBottom = '32px';
+  public static miniModalTitleMarginTop = '16px';
+  public static miniModalHeightMobile = 'auto';
+  public static miniModalMarginTopMobile = '80px';
+  public static miniModalMarginLeftMobile = '24px';
+  public static miniModalMarginRightMobile = '24px';
+  public static miniModalFooterPaddingMobile = '24px 16px 16px';
+  public static miniModalHeaderPaddingMobile = '32px 16px 0';
+  public static miniModalBodyPaddingMobile = '16px 16px 0';
   //#endregion
 }
 

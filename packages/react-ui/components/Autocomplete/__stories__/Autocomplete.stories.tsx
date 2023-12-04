@@ -35,6 +35,36 @@ const commonTests: CreeveyTests = {
   },
 };
 
+const sizeTests: CreeveyTests = {
+  async 'focus and type text small'() {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  },
+  async 'focus and type text medium'() {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  },
+  async 'focus and type text large'() {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[2]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  },
+};
+
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';
 
@@ -375,5 +405,34 @@ WithManualPosition.parameters = {
         await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
       },
     },
+  },
+};
+
+export const Size = () => {
+  const source = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed.',
+    'Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh.',
+    'Donec lacus nunc, viverra nec.',
+    'Sed lectus. Integer euismod lacus luctus magna.',
+    'Suspendisse potenti.',
+    ' Sed dignissim lacinia nunc.',
+  ];
+
+  return (
+    <div>
+      <Gapped style={{ height: '300px', width: '1000px' }}>
+        <UncontrolledAutocomplete source={source} size={'small'} />
+        <UncontrolledAutocomplete source={source} size={'medium'} />
+        <UncontrolledAutocomplete source={source} size={'large'} />
+      </Gapped>
+    </div>
+  );
+};
+Size.storyName = 'size';
+
+Size.parameters = {
+  creevey: {
+    tests: sizeTests,
   },
 };

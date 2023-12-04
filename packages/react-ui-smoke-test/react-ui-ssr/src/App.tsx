@@ -36,8 +36,6 @@ import {
   Switcher,
   Tabs,
   Textarea,
-  ThemeFactory,
-  ThemeContext,
   Toast,
   Toggle,
   Token,

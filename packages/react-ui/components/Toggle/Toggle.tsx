@@ -11,10 +11,14 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Toggle.styles';
 
-export type ToggleSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type ToggleSize = SizeProp;
 
 let colorWarningShown = false;
 
@@ -65,7 +69,7 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
    */
   autoFocus?: boolean;
   /** Размер */
-  size?: ToggleSize;
+  size?: SizeProp;
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
    */
