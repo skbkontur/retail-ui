@@ -5,7 +5,6 @@
   "useWorkspaces": true,
   "command": {
     "version": {
-      "createRelease": "github",
       "conventionalCommits": true,
       "message": "chore(release): publish",
       "ignoreChanges": ["packages/react-ui-testing/TestPages/**"]

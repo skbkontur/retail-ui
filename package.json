@@ -22,9 +22,9 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd lerna version",
-    "release:next:prerelease": "yarn release prerelease --preid next --no-changelog",
-    "release:next:preminor": "yarn release preminor --preid next --no-changelog",
+    "release": "env-cmd lerna version --create-release",
+    "release:next:prerelease": "env-cmd lerna version prerelease --preid next --no-changelog",
+    "release:next:preminor": "env-cmd lerna version preminor --preid next --no-changelog",
     "prepare": "husky install",
     "preinstall": "node scripts/update-package-registry",
     "postinstall": "node scripts/update-package-registry back"
