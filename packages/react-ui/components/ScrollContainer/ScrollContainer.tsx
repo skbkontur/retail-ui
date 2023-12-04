@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -88,8 +89,12 @@ type DefaultProps = Required<
   >
 >;
 
+interface ScrollContainerState {
+  isScrollBarShown: boolean;
+}
+
 @rootNode
-export class ScrollContainer extends React.Component<ScrollContainerProps> {
+export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public inner: Nullable<HTMLElement>;
@@ -118,8 +123,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private scrollY: Nullable<ScrollBar>;
   private setRootNode!: TSetRootNode;
 
-  public state = {
-    hovered: false,
+  public state: ScrollContainerState = {
+    isScrollBarShown: !this.getProps().hideScrollBar,
   };
 
   public componentDidMount() {
@@ -249,7 +254,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   private renderScrollbar = (axis: ScrollAxis) => {
     const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
-    const { offsetY, offsetX, invert, hideScrollBar, disableAnimations, hideScrollBarDelay } = this.getProps();
+    const { offsetY, offsetX, invert, hideScrollBar, disableAnimations } = this.getProps();
 
     const offset = axis === 'x' ? offsetX : offsetY;
 
@@ -262,8 +267,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         offset={offset}
         hideScrollBarOnInactivity={hideScrollBar === true}
         disableAnimations={disableAnimations}
-        hideScrollBarDelay={hideScrollBarDelay}
-        showScrollBar={(this.state.hovered && hideScrollBar === 'onHover') || !hideScrollBar}
+        isShown={this.state.isScrollBarShown}
       />
     );
   };
@@ -307,6 +311,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.scrollY?.reflow(event);
     this.scrollX?.reflow(event);
+    event && event.type === 'scroll' && this.getProps().hideScrollBar && this.showScrollBarOnMouseWheel();
 
     this.props.onScroll?.(event);
     if (this.getProps().preventWindowScroll) {
@@ -315,6 +320,18 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     }
     LayoutEvents.emit();
   };
+
+  private showScrollBarOnMouseWheel = () => {
+    if (!this.state.isScrollBarShown) {
+      this.setState({ isScrollBarShown: true });
+    }
+    this.hideScrollBarOnWheelInactive();
+  };
+
+  private readonly hideScrollBarOnWheelInactive = debounce(() => {
+    const scrollBarHovered = this.scrollY?.getHover() || this.scrollX?.getHover();
+    !scrollBarHovered ? this.setState({ isScrollBarShown: false }) : this.hideScrollBarOnWheelInactive();
+  }, this.getProps().hideScrollBarDelay);
 
   private handleInnerScrollWheel = (event: Event) => {
     if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent)) {
@@ -338,7 +355,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleMouseEnter = () => {
-    this.setState({ hovered: true });
+    this.getProps().hideScrollBar === 'onHover' && this.setState({ isScrollBarShown: true });
   };
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -352,7 +369,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private handleMouseLeave = () => {
     this.scrollY?.setHover(false);
     this.scrollX?.setHover(false);
-    this.setState({ hovered: false });
+    this.getProps().hideScrollBar === 'onHover' && this.setState({ isScrollBarShown: false });
   };
 
   private updateInnerElement = () => {
