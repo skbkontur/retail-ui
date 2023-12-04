@@ -17,25 +17,7 @@ import { Button, SingleToast } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, SingleToast, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
-
-const CustomToast = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return <ThemeContext.Provider
-        value={ThemeFactory.create(
-          {
-            toastBg: "#000000",
-          },
-          theme
-        )}
-      >
-        <SingleToast />
-      </ThemeContext.Provider>
-    }}
-  </ThemeContext.Consumer>
-);
-
-const rand = () => "Пример тёмного тоста № " + Math.round(Math.random() * 100).toString();
+const rand = () => "Пример жёлтого тоста № " + Math.round(Math.random() * 100).toString();
 
 const pushToast = () => {
   SingleToast.push(rand(), {
@@ -45,9 +27,9 @@ const pushToast = () => {
 };
 
 <div>
-  <CustomToast />
+  <SingleToast theme={{ toastBg: '#f1c40f' }} />
   <Button onClick={pushToast}>
-    Показать тост с тёмным фоном
+    Показать тост с жёлтым фоном
   </Button>
 </div>
 ```

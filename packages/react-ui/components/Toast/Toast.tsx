@@ -2,6 +2,9 @@ import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -28,6 +31,11 @@ export interface ToastState {
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
 }
 
 export const ToastDataTids = {
@@ -50,6 +58,7 @@ export const ToastDataTids = {
 export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
   private setRootNode!: TSetRootNode;
+  private theme!: Theme;
 
   public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
     ToastStatic.push(notification, action, showTime);
@@ -79,9 +88,18 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public render() {
     return (
-      <RenderContainer>
-        <TransitionGroup>{this._renderToast()}</TransitionGroup>
-      </RenderContainer>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+          return (
+            <ThemeContext.Provider value={this.theme}>
+              <RenderContainer>
+                <TransitionGroup>{this._renderToast()}</TransitionGroup>
+              </RenderContainer>
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 
