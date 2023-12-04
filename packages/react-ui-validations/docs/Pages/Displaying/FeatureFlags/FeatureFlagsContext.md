@@ -2,7 +2,7 @@
 
 ## Доступные флаги
 
-    export interface ReactUIFeatureFlags {
+    export interface ValidationsFeatureFlags {
       ValidationsWrapperAndContainerRemoveExtraSpan?: boolean;
     }
 
