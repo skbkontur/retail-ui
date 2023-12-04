@@ -155,7 +155,11 @@ export class ValidationWrapperInternal extends React.Component<
           this.featureFlags = getFullValidationsFlagsContext(flags);
           return React.cloneElement(
             this.props.errorMessage(
-              this.featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? clonedChild : <span>{clonedChild}</span>,
+              this.featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
+                clonedChild
+              ) : (
+                <span>{clonedChild}</span>
+              ),
               !!validation,
               validation,
             ),

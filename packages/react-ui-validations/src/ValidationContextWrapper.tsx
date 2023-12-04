@@ -170,7 +170,11 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
           this.featureFlags = getFullValidationsFlagsContext(flags);
           return (
             <ValidationContext.Provider value={this}>
-              {this.featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? this.props.children : <span>{this.props.children}</span>}
+              {this.featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
+                this.props.children
+              ) : (
+                <span>{this.props.children}</span>
+              )}
             </ValidationContext.Provider>
           );
         }}
