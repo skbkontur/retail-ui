@@ -304,7 +304,7 @@ class Example6 extends React.Component {
 
   public render() {
     return (
-      <ValidationsFeatureFlagsContext.Provider value={{ ValidationsRemoveExtraSpans: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
         <ValidationContainer ref={this.refContainer}>
           <div style={{ padding: 50, height: 200, position: 'relative' }}>
             <div style={{ position: 'absolute', top: 100 }}>
@@ -496,7 +496,7 @@ class Example11 extends React.Component {
           container?.submit();
         }}
       >
-        <ValidationsFeatureFlagsContext.Provider value={{ ValidationsRemoveExtraSpans: true }}>
+        <ValidationsFeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
           <ValidationContainer ref={(el) => (container = el)}>
             <ValidationWrapper
               renderMessage={tooltip('left middle')}

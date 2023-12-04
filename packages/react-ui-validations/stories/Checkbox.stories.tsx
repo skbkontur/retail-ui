@@ -29,7 +29,7 @@ class CheckboxStory extends React.Component {
 
   public render() {
     return (
-      <ValidationsFeatureFlagsContext.Provider value={{ ValidationsRemoveExtraSpans: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>
         <div style={{ padding: '20px 20px' }}>
           <ValidationContainer ref={this.refContainer}>
             <ValidationWrapper validationInfo={this.validateSex()}>

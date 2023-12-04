@@ -3,7 +3,7 @@
 ## Доступные флаги
 
     export interface ValidationsFeatureFlags {
-      ValidationsRemoveExtraSpans?: boolean;
+      ValidationsWrapperAndContainerRemoveExtraSpan?: boolean;
     }
 
 Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
@@ -12,16 +12,16 @@
 
     import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui
 
-    <ValidationsFeatureFlagsContext.Provider value={{ ValidationsRemoveExtraSpans: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
+    <ValidationsFeatureFlagsContext.Provider value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
 
 ## Использование
 
-### ValidationsRemoveExtraSpans
+### ValidationsWrapperAndContainerRemoveExtraSpan
 
 В ValidationsContainer и ValidationsWrapper из корня удалён лишний span.
 В React UI 5.0 фича будет применена по умолчанию.
 
-    !!DemoWithCode!!FeatureFlagsExampleValidationsRemoveExtraSpans
+    !!DemoWithCode!!FeatureFlagsExampleValidationsWrapperAndContainerRemoveExtraSpan
 
 ## Объект со всеми флагами
 

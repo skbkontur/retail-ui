@@ -1,11 +1,11 @@
 import React from 'react';
 
 export interface ValidationsFeatureFlags {
-  ValidationsRemoveExtraSpans?: boolean;
+  ValidationsWrapperAndContainerRemoveExtraSpan?: boolean;
 }
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
-  ValidationsRemoveExtraSpans: false,
+  ValidationsWrapperAndContainerRemoveExtraSpan: false,
 };
 
 export const ValidationsFeatureFlagsContext =
