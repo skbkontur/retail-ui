@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.18.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.4...@skbkontur/react-ui@4.18.0) (2023-12-04)
+
+
+### Bug Fixes
+
+* **Button:** not render arrow when prop arrow is false ([#3320](https://github.com/skbkontur/retail-ui/issues/3320)) ([fd231c1](https://github.com/skbkontur/retail-ui/commit/fd231c131f5bf8d5b1824cc79cce59aac30e27c3))
+
+
+### Features
+
+* **MiniModal:** add new control ([#3228](https://github.com/skbkontur/retail-ui/issues/3228)) ([80a0fef](https://github.com/skbkontur/retail-ui/commit/80a0fefcc00b1fc6ba5f867459ab9151815bf8c7))
+* **SingleToast:** add new component ([#3314](https://github.com/skbkontur/retail-ui/issues/3314)) ([1daf55b](https://github.com/skbkontur/retail-ui/commit/1daf55bb5e432b14dd729a91983cdb3fa9e466a5))
+
+
+
+
+
 ## [4.17.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.3...@skbkontur/react-ui@4.17.4) (2023-12-04)
 
 
