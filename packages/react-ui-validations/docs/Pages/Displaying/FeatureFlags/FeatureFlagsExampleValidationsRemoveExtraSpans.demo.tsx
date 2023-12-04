@@ -28,7 +28,7 @@ export default class FeatureFlagsExampleValidationsWrapperAndContainerRemoveExtr
   render() {
     return (
       <ValidationsFeatureFlagsContext.Provider
-        value={{ ValidationsWrapperAndContainerRemoveExtraSpan: true }}
+        value={{ ValidationsRemoveExtraSpans: true }}
       >
         <ValidationContainer ref={this.refContainer}>
           <ValidationWrapper validationInfo={this.validateSex()}>

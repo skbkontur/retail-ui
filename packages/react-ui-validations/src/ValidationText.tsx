@@ -25,7 +25,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
       </>
     );
 
-    return featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
+    return featureFlags.ValidationsRemoveExtraSpans ? (
       childrenAndValidationText
     ) : (
       <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>
@@ -49,7 +49,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 
-  return featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
+  return featureFlags.ValidationsRemoveExtraSpans ? (
     <>
       {children}
       <span style={{ position: 'absolute', display: 'block' }}>{validationText}</span>
