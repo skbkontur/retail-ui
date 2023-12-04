@@ -311,7 +311,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.scrollY?.reflow(event);
     this.scrollX?.reflow(event);
-    event && event.type === 'scroll' && this.getProps().hideScrollBar && this.showScrollBarOnMouseWheel();
+    event && event.type === 'scroll' && this.getProps().hideScrollBar === true && this.showScrollBarOnMouseWheel();
 
     this.props.onScroll?.(event);
     if (this.getProps().preventWindowScroll) {
