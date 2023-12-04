@@ -27,7 +27,7 @@
     "prop-types": "^15.7.2",
     "react-router": "^5.2.0",
     "script-loader": "^0.7.2",
-    "semver": "^7.3.5",
+    "semver": "^7.5.2",
     "shelljs": "^0.8.5",
     "style-loader": "^2.0.0",
     "styled-components": "^5.2.1",

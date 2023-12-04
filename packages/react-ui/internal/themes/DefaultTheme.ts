@@ -772,6 +772,7 @@ export class DefaultTheme {
   public static modalSeparatorBorderBottom = 'none';
   public static modalBodyTextColor = 'inherit';
   public static modalFooterTextColor = 'inherit';
+  public static modalBodyPaddingTop = '0';
   public static modalBodyPaddingBottom = '24px';
   public static modalBodyBorderRadius = '0px';
   public static modalFooterPaddingTop = '0px';
@@ -786,10 +787,15 @@ export class DefaultTheme {
   public static mobileModalHeaderFontSize = '24px';
   public static mobileModalHeaderLineHeight = '32px';
   public static mobileModalHeaderPadding = '16px';
-  public static mobileModalBodyPadding = '16px';
+  public static mobileModalBodyPadding = '0 16px 16px 16px';
   public static mobileModalBodyFontSize = '16px';
   public static mobileModalFooterPadding = '16px';
   public static mobileModalPaddingBottom = '16px';
+  public static mobileModalContainerHeight = '100%';
+  public static mobileModalContainerMarginTop = '0';
+  public static mobileModalContainerMarginRight = '0';
+  public static mobileModalContainerMarginBottom = '0';
+  public static mobileModalContainerMarginLeft = '0';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#ebebeb';
@@ -2618,6 +2624,25 @@ export class DefaultTheme {
 
   //#region Combobox
   public static comboboxMenuOffsetY = '2px';
+  //#endregion
+
+  //#region MiniModal
+  public static miniModalHeaderPaddingBottom = '0';
+  public static miniModalBodyPaddingTop = '16px';
+  public static miniModalBodyPaddingBottom = '0';
+  public static miniModalHeaderPaddingTop = '32px';
+  public static miniModalActionGap = '8px';
+  public static miniModalCancelIndent = '8px';
+  public static miniModalFooterPaddingTop = '24px';
+  public static miniModalFooterPaddingBottom = '32px';
+  public static miniModalTitleMarginTop = '16px';
+  public static miniModalHeightMobile = 'auto';
+  public static miniModalMarginTopMobile = '80px';
+  public static miniModalMarginLeftMobile = '24px';
+  public static miniModalMarginRightMobile = '24px';
+  public static miniModalFooterPaddingMobile = '24px 16px 16px';
+  public static miniModalHeaderPaddingMobile = '32px 16px 0';
+  public static miniModalBodyPaddingMobile = '16px 16px 0';
   //#endregion
 }
 

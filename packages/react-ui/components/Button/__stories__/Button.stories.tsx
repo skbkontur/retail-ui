@@ -504,3 +504,34 @@ export const TextStylesReset = () => (
     </Gapped>
   </div>
 );
+
+export const UnusedPropValues: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme)}
+    rows={unusedDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+const unusedDifferentStates: ButtonState[] = [
+  { active: false },
+  { arrow: false },
+  { autoFocus: false },
+  { borderless: false },
+  { className: '' },
+  { 'data-tid': '' },
+  { disabled: false },
+  { error: false },
+  { loading: false },
+  { narrow: false },
+  { style: {} },
+  { theme: {} },
+  { title: '' },
+  { warning: false },
+  { width: '' },
+];
+UnusedPropValues.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome(2022)?\b)/ },
+  },
+};
