@@ -44,6 +44,7 @@ export * from './components/Tooltip';
 export * from './components/TooltipMenu';
 export * from './components/ResponsiveLayout';
 export * from './lib/featureFlagsContext';
+export * from './components/MiniModal';
 export * from './lib/locale';
 export * from './lib/theming/ThemeContext';
 export * from './lib/theming/ThemeFactory';

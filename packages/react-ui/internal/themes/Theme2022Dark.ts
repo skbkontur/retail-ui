@@ -234,19 +234,21 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toggleHandleBoxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
 
   // idle :hover
-  public static toggleContainerBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toggleBgHover = 'rgba(255, 255, 255, 0.16)';
   public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgHover = 'rgba(255, 255, 255, 0.32)';
   public static toggleHandleBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
 
   // checked
-  public static toggleContainerBgChecked = 'rgba(255, 255, 255, 0.1)';
+  public static toggleBgChecked = 'rgba(255, 255, 255, 0.1)';
   public static toggleContainerBoxShadowChecked = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgChecked = '#EBEBEB';
   public static toggleHandleBoxShadowChecked = 'none';
 
   // checked :hover
-  public static toggleContainerBgCheckedHover = 'rgba(255, 255, 255, 0.16)';
+  public static get toggleContainerBgCheckedHover() {
+    return this.toggleContainerBgHover;
+  }
   public static toggleContainerBoxShadowCheckedHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
   public static toggleHandleBgCheckedHover = '#FFFFFF';
   public static toggleHandleBoxShadowCheckedHover = 'none';
@@ -286,18 +288,13 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Toast
-  public static toastColor = 'rgba(44, 44, 44, 1.0)';
-  public static toastBg = 'rgba(255, 255, 255, 0.8)';
-  public static toastLinkColor = 'rgba(44, 44, 44, 1.0)';
-  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.87)';
-  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.16)';
-  public static toastCloseColor = 'rgba(0, 0, 0, 0.32)';
-  public static toastCloseHoverColor = 'rgba(0, 0, 0, 0.87)';
+  public static toastBg = 'rgba(67, 67, 67, 0.92)';
+  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static toastLinkBgActive = '';
   //#endregion
 
   //#region Hint
-  public static hintColor = 'rgba(44, 44, 44, 1.0)';
-  public static hintBgColor = 'rgba(255, 255, 255, 0.8)';
+  public static hintBgColor = 'rgba(67, 67, 67, 0.92)';
   //#endregion
 
   //#region Tooltip

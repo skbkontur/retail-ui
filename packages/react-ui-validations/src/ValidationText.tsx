@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import {
-  ValidationsFeatureFlags,
-  ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
-} from '../lib/featureFlagsContext';
+import { ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { TextPosition, Validation } from './ValidationWrapperInternal';
@@ -17,70 +13,51 @@ export interface ValidationTextProps {
 }
 
 export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
+  const featureFlags = useContext(ValidationsFeatureFlagsContext);
+
   if (pos === 'right') {
-    return (
-      <span style={{ display: 'inline-block' }}>
+    const childrenAndValidationText = (
+      <>
         {children}
         <span data-tid={dataTid} data-validation-message="text" style={{ marginLeft: '10px', color: '#d43517' }}>
           {(validation && validation.message) || ''}
         </span>
-      </span>
+      </>
+    );
+
+    return featureFlags.ValidationsRemoveExtraSpans ? (
+      childrenAndValidationText
+    ) : (
+      <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>
     );
   }
 
-  let featureFlags: ValidationsFeatureFlags;
-
-  return (
-    <ValidationsFeatureFlagsContext.Consumer>
-      {(flags) => {
-        featureFlags = getFullValidationsFlagsContext(flags);
-        return featureFlags.ValidationsWrapperAndContainerRemoveExtraSpan ? (
-          <>
-            {children}
-            <span style={{ position: 'absolute', display: 'block' }}>
-              <span
-                data-tid={dataTid}
-                data-validation-message="text"
-                style={{
-                  color: '#d43517',
-                  overflow: 'visible',
-                  whiteSpace: 'nowrap',
-                  position: 'absolute',
-                  top: '2px',
-                  left: 0,
-                }}
-              >
-                {(validation && validation.message) || ''}
-              </span>
-            </span>
-          </>
-        ) : (
-          <span
-            style={{
-              position: 'relative',
-              display: 'inline-block',
-            }}
-          >
-            {children}
-            <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
-              <span
-                data-tid={dataTid}
-                data-validation-message="text"
-                style={{
-                  color: '#d43517',
-                  overflow: 'visible',
-                  whiteSpace: 'nowrap',
-                  position: 'absolute',
-                  top: '2px',
-                  left: 0,
-                }}
-              >
-                {(validation && validation.message) || ''}
-              </span>
-            </span>
-          </span>
-        );
+  const validationText = (
+    <span
+      data-tid={dataTid}
+      data-validation-message="text"
+      style={{
+        color: '#d43517',
+        overflow: 'visible',
+        whiteSpace: 'nowrap',
+        position: 'absolute',
+        top: '2px',
+        left: 0,
       }}
-    </ValidationsFeatureFlagsContext.Consumer>
+    >
+      {(validation && validation.message) || ''}
+    </span>
+  );
+
+  return featureFlags.ValidationsRemoveExtraSpans ? (
+    <>
+      {children}
+      <span style={{ position: 'absolute', display: 'block' }}>{validationText}</span>
+    </>
+  ) : (
+    <span style={{ position: 'relative', display: 'inline-block' }}>
+      {children}
+      <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>{validationText}</span>
+    </span>
   );
 };
