@@ -67,13 +67,13 @@ export interface ScrollContainerProps extends CommonProps {
    * Скрывать скроллбар при отсутствии активности пользователя
    * @deprecated use showScrollBar
    */
-  hideScrollBar?: boolean | 'onHover';
+  hideScrollBar?: boolean;
   /**
    * Показывать скроллбар
    */
   showScrollBar?: 'always' | 'scroll' | 'hover';
   /**
-   * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true | 'onHover'` или `showScrollBar = 'scroll' | 'hover'`
+   * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`
    */
   hideScrollBarDelay?: number;
   /**
@@ -330,7 +330,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.scrollX?.reflow();
 
     const axis = this.getAxis();
-    (hideScrollBar === true || showScrollBar === 'scroll') && this.showScrollBarOnMouseWheel(axis);
+    (hideScrollBar || showScrollBar === 'scroll') && this.showScrollBarOnMouseWheel(axis);
 
     this.props.onScroll?.(event);
     if (this.getProps().preventWindowScroll) {
@@ -384,9 +384,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private handleMouseEnter = () => {
-    const { hideScrollBar, showScrollBar } = this.getProps();
-    (hideScrollBar === 'onHover' || showScrollBar === 'hover') &&
-      this.setState({ isScrollBarXShown: true, isScrollBarYShown: true });
+    this.getProps().showScrollBar === 'hover' && this.setState({ isScrollBarXShown: true, isScrollBarYShown: true });
   };
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -398,10 +396,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private handleMouseLeave = () => {
-    const { hideScrollBar, showScrollBar } = this.getProps();
     this.scrollY?.setHover(false);
     this.scrollX?.setHover(false);
-    if (hideScrollBar === 'onHover' || showScrollBar === 'hover') {
+    if (this.getProps().showScrollBar === 'hover') {
       this.hideScrollBar('both');
     }
   };
