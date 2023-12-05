@@ -30,7 +30,7 @@ export interface ScrollBarProps {
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
   disableAnimations?: boolean;
-  isShown: boolean;
+  isVisible: boolean;
 }
 
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
@@ -74,7 +74,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     const classNames = cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
       [styles.scrollBarInvert(this.theme)]: props.invert,
-      [styles.visibleScrollBar()]: props.isShown,
+      [styles.visibleScrollBar()]: props.isVisible,
     });
 
     const inlineStyles: React.CSSProperties = {
