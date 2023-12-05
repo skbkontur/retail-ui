@@ -348,11 +348,17 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.hideScrollBar(axis);
   };
 
-  private readonly hideScrollBar = debounce((axis: ScrollAxis) => {
-    if (axis === 'x') {
-      !this.scrollX?.getHover() ? this.setState({ isScrollBarXShown: false }) : this.hideScrollBar('x');
+  private readonly hideScrollBar = debounce((axis: ScrollAxis | 'both') => {
+    const isScrollBarXHovered = this.scrollX?.getHover();
+    const isScrollBarYHovered = this.scrollY?.getHover();
+    if (axis === 'both') {
+      !isScrollBarXHovered && !isScrollBarYHovered
+        ? this.setState({ isScrollBarXShown: false, isScrollBarYShown: false })
+        : this.hideScrollBar('both');
+    } else if (axis === 'x') {
+      !isScrollBarXHovered ? this.setState({ isScrollBarXShown: false }) : this.hideScrollBar('x');
     } else {
-      !this.scrollY?.getHover() ? this.setState({ isScrollBarYShown: false }) : this.hideScrollBar('y');
+      !isScrollBarYHovered ? this.setState({ isScrollBarYShown: false }) : this.hideScrollBar('y');
     }
   }, this.getProps().hideScrollBarDelay);
 
@@ -396,8 +402,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.scrollY?.setHover(false);
     this.scrollX?.setHover(false);
     if (hideScrollBar === 'onHover' || showScrollBar === 'hover') {
-      this.hideScrollBar('x');
-      this.hideScrollBar('y');
+      this.hideScrollBar('both');
     }
   };
 
