@@ -29,7 +29,6 @@ export interface ScrollBarProps {
   className?: string;
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
-  hideScrollBarOnInactivity?: boolean;
   disableAnimations?: boolean;
   isShown: boolean;
 }

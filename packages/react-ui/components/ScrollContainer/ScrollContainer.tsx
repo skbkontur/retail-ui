@@ -258,7 +258,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private renderScrollbar = (axis: ScrollAxis) => {
     const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
-    const { offsetY, offsetX, invert, hideScrollBar, disableAnimations } = this.getProps();
+    const { offsetY, offsetX, invert, disableAnimations } = this.getProps();
 
     const offset = axis === 'x' ? offsetX : offsetY;
 
@@ -269,7 +269,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         invert={invert}
         onScrollStateChange={this.handleScrollStateChange}
         offset={offset}
-        hideScrollBarOnInactivity={hideScrollBar === true}
         disableAnimations={disableAnimations}
         isShown={axis === 'x' ? this.state.isScrollBarXShown : this.state.isScrollBarYShown}
       />
