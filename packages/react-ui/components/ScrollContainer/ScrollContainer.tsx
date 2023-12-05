@@ -90,7 +90,8 @@ type DefaultProps = Required<
 >;
 
 interface ScrollContainerState {
-  isScrollBarShown: boolean;
+  isScrollBarXShown: boolean;
+  isScrollBarYShown: boolean;
 }
 
 @rootNode
@@ -122,9 +123,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   private setRootNode!: TSetRootNode;
+  private prevScrollLeft = 0;
+  private prevScrollTop = 0;
 
   public state: ScrollContainerState = {
-    isScrollBarShown: !this.getProps().hideScrollBar,
+    isScrollBarXShown: !this.getProps().hideScrollBar,
+    isScrollBarYShown: !this.getProps().hideScrollBar,
   };
 
   public componentDidMount() {
@@ -267,7 +271,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         offset={offset}
         hideScrollBarOnInactivity={hideScrollBar === true}
         disableAnimations={disableAnimations}
-        isShown={this.state.isScrollBarShown}
+        isShown={axis === 'x' ? this.state.isScrollBarXShown : this.state.isScrollBarYShown}
       />
     );
   };
@@ -311,7 +315,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.scrollY?.reflow();
     this.scrollX?.reflow();
-    event && event.type === 'scroll' && this.getProps().hideScrollBar === true && this.showScrollBarOnMouseWheel();
+
+    const axis = this.getAxis();
+    this.getProps().hideScrollBar === true && this.showScrollBarOnMouseWheel(axis);
 
     this.props.onScroll?.(event);
     if (this.getProps().preventWindowScroll) {
@@ -321,16 +327,20 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     LayoutEvents.emit();
   };
 
-  private showScrollBarOnMouseWheel = () => {
-    if (!this.state.isScrollBarShown) {
-      this.setState({ isScrollBarShown: true });
+  private showScrollBarOnMouseWheel = (axis: ScrollAxis) => {
+    const isScrollBarShown = axis === 'x' ? this.state.isScrollBarXShown : this.state.isScrollBarXShown;
+    if (!isScrollBarShown) {
+      axis === 'x' ? this.setState({ isScrollBarXShown: true }) : this.setState({ isScrollBarYShown: true });
     }
-    this.hideScrollBarOnWheelInactive();
+    this.hideScrollBarOnWheelInactive(axis);
   };
 
-  private readonly hideScrollBarOnWheelInactive = debounce(() => {
-    const scrollBarHovered = this.scrollY?.getHover() || this.scrollX?.getHover();
-    !scrollBarHovered ? this.setState({ isScrollBarShown: false }) : this.hideScrollBarOnWheelInactive();
+  private readonly hideScrollBarOnWheelInactive = debounce((axis: ScrollAxis) => {
+    if (axis === 'x') {
+      !this.scrollX?.getHover() ? this.setState({ isScrollBarXShown: false }) : this.hideScrollBarOnWheelInactive('x');
+    } else {
+      !this.scrollY?.getHover() ? this.setState({ isScrollBarYShown: false }) : this.hideScrollBarOnWheelInactive('y');
+    }
   }, this.getProps().hideScrollBarDelay);
 
   private handleInnerScrollWheel = (event: Event) => {
@@ -355,7 +365,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private handleMouseEnter = () => {
-    this.getProps().hideScrollBar === 'onHover' && this.setState({ isScrollBarShown: true });
+    this.getProps().hideScrollBar === 'onHover' && this.setState({ isScrollBarXShown: true, isScrollBarYShown: true });
   };
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -369,11 +379,28 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private handleMouseLeave = () => {
     this.scrollY?.setHover(false);
     this.scrollX?.setHover(false);
-    this.getProps().hideScrollBar === 'onHover' && this.setState({ isScrollBarShown: false });
+    this.getProps().hideScrollBar === 'onHover' &&
+      this.setState({ isScrollBarXShown: false, isScrollBarYShown: false });
   };
 
   private updateInnerElement = () => {
     this.scrollX?.setInnerElement(this.inner);
     this.scrollY?.setInnerElement(this.inner);
+  };
+
+  private getAxis = () => {
+    let axis: 'x' | 'y' = 'y';
+    const currentScrollLeft = this.inner?.scrollLeft;
+    const currentScrollTop = this.inner?.scrollTop;
+
+    if (currentScrollLeft !== this.prevScrollLeft) {
+      axis = 'x';
+    } else if (currentScrollTop !== this.prevScrollTop) {
+      axis = 'y';
+    }
+
+    this.prevScrollLeft = currentScrollLeft || 0;
+    this.prevScrollTop = currentScrollTop || 0;
+    return axis;
   };
 }
