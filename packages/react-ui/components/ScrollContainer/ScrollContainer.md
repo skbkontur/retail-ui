@@ -171,7 +171,7 @@ const offsetY = {
 </div>
 ```
 
-Проп `hideScrollBar` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms)
+Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms)
 
 ```jsx harmony
 var divStyle = {
@@ -184,7 +184,7 @@ var divStyle = {
   width: 200,
 };
 <div style={divStyle}>
-  <ScrollContainer hideScrollBar={true}>
+  <ScrollContainer showScrollBar={'scroll'}>
     {Array(30).fill(null).map((_,i) => (
       <div key={i}>
         {i}
@@ -194,7 +194,7 @@ var divStyle = {
 </div>
 ```
 
-Проп `hideScrollBar='onHover'` позволяет показывать скроллбар только когда курсор находится над скролл контейнером
+Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером
 
 ```jsx harmony
 var divStyle = {
@@ -210,7 +210,7 @@ var divStyle = {
 
 <span>
   <div style={divStyle}>
-    <ScrollContainer hideScrollBar={'onHover'}>
+    <ScrollContainer showScrollBar={'hover'}>
       {Array(30).fill(null).map((_,i) => (
         <div key={i}>
           {i}
