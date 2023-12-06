@@ -27,7 +27,7 @@ export interface ScrollBarProps {
   invert: boolean;
   axis: ScrollAxis;
   className?: string;
-  onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
+  onScroll?: (axis: ScrollAxis, state: ScrollBarScrollState, prevState: ScrollBarScrollState) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
   disableAnimations?: boolean;
   isVisible: boolean;
@@ -112,9 +112,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
       const scrollState = this.getImmediateScrollState();
 
-      if (scrollState !== state.scrollState) {
-        this.props.onScrollStateChange?.(scrollState, props.axis);
-      }
+      this.props.onScroll?.(props.axis, scrollState, state.scrollState);
 
       this.setState({
         ...this.state,
