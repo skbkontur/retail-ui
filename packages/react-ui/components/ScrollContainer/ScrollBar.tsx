@@ -112,7 +112,9 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
       const scrollState = this.getImmediateScrollState();
 
-      this.props.onScroll?.(props.axis, scrollState, state.scrollState);
+      if (state.pos !== scrollPos) {
+        this.props.onScroll?.(props.axis, scrollState, state.scrollState);
+      }
 
       this.setState({
         ...this.state,

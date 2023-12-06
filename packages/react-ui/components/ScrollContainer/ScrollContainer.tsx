@@ -311,9 +311,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   ) => {
     if (scrollState !== prevScrollState) {
       this.handleScrollStateChange(scrollState, axis);
-      const { hideScrollBar, showScrollBar } = this.getProps();
-      (hideScrollBar || showScrollBar === 'scroll') && this.showScrollBarOnMouseWheel(axis);
     }
+    const { hideScrollBar, showScrollBar } = this.getProps();
+    (hideScrollBar || showScrollBar === 'scroll') && this.showScrollBarOnMouseWheel(axis);
   };
 
   private refScrollBarY = (scrollbar: Nullable<ScrollBar>) => {
