@@ -358,11 +358,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private readonly hideScrollBar = debounce((axis: ScrollAxis | 'both') => {
-    const isScrollBarXHovered = this.scrollX?.getHover();
-    const isScrollBarYHovered = this.scrollY?.getHover();
     if (this.state.isHovered) {
       return;
     }
+    const isScrollBarXHovered = this.scrollX?.getHover();
+    const isScrollBarYHovered = this.scrollY?.getHover();
     if (axis === 'both') {
       !isScrollBarXHovered && !isScrollBarYHovered
         ? this.setState({ isScrollBarXVisible: false, isScrollBarYVisible: false })
