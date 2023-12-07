@@ -83,4 +83,27 @@ describe('MaskedInput', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('+7 890 123 45 ');
   });
+
+  it('prefix on focus', () => {
+    render(<MaskedInput mask="+7 (999) 999 99 99" />);
+
+    const input = screen.getByRole('textbox');
+    input.focus();
+
+    expect(input).toHaveValue('+7 (');
+  });
+
+  it.each<[MaskedInputProps['value'], string]>([
+    ['', ''],
+    ['+7 (', ''],
+    ['+7 (9', '+7 (9'],
+  ])('focus and blur with value "%s" should be "%s"', (value, expectedValue) => {
+    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
+
+    const input = screen.getByRole('textbox');
+    input.focus();
+    input.blur();
+
+    expect(input).toHaveValue(expectedValue);
+  });
 });

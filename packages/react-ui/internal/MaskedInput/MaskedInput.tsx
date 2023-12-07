@@ -11,7 +11,7 @@ import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInput.styles';
-import { getCurrentValue, getDefinitions, getMaskChar } from './MaskedInput.helpers';
+import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './MaskedInput.helpers';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -185,7 +185,11 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({ focused: false });
+    if (this.state.value === getFocusPrefix(this.state, this.props.maskChar)) {
+      this.setState({ focused: false, value: '', originValue: '' });
+    } else {
+      this.setState({ focused: false });
+    }
 
     if (this.props.onBlur) {
       this.props.onBlur(event);

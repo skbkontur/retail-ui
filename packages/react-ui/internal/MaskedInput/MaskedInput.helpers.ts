@@ -29,15 +29,21 @@ interface MaskedInputState {
   focused: boolean;
 }
 
+export function getFocusPrefix(state: MaskedInputState, maskChar: Nullable<string>): string {
+  const { emptyValue } = state;
+  return emptyValue.slice(0, emptyValue.indexOf(getMaskChar(maskChar)));
+}
+
 export function getCurrentValue(
   state: MaskedInputState,
   maskChar: Nullable<string>,
 ): [currentValue: string, left: string, right: string] {
   const { emptyValue, value, originValue, focused } = state;
+
   if (focused && originValue.length === 0 && emptyValue.length > 0) {
-    const currentValue = emptyValue.slice(0, emptyValue.indexOf(getMaskChar(maskChar)));
+    const currentValue = getFocusPrefix(state, maskChar);
     return [currentValue, currentValue, emptyValue.slice(currentValue.length)];
-  } else {
-    return [value, originValue, emptyValue.slice(originValue.length)];
   }
+
+  return [value, originValue, emptyValue.slice(originValue.length)];
 }
