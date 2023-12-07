@@ -59,6 +59,7 @@ export const styles = memoizeStyle({
   visibleScrollBar() {
     return css`
       opacity: 1;
+      transition: opacity 0.1s ease-out, width 0.2s, height 0.2s;
     `;
   },
 
