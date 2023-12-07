@@ -1,7 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import React, { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
 import warning from 'warning';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
@@ -50,6 +50,19 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
     .map((i) => `"${i}"`)
     .join(', ')}.`;
 };
+
+export interface InputComponentProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  /**
+   * Обработчик неправильного ввода.
+   * По-умолчанию, инпут вспыхивает синим.
+   * Если передан - вызывается переданный обработчик,
+   * в таком случае вспыхивание можно вызвать
+   * публичным методом инстанса `blink()`.
+   *
+   * @param value значение инпута.
+   */
+  onUnexpectedInput?: (value: string) => void;
+}
 
 export interface InputProps
   extends CommonProps,
@@ -140,6 +153,7 @@ export interface InputProps
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
+        element?: ReactElement<InputComponentProps>;
       }
     > {}
 
@@ -334,6 +348,17 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
+  private getInput = (inputComponentProps: InputComponentProps & ClassAttributes<HTMLInputElement>) => {
+    if (this.props.element) {
+      return React.cloneElement(this.props.element, inputComponentProps);
+    }
+
+    const { onUnexpectedInput, ...inputProps } = inputComponentProps;
+    return this.props.mask && !this.canBeUsedWithMask
+      ? this.renderMaskedInput(inputProps, this.props.mask)
+      : React.createElement('input', inputProps);
+  };
+
   private renderMain = (props: CommonWrapperRestProps<InputProps>) => {
     const {
       onMouseEnter,
@@ -392,7 +417,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onMouseOver,
     };
 
-    const inputProps = {
+    const inputProps: InputComponentProps & ClassAttributes<HTMLInputElement> = {
       ...rest,
       className: cx(styles.input(this.theme), {
         [styles.inputFocus(this.theme)]: focused,
@@ -412,12 +437,10 @@ export class Input extends React.Component<InputProps, InputState> {
       disabled,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
+      onUnexpectedInput: this.handleUnexpectedInput,
     };
 
-    const input =
-      mask && !this.canBeUsedWithMask
-        ? this.renderMaskedInput(inputProps, mask)
-        : React.createElement('input', inputProps);
+    const input = this.getInput(inputProps);
 
     if (isTheme2022(this.theme)) {
       return (
@@ -462,12 +485,7 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   };
 
-  private renderMaskedInput(
-    inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
-      capture?: boolean;
-    },
-    mask: string,
-  ) {
+  private renderMaskedInput(inputProps: React.InputHTMLAttributes<HTMLInputElement>, mask: string) {
     return (
       <MaskedInput
         {...inputProps}
