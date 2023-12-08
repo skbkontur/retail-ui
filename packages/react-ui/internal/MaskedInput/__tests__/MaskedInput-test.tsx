@@ -106,4 +106,14 @@ describe('MaskedInput', () => {
 
     expect(input).toHaveValue(expectedValue);
   });
+
+  it('onValueChange do not fire on focus', () => {
+    const valueChangeEvent = jest.fn();
+    render(<MaskedInput mask="+7 (XXX) XXX XX XX" onValueChange={valueChangeEvent} />);
+
+    const input = screen.getByRole('textbox');
+    input.focus();
+
+    expect(valueChangeEvent).not.toHaveBeenCalled();
+  });
 });

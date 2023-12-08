@@ -49,7 +49,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
-  private acceptedChanges = false;
+  private expectedChanges = false;
 
   public constructor(props: MaskedInputProps) {
     super(props);
@@ -153,11 +153,18 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
   /** В imask вызывается только когда значение с маской меняется*/
   private handleAccept = (value: string) => {
-    this.acceptedChanges = true;
+    this.expectedChanges = true;
     this.setState({ value, originValue: value });
-    if (this.props.onValueChange) {
-      this.props.onValueChange(value);
-    }
+
+    setTimeout(() => {
+      /** При вводе с клавиатуры срабатывает handleAccept, за ним handleInput
+       * expectedChanges - нужен чтобы сообщить из handleAccept в handleInput, что значение с маской изменилось.
+       * Если маска не изменилась и сработал handleInput, вызываем handleUnexpectedInput. Ввели значение не по маске.
+       * setTimeout нужен чтобы сбросить expectedChanges, например, если изменилось значение в пропах.
+       * Маска изменится, вызовется handleAccept, но не handleInput
+       */
+      this.expectedChanges = false;
+    });
   };
 
   /** Отслеживаем неправильные нажатия,
@@ -167,17 +174,19 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   private handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (!this.acceptedChanges && value === this.state.originValue) {
+    if (!this.expectedChanges && value === this.state.originValue) {
       this.handleUnexpectedInput();
+    } else if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
 
-    this.acceptedChanges = false;
+    this.expectedChanges = false;
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ focused: true });
 
-    this.acceptedChanges = false;
+    this.expectedChanges = false;
 
     if (this.props.onFocus) {
       this.props.onFocus(event);
