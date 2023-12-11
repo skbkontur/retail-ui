@@ -38,6 +38,7 @@ export * from './components/Switcher';
 export * from './components/Tabs';
 export * from './components/Textarea';
 export * from './components/Toast';
+export * from './components/SingleToast';
 export * from './components/Toggle';
 export * from './components/Token';
 export * from './components/TokenInput';
