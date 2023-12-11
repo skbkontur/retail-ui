@@ -92,6 +92,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.props.onDone?.();
   }, this.getProps().delayBeforeHide);
 
+  private readonly resumeTaskAfterSuccessAnimation = debounce(() => {
+    this.setActive();
+  }, this.getProps().delayBeforeHide);
+
   public static defaultProps: DefaultProps = {
     expectedResponseTime: 1000,
     delayBeforeShow: 1000,
@@ -219,15 +223,12 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setActive = () => {
-    const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
-      this.successAnimationInProgressTimeout = globalObject.setTimeout(() => {
-        this.setActive();
-      }, delayBeforeHide);
+      this.resumeTaskAfterSuccessAnimation();
     } else {
       this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
-      if (rejected) {
+      if (this.getProps().rejected) {
         this.setReject(true);
       } else {
         this.stopTask.cancel();
@@ -242,6 +243,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
     this.setState({ done: true, successAnimationInProgress: true });
     this.startTask.cancel();
+    this.resumeTaskAfterSuccessAnimation.cancel();
     this.stopTask();
   };
 
