@@ -262,6 +262,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   public kill = () => {
     this.stopTask.cancel();
     this.startTask.cancel();
+    this.resumeTaskAfterSuccessAnimation.cancel();
     this.setState({
       dead: true,
     });
