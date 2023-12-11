@@ -116,4 +116,14 @@ describe('MaskedInput', () => {
 
     expect(valueChangeEvent).not.toHaveBeenCalled();
   });
+
+  it('maskedInput calls onUnexpectedInput', () => {
+    const handleUnexpectedInput = jest.fn();
+    render(<MaskedInput mask="+7 (XXX) XXX XX XX" onUnexpectedInput={handleUnexpectedInput} />);
+
+    const input = screen.getByRole('textbox');
+    fireEvent.input(input, { target: { value: "A" } });
+
+    expect(handleUnexpectedInput).not.toHaveBeenCalled();
+  });
 });

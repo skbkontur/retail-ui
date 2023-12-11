@@ -191,7 +191,7 @@ describe('<Autocomplete />', () => {
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, alwaysShowMask: true, mask: '(999) 999-9999' };
     render(<Autocomplete {...props} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '7999999999' } });
+    fireEvent.input(screen.getByRole('textbox'), { target: { value: '7999999999' } });
     expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
   });
 

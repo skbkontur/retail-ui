@@ -54,7 +54,7 @@ describe('<Input />', () => {
 
   it('renders MaskedInput on mask prop', () => {
     render(<Input value="" mask={'(999) 999-9999'} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '7999999999' } });
+    fireEvent.input(screen.getByRole('textbox'), { target: { value: '7999999999' } });
     expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
   });
 
@@ -484,8 +484,7 @@ describe('<Input />', () => {
     const unexpectedInputHandlerMock = jest.fn();
 
     render(<Input value="" mask={'(999) 999-9999'} onUnexpectedInput={unexpectedInputHandlerMock} />);
-    userEvent.click(screen.getByRole('textbox'));
-    userEvent.keyboard('A');
+    fireEvent.input(screen.getByRole('textbox'), 'A');
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
