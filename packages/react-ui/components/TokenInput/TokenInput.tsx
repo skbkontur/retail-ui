@@ -296,7 +296,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (delimiters.every((delimiter) => delimiter !== TEMP_FAKE_FLAG)) {
       return delimiters;
     }
-    if (this.featureFlags.TokenInputRemoveWhitespaceFromDefaultDelimiters) {
+    if (this.featureFlags.tokenInputRemoveWhitespaceFromDefaultDelimiters) {
       return delimiters.filter((delimiter) => delimiter !== ' ' && delimiter !== TEMP_FAKE_FLAG);
     }
     return delimiters.filter((delimiter) => delimiter !== TEMP_FAKE_FLAG);

@@ -294,12 +294,12 @@ describe('<TokenInput />', () => {
     expect(screen.getByText('bbb')).toBeInTheDocument();
   });
 
-  describe('with TokenInputRemoveWhitespaceFromDefaultDelimiters flag', () => {
+  describe('with tokenInputRemoveWhitespaceFromDefaultDelimiters flag', () => {
     const TokenInputWithFeatureFlagsContext = (props: { customDelimiters?: string[] }) => {
       const [selectedItems, setSelectedItems] = useState(['']);
 
       return (
-        <ReactUIFeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+        <ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
           <TokenInput
             type={TokenInputType.Combined}
             getItems={getItems}

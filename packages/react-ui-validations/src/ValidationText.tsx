@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
+import { getFullValidationsFlagsContext, ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { TextPosition, Validation } from './ValidationWrapperInternal';
@@ -13,7 +13,7 @@ export interface ValidationTextProps {
 }
 
 export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
-  const featureFlags = useContext(ValidationsFeatureFlagsContext);
+  const featureFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
 
   if (pos === 'right') {
     const childrenAndValidationText = (
@@ -25,7 +25,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
       </>
     );
 
-    return featureFlags.ValidationsRemoveExtraSpans ? (
+    return featureFlags.validationsRemoveExtraSpans ? (
       childrenAndValidationText
     ) : (
       <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>
@@ -49,7 +49,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 
-  return featureFlags.ValidationsRemoveExtraSpans ? (
+  return featureFlags.validationsRemoveExtraSpans ? (
     <>
       {children}
       <span style={{ position: 'absolute', display: 'block' }}>{validationText}</span>

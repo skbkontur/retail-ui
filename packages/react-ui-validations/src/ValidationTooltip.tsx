@@ -42,7 +42,7 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
       <ValidationsFeatureFlagsContext.Consumer>
         {(flags) => {
           this.featureFlags = getFullValidationsFlagsContext(flags);
-          return !this.featureFlags.ValidationsRemoveExtraSpans &&
+          return !this.featureFlags.validationsRemoveExtraSpans &&
             (ReactUiDetection.isRadioGroup(child) ||
               ReactUiDetection.isTokenInput(child) ||
               ReactUiDetection.isSwitcher(child)) ? (

@@ -4,7 +4,7 @@
 
 ```typescript static
 export interface ReactUIFeatureFlags {
-  TokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
 }
 ```
 
@@ -15,12 +15,12 @@ export interface ReactUIFeatureFlags {
 ```jsx static
 import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<ReactUIFeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
+<ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
 ```
 
 ## Использование
 
-### TokenInputRemoveWhitespaceFromDefaultDelimiters
+### tokenInputRemoveWhitespaceFromDefaultDelimiters
 
 В TokenInput из дефолтных разделителей удалён пробел.
 В React UI 5.0 фича будет применена по умолчанию.
@@ -31,7 +31,7 @@ import { TokenInput, TokenInputType, Token, ReactUIFeatureFlagsContext } from '@
 const [selectedItems, setSelectedItems] = React.useState([]);
 const getItems = () => {};
 
-<ReactUIFeatureFlagsContext.Provider value={{ TokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
+<ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
   <TokenInput
     type={TokenInputType.Combined}
     getItems={getItems}

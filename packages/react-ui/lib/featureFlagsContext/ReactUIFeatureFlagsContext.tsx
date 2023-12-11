@@ -1,11 +1,11 @@
 import React from 'react';
 
 export interface ReactUIFeatureFlags {
-  TokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  TokenInputRemoveWhitespaceFromDefaultDelimiters: false,
+  tokenInputRemoveWhitespaceFromDefaultDelimiters: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
