@@ -3,11 +3,6 @@ import { KonturColors, TKonturColor } from '../src/colors';
 
 export default {
   title: 'Colors',
-  parameters: {
-    creevey: {
-      skip: { 'not needed': { in: ['ie11'] } },
-    },
-  },
 };
 
 enum stylesKeys {
