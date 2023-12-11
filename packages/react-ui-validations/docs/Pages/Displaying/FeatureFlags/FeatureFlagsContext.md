@@ -18,7 +18,7 @@
 
 ### ValidationsRemoveExtraSpans
 
-В ValidationsContainer и ValidationsWrapper из корня удалён лишний span.
+В ValidationContainer, ValidationWrapper и ValidationText из корня удалён лишний span.
 В React UI 5.0 фича будет применена по умолчанию.
 
     !!DemoWithCode!!FeatureFlagsExampleValidationsRemoveExtraSpans
