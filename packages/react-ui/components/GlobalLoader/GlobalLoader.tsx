@@ -1,6 +1,5 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -78,7 +77,6 @@ type DefaultProps = Required<
 let currentGlobalLoader: GlobalLoader;
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
-  private successAnimationInProgressTimeout: SafeTimer;
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
@@ -117,7 +115,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       successAnimationInProgress: false,
       expectedResponseTime: this.getProps().expectedResponseTime,
     };
-    this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
     currentGlobalLoader = this;
   }
@@ -137,7 +134,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.setState({ expectedResponseTime });
     }
     if (rejected !== prevProps.rejected) {
-      this.setReject(!!rejected);
+      this.setReject(rejected);
     }
     if (active !== prevProps.active) {
       if (active) {
@@ -146,10 +143,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         this.setDone();
       }
     }
-  }
-
-  componentWillUnmount() {
-    this.successAnimationInProgressTimeout && globalObject.clearTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
