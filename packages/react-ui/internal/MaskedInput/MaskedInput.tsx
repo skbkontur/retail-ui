@@ -15,6 +15,7 @@ import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
+  unmask?: boolean;
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
