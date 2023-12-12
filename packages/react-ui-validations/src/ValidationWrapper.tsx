@@ -38,6 +38,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
           independent: validationInfo.independent || false,
         }
       : null;
+
     return (
       <ValidationWrapperInternal
         data-tid={datTid}
