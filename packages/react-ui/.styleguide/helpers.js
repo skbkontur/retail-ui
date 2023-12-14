@@ -22,7 +22,7 @@ const excludedComponents = [
   'SidePageContext',
 ];
 
-const sectionComponents = ['Modal', 'SidePage', 'Tabs'];
+const sectionComponents = ['Modal', 'MiniModal', 'SidePage', 'Tabs'];
 
 const findComponentsInSection = (dirPath, name) => {
   // Looks for entries like `ParentCompChildComp.tsx`
@@ -89,6 +89,7 @@ const getCommonSections = () => {
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Migration', content: path.join(__dirname, '../MIGRATION.md'), exampleMode: 'expand' },
     { name: 'LocaleContext', content: path.join(__dirname, '../lib/locale/LOCALECONTEXT.md') },
+    { name: 'FeatureFlagsContext', content: path.join(__dirname, '../lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md') },
     { name: 'DataTids', content: path.join(__dirname, '../internal/DataTids/DATATIDS.md') },
     { name: 'SSR', content: path.join(__dirname, '../SSR.md') },
     { name: 'Mobiles', content: path.join(__dirname, '../MOBILES.md') },

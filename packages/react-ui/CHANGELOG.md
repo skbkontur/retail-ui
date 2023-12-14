@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.18.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.4...@skbkontur/react-ui@4.18.0) (2023-12-04)
+
+
+### Bug Fixes
+
+* **Button:** not render arrow when prop arrow is false ([#3320](https://github.com/skbkontur/retail-ui/issues/3320)) ([fd231c1](https://github.com/skbkontur/retail-ui/commit/fd231c131f5bf8d5b1824cc79cce59aac30e27c3))
+
+
+### Features
+
+* **MiniModal:** add new control ([#3228](https://github.com/skbkontur/retail-ui/issues/3228)) ([80a0fef](https://github.com/skbkontur/retail-ui/commit/80a0fefcc00b1fc6ba5f867459ab9151815bf8c7))
+* **SingleToast:** add new component ([#3314](https://github.com/skbkontur/retail-ui/issues/3314)) ([1daf55b](https://github.com/skbkontur/retail-ui/commit/1daf55bb5e432b14dd729a91983cdb3fa9e466a5))
+
+
+
+
+
+## [4.17.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.3...@skbkontur/react-ui@4.17.4) (2023-12-04)
+
+
+### Bug Fixes
+
+* **GlobalLoader:** repair of call chain done()➔start()➔done() ([#3319](https://github.com/skbkontur/retail-ui/issues/3319)) ([9be8e35](https://github.com/skbkontur/retail-ui/commit/9be8e35c9216e055e4b213467115023d8b6d6282))
+* **Select:** reject focus of unmounted input ([#3318](https://github.com/skbkontur/retail-ui/issues/3318)) ([f3ac028](https://github.com/skbkontur/retail-ui/commit/f3ac028e4b0e83564c693dde1f22a5592d6cb3d3))
+
+
+
+
+
+## [4.17.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.2...@skbkontur/react-ui@4.17.3) (2023-11-14)
+
+
+### Bug Fixes
+
+* **Link:** return underline when hovering over icon ([#3313](https://github.com/skbkontur/retail-ui/issues/3313)) ([aa4c9f0](https://github.com/skbkontur/retail-ui/commit/aa4c9f0e2fb2a15b61c52709356baeaac1bbb313))
+
+
+
+
+
+## [4.17.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.1...@skbkontur/react-ui@4.17.2) (2023-11-13)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
+## [4.17.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.0...@skbkontur/react-ui@4.17.1) (2023-11-09)
+
+
+### Bug Fixes
+
+* **Dropdown:** add 21 theme variables ([#3310](https://github.com/skbkontur/retail-ui/issues/3310)) ([47b69ad](https://github.com/skbkontur/retail-ui/commit/47b69adf48fbbdce93d73ee8bb2a8ab61f7e8534))
+* **FileUploader:** hide native input in Safari ([#3309](https://github.com/skbkontur/retail-ui/issues/3309)) ([3454e50](https://github.com/skbkontur/retail-ui/commit/3454e500cd8b0ac434f7417bbf9fbbb973d251f6))
+* **Link:** fix link underline on focus ([#3311](https://github.com/skbkontur/retail-ui/issues/3311)) ([7be897e](https://github.com/skbkontur/retail-ui/commit/7be897eb57a66d3966d442f1a4a0bc6b37b8924a))
+* **Toggle:** link toggleContainerBg to toggleBg variables ([#3303](https://github.com/skbkontur/retail-ui/issues/3303)) ([d881c90](https://github.com/skbkontur/retail-ui/commit/d881c904bc6074ef85065038cc0b62d8cd22a183))
+
+
+
+
+
 # [4.17.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.16.2...@skbkontur/react-ui@4.17.0) (2023-11-01)
 
 

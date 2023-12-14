@@ -1,6 +1,11 @@
 import React, { ReactInstance } from 'react';
 import warning from 'warning';
 
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
 import { getRootNode } from './utils/getRootNode';
@@ -64,6 +69,8 @@ export class ValidationWrapperInternal extends React.Component<
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
+
+  private featureFlags!: ValidationsFeatureFlags;
 
   public componentDidMount() {
     warning(
@@ -142,9 +149,23 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    return React.cloneElement(this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation), {
-      'data-tid': dataTid,
-    });
+    return (
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullValidationsFlagsContext(flags);
+          return React.cloneElement(
+            this.props.errorMessage(
+              this.featureFlags.validationsRemoveExtraSpans ? clonedChild : <span>{clonedChild}</span>,
+              !!validation,
+              validation,
+            ),
+            {
+              'data-tid': dataTid,
+            },
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
+    );
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {

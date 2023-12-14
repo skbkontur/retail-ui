@@ -21,6 +21,7 @@ export const VARIABLES_GROUPS = [
   { title: 'Loader', prefix: 'loader' },
   { title: 'Menu', prefix: 'menu' },
   { title: 'Modal', prefix: 'modal' },
+  { title: 'MiniModal', prefix: 'miniModal' },
   { title: 'Paging', prefix: 'paging' },
   { title: 'Popup', prefix: 'popup' },
   { title: 'Radio', prefix: 'radio' },

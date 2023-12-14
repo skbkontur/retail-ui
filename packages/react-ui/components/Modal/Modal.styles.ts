@@ -1,6 +1,11 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
+
+export const modalGlobalClasses = prefix('modal')({
+  root: 'root',
+  container: 'container',
+});
 
 export const styles = memoizeStyle({
   root() {
@@ -40,6 +45,16 @@ export const styles = memoizeStyle({
         vertical-align: middle;
         height: 80%; /* to vertical align modal 40%/60% of screen height */
       }
+    `;
+  },
+
+  containerMobile(t: Theme) {
+    return css`
+      height: ${t.mobileModalContainerHeight};
+      margin-top: ${t.mobileModalContainerMarginTop};
+      margin-right: ${t.mobileModalContainerMarginRight};
+      margin-bottom: ${t.mobileModalContainerMarginBottom};
+      margin-left: ${t.mobileModalContainerMarginLeft};
     `;
   },
 
@@ -210,7 +225,10 @@ export const styles = memoizeStyle({
   body(t: Theme) {
     return css`
       border-radius: ${t.modalBodyBorderRadius};
-      padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
+      padding-top: ${t.modalBodyPaddingTop};
+      padding-right: ${t.modalPaddingRight};
+      padding-bottom: ${t.modalBodyPaddingBottom};
+      padding-left: ${t.modalPaddingLeft};
       color: ${t.modalBodyTextColor};
     `;
   },
@@ -218,7 +236,6 @@ export const styles = memoizeStyle({
   mobileBody(t: Theme) {
     return css`
       padding: ${t.mobileModalBodyPadding};
-      padding-top: 0px;
       display: flex;
       flex-flow: column;
       flex: 1;
@@ -349,7 +366,7 @@ export const styles = memoizeStyle({
 
   mobileBodyAddPaddingForPanel(t: Theme) {
     return css`
-      padding-bottom: ${t.mobileModalBodyPadding};
+      padding: ${t.mobileModalBodyPadding};
     `;
   },
 
