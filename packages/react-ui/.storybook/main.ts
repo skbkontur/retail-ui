@@ -33,4 +33,23 @@ module.exports = {
     });
     return config;
   },
+  webpackFinal: (config, { configType }) => {
+    // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
+    // You can change the configuration based on that.
+    // 'PRODUCTION' is used when building the static version of storybook.
+
+    // Make whatever fine-grained changes you need
+    config.module.rules.push({
+      test: /testing-library/,
+      loader: 'babel-loader',
+      options: {
+        babelrc: false,
+        envName: 'cjs',
+        extends: path.join(__dirname, '../.babelrc.js'),
+      },
+    });
+
+    // Return the altered config
+    return config;
+  },
 };
