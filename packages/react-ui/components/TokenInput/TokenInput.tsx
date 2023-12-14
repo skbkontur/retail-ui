@@ -39,12 +39,19 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
+
+const TEMP_FAKE_FLAG = 'TEMP_FAKE_FLAG';
 
 export enum TokenInputType {
   WithReference,
@@ -272,7 +279,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public static defaultProps: DefaultProps<any> = {
     selectedItems: [],
-    delimiters: [',', ' '],
+    // TEMP_FAKE_FLAG помогает узнать, остались ли разделители дефолтными или пользователь передал их равными дефолтным.
+    delimiters: [',', ' ', TEMP_FAKE_FLAG],
     renderItem: identity,
     renderValue: identity,
     valueToString: identity,
@@ -289,7 +297,22 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     size: 'small',
   };
 
-  private getProps = createPropsGetter(TokenInput.defaultProps);
+  private getDelimiters(): string[] {
+    const delimiters = this.props.delimiters ?? [];
+    if (delimiters.every((delimiter) => delimiter !== TEMP_FAKE_FLAG)) {
+      return delimiters;
+    }
+    if (this.featureFlags.tokenInputRemoveWhitespaceFromDefaultDelimiters) {
+      return delimiters.filter((delimiter) => delimiter !== ' ' && delimiter !== TEMP_FAKE_FLAG);
+    }
+    return delimiters.filter((delimiter) => delimiter !== TEMP_FAKE_FLAG);
+  }
+
+  private getProps() {
+    const propsGetter = createPropsGetter(TokenInput.defaultProps);
+    const propsWithOldDelimiters = propsGetter.apply(this);
+    return { ...propsWithOldDelimiters, delimiters: this.getDelimiters() };
+  }
 
   public state: TokenInputState<T> = DefaultState;
 
@@ -297,6 +320,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -351,12 +375,19 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 

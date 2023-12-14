@@ -7,6 +7,7 @@ export const getInnerLinkTheme = (theme: Theme): Theme => {
       linkLineBorderBottomStyle: theme.btnLinkLineBorderBottomStyle,
       linkLineHoverBorderBottomStyle: theme.btnLinkHoverLineBorderBottomStyle,
       linkLineBorderBottomOpacity: theme.btnLinkLineBorderBottomOpacity,
+      linkLineBorderBottomColor: theme.btnLinkLineBorderBottomColor,
       linkLineBorderBottomWidth: theme.btnLinkLineBorderBottomWidth,
       linkDisabledColor: theme.btnLinkDisabledColor,
       linkColor: theme.btnLinkColor,

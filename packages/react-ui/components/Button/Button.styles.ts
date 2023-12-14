@@ -13,6 +13,7 @@ import {
 } from './Button.mixins';
 
 export const globalClasses = prefix('button')({
+  root: 'root',
   arrowHelper: 'arrow-helper',
   arrowHelperTop: 'arrow-helper-top',
   arrowHelperBottom: 'arrow-helper-bottom',

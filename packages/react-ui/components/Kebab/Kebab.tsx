@@ -21,6 +21,11 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -88,6 +93,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
 
   private listener: {
@@ -134,23 +140,30 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     const { disabled } = this.props;
     const { positions, disableAnimations, onOpen, onClose } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <PopupMenu
-          popupHasPin={!isTheme2022(this.theme)}
-          preventIconsOffset={this.props.preventIconsOffset}
-          positions={positions}
-          onChangeMenuState={this.handleChangeMenuState}
-          caption={this.renderCaption}
-          disableAnimations={disableAnimations}
-          menuMaxHeight={this.props.menuMaxHeight}
-          onOpen={onOpen}
-          onClose={onClose}
-          popupMenuId={this.props.popupMenuId}
-          aria-label={this.props['aria-label']}
-        >
-          {!disabled && this.props.children}
-        </PopupMenu>
-      </CommonWrapper>
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <PopupMenu
+                popupHasPin={this.featureFlags.kebabHintToastRemovePin ? !isTheme2022(this.theme) : true}
+                preventIconsOffset={this.props.preventIconsOffset}
+                positions={positions}
+                onChangeMenuState={this.handleChangeMenuState}
+                caption={this.renderCaption}
+                disableAnimations={disableAnimations}
+                menuMaxHeight={this.props.menuMaxHeight}
+                onOpen={onOpen}
+                onClose={onClose}
+                popupMenuId={this.props.popupMenuId}
+                aria-label={this.props['aria-label']}
+              >
+                {!disabled && this.props.children}
+              </PopupMenu>
+            </CommonWrapper>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 

@@ -41,6 +41,9 @@ export const styles = memoizeStyle({
       border-radius: 1px;
       outline: none;
       text-decoration: none;
+      &:hover .${globalClasses.text} {
+        border-bottom-color: currentColor !important;
+      }
     `;
   },
 
@@ -57,10 +60,15 @@ export const styles = memoizeStyle({
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
         border-bottom-color: transparent;
-        &:hover {
-          border-bottom-color: currentColor;
-          border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
-        }
+      }
+    `;
+  },
+
+  lineTextWrapperFocused(t: Theme) {
+    return css`
+      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
+        border-bottom-color: currentColor;
+        border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
       }
     `;
   },

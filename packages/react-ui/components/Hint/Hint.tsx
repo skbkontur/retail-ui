@@ -14,6 +14,11 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { styles } from './Hint.styles';
 
@@ -116,6 +121,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
+
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();
@@ -169,25 +176,32 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <Popup
-          hasPin={!isTheme2022(this.theme)}
-          opened={this.state.opened}
-          anchorElement={this.props.children}
-          positions={this.getPositions()}
-          backgroundColor={this.theme.hintBgColor}
-          borderColor={HINT_BORDER_COLOR}
-          onPositionChange={(position) => this.setState({ position })}
-          disableAnimations={disableAnimations}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          useWrapper={useWrapper}
-          ref={this.popupRef}
-          withoutMobile
-        >
-          {this.renderContent()}
-        </Popup>
-      </CommonWrapper>
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <Popup
+                hasPin={this.featureFlags.kebabHintToastRemovePin ? !isTheme2022(this.theme) : true}
+                opened={this.state.opened}
+                anchorElement={this.props.children}
+                positions={this.getPositions()}
+                backgroundColor={this.theme.hintBgColor}
+                borderColor={HINT_BORDER_COLOR}
+                onPositionChange={(position) => this.setState({ position })}
+                disableAnimations={disableAnimations}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+                useWrapper={useWrapper}
+                ref={this.popupRef}
+                withoutMobile
+              >
+                {this.renderContent()}
+              </Popup>
+            </CommonWrapper>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
