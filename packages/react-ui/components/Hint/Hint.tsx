@@ -182,7 +182,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <Popup
-                hasPin={this.featureFlags.kebabHintToastRemovePin ? !isTheme2022(this.theme) : true}
+                hasPin={this.featureFlags.kebabHintRemovePin ? !isTheme2022(this.theme) : true}
                 opened={this.state.opened}
                 anchorElement={this.props.children}
                 positions={this.getPositions()}

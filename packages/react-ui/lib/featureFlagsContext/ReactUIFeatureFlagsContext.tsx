@@ -2,12 +2,12 @@ import React from 'react';
 
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
-  kebabHintToastRemovePin?: boolean;
+  kebabHintRemovePin?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   tokenInputRemoveWhitespaceFromDefaultDelimiters: false,
-  kebabHintToastRemovePin: false,
+  kebabHintRemovePin: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
