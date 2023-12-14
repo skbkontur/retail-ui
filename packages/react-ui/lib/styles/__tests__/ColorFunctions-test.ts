@@ -268,6 +268,9 @@ describe('ColorFunctions', () => {
       test('detects valid', () => {
         expect(ColorFunctions.isValid('rgb(50, 100, 150)')).toBe(true);
       });
+      test('detects valid value without commas', () => {
+        expect(ColorFunctions.isValid('rgb(50 100 150)')).toBe(true);
+      });
       test('detects invalid params count', () => {
         expect(ColorFunctions.isValid('rgb(50, 100, 150, 0.2)')).toBe(false);
       });
@@ -285,8 +288,11 @@ describe('ColorFunctions', () => {
       test('detects valid', () => {
         expect(ColorFunctions.isValid('rgba(50, 100, 150, 0.2)')).toBe(true);
       });
-      test('detects invalid params count', () => {
-        expect(ColorFunctions.isValid('rgba(50, 100, 150)')).toBe(false);
+      test('detects valid value without commas', () => {
+        expect(ColorFunctions.isValid('rgba(50 100 150 0.2)')).toBe(true);
+      });
+      test('detects value is valid when opacity is missing', () => {
+        expect(ColorFunctions.isValid('rgba(50, 100, 150)')).toBe(true);
       });
       test('detects invalid r value', () => {
         expect(ColorFunctions.isValid('rgba(ff, 100, 150, 20%)')).toBe(false);
@@ -305,6 +311,9 @@ describe('ColorFunctions', () => {
       test('detects valid', () => {
         expect(ColorFunctions.isValid('hsl(50, 50%, 100%)')).toBe(true);
       });
+      test('detects valid value without commas', () => {
+        expect(ColorFunctions.isValid('hsl(50 50% 100%)')).toBe(true);
+      });
       test('detects invalid params count', () => {
         expect(ColorFunctions.isValid('hsl(50, 50%, 100%, 20%)')).toBe(false);
       });
@@ -322,8 +331,11 @@ describe('ColorFunctions', () => {
       test('detects valid', () => {
         expect(ColorFunctions.isValid('hsla(50, 50%, 100%, 0.2)')).toBe(true);
       });
-      test('detects invalid params count', () => {
-        expect(ColorFunctions.isValid('hsla(50, 50%, 100%)')).toBe(false);
+      test('detects valid value without commas', () => {
+        expect(ColorFunctions.isValid('hsla(50 50% 100% 0.2)')).toBe(true);
+      });
+      test('detects value is valid when opacity is missing', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50%, 100%)')).toBe(true);
       });
       test('detects invalid h value', () => {
         expect(ColorFunctions.isValid('hsla(50%, 50%, 100%, 20%)')).toBe(false);
