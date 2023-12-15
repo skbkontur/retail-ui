@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { InputProps } from '../Input';
-import { ZERO_WIDTH_SPACE } from '../../../lib/chars';
 
 import { stylesLayout } from './InputLayout.styles';
 import { InputLayoutAsideIcon } from './InputLayoutAsideIcon';
@@ -21,10 +20,5 @@ export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = 
 
   const child = side === 'left' ? [_icon, _text] : [_text, _icon];
 
-  return (
-    <span className={asideClassName}>
-      {ZERO_WIDTH_SPACE}
-      {child}
-    </span>
-  );
+  return <span className={asideClassName}>{child}</span>;
 };
