@@ -72,7 +72,7 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
 export function useButtonArrow(props: ButtonArrowProps, theme: Theme): [string, string, React.ReactNode] {
   const { arrow, size, use } = props;
   const _isTheme2022 = isTheme2022(theme);
-  const canRender = use !== 'link' && typeof arrow !== 'undefined';
+  const canRender = use !== 'link' && (arrow === true || arrow === 'left');
 
   const rootClassName =
     !_isTheme2022 && canRender

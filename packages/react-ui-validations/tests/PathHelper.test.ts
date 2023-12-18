@@ -47,6 +47,9 @@ describe('PathHelper', () => {
         const path = extractPath('function(x) { return  x  [  v djf g" dsd] f[sl dfgj   }  ');
         expect(path).toStrictEqual('[  v djf g" dsd] f[sl dfgj');
       });
+      it('does not throw error for $', () => {
+        expect(() => extractPath('function($) { return  $.someProperty }')).not.toThrow();
+      });
     });
     describe('arrow function', () => {
       it('empty path', () => {
@@ -88,6 +91,9 @@ describe('PathHelper', () => {
       it('do not remove [ for any content', () => {
         const path = extractPath('x => x  [  v djf g" dsd] f[sl dfgj   ');
         expect(path).toStrictEqual('[  v djf g" dsd] f[sl dfgj');
+      });
+      it('does not throw error for $', () => {
+        expect(() => extractPath('$ => $.someProperty')).not.toThrow();
       });
     });
   });

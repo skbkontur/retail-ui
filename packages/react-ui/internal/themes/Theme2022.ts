@@ -136,6 +136,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static dropdownButtonBorderRadiusSmall = '8px';
   public static dropdownButtonBorderRadiusMedium = '8px';
   public static dropdownButtonBorderRadiusLarge = '8px';
+  public static get dropdownPaddingXSmall() {
+    return this.btnPaddingXSmall;
+  }
+
+  public static get dropdownPaddingXMedium() {
+    return this.btnPaddingXMedium;
+  }
+
+  public static get dropdownPaddingXLarge() {
+    return this.btnPaddingXLarge;
+  }
 
   //#region Input
   public static inputIconColor = '#858585';
@@ -412,7 +423,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleHandleActiveWidthIncrement = '0px';
 
   public static toggleBgChecked = '#3D3D3D';
-  public static toggleBgHover = '#3D3D3D';
+  public static toggleBgHover = '#F0F0F0';
 
   public static toggleCheckedBg = '#fff';
   public static toggleCheckedBgHover = '#fff';
@@ -424,13 +435,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleHandleBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.16)';
 
   // idle :hover
-  public static toggleContainerBgHover = '#F0F0F0';
   public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
   public static toggleHandleBgHover = '#FFFFFF';
   public static toggleHandleBoxShadowHover = '0 0 0 1px rgba(0, 0, 0, 0.16)';
 
   // checked
-  public static toggleContainerBgChecked = '#3D3D3D';
   public static toggleContainerBoxShadowChecked = 'none';
   public static toggleHandleBgChecked = '#FFFFFF';
   public static toggleHandleBoxShadowChecked = 'none';

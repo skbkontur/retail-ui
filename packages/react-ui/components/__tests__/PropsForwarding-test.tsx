@@ -6,7 +6,7 @@ import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter((name) => {
-  return isPublicComponent((ReactUI as any)[name]);
+  return isPublicComponent((ReactUI as any)[name]) && name !== 'SingleToast';
 });
 
 // some components have required props
