@@ -3399,6 +3399,14 @@
     core-js-pure "^3.25.1"
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime-corejs3@^7.23.6":
+  version "7.23.6"
+  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.23.6.tgz#c25dd662fc205a03fdaefd122066eb9d4533ccf9"
+  integrity sha512-Djs/ZTAnpyj0nyg7p1J6oiE/tZ9G2stqAFlLGZynrW+F3k2w2jGK2mLOBxzYIOcZYA89+c3d3wXKpYLcpwcU6w==
+  dependencies:
+    core-js-pure "^3.30.2"
+    regenerator-runtime "^0.14.0"
+
 "@babel/runtime@7.16.5":
   version "7.16.5"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.16.5.tgz#7f3e34bf8bdbbadf03fbb7b1ea0d929569c9487a"
@@ -10631,6 +10639,11 @@ core-js-pure@^3.23.3, core-js-pure@^3.25.1:
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.27.1.tgz#ede4a6b8440585c7190062757069c01d37a19dca"
   integrity sha512-BS2NHgwwUppfeoqOXqi08mUqS5FiZpuRuJJpKsaME7kJz0xxuk0xkhDdfMIlP/zLa80krBqss1LtD7f889heAw==
 
+core-js-pure@^3.30.2:
+  version "3.34.0"
+  resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.34.0.tgz#981e462500708664c91b827a75b011f04a8134a0"
+  integrity sha512-pmhivkYXkymswFfbXsANmBAewXx86UBfmagP+w0wkK06kLsLlTK5oQmsURPivzMkIBQiYq2cjamcZExIwlFQIg==
+
 core-js-pure@^3.8.2:
   version "3.14.0"
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.14.0.tgz#72bcfacba74a65ffce04bf94ae91d966e80ee553"
@@ -14468,6 +14481,13 @@ image-size@~0.5.0:
   resolved "https://registry.npmjs.org/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
 
+imask@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/imask/-/imask-7.2.0.tgz#daac5e376952102bc1c1bfc55673feb7083500e5"
+  integrity sha512-HE6PKDEJSDyB9Cox8elCUE7AGi/t8Be9eXvo+ktIPJ472mx86aHm31zK+kk2aX8ELk0lHZrQWccMknv4DmXQkg==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.23.6"
+
 immediate@~3.0.5:
   version "3.0.6"
   resolved "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
@@ -16954,9 +16974,9 @@ jss@10.5.1, jss@^10.0.0:
     array-includes "^3.1.2"
     object.assign "^4.1.2"
 
-jszip@^3.6.0:
+jszip@^3.10.1:
   version "3.10.1"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
+  resolved "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
   dependencies:
     lie "~3.3.0"
@@ -20088,6 +20108,15 @@ prop-types@^15.7.0, prop-types@^15.8.0:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
+prop-types@^15.8.1:
+  version "15.8.1"
+  resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
 property-information@^5.0.0, property-information@^5.3.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/property-information/-/property-information-5.6.0.tgz#61675545fb23002f245c6540ec46077d4da3ed69"
@@ -20534,6 +20563,14 @@ react-icons@^3.8.0:
   integrity sha512-JRgiI/vdF6uyBgyZhVyYJUZAop95Sy4XDe/jmT3R/bKliFWpO/uZBwvSjWEdxwzec7SYbEPNPck0Kff2tUGM2Q==
   dependencies:
     camelcase "^5.0.0"
+
+react-imask@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/react-imask/-/react-imask-7.2.0.tgz#6e9a8bf9df563861da0beecce85d2985452c015f"
+  integrity sha512-6Mio8IHvAURgJHBIyqLwCtBCrbhPm3Mvc6YfZXgrD5A/QH43/FDSSGS/P0AQRUQ6XEqugnCoWOWpVdt+VjOQ4g==
+  dependencies:
+    imask "^7.2.0"
+    prop-types "^15.8.1"
 
 react-input-mask@2.0.4:
   version "2.0.4"
@@ -21163,6 +21200,11 @@ regenerator-runtime@^0.13.4, regenerator-runtime@^0.13.7:
   version "0.13.7"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
   integrity sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.1"
+  resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz#356ade10263f685dda125100cd862c1db895327f"
+  integrity sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==
 
 regenerator-transform@^0.14.2:
   version "0.14.5"
@@ -21828,15 +21870,14 @@ select@^1.1.2:
   resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selenium-webdriver@4.0.0-beta.4, selenium-webdriver@^4.3.1:
-  version "4.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.0.0-beta.4.tgz#db4fc7505a515ea3b4a95ded031b738a1544eddd"
-  integrity sha512-+s/CIYkWzmnC9WASBxxVj7Lm0dcyl6OaFxwIJaFCT5WCuACiimEEr4lUnOOFP/QlKfkDQ56m+aRczaq2EvJEJg==
+selenium-webdriver@^4.3.1:
+  version "4.16.0"
+  resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.16.0.tgz#2f1a2426d876aa389d1c937b00f034c2c7808360"
+  integrity sha512-IbqpRpfGE7JDGgXHJeWuCqT/tUqnLvZ14csSwt+S8o4nJo3RtQoE9VR4jB47tP/A8ArkYsh/THuMY6kyRP6kuA==
   dependencies:
-    jszip "^3.6.0"
-    rimraf "^3.0.2"
+    jszip "^3.10.1"
     tmp "^0.2.1"
-    ws ">=7.4.6"
+    ws ">=8.14.2"
 
 selfsigned@^1.10.7, selfsigned@^1.10.8:
   version "1.10.8"
@@ -24778,10 +24819,10 @@ write-pkg@^4.0.0:
     type-fest "^0.4.1"
     write-json-file "^3.2.0"
 
-ws@>=7.4.6:
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
-  integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
+ws@>=8.14.2:
+  version "8.15.1"
+  resolved "https://registry.npmjs.org/ws/-/ws-8.15.1.tgz#271ba33a45ca0cc477940f7f200cd7fba7ee1997"
+  integrity sha512-W5OZiCjXEmk0yZ66ZN82beM5Sz7l7coYxpRkzS+p9PP+ToQry8szKh+61eNktr7EA9DOwvFGhfC605jDHbP6QQ==
 
 ws@^5.2.0:
   version "5.2.3"
