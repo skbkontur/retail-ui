@@ -155,7 +155,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion Textarea
 
   //#region Menu
-  public static menuBgDefault = '#333333';
+  public static get menuBgDefault() {
+    return this.bgSecondary;
+  }
 
   public static menuItemTextColor = 'rgba(255, 255, 255, 0.87)';
   public static menuItemHoverBg = 'rgba(255, 255, 255, 0.1)';

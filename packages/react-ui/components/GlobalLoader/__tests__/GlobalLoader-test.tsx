@@ -99,6 +99,59 @@ describe('Global Loader', () => {
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
     });
+
+    it('should hide in start->done->start->done scenario', async () => {
+      const { rerender } = render(<GlobalLoader expectedResponseTime={2000} ref={refGlobalLoader} />);
+
+      rerender(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          ref={refGlobalLoader}
+          active
+        />,
+      );
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+
+      rerender(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          ref={refGlobalLoader}
+          active={false}
+        />,
+      );
+
+      await delay(100);
+
+      rerender(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          ref={refGlobalLoader}
+          active
+        />,
+      );
+
+      await delay(200);
+
+      rerender(
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          ref={refGlobalLoader}
+          active={false}
+        />,
+      );
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
+      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+    });
   });
 
   describe('with static methods', () => {
@@ -154,6 +207,18 @@ describe('Global Loader', () => {
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
 
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+    });
+
+    it('should hide in start->done->start->done scenario', async () => {
+      GlobalLoader.start();
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+      GlobalLoader.done();
+      await delay(100);
+      GlobalLoader.start();
+      await delay(200);
+      GlobalLoader.done();
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
+      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
     });
 
     it('should not change state unless there was a call to "start" before "done"', async () => {
