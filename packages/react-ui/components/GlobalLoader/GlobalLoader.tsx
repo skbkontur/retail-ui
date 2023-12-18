@@ -116,9 +116,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       expectedResponseTime: this.getProps().expectedResponseTime,
     };
     currentGlobalLoader?.kill();
-    currentGlobalLoader = this;
   }
   componentDidMount() {
+    currentGlobalLoader = this;
     const { active, rejected } = this.getProps();
     if (active) {
       this.setActive();
