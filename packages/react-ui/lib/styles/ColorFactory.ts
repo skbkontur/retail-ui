@@ -9,13 +9,9 @@ interface ColorFactoryCacheType {
 }
 
 const RGB_REGEX =
-  /rgb\(\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*\)/;
-const RGBA_REGEX =
-  /rgba\(\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\)/;
+  /(?:rgba|rgb)\(\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,?\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*(?:\)|(?:,|\/)?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\))/;
 const HSL_REGEX =
-  /hsl\(\s*(\d{1,3})\s*,?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*,?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\)/;
-const HSLA_REGEX =
-  /hsla\(\s*(\d{1,3})\s*,?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*,?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*,?\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\)/;
+  /(?:hsla|hsl)\(\s*(\d{1,3}(?:deg)?\b)\s*,?\s*(\d{1,3}\.?\d*%|[0-1](?:\.\d*)?\b)\s*,?\s*(\d{1,3}\.?\d*%|[0-1](?:\.\d*)?\b)\s*(?:\)|(?:,|\/)?\s*(\d{1,3}\.?\d*%|\d+(?:\.\d*)?)\s*\))/;
 const HEX_REGEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/;
 
 export class ColorFactory {
@@ -38,10 +34,14 @@ export class ColorFactory {
 
     if (lowercasedTrimmedInput === 'transparent') {
       return new ColorObject([0, 0, 0], 0, 'transparent');
-    } else if (this.isKeyword(lowercasedTrimmedInput)) {
+    }
+
+    if (this.isKeyword(lowercasedTrimmedInput)) {
       return this.fromKeyword(lowercasedTrimmedInput);
-    } else if (lowercasedTrimmedInput.startsWith('rgb')) {
-      const parts = extractColorParts(lowercasedTrimmedInput, RGB_REGEX, RGBA_REGEX);
+    }
+
+    if (lowercasedTrimmedInput.startsWith('rgb')) {
+      const parts = extractColorParts(lowercasedTrimmedInput, RGB_REGEX);
       let { r, g, b, a } = parseRGBParts(parts);
 
       r = clamp(r, 255);
@@ -50,8 +50,10 @@ export class ColorFactory {
       a = clamp(a, 1);
 
       return this.fromRGB(r, g, b, a);
-    } else if (lowercasedTrimmedInput.startsWith('hsl')) {
-      const parts = extractColorParts(lowercasedTrimmedInput, HSL_REGEX, HSLA_REGEX);
+    }
+
+    if (lowercasedTrimmedInput.startsWith('hsl')) {
+      const parts = extractColorParts(lowercasedTrimmedInput, HSL_REGEX);
       let { h, s, l, a } = parseHSLParts(parts);
 
       h = clamp(h, 360);
