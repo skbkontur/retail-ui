@@ -226,13 +226,13 @@ class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
       <div style={{ width: 200, textAlign: 'center' }}>
         Pikachu{' '}
         <Kebab
-        // size={this.props.size}
-        // onOpen={action('open')}
-        // onClose={action('close')}
-        // disabled={this.props.disabled}
-        // menuMaxHeight={this.props.menuMaxHeight}
-        // disableAnimations={this.props.disableAnimations}
-        // icon={this.props.icon}
+          size={this.props.size}
+          onOpen={action('open')}
+          onClose={action('close')}
+          disabled={this.props.disabled}
+          menuMaxHeight={this.props.menuMaxHeight}
+          disableAnimations={this.props.disableAnimations}
+          icon={this.props.icon}
         >
           {menuItems}
         </Kebab>
