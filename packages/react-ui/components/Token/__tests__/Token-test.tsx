@@ -1,6 +1,9 @@
 ﻿import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
+import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Token, TokenDataTids } from '../Token';
 import { componentsLocales as TokenLocalesRu } from '../locale/locales/ru';
@@ -47,30 +50,51 @@ describe('Token', () => {
     });
 
     it('has correct value on close button aria-label attribute (ru)', () => {
-      render(<Token />);
+      const tokenName = 'name';
+      render(<Token>{tokenName}</Token>);
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+      );
     });
 
     it('has correct value on close button aria-label attribute (en)', () => {
+      const tokenName = 'name';
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <Token />
+          <Token>{tokenName}</Token>
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesEn.removeButtonAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesEn.removeButtonAriaLabel + ' ' + tokenName,
+      );
     });
 
     it('sets custom value for `closeButtonAriaLabel` locale', () => {
       const customAriaLabel = 'test';
+      const tokenName = 'name';
       render(
         <LocaleContext.Provider value={{ locale: { Token: { removeButtonAriaLabel: customAriaLabel } } }}>
-          <Token />
+          <Token>{tokenName}</Token>
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel + ' ' + tokenName);
+    });
+
+    it('able to capture remove button in focus', () => {
+      const tokenName = 'name';
+      render(
+        <ThemeContext.Provider value={THEME_2022}>
+          <Token>{tokenName}</Token>
+        </ThemeContext.Provider>,
+      );
+
+      userEvent.tab();
+      expect(screen.getByRole('button')).toHaveFocus();
     });
   });
 });
