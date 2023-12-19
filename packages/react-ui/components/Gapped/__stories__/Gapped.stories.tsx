@@ -3,6 +3,7 @@ import React from 'react';
 import { Meta } from '../../../typings/stories';
 import { Gapped, GappedProps } from '../Gapped';
 import { Button } from '../../Button';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
   title: 'Gapped',
@@ -88,4 +89,31 @@ export const WithFalsyChilds = () => {
       {index + 1 < falsyValues.length && <hr />}
     </>
   ));
+};
+
+export const WithReactFragmentChild = () => (
+  <>
+    <ReactUIFeatureFlagsContext.Provider value={{ gappedUnpackReactFragment: true }}>
+      <Gapped gap={20}>
+        <React.Fragment>
+          <span>with</span>
+          <span>gappedUnpackReactFragment</span>
+          <span>flag</span>
+        </React.Fragment>
+      </Gapped>
+    </ReactUIFeatureFlagsContext.Provider>
+
+    <Gapped gap={20}>
+      <React.Fragment>
+        <span>without</span>
+        <span>gappedUnpackReactFragment</span>
+        <span>flag</span>
+      </React.Fragment>
+    </Gapped>
+  </>
+);
+WithReactFragmentChild.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+  },
 };

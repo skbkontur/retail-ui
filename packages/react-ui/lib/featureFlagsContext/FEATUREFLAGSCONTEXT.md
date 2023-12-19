@@ -5,6 +5,7 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  gappedUnpackReactFragment?: boolean;
 }
 ```
 
@@ -38,6 +39,25 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### gappedUnpackReactFragment
+
+В Gapped при использовании React.Fragment вся работа идет с его дочерними элементами.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Gapped, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ gappedUnpackReactFragment: true }}>
+  <Gapped gap={20}>
+    <React.Fragment>
+      <span>with</span>
+      <span>gappedUnpackReactFragment</span>
+      <span>flag</span>
+    </React.Fragment>
+  </Gapped>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 

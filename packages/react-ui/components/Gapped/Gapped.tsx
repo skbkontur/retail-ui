@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactIs from 'react-is';
 
 import { isNonNullable } from '../../lib/utils';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -71,6 +77,8 @@ export class Gapped extends React.Component<GappedProps> {
 
   private getProps = createPropsGetter(Gapped.defaultProps);
 
+  private featureFlags!: ReactUIFeatureFlags;
+
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -120,20 +128,34 @@ export class Gapped extends React.Component<GappedProps> {
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div data-tid={GappedDataTids.horizontal} style={rootStyle}>
-        <div style={contStyle}>
-          {React.Children.toArray(children)
-            .filter(this.filterChildren)
-            .map((child, index) => {
-              const marginLeft = index === 0 ? undefined : gap;
-              return (
-                <span key={index} style={{ marginLeft, ...itemStyle }}>
-                  {child}
-                </span>
-              );
-            })}
-        </div>
-      </div>
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <div data-tid={GappedDataTids.horizontal} style={rootStyle}>
+              <div style={contStyle}>
+                {React.Children.toArray(children)
+                  .map((child: React.ReactNode) => {
+                    if (this.featureFlags.gappedUnpackReactFragment && ReactIs.isFragment(child)) {
+                      return child.props.children;
+                    }
+                    return child;
+                  })
+                  .reduce((accumulator, value) => accumulator.concat(value), [])
+                  .filter(this.filterChildren)
+                  .map((child: React.ReactNode, index: number) => {
+                    const marginLeft = index === 0 ? undefined : gap;
+                    return (
+                      <span key={index} style={{ marginLeft, ...itemStyle }}>
+                        {child}
+                      </span>
+                    );
+                  })}
+              </div>
+            </div>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
