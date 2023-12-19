@@ -14,11 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Hint.styles';
 
@@ -121,7 +117,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
 
   private setRootNode!: TSetRootNode;
 
@@ -175,14 +170,15 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
+
     return (
       <ReactUIFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <Popup
-                hasPin={this.featureFlags.kebabHintRemovePin ? !isTheme2022(this.theme) : true}
+                hasPin={hasPin}
                 opened={this.state.opened}
                 anchorElement={this.props.children}
                 positions={this.getPositions()}

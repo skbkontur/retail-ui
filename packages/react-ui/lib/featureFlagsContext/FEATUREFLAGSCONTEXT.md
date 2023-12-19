@@ -5,6 +5,7 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  kebabHintRemovePin?: boolean;
 }
 ```
 
@@ -38,6 +39,49 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### kebabHintRemovePin
+
+В TokenInput из дефолтных разделителей удалён пробел.
+В React UI 5.0 фича будет применена по умолчанию.
+```jsx harmony
+import { Hint, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <Hint text="Подсказка">Пример с Hint</Hint>
+</ReactUIFeatureFlagsContext.Provider>
+```
+```jsx harmony
+import EditIcon from '@skbkontur/react-icons/Edit';
+import TrashIcon from '@skbkontur/react-icons/Trash';
+import { Kebab, MenuItem, Toast, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+let style = {
+  alignItems: 'center',
+  border: '1px solid #dfdede',
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0 20px',
+  width: 250,
+};
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <div style={style}>
+    <div>
+      <h3>Пример с Kebab</h3>
+    </div>
+
+    <Kebab positions={['left middle']} >
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        Редактировать
+      </MenuItem>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        Удалить
+      </MenuItem>
+    </Kebab>
+  </div>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 

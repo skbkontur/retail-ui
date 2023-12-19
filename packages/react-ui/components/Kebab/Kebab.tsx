@@ -21,11 +21,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -93,7 +89,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
 
   private listener: {
@@ -142,11 +137,11 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     return (
       <ReactUIFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <PopupMenu
-                popupHasPin={this.featureFlags.kebabHintRemovePin ? !isTheme2022(this.theme) : true}
+                popupHasPin={hasPin}
                 preventIconsOffset={this.props.preventIconsOffset}
                 positions={positions}
                 onChangeMenuState={this.handleChangeMenuState}
