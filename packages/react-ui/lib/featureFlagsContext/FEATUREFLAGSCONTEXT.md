@@ -44,7 +44,7 @@ const getItems = () => {};
 
 ### kebabHintRemovePin
 
-В TokenInput из дефолтных разделителей удалён пробел.
+В Hint и Kebab будет убран "клювик"".
 В React UI 5.0 фича будет применена по умолчанию.
 ```jsx harmony
 import { Hint, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
