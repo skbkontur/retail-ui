@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from '../lib/featureFlagsContext';
+
 import { ReactUiDetection, Tooltip } from './ReactUiDetection';
 
 export type TooltipPosition =
@@ -25,28 +31,31 @@ export interface ValidationTooltipProps {
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
+  private featureFlags!: ValidationsFeatureFlags;
   public render() {
     const { children, pos, error, render, ...rest } = this.props;
 
     const onlyChild = React.Children.only(children);
     const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
 
-    if (
-      ReactUiDetection.isRadioGroup(child) ||
-      ReactUiDetection.isTokenInput(child) ||
-      ReactUiDetection.isSwitcher(child)
-    ) {
-      return (
-        <Tooltip useWrapper={false} pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
-          {child}
-        </Tooltip>
-      );
-    }
-
     return (
-      <Tooltip pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
-        {children}
-      </Tooltip>
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullValidationsFlagsContext(flags);
+          return !this.featureFlags.validationsRemoveExtraSpans &&
+            (ReactUiDetection.isRadioGroup(child) ||
+              ReactUiDetection.isTokenInput(child) ||
+              ReactUiDetection.isSwitcher(child)) ? (
+            <Tooltip useWrapper={false} pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
+              {child}
+            </Tooltip>
+          ) : (
+            <Tooltip pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
+              {children}
+            </Tooltip>
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 }
