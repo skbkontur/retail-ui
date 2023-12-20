@@ -81,9 +81,16 @@ export class Gapped extends React.Component<GappedProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {this.getProps().vertical ? this.renderVertical() : this.renderHorizontal()}
-      </CommonWrapper>
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.getProps().vertical ? this.renderVertical() : this.renderHorizontal()}
+            </CommonWrapper>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -128,34 +135,27 @@ export class Gapped extends React.Component<GappedProps> {
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <div data-tid={GappedDataTids.horizontal} style={rootStyle}>
-              <div style={contStyle}>
-                {React.Children.toArray(children)
-                  .map((child: React.ReactNode) => {
-                    if (this.featureFlags.gappedUnpackReactFragment && ReactIs.isFragment(child)) {
-                      return child.props.children;
-                    }
-                    return child;
-                  })
-                  .reduce((accumulator, value) => accumulator.concat(value), [])
-                  .filter(this.filterChildren)
-                  .map((child: React.ReactNode, index: number) => {
-                    const marginLeft = index === 0 ? undefined : gap;
-                    return (
-                      <span key={index} style={{ marginLeft, ...itemStyle }}>
-                        {child}
-                      </span>
-                    );
-                  })}
-              </div>
-            </div>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <div data-tid={GappedDataTids.horizontal} style={rootStyle}>
+        <div style={contStyle}>
+          {React.Children.toArray(children)
+            .map((child: React.ReactNode) => {
+              if (this.featureFlags.gappedUnpackReactFragment && ReactIs.isFragment(child)) {
+                return child.props.children;
+              }
+              return child;
+            })
+            .reduce((accumulator, value) => accumulator.concat(value), [])
+            .filter(this.filterChildren)
+            .map((child: React.ReactNode, index: number) => {
+              const marginLeft = index === 0 ? undefined : gap;
+              return (
+                <span key={index} style={{ marginLeft, ...itemStyle }}>
+                  {child}
+                </span>
+              );
+            })}
+        </div>
+      </div>
     );
   }
 
