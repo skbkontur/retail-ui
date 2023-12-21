@@ -14,8 +14,9 @@
 
 Получить значение без форматирования можно с помощью **unmask**
 ```jsx harmony
-const [value, setValue] = useState('9999');
+import { useState } from "react";
 
+const [value, setValue] = useState('9999');
 
 <div>
   <div>value: {value}</div>

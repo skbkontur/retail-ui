@@ -1,1 +1,1 @@
-export { MaskedInputElement } from './MaskedInputElement';
+export * from './MaskedInputElement';
