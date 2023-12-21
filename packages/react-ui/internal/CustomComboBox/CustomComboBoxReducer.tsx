@@ -342,6 +342,7 @@ export function reducer<T>(
           focused: false,
           opened: false,
           items: null,
+          editing: false,
         },
         [Effect.blur, Effect.cancelRequest, Effect.unexpectedInput(state.textValue, items)],
       ];
