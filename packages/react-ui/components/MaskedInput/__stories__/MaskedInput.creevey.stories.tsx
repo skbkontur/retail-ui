@@ -191,3 +191,38 @@ UncontrolledInputWithPlaceholder.parameters = {
     },
   },
 };
+
+const testRewriteInMiddle: CreeveyTests = {
+  async 'idle, shift, rewrite'() {
+    const idle = await this.takeScreenshot();
+
+    const input = await this.browser.findElement({ css: 'input' });
+    this.browser
+      .actions({ bridge: true })
+      .click(input)
+      .keyDown(this.keys.ARROW_LEFT)
+      .keyDown(this.keys.ARROW_LEFT)
+      .sendKeys('12')
+      .perform();
+    const shift = await this.takeScreenshot();
+
+    this.browser
+      .actions({ bridge: true })
+      .click(input)
+      .keyDown(this.keys.ARROW_LEFT)
+      .keyDown(this.keys.ARROW_LEFT)
+      .sendKeys('56')
+      .perform();
+    const rewrite = await this.takeScreenshot();
+
+    await this.expect({ idle, shift, rewrite }).to.matchImages();
+  },
+};
+
+export const RewriteInMiddle: Story = () => <MaskedInput width="150" value={'34'} mask="9999" alwaysShowMask />;
+
+RewriteInMiddle.parameters = {
+  creevey: {
+    tests: testRewriteInMiddle,
+  },
+};

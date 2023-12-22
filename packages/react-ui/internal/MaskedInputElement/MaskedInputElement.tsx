@@ -9,7 +9,13 @@ import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInputElement.styles';
-import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './MaskedInputElement.helpers';
+import {
+  DEFAULT_MASK_CHAR,
+  getCurrentValue,
+  getDefinitions,
+  getFocusPrefix,
+  getMaskChar,
+} from './MaskedInputElement.helpers';
 
 export interface MaskedInputElementProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -33,15 +39,15 @@ interface IMaskInputState {
 
 type DefaultProps = Required<Pick<MaskedInputElementProps, 'maskChar'>>;
 
-export const MaskedInputDataTids = {
+export const MaskedInputElementDataTids = {
   root: 'MaskedInput__root',
 } as const;
 
 export class MaskedInputElement extends React.PureComponent<MaskedInputElementProps, IMaskInputState> {
-  public static __KONTUR_REACT_UI__ = 'IMaskInput';
+  public static __KONTUR_REACT_UI__ = 'MaskedInputElement';
 
   public static defaultProps: DefaultProps = {
-    maskChar: '_',
+    maskChar: DEFAULT_MASK_CHAR,
   };
 
   public input: HTMLInputElement | null = null;
@@ -100,17 +106,27 @@ export class MaskedInputElement extends React.PureComponent<MaskedInputElementPr
       ...inputProps
     } = this.props;
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
-    const [currentValue, left, right] = getCurrentValue(this.state, this.props.maskChar);
+
+    const { focused, originValue, value, emptyValue } = this.state;
+    const [currentValue, left, right] = getCurrentValue(
+      { value, originValue, emptyValue, focused },
+      this.props.maskChar,
+    );
+
+    /* В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обработки подчркивания('_').
+     * Не менять на DEFAULT_MASK_CHAR
+     */
     const rightHelper = right.split('').map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
     const leftHelper = style?.textAlign !== 'right' && <span style={{ color: 'transparent' }}>{left}</span>;
 
     return (
-      <span data-tid={MaskedInputDataTids.root} className={styles.container()} x-ms-format-detection="none">
+      <span data-tid={MaskedInputElementDataTids.root} className={styles.container()} x-ms-format-detection="none">
         <IMaskInput
           {...inputProps}
           mask={mask}
           definitions={getDefinitions(formatChars)}
           eager
+          overwrite={'shift'}
           onAccept={this.handleAccept}
           onInput={this.handleInput}
           onChange={this.props.onChange}

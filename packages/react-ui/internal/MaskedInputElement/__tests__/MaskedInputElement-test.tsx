@@ -111,7 +111,7 @@ describe('IMaskInput', () => {
 
   it('onValueChange do not fire on focus', () => {
     const valueChangeEvent = jest.fn();
-    render(<MaskedInputElement mask="+7 (XXX) XXX XX XX" onValueChange={valueChangeEvent} />);
+    render(<MaskedInputElement mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
 
     const input = screen.getByRole('textbox');
     input.focus();
@@ -121,7 +121,7 @@ describe('IMaskInput', () => {
 
   it('masked input calls onUnexpectedInput', () => {
     const handleUnexpectedInput = jest.fn();
-    render(<MaskedInputElement mask="+7 (XXX) XXX XX XX" onUnexpectedInput={handleUnexpectedInput} />);
+    render(<MaskedInputElement mask="+7 (999) 999 99 99" onUnexpectedInput={handleUnexpectedInput} />);
 
     const input = screen.getByRole('textbox');
     fireEvent.input(input, { target: { value: 'A' } });

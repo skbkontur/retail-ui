@@ -156,6 +156,10 @@ export interface InputProps
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
+        /**
+         * Элемент заменяет нативный input.
+         * Должен иметь пропы `InputElementProps` и тип `InputElement`
+         * */
         element?: ReactElement<InputElementProps>;
       }
     > {}

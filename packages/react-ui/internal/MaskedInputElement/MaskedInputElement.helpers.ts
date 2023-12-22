@@ -1,9 +1,9 @@
 import { isNonNullable } from '../../lib/utils';
-import { Nullable } from '../../typings/utility-types';
 
-export const Definitions = { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ };
+export const DEFAULT_MASK_CHAR = '_';
+export const DEFINITIONS = { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ };
 
-export function getDefinitions(formatChars: Nullable<Record<string, string>>): Record<string, RegExp> {
+export function getDefinitions(formatChars: Record<string, string> | undefined): Record<string, RegExp> {
   if (isNonNullable(formatChars)) {
     const chars: Record<string, RegExp> = {};
 
@@ -14,11 +14,15 @@ export function getDefinitions(formatChars: Nullable<Record<string, string>>): R
     return chars;
   }
 
-  return Definitions;
+  return DEFINITIONS;
 }
 
-export function getMaskChar(maskChar: Nullable<string>): string {
-  return maskChar ?? '_';
+export function getMaskChar(maskChar: string | null | undefined): string {
+  if (maskChar === null) {
+    return '';
+  }
+
+  return maskChar === undefined ? DEFAULT_MASK_CHAR : maskChar;
 }
 
 interface IMaskInputState {
@@ -29,14 +33,14 @@ interface IMaskInputState {
   focused: boolean;
 }
 
-export function getFocusPrefix(state: IMaskInputState, maskChar: Nullable<string>): string {
+export function getFocusPrefix(state: IMaskInputState, maskChar: string | null | undefined): string {
   const { emptyValue } = state;
   return emptyValue.slice(0, emptyValue.indexOf(getMaskChar(maskChar)));
 }
 
 export function getCurrentValue(
   state: IMaskInputState,
-  maskChar: Nullable<string>,
+  maskChar: string | null | undefined,
 ): [currentValue: string, left: string, right: string] {
   const { emptyValue, value, originValue, focused } = state;
 

@@ -31,6 +31,7 @@ const maskStates: InputState[] = [
   { mask: '****', value: 'overflow' },
   { placeholder: 'mask with placeholder' },
   { alwaysShowMask: true },
+  { alwaysShowMask: true, maskChar: null },
   { alwaysShowMask: true, maskChar: 'X' },
   { alwaysShowMask: true, defaultValue: '95678901' },
   { alwaysShowMask: true, defaultValue: '956789010A' },
