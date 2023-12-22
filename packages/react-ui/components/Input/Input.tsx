@@ -51,7 +51,7 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
     .join(', ')}.`;
 };
 
-export interface InputComponentProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputElementProps extends React.InputHTMLAttributes<InputElement> {
   /**
    * Обработчик неправильного ввода.
    * По-умолчанию, инпут вспыхивает синим.
@@ -62,7 +62,10 @@ export interface InputComponentProps extends React.InputHTMLAttributes<HTMLInput
    * @param value значение инпута.
    */
   onUnexpectedInput?: (value: string) => void;
+  onValueChange?: (value: string) => void;
 }
+
+export type InputElement = HTMLInputElement | { input: HTMLInputElement };
 
 export interface InputProps
   extends CommonProps,
@@ -153,7 +156,7 @@ export interface InputProps
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
-        element?: ReactElement<InputComponentProps>;
+        element?: ReactElement<InputElementProps>;
       }
     > {}
 
@@ -348,7 +351,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private getInput = (inputComponentProps: InputComponentProps & ClassAttributes<HTMLInputElement>) => {
+  private getInput = (inputComponentProps: InputElementProps & ClassAttributes<HTMLInputElement>) => {
     if (this.props.element) {
       return React.cloneElement(this.props.element, inputComponentProps);
     }
@@ -417,7 +420,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onMouseOver,
     };
 
-    const inputProps: InputComponentProps & ClassAttributes<HTMLInputElement> = {
+    const inputProps: InputElementProps & ClassAttributes<HTMLInputElement> = {
       ...rest,
       className: cx(styles.input(this.theme), {
         [styles.inputFocus(this.theme)]: focused,
@@ -588,8 +591,8 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  private refInput = (element: HTMLInputElement | MaskedInput | null) => {
-    if (element instanceof MaskedInput) {
+  private refInput = (element: HTMLInputElement | MaskedInput | InputElement | null) => {
+    if (element instanceof MaskedInput || (element && 'input' in element)) {
       this.input = element.input;
     } else {
       this.input = element;
