@@ -19,6 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
+import { InputElement } from '../../typings/InputElement';
 
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
@@ -64,8 +65,6 @@ export interface InputElementProps extends React.InputHTMLAttributes<InputElemen
   onUnexpectedInput?: (value: string) => void;
   onValueChange?: (value: string) => void;
 }
-
-export type InputElement = HTMLInputElement | { input: HTMLInputElement };
 
 export interface InputProps
   extends CommonProps,

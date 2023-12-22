@@ -1,4 +1,8 @@
+import { createMask } from 'imask';
+
 import { isNonNullable } from '../../lib/utils';
+
+import { MaskedInputElementProps } from './MaskedInputElement';
 
 export const DEFAULT_MASK_CHAR = '_';
 export const DEFINITIONS = { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ };
@@ -25,7 +29,7 @@ export function getMaskChar(maskChar: string | null | undefined): string {
   return maskChar === undefined ? DEFAULT_MASK_CHAR : maskChar;
 }
 
-interface IMaskInputState {
+interface MaskedInputElementState {
   // Users can unmask value themselves. In these cases we take origin value length
   originValue: string;
   value: string;
@@ -33,21 +37,34 @@ interface IMaskInputState {
   focused: boolean;
 }
 
-export function getFocusPrefix(state: IMaskInputState, maskChar: string | null | undefined): string {
-  const { emptyValue } = state;
+export function getFocusPrefix(emptyValue: string, maskChar: string | null | undefined): string {
   return emptyValue.slice(0, emptyValue.indexOf(getMaskChar(maskChar)));
 }
 
 export function getCurrentValue(
-  state: IMaskInputState,
+  state: MaskedInputElementState,
   maskChar: string | null | undefined,
 ): [currentValue: string, left: string, right: string] {
   const { emptyValue, value, originValue, focused } = state;
 
   if (focused && originValue.length === 0 && emptyValue.length > 0) {
-    const currentValue = getFocusPrefix(state, maskChar);
+    const currentValue = getFocusPrefix(emptyValue, maskChar);
     return [currentValue, currentValue, emptyValue.slice(currentValue.length)];
   }
 
   return [value, originValue, emptyValue.slice(originValue.length)];
+}
+
+export function getEmptyValue(
+  mask: MaskedInputElementProps['mask'],
+  maskChar: MaskedInputElementProps['maskChar'],
+  formatChars: MaskedInputElementProps['formatChars'],
+): string {
+  const maskPattern = createMask({
+    mask,
+    definitions: getDefinitions(formatChars),
+    lazy: false,
+    placeholderChar: getMaskChar(maskChar),
+  });
+  return maskPattern.appendTail('').inserted;
 }
