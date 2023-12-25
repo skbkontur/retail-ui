@@ -19,6 +19,11 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext
+} from '../../lib/featureFlagsContext';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -163,14 +168,23 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getProps = createPropsGetter(SidePage.defaultProps);
 
+  private featureFlags!: ReactUIFeatureFlags;
+
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -239,7 +253,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         }
         wrapperRef={this.rootRef}
       >
-        <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock disabled={this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked ?
+          !blockBackground : (disableFocusLock || !blockBackground) } autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}

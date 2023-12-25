@@ -5,6 +5,7 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  sidePageAddFocusLockWhenBackgroundBlocked?: boolean;
 }
 ```
 
@@ -39,6 +40,56 @@ const getItems = () => {};
     onValueChange={setSelectedItems}
   />
 </ReactUIFeatureFlagsContext.Provider>
+```
+
+### sidePageAddFocusLockWhenBackgroundBlocked
+
+В SidePage FocusLock будет применяться тогда и только тогда, когда проп blockBackground равен true.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { SidePage, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const [opened, setOpened] = React.useState(false);
+
+function renderSidePage() {
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ sidePageAddFocusLockWhenBackgroundBlocked: true }}>
+      <SidePage onClose={close} blockBackground>
+        <SidePage.Header>SidePage</SidePage.Header>
+        <SidePage.Body>
+          <div
+            style={{
+              background: `repeating-linear-gradient(60deg, #808080, #808080 20px, #d3d3d3 20px, #d3d3d3 40px)`,
+              height: 600,
+              padding: '20px 0',
+            }}
+          >
+            <SidePage.Container>
+              <p>Content</p>
+            </SidePage.Container>
+          </div>
+        </SidePage.Body>
+        <SidePage.Footer panel>
+          <Button onClick={close}>Close</Button>
+        </SidePage.Footer>
+      </SidePage>
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+}
+
+function open() {
+  setOpened(true);
+}
+
+function close() {
+  setOpened(false);
+}
+
+<div>
+  {opened && renderSidePage()}
+  <Button onClick={open}>Open</Button>
+</div>
 ```
 
 ## Объект со всеми флагами

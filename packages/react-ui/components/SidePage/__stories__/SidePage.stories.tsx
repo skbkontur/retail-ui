@@ -11,6 +11,7 @@ import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 const textSample = (
   <p>
@@ -786,6 +787,51 @@ BodyWithoutHeader.parameters = {
           .perform();
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page without header');
+      },
+    },
+  },
+};
+
+export const SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag: Story = () => {
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ sidePageAddFocusLockWhenBackgroundBlocked: true }}>
+      <Sample total={1} current={1} blockBackground/>
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.storyName = 'SidePage with sidePageAddFocusLockWhenBackgroundBlocked feature flag ';
+SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
+    tests: {
+      async 'open side-page'() {
+        const pressTab = () => {
+          return this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB);
+        };
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({css: '[data-tid~="open-side-page"]'}))
+          .perform();
+        await delay(100);
+        pressTab().perform();
+        await delay(100);
+        const firstTimeTabPress = await this.browser.takeScreenshot();
+        pressTab().perform();
+        await delay(100);
+        const secondTimeTabPress = await this.browser.takeScreenshot();
+        pressTab().perform();
+        await delay(100);
+        const thirdTimeTabPress = await this.browser.takeScreenshot();
+        pressTab().perform();
+        await delay(100);
+        const fourthTimeTabPress = await this.browser.takeScreenshot();
+        await this.expect({ firstTimeTabPress, secondTimeTabPress, thirdTimeTabPress, fourthTimeTabPress }).to.matchImages();
       },
     },
   },
