@@ -795,14 +795,15 @@ BodyWithoutHeader.parameters = {
 export const SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag: Story = () => {
   return (
     <ReactUIFeatureFlagsContext.Provider value={{ sidePageAddFocusLockWhenBackgroundBlocked: true }}>
-      <Sample total={1} current={1} blockBackground/>
+      <Sample total={1} current={1} blockBackground />
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
-SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.storyName = 'SidePage with sidePageAddFocusLockWhenBackgroundBlocked feature flag ';
+SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.storyName =
+  'SidePage with sidePageAddFocusLockWhenBackgroundBlocked feature flag';
 SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
+    skip: { 'open side-page': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     tests: {
       async 'open side-page'() {
         const pressTab = () => {
@@ -816,7 +817,7 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({css: '[data-tid~="open-side-page"]'}))
+          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await delay(100);
         pressTab().perform();
@@ -831,7 +832,12 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
         pressTab().perform();
         await delay(100);
         const fourthTimeTabPress = await this.browser.takeScreenshot();
-        await this.expect({ firstTimeTabPress, secondTimeTabPress, thirdTimeTabPress, fourthTimeTabPress }).to.matchImages();
+        await this.expect({
+          firstTimeTabPress,
+          secondTimeTabPress,
+          thirdTimeTabPress,
+          fourthTimeTabPress,
+        }).to.matchImages();
       },
     },
   },

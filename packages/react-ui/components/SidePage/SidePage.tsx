@@ -22,7 +22,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import {
   getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext
+  ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
 
 import { SidePageBody } from './SidePageBody';
@@ -253,8 +253,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         }
         wrapperRef={this.rootRef}
       >
-        <FocusLock disabled={this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked ?
-          !blockBackground : (disableFocusLock || !blockBackground) } autoFocus={false} className={styles.focusLock()}>
+        <FocusLock
+          disabled={
+            this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked
+              ? !blockBackground
+              : disableFocusLock || !blockBackground
+          }
+          autoFocus={false}
+          className={styles.focusLock()}
+        >
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}
