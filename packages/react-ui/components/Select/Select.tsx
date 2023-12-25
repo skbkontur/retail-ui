@@ -626,7 +626,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private handleSearch = (value: string) => {
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(1);
+    this.menu?.highlightItem(0);
   };
 
   private select(value: TValue) {
