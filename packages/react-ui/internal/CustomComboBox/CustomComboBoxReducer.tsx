@@ -103,9 +103,8 @@ export const Effect: EffectFactory = {
     }
   },
   unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
+    const { onUnexpectedInput, valueToString, value } = getProps();
     if (getState()?.editing && !(Array.isArray(items) && items.length === 1) && !onUnexpectedInput) {
-    const { onUnexpectedInput, valueToString } = getProps();
-
       const valueContent = getValueString(value, valueToString);
       dispatch({ type: 'ValueChange', value: valueContent, keepFocus: false });
       return;
