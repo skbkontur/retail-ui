@@ -160,15 +160,22 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public up() {
-    const nextIndex = this.menuNavigation?.move(-1, this.getProps().cyclicSelection);
-    this.scroll(nextIndex);
+    this.move(-1);
   }
 
   /**
    * @public
    */
   public down() {
-    const nextIndex = this.menuNavigation?.move(1, this.getProps().cyclicSelection);
+    this.move(1);
+  }
+
+  private move(step: number) {
+    if (!this.state.isMounted) {
+      // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
+      return;
+    }
+    const nextIndex = this.menuNavigation?.move(step, this.getProps().cyclicSelection);
     this.scroll(nextIndex);
   }
 
