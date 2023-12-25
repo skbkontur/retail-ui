@@ -7,7 +7,7 @@ import { MenuNavigation } from './MenuNavigation';
 export interface MenuContextType {
   navigation: MenuNavigation<MenuItem> | null;
   enableIconPadding: boolean;
-  setEnableIconPadding?: () => void;
+  setEnableIconPadding?: (isIconPaddingEnabled: boolean) => void;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
