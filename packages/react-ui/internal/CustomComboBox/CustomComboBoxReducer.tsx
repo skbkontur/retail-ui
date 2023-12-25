@@ -103,8 +103,13 @@ export const Effect: EffectFactory = {
     }
   },
   unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
+    if (getState()?.editing && !(Array.isArray(items) && items.length === 1) && !onUnexpectedInput) {
     const { onUnexpectedInput, valueToString } = getProps();
 
+      const valueContent = getValueString(value, valueToString);
+      dispatch({ type: 'ValueChange', value: valueContent, keepFocus: false });
+      return;
+    }
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
       const valueContent = getValueString(singleItem, valueToString);
@@ -342,7 +347,6 @@ export function reducer<T>(
           focused: false,
           opened: false,
           items: null,
-          editing: false,
         },
         [Effect.blur, Effect.cancelRequest, Effect.unexpectedInput(state.textValue, items)],
       ];
