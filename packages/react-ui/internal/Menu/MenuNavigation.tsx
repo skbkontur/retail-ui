@@ -21,7 +21,7 @@ export class MenuNavigation<T extends Highlightable> {
   }
 
   private update() {
-    if (this.root && this.root.current) {
+    if (this.root?.current) {
       const menuItems = Array.from(this.root.current.querySelectorAll(`span[data-tid="${this.itemsContentDataTid}"]`));
       this.items = menuItems.map((item) => this.tagsAndItems.get(item)).filter((item): item is T => item !== undefined);
     }
@@ -29,7 +29,11 @@ export class MenuNavigation<T extends Highlightable> {
 
   public add(tag: Element, item: T) {
     this.tagsAndItems.set(tag, item);
-    this.update();
+    if (this.root?.current) {
+      this.update();
+    } else {
+      this.items.push(item);
+    }
   }
 
   public remove(tag: HTMLElement) {

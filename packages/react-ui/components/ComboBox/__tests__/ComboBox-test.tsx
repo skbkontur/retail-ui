@@ -128,11 +128,11 @@ describe('ComboBox', () => {
 
   it('selects first item on Enter', async () => {
     const items = ['one', 'two', 'three'];
-    const [search] = searchFactory(Promise.resolve(items));
+    const [search, promise] = searchFactory(Promise.resolve(items));
     const onValueChange = jest.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} value={'one'} />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    await delay(10);
+    await promise;
 
     userEvent.type(screen.getByRole('textbox'), '{enter}');
 
@@ -426,11 +426,11 @@ describe('ComboBox', () => {
 
   it('highlights menu item on focus with non-empty input', async () => {
     const items = ['one', 'two', 'three'];
-    const [search] = searchFactory(Promise.resolve(items));
+    const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} renderItem={(x) => x} value={'one'} />);
 
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    await delay(10);
+    await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
     const backgroundColor = window.getComputedStyle(menuItems[0]).getPropertyValue('background-color');

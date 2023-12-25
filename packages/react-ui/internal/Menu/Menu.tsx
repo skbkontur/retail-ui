@@ -258,7 +258,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
                 setEnableIconPadding: this.setEnableIconPadding,
               }}
             >
-              {this.getChildList()}
+              {this.props.children}
             </MenuContext.Provider>
           </div>
         </ScrollContainer>
@@ -309,16 +309,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     );
   };
 
-  private getChildList = () => {
-    if (!this.state.isMounted) {
-      return null;
-    }
-    return this.props.children;
-  };
-
   private setInitialSelection = () => {
     for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
-      globalObject.setTimeout(() => this.down(), 0);
+      this.down();
     }
   };
 

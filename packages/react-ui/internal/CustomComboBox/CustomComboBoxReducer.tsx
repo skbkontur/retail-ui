@@ -159,7 +159,7 @@ export const Effect: EffectFactory = {
     if (items && items.length && isNonNullable(value)) {
       index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
     }
-    globalObject.setTimeout(() => menu.highlightItem(index), 0);
+    menu.highlightItem(index);
 
     if (index >= 0) {
       globalObject.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
@@ -167,7 +167,7 @@ export const Effect: EffectFactory = {
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      globalObject.setTimeout(() => globalObject.requestAnimationFrame?.(() => menu && menu.down()), 0);
+      globalObject.requestAnimationFrame?.(() => menu && menu.down());
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
