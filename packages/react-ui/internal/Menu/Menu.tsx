@@ -175,7 +175,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
     }
-    const nextIndex = this.menuNavigation?.move(step, this.getProps().cyclicSelection);
+    const nextIndex = this.menuNavigation.move(step, this.getProps().cyclicSelection);
     this.scroll(nextIndex);
   }
 
@@ -183,7 +183,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    const highlightedItem = this.menuNavigation?.highlightedItem;
+    const highlightedItem = this.menuNavigation.highlightedItem;
     if (highlightedItem?.props.href) {
       if (highlightedItem.props.target) {
         window.open(highlightedItem.props.href, highlightedItem.props.target);
@@ -191,25 +191,25 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
         location.href = highlightedItem.props.href;
       }
     }
-    return this.menuNavigation?.select(event);
+    return this.menuNavigation.select(event);
   }
 
   /**
    * @public
    */
   public reset() {
-    this.menuNavigation?.reset();
+    this.menuNavigation.reset();
   }
 
   /**
    * @public
    */
   public hasHighlightedItem() {
-    return !!this.menuNavigation?.highlightedItem;
+    return !!this.menuNavigation.highlightedItem;
   }
 
   public highlightItem(index: number) {
-    this.menuNavigation?.highlightByIndex(index);
+    this.menuNavigation.highlightByIndex(index);
   }
 
   private renderMain() {
@@ -323,7 +323,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   public scrollToSelected = () => {
-    if (this.scrollContainer && this.menuNavigation?.highlightedItem) {
+    if (this.scrollContainer && this.menuNavigation.highlightedItem) {
       const rootNode = getRootNode(this.menuNavigation.highlightedItem);
       // TODO: Remove this check once IF-647 is resolved
       if (rootNode instanceof HTMLElement) {
@@ -423,7 +423,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
-      this.menuNavigation?.select(event);
+      this.menuNavigation.select(event);
     }
   };
 
