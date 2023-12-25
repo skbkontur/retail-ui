@@ -819,18 +819,18 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
-        await delay(100);
+        await delay(1000);
         pressTab().perform();
-        await delay(100);
+        await delay(1000);
         const firstTimeTabPress = await this.browser.takeScreenshot();
         pressTab().perform();
-        await delay(100);
+        await delay(1000);
         const secondTimeTabPress = await this.browser.takeScreenshot();
         pressTab().perform();
-        await delay(100);
+        await delay(1000);
         const thirdTimeTabPress = await this.browser.takeScreenshot();
         pressTab().perform();
-        await delay(100);
+        await delay(1000);
         const fourthTimeTabPress = await this.browser.takeScreenshot();
         await this.expect({
           firstTimeTabPress,
