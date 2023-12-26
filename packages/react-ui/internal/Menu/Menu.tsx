@@ -58,7 +58,6 @@ export interface MenuProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
 export interface MenuState {
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
-  isMounted: boolean;
   enableIconPadding: boolean;
 }
 
@@ -99,13 +98,13 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public state: MenuState = {
     maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
-    isMounted: false,
     enableIconPadding: false,
   };
 
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private isMobileLayout!: boolean;
+  private unmounted = false;
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
@@ -113,13 +112,12 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef, MenuItemDataTids.content);
 
   public componentWillUnmount() {
-    this.setState({ isMounted: false });
+    this.unmounted = true;
   }
 
   public componentDidMount() {
     this.setInitialSelection();
     this.calculateMaxHeight();
-    this.setState({ isMounted: true });
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
@@ -171,7 +169,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private move(step: number) {
-    if (!this.state.isMounted) {
+    if (this.unmounted) {
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
     }
