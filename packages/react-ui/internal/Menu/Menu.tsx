@@ -183,14 +183,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    const highlightedItem = this.menuNavigation.highlightedItem;
-    if (highlightedItem?.props.href) {
-      if (highlightedItem.props.target) {
-        window.open(highlightedItem.props.href, highlightedItem.props.target);
-      } else {
-        location.href = highlightedItem.props.href;
-      }
-    }
+    this.menuNavigation.highlightedItem?.navigate();
     return this.menuNavigation.select(event);
   }
 

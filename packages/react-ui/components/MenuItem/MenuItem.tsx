@@ -205,6 +205,17 @@ export class MenuItem extends React.Component<MenuItemProps> {
     return !this.props.disabled;
   };
 
+  public navigate = () => {
+    if (!this.props.href) {
+      return;
+    }
+    if (this.props.target) {
+      window.open(this.props.href, this.props.target);
+    } else {
+      location.href = this.props.href;
+    }
+  };
+
   private getRootSizeClassName() {
     switch (this.props.size) {
       case 'large':
