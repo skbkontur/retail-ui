@@ -806,12 +806,14 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
     skip: { 'open side-page': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     tests: {
       async 'open side-page'() {
-        const pressTab = () => {
-          return this.browser
+        const pressTab = async () => {
+          await this.browser
             .actions({
               bridge: true,
             })
-            .sendKeys(this.keys.TAB);
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await delay(5000);
         };
         await this.browser
           .actions({
@@ -820,17 +822,13 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
           .perform();
         await delay(1000);
-        pressTab().perform();
-        await delay(1000);
+        await pressTab();
         const firstTimeTabPress = await this.browser.takeScreenshot();
-        pressTab().perform();
-        await delay(1000);
+        await pressTab();
         const secondTimeTabPress = await this.browser.takeScreenshot();
-        pressTab().perform();
-        await delay(1000);
+        await pressTab();
         const thirdTimeTabPress = await this.browser.takeScreenshot();
-        pressTab().perform();
-        await delay(1000);
+        await pressTab();
         const fourthTimeTabPress = await this.browser.takeScreenshot();
         await this.expect({
           firstTimeTabPress,
