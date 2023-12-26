@@ -9,6 +9,7 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
 import { Select, SelectDataTids, SelectIds } from '../Select';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -446,13 +447,15 @@ describe('Select', () => {
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+      menuItems.forEach((item) => {
+        expect(item).not.toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
+      });
       userEvent.keyboard('{arrowdown}');
 
-      expect(window.getComputedStyle(menuItems[0]).getPropertyValue('background-color')).not.toBe('transparent');
+      expect(menuItems[0]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
 
       userEvent.keyboard('{arrowdown}');
-      expect(window.getComputedStyle(menuItems[1]).getPropertyValue('background-color')).not.toBe('transparent');
+      expect(menuItems[1]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
     });
 
     it('should move highligted item when pressing arrow up key', () => {
@@ -461,14 +464,12 @@ describe('Select', () => {
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+      menuItems.forEach((item) => {
+        expect(item).not.toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
+      });
       userEvent.keyboard('{arrowup}');
 
-      const choosenMenuItem = menuItems.find(
-        (item) => window.getComputedStyle(item).getPropertyValue('background-color') !== 'transparent',
-      );
-
-      expect(choosenMenuItem).toHaveTextContent(testItems[testItems.length - 1]);
+      expect(menuItems[testItems.length - 1]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
     });
   });
 });

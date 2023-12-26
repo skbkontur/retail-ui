@@ -421,7 +421,9 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+    menuItems.forEach((item) => {
+      expect(item).not.toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
+    });
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -433,9 +435,7 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    const backgroundColor = window.getComputedStyle(menuItems[0]).getPropertyValue('background-color');
-
-    expect(backgroundColor).not.toBe('transparent');
+    expect(menuItems[0]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
   });
 
   describe('update input text when value changes if there was no editing', () => {
