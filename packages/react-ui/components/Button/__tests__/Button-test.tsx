@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { createEvent, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 
@@ -207,5 +207,22 @@ describe('Button', () => {
     );
 
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
+  });
+
+  it('use="link" in THEME_2022 does not prevent default action of parent link', () => {
+    render(
+      <ThemeContext.Provider value={THEME_2022}>
+        <a href="">
+          <Button use="link">text</Button>
+        </a>
+      </ThemeContext.Provider>,
+    );
+
+    const link = screen.getByRole('link');
+    const keyDownEvent = createEvent.keyDown(link);
+
+    fireEvent(link, keyDownEvent);
+
+    expect(keyDownEvent.defaultPrevented).toBe(false);
   });
 });

@@ -473,7 +473,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (_isTheme2022 && isLink && !loading) {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link focused={isFocused} disabled={disabled} icon={this.renderIcon2022(icon)} as="span" tabIndex={-1}>
+          <Link
+            _enableEventsWithoutHref
+            focused={isFocused}
+            disabled={disabled}
+            icon={this.renderIcon2022(icon)}
+            as="span"
+            tabIndex={-1}
+          >
             {children}
           </Link>
         </ThemeContext.Provider>

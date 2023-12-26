@@ -75,6 +75,11 @@ export interface LinkProps
          * @ignore
          */
         focused?: boolean;
+        /**
+         * Снимает ограничение на предотвращение событий при клике по ссылке без заданного `href`
+         * @ignore
+         */
+        _enableEventsWithoutHref?: boolean;
       }
     > {}
 
@@ -86,7 +91,7 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as'>>;
+type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as' | '_enableEventsWithoutHref'>>;
 type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 
 /**
@@ -110,6 +115,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     href: '',
     use: 'default',
     as: 'a',
+    _enableEventsWithoutHref: false,
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -239,7 +245,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading } = this.props;
     const href = this.getProps().href;
-    if (!href) {
+    if (!href && !this.getProps()._enableEventsWithoutHref) {
       event.preventDefault();
     }
     if (onClick && !disabled && !loading) {
