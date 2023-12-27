@@ -9,7 +9,6 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
 import { Select, SelectDataTids, SelectIds } from '../Select';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -447,15 +446,17 @@ describe('Select', () => {
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      menuItems.forEach((item) => {
-        expect(item).not.toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
-      });
+      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
       userEvent.keyboard('{arrowdown}');
 
-      expect(menuItems[0]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[0]);
 
       userEvent.keyboard('{arrowdown}');
-      expect(menuItems[1]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[1]);
     });
 
     it('should move highligted item when pressing arrow up key', () => {
@@ -464,12 +465,12 @@ describe('Select', () => {
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      menuItems.forEach((item) => {
-        expect(item).not.toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
-      });
+      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
       userEvent.keyboard('{arrowup}');
 
-      expect(menuItems[testItems.length - 1]).toHaveStyle(`background: ${DEFAULT_THEME.menuItemHoverBg}`);
+      expect(
+        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
+      ).toHaveTextContent(testItems[testItems.length - 1]);
     });
   });
 });

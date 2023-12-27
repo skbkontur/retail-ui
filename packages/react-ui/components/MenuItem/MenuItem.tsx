@@ -315,7 +315,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         data-tid={MenuItemDataTids.root}
         {...rest}
         disabled={disabled}
-        state={state}
+        state={this.state.highlighted ? 'hover' : state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         onClick={this.handleClick}
