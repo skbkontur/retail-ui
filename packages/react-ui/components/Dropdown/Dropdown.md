@@ -42,27 +42,3 @@ import { Gapped, MenuItem, MenuSeparator, MenuHeader } from '@skbkontur/react-ui
   </Dropdown>
 </Gapped>
 ```
-
-Внутри `Dropdown` можно использовать различные обертки для пунктов меню
-
-```jsx harmony
-import { Dropdown, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
-
-const groupedMenuItems = (
-  <div>
-    <MenuItem>MenuItem2</MenuItem>
-    <MenuItem>MenuItem3</MenuItem>
-  </div>
-);
-
-<Dropdown caption="Click">
-  <>
-    <div>
-      <MenuItem>MenuItem1</MenuItem>
-      <MenuSeparator />
-      <MenuHeader>MenuHeader</MenuHeader>
-    </div>
-    {groupedMenuItems}
-  </>
-</Dropdown>;
-```

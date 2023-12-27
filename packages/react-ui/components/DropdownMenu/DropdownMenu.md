@@ -247,27 +247,3 @@ const hiddenItems = [
   </DropdownMenu>
 </Gapped>
 ```
-
-Внутри `DropdownMenu` можно использовать различные обертки для пунктов меню
-
-```jsx harmony
-import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
-
-const groupedMenuItems = (
-  <div>
-    <MenuItem>MenuItem1</MenuItem>
-    <MenuItem>MenuItem2</MenuItem>
-  </div>
-);
-
-<DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-  <>
-    <MenuHeader>Заголовок меню</MenuHeader>
-    <MenuSeparator />
-    <div>
-      {groupedMenuItems}
-    </div>
-  </>
-  <MenuItem>MenuItem3</MenuItem>
-</DropdownMenu>;
-```

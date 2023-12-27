@@ -36,6 +36,11 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -227,6 +232,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
+  private featureFlags!: ReactUIFeatureFlags;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -239,17 +245,24 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = ThemeFactory.create(
-            {
-              menuOffsetY: theme.selectMenuOffsetY,
-            },
-            theme,
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = ThemeFactory.create(
+                  {
+                    menuOffsetY: theme.selectMenuOffsetY,
+                  },
+                  theme,
+                );
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+              }}
+            </ThemeContext.Consumer>
           );
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -625,8 +638,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private handleSearch = (value: string) => {
+    const menuItemsAtAnyLevel = this.featureFlags.menuItemsAtAnyLevel;
+
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(0);
+    this.menu?.highlightItem(menuItemsAtAnyLevel ? 0 : 1);
   };
 
   private select(value: TValue) {

@@ -13,6 +13,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './MenuItem.styles';
 
@@ -146,22 +147,30 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
   private contentRef = React.createRef<HTMLElement>();
+  private menuItemsAtAnyLevel?: boolean;
   static contextType = MenuContext;
 
   public context!: MenuContextType;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.menuItemsAtAnyLevel = getFullReactUIFlagsContext(flags).menuItemsAtAnyLevel;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -169,16 +178,16 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef && isBrowser(globalObject)) {
       this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
-    if (this.contentRef.current) {
+    if (this.contentRef.current && this.menuItemsAtAnyLevel) {
       this.context.navigation?.add(this.contentRef.current, this);
     }
-    if (this.props.icon) {
+    if (this.props.icon && this.menuItemsAtAnyLevel) {
       this.context.setEnableIconPadding?.(true);
     }
   }
 
   public componentWillUnmount() {
-    if (this.contentRef.current) {
+    if (this.contentRef.current && this.menuItemsAtAnyLevel) {
       this.context.navigation?.remove(this.contentRef.current);
     }
   }
@@ -355,18 +364,21 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (!this.mouseEntered) {
       this.mouseEntered = true;
       this.props.onMouseEnter?.(e);
-      this.context.navigation?.highlight(this);
+      this.menuItemsAtAnyLevel && this.context.navigation?.highlight(this);
     }
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     this.mouseEntered = false;
     this.props.onMouseLeave?.(e);
-    this.context.navigation?.unhighlight();
+    this.menuItemsAtAnyLevel && this.context.navigation?.unhighlight();
   };
 
   private handleClick = (e: React.MouseEvent<HTMLElement>) => {
     this.props.onClick?.(e);
+    if (!this.menuItemsAtAnyLevel) {
+      return;
+    }
     this.context.onItemClick?.(e);
   };
 

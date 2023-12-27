@@ -162,6 +162,7 @@ export const Effect: EffectFactory = {
     menu.highlightItem(index);
 
     if (index >= 0) {
+      // @ts-expect-error: Use of private property.
       globalObject.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
       return;
     }

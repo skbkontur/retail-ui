@@ -17,8 +17,11 @@ describe('Menu', () => {
     // Highlight first item.
     menu.down();
 
-    expect(refItem.mock.calls).toHaveLength(1);
-    expect(refItem.mock.calls[0][0]).toBeTruthy();
+    // 1. Called initially.
+    // 2. Changed with a wrapper function. Previous function called with null.
+    // 3. The wrapper function called.
+    expect(refItem.mock.calls).toHaveLength(3);
+    expect(refItem.mock.calls[2][0]).toBeTruthy();
   });
 
   it('calls onClick on manually passed MenuItem', () => {

@@ -8,6 +8,7 @@ import { MenuHeader } from '../../MenuHeader';
 import { MenuItem } from '../../MenuItem';
 import { OkIcon } from '../../../internal/icons/16px';
 import { PopupMenuDataTids } from '../../../internal/PopupMenu';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
   title: 'DropdownMenu/Functional tests',
@@ -106,15 +107,17 @@ export const WithNestedMenuItems = () => {
     setCaption('selected');
   };
   return (
-    <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
-      <>
-        <div>
-          <MenuItem>Раз</MenuItem>
-          <MenuItem onClick={onClick}>Два</MenuItem>
-        </div>
-        <MenuItem>Три</MenuItem>
-      </>
-    </DropdownMenu>
+    <ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
+      <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
+        <>
+          <div>
+            <MenuItem>Раз</MenuItem>
+            <MenuItem onClick={onClick}>Два</MenuItem>
+          </div>
+          <MenuItem>Три</MenuItem>
+        </>
+      </DropdownMenu>
+    </ReactUIFeatureFlagsContext.Provider>
   );
 };
 WithNestedMenuItems.storyName = 'With nested menu items';
