@@ -96,6 +96,11 @@ export interface MenuItemProps
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
   component?: React.ComponentType<any>;
+  /**
+   * Запрещает выделение и выбор данного пункта меню. Работает только с флагом menuItemsAtAnyLevel [FeatureFlags](#/FeatureFlagsContext)
+   *
+   */
+  isNotSelectable?: boolean;
 
   isMobile?: boolean;
 }
@@ -178,7 +183,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef && isBrowser(globalObject)) {
       this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
-    if (this.contentRef.current && this.menuItemsAtAnyLevel) {
+    if (this.contentRef.current && this.menuItemsAtAnyLevel && !this.props.isNotSelectable) {
       this.context.navigation?.add(this.contentRef.current, this);
     }
     if (this.props.icon && this.menuItemsAtAnyLevel) {
@@ -187,7 +192,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentWillUnmount() {
-    if (this.contentRef.current && this.menuItemsAtAnyLevel) {
+    if (this.contentRef.current && this.menuItemsAtAnyLevel && !this.props.isNotSelectable) {
       this.context.navigation?.remove(this.contentRef.current);
     }
   }
@@ -277,6 +282,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       href,
       disabled,
       rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
+      isNotSelectable,
       ...rest
     } = props;
 
@@ -364,22 +370,24 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (!this.mouseEntered) {
       this.mouseEntered = true;
       this.props.onMouseEnter?.(e);
-      this.menuItemsAtAnyLevel && this.context.navigation?.highlight(this);
+      this.menuItemsAtAnyLevel && !this.props.isNotSelectable && this.context.navigation?.highlight(this);
     }
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     this.mouseEntered = false;
     this.props.onMouseLeave?.(e);
-    this.menuItemsAtAnyLevel && this.context.navigation?.unhighlight();
+    this.menuItemsAtAnyLevel && !this.props.isNotSelectable && this.context.navigation?.unhighlight();
   };
 
   private handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    this.props.onClick?.(e);
-    if (!this.menuItemsAtAnyLevel) {
+    if (this.props.isNotSelectable) {
       return;
     }
-    this.context.onItemClick?.(e);
+    this.props.onClick?.(e);
+    if (this.menuItemsAtAnyLevel) {
+      this.context.onItemClick?.(e);
+    }
   };
 
   private setRootRef = (element: HTMLElement) => {
