@@ -19,16 +19,16 @@ module.exports = {
   features: {
     postcss: false,
   },
-  managerWebpack: (config) => {
-    config.module.rules.push({
-      test: /(creevey)\/.*\.js$/,
-      loader: 'babel-loader',
-      options: {
-        babelrc: false,
-        envName: 'cjs',
-        extends: path.join(__dirname, '../.babelrc.js'),
-      },
-    });
-    return config;
-  },
+  // managerWebpack: (config) => {
+  //   config.module.rules.push({
+  //     test: /(creevey)\/.*\.js$/,
+  //     loader: 'babel-loader',
+  //     options: {
+  //       babelrc: false,
+  //       envName: 'cjs',
+  //       extends: path.join(__dirname, '../.babelrc.js'),
+  //     },
+  //   });
+  //   return config;
+  // },
 };
