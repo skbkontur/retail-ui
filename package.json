@@ -18,9 +18,7 @@
   "scripts": {
     "commit": "git-cz",
     "release": "env-cmd lerna version",
-    "prepare": "husky install",
-    "preinstall": "node scripts/update-package-registry",
-    "postinstall": "node scripts/update-package-registry back"
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
