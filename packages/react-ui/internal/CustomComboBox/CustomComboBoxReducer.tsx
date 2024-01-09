@@ -211,6 +211,7 @@ export function reducer<T>(
   props: CustomComboBoxProps<T>,
   action: CustomComboBoxAction<T>,
 ): Pick<CustomComboBoxState<T>, never> | [Pick<CustomComboBoxState<T>, never>, Array<CustomComboBoxEffect<T>>] {
+  console.log(action.type);
   switch (action.type) {
     case 'ValueChange': {
       const { value, keepFocus } = action;
@@ -287,14 +288,15 @@ export function reducer<T>(
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
-        console.log('isEqual: ', props.value, action.prevProps.value);
         return state;
       }
-      console.log('!isEqual: ', props.value, action.prevProps.value);
       return {
         opened: false,
-        editing: false,
-        textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
+        // textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
+        textValue:
+          getValueString(props.value, props.valueToString) !== ''
+            ? getValueString(props.value, props.valueToString)
+            : state.textValue,
       };
     }
     case 'Mount': {
