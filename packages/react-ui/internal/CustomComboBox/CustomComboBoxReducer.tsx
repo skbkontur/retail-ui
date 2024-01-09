@@ -103,12 +103,7 @@ export const Effect: EffectFactory = {
     }
   },
   unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
-    const { onUnexpectedInput, valueToString, value } = getProps();
-    if (getState()?.editing && !(Array.isArray(items) && items.length === 1) && !onUnexpectedInput) {
-      const valueContent = getValueString(value, valueToString);
-      dispatch({ type: 'ValueChange', value: valueContent, keepFocus: false });
-      return;
-    }
+    const { onUnexpectedInput, valueToString } = getProps();
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
       const valueContent = getValueString(singleItem, valueToString);
@@ -292,11 +287,13 @@ export function reducer<T>(
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
+        console.log('isEqual: ', props.value, action.prevProps.value);
         return state;
       }
-
+      console.log('!isEqual: ', props.value, action.prevProps.value);
       return {
         opened: false,
+        editing: false,
         textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
       };
     }
