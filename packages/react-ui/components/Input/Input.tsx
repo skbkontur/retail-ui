@@ -97,16 +97,26 @@ export interface InputProps
         borderless?: boolean;
         /** Выравнивание текста */
         align?: InputAlign;
-        /** Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url` */
+        /**
+         * Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
+         */
         mask?: Nullable<string>;
-        /** Символ маски */
+        /**
+         * Символ маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
+         */
         maskChar?: Nullable<string>;
         /**
          * Словарь символов-регулярок для задания маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
          * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
          */
         formatChars?: Record<string, string>;
-        /** Показывать символы маски */
+        /**
+         * Показывать символы маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
+         */
         alwaysShowMask?: boolean;
         /** Размер */
         size?: SizeProp;
