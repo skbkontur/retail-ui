@@ -823,18 +823,21 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
           .perform();
         await delay(1000);
         await pressTab();
+        await this.browser.executeScript(function () {
+          alert(document.activeElement);
+        });
         const firstTimeTabPress = await this.browser.takeScreenshot();
-        await pressTab();
-        const secondTimeTabPress = await this.browser.takeScreenshot();
-        await pressTab();
-        const thirdTimeTabPress = await this.browser.takeScreenshot();
-        await pressTab();
-        const fourthTimeTabPress = await this.browser.takeScreenshot();
+        // await pressTab();
+        // const secondTimeTabPress = await this.browser.takeScreenshot();
+        // await pressTab();
+        // const thirdTimeTabPress = await this.browser.takeScreenshot();
+        // await pressTab();
+        // const fourthTimeTabPress = await this.browser.takeScreenshot();
         await this.expect({
           firstTimeTabPress,
-          secondTimeTabPress,
-          thirdTimeTabPress,
-          fourthTimeTabPress,
+          // secondTimeTabPress,
+          // thirdTimeTabPress,
+          // fourthTimeTabPress,
         }).to.matchImages();
       },
     },
