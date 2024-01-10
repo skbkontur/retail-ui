@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.19.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.18.0...@skbkontur/react-ui@4.19.0) (2023-12-15)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** fix bgSecondary in THEME_2022_DARK ([#3330](https://github.com/skbkontur/retail-ui/issues/3330)) ([44e7258](https://github.com/skbkontur/retail-ui/commit/44e7258715696b38db58507729e8f1c11a596d10))
+* **GlobalLoader:** repair of call chain done()➔start()➔done() ([#3328](https://github.com/skbkontur/retail-ui/issues/3328)) ([9178da5](https://github.com/skbkontur/retail-ui/commit/9178da5cb7fd2973824ce26169d5afc090531b63))
+* **icons:** move tech-symbol `ZERO_WIDTH_SPACE` to `::before` ([#3316](https://github.com/skbkontur/retail-ui/issues/3316)) ([a93e636](https://github.com/skbkontur/retail-ui/commit/a93e63651c997a4b9179d6cc44182e0596ad7bd8))
+* **PasswordInput:** eye icon triggers form submit ([#3327](https://github.com/skbkontur/retail-ui/issues/3327)) ([9014743](https://github.com/skbkontur/retail-ui/commit/9014743ff97a3e95120e3cf4b3e9f21938b3ff51))
+* **ScrollContainer:** stretch small content to size of container ([#3326](https://github.com/skbkontur/retail-ui/issues/3326)) ([a7f20b4](https://github.com/skbkontur/retail-ui/commit/a7f20b4ef019e2f84d1b33fa552b82aab54a4450))
+
+
+### Features
+
+* **react-ui,validations:** add FeatureFlags contexts ([#3312](https://github.com/skbkontur/retail-ui/issues/3312)) ([508c803](https://github.com/skbkontur/retail-ui/commit/508c803018360a396bb693c9272e1dc2490e9a7b))
+* **ScrollContainer:** new prop `showScrollBar` instead of `hideScrollBar` ([#3322](https://github.com/skbkontur/retail-ui/issues/3322)) ([dc31863](https://github.com/skbkontur/retail-ui/commit/dc31863377a4505911c750922075a82c830d162b))
+
+
+
+
+
 # [4.18.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.17.4...@skbkontur/react-ui@4.18.0) (2023-12-04)
 
 
