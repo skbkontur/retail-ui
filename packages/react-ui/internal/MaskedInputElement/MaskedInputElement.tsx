@@ -4,19 +4,17 @@ import { IMaskInput } from 'react-imask';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
-import { InputElement } from '../../typings/InputElement';
+import { InputElement, InputElementProps } from '../../components/Input';
 
 import { styles } from './MaskedInputElement.styles';
 import { getCurrentValue, getDefinitions, getEmptyValue, getFocusPrefix } from './MaskedInputElement.helpers';
 
-export interface MaskedInputElementProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface MaskedInputElementProps extends InputElementProps {
   mask: string;
   unmask?: boolean;
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
-  onUnexpectedInput?: (value: string) => void;
-  onValueChange?: (value: string) => void;
 }
 
 export const MaskedInputElementDataTids = {

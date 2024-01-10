@@ -19,8 +19,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
-import { InputElement } from '../../typings/InputElement';
 
+import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
@@ -51,20 +51,6 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
     .map((i) => `"${i}"`)
     .join(', ')}.`;
 };
-
-export interface InputElementProps extends React.InputHTMLAttributes<InputElement> {
-  /**
-   * Обработчик неправильного ввода.
-   * По-умолчанию, инпут вспыхивает акцентным цветом.
-   * Если передан - вызывается переданный обработчик,
-   * в таком случае вспыхивание можно вызвать
-   * публичным методом инстанса `blink()`.
-   *
-   * @param value значение инпута.
-   */
-  onUnexpectedInput?: (value: string) => void;
-  onValueChange?: (value: string) => void;
-}
 
 export interface InputProps
   extends CommonProps,
