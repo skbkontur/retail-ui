@@ -21,6 +21,7 @@ import { delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -1338,6 +1339,51 @@ describe('ComboBox', () => {
     await delay(0);
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+
+  it('should allow value change in editing state with comboBoxAllowValueChangeInEditingState flag', async () => {
+    const expectedValue = 'Expected Value';
+    const TestComponent = () => {
+      const [value, setValue] = React.useState({ value: 'Initial Value', label: 'Initial Value' });
+
+      const handleValueChange = () => {
+        setValue({ value: expectedValue, label: expectedValue });
+      };
+
+      const getItems = jest.fn((searchQuery) =>
+        Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+      );
+      const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
+      return (
+        <>
+          <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+            <button onClick={handleValueChange}>Обновить</button>
+            <ComboBox
+              ref={comboboxRef}
+              value={value}
+              searchOnFocus={false}
+              getItems={getItems}
+              onValueChange={(value) => setValue(value)}
+              onInputValueChange={(value) => {
+                setValue({ value, label: value });
+              }}
+              renderItem={renderItem}
+              renderNotFound={() => undefined}
+            />
+          </ReactUIFeatureFlagsContext.Provider>
+        </>
+      );
+    };
+    render(<TestComponent />);
+
+    comboboxRef.current?.focus();
+    expect(screen.getByRole('textbox')).toHaveValue('Initial Value');
+    userEvent.clear(screen.getByRole('textbox'));
+    await delay(0);
+    expect(screen.getByRole('textbox')).toHaveValue('');
+    userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
+    await delay(0);
+    expect(screen.getByRole('textbox')).toHaveValue(expectedValue);
   });
 });
 
