@@ -1342,9 +1342,10 @@ describe('ComboBox', () => {
   });
 
   it('should allow value change in editing state with comboBoxAllowValueChangeInEditingState flag', async () => {
+    const initialValue = 'Initial Value';
     const expectedValue = 'Expected Value';
     const TestComponent = () => {
-      const [value, setValue] = React.useState({ value: 'Initial Value', label: 'Initial Value' });
+      const [value, setValue] = React.useState({ value: initialValue, label: initialValue });
 
       const handleValueChange = () => {
         setValue({ value: expectedValue, label: expectedValue });
@@ -1355,29 +1356,27 @@ describe('ComboBox', () => {
       );
       const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
       return (
-        <>
-          <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
-            <button onClick={handleValueChange}>Обновить</button>
-            <ComboBox
-              ref={comboboxRef}
-              value={value}
-              searchOnFocus={false}
-              getItems={getItems}
-              onValueChange={(value) => setValue(value)}
-              onInputValueChange={(value) => {
-                setValue({ value, label: value });
-              }}
-              renderItem={renderItem}
-              renderNotFound={() => undefined}
-            />
-          </ReactUIFeatureFlagsContext.Provider>
-        </>
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+          <button onClick={handleValueChange}>Обновить</button>
+          <ComboBox
+            ref={comboboxRef}
+            value={value}
+            searchOnFocus={false}
+            getItems={getItems}
+            onValueChange={(value) => setValue(value)}
+            onInputValueChange={(value) => {
+              setValue({ value, label: value });
+            }}
+            renderItem={renderItem}
+            renderNotFound={() => undefined}
+          />
+        </ReactUIFeatureFlagsContext.Provider>
       );
     };
     render(<TestComponent />);
 
     comboboxRef.current?.focus();
-    expect(screen.getByRole('textbox')).toHaveValue('Initial Value');
+    expect(screen.getByRole('textbox')).toHaveValue(initialValue);
     userEvent.clear(screen.getByRole('textbox'));
     await delay(0);
     expect(screen.getByRole('textbox')).toHaveValue('');
