@@ -12,6 +12,7 @@ import { Shape } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
+import ActiveElementComponent from "../../MY_ACTIVE_ELEMENT/myActiveElement";
 
 const textSample = (
   <p>
@@ -140,6 +141,7 @@ class Sample extends React.Component<SampleProps> {
     return (
       <div>
         {this.state.open && this.renderSidePage()}
+        <ActiveElementComponent></ActiveElementComponent>
         <Button onClick={this.open} data-tid="open-side-page">
           Open SidePage
         </Button>
@@ -823,21 +825,24 @@ SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
           .perform();
         await delay(1000);
         await pressTab();
-        await this.browser.executeScript(function () {
-          alert(document.activeElement);
-        });
+        await delay(2000);
+
+        // await this.browser.executeScript(function () {
+        //   alert(document.activeElement);
+        // });
+
         const firstTimeTabPress = await this.browser.takeScreenshot();
-        // await pressTab();
-        // const secondTimeTabPress = await this.browser.takeScreenshot();
-        // await pressTab();
-        // const thirdTimeTabPress = await this.browser.takeScreenshot();
-        // await pressTab();
-        // const fourthTimeTabPress = await this.browser.takeScreenshot();
+        await pressTab();
+        const secondTimeTabPress = await this.browser.takeScreenshot();
+        await pressTab();
+        const thirdTimeTabPress = await this.browser.takeScreenshot();
+        await pressTab();
+        const fourthTimeTabPress = await this.browser.takeScreenshot();
         await this.expect({
           firstTimeTabPress,
-          // secondTimeTabPress,
-          // thirdTimeTabPress,
-          // fourthTimeTabPress,
+          secondTimeTabPress,
+          thirdTimeTabPress,
+          fourthTimeTabPress,
         }).to.matchImages();
       },
     },
