@@ -50,6 +50,8 @@ const getItems = () => {};
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
+import { Button, ComboBox, ReactUIFeatureFlagsContext } from `@skbkontur/react-ui`;
+
 const [value, setValue] = React.useState({ value: '', label: '' });
 const comboboxRef = React.useRef<ComboBox | null>(null);
 
@@ -65,27 +67,25 @@ const getItems = () =>
 const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
 
 return (
-  <>
-    <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
-      <Button onClick={handleValueChange}>Обновить</Button>
-      <ComboBox
-        ref={comboboxRef}
-        value={value}
-        maxLength={40}
-        width={200}
-        maxMenuHeight={150}
-        drawArrow={false}
-        searchOnFocus={false}
-        getItems={getItems}
-        onValueChange={(value) => setValue(value)}
-        onInputValueChange={(value) => {
-          setValue({ value, label: value });
-        }}
-        renderItem={renderItem}
-        renderNotFound={() => undefined}
-      />
-    </ReactUIFeatureFlagsContext.Provider>
-  </>
+  <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+    <Button onClick={handleValueChange}>Обновить</Button>
+    <ComboBox
+      ref={comboboxRef}
+      value={value}
+      maxLength={40}
+      width={200}
+      maxMenuHeight={150}
+      drawArrow={false}
+      searchOnFocus={false}
+      getItems={getItems}
+      onValueChange={(value) => setValue(value)}
+      onInputValueChange={(value) => {
+        setValue({ value, label: value });
+      }}
+      renderItem={renderItem}
+      renderNotFound={() => undefined}
+    />
+  </ReactUIFeatureFlagsContext.Provider>
 );
 ```
 
