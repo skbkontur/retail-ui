@@ -5,7 +5,7 @@ import typescript2 from 'rollup-plugin-typescript2';
 
 export function buildConfig(outputDir, reactUiPackageName) {
   return {
-    input: ['src/index.tsx', 'lib/index.tsx'],
+    input: 'src/index.tsx',
     output: {
       file: 'build/' + outputDir + '/index.js',
       format: 'cjs',
