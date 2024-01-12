@@ -1,9 +1,10 @@
 import React from 'react';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
@@ -78,7 +79,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     const target = event.target || event.srcElement;
     const node = getRootNode(this);
 
-    if (node && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node)) {
+    if (node && isInstanceOfForIE11(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node)) {
       return;
     }
 

@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -19,6 +19,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -336,7 +337,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
       if (
-        isInstanceOf(e, globalObject.MouseEvent) &&
+        isInstanceOfForIE11(e, globalObject.MouseEvent) &&
         globalObject.document &&
         e.clientX > globalObject.document.documentElement.clientWidth
       ) {

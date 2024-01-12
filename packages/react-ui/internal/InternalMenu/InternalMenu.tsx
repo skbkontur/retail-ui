@@ -1,5 +1,5 @@
 import React from 'react';
-import { globalObject, isInstanceOf, isBrowser } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
@@ -15,6 +15,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -250,7 +251,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+    if (isInstanceOfForIE11(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
@@ -328,7 +329,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+      if (isInstanceOfForIE11(rootNode, globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }
@@ -360,7 +361,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     this.setState({ highlightedIndex: index });
 
     const rootNode = getRootNode(this);
-    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+    if (isInstanceOfForIE11(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };

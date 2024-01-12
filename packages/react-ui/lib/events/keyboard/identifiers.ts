@@ -1,6 +1,7 @@
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isMac } from '../../client';
+import { isInstanceOfForIE11 } from '../../isInstanceOfForIE11';
 
 import { extractCode } from './extractCode';
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
@@ -13,7 +14,7 @@ type ISSome = (...is: IS[]) => IS;
 // IE 9+ supports char attribute
 // https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent
 const getChar = (e: E & { char?: string; nativeEvent?: { char?: string } }) =>
-  isInstanceOf(e, globalObject.KeyboardEvent) ? e.char : e.nativeEvent?.char;
+  isInstanceOfForIE11(e, globalObject.KeyboardEvent) ? e.char : e.nativeEvent?.char;
 
 export const isShortcutCopy: IS = (e) =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||

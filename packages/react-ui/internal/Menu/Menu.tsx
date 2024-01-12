@@ -1,5 +1,5 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
-import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
@@ -19,6 +19,7 @@ import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -138,7 +139,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+    if (isInstanceOfForIE11(rootNode, globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
@@ -384,7 +385,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+      if (isInstanceOfForIE11(rootNode, globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }

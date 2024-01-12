@@ -2,8 +2,9 @@
 import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 import { Nullable } from '../../typings/utility-types';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
@@ -33,7 +34,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     return null;
   }
 
-  if (isInstanceOf(instance, globalObject.Element)) {
+  if (isInstanceOfForIE11(instance, globalObject.Element)) {
     // instance can be an Element already if its coming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
@@ -46,7 +47,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     // the "getRootNode" method, but we can ignore it here
     // because we'd already checked the instance on being an Element
     // which is a subclass of Node, so, just fixing types here
-    if (!isInstanceOf(instance, globalObject.Node)) {
+    if (!isInstanceOfForIE11(instance, globalObject.Node)) {
       rootNode = instance.getRootNode();
     }
   }
@@ -79,5 +80,5 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
   }
 
   // the findDOMNode can also return Text, but we are only interested in Elements, so just filter it
-  return isInstanceOf(rootNode, globalObject.Element) ? rootNode : null;
+  return isInstanceOfForIE11(rootNode, globalObject.Element) ? rootNode : null;
 };

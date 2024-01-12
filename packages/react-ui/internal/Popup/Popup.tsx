@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
@@ -24,6 +24,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -320,7 +321,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const useWrapper = this.getProps().useWrapper;
 
     let anchor: Nullable<React.ReactNode> = null;
-    if (isInstanceOf(anchorElement, globalObject.Element)) {
+    if (isInstanceOfForIE11(anchorElement, globalObject.Element)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -345,7 +346,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
-    const canGetAnchorNode = !!anchorWithRef || isInstanceOf(anchorElement, globalObject.Element);
+    const canGetAnchorNode = !!anchorWithRef || isInstanceOfForIE11(anchorElement, globalObject.Element);
 
     return (
       <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
@@ -368,7 +369,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private addEventListeners(element: Nullable<Element>) {
-    if (element && isInstanceOf(element, globalObject.Element)) {
+    if (element && isInstanceOfForIE11(element, globalObject.Element)) {
       // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.addEventListener('mouseenter', this.handleMouseEnter);
       // @ts-expect-error: See the comment above
@@ -383,7 +384,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private removeEventListeners(element: Nullable<Element>) {
-    if (element && isInstanceOf(element, globalObject.Element)) {
+    if (element && isInstanceOfForIE11(element, globalObject.Element)) {
       // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.removeEventListener('mouseenter', this.handleMouseEnter);
       // @ts-expect-error: See the comment above
@@ -617,11 +618,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorElement = this.anchorElement;
 
     warning(
-      anchorElement && isInstanceOf(anchorElement, globalObject.Element),
+      anchorElement && isInstanceOfForIE11(anchorElement, globalObject.Element),
       'Anchor element is not defined or not instance of Element',
     );
 
-    if (!(anchorElement && isInstanceOf(anchorElement, globalObject.Element))) {
+    if (!(anchorElement && isInstanceOfForIE11(anchorElement, globalObject.Element))) {
       return location;
     }
 

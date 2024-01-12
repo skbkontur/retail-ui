@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { globalObject, isBrowser, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
+import { globalObject, isBrowser, SafeTimer } from '@skbkontur/global-object';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -21,6 +21,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -462,7 +463,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private getAnchor = () => this.root;
 
   private handleWheel = (event: Event) => {
-    if (!isInstanceOf(event, globalObject.WheelEvent)) {
+    if (!isInstanceOfForIE11(event, globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();
@@ -479,7 +480,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!isInstanceOf(event, globalObject.TouchEvent)) {
+    if (!isInstanceOfForIE11(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -487,7 +488,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!isInstanceOf(event, globalObject.TouchEvent) || !isBrowser(globalObject)) {
+    if (!isInstanceOfForIE11(event, globalObject.TouchEvent) || !isBrowser(globalObject)) {
       return;
     }
 

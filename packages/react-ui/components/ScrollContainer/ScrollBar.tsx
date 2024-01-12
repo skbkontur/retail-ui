@@ -1,10 +1,11 @@
 import React from 'react';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -233,7 +234,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   };
 
   private handleScrollWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent) || (axis === 'x' && !event.shiftKey)) {
+    if (!this.inner || !isInstanceOfForIE11(event, globalObject.WheelEvent) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 
