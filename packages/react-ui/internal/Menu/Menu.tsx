@@ -346,7 +346,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && isBrowser && rootNode) {
+    if (typeof maxHeight === 'string' && isBrowser(globalObject) && rootNode) {
       const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
