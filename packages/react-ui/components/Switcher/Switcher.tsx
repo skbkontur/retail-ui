@@ -20,7 +20,7 @@ import { mod } from './helpers';
  * @deprecated use SizeProp
  */
 export type SwitcherSize = SizeProp;
-type SwitcherItems = string | SwitcherItem;
+export type SwitcherItems = string | SwitcherItem;
 
 export const SwitcherDataTids = {
   root: 'Switcher__root',
