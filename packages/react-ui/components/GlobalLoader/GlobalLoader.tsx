@@ -115,9 +115,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       successAnimationInProgress: false,
       expectedResponseTime: this.getProps().expectedResponseTime,
     };
-    currentGlobalLoader?.kill();
   }
   componentDidMount() {
+    currentGlobalLoader?.kill();
     currentGlobalLoader = this;
     const { active, rejected } = this.getProps();
     if (active) {
