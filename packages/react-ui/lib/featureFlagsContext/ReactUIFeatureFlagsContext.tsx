@@ -7,7 +7,7 @@ export interface ReactUIFeatureFlags {
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   tokenInputRemoveWhitespaceFromDefaultDelimiters: false,
-  menuItemsAtAnyLevel: false,
+  menuItemsAtAnyLevel: true,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
