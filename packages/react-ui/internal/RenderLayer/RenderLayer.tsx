@@ -6,7 +6,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -120,7 +120,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (isInstanceOfForIE11(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
+    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 

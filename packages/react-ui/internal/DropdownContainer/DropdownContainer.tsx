@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
@@ -122,7 +122,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const target = this.props.getParent();
     const dom = this.dom;
 
-    if (target && isInstanceOfForIE11(target, globalObject.Element) && dom && isBrowser(globalObject)) {
+    if (target && isInstanceOf(target, globalObject.Element) && dom && isBrowser(globalObject)) {
       const targetRect = getDOMRect(target);
       const { body, documentElement: docEl } = globalObject.document;
 
@@ -172,7 +172,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
   };
 
   private getHeight = () => {
-    if (!isInstanceOfForIE11(this.dom, globalObject.Element)) {
+    if (!isInstanceOf(this.dom, globalObject.Element)) {
       return 0;
     }
     const child = this.dom.children.item(0);
@@ -189,7 +189,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const offsetX = this.getProps().offsetX || 0;
     const offsetY = this.getProps().offsetY || 0;
     const { top, bottom, left, right } = position;
-    if (isInstanceOfForIE11(target, globalObject.Element)) {
+    if (isInstanceOf(target, globalObject.Element)) {
       const targetHeight = getDOMRect(target).height;
       return {
         top: top !== null ? targetHeight + offsetY : null,

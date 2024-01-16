@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
 
-import { isInstanceOfForIE11 } from './isInstanceOfForIE11';
+import { isInstanceOf } from './isInstanceOf';
 import { isFirefox } from './client';
 
 interface FocusOutsideEventHandler {
@@ -75,7 +75,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     currentNode === rootNode ||
     currentNode === globalObject.document?.body ||
     currentNode === globalObject.document?.documentElement ||
-    !isInstanceOfForIE11(currentNode, globalObject.Element)
+    !isInstanceOf(currentNode, globalObject.Element)
   ) {
     return container ? container : null;
   }

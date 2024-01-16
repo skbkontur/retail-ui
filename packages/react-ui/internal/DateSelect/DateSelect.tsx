@@ -21,7 +21,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -463,7 +463,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private getAnchor = () => this.root;
 
   private handleWheel = (event: Event) => {
-    if (!isInstanceOfForIE11(event, globalObject.WheelEvent)) {
+    if (!isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();
@@ -480,7 +480,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!isInstanceOfForIE11(event, globalObject.TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -488,7 +488,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!isInstanceOfForIE11(event, globalObject.TouchEvent) || !isBrowser(globalObject)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent) || !isBrowser(globalObject)) {
       return;
     }
 

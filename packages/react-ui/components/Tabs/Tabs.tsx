@@ -10,7 +10,7 @@ import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -159,7 +159,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tabNode = tab.getNode();
     const htmlNode = getRootNode(tabNode);
 
-    if (isInstanceOfForIE11(htmlNode, globalObject.HTMLElement) && typeof htmlNode.focus === 'function') {
+    if (isInstanceOf(htmlNode, globalObject.HTMLElement) && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };

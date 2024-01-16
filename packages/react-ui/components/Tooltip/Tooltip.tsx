@@ -20,7 +20,7 @@ import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { styles } from './Tooltip.styles';
 
@@ -533,7 +533,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && isInstanceOfForIE11(event.target, globalObject.Element)) {
+    if (this.contentElement && isInstanceOf(event.target, globalObject.Element)) {
       return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 

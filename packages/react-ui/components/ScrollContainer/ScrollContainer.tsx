@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
@@ -376,7 +376,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }, this.getProps().hideScrollBarDelay);
 
   private handleInnerScrollWheel = (event: Event) => {
-    if (!this.inner || !isInstanceOfForIE11(event, globalObject.WheelEvent)) {
+    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
 

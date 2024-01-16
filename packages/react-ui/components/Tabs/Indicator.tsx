@@ -2,7 +2,7 @@ import React from 'react';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
 
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -120,7 +120,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   private getStyles(node: any): React.CSSProperties {
     const htmlNode = getRootNode(node);
 
-    if (isInstanceOfForIE11(htmlNode, globalObject.HTMLElement)) {
+    if (isInstanceOf(htmlNode, globalObject.HTMLElement)) {
       const rect = getDOMRect(htmlNode);
       if (this.props.vertical) {
         return {

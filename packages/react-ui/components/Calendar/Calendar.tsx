@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -397,7 +397,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!isInstanceOfForIE11(event, globalObject.TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -406,7 +406,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!isInstanceOfForIE11(event, globalObject.TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -421,7 +421,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
-    if (!isInstanceOfForIE11(event, globalObject.WheelEvent)) {
+    if (!isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();

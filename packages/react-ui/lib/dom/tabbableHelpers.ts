@@ -2,7 +2,7 @@ import { tabbable, FocusableElement, isFocusable } from 'tabbable';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе
@@ -15,7 +15,7 @@ import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
 export const getTabbableElements = (
   parent: Nullable<Element | Document> = globalObject.document,
 ): FocusableElement[] => {
-  if (!parent || !parent.children.length || !isInstanceOfForIE11(parent, globalObject.Element)) {
+  if (!parent || !parent.children.length || !isInstanceOf(parent, globalObject.Element)) {
     return [];
   }
   return tabbable(parent);

@@ -19,7 +19,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -337,7 +337,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
       if (
-        isInstanceOfForIE11(e, globalObject.MouseEvent) &&
+        isInstanceOf(e, globalObject.MouseEvent) &&
         globalObject.document &&
         e.clientX > globalObject.document.documentElement.clientWidth
       ) {

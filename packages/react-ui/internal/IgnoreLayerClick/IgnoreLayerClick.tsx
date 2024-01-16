@@ -2,7 +2,7 @@ import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import { CommonWrapper } from '../CommonWrapper';
 
 export interface IgnoreLayerClickProps {
@@ -31,7 +31,7 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
 
   public componentDidMount() {
     const element = getRootNode(this);
-    if (isInstanceOfForIE11(element, globalObject.Element)) {
+    if (isInstanceOf(element, globalObject.Element)) {
       element.addEventListener('mousedown', this.handleMouseDown);
       this.element = element;
     }

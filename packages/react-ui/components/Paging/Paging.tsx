@@ -2,7 +2,7 @@ import React from 'react';
 import { func, number } from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
-import { isInstanceOfForIE11 } from '../../lib/isInstanceOfForIE11';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
@@ -334,7 +334,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const isArrowRight = isKeyArrowRight(e);
 
     if (
-      isInstanceOfForIE11(target, globalObject.Element) &&
+      isInstanceOf(target, globalObject.Element) &&
       (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;
