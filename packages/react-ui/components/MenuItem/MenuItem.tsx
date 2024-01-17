@@ -97,7 +97,7 @@ export interface MenuItemProps
    */
   component?: React.ComponentType<any>;
   /**
-   * Запрещает выделение и выбор данного пункта меню. Работает только с флагом menuItemsAtAnyLevel [FeatureFlags](#/FeatureFlagsContext)
+   * Запрещает выделение и выбор данного пункта меню
    *
    */
   isNotSelectable?: boolean;
