@@ -201,6 +201,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (prevProps.icon !== this.props.icon) {
       this.context.setEnableIconPadding?.(!!this.props.icon);
     }
+    if (this.contentRef.current && this.menuItemsAtAnyLevel && !this.props.isNotSelectable) {
+      this.context.navigation?.add(this.contentRef.current, this);
+    }
   }
 
   public highlight = () => {
