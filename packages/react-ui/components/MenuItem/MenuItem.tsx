@@ -192,8 +192,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentWillUnmount() {
-    if (this.contentRef.current && this.menuItemsAtAnyLevel && !this.props.isNotSelectable) {
-      this.context.navigation?.remove(this.contentRef.current);
+    if (this.contentRef.current && this.menuItemsAtAnyLevel) {
+      !this.props.isNotSelectable && this.context.navigation?.remove(this.contentRef.current);
+      const itemsWithIcons = this.context.navigation?.items.some((item) => item.props.icon);
+      this.context.setEnableIconPadding?.(Boolean(itemsWithIcons));
     }
   }
 
