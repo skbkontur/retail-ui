@@ -163,33 +163,36 @@ describe('<DropdownMenu />', () => {
   });
 
   describe('with not selectable menu item', () => {
-    beforeEach(() =>
-      render(
-        <ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
-          <DropdownMenu caption={caption}>
-            <MenuItem>one</MenuItem>
-            <MenuItem data-tid={'menuItem2'} isNotSelectable>
-              two
-            </MenuItem>
-            <MenuItem data-tid={'menuItem3'}>three</MenuItem>
-          </DropdownMenu>
-        </ReactUIFeatureFlagsContext.Provider>,
-      ),
-    );
-    it("doesn't highlight a not selectable MenuItem", async () => {
-      userEvent.click(screen.getByTestId(captionDatatid));
-      userEvent.keyboard('{arrowdown}');
-      userEvent.keyboard('{arrowdown}');
-      await delay(0);
-      expect(screen.getByTestId('menuItem2')).not.toHaveAttribute('state', 'hover');
-      expect(screen.getByTestId('menuItem3')).toHaveAttribute('state', 'hover');
-    });
+    const featureFlagValues = [true, false];
+    describe.each(featureFlagValues)('%s', (flagValue) => {
+      beforeEach(() =>
+        render(
+          <ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: flagValue }}>
+            <DropdownMenu caption={caption}>
+              <MenuItem>one</MenuItem>
+              <MenuItem data-tid={'menuItem2'} isNotSelectable>
+                two
+              </MenuItem>
+              <MenuItem data-tid={'menuItem3'}>three</MenuItem>
+            </DropdownMenu>
+          </ReactUIFeatureFlagsContext.Provider>,
+        ),
+      );
+      it("doesn't highlight a not selectable MenuItem", async () => {
+        userEvent.click(screen.getByTestId(captionDatatid));
+        userEvent.keyboard('{arrowdown}');
+        userEvent.keyboard('{arrowdown}');
+        await delay(0);
+        expect(screen.getByTestId('menuItem2')).not.toHaveAttribute('state', 'hover');
+        expect(screen.getByTestId('menuItem3')).toHaveAttribute('state', 'hover');
+      });
 
-    it("doesn't click on a not selectable MenuItem", async () => {
-      userEvent.click(screen.getByTestId(captionDatatid));
-      userEvent.click(screen.getByTestId('menuItem2'));
-      await delay(0);
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      it("doesn't click on a not selectable MenuItem", async () => {
+        userEvent.click(screen.getByTestId(captionDatatid));
+        userEvent.click(screen.getByTestId('menuItem2'));
+        await delay(0);
+        expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      });
     });
   });
 });
