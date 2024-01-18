@@ -131,6 +131,12 @@ export interface TooltipProps extends CommonProps {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper?: boolean;
+
+  /**
+   * Задержка перед появлением тултипа в миллисекундах
+   * Значение по умолчанию: `100`
+   */
+  showDelay?: number;
 }
 
 export interface TooltipState {
@@ -496,7 +502,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-    this.hoverTimeout = globalObject.setTimeout(this.open, Tooltip.delay);
+    this.hoverTimeout = globalObject.setTimeout(this.open, this.props.showDelay ?? Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {

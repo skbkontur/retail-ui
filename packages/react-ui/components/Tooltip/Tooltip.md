@@ -291,3 +291,27 @@ class AnchorTooltipExample extends React.Component {
 
 <AnchorTooltipExample />;
 ```
+
+У тултипа можно переопределить задержку перед его появлением. Скрытие же происходит с задержкой по умолчанию.
+
+```jsx harmony
+import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { Input, Gapped, Tooltip } from '@skbkontur/react-ui';
+
+const [delay, setDelay] = React.useState(100);
+
+const render = () => (
+  <div>
+    {`Showed with ${delay}ms delay`}
+  </div>
+);
+
+<div>
+  <Gapped vertical>
+    <Gapped>Show delay: <Input value={delay} onValueChange={setDelay} /></Gapped>
+    <Tooltip render={render} showDelay={delay} pos="right top">
+      <HelpDotIcon />
+    </Tooltip>
+  </Gapped>
+</div>;
+```
