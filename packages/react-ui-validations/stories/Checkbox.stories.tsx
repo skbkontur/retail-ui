@@ -3,9 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import { ValidationContainer, ValidationInfo, ValidationWrapper, ValidationsFeatureFlagsContext } from '../src';
 import { Nullable } from '../typings/Types';
-import { ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
 
 storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
 

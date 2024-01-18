@@ -10,7 +10,7 @@
 
 Флаги задаются с помощью `ValidationsFeatureFlagsContext.Provider`.
 
-    import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui
+    import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
     <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
 
