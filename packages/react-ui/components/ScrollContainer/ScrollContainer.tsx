@@ -162,6 +162,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     if (prevProps.disabled !== this.props.disabled && !this.props.disabled) {
       this.updateInnerElement();
     }
+
+    if (prevProps.showScrollBar !== this.props.showScrollBar) {
+      if (this.props.showScrollBar === 'always') {
+        this.setState({ isScrollBarXVisible: true, isScrollBarYVisible: true });
+      } else if (this.props.showScrollBar === 'never') {
+        this.setState({ isScrollBarXVisible: false, isScrollBarYVisible: false });
+      }
+    }
   }
 
   public render = () => {
@@ -177,10 +185,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       maxWidth: props.maxWidth,
     };
 
-    const showScrollBar = props.showScrollBar !== 'never';
-
-    const scrollbarY = showScrollBar && this.renderScrollbar('y');
-    const scrollbarX = showScrollBar && this.renderScrollbar('x');
+    const scrollbarY = this.renderScrollbar('y');
+    const scrollbarX = this.renderScrollbar('x');
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
