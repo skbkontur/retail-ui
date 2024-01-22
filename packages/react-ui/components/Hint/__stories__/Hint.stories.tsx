@@ -8,6 +8,7 @@ import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
 import { delay } from '../../../lib/utils';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
   title: 'Hint',
@@ -248,3 +249,17 @@ export const WithClassChildren = () => (
   </React.StrictMode>
 );
 WithClassChildren.storyName = 'with class children';
+
+export const KebabHintRemovePinFeatureFlag = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+    <Hint text="Something will never be changed" manual opened>
+      <span className="hint-content">Ich Liebe dich</span>
+    </Hint>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
+KebabHintRemovePinFeatureFlag.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b.*2022.*\b)/ },
+  },
+};

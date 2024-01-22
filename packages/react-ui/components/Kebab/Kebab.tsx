@@ -21,6 +21,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -134,23 +135,30 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     const { disabled } = this.props;
     const { positions, disableAnimations, onOpen, onClose } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <PopupMenu
-          popupHasPin={!isTheme2022(this.theme)}
-          preventIconsOffset={this.props.preventIconsOffset}
-          positions={positions}
-          onChangeMenuState={this.handleChangeMenuState}
-          caption={this.renderCaption}
-          disableAnimations={disableAnimations}
-          menuMaxHeight={this.props.menuMaxHeight}
-          onOpen={onOpen}
-          onClose={onClose}
-          popupMenuId={this.props.popupMenuId}
-          aria-label={this.props['aria-label']}
-        >
-          {!disabled && this.props.children}
-        </PopupMenu>
-      </CommonWrapper>
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <PopupMenu
+                popupHasPin={hasPin}
+                preventIconsOffset={this.props.preventIconsOffset}
+                positions={positions}
+                onChangeMenuState={this.handleChangeMenuState}
+                caption={this.renderCaption}
+                disableAnimations={disableAnimations}
+                menuMaxHeight={this.props.menuMaxHeight}
+                onOpen={onOpen}
+                onClose={onClose}
+                popupMenuId={this.props.popupMenuId}
+                aria-label={this.props['aria-label']}
+              >
+                {!disabled && this.props.children}
+              </PopupMenu>
+            </CommonWrapper>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
