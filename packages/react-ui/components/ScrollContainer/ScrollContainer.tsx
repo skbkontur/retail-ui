@@ -71,7 +71,7 @@ export interface ScrollContainerProps extends CommonProps {
   /**
    * Показывать скроллбар
    */
-  showScrollBar?: 'always' | 'scroll' | 'hover';
+  showScrollBar?: 'always' | 'scroll' | 'hover' | 'never';
   /**
    * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`
    */
@@ -177,8 +177,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       maxWidth: props.maxWidth,
     };
 
-    const scrollbarY = this.renderScrollbar('y');
-    const scrollbarX = this.renderScrollbar('x');
+    const showScrollBar = props.showScrollBar !== 'never';
+
+    const scrollbarY = showScrollBar && this.renderScrollbar('y');
+    const scrollbarX = showScrollBar && this.renderScrollbar('x');
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
