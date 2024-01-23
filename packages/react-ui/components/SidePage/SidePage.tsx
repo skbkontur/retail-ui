@@ -82,7 +82,7 @@ export interface SidePageProps
   /**
    * Работает только при заблокированном фоне: `blockBackground = true`
    */
-  disableFocusLock?: boolean;
+  disableFocusLock?: boolean | 'default';
 
   /**
    * задает отступ от края экрана
@@ -161,7 +161,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
-    disableFocusLock: true,
+    disableFocusLock: 'default',
     offset: 0,
     role: 'dialog',
   };
@@ -255,9 +255,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       >
         <FocusLock
           disabled={
-            this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked
-              ? !blockBackground
-              : disableFocusLock || !blockBackground
+            (disableFocusLock === 'default'
+              ? !this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked
+              : !!disableFocusLock) || !blockBackground
           }
           autoFocus={false}
           className={styles.focusLock()}

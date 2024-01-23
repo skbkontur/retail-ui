@@ -73,7 +73,7 @@ import { Spinner, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 ### sidePageAddFocusLockWhenBackgroundBlocked
 
-В SidePage FocusLock будет применяться тогда и только тогда, когда проп blockBackground равен true.
+В SidePage при пропе blockBackground равном true, FocusLock будет применяться по умолчанию. Поведение FocusLock можно настроить вручную с помощью пропа disableFocusLock.
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
