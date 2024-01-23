@@ -6,6 +6,7 @@
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
   sidePageAddFocusLockWhenBackgroundBlocked?: boolean;
+  spinnerLoaderRemoveDefaultCaption?: boolean;
 }
 ```
 
@@ -39,6 +40,34 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### spinnerLoaderRemoveDefaultCaption
+
+В Spinner и Loader убран дефолтный caption.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Loader, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ spinnerLoaderRemoveDefaultCaption: true }}>
+  <Loader active>
+    <div style={{ padding: '16px' }}>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat.
+    </div>
+  </Loader>
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+```jsx harmony
+import { Spinner, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+
+<ReactUIFeatureFlagsContext.Provider value={{ spinnerLoaderRemoveDefaultCaption: true }}>
+  <Spinner/>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
