@@ -254,7 +254,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       >
         <FocusLock
           disabled={
-            (disableFocusLock === undefined ? !this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked : disableFocusLock) || !blockBackground
+            (disableFocusLock === undefined
+              ? !this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked
+              : disableFocusLock) || !blockBackground
           }
           autoFocus={false}
           className={styles.focusLock()}
