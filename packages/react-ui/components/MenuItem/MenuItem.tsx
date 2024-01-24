@@ -194,14 +194,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public componentWillUnmount() {
     if (this.contentRef.current && this.menuItemsAtAnyLevel) {
       !this.props.isNotSelectable && this.context.navigation?.remove(this.contentRef.current);
-      const itemsWithIcons = this.context.navigation?.items.some((item) => item.props.icon);
-      this.context.setEnableIconPadding?.(Boolean(itemsWithIcons));
+      this.context.setEnableIconPadding?.(this.hasIconAmongItems());
     }
   }
 
   public componentDidUpdate(prevProps: Readonly<MenuItemProps>) {
     if (prevProps.icon !== this.props.icon) {
-      this.context.setEnableIconPadding?.(!!this.props.icon);
+      this.context.setEnableIconPadding?.(!!this.props.icon || this.hasIconAmongItems());
     }
     if (
       this.contentRef.current &&
@@ -424,6 +423,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
 
     return 'button';
+  };
+
+  private hasIconAmongItems = () => {
+    return Boolean(this.context.navigation?.items.some((item) => item.props.icon));
   };
 }
 
