@@ -14,7 +14,7 @@ export const TextareaWithSafari17Workaround = forwardRefAndName<
 
   React.useEffect(() => {
     firstRender && setFirstRender(false);
-  });
+  }, []);
 
   return <textarea {...props} value={firstRender ? '' : props.value} ref={ref} />;
 });
