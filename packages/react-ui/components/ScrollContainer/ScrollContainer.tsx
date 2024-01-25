@@ -193,7 +193,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         <div
           data-tid={ScrollContainerDataTids.root}
           className={styles.root()}
-          onMouseEnter={this.handleMouseEnter}
           onMouseMove={this.handleMouseMove}
           onMouseLeave={this.handleMouseLeave}
         >
@@ -403,17 +402,16 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
   };
 
-  private handleMouseEnter = () => {
-    this.getProps().showScrollBar === 'hover' &&
-      this.setState({ isScrollBarXVisible: true, isScrollBarYVisible: true, isHovered: true });
-  };
-
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const right = getDOMRect(event.currentTarget).right - event.pageX;
     const bottom = getDOMRect(event.currentTarget).bottom - event.pageY;
 
     this.scrollY?.setHover(right <= 12);
     this.scrollX?.setHover(right >= 12 && bottom <= 12);
+
+    this.getProps().showScrollBar === 'hover' &&
+      !this.state.isHovered &&
+      this.setState({ isScrollBarXVisible: true, isScrollBarYVisible: true, isHovered: true });
   };
 
   private handleMouseLeave = () => {
