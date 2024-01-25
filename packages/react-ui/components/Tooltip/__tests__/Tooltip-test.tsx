@@ -638,7 +638,7 @@ describe('Tooltip', () => {
     const renderContent = () => <div>Content</div>;
 
     const TooltipWithCustomDelay = () => (
-      <Tooltip render={renderContent} showDelay={showDelay} pos="right top">
+      <Tooltip render={renderContent} delayBeforeShow={showDelay} pos="right top">
         <button>Show</button>
       </Tooltip>
     );
