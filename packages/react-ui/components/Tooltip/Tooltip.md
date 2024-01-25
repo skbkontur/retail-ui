@@ -309,7 +309,7 @@ const render = () => (
 <div>
   <Gapped vertical>
     <Gapped>Show delay: <Input value={delay} onValueChange={setDelay} /></Gapped>
-    <Tooltip render={render} showDelay={delay} pos="right top">
+    <Tooltip render={render} delayBeforeShow={delay} pos="right top">
       <HelpDotIcon />
     </Tooltip>
   </Gapped>
