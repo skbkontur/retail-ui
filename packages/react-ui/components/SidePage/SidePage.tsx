@@ -224,11 +224,20 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
+  private getFocusLockDisableStatus() {
+    const { disableFocusLock } = this.getProps();
+    if (!this.props.blockBackground) {
+      return true;
+    }
+    if (disableFocusLock !== undefined) {
+      return disableFocusLock;
+    }
+    return this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked ? false : true;
+  }
+
   private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
-    const { disableFocusLock, offset, role } = this.getProps();
-    const focusLockDisabled =
-      disableFocusLock === undefined ? !this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked : disableFocusLock;
+    const { offset, role } = this.getProps();
 
     return (
       <ZIndex
@@ -254,7 +263,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         }
         wrapperRef={this.rootRef}
       >
-        <FocusLock disabled={focusLockDisabled || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock disabled={this.getFocusLockDisableStatus()} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}
