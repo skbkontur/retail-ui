@@ -224,7 +224,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private getFocusLockDisableStatus() {
+  private get isFocusLockDisabled() {
     const { disableFocusLock } = this.getProps();
     if (!this.props.blockBackground) {
       return true;
@@ -263,7 +263,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         }
         wrapperRef={this.rootRef}
       >
-        <FocusLock disabled={this.getFocusLockDisableStatus()} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}
