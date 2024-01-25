@@ -794,13 +794,13 @@ BodyWithoutHeader.parameters = {
 
 export const SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag: Story = () => {
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{ sidePageAddFocusLockWhenBackgroundBlocked: true }}>
+    <ReactUIFeatureFlagsContext.Provider value={{ sidePageEnableFocusLockWhenBackgroundBlocked: true }}>
       <Sample total={1} current={1} blockBackground />
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
 SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.storyName =
-  'SidePage with sidePageAddFocusLockWhenBackgroundBlocked feature flag';
+  'SidePage with sidePageEnableFocusLockWhenBackgroundBlocked feature flag';
 SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
   creevey: {
     skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } },

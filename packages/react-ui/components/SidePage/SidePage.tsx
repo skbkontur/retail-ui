@@ -226,13 +226,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private get isFocusLockDisabled() {
     const { disableFocusLock } = this.getProps();
-    if (!this.props.blockBackground) {
+    const { blockBackground } = this.props;
+    if (!blockBackground) {
       return true;
     }
     if (disableFocusLock !== undefined) {
       return disableFocusLock;
     }
-    return this.featureFlags.sidePageAddFocusLockWhenBackgroundBlocked ? false : true;
+    return !this.featureFlags.sidePageEnableFocusLockWhenBackgroundBlocked;
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {

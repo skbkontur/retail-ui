@@ -5,7 +5,7 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
-  sidePageAddFocusLockWhenBackgroundBlocked?: boolean;
+  sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
 }
 ```
@@ -71,7 +71,7 @@ import { Spinner, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
-### sidePageAddFocusLockWhenBackgroundBlocked
+### sidePageEnableFocusLockWhenBackgroundBlocked
 
 В SidePage при пропе blockBackground равном true, FocusLock будет применяться по умолчанию. Поведение FocusLock можно настроить вручную с помощью пропа disableFocusLock.
 В React UI 5.0 фича будет применена по умолчанию.
@@ -83,7 +83,7 @@ const [opened, setOpened] = React.useState(false);
 
 function renderSidePage() {
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{ sidePageAddFocusLockWhenBackgroundBlocked: true }}>
+    <ReactUIFeatureFlagsContext.Provider value={{ sidePageEnableFocusLockWhenBackgroundBlocked: true }}>
       <SidePage onClose={close} blockBackground>
         <SidePage.Header>SidePage</SidePage.Header>
         <SidePage.Body>
