@@ -12,9 +12,23 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с отключёнными и базовыми элементами меню.
-<br/>
-К отключённым элементам меню не применяются стили при наведении и их нельзя затаргетить с клавиатуры.
+Меню с заблокированными и базовыми элементами меню.
+
+```jsx harmony
+import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
+
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню с базовыми и заблокированными элементами</Button>}
+  >
+  <MenuItem>Это базовый элемент меню</MenuItem>
+  <MenuItem disabled>А это заблокированный</MenuItem>
+  <MenuItem>А это снова базовый</MenuItem>
+  <MenuItem disabled>И снова заблокированный</MenuItem>
+  <MenuItem disabled>И вот ещё один заблокированный</MenuItem>
+</DropdownMenu>
+```
+
+В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -23,10 +37,10 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
   caption={<Button use="primary">Открыть меню с базовыми и отключёнными элементами</Button>}
   >
   <MenuItem>Это базовый элемент меню</MenuItem>
-  <MenuItem disabled>А это отключённый</MenuItem>
+  <MenuItem isNotSelectable>А это отключённый</MenuItem>
   <MenuItem>А это снова базовый</MenuItem>
-  <MenuItem disabled>И снова отключённый</MenuItem>
-  <MenuItem disabled>И вот ещё один отключённый</MenuItem>
+  <MenuItem isNotSelectable>И снова отключённый</MenuItem>
+  <MenuItem isNotSelectable>И вот ещё один отключённый</MenuItem>
 </DropdownMenu>
 ```
 

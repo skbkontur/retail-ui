@@ -81,6 +81,7 @@ const groupedMenuItems = (
   <div>
     <MenuItem>MenuItem1</MenuItem>
     <MenuItem>MenuItem2</MenuItem>
+    <MenuItem isNotSelectable>Not Selectable</MenuItem>
   </div>
 );
 
@@ -95,20 +96,6 @@ const groupedMenuItems = (
     </>
     <MenuItem>MenuItem3</MenuItem>
   </DropdownMenu>
-</ReactUIFeatureFlagsContext.Provider>
-```
-
-В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
-
-```jsx harmony
-import { Select, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-const [value, setValue] = React.useState();
-
-const items = [<Select.Item isNotSelectable={true}>Not selectable</Select.Item>, 'One', 'Two', 'Three', Select.SEP, 'Four'];
-
-<ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
-  <Select items={items} value={value} onValueChange={setValue} />
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
