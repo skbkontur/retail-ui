@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';

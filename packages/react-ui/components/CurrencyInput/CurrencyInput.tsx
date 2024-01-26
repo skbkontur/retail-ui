@@ -4,7 +4,7 @@ import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
@@ -13,6 +13,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
