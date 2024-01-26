@@ -1,7 +1,7 @@
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
-import { globalObject, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -20,6 +20,7 @@ import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { styles } from './Tooltip.styles';
 

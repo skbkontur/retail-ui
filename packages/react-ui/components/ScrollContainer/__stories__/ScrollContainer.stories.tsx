@@ -706,3 +706,24 @@ ShowScrollBarOnHover.parameters = {
     },
   },
 };
+
+export const NeverShowScrollBar: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer showScrollBar={'never'} disableAnimations>
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+NeverShowScrollBar.parameters = {
+  creevey: {
+    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
+  },
+};
