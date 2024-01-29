@@ -132,7 +132,15 @@ export interface TooltipProps extends CommonProps {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper?: boolean;
+
+  /**
+   * Задержка перед появлением тултипа в миллисекундах
+   * Значение по умолчанию: `100`
+   */
+  delayBeforeShow?: number;
 }
+
+const DEFAULT_DELAY = 100;
 
 export interface TooltipState {
   opened: boolean;
@@ -161,7 +169,7 @@ const Positions: PopupPositionsType[] = [
 ];
 
 type DefaultProps = Required<
-  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper'>
+  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>
 >;
 
 @rootNode
@@ -188,11 +196,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
+    delayBeforeShow: DEFAULT_DELAY,
   };
 
   private getProps = createPropsGetter(Tooltip.defaultProps);
 
-  public static delay = 100;
+  public static delay = DEFAULT_DELAY;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
@@ -497,7 +506,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-    this.hoverTimeout = globalObject.setTimeout(this.open, Tooltip.delay);
+    this.hoverTimeout = globalObject.setTimeout(this.open, this.getProps().delayBeforeShow);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
