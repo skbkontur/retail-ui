@@ -23,6 +23,12 @@ import {
   ValidationContextWrapperProps,
   ValidationContextSettings,
 } from './ValidationContextWrapper';
+import {
+  ValidationsFeatureFlags,
+  validationsFeatureFlagsDefault,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from './utils/featureFlagsContext';
 
 export {
   ValidationContainer,
@@ -51,6 +57,10 @@ export {
   ScrollOffset,
   ValidationLevel,
   TextPosition,
+  ValidationsFeatureFlags,
+  validationsFeatureFlagsDefault,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
 };
 
 export * from './Validations';

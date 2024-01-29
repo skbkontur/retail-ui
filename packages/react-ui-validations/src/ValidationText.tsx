@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
-import { getFullValidationsFlagsContext, ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
 import { Nullable } from '../typings/Types';
 
+import { getFullValidationsFlagsContext, ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 import { TextPosition, Validation } from './ValidationWrapperInternal';
 
 export interface ValidationTextProps {

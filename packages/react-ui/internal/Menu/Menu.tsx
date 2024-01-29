@@ -1,5 +1,5 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
-import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
@@ -19,6 +19,7 @@ import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Menu.styles';
@@ -388,7 +389,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && isBrowser && rootNode) {
+    if (typeof maxHeight === 'string' && isBrowser(globalObject) && rootNode) {
       const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {

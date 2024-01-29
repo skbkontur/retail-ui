@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import { globalObject, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
@@ -22,6 +22,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
