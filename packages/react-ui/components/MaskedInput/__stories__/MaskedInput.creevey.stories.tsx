@@ -72,9 +72,20 @@ const testIdleFocusBlur: CreeveyTests = {
 };
 
 export const IdleFocusBlur: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
+  <MaskedInput width="150" mask="999 999-99-99" maskChar={'_'} placeholder="Номер" />
 );
+
 IdleFocusBlur.parameters = {
+  creevey: {
+    tests: testIdleFocusBlur,
+  },
+};
+
+export const IdleFocusBlurMaskWithPrefix: Story = () => (
+  <MaskedInput width="150" mask="+7 999 999 999" maskChar={'_'} placeholder="Номер" />
+);
+
+IdleFocusBlurMaskWithPrefix.parameters = {
   creevey: {
     tests: testIdleFocusBlur,
   },

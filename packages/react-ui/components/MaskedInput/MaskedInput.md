@@ -4,12 +4,12 @@
 
 Можно изменить символ значения с маской
 ```jsx harmony
-<MaskedInput mask={'9999 9999 9999 9999'} maskChar={'X'}  />
+<MaskedInput mask={'9999 9999 9999 9999'} maskChar={'X'} placeholder={"Номер карты"}  />
 ```
 
 **alwaysShowMask** позволяет показывать маску всегда. Placeholder в этом случае игнорируется.
 ```jsx harmony
-<MaskedInput mask={'9999 9999 9999 9999'} maskChar={'X'} placeholder={"Номер карты"} />
+<MaskedInput mask={'9999 9999 9999 9999'} alwaysShowMask maskChar={'X'} placeholder={"Номер карты"} />
 ```
 
 Получить значение без форматирования можно с помощью **unmask**
