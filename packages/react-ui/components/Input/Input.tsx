@@ -9,7 +9,7 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
-import { MaskedInput } from '../../internal/MaskedInput';
+import { InternalMaskedInput } from '../../internal/InternalMaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -489,7 +489,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private renderMaskedInput(inputProps: React.InputHTMLAttributes<HTMLInputElement>, mask: string) {
     return (
-      <MaskedInput
+      <InternalMaskedInput
         {...inputProps}
         mask={mask}
         maskChar={this.props.maskChar}
@@ -590,8 +590,8 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  private refInput = (element: HTMLInputElement | MaskedInput | InputElement | null) => {
-    if (element instanceof MaskedInput || (element && 'input' in element)) {
+  private refInput = (element: HTMLInputElement | InternalMaskedInput | InputElement | null) => {
+    if (element instanceof InternalMaskedInput || (element && 'input' in element)) {
       this.input = element.input;
     } else {
       this.input = element;

@@ -2,7 +2,7 @@ import React, { forwardRef, Ref } from 'react';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
-import { MaskedInputElement } from "../../internal/MaskedInputElement";
+import { MaskedInputElement } from '../../internal/MaskedInputElement';
 
 export interface MaskedProps {
   /** Паттерн маски */
