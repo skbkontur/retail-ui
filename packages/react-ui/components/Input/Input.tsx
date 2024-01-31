@@ -394,6 +394,7 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-describedby': ariaDescribedby,
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
+      element,
       ...rest
     } = props;
 
