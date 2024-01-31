@@ -1,8 +1,9 @@
-import React, { forwardRef, Ref } from 'react';
+import React, { Ref } from 'react';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement } from '../../internal/MaskedInputElement';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 export interface MaskedProps {
   /** Паттерн маски */
@@ -30,23 +31,26 @@ export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' |
  * Интерфейс пропсов наследуется от `Input`.
  * Из пропсов `Input` исключены некоторые не применимые к полю с маской пропсы и сокращен список возможных значений в type.
  */
-export const MaskedInput = forwardRef(function MaskedInput(props: MaskedInputProps, ref: Ref<Input>) {
-  const { mask, maskChar, formatChars, alwaysShowMask, placeholder, unmask, ...inputProps } = props;
+export const MaskedInput = forwardRefAndName(
+  'MaskedInput',
+  function MaskedInput(props: MaskedInputProps, ref: Ref<Input>) {
+    const { mask, maskChar, formatChars, alwaysShowMask, placeholder, unmask, ...inputProps } = props;
 
-  return (
-    <Input
-      ref={ref}
-      {...inputProps}
-      placeholder={alwaysShowMask ? undefined : placeholder}
-      element={
-        <MaskedInputElement
-          mask={mask}
-          unmask={unmask}
-          maskChar={maskChar}
-          formatChars={formatChars}
-          alwaysShowMask={alwaysShowMask}
-        />
-      }
-    />
-  );
-});
+    return (
+      <Input
+        ref={ref}
+        {...inputProps}
+        placeholder={alwaysShowMask ? undefined : placeholder}
+        element={
+          <MaskedInputElement
+            mask={mask}
+            unmask={unmask}
+            maskChar={maskChar}
+            formatChars={formatChars}
+            alwaysShowMask={alwaysShowMask}
+          />
+        }
+      />
+    );
+  },
+);
