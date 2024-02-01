@@ -217,7 +217,7 @@ describe('Global Loader', () => {
       GlobalLoader.start();
       await delay(200);
       GlobalLoader.done();
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE + 300);
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
     });
 

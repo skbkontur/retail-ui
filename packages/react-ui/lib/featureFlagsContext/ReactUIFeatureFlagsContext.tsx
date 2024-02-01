@@ -5,6 +5,7 @@ export interface ReactUIFeatureFlags {
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
   menuItemsAtAnyLevel?: boolean;
+  textareaUseSafari17Workaround?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -12,6 +13,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   sidePageEnableFocusLockWhenBackgroundBlocked: false,
   spinnerLoaderRemoveDefaultCaption: false,
   menuItemsAtAnyLevel: false,
+  textareaUseSafari17Workaround: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

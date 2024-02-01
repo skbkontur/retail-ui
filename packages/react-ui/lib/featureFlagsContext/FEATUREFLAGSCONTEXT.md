@@ -150,6 +150,32 @@ const groupedMenuItems = (
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
+### textareaUseSafari17Workaround
+
+В браузере Safari версии 17.* возник баг в реактовом элементе `<textarea />`. Баг не позволяет нормально вводить текст в пустые строки.
+Но только если эти пустые строки были при монтировании элемента.
+Если пустые строки добавить сразу после монтирования, то проблема не наблюдается.
+
+Мы можем купировать этот баг на своей стороне, но только в рамках контрола `Textarea`.
+Также баг могут поправить на стороне Safari или React, из-за чего уже наше обходное решение может вызвать другой баг.
+Поэтому лучше добавить возможность выключить в любой момент наше обходное решение.
+
+Обходное решение само отслеживает Safari версии 17.*, и применяется только для него.
+
+```jsx harmony
+import { Textarea, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState('1\n\n\n\n2');
+
+<ReactUIFeatureFlagsContext.Provider value={{ textareaUseSafari17Workaround: true }}>
+  <Textarea
+    value={value}
+    onValueChange={setValue}
+    rows={5}
+  />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
 ## Объект со всеми флагами
 
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
