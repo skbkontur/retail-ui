@@ -121,6 +121,35 @@ function close() {
 </div>
 ```
 
+### menuItemsAtAnyLevel
+
+Mожно использовать различные обертки для пунктов меню
+
+```jsx harmony
+import { DropdownMenu, Button, MenuHeader, MenuItem, MenuSeparator, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const groupedMenuItems = (
+  <div>
+    <MenuItem>MenuItem1</MenuItem>
+    <MenuItem>MenuItem2</MenuItem>
+    <MenuItem isNotSelectable>Not Selectable</MenuItem>
+  </div>
+);
+
+<ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
+  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+    <>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <div>
+        {groupedMenuItems}
+      </div>
+    </>
+    <MenuItem>MenuItem3</MenuItem>
+  </DropdownMenu>
+</ReactUIFeatureFlagsContext.Provider>
+```
+
 ## Объект со всеми флагами
 
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
