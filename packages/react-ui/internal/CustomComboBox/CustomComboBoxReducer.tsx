@@ -290,9 +290,9 @@ export function reducer<T>(
       if (isEqual(props.value, action.prevProps.value)) {
         return state;
       }
-      const newState = !action.allowValueChange
+      const newState = action.allowValueChange
         ? {
-            opened: false,
+            ...DefaultState,
             textValue: getValueString(props.value, props.valueToString),
           }
         : {
