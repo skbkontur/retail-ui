@@ -109,6 +109,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
 
     const wrapperStyle: React.CSSProperties = {};
 
+    console.log('left ', style.left, '   top ', style.top);
     return (
       <ZIndexContext.Consumer>
         {({ parentLayerZIndex, maxZIndex }) => {

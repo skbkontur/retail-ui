@@ -8,6 +8,8 @@ import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
 import { delay } from '../../../lib/utils';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { Button } from '../../Button';
+import { Tooltip } from '../../Tooltip';
 
 export default {
   title: 'Hint',
@@ -248,3 +250,97 @@ export const WithClassChildren = () => (
   </React.StrictMode>
 );
 WithClassChildren.storyName = 'with class children';
+
+export const HintNearScreenEdge = () => (
+  <div>
+    <div style={{ position: 'absolute', bottom: '-10px', display: 'flex', flexDirection: 'row' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+
+    <div style={{ position: 'absolute', top: '-10px', display: 'flex', flexDirection: 'row' }}>
+      <Hint text={'Hey there!'} pos="top center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="top center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+
+    <div style={{ position: 'absolute', right: '0px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+
+    <div style={{ position: 'absolute', right: '-30px', top: '300px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+    <div style={{ position: 'absolute', right: '-60px', top: '450px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+    <div style={{ position: 'absolute', right: '-60px', bottom: '-30px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+    </div>
+
+    <div style={{ position: 'absolute', left: '-30px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+  </div>
+);
+HintNearScreenEdge.storyName = 'hint near screen edge';
+HintNearScreenEdge.parameters = {
+  creevey: {
+    captureElement: 'body',
+  },
+};

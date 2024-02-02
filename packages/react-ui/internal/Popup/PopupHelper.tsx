@@ -34,6 +34,10 @@ function getElementAbsoluteRect(element: Element): Rect {
   const rect = _getElementRelativeRect(element);
   return convertRectToAbsolute(rect);
 }
+function getElementAbsoluteRect_(element: Element): Rect {
+  const rect = _getElementRelativeRect_(element);
+  return convertRectToAbsolute(rect);
+}
 
 function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boolean {
   const windowRelativeRect = _getWindowRelativeRect();
@@ -68,11 +72,38 @@ function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Of
 
 function _getElementRelativeRect(element: Element) {
   const rect = getDOMRect(element);
+  console.log(
+    rect.right - rect.left === element.scrollWidth,
+    element.textContent,
+    '   right - left ',
+    rect.right - rect.left,
+    '   width ',
+    element.scrollWidth,
+  );
 
   return {
     top: rect.top,
     left: rect.left,
     width: rect.right - rect.left,
+    height: rect.bottom - rect.top,
+  };
+}
+function _getElementRelativeRect_(element: Element) {
+  const rect = getDOMRect(element);
+
+  console.log(
+    rect.right - rect.left === parseFloat(getComputedStyle(element).width),
+    element.textContent,
+    '   right - left ',
+    rect.right - rect.left,
+    '   width ',
+    getComputedStyle(element).width,
+  );
+  console.log();
+  return {
+    top: rect.top,
+    left: rect.left,
+    width: element.scrollWidth /*element.offsetWidth,*/, //parseFloat(getComputedStyle( element ).width)
     height: rect.bottom - rect.top,
   };
 }
@@ -132,4 +163,5 @@ export const PopupHelper = {
   getElementAbsoluteRect,
   isFullyVisible: isAbsoluteRectFullyVisible,
   canBecomeFullyVisible,
+  getElementAbsoluteRect_,
 };

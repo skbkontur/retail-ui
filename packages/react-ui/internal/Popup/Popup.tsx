@@ -627,7 +627,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+    const popupRect = PopupHelper.getElementAbsoluteRect_(popupElement);
+    console.log('popupRect.width ', popupRect.width);
 
     let position: PopupPositionsType;
     let coordinates: Offset;
@@ -702,7 +703,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'left':
         return {
           top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
-          left: anchorRect.left - popupRect.width - margin,
+          left: anchorRect.left - popupRect.width, //- margin, // margin нужно убирать, если используем scrollWidth, но оставить, если используем getComputedStyle( element ).width
         };
       case 'right':
         return {
