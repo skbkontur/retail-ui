@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.19.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.19.0...@skbkontur/react-ui@4.19.1) (2024-01-25)
+
+
+### Bug Fixes
+
+* **GlobalLoader:** fix warning in strict mode ([#3335](https://github.com/skbkontur/retail-ui/issues/3335)) ([f9ba1bc](https://github.com/skbkontur/retail-ui/commit/f9ba1bcaa1f5e4d5d6bbd07442b37af0c935f0ee))
+* **Switcher:** export SwitcherItems type ([#3342](https://github.com/skbkontur/retail-ui/issues/3342)) ([718b05f](https://github.com/skbkontur/retail-ui/commit/718b05fba9ff1546b50d6b36914c9616cc42fb3b))
+
+
+### Features
+
+* **Textarea:** add feature flag `textareaUseSafari17Workaround` ([#3352](https://github.com/skbkontur/retail-ui/issues/3352)) ([e40c88b](https://github.com/skbkontur/retail-ui/commit/e40c88bd8b0a47015842d8125348dc066ef30e0e))
+
+
+
+
+
 # [4.19.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.18.0...@skbkontur/react-ui@4.19.0) (2023-12-15)
 
 

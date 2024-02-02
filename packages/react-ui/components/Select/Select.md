@@ -8,6 +8,18 @@ const items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), '
 <Select items={items} value={value} onValueChange={setValue} />;
 ```
 
+
+В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
+
+```jsx harmony
+
+const [value, setValue] = React.useState();
+
+const items = [<Select.Item isNotSelectable>Not selectable</Select.Item>, 'One', 'Two', 'Three', Select.SEP, 'Four'];
+
+<Select items={items} value={value} onValueChange={setValue} />
+```
+
 Очистить значение в `Select`'е можно только с помощью `null`
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';

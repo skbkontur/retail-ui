@@ -1,7 +1,8 @@
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { getClosestFocusableElement } from '../dom/tabbableHelpers';
 import { isIE11, isEdge } from '../client';
+import { isInstanceOf } from '../isInstanceOf';
 
 export const fixClickFocusIE = (e: Event) => {
   if (isIE11 || isEdge) {

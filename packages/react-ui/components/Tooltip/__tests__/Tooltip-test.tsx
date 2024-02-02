@@ -633,6 +633,36 @@ describe('Tooltip', () => {
     });
   });
 
+  describe('with custom showDelay prop value', () => {
+    const showDelay = 400;
+    const renderContent = () => <div>Content</div>;
+
+    const TooltipWithCustomDelay = () => (
+      <Tooltip render={renderContent} delayBeforeShow={showDelay} pos="right top">
+        <button>Show</button>
+      </Tooltip>
+    );
+
+    it('renders correctly after delay', async () => {
+      render(<TooltipWithCustomDelay />);
+
+      userEvent.hover(screen.getByRole('button', { name: 'Show' }));
+
+      await delay(showDelay);
+
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+    });
+    it(`doesn't render prematurely`, async () => {
+      render(<TooltipWithCustomDelay />);
+
+      userEvent.hover(screen.getByRole('button', { name: 'Show' }));
+
+      await delay(Tooltip.delay);
+
+      expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+    });
+  });
+
   it('clears hoverTimeout timer after unmount', () => {
     jest.useFakeTimers();
     jest.spyOn(window, 'setTimeout');

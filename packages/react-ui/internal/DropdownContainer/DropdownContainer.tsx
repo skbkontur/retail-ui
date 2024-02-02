@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
-import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';

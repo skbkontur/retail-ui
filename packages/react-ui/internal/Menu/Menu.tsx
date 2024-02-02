@@ -1,5 +1,5 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
-import { globalObject, isBrowser, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
@@ -8,7 +8,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
-import { MenuItem, MenuItemProps } from '../../components/MenuItem';
+import { MenuItem, MenuItemDataTids, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -19,9 +19,13 @@ import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
+import { isInstanceOf } from '../../lib/isInstanceOf';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
+import { MenuNavigation } from './MenuNavigation';
+import { MenuContext } from './MenuContext';
 
 export interface MenuProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
@@ -60,6 +64,7 @@ export interface MenuState {
   highlightedIndex: number;
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
+  enableIconPadding: boolean;
 }
 
 export const MenuDataTids = {
@@ -100,6 +105,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     highlightedIndex: -1,
     maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
+    enableIconPadding: false,
   };
 
   private theme!: Theme;
@@ -110,6 +116,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
+  private contentRef = React.createRef<HTMLDivElement>();
+  private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef, MenuItemDataTids.content);
+  private menuItemsAtAnyLevel?: boolean;
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -145,12 +154,19 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.menuItemsAtAnyLevel = getFullReactUIFlagsContext(flags).menuItemsAtAnyLevel;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -172,6 +188,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
+    if (this.menuItemsAtAnyLevel) {
+      this.menuNavigation.highlightedItem?.navigate();
+      return this.menuNavigation.select(event);
+    }
     return this.select(this.state.highlightedIndex, true, event);
   }
 
@@ -179,18 +199,29 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public reset() {
-    this.setState({ highlightedIndex: -1 });
+    if (this.menuItemsAtAnyLevel) {
+      this.menuNavigation.reset();
+    } else {
+      this.setState({ highlightedIndex: -1 });
+    }
   }
 
   /**
    * @public
    */
   public hasHighlightedItem() {
+    if (this.menuItemsAtAnyLevel) {
+      return !!this.menuNavigation.highlightedItem;
+    }
     return this.state.highlightedIndex !== -1;
   }
 
   public highlightItem(index: number) {
-    this.highlight(index);
+    if (this.menuItemsAtAnyLevel) {
+      this.menuNavigation.highlightByIndex(index);
+    } else {
+      this.highlight(index);
+    }
   }
 
   private renderMain() {
@@ -236,8 +267,18 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
               [styles.scrollContainer(this.theme)]: true,
               [styles.scrollContainerMobile(this.theme)]: isMobile,
             })}
+            ref={this.contentRef}
           >
-            {this.getChildList()}
+            <MenuContext.Provider
+              value={{
+                navigation: this.menuNavigation,
+                onItemClick: this.props.onItemClick,
+                enableIconPadding: this.state.enableIconPadding,
+                setEnableIconPadding: this.setEnableIconPadding,
+              }}
+            >
+              {this.getChildList()}
+            </MenuContext.Provider>
           </div>
         </ScrollContainer>
         {this.props.footer && this.renderFooter()}
@@ -288,6 +329,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private getChildList = () => {
+    if (this.menuItemsAtAnyLevel) {
+      return this.props.children;
+    }
     const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
 
     return React.Children.map(this.props.children, (child, index) => {
@@ -345,7 +389,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && isBrowser && rootNode) {
+    if (typeof maxHeight === 'string' && isBrowser(globalObject) && rootNode) {
       const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
@@ -381,8 +425,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private scrollToSelected = () => {
-    if (this.scrollContainer && this.highlighted) {
-      const rootNode = getRootNode(this.highlighted);
+    const highlightedItem = this.menuItemsAtAnyLevel ? this.menuNavigation.highlightedItem : this.highlighted;
+    if (this.scrollContainer && highlightedItem) {
+      const rootNode = getRootNode(highlightedItem);
       // TODO: Remove this check once IF-647 is resolved
       if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
@@ -399,6 +444,19 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private scrollToBottom = () => {
     if (this.scrollContainer) {
       this.scrollContainer.scrollToBottom();
+    }
+  };
+
+  private scroll = (nextIndex: number) => {
+    switch (nextIndex) {
+      case 0:
+        this.scrollToTop?.();
+        break;
+      case this.menuNavigation.items.length - 1:
+        this.scrollToBottom?.();
+        break;
+      default:
+        this.scrollToSelected?.();
     }
   };
 
@@ -436,43 +494,47 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
     }
+    if (this.menuItemsAtAnyLevel) {
+      const nextIndex = this.menuNavigation.move(step, this.getProps().cyclicSelection);
+      this.scroll(nextIndex);
+    } else {
+      const children = childrenToArray(this.props.children);
+      const activeElements = children.filter(isActiveElement);
+      if (!activeElements.length) {
+        return;
+      }
+      let index = this.state.highlightedIndex;
+      do {
+        index += step;
 
-    const children = childrenToArray(this.props.children);
-    const activeElements = children.filter(isActiveElement);
-    if (!activeElements.length) {
-      return;
+        if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
+          return;
+        }
+
+        if (index < 0) {
+          index = children.length - 1;
+        } else if (index > children.length) {
+          index = 0;
+        }
+
+        const child = children[index];
+        if (isActiveElement(child)) {
+          this.setState({ highlightedIndex: index }, () => {
+            switch (activeElements.indexOf(child)) {
+              case 0:
+                this.scrollToTop();
+                break;
+              case activeElements.length - 1:
+                this.scrollToBottom();
+                break;
+              default:
+                this.scrollToSelected();
+            }
+          });
+          return;
+        }
+      } while (index !== this.state.highlightedIndex);
     }
-    let index = this.state.highlightedIndex;
-    do {
-      index += step;
-
-      if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
-        return;
-      }
-
-      if (index < 0) {
-        index = children.length - 1;
-      } else if (index > children.length) {
-        index = 0;
-      }
-
-      const child = children[index];
-      if (isActiveElement(child)) {
-        this.setState({ highlightedIndex: index }, () => {
-          switch (activeElements.indexOf(child)) {
-            case 0:
-              this.scrollToTop();
-              break;
-            case activeElements.length - 1:
-              this.scrollToBottom();
-              break;
-            default:
-              this.scrollToSelected();
-          }
-        });
-        return;
-      }
-    } while (index !== this.state.highlightedIndex);
   }
 
   private isEmpty() {
@@ -496,7 +558,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
-      if (this.highlighted && this.highlighted.props.onClick) {
+      if (this.menuItemsAtAnyLevel) {
+        this.menuNavigation.select(event);
+      } else if (this.highlighted && this.highlighted.props.onClick) {
         this.highlighted.props.onClick(event);
       }
     }
@@ -521,6 +585,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.state.scrollState !== scrollState) {
       this.setState({ scrollState });
     }
+  };
+
+  private setEnableIconPadding = (isIconPaddingEnabled: boolean) => {
+    !this.getProps().preventIconsOffset && this.setState({ enableIconPadding: isIconPaddingEnabled });
   };
 }
 

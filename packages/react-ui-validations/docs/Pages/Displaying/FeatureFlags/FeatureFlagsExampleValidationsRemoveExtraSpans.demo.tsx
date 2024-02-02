@@ -1,9 +1,13 @@
 import React from 'react';
 import { Button, Checkbox } from '@skbkontur/react-ui';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
+import {
+  ValidationContainer,
+  ValidationInfo,
+  ValidationWrapper,
+  ValidationsFeatureFlagsContext,
+} from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import { ValidationsFeatureFlagsContext } from '../../../../lib/featureFlagsContext';
 
 interface CheckboxState {
   checked: boolean;
