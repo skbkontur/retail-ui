@@ -18,7 +18,12 @@ import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
-import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
+import {
+  ComboBoxMenuDataTids,
+  CustomComboBoxDataTids,
+  DELAY_BEFORE_SHOW_LOADER,
+  LOADER_SHOW_TIME,
+} from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
@@ -465,6 +470,7 @@ describe('ComboBox', () => {
     });
   });
 
+  //TODO: Remove this test in 5.0, while removing comboBoxAllowValueChangeInEditingState feature flag, because it tests old behavior
   describe('keep edited input text when value changes', () => {
     const value = { value: 1, label: 'one' };
 
@@ -1142,7 +1148,7 @@ describe('ComboBox', () => {
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveTextContent('');
   });
-
+  //TODO: Update this test in 5.0, after removal of comboBoxAllowValueChangeInEditingState feature flag
   describe('with add button', () => {
     const Comp = () => {
       const [selected, setSelected] = useState({ value: 3, label: 'Third' });
@@ -1341,10 +1347,11 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  it('should allow value change in editing state with comboBoxAllowValueChangeInEditingState flag', async () => {
+  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
     const initialValue = 'Initial Value';
     const expectedValue = 'Expected Value';
-    const TestComponent = () => {
+
+    const TestComponent = ({ initialValue, mode }: { initialValue: string; mode?: boolean }) => {
       const [value, setValue] = React.useState({ value: initialValue, label: initialValue });
 
       const handleValueChange = () => {
@@ -1361,28 +1368,36 @@ describe('ComboBox', () => {
           <ComboBox
             ref={comboboxRef}
             value={value}
-            searchOnFocus={false}
+            drawArrow={mode}
+            searchOnFocus={mode}
             getItems={getItems}
             onValueChange={(value) => setValue(value)}
-            onInputValueChange={(value) => {
-              setValue({ value, label: value });
-            }}
             renderItem={renderItem}
             renderNotFound={() => undefined}
           />
         </ReactUIFeatureFlagsContext.Provider>
       );
     };
-    render(<TestComponent />);
 
-    comboboxRef.current?.focus();
-    expect(screen.getByRole('textbox')).toHaveValue(initialValue);
-    userEvent.clear(screen.getByRole('textbox'));
-    await delay(0);
-    expect(screen.getByRole('textbox')).toHaveValue('');
-    userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
-    await delay(0);
-    expect(screen.getByRole('textbox')).toHaveValue(expectedValue);
+    const changeValue = async (mode: boolean) => {
+      render(<TestComponent initialValue={initialValue} mode={mode} />);
+      comboboxRef.current?.focus();
+      expect(screen.getByRole('textbox')).toHaveValue(initialValue);
+      userEvent.clear(screen.getByRole('textbox'));
+      await delay(0);
+      expect(screen.getByRole('textbox')).toHaveValue('');
+      userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
+      await delay(0);
+    };
+
+    it('should allow value change in editing state in normal mode', async () => {
+      await changeValue(true);
+      expect(screen.getByTestId(CustomComboBoxDataTids.comboBoxView)).toHaveTextContent(expectedValue);
+    });
+    it('should allow value change in editing state in autocomplete mode', async () => {
+      await changeValue(false);
+      expect(screen.getByTestId(CustomComboBoxDataTids.comboBoxView)).toHaveTextContent(expectedValue);
+    });
   });
 });
 
