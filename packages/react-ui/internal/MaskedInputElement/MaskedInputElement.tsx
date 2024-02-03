@@ -1,5 +1,6 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { IMaskInput } from 'react-imask';
+import { createMask } from 'imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
@@ -8,11 +9,10 @@ import { InputElement, InputElementProps } from '../../components/Input';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './MaskedInputElement.styles';
-import { getCurrentValue, getDefinitions, getEmptyValue, getFocusPrefix } from './MaskedInputElement.helpers';
+import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './MaskedInputElement.helpers';
 
 export interface MaskedInputElementProps extends InputElementProps {
   mask: string;
-  unmask?: boolean;
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
@@ -71,7 +71,7 @@ export const MaskedInputElement = forwardRefAndName(
     } = props;
 
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
-    const [currentValue, left, right] = getCurrentValue({ value, originValue, emptyValue, focused }, maskChar);
+    const [currentValue, left, right] = getCurrentValue({ value, originValue, emptyValue }, focused, maskChar);
 
     /* В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обработки подчркивания('_').
      * Не менять на DEFAULT_MASK_CHAR
@@ -168,6 +168,20 @@ export const MaskedInputElement = forwardRefAndName(
       if (props.onUnexpectedInput) {
         props.onUnexpectedInput(value);
       }
+    }
+
+    function getEmptyValue(
+      mask: MaskedInputElementProps['mask'],
+      maskChar: MaskedInputElementProps['maskChar'],
+      formatChars: MaskedInputElementProps['formatChars'],
+    ): string {
+      const maskPattern = createMask({
+        mask,
+        definitions: getDefinitions(formatChars),
+        lazy: false,
+        placeholderChar: getMaskChar(maskChar),
+      });
+      return maskPattern.appendTail('').inserted;
     }
   },
 );

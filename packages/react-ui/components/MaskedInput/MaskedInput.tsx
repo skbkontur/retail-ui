@@ -1,4 +1,4 @@
-import React, { Ref } from 'react';
+import React, { Ref, useState } from 'react';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
@@ -8,8 +8,6 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 export interface MaskedProps {
   /** Паттерн маски */
   mask: string;
-  /** Возвращать только символы маски, без форматирования */
-  unmask?: boolean;
   /** Символ маски */
   maskChar?: Nullable<string>;
   /**
@@ -34,17 +32,20 @@ export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' |
 export const MaskedInput = forwardRefAndName(
   'MaskedInput',
   function MaskedInput(props: MaskedInputProps, ref: Ref<Input>) {
-    const { mask, maskChar, formatChars, alwaysShowMask, placeholder, unmask, ...inputProps } = props;
+    const { mask, maskChar, formatChars, alwaysShowMask, placeholder, ...inputProps } = props;
+    const [focused, setFocused] = useState(false);
+    const showPlaceholder = !(alwaysShowMask || focused);
 
     return (
       <Input
         ref={ref}
         {...inputProps}
-        placeholder={alwaysShowMask ? undefined : placeholder}
+        placeholder={showPlaceholder ? placeholder : undefined}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         element={
           <MaskedInputElement
             mask={mask}
-            unmask={unmask}
             maskChar={maskChar}
             formatChars={formatChars}
             alwaysShowMask={alwaysShowMask}

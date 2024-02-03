@@ -81,11 +81,11 @@ IdleFocusBlur.parameters = {
   },
 };
 
-export const IdleFocusBlurMaskWithPrefix: Story = () => (
+export const IdleFocusBlurWithPrefix: Story = () => (
   <MaskedInput width="150" mask="+7 999 999 999" maskChar={'_'} placeholder="Номер" />
 );
 
-IdleFocusBlurMaskWithPrefix.parameters = {
+IdleFocusBlurWithPrefix.parameters = {
   creevey: {
     tests: testIdleFocusBlur,
   },

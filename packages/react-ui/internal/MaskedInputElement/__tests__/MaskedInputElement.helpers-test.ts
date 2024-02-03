@@ -9,7 +9,7 @@ describe('MaskedInputElement.helpers', () => {
       ['__:__', '', '_'],
       [' : ', '', ''],
     ])('empty focused value with mask "%s" is "%s"', (emptyValue, focusedValue, maskChar) => {
-      const [currentValue] = getCurrentValue({ focused: true, emptyValue, originValue: '', value: '' }, maskChar);
+      const [currentValue] = getCurrentValue({ emptyValue, originValue: '', value: '' }, true, maskChar);
       expect(currentValue).toBe(focusedValue);
     });
 
@@ -19,7 +19,7 @@ describe('MaskedInputElement.helpers', () => {
       ['X', '', '+7 ___'],
       ['', 'X', '+7 ___'],
     ])('current unfocused value equals %s', (value, emptyValue, originValue) => {
-      const [currentValue] = getCurrentValue({ focused: false, emptyValue, originValue, value }, '_');
+      const [currentValue] = getCurrentValue({ emptyValue, originValue, value }, false, '_');
       expect(currentValue).toBe(value);
     });
 
@@ -30,14 +30,15 @@ describe('MaskedInputElement.helpers', () => {
       ['+7 (999) 999-99-', 'XX', '+7 (XXX) XXX-XX-XX'],
       ['+7 95', 'X XXX-XX-XX', '+7 XXX XXX-XX-XX'],
     ])('tail  for value `%s` is `%s`', (value, expectedTail, mask) => {
-      const [, left, right] = getCurrentValue({ focused: false, emptyValue: mask, originValue: value, value }, 'X');
+      const [, left, right] = getCurrentValue({ emptyValue: mask, originValue: value, value }, false, 'X');
       expect(left).toBe(value);
       expect(right).toBe(expectedTail);
     });
 
     it('tail for focused empty value`', () => {
       const [, left, right] = getCurrentValue(
-        { focused: true, emptyValue: '+7 (XXX) XXX-XX-XX', originValue: '', value: '' },
+        { emptyValue: '+7 (XXX) XXX-XX-XX', originValue: '', value: '' },
+        true,
         'X',
       );
       expect(left).toBe('+7 (');
@@ -46,7 +47,8 @@ describe('MaskedInputElement.helpers', () => {
 
     it('tail for formatted value`', () => {
       const [, left, right] = getCurrentValue(
-        { focused: true, emptyValue: '+7 (XXX) XXX-XX-XX', originValue: '+7 (987) 65', value: '+798765' },
+        { emptyValue: '+7 (XXX) XXX-XX-XX', originValue: '+7 (987) 65', value: '+798765' },
+        true,
         'X',
       );
       expect(left).toBe('+7 (987) 65');

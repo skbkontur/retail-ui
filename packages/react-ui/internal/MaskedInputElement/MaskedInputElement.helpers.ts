@@ -1,8 +1,4 @@
-import { createMask } from 'imask';
-
 import { isNonNullable } from '../../lib/utils';
-
-import { MaskedInputElementProps } from './MaskedInputElement';
 
 export const DEFAULT_MASK_CHAR = '_';
 export const DEFINITIONS = { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ };
@@ -29,12 +25,11 @@ export function getMaskChar(maskChar: string | null | undefined): string {
   return maskChar === undefined ? DEFAULT_MASK_CHAR : maskChar;
 }
 
-interface MaskedInputElementState {
+interface MaskedInputValues {
   // Users can unmask value themselves. In these cases we take origin value length
   originValue: string;
   value: string;
   emptyValue: string;
-  focused: boolean;
 }
 
 export function getFocusPrefix(emptyValue: string, maskChar: string | null | undefined): string {
@@ -42,10 +37,11 @@ export function getFocusPrefix(emptyValue: string, maskChar: string | null | und
 }
 
 export function getCurrentValue(
-  state: MaskedInputElementState,
+  values: MaskedInputValues,
+  focused: boolean,
   maskChar: string | null | undefined,
 ): [currentValue: string, left: string, right: string] {
-  const { emptyValue, value, originValue, focused } = state;
+  const { emptyValue, value, originValue } = values;
 
   if (focused && originValue.length === 0 && emptyValue.length > 0) {
     const currentValue = getFocusPrefix(emptyValue, maskChar);
@@ -53,18 +49,4 @@ export function getCurrentValue(
   }
 
   return [value, originValue, emptyValue.slice(originValue.length)];
-}
-
-export function getEmptyValue(
-  mask: MaskedInputElementProps['mask'],
-  maskChar: MaskedInputElementProps['maskChar'],
-  formatChars: MaskedInputElementProps['formatChars'],
-): string {
-  const maskPattern = createMask({
-    mask,
-    definitions: getDefinitions(formatChars),
-    lazy: false,
-    placeholderChar: getMaskChar(maskChar),
-  });
-  return maskPattern.appendTail('').inserted;
 }
