@@ -1,6 +1,8 @@
 import React from 'react';
 
-export type InputElement = HTMLInputElement | { input: HTMLInputElement | null };
+export type InputElement = (HTMLInputElement | { input: HTMLInputElement | null }) & {
+  getRootNode: () => HTMLElement | null;
+};
 
 export interface InputElementProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /**

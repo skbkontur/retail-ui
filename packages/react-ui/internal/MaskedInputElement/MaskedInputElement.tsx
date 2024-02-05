@@ -34,11 +34,19 @@ export const MaskedInputElement = forwardRefAndName(
     const [emptyValue, setEmptyValue] = useState('');
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const rootNodeRef = React.useRef<HTMLDivElement>(null);
     const theme = useContext(ThemeContext);
     const expectedChangesRef = useRef(false);
     const isFirstRender = useRef(true);
 
-    useImperativeHandle(ref, () => ({ input: inputRef.current }), []);
+    useImperativeHandle(
+      ref,
+      () => ({
+        input: inputRef.current,
+        getRootNode: () => rootNodeRef.current,
+      }),
+      [],
+    );
 
     useEffect(() => {
       setEmptyValue(getEmptyValue(props.mask, props.maskChar, props.formatChars));
@@ -81,7 +89,12 @@ export const MaskedInputElement = forwardRefAndName(
     const isMaskVisible = alwaysShowMask || focused;
 
     return (
-      <span data-tid={MaskedInputElementDataTids.root} className={styles.container()} x-ms-format-detection="none">
+      <span
+        data-tid={MaskedInputElementDataTids.root}
+        ref={rootNodeRef}
+        className={styles.container()}
+        x-ms-format-detection="none"
+      >
         <IMaskInput
           {...inputProps}
           mask={mask}
