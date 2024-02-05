@@ -5,7 +5,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [4.20.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.0-next.2...@skbkontur/react-ui@4.20.0) (2024-02-05)
 
-**Note:** Version bump only for package @skbkontur/react-ui
+
+### Bug Fixes
+
+* **SidePage:** add FocusLock featureFlag ([#3343](https://github.com/skbkontur/retail-ui/issues/3343)) ([660a531](https://github.com/skbkontur/retail-ui/commit/660a531279daab30aec23b5000b5cb721ef7de41))
+* **Tooltip:** new prop delayBeforeShow ([#3354](https://github.com/skbkontur/retail-ui/issues/3354)) ([fc166d0](https://github.com/skbkontur/retail-ui/commit/fc166d061f538bd975a0330aabc3b052a548267d))
+* isInstanceOf in IE 11 ([#3350](https://github.com/skbkontur/retail-ui/issues/3350)) ([bb61ec0](https://github.com/skbkontur/retail-ui/commit/bb61ec0315854f65fc3d27fb1bbf003aa1284199))
+
+
+### Features
+
+* **MenuItem:** allow MenuItem at any level ([#3270](https://github.com/skbkontur/retail-ui/issues/3270)) ([171f2c1](https://github.com/skbkontur/retail-ui/commit/171f2c1b46a638347302f6a998efc06143a0527e))
+* **ScrollСontainer:** add value `never` to `showScrollbar` prop ([#3353](https://github.com/skbkontur/retail-ui/issues/3353)) ([50970e3](https://github.com/skbkontur/retail-ui/commit/50970e39e06a0aaff6600e1d6d673df741670e91))
+* **Spinner:** hide default caption under a feature flag ([#3334](https://github.com/skbkontur/retail-ui/issues/3334)) ([8374dc5](https://github.com/skbkontur/retail-ui/commit/8374dc5615a3c5ebbc704c62bbd0298c7f600dc5))
 
 
 
