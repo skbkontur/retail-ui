@@ -1,4 +1,4 @@
-import React, { Ref, useState } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState } from 'react';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
@@ -31,27 +31,49 @@ export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' |
  */
 export const MaskedInput = forwardRefAndName(
   'MaskedInput',
-  function MaskedInput(props: MaskedInputProps, ref: Ref<Input>) {
+  function MaskedInput(props: MaskedInputProps, ref: Ref<Input | null>) {
     const { mask, maskChar, formatChars, alwaysShowMask, placeholder, ...inputProps } = props;
     const [focused, setFocused] = useState(false);
     const showPlaceholder = !(alwaysShowMask || focused);
+    const innerRef = useRef<Input>(null);
+
+    useImperativeHandle(ref, () => innerRef.current);
 
     return (
       <Input
-        ref={ref}
+        ref={innerRef}
         {...inputProps}
         placeholder={showPlaceholder ? placeholder : undefined}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         element={
           <MaskedInputElement
             mask={mask}
             maskChar={maskChar}
             formatChars={formatChars}
             alwaysShowMask={alwaysShowMask}
+            onUnexpectedInput={handleUnexpectedInput}
           />
         }
       />
     );
+
+    function handleUnexpectedInput(value: string) {
+      if (props.onUnexpectedInput) {
+        props.onUnexpectedInput(value);
+      } else if (innerRef.current) {
+        innerRef.current.blink();
+      }
+    }
+
+    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+      setFocused(true);
+      props.onFocus && props.onFocus(e);
+    }
+
+    function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+      setFocused(false);
+      props.onBlur && props.onBlur(e);
+    }
   },
 );

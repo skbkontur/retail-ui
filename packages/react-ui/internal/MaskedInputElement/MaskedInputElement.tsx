@@ -16,6 +16,7 @@ export interface MaskedInputElementProps extends InputElementProps {
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
+  onUnexpectedInput: (value: string) => void;
 }
 
 export const MaskedInputElementDataTids = {
@@ -71,7 +72,6 @@ export const MaskedInputElement = forwardRefAndName(
       formatChars,
       alwaysShowMask,
       maxLength,
-      onValueChange,
       onUnexpectedInput,
       defaultValue,
       style,
@@ -148,8 +148,6 @@ export const MaskedInputElement = forwardRefAndName(
 
       if (!expectedChangesRef.current && value === originValue) {
         handleUnexpectedInput();
-      } else if (props.onValueChange) {
-        props.onValueChange(value);
       }
 
       expectedChangesRef.current = false;
