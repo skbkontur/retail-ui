@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 import { Button, ButtonDataTids, ButtonType } from '../Button';
+import { LinkDataTids } from '../../Link/Link';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -207,5 +208,22 @@ describe('Button', () => {
     );
 
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
+  });
+
+  it('with type=submit and use=link submits form on click (THEME_2022)', () => {
+    const handleSubmit = jest.fn();
+
+    render(
+      <ThemeContext.Provider value={THEME_2022}>
+        <form onSubmit={handleSubmit}>
+          <Button type={'submit'} use={'link'} size={'medium'}>
+            Open
+          </Button>
+        </form>
+      </ThemeContext.Provider>,
+    );
+
+    userEvent.click(screen.getByTestId(LinkDataTids.root));
+    expect(handleSubmit).toHaveBeenCalled();
   });
 });

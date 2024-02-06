@@ -475,7 +475,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           <Link
-            href={isSubmit ? '#!' : ''}
+            href={isSubmit ? '.' : ''}
             focused={isFocused}
             disabled={disabled}
             icon={this.renderIcon2022(icon)}
