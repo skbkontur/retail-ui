@@ -121,6 +121,26 @@ function close() {
 </div>
 ```
 
+### hintFixJumpingNearScreenEdge
+
+Чтобы исправить странное поведение Hint у границ экрана, в Popup изменился расчет его длины.
+При включении флага, вероятно, возникнут проблемы в скриншотных тестах.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ hintFixJumpingNearScreenEdge: true }}>
+  <div style={{ marginRight: '-130px', top: '50px', textAlign: 'right' }}>
+    <Hint text={'Example!'} pos="bottom center" maxWidth={295} manual opened>
+      <Button use="success" size="medium" width={135} disabled>
+        Пригласить
+      </Button>
+    </Hint>
+  </div>
+</ReactUIFeatureFlagsContext.Provider>
+```
+
 ## Объект со всеми флагами
 
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:

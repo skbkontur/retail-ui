@@ -4,6 +4,11 @@ import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
 
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -220,6 +225,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private getProps = createPropsGetter(Popup.defaultProps);
 
+  private featureFlags!: ReactUIFeatureFlags;
+
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
 
@@ -295,12 +302,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -627,7 +641,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, this.featureFlags.hintFixJumpingNearScreenEdge);
 
     let position: PopupPositionsType;
     let coordinates: Offset;
@@ -702,7 +716,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'left':
         return {
           top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
-          left: anchorRect.left - popupRect.width - margin,
+          left: this.featureFlags.hintFixJumpingNearScreenEdge
+            ? anchorRect.left - popupRect.width
+            : anchorRect.left - popupRect.width - margin,
+          // margin нужно убирать, если используем scrollWidth. Так при вычислении popupRect.width через scrollWidth margin уже включен в длину
         };
       case 'right':
         return {

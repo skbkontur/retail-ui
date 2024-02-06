@@ -30,8 +30,8 @@ function getPositionObject(position: string): PositionObject {
   };
 }
 
-function getElementAbsoluteRect(element: Element): Rect {
-  const rect = _getElementRelativeRect(element);
+function getElementAbsoluteRect(element: Element, isPopup = false): Rect {
+  const rect = isPopup ? _getPopupRelativeRect(element) : _getElementRelativeRect(element);
   return convertRectToAbsolute(rect);
 }
 
@@ -74,6 +74,19 @@ function _getElementRelativeRect(element: Element) {
     left: rect.left,
     width: rect.right - rect.left,
     height: rect.bottom - rect.top,
+  };
+}
+
+function _getPopupRelativeRect(element: Element) {
+  const rect = getDOMRect(element);
+
+  return {
+    top: rect.top,
+    left: rect.left,
+    width: element.scrollWidth,
+    // element.offsetWidth, parseFloat(getComputedStyle(element).width), element.clientWidth
+    // - не подходят, так как возвращают видимую длину.
+    height: element.scrollHeight,
   };
 }
 
