@@ -297,7 +297,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
-    const isSubmit = type === 'submit';
     const _isTheme2022 = isTheme2022(this.theme);
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -475,11 +474,21 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           <Link
-            href={isSubmit ? '.' : ''}
             focused={isFocused}
             disabled={disabled}
             icon={this.renderIcon2022(icon)}
-            as="span"
+            as={(props) => {
+              return (
+                <span
+                  {...{
+                    ...props,
+                    onClick: null,
+                  }}
+                >
+                  {props.children}
+                </span>
+              );
+            }}
             tabIndex={-1}
           >
             {children}
