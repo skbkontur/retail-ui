@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 import { Button, ButtonDataTids, ButtonType } from '../Button';
-import { LinkDataTids } from '../../Link/Link';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -222,8 +221,7 @@ describe('Button', () => {
         </form>
       </ThemeContext.Provider>,
     );
-
-    userEvent.click(screen.getByTestId(LinkDataTids.root));
+    userEvent.click(screen.getByText('Open'));
     expect(handleSubmit).toHaveBeenCalled();
   });
 });
