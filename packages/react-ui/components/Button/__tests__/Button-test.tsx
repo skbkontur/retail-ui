@@ -209,19 +209,30 @@ describe('Button', () => {
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
   });
 
-  it('with type=submit and use=link submits form on click (THEME_2022)', () => {
+  describe('with use=link prop', () => {
     const handleSubmit = jest.fn();
+    const handleReset = jest.fn();
+    const TestForm = ({ submit }: { submit?: boolean }) => {
+      return (
+        <ThemeContext.Provider value={THEME_2022}>
+          <form onSubmit={handleSubmit} onReset={handleReset}>
+            <Button type={submit ? 'submit' : 'reset'} use={'link'} size={'medium'}>
+              {submit ? 'Submit' : 'Reset'}
+            </Button>
+          </form>
+        </ThemeContext.Provider>
+      );
+    };
+    it('type=submit submits form on click (THEME_2022)', () => {
+      render(<TestForm submit />);
+      userEvent.click(screen.getByText('Submit'));
+      expect(handleSubmit).toHaveBeenCalled();
+    });
 
-    render(
-      <ThemeContext.Provider value={THEME_2022}>
-        <form onSubmit={handleSubmit}>
-          <Button type={'submit'} use={'link'} size={'medium'}>
-            Open
-          </Button>
-        </form>
-      </ThemeContext.Provider>,
-    );
-    userEvent.click(screen.getByText('Open'));
-    expect(handleSubmit).toHaveBeenCalled();
+    it('type=reset resets form on click (THEME_2022)', () => {
+      render(<TestForm />);
+      userEvent.click(screen.getByText('Reset'));
+      expect(handleReset).toHaveBeenCalled();
+    });
   });
 });
