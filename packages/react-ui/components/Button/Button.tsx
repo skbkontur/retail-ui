@@ -478,16 +478,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             disabled={disabled}
             icon={this.renderIcon2022(icon)}
             as={(props) => {
-              return (
-                <span
-                  {...{
-                    ...props,
-                    onClick: null,
-                  }}
-                >
-                  {props.children}
-                </span>
-              );
+              const { onClick, children, ...rest } = props;
+              return <span {...rest}>{children}</span>;
             }}
             tabIndex={-1}
           >
