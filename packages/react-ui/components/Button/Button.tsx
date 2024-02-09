@@ -13,7 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { Link } from '../Link';
+import { Link, LinkProps } from '../Link';
 import { Spinner } from '../Spinner';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { SizeProp } from '../../lib/types/props';
@@ -257,6 +257,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
   }
 
+  private renderLinkRootWithoutHandlers(props: LinkProps) {
+    const { onClick, onFocus, onBlur, children, ...rest } = props;
+    return <span {...rest}>{children}</span>;
+  }
+
   private renderMain() {
     const {
       corners,
@@ -477,10 +482,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             focused={isFocused}
             disabled={disabled}
             icon={this.renderIcon2022(icon)}
-            as={(props) => {
-              const { onClick, children, ...rest } = props;
-              return <span {...rest}>{children}</span>;
-            }}
+            as={this.renderLinkRootWithoutHandlers}
             tabIndex={-1}
           >
             {children}
