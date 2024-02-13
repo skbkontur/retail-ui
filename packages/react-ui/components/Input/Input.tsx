@@ -350,12 +350,11 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private getInput = (inputComponentProps: InputElementProps & ClassAttributes<HTMLInputElement>) => {
+  private getInput = (inputProps: InputElementProps & ClassAttributes<HTMLInputElement>) => {
     if (this.props.element) {
-      return React.cloneElement(this.props.element, inputComponentProps);
+      return React.cloneElement(this.props.element, inputProps);
     }
 
-    const { onUnexpectedInput, ...inputProps } = inputComponentProps;
     return this.props.mask && !this.canBeUsedWithMask
       ? this.renderMaskedInput(inputProps, this.props.mask)
       : React.createElement('input', inputProps);
@@ -440,7 +439,6 @@ export class Input extends React.Component<InputProps, InputState> {
       disabled,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
-      onUnexpectedInput: this.handleUnexpectedInput,
     };
 
     const input = this.getInput(inputProps);
