@@ -940,6 +940,16 @@ export class DefaultTheme {
   public static pickerTodayWrapperPaddingTop = '6px';
   public static pickerTodayWrapperPaddingBottom = '6px';
   public static pickerBorderRadius = '';
+
+  public static mobileCalendarPaddingX = '16px';
+  public static mobileCalendarCellWidth = '40px';
+  public static mobileCalendarCellHeight = '40px';
+  public static mobileCalendarCellBorderRadius = '20px';
+  public static mobileCalendarCellFontSize = '16px';
+  public static mobileCalendarGridRowSpacing = '8px';
+  public static mobileDateSelectFontSize = '16px';
+  public static mobileDateSelectLineHeight = '20px';
+  public static mobileCalendarWrapperHeight = '304px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {

@@ -3,7 +3,6 @@ import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { Calendar } from '../Calendar';
 import * as CalendarUtils from '../Calendar/CalendarUtils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { DateInput } from '../DateInput';
 import { Button } from '../Button';
@@ -13,6 +12,7 @@ import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 import { DatePickerProps } from './DatePicker';
 import { DatePickerLocaleHelper } from './locale';
 import { styles } from './MobilePicker.styles';
+import { getMobilePickerTheme } from './getMobilePickerTheme';
 
 export const MobilePickerDataTids = {
   input: 'MobilePicker__input',
@@ -30,21 +30,7 @@ export interface MobilePickerProps
 export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   const locale = useLocaleForControl('DatePicker', DatePickerLocaleHelper);
 
-  const originalTheme = useContext(ThemeContext);
-  const theme = ThemeFactory.create(
-    {
-      calendarPaddingX: '16px',
-      calendarCellWidth: '40px',
-      calendarCellHeight: '40px',
-      calendarCellBorderRadius: '20px',
-      calendarCellFontSize: '16px',
-      calendarGridRowSpacing: '8px',
-      dateSelectFontSize: '16px',
-      dateSelectLineHeight: '20px',
-      calendarWrapperHeight: '304px',
-    },
-    originalTheme,
-  );
+  const theme = getMobilePickerTheme(useContext(ThemeContext));
 
   const onValueChange = (date: string) => {
     if (props.onValueChange) {
