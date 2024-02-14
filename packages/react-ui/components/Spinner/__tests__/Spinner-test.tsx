@@ -5,6 +5,7 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SpinnerLocaleHelper } from '../locale';
 import { Spinner, SpinnerDataTids } from '../Spinner';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 describe('Spinner', () => {
   it('renders default Spinner', () => {
@@ -71,6 +72,20 @@ describe('Spinner', () => {
       );
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toHaveTextContent(expectedText);
+    });
+  });
+
+  describe('with spinnerRemoveDefaultCaption flag', () => {
+    it('should not render default caption', () => {
+      render(
+        <ReactUIFeatureFlagsContext.Provider value={{ spinnerLoaderRemoveDefaultCaption: true }}>
+          <Spinner />
+        </ReactUIFeatureFlagsContext.Provider>,
+      );
+
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading as string;
+
+      expect(screen.getByTestId(SpinnerDataTids.root)).not.toHaveTextContent(expectedText);
     });
   });
 });

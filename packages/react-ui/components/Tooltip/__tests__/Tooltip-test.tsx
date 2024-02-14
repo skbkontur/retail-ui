@@ -633,6 +633,36 @@ describe('Tooltip', () => {
     });
   });
 
+  describe('with custom showDelay prop value', () => {
+    const showDelay = 400;
+    const renderContent = () => <div>Content</div>;
+
+    const TooltipWithCustomDelay = () => (
+      <Tooltip render={renderContent} delayBeforeShow={showDelay} pos="right top">
+        <button>Show</button>
+      </Tooltip>
+    );
+
+    it('renders correctly after delay', async () => {
+      render(<TooltipWithCustomDelay />);
+
+      userEvent.hover(screen.getByRole('button', { name: 'Show' }));
+
+      await delay(showDelay);
+
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+    });
+    it(`doesn't render prematurely`, async () => {
+      render(<TooltipWithCustomDelay />);
+
+      userEvent.hover(screen.getByRole('button', { name: 'Show' }));
+
+      await delay(Tooltip.delay);
+
+      expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+    });
+  });
+
   it('clears hoverTimeout timer after unmount', () => {
     jest.useFakeTimers();
     jest.spyOn(window, 'setTimeout');
@@ -647,14 +677,14 @@ describe('Tooltip', () => {
     );
 
     // @ts-expect-error: Use of private property.
-    expect(tooltipRef.current.hoverTimeout).toBeNull();
+    expect(tooltipRef.current.hoverTimeout).toBeUndefined();
 
     userEvent.hover(screen.getByRole('button'));
 
     // @ts-expect-error: Use of private property.
     const { hoverTimeout } = tooltipRef.current;
 
-    expect(hoverTimeout).not.toBeNull();
+    expect(hoverTimeout).toBeDefined();
 
     unmount();
 

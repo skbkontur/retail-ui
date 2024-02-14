@@ -15,11 +15,14 @@ function forwardName<ElementType, Props>(
   return render;
 }
 
-export function forwardRefAndName<ElementType, Props>(
+export function forwardRefAndName<ElementType, Props, Extra extends Record<string, unknown> = Record<never, never>>(
   name: string,
   render: React.ForwardRefRenderFunction<ElementType, Props>,
-): ReactUIComponentWithRef<ElementType, Props> {
-  return forwardName<ElementType, Props>(name, forwardRef(render) as ReactUIComponentWithRef<ElementType, Props>);
+): ReactUIComponentWithRef<ElementType, Props> & Extra {
+  return forwardName<ElementType, Props>(
+    name,
+    forwardRef(render) as ReactUIComponentWithRef<ElementType, Props> & Extra,
+  ) as ReactUIComponentWithRef<ElementType, Props> & Extra;
 }
 
 export interface ReactUIIconWithRef<T, P> extends ReactUIComponentWithRef<T, P> {

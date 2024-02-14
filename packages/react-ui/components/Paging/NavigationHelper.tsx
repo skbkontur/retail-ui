@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isMac } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 
 export interface KeyDescriptionType {
@@ -12,7 +13,7 @@ let keyDescription: Nullable<KeyDescriptionType> = null;
 const getKeyDescription = () => keyDescription || (keyDescription = createKeyDescription());
 
 const createKeyDescription = () =>
-  navigator.platform.includes('Mac')
+  isMac
     ? {
         name: 'Alt',
         checkPressed: (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => event.altKey,

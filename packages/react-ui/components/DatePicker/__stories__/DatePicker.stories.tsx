@@ -9,14 +9,15 @@ import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/type
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
-import { DatePicker, DatePickerProps } from '../DatePicker';
+import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
+import { SizeProp } from '../../../lib/types/props';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
-  size?: DatePickerProps['size'];
+  size?: SizeProp;
 }
 interface DatePickerWithErrorState {
   tooltip: boolean;

@@ -1,4 +1,4 @@
-import { globalThat } from '../../lib/SSRSafe';
+import { globalObject } from '@skbkontur/global-object';
 
 type Priority = number | LayerComponentName;
 const calculatePriority = (priority: Priority) => {
@@ -23,7 +23,7 @@ const componentPriorities = {
 };
 const priorityStep = 1000;
 
-const getZIndexes = (): number[] => globalThat.__RetailUiZIndexes || (globalThat.__RetailUiZIndexes = [0]);
+const getZIndexes = (): number[] => globalObject.__RetailUiZIndexes || (globalObject.__RetailUiZIndexes = [0]);
 const getIndexPriority = (zIndex: number) => Math.trunc(zIndex / priorityStep);
 const getMaxAllowedValue = (priority: number): number => (priority + 1) * priorityStep - 1;
 

@@ -5,7 +5,15 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
 
-import { text, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import {
+  text,
+  tooltip,
+  ValidationBehaviour,
+  ValidationContainer,
+  ValidationInfo,
+  ValidationWrapper,
+  ValidationsFeatureFlagsContext,
+} from '../src';
 import { Nullable } from '../typings/Types';
 
 class Example1 extends React.Component {
@@ -303,21 +311,23 @@ class Example6 extends React.Component {
 
   public render() {
     return (
-      <ValidationContainer ref={this.refContainer}>
-        <div style={{ padding: 50, height: 200, position: 'relative' }}>
-          <div style={{ position: 'absolute', top: 100 }}>
-            <ValidationWrapper validationInfo={this.validateValue1()}>
-              <Input value={this.state.value1} onValueChange={(value) => this.setState({ value1: value })} />
-            </ValidationWrapper>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+        <ValidationContainer ref={this.refContainer}>
+          <div style={{ padding: 50, height: 200, position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 100 }}>
+              <ValidationWrapper validationInfo={this.validateValue1()}>
+                <Input value={this.state.value1} onValueChange={(value) => this.setState({ value1: value })} />
+              </ValidationWrapper>
+            </div>
+            <div style={{ position: 'absolute', top: 20 }}>
+              <ValidationWrapper validationInfo={this.validateValue2()}>
+                <Input value={this.state.value2} onValueChange={(value) => this.setState({ value2: value })} />
+              </ValidationWrapper>
+            </div>
           </div>
-          <div style={{ position: 'absolute', top: 20 }}>
-            <ValidationWrapper validationInfo={this.validateValue2()}>
-              <Input value={this.state.value2} onValueChange={(value) => this.setState({ value2: value })} />
-            </ValidationWrapper>
-          </div>
-        </div>
-        <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
-      </ValidationContainer>
+          <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
     );
   }
 
@@ -482,6 +492,43 @@ class Example10 extends React.Component<Record<string, never>, Example10State> {
   refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
+class Example11 extends React.Component {
+  public render() {
+    let container: ValidationContainer | null;
+    return (
+      <form
+        style={{ width: '600px' }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          container?.submit();
+        }}
+      >
+        <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+          <ValidationContainer ref={(el) => (container = el)}>
+            <ValidationWrapper
+              renderMessage={tooltip('left middle')}
+              validationInfo={{ message: 'Ошибка!', type: 'submit' }}
+            >
+              <Input width="100%" placeholder={'Валидация'} />
+            </ValidationWrapper>
+            <br />
+            <br />
+            <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
+              <Input width="100%" placeholder={'Валидация'} />
+            </ValidationWrapper>
+          </ValidationContainer>
+        </ValidationsFeatureFlagsContext.Provider>
+        <br />
+        <br />
+        <br />
+        <Button use="success" width="100%" type="submit">
+          Ок
+        </Button>
+      </form>
+    );
+  }
+}
+
 storiesOf('Input', module)
   .add('#1', () => {
     return <Example1 />;
@@ -512,4 +559,7 @@ storiesOf('Input', module)
   })
   .add('#10 валидация формы с level = warning', () => {
     return <Example10 />;
+  })
+  .add('#11 задание ширины в процентах', () => {
+    return <Example11 />;
   });

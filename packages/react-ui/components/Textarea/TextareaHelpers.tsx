@@ -1,6 +1,11 @@
+import { globalObject, isBrowser } from '@skbkontur/global-object';
+
 export function getTextAreaHeight(params: GetTextAreaHeightParams) {
+  if (!isBrowser(globalObject)) {
+    return null;
+  }
   const { node, minRows, maxRows, extraRow } = params;
-  const style: CSSStyleDeclaration = getComputedStyle(node);
+  const style = globalObject.getComputedStyle(node);
   const borderTop = style.borderTopWidth ? parseInt(style.borderTopWidth, 10) : 0;
   const borderBottom = style.borderBottomWidth ? parseInt(style.borderBottomWidth, 10) : 0;
   const lineHeight = style.lineHeight ? parseInt(style.lineHeight, 10) : 0;

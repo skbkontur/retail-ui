@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
-import { Checkbox, CheckboxSize } from '../Checkbox';
+import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
+import { SizeProp } from '../../../lib/types/props';
 
 interface PlainCheckboxState {
   checked: false;
-  size?: CheckboxSize;
+  size?: SizeProp;
 }
 class PlainCheckbox extends React.Component {
   public state: PlainCheckboxState = {

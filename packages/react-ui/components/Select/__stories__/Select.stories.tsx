@@ -11,7 +11,7 @@ import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
-import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
+import { ResponsiveLayout } from '../../ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
 
