@@ -8,6 +8,7 @@ import React, {
   ReactNode,
 } from 'react';
 import isEqual from 'lodash.isequal';
+import { globalObject } from '@skbkontur/global-object';
 
 import { PopupIds } from '../../internal/Popup';
 import {
@@ -37,12 +38,19 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
+
+const TEMP_FAKE_FLAG = 'TEMP_FAKE_FLAG';
 
 export enum TokenInputType {
   WithReference,
@@ -266,7 +274,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public static defaultProps: DefaultProps<any> = {
     selectedItems: [],
-    delimiters: [',', ' '],
+    // TEMP_FAKE_FLAG помогает узнать, остались ли разделители дефолтными или пользователь передал их равными дефолтным.
+    delimiters: [',', ' ', TEMP_FAKE_FLAG],
     renderItem: identity,
     renderValue: identity,
     valueToString: identity,
@@ -282,7 +291,22 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     menuAlign: 'cursor',
   };
 
-  private getProps = createPropsGetter(TokenInput.defaultProps);
+  private getDelimiters(): string[] {
+    const delimiters = this.props.delimiters ?? [];
+    if (delimiters.every((delimiter) => delimiter !== TEMP_FAKE_FLAG)) {
+      return delimiters;
+    }
+    if (this.featureFlags.tokenInputRemoveWhitespaceFromDefaultDelimiters) {
+      return delimiters.filter((delimiter) => delimiter !== ' ' && delimiter !== TEMP_FAKE_FLAG);
+    }
+    return delimiters.filter((delimiter) => delimiter !== TEMP_FAKE_FLAG);
+  }
+
+  private getProps() {
+    const propsGetter = createPropsGetter(TokenInput.defaultProps);
+    const propsWithOldDelimiters = propsGetter.apply(this);
+    return { ...propsWithOldDelimiters, delimiters: this.getDelimiters() };
+  }
 
   public state: TokenInputState<T> = DefaultState;
 
@@ -290,6 +314,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -299,7 +324,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public componentDidMount() {
     this.updateInputTextWidth();
-    document.addEventListener('copy', this.handleCopy);
+    globalObject.document?.addEventListener('copy', this.handleCopy);
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -325,7 +350,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
-    document.removeEventListener('copy', this.handleCopy);
+    globalObject.document?.removeEventListener('copy', this.handleCopy);
   }
 
   /**
@@ -344,12 +369,19 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -577,7 +609,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input?.focus();
       // в firefox не работает без второго focus
-      requestAnimationFrame(() => this.input?.focus());
+      globalObject.requestAnimationFrame?.(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -644,9 +676,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    if (this.menuRef) {
+    if (this.menuRef && globalObject.document) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
+      const relatedTarget = event.relatedTarget || globalObject.document.activeElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;
@@ -819,7 +851,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    requestAnimationFrame(() => this.input?.focus());
+    globalObject.requestAnimationFrame?.(() => this.input?.focus());
   };
 
   private selectInputText = () => {

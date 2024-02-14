@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -19,7 +20,7 @@ export const SidePageCloseButton = () => {
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {
-    requestAnimationFrame(() => {
+    globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
         setIsFocusedByTab(true);
       }

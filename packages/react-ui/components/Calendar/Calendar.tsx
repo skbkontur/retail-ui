@@ -3,7 +3,9 @@ import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
 import debounce from 'lodash.debounce';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { cx } from '../../lib/theming/Emotion';
@@ -171,7 +173,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
-  private wheelEndTimeout: Nullable<number>;
+  private wheelEndTimeout: SafeTimer;
   private root: Nullable<HTMLElement>;
   private animation = animation();
   private touchStartY: Nullable<number> = null;
@@ -239,7 +241,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
-      await new Promise((r) => setTimeout(r));
+      await new Promise((r) => globalObject.setTimeout(r, 0));
     }
 
     const minDate = this.getDateInNativeFormat(this.getProps().minDate);
@@ -462,7 +464,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -471,7 +473,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isInstanceOf(event, globalObject.TouchEvent)) {
       return;
     }
 
@@ -486,7 +488,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
-    if (!(event instanceof WheelEvent)) {
+    if (!isInstanceOf(event, globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();
@@ -497,9 +499,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private handleWheelEnd = () => {
     if (this.wheelEndTimeout) {
-      clearTimeout(this.wheelEndTimeout);
+      globalObject.clearTimeout(this.wheelEndTimeout);
     }
-    this.wheelEndTimeout = window.setTimeout(this.scrollToNearestWeek, 300);
+    this.wheelEndTimeout = globalObject.setTimeout(this.scrollToNearestWeek, 300);
   };
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;

@@ -1,6 +1,6 @@
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
-import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
@@ -20,7 +20,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   constructor(props: RenderContainerProps) {
     super(props);
 
-    if (isBrowser && props.children) {
+    if (props.children) {
       this.mountContainer();
     }
   }
@@ -44,8 +44,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private createContainer() {
-    if (canUseDOM) {
-      const domContainer = document.createElement('div');
+    const domContainer = globalObject.document?.createElement('div');
+    if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
       this.domContainer = domContainer;
@@ -56,14 +56,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (!this.domContainer) {
       this.createContainer();
     }
-    if (this.domContainer && this.domContainer.parentNode !== document.body) {
-      document.body.appendChild(this.domContainer);
+    if (this.domContainer && this.domContainer.parentNode !== globalObject.document?.body) {
+      globalObject.document?.body.appendChild(this.domContainer);
 
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
       }
-      if (window.ReactTesting) {
-        window.ReactTesting.addRenderContainer(this.rootId, this);
+      if (globalObject.ReactTesting) {
+        globalObject.ReactTesting.addRenderContainer(this.rootId, this);
       }
     }
   }
@@ -83,8 +83,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
-      if (window.ReactTesting) {
-        window.ReactTesting.removeRenderContainer(this.rootId);
+      if (globalObject.ReactTesting) {
+        globalObject.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
   }

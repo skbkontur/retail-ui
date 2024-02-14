@@ -1,5 +1,7 @@
 import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
 import invariant from 'invariant';
+import { globalObject } from '@skbkontur/global-object';
+import debounce from 'lodash.debounce';
 
 import {
   isKeyArrowDown,
@@ -11,7 +13,7 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
-import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
+import { Button, ButtonProps, ButtonUse } from '../Button';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
@@ -33,6 +35,12 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
+import { SizeProp } from '../../lib/types/props';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -48,7 +56,7 @@ export interface ButtonParams
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-  size: ButtonSize;
+  size: SizeProp;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -159,7 +167,7 @@ export interface SelectProps<TValue, TItem>
    */
   warning?: boolean;
   use?: ButtonUse;
-  size?: ButtonSize;
+  size?: SizeProp;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
   /**
@@ -224,29 +232,37 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
+  private featureFlags!: ReactUIFeatureFlags;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      window.addEventListener('popstate', this.close);
+      globalObject.addEventListener?.('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      window.removeEventListener('popstate', this.close);
+      globalObject.removeEventListener?.('popstate', this.close);
     }
   }
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = ThemeFactory.create(
-            {
-              menuOffsetY: theme.selectMenuOffsetY,
-            },
-            theme,
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = ThemeFactory.create(
+                  {
+                    menuOffsetY: theme.selectMenuOffsetY,
+                  },
+                  theme,
+                );
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+              }}
+            </ThemeContext.Consumer>
           );
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -372,7 +388,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
-  private getLeftIconClass(size: ButtonSize | undefined) {
+  private getLeftIconClass(size: SizeProp | undefined) {
     if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
@@ -486,7 +502,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private getSearch = () => {
     return (
       <div className={styles.search()} onKeyDown={this.handleKey}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+        <Input ref={this.debouncedFocusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );
   };
@@ -514,7 +530,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <Input
         autoFocus
         value={this.state.searchPattern}
-        ref={this.focusInput}
+        ref={this.debouncedFocusInput}
         onValueChange={this.handleSearch}
         width="100%"
       />
@@ -567,10 +583,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return getRootNode(this);
   };
 
-  private focusInput = (input: Input) => {
-    // fix cases when an Input is rendered in portal
-    setTimeout(() => input?.focus(), 0);
-  };
+  // fix cases when an Input is rendered in portal
+  // https://github.com/skbkontur/retail-ui/issues/1995
+  private focusInput = (input: Input) => input?.focus();
+  private debouncedFocusInput = debounce(this.focusInput);
 
   private refMenu = (menu: Menu) => {
     this.menu = menu;
@@ -622,8 +638,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private handleSearch = (value: string) => {
+    const menuItemsAtAnyLevel = this.featureFlags.menuItemsAtAnyLevel;
+
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(1);
+    this.menu?.highlightItem(menuItemsAtAnyLevel ? 0 : 1);
   };
 
   private select(value: TValue) {

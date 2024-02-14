@@ -13,6 +13,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkColor = '#222222';
   public static linkHoverColor = '#222222';
   public static linkActiveColor = '#141414';
+  public static linkHoverTextDecoration = 'none';
 
   public static linkSuccessColor = '#538A1B';
   public static linkSuccessHoverColor = '#477916';
@@ -78,14 +79,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
-    return this.textColorDisabled;
+    return this.textColorDisabledContrast;
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
-
-  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06) !important';
-
-  public static btnTextBg = 'transparent !important';
-  public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06) !important';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
@@ -111,8 +107,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnWithIconPaddingLeftMedium = '10px';
   public static btnWithIconPaddingLeftLarge = '12px';
 
-  public static btnLinkHoverTextDecoration = 'none';
-
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
   }
@@ -129,6 +123,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static dropdownButtonBorderRadiusSmall = '8px';
   public static dropdownButtonBorderRadiusMedium = '8px';
   public static dropdownButtonBorderRadiusLarge = '8px';
+  public static get dropdownPaddingXSmall() {
+    return this.btnPaddingXSmall;
+  }
+
+  public static get dropdownPaddingXMedium() {
+    return this.btnPaddingXMedium;
+  }
+
+  public static get dropdownPaddingXLarge() {
+    return this.btnPaddingXLarge;
+  }
 
   //#region Input
   public static inputIconColor = '#858585';
@@ -185,8 +190,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Hint
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
-  public static hintBorderRadius = '6px';
-  public static hintPaddingY = '4px';
+  public static hintBorderRadius = '8px';
+  public static hintPaddingY = '8px';
   public static hintPaddingX = '8px';
   //#endregion
 
@@ -260,10 +265,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderColorHover() {
     return this.inputBorderColorHover;
   }
-  public static get selectPlaceholderColorDisabled() {
-    return this.textColorDisabled;
-  }
-
   //#endregion
 
   //#region FileUploader
@@ -387,7 +388,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleHandleActiveWidthIncrement = '0px';
 
   public static toggleBgChecked = '#3D3D3D';
-  public static toggleBgHover = '#3D3D3D';
+  public static toggleBgHover = '#F0F0F0';
 
   public static toggleCheckedBg = '#fff';
   public static toggleCheckedBgHover = '#fff';
@@ -399,13 +400,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleHandleBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.16)';
 
   // idle :hover
-  public static toggleContainerBgHover = '#F0F0F0';
   public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
   public static toggleHandleBgHover = '#FFFFFF';
   public static toggleHandleBoxShadowHover = '0 0 0 1px rgba(0, 0, 0, 0.16)';
 
   // checked
-  public static toggleContainerBgChecked = '#3D3D3D';
   public static toggleContainerBoxShadowChecked = 'none';
   public static toggleHandleBgChecked = '#FFFFFF';
   public static toggleHandleBoxShadowChecked = 'none';

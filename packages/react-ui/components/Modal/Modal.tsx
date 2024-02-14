@@ -1,6 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -12,7 +13,7 @@ import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -65,6 +66,12 @@ export interface ModalProps
    * По умолчанию true для IE11.
    */
   disableFocusLock?: boolean;
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
 }
 
 export interface ModalState {
@@ -132,11 +139,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      window.addEventListener('resize', this.throttledCheckHorizontalScroll);
+      globalObject.addEventListener?.('resize', this.throttledCheckHorizontalScroll);
     }
 
     mountedModalsCount++;
-    window.addEventListener('keydown', this.handleKeyDown);
+    globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
     if (this.containerNode) {
@@ -146,11 +153,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      window.removeEventListener('resize', this.throttledCheckHorizontalScroll);
+      globalObject.removeEventListener?.('resize', this.throttledCheckHorizontalScroll);
       LayoutEvents.emit();
     }
 
-    window.removeEventListener('keydown', this.handleKeyDown);
+    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
@@ -165,7 +172,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = getModalTheme(theme);
+          this.theme = getModalTheme(theme, this.props.theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
@@ -219,18 +226,25 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         <CommonWrapper {...this.props}>
           <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
-            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
-            <div
-              aria-labelledby={ariaLabelledby}
-              ref={this.refContainer}
-              className={styles.container()}
-              onMouseDown={this.handleContainerMouseDown}
-              onMouseUp={this.handleContainerMouseUp}
-              onClick={this.handleContainerClick}
-              data-tid={ModalDataTids.container}
-            >
-              <ResponsiveLayout>
-                {({ isMobile }) => (
+            {this.state.hasBackground && (
+              <div
+                onMouseDown={this.handleContainerMouseDown}
+                onMouseUp={this.handleContainerMouseUp}
+                onClick={this.handleContainerClick}
+                className={styles.bg(this.theme)}
+              />
+            )}
+            <ResponsiveLayout>
+              {({ isMobile }) => (
+                <div
+                  aria-labelledby={ariaLabelledby}
+                  ref={this.refContainer}
+                  className={cx(styles.container(), isMobile && styles.containerMobile(this.theme))}
+                  onMouseDown={this.handleContainerMouseDown}
+                  onMouseUp={this.handleContainerMouseUp}
+                  onClick={this.handleContainerClick}
+                  data-tid={ModalDataTids.container}
+                >
                   <div
                     aria-modal
                     aria-label={ariaLabel}
@@ -274,9 +288,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       </ResizeDetector>
                     </div>
                   </div>
-                )}
-              </ResponsiveLayout>
-            </div>
+                </div>
+              )}
+            </ResponsiveLayout>
           </ZIndex>
         </CommonWrapper>
       </RenderContainer>

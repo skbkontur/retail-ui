@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
+import { globalObject } from '@skbkontur/global-object';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -156,18 +157,16 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
    * @public
    */
   public reflow = () => {
-    const { documentElement } = document;
-
-    if (!documentElement) {
+    if (!globalObject.document?.documentElement) {
       throw Error('There is no "documentElement" in document');
     }
 
-    const windowHeight = window.innerHeight || documentElement.clientHeight;
+    const windowHeight = globalObject.innerHeight || globalObject.document.documentElement.clientHeight;
     if (!this.wrapper || !this.inner) {
       return;
     }
-    const { top, bottom, left } = getDOMRect(this.wrapper);
-    const { width, height } = getDOMRect(this.inner);
+    const { top, bottom, left, width } = getDOMRect(this.wrapper);
+    const { height } = getDOMRect(this.inner);
     const { getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
     const offset = this.getProps().offset;
@@ -180,6 +179,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     if (fixed) {
+      this.setState({ width });
       const stop = getStop && getStop();
       if (stop) {
         const deltaHeight = prevHeight - height;

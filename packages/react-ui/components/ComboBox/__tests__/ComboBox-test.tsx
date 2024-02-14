@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { MobilePopupDataTids } from '../../../internal/MobilePopup';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { HTMLProps } from '../../../typings/html';
 import { InputDataTids } from '../../../components/Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
@@ -138,6 +140,18 @@ describe('ComboBox', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
+  it('opens menu on arrow down', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    render(<ComboBox getItems={search} renderItem={(x) => x} value={'one'} />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    userEvent.keyboard('{enter}');
+    userEvent.keyboard('{arrowdown}');
+    await promise;
+
+    expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
+  });
+
   it('retries request on Enter if rejected', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     render(<ComboBox getItems={search} renderItem={(x) => x} />);
@@ -152,6 +166,29 @@ describe('ComboBox', () => {
 
     expect(search).toHaveBeenCalledWith('');
     expect(search).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not submit the form on the first Enter key press but submits on the second', async () => {
+    const handleSubmit = jest.fn();
+
+    const getItems = () => {
+      return Promise.resolve(['one', 'two', 'three']);
+    };
+    render(
+      <form onSubmit={handleSubmit}>
+        <ComboBox getItems={getItems} value={'one'} />
+      </form>,
+    );
+
+    const input = screen.getByTestId(InputLikeTextDataTids.root);
+    fireEvent.click(input);
+    fireEvent.keyPress(input, { key: 'Enter', code: 'Enter' });
+
+    expect(handleSubmit).not.toHaveBeenCalled();
+
+    fireEvent.submit(input);
+
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
   });
 
   it('keeps focus after a click on the refresh button', async () => {
@@ -1301,5 +1338,72 @@ describe('ComboBox', () => {
     await delay(0);
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+});
+
+describe('mobile comboBox', () => {
+  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const oldMatchMedia = window.matchMedia;
+  const matchMediaMock = jest.fn().mockImplementation((query) => {
+    return {
+      matches: calcMatches(query),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    };
+  });
+
+  const comboBoxRef = React.createRef<ComboBox<{ value: number; label: string }>>();
+  const state = { value: 1, label: 'First' };
+
+  const items = [
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+  ];
+
+  const getItems = (query: string) =>
+    Promise.resolve(
+      items.filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
+    );
+
+  const close = () => comboBoxRef.current?.close();
+  const menuItemsCount = items.length;
+
+  beforeEach(() => {
+    window.matchMedia = matchMediaMock;
+  });
+
+  afterEach(() => {
+    window.matchMedia = oldMatchMedia;
+  });
+
+  const TestComponent = () => <ComboBox ref={comboBoxRef} getItems={getItems} value={state} />;
+
+  it('should fully close by method', async () => {
+    render(<TestComponent />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(500);
+
+    close();
+    expect(screen.queryByTestId(MobilePopupDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('should close and open again after being closed by public method', async () => {
+    render(<TestComponent />);
+
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(500);
+
+    close();
+
+    userEvent.click(screen.getByTestId(InputDataTids.root));
+    await delay(500);
+
+    expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
+    expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
   });
 });

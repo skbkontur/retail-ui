@@ -1,4 +1,4 @@
-import requestAnimationFrame, { cancel as cancelAnimationFrame } from 'raf';
+import { globalObject } from '@skbkontur/global-object';
 
 import { stepper } from './stepper';
 
@@ -31,7 +31,7 @@ export const animation = () => {
   }
 
   function cancel() {
-    cancelAnimationFrame(rafId);
+    globalObject.cancelAnimationFrame?.(rafId);
     reset();
   }
 
@@ -61,7 +61,9 @@ export const animation = () => {
       currentPosition = nextPosition;
       currentVelocity = nextVelocity;
 
-      rafId = requestAnimationFrame(animateInternal);
+      if (globalObject.requestAnimationFrame) {
+        rafId = globalObject.requestAnimationFrame(animateInternal);
+      }
     };
 
     if (!inProgress()) {

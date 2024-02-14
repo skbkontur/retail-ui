@@ -136,6 +136,12 @@ describe('PasswordInput', () => {
     expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'password');
   });
 
+  it('button wrapping eye icon should have type="button"', () => {
+    render(<PasswordInput value={'input'} />);
+
+    expect(screen.getByTestId(PasswordInputDataTids.eyeIcon)).toHaveAttribute('type', 'button');
+  });
+
   describe('a11y', () => {
     it('sets value for aria-label attribute', () => {
       const ariaLabel = 'aria-label';

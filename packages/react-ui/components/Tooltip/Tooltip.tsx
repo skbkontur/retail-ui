@@ -1,6 +1,7 @@
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -19,6 +20,7 @@ import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { styles } from './Tooltip.styles';
 
@@ -130,7 +132,15 @@ export interface TooltipProps extends CommonProps {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper?: boolean;
+
+  /**
+   * Задержка перед появлением тултипа в миллисекундах
+   * Значение по умолчанию: `100`
+   */
+  delayBeforeShow?: number;
 }
+
+const DEFAULT_DELAY = 100;
 
 export interface TooltipState {
   opened: boolean;
@@ -159,7 +169,7 @@ const Positions: PopupPositionsType[] = [
 ];
 
 type DefaultProps = Required<
-  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper'>
+  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>
 >;
 
 @rootNode
@@ -186,16 +196,17 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
+    delayBeforeShow: DEFAULT_DELAY,
   };
 
   private getProps = createPropsGetter(Tooltip.defaultProps);
 
-  public static delay = 100;
+  public static delay = DEFAULT_DELAY;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
-  private hoverTimeout: Nullable<number> = null;
+  private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
@@ -483,7 +494,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private clearHoverTimeout() {
     if (this.hoverTimeout) {
-      clearTimeout(this.hoverTimeout);
+      globalObject.clearTimeout(this.hoverTimeout);
       this.hoverTimeout = null;
     }
   }
@@ -495,8 +506,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-
-    this.hoverTimeout = window.setTimeout(this.open, Tooltip.delay);
+    this.hoverTimeout = globalObject.setTimeout(this.open, this.getProps().delayBeforeShow);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -513,7 +523,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = window.setTimeout(this.close, Tooltip.delay);
+      this.hoverTimeout = globalObject.setTimeout(this.close, Tooltip.delay);
     }
   };
 
@@ -532,7 +542,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && event.target instanceof Element) {
+    if (this.contentElement && isInstanceOf(event.target, globalObject.Element)) {
       return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 

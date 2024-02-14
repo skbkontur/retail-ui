@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
@@ -15,12 +16,16 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { SizeProp } from '../../lib/types/props';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
 
-export type CheckboxSize = 'small' | 'medium' | 'large';
+/**
+ * @deprecated use SizeProp
+ */
+export type CheckboxSize = SizeProp;
 
 export interface CheckboxProps
   extends CommonProps,
@@ -41,7 +46,7 @@ export interface CheckboxProps
          */
         warning?: boolean;
         /** Размер */
-        size?: CheckboxSize;
+        size?: SizeProp;
         /**
          * HTML-событие `mouseenter`.
          */
@@ -169,13 +174,13 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
 
-    document.addEventListener('keydown', this.handleShiftPress);
-    document.addEventListener('keyup', this.handleShiftRelease);
+    globalObject.document?.addEventListener('keydown', this.handleShiftPress);
+    globalObject.document?.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    document.removeEventListener('keydown', this.handleShiftPress);
-    document.removeEventListener('keyup', this.handleShiftRelease);
+    globalObject.document?.removeEventListener('keydown', this.handleShiftPress);
+    globalObject.document?.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   private setRootNode!: TSetRootNode;
@@ -354,7 +359,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalObject.requestAnimationFrame?.(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
