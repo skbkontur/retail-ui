@@ -5,8 +5,8 @@
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {
-    "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet build --configuration Release",
+    "postbuild": "yarn --cwd ./TestPages install",
     "test": "dotnet test ./Tests/Tests.csproj --configuration Release --verbosity detailed --framework netcoreapp3.1",
     "start": "yarn --cwd ./TestPages start",
     "styleguide": "styleguidist server --config ./docs/.styleguide/config/base.config.js",
