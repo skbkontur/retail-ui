@@ -148,7 +148,9 @@ export const CalendarDataTids = {
   month: 'MonthView__month',
   dayCell: 'DayCellView__root',
   headerMonth: 'MonthView__headerMonth',
+  monthSelectMobile: 'MonthView__monthSelectMobile',
   headerYear: 'MonthView__headerYear',
+  yearSelectMobile: 'MonthView__yearSelectMobile',
 } as const;
 
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;

@@ -274,24 +274,32 @@ class DatePickerFormatting extends React.Component {
 <DatePickerFormatting />;
 ```
 
-### Кастомизирование отображения даты
+### Период дат
+Подбробный пример в [Calendar](#/Components/Calendar)
 
 ```jsx harmony
-import MagicWand from '@skbkontur/react-icons/MagicWand';
-
 const [value, setValue] = React.useState('12.05.2022');
 
-const CustomDayItem = ({ date }) => {
-  const isEven = (num) => num % 2 === 0;
+<DatePicker
+  value={value}
+  onValueChange={setValue}
+  periodStartDate="16.05.2022"
+  periodEndDate="20.05.2022"
+/>;
+```
 
-  return (
-    <div>
-      {isEven(date.date) ? <MagicWand /> : date.date}
-    </div>
-  );
+### Кастомный рендер дня
+Подбробный пример в [Calendar](#/Components/Calendar)
+
+```jsx harmony
+const [value, setValue] = React.useState('12.05.2022');
+
+const renderDay = (date, defaultProps, RenderDefault) => {
+  const isEven = defaultProps.children % 2 === 0;
+
+  return <RenderDefault {...defaultProps} isDisabled={isEven} />;
 };
 
-const renderDay = (date) =>  <CustomDayItem date={date} />;
 
 <DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```
@@ -361,3 +369,7 @@ const en_GB = {
   dayCellChooseDateAriaLabel: 'Choose date',
 };
 ```
+
+### Адаптивность
+
+На мобильных устройствах есть несколько вариантов. По умолчанию откроется адаптивная версия в попапе. Но можно открывать нативный календарь, если передать проп `useMobileNativeDatePicker`.

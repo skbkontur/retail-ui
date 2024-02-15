@@ -104,6 +104,8 @@ export class Month extends React.Component<MonthProps> {
   };
 }
 
+const DAYS_PER_WEEK = 7;
+
 interface MonthDayGridProps {
   days: DayCellViewModel[];
   offset: number;
@@ -133,18 +135,40 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   }
 
   public renderMain() {
+    const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
+      <div
+        key={`leadgin_${i}`}
+        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
+      />
+    ));
+    const trailingOffset = DAYS_PER_WEEK - ((this.props.offset + this.props.days.length) % DAYS_PER_WEEK);
+    const trailingDays = Array.from({ length: trailingOffset }, (_, i) => (
+      <div
+        key={`trailing_${i}`}
+        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
+      />
+    ));
+    const days = this.props.days.map((day) => {
+      return <DayCellView date={day} key={`${day.date}.${day.month}.${day.year}`} />;
+    });
+    const weeks = divideToWeeks(leadingDays.concat(days, trailingDays));
     return (
       <div className={styles.monthDayGrid(this.theme)}>
-        <div
-          style={{
-            width: this.props.offset * themeConfig(this.theme).DAY_WIDTH,
-            display: 'inline-block',
-          }}
-        />
-        {this.props.days.map((day) => (
-          <DayCellView date={day} key={`${day.date}.${day.month}.${day.year}`} />
+        {weeks.map((week, i) => (
+          <div className={styles.monthDayRow(this.theme)} key={`week_${i}`}>
+            {week}
+          </div>
         ))}
       </div>
     );
   }
+}
+
+function divideToWeeks<T>(days: T[]): T[][] {
+  const weeks: T[][] = [];
+  for (let i = 0; i < days.length; i += DAYS_PER_WEEK) {
+    const week = days.slice(i, i + DAYS_PER_WEEK);
+    weeks.push(week);
+  }
+  return weeks;
 }

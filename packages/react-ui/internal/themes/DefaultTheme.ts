@@ -889,6 +889,7 @@ export class DefaultTheme {
   public static get calendarCellWidth() {
     return this.calendarCellSize;
   }
+  public static calendarCellFontSize = '14px';
   public static get calendarCellLineHeight() {
     return `${parseInt(this.calendarCellHeight) - 2}px`;
   }
@@ -908,6 +909,7 @@ export class DefaultTheme {
   public static calendarWrapperHeight = ' 330px';
   public static calendarMonthMarginBottom = '6px';
   public static calendarMaxMonthsToAppendOnScroll = '5';
+  public static calendarGridRowSpacing = '0px';
   //#endregion
   //#region DatePicker
   public static dateSelectLineHeight = '20px';
@@ -947,6 +949,16 @@ export class DefaultTheme {
   public static pickerTodayWrapperPaddingTop = '6px';
   public static pickerTodayWrapperPaddingBottom = '6px';
   public static pickerBorderRadius = '';
+
+  public static mobileCalendarPaddingX = '16px';
+  public static mobileCalendarCellWidth = '40px';
+  public static mobileCalendarCellHeight = '40px';
+  public static mobileCalendarCellBorderRadius = '20px';
+  public static mobileCalendarCellFontSize = '16px';
+  public static mobileCalendarGridRowSpacing = '8px';
+  public static mobileDateSelectFontSize = '16px';
+  public static mobileDateSelectLineHeight = '20px';
+  public static mobileCalendarWrapperHeight = '304px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
@@ -2470,6 +2482,7 @@ export class DefaultTheme {
   public static mobilePopupTopPadding = '80px';
   public static mobilePopupContainerBottomPadding = '8px';
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
+  public static mobilePopupFooterPadding = '16px 16px 16px 16px';
   public static mobilePopupContainerBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize() {
     return this.fontSizeMobile;

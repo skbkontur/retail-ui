@@ -13,16 +13,16 @@ export const styles = memoizeStyle({
 
       background: ${t.calendarCellBg};
       display: inline-block;
-      font-size: 14px;
+      font-size: ${t.calendarCellFontSize};
       padding: 0;
       text-align: center;
       user-select: none;
       position: relative;
       cursor: pointer;
-
       width: ${t.calendarCellWidth};
       height: ${t.calendarCellHeight};
       line-height: ${t.calendarCellLineHeight};
+      flex: 1 1;
 
       &:disabled {
         opacity: 0.5;
@@ -50,7 +50,6 @@ export const styles = memoizeStyle({
     return css`
       background-color: ${t.calendarCellHoverBgColor};
       color: ${t.calendarCellHoverColor};
-      cursor: pointer;
     `;
   },
 

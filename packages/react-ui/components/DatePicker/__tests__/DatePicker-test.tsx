@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -15,6 +15,10 @@ import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { componentsLocales as DatePickerLocalesRu } from '../locale/locales/ru';
 import { componentsLocales as DatePickerLocalesEn } from '../locale/locales/en';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { MobilePickerDataTids } from '../MobilePicker';
+import { ButtonDataTids } from '../../../components/Button';
+import { DateSelectDataTids } from '../../../internal/DateSelect';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -397,6 +401,154 @@ describe('DatePicker', () => {
       userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
+
+  describe('mobile', () => {
+    const oldMatchMedia = window.matchMedia;
+    const matchMediaMock = jest.fn().mockImplementation((query) => {
+      return {
+        matches: query === DEFAULT_THEME.mobileMediaQuery,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      };
+    });
+
+    beforeAll(() => {
+      window.matchMedia = matchMediaMock;
+    });
+
+    afterAll(() => {
+      window.matchMedia = oldMatchMedia;
+    });
+
+    const MobilePicker = ({ initialDate = '02.07.2017' }) => {
+      const [date, setDate] = useState(initialDate);
+      return <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />;
+    };
+
+    const waitForMonth = (theMonth: number, theYear: number) => {
+      const locale = DatePickerLocaleHelper.get();
+      // Нужно подождать пока доскроллится до правильного месяца
+      // В идеале, хотелось бы просто написать вложенный селектор,
+      // который сам будет ретраиться пока не увидит нужный месяц
+      return waitFor(
+        () => {
+          const months = screen.getAllByTestId(CalendarDataTids.month);
+          const currentMonth = months.find((month) => {
+            const monthRoot = within(month);
+            return (
+              monthRoot.queryByTestId(CalendarDataTids.monthSelectMobile) &&
+              monthRoot.queryByTestId(CalendarDataTids.yearSelectMobile)
+            );
+          });
+          /* eslint-disable testing-library/no-wait-for-multiple-assertions */
+          expect(currentMonth).toBeDefined();
+          const monthRoot = within(currentMonth as HTMLElement);
+          expect(
+            within(monthRoot.getByTestId(CalendarDataTids.headerMonth)).getByTestId(DateSelectDataTids.caption),
+          ).toHaveTextContent(locale.months?.[theMonth] as string);
+          expect(
+            within(monthRoot.getByTestId(CalendarDataTids.headerYear)).getByTestId(DateSelectDataTids.caption),
+          ).toHaveTextContent(theYear.toString());
+          /* eslint-enable testing-library/no-wait-for-multiple-assertions */
+          return currentMonth;
+        },
+        // Note: можно ли это сделать быстрее, если поиграться с таймингом в анимациях?
+        { timeout: 5000 },
+      );
+    };
+
+    it('should scroll on today click', async () => {
+      render(<MobilePicker />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
+
+      const today = new Date();
+      const todayMonth = today.getMonth();
+      const todayYear = today.getFullYear();
+      const currentMonth = await waitForMonth(todayMonth, todayYear);
+      expect(currentMonth).toBeDefined();
+    });
+
+    it('should scroll on month select', async () => {
+      const month = 11;
+      const year = 2011;
+      render(<MobilePicker initialDate={`01.01.${year}`} />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      userEvent.selectOptions(screen.getByTestId(CalendarDataTids.monthSelectMobile), month.toString());
+      const currentMonth = await waitForMonth(month, year);
+      expect(currentMonth).toBeDefined();
+    });
+
+    it('should scroll on year select', async () => {
+      const month = 10;
+      const year = 2011;
+      render(<MobilePicker initialDate={`01.${month + 1}.2010`} />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      userEvent.selectOptions(screen.getByTestId(CalendarDataTids.yearSelectMobile), year.toString());
+      const currentMonth = await waitForMonth(month, year);
+      expect(currentMonth).toBeDefined();
+    });
+
+    it('should scroll from inner input', async () => {
+      const initialDate = '01.01.2011';
+      render(<MobilePicker initialDate={initialDate} />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      const month = 10;
+      const year = 2022;
+      fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
+      userEvent.keyboard(`{ArrowRight}{${month + 1}}{${year}}`);
+
+      const currentMonth = await waitForMonth(month, year);
+      expect(currentMonth).toBeDefined();
+    });
+
+    it('should change value from inner input', () => {
+      const initialDate = '01.01.2011';
+      render(<MobilePicker initialDate={initialDate} />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      const month = 10;
+      const year = 2022;
+      fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
+      userEvent.keyboard(`{ArrowRight}{${month}}{${year}}`);
+
+      const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
+      expect(input).toHaveTextContent(`01.${month}.${year}`);
+    });
+
+    it('should change value from day select', async () => {
+      const initialDate = '10.10.2010';
+      const expectedDate = '20.10.2010';
+      render(<MobilePicker initialDate={initialDate} />);
+      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      const months = screen.getAllByTestId(CalendarDataTids.month);
+      const currentMonth = months.find((month) => {
+        const monthRoot = within(month);
+        return (
+          monthRoot.queryByTestId(CalendarDataTids.monthSelectMobile) &&
+          monthRoot.queryByTestId(CalendarDataTids.yearSelectMobile)
+        );
+      });
+      expect(currentMonth).toBeDefined();
+      const monthRoot = within(currentMonth as HTMLElement);
+      const ariaLabel = `${DatePickerLocaleHelper.get().dayCellChooseDateAriaLabel}: ${new InternalDate({
+        value: expectedDate,
+      }).toA11YFormat()}`;
+      userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
+
+      const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
+      expect(input).toHaveTextContent(expectedDate);
     });
   });
 });

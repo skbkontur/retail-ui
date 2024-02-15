@@ -27,9 +27,11 @@ import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import { MobilePicker } from './MobilePicker';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -44,7 +46,17 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onStuckMonth' | 'onMonthSelect'>,
+    Pick<
+      CalendarProps,
+      | 'isHoliday'
+      | 'minDate'
+      | 'maxDate'
+      | 'renderDay'
+      | 'onStuckMonth'
+      | 'onMonthSelect'
+      | 'periodStartDate'
+      | 'periodEndDate'
+    >,
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -100,6 +112,7 @@ export const DatePickerDataTids = {
 
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
+@responsiveLayout
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
@@ -199,6 +212,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private input: DateInput | null = null;
   private focused = false;
   private setRootNode!: TSetRootNode;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -273,51 +287,73 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     const { minDate, maxDate } = this.getProps();
 
-    if (this.state.opened) {
-      picker = (
-        <LocaleContext.Provider
-          value={{
-            locale: {
-              Calendar: {
-                months: this.locale.months,
-                dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
-                selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
-                selectYearAriaLabel: this.locale.selectYearAriaLabel,
-                selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
-              },
-            },
-          }}
-        >
-          <DropdownContainer
-            menuPos={this.props.menuPos}
-            data-tid={DatePickerDataTids.root}
-            getParent={this.getParent}
-            offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
-            align={this.props.menuAlign}
-          >
-            <div
-              data-tid={DatePickerDataTids.pickerRoot}
-              className={styles.calendarWrapper(this.theme)}
-              onMouseDown={(e) => e.preventDefault()}
-            >
-              <Calendar
-                ref={(c) => (this.calendar = c)}
-                maxDate={this.parseValueToDate(maxDate)}
-                minDate={this.parseValueToDate(minDate)}
-                onValueChange={this.handleValueChange}
-                isHoliday={this.props.isHoliday}
-                value={this.parseValueToDate(this.props.value)}
-                renderDay={this.props.renderDay}
-                onStuckMonth={this.props.onStuckMonth}
-                onMonthSelect={this.props.onMonthSelect}
-              />
-              {this.props.enableTodayLink && this.renderTodayLink()}{' '}
-            </div>
-          </DropdownContainer>
-        </LocaleContext.Provider>
-      );
-    }
+    const isMobile = this.isMobileLayout;
 
+    if (this.state.opened) {
+      if (isMobile) {
+        picker = (
+          <MobilePicker
+            value={this.props.value}
+            minDate={this.parseValueToDate(minDate)}
+            maxDate={this.parseValueToDate(maxDate)}
+            onValueChange={this.props.onValueChange}
+            enableTodayLink={this.props.enableTodayLink}
+            isHoliday={this.props.isHoliday}
+            onCloseRequest={this.handleBlur}
+            renderDay={props.renderDay}
+            onStuckMonth={props.onStuckMonth}
+            onMonthSelect={props.onMonthSelect}
+            periodStartDate={props.periodStartDate}
+            periodEndDate={props.periodEndDate}
+          />
+        );
+      } else {
+        picker = (
+          <LocaleContext.Provider
+            value={{
+              locale: {
+                Calendar: {
+                  months: this.locale.months,
+                  dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
+                  selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
+                  selectYearAriaLabel: this.locale.selectYearAriaLabel,
+                  selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
+                },
+              },
+            }}
+          >
+            <DropdownContainer
+              menuPos={this.props.menuPos}
+              data-tid={DatePickerDataTids.root}
+              getParent={this.getParent}
+              offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
+              align={this.props.menuAlign}
+            >
+              <div
+                data-tid={DatePickerDataTids.pickerRoot}
+                className={styles.calendarWrapper(this.theme)}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                <Calendar
+                  ref={(c) => (this.calendar = c)}
+                  maxDate={this.parseValueToDate(maxDate)}
+                  minDate={this.parseValueToDate(minDate)}
+                  onValueChange={this.handleValueChange}
+                  isHoliday={this.props.isHoliday}
+                  value={this.parseValueToDate(this.props.value)}
+                  renderDay={this.props.renderDay}
+                  onStuckMonth={this.props.onStuckMonth}
+                  onMonthSelect={this.props.onMonthSelect}
+                  periodStartDate={this.props.periodStartDate}
+                  periodEndDate={this.props.periodEndDate}
+                />
+                {this.props.enableTodayLink && this.renderTodayLink()}{' '}
+              </div>
+            </DropdownContainer>
+          </LocaleContext.Provider>
+        );
+      }
+    }
     return (
       <label
         className={styles.root()}
@@ -335,12 +371,12 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           withIcon
           minDate={minDate}
           maxDate={maxDate}
-          onBlur={this.handleBlur}
+          onBlur={isMobile ? undefined : this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
           data-tid={DatePickerDataTids.input}
         />
-        {this.state.canUseMobileNativeDatePicker && (
+        {this.state.canUseMobileNativeDatePicker ? (
           <NativeDateInput
             onValueChange={this.props.onValueChange}
             value={this.props.value || ''}
@@ -348,12 +384,12 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             maxDate={maxDate}
             disabled={this.props.disabled}
           />
+        ) : (
+          picker
         )}
-        {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );
   };
-
   private parseValueToDate(value?: Nullable<string>): string | undefined {
     if (value === undefined || value === null) {
       return undefined;
