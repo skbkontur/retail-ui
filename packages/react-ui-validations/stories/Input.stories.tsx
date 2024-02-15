@@ -5,9 +5,16 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
 
-import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import {
+  text,
+  tooltip,
+  ValidationBehaviour,
+  ValidationContainer,
+  ValidationInfo,
+  ValidationWrapper,
+  ValidationsFeatureFlagsContext,
+} from '../src';
 import { Nullable } from '../typings/Types';
-import { ValidationsFeatureFlagsContext } from '../lib/featureFlagsContext';
 
 class Example1 extends React.Component {
   public state = {

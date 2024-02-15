@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
@@ -71,7 +72,7 @@ export interface ScrollContainerProps extends CommonProps {
   /**
    * Показывать скроллбар
    */
-  showScrollBar?: 'always' | 'scroll' | 'hover';
+  showScrollBar?: 'always' | 'scroll' | 'hover' | 'never';
   /**
    * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`
    */
@@ -162,6 +163,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     if (prevProps.disabled !== this.props.disabled && !this.props.disabled) {
       this.updateInnerElement();
     }
+
+    if (prevProps.showScrollBar !== this.props.showScrollBar) {
+      if (this.props.showScrollBar === 'always') {
+        this.setState({ isScrollBarXVisible: true, isScrollBarYVisible: true });
+      } else if (this.props.showScrollBar === 'never') {
+        this.setState({ isScrollBarXVisible: false, isScrollBarYVisible: false });
+      }
+    }
   }
 
   public render = () => {
@@ -185,7 +194,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         <div
           data-tid={ScrollContainerDataTids.root}
           className={styles.root()}
-          onMouseEnter={this.handleMouseEnter}
           onMouseMove={this.handleMouseMove}
           onMouseLeave={this.handleMouseLeave}
         >
@@ -395,17 +403,16 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
   };
 
-  private handleMouseEnter = () => {
-    this.getProps().showScrollBar === 'hover' &&
-      this.setState({ isScrollBarXVisible: true, isScrollBarYVisible: true, isHovered: true });
-  };
-
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const right = getDOMRect(event.currentTarget).right - event.pageX;
     const bottom = getDOMRect(event.currentTarget).bottom - event.pageY;
 
     this.scrollY?.setHover(right <= 12);
     this.scrollX?.setHover(right >= 12 && bottom <= 12);
+
+    this.getProps().showScrollBar === 'hover' &&
+      !this.state.isHovered &&
+      this.setState({ isScrollBarXVisible: true, isScrollBarYVisible: true, isHovered: true });
   };
 
   private handleMouseLeave = () => {
