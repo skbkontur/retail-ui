@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.0...@skbkontur/react-ui@4.20.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* **RenderContainer:** remove side effects from constructor ([#3357](https://github.com/skbkontur/retail-ui/issues/3357)) ([0a7d610](https://github.com/skbkontur/retail-ui/commit/0a7d6104fd611bee5e55bf4248809e2fe076b827))
+* full support of rgb(a) and hsl(a) formats in theme vars ([#3332](https://github.com/skbkontur/retail-ui/issues/3332)) ([d9a0b28](https://github.com/skbkontur/retail-ui/commit/d9a0b28c1beee128a858be074b0b81caaf276f0e))
+* **Button:** correct click handler with use="link" ([#3355](https://github.com/skbkontur/retail-ui/issues/3355)) ([816d551](https://github.com/skbkontur/retail-ui/commit/816d55189aa4bee1e1999f624d6c861eaddf9b64))
+
+
+
+
+
 # [4.20.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.0-next.2...@skbkontur/react-ui@4.20.0) (2024-02-05)
 
 
