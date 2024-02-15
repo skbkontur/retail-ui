@@ -300,6 +300,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.props.isHoliday}
             onCloseRequest={this.handleBlur}
+            renderDay={props.renderDay}
+            onStuckMonth={props.onStuckMonth}
+            onMonthSelect={props.onMonthSelect}
+            periodStartDate={props.periodStartDate}
+            periodEndDate={props.periodEndDate}
           />
         );
       } else {

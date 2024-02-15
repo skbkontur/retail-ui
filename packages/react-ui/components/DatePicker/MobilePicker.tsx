@@ -22,7 +22,19 @@ export const MobilePickerDataTids = {
 export interface MobilePickerProps
   extends Pick<
     DatePickerProps,
-    'error' | 'warning' | 'value' | 'minDate' | 'maxDate' | 'onValueChange' | 'isHoliday' | 'enableTodayLink'
+    | 'error'
+    | 'warning'
+    | 'value'
+    | 'minDate'
+    | 'maxDate'
+    | 'onValueChange'
+    | 'isHoliday'
+    | 'enableTodayLink'
+    | 'renderDay'
+    | 'onStuckMonth'
+    | 'onMonthSelect'
+    | 'periodStartDate'
+    | 'periodEndDate'
   > {
   onCloseRequest?: () => void;
 }
@@ -100,6 +112,11 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
           maxDate={props.maxDate}
           onValueChange={onValueChange}
           isHoliday={props.isHoliday}
+          renderDay={props.renderDay}
+          onStuckMonth={props.onStuckMonth}
+          onMonthSelect={props.onMonthSelect}
+          periodStartDate={props.periodStartDate}
+          periodEndDate={props.periodEndDate}
         />
       </MobilePopup>
     </ThemeContext.Provider>
