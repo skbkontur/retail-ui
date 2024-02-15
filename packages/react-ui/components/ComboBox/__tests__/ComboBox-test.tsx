@@ -18,12 +18,7 @@ import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
-import {
-  ComboBoxMenuDataTids,
-  CustomComboBoxDataTids,
-  DELAY_BEFORE_SHOW_LOADER,
-  LOADER_SHOW_TIME,
-} from '../../../internal/CustomComboBox';
+import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
@@ -1392,11 +1387,11 @@ describe('ComboBox', () => {
 
     it('should allow value change in editing state in normal mode', async () => {
       await changeValue(true);
-      expect(screen.getByTestId(CustomComboBoxDataTids.comboBoxView)).toHaveTextContent(expectedValue);
+      expect(screen.getByRole('textbox')).toHaveValue(expectedValue);
     });
     it('should allow value change in editing state in autocomplete mode', async () => {
       await changeValue(false);
-      expect(screen.getByTestId(CustomComboBoxDataTids.comboBoxView)).toHaveTextContent(expectedValue);
+      expect(screen.getByRole('textbox')).toHaveValue(expectedValue);
     });
   });
 });
