@@ -46,7 +46,17 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onStuckMonth' | 'onMonthSelect'>,
+    Pick<
+      CalendarProps,
+      | 'isHoliday'
+      | 'minDate'
+      | 'maxDate'
+      | 'renderDay'
+      | 'onStuckMonth'
+      | 'onMonthSelect'
+      | 'periodStartDate'
+      | 'periodEndDate'
+    >,
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -329,6 +339,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                   renderDay={this.props.renderDay}
                   onStuckMonth={this.props.onStuckMonth}
                   onMonthSelect={this.props.onMonthSelect}
+                  periodStartDate={this.props.periodStartDate}
+                  periodEndDate={this.props.periodEndDate}
                 />
                 {this.props.enableTodayLink && this.renderTodayLink()}{' '}
               </div>
