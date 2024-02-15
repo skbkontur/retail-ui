@@ -1,6 +1,5 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { IMaskInput } from 'react-imask';
-import { createMask } from 'imask';
+import { IMaskInput, IMask } from 'react-imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
@@ -186,7 +185,7 @@ export const MaskedInputElement = forwardRefAndName(
       maskChar: MaskedInputElementProps['maskChar'],
       formatChars: MaskedInputElementProps['formatChars'],
     ): string {
-      const maskPattern = createMask({
+      const maskPattern = IMask.createMask({
         mask,
         definitions: getDefinitions(formatChars),
         lazy: false,
