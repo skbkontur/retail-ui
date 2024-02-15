@@ -16,16 +16,12 @@ export function roundToPrecision(n: number, precision = 2) {
   return parseFloat(n.toFixed(precision));
 }
 
-export function extractColorParts(input: string, solidRegex: RegExp, alphaRegex?: RegExp) {
-  let parts = solidRegex.exec(input);
-  if (!parts && alphaRegex) {
-    parts = alphaRegex.exec(input);
-  }
+export function extractColorParts(input: string, regex: RegExp) {
+  const parts = regex.exec(input);
 
   if (!parts) {
     throw new Error(`${input} does not match color patterns: [
-      ${solidRegex}
-      ${alphaRegex}
+      ${regex}
     ]`);
   }
 
