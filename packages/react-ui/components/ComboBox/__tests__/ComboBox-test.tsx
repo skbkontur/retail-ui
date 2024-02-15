@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
@@ -1438,6 +1438,22 @@ describe('mobile comboBox', () => {
 
   const TestComponent = () => <ComboBox ref={comboBoxRef} getItems={getItems} value={state} />;
 
+  const TestOnInputChange = ({ mode }: { mode: boolean }) => {
+    const [value, setValue] = useState(items[0]);
+    return (
+      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+        <ComboBox
+          ref={comboBoxRef}
+          getItems={getItems}
+          value={value}
+          drawArrow={mode}
+          searchOnFocus={mode}
+          onInputValueChange={(value) => setValue({ value: 4, label: value })}
+        />
+      </ReactUIFeatureFlagsContext.Provider>
+    );
+  };
+
   it('should fully close by method', async () => {
     render(<TestComponent />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -1460,5 +1476,30 @@ describe('mobile comboBox', () => {
 
     expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
     expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
+  });
+
+  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
+    it('should not close when changing value in onInputValueChange in normal mode', async () => {
+      render(<TestOnInputChange mode />);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+      const mobileInput = await screen.findByTestId(MobilePopupDataTids.root);
+      expect(mobileInput).toBeInTheDocument();
+      userEvent.type(within(mobileInput).getByRole('textbox'), 'foo');
+
+      expect(await screen.findByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
+    });
+
+    it('should not close when changing value in onInputValueChange in autocomplete mode', async () => {
+      render(<TestOnInputChange mode={false} />);
+      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      userEvent.type(screen.getByRole('textbox'), 'bar');
+
+      const mobileInput = await screen.findByTestId(MobilePopupDataTids.root);
+      expect(mobileInput).toBeInTheDocument();
+      userEvent.type(within(mobileInput).getByRole('textbox'), 'foo');
+
+      expect(await screen.findByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
+    });
   });
 });
