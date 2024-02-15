@@ -1,9 +1,6 @@
 ﻿import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Token, TokenDataTids } from '../Token';
 import { componentsLocales as TokenLocalesRu } from '../locale/locales/ru';
@@ -83,18 +80,6 @@ describe('Token', () => {
       );
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel + ' ' + tokenName);
-    });
-
-    it('able to capture remove button in focus', () => {
-      const tokenName = 'name';
-      render(
-        <ThemeContext.Provider value={THEME_2022}>
-          <Token>{tokenName}</Token>
-        </ThemeContext.Provider>,
-      );
-
-      userEvent.tab();
-      expect(screen.getByRole('button')).toHaveFocus();
     });
   });
 });
