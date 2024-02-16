@@ -20,7 +20,7 @@ export type CustomComboBoxAction<T> =
       type: 'DidUpdate';
       prevProps: CustomComboBoxProps<T>;
       prevState: CustomComboBoxState<T>;
-      allowValueChange: boolean | undefined;
+      fixValueChange: boolean | undefined;
     }
   | { type: 'Mount' }
   | { type: 'Focus' }
@@ -291,11 +291,11 @@ export function reducer<T>(
         return state;
       }
 
-      if (action.allowValueChange && state.editing && state.opened) {
+      if (action.fixValueChange && state.editing && state.opened) {
         return state;
       }
 
-      const newState = action.allowValueChange
+      const newState = action.fixValueChange
         ? {
             opened: false,
             textValue: getValueString(props.value, props.valueToString) ?? state.textValue,

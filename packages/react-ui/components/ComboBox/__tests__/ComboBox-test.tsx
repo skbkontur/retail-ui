@@ -465,7 +465,7 @@ describe('ComboBox', () => {
     });
   });
 
-  //TODO: Remove this test in 5.0, while removing comboBoxAllowValueChangeInEditingState feature flag, because it tests old behavior
+  //TODO: Remove this test in 5.0, while removing comboBoxFixValueChange feature flag, because it tests old behavior
   describe('keep edited input text when value changes', () => {
     const value = { value: 1, label: 'one' };
 
@@ -1143,7 +1143,7 @@ describe('ComboBox', () => {
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveTextContent('');
   });
-  //TODO: Update this test in 5.0, after removal of comboBoxAllowValueChangeInEditingState feature flag
+
   describe('with add button', () => {
     const Comp = () => {
       const [selected, setSelected] = useState({ value: 3, label: 'Third' });
@@ -1342,7 +1342,7 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
+  describe('with comboBoxFixValueChange flag', () => {
     const initialValue = 'Initial Value';
     const expectedValue = 'Expected Value';
 
@@ -1358,7 +1358,7 @@ describe('ComboBox', () => {
       );
       const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
       return (
-        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
           <button onClick={handleValueChange}>Обновить</button>
           <ComboBox
             ref={comboboxRef}
@@ -1441,7 +1441,7 @@ describe('mobile comboBox', () => {
   const TestOnInputChange = ({ mode }: { mode: boolean }) => {
     const [value, setValue] = useState(items[0]);
     return (
-      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
         <ComboBox
           ref={comboBoxRef}
           getItems={getItems}
@@ -1478,7 +1478,7 @@ describe('mobile comboBox', () => {
     expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
   });
 
-  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
+  describe('with comboBoxFixValueChange flag', () => {
     it('should not close when changing value in onInputValueChange in normal mode', async () => {
       render(<TestOnInputChange mode />);
       userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));

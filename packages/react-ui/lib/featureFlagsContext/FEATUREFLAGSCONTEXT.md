@@ -7,7 +7,7 @@ export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
-  comboBoxAllowValueChangeInEditingState?: boolean;
+  comboBoxFixValueChange?: boolean;
 }
 ```
 
@@ -177,10 +177,10 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
-### comboBoxAllowValueChangeInEditingState
+### comboBoxFixValueChange
 
-Этот флаг позволяет менять значение value в Combobox, когда тот находится в режиме редактирования.
-В примере ниже, при нажатии на кнопку "Обновить" без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
+Этот флаг позволяет менять значение value в Combobox, когда тот находится в режиме редактирования, и через onInputValueChange.
+В примере ниже, при нажатии на кнопку "Обновить" без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset. А при смене value через onInputValueChange выпадающий список мог закрываться после ввода символа.
 
 В React UI 5.0 фича будет применена по умолчанию.
 
@@ -202,7 +202,7 @@ const getItems = () =>
 const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
 
 return (
-  <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+  <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
     <Button onClick={handleValueChange}>Обновить</Button>
     <ComboBox
       ref={comboboxRef}

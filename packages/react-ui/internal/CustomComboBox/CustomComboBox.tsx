@@ -345,7 +345,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
         type: 'DidUpdate',
         prevProps,
         prevState,
-        allowValueChange: this.featureFlags.comboBoxAllowValueChangeInEditingState,
+        fixValueChange: this.featureFlags.comboBoxFixValueChange,
       },
       false,
     );
