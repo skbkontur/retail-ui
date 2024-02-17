@@ -15,6 +15,7 @@ import { styles } from './ButtonIcon.styles';
 type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
   hasChildren: boolean;
   position: 'right' | 'left';
+  hasBothIcons?: boolean;
 };
 
 export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
@@ -31,6 +32,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   use,
   position,
   loading = false,
+  hasBothIcons = false,
   size = 'small',
 }) => {
   const theme = useContext(ThemeContext);
@@ -79,7 +81,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
         [styles.iconRightLink(theme)]: isLink && position === 'right',
       })}
     >
-      {loading ? <LoadingIcon size={size} /> : _icon}
+      {loading && !hasBothIcons ? <LoadingIcon size={size} /> : _icon}
     </span>
   );
 };

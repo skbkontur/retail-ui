@@ -346,7 +346,7 @@ export class DefaultTheme {
   public static get btnIconGapSmallLeft() {
     return this.btnIconGapSmall;
   }
-  public static btnIconGapSmallRight = '8px';
+  public static btnIconGapSmallRight = '4px';
   /**
    * @deprecated use btnIconGapMediumLeft
    */
@@ -354,7 +354,7 @@ export class DefaultTheme {
   public static get btnIconGapMediumLeft() {
     return this.btnIconGapMedium;
   }
-  public static btnIconGapMediumRight = '10px';
+  public static btnIconGapMediumRight = '4px';
   /**
    * @deprecated use btnIconGapLargeLeft
    */
@@ -362,7 +362,7 @@ export class DefaultTheme {
   public static get btnIconGapLargeLeft() {
     return this.btnIconGapLarge;
   }
-  public static btnIconGapLargeRight = '12px';
+  public static btnIconGapLargeRight = '4px';
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';

@@ -106,6 +106,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get btnIconGapSmallLeft() {
     return this.btnIconGapSmall;
   }
+  public static get btnIconGapSmallRight() {
+    return this.btnIconGapSmall;
+  }
   /**
    * @deprecated use btnIconGapMediumLeft
    */
@@ -113,11 +116,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get btnIconGapMediumLeft() {
     return this.btnIconGapMedium;
   }
+  public static get btnIconGapMediumRight() {
+    return this.btnIconGapMedium;
+  }
   /**
    * @deprecated use btnIconGapLargeLeft
    */
   public static btnIconGapLarge = '8px';
   public static get btnIconGapLargeLeft() {
+    return this.btnIconGapLarge;
+  }
+  public static get btnIconGapLargeRight() {
     return this.btnIconGapLarge;
   }
 

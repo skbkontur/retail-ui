@@ -432,7 +432,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       loading: loading || false,
     };
     const leftIconNode = icon && <ButtonIcon position="left" icon={icon} {...iconProps} />;
-    const rightIconNode = rightIcon && <ButtonIcon position="right" icon={rightIcon} {...iconProps} />;
+    const rightIconNode = rightIcon && (
+      <ButtonIcon hasBothIcons={!!icon && !!rightIcon} position="right" icon={rightIcon} {...iconProps} />
+    );
 
     let loadingNode = null;
     if (loading && !icon && !rightIcon) {

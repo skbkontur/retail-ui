@@ -43,7 +43,7 @@ const bgStyle = {
 </Gapped>
 ```
 
-Пример кнопок с иконками. Иконка может находиться как слева от текста, так и справа.
+В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
@@ -51,6 +51,7 @@ import { XIcon16Regular } from '@skbkontur/react-ui/internal/icons2022/XIcon/XIc
 
 <Gapped gap={5}>
   <Button icon={<XIcon16Regular />}>Закрыть</Button>
+  <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>Закрыть</Button>
   <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
 </Gapped>
 ```
@@ -58,23 +59,26 @@ import { XIcon16Regular } from '@skbkontur/react-ui/internal/icons2022/XIcon/XIc
 У кнопки есть 3 стандартных размера.
 
 ```jsx harmony
+import { MinusCircleIcon16Light } from '@skbkontur/react-ui/internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
+
 <div
-  style={{
-    display: "flex",
-    alignItems: "end",
-    justifyContent: "space-between",
-    width: "330px"
-  }}>
-  <Button size="small">Маленькая</Button>
-  <Button size="medium">Средняя</Button>
-  <Button size="large">Большая</Button>
+    style={{
+      display: "flex",
+      alignItems: "end",
+      gap: '10px',
+    }}
+  >
+    <Button size="small">Маленькая</Button>
+    <Button size="medium">Средняя</Button>
+    <Button size="large">Большая</Button>
 </div>
 ```
 
-Кнопки в виде стрелок.
+Кнопки могут принимать вид стрелок. В таком случае иконка привязывается к краю кнопки.
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
+
 
 <Gapped gap={5}>
   <Button arrow="left" size="medium">
@@ -92,7 +96,7 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 
 Кнопка на время нахождения в состоянии загрузки отключается.
 
-Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет - весь контент кнопки заменяется на спиннер.
+Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
