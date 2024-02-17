@@ -14,14 +14,13 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link, LinkProps } from '../Link';
-import { Spinner } from '../Spinner';
-import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { SizeProp } from '../../lib/types/props';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
+import { LoadingButtonIcon } from './LoadingButtonIcon';
 
 /**
  * @deprecated use SizeProp
@@ -436,16 +435,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <ButtonIcon hasBothIcons={!!icon && !!rightIcon} position="right" icon={rightIcon} {...iconProps} />
     );
 
-    let loadingNode = null;
-    if (loading && !icon && !rightIcon) {
-      const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
-      loadingNode = (
-        <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
-          {loadingIcon}
-        </div>
-      );
-    }
-
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
       rootProps.className = cx({
@@ -464,6 +453,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.style.textAlign = undefined;
     }
 
+    const hasLoadingNode = loading && !icon && !rightIcon;
     let captionNode = (
       <div
         className={cx(styles.caption(), globalClasses.caption, {
@@ -472,11 +462,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           [styles.captionDisabled()]: !checked && disabled,
         })}
       >
-        {loadingNode}
+        {hasLoadingNode && <LoadingButtonIcon size={size} />}
         {leftIconNode}
         <span
           className={cx(globalClasses.text, {
-            [styles.visibilityHidden()]: !!loadingNode,
+            [styles.visibilityHidden()]: hasLoadingNode,
           })}
         >
           {children}

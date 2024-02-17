@@ -5,12 +5,12 @@ import { isKonturIcon } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { SizeProp } from '../../lib/types/props';
 
 import { ButtonProps } from './Button';
 import { globalClasses } from './Button.styles';
 import { styles } from './ButtonIcon.styles';
+import { LoadingButtonIcon } from './LoadingButtonIcon';
 
 type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
   hasChildren: boolean;
@@ -81,7 +81,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
         [styles.iconRightLink(theme)]: isLink && position === 'right',
       })}
     >
-      {loading && !hasBothIcons ? <LoadingIcon size={size} /> : _icon}
+      {loading && !hasBothIcons ? <LoadingButtonIcon isCentered={false} size={size} /> : _icon}
     </span>
   );
 };
