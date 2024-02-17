@@ -1,7 +1,8 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе

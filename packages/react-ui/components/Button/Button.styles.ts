@@ -1,3 +1,5 @@
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -905,6 +907,35 @@ export const styles = memoizeStyle({
     return css`
       margin-right: 0;
       margin-left: 10px;
+    `;
+  },
+
+  icon(t: Theme) {
+    const space = isTheme2022(t) ? `'${ZERO_WIDTH_SPACE_CSS}'` : null;
+    return css`
+      display: inline-block;
+
+      &::before {
+        content: ${space};
+      }
+    `;
+  },
+  iconSmall(t: Theme) {
+    return css`
+      width: ${t.btnIconSizeSmall};
+      margin-right: ${t.btnIconGapSmall};
+    `;
+  },
+  iconMedium(t: Theme) {
+    return css`
+      width: ${t.btnIconSizeMedium};
+      margin-right: ${t.btnIconGapMedium};
+    `;
+  },
+  iconLarge(t: Theme) {
+    return css`
+      width: ${t.btnIconSizeLarge};
+      margin-right: ${t.btnIconGapLarge};
     `;
   },
 

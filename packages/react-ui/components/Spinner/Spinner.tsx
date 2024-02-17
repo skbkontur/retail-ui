@@ -9,6 +9,11 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -90,20 +95,30 @@ export class Spinner extends React.Component<SpinnerProps> {
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;
+  private featureFlags!: ReactUIFeatureFlags;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
   private renderMain() {
-    const { caption = this.locale.loading, dimmed, inline } = this.props;
+    const canDefaultCaptionBeRemoved = this.featureFlags.spinnerLoaderRemoveDefaultCaption;
+    const defaultCaption = canDefaultCaptionBeRemoved ? null : this.locale.loading;
+    const { caption = defaultCaption, dimmed, inline } = this.props;
     const type = this.getProps().type;
 
     return (

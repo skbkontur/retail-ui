@@ -610,3 +610,120 @@ ScrollBarVisibleAfterTogglingDisabled.parameters = {
     },
   },
 };
+
+export const ShowScrollBarOnScroll: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      showScrollBar={'scroll'}
+      // Magic delay to capture the scrollbar
+      hideScrollBarDelay={2000}
+      disableAnimations
+    >
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+ShowScrollBarOnScroll.parameters = {
+  creevey: {
+    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
+    tests: {
+      async hideScroll() {
+        const beforeScroll = await this.takeScreenshot();
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+          if (scrollContainer) {
+            scrollContainer.scrollTop = 500;
+          }
+        });
+        this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ origin: this.browser.findElement({ css: 'body' }) });
+        await delay(200);
+        const duringScroll = await this.takeScreenshot();
+        await delay(3000);
+        const afterScroll = await this.takeScreenshot();
+        await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const ShowScrollBarOnHover: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer
+      showScrollBar={'hover'}
+      // Magic delay to capture the scrollbar
+      hideScrollBarDelay={2000}
+      disableAnimations
+    >
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+ShowScrollBarOnHover.parameters = {
+  creevey: {
+    skip: { 'hover works only in firefox': { in: /^(?!\b(firefox)\b)/ } },
+    tests: {
+      async hideScroll() {
+        this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: '[data-tid~="ScrollContainer__root"]' }),
+          })
+          .perform();
+        await delay(500);
+        const hovered = await this.takeScreenshot();
+        this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ x: 1000, y: 700 })
+          .perform();
+        await delay(3000);
+        const withoutHover = await this.takeScreenshot();
+        await this.expect({ hovered, withoutHover }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const NeverShowScrollBar: Story = () => (
+  <div style={wrapperStyle}>
+    <ScrollContainer showScrollBar={'never'} disableAnimations>
+      <div style={{ width: 300 }}>
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div style={{ width: 200 }} key={i}>
+              {i}
+            </div>
+          ))}
+      </div>
+    </ScrollContainer>
+  </div>
+);
+NeverShowScrollBar.parameters = {
+  creevey: {
+    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
+  },
+};

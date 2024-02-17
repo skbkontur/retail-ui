@@ -5,7 +5,6 @@ import { isKonturIcon } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ZERO_WIDTH_SPACE } from '../../lib/chars';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { SizeProp } from '../../lib/types/props';
 
@@ -58,7 +57,6 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
     }
   };
 
-  const space = isTheme2022(theme) ? ZERO_WIDTH_SPACE : '';
   const style: React.CSSProperties = isTheme2022(theme)
     ? {
         display: 'inline-flex',
@@ -75,13 +73,12 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   return (
     <span
       style={style}
-      className={cx(globalClasses.icon, styles.icon(), getSizeIconClassName(), {
+      className={cx(globalClasses.icon, styles.icon(theme), getSizeIconClassName(), {
         [styles.iconNoMargin()]: !hasChildren,
         [styles.iconLeftLink(theme)]: isLink && position === 'left',
         [styles.iconRightLink(theme)]: isLink && position === 'right',
       })}
     >
-      {space}
       {loading ? <LoadingIcon size={size} /> : _icon}
     </span>
   );

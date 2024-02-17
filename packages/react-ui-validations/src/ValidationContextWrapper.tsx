@@ -1,5 +1,10 @@
 import React from 'react';
 
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from './utils/featureFlagsContext';
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { FocusMode, ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
@@ -155,11 +160,20 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
+  private featureFlags!: ValidationsFeatureFlags;
+
   public render() {
     return (
-      <ValidationContext.Provider value={this}>
-        <span>{this.props.children}</span>
-      </ValidationContext.Provider>
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullValidationsFlagsContext(flags);
+          return (
+            <ValidationContext.Provider value={this}>
+              {this.featureFlags.validationsRemoveExtraSpans ? this.props.children : <span>{this.props.children}</span>}
+            </ValidationContext.Provider>
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 }

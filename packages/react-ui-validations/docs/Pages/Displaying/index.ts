@@ -4,6 +4,7 @@ import ValidationType from './ValidationType/ValidationType.md';
 import ErrorMessages from './ErrorMessages/ErrorMessages.md';
 import FormValidity from './FormValidity/FormValidity.md';
 import ScrollToValidation from './ScrollToValidation/ScrollToValidation.md';
+import FeatureFlagsContext from './FeatureFlags/FeatureFlagsContext.md';
 
 export const Displaying = {
   caption: 'Отображение',
@@ -37,6 +38,11 @@ export const Displaying = {
       component: ScrollToValidation,
       url: 'scroll-to-validation',
       caption: 'Скролл к валидации',
+    },
+    {
+      component: FeatureFlagsContext,
+      url: 'feature-flags',
+      caption: 'Фича-флаги',
     },
   ],
 };

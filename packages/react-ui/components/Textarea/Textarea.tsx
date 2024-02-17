@@ -13,17 +13,23 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isIE11 } from '../../lib/client';
+import { isIE11, isSafari17 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
+import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
 
 /**
  * @deprecated use SizeProp
@@ -204,6 +210,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private getProps = createPropsGetter(Textarea.defaultProps);
+  private featureFlags!: ReactUIFeatureFlags;
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
@@ -295,16 +302,23 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -436,6 +450,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       />
     );
 
+    const Component =
+      this.featureFlags.textareaUseSafari17Workaround && isSafari17 ? TextareaWithSafari17Workaround : 'textarea';
+
     return (
       <RenderLayer
         onFocusOutside={this.handleCloseCounterHelp}
@@ -451,7 +468,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         >
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
-            <textarea
+            <Component
               {...textareaProps}
               className={textareaClassNames}
               style={textareaStyle}
@@ -465,7 +482,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               disabled={disabled}
             >
               {this.props.children}
-            </textarea>
+            </Component>
           </ResizeDetector>
           {fakeTextarea}
           {counter}
