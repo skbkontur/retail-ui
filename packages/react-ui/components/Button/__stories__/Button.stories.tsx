@@ -275,6 +275,44 @@ const iconDifferentStates: ButtonState[] = [
   { icon: <OkIcon />, children: 'Button', loading: true },
 ];
 
+export const RightIcon: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme)}
+    rows={rightIconDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+const rightIconDifferentStates: ButtonState[] = [
+  { rightIcon: <ArchivePack /> },
+  { rightIcon: <ArchivePack />, children: 'Button' },
+  { rightIcon: <OkIcon /> },
+  { rightIcon: <OkIcon />, loading: true },
+  { rightIcon: <OkIcon />, children: 'Button' },
+  { rightIcon: <OkIcon />, children: 'Button', size: 'medium' },
+  { rightIcon: <OkIcon />, children: 'Button', size: 'large' },
+  { rightIcon: <OkIcon />, children: 'Button', loading: true },
+];
+
+export const BothIcons: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme)}
+    rows={bothIconsDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+const bothIconsDifferentStates: ButtonState[] = [
+  { icon: <ArchivePack />, rightIcon: <ArchivePack /> },
+  { icon: <ArchivePack />, rightIcon: <ArchivePack />, children: 'Button' },
+  { icon: <OkIcon />, rightIcon: <OkIcon /> },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, loading: true },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button' },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button', size: 'medium' },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button', size: 'large' },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button', loading: true },
+];
+
 export const Disabled: Story = (_, { globals: { theme } }) => (
   <ComponentTable
     Component={Button}
@@ -377,6 +415,28 @@ export const IconDifferentContent = () => (
       Icon with long text and color
     </Button>
     <Button icon={<OkIcon />} width="200px">
+      With icon, fixed width and long-lon-long text
+    </Button>
+  </Gapped>
+);
+
+export const RightIconDifferentContent = () => (
+  <Gapped vertical>
+    <Button rightIcon={<OkIcon />} use={'primary'}>
+      Icon with long text and color
+    </Button>
+    <Button rightIcon={<OkIcon />} width="200px">
+      With icon, fixed width and long-lon-long text
+    </Button>
+  </Gapped>
+);
+
+export const BothIconsDifferentContent = () => (
+  <Gapped vertical>
+    <Button icon={<OkIcon />} rightIcon={<OkIcon />} use={'primary'}>
+      Icon with long text and color
+    </Button>
+    <Button icon={<OkIcon />} rightIcon={<OkIcon />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>

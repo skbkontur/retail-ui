@@ -454,6 +454,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     const hasLoadingNode = loading && !icon && !rightIcon;
+    const loadingNode = hasLoadingNode && <LoadingButtonIcon size={size} />;
+
     let captionNode = (
       <div
         className={cx(styles.caption(), globalClasses.caption, {
@@ -462,7 +464,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           [styles.captionDisabled()]: !checked && disabled,
         })}
       >
-        {hasLoadingNode && <LoadingButtonIcon size={size} />}
+        {loadingNode}
         {leftIconNode}
         <span
           className={cx(globalClasses.text, {
