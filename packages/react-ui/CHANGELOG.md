@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.1...@skbkontur/react-ui@4.20.2) (2024-02-19)
+
+
+### Bug Fixes
+
+* **Token:** suppress close button a11y issue([#3337](https://github.com/skbkontur/retail-ui/issues/3337)) ([b7de35f](https://github.com/skbkontur/retail-ui/commit/b7de35f57c287b7ec8030df99e20e28bad2dd8a6))
+
+
+
+
+
 ## [4.20.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.0...@skbkontur/react-ui@4.20.1) (2024-02-15)
 
 
