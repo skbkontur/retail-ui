@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.7.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.6.0...react-ui-testing@3.7.0) (2024-02-15)
+
+
+### Features
+
+* add aria-label to all appropriate components ([#3223](https://github.com/skbkontur/retail-ui/issues/3223)) ([5603ef6](https://github.com/skbkontur/retail-ui/commit/5603ef6eedec2786a68bb86a8b1131b609aea25c))
+
+
+
+
+
 # [3.6.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.5.5...react-ui-testing@3.6.0) (2022-11-02)
 
 **Note:** Version bump only for package react-ui-testing

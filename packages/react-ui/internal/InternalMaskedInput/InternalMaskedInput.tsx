@@ -10,9 +10,9 @@ import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { styles } from './MaskedInput.styles';
+import { styles } from './InternalMaskedInput.styles';
 
-export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InternalMaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
@@ -33,26 +33,29 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-type DefaultProps = Required<Pick<MaskedInputProps, 'maskChar'>>;
+type DefaultProps = Required<Pick<InternalMaskedInputProps, 'maskChar'>>;
 
 export const MaskedInputDataTids = {
   root: 'MaskedInput__root',
 } as const;
 
-export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
+/** @deprecated Со следующей мажорной версии Input перестанет поддерживать маску.
+ * todo: выпилить в 5 версии библиотеки.
+ * */
+export class InternalMaskedInput extends React.PureComponent<InternalMaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
   public static defaultProps: DefaultProps = {
     maskChar: '_',
   };
 
-  private getProps = createPropsGetter(MaskedInput.defaultProps);
+  private getProps = createPropsGetter(InternalMaskedInput.defaultProps);
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;
 
-  public constructor(props: MaskedInputProps) {
+  public constructor(props: InternalMaskedInputProps) {
     super(props);
 
     this.state = {
@@ -70,7 +73,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     }
   }
 
-  public componentDidUpdate(prevProps: MaskedInputProps) {
+  public componentDidUpdate(prevProps: InternalMaskedInputProps) {
     if (this.props.value !== prevProps.value) {
       this.setState({
         value: this.props.value ? this.props.value.toString() : '',
@@ -139,7 +142,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     );
   }
 
-  private getValue = (props: MaskedInputProps): string => {
+  private getValue = (props: InternalMaskedInputProps): string => {
     if (isNonNullable(props.value)) {
       return props.value.toString();
     }
@@ -193,7 +196,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     newState: InputState,
     oldState: InputState,
     userInput: string,
-    options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
+    options: MaskOptions & Pick<InternalMaskedInputProps, 'mask'>,
   ) => {
     const visibleMaskChars = new Array(options.mask.length).fill(this.getProps().maskChar);
 

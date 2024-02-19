@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.21.0-next.0",
+  "version": "4.21.0-next.2",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -58,6 +58,7 @@
     "normalize-wheel": "^1.0.1",
     "prop-types": "^15.8.0",
     "react-focus-lock": "^2.7.1",
+    "react-imask": "^7.4.0",
     "react-input-mask": "2.0.4",
     "react-is": "^17.0.2",
     "react-transition-group": "^4.4.2",

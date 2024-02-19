@@ -47,30 +47,39 @@ describe('Token', () => {
     });
 
     it('has correct value on close button aria-label attribute (ru)', () => {
-      render(<Token />);
+      const tokenName = 'name';
+      render(<Token>{tokenName}</Token>);
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+      );
     });
 
     it('has correct value on close button aria-label attribute (en)', () => {
+      const tokenName = 'name';
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <Token />
+          <Token>{tokenName}</Token>
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesEn.removeButtonAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesEn.removeButtonAriaLabel + ' ' + tokenName,
+      );
     });
 
     it('sets custom value for `closeButtonAriaLabel` locale', () => {
       const customAriaLabel = 'test';
+      const tokenName = 'name';
       render(
         <LocaleContext.Provider value={{ locale: { Token: { removeButtonAriaLabel: customAriaLabel } } }}>
-          <Token />
+          <Token>{tokenName}</Token>
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel + ' ' + tokenName);
     });
   });
 });
