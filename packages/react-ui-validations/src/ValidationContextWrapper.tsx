@@ -4,8 +4,7 @@ import {
   ValidationsFeatureFlags,
   ValidationsFeatureFlagsContext,
   getFullValidationsFlagsContext,
-} from '../lib/featureFlagsContext';
-
+} from './utils/featureFlagsContext';
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { FocusMode, ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';

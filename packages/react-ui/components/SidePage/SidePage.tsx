@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -19,6 +19,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -100,7 +106,7 @@ export const SidePageDataTids = {
   container: 'SidePage__container',
 } as const;
 
-type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'disableFocusLock' | 'offset' | 'role'>>;
+type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'offset' | 'role'>>;
 
 const TRANSITION_TIMEOUT = 200;
 
@@ -156,21 +162,29 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
-    disableFocusLock: true,
     offset: 0,
     role: 'dialog',
   };
 
   private getProps = createPropsGetter(SidePage.defaultProps);
 
+  private featureFlags!: ReactUIFeatureFlags;
+
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -211,9 +225,21 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
+  private get isFocusLockDisabled() {
+    const { disableFocusLock } = this.getProps();
+    const { blockBackground } = this.props;
+    if (!blockBackground) {
+      return true;
+    }
+    if (disableFocusLock !== undefined) {
+      return disableFocusLock;
+    }
+    return !this.featureFlags.sidePageEnableFocusLockWhenBackgroundBlocked;
+  }
+
   private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
-    const { disableFocusLock, offset, role } = this.getProps();
+    const { offset, role } = this.getProps();
 
     return (
       <ZIndex
@@ -239,7 +265,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         }
         wrapperRef={this.rootRef}
       >
-        <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}

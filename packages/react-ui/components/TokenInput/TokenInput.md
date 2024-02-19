@@ -176,6 +176,77 @@ const getModelItems = async (query) => {
 </div>;
 ```
 
+#### Пример с дебаунсом функции getItems
+
+Функция debounce из lodash некорректно работает с async/promise, поэтому лучше использовать кастомную функцию, как в примере ниже.
+
+```jsx harmony
+import { TokenInput } from "@skbkontur/react-ui";
+import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
+
+const [value, setValue] = React.useState([]);
+
+function debounceAsync(callback, wait) {
+  let timeoutId = null;
+
+  return (...args) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    return new Promise((resolve) => {
+      const timeoutPromise = new Promise((resolve) => {
+        timeoutId = setTimeout(resolve, wait);
+      });
+      timeoutPromise.then(async () => {
+        resolve(await callback(...args));
+      });
+    });
+  };
+}
+
+const items = ["kon", "kod", "kof", "kor", "kos"];
+
+const getItems = async (query) => {
+  console.log("query: ", query);
+  return items.filter((item) => item.includes(query));
+};
+
+<TokenInput
+  style={{ width: "300px" }}
+  type={TokenInputType.Combined}
+  selectedItems={value}
+  onValueChange={setValue}
+  getItems={debounceAsync(getItems, 300)}
+  placeholder="Начните вводить название"
+/>
+```
+Типизированная версия функции
+
+```typescript static
+function debounceAsync<T, Callback extends (...args: any[]) => Promise<T>>(
+  callback: Callback,
+  wait: number,
+): (...args: Parameters<Callback>) => Promise<T> {
+  let timeoutId: number | null = null;
+
+  return (...args: any[]) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    return new Promise<T>((resolve) => {
+      const timeoutPromise = new Promise<void>((resolve) => {
+        timeoutId = setTimeout(resolve, wait);
+      });
+      timeoutPromise.then(async () => {
+        resolve(await callback(...args));
+      });
+    });
+  };
+}
+```
+
 #### Локали по умолчанию
 
 ```typescript static

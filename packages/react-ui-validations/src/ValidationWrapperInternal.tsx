@@ -1,13 +1,13 @@
 import React, { ReactInstance } from 'react';
 import warning from 'warning';
 
+import { Nullable } from '../typings/Types';
+
 import {
   ValidationsFeatureFlags,
   ValidationsFeatureFlagsContext,
   getFullValidationsFlagsContext,
-} from '../lib/featureFlagsContext';
-import { Nullable } from '../typings/Types';
-
+} from './utils/featureFlagsContext';
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';

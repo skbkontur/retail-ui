@@ -1,5 +1,5 @@
 import React from 'react';
-import { globalObject, isInstanceOf, isBrowser } from '@skbkontur/global-object';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
@@ -15,6 +15,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
