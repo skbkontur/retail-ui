@@ -223,3 +223,24 @@ export const isInputLike =
 export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
+
+/**
+ * Allows to get text of nested child
+ * The function expects that text will always be in the first node like this:
+ * ```tsx
+ *  <Component>
+ *    <div>Will find this text</div>
+ *    <div>Will NOT find this text</div>
+ *  </Component>
+ * ```
+ *
+ * @param children React's children prop
+ * @returns Nested child text or an empty string
+ */
+export const getChildText = (children: React.ReactNode): string => {
+  if (typeof children === 'string' || typeof children === 'undefined') {
+    return children ?? '';
+  }
+
+  return getChildText((children as React.ReactElement).props?.children);
+};
