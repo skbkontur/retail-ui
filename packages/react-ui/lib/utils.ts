@@ -242,5 +242,7 @@ export const getChildText = (children: React.ReactNode): string => {
     return children ?? '';
   }
 
-  return getChildText((children as React.ReactElement).props?.children);
+  const child = (children as React.ReactElement[])?.[0] ?? children;
+
+  return getChildText(child.props?.children);
 };

@@ -2,7 +2,7 @@ import React, { AriaAttributes } from 'react';
 
 import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { emptyHandler } from '../../lib/utils';
+import { emptyHandler, getChildText } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -97,7 +97,7 @@ export class Token extends React.Component<TokenProps> {
     const theme = this.theme;
 
     const validation = getValidation(error, warning);
-    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + children;
+    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + getChildText(children);
 
     const icon = isTheme2022(theme) ? (
       <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" tabbable={false} />

@@ -81,5 +81,34 @@ describe('Token', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel + ' ' + tokenName);
     });
+
+    it('can find text inside nested children', () => {
+      const tokenName = 'name';
+      render(
+        <Token>
+          <div>{tokenName}</div>
+        </Token>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+      );
+    });
+
+    it('can find text inside nested children with several children', () => {
+      const tokenName = 'name';
+      render(
+        <Token>
+          <div>{tokenName}</div>
+          <div></div>
+        </Token>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+      );
+    });
   });
 });
