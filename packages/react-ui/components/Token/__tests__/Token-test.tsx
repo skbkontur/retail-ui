@@ -96,19 +96,36 @@ describe('Token', () => {
       );
     });
 
-    it('can find text inside nested children with several children', () => {
-      const tokenName = 'name';
+    it('can find text inside several nested children', () => {
+      const tokenNameFirst = 'name 1';
+      const tokenNameSecond = 'name 2';
       render(
         <Token>
-          <div>{tokenName}</div>
-          <div></div>
+          <div>{tokenNameFirst}</div>
+          <div>{tokenNameSecond}</div>
         </Token>,
       );
 
       expect(screen.getByRole('button')).toHaveAttribute(
         'aria-label',
-        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenNameFirst + tokenNameSecond,
       );
+    });
+
+    it('can work with token without text', () => {
+      render(<Token></Token>);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel + ' ');
+    });
+
+    it('can work with tag without text', () => {
+      render(
+        <Token>
+          <div></div>
+        </Token>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel + ' ');
     });
   });
 });

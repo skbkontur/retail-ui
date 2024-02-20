@@ -225,24 +225,24 @@ export const isKonturIcon = (icon: React.ReactElement) => {
 };
 
 /**
- * Allows to get text of nested child
- * The function expects that text will always be in the first node like this:
- * ```tsx
- *  <Component>
- *    <div>Will find this text</div>
- *    <div>Will NOT find this text</div>
- *  </Component>
- * ```
+ * Allows to get text of all nested children as a string
  *
- * @param children React's children prop
+ * @param children React's children
  * @returns Nested child text or an empty string
  */
-export const getChildText = (children: React.ReactNode): string => {
-  if (typeof children === 'string' || typeof children === 'undefined') {
-    return children ?? '';
+export function getChildrenText(children: React.ReactNode): string {
+  if (typeof children === 'string' || typeof children === 'number') {
+    return children.toString();
   }
 
-  const child = (children as React.ReactElement[])?.[0] ?? children;
+  if (Array.isArray(children)) {
+    return children.map((entry) => getChildrenText(entry)).join('');
+  }
 
-  return getChildText(child.props?.children);
-};
+  const nextChild = (children as React.ReactElement)?.props.children;
+  if (!nextChild) {
+    return '';
+  }
+
+  return getChildrenText(nextChild);
+}
