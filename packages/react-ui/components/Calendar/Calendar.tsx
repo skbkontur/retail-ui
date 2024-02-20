@@ -2,8 +2,9 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
-import { globalObject, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
+import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
+import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';

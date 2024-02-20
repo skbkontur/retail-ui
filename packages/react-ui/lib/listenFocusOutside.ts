@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
+import { isInstanceOf } from './isInstanceOf';
 import { isFirefox } from './client';
 
 interface FocusOutsideEventHandler {

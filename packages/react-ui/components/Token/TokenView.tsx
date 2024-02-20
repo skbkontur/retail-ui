@@ -11,7 +11,6 @@ import { globalClasses, styles } from './Token.styles';
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: TokenSize;
   closeButton?: ReactNode;
-  onRemove?: React.MouseEventHandler<HTMLElement>;
 }
 
 export function TokenView(props: TokenViewProps) {

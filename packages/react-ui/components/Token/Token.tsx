@@ -108,13 +108,7 @@ export class Token extends React.Component<TokenProps> {
     const validation = getValidation(error, warning);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon
-        aria-label={this.locale.removeButtonAriaLabel}
-        side={16}
-        color="inherit"
-        colorHover="inherit"
-        tabbable={false}
-      />
+      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" />
     ) : (
       <CrossIcon />
     );

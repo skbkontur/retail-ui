@@ -4,8 +4,7 @@ import {
   ValidationsFeatureFlags,
   ValidationsFeatureFlagsContext,
   getFullValidationsFlagsContext,
-} from '../lib/featureFlagsContext';
-
+} from './utils/featureFlagsContext';
 import { ReactUiDetection, Tooltip } from './ReactUiDetection';
 
 export type TooltipPosition =

@@ -17,14 +17,6 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   private readonly rootId: string = RenderContainer.getRootId();
 
-  constructor(props: RenderContainerProps) {
-    super(props);
-
-    if (props.children) {
-      this.mountContainer();
-    }
-  }
-
   public shouldComponentUpdate(nextProps: RenderContainerProps) {
     if (!this.props.children && nextProps.children) {
       this.mountContainer();
@@ -40,6 +32,10 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
+    if (this.props.children) {
+      this.mountContainer();
+    }
+
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }
 

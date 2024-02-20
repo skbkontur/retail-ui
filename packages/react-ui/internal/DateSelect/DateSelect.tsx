@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { globalObject, isBrowser, isInstanceOf, SafeTimer } from '@skbkontur/global-object';
+import { globalObject, isBrowser, SafeTimer } from '@skbkontur/global-object';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -21,6 +21,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
