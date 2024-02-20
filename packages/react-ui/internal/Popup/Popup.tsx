@@ -4,18 +4,13 @@ import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
 
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -225,8 +220,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private getProps = createPropsGetter(Popup.defaultProps);
 
-  private featureFlags!: ReactUIFeatureFlags;
-
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
 
@@ -234,7 +227,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
-  private lastPopupElement: Nullable<Element>;
+  private lastPopupContentElement: Nullable<Element>;
   private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
@@ -302,19 +295,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -455,7 +441,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const width = this.getProps().width;
 
     return (
-      <div className={styles.content(this.theme)} data-tid={PopupDataTids.content} ref={this.refForTransition}>
+      <div
+        className={styles.content(this.theme)}
+        data-tid={PopupDataTids.content}
+        ref={mergeRefs([this.refForTransition, this.refPopupContentElement])}
+      >
         <div
           className={styles.contentInner(this.theme)}
           style={{ backgroundColor, width: this.calculateWidth(width) }}
@@ -494,7 +484,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             <ZIndex
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
-              wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
                 [styles.popup(this.theme)]: true,
@@ -532,8 +521,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupElement = (element: Nullable<Element>) => {
-    this.lastPopupElement = element;
+  private refPopupContentElement = (element: Nullable<Element>) => {
+    this.lastPopupContentElement = element;
   };
 
   private renderPin(positionName: string): React.ReactNode {
@@ -552,7 +541,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return (
       hasPin && (
         <PopupPin
-          popupElement={this.lastPopupElement}
+          popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
           size={pinSize || parseInt(this.theme.popupPinSize)}
           offset={this.getPinOffset(position.align)}
@@ -584,13 +573,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private updateLocation = () => {
-    const popupElement = this.lastPopupElement;
+    const popupContentElement = this.lastPopupContentElement;
 
-    if (!popupElement) {
+    if (!popupContentElement) {
       return;
     }
 
-    const location = this.getLocation(popupElement, this.state.location);
+    const location = this.getLocation(popupContentElement, this.state.location);
     if (location) {
       this.props.onPositionChange?.(location?.position);
     }
@@ -641,7 +630,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, this.featureFlags.hintFixJumpingNearScreenEdge);
+    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, true);
 
     let position: PopupPositionsType;
     let coordinates: Offset;
@@ -716,10 +705,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'left':
         return {
           top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
-          left: this.featureFlags.hintFixJumpingNearScreenEdge
-            ? anchorRect.left - popupRect.width
-            : anchorRect.left - popupRect.width - margin,
-          // margin нужно убирать, если используем scrollWidth. Так при вычислении popupRect.width через scrollWidth margin уже включен в длину
+          left: anchorRect.left - popupRect.width - margin,
         };
       case 'right':
         return {
