@@ -9,7 +9,7 @@ import { Textarea } from '../../Textarea';
 import { delay } from '../../../lib/utils';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 import { Button } from '../../Button';
-import {Tooltip} from "../../Tooltip";
+import { Tooltip } from '../../Tooltip';
 
 export default {
   title: 'Hint',
