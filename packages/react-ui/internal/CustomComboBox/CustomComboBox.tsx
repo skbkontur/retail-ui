@@ -13,7 +13,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
-import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -68,6 +68,7 @@ export interface CustomComboBoxProps<T>
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  viewMode?: ComboBoxViewMode;
 }
 
 export interface CustomComboBoxState<T> {
@@ -307,6 +308,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       refInputLikeText: (inputLikeText: Nullable<InputLikeText>) => {
         this.inputLikeText = inputLikeText;
       },
+      viewMode: this.props.viewMode,
     };
 
     return (

@@ -10,6 +10,8 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 
+export type ComboBoxViewMode = 'singleLine' | 'multiline' | 'multiLineEditing';
+
 export interface ComboBoxProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
@@ -181,6 +183,7 @@ export interface ComboBoxProps<T>
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  viewMode?: ComboBoxViewMode;
 }
 
 export interface ComboBoxItem {
@@ -193,7 +196,14 @@ export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxProps<T>,
-    'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'menuAlign' | 'searchOnFocus' | 'drawArrow'
+    | 'itemToValue'
+    | 'valueToString'
+    | 'renderValue'
+    | 'renderItem'
+    | 'menuAlign'
+    | 'searchOnFocus'
+    | 'drawArrow'
+    | 'viewMode'
   >
 >;
 
@@ -209,6 +219,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
+    viewMode: 'singleLine',
   };
 
   private getProps = createPropsGetter(ComboBox.defaultProps);

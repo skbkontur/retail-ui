@@ -51,6 +51,61 @@ export const InputLikeText: Story = () => (
 );
 InputLikeText.storyName = 'input like text';
 
+export const InputLikeTextMultiline: Story = () => (
+  <Gapped vertical>
+    <ComboBoxView value={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView size="medium" value={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView size="large" value={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView leftIcon={<OkIcon />} value={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView
+      leftIcon={<OkIcon />}
+      size="medium"
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<OkIcon />}
+      size="large"
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView rightIcon={<OkIcon />} value={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView
+      rightIcon={<OkIcon />}
+      size="medium"
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      rightIcon={<OkIcon />}
+      size="large"
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<OkIcon />}
+      rightIcon={<OkIcon />}
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<OkIcon />}
+      rightIcon={<OkIcon />}
+      size="medium"
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<OkIcon />}
+      rightIcon={<OkIcon />}
+      size="large"
+      value={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+  </Gapped>
+);
+InputLikeTextMultiline.storyName = 'input like text multiline';
+
 const FIREFOX_REGEXP = /.*firefox.*/i;
 
 InputLikeText.parameters = {

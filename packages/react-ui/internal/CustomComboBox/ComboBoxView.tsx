@@ -13,13 +13,13 @@ import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
-import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
@@ -88,6 +88,7 @@ interface ComboBoxViewProps<T>
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
+  viewMode?: ComboBoxViewMode;
 }
 
 type DefaultProps<T> = Required<
@@ -355,6 +356,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
+        isMultiline={this.props.viewMode === 'multiline'}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
