@@ -1,73 +1,51 @@
 Сам по себе `<Clickable />` ничего не рендерит. Компонент становится разметкой, которую вы передаёте в качестве детей.
 ```jsx harmony
-import { Clickable, clickableStyles } from '@skbkontur/react-ui';
+import { Gapped, Clickable, clickableStyles } from '@skbkontur/react-ui';
+
+const bgStyle = {
+  backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(130, 130, 130, 0.5) 1px, transparent 1px)`,
+  backgroundSize: `16px 16px`,
+  backgroundPosition: `-8px -8px`,
+  padding: 16
+};
 
 <>
-  <Clickable>
-    <button>Кнопка</button>
-  </Clickable>
-  <Clickable>
-    <a href="/">Ссылка</a>
-  </Clickable>
+  <p>Ссылки</p>
+  <Gapped>
+    <Clickable as="a" href="/">По умолчанию</Clickable>
+    <Clickable as="a" href="/" use="success">Успех</Clickable>
+    <Clickable as="a" href="/" use="danger">Опасность</Clickable>
+    <Clickable as="a" href="/" use="grayed">Серая</Clickable>
+  </Gapped>
+
+  <p>Кнопки</p>
+  <Gapped style={bgStyle}>
+    <Clickable>По умолчанию</Clickable>
+    <Clickable use="primary">Основная</Clickable>
+    <Clickable use="success">Успех</Clickable>
+    <Clickable use="danger">Опасность</Clickable>
+    <Clickable use="pay">Плати</Clickable>
+    <Clickable use="text">Текст</Clickable>
+    <Clickable use="backless">Без фона</Clickable>
+  </Gapped>
+
+  <p>Гибриды</p>
+  <Gapped>
+    <Clickable as="button" view="link" use="success">Успешная кнопка, но выглядит как ссылка</Clickable>
+    <Clickable as="a" href="/" view="button" use="danger">Опасная ссылка, но выглядит как кнопка</Clickable>
+    <Clickable as="div" view="button" use="pay">Платный div, но выглядит как кнопка</Clickable>
+  </Gapped>
 </>
 ```
 
-По умолчанию `<Clickable />` предоставляет лишь небольшой набор полезных стилей. Для того, чтобы изменить внешний вид элемента вы можете использовать набор классов предоставляемых библиотекой, либо передать в компонент собственные классы.
-
-Для того, чтобы модифицировать состояния компонента вы можете использовать `data`-атрибуты, предоставляемые библиотекой.
-```jsx harmony
-import { Clickable, clickableStyles } from '@skbkontur/react-ui';
-
-<Clickable>
-  <button className={clickableStyles.buttonDefault()}>Кнопка</button>
-</Clickable>
-```
-
-Для того, чтобы добавить стили для тёмной темы воспользуйтесь селектором `.dark *название вашего класса*`. Чтобы переключиться на тёмную тему используйте хук `useTheme`.
-```jsx harmony
-import { Clickable, clickableStyles, useTheme } from '@skbkontur/react-ui';
-
-const { theme, toggleTheme } = useTheme({ useOSTheme: false });
-
-<>
-<p>Текущая тема: <span style={{ fontWeight: 'bold' }}>{theme}</span></p>
-<Clickable>
-  <button
-    className={clickableStyles.buttonDefault()}
-    onClick={() => toggleTheme()}
-  >
-    Переключить тему
-  </button>
-</Clickable>
-</>
-```
-
-
+Если вы прокидываете элемент отличный от `a` или `button` — вам нужно вручную указать `view`
 Если вы прокинете в компонент неинтерактивный элемент - библиотека автоматически добавит ему необходимые атрибуты для обеспечения доступности. Это нежелательный сценарий, но библиотека никак не ограничивает вас. Вы можете использовать любой тег, в качестве ребёнка.
 ```jsx harmony
 import { Clickable } from '@skbkontur/react-ui';
 
-<Clickable>
-  <div onClick={() => alert('Это на самом деле <div />!')}>Как бы кнопка</div>
+<Clickable as="div">
+div
 </Clickable>
-```
-
-Если вы передаёте React-компонент в `<Clickable />` - он должен уметь работать с `ref` и деструктурировать пропы, иначе часть функционала `<Clickable />` будет недоступна.
-```jsx harmony
-import { Clickable } from '@skbkontur/react-ui';
-
-const CustomChildComponent = React.forwardRef((props, ref) => {
-  return <button ref={ref} {...props}>{props.children}</button>
-});
-
-const ref = React.useRef();
-
-<>
-  <Clickable ref={ref}>
-    <CustomChildComponent>Кнопка</CustomChildComponent>
-  </Clickable>
-  <button onClick={() => ref.current.style = 'background-color: red'}>
-    Изменить цвет фона соседней кнопки
-  </button>
-</>
+// <div onClick={() => alert('Это на самом деле <div />!')}>Как бы кнопка</div>
 ```

@@ -1,13 +1,8 @@
-import React, { HTMLAttributes } from 'react';
+import { ElementType, HTMLAttributes } from 'react';
 
-export const isTag = (tagName: React.ElementType) => {
-  return (children: React.ReactElement): boolean => {
-    return children.type === tagName;
-  };
-};
+import { isExternalLink } from '../../lib/utils';
 
-export const isLinkTag = isTag('a');
-export const isButtonTag = isTag('button');
+import { CLICKABLE_DEFAULT_ELEMENT, ClickableProps } from './Clickable';
 
 export const getTabIndex = (isInteractive: boolean, tabIndex: number, disabled?: boolean) => {
   if (disabled) {
@@ -27,4 +22,26 @@ export const getRole = (isInteractive: boolean, role: HTMLAttributes<unknown>['r
   }
 
   return role;
+};
+
+export const getCurrentView = (view: ClickableProps['view'], as: ElementType = CLICKABLE_DEFAULT_ELEMENT) => {
+  if (view) {
+    return view;
+  }
+
+  if (as === 'button') {
+    return 'button';
+  }
+
+  if (as === 'a') {
+    return 'link';
+  }
+};
+
+export const getRel = (rel: ClickableProps['rel'], href: string | undefined) => {
+  if (!rel && href) {
+    return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
+  }
+
+  return rel;
 };

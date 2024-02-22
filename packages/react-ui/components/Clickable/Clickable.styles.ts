@@ -1,7 +1,20 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 
-export const clickableStyles = memoizeStyle({
-  root() {
+export const globalClasses = prefix('clickable')({
+  root: 'root',
+  arrowHelper: 'arrow-helper',
+  arrowHelperTop: 'arrow-helper-top',
+  arrowHelperBottom: 'arrow-helper-bottom',
+  arrow: 'arrow',
+  caption: 'caption',
+  innerShadow: 'inner-shadow',
+  icon: 'icon',
+  text: 'text',
+});
+
+export const generalStyles = memoizeStyle({
+  root(t: Theme) {
     return css`
       all: unset;
       cursor: pointer;
@@ -14,76 +27,8 @@ export const clickableStyles = memoizeStyle({
           Source: https://stackoverflow.com/a/52616313
         */
         outline: 2px solid transparent;
-        box-shadow: 0px 0px 0px 2px #ebebeb;
+        box-shadow: 0px 0px 0px 2px ${t.borderColorFocus};
       }
     `;
-  },
-  disabled() {
-    return css`
-      cursor: default;
-      pointer-events: none;
-    `;
-  },
-  disabledLink() {
-    return css`
-      box-shadow: none;
-      color: #858585;
-
-      &:hover {
-        color: #858585;
-      }
-
-      .react-ui-dark & {
-        animation: none;
-      }
-    `;
-  },
-  baseButton() {
-    return css`
-      transition: background-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
-      background-clip: padding-box;
-    `;
-  },
-  buttonDefault() {
-    return css`
-      background-color: antiquewhite;
-
-      .react-ui-dark & {
-        background-color: green;
-      }
-    `;
-  },
-  buttonPrimary() {
-    return css``;
-  },
-  buttonSuccess() {
-    return css``;
-  },
-  buttonDanger() {
-    return css``;
-  },
-  buttonPay() {
-    return css``;
-  },
-  buttonText() {
-    return css``;
-  },
-  buttonBackless() {
-    return css``;
-  },
-  baseLink() {
-    return css``;
-  },
-  linkDefault() {
-    return css``;
-  },
-  linkSuccess() {
-    return css``;
-  },
-  linkDanger() {
-    return css``;
-  },
-  linkGrayed() {
-    return css``;
   },
 });
