@@ -14,6 +14,7 @@ import { LoadingButtonIcon } from './LoadingButtonIcon';
 
 export interface ButtonIconProps extends Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'use'> {
   position: 'right' | 'left';
+  hasChildren: boolean;
   hasBothIcons?: boolean;
 }
 
@@ -39,6 +40,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   icon,
   use,
   position,
+  hasChildren,
   loading = false,
   hasBothIcons = false,
   size = 'small',
@@ -80,6 +82,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
     <span
       style={style}
       className={cx(globalClasses.icon, styles.icon(theme), getSizeIconClassName(), {
+        [styles.iconNoMargin()]: !hasChildren,
         [styles.iconLeftLink(theme)]: isLink && position === 'left',
         [styles.iconRightLink(theme)]: isLink && position === 'right',
       })}

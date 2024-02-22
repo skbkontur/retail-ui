@@ -80,4 +80,11 @@ export const styles = memoizeStyle({
       margin-left: ${t.btnLinkIconMarginLeft};
     `;
   },
+
+  iconNoMargin() {
+    return css`
+      margin-right: 0;
+      margin-left: 0;
+    `;
+  },
 });

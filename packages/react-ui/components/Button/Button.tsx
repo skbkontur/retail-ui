@@ -426,7 +426,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const iconProps: Omit<ButtonIconProps, 'position'> = {
       use,
       size: this.getProps().size,
-      disabled: disabled || false,
+      hasChildren: !!children,
       loading: loading || false,
     };
     const leftIconNode = icon && <ButtonIcon {...iconProps} position="left" icon={icon} />;
