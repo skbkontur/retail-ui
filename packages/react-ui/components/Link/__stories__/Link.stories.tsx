@@ -5,6 +5,7 @@ import { Story, CreeveyTests } from '../../../typings/stories';
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
+import { CheckAIcon16Light } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Light';
 
 const linkTests: CreeveyTests = {
   async idle() {
@@ -45,7 +46,30 @@ Simple.parameters = {
   },
 };
 
-export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
+export const WithIcon: Story = () => {
+  return (
+    <Gapped vertical>
+      <Gapped gap={20}>
+        <Link icon={<CheckAIcon16Light />}>Left Icon Link</Link>
+        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+          Both Icons Link
+        </Link>
+        <Link rightIcon={<CheckAIcon16Light />}>Right Icon Link</Link>
+      </Gapped>
+      <Gapped gap={20}>
+        <Link loading icon={<CheckAIcon16Light />}>
+          Left Icon Link
+        </Link>
+        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+          Both Icons Link
+        </Link>
+        <Link loading rightIcon={<CheckAIcon16Light />}>
+          Right Icon Link
+        </Link>
+      </Gapped>
+    </Gapped>
+  );
+};
 WithIcon.parameters = {
   creevey: {
     tests: linkTests,
