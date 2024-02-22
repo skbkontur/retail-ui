@@ -103,6 +103,7 @@ export class DefaultTheme {
   public static linkDangerHoverColor = '#cb3d35';
   public static linkDangerActiveColor = '#a92a27';
   public static linkIconMarginRight = '4px';
+  public static linkIconMarginLeft = '4px';
   public static get linkHoverColor() {
     return this.linkColor;
   }

@@ -94,12 +94,12 @@ export interface ButtonProps
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /**
    * Иконка справа от текста кнопки.
    */
-  rightIcon?: React.ReactElement<any>;
+  rightIcon?: React.ReactElement;
 
   /**
    * Переводит кнопку в состояние загрузки.

@@ -21,9 +21,14 @@ import { Gapped } from '@skbkontur/react-ui';
 Пример ссылки с иконкой.
 
 ```jsx harmony
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { Gapped } from '@skbkontur/react-ui';
+import { CheckAIcon16Light } from '@skbkontur/react-ui/internal/icons2022/CheckAIcon/CheckAIcon16Light';
 
-<Link icon={<OkIcon />}>Ссылка с иконкой</Link>
+<Gapped gap={20}>
+  <Link icon={<CheckAIcon16Light />}>Ссылка с иконкой слева</Link>
+  <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>Ссылка с двумя иконками</Link>
+  <Link rightIcon={<CheckAIcon16Light />}>Ссылка с иконкой справа</Link>
+</Gapped>
 ```
 
 Пример ссылок ведущих на внешние ресурсы.
@@ -49,20 +54,20 @@ import { Gapped } from '@skbkontur/react-ui';
 
 Ссылка в состоянии загрузки.
 
-**Поведение**:
-
-Если у ссылки есть иконка, она заменяется на спиннер.
+**Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая.
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Light } from '@skbkontur/react-ui/internal/icons2022/CheckAIcon/CheckAIcon16Light';
 
 const [isLoading, setIsLoading] = React.useState(false);
 
 <Gapped vertical gap={15}>
   <Button onClick={() => setIsLoading(!isLoading)}>{isLoading ? "Прекратить загрузку!" : "Начать загрузку!"}</Button>
   <Gapped gap={20}>
-    <Link loading={isLoading} icon={<OkIcon/>}>С иконкой</Link>
+    <Link loading={isLoading} icon={<CheckAIcon16Light />}>С иконкой слева</Link>
+    <Link loading={isLoading} icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>С двумя иконками</Link>
+    <Link loading={isLoading} rightIcon={<CheckAIcon16Light />}>С иконкой справа</Link>
     <Link loading={isLoading}>Без иконки</Link>
   </Gapped>
 </Gapped>
