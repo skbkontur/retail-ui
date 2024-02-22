@@ -12,11 +12,10 @@ import { globalClasses } from './Button.styles';
 import { styles } from './ButtonIcon.styles';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 
-type ButtonIconProps = Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'disabled' | 'use'> & {
-  hasChildren: boolean;
+export interface ButtonIconProps extends Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'use'> {
   position: 'right' | 'left';
   hasBothIcons?: boolean;
-};
+}
 
 export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
   return {
@@ -26,9 +25,18 @@ export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
   };
 };
 
+const useIcon = (icon: any, size: SizeProp) => {
+  const theme = useContext(ThemeContext);
+  if (icon && isTheme2022(theme) && isKonturIcon(icon)) {
+    const sizes = getButtonIconSizes(theme);
+    return React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
+  }
+
+  return icon;
+};
+
 export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   icon,
-  hasChildren,
   use,
   position,
   loading = false,
@@ -66,17 +74,12 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
       }
     : {};
 
-  let _icon = icon;
-  const sizes = getButtonIconSizes(theme);
-  if (icon && isTheme2022(theme) && isKonturIcon(icon)) {
-    _icon = React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
-  }
+  const _icon = useIcon(icon, size);
 
   return (
     <span
       style={style}
       className={cx(globalClasses.icon, styles.icon(theme), getSizeIconClassName(), {
-        [styles.iconNoMargin()]: !hasChildren,
         [styles.iconLeftLink(theme)]: isLink && position === 'left',
         [styles.iconRightLink(theme)]: isLink && position === 'right',
       })}

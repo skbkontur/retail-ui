@@ -17,7 +17,7 @@ import { Link, LinkProps } from '../Link';
 import { SizeProp } from '../../lib/types/props';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
+import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
@@ -423,16 +423,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       );
     }
 
-    const iconProps = {
+    const iconProps: Omit<ButtonIconProps, 'position'> = {
       use,
-      size,
-      hasChildren: Boolean(children),
+      size: this.getProps().size,
       disabled: disabled || false,
       loading: loading || false,
     };
-    const leftIconNode = icon && <ButtonIcon position="left" icon={icon} {...iconProps} />;
+    const leftIconNode = icon && <ButtonIcon {...iconProps} position="left" icon={icon} />;
     const rightIconNode = rightIcon && (
-      <ButtonIcon hasBothIcons={!!icon && !!rightIcon} position="right" icon={rightIcon} {...iconProps} />
+      <ButtonIcon {...iconProps} hasBothIcons={!!icon && !!rightIcon} position="right" icon={rightIcon} />
     );
 
     // Force disable all props and features, that cannot be use with Link
@@ -483,6 +482,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             focused={isFocused}
             disabled={disabled}
             icon={this.renderIcon2022(icon)}
+            rightIcon={this.renderIcon2022(rightIcon)}
             as={this.renderLinkRootWithoutHandlers}
             tabIndex={-1}
           >

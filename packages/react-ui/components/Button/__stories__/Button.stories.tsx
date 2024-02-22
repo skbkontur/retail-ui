@@ -8,6 +8,12 @@ import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
+import { XIcon16Light } from '../../../internal/icons2022/XIcon/XIcon16Light';
+import { XIcon20Light } from '../../../internal/icons2022/XIcon/XIcon20Light';
+import { XIcon24Regular } from '../../../internal/icons2022/XIcon/XIcon24Regular';
+import { CheckAIcon16Light } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Light';
+import { CheckAIcon20Light } from '../../../internal/icons2022/CheckAIcon/CheckAIcon20Light';
+import { CheckAIcon24Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon24Regular';
 
 export default {
   title: 'Button',
@@ -284,14 +290,14 @@ export const RightIcon: Story = (_, { globals: { theme } }) => (
   />
 );
 const rightIconDifferentStates: ButtonState[] = [
-  { rightIcon: <ArchivePack /> },
-  { rightIcon: <ArchivePack />, children: 'Button' },
-  { rightIcon: <OkIcon /> },
-  { rightIcon: <OkIcon />, loading: true },
-  { rightIcon: <OkIcon />, children: 'Button' },
-  { rightIcon: <OkIcon />, children: 'Button', size: 'medium' },
-  { rightIcon: <OkIcon />, children: 'Button', size: 'large' },
-  { rightIcon: <OkIcon />, children: 'Button', loading: true },
+  { rightIcon: <CheckAIcon16Light /> },
+  { rightIcon: <CheckAIcon16Light />, children: 'Button' },
+  { rightIcon: <CheckAIcon16Light /> },
+  { rightIcon: <CheckAIcon16Light />, loading: true },
+  { rightIcon: <CheckAIcon16Light />, children: 'Button' },
+  { rightIcon: <CheckAIcon20Light />, children: 'Button', size: 'medium' },
+  { rightIcon: <CheckAIcon24Regular />, children: 'Button', size: 'large' },
+  { rightIcon: <CheckAIcon16Light />, children: 'Button', loading: true },
 ];
 
 export const BothIcons: Story = (_, { globals: { theme } }) => (
@@ -303,14 +309,14 @@ export const BothIcons: Story = (_, { globals: { theme } }) => (
   />
 );
 const bothIconsDifferentStates: ButtonState[] = [
-  { icon: <ArchivePack />, rightIcon: <ArchivePack /> },
-  { icon: <ArchivePack />, rightIcon: <ArchivePack />, children: 'Button' },
-  { icon: <OkIcon />, rightIcon: <OkIcon /> },
-  { icon: <OkIcon />, rightIcon: <OkIcon />, loading: true },
-  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button' },
-  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button', size: 'medium' },
-  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button', size: 'large' },
-  { icon: <OkIcon />, rightIcon: <OkIcon />, children: 'Button', loading: true },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button' },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, loading: true },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button' },
+  { icon: <CheckAIcon20Light />, rightIcon: <XIcon20Light />, children: 'Button', size: 'medium' },
+  { icon: <CheckAIcon24Regular />, rightIcon: <XIcon24Regular />, children: 'Button', size: 'large' },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button', loading: true },
 ];
 
 export const Disabled: Story = (_, { globals: { theme } }) => (

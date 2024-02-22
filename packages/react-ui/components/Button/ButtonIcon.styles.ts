@@ -69,13 +69,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconNoMargin() {
-    return css`
-      margin-right: 0;
-      margin-left: 0;
-    `;
-  },
-
   iconLeftLink(t: Theme) {
     return css`
       margin-right: ${t.btnLinkIconMarginRight};
