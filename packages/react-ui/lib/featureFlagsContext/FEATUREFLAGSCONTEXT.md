@@ -220,6 +220,27 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
+### linkFocusOutline
+
+Для компонентов `<Link />` и `<Button use="link" />` в THEME_2022 добавлена обводка при фокусе.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Link, Button, Gapped, ThemeContext, THEME_2022, DEFAULT_THEME, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={THEME_2022}>
+  <Gapped vertical>
+    <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+      <Gapped>
+        <Button use="link">Кнопка</Button>
+        <Link>Ссылка</Link>
+      </Gapped>
+    </ReactUIFeatureFlagsContext.Provider>
+    <Link>Старая ссылка</Link>
+  </Gapped>
+</ThemeContext.Provider>
+```
+
 ## Объект со всеми флагами
 
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:

@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from './Link.mixins';
 
 export const globalClasses = prefix('link')({
+  textWrapper: 'textWrapper',
   text: 'text',
 });
 
@@ -79,15 +80,9 @@ export const styles = memoizeStyle({
         border-bottom-style: ${t.linkLineBorderBottomStyle};
         border-bottom-width: ${t.linkLineBorderBottomWidth};
         border-bottom-color: ${t.linkLineBorderBottomColor};
-        &:hover {
-          border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
-        }
       }
       @supports not (border-bottom-color: ${t.linkLineBorderBottomColor}) {
         ${oldLineText(t)};
-        &:hover {
-          border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
-        }
       }
     `;
   },
@@ -101,24 +96,40 @@ export const styles = memoizeStyle({
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
+
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
     `;
   },
 
   lineFocusSuccess(t: Theme) {
     return css`
       color: ${t.linkSuccessHoverColor} !important;
+
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
     `;
   },
 
   lineFocusDanger(t: Theme) {
     return css`
       color: ${t.linkDangerHoverColor} !important;
+
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
     `;
   },
 
   lineFocusGrayed(t: Theme) {
     return css`
       color: ${t.linkGrayedHoverColor} !important;
+
+      .${globalClasses.text} {
+        ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
+      }
     `;
   },
 
@@ -214,10 +225,16 @@ export const styles = memoizeStyle({
   focus2022(t: Theme) {
     return css`
       outline: ${t.linkFocusOutline};
+
       .${globalClasses.text} {
-        :hover {
+        &,
+        &:hover {
           ${linkUseLineHovered('none')}
         }
+      }
+
+      .${globalClasses.textWrapper} {
+        border-bottom-style: none;
       }
     `;
   },
