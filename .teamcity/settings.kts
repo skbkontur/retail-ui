@@ -455,7 +455,7 @@ object SeleniumTesting_Publish : BuildType({
             id = "RUNNER_3"
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
-            serverUrl = "https://api.nuget.org/v3/index.json"
+            serverUrl = "%env.NUGET_SOURCE%"
             apiKey = "credentialsJSON:9c594bdb-ecae-416b-ab54-3b85ce110c13"
         }
     }
