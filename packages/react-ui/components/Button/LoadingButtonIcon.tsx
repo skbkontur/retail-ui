@@ -14,7 +14,7 @@ interface LoadingButtonIconProps {
   isCentered?: boolean;
 }
 
-export const LoadingButtonIcon = ({ size, isCentered }: LoadingButtonIconProps) => {
+export const LoadingButtonIcon = ({ size, isCentered = true }: LoadingButtonIconProps) => {
   const theme = useContext(ThemeContext);
 
   return (
