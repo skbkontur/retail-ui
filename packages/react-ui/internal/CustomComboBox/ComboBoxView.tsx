@@ -21,6 +21,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
+import { Textarea } from '../../components/Textarea';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -28,6 +29,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
+import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 
 interface ComboBoxViewProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
@@ -85,7 +87,7 @@ interface ComboBoxViewProps<T>
   renderAddButton?: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
-  refInput?: (input: Nullable<Input>) => void;
+  refInput?: (input: Nullable<any>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
   viewMode?: ComboBoxViewMode;
@@ -133,7 +135,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
 
-  private input: Nullable<Input>;
+  private input: Nullable<Input | Textarea>;
   private setRootNode!: TSetRootNode;
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
@@ -312,6 +314,37 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const rightIcon = this.getRightIcon();
 
     if (editing) {
+      if (this.props.viewMode === 'multiline' || this.props.viewMode === 'multiLineEditing') {
+        return (
+          <InternalTextareaWithLayout
+            align={align}
+            borderless={borderless}
+            disabled={disabled}
+            error={error}
+            maxLength={this.props.maxLength}
+            onBlur={isMobile ? undefined : onInputBlur}
+            onValueChange={onInputValueChange}
+            onFocus={onInputFocus}
+            onClick={isMobile ? this.handleMobileFocus : onInputClick}
+            leftIcon={leftIcon}
+            rightIcon={rightIcon}
+            value={textValue || ''}
+            onKeyDown={onInputKeyDown}
+            placeholder={placeholder}
+            width="100%"
+            size={size}
+            ref={this.refInput}
+            warning={warning}
+            inputMode={inputMode}
+            aria-describedby={ariaDescribedby}
+            aria-controls={this.menuId}
+            aria-label={ariaLabel}
+            autoResize
+            rows={1}
+            extraRow={false}
+          />
+        );
+      }
       return (
         <Input
           align={align}
@@ -379,7 +412,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   };
 
-  private refInput = (input: Nullable<Input>) => {
+  private refInput = (input: Nullable<any>) => {
     if (this.props.refInput) {
       this.props.refInput(input);
     }

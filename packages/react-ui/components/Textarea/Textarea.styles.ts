@@ -211,4 +211,9 @@ export const styles = memoizeStyle({
       transition: none;
     `;
   },
+  contentWrapper() {
+    return css`
+      display: inline-flex;
+    `;
+  },
 });
