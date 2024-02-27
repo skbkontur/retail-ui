@@ -121,6 +121,61 @@ function close() {
 </div>
 ```
 
+### menuItemsAtAnyLevel
+
+Mожно использовать различные обертки для пунктов меню
+
+```jsx harmony
+import { DropdownMenu, Button, MenuHeader, MenuItem, MenuSeparator, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const groupedMenuItems = (
+  <div>
+    <MenuItem>MenuItem1</MenuItem>
+    <MenuItem>MenuItem2</MenuItem>
+    <MenuItem isNotSelectable>Not Selectable</MenuItem>
+  </div>
+);
+
+<ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
+  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+    <>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <div>
+        {groupedMenuItems}
+      </div>
+    </>
+    <MenuItem>MenuItem3</MenuItem>
+  </DropdownMenu>
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### textareaUseSafari17Workaround
+
+В браузере Safari версии 17.* возник баг в реактовом элементе `<textarea />`. Баг не позволяет нормально вводить текст в пустые строки.
+Но только если эти пустые строки были при монтировании элемента.
+Если пустые строки добавить сразу после монтирования, то проблема не наблюдается.
+
+Мы можем купировать этот баг на своей стороне, но только в рамках контрола `Textarea`.
+Также баг могут поправить на стороне Safari или React, из-за чего уже наше обходное решение может вызвать другой баг.
+Поэтому лучше добавить возможность выключить в любой момент наше обходное решение.
+
+Обходное решение само отслеживает Safari версии 17.*, и применяется только для него.
+
+```jsx harmony
+import { Textarea, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState('1\n\n\n\n2');
+
+<ReactUIFeatureFlagsContext.Provider value={{ textareaUseSafari17Workaround: true }}>
+  <Textarea
+    value={value}
+    onValueChange={setValue}
+    rows={5}
+  />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
 ### hintFixJumpingNearScreenEdge
 
 Чтобы исправить странное поведение Hint у границ экрана, в Popup изменился расчет его длины.

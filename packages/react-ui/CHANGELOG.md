@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.21.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.0-next.3...@skbkontur/react-ui@4.21.0) (2024-02-21)
+
+
+### Features
+
+* **MuskedInput:** add MaskedInput component ([#3341](https://github.com/skbkontur/retail-ui/issues/3341)) ([4343d51](https://github.com/skbkontur/retail-ui/commit/223aa724d3497ae53d62ea8a86578c3564343d51))
+
+
+
+
+
+## [4.20.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.2...@skbkontur/react-ui@4.20.3) (2024-02-21)
+
+
+### Bug Fixes
+
+* **Token:** prevent focus on cross ([#3361](https://github.com/skbkontur/retail-ui/issues/3361)) ([757899c](https://github.com/skbkontur/retail-ui/commit/757899c17a1f5e040848ecd25a0eaf98ebe8e9e4))
+
+
+
+
+
+## [4.20.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.1...@skbkontur/react-ui@4.20.2) (2024-02-19)
+
+
+### Bug Fixes
+
+* **Token:** suppress close button a11y issue([#3337](https://github.com/skbkontur/retail-ui/issues/3337)) ([b7de35f](https://github.com/skbkontur/retail-ui/commit/b7de35f57c287b7ec8030df99e20e28bad2dd8a6))
+
+
+
+
+
+## [4.20.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.0...@skbkontur/react-ui@4.20.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* **RenderContainer:** remove side effects from constructor ([#3357](https://github.com/skbkontur/retail-ui/issues/3357)) ([0a7d610](https://github.com/skbkontur/retail-ui/commit/0a7d6104fd611bee5e55bf4248809e2fe076b827))
+* full support of rgb(a) and hsl(a) formats in theme vars ([#3332](https://github.com/skbkontur/retail-ui/issues/3332)) ([d9a0b28](https://github.com/skbkontur/retail-ui/commit/d9a0b28c1beee128a858be074b0b81caaf276f0e))
+* **Button:** correct click handler with use="link" ([#3355](https://github.com/skbkontur/retail-ui/issues/3355)) ([816d551](https://github.com/skbkontur/retail-ui/commit/816d55189aa4bee1e1999f624d6c861eaddf9b64))
+
+
+
+
+
+# [4.20.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.0-next.2...@skbkontur/react-ui@4.20.0) (2024-02-05)
+
+
+### Bug Fixes
+
+* **SidePage:** add FocusLock featureFlag ([#3343](https://github.com/skbkontur/retail-ui/issues/3343)) ([660a531](https://github.com/skbkontur/retail-ui/commit/660a531279daab30aec23b5000b5cb721ef7de41))
+* **Tooltip:** new prop delayBeforeShow ([#3354](https://github.com/skbkontur/retail-ui/issues/3354)) ([fc166d0](https://github.com/skbkontur/retail-ui/commit/fc166d061f538bd975a0330aabc3b052a548267d))
+* isInstanceOf in IE 11 ([#3350](https://github.com/skbkontur/retail-ui/issues/3350)) ([bb61ec0](https://github.com/skbkontur/retail-ui/commit/bb61ec0315854f65fc3d27fb1bbf003aa1284199))
+
+
+### Features
+
+* **MenuItem:** allow MenuItem at any level ([#3270](https://github.com/skbkontur/retail-ui/issues/3270)) ([171f2c1](https://github.com/skbkontur/retail-ui/commit/171f2c1b46a638347302f6a998efc06143a0527e))
+* **ScrollСontainer:** add value `never` to `showScrollbar` prop ([#3353](https://github.com/skbkontur/retail-ui/issues/3353)) ([50970e3](https://github.com/skbkontur/retail-ui/commit/50970e39e06a0aaff6600e1d6d673df741670e91))
+* **Spinner:** hide default caption under a feature flag ([#3334](https://github.com/skbkontur/retail-ui/issues/3334)) ([8374dc5](https://github.com/skbkontur/retail-ui/commit/8374dc5615a3c5ebbc704c62bbd0298c7f600dc5))
+
+
+
+
+
+## [4.19.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.19.0...@skbkontur/react-ui@4.19.1) (2024-01-25)
+
+
+### Bug Fixes
+
+* **GlobalLoader:** fix warning in strict mode ([#3335](https://github.com/skbkontur/retail-ui/issues/3335)) ([f9ba1bc](https://github.com/skbkontur/retail-ui/commit/f9ba1bcaa1f5e4d5d6bbd07442b37af0c935f0ee))
+* **Switcher:** export SwitcherItems type ([#3342](https://github.com/skbkontur/retail-ui/issues/3342)) ([718b05f](https://github.com/skbkontur/retail-ui/commit/718b05fba9ff1546b50d6b36914c9616cc42fb3b))
+
+
+### Features
+
+* **Textarea:** add feature flag `textareaUseSafari17Workaround` ([#3352](https://github.com/skbkontur/retail-ui/issues/3352)) ([e40c88b](https://github.com/skbkontur/retail-ui/commit/e40c88bd8b0a47015842d8125348dc066ef30e0e))
+
+
+
+
+
 # [4.19.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.18.0...@skbkontur/react-ui@4.19.0) (2023-12-15)
 
 
