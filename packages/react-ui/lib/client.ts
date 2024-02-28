@@ -21,3 +21,5 @@ export const isMobile =
   'ontouchstart' in globalObject.document.documentElement;
 
 export const isIOS = /(ip[ao]d|iphone)/gi.test(userAgent);
+
+export const isSafari17 = isSafari && userAgent.includes('version/17');

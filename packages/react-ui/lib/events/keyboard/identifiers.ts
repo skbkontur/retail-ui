@@ -1,6 +1,7 @@
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isMac } from '../../client';
+import { isInstanceOf } from '../../isInstanceOf';
 
 import { extractCode } from './extractCode';
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';

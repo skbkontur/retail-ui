@@ -2,6 +2,9 @@ import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -28,6 +31,11 @@ export interface ToastState {
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
 }
 
 export const ToastDataTids = {
@@ -41,15 +49,16 @@ export const ToastDataTids = {
  * Показывает уведомления.
  *
  * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
- * Однако, при его использовании не работает кастомизация и могут быть проблемы
- * с перекрытием уведомления другими элементами страницы.
+ * Однако, при его использовании не работает кастомизация, они не поддерживаются в `React@18`, а также могут быть проблемы с перекрытием уведомления другими элементами страницы.
  *
- * Рекомендуется использовать Toast через `ref` (см. примеры).
+ * Для статических тостов <u>рекомендуется</u> использовать компонент [SingleToast](https://tech.skbkontur.ru/react-ui/#/Components/SingleToast) - в нём исправлены эти проблемы.
+ *
  */
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
   private setRootNode!: TSetRootNode;
+  private theme!: Theme;
 
   public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
     ToastStatic.push(notification, action, showTime);
@@ -79,9 +88,18 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public render() {
     return (
-      <RenderContainer>
-        <TransitionGroup>{this._renderToast()}</TransitionGroup>
-      </RenderContainer>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+          return (
+            <ThemeContext.Provider value={this.theme}>
+              <RenderContainer>
+                <TransitionGroup>{this._renderToast()}</TransitionGroup>
+              </RenderContainer>
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 

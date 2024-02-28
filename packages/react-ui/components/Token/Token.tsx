@@ -2,7 +2,7 @@ import React, { AriaAttributes } from 'react';
 
 import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { emptyHandler } from '../../lib/utils';
+import { emptyHandler, getChildrenText } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -97,15 +97,10 @@ export class Token extends React.Component<TokenProps> {
     const theme = this.theme;
 
     const validation = getValidation(error, warning);
+    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + getChildrenText(children);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon
-        aria-label={this.locale.removeButtonAriaLabel}
-        side={16}
-        color="inherit"
-        colorHover="inherit"
-        tabbable={false}
-      />
+      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" tabbable={false} />
     ) : (
       <CrossIcon />
     );
@@ -149,7 +144,7 @@ export class Token extends React.Component<TokenProps> {
           <span className={styles.text(this.theme)}>{children}</span>
           <span
             role={isTheme2022(theme) ? undefined : 'button'}
-            aria-label={isTheme2022(theme) ? undefined : this.locale.removeButtonAriaLabel}
+            aria-label={isTheme2022(theme) ? undefined : removeButtonAriaLabel}
             className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
             onClick={this.onRemoveClick}
             data-tid={TokenDataTids.removeIcon}

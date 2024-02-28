@@ -1,12 +1,11 @@
 import React from 'react';
-import { CSSTransition } from 'react-transition-group';
-import debounce from 'lodash.debounce';
-import { globalObject, isInstanceOf } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -23,18 +22,16 @@ export interface ScrollBarState {
   size: number; // in percentages
   pos: number; // in percentages
   scrollState: ScrollBarScrollState;
-  scrollingByMouseWheel: boolean;
 }
 
 export interface ScrollBarProps {
   invert: boolean;
   axis: ScrollAxis;
   className?: string;
-  onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
+  onScroll?: (axis: ScrollAxis, state: ScrollBarScrollState, prevState: ScrollBarScrollState) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
-  hideScrollBar?: boolean;
-  hideScrollBarDelay?: number;
   disableAnimations?: boolean;
+  isVisible: boolean;
 }
 
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
@@ -78,7 +75,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     const classNames = cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
       [styles.scrollBarInvert(this.theme)]: props.invert,
-      [styles.visibleScrollBar()]: this.state.scrollingByMouseWheel || !this.props.hideScrollBar,
+      [styles.visibleScrollBar()]: props.isVisible,
     });
 
     const inlineStyles: React.CSSProperties = {
@@ -88,34 +85,18 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     return (
       <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
-        <CSSTransition
-          appear={!props.disableAnimations}
-          exit={!props.disableAnimations}
-          in={this.state.scrollingByMouseWheel}
-          classNames={{
-            enter: styles.transition(),
-            enterActive: styles.transitionActive(),
-            exit: styles.transitionLeave(),
-            exitActive: styles.transitionLeaveActive(),
-          }}
-          timeout={{
-            enter: 100,
-            exit: 300,
-          }}
-        >
-          <div
-            ref={this.refScroll}
-            style={inlineStyles}
-            className={classNames}
-            onMouseDown={this.handleScrollMouseDown}
-            data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
-          />
-        </CSSTransition>
+        <div
+          ref={this.refScroll}
+          style={inlineStyles}
+          className={classNames}
+          onMouseDown={this.handleScrollMouseDown}
+          data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
+        />
       </div>
     );
   };
 
-  public reflow = (event?: React.UIEvent<HTMLDivElement>) => {
+  public reflow = () => {
     if (!this.inner) {
       return;
     }
@@ -132,8 +113,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
       const scrollState = this.getImmediateScrollState();
 
-      if (scrollState !== state.scrollState) {
-        this.props.onScrollStateChange?.(scrollState, props.axis);
+      if (state.pos !== scrollPos) {
+        this.props.onScroll?.(props.axis, scrollState, state.scrollState);
       }
 
       this.setState({
@@ -143,7 +124,6 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
         pos: scrollPos,
         scrollState,
       });
-      event && event.type === 'scroll' && props.hideScrollBar && this.setScrollingByMouseWheel();
     }
   };
 
@@ -155,10 +135,11 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   public setHover(hover: boolean) {
     if (this.state.active && this.state.hover !== hover) {
       this.setState({ ...this.state, hover });
-      if (!hover) {
-        this.props.hideScrollBar && this.hideScrollBar();
-      }
     }
+  }
+
+  public getHover() {
+    return this.state.hover;
   }
 
   public get scrollBarState() {
@@ -243,7 +224,6 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
       target?.removeEventListener('mousemove', mouseMove);
       target?.removeEventListener('mouseup', mouseUp);
       this.setState({ ...this.state, scrollingByMouseDrag: false });
-      this.hideScrollBar();
     };
 
     target?.addEventListener('mousemove', mouseMove);
@@ -291,15 +271,4 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     return 'middle';
   };
-
-  private setScrollingByMouseWheel = () => {
-    if (!this.state.scrollingByMouseWheel) {
-      this.setState({ scrollingByMouseWheel: true });
-    }
-    this.hideScrollBar();
-  };
-
-  private readonly hideScrollBar = debounce(() => {
-    !this.state.scrollingByMouseDrag && !this.state.hover && this.setState({ scrollingByMouseWheel: false });
-  }, this.props.hideScrollBarDelay);
 }

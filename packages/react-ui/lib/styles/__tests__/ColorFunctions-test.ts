@@ -1,5 +1,81 @@
 import * as ColorFunctions from '../ColorFunctions';
 
+const validWaysToWriteRGB = [
+  'rgb(0, 255, 255)',
+  'rgb(0, 255, 255, 1)',
+  'rgb(0, 255, 255, 100%)',
+  'rgb(0%, 100%, 100%)',
+  'rgb(0%, 100%, 100%, 1)',
+  'rgb(0%, 100%, 100%, 100%)',
+  'rgb(0 255 255)',
+  'rgb(0 255 255 / 1)',
+  'rgb(0 255 255 / 100%)',
+  'rgb(0% 100% 100%)',
+  'rgb(0% 100% 100% / 1)',
+  'rgb(0% 100% 100% / 100%)',
+  'rgba(0, 255, 255)',
+  'rgba(0, 255, 255, 1)',
+  'rgba(0, 255, 255, 100%)',
+  'rgba(0%, 100%, 100%)',
+  'rgba(0%, 100%, 100%, 1)',
+  'rgba(0%, 100%, 100%, 100%)',
+  'rgba(0 255 255)',
+  'rgba(0 255 255 / 1)',
+  'rgba(0 255 255 / 100%)',
+  'rgba(0% 100% 100%)',
+  'rgba(0% 100% 100% / 1)',
+  'rgba(0% 100% 100% / 100%)',
+];
+
+const invalidWaysToWriteRGB = [
+  'rgb(ff, 100, 150, 0.2)', // r
+  'rgb(50, ff, 150, 0.2)', // g
+  'rgb(50, 100, ff, 0.2)', // b
+  'rgb(50, 100, 150, ff)', // a
+  'rgba(ff, 100, 150, 20%)', // r
+  'rgba(50, ff, 150, 20%)', // g
+  'rgba(50, 100, ff, 20%)', // b
+  'rgba(50, 100, 150, 20)', // a
+];
+
+const validWaysToWriteHSL = [
+  'hsl(180, 100%, 50%)',
+  'hsl(180, 100%, 50%, 1)',
+  'hsl(180, 100%, 50%, 100%)',
+  'hsl(180deg, 100%, 50%)',
+  'hsl(180deg, 100%, 50%, 1)',
+  'hsl(180deg, 100%, 50%, 100%)',
+  'hsl(180 100% 50%)',
+  'hsl(180 100% 50% / 1)',
+  'hsl(180 100% 50% / 100%)',
+  'hsl(180deg 100% 50%)',
+  'hsl(180deg 100% 50% / 1)',
+  'hsl(180deg 100% 50% / 100%)',
+  'hsla(180, 100%, 50%)',
+  'hsla(180, 100%, 50%, 1)',
+  'hsla(180, 100%, 50%, 100%)',
+  'hsla(180deg, 100%, 50%)',
+  'hsla(180deg, 100%, 50%, 1)',
+  'hsla(180deg, 100%, 50%, 100%)',
+  'hsla(180 100% 50%)',
+  'hsla(180 100% 50% / 1)',
+  'hsla(180 100% 50% / 100%)',
+  'hsla(180deg 100% 50%)',
+  'hsla(180deg 100% 50% / 1)',
+  'hsla(180deg 100% 50% / 100%)',
+];
+
+const invalidWaysToWriteHSL = [
+  'hsl(50%, 50%, 100%, 20%)', // h
+  'hsl(50, 50, 100%, 20%)', // s
+  'hsl(50, 50%, 100, 20%)', // l
+  'hsl(50, 50%, 100%, ff)', // a
+  'hsla(50%, 50%, 100%, 20%)', // h
+  'hsla(50, 50, 100%, 20%)', // s
+  'hsla(50, 50%, 100, 20%)', // l
+  'hsla(50, 50%, 100%, ff)', // a
+];
+
 describe('ColorFunctions', () => {
   test('returns empty string for unexpected input', () => {
     expect(ColorFunctions.lighten(null as any, '10%')).toBe('');
@@ -264,78 +340,27 @@ describe('ColorFunctions', () => {
         });
       });
     });
-    describe('rgb', () => {
-      test('detects valid', () => {
-        expect(ColorFunctions.isValid('rgb(50, 100, 150)')).toBe(true);
+    describe('rgb(a)', () => {
+      test.each(invalidWaysToWriteRGB)('cannot process %s', (rgb) => {
+        expect(ColorFunctions.isValid(rgb)).toBe(false);
       });
-      test('detects invalid params count', () => {
-        expect(ColorFunctions.isValid('rgb(50, 100, 150, 0.2)')).toBe(false);
-      });
-      test('detects invalid r value', () => {
-        expect(ColorFunctions.isValid('rgb(ff, 100, 150)')).toBe(false);
-      });
-      test('detects invalid g value', () => {
-        expect(ColorFunctions.isValid('rgb(50, ff, 150)')).toBe(false);
-      });
-      test('detects invalid b value', () => {
-        expect(ColorFunctions.isValid('rgb(50, 100, ff)')).toBe(false);
+      test.each(validWaysToWriteRGB)('can process %s', (rgb) => {
+        expect(ColorFunctions.isValid(rgb)).toBe(true);
       });
     });
-    describe('rgba', () => {
-      test('detects valid', () => {
-        expect(ColorFunctions.isValid('rgba(50, 100, 150, 0.2)')).toBe(true);
+    describe('hsl(a)', () => {
+      test.each(invalidWaysToWriteHSL)('cannot process %s', (rgb) => {
+        expect(ColorFunctions.isValid(rgb)).toBe(false);
       });
-      test('detects invalid params count', () => {
-        expect(ColorFunctions.isValid('rgba(50, 100, 150)')).toBe(false);
+      test.each(validWaysToWriteHSL)('can process %s', (rgb) => {
+        expect(ColorFunctions.isValid(rgb)).toBe(true);
       });
-      test('detects invalid r value', () => {
-        expect(ColorFunctions.isValid('rgba(ff, 100, 150, 20%)')).toBe(false);
+
+      test('alpha value can be higher than 1 in hsl', () => {
+        expect(ColorFunctions.isValid('hsl(50, 50%, 100%, 20)')).toBe(true);
       });
-      test('detects invalid g value', () => {
-        expect(ColorFunctions.isValid('rgba(50, ff, 150, 20%)')).toBe(false);
-      });
-      test('detects invalid b value', () => {
-        expect(ColorFunctions.isValid('rgba(50, 100, ff, 20%)')).toBe(false);
-      });
-      test('detects invalid a value', () => {
-        expect(ColorFunctions.isValid('rgba(50, 100, 150, 20)')).toBe(false);
-      });
-    });
-    describe('hsl', () => {
-      test('detects valid', () => {
-        expect(ColorFunctions.isValid('hsl(50, 50%, 100%)')).toBe(true);
-      });
-      test('detects invalid params count', () => {
-        expect(ColorFunctions.isValid('hsl(50, 50%, 100%, 20%)')).toBe(false);
-      });
-      test('detects invalid h value', () => {
-        expect(ColorFunctions.isValid('hsl(50%, 50%, 100%)')).toBe(false);
-      });
-      test('detects invalid s value', () => {
-        expect(ColorFunctions.isValid('hsl(50, 50, 100%)')).toBe(false);
-      });
-      test('detects invalid l value', () => {
-        expect(ColorFunctions.isValid('hsl(50, 50%, 100)')).toBe(false);
-      });
-    });
-    describe('hsla', () => {
-      test('detects valid', () => {
-        expect(ColorFunctions.isValid('hsla(50, 50%, 100%, 0.2)')).toBe(true);
-      });
-      test('detects invalid params count', () => {
-        expect(ColorFunctions.isValid('hsla(50, 50%, 100%)')).toBe(false);
-      });
-      test('detects invalid h value', () => {
-        expect(ColorFunctions.isValid('hsla(50%, 50%, 100%, 20%)')).toBe(false);
-      });
-      test('detects invalid s value', () => {
-        expect(ColorFunctions.isValid('hsla(50, 50, 100%, 20%)')).toBe(false);
-      });
-      test('detects invalid l value', () => {
-        expect(ColorFunctions.isValid('hsla(50, 50%, 100, 20%)')).toBe(false);
-      });
-      test('detects invalid a value', () => {
-        expect(ColorFunctions.isValid('hsla(50, 50%, 100%, 20)')).toBe(false);
+      test('alpha value can be higher than 1 in hsla', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50%, 100%, 20)')).toBe(true);
       });
     });
   });

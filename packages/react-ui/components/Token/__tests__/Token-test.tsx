@@ -47,30 +47,85 @@ describe('Token', () => {
     });
 
     it('has correct value on close button aria-label attribute (ru)', () => {
-      render(<Token />);
+      const tokenName = 'name';
+      render(<Token>{tokenName}</Token>);
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+      );
     });
 
     it('has correct value on close button aria-label attribute (en)', () => {
+      const tokenName = 'name';
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <Token />
+          <Token>{tokenName}</Token>
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesEn.removeButtonAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesEn.removeButtonAriaLabel + ' ' + tokenName,
+      );
     });
 
     it('sets custom value for `closeButtonAriaLabel` locale', () => {
       const customAriaLabel = 'test';
+      const tokenName = 'name';
       render(
         <LocaleContext.Provider value={{ locale: { Token: { removeButtonAriaLabel: customAriaLabel } } }}>
-          <Token />
+          <Token>{tokenName}</Token>
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel + ' ' + tokenName);
+    });
+
+    it('can find text inside nested children', () => {
+      const tokenName = 'name';
+      render(
+        <Token>
+          <div>{tokenName}</div>
+        </Token>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenName,
+      );
+    });
+
+    it('can find text inside several nested children', () => {
+      const tokenNameFirst = 'name 1';
+      const tokenNameSecond = 'name 2';
+      render(
+        <Token>
+          <div>{tokenNameFirst}</div>
+          <div>{tokenNameSecond}</div>
+        </Token>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        TokenLocalesRu.removeButtonAriaLabel + ' ' + tokenNameFirst + tokenNameSecond,
+      );
+    });
+
+    it('can work with token without text', () => {
+      render(<Token></Token>);
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel + ' ');
+    });
+
+    it('can work with tag without text', () => {
+      render(
+        <Token>
+          <div></div>
+        </Token>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel + ' ');
     });
   });
 });

@@ -455,7 +455,7 @@ object SeleniumTesting_Publish : BuildType({
             id = "RUNNER_3"
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
-            serverUrl = "https://api.nuget.org/v3/index.json"
+            serverUrl = "%env.NUGET_SOURCE%"
             apiKey = "credentialsJSON:9c594bdb-ecae-416b-ab54-3b85ce110c13"
         }
     }
@@ -623,7 +623,7 @@ object Validations_LintTest : BuildType({
         nunit {
             name = "Run tests"
             id = "RUNNER_7"
-            nunitPath = "%teamcity.tool.NUnit.Console.3.15.2%"
+            nunitPath = "%teamcity.tool.NUnit.Console.3.15.5%"
             includeTests = """packages\react-ui-validations\selenium-tests\ValidationTests\bin\Debug\ValidationTests.dll"""
         }
     }

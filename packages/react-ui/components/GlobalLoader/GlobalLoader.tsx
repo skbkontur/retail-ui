@@ -1,6 +1,5 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -78,7 +77,6 @@ type DefaultProps = Required<
 let currentGlobalLoader: GlobalLoader;
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
-  private successAnimationInProgressTimeout: SafeTimer;
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
@@ -90,6 +88,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   private readonly stopTask = debounce(() => {
     this.setState({ visible: false, successAnimationInProgress: false, started: false });
     this.props.onDone?.();
+  }, this.getProps().delayBeforeHide);
+
+  private readonly resumeTaskAfterSuccessAnimation = debounce(() => {
+    this.setActive();
   }, this.getProps().delayBeforeHide);
 
   public static defaultProps: DefaultProps = {
@@ -113,11 +115,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       successAnimationInProgress: false,
       expectedResponseTime: this.getProps().expectedResponseTime,
     };
-    this.successAnimationInProgressTimeout = null;
-    currentGlobalLoader?.kill();
-    currentGlobalLoader = this;
   }
   componentDidMount() {
+    currentGlobalLoader?.kill();
+    currentGlobalLoader = this;
     const { active, rejected } = this.getProps();
     if (active) {
       this.setActive();
@@ -133,7 +134,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.setState({ expectedResponseTime });
     }
     if (rejected !== prevProps.rejected) {
-      this.setReject(!!rejected);
+      this.setReject(rejected);
     }
     if (active !== prevProps.active) {
       if (active) {
@@ -142,10 +143,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         this.setDone();
       }
     }
-  }
-
-  componentWillUnmount() {
-    this.successAnimationInProgressTimeout && globalObject.clearTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
@@ -219,15 +216,12 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setActive = () => {
-    const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
-      this.successAnimationInProgressTimeout = globalObject.setTimeout(() => {
-        this.setActive();
-      }, delayBeforeHide);
+      this.resumeTaskAfterSuccessAnimation();
     } else {
       this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
-      if (rejected) {
+      if (this.getProps().rejected) {
         this.setReject(true);
       } else {
         this.stopTask.cancel();
@@ -242,6 +236,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
     this.setState({ done: true, successAnimationInProgress: true });
     this.startTask.cancel();
+    this.resumeTaskAfterSuccessAnimation.cancel();
     this.stopTask();
   };
 
@@ -267,6 +262,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   public kill = () => {
     this.stopTask.cancel();
     this.startTask.cancel();
+    this.resumeTaskAfterSuccessAnimation.cancel();
     this.setState({
       dead: true,
     });

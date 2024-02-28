@@ -1,7 +1,7 @@
 // TODO: Enable this rule in functional components.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import React, { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
 import warning from 'warning';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
@@ -9,7 +9,7 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
-import { MaskedInput } from '../../internal/MaskedInput';
+import { InternalMaskedInput } from '../../internal/InternalMaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -20,6 +20,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
 
+import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
@@ -82,16 +83,26 @@ export interface InputProps
         borderless?: boolean;
         /** Выравнивание текста */
         align?: InputAlign;
-        /** Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url` */
+        /**
+         * Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
+         */
         mask?: Nullable<string>;
-        /** Символ маски */
+        /**
+         * Символ маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
+         */
         maskChar?: Nullable<string>;
         /**
          * Словарь символов-регулярок для задания маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
          * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
          */
         formatChars?: Record<string, string>;
-        /** Показывать символы маски */
+        /**
+         * Показывать символы маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
+         */
         alwaysShowMask?: boolean;
         /** Размер */
         size?: SizeProp;
@@ -125,7 +136,7 @@ export interface InputProps
         selectAllOnFocus?: boolean;
         /**
          * Обработчик неправильного ввода.
-         * По-умолчанию, инпут вспыхивает синим.
+         * По-умолчанию, инпут вспыхивает акцентным цветом.
          * Если передан - вызывается переданный обработчик,
          * в таком случае вспыхивание можно вызвать
          * публичным методом инстанса `blink()`.
@@ -140,6 +151,11 @@ export interface InputProps
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
+        /**
+         * Элемент заменяет нативный input.
+         * Должен иметь пропы `InputElementProps` и тип `InputElement`
+         * */
+        element?: ReactElement<InputElementProps>;
       }
     > {}
 
@@ -334,6 +350,16 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
+  private getInput = (inputProps: InputElementProps & ClassAttributes<HTMLInputElement>) => {
+    if (this.props.element) {
+      return React.cloneElement(this.props.element, inputProps);
+    }
+
+    return this.props.mask && !this.canBeUsedWithMask
+      ? this.renderMaskedInput(inputProps, this.props.mask)
+      : React.createElement('input', inputProps);
+  };
+
   private renderMain = (props: CommonWrapperRestProps<InputProps>) => {
     const {
       onMouseEnter,
@@ -367,6 +393,7 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-describedby': ariaDescribedby,
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
+      element,
       ...rest
     } = props;
 
@@ -392,7 +419,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onMouseOver,
     };
 
-    const inputProps = {
+    const inputProps: InputElementProps & ClassAttributes<HTMLInputElement> = {
       ...rest,
       className: cx(styles.input(this.theme), {
         [styles.inputFocus(this.theme)]: focused,
@@ -414,10 +441,7 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-label': ariaLabel,
     };
 
-    const input =
-      mask && !this.canBeUsedWithMask
-        ? this.renderMaskedInput(inputProps, mask)
-        : React.createElement('input', inputProps);
+    const input = this.getInput(inputProps);
 
     if (isTheme2022(this.theme)) {
       return (
@@ -462,14 +486,9 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   };
 
-  private renderMaskedInput(
-    inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
-      capture?: boolean;
-    },
-    mask: string,
-  ) {
+  private renderMaskedInput(inputProps: React.InputHTMLAttributes<HTMLInputElement>, mask: string) {
     return (
-      <MaskedInput
+      <InternalMaskedInput
         {...inputProps}
         mask={mask}
         maskChar={this.props.maskChar}
@@ -570,8 +589,8 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  private refInput = (element: HTMLInputElement | MaskedInput | null) => {
-    if (element instanceof MaskedInput) {
+  private refInput = (element: HTMLInputElement | InternalMaskedInput | InputElement | null) => {
+    if (element instanceof InternalMaskedInput || (element && 'input' in element)) {
       this.input = element.input;
     } else {
       this.input = element;
