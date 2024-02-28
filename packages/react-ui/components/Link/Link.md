@@ -22,7 +22,7 @@ import { Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
-import { CheckAIcon16Light } from '@skbkontur/react-ui/internal/icons2022/CheckAIcon/CheckAIcon16Light';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
 <Gapped gap={20}>
   <Link icon={<CheckAIcon16Light />}>Ссылка с иконкой слева</Link>
@@ -58,7 +58,7 @@ import { Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
-import { CheckAIcon16Light } from '@skbkontur/react-ui/internal/icons2022/CheckAIcon/CheckAIcon16Light';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
 const [isLoading, setIsLoading] = React.useState(false);
 
@@ -97,7 +97,7 @@ import { Link, Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Toast, Button } from "@skbkontur/react-ui";
-import { Copy } from "@skbkontur/react-icons"
+import { CopyIcon16Regular } from "@skbkontur/icons/icons/CopyIcon"
 
 const textDecorationStyles = {
   linkLineBorderBottomWidth: '0',
@@ -141,7 +141,7 @@ const renderExampleRow = (title, styles, index) => {
           <td style={tdStyle}>
             <div style={{display: 'flex'}}>
               <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-              <Button icon={<Copy />} use={'text'} onClick={() => copyStyles(styles)}/>
+              <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
             </div>
           </td>
         </tr>

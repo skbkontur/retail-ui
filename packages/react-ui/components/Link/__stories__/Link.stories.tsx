@@ -1,11 +1,11 @@
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
-import { CheckAIcon16Light } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Light';
 
 const linkTests: CreeveyTests = {
   async idle() {

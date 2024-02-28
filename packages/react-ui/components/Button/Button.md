@@ -47,7 +47,7 @@ const bgStyle = {
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
-import { XIcon16Regular } from '@skbkontur/react-ui/internal/icons2022/XIcon/XIcon16Regular';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon';
 
 <Gapped gap={5}>
   <Button icon={<XIcon16Regular />}>Закрыть</Button>
@@ -59,8 +59,6 @@ import { XIcon16Regular } from '@skbkontur/react-ui/internal/icons2022/XIcon/XIc
 У кнопки есть 3 стандартных размера.
 
 ```jsx harmony
-import { MinusCircleIcon16Light } from '@skbkontur/react-ui/internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
-
 <div
     style={{
       display: "flex",
@@ -100,8 +98,7 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import { MinusCircleIcon16Light } from '@skbkontur/react-ui/internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
+import { MinusCircleIcon16Light } from '@skbkontur/icons/icons/MinusCircleIcon';
 
 const [loading, setLoading] = React.useState(false);
 
@@ -153,7 +150,7 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Toast } from "@skbkontur/react-ui";
-import { Copy } from "@skbkontur/react-icons"
+import { CopyIcon16Regular } from "@skbkontur/icons/icons/CopyIcon"
 
 const textDecorationStyles = {
   btnLinkLineBorderBottomWidth: '0',
@@ -197,7 +194,7 @@ const renderExampleRow = (title, styles, index) => {
           <td style={tdStyle}>
             <div style={{display: 'flex'}}>
               <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-              <Button icon={<Copy />} use={'text'} onClick={() => copyStyles(styles)}/>
+              <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
             </div>
           </td>
         </tr>

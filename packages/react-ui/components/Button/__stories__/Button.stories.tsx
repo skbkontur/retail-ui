@@ -2,18 +2,18 @@ import React, { ReactElement } from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { XIcon16Light, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
+import {
+  CheckAIcon,
+  CheckAIcon16Light,
+  CheckAIcon20Light,
+  CheckAIcon24Regular,
+} from '@skbkontur/icons/icons/CheckAIcon';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
-import { XIcon16Light } from '../../../internal/icons2022/XIcon/XIcon16Light';
-import { XIcon20Light } from '../../../internal/icons2022/XIcon/XIcon20Light';
-import { XIcon24Regular } from '../../../internal/icons2022/XIcon/XIcon24Regular';
-import { CheckAIcon16Light } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Light';
-import { CheckAIcon20Light } from '../../../internal/icons2022/CheckAIcon/CheckAIcon20Light';
-import { CheckAIcon24Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon24Regular';
 
 export default {
   title: 'Button',
