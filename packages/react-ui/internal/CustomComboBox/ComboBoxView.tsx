@@ -21,7 +21,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
-import { Textarea } from '../../components/Textarea';
+import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -29,7 +29,6 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
-import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 
 interface ComboBoxViewProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
@@ -87,7 +86,7 @@ interface ComboBoxViewProps<T>
   renderAddButton?: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
-  refInput?: (input: Nullable<any>) => void;
+  refInput?: (input: Nullable<Input | InternalTextareaWithLayout>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
   viewMode?: ComboBoxViewMode;
@@ -135,7 +134,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
 
-  private input: Nullable<Input | Textarea>;
+  private input: Nullable<Input | InternalTextareaWithLayout>;
   private setRootNode!: TSetRootNode;
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
@@ -412,7 +411,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   };
 
-  private refInput = (input: Nullable<any>) => {
+  private refInput = (input: Nullable<Input | InternalTextareaWithLayout>) => {
     if (this.props.refInput) {
       this.props.refInput(input);
     }
