@@ -5,7 +5,7 @@ import { Center } from '@skbkontur/react-ui/components/Center';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Modal } from '@skbkontur/react-ui/components/Modal';
 
-import { text, ValidationContainer, ValidationInfo, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 storiesOf('ModalWithSingleInput', module)
@@ -35,58 +35,56 @@ class ModalInputStory extends React.Component {
 
   public render() {
     return (
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer scrollOffset={115} ref={this.refContainer}>
-          <Modal>
-            <Modal.Header>Заголовок</Modal.Header>
-            <Modal.Body>
-              <div style={{ padding: 10 }}>
-                <div
-                  style={{
-                    height: 1000,
-                    backgroundColor: '#eee',
-                  }}
-                />
-                <div
-                  data-tid="ClickArea"
-                  style={{
-                    textAlign: 'center',
-                    marginBottom: 10,
-                    padding: 10,
-                    border: '1px solid #ddd',
-                  }}
-                >
-                  Click here
-                </div>
-                ---
-                <ValidationWrapper
-                  // data-tid="ValidationWrapper"
-                  validationInfo={this.validateValue1()}
-                  renderMessage={text('bottom')}
-                >
-                  <Input
-                    data-tid="SingleInput"
-                    value={this.state.value}
-                    onValueChange={(value) => this.setState({ value })}
-                  />
-                </ValidationWrapper>
-                ---
-                <div
-                  style={{
-                    height: 1000,
-                    backgroundColor: '#eee',
-                  }}
-                />
+      <ValidationContainer scrollOffset={115} ref={this.refContainer}>
+        <Modal>
+          <Modal.Header>Заголовок</Modal.Header>
+          <Modal.Body>
+            <div style={{ padding: 10 }}>
+              <div
+                style={{
+                  height: 1000,
+                  backgroundColor: '#eee',
+                }}
+              />
+              <div
+                data-tid="ClickArea"
+                style={{
+                  textAlign: 'center',
+                  marginBottom: 10,
+                  padding: 10,
+                  border: '1px solid #ddd',
+                }}
+              >
+                Click here
               </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={() => this.container && this.container.submit()} use="primary">
-                Кнопка
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
+              ---
+              <ValidationWrapper
+                // data-tid="ValidationWrapper"
+                validationInfo={this.validateValue1()}
+                renderMessage={text('bottom')}
+              >
+                <Input
+                  data-tid="SingleInput"
+                  value={this.state.value}
+                  onValueChange={(value) => this.setState({ value })}
+                />
+              </ValidationWrapper>
+              ---
+              <div
+                style={{
+                  height: 1000,
+                  backgroundColor: '#eee',
+                }}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => this.container && this.container.submit()} use="primary">
+              Кнопка
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </ValidationContainer>
     );
   }
 

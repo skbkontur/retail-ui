@@ -78,7 +78,7 @@ export const DifferentStates = () => (
 
 export const CustomWidth = () => (
   <Gapped vertical>
-    100% <FileUploader width={'100%'} data-tid="Hobe" />
+    100% <FileUploader width={'100%'} />
     550px <FileUploader width={550} />
   </Gapped>
 );
