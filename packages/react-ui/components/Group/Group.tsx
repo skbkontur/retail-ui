@@ -88,6 +88,7 @@ export const GroupDataTids = {
 @rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
+  public static displayName = 'Group';
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 

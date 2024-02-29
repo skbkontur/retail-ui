@@ -101,6 +101,7 @@ type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
+  public static displayName = 'Tab';
 
   public static contextType = TabsContext;
   public context: TabsContextType = this.context;

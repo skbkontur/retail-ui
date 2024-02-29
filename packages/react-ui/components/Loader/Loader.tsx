@@ -82,6 +82,7 @@ type DefaultProps = Required<
 @rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
+  public static displayName = 'Loader';
 
   public static defaultProps: DefaultProps = {
     type: 'normal',

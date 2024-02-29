@@ -74,6 +74,7 @@ type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
 @rootNode
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
+  public static displayName = 'TooltipMenu';
   private setRootNode!: TSetRootNode;
 
   public static defaultProps: DefaultProps = {

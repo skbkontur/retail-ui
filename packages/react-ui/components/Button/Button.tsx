@@ -200,6 +200,7 @@ type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
+  public static displayName = 'Button';
   public static __BUTTON__ = true;
 
   public static defaultProps: DefaultProps = {

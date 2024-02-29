@@ -106,6 +106,7 @@ export const CustomComboBoxDataTids = {
 @rootNode
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
+  public static displayName = 'CustomComboBox';
 
   public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input>;

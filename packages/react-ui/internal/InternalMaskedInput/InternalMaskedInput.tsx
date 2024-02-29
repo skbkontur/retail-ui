@@ -44,6 +44,7 @@ export const MaskedInputDataTids = {
  * */
 export class InternalMaskedInput extends React.PureComponent<InternalMaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'InternalMaskedInput';
+  public static displayName = 'InternalMaskedInput';
 
   public static defaultProps: DefaultProps = {
     maskChar: '_',
