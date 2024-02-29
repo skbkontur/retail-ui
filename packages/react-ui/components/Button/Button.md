@@ -47,7 +47,7 @@ const bgStyle = {
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon';
+import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 
 <Gapped gap={5}>
   <Button icon={<XIcon16Regular />}>Закрыть</Button>
@@ -98,7 +98,7 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
-import { MinusCircleIcon16Light } from '@skbkontur/icons/icons/MinusCircleIcon';
+import { MinusCircleIcon16Light } from '@skbkontur/icons/MinusCircleIcon16Light';
 
 const [loading, setLoading] = React.useState(false);
 
@@ -150,7 +150,7 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Toast } from "@skbkontur/react-ui";
-import { CopyIcon16Regular } from "@skbkontur/icons/icons/CopyIcon"
+import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
   btnLinkLineBorderBottomWidth: '0',

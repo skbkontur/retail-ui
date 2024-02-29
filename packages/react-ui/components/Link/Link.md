@@ -22,7 +22,7 @@ import { Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
+import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 
 <Gapped gap={20}>
   <Link icon={<CheckAIcon16Light />}>Ссылка с иконкой слева</Link>
@@ -58,7 +58,7 @@ import { Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
+import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 
 const [isLoading, setIsLoading] = React.useState(false);
 
@@ -97,7 +97,7 @@ import { Link, Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Toast, Button } from "@skbkontur/react-ui";
-import { CopyIcon16Regular } from "@skbkontur/icons/icons/CopyIcon"
+import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
   linkLineBorderBottomWidth: '0',
