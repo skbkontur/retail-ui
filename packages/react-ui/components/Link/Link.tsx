@@ -94,10 +94,9 @@ type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
  */
 @rootNode
 export class Link extends React.Component<LinkProps, LinkState> {
-  public static __KONTUR_REACT_UI__ = 'Link'; // !DONE
+  public static __KONTUR_REACT_UI__ = 'Link';
 
   public static propTypes = {
-    // !DONE
     disabled: PropTypes.bool,
 
     href: PropTypes.string,
@@ -108,24 +107,21 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   public static defaultProps: DefaultProps = {
-    // !DONE
     href: '',
     use: 'default',
     as: 'a',
   };
 
-  private getProps = createPropsGetter(Link.defaultProps); //!DONE
+  private getProps = createPropsGetter(Link.defaultProps);
 
   public state: LinkState = {
-    // TODO
     focusedByTab: false,
   };
 
-  private theme!: Theme; // !DONE
-  private setRootNode!: TSetRootNode; // !DONE
+  private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
-    // !DONE
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -142,45 +138,40 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
     const {
-      disabled, // TODO
-      href, // !DONE
-      icon, // TODO
-      use, // !DONE
-      loading, // !DONE
-      _button, // !DONE
-      _buttonOpened, // !DONE
-      rel: relOrigin, // !DONE
-      as: Component, // !DONE
-      focused = false, // TODO
+      disabled,
+      href,
+      icon,
+      use,
+      loading,
+      _button,
+      _buttonOpened,
+      rel: relOrigin,
+      as: Component,
+      focused = false,
       ...rest
     } = props;
-    const _isTheme2022 = isTheme2022(this.theme); // !DONE
-
-    let iconElement = null; // !DONE
+    const _isTheme2022 = isTheme2022(this.theme);
+    let iconElement = null;
     if (icon) {
-      // !DONE
       iconElement = (
         <span className={styles.icon(this.theme)}>{loading ? <Spinner caption={null} dimmed inline /> : icon}</span>
       );
     }
 
-    let arrow = null; // !DONE
+    let arrow = null;
     if (_button) {
-      // !DONE
       arrow = <span className={styles.arrow()} />;
     }
 
-    let rel = relOrigin; // !DONE
+    let rel = relOrigin;
     if (typeof rel === 'undefined' && href) {
-      // !DONE
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
-    const isFocused = !disabled && (this.state.focusedByTab || focused); // TODO
+    const isFocused = !disabled && (this.state.focusedByTab || focused);
 
     const linkProps = {
       className: cx(
-        // !DONE
         styles.useRoot(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
@@ -190,17 +181,16 @@ export class Link extends React.Component<LinkProps, LinkState> {
         !!_buttonOpened && styles.buttonOpened(this.theme),
         this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
       ),
-      href, // !DONE
-      rel, // !DONE
-      onClick: this.handleClick, // TODO
-      onFocus: this.handleFocus, // TODO
-      onBlur: this.handleBlur, // TODO
-      tabIndex: disabled || loading ? -1 : this.props.tabIndex, // TODO
+      href,
+      rel,
+      onClick: this.handleClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
 
-    let child = this.props.children; // !DONE
+    let child = this.props.children;
     if (_isTheme2022) {
-      // !DONE
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
         <span
@@ -221,7 +211,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      // !DONE
       <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {iconElement}
         {child}
@@ -231,7 +220,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private handleFocus = () => {
-    // TODO
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -244,12 +232,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private handleBlur = () => {
-    // TODO
     this.setState({ focusedByTab: false });
   };
 
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    // !DONE
     const { onClick, disabled, loading } = this.props;
     const href = this.getProps().href;
     if (!href) {
@@ -261,7 +247,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
-    // !DONE
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;

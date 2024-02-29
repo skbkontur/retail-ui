@@ -1,6 +1,6 @@
-Сам по себе `<Clickable />` ничего не рендерит. Компонент становится разметкой, которую вы передаёте в качестве детей.
 ```jsx harmony
 import { Gapped, Clickable, clickableStyles } from '@skbkontur/react-ui';
+import { XIcon } from '@skbkontur/icons/icons/XIcon';
 
 const bgStyle = {
   backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
@@ -13,7 +13,7 @@ const bgStyle = {
 <>
   <p>Ссылки</p>
   <Gapped>
-    <Clickable as="a" href="/">По умолчанию</Clickable>
+    <Clickable leftIcon={<XIcon />} as="a" href="/">По умолчанию</Clickable>
     <Clickable as="a" href="/" use="success">Успех</Clickable>
     <Clickable as="a" href="/" use="danger">Опасность</Clickable>
     <Clickable as="a" href="/" use="grayed">Серая</Clickable>

@@ -15,7 +15,7 @@ export const ClickableLinkIcon = forwardRefAndName<HTMLSpanElement, ClickableLin
     const theme = useContext(ThemeContext);
 
     let child = leftIcon;
-    if (isLoading) {
+    if (isLoading && leftIcon) {
       child = <Spinner caption={null} dimmed inline />;
     }
 
