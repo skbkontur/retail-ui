@@ -15,6 +15,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
+import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -109,7 +110,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
 
   public state: CustomComboBoxState<T> = DefaultState;
-  public input: Nullable<Input>;
+  public input: Nullable<Input | InternalTextareaWithLayout>;
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
@@ -299,7 +300,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       repeatRequest: this.state.repeatRequest,
       requestStatus: this.state.requestStatus,
 
-      refInput: (input: Nullable<Input>) => {
+      refInput: (input: Nullable<Input | InternalTextareaWithLayout>) => {
         this.input = input;
       },
       refMenu: (menu: Nullable<Menu>) => {
