@@ -103,6 +103,7 @@ export class DefaultTheme {
   public static linkDangerHoverColor = '#cb3d35';
   public static linkDangerActiveColor = '#a92a27';
   public static linkIconMarginRight = '4px';
+  public static linkIconMarginLeft = '4px';
   public static get linkHoverColor() {
     return this.linkColor;
   }
@@ -339,9 +340,30 @@ export class DefaultTheme {
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '19px';
+  /**
+   * @deprecated use btnIconGapSmallLeft
+   */
   public static btnIconGapSmall = '4px';
+  public static get btnIconGapSmallLeft() {
+    return this.btnIconGapSmall;
+  }
+  public static btnIconGapSmallRight = '4px';
+  /**
+   * @deprecated use btnIconGapMediumLeft
+   */
   public static btnIconGapMedium = '4px';
+  public static get btnIconGapMediumLeft() {
+    return this.btnIconGapMedium;
+  }
+  public static btnIconGapMediumRight = '4px';
+  /**
+   * @deprecated use btnIconGapLargeLeft
+   */
   public static btnIconGapLarge = '4px';
+  public static get btnIconGapLargeLeft() {
+    return this.btnIconGapLarge;
+  }
+  public static btnIconGapLargeRight = '4px';
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
@@ -509,6 +531,9 @@ export class DefaultTheme {
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
   }
+  public static get btnLinkIconMarginLeft() {
+    return this.linkIconMarginRight;
+  }
   public static get btnErrorSecondary() {
     return this.errorSecondary;
   }
@@ -554,8 +579,11 @@ export class DefaultTheme {
     return this.btnTextHoverBg;
   }
   public static btnWithIconPaddingLeftSmall = '';
+  public static btnWithIconPaddingRightSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
+  public static btnWithIconPaddingRightMedium = '';
   public static btnWithIconPaddingLeftLarge = '';
+  public static btnWithIconPaddingRightLarge = '';
 
   public static btnIconColor = '';
   public static btnIconHoverColor = '';

@@ -1,8 +1,9 @@
 import { Theme } from '../../lib/theming/Theme';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cx, memoizeStyle } from '../../lib/theming/Emotion';
+import { isDarkTheme } from '../../lib/theming/ThemeHelpers';
 import { linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from '../Link/Link.mixins';
 
-import { globalClasses } from './Clickable.styles';
+import { GetStylesBase, globalClasses } from './Clickable.styles';
 
 export const linkStyles = memoizeStyle({
   linkRoot() {
@@ -146,4 +147,35 @@ export const linkStyles = memoizeStyle({
       margin-right: ${t.linkIconMarginRight};
     `;
   },
+  linkIconLeft(t: Theme) {
+    return css`
+      margin-right: ${t.linkIconMarginRight};
+    `;
+  },
+  linkIconRight(t: Theme) {
+    return css`
+      margin-left: ${t.linkIconMarginLeft};
+    `;
+  },
 });
+
+interface GetLinkStylesArgs extends GetStylesBase {
+  isFocused: boolean;
+  isNotInteractive: boolean | undefined;
+}
+
+export const getLinkStyles = ({ use, isFocused, isNotInteractive, theme }: GetLinkStylesArgs) => {
+  return cx(
+    linkStyles.linkRoot(),
+    (use === 'default' || use === undefined) && linkStyles.linkDefault(theme),
+    use === 'success' && linkStyles.linkSuccess(theme),
+    use === 'danger' && linkStyles.linkDanger(theme),
+    use === 'grayed' && linkStyles.linkGrayed(theme),
+    isFocused && use === 'default' && linkStyles.linkLineFocus(theme),
+    isFocused && use === 'success' && linkStyles.linkLineFocusSuccess(theme),
+    isFocused && use === 'danger' && linkStyles.linkLineFocusDanger(theme),
+    isFocused && use === 'grayed' && linkStyles.linkLineFocusGrayed(theme),
+    isNotInteractive && linkStyles.linkDisabled(theme),
+    isNotInteractive && isDarkTheme(theme) && linkStyles.linkDisabledDark(theme),
+  );
+};

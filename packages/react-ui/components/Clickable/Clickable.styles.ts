@@ -1,6 +1,12 @@
 import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 
+import { ClickableProps } from './Clickable';
+
+export interface GetStylesBase extends Pick<ClickableProps, 'use'> {
+  theme: Theme;
+}
+
 export const globalClasses = prefix('clickable')({
   root: 'root',
   arrowHelper: 'arrow-helper',

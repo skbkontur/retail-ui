@@ -13,7 +13,7 @@ const bgStyle = {
 <>
   <p>Ссылки</p>
   <Gapped>
-    <Clickable leftIcon={<XIcon />} as="a" href="/">По умолчанию</Clickable>
+    <Clickable leftIcon={<XIcon />} rightIcon={<XIcon />} as="a" href="/">По умолчанию</Clickable>
     <Clickable as="a" href="/" use="success">Успех</Clickable>
     <Clickable as="a" href="/" use="danger">Опасность</Clickable>
     <Clickable as="a" href="/" use="grayed">Серая</Clickable>
@@ -21,7 +21,7 @@ const bgStyle = {
 
   <p>Кнопки</p>
   <Gapped style={bgStyle}>
-    <Clickable>По умолчанию</Clickable>
+    <Clickable leftIcon={<XIcon />} rightIcon={<XIcon />}>По умолчанию</Clickable>
     <Clickable use="primary">Основная</Clickable>
     <Clickable use="success">Успех</Clickable>
     <Clickable use="danger">Опасность</Clickable>
