@@ -25,6 +25,7 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { InputAlign } from '../Input';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -120,6 +121,8 @@ export interface TextareaProps
          * Автоматически отключается когда в `extraRow` передан `false`.
          */
         disableAnimations?: boolean;
+        /** Выравнивание текста */
+        align?: InputAlign;
       }
     > {}
 
@@ -419,6 +422,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaStyle = {
       resize: autoResize ? 'none' : resize,
+      textAlign: this.props.align,
     };
 
     let placeholderPolyfill = null;
