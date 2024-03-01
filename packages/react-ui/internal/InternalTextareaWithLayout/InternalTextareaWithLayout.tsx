@@ -135,6 +135,7 @@ export class InternalTextareaWithLayout extends React.Component<
             textareaPaddingYMedium: '0px',
             textareaPaddingYLarge: '0px',
             textareaOutlineWidth: '0px',
+            textareaShadow: 'none',
           },
           this.theme,
         )}
@@ -189,10 +190,10 @@ export class InternalTextareaWithLayout extends React.Component<
     );
   }
 
-  private handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+  private handleBlur = () => {
     this.setState({ focused: false });
   };
-  private handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+  private handleFocus = () => {
     this.setState({ focused: true });
   };
 }
