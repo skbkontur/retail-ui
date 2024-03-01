@@ -291,20 +291,38 @@ export function reducer<T>(
         return state;
       }
 
-      if (action.fixValueChange && state.editing && state.opened) {
-        return state;
+      if (action.fixValueChange) {
+        const nextTextValue = getValueString(props.value, props.valueToString) ?? state.textValue;
+
+        if (!state.focused) {
+          return {
+            opened: false,
+            inputChanged: false,
+            editing: false,
+            items: null,
+            textValue: getValueString(props.value, props.valueToString),
+          };
+        }
+
+        if (state.focused && state.opened) {
+          return [{ ...state, textValue: nextTextValue }, [Effect.cancelRequest, Effect.search(nextTextValue)]];
+        }
+
+        if (state.focused) {
+          return {
+            ...state,
+            textValue: nextTextValue,
+          };
+        }
       }
 
-      const newState = action.fixValueChange
-        ? {
-            opened: false,
-            textValue: getValueString(props.value, props.valueToString) ?? state.textValue,
-          }
-        : {
-            opened: false,
-            textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
-          };
-      return newState;
+      if (!action.fixValueChange) {
+        return {
+          opened: false,
+          textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
+        };
+      }
+      break;
     }
     case 'Mount': {
       return {
