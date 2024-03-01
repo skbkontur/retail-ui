@@ -295,13 +295,16 @@ export function reducer<T>(
         const nextTextValue = getValueString(props.value, props.valueToString) ?? state.textValue;
 
         if (!state.focused) {
-          return {
-            opened: false,
-            inputChanged: false,
-            editing: false,
-            items: null,
-            textValue: getValueString(props.value, props.valueToString),
-          };
+          return [
+            {
+              opened: false,
+              inputChanged: false,
+              editing: false,
+              items: null,
+              textValue: getValueString(props.value, props.valueToString),
+            },
+            [Effect.cancelRequest],
+          ];
         }
 
         if (state.focused && state.opened) {
