@@ -9,6 +9,7 @@ import { Toast, ToastProps } from '../Toast/Toast';
 export class SingleToast extends React.Component<ToastProps> {
   public static __KONTUR_REACT_UI__ = 'SingleToast';
   public static displayName = 'SingleToast';
+
   public static ref = React.createRef<Toast>();
   public static push: typeof Toast.push = (...args) => {
     SingleToast.close();

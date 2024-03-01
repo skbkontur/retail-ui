@@ -79,6 +79,7 @@ let currentGlobalLoader: GlobalLoader;
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   public static __KONTUR_REACT_UI__ = 'GlobalLoader';
   public static displayName = 'GlobalLoader';
+
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 

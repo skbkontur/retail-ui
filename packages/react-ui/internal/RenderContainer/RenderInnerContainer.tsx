@@ -71,5 +71,6 @@ Portal.propTypes = {
   rt_rootID: propTypes.string.isRequired,
   children: propTypes.node.isRequired,
 };
+
 Portal.__KONTUR_REACT_UI__ = 'Portal';
 Portal.displayName = 'Portal';

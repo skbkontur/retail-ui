@@ -57,9 +57,8 @@ class ModalInputStory extends React.Component {
               >
                 Click here
               </div>
-              ---
               <ValidationWrapper
-                // data-tid="ValidationWrapper"
+                data-tid="ValidationWrapper"
                 validationInfo={this.validateValue1()}
                 renderMessage={text('bottom')}
               >
@@ -69,7 +68,6 @@ class ModalInputStory extends React.Component {
                   onValueChange={(value) => this.setState({ value })}
                 />
               </ValidationWrapper>
-              ---
               <div
                 style={{
                   height: 1000,

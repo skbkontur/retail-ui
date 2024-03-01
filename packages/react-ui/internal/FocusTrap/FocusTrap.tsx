@@ -15,6 +15,7 @@ export interface FocusTrapProps extends CommonProps {
 export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
   public static displayName = 'FocusTrap';
+
   private setRootNode!: TSetRootNode;
 
   private focusOutsideListenerToken: {
