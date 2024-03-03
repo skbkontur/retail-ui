@@ -16,6 +16,7 @@ export const ClickableButtonCaption = ({
   size,
   children,
 }: ClickableProps) => {
+  const isLoadingWithoutIcons = !leftIcon && !rightIcon && isLoading;
   const iconProps: Omit<ClickableButtonIconProps, 'position' | 'icon'> = {
     size,
     isLoading,
@@ -29,14 +30,14 @@ export const ClickableButtonCaption = ({
         [buttonCaptionStyles.buttonCaptionDisabled()]: isDisabled,
       })}
     >
-      {!leftIcon && !rightIcon && isLoading && <ClickableButtonLoadingIcon size={size} />}
+      {isLoadingWithoutIcons && <ClickableButtonLoadingIcon size={size} />}
       {leftIcon && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
       <span
         data-tid="test"
         aria-live="assertive"
         className={cx({
           [clickableGlobalClasses.text]: true,
-          [buttonCaptionStyles.buttonVisibilityHidden()]: isLoading,
+          [buttonCaptionStyles.buttonVisibilityHidden()]: isLoadingWithoutIcons,
         })}
       >
         {children}

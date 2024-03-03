@@ -40,7 +40,7 @@ export const buttonStyles = memoizeStyle({
         color: ${t.btnIconHoverColor};
       }
       &[aria-disabled='true'] svg {
-        color: ${t.btnIconDisabledColor} !important;
+        color: ${t.btnIconDisabledColor};
       }
       & svg {
         color: ${t.btnIconColor};

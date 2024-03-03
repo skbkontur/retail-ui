@@ -30,7 +30,6 @@ const COMPONENT_NAME = 'Clickable';
 
 export type ClickableUse = 'default' | 'success' | 'danger' | 'grayed' | 'primary' | 'pay' | 'text' | 'backless';
 export type ClickableSize = SizeProp;
-
 interface ClickableOwnProps
   extends CommonProps,
     Pick<HTMLProps['a'], 'rel' | 'href'>,

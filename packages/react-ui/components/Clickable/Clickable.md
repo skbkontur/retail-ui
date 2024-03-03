@@ -95,16 +95,16 @@ const [isLoading, setIsLoading] = React.useState(false);
   </Clickable>
 
   <Gapped gap={15}>
-    <Clickable isLoading={isLoading} as="a" leftIcon={<XIcon16Regular />}>
+    <Clickable isLoading={isLoading} as="a" href="/" leftIcon={<XIcon16Regular />}>
       Иконка слева
     </Clickable>
-    <Clickable isLoading={isLoading} as="a" leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
+    <Clickable isLoading={isLoading} as="a" href="/" leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
       Иконка и там, и там
     </Clickable>
-    <Clickable isLoading={isLoading} as="a" rightIcon={<XIcon16Regular />}>
+    <Clickable isLoading={isLoading} as="a" href="/" rightIcon={<XIcon16Regular />}>
       Иконка справа
     </Clickable>
-    <Clickable isLoading={isLoading} as="a">
+    <Clickable isLoading={isLoading} as="a" href="/">
       Без иконки
     </Clickable>
   </Gapped>
