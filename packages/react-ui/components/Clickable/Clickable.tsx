@@ -123,12 +123,12 @@ export const ClickableDataTids = {
 } as const;
 
 /**
- * Это гибридный контрол, который позволяет рендерить элемент выглядящий как кнопка или как ссылка с любым тегом.
+ * Это гибридный контрол, который позволяет создавать ссылки и кнопки с любым семантическим тегом.
  */
 export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, typeof CLICKABLE_DEFAULT_ELEMENT> =
   forwardRefAndName(COMPONENT_NAME, function Clickable<
     T extends React.ElementType = typeof CLICKABLE_DEFAULT_ELEMENT,
-  >({ size = 'small', use = 'default', type = 'button', as, arrow, corners, rel, theme: userTheme, href, isNarrow, tabIndex, view, leftIcon, rightIcon, onClick, onFocus, onBlur, isLoading, isDisabled, isActive, isBorderless, width, isWarning, isError, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
+  >({ size = 'small', use = 'default', type = 'button', as, arrow, corners, rel, theme: userTheme, href, isNarrow, view, leftIcon, rightIcon, onClick, onFocus, onBlur, isLoading, isDisabled, isActive, isBorderless, width, isWarning, isError, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
     const Root: React.ElementType = as ?? CLICKABLE_DEFAULT_ELEMENT;
 
     const contextTheme = useContext(ThemeContext);
@@ -201,9 +201,8 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
         onBlur={handleBlur}
         onClick={handleClick}
         style={{ textAlign: align, ...corners, ...style }}
-        tabIndex={isNotInteractive ? -1 : tabIndex}
         data-tid={ClickableDataTids.root}
-        disabled={isNotInteractive}
+        aria-disabled={isNotInteractive}
         href={href}
         ref={ref}
         {...rest}

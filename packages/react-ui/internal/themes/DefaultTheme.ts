@@ -587,7 +587,9 @@ export class DefaultTheme {
 
   public static btnIconColor = '';
   public static btnIconHoverColor = '';
-  public static btnIconDisabledColor = '';
+  public static get btnIconDisabledColor() {
+    return this.textColorDisabledContrast;
+  }
   //#endregion
   //#region Select
   public static get selectDefaultBg() {

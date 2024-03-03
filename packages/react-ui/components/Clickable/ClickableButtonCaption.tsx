@@ -32,6 +32,7 @@ export const ClickableButtonCaption = ({
       {isLoading && <ClickableButtonLoadingIcon size={size} />}
       {leftIcon && !isLoading && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
       <span
+        aria-live="assertive"
         className={cx({
           [clickableGlobalClasses.text]: true,
           [buttonCaptionStyles.buttonVisibilityHidden()]: isLoading,
