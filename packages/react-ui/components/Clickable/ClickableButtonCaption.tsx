@@ -29,9 +29,10 @@ export const ClickableButtonCaption = ({
         [buttonCaptionStyles.buttonCaptionDisabled()]: isDisabled,
       })}
     >
-      {isLoading && <ClickableButtonLoadingIcon size={size} />}
-      {leftIcon && !isLoading && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
+      {!leftIcon && !rightIcon && isLoading && <ClickableButtonLoadingIcon size={size} />}
+      {leftIcon && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
       <span
+        data-tid="test"
         aria-live="assertive"
         className={cx({
           [clickableGlobalClasses.text]: true,
@@ -40,7 +41,7 @@ export const ClickableButtonCaption = ({
       >
         {children}
       </span>
-      {rightIcon && !isLoading && (
+      {rightIcon && (
         <ClickableButtonIcon
           {...iconProps}
           position="right"

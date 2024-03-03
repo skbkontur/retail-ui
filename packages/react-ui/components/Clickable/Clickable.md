@@ -94,7 +94,7 @@ const [isLoading, setIsLoading] = React.useState(false);
     {isLoading ? 'Остановить загрузку!!!' : 'Начать загрузку!'}
   </Clickable>
 
-  <Gapped>
+  <Gapped gap={15}>
     <Clickable isLoading={isLoading} as="a" leftIcon={<XIcon16Regular />}>
       Иконка слева
     </Clickable>
@@ -109,7 +109,7 @@ const [isLoading, setIsLoading] = React.useState(false);
     </Clickable>
   </Gapped>
 
-  <Gapped>
+  <Gapped gap={15}>
     <Clickable isLoading={isLoading} leftIcon={<XIcon16Regular />}>
       Иконка слева
     </Clickable>

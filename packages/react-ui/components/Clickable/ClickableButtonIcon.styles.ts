@@ -8,8 +8,8 @@ import { ClickableButtonIconProps } from './ClickableButtonIcon';
 export const buttonIconStyles = memoizeStyle({
   icon() {
     return css`
-      display: 'inline-flex';
-      alignitems: 'center';
+      display: inline-flex;
+      align-items: center;
 
       &::before {
         content: '${ZERO_WIDTH_SPACE_CSS}';
