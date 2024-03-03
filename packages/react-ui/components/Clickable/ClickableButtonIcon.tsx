@@ -7,9 +7,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SizeProp } from '../../lib/types/props';
 
 import { ClickableProps } from './Clickable';
-import { globalClasses } from './Clickable.styles';
 import { buttonIconStyles, getButtonIconSizeClassName } from './ClickableButtonIcon.styles';
-import { ClickableLoadingButtonIcon } from './ClickableLoadingButtonIcon';
+import { ClickableButtonLoadingIcon } from './ClickableButtonLoadingIcon';
+import { buttonGlobalClasses } from './ClickableButton.styles';
 
 export interface ClickableButtonIconProps extends Pick<ClickableProps, 'size' | 'isLoading'> {
   icon: ClickableProps['leftIcon'];
@@ -47,17 +47,15 @@ export const ClickableButtonIcon = ({
 
   return (
     <span
-      className={cx(
-        globalClasses.icon,
-        buttonIconStyles.icon(),
-        getButtonIconSizeClassName({ size, position, theme }),
-        {
-          [buttonIconStyles.iconNoMargin()]: !hasChildren,
-        },
-      )}
+      className={cx({
+        [buttonGlobalClasses.icon]: true,
+        [buttonIconStyles.icon()]: true,
+        [buttonIconStyles.iconNoMargin()]: !hasChildren,
+        ...getButtonIconSizeClassName(size, position, theme),
+      })}
     >
       {isLoading && !hasBothIcons ? (
-        <ClickableLoadingButtonIcon isCentered={false} size={size} />
+        <ClickableButtonLoadingIcon isCentered={false} size={size} />
       ) : (
         getIcon(icon, size, theme)
       )}

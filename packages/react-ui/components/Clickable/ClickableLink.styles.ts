@@ -3,7 +3,7 @@ import { css, cx, memoizeStyle } from '../../lib/theming/Emotion';
 import { isDarkTheme } from '../../lib/theming/ThemeHelpers';
 import { linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from '../Link/Link.mixins';
 
-import { GetStylesBase, globalClasses } from './Clickable.styles';
+import { GetStylesBase, clickableGlobalClasses } from './Clickable.styles';
 
 export const linkStyles = memoizeStyle({
   linkRoot() {
@@ -11,7 +11,7 @@ export const linkStyles = memoizeStyle({
       border-radius: 1px;
       outline: none;
       text-decoration: none;
-      &:hover .${globalClasses.text} {
+      &:hover .${clickableGlobalClasses.text} {
         border-bottom-color: currentColor !important;
       }
       border-bottom-color: currentColor;
@@ -21,7 +21,7 @@ export const linkStyles = memoizeStyle({
   linkDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         :hover {
           ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
@@ -31,7 +31,7 @@ export const linkStyles = memoizeStyle({
   linkSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         :hover {
           ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
@@ -41,7 +41,7 @@ export const linkStyles = memoizeStyle({
   linkDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         :hover {
           ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
@@ -51,7 +51,7 @@ export const linkStyles = memoizeStyle({
   linkGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         :hover {
           ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
         }
@@ -72,7 +72,7 @@ export const linkStyles = memoizeStyle({
   },
   linkDisabledDark(t: Theme) {
     return css`
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
@@ -81,7 +81,7 @@ export const linkStyles = memoizeStyle({
   linkLineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
@@ -89,7 +89,7 @@ export const linkStyles = memoizeStyle({
   linkLineFocusSuccess(t: Theme) {
     return css`
       color: ${t.linkSuccessHoverColor} !important;
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
@@ -97,7 +97,7 @@ export const linkStyles = memoizeStyle({
   linkLineFocusDanger(t: Theme) {
     return css`
       color: ${t.linkDangerHoverColor} !important;
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
     `;
@@ -105,77 +105,30 @@ export const linkStyles = memoizeStyle({
   linkLineFocusGrayed(t: Theme) {
     return css`
       color: ${t.linkGrayedHoverColor} !important;
-      .${globalClasses.text} {
+      .${clickableGlobalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
-    `;
-  },
-  linkLineTextWrapper(t: Theme) {
-    // При hover'е подчеркивание из прозрачного переходит в currentColor.
-    // За счет наложения этого цвета на подчеркивание lineText (currentColor с половинной прозрачностью)
-    // достигается эффект перехода currentColor с половинной прозрачностью до currentColor.
-
-    // Планировалось добавить transition и color-mix(in srgb, currentColor 50%, transparent) в lineText.
-    // Однако, в chrome и edge сочетание transition, color-mix и currentColor вызывает моргание при transition.
-    return css`
-      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
-        transition: border-bottom-color ${t.transitionDuration} ${t.transitionTimingFunction};
-        border-bottom-style: ${t.linkLineBorderBottomStyle};
-        border-bottom-width: ${t.linkLineBorderBottomWidth};
-        border-bottom-color: transparent;
-      }
-    `;
-  },
-  linkLineTextWrapperFocused(t: Theme) {
-    return css`
-      @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
-        border-bottom-color: currentColor;
-      }
-    `;
-  },
-  linkLineText(t: Theme) {
-    return css`
-      border-bottom-style: ${t.linkLineBorderBottomStyle};
-      border-bottom-width: ${t.linkLineBorderBottomWidth};
-      border-bottom-color: ${t.linkLineBorderBottomColor};
-    `;
-  },
-
-  linkIcon(t: Theme) {
-    return css`
-      display: inline-block;
-      margin-right: ${t.linkIconMarginRight};
-    `;
-  },
-  linkIconLeft(t: Theme) {
-    return css`
-      margin-right: ${t.linkIconMarginRight};
-    `;
-  },
-  linkIconRight(t: Theme) {
-    return css`
-      margin-left: ${t.linkIconMarginLeft};
     `;
   },
 });
 
 interface GetLinkStylesArgs extends GetStylesBase {
   isFocused: boolean;
-  isNotInteractive: boolean | undefined;
+  isNotInteractive: boolean;
 }
 
 export const getLinkStyles = ({ use, isFocused, isNotInteractive, theme }: GetLinkStylesArgs) => {
-  return cx(
-    linkStyles.linkRoot(),
-    (use === 'default' || use === undefined) && linkStyles.linkDefault(theme),
-    use === 'success' && linkStyles.linkSuccess(theme),
-    use === 'danger' && linkStyles.linkDanger(theme),
-    use === 'grayed' && linkStyles.linkGrayed(theme),
-    isFocused && use === 'default' && linkStyles.linkLineFocus(theme),
-    isFocused && use === 'success' && linkStyles.linkLineFocusSuccess(theme),
-    isFocused && use === 'danger' && linkStyles.linkLineFocusDanger(theme),
-    isFocused && use === 'grayed' && linkStyles.linkLineFocusGrayed(theme),
-    isNotInteractive && linkStyles.linkDisabled(theme),
-    isNotInteractive && isDarkTheme(theme) && linkStyles.linkDisabledDark(theme),
-  );
+  return cx({
+    [linkStyles.linkRoot()]: true,
+    [linkStyles.linkDefault(theme)]: use === 'default' || use === undefined,
+    [linkStyles.linkSuccess(theme)]: use === 'success',
+    [linkStyles.linkDanger(theme)]: use === 'danger',
+    [linkStyles.linkGrayed(theme)]: use === 'grayed',
+    [linkStyles.linkLineFocus(theme)]: use === 'default' && isFocused,
+    [linkStyles.linkLineFocusSuccess(theme)]: use === 'success' && isFocused,
+    [linkStyles.linkLineFocusDanger(theme)]: use === 'danger' && isFocused,
+    [linkStyles.linkLineFocusGrayed(theme)]: isFocused && use === 'grayed',
+    [linkStyles.linkDisabled(theme)]: isNotInteractive,
+    [linkStyles.linkDisabledDark(theme)]: isNotInteractive && isDarkTheme(theme),
+  });
 };

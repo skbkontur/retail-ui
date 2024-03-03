@@ -3,10 +3,10 @@ import React from 'react';
 import { cx } from '../../lib/theming/Emotion';
 
 import { ClickableProps } from './Clickable';
-import { globalClasses } from './Clickable.styles';
-import { buttonStyles } from './ClickableButton.styles';
 import { ClickableButtonIcon, ClickableButtonIconProps } from './ClickableButtonIcon';
-import { ClickableLoadingButtonIcon } from './ClickableLoadingButtonIcon';
+import { ClickableButtonLoadingIcon } from './ClickableButtonLoadingIcon';
+import { buttonCaptionStyles } from './ClickableButtonCaption.styles';
+import { clickableGlobalClasses } from './Clickable.styles';
 
 export const ClickableButtonCaption = ({
   leftIcon,
@@ -16,7 +16,6 @@ export const ClickableButtonCaption = ({
   size,
   children,
 }: ClickableProps) => {
-  const hasLoadingNode = isLoading && !leftIcon && !rightIcon;
   const iconProps: Omit<ClickableButtonIconProps, 'position' | 'icon'> = {
     size,
     isLoading,
@@ -25,20 +24,22 @@ export const ClickableButtonCaption = ({
 
   return (
     <div
-      className={cx(buttonStyles.buttonCaption(), globalClasses.caption, {
-        [buttonStyles.buttonCaptionDisabled()]: isDisabled,
+      className={cx({
+        [buttonCaptionStyles.buttonCaption()]: true,
+        [buttonCaptionStyles.buttonCaptionDisabled()]: isDisabled,
       })}
     >
-      {hasLoadingNode && <ClickableLoadingButtonIcon size={size} />}
-      {leftIcon && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
+      {isLoading && <ClickableButtonLoadingIcon size={size} />}
+      {leftIcon && !isLoading && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
       <span
-        className={cx(globalClasses.text, {
-          [buttonStyles.buttonVisibilityHidden()]: hasLoadingNode,
+        className={cx({
+          [clickableGlobalClasses.text]: true,
+          [buttonCaptionStyles.buttonVisibilityHidden()]: isLoading,
         })}
       >
         {children}
       </span>
-      {rightIcon && (
+      {rightIcon && !isLoading && (
         <ClickableButtonIcon
           {...iconProps}
           position="right"

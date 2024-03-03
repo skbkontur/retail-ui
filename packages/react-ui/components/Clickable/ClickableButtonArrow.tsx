@@ -6,8 +6,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
 import { ClickableProps } from './Clickable';
-import { globalClasses } from './Clickable.styles';
-import { buttonStyles } from './ClickableButton.styles';
+import { buttonGlobalClasses } from './ClickableButton.styles';
+import { buttonArrowStyles } from './ClickableButtonArrow.styles';
 
 type ClickableButtonArrowProps = Pick<ClickableProps, 'use' | 'size' | 'arrow'>;
 
@@ -17,15 +17,16 @@ export const ClickableButtonArrow = ({ arrow, size }: ClickableButtonArrowProps)
   return (
     <div
       className={cx({
-        [globalClasses.arrow]: true,
-        [buttonStyles.buttonArrowIconRoot()]: true,
-        [buttonStyles.buttonArrowIconLeft()]: arrow === 'left',
-        [buttonStyles.buttonArrowIconRootSmall(theme)]: size === 'small',
-        [buttonStyles.buttonArrowIconRootMedium(theme)]: size === 'medium',
-        [buttonStyles.buttonArrowIconRootLarge(theme)]: size === 'large',
+        [buttonGlobalClasses.arrow]: true,
+        [buttonArrowStyles.buttonArrowIconRoot()]: true,
+        [buttonArrowStyles.buttonArrowIconRootSmall(theme)]: size === 'small',
+        [buttonArrowStyles.buttonArrowIconRootMedium(theme)]: size === 'medium',
+        [buttonArrowStyles.buttonArrowIconRootLarge(theme)]: size === 'large',
+        [buttonArrowStyles.buttonArrowIconLeft()]: arrow === 'left',
       })}
     >
-      {arrow === 'left' ? <ArrowLeftIcon size={size} /> : <ArrowRightIcon size={size} />}
+      {arrow === 'left' && <ArrowLeftIcon size={size} />}
+      {arrow === 'right' && <ArrowRightIcon size={size} />}
     </div>
   );
 };

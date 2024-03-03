@@ -81,14 +81,12 @@ export const styles = memoizeStyle({
   },
 
   withArrowIconRightSmall(t: Theme) {
-    // !DONE
     return css`
       padding-right: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingLeftSmall} + ${t.btnWithIconPaddingLeftSmall});
     `;
   },
 
   withArrowIconRightMedium(t: Theme) {
-    // !DONE
     return css`
       padding-right: calc(
         ${t.btnIconSizeMedium} + ${t.btnWithIconPaddingLeftMedium} + ${t.btnWithIconPaddingLeftMedium}
@@ -97,21 +95,18 @@ export const styles = memoizeStyle({
   },
 
   withArrowIconRightLarge(t: Theme) {
-    // !DONE
     return css`
       padding-right: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLeftLarge} + ${t.btnWithIconPaddingLeftLarge});
     `;
   },
 
   withArrowIconLeftSmall(t: Theme) {
-    // !DONE
     return css`
       padding-left: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingLeftSmall} + ${t.btnWithIconPaddingLeftSmall});
     `;
   },
 
   withArrowIconLeftMedium(t: Theme) {
-    // !DONE
     return css`
       padding-left: calc(
         ${t.btnIconSizeMedium} + ${t.btnWithIconPaddingLeftMedium} + ${t.btnWithIconPaddingLeftMedium}
@@ -120,14 +115,12 @@ export const styles = memoizeStyle({
   },
 
   withArrowIconLeftLarge(t: Theme) {
-    // !DONE
     return css`
       padding-left: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLeftLarge} + ${t.btnWithIconPaddingLeftLarge});
     `;
   },
 
   simulatedPress() {
-    // !DONE
     return css`
       &:active .${globalClasses.caption} {
         transform: translateY(1px);
@@ -136,7 +129,6 @@ export const styles = memoizeStyle({
   },
 
   outline() {
-    // !DONE
     return css`
       border-radius: inherit;
       position: absolute;
@@ -148,7 +140,6 @@ export const styles = memoizeStyle({
   },
 
   outlineWarning(t: Theme) {
-    // !DONE
     return css`
       box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
         inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
@@ -156,14 +147,12 @@ export const styles = memoizeStyle({
   },
 
   outlineError(t: Theme) {
-    // !DONE
     return css`
       box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}, inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
   outlineLink() {
-    // !DONE
     return css`
       box-shadow: none;
       left: -2px;
@@ -174,21 +163,18 @@ export const styles = memoizeStyle({
   },
 
   outlineLinkWarning(t: Theme) {
-    // !DONE
     return css`
       background-color: ${t.btnWarningSecondary};
     `;
   },
 
   outlineLinkError(t: Theme) {
-    // !DONE
     return css`
       background-color: ${t.btnErrorSecondary};
     `;
   },
 
   sizeSmall(t: Theme) {
-    // !DONE
     return css`
       border-radius: ${t.btnBorderRadiusSmall};
 
@@ -203,7 +189,6 @@ export const styles = memoizeStyle({
   },
 
   sizeSmallIE11(t: Theme) {
-    // !DONE
     return css`
       ${buttonSizeMixinIE11({
         fontSize: t.btnFontSizeSmall,
@@ -215,7 +200,6 @@ export const styles = memoizeStyle({
   },
 
   sizeMedium(t: Theme) {
-    // !DONE
     return css`
       border-radius: ${t.btnBorderRadiusMedium};
 
@@ -230,7 +214,6 @@ export const styles = memoizeStyle({
   },
 
   sizeMediumIE11(t: Theme) {
-    // !DONE
     return css`
       ${buttonSizeMixinIE11({
         fontSize: t.btnFontSizeMedium,
@@ -242,7 +225,6 @@ export const styles = memoizeStyle({
   },
 
   sizeLarge(t: Theme) {
-    // !DONE
     return css`
       border-radius: ${t.btnBorderRadiusLarge};
 
@@ -257,7 +239,6 @@ export const styles = memoizeStyle({
   },
 
   sizeLargeIE11(t: Theme) {
-    // !DONE
     return css`
       ${buttonSizeMixinIE11({
         fontSize: t.btnFontSizeLarge,
@@ -269,49 +250,42 @@ export const styles = memoizeStyle({
   },
 
   sizeSmallWithIcon(t: Theme) {
-    // !DONE
     return css`
       padding-left: ${t.btnWithIconPaddingLeftSmall};
     `;
   },
 
   sizeMediumWithIcon(t: Theme) {
-    // !DONE
     return css`
       padding-left: ${t.btnWithIconPaddingLeftMedium};
     `;
   },
 
   sizeLargeWithIcon(t: Theme) {
-    // !DONE
     return css`
       padding-left: ${t.btnWithIconPaddingLeftLarge};
     `;
   },
 
   sizeSmallWithIconWithoutText(t: Theme) {
-    // !DONE
     return css`
       padding-right: ${t.btnWithIconPaddingLeftSmall};
     `;
   },
 
   sizeMediumWithIconWithoutText(t: Theme) {
-    // !DONE
     return css`
       padding-right: ${t.btnWithIconPaddingLeftMedium};
     `;
   },
 
   sizeLargeWithIconWithoutText(t: Theme) {
-    // !DONE
     return css`
       padding-right: ${t.btnWithIconPaddingLeftLarge};
     `;
   },
 
   link(t: Theme) {
-    // !DONE
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius};
@@ -337,14 +311,12 @@ export const styles = memoizeStyle({
   },
 
   linkLineHeight() {
-    // !DONE
     return css`
       line-height: inherit !important; // override size mixin
     `;
   },
 
   linkLineHeightSafariFallback() {
-    // !DONE
     return css`
       /* Safari overrides 'underline' and 'border' if 'line-height' is used */
       margin: -1px 0 -2px;
@@ -352,7 +324,6 @@ export const styles = memoizeStyle({
   },
 
   linkFocus(t: Theme) {
-    // !DONE
     return css`
       & {
         color: ${t.btnLinkColor};
@@ -362,7 +333,6 @@ export const styles = memoizeStyle({
   },
 
   linkDisabled(t: Theme) {
-    // !DONE
     return css`
       cursor: default;
 
@@ -375,7 +345,6 @@ export const styles = memoizeStyle({
   },
 
   focus(t: Theme) {
-    // !DONE
     return css`
       position: relative;
       z-index: 2;
@@ -391,7 +360,6 @@ export const styles = memoizeStyle({
   },
 
   disabled(t: Theme) {
-    // !DONE
     return css`
       cursor: default;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
@@ -407,14 +375,12 @@ export const styles = memoizeStyle({
   },
 
   disabledWithoutOutline(t: Theme) {
-    // !DONE
     return css`
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
     `;
   },
 
   arrowWarning(t: Theme) {
-    // !DONE
     return css`
       box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
 
@@ -428,7 +394,6 @@ export const styles = memoizeStyle({
   },
 
   arrowError(t: Theme) {
-    // !DONE
     return css`
       box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
 
@@ -442,7 +407,6 @@ export const styles = memoizeStyle({
   },
 
   arrowFocus(t: Theme) {
-    // !DONE
     return css`
       box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus};
 
@@ -456,7 +420,6 @@ export const styles = memoizeStyle({
   },
 
   arrow() {
-    // !DONE
     return css`
       background: inherit;
       border-radius: inherit;
@@ -522,14 +485,12 @@ export const styles = memoizeStyle({
   },
 
   arrowLeft() {
-    // !DONE
     return css`
       transform: scaleX(-1);
     `;
   },
 
   arrowIconRoot() {
-    // !DONE
     return css`
       position: absolute;
       height: 100%;
@@ -543,7 +504,6 @@ export const styles = memoizeStyle({
   },
 
   arrowIconRootSmall(t: Theme) {
-    // !DONE
     return css`
       padding: 0 ${t.btnWithIconPaddingLeftSmall} 0 ${t.btnWithIconPaddingLeftSmall};
       width: ${t.btnIconSizeSmall};
@@ -551,7 +511,6 @@ export const styles = memoizeStyle({
   },
 
   arrowIconRootMedium(t: Theme) {
-    // !DONE
     return css`
       padding: 0 ${t.btnWithIconPaddingLeftMedium} 0 ${t.btnWithIconPaddingLeftMedium};
       width: ${t.btnIconSizeMedium};
@@ -559,7 +518,6 @@ export const styles = memoizeStyle({
   },
 
   arrowIconRootLarge(t: Theme) {
-    // !DONE
     return css`
       padding: 0 ${t.btnWithIconPaddingLeftLarge} 0 ${t.btnWithIconPaddingLeftLarge};
       width: ${t.btnIconSizeLarge};
@@ -567,14 +525,12 @@ export const styles = memoizeStyle({
   },
 
   arrowIconLeft() {
-    // !DONE
     return css`
       left: 0;
     `;
   },
 
   default(t: Theme) {
-    // !DONE
     return css`
       ${buttonUseMixin({
         btnBackground: t.btnDefaultBg,
@@ -604,7 +560,6 @@ export const styles = memoizeStyle({
   },
 
   primary(t: Theme) {
-    // !DONE
     return css`
       ${buttonUseMixin({
         btnBackground: t.btnPrimaryBg,
@@ -634,7 +589,6 @@ export const styles = memoizeStyle({
   },
 
   success(t: Theme) {
-    // !DONE
     return css`
       ${buttonUseMixin({
         btnBackground: t.btnSuccessBg,
@@ -664,7 +618,6 @@ export const styles = memoizeStyle({
   },
 
   danger(t: Theme) {
-    // !DONE
     return css`
       ${buttonUseMixin({
         btnBackground: t.btnDangerBg,
@@ -694,7 +647,6 @@ export const styles = memoizeStyle({
   },
 
   pay(t: Theme) {
-    // !DONE
     return css`
       ${buttonUseMixin({
         btnBackground: t.btnPayBg,
@@ -724,7 +676,6 @@ export const styles = memoizeStyle({
   },
 
   text(t: Theme) {
-    // !DONE
     return css`
       &,
       &:enabled,
@@ -757,7 +708,6 @@ export const styles = memoizeStyle({
   },
 
   backless(t: Theme) {
-    // !DONE
     return css`
       ${buttonUseMixin({
         btnBackground: t.btnBacklessBg,
@@ -784,7 +734,6 @@ export const styles = memoizeStyle({
   },
 
   checked(t: Theme) {
-    // !DONE
     const checkedStyles = `
       background-image: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor};
@@ -816,7 +765,6 @@ export const styles = memoizeStyle({
   },
 
   checked2022(t: Theme) {
-    // !DONE
     const checkedStyles = `
       background-image: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
@@ -855,7 +803,6 @@ export const styles = memoizeStyle({
   },
 
   checkedFocused(t: Theme) {
-    // !DONE
     return css`
       &:hover:enabled,
       &:hover:active:enabled {
@@ -867,7 +814,6 @@ export const styles = memoizeStyle({
   },
 
   checkedDisabled(t: Theme) {
-    // !DONE
     return css`
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnCheckedDisabledBorderColor};
       background-color: ${t.btnCheckedDisabledBg};
@@ -888,7 +834,6 @@ export const styles = memoizeStyle({
   },
 
   checkedDisabled2022(t: Theme) {
-    // !DONE
     return css`
       svg {
         color: ${t.btnCheckedDisabledColor} !important;
@@ -897,7 +842,6 @@ export const styles = memoizeStyle({
   },
 
   caption() {
-    // !DONE
     return css`
       position: relative;
       white-space: nowrap;
@@ -908,7 +852,6 @@ export const styles = memoizeStyle({
   },
 
   captionLink() {
-    // !DONE
     return css`
       display: inline;
       transform: none !important; // override root:active style
@@ -916,21 +859,18 @@ export const styles = memoizeStyle({
   },
 
   captionTranslated() {
-    // !DONE
     return css`
       transform: translateY(1px);
     `;
   },
 
   captionDisabled() {
-    // !DONE
     return css`
       transform: none !important; // override root:active style
     `;
   },
 
   wrap(t: Theme) {
-    // !DONE
     return css`
       box-sizing: border-box;
       display: inline-block;
@@ -940,28 +880,24 @@ export const styles = memoizeStyle({
   },
 
   wrapSmall(t: Theme) {
-    // !DONE
     return css`
       height: ${t.btnHeightSmall};
     `;
   },
 
   wrapMedium(t: Theme) {
-    // !DONE
     return css`
       height: ${t.btnHeightMedium};
     `;
   },
 
   wrapLarge(t: Theme) {
-    // !DONE
     return css`
       height: ${t.btnHeightLarge};
     `;
   },
 
   narrow() {
-    // !DONE
     return css`
       padding-left: 5px;
       padding-right: 5px;
@@ -969,7 +905,6 @@ export const styles = memoizeStyle({
   },
 
   noPadding() {
-    // !DONE
     return css`
       padding-left: 0;
       padding-right: 0;
@@ -977,42 +912,36 @@ export const styles = memoizeStyle({
   },
 
   noRightPadding() {
-    // !DONE
     return css`
       padding-right: 0;
     `;
   },
 
   iconNoRightMargin() {
-    // !DONE
     return css`
       margin-right: 0;
     `;
   },
 
   iconLink(t: Theme) {
-    // !DONE
     return css`
       margin-right: ${t.btnLinkIconMarginRight};
     `;
   },
 
   wrapLink() {
-    // !DONE
     return css`
       padding: 0;
     `;
   },
 
   wrapArrow() {
-    // !DONE
     return css`
       margin-right: 10px;
     `;
   },
 
   wrapArrowLeft() {
-    // !DONE
     return css`
       margin-right: 0;
       margin-left: 10px;
@@ -1020,7 +949,6 @@ export const styles = memoizeStyle({
   },
 
   icon(t: Theme) {
-    // !DONE
     const space = isTheme2022(t) ? `'${ZERO_WIDTH_SPACE_CSS}'` : null;
     return css`
       display: inline-block;
@@ -1031,21 +959,18 @@ export const styles = memoizeStyle({
     `;
   },
   iconSmall(t: Theme) {
-    // !DONE
     return css`
       width: ${t.btnIconSizeSmall};
       margin-right: ${t.btnIconGapSmall};
     `;
   },
   iconMedium(t: Theme) {
-    // !DONE
     return css`
       width: ${t.btnIconSizeMedium};
       margin-right: ${t.btnIconGapMedium};
     `;
   },
   iconLarge(t: Theme) {
-    // !DONE
     return css`
       width: ${t.btnIconSizeLarge};
       margin-right: ${t.btnIconGapLarge};
@@ -1053,7 +978,6 @@ export const styles = memoizeStyle({
   },
 
   borderless() {
-    // !DONE
     return css`
       &:enabled,
       &:active:hover:enabled,
@@ -1067,7 +991,6 @@ export const styles = memoizeStyle({
   },
 
   borderless2022() {
-    // !DONE
     return css`
       &,
       &:active:hover,
@@ -1078,7 +1001,6 @@ export const styles = memoizeStyle({
   },
 
   loading() {
-    // !DONE
     return css`
       position: absolute;
       top: 0;
@@ -1094,7 +1016,6 @@ export const styles = memoizeStyle({
   },
 
   visibilityHidden() {
-    // !DONE
     return css`
       visibility: hidden;
     `;
@@ -1103,7 +1024,6 @@ export const styles = memoizeStyle({
 
 export const activeStyles = memoizeStyle({
   default(t: Theme) {
-    // !DONE
     return css`
       & {
         ${buttonActiveMixin({
@@ -1119,7 +1039,6 @@ export const activeStyles = memoizeStyle({
   },
 
   primary(t: Theme) {
-    // !DONE
     return css`
       & {
         ${buttonActiveMixin({
@@ -1135,7 +1054,6 @@ export const activeStyles = memoizeStyle({
   },
 
   success(t: Theme) {
-    // !DONE
     return css`
       & {
         ${buttonActiveMixin({
@@ -1151,7 +1069,6 @@ export const activeStyles = memoizeStyle({
   },
 
   danger(t: Theme) {
-    // !DONE
     return css`
       & {
         ${buttonActiveMixin({
@@ -1167,7 +1084,6 @@ export const activeStyles = memoizeStyle({
   },
 
   pay(t: Theme) {
-    // !DONE
     return css`
       & {
         ${buttonActiveMixin({
@@ -1183,7 +1099,6 @@ export const activeStyles = memoizeStyle({
   },
 
   link(t: Theme) {
-    // !DONE
     return css`
       & {
         color: ${t.btnLinkActiveColor};
@@ -1192,7 +1107,6 @@ export const activeStyles = memoizeStyle({
   },
 
   text(t: Theme) {
-    // !DONE
     return css`
       & {
         ${buttonActiveMixin({
@@ -1206,7 +1120,6 @@ export const activeStyles = memoizeStyle({
   },
 
   backless(t: Theme) {
-    // !DONE
     return css`
       &,
       &:hover {

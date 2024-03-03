@@ -39,151 +39,151 @@ export interface ButtonProps
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
   /** @ignore */
-  _noPadding?: boolean; // !DONE
+  _noPadding?: boolean;
 
   /** @ignore */
-  _noRightPadding?: boolean; // !DONE
+  _noRightPadding?: boolean;
 
   /**
    * Применяет к кнопке стили псевдокласса `:active`.
    */
-  active?: boolean; // !DONE
+  active?: boolean;
 
   /**
    * CSS-свойство `text-align`.
    */
-  align?: React.CSSProperties['textAlign']; // !DONE
+  align?: React.CSSProperties['textAlign'];
 
   /**
    * Превращает обычную кнопку в кнопку со стрелкой.
    */
-  arrow?: boolean | 'left'; // !DONE
+  arrow?: boolean | 'left';
 
   /**
    * Даёт кнопке фокус после окончания загрузки страницы.
    */
-  autoFocus?: boolean; // !DONE
+  autoFocus?: boolean;
 
   /**
    * Убирает обводку у кнопки.
    */
-  borderless?: boolean; // !DONE
+  borderless?: boolean;
 
   /**
    * @ignore
    */
-  checked?: boolean; // !DONE
+  checked?: boolean;
 
-  children?: React.ReactNode; // !DONE
+  children?: React.ReactNode;
 
   /** @ignore */
-  corners?: React.CSSProperties; // !DONE
+  corners?: React.CSSProperties;
 
   /**
    * Отключенное состояние кнопки.
    */
-  disabled?: boolean; // !DONE
+  disabled?: boolean;
 
   /** @ignore */
-  disableFocus?: boolean; // !DONE
+  disableFocus?: boolean;
 
   /**
    * Состояние валидации при ошибке.
    */
-  error?: boolean; // !DONE
+  error?: boolean;
 
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: React.ReactElement<any>; // !DONE
+  icon?: React.ReactElement<any>;
 
   /**
    * Переводит кнопку в состояние загрузки.
    */
-  loading?: boolean; // !DONE
+  loading?: boolean;
 
   /**
    * Сужает кнопку.
    */
-  narrow?: boolean; // !DONE
+  narrow?: boolean;
 
   /**
    * HTML-событие `onblur`.
    */
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>; // !DONE
+  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
 
   /**
    * HTML-событие `onclick`.
    */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>; // !DONE
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 
   /**
    * HTML-событие `onfocus`.
    */
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>; // !DONE
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 
   /**
    * HTML-событие `keydown`.
    */
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>; // !DONE
+  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 
   /**
    * HTML-событие `onmouseenter`.
    */
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>; // !DONE
+  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
 
   /**
    * HTML-событие `mouseleave`.
    */
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>; // !DONE
+  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
 
   /**
    * HTML-событие `onmouseover`.
    */
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>; // !DONE
+  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
   /**
    * Задаёт размер кнопки.
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
-  size?: SizeProp; // !DONE
+  size?: SizeProp;
 
   /**
    * HTML-атрибут `type`.
    */
-  type?: ButtonType; // !DONE
+  type?: ButtonType;
 
   /**
    * HTML-атрибут `title`.
    */
-  title?: string; // !DONE
+  title?: string;
 
   /**
    * Стиль кнопки.
    *
    * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
    */
-  use?: ButtonUse; // !DONE
+  use?: ButtonUse;
 
   /** @ignore */
-  visuallyFocused?: boolean; // !DONE
+  visuallyFocused?: boolean;
 
   /**
    * Состояние валидации при предупреждении.
    */
-  warning?: boolean; // !DONE
+  warning?: boolean;
 
   /**
    * CSS-свойство `width`.
    */
-  width?: number | string; // !DONE
+  width?: number | string;
 
   /**
    * Обычный объект с переменными темы.
    * Он будет объединён с темой из контекста.
    */
-  theme?: ThemeIn; // !DONE
+  theme?: ThemeIn;
 }
 
 export interface ButtonState {
@@ -191,37 +191,34 @@ export interface ButtonState {
 }
 
 export const ButtonDataTids = {
-  root: 'Button__root', // !DONE
-  spinner: 'Button__spinner', // !DONE
+  root: 'Button__root',
+  spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>; // !DONE
+type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
-  public static __KONTUR_REACT_UI__ = 'Button'; // !DONE
-  public static __BUTTON__ = true; // !DONE
+  public static __KONTUR_REACT_UI__ = 'Button';
+  public static __BUTTON__ = true;
 
   public static defaultProps: DefaultProps = {
-    // !DONE
     use: 'default',
     size: 'small',
     type: 'button',
   };
 
-  private getProps = createPropsGetter(Button.defaultProps); // !DONE
+  private getProps = createPropsGetter(Button.defaultProps);
 
   public state = {
-    // !DONE
     focusedByTab: false,
   };
 
-  private theme!: Theme; // !DONE
-  private node: HTMLButtonElement | null = null; // !DONE
-  private setRootNode!: TSetRootNode; // !DONE
+  private theme!: Theme;
+  private node: HTMLButtonElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
-    // !DONE
     if (this.props.autoFocus) {
       keyListener.isTabPressed = true;
       this.focus();
@@ -229,7 +226,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
-    // !DONE
     if (props.loading || props.disabled) {
       return { focusedByTab: false };
     }
@@ -240,7 +236,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public focus() {
-    // !DONE
     this.node?.focus();
   }
 
@@ -248,12 +243,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public blur() {
-    // !DONE
     this.node?.blur();
   }
 
   public render(): JSX.Element {
-    // !DONE
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -265,63 +258,60 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderLinkRootWithoutHandlers(props: LinkProps) {
-    // !DONE
     const { onClick, onFocus, onBlur, children, ...rest } = props;
     return <span {...rest}>{children}</span>;
   }
 
   private renderMain() {
     const {
-      corners, // !DONE
-      active, // !DONE
-      disabled, // !DONE
-      borderless, // !DONE
-      checked, // !DONE
-      error, // !DONE
-      warning, // !DONE
-      loading, // !DONE
-      narrow, // !DONE
-      icon, // !DONE
-      _noPadding, // !DONE
-      _noRightPadding, // !DONE
-      visuallyFocused, // !DONE
-      align, // !DONE
-      disableFocus, // !DONE
-      onMouseEnter, // !DONE
-      onMouseLeave, // !DONE
-      onMouseOver, // !DONE
-      onMouseDown, // !DONE
-      onMouseUp, // !DONE
-      onKeyDown, // !DONE
-      onClick, // !DONE
-      onClickCapture, // !DONE
-      width, // !DONE
-      children, // !DONE
-      'aria-describedby': ariaDescribedby, // !DONE
-      'aria-haspopup': ariaHasPopup, // !DONE
-      'aria-controls': ariaControls, // !DONE
-      'aria-label': ariaLabel, // !DONE
-      'aria-checked': ariaChecked, // !DONE
-      'aria-expanded': ariaExpanded, // !DONE
-      role, // !DONE
+      corners,
+      active,
+      disabled,
+      borderless,
+      checked,
+      error,
+      warning,
+      loading,
+      narrow,
+      icon,
+      _noPadding,
+      _noRightPadding,
+      visuallyFocused,
+      align,
+      disableFocus,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onMouseDown,
+      onMouseUp,
+      onKeyDown,
+      onClick,
+      onClickCapture,
+      width,
+      children,
+      'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
+      'aria-expanded': ariaExpanded,
+      role,
     } = this.props;
-    const { use, type, size } = this.getProps(); // !DONE
-    const sizeClass = this.getSizeClassName(); // !DONE
+    const { use, type, size } = this.getProps();
+    const sizeClass = this.getSizeClassName();
 
-    const isFocused = this.state.focusedByTab || visuallyFocused; // !DONE
-    const isLink = use === 'link'; // !DONE
-    const _isTheme2022 = isTheme2022(this.theme); // !DONE
+    const isFocused = this.state.focusedByTab || visuallyFocused;
+    const isLink = use === 'link';
+    const _isTheme2022 = isTheme2022(this.theme);
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [wrapClassNameWithArrow, rootClassNameWithArrow, arrowNode] = useButtonArrow(
-      // !DONE
       { ...this.props, isFocused: Boolean(isFocused) },
       this.theme,
     );
-    const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use); // !DONE
-    let rootClassName = ''; // !DONE
+    const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
+    let rootClassName = '';
     if (_isTheme2022) {
-      // !DONE
       const trueDisabled = disabled || loading;
       rootClassName = cx(
         styles.root(this.theme),
@@ -348,7 +338,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             ]),
       );
     } else {
-      // !DONE
       rootClassName = cx({
         [styles.root(this.theme)]: true,
         [styles.simulatedPress()]: true,
@@ -371,51 +360,50 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
-      type, // !DONE
-      role, // !DONE
-      'aria-describedby': ariaDescribedby, // !DONE
-      'aria-haspopup': ariaHasPopup, // !DONE
-      'aria-controls': ariaControls, // !DONE
-      'aria-label': ariaLabel, // !DONE
-      'aria-checked': ariaChecked, // !DONE
-      'aria-expanded': ariaExpanded, // !DONE
-      className: rootClassName, // !DONE
+      type,
+      role,
+      'aria-describedby': ariaDescribedby,
+      'aria-haspopup': ariaHasPopup,
+      'aria-controls': ariaControls,
+      'aria-label': ariaLabel,
+      'aria-checked': ariaChecked,
+      'aria-expanded': ariaExpanded,
+      className: rootClassName,
       style: {
-        textAlign: align, // !DONE
-        ...corners, // !DONE
+        textAlign: align,
+        ...corners,
       },
-      disabled: disabled || loading, // !DONE
-      onClick, // !DONE
-      onFocus: this.handleFocus, // !DONE
-      onBlur: this.handleBlur, // !DONE
-      onKeyDown, // !DONE
-      onMouseEnter, // !DONE
-      onMouseLeave, // !DONE
-      onMouseOver, // !DONE
-      onMouseDown, // !DONE
-      onMouseUp, // !DONE
-      onClickCapture, // !DONE
-      tabIndex: disableFocus ? -1 : 0, // !DONE
-      title: this.props.title, // !DONE
+      disabled: disabled || loading,
+      onClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      onKeyDown,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onMouseDown,
+      onMouseUp,
+      onClickCapture,
+      tabIndex: disableFocus ? -1 : 0,
+      title: this.props.title,
     };
 
     const wrapProps = {
       className: cx(globalClasses.root, {
-        [styles.wrap(this.theme)]: true, // !DONE
-        [wrapClassNameWithArrow]: true, // !DONE
-        [this.getSizeWrapClassName()]: true, // !DONE
+        [styles.wrap(this.theme)]: true,
+        [wrapClassNameWithArrow]: true,
+        [this.getSizeWrapClassName()]: true,
       }),
       style: {
-        width, // !DONE
+        width,
       },
     };
 
-    const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />; // !DONE
+    const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />;
 
-    let outlineNode = null; // !DONE
-    const isDisabled2022 = _isTheme2022 && (disabled || loading); // !DONE
+    let outlineNode = null;
+    const isDisabled2022 = _isTheme2022 && (disabled || loading);
     if ((!isFocused || isLink) && !isDisabled2022) {
-      // !DONE
       outlineNode = (
         <div
           style={{ zIndex: _isTheme2022 && isLink ? -1 : undefined }}
@@ -431,7 +419,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     const iconNode = icon && (
-      // !DONE
       <ButtonIcon
         icon={icon}
         size={size}
@@ -441,9 +428,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         use={use}
       />
     );
-    let loadingNode = null; // !DONE
+    let loadingNode = null;
     if (loading && !icon) {
-      // !DONE
       const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
       loadingNode = (
         <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
@@ -454,7 +440,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
-      // !DONE
       rootProps.className = cx({
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
@@ -472,7 +457,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     let captionNode = (
-      // !DONE
       <div
         className={cx(styles.caption(), globalClasses.caption, {
           [styles.captionTranslated()]: (active || checked) && !loading && !_isTheme2022,
@@ -492,7 +476,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {
-      // !DONE
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           <Link
@@ -509,7 +492,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      // !DONE
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
           <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
@@ -524,7 +506,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderIcon2022(icon: React.ReactElement | undefined) {
-    // !DONE
     if (icon && isKonturIcon(icon)) {
       const sizes = getButtonIconSizes(this.theme);
       return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.getProps().size] });
@@ -534,7 +515,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
-    // !DONE
     const _isTheme2022 = isTheme2022(this.theme);
     switch (this.getProps().size) {
       case 'large':
@@ -560,7 +540,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeWrapClassName() {
-    // !DONE
     switch (this.getProps().size) {
       case 'large':
         return styles.wrapLarge(this.theme);
@@ -573,7 +552,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
-    // !DONE
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -587,7 +565,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
-    // !DONE
     this.setState({ focusedByTab: false });
     if (!this.props.disabled && !this.props.disableFocus) {
       this.props.onBlur?.(e);
@@ -595,9 +572,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private _ref = (node: HTMLButtonElement | null) => {
-    // !DONE
     this.node = node;
   };
 }
 
-export const isButton = isReactUIComponent<ButtonProps>('Button'); // !DONE
+export const isButton = isReactUIComponent<ButtonProps>('Button');

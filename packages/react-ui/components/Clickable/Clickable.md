@@ -21,11 +21,13 @@ const bgStyle = {
 
   <p>Кнопки</p>
   <Gapped style={bgStyle}>
-    <Clickable leftIcon={<XIcon />} rightIcon={<XIcon />}>По умолчанию</Clickable>
-    <Clickable use="primary">Основная</Clickable>
-    <Clickable use="success">Успех</Clickable>
-    <Clickable use="danger">Опасность</Clickable>
-    <Clickable use="pay">Плати</Clickable>
+    <Clickable isDisabled arrow="left" isWarning leftIcon={<XIcon />} rightIcon={<XIcon />}>По умолчанию</Clickable>
+    <Clickable use="success">По умолчанию</Clickable>
+    <Clickable use="danger">По умолчанию</Clickable>
+    <Clickable arrow="left">Стрелка влево</Clickable>
+    <Clickable arrow="right">Стрелка вправо</Clickable>
+    <Clickable isWarning>warning</Clickable>
+    <Clickable isError>error</Clickable>
     <Clickable use="text">Текст</Clickable>
     <Clickable use="backless">Без фона</Clickable>
   </Gapped>
@@ -33,7 +35,7 @@ const bgStyle = {
   <p>Гибриды</p>
   <Gapped>
     <Clickable as="button" view="link" use="success">Успешная кнопка, но выглядит как ссылка</Clickable>
-    <Clickable as="a" href="/" view="button" use="danger">Опасная ссылка, но выглядит как кнопка</Clickable>
+    <Clickable isDisabled as="a" href="/" view="button" use="danger">Опасная ссылка, но выглядит как кнопка</Clickable>
     <Clickable as="div" view="button" use="pay">Платный div, но выглядит как кнопка</Clickable>
   </Gapped>
 </>

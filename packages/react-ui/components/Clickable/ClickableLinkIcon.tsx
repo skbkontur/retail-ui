@@ -5,7 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 
 import { ClickableProps } from './Clickable';
-import { linkStyles } from './ClickableLink.styles';
+import { linkIconStyles } from './ClickableLinkIcon.styles';
 
 export interface ClickableLinkIconProps extends Pick<ClickableProps, 'isLoading'> {
   icon: ClickableProps['leftIcon'];
@@ -18,11 +18,11 @@ export const ClickableLinkIcon = ({ icon, isLoading, hasBothIcons, position }: C
 
   return (
     <span
-      className={cx(
-        linkStyles.linkIcon(theme),
-        position === 'left' && linkStyles.linkIconLeft(theme),
-        position === 'right' && linkStyles.linkIconRight(theme),
-      )}
+      className={cx({
+        [linkIconStyles.linkIcon(theme)]: true,
+        [linkIconStyles.linkIconLeft(theme)]: position === 'left',
+        [linkIconStyles.linkIconRight(theme)]: position === 'right',
+      })}
     >
       {isLoading && !hasBothIcons ? <Spinner caption={null} dimmed inline /> : icon}
     </span>

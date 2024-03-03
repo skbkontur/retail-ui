@@ -4,8 +4,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { globalClasses } from './Clickable.styles';
-import { linkStyles } from './ClickableLink.styles';
+import { clickableGlobalClasses } from './Clickable.styles';
+import { linkChildStyles } from './ClickableLinkChild.styles';
 
 export interface ClickableLinkChildProps {
   children: React.ReactNode;
@@ -20,11 +20,19 @@ export const ClickableLinkChild = forwardRefAndName<HTMLSpanElement, ClickableLi
     return (
       <span
         ref={ref}
-        className={cx(linkStyles.linkLineTextWrapper(theme), {
-          [linkStyles.linkLineTextWrapperFocused(theme)]: isFocused,
+        className={cx({
+          [linkChildStyles.linkLineTextWrapper(theme)]: true,
+          [linkChildStyles.linkLineTextWrapperFocused(theme)]: isFocused,
         })}
       >
-        <span className={cx(globalClasses.text, linkStyles.linkLineText(theme))}>{children}</span>
+        <span
+          className={cx({
+            [clickableGlobalClasses.text]: true,
+            [linkChildStyles.linkLineText(theme)]: true,
+          })}
+        >
+          {children}
+        </span>
       </span>
     );
   },

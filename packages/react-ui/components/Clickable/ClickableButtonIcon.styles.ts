@@ -91,29 +91,30 @@ export const buttonIconStyles = memoizeStyle({
   },
 });
 
-interface GetButtonIconSizeClassNameArgs
-  extends Pick<ClickableProps, 'size'>,
-    Pick<ClickableButtonIconProps, 'position'> {
-  theme: Theme;
-}
-
-export const getButtonIconSizeClassName = ({ size, position, theme }: GetButtonIconSizeClassNameArgs) => {
+export const getButtonIconSizeClassName = (
+  size: ClickableProps['size'],
+  position: ClickableButtonIconProps['position'],
+  theme: Theme,
+) => {
   if (size === 'large') {
-    return [
-      buttonIconStyles.iconLarge(theme),
-      position === 'left' ? buttonIconStyles.iconLargeLeft(theme) : buttonIconStyles.iconLargeRight(theme),
-    ];
+    return {
+      [buttonIconStyles.iconLarge(theme)]: true,
+      [buttonIconStyles.iconLargeLeft(theme)]: position === 'left',
+      [buttonIconStyles.iconLargeRight(theme)]: position === 'left',
+    };
   }
 
   if (size === 'medium') {
-    return [
-      buttonIconStyles.iconMedium(theme),
-      position === 'left' ? buttonIconStyles.iconMediumLeft(theme) : buttonIconStyles.iconMediumRight(theme),
-    ];
+    return {
+      [buttonIconStyles.iconMedium(theme)]: true,
+      [buttonIconStyles.iconMediumLeft(theme)]: position === 'left',
+      [buttonIconStyles.iconMediumRight(theme)]: position === 'right',
+    };
   }
 
-  return [
-    buttonIconStyles.iconSmall(theme),
-    position === 'left' ? buttonIconStyles.iconSmallLeft(theme) : buttonIconStyles.iconSmallRight(theme),
-  ];
+  return {
+    [buttonIconStyles.iconSmall(theme)]: true,
+    [buttonIconStyles.iconSmallLeft(theme)]: position === 'left',
+    [buttonIconStyles.iconSmallRight(theme)]: position === 'right',
+  };
 };

@@ -87,11 +87,11 @@ interface ClickableOwnProps
   /**
    * Состояние валидации при предупреждении.
    */
-  warning?: boolean;
+  isWarning?: boolean;
   /**
    * Состояние валидации при ошибке.
    */
-  error?: boolean;
+  isError?: boolean;
   /**
    * Превращает кнопку в кнопку со стрелкой.
    */
@@ -106,6 +106,8 @@ interface ClickableOwnProps
   isBorderless?: boolean;
   /**
    * @ignore
+   *
+   * Меняет скругления при использованиии <Clickable> внутри <Group>.
    */
   corners?: CSSProperties;
 }
@@ -126,7 +128,7 @@ export const ClickableDataTids = {
 export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, typeof CLICKABLE_DEFAULT_ELEMENT> =
   forwardRefAndName(COMPONENT_NAME, function Clickable<
     T extends React.ElementType = typeof CLICKABLE_DEFAULT_ELEMENT,
-  >({ as, size, arrow, corners, use, rel, theme: userTheme, href, isNarrow, tabIndex, type = 'button', view, leftIcon, rightIcon, onClick, onFocus, onBlur, isLoading, isDisabled, isActive, isBorderless, width, warning, error, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
+  >({ size = 'small', use = 'default', type = 'button', as, arrow, corners, rel, theme: userTheme, href, isNarrow, tabIndex, view, leftIcon, rightIcon, onClick, onFocus, onBlur, isLoading, isDisabled, isActive, isBorderless, width, isWarning, isError, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
     const Root: React.ElementType = as ?? CLICKABLE_DEFAULT_ELEMENT;
 
     const contextTheme = useContext(ThemeContext);
@@ -135,7 +137,7 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
     const buttonSize = getButtonSize({ size, leftIcon, rightIcon, children, theme });
     const currentView = getCurrentView(view, as);
 
-    const isNotInteractive = isLoading || isDisabled;
+    const isNotInteractive = !!isLoading || !!isDisabled;
 
     const [isFocused, setIsFocused] = useState(false);
     const isRootFocused = isFocused && !isNotInteractive;
@@ -172,6 +174,8 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
 
     const content = (
       <Root
+        // the `key` prop needed so React can understand that we are working with the same content
+        // regardless of whether the wrapper presented or not
         key={ClickableDataTids.root}
         className={cx(
           generalStyles.root(theme),
@@ -184,22 +188,22 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
               arrow,
               size,
               isNarrow,
-              isDisabled,
-              isLoading,
               isBorderless,
               isFocused,
               isActive,
+              isNotInteractive,
             }),
           className,
         )}
         type={Root === 'button' ? type : undefined}
-        data-tid={ClickableDataTids.root}
         rel={getRel(rel, href)}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onClick={handleClick}
         style={{ textAlign: align, ...corners, ...style }}
         tabIndex={isNotInteractive ? -1 : tabIndex}
+        data-tid={ClickableDataTids.root}
+        disabled={isNotInteractive}
         href={href}
         ref={ref}
         {...rest}
@@ -216,6 +220,8 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
             isDisabled={isDisabled}
             isLoading={isLoading}
             isFocused={isFocused}
+            isWarning={isWarning}
+            isError={isError}
             arrow={arrow}
             size={size}
           >

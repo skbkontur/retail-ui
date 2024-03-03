@@ -7,15 +7,7 @@ export interface GetStylesBase extends Pick<ClickableProps, 'use'> {
   theme: Theme;
 }
 
-export const globalClasses = prefix('clickable')({
-  root: 'root',
-  arrowHelper: 'arrow-helper',
-  arrowHelperTop: 'arrow-helper-top',
-  arrowHelperBottom: 'arrow-helper-bottom',
-  arrow: 'arrow',
-  caption: 'caption',
-  innerShadow: 'inner-shadow',
-  icon: 'icon',
+export const clickableGlobalClasses = prefix('clickable')({
   text: 'text',
 });
 

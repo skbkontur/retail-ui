@@ -3,22 +3,33 @@ import React, { useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
-import { buttonStyles } from './ClickableButton.styles';
 import { ClickableButtonProps } from './ClickableButton';
+import { buttonOutlineStyles } from './ClickableButtonOutline.styles';
 
-export const ClickableButtonOutline = ({ warning, error, isDisabled, isLoading, isFocused }: ClickableButtonProps) => {
+type ClickableButtonOutlineProps = Pick<
+  ClickableButtonProps,
+  'isWarning' | 'isError' | 'isDisabled' | 'isLoading' | 'isFocused'
+>;
+
+export const ClickableButtonOutline = ({
+  isWarning,
+  isError,
+  isDisabled,
+  isLoading,
+  isFocused,
+}: ClickableButtonOutlineProps) => {
   const theme = useContext(ThemeContext);
 
-  if (!isFocused && (isDisabled || isLoading)) {
+  if (isFocused || isDisabled || isLoading) {
     return null;
   }
 
   return (
     <div
       className={cx({
-        [buttonStyles.buttonOutline()]: true,
-        [buttonStyles.buttonOutlineWarning(theme)]: warning,
-        [buttonStyles.buttonOutlineError(theme)]: error,
+        [buttonOutlineStyles.buttonOutline()]: true,
+        [buttonOutlineStyles.buttonOutlineWarning(theme)]: isWarning,
+        [buttonOutlineStyles.buttonOutlineError(theme)]: isError,
       })}
     />
   );
