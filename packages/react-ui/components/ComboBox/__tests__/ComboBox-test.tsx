@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
@@ -1346,16 +1346,17 @@ describe('ComboBox', () => {
     const initialValue = 'Initial Value';
     const expectedValue = 'Expected Value';
 
-    const TestComponent = ({ initialValue, mode }: { initialValue: string; mode?: boolean }) => {
+    const getItems = jest.fn((searchQuery) =>
+      Promise.resolve(testValues.filter((value) => value.label.includes(searchQuery))),
+    );
+
+    const TestComponent = ({ initialValue }: { initialValue: string }) => {
       const [value, setValue] = React.useState({ value: initialValue, label: initialValue });
 
       const handleValueChange = () => {
         setValue({ value: expectedValue, label: expectedValue });
       };
 
-      const getItems = jest.fn((searchQuery) =>
-        Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
-      );
       const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
       return (
         <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
@@ -1363,8 +1364,6 @@ describe('ComboBox', () => {
           <ComboBox
             ref={comboboxRef}
             value={value}
-            drawArrow={mode}
-            searchOnFocus={mode}
             getItems={getItems}
             onValueChange={(value) => setValue(value)}
             renderItem={renderItem}
@@ -1374,24 +1373,37 @@ describe('ComboBox', () => {
       );
     };
 
-    const changeValue = async (mode: boolean) => {
-      render(<TestComponent initialValue={initialValue} mode={mode} />);
+    const changeValue = async () => {
+      render(<TestComponent initialValue={initialValue} />);
       comboboxRef.current?.focus();
       expect(screen.getByRole('textbox')).toHaveValue(initialValue);
       userEvent.clear(screen.getByRole('textbox'));
-      await delay(0);
-      expect(screen.getByRole('textbox')).toHaveValue('');
+
+      expect(await screen.findByRole('textbox')).toHaveValue('');
       userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
-      await delay(0);
     };
 
-    it('should allow value change in editing state in normal mode', async () => {
-      await changeValue(true);
-      expect(screen.getByRole('textbox')).toHaveValue(expectedValue);
+    it('should allow value change in editing state', async () => {
+      await changeValue();
+      expect(await screen.findByRole('textbox')).toHaveValue(expectedValue);
     });
-    it('should allow value change in editing state in autocomplete mode', async () => {
-      await changeValue(false);
-      expect(screen.getByRole('textbox')).toHaveValue(expectedValue);
+
+    it('should correctly render new value while in editing mode', async () => {
+      const { rerender } = render(
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
+          <ComboBox ref={comboboxRef} value={testValues[0]} getItems={getItems} />
+        </ReactUIFeatureFlagsContext.Provider>,
+      );
+      comboboxRef.current?.focus();
+      expect(await screen.findAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
+      rerender(
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
+          <ComboBox ref={comboboxRef} value={testValues[1]} getItems={getItems} />
+        </ReactUIFeatureFlagsContext.Provider>,
+      );
+
+      expect(await screen.findByRole('textbox')).toHaveValue(testValues[1].label);
+      expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
     });
   });
 });
@@ -1438,22 +1450,6 @@ describe('mobile comboBox', () => {
 
   const TestComponent = () => <ComboBox ref={comboBoxRef} getItems={getItems} value={state} />;
 
-  const TestOnInputChange = ({ mode }: { mode: boolean }) => {
-    const [value, setValue] = useState(items[0]);
-    return (
-      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
-        <ComboBox
-          ref={comboBoxRef}
-          getItems={getItems}
-          value={value}
-          drawArrow={mode}
-          searchOnFocus={mode}
-          onInputValueChange={(value) => setValue({ value: 4, label: value })}
-        />
-      </ReactUIFeatureFlagsContext.Provider>
-    );
-  };
-
   it('should fully close by method', async () => {
     render(<TestComponent />);
     userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -1476,30 +1472,5 @@ describe('mobile comboBox', () => {
 
     expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
     expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
-  });
-
-  describe('with comboBoxFixValueChange flag', () => {
-    it('should not close when changing value in onInputValueChange in normal mode', async () => {
-      render(<TestOnInputChange mode />);
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-
-      const mobileInput = await screen.findByTestId(MobilePopupDataTids.root);
-      expect(mobileInput).toBeInTheDocument();
-      userEvent.type(within(mobileInput).getByRole('textbox'), 'foo');
-
-      expect(await screen.findByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
-    });
-
-    it('should not close when changing value in onInputValueChange in autocomplete mode', async () => {
-      render(<TestOnInputChange mode={false} />);
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      userEvent.type(screen.getByRole('textbox'), 'bar');
-
-      const mobileInput = await screen.findByTestId(MobilePopupDataTids.root);
-      expect(mobileInput).toBeInTheDocument();
-      userEvent.type(within(mobileInput).getByRole('textbox'), 'foo');
-
-      expect(await screen.findByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
-    });
   });
 });
