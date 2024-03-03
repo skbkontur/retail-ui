@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Clickable, ClickableDataTids } from '../Clickable';
@@ -57,19 +57,19 @@ describe('Clickable', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  // it('should not be able to click on disabled button', () => {
-  //   const onClick = jest.fn();
-  //   render(
-  //     <Clickable as="button" disabled>
-  //       <button onClick={onClick}>test</button>
-  //     </Clickable>,
-  //   );
+  it('should not be able to click on disabled button', () => {
+    const onClick = jest.fn();
+    render(
+      <Clickable as="button" onClick={onClick} isDisabled>
+        test
+      </Clickable>,
+    );
 
-  //   const button = screen.getByRole('button');
-  //   fireEvent.click(button);
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
 
-  //   expect(onClick).toHaveBeenCalledTimes(0);
-  // });
+    expect(onClick).toHaveBeenCalledTimes(0);
+  });
 
   it('should be able to pass custom event', () => {
     const onMouseDown = jest.fn();
@@ -117,59 +117,14 @@ describe('Clickable', () => {
       expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
     });
 
-    // it('should add `aria-disabled` attribute when disabled is passed', () => {
-    //   render(
-    //     <Clickable as="button" disabled>
-    //       test
-    //     </Clickable>,
-    //   );
+    it('should add `aria-disabled` attribute when disabled is passed', () => {
+      render(
+        <Clickable as="button" isDisabled>
+          test
+        </Clickable>,
+      );
 
-    //   expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
-    // });
-
-    // it('passes `role="button"` to a non-interactive element', () => {
-    //   render(
-    //     <Clickable as="div">
-    //       test
-    //     </Clickable>,
-    //   );
-
-    //   expect(screen.getByRole('button')).toBeInTheDocument();
-    // });
-
-    // it('sets focus on a non-interactive element', () => {
-    //   render(<Clickable as="div">test</Clickable>);
-
-    //   userEvent.tab();
-    //   expect(screen.getByRole('button')).toHaveFocus();
-    // });
-
-    // it('calls action when `Space` pressed on a non-interactive element', () => {
-    //   const onClick = jest.fn();
-    //   render(
-    //     <Clickable as="div" onClick={onClick}>
-    //       test
-    //     </Clickable>,
-    //   );
-
-    //   userEvent.tab();
-    //   userEvent.keyboard('{space}');
-
-    //   expect(onClick).toHaveBeenCalledTimes(1);
-    // });
-
-    // it('calls action when `Enter` pressed on a non-interactive element', () => {
-    //   const onClick = jest.fn();
-    //   render(
-    //     <Clickable as="div" onClick={onClick}>
-    //       test
-    //     </Clickable>,
-    //   );
-
-    //   userEvent.tab();
-    //   userEvent.keyboard('{enter}');
-
-    //   expect(onClick).toHaveBeenCalledTimes(1);
-    // });
+      expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
+    });
   });
 });
