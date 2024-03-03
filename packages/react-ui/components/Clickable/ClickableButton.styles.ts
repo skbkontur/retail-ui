@@ -295,29 +295,48 @@ export const buttonStyles = memoizeStyle({
       padding-left: ${t.btnWithIconPaddingLeftSmall};
     `;
   },
+  buttonSizeSmallWithRightIcon(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingRightSmall};
+    `;
+  },
+  buttonSizeSmallWithIconWithoutText(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingLeftSmall};
+      padding-right: ${t.btnWithIconPaddingRightSmall};
+    `;
+  },
+
   buttonSizeMediumWithLeftIcon(t: Theme) {
     return css`
       padding-left: ${t.btnWithIconPaddingLeftMedium};
     `;
   },
+  buttonSizeMediumWithRightIcon(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingRightMedium};
+    `;
+  },
+  buttonSizeMediumWithIconWithoutText(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingLeftMedium};
+      padding-right: ${t.btnWithIconPaddingRightMedium};
+    `;
+  },
+
   buttonSizeLargeWithLeftIcon(t: Theme) {
     return css`
       padding-left: ${t.btnWithIconPaddingLeftLarge};
     `;
   },
-
-  buttonSizeSmallWithRightIconOrWithoutText(t: Theme) {
+  buttonSizeLargeWithRightIcon(t: Theme) {
     return css`
-      padding-right: ${t.btnWithIconPaddingRightSmall};
+      padding-right: ${t.btnWithIconPaddingRightLarge};
     `;
   },
-  buttonSizeMediumWithRightIconOrWithoutText(t: Theme) {
+  buttonSizeLargeWithIconWithoutText(t: Theme) {
     return css`
-      padding-right: ${t.btnWithIconPaddingRightMedium};
-    `;
-  },
-  buttonSizeLargeWithRightIconOrWithoutText(t: Theme) {
-    return css`
+      padding-left: ${t.btnWithIconPaddingLeftLarge};
       padding-right: ${t.btnWithIconPaddingRightLarge};
     `;
   },
@@ -493,14 +512,14 @@ interface GetButtonSizeArgs extends Pick<ClickableProps, 'size' | 'leftIcon' | '
 }
 
 export const getButtonSize = ({ size, leftIcon, rightIcon, children, theme }: GetButtonSizeArgs) => {
-  const hasIcon = !!leftIcon || !!rightIcon;
-  const hasRightPadding = !!rightIcon || (hasIcon && !children);
+  const hasIconAndNoContent = (!!leftIcon || !!rightIcon) && !children;
 
   if (size === 'large') {
     return {
       [buttonStyles.buttonSizeLarge(theme)]: true,
       [buttonStyles.buttonSizeLargeWithLeftIcon(theme)]: !!leftIcon,
-      [buttonStyles.buttonSizeLargeWithRightIconOrWithoutText(theme)]: hasRightPadding,
+      [buttonStyles.buttonSizeLargeWithRightIcon(theme)]: !!rightIcon,
+      [buttonStyles.buttonSizeLargeWithIconWithoutText(theme)]: hasIconAndNoContent,
     };
   }
 
@@ -508,14 +527,16 @@ export const getButtonSize = ({ size, leftIcon, rightIcon, children, theme }: Ge
     return {
       [buttonStyles.buttonSizeMedium(theme)]: true,
       [buttonStyles.buttonSizeMediumWithLeftIcon(theme)]: !!leftIcon,
-      [buttonStyles.buttonSizeMediumWithRightIconOrWithoutText(theme)]: hasRightPadding,
+      [buttonStyles.buttonSizeMediumWithRightIcon(theme)]: !!rightIcon,
+      [buttonStyles.buttonSizeMediumWithIconWithoutText(theme)]: hasIconAndNoContent,
     };
   }
 
   return {
     [buttonStyles.buttonSizeSmall(theme)]: true,
     [buttonStyles.buttonSizeSmallWithLeftIcon(theme)]: !!leftIcon,
-    [buttonStyles.buttonSizeSmallWithRightIconOrWithoutText(theme)]: hasRightPadding,
+    [buttonStyles.buttonSizeSmallWithRightIcon(theme)]: !!rightIcon,
+    [buttonStyles.buttonSizeSmallWithIconWithoutText(theme)]: hasIconAndNoContent,
   };
 };
 

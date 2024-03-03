@@ -11,10 +11,9 @@ import { buttonIconStyles, getButtonIconSizeClassName } from './ClickableButtonI
 import { ClickableButtonLoadingIcon } from './ClickableButtonLoadingIcon';
 import { buttonGlobalClasses } from './ClickableButton.styles';
 
-export interface ClickableButtonIconProps extends Pick<ClickableProps, 'size' | 'isLoading'> {
+export interface ClickableButtonIconProps extends Pick<ClickableProps, 'size' | 'isLoading' | 'children'> {
   icon: ClickableProps['leftIcon'];
   position: 'right' | 'left';
-  hasChildren: boolean;
   hasBothIcons?: boolean;
 }
 
@@ -38,20 +37,21 @@ const getIcon = (icon: React.ReactNode, size: SizeProp, theme: Theme) => {
 export const ClickableButtonIcon = ({
   icon,
   position,
-  hasChildren,
+  children,
   isLoading = false,
   hasBothIcons = false,
   size = 'small',
 }: ClickableButtonIconProps) => {
   const theme = useContext(ThemeContext);
+  const hasNoChildren = !children;
 
   return (
     <span
       className={cx({
         [buttonGlobalClasses.icon]: true,
         [buttonIconStyles.icon()]: true,
-        [buttonIconStyles.iconNoMargin()]: !hasChildren,
         ...getButtonIconSizeClassName(size, position, theme),
+        [buttonIconStyles.iconNoMargin()]: hasNoChildren,
       })}
     >
       {isLoading && !hasBothIcons ? (

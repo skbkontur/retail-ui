@@ -71,18 +71,6 @@ export const buttonIconStyles = memoizeStyle({
     `;
   },
 
-  iconLeftLink(t: Theme) {
-    return css`
-      margin-right: ${t.btnLinkIconMarginRight};
-    `;
-  },
-
-  iconRightLink(t: Theme) {
-    return css`
-      margin-left: ${t.btnLinkIconMarginLeft};
-    `;
-  },
-
   iconNoMargin() {
     return css`
       margin-right: 0;
@@ -100,7 +88,7 @@ export const getButtonIconSizeClassName = (
     return {
       [buttonIconStyles.iconLarge(theme)]: true,
       [buttonIconStyles.iconLargeLeft(theme)]: position === 'left',
-      [buttonIconStyles.iconLargeRight(theme)]: position === 'left',
+      [buttonIconStyles.iconLargeRight(theme)]: position === 'right',
     };
   }
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { cx } from '../../lib/theming/Emotion';
 
 import { ClickableProps } from './Clickable';
-import { ClickableButtonIcon, ClickableButtonIconProps } from './ClickableButtonIcon';
+import { ClickableButtonIcon } from './ClickableButtonIcon';
 import { ClickableButtonLoadingIcon } from './ClickableButtonLoadingIcon';
 import { buttonCaptionStyles } from './ClickableButtonCaption.styles';
 import { clickableGlobalClasses } from './Clickable.styles';
@@ -17,11 +17,6 @@ export const ClickableButtonCaption = ({
   children,
 }: ClickableProps) => {
   const isLoadingWithoutIcons = !leftIcon && !rightIcon && isLoading;
-  const iconProps: Omit<ClickableButtonIconProps, 'position' | 'icon'> = {
-    size,
-    isLoading,
-    hasChildren: !!children,
-  };
 
   return (
     <div
@@ -31,7 +26,11 @@ export const ClickableButtonCaption = ({
       })}
     >
       {isLoadingWithoutIcons && <ClickableButtonLoadingIcon size={size} />}
-      {leftIcon && <ClickableButtonIcon {...iconProps} position="left" icon={leftIcon} />}
+      {leftIcon && (
+        <ClickableButtonIcon size={size} isLoading={isLoading} position="left" icon={leftIcon}>
+          {children}
+        </ClickableButtonIcon>
+      )}
       <span
         data-tid="test"
         aria-live="assertive"
@@ -44,11 +43,14 @@ export const ClickableButtonCaption = ({
       </span>
       {rightIcon && (
         <ClickableButtonIcon
-          {...iconProps}
+          size={size}
+          isLoading={isLoading}
           position="right"
           icon={rightIcon}
           hasBothIcons={!!leftIcon && !!rightIcon}
-        />
+        >
+          {children}
+        </ClickableButtonIcon>
       )}
     </div>
   );

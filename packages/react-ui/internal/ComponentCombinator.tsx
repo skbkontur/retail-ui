@@ -9,10 +9,9 @@ export interface ComponentCombinatorProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
   presetProps?: DefaultizeProps<C, P>;
-  presetState?: Partial<S>;
 }
 
-type DefaultProps<T, C, P> = Required<Pick<ComponentCombinatorProps<T, C, P>, 'presetProps' | 'presetState'>>;
+type DefaultProps<T, C, P> = Required<Pick<ComponentCombinatorProps<T, C, P>, 'presetProps'>>;
 
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
@@ -24,7 +23,6 @@ export class ComponentCombinator<
 > {
   public static defaultProps: DefaultProps<unknown, unknown, unknown> = {
     presetProps: {},
-    presetState: {},
   };
 
   private getProps = createPropsGetter(ComponentCombinator.defaultProps);
@@ -36,7 +34,7 @@ export class ComponentCombinator<
   public render() {
     const { page } = this.state;
     const { combinations, Component } = this.props;
-    const { presetProps, presetState } = this.getProps();
+    const { presetProps } = this.getProps();
     const pages = [];
     let row = 0;
     const sizes = combinations.map((c) => c.length);
@@ -67,7 +65,6 @@ export class ComponentCombinator<
               key={page}
               Component={Component}
               presetProps={presetProps as DefaultizeProps<C, P>}
-              presetState={presetState}
               rows={flatCombinations.slice(pageOffsets.offsetY, flatCombinations.length)}
               cols={flatCombinations.slice(pageOffsets.offsetX, pageOffsets.offsetY)}
             />

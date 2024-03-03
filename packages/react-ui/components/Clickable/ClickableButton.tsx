@@ -28,7 +28,7 @@ export const ClickableButton = ({
   return (
     <>
       <ClickableButtonOutline isFocused={isFocused} isDisabled={isDisabled} isWarning={isWarning} isError={isError} />
-      {arrow && !isLoading && <ClickableButtonArrow arrow={arrow} size={size} />}
+      {arrow && <ClickableButtonArrow arrow={arrow} size={size} />}
       <ClickableButtonCaption
         leftIcon={leftIcon}
         rightIcon={rightIcon}
