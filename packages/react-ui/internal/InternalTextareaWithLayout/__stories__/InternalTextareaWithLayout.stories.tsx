@@ -10,7 +10,7 @@ export const DifferentSizes: Story = () => {
   return (
     <Gapped vertical>
       <InternalTextareaWithLayout size={'small'} value={'WithLayout Size: small'} autoResize rows={1} />
-      <InternalTextareaWithLayout size={'medium'} value={'WithLayout Size: large'} autoResize rows={1} />
+      <InternalTextareaWithLayout size={'medium'} value={'WithLayout Size: medium'} autoResize rows={1} />
       <InternalTextareaWithLayout size={'large'} value={'WithLayout Size: large'} autoResize rows={1} />
       <InternalTextareaWithLayout
         size={'small'}
@@ -22,7 +22,7 @@ export const DifferentSizes: Story = () => {
       />
       <InternalTextareaWithLayout
         size={'medium'}
-        value={'WithLayout Size: large'}
+        value={'WithLayout Size: medium'}
         autoResize
         rows={1}
         leftIcon={<OkIcon />}
