@@ -207,7 +207,13 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
         {...rest}
       >
         {currentView === 'link' && (
-          <ClickableLink isLoading={isLoading} isFocused={isRootFocused} leftIcon={leftIcon} rightIcon={rightIcon}>
+          <ClickableLink
+            isLoading={isLoading}
+            isFocused={isRootFocused}
+            isError={isError}
+            leftIcon={leftIcon}
+            rightIcon={rightIcon}
+          >
             {children}
           </ClickableLink>
         )}

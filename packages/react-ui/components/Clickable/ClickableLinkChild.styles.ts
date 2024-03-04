@@ -32,4 +32,12 @@ export const linkChildStyles = memoizeStyle({
       border-bottom-color: ${t.linkLineBorderBottomColor};
     `;
   },
+
+  linkError(t: Theme) {
+    return css`
+      background: ${t.linkErrorBgColor};
+      border-radius: 7px;
+      padding: 3px 5px;
+    `;
+  },
 });

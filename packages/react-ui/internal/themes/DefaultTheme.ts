@@ -119,6 +119,9 @@ export class DefaultTheme {
   public static get linkGrayedActiveColor() {
     return this.textColorDisabled;
   }
+  public static get linkErrorBgColor() {
+    return this.redXxLight;
+  }
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 

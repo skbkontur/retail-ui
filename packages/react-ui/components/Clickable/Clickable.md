@@ -27,6 +27,7 @@ const bgStyle = {
     <Clickable as="a" use="success" href="/">Success</Clickable>
     <Clickable as="a" use="danger" href="/">Danger</Clickable>
     <Clickable as="a" use="grayed" href="/">Grayed</Clickable>
+    <Clickable as="a" isError href="/">Error</Clickable>
     <Clickable as="a" isDisabled href="/">Disabled</Clickable>
   </Gapped>
 
