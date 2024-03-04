@@ -211,10 +211,4 @@ export const styles = memoizeStyle({
       transition: none;
     `;
   },
-  contentWrapper() {
-    return css`
-      display: inline-flex;
-      align-items: flex-start;
-    `;
-  },
 });

@@ -5,7 +5,7 @@ import React from 'react';
 import { InputIconType, InputProps } from '../../components/Input';
 import { InputLayout } from '../../components/Input/InputLayout/InputLayout';
 import { Textarea, TextareaDataTids, TextareaProps } from '../../components/Textarea';
-import { styles } from '../../components/Textarea/Textarea.styles';
+import { styles as textareaStyles } from '../../components/Textarea/Textarea.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -15,6 +15,8 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { styles as inputLayerStyles } from '../../components/Input/Input.styles';
 import { isFunction } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+
+import { styles } from './InternalTextareaWithLayout.styles';
 
 interface InternalTextareaWithLayoutProps
   extends TextareaProps,
@@ -59,15 +61,15 @@ export class InternalTextareaWithLayout extends React.Component<
           const labelProps = {
             className: cx(
               styles.contentWrapper(),
-              styles.textarea(this.theme),
+              textareaStyles.textarea(this.theme),
               this.getTextareaSizeClassName(),
               this.getRootSizeClassName(),
               {
                 [inputLayerStyles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
                 [inputLayerStyles.borderless()]: this.props.borderless && !this.state.focused,
-                [styles.disabled(this.theme)]: this.props.disabled,
-                [styles.warning(this.theme)]: this.props.warning,
-                [styles.error(this.theme)]: this.props.error,
+                [textareaStyles.disabled(this.theme)]: this.props.disabled,
+                [textareaStyles.warning(this.theme)]: this.props.warning,
+                [textareaStyles.error(this.theme)]: this.props.error,
               },
             ),
           };
@@ -101,24 +103,24 @@ export class InternalTextareaWithLayout extends React.Component<
   private getTextareaSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return styles.textareaLarge(this.theme);
+        return textareaStyles.textareaLarge(this.theme);
       case 'medium':
-        return styles.textareaMedium(this.theme);
+        return textareaStyles.textareaMedium(this.theme);
       case 'small':
       default:
-        return styles.textareaSmall(this.theme);
+        return textareaStyles.textareaSmall(this.theme);
     }
   }
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return styles.rootLarge(this.theme);
+        return textareaStyles.rootLarge(this.theme);
       case 'medium':
-        return styles.rootMedium(this.theme);
+        return textareaStyles.rootMedium(this.theme);
       case 'small':
       default:
-        return styles.rootSmall(this.theme);
+        return textareaStyles.rootSmall(this.theme);
     }
   }
 
