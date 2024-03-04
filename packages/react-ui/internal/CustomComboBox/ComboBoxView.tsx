@@ -312,64 +312,42 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     const rightIcon = this.getRightIcon();
 
+    const editingStateProps = {
+      align,
+      borderless,
+      disabled,
+      error,
+      maxLength: this.props.maxLength,
+      onBlur: isMobile ? undefined : onInputBlur,
+      onValueChange: onInputValueChange,
+      onFocus: onInputFocus,
+      onClick: isMobile ? this.handleMobileFocus : onInputClick,
+      leftIcon,
+      rightIcon,
+      value: textValue || '',
+      onKeyDown: onInputKeyDown,
+      placeholder,
+      width: '100%',
+      size,
+      ref: this.refInput,
+      warning,
+      inputMode,
+      'aria-describedby': ariaDescribedby,
+      'aria-controls': this.menuId,
+      'aria-label': ariaLabel,
+    };
+
+    const multilineTextareaProps = {
+      autoResize: true,
+      rows: 1,
+      extraRow: false,
+    };
+
     if (editing) {
       if (this.props.viewMode === 'multiline' || this.props.viewMode === 'multiLineEditing') {
-        return (
-          <InternalTextareaWithLayout
-            align={align}
-            borderless={borderless}
-            disabled={disabled}
-            error={error}
-            maxLength={this.props.maxLength}
-            onBlur={isMobile ? undefined : onInputBlur}
-            onValueChange={onInputValueChange}
-            onFocus={onInputFocus}
-            onClick={isMobile ? this.handleMobileFocus : onInputClick}
-            leftIcon={leftIcon}
-            rightIcon={rightIcon}
-            value={textValue || ''}
-            onKeyDown={onInputKeyDown}
-            placeholder={placeholder}
-            width="100%"
-            size={size}
-            ref={this.refInput}
-            warning={warning}
-            inputMode={inputMode}
-            aria-describedby={ariaDescribedby}
-            aria-controls={this.menuId}
-            aria-label={ariaLabel}
-            autoResize
-            rows={1}
-            extraRow={false}
-          />
-        );
+        return <InternalTextareaWithLayout {...editingStateProps} {...multilineTextareaProps} />;
       }
-      return (
-        <Input
-          align={align}
-          borderless={borderless}
-          disabled={disabled}
-          error={error}
-          maxLength={this.props.maxLength}
-          onBlur={isMobile ? undefined : onInputBlur}
-          onValueChange={onInputValueChange}
-          onFocus={onInputFocus}
-          onClick={isMobile ? this.handleMobileFocus : onInputClick}
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
-          value={textValue || ''}
-          onKeyDown={onInputKeyDown}
-          placeholder={placeholder}
-          width="100%"
-          size={size}
-          ref={this.refInput}
-          warning={warning}
-          inputMode={inputMode}
-          aria-describedby={ariaDescribedby}
-          aria-controls={this.menuId}
-          aria-label={ariaLabel}
-        />
-      );
+      return <Input {...editingStateProps} />;
     }
 
     return (
