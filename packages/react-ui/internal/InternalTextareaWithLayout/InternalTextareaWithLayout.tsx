@@ -78,6 +78,7 @@ export class InternalTextareaWithLayout extends React.Component<
                 rightIcon={this.props.rightIcon}
                 labelProps={labelProps}
                 context={{ disabled: this.props.disabled, focused: this.state.focused, size: this.getProps().size }}
+                tag="span"
               >
                 {this.renderTextarea()}
               </InputLayout>
