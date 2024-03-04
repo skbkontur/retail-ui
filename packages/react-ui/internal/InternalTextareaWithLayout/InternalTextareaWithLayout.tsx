@@ -125,6 +125,7 @@ export class InternalTextareaWithLayout extends React.Component<
   }
 
   private renderTextarea = () => {
+    const { leftIcon, rightIcon, borderless, ...textareaProps } = this.props;
     return (
       <ThemeContext.Provider
         value={ThemeFactory.create(
@@ -144,7 +145,7 @@ export class InternalTextareaWithLayout extends React.Component<
         )}
       >
         <Textarea
-          {...this.props}
+          {...textareaProps}
           width={'100%'}
           ref={this.wrappedComponentRef}
           onFocus={this.handleFocus}
@@ -193,10 +194,12 @@ export class InternalTextareaWithLayout extends React.Component<
     );
   }
 
-  private handleBlur = () => {
+  private handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     this.setState({ focused: false });
+    this.props.onFocus?.(event);
   };
-  private handleFocus = () => {
+  private handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     this.setState({ focused: true });
+    this.props.onFocus?.(event);
   };
 }
