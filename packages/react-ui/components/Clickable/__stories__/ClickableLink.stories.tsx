@@ -22,41 +22,30 @@ const getUseStates = () => {
 };
 
 export const Use: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    rows={getUseStates()}
-    cols={useDifferentStates.map((x) => ({ props: x }))}
-    // @ts-expect-error: TS passes default tag to generic so it thinks that prop `as` can accept only 'button' as value
-    presetProps={{ children: 'Link', as: 'a' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={useDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable as="a">Link</Clickable>
+  </ComponentTable>
 );
 
-const useDifferentStates: LinkState[] = [{}, { isDisabled: true }, { isLoading: true }];
+const useDifferentStates: LinkState[] = [{}, { isDisabled: true }, { isLoading: true }, { isError: true }];
 
 export const Icon: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    rows={getUseStates()}
-    cols={iconDifferentStates.map((x) => ({ props: x }))}
-    // @ts-expect-error: TS passes default tag to generic so it thinks that prop `as` can accept only 'button' as value
-    presetProps={{ children: 'Link', as: 'a' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={iconDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable as="a">Link</Clickable>
+  </ComponentTable>
 );
 
 const iconDifferentStates: LinkState[] = [
   { leftIcon: <XIcon16Regular /> },
   { rightIcon: <XIcon16Regular /> },
   { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
+  { isError: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
 ];
 
 export const Loading: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    rows={getUseStates()}
-    cols={loadingDifferentStates.map((x) => ({ props: x }))}
-    // @ts-expect-error: TS passes default tag to generic so it thinks that prop `as` can accept only 'button' as value
-    presetProps={{ children: 'Link', as: 'a' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={loadingDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable as="a">Link</Clickable>
+  </ComponentTable>
 );
 
 const loadingDifferentStates: LinkState[] = [
@@ -64,4 +53,5 @@ const loadingDifferentStates: LinkState[] = [
   { isLoading: true, leftIcon: <XIcon16Regular /> },
   { isLoading: true, rightIcon: <XIcon16Regular /> },
   { isLoading: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
+  { isLoading: true, isError: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
 ];

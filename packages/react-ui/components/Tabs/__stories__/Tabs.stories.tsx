@@ -338,33 +338,26 @@ class TabsInModal extends React.Component {
   };
 }
 
-type TabsTableProps = TabProps & { vertical?: boolean };
-class TabsTable extends React.Component {
-  public static TestTab = class TestTab extends React.Component<TabsTableProps> {
-    public render() {
-      const { vertical, ...tabProps } = this.props;
-      return (
-        <Tabs vertical={vertical} value="">
-          <Tab {...tabProps}>Tab</Tab>
-        </Tabs>
-      );
-    }
-  };
-
-  public render() {
-    const rows = [{}, { primary: true }, { error: true }, { warning: true }];
-    const cols = [{}, { vertical: true }, { disabled: true }, { vertical: true, disabled: true }];
-    return (
-      <div>
-        <ComponentTable
-          Component={TabsTable.TestTab}
-          rows={rows.map((x) => ({ props: x }))}
-          cols={cols.map((x) => ({ props: x }))}
-        />
-      </div>
-    );
-  }
+interface TabsTableProps extends TabProps {
+  vertical?: boolean;
 }
+const TestTab = ({ vertical, ...tabProps }: TabsTableProps) => {
+  return (
+    <Tabs vertical={vertical} value="">
+      <Tab {...tabProps}>Tab</Tab>
+    </Tabs>
+  );
+};
+
+const TabsTable = () => {
+  const rows = [{}, { primary: true }, { error: true }, { warning: true }] as TabsTableProps[];
+  const cols = [{}, { vertical: true }, { disabled: true }, { vertical: true, disabled: true }];
+  return (
+    <ComponentTable rows={rows.map((x) => ({ props: x }))} cols={cols.map((x) => ({ props: x }))}>
+      <TestTab />
+    </ComponentTable>
+  );
+};
 
 export default { title: 'Tabs' };
 

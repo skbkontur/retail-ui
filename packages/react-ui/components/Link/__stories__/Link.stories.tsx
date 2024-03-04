@@ -22,34 +22,25 @@ const getUseStates = () => {
 };
 
 export const Use: Story = () => (
-  <ComponentTable
-    Component={Link}
-    rows={getUseStates()}
-    cols={useDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Link' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={useDifferentStates.map((x) => ({ props: x }))}>
+    <Link>Link</Link>
+  </ComponentTable>
 );
 
 const useDifferentStates: LinkState[] = [{}, { disabled: true }, { loading: true }];
 
 export const Icon: Story = () => (
-  <ComponentTable
-    Component={Link}
-    rows={getUseStates()}
-    cols={iconDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Link' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={iconDifferentStates.map((x) => ({ props: x }))}>
+    <Link>Link</Link>
+  </ComponentTable>
 );
 
 const iconDifferentStates: LinkState[] = [{ icon: <XIcon16Regular /> }];
 
 export const Loading: Story = () => (
-  <ComponentTable
-    Component={Link}
-    rows={getUseStates()}
-    cols={loadingDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Link' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={loadingDifferentStates.map((x) => ({ props: x }))}>
+    <Link>Link</Link>
+  </ComponentTable>
 );
 
 const loadingDifferentStates: LinkState[] = [{ loading: true }, { loading: true, icon: <XIcon16Regular /> }];

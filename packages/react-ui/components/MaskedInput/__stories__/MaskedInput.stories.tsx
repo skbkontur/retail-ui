@@ -16,12 +16,9 @@ type InputState = Partial<MaskedInputProps>;
 const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
 export const Mask: Story = () => (
-  <ComponentTable
-    Component={MaskedInput}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={maskStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: '(999) 999-99-99' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={maskStates.map((x) => ({ props: x }))}>
+    <MaskedInput mask="(999) 999-99-99" />
+  </ComponentTable>
 );
 
 const maskStates: InputState[] = [
@@ -44,11 +41,11 @@ const maskStates: InputState[] = [
 
 export const PrefixOrSuffix: Story = () => (
   <ComponentTable
-    Component={MaskedInput}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: '+7 (999) 999 99 99' }}
-  />
+  >
+    <MaskedInput mask="+7 (999) 999 99 99" />
+  </ComponentTable>
 );
 const inputPrefixOrSuffixStates: InputState[] = [
   {},
@@ -65,12 +62,9 @@ const inputPrefixOrSuffixStates: InputState[] = [
 ];
 
 export const PrefixesAndSuffixes: Story = () => (
-  <ComponentTable
-    Component={MaskedInput}
-    cols={[{}]}
-    rows={prefixesAndSuffixesStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: '+7 (999) 999 99 99', width: '250px' }}
-  />
+  <ComponentTable cols={[{}]} rows={prefixesAndSuffixesStates.map((x) => ({ props: x }))}>
+    <MaskedInput mask="+7 (999) 999 99 99" width="250px" />
+  </ComponentTable>
 );
 const prefixesAndSuffixesStates: InputState[] = [
   {
@@ -91,12 +85,9 @@ const prefixesAndSuffixesStates: InputState[] = [
 ];
 
 export const Validations: Story = () => (
-  <ComponentTable
-    Component={MaskedInput}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={validationsStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: '99:99' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={validationsStates.map((x) => ({ props: x }))}>
+    <MaskedInput mask="99:99" />
+  </ComponentTable>
 );
 
 const validationsStates: InputState[] = [
@@ -109,12 +100,9 @@ const validationsStates: InputState[] = [
 ];
 
 export const Positions: Story = () => (
-  <ComponentTable
-    Component={MaskedInput}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={positionsStates.map((x) => ({ props: x }))}
-    presetProps={{ alwaysShowMask: true, mask: '**** **** ****' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={positionsStates.map((x) => ({ props: x }))}>
+    <MaskedInput alwaysShowMask mask="**** **** ****" />
+  </ComponentTable>
 );
 
 const positionsStates: InputState[] = [

@@ -43,50 +43,35 @@ const getUseStates = () => {
 };
 
 export const Use: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    rows={getUseStates()}
-    cols={useDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button' }}
-  />
+  <ComponentTable rows={getUseStates()} cols={useDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable>Button</Clickable>
+  </ComponentTable>
 );
 
 const useDifferentStates: ButtonState[] = [{}, { isActive: true }];
 
 export const Warning: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={sizeDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', isWarning: true }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={sizeDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable isWarning>Button</Clickable>
+  </ComponentTable>
 );
 
 export const Error: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={sizeDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', isError: true }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={sizeDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable isError>Button</Clickable>
+  </ComponentTable>
 );
 
 export const Arrow: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={arrowDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', arrow: 'right' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={arrowDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable arrow="right">Button</Clickable>
+  </ComponentTable>
 );
 
 export const ArrowLeft: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={arrowDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', arrow: 'left' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={arrowDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable arrow="left">Button</Clickable>
+  </ComponentTable>
 );
 
 const arrowDifferentStates: ButtonState[] = [
@@ -96,12 +81,9 @@ const arrowDifferentStates: ButtonState[] = [
 ];
 
 export const ArrowSize: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={arrowDifferentSizeStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={arrowDifferentSizeStates.map((x) => ({ props: x }))}>
+    <Clickable>Button</Clickable>
+  </ComponentTable>
 );
 
 const arrowDifferentSizeStates: ButtonState[] = [
@@ -114,12 +96,9 @@ const arrowDifferentSizeStates: ButtonState[] = [
 ];
 
 export const Borderless: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={borderlessDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', isBorderless: true }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={borderlessDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable isBorderless>Button</Clickable>
+  </ComponentTable>
 );
 
 const borderlessDifferentStates: ButtonState[] = [
@@ -132,45 +111,33 @@ const borderlessDifferentStates: ButtonState[] = [
 ];
 
 export const Size: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={sizeDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={sizeDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable>Button</Clickable>
+  </ComponentTable>
 );
 
 const sizeDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
 export const Loading: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={loadingDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', isLoading: true }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={loadingDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable isLoading>Button</Clickable>
+  </ComponentTable>
 );
 
 const loadingDifferentStates: ButtonState[] = [{ isActive: true }];
 
 export const Narrow: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={narrowDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', isNarrow: true }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={narrowDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable isNarrow>Button</Clickable>
+  </ComponentTable>
 );
 
 const narrowDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
 export const Align: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={alignDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', width: '200px' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={alignDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable width="200px">Button</Clickable>
+  </ComponentTable>
 );
 
 const alignDifferentStates: ButtonState[] = [
@@ -183,12 +150,9 @@ const alignDifferentStates: ButtonState[] = [
 ];
 
 export const Icon: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={iconDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={iconDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable />
+  </ComponentTable>
 );
 const iconDifferentStates: ButtonState[] = [
   { leftIcon: <XIcon16Regular /> },
@@ -215,21 +179,20 @@ const iconDifferentStates: ButtonState[] = [
 ];
 
 export const Disabled: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={disabledDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', isDisabled: true }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={disabledDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable isDisabled>Button</Clickable>
+  </ComponentTable>
 );
 
 export const ArrowDisabled: Story = () => (
   <ComponentTable
-    Component={Clickable}
     cols={getUseStates()}
     rows={disabledDifferentStates.filter((state) => !state.leftIcon).map((state) => ({ props: state }))}
-    presetProps={{ children: 'Button', isDisabled: true, arrow: 'right' }}
-  />
+  >
+    <Clickable isDisabled arrow="right">
+      Button
+    </Clickable>
+  </ComponentTable>
 );
 
 const disabledDifferentStates: ButtonState[] = [
@@ -241,12 +204,9 @@ const disabledDifferentStates: ButtonState[] = [
 ];
 
 export const DifferentPrioritization: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={differentPriorityStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={differentPriorityStates.map((x) => ({ props: x }))}>
+    <Clickable>Button</Clickable>
+  </ComponentTable>
 );
 
 const differentPriorityStates: ButtonState[] = [
@@ -355,12 +315,9 @@ PlaygroundDisabled.parameters = {
 };
 
 export const UnusedPropValues: Story = () => (
-  <ComponentTable
-    Component={Clickable}
-    cols={getButtonUseStates()}
-    rows={unusedDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button' }}
-  />
+  <ComponentTable cols={getButtonUseStates()} rows={unusedDifferentStates.map((x) => ({ props: x }))}>
+    <Clickable>Button</Clickable>
+  </ComponentTable>
 );
 const unusedDifferentStates: ButtonState[] = [
   { isActive: false },

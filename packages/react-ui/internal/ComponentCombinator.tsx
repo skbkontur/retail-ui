@@ -3,25 +3,25 @@ import React from 'react';
 import { DefaultizeProps } from '../lib/utils';
 import { createPropsGetter } from '../lib/createPropsGetter';
 
-import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
+import { ComponentTable, Props } from './ComponentTable';
 
-export interface ComponentCombinatorProps<C, P, S> {
-  combinations: Array<StatePropsCombinations<P, S>>;
-  Component: C;
+export interface ComponentCombinatorProps<C, P> {
+  combinations: Array<Props<P>>;
+  Component: React.ReactElement;
   presetProps?: DefaultizeProps<C, P>;
 }
 
-type DefaultProps<T, C, P> = Required<Pick<ComponentCombinatorProps<T, C, P>, 'presetProps'>>;
+type DefaultProps<T, C> = Required<Pick<ComponentCombinatorProps<T, C>, 'presetProps'>>;
 
 export class ComponentCombinator<
-  T extends React.Component<any, any, any>,
-  C extends React.ComponentType<any>,
+  T extends React.Component<any>,
+  C extends React.ComponentType,
   P extends React.ComponentProps<C>,
 > extends React.Component<
-  ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
+  ComponentCombinatorProps<C extends React.ComponentClass<P> ? React.ClassType<P, T, C> : C, P>,
   { page: number }
 > {
-  public static defaultProps: DefaultProps<unknown, unknown, unknown> = {
+  public static defaultProps: DefaultProps<unknown, unknown> = {
     presetProps: {},
   };
 
@@ -63,11 +63,11 @@ export class ComponentCombinator<
           {pageOffsets && (
             <ComponentTable
               key={page}
-              Component={Component}
-              presetProps={presetProps as DefaultizeProps<C, P>}
               rows={flatCombinations.slice(pageOffsets.offsetY, flatCombinations.length)}
               cols={flatCombinations.slice(pageOffsets.offsetX, pageOffsets.offsetY)}
-            />
+            >
+              {React.cloneElement(Component, { ...presetProps })}
+            </ComponentTable>
           )}
         </div>
       </div>
