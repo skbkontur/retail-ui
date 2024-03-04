@@ -4,7 +4,7 @@ import { createPropsGetter } from '@skbkontur/react-ui/lib/createPropsGetter';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
-import { ValidationState } from '../ValidationHelper';
+import { ValidationState } from './ValidationHelper';
 
 interface SingleInputPageProps {
   initialValue?: string;

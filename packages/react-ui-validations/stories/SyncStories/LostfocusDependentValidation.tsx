@@ -5,7 +5,7 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
-import { ValidationState } from '../ValidationHelper';
+import { ValidationState } from './ValidationHelper';
 
 interface LostfocusDependentValidationState {
   sending: boolean;

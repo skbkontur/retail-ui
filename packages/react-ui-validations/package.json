@@ -27,7 +27,10 @@
     "fix:prettier": "yarn prettier --write .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\""
+    "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\"",
+    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
+    "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
+    "creevey:ui": "yarn creevey --ui"
   },
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -81,6 +84,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-search-and-replace": "1.1.0",
     "core-js": "^3.9.1",
+    "creevey": "0.8.0-beta.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.1.1",
     "dts-bundle": "^0.7.3",

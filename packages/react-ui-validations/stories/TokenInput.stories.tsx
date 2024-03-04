@@ -1,46 +1,37 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { Meta } from '@storybook/react';
 import { Token } from '@skbkontur/react-ui/components/Token';
 import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('TokenInput', module).add('required', () => <TokenInputStory />);
+export default {
+  title: 'TokenInput',
+} as Meta;
 
-async function getItems(query: string) {
-  return ['aaa', 'bbb'].filter((s) => s.includes(query));
-}
+export const Required = () => {
+  const TokenInputStory = () => {
+    const [checked] = useState<boolean>(false);
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-interface TokenInputStoryState {
-  checked: boolean;
-  selectedItems: string[];
-}
-class TokenInputStory extends React.Component {
-  public state: TokenInputStoryState = {
-    checked: false,
-    selectedItems: [],
-  };
+    const validate = (): Nullable<ValidationInfo> => {
+      if (checked === false) {
+        return { message: 'Поле обязательно', type: 'immediate' };
+      }
+      return null;
+    };
 
-  private container: ValidationContainer | null = null;
+    const refContainer = useRef<ValidationContainer>(null);
 
-  public validate(): Nullable<ValidationInfo> {
-    const { checked } = this.state;
-    if (checked === false) {
-      return { message: 'Поле обязательно', type: 'immediate' };
-    }
-    return null;
-  }
-
-  public render() {
     return (
       <div style={{ padding: '10px' }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validate()} renderMessage={tooltip('right middle')}>
+        <ValidationContainer ref={refContainer}>
+          <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
             <TokenInput
               getItems={getItems}
-              selectedItems={this.state.selectedItems}
-              onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
+              selectedItems={selectedItems}
+              onValueChange={setSelectedItems}
               renderToken={(item, { isActive, onClick, onRemove }) => (
                 <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
                   {item}
@@ -51,7 +42,11 @@ class TokenInputStory extends React.Component {
         </ValidationContainer>
       </div>
     );
-  }
+  };
 
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
+  return <TokenInputStory />;
+};
+
+async function getItems(query: string) {
+  return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
