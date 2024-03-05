@@ -536,7 +536,7 @@ UnusedPropValues.parameters = {
   },
 };
 
-export const HoverColorText: Story = () => {
+export const HoverTextColor: Story = () => {
   return (
     <Button theme={{ btnTextHoverTextColor: 'red' }} use="text" data-tid="test-button">
       Use Text
@@ -544,7 +544,7 @@ export const HoverColorText: Story = () => {
   );
 };
 
-HoverColorText.parameters = {
+HoverTextColor.parameters = {
   creevey: {
     skip: { in: /^(?!\bfirefox(2022)?\b)/ },
     tests: {
