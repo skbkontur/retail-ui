@@ -8,6 +8,8 @@ import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'Button',
@@ -533,5 +535,38 @@ const unusedDifferentStates: ButtonState[] = [
 UnusedPropValues.parameters = {
   creevey: {
     skip: { in: /^(?!\bchrome(2022)?\b)/ },
+  },
+};
+
+export const HoverColorText: Story = () => {
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <ThemeContext.Provider value={ThemeFactory.create({ btnTextHoverTextColor: 'red' }, theme)}>
+          <Button use="text" data-tid="test-button">
+            Use Text
+          </Button>
+        </ThemeContext.Provider>
+      )}
+    </ThemeContext.Consumer>
+  );
+};
+
+HoverColorText.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bfirefox(2022)?\b)/ },
+    tests: {
+      async hover() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+          })
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+      },
+    },
   },
 };
