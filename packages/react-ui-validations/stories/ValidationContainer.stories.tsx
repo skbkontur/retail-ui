@@ -64,19 +64,37 @@ export const WithWrapperError = () => (
 );
 
 export const WithWrapperErrorWithoutSpan = () => (
-  <div style={{ paddingBottom: 20 }}>
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-      <ValidationContainer>
-        <div>
-          <Button>Submit</Button>
-          <ValidationWrapper
-            renderMessage={text('bottom')}
-            validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-          >
-            <Input />
-          </ValidationWrapper>
-        </div>
-      </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
-  </div>
+  <>
+    <div style={{ paddingBottom: 20 }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+        <ValidationContainer>
+          <div>
+            <Button>Submit</Button>
+            <ValidationWrapper
+              renderMessage={text('bottom')}
+              validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
+            >
+              <Input />
+            </ValidationWrapper>
+          </div>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+    </div>
+
+    <div style={{ paddingBottom: 20 }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: false }}>
+        <ValidationContainer>
+          <div>
+            <Button>Submit</Button>
+            <ValidationWrapper
+              renderMessage={text('bottom')}
+              validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
+            >
+              <Input />
+            </ValidationWrapper>
+          </div>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+    </div>
+  </>
 );

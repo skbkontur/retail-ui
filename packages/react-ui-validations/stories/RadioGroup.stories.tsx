@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
@@ -19,87 +19,61 @@ interface RadioGroupStoryState {
 }
 
 export const Example1 = () => {
-  class RadioGroupStory extends React.Component {
-    public state: RadioGroupStoryState = {
-      sex: null,
-    };
+  const refContainer = useRef<ValidationContainer>(null);
+  const [sex, setSex] = useState<Nullable<Sex>>(null);
 
-    private container: ValidationContainer | null = null;
-
-    public validateSex(): Nullable<ValidationInfo> {
-      const { sex } = this.state;
-      if (isNullable(sex)) {
-        return { message: 'Должно быть не пусто', type: 'submit' };
-      }
-      return null;
+  const validateSex = (): Nullable<ValidationInfo> => {
+    if (isNullable(sex)) {
+      return { message: 'Должно быть не пусто', type: 'submit' };
     }
+    return null;
+  };
 
-    public render() {
-      return (
-        <div style={{ padding: '20px 20px' }}>
-          <ValidationContainer ref={this.refContainer}>
-            <ValidationWrapper validationInfo={this.validateSex()}>
-              <RadioGroup<RadioGroupStoryState['sex']>
-                value={this.state.sex}
-                items={['male', 'female'] as Sex[]}
-                renderItem={(x) => <span>{x}</span>}
-                onValueChange={(value) => this.setState({ sex: value })}
-              />
-            </ValidationWrapper>
-            <div style={{ padding: '100px 0' }}>
-              <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-            </div>
-          </ValidationContainer>
+  return (
+    <div style={{ padding: 20 }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateSex()}>
+          <RadioGroup<RadioGroupStoryState['sex']>
+            value={sex}
+            items={['male', 'female'] as Sex[]}
+            renderItem={(x) => <span>{x}</span>}
+            onValueChange={setSex}
+          />
+        </ValidationWrapper>
+        <div style={{ padding: '100px 0' }}>
+          <Button onClick={() => refContainer.current?.validate()}>Check</Button>
         </div>
-      );
-    }
-
-    private refContainer = (el: ValidationContainer | null) => (this.container = el);
-  }
-
-  return <RadioGroupStory />;
+      </ValidationContainer>
+    </div>
+  );
 };
+
 export const RadioGroupWithChildren = () => {
-  class RadioGroupChildrenStory extends React.Component {
-    public state: RadioGroupStoryState = {
-      sex: null,
-    };
+  const refContainer = useRef<ValidationContainer>(null);
+  const [sex, setSex] = useState<Nullable<Sex>>(null);
 
-    private container: ValidationContainer | null = null;
-
-    public validateSex(): Nullable<ValidationInfo> {
-      const { sex } = this.state;
-      if (isNullable(sex)) {
-        return { message: 'Должно быть не пусто', type: 'submit' };
-      }
-      return null;
+  const validateSex = (): Nullable<ValidationInfo> => {
+    if (isNullable(sex)) {
+      return { message: 'Должно быть не пусто', type: 'submit' };
     }
+    return null;
+  };
 
-    public render() {
-      return (
-        <div style={{ padding: '20px 20px' }}>
-          <ValidationContainer ref={this.refContainer}>
-            <ValidationWrapper validationInfo={this.validateSex()}>
-              <RadioGroup<RadioGroupStoryState['sex']>
-                value={this.state.sex}
-                onValueChange={(value) => this.setState({ sex: value })}
-              >
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <Radio value={'male'}>male</Radio>
-                  <Radio value={'female'}>female</Radio>
-                </div>
-              </RadioGroup>
-            </ValidationWrapper>
-            <div style={{ padding: '100px 0' }}>
-              <Button onClick={() => this.container && this.container.validate()}>Check</Button>
+  return (
+    <div style={{ padding: 20 }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateSex()}>
+          <RadioGroup<RadioGroupStoryState['sex']> value={sex} onValueChange={setSex}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Radio value={'male'}>male</Radio>
+              <Radio value={'female'}>female</Radio>
             </div>
-          </ValidationContainer>
+          </RadioGroup>
+        </ValidationWrapper>
+        <div style={{ padding: '100px 0' }}>
+          <Button onClick={() => refContainer.current?.validate()}>Check</Button>
         </div>
-      );
-    }
-
-    private refContainer = (el: ValidationContainer | null) => (this.container = el);
-  }
-
-  return <RadioGroupChildrenStory />;
+      </ValidationContainer>
+    </div>
+  );
 };

@@ -20,7 +20,9 @@ namespace SKBKontur.ValidationTests.Infrastructure
 
         public static string CreateStoryId(string kind, string story)
         {
-            return $"{kind}--{story}".Replace("_", "-").ToLower();
+          // Превращает название "TestCaseCase" в "test-case-case"
+          var storybookUrlStoryName = Regex.Replace(story, "(?<!^)([A-Z])", "-$1", RegexOptions.Compiled);
+          return $"{kind}--{storybookUrlStoryName}".ToLower();
         }
 
         private static readonly Regex storybookNamespacePattern = new Regex(@"^.*\.Storybook\.(?<Kind>.*)\.(?<Story>.*)", RegexOptions.Compiled);

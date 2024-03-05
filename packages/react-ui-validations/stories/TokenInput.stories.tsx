@@ -11,40 +11,35 @@ export default {
 } as Meta;
 
 export const Required = () => {
-  const TokenInputStory = () => {
-    const [checked] = useState<boolean>(false);
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const refContainer = useRef<ValidationContainer>(null);
+  const [checked] = useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-    const validate = (): Nullable<ValidationInfo> => {
-      if (checked === false) {
-        return { message: 'Поле обязательно', type: 'immediate' };
-      }
-      return null;
-    };
-
-    const refContainer = useRef<ValidationContainer>(null);
-
-    return (
-      <div style={{ padding: '10px' }}>
-        <ValidationContainer ref={refContainer}>
-          <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
-            <TokenInput
-              getItems={getItems}
-              selectedItems={selectedItems}
-              onValueChange={setSelectedItems}
-              renderToken={(item, { isActive, onClick, onRemove }) => (
-                <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
-                  {item}
-                </Token>
-              )}
-            />
-          </ValidationWrapper>
-        </ValidationContainer>
-      </div>
-    );
+  const validate = (): Nullable<ValidationInfo> => {
+    if (!checked) {
+      return { message: 'Поле обязательно', type: 'immediate' };
+    }
+    return null;
   };
 
-  return <TokenInputStory />;
+  return (
+    <div style={{ padding: 10 }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
+          <TokenInput
+            getItems={getItems}
+            selectedItems={selectedItems}
+            onValueChange={setSelectedItems}
+            renderToken={(item, { isActive, onClick, onRemove }) => (
+              <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+                {item}
+              </Token>
+            )}
+          />
+        </ValidationWrapper>
+      </ValidationContainer>
+    </div>
+  );
 };
 
 async function getItems(query: string) {

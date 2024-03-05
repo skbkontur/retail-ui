@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Meta } from '@storybook/react';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
 
@@ -10,51 +10,42 @@ export default {
 } as Meta;
 
 interface ComboBoxStoryState {
-  selected: { value: string; label: string };
+  value: string;
+  label: string;
 }
 
 export const Required = () => {
-  class ComboBoxStory extends React.Component {
-    public state: ComboBoxStoryState = {
-      selected: { value: 'one', label: 'one' },
-    };
+  const [selected, setSelected] = useState<ComboBoxStoryState>({ value: 'one', label: 'one' });
 
-    private items = [
-      { value: 'one', label: 'one' },
-      { value: 'two', label: 'two' },
-      { value: 'three', label: 'three' },
-    ];
+  const items: ComboBoxStoryState[] = [
+    { value: 'one', label: 'one' },
+    { value: 'two', label: 'two' },
+    { value: 'three', label: 'three' },
+  ];
 
-    public validateValue(): Nullable<ValidationInfo> {
-      const labels = this.items.map(({ label }) => label);
-      return this.state.selected && labels.includes(this.state.selected.label)
-        ? null
-        : {
-            message: 'Выберите значение из списка',
-            type: 'lostfocus',
-          };
-    }
+  const validateValue = (): Nullable<ValidationInfo> => {
+    const labels = items.map(({ label }) => label);
+    return selected && labels.includes(selected.label)
+      ? null
+      : {
+          message: 'Выберите значение из списка',
+          type: 'lostfocus',
+        };
+  };
 
-    public render() {
-      return (
-        <div style={{ padding: '20px 20px' }}>
-          <ValidationContainer>
-            <ValidationWrapper validationInfo={this.validateValue()}>
-              <ComboBox
-                onValueChange={(value) => this.setState({ selected: value })}
-                getItems={() => Promise.resolve(this.items)}
-                placeholder="Начните вводить название"
-                value={this.state.selected}
-                onUnexpectedInput={(unexpected) =>
-                  this.setState({ selected: { value: unexpected, label: unexpected } })
-                }
-              />
-            </ValidationWrapper>
-          </ValidationContainer>
-        </div>
-      );
-    }
-  }
-
-  return <ComboBoxStory />;
+  return (
+    <div style={{ padding: 20 }}>
+      <ValidationContainer>
+        <ValidationWrapper validationInfo={validateValue()}>
+          <ComboBox
+            onValueChange={setSelected}
+            getItems={() => Promise.resolve(items)}
+            placeholder="Начните вводить название"
+            value={selected}
+            onUnexpectedInput={(unexpected) => setSelected({ value: unexpected, label: unexpected })}
+          />
+        </ValidationWrapper>
+      </ValidationContainer>
+    </div>
+  );
 };

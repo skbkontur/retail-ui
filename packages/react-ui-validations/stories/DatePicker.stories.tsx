@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
@@ -11,43 +11,27 @@ export default {
   title: 'DatePicker',
 } as Meta;
 
-interface DatePickerStoryState {
-  value: Date | string | null;
-}
-
 export const Example1 = () => {
-  class DatePickerStory extends React.Component {
-    public state: DatePickerStoryState = {
-      value: null,
-    };
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value, setValue] = useState<Date | string | null>(null);
 
-    private container: ValidationContainer | null = null;
-
-    public validateValue(): Nullable<ValidationInfo> {
-      const { value } = this.state;
-      if (isNonNullable(value)) {
-        return { message: 'Должно быть не пусто', type: 'submit' };
-      }
-      return null;
+  const validateValue = (): Nullable<ValidationInfo> => {
+    if (isNonNullable(value)) {
+      return { message: 'Должно быть не пусто', type: 'submit' };
     }
+    return null;
+  };
 
-    public render() {
-      return (
-        <div style={{ padding: '20px 20px' }}>
-          <ValidationContainer ref={this.refContainer}>
-            <ValidationWrapper validationInfo={this.validateValue()}>
-              <DatePicker value={this.state.value as any} onValueChange={(value) => this.setState({ value })} />
-            </ValidationWrapper>
-            <div style={{ padding: '100px 0' }}>
-              <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-            </div>
-          </ValidationContainer>
+  return (
+    <div style={{ padding: 20 }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateValue()}>
+          <DatePicker value={value as any} onValueChange={setValue} />
+        </ValidationWrapper>
+        <div style={{ padding: '100px 0' }}>
+          <Button onClick={() => refContainer.current?.validate()}>Check</Button>
         </div>
-      );
-    }
-
-    private refContainer = (el: ValidationContainer | null) => (this.container = el);
-  }
-
-  return <DatePickerStory />;
+      </ValidationContainer>
+    </div>
+  );
 };
