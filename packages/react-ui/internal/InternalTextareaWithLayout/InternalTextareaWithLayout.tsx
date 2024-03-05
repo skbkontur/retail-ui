@@ -4,7 +4,7 @@ import React from 'react';
 
 import { InputIconType, InputProps } from '../../components/Input';
 import { InputLayout } from '../../components/Input/InputLayout/InputLayout';
-import { Textarea, TextareaDataTids, TextareaProps } from '../../components/Textarea';
+import { Textarea, TextareaProps } from '../../components/Textarea';
 import { styles as textareaStyles } from '../../components/Textarea/Textarea.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -65,13 +65,14 @@ export class InternalTextareaWithLayout extends React.Component<
               this.getTextareaSizeClassName(),
               this.getRootSizeClassName(),
               {
-                [inputLayerStyles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
+                [styles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
                 [inputLayerStyles.borderless()]: this.props.borderless && !this.state.focused,
                 [textareaStyles.disabled(this.theme)]: this.props.disabled,
                 [textareaStyles.warning(this.theme)]: this.props.warning,
                 [textareaStyles.error(this.theme)]: this.props.error,
               },
             ),
+            style: { width: this.props.width || '250px' },
           };
           if (isTheme2022(this.theme)) {
             return (
@@ -87,7 +88,7 @@ export class InternalTextareaWithLayout extends React.Component<
             );
           }
           return (
-            <span data-tid={TextareaDataTids.root} {...labelProps}>
+            <span data-tid={'InternalTextareaWithLayout'} {...labelProps}>
               <span className={inputLayerStyles.sideContainer()}>{this.renderLeftIcon()}</span>
               {this.renderTextarea()}
               <span className={cx(inputLayerStyles.sideContainer(), inputLayerStyles.rightContainer())}>
@@ -140,6 +141,7 @@ export class InternalTextareaWithLayout extends React.Component<
             textareaPaddingYLarge: '0px',
             textareaOutlineWidth: '0px',
             textareaShadow: 'none',
+            textareaDisabledBg: 'transparent',
           },
           this.theme,
         )}
