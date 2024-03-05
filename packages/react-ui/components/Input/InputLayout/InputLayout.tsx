@@ -17,9 +17,9 @@ export interface InputLayoutRootProps extends InputLayoutRootFromInputProps, Com
 }
 
 export const InputLayout = forwardRefAndName<HTMLLabelElement, InputLayoutRootProps>('InputLayout', (props, ref) => {
-  const { leftIcon, rightIcon, prefix, suffix, labelProps, context, children } = props;
+  const { leftIcon, rightIcon, prefix, suffix, labelProps, context, children, tag = 'label' } = props;
   const _context: InputLayoutContextProps = { ...InputLayoutContextDefault, ...context };
-  const Tag = props.tag || 'label';
+  const Tag = tag;
 
   return (
     <InputLayoutContext.Provider value={_context}>
