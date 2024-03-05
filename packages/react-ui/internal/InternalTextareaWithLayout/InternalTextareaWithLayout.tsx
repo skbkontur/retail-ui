@@ -58,7 +58,7 @@ export class InternalTextareaWithLayout extends React.Component<
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <span>{this.renderLayout()}</span>;
+          return <span data-tid={'InternalTextareaWithLayout'}>{this.renderLayout()}</span>;
         }}
       </ThemeContext.Consumer>
     );
@@ -119,7 +119,7 @@ export class InternalTextareaWithLayout extends React.Component<
       );
     }
     return (
-      <span data-tid={'InternalTextareaWithLayout'} {...labelProps}>
+      <span {...labelProps}>
         <span className={inputLayerStyles.sideContainer()}>{this.renderLeftIcon()}</span>
         {this.renderTextarea()}
         <span className={cx(inputLayerStyles.sideContainer(), inputLayerStyles.rightContainer())}>
