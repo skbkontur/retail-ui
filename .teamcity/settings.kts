@@ -524,6 +524,7 @@ object Validations : Project({
 
     buildType(Validations_Build)
     buildType(Validations_LintTest)
+    buildType(Validations_ScreenshotTests)
     buildType(Validations_Publish)
     buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish)
 })
