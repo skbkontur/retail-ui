@@ -58,44 +58,7 @@ export class InternalTextareaWithLayout extends React.Component<
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          const labelProps = {
-            className: cx(
-              styles.contentWrapper(),
-              textareaStyles.textarea(this.theme),
-              this.getTextareaSizeClassName(),
-              this.getRootSizeClassName(),
-              {
-                [styles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
-                [inputLayerStyles.borderless()]: this.props.borderless && !this.state.focused,
-                [textareaStyles.disabled(this.theme)]: this.props.disabled,
-                [textareaStyles.warning(this.theme)]: this.props.warning,
-                [textareaStyles.error(this.theme)]: this.props.error,
-              },
-            ),
-            style: { width: this.props.width || '250px' },
-          };
-          if (isTheme2022(this.theme)) {
-            return (
-              <InputLayout
-                leftIcon={this.props.leftIcon}
-                rightIcon={this.props.rightIcon}
-                labelProps={labelProps}
-                context={{ disabled: this.props.disabled, focused: this.state.focused, size: this.getProps().size }}
-                tag="span"
-              >
-                {this.renderTextarea()}
-              </InputLayout>
-            );
-          }
-          return (
-            <span data-tid={'InternalTextareaWithLayout'} {...labelProps}>
-              <span className={inputLayerStyles.sideContainer()}>{this.renderLeftIcon()}</span>
-              {this.renderTextarea()}
-              <span className={cx(inputLayerStyles.sideContainer(), inputLayerStyles.rightContainer())}>
-                {this.renderRightIcon()}
-              </span>
-            </span>
-          );
+          return <span>{this.renderLayout()}</span>;
         }}
       </ThemeContext.Consumer>
     );
@@ -124,6 +87,47 @@ export class InternalTextareaWithLayout extends React.Component<
         return textareaStyles.rootSmall(this.theme);
     }
   }
+
+  private renderLayout = () => {
+    const labelProps = {
+      className: cx(
+        styles.contentWrapper(),
+        textareaStyles.textarea(this.theme),
+        this.getTextareaSizeClassName(),
+        this.getRootSizeClassName(),
+        {
+          [styles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
+          [inputLayerStyles.borderless()]: this.props.borderless && !this.state.focused,
+          [textareaStyles.disabled(this.theme)]: this.props.disabled,
+          [textareaStyles.warning(this.theme)]: this.props.warning,
+          [textareaStyles.error(this.theme)]: this.props.error,
+        },
+      ),
+      style: { width: this.props.width || '250px' },
+    };
+    if (isTheme2022(this.theme)) {
+      return (
+        <InputLayout
+          leftIcon={this.props.leftIcon}
+          rightIcon={this.props.rightIcon}
+          labelProps={labelProps}
+          context={{ disabled: this.props.disabled, focused: this.state.focused, size: this.getProps().size }}
+          tag="span"
+        >
+          {this.renderTextarea()}
+        </InputLayout>
+      );
+    }
+    return (
+      <span data-tid={'InternalTextareaWithLayout'} {...labelProps}>
+        <span className={inputLayerStyles.sideContainer()}>{this.renderLeftIcon()}</span>
+        {this.renderTextarea()}
+        <span className={cx(inputLayerStyles.sideContainer(), inputLayerStyles.rightContainer())}>
+          {this.renderRightIcon()}
+        </span>
+      </span>
+    );
+  };
 
   private renderTextarea = () => {
     const { leftIcon, rightIcon, borderless, ...textareaProps } = this.props;
