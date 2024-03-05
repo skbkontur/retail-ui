@@ -1,4 +1,4 @@
 module.exports = {
-  addons: ['creevey'],
+  addons: ['creevey', 'creevey/preset/ie11'],
   stories: ['../stories/**/*.stories.tsx'],
 };
