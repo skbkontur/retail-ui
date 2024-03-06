@@ -1,10 +1,10 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
 
-import { LostfocusDependentValidation } from './SyncStories/LostfocusDependentValidation';
-import { LostfocusDynamicValidation } from './SyncStories/LostfocusDynamicValidation';
+import { LostfocusDependentValidation as LostfocusDependentValidationStory } from './SyncStories/LostfocusDependentValidation';
+import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from './SyncStories/LostfocusDynamicValidation';
+import { LostfocusIndependentValidation as LostfocusIndependentValidationStory } from './SyncStories/LostfocusIndependentValidation';
 import { SingleInputPage } from './SyncStories/SingleInputPage';
-import { LostfocusIndependentValidation } from './SyncStories/LostfocusIndependentValidation';
 
 export default {
   title: 'Sync',
@@ -12,10 +12,10 @@ export default {
 
 export const ImmediateValidation = () => <SingleInputPage validationType="immediate" />;
 export const SubmitValidation = () => <SingleInputPage validationType="submit" />;
-export const LostFocusValidation = () => <SingleInputPage validationType="lostfocus" />;
-export const LostFocusDependentValidation = () => <LostfocusDependentValidation />;
-export const LostFocusDynamicValidation = () => <LostfocusDynamicValidation />;
+export const LostfocusValidation = () => <SingleInputPage validationType="lostfocus" />;
+export const LostfocusDependentValidation = () => <LostfocusDependentValidationStory />;
+export const LostfocusDynamicValidation = () => <LostfocusDynamicValidationStory />;
 export const PreinvalidImmediateValidation = () => <SingleInputPage validationType="immediate" initialValue="bad" />;
 export const PreinvalidLostfocusValidation = () => <SingleInputPage validationType="lostfocus" initialValue="bad" />;
 export const PreinvalidSubmitValidation = () => <SingleInputPage validationType="submit" initialValue="bad" />;
-export const LostfocusInependentValidation = () => <LostfocusIndependentValidation />;
+export const LostfocusIndependentValidation = () => <LostfocusIndependentValidationStory />;
