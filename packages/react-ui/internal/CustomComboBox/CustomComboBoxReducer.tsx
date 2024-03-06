@@ -319,13 +319,10 @@ export function reducer<T>(
         }
       }
 
-      if (!action.fixValueChange) {
-        return {
-          opened: false,
-          textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
-        };
-      }
-      break;
+      return {
+        opened: false,
+        textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
+      };
     }
     case 'Mount': {
       return {
