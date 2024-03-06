@@ -202,7 +202,7 @@ export class InternalTextareaWithLayout extends React.Component<
 
   private handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     this.setState({ focused: false });
-    this.props.onFocus?.(event);
+    this.props.onBlur?.(event);
   };
   private handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     this.setState({ focused: true });
