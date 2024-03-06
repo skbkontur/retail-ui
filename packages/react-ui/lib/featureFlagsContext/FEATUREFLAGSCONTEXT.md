@@ -199,7 +199,6 @@ const getItems = () =>
     { value: 'Первый', label: 'Первый' },
     { value: 'Второй', label: 'Второй' },
   ]);
-const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
 
 return (
   <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
@@ -207,18 +206,12 @@ return (
     <ComboBox
       ref={comboboxRef}
       value={value}
-      maxLength={40}
-      width={200}
-      maxMenuHeight={150}
-      drawArrow={false}
       searchOnFocus={false}
       getItems={getItems}
       onValueChange={(value) => setValue(value)}
       onInputValueChange={(value) => {
         setValue({ value, label: value });
       }}
-      renderItem={renderItem}
-      renderNotFound={() => undefined}
     />
   </ReactUIFeatureFlagsContext.Provider>
 );
