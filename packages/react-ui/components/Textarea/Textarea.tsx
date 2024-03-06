@@ -41,7 +41,7 @@ const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends Pick<AriaAttributes, 'aria-controls' | 'aria-label'>,
     CommonProps,
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -469,6 +469,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
           className={cx(this.getRootSizeClassName(), {
             [styles.root()]: true,
           })}
+          aria-controls={this.props['aria-controls']}
         >
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
