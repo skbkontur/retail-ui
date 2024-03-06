@@ -297,10 +297,7 @@ export function reducer<T>(
         if (!state.focused) {
           return [
             {
-              opened: false,
-              inputChanged: false,
               editing: false,
-              items: null,
               textValue: getValueString(props.value, props.valueToString),
             },
             [Effect.cancelRequest],
