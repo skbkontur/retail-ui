@@ -32,8 +32,8 @@ export type ClickableUse = 'default' | 'success' | 'danger' | 'grayed' | 'primar
 export type ClickableSize = SizeProp;
 interface ClickableOwnProps
   extends CommonProps,
-    Pick<HTMLProps['a'], 'rel' | 'href'>,
-    Pick<HTMLProps['button'], 'type'> {
+    Partial<Pick<HTMLProps['a'], 'rel' | 'href'>>,
+    Partial<Pick<HTMLProps['button'], 'type'>> {
   /**
    * Стиль контрола.
    *
