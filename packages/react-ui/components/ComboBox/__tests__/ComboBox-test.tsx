@@ -1350,30 +1350,33 @@ describe('ComboBox', () => {
       Promise.resolve(testValues.filter((value) => value.label.includes(searchQuery))),
     );
 
-    const TestComponent = ({ initialValue }: { initialValue: string }) => {
-      const [value, setValue] = React.useState({ value: initialValue, label: initialValue });
+    const TestComponent = ({
+      initialValue,
+      testValue,
+    }: {
+      initialValue?: string;
+      testValue?: typeof testValues[0];
+    }) => {
+      const [selected, setSelected] = React.useState({ value: initialValue, label: initialValue });
 
       const handleValueChange = () => {
-        setValue({ value: expectedValue, label: expectedValue });
+        setSelected({ value: expectedValue, label: expectedValue });
       };
 
-      const renderItem = (item: { value: string; label: string }) => <div key={item?.value}>{item?.value}</div>;
       return (
         <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
           <button onClick={handleValueChange}>Обновить</button>
           <ComboBox
             ref={comboboxRef}
-            value={value}
+            value={testValue ?? selected}
             getItems={getItems}
-            onValueChange={(value) => setValue(value)}
-            renderItem={renderItem}
-            renderNotFound={() => undefined}
+            onValueChange={(value) => setSelected(value)}
           />
         </ReactUIFeatureFlagsContext.Provider>
       );
     };
 
-    const changeValue = async () => {
+    it('should allow value change in editing state', async () => {
       render(<TestComponent initialValue={initialValue} />);
       comboboxRef.current?.focus();
       expect(screen.getByRole('textbox')).toHaveValue(initialValue);
@@ -1381,26 +1384,14 @@ describe('ComboBox', () => {
 
       expect(await screen.findByRole('textbox')).toHaveValue('');
       userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
-    };
-
-    it('should allow value change in editing state', async () => {
-      await changeValue();
       expect(await screen.findByRole('textbox')).toHaveValue(expectedValue);
     });
 
     it('should correctly render new value while in editing mode', async () => {
-      const { rerender } = render(
-        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
-          <ComboBox ref={comboboxRef} value={testValues[0]} getItems={getItems} />
-        </ReactUIFeatureFlagsContext.Provider>,
-      );
+      const { rerender } = render(<TestComponent testValue={testValues[0]} />);
       comboboxRef.current?.focus();
       expect(await screen.findAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
-      rerender(
-        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
-          <ComboBox ref={comboboxRef} value={testValues[1]} getItems={getItems} />
-        </ReactUIFeatureFlagsContext.Provider>,
-      );
+      rerender(<TestComponent testValue={testValues[1]} />);
 
       expect(await screen.findByRole('textbox')).toHaveValue(testValues[1].label);
       expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
