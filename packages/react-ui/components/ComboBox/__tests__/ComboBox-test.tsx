@@ -22,6 +22,7 @@ import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
+import { ComboBoxItem } from '..';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -1343,24 +1344,18 @@ describe('ComboBox', () => {
   });
 
   describe('with comboBoxFixValueChange flag', () => {
-    const initialValue = 'Initial Value';
-    const expectedValue = 'Expected Value';
+    const initialValue = testValues[0];
+    const expectedValue = testValues[1];
 
     const getItems = jest.fn((searchQuery) =>
       Promise.resolve(testValues.filter((value) => value.label.includes(searchQuery))),
     );
 
-    const TestComponent = ({
-      initialValue,
-      testValue,
-    }: {
-      initialValue?: string;
-      testValue?: typeof testValues[0];
-    }) => {
-      const [selected, setSelected] = React.useState({ value: initialValue, label: initialValue });
+    const TestComponent = ({ initValue, testValue }: { initValue?: ComboBoxItem; testValue?: ComboBoxItem }) => {
+      const [selected, setSelected] = React.useState(initValue);
 
       const handleValueChange = () => {
-        setSelected({ value: expectedValue, label: expectedValue });
+        setSelected(expectedValue);
       };
 
       return (
@@ -1377,14 +1372,14 @@ describe('ComboBox', () => {
     };
 
     it('should allow value change in editing state', async () => {
-      render(<TestComponent initialValue={initialValue} />);
+      render(<TestComponent initValue={initialValue} />);
       comboboxRef.current?.focus();
-      expect(screen.getByRole('textbox')).toHaveValue(initialValue);
+      expect(screen.getByRole('textbox')).toHaveValue(initialValue.label);
       userEvent.clear(screen.getByRole('textbox'));
 
       expect(await screen.findByRole('textbox')).toHaveValue('');
       userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
-      expect(await screen.findByRole('textbox')).toHaveValue(expectedValue);
+      expect(await screen.findByRole('textbox')).toHaveValue(expectedValue.label);
     });
 
     it('should correctly render new value while in editing mode', async () => {
