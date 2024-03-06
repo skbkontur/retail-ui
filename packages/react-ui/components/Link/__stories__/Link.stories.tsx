@@ -8,6 +8,7 @@ import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 const linkTests: CreeveyTests = {
   async idle() {
@@ -203,5 +204,22 @@ FocusedStyledLink.parameters = {
   creevey: {
     tests: focusedStyledLinkTest,
     skip: { in: /^(?!\b(firefox2022)\b)/ },
+  },
+};
+
+export const WithLinkFocusOutlineFeatureFlag = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+    <Link>Link</Link>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+
+WithLinkFocusOutlineFeatureFlag.parameters = {
+  creevey: {
+    tests: focusedStyledLinkTest,
+    skip: {
+      'hover does not work': {
+        in: /chrome/,
+      },
+    },
   },
 };
