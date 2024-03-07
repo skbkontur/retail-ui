@@ -630,7 +630,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, true);
+    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
     let position: PopupPositionsType;
     let coordinates: Offset;
