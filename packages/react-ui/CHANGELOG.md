@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.21.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.0-next.3...@skbkontur/react-ui@4.21.0) (2024-02-21)
+
+
+### Features
+
+* **MuskedInput:** add MaskedInput component ([#3341](https://github.com/skbkontur/retail-ui/issues/3341)) ([4343d51](https://github.com/skbkontur/retail-ui/commit/223aa724d3497ae53d62ea8a86578c3564343d51))
+
+
+
+
+
 ## [4.20.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.2...@skbkontur/react-ui@4.20.3) (2024-02-21)
 
 
