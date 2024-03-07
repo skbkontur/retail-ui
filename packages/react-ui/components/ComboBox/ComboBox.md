@@ -466,6 +466,47 @@ class ComboboxExample extends React.Component {
 <ComboboxExample />;
 ```
 
+
+Если нужно сбросить контрол без изменения `value`, то можно использовать метод `reset`.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+  const [selected, setSelected] = React.useState({ value: 1, label: "First" });
+  const ref = React.useRef(null);
+
+  const handleReset = () => {
+    if (ref.current) {
+      ref.current.reset();
+    }
+  };
+
+  const getItems = (q) =>
+    Promise.resolve(
+      [
+        { value: 1, label: "First" },
+        { value: 2, label: "Second" },
+        { value: 3, label: "Third" }
+      ].filter(
+        (x) =>
+          x.label.toLowerCase().includes(q.toLowerCase()) ||
+          x.value.toString(10) === q
+      )
+    );
+
+  <div>
+    <ComboBox
+      ref={ref}
+      getItems={getItems}
+      onValueChange={setSelected}
+      placeholder="Enter number"
+      value={selected}
+    />
+    <Button onClick={handleReset}>Reset</Button>
+  </div>
+
+```
+
 #### Локали по умолчанию
 
 ```typescript static
