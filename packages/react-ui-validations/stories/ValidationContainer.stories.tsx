@@ -1,18 +1,31 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { Button, Input } from '@skbkontur/react-ui';
+import { Button, Gapped, Input } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationInfo, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
 
 export default {
   title: 'ValidationContainer',
 } as Meta;
 
+const validation: ValidationInfo = { message: 'Error', type: 'immediate', level: 'error', independent: true };
+
 export const Default = () => (
   <ValidationContainer>
-    <ValidationWrapper validationInfo={null}>
-      <div>TODO</div>
-    </ValidationWrapper>
+    <Gapped vertical gap={20}>
+      <ValidationWrapper validationInfo={validation}>
+        <div>Tooltip</div>
+      </ValidationWrapper>
+      <ValidationWrapper renderMessage={text()} validationInfo={validation}>
+        <div>Text</div>
+      </ValidationWrapper>
+      <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
+        <div>TextBottom</div>
+      </ValidationWrapper>
+      <ValidationWrapper renderMessage={text('right')} validationInfo={validation}>
+        <div>TextRight</div>
+      </ValidationWrapper>
+    </Gapped>
   </ValidationContainer>
 );
 
@@ -20,20 +33,14 @@ export const WithWrapperError = () => (
   <>
     <ValidationContainer>
       <Button>Submit</Button>
-      <ValidationWrapper
-        renderMessage={text('bottom')}
-        validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-      >
+      <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
         <Input />
       </ValidationWrapper>
     </ValidationContainer>
     <ValidationContainer>
       <span>
         <Button>Submit</Button>
-        <ValidationWrapper
-          renderMessage={text('bottom')}
-          validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-        >
+        <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
           <Input />
         </ValidationWrapper>
       </span>
@@ -41,10 +48,7 @@ export const WithWrapperError = () => (
     <ValidationContainer>
       <div>
         <Button>Submit</Button>
-        <ValidationWrapper
-          renderMessage={text('bottom')}
-          validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-        >
+        <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
           <Input />
         </ValidationWrapper>
       </div>
@@ -52,10 +56,7 @@ export const WithWrapperError = () => (
     <ValidationContainer>
       <div>
         <Button>Submit</Button>
-        <ValidationWrapper
-          renderMessage={text('bottom')}
-          validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-        >
+        <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
           <Input />
         </ValidationWrapper>
       </div>
@@ -64,37 +65,27 @@ export const WithWrapperError = () => (
 );
 
 export const WithWrapperErrorWithoutSpan = () => (
-  <>
-    <div style={{ paddingBottom: 20 }}>
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer>
-          <div>
-            <Button>Submit</Button>
-            <ValidationWrapper
-              renderMessage={text('bottom')}
-              validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-            >
-              <Input />
-            </ValidationWrapper>
-          </div>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
-    </div>
+  <Gapped vertical gap={20}>
+    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <ValidationContainer>
+        <div>
+          <Button>Submit</Button>
+          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
+            <Input />
+          </ValidationWrapper>
+        </div>
+      </ValidationContainer>
+    </ValidationsFeatureFlagsContext.Provider>
 
-    <div style={{ paddingBottom: 20 }}>
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: false }}>
-        <ValidationContainer>
-          <div>
-            <Button>Submit</Button>
-            <ValidationWrapper
-              renderMessage={text('bottom')}
-              validationInfo={{ message: 'Error', level: 'error', type: 'immediate', independent: true }}
-            >
-              <Input />
-            </ValidationWrapper>
-          </div>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
-    </div>
-  </>
+    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: false }}>
+      <ValidationContainer>
+        <div>
+          <Button>Submit</Button>
+          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
+            <Input />
+          </ValidationWrapper>
+        </div>
+      </ValidationContainer>
+    </ValidationsFeatureFlagsContext.Provider>
+  </Gapped>
 );
