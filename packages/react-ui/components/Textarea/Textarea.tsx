@@ -252,6 +252,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private theme!: Theme;
   private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
+  private labelNode: Nullable<HTMLLabelElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
@@ -470,6 +471,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
             [styles.root()]: true,
           })}
           aria-controls={this.props['aria-controls']}
+          ref={this.labelRef}
         >
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
@@ -540,6 +542,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private ref = (element: HTMLTextAreaElement) => {
     this.node = element;
   };
+  private labelRef = (element: HTMLLabelElement) => {
+    this.labelNode = element;
+  };
 
   private refFake = (element: HTMLTextAreaElement) => {
     this.fakeNode = element;
@@ -562,7 +567,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows } = this.getProps();
+    const { rows, maxRows, autoResize, extraRow } = this.getProps();
     if (rows === undefined || maxRows === undefined) {
       return;
     }
@@ -579,6 +584,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       return;
     }
 
+    if (this.labelNode && rows === 1 && autoResize && !extraRow) {
+      this.labelNode.style.height = height + 'px';
+    }
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
