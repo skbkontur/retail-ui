@@ -292,13 +292,14 @@ export function reducer<T>(
       }
 
       if (action.fixValueChange) {
-        const nextTextValue = getValueString(props.value, props.valueToString) ?? state.textValue;
+        const nextTextValue = getValueString(props.value, props.valueToString);
 
         if (!state.focused) {
           return [
             {
               editing: false,
-              textValue: getValueString(props.value, props.valueToString),
+              inputChanged: false,
+              textValue: nextTextValue,
             },
             [Effect.cancelRequest],
           ];
