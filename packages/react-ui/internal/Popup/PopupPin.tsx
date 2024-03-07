@@ -74,7 +74,7 @@ export class PopupPin extends React.Component<Props> {
     }
 
     const options = this.getPinOptions(
-      PopupHelper.getElementAbsoluteRect(this.props.popupElement, true),
+      PopupHelper.getElementAbsoluteRect(this.props.popupElement),
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
       this.props.offset,
