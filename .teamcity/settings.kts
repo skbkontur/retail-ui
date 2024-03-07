@@ -704,6 +704,4 @@ object Validations_ScreenshotTests : BuildType({
     vcs {
         root(DslContext.settingsRoot)
     }
-
-    disableSettings("VCS_TRIGGER")
 })
