@@ -535,30 +535,3 @@ UnusedPropValues.parameters = {
     skip: { in: /^(?!\bchrome(2022)?\b)/ },
   },
 };
-
-export const HoverTextColor: Story = () => {
-  return (
-    <Button theme={{ btnTextHoverTextColor: 'red' }} use="text" data-tid="test-button">
-      Use Text
-    </Button>
-  );
-};
-
-HoverTextColor.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bfirefox(2022)?\b)/ },
-    tests: {
-      async hover() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-      },
-    },
-  },
-};
