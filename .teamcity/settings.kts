@@ -139,6 +139,8 @@ object RunAll : BuildType({
         }
         snapshot(Validations_LintTest) {
         }
+        snapshot(Validations_ScreenshotTests) {
+        }
     }
 })
 
