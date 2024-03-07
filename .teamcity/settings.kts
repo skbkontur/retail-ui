@@ -526,7 +526,6 @@ object Validations : Project({
 
     buildType(Validations_Build)
     buildType(Validations_LintTest)
-    buildType(Validations_ScreenshotTests)
     buildType(Validations_Publish)
     buildType(Validations_ScreenshotTests)
     buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish, Validations_ScreenshotTests)
@@ -709,6 +708,7 @@ object Validations_ScreenshotTests : BuildType({
     vcs {
         root(DslContext.settingsRoot)
     }
+
     steps {
         step {
           name = "Install"
