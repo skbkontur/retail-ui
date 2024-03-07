@@ -139,6 +139,8 @@ object RunAll : BuildType({
         }
         snapshot(Validations_LintTest) {
         }
+        snapshot(Validations_ScreenshotTests) {
+        }
     }
 })
 
@@ -455,7 +457,7 @@ object SeleniumTesting_Publish : BuildType({
             id = "RUNNER_3"
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
-            serverUrl = "https://api.nuget.org/v3/index.json"
+            serverUrl = "%env.NUGET_SOURCE%"
             apiKey = "credentialsJSON:9c594bdb-ecae-416b-ab54-3b85ce110c13"
         }
     }
@@ -524,6 +526,7 @@ object Validations : Project({
 
     buildType(Validations_Build)
     buildType(Validations_LintTest)
+    buildType(Validations_ScreenshotTests)
     buildType(Validations_Publish)
     buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish)
 })
@@ -701,6 +704,4 @@ object Validations_ScreenshotTests : BuildType({
     vcs {
         root(DslContext.settingsRoot)
     }
-
-    disableSettings("VCS_TRIGGER")
 })
