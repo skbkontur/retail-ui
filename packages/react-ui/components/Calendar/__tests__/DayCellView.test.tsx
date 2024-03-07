@@ -5,7 +5,6 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar, CalendarDataTids } from '../Calendar';
 import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru';
 import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en';
-import { InternalDate } from '../../../lib/date/InternalDate';
 
 describe('DayCellView', () => {
   describe('a11y', () => {
@@ -13,11 +12,10 @@ describe('DayCellView', () => {
       const date = '1.2.2021';
       render(<Calendar value={date} onValueChange={jest.fn()} />);
 
-      const ariaLabel = `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel}: ${new InternalDate({
-        value: date,
-      }).toA11YFormat()}`;
-
-      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel} ${date}`,
+      );
     });
 
     it('has correct aria-label (en)', () => {
@@ -28,12 +26,10 @@ describe('DayCellView', () => {
         </LocaleContext.Provider>,
       );
 
-      const ariaLabel = `${DayCellViewLocalesEn.dayCellChooseDateAriaLabel}: ${new InternalDate({
-        langCode: LangCodes.en_GB,
-        value: date,
-      }).toA11YFormat()}`;
-
-      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${DayCellViewLocalesEn.dayCellChooseDateAriaLabel} ${date}`,
+      );
     });
 
     it('sets custom value for `dayCellChooseDateAriaLabel` locale', () => {
@@ -44,11 +40,11 @@ describe('DayCellView', () => {
           <Calendar value={date} />
         </LocaleContext.Provider>,
       );
-      const ariaLabel = `${customAriaLabel}: ${new InternalDate({
-        value: date,
-      }).toA11YFormat()}`;
 
-      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
+        'aria-label',
+        `${customAriaLabel} ${date}`,
+      );
     });
   });
 });
