@@ -6,7 +6,6 @@ export interface ReactUIFeatureFlags {
   spinnerLoaderRemoveDefaultCaption?: boolean;
   menuItemsAtAnyLevel?: boolean;
   textareaUseSafari17Workaround?: boolean;
-  hintFixJumpingNearScreenEdge?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -15,7 +14,6 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   spinnerLoaderRemoveDefaultCaption: false,
   menuItemsAtAnyLevel: false,
   textareaUseSafari17Workaround: false,
-  hintFixJumpingNearScreenEdge: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
