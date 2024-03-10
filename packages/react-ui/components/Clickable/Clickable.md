@@ -65,6 +65,19 @@ const bgStyle = {
   <Gapped>
     <Clickable as="a" view="button" href="/" >Ссылка, но выглядит как кнопка</Clickable>
     <Clickable as="button" view="link">Кнопка, но выглядит как ссылка</Clickable>
+    <Clickable
+      as="button"
+      view="custom"
+    >
+      <div
+        style={{
+          background: '#3498db',
+          color: 'white',
+          padding: '10px 7.5px',
+          borderRadius: '5px'
+        }}
+      >Кастомный элемент с тегом кнопки и базовыми возможностями Clickable</div>
+    </Clickable>
   </Gapped>
 </>
 ```
@@ -81,6 +94,30 @@ import { Gapped } from '@skbkontur/react-ui';
     Это span, но он выглядит как ссылка
   </Clickable>
 </Gapped>
+```
+
+В чём польза от кастомного вида (`view="custom"`) по сравнению с оборачиванием в нативную кнопку или ссылку?
+
+Мы уже сбросили все мещающие стили, сделали компонент доступным для пользователей с ограниченными возможностями, а также позаботились о таких приятных мелочах как: корректная обработка отключенного состояния, `data-tid` на корне и обработка `rel` на основе значения из `href`.
+```jsx harmony
+<Clickable
+  style={{
+    display: 'inline-block',
+    align: 'center',
+    background: '#151515',
+    color: 'white',
+    boxShadow: '-12px 12px 0 0 #ED6742',
+    padding: '20px 10px',
+    borderRadius: '15px',
+    margin: '30px',
+  }}
+  as="a"
+  href="https://kontur.ru/"
+  view="custom"
+  >
+  <div style={{ fontSize: '20px' }}>Контур</div>
+  <div style={{ fontSize: '25px', fontWeight: '500' }}>Экосистема для бизнеса</div>
+</Clickable>
 ```
 
 У `<Clickable>` могут быть иконки сразу с обеих сторон, наличие/отсутствие иконок также влияет на отображение в состоянии загрузки.

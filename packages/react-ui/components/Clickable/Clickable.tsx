@@ -28,8 +28,6 @@ import { getLinkStyles } from './ClickableLink.styles';
 export const CLICKABLE_DEFAULT_ELEMENT = 'button';
 const COMPONENT_NAME = 'Clickable';
 
-export type ClickableUse = 'default' | 'success' | 'danger' | 'grayed' | 'primary' | 'pay' | 'text' | 'backless';
-export type ClickableSize = SizeProp;
 interface ClickableOwnProps
   extends CommonProps,
     Partial<Pick<HTMLProps['a'], 'rel' | 'href'>>,
@@ -39,11 +37,11 @@ interface ClickableOwnProps
    *
    * Возможные значения: `"default"`, `"success"`, `"danger"`, `"grayed"`, `"primary"`, `"pay"`, `"text"`, `"backless"`.
    */
-  use?: ClickableUse;
+  use?: 'default' | 'success' | 'danger' | 'grayed' | 'primary' | 'pay' | 'text' | 'backless';
   /**
    * Определяет как будет выглядеть контрол, не влияет на семантику.
    */
-  view?: 'button' | 'link';
+  view?: 'button' | 'link' | 'custom';
   /**
    * Размер контрола.
    *
@@ -223,7 +221,7 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
             rightIcon={rightIcon}
             isDisabled={isDisabled}
             isLoading={isLoading}
-            isFocused={isFocused}
+            isFocused={isRootFocused}
             isWarning={isWarning}
             isError={isError}
             arrow={arrow}
@@ -232,6 +230,7 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
             {children}
           </ClickableButton>
         )}
+        {currentView === 'custom' && children}
       </Root>
     );
 
