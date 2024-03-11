@@ -5,16 +5,11 @@ import { Nullable } from '../typings/Types';
 import { createPropsGetter } from './utils/createPropsGetter';
 import { isTestEnv } from './utils/utils';
 import { ValidationContextWrapper } from './ValidationContextWrapper';
+import { FocusMode } from './FocusMode';
 
 export interface ScrollOffset {
   top?: number;
   bottom?: number;
-}
-
-export enum FocusMode {
-  'Errors',
-  'ErrorsAndWarnings',
-  'None',
 }
 
 export interface ValidationSettings {
