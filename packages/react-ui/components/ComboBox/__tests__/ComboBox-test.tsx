@@ -466,7 +466,7 @@ describe('ComboBox', () => {
     });
   });
 
-  //TODO: Remove this test in 5.0, while removing comboBoxFixValueChange feature flag, because it tests old behavior
+  //TODO: Remove this test in 5.0, while removing comboBoxAllowValueChangeInEditingState feature flag, because it tests old behavior
   describe('keep edited input text when value changes', () => {
     const value = { value: 1, label: 'one' };
 
@@ -1343,7 +1343,7 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  describe('with comboBoxFixValueChange flag', () => {
+  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
     const initialValue = testValues[0];
     const expectedValue = testValues[1];
 
@@ -1359,7 +1359,7 @@ describe('ComboBox', () => {
       };
 
       return (
-        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
           <button onClick={handleValueChange}>Обновить</button>
           <ComboBox
             ref={comboboxRef}

@@ -7,7 +7,7 @@ export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
-  comboBoxFixValueChange?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
 }
 ```
 
@@ -177,7 +177,7 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
-### comboBoxFixValueChange
+### comboBoxAllowValueChangeInEditingState
 
 Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
 
@@ -202,7 +202,7 @@ const getItems = () =>
   ]);
 
 return (
-  <ReactUIFeatureFlagsContext.Provider value={{ comboBoxFixValueChange: true }}>
+  <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
     <Button onClick={handleValueChange}>Обновить</Button>
     <ComboBox
       ref={comboboxRef}
