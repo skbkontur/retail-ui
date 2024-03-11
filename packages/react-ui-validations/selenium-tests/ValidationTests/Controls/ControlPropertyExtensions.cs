@@ -34,7 +34,7 @@ namespace SKBKontur.ValidationTests.Controls
         public static AssertionConfiguration GetConfiguration(this int? timeout)
         {
             var exceptionMatcher = ExceptionMatcher.FromTypes(typeof(ElementNotFoundException), typeof(WebDriverException), typeof(InvalidOperationException), typeof(PropertyTransformationException));
-            return new AssertionConfiguration {ExceptionMatcher = exceptionMatcher, Timeout = timeout ?? DefaultTimeout, Interval = 100};
+            return new AssertionConfiguration { ExceptionMatcher = exceptionMatcher, Timeout = timeout ?? DefaultTimeout, Interval = 100 };
         }
 
         public static IValueProvider<T, T> Wait<T>(this IProp<T> prop)

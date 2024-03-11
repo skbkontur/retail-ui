@@ -6,8 +6,9 @@ import {
   getFullValidationsFlagsContext,
 } from './utils/featureFlagsContext';
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
-import { FocusMode, ScrollOffset, ValidateArgumentType } from './ValidationContainer';
+import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
+import { FocusMode } from './FocusMode';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
