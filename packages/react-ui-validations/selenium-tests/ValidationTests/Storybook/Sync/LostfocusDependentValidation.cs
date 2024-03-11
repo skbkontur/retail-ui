@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 using SKBKontur.SeleniumTesting;
 using SKBKontur.SeleniumTesting.Controls;
@@ -14,7 +14,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestInvalid()
         {
-            var page = new Page(GetWebDriver()).WaitReady();
+            var page = new Page(WebDriver).WaitReady();
             page.InputA.SetValue("ba");
             page.InputA.WaitNoError();
             page.InputAValidation.Label.WaitAbsent();
@@ -35,7 +35,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeB_UpdateInvalidToValid()
         {
-            var page = new Page(GetWebDriver()).WaitReady();
+            var page = new Page(WebDriver).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -53,7 +53,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeB_UpdateInvalidToInvalid()
         {
-            var page = new Page(GetWebDriver()).WaitReady();
+            var page = new Page(WebDriver).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -71,7 +71,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeA_UpdateInvalidToValid()
         {
-            var page = new Page(GetWebDriver()).WaitReady();
+            var page = new Page(WebDriver).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -89,7 +89,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeA_UpdateInvalidToValidToInvalid()
         {
-            var page = new Page(GetWebDriver()).WaitReady();
+            var page = new Page(WebDriver).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -106,7 +106,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
         private class Page : PageBase
         {
-            public Page(RemoteWebDriver webDriver)
+            public Page(IWebDriver webDriver)
                 : base(webDriver)
             {
                 InputAValidation = new ValidationWrapper(this, new UniversalSelector("##InputAValidation"));
