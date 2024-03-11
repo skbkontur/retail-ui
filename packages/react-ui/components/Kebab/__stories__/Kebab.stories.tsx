@@ -83,6 +83,7 @@ const kebabTests: CreeveyTests = {
       })
       .sendKeys(this.keys.ESCAPE)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
   },
 };
