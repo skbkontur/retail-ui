@@ -24,17 +24,29 @@ export const getRole = (isInteractive: boolean, role: HTMLAttributes<unknown>['r
   return role;
 };
 
-export const getCurrentView = (view: ClickableProps['view'], as: ElementType = CLICKABLE_DEFAULT_ELEMENT) => {
+export const getRootTag = (href: ClickableProps['href'], as: ElementType = CLICKABLE_DEFAULT_ELEMENT) => {
+  if (href) {
+    return 'a';
+  }
+
+  return as;
+};
+
+export const getCurrentView = (
+  view: ClickableProps['view'],
+  href: ClickableProps['href'],
+  as: ElementType = CLICKABLE_DEFAULT_ELEMENT,
+) => {
   if (view) {
     return view;
   }
 
-  if (as === 'button') {
-    return 'button';
+  if (as === 'a' || href) {
+    return 'link';
   }
 
-  if (as === 'a') {
-    return 'link';
+  if (as === 'button') {
+    return 'button';
   }
 };
 

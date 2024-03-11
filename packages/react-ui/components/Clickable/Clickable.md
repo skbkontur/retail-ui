@@ -8,6 +8,10 @@
 — `as ('button' | 'a' | ReactElement)` — изменяет корневой тег, а также при отсутствии `view` задаёт внешний вид;
 
 — `view ('button' | 'link')` — изменяет внешний вид контрола.
+
+Шорткаты:
+- Для получения обычной ссылки достаточно передать `href` в компонент
+- Для получения обычной кнопки дополнительные пропы передавать в компонент не нужно
 ```jsx harmony
 import { Gapped, Clickable, clickableStyles } from '@skbkontur/react-ui';
 import { XIcon } from '@skbkontur/icons/icons/XIcon';
@@ -27,12 +31,12 @@ const Component = ({ children, cursor, isSafe, style, ...rest }) => {
 <>
   <p>Ссылки</p>
   <Gapped gap={15}>
-    <Clickable as="a" href="/">Default</Clickable>
-    <Clickable as="a" use="success" href="/">Success</Clickable>
-    <Clickable as="a" use="danger" href="/">Danger</Clickable>
-    <Clickable as="a" use="grayed" href="/">Grayed</Clickable>
-    <Clickable as="a" isError href="/">Error</Clickable>
-    <Clickable as="a" isDisabled href="/">Disabled</Clickable>
+    <Clickable href="/">Default</Clickable>
+    <Clickable href="/" use="success">Success</Clickable>
+    <Clickable href="/" use="danger">Danger</Clickable>
+    <Clickable href="/" use="grayed">Grayed</Clickable>
+    <Clickable href="/" isError>Error</Clickable>
+    <Clickable href="/" isDisabled>Disabled</Clickable>
   </Gapped>
 
   <p>Кнопки</p>
@@ -69,13 +73,13 @@ const Component = ({ children, cursor, isSafe, style, ...rest }) => {
   <Gapped vertical>
     <Gapped>
       <Clickable as="button" view="link">Кнопка, но выглядит как ссылка</Clickable>
-      <Clickable as={Component} cursor="help" isSafe view="link">
+      <Clickable as={Component} cursor="help" isSafe view="link" href="/">
         Кастомный компонент со своими пропами, выглядит как ссылка
       </Clickable>
     </Gapped>
 
     <Gapped>
-      <Clickable as="a" view="button" href="/" >Ссылка, но выглядит как кнопка</Clickable>
+      <Clickable view="button" href="/" >Ссылка, но выглядит как кнопка</Clickable>
       <Clickable
         as="button"
         view="custom"
@@ -142,7 +146,6 @@ import { Gapped } from '@skbkontur/react-ui';
     borderRadius: '15px',
     margin: '30px',
   }}
-  as="a"
   href="https://kontur.ru/"
   view="custom"
   >
@@ -164,16 +167,16 @@ const [isLoading, setIsLoading] = React.useState(false);
   </Clickable>
 
   <Gapped gap={15}>
-    <Clickable isLoading={isLoading} as="a" href="/" leftIcon={<XIcon16Regular />}>
+    <Clickable isLoading={isLoading} href="/" leftIcon={<XIcon16Regular />}>
       Иконка слева
     </Clickable>
-    <Clickable isLoading={isLoading} as="a" href="/" leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
+    <Clickable isLoading={isLoading} href="/" leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
       Иконка и там, и там
     </Clickable>
-    <Clickable isLoading={isLoading} as="a" href="/" rightIcon={<XIcon16Regular />}>
+    <Clickable isLoading={isLoading} href="/" rightIcon={<XIcon16Regular />}>
       Иконка справа
     </Clickable>
-    <Clickable isLoading={isLoading} as="a" href="/">
+    <Clickable isLoading={isLoading} href="/">
       Без иконки
     </Clickable>
   </Gapped>
@@ -231,10 +234,10 @@ _Примечание_:
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped>
-  <Clickable as="a" href="https://kontur.ru/">
+  <Clickable href="https://kontur.ru/">
     Откроется <span style={{ color: "#e3071c" }}>в этой</span> вкладке
   </Clickable>
-  <Clickable as="a" target="_blank" href="https://kontur.ru/">
+  <Clickable target="_blank" href="https://kontur.ru/">
     Откроется <span style={{ color: "#3f9726" }}>в новой</span> вкладке
   </Clickable>
 </Gapped>

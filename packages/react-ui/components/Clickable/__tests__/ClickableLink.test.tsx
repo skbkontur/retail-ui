@@ -5,18 +5,14 @@ import { Clickable, ClickableDataTids } from '../Clickable';
 
 describe('ClickableLink', () => {
   it('should render <a> tag', () => {
-    render(
-      <Clickable href="/" as="a">
-        link
-      </Clickable>,
-    );
+    render(<Clickable href="/">link</Clickable>);
 
     expect(screen.getByRole('link')).toBeInTheDocument();
   });
 
   describe('"rel" attribute', () => {
     it("doesn't change if defined in props", () => {
-      render(<Clickable as="a" href="https://example.com" rel="nofollow" />);
+      render(<Clickable href="https://example.com" rel="nofollow" />);
 
       expect(screen.getByTestId(ClickableDataTids.root)).toHaveProperty('rel', 'nofollow');
     });
@@ -31,7 +27,7 @@ describe('ClickableLink', () => {
       it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
         '%s',
         (href) => {
-          render(<Clickable as="a" href={href} />);
+          render(<Clickable href={href} />);
 
           expect(screen.getByTestId(ClickableDataTids.root)).toHaveProperty('rel', 'noopener noreferrer');
         },
@@ -49,7 +45,7 @@ describe('ClickableLink', () => {
         ['page.html'],
         ['#anchor'],
       ])('%s', (href) => {
-        render(<Clickable as="a" href={href} />);
+        render(<Clickable href={href} />);
 
         expect(screen.getByTestId(ClickableDataTids.root)).toHaveProperty('rel', 'noopener');
       });

@@ -9,7 +9,7 @@ import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 
 describe('ClickableButton', () => {
   it('should render <button> tag by default', () => {
-    render(<Clickable as="button">button</Clickable>);
+    render(<Clickable>button</Clickable>);
 
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
@@ -22,18 +22,14 @@ describe('ClickableButton', () => {
 
   (['submit', 'button', 'reset'] as Array<HTMLProps['button']['type']>).forEach((type) => {
     it(`sets type ${type} when type=${type} specified`, () => {
-      render(<Clickable as="button" type={type} />);
+      render(<Clickable type={type} />);
       expect(screen.getByRole('button')).toHaveProperty('type', type);
     });
   });
 
   it('should be able to click on button', () => {
     const onClick = jest.fn();
-    render(
-      <Clickable as="button" onClick={onClick}>
-        test
-      </Clickable>,
-    );
+    render(<Clickable onClick={onClick}>test</Clickable>);
 
     const button = screen.getByRole('button');
     userEvent.click(button);
@@ -44,7 +40,7 @@ describe('ClickableButton', () => {
   it('should not be able to click on disabled button', () => {
     const onClick = jest.fn();
     render(
-      <Clickable as="button" onClick={onClick} isDisabled>
+      <Clickable onClick={onClick} isDisabled>
         test
       </Clickable>,
     );
@@ -56,7 +52,7 @@ describe('ClickableButton', () => {
   });
 
   it('sets focus by default when autoFocus prop passed', () => {
-    render(<Clickable as="button" autoFocus />);
+    render(<Clickable autoFocus />);
     expect(screen.getByRole('button')).toHaveFocus();
   });
 

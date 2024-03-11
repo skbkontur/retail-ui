@@ -18,7 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 
 import { generalStyles } from './Clickable.styles';
-import { getCurrentView, getRel } from './utils';
+import { getCurrentView, getRel, getRootTag } from './utils';
 import { ClickableLink } from './ClickableLink';
 import { ClickableButton } from './ClickableButton';
 import { ClickableButtonWrapper } from './ClickableButtonWrapper';
@@ -126,13 +126,13 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
   forwardRefAndName(COMPONENT_NAME, function Clickable<
     T extends React.ElementType = typeof CLICKABLE_DEFAULT_ELEMENT,
   >({ size = 'small', use = 'default', type = 'button', as, arrow, corners, rel, theme: userTheme, href, isNarrow, view, leftIcon, rightIcon, onClick, onFocus, onBlur, isLoading, isDisabled, isActive, isBorderless, width, isWarning, isError, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
-    const Root: React.ElementType = as ?? CLICKABLE_DEFAULT_ELEMENT;
+    const Root: React.ElementType = getRootTag(href, as);
 
     const contextTheme = useContext(ThemeContext);
     const theme = userTheme ? ThemeFactory.create(userTheme, contextTheme) : contextTheme;
 
     const buttonSize = getButtonSize({ size, leftIcon, rightIcon, children, theme });
-    const currentView = getCurrentView(view, as);
+    const currentView = getCurrentView(view, href, as);
 
     const isNotInteractive = !!isLoading || !!isDisabled;
 
