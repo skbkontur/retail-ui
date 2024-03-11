@@ -5,7 +5,7 @@
 
 Это можно изменить при помощи пропов `as` и `view`:
 
-— `as ('button' | 'a')` — изменяет корневой тег, а также при отсутствии `view` задаёт внешний вид;
+— `as ('button' | 'a' | ReactElement)` — изменяет корневой тег, а также при отсутствии `view` задаёт внешний вид;
 
 — `view ('button' | 'link')` — изменяет внешний вид контрола.
 ```jsx harmony
@@ -18,6 +18,10 @@ const bgStyle = {
   backgroundSize: `16px 16px`,
   backgroundPosition: `-8px -8px`,
   padding: 16
+};
+
+const Component = ({ children, cursor, isSafe, style, ...rest }) => {
+  return <a style={{ cursor: cursor, color: isSafe ? 'green' : 'red', ...style }} {...rest}>{children}</a>
 };
 
 <>
@@ -62,24 +66,51 @@ const bgStyle = {
   </Gapped>
 
   <p>Гибриды</p>
-  <Gapped>
-    <Clickable as="a" view="button" href="/" >Ссылка, но выглядит как кнопка</Clickable>
-    <Clickable as="button" view="link">Кнопка, но выглядит как ссылка</Clickable>
-    <Clickable
-      as="button"
-      view="custom"
-    >
-      <div
-        style={{
+  <Gapped vertical>
+    <Gapped>
+      <Clickable as="button" view="link">Кнопка, но выглядит как ссылка</Clickable>
+      <Clickable as={Component} cursor="help" isSafe view="link">
+        Кастомный компонент со своими пропами, выглядит как ссылка
+      </Clickable>
+    </Gapped>
+
+    <Gapped>
+      <Clickable as="a" view="button" href="/" >Ссылка, но выглядит как кнопка</Clickable>
+      <Clickable
+        as="button"
+        view="custom"
+      >
+        <div
+          style={{
           background: '#3498db',
           color: 'white',
           padding: '10px 7.5px',
           borderRadius: '5px'
         }}
-      >Кастомный элемент с тегом кнопки и базовыми возможностями Clickable</div>
-    </Clickable>
+        >
+          Кастомный элемент с тегом кнопки и базовыми возможностями Clickable
+        </div>
+      </Clickable>
+    </Gapped>
   </Gapped>
 </>
+```
+
+В проп `as` помимо тегов вы можете передавать компоненты.
+
+Это очень полезно например, когда вы хотите использовать `<Link />` из `react-router-dom`, при этом сохранив возможности и внешний вид `<Clickable />`, расширив их возможностями `<Link />`. Все пропы из компонента переданного в `as` можно передавать на корень `<Clickable />`, так же как и при передаче обычного тега в `as`.
+```jsx harmony
+const Button = ({ children, cursor, style, ...rest }) => {
+  return (
+    <button style={{ cursor: cursor, ...style }} {...rest}>
+      {children}
+    </button>
+  )
+};
+
+<Clickable as={Button} cursor="help" view="button">
+  Кастомный компонент со своими пропами
+</Clickable>
 ```
 
 Вы можете использовать любой тег в качестве основы для `<Clickable>` (с помощью `as`), но в таком случае вам придётся самостоятельно реализовывать доступность контрола. Поэтому мы рекомендуем использовать только `a` и `button`, если у вас нет весомой причины для использования другого тега.
