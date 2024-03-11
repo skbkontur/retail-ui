@@ -1,18 +1,21 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { Meta } from '@storybook/react';
 
-import { LostfocusDependentValidation } from './SyncStories/LostfocusDependentValidation';
-import { LostfocusDynamicValidation } from './SyncStories/LostfocusDynamicValidation';
+import { LostfocusDependentValidation as LostfocusDependentValidationStory } from './SyncStories/LostfocusDependentValidation';
+import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from './SyncStories/LostfocusDynamicValidation';
+import { LostfocusIndependentValidation as LostfocusIndependentValidationStory } from './SyncStories/LostfocusIndependentValidation';
 import { SingleInputPage } from './SyncStories/SingleInputPage';
-import { LostfocusIndependentValidation } from './SyncStories/LostfocusIndependentValidation';
 
-storiesOf('Sync', module)
-  .add('ImmediateValidation', () => <SingleInputPage validationType={'immediate'} />)
-  .add('SubmitValidation', () => <SingleInputPage validationType={'submit'} />)
-  .add('LostfocusValidation', () => <SingleInputPage validationType={'lostfocus'} />)
-  .add('LostfocusDependentValidation', () => <LostfocusDependentValidation />)
-  .add('LostfocusDynamicValidation', () => <LostfocusDynamicValidation />)
-  .add('PreinvalidImmediateValidation', () => <SingleInputPage validationType={'immediate'} initialValue={'bad'} />)
-  .add('PreinvalidLostfocusValidation', () => <SingleInputPage validationType={'lostfocus'} initialValue={'bad'} />)
-  .add('PreinvalidSubmitValidation', () => <SingleInputPage validationType={'submit'} initialValue={'bad'} />)
-  .add('LostfocusInependentValidation', () => <LostfocusIndependentValidation />);
+export default {
+  title: 'Sync',
+} as Meta;
+
+export const ImmediateValidation = () => <SingleInputPage validationType="immediate" />;
+export const SubmitValidation = () => <SingleInputPage validationType="submit" />;
+export const LostfocusValidation = () => <SingleInputPage validationType="lostfocus" />;
+export const LostfocusDependentValidation = () => <LostfocusDependentValidationStory />;
+export const LostfocusDynamicValidation = () => <LostfocusDynamicValidationStory />;
+export const PreinvalidImmediateValidation = () => <SingleInputPage validationType="immediate" initialValue="bad" />;
+export const PreinvalidLostfocusValidation = () => <SingleInputPage validationType="lostfocus" initialValue="bad" />;
+export const PreinvalidSubmitValidation = () => <SingleInputPage validationType="submit" initialValue="bad" />;
+export const LostfocusIndependentValidation = () => <LostfocusIndependentValidationStory />;

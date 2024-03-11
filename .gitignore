@@ -12,3 +12,7 @@ lerna-debug.log
 
 browsers/
 /packages/@skbkontur/react-ui/
+
+.scannerwork
+/packages/react-ui-validations/.creevey/report
+/packages/react-ui-validations/.storybook/build/
