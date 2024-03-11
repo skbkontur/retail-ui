@@ -33,6 +33,10 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    */
   onCloseRequest?: () => void;
   /**
+   * Функция, вызываемая при блюре
+   */
+  onBlurRequest?: () => void;
+  /**
    * Позволяет контролировать текущее состояние всплывающего окна
    */
   opened: boolean;
@@ -64,7 +68,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
       <ZIndex id={this.props.id} className={jsStyles.zIndex()} priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
-            <RenderLayer onClickOutside={this.close}>
+            <RenderLayer onClickOutside={this.close} onFocusOutside={this.blur}>
               <div data-tid={MobilePopupDataTids.container} className={jsStyles.container(this.theme)}>
                 <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
@@ -90,6 +94,12 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   public close = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
+    }
+  };
+
+  public blur = () => {
+    if (this.props.onBlurRequest) {
+      this.props.onBlurRequest();
     }
   };
 }
