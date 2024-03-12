@@ -140,6 +140,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion TokenInput
 
   //#region Textarea
+  public static get textareaBg() {
+    return this.inputBg;
+  }
   public static get textareaBorderColorFocus() {
     return this.inputBorderColorFocus;
   }
