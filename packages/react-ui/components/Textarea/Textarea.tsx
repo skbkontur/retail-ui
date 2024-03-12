@@ -470,7 +470,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
           className={cx(this.getRootSizeClassName(), {
             [styles.root()]: true,
           })}
-          aria-controls={this.props['aria-controls']}
           ref={this.labelRef}
         >
           {placeholderPolyfill}
