@@ -15,6 +15,16 @@ import { FocusMode, ValidationContainer, ValidationContainerProps, ValidationWra
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
 
 describe('ValidationContainer', () => {
+  it('renders passed data-tid on container', () => {
+    render(
+      <ValidationContainer data-tid="passed-container">
+        <div />
+      </ValidationContainer>,
+    );
+
+    expect(screen.getByTestId('passed-container')).toBeInTheDocument();
+  });
+
   it('renders passed children', () => {
     render(
       <ValidationContainer>

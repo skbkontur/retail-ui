@@ -19,6 +19,7 @@ export interface ValidationSettings {
 export type ValidateArgumentType = boolean | ValidationSettings;
 
 export interface ValidationContainerProps {
+  'data-tid'?: string;
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
   scrollOffset?: number | ScrollOffset;
@@ -76,6 +77,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   public render() {
     return (
       <ValidationContextWrapper
+        data-tid={this.props["data-tid"]}
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
         disableSmoothScroll={this.getProps().disableSmoothScroll}
