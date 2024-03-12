@@ -508,6 +508,78 @@ import { Button } from '@skbkontur/react-ui';
 
 ```
 
+Многострочный комбобокс с помощью пропа `viewMode: 'singleLine' | 'multiline' | 'multilineEditing'`
+
+```jsx harmony
+import { Textarea } from '@skbkontur/react-ui';
+
+
+let getItems = q =>
+  Promise.resolve(
+    [
+      {value: 1, label: 'First First First First First First'},
+      {value: 2, label: 'Second Second Second Second Second'},
+      {value: 3, label: 'Third Third Third Third Third Third Third Third'},
+      {value: 4, label: 'Fourth Fourth Fourth Fourth Fourth'},
+      {value: 5, label: 'Fifth Fifth Fifth Fifth Fifth Fifth'},
+      {value: 6, label: 'Sixth Sixth Sixth Sixth Sixth Sixth'},
+    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+  )
+
+const [selected, setSelected] = React.useState({value: 3, label: 'Third Third Third Third Third Third Third Third'});
+
+const handleValueChange = value => {
+  setSelected(value);
+};
+
+const tableStyle = {
+  borderCollapse: 'collapse',
+  width: '100%',
+};
+
+const tdStyle = {
+  padding: '8px',
+};
+
+
+<table style={tableStyle}>
+  <tr style={{textAlign: 'left'}}>
+    <th style={tdStyle}>viewMode = 'singleLine'</th>
+    <th style={tdStyle}>viewMode = 'multiline'</th>
+    <th style={tdStyle}>viewMode = 'multilineEditing'</th>
+  </tr>
+  <tr>
+    <td style={tdStyle}>
+      <ComboBox
+        getItems={getItems}
+        onValueChange={handleValueChange}
+        placeholder="Enter number"
+        value={selected}
+      />
+    </td>
+    <td style={tdStyle}>
+      <ComboBox
+        getItems={getItems}
+        onValueChange={handleValueChange}
+        placeholder="Enter number"
+        value={selected}
+        viewMode={'multiline'}
+      />
+    </td>
+    <td style={tdStyle}>
+      <ComboBox
+        getItems={getItems}
+        onValueChange={handleValueChange}
+        placeholder="Enter number"
+        value={selected}
+        viewMode={'multiLineEditing'}
+      />
+    </td>
+  </tr>
+</table>
+
+```
+
 #### Локали по умолчанию
 
 ```typescript static
