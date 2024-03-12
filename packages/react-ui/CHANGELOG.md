@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.0-next.0...@skbkontur/react-ui@4.21.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* **Button:** add variables for hover text color ([#3365](https://github.com/skbkontur/retail-ui/issues/3365)) ([c2ff765](https://github.com/skbkontur/retail-ui/commit/c2ff765ed47b0b11dd08aa5da58aaf90d0d4d383))
+* **Button, Link:** add rightIcon prop ([#3317](https://github.com/skbkontur/retail-ui/issues/3317)) ([83527fc](https://github.com/skbkontur/retail-ui/commit/83527fcfd1e5ef41990e7577a17612f1a4c4f4ac))
+* **ComboBox:** allow to change value in editing state ([#3340](https://github.com/skbkontur/retail-ui/issues/3340)) ([caa4bef](https://github.com/skbkontur/retail-ui/commit/caa4beff7e1fefb9a64984ca8f58524b5d3aa8fc))
+
+
+
+
+
 # [4.21.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.0-next.3...@skbkontur/react-ui@4.21.0) (2024-02-21)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.1...react-ui-validations@1.14.2) (2024-03-12)
+
+
+### Bug Fixes
+
+* **ValidationContainer:** pass data-tid to children ([#3371](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3371)) ([216ddcd](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/216ddcd2688acd37affd3e2cb9a18f8c63596bad))
+
+
+
+
+
 ## [1.14.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.0...react-ui-validations@1.14.1) (2024-01-25)
 
 
