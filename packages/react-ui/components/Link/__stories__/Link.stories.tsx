@@ -1,5 +1,6 @@
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { Link } from '../Link';
@@ -45,7 +46,30 @@ Simple.parameters = {
   },
 };
 
-export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
+export const WithIcon: Story = () => {
+  return (
+    <Gapped vertical>
+      <Gapped gap={20}>
+        <Link icon={<CheckAIcon16Light />}>Left Icon Link</Link>
+        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+          Both Icons Link
+        </Link>
+        <Link rightIcon={<CheckAIcon16Light />}>Right Icon Link</Link>
+      </Gapped>
+      <Gapped gap={20}>
+        <Link loading icon={<CheckAIcon16Light />}>
+          Left Icon Link
+        </Link>
+        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+          Both Icons Link
+        </Link>
+        <Link loading rightIcon={<CheckAIcon16Light />}>
+          Right Icon Link
+        </Link>
+      </Gapped>
+    </Gapped>
+  );
+};
 WithIcon.parameters = {
   creevey: {
     tests: linkTests,
