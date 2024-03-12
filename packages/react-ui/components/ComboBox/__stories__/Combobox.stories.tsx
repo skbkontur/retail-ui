@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Meta, Story } from '../../../typings/stories';
+import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { MenuItem, MenuItemState } from '../../MenuItem';
 import { MenuSeparator } from '../../MenuSeparator';
@@ -827,8 +827,9 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ...ComboBox.defaultProps,
     getItems: () => Promise.resolve([]),
   };
+  private repeat = this.props.viewMode === 'singleLine' ? 1 : 8;
   public state = {
-    value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
+    value: this.props.noInitialValue ? null : { value: 1, label: `${'First'.repeat(this.repeat)}` },
   };
   private setRootNode!: TSetRootNode;
   private comboBoxRef: React.RefObject<ComboBox> = React.createRef<ComboBox>();
@@ -860,12 +861,12 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   }
 
   private items: ComboboxItem[] = [
-    { value: 1, label: 'First' },
-    { value: 2, label: 'Second' },
-    { value: 3, label: 'Third' },
-    { value: 4, label: 'Fourth' },
-    { value: 5, label: 'Fifth' },
-    { value: 6, label: 'Sixth' },
+    { value: 1, label: `${'First'.repeat(this.repeat)}` },
+    { value: 2, label: `${'Second'.repeat(this.repeat)}` },
+    { value: 3, label: `${'Third'.repeat(this.repeat)}` },
+    { value: 4, label: `${'Fourth'.repeat(this.repeat)}` },
+    { value: 5, label: `${'Fifth'.repeat(this.repeat)}` },
+    { value: 6, label: `${'Sixth'.repeat(this.repeat)}` },
     { value: 7, label: 'A long long long long long long time ago' },
   ];
   private getItems = (query: string) =>
@@ -1462,5 +1463,65 @@ Size.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
       },
     },
+  },
+};
+
+const multilineTest: CreeveyTests = {
+  async plain() {
+    const plain = await this.takeScreenshot();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+      .pause(500)
+      .perform();
+    const opened = await this.takeScreenshot();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.ARROW_DOWN)
+      .sendKeys(this.keys.ARROW_DOWN)
+      .sendKeys(this.keys.ARROW_DOWN)
+      .sendKeys(this.keys.ENTER)
+      .pause(500)
+      .perform();
+    const closed = await this.takeScreenshot();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({ origin: this.browser.findElement({ css: 'body' }) })
+      .press()
+      .release()
+      .perform();
+    const blur = await this.takeScreenshot();
+    await this.expect({ plain, opened, closed, blur }).to.matchImages();
+  },
+};
+
+export const MultilineComboboxStory: Story = () => (
+  <div style={{ paddingBottom: 230, paddingRight: 40 }}>
+    <SimpleCombobox viewMode={'multiline'} />
+  </div>
+);
+MultilineComboboxStory.storyName = 'multiline combobox';
+
+MultilineComboboxStory.parameters = {
+  creevey: {
+    tests: multilineTest,
+  },
+};
+export const MultilineEditingComboboxStory: Story = () => (
+  <div style={{ paddingBottom: 230, paddingRight: 40 }}>
+    <SimpleCombobox viewMode={'multiLineEditing'} />
+  </div>
+);
+MultilineEditingComboboxStory.storyName = 'multiline editing combobox';
+
+MultilineEditingComboboxStory.parameters = {
+  creevey: {
+    tests: multilineTest,
   },
 };
