@@ -165,6 +165,8 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   private featureFlags!: ValidationsFeatureFlags;
 
   public render() {
+    const { children, 'data-tid': dataTid } = this.props;
+
     return (
       <ValidationsFeatureFlagsContext.Consumer>
         {(flags) => {
@@ -172,9 +174,9 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
           return (
             <ValidationContext.Provider value={this}>
               {this.featureFlags.validationsRemoveExtraSpans ? (
-                this.props.children
+                this.renderChildren(children, dataTid)
               ) : (
-                <span data-tid={this.props['data-tid']}>{this.props.children}</span>
+                <span data-tid={dataTid}>{children}</span>
               )}
             </ValidationContext.Provider>
           );
@@ -182,4 +184,17 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
       </ValidationsFeatureFlagsContext.Consumer>
     );
   }
+
+  private renderChildren = (
+    children: ValidationContextWrapperProps['children'],
+    dataTid: ValidationContextWrapperProps['data-tid'],
+  ) => {
+    if (React.isValidElement(children)) {
+      return React.cloneElement(children, {
+        'data-tid': dataTid,
+      });
+    }
+
+    return children;
+  };
 }
