@@ -16,6 +16,7 @@ export interface ValidationContextSettings {
 }
 
 export interface ValidationContextWrapperProps {
+  'data-tid'?: string;
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: boolean) => void;
   scrollOffset?: number | ScrollOffset;
@@ -163,6 +164,24 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   private featureFlags!: ValidationsFeatureFlags;
 
+  private children = (flags: ValidationsFeatureFlags) => {
+    if (flags.validationsRemoveExtraSpans) {
+      return this.props.children;
+    }
+
+    return <span>{this.props.children}</span>;
+  };
+
+  private renderChildren = (children: ValidationContextWrapperProps['children']) => {
+    if (React.isValidElement(children)) {
+      return React.cloneElement(children, {
+        'data-tid': this.props['data-tid'],
+      });
+    }
+
+    return children;
+  };
+
   public render() {
     return (
       <ValidationsFeatureFlagsContext.Consumer>
@@ -170,7 +189,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
           this.featureFlags = getFullValidationsFlagsContext(flags);
           return (
             <ValidationContext.Provider value={this}>
-              {this.featureFlags.validationsRemoveExtraSpans ? this.props.children : <span>{this.props.children}</span>}
+              {this.renderChildren(this.children(this.featureFlags))}
             </ValidationContext.Provider>
           );
         }}
