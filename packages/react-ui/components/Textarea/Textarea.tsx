@@ -25,6 +25,7 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { InputAlign } from '../Input';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -40,7 +41,7 @@ const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends Pick<AriaAttributes, 'aria-controls' | 'aria-label'>,
     CommonProps,
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -120,6 +121,8 @@ export interface TextareaProps
          * Автоматически отключается когда в `extraRow` передан `false`.
          */
         disableAnimations?: boolean;
+        /** Выравнивание текста */
+        align?: InputAlign;
       }
     > {}
 
@@ -249,6 +252,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private theme!: Theme;
   private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
+  private labelNode: Nullable<HTMLLabelElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
@@ -419,6 +423,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaStyle = {
       resize: autoResize ? 'none' : resize,
+      textAlign: this.props.align,
     };
 
     let placeholderPolyfill = null;
@@ -465,6 +470,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
           className={cx(this.getRootSizeClassName(), {
             [styles.root()]: true,
           })}
+          ref={this.labelRef}
         >
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
@@ -535,6 +541,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private ref = (element: HTMLTextAreaElement) => {
     this.node = element;
   };
+  private labelRef = (element: HTMLLabelElement) => {
+    this.labelNode = element;
+  };
 
   private refFake = (element: HTMLTextAreaElement) => {
     this.fakeNode = element;
@@ -557,7 +566,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows } = this.getProps();
+    const { rows, maxRows, autoResize, extraRow } = this.getProps();
     if (rows === undefined || maxRows === undefined) {
       return;
     }
@@ -574,6 +583,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       return;
     }
 
+    if (this.labelNode && rows === 1 && autoResize && !extraRow) {
+      this.labelNode.style.height = height + 'px';
+    }
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
