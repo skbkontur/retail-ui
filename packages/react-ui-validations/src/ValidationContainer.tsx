@@ -77,7 +77,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   public render() {
     return (
       <ValidationContextWrapper
-        data-tid={this.props["data-tid"]}
+        data-tid={this.props['data-tid']}
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
         disableSmoothScroll={this.getProps().disableSmoothScroll}
