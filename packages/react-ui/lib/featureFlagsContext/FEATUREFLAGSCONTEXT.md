@@ -186,10 +186,9 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
 В React UI 5.0 фича будет применена по умолчанию.
 
 ```jsx harmony
-import { Button, ComboBox, ReactUIFeatureFlagsContext } from `@skbkontur/react-ui`;
+import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 const [value, setValue] = React.useState({ value: '', label: '' });
-const comboboxRef = React.useRef<ComboBox | null>(null);
 
 const handleValueChange = () => {
   setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
@@ -201,21 +200,18 @@ const getItems = () =>
     { value: 'Второй', label: 'Второй' },
   ]);
 
-return (
-  <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
-    <Button onClick={handleValueChange}>Обновить</Button>
-    <ComboBox
-      ref={comboboxRef}
-      value={value}
-      searchOnFocus={false}
-      getItems={getItems}
-      onValueChange={(value) => setValue(value)}
-      onInputValueChange={(value) => {
-        setValue({ value, label: value });
-      }}
-    />
-  </ReactUIFeatureFlagsContext.Provider>
-);
+<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+  <Button onClick={handleValueChange}>Обновить</Button>
+  <ComboBox
+    value={value}
+    searchOnFocus={false}
+    getItems={getItems}
+    onValueChange={(value) => setValue(value)}
+    onInputValueChange={(value) => {
+      setValue({ value, label: value });
+     }}
+  />
+</ReactUIFeatureFlagsContext.Provider>
 ```
 
 ## Объект со всеми флагами
