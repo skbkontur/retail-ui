@@ -112,6 +112,7 @@ export class ValidationWrapperInternal extends React.Component<
 
     let clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
+        'data-component-validation-level': validation?.level,
         ref: this.customRef,
         error: !this.isChanging && getLevel(validation) === 'error',
         warning: !this.isChanging && getLevel(validation) === 'warning',

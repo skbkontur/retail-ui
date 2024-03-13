@@ -81,5 +81,41 @@ describe('ValidationWrapper', () => {
       );
       expect(screen.queryByText(inputValue)).toBeInTheDocument();
     });
+
+    it('attribute data-component-validation-level not sets when validation null', () => {
+      const { container } = render(
+        <ValidationContainer>
+          <ValidationWrapper validationInfo={null}>
+            <div />
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+
+      expect(container.querySelector("[data-component-validation-level]")).not.toBeInTheDocument();
+    });
+
+    it('attribute data-component-validation-level sets error on level error', () => {
+      const { container } = render(
+        <ValidationContainer>
+          <ValidationWrapper validationInfo={{ type: 'immediate', message: 'error message', level: 'error' }}>
+            <div />
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+
+      expect(container.querySelector("[data-component-validation-level='error']")).toBeInTheDocument();
+    });
+
+    it('attribute data-component-validation-level sets warning on level warning', () => {
+      const { container } = render(
+        <ValidationContainer>
+          <ValidationWrapper validationInfo={{ type: 'immediate', message: 'warning message', level: 'warning' }}>
+            <div />
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+
+      expect(container.querySelector("[data-component-validation-level='warning']")).toBeInTheDocument();
+    });
   });
 });
