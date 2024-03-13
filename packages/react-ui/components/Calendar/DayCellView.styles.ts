@@ -7,23 +7,25 @@ export const globalClasses = prefix('day-cell-view')({
 });
 
 export const styles = memoizeStyle({
-  cell(t: Theme) {
+  baseCell(t: Theme) {
+    return css`
+      flex: 1 1 ${t.calendarCellWidth};
+      height: ${t.calendarCellHeight};
+    `;
+  },
+  dayCell(t: Theme) {
     return css`
       ${resetButton()};
 
       background: ${t.calendarCellBg};
       border: 1px solid transparent;
-      display: inline-block;
       font-size: ${t.calendarCellFontSize};
       padding: 0;
       text-align: center;
       user-select: none;
       position: relative;
-      width: ${t.calendarCellWidth};
-      height: ${t.calendarCellHeight};
       line-height: ${t.calendarCellLineHeight};
       border-radius: ${t.calendarCellBorderRadius};
-      flex: 1 1;
 
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};
