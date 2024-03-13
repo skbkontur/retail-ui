@@ -2,6 +2,10 @@ import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 import isEqual from 'lodash.isequal';
 
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+ getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
@@ -14,6 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+
 
 import { styles } from './Hint.styles';
 
@@ -57,7 +62,8 @@ export interface HintProps extends CommonProps {
   text: React.ReactNode;
   /**
    * Список позиций, которые хинт будет занимать. Если положение хинт в определенной позиции будет выходить
-   * за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`
+   * за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
+   * Для применения этого пропа необходимо включить фиче-флаг hintAddDynamicPositioning.
    */
   allowedPositions?: PopupPositionsType[];
   /**
@@ -122,6 +128,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
   private positions: Nullable<PopupPositionsType[]> = null;
 
@@ -139,11 +146,14 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     if (opened !== prevProps.opened) {
       this.setState({ opened: !!opened });
     }
-    const posChanged = prevProps.pos !== pos;
-    const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
-    if (posChanged || allowedChanged) {
-      this.positions = null;
+    if (this.featureFlags.hintAddDynamicPositioning) {
+      const posChanged = prevProps.pos !== pos;
+      const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
+
+      if (posChanged || allowedChanged) {
+        this.positions = null;
+      }
     }
   }
 
@@ -156,26 +166,33 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.hintPinOffset,
-                  popupMargin: theme.hintMargin,
-                  popupBorder: theme.hintBorder,
-                  popupBorderRadius: theme.hintBorderRadius,
-                },
-                this.theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <ThemeContext.Provider
+                    value={ThemeFactory.create(
+                      {
+                        popupPinOffset: theme.hintPinOffset,
+                        popupMargin: theme.hintMargin,
+                        popupBorder: theme.hintBorder,
+                        popupBorderRadius: theme.hintBorderRadius,
+                      },
+                      this.theme,
+                    )}
+                  >
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -227,32 +244,35 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   private getPositions = (): PopupPositionsType[] => {
-    if (!this.positions) {
-      const { allowedPositions, pos } = this.getProps();
-      let priorityPosition: PopupPositionsType;
-      switch (pos) {
-        case 'top':
-          priorityPosition = 'top center';
-          break;
-        case 'bottom':
-          priorityPosition = 'bottom center';
-          break;
-        case 'left':
-          priorityPosition = 'left middle';
-          break;
-        case 'right':
-          priorityPosition = 'right middle';
-          break;
-        default:
-          priorityPosition = pos;
+    if (this.featureFlags.hintAddDynamicPositioning) {
+      if (!this.positions) {
+        const { allowedPositions, pos } = this.getProps();
+        let priorityPosition: PopupPositionsType;
+        switch (pos) {
+          case 'top':
+            priorityPosition = 'top center';
+            break;
+          case 'bottom':
+            priorityPosition = 'bottom center';
+            break;
+          case 'left':
+            priorityPosition = 'left middle';
+            break;
+          case 'right':
+            priorityPosition = 'right middle';
+            break;
+          default:
+            priorityPosition = pos;
+        }
+        const index = allowedPositions.indexOf(priorityPosition);
+        if (index === -1) {
+          throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
+        }
+        this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
       }
-      const index = allowedPositions.indexOf(priorityPosition);
-      if (index === -1) {
-        throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
-      }
-      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
+      return this.positions;
     }
-    return this.positions;
+    return Positions.filter((x) => x.startsWith(this.getProps().pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {
