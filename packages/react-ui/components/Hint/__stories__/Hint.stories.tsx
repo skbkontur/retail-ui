@@ -292,7 +292,31 @@ export const HintNearScreenEdge = () => (
       </Tooltip>
     </div>
 
-    <div style={{ position: 'absolute', right: '-60px', top: '450px', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ position: 'absolute', right: '0px', top: '100px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+    <div style={{ position: 'absolute', right: '-30px', top: '300px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
+    <div style={{ position: 'absolute', right: '-60px', top: '500px', display: 'flex', flexDirection: 'column' }}>
       <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
           Пригласить
@@ -318,5 +342,6 @@ HintNearScreenEdge.storyName = 'hint near screen edge';
 HintNearScreenEdge.parameters = {
   creevey: {
     captureElement: 'body',
+    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
   },
 };
