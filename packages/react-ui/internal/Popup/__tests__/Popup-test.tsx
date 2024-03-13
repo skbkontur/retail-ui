@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
@@ -12,6 +14,8 @@ import { CommonWrapper } from '../../CommonWrapper';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { PopupDataTids } from '..';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
@@ -216,5 +220,62 @@ describe('properly renders opened/closed states', () => {
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer?.children()).toHaveLength(0);
+  });
+});
+
+describe('mobile Popup', () => {
+  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const oldMatchMedia = window.matchMedia;
+  const matchMediaMock = jest.fn().mockImplementation((query) => {
+    return {
+      matches: calcMatches(query),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    };
+  });
+
+  beforeEach(() => {
+    window.matchMedia = matchMediaMock;
+  });
+
+  afterEach(() => {
+    window.matchMedia = oldMatchMedia;
+  });
+
+  const TestPopup = () => {
+    const [opened, setOpened] = useState(false);
+    const handleClick = () => {
+      setOpened((opened) => !opened);
+    };
+    return (
+      <button onClick={handleClick}>
+        Foo
+        <Popup
+          positions={['bottom left', 'bottom right', 'top left', 'top right']}
+          opened={opened}
+          anchorElement={null}
+          disableAnimations
+          mobileOnBlurRequest={handleClick}
+        >
+          Test content
+        </Popup>
+      </button>
+    );
+  };
+
+  it('should close by mobileOnBlurRequest', async () => {
+    render(<TestPopup />);
+
+    userEvent.click(await screen.findByRole('button'));
+    expect(await screen.findByTestId(PopupDataTids.content)).toBeInTheDocument();
+
+    fireEvent.blur(window);
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId(PopupDataTids.content));
+    expect(screen.queryByTestId(PopupDataTids.content)).not.toBeInTheDocument();
   });
 });
