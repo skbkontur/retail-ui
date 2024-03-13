@@ -83,6 +83,7 @@ describe('Popup', () => {
 
     expect(wrapper.state('location')).not.toBeNull();
     expect(wrapper.state('location')?.position).toBe('bottom right');
+    wrapper.unmount();
   });
 
   it('одна и та же позиция при каждом открытии', async () => {
@@ -122,12 +123,17 @@ describe('Popup', () => {
     };
 
     await checkLocation();
+    wrapper.unmount();
   });
 
   describe('rootNode', () => {
     const popupRef = React.createRef<Popup & InstanceWithRootNode>();
 
     const wrapper = renderWrapper({ opened: false }, popupRef);
+
+    afterAll(() => {
+      wrapper.unmount();
+    });
 
     it('getRootNode is defined', () => {
       expect(popupRef.current?.getRootNode).toBeDefined();
@@ -192,6 +198,10 @@ describe('properly renders opened/closed states', () => {
   }
 
   const wrapper = renderWrapper();
+
+  afterAll(() => {
+    wrapper.unmount();
+  });
 
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
