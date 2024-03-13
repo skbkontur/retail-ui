@@ -140,27 +140,18 @@ HintWithoutAnimations.storyName = 'hint without animations';
 HintWithoutAnimations.parameters = { creevey: { skip: true } };
 
 export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ popupUnifyPositioning: true }}>
-    <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
-      {PopupPositions.reduce(
-        (child, position) => (
-          <Hint
-            useWrapper={false}
-            text={position}
-            pos={position}
-            allowedPositions={[position, 'right top', 'right middle']}
-            manual
-            opened
-          >
-            {child}
-          </Hint>
-        ),
-        <Textarea rows={10} resize="none" width="50%">
-          {"I'm inline-block with 50% width.\n\nHover me!"}
-        </Textarea>,
-      )}
-    </div>
-  </ReactUIFeatureFlagsContext.Provider>
+  <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
+    {PopupPositions.reduce(
+      (child, position) => (
+        <Hint useWrapper={false} text={position} pos={position} manual opened>
+          {child}
+        </Hint>
+      ),
+      <Textarea rows={10} resize="none" width="50%">
+        {"I'm inline-block with 50% width.\n\nHover me!"}
+      </Textarea>,
+    )}
+  </div>
 );
 HintsWithoutWrapperAroundInlineBlockWith50Width.storyName = 'Hints without wrapper around inline-block with 50% width';
 HintsWithoutWrapperAroundInlineBlockWith50Width.parameters = { creevey: { delay: 500 } };
