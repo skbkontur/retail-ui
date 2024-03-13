@@ -6,12 +6,12 @@ import { DateSelect } from '../../internal/DateSelect';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
+import { styles as cellStyles } from './DayCellView.styles';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { styles } from './MonthView.styles';
 
@@ -188,17 +188,11 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public renderMain() {
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
-      <div
-        key={`leadgin_${i}`}
-        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
-      />
+      <div key={`leadgin_${i}`} className={cellStyles.baseCell(this.theme)} />
     ));
     const trailingOffset = DAYS_PER_WEEK - ((this.props.offset + this.props.days.length) % DAYS_PER_WEEK);
     const trailingDays = Array.from({ length: trailingOffset }, (_, i) => (
-      <div
-        key={`trailing_${i}`}
-        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
-      />
+      <div key={`trailing_${i}`} className={cellStyles.baseCell(this.theme)} />
     ));
     const days = this.props.days.map((day) => {
       const isWeekend = this.getProps().isHoliday(day);

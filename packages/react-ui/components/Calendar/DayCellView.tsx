@@ -52,7 +52,8 @@ export function DayCellView(props: DayCellViewProps) {
       }`}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cx({
-        [styles.cell(theme)]: true,
+        [styles.baseCell(theme)]: true,
+        [styles.dayCell(theme)]: true,
         [styles.today(theme)]: isToday && !_isTheme2022,
         [styles.today2022(theme)]: isToday && _isTheme2022,
         [styles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
