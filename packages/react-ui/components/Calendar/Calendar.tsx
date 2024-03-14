@@ -1,6 +1,7 @@
 import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 import shallowEqual from 'shallowequal';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
@@ -181,7 +182,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       const prevCurrentMonth = prevFirstVisibleMonthModels[0].month;
 
       if (currentMonth !== prevCurrentMonth) {
-        this.monthsChangeHandle(this.props.onMonthChange, visibleMonthsModels);
+        this.debouncedHandleMonthChange(visibleMonthsModels);
       }
     }
   }
@@ -416,18 +417,15 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme));
   }
 
-  private monthsChangeHandle(
-    handler: (changeInfo: CalendarMonthChangeInfo) => void,
-    visibleMonths: MonthViewModel[],
-  ): void {
+  private debouncedHandleMonthChange = debounce((visibleMonths: MonthViewModel[]): void => {
     const currentMonth = visibleMonths[0];
     const changeInfo = {
       month: CalendarUtils.getMonthInHumanFormat(currentMonth.month),
       year: currentMonth.year,
     };
 
-    handler(changeInfo);
-  }
+    this.props.onMonthChange?.(changeInfo);
+  }, 100);
 
   private getViewModel = (item: [number, MonthViewModel]): MonthViewModel => item[1];
 
