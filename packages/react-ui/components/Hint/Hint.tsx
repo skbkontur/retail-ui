@@ -5,7 +5,8 @@ import isEqual from 'lodash.isequal';
 import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
- getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
@@ -18,7 +19,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-
 
 import { styles } from './Hint.styles';
 
