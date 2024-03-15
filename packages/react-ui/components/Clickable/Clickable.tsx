@@ -193,7 +193,7 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
           className,
         )}
         type={Root === 'button' ? type : undefined}
-        rel={getRel(rel, href)}
+        rel={Root === 'a' ? getRel(rel, href) : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onClick={handleClick}
