@@ -14,7 +14,7 @@ describe('ClickableButton', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('should render <button> tag when explictly passed', () => {
+  it('should render <button> tag when explicitly passed', () => {
     render(<Clickable as="button">button</Clickable>);
 
     expect(screen.getByRole('button')).toBeInTheDocument();

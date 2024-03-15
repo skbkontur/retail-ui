@@ -49,7 +49,7 @@ interface ClickableOwnProps
    */
   size?: SizeProp;
   /**
-   * Позвоялет перевести контрол в состояние загрузки.
+   * Позволяет перевести контрол в состояние загрузки.
    */
   isLoading?: boolean;
   /**
@@ -104,7 +104,7 @@ interface ClickableOwnProps
   /**
    * @ignore
    *
-   * Меняет скругления при использованиии <Clickable> внутри <Group>.
+   * Меняет скругления при использовании <Clickable> внутри <Group>.
    */
   corners?: CSSProperties;
 }

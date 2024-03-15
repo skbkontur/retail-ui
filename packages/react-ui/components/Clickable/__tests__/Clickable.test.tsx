@@ -180,7 +180,7 @@ describe('ClickableButton', () => {
       expect(screen.getByLabelText(label)).toBeInTheDocument();
     });
 
-    it('can switche value of `aria-checked` attribute', () => {
+    it('can switch value of `aria-checked` attribute', () => {
       const Component = () => {
         const [isChecked, setIsChecked] = React.useState(false);
         return <Clickable role="switch" onClick={() => setIsChecked(true)} aria-checked={isChecked} />;
