@@ -6,19 +6,19 @@ import { ClickableLinkIcon } from './ClickableLinkIcon';
 
 export interface ClickableLinkProps
   extends ClickableLinkChildProps,
-    Pick<ClickableProps, 'leftIcon' | 'rightIcon' | 'isLoading'> {}
+    Pick<ClickableProps, 'leftIcon' | 'rightIcon' | 'loading'> {}
 
-export const ClickableLink = ({ leftIcon, rightIcon, isLoading, isFocused, isError, children }: ClickableLinkProps) => {
+export const ClickableLink = ({ leftIcon, rightIcon, loading, focused, error, children }: ClickableLinkProps) => {
   return (
     <>
-      {leftIcon && <ClickableLinkIcon icon={leftIcon} isLoading={isLoading} position="left" />}
-      <ClickableLinkChild isFocused={isFocused} isError={isError}>
+      {leftIcon && <ClickableLinkIcon icon={leftIcon} loading={loading} position="left" />}
+      <ClickableLinkChild focused={focused} error={error}>
         {children}
       </ClickableLinkChild>
       {rightIcon && (
         <ClickableLinkIcon
           icon={rightIcon}
-          isLoading={isLoading}
+          loading={loading}
           position="right"
           hasBothIcons={!!leftIcon && !!rightIcon}
         />

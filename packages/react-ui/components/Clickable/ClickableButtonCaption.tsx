@@ -8,26 +8,19 @@ import { ClickableButtonLoadingIcon } from './ClickableButtonLoadingIcon';
 import { buttonCaptionStyles } from './ClickableButtonCaption.styles';
 import { clickableGlobalClasses } from './Clickable.styles';
 
-export const ClickableButtonCaption = ({
-  leftIcon,
-  rightIcon,
-  isDisabled,
-  isLoading,
-  size,
-  children,
-}: ClickableProps) => {
-  const isLoadingWithoutIcons = !leftIcon && !rightIcon && isLoading;
+export const ClickableButtonCaption = ({ leftIcon, rightIcon, disabled, loading, size, children }: ClickableProps) => {
+  const isLoadingWithoutIcons = !leftIcon && !rightIcon && loading;
 
   return (
     <div
       className={cx({
         [buttonCaptionStyles.buttonCaption()]: true,
-        [buttonCaptionStyles.buttonCaptionDisabled()]: isDisabled,
+        [buttonCaptionStyles.buttonCaptionDisabled()]: disabled,
       })}
     >
       {isLoadingWithoutIcons && <ClickableButtonLoadingIcon size={size} />}
       {leftIcon && (
-        <ClickableButtonIcon size={size} isLoading={isLoading} position="left" icon={leftIcon}>
+        <ClickableButtonIcon size={size} loading={loading} position="left" icon={leftIcon}>
           {children}
         </ClickableButtonIcon>
       )}
@@ -44,7 +37,7 @@ export const ClickableButtonCaption = ({
       {rightIcon && (
         <ClickableButtonIcon
           size={size}
-          isLoading={isLoading}
+          loading={loading}
           position="right"
           icon={rightIcon}
           hasBothIcons={!!leftIcon && !!rightIcon}

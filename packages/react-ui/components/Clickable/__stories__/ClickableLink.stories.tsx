@@ -27,7 +27,7 @@ export const Use: Story = () => (
   </ComponentTable>
 );
 
-const useDifferentStates: LinkState[] = [{}, { isDisabled: true }, { isLoading: true }, { isError: true }];
+const useDifferentStates: LinkState[] = [{}, { disabled: true }, { loading: true }, { error: true }];
 
 export const Icon: Story = () => (
   <ComponentTable rows={getUseStates()} cols={iconDifferentStates.map((x) => ({ props: x }))}>
@@ -39,7 +39,7 @@ const iconDifferentStates: LinkState[] = [
   { leftIcon: <XIcon16Regular /> },
   { rightIcon: <XIcon16Regular /> },
   { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
-  { isError: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
+  { error: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
 ];
 
 export const Loading: Story = () => (
@@ -49,9 +49,9 @@ export const Loading: Story = () => (
 );
 
 const loadingDifferentStates: LinkState[] = [
-  { isLoading: true },
-  { isLoading: true, leftIcon: <XIcon16Regular /> },
-  { isLoading: true, rightIcon: <XIcon16Regular /> },
-  { isLoading: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
-  { isLoading: true, isError: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
+  { loading: true },
+  { loading: true, leftIcon: <XIcon16Regular /> },
+  { loading: true, rightIcon: <XIcon16Regular /> },
+  { loading: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
+  { loading: true, error: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
 ];

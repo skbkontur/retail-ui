@@ -542,9 +542,9 @@ export const getButtonSize = ({ size, leftIcon, rightIcon, children, theme }: Ge
 
 interface GetButtonStylesArgs
   extends GetStylesBase,
-    Pick<ClickableProps, 'arrow' | 'size' | 'isNarrow' | 'isDisabled' | 'isLoading' | 'isBorderless' | 'isActive'> {
+    Pick<ClickableProps, 'arrow' | 'size' | 'narrow' | 'disabled' | 'loading' | 'borderless' | 'active'> {
   buttonSize: Record<string, boolean>;
-  isFocused: boolean;
+  focused: boolean;
   isNotInteractive: boolean;
 }
 
@@ -554,13 +554,13 @@ export const getButtonStyles = ({
   theme,
   arrow,
   size,
-  isNarrow,
-  isBorderless,
-  isFocused,
-  isActive,
+  narrow,
+  borderless,
+  focused,
+  active,
   isNotInteractive,
 }: GetButtonStylesArgs) => {
-  const active = !isNotInteractive && isActive;
+  const isActive = !isNotInteractive && active;
   const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use ?? '');
 
   return cx({
@@ -575,19 +575,19 @@ export const getButtonStyles = ({
     [buttonStyles.buttonText(theme)]: use === 'text',
     [buttonStyles.buttonBackless(theme)]: use === 'backless',
     // active
-    [buttonActiveStyles.buttonDefault(theme)]: (use === 'default' || use === undefined) && active,
-    [buttonActiveStyles.buttonPrimary(theme)]: use === 'primary' && active,
-    [buttonActiveStyles.buttonSuccess(theme)]: use === 'success' && active,
-    [buttonActiveStyles.buttonDanger(theme)]: use === 'danger' && active,
-    [buttonActiveStyles.buttonPay(theme)]: use === 'pay' && active,
-    [buttonActiveStyles.buttonText(theme)]: use === 'text' && active,
-    [buttonActiveStyles.buttonBackless(theme)]: use === 'backless' && active,
+    [buttonActiveStyles.buttonDefault(theme)]: (use === 'default' || use === undefined) && isActive,
+    [buttonActiveStyles.buttonPrimary(theme)]: use === 'primary' && isActive,
+    [buttonActiveStyles.buttonSuccess(theme)]: use === 'success' && isActive,
+    [buttonActiveStyles.buttonDanger(theme)]: use === 'danger' && isActive,
+    [buttonActiveStyles.buttonPay(theme)]: use === 'pay' && isActive,
+    [buttonActiveStyles.buttonText(theme)]: use === 'text' && isActive,
+    [buttonActiveStyles.buttonBackless(theme)]: use === 'backless' && isActive,
     // focused
-    [buttonStyles.buttonFocus(theme)]: isFocused,
+    [buttonStyles.buttonFocus(theme)]: focused,
     // size
     ...buttonSize,
     // narrow
-    [buttonStyles.buttonNarrow()]: isNarrow,
+    [buttonStyles.buttonNarrow()]: narrow,
     // arrow
     [buttonStyles.buttonWithArrowIconRightSmall(theme)]: arrow === 'right' && size === 'small',
     [buttonStyles.buttonWithArrowIconRightMedium(theme)]: arrow === 'right' && size === 'medium',
@@ -599,6 +599,6 @@ export const getButtonStyles = ({
     [buttonStyles.buttonDisabled(theme)]: isNotInteractive,
     [buttonStyles.buttonDisabledWithoutOutline(theme)]: isUseStateWithoutOutlineInDisabledState && isNotInteractive,
     // borderless
-    [buttonStyles.buttonBorderless()]: isBorderless && (!isFocused || isNotInteractive),
+    [buttonStyles.buttonBorderless()]: borderless && (!focused || isNotInteractive),
   });
 };

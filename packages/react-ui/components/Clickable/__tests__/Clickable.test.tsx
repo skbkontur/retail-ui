@@ -121,13 +121,13 @@ describe('ClickableButton', () => {
     });
 
     it('should be able to focus disabled element', () => {
-      render(<Clickable isDisabled />);
+      render(<Clickable disabled />);
       userEvent.tab();
       expect(screen.getByRole('button')).toHaveFocus();
     });
 
     it('should be able to focus loading element', () => {
-      render(<Clickable isLoading />);
+      render(<Clickable loading />);
       userEvent.tab();
       expect(screen.getByRole('button')).toHaveFocus();
     });
@@ -209,7 +209,7 @@ describe('ClickableButton', () => {
     });
 
     it('should add `aria-disabled` attribute when disabled is passed', () => {
-      render(<Clickable isDisabled>test</Clickable>);
+      render(<Clickable disabled>test</Clickable>);
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
     });

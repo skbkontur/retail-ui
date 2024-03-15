@@ -35,8 +35,8 @@ const Component = ({ children, cursor, isSafe, style, ...rest }) => {
     <Clickable href="/" use="success">Success</Clickable>
     <Clickable href="/" use="danger">Danger</Clickable>
     <Clickable href="/" use="grayed">Grayed</Clickable>
-    <Clickable href="/" isError>Error</Clickable>
-    <Clickable href="/" isDisabled>Disabled</Clickable>
+    <Clickable href="/" error>Error</Clickable>
+    <Clickable href="/" disabled>Disabled</Clickable>
   </Gapped>
 
   <p>Кнопки</p>
@@ -49,10 +49,10 @@ const Component = ({ children, cursor, isSafe, style, ...rest }) => {
       <Clickable use="pay">Pay</Clickable>
       <Clickable use="text">Text</Clickable>
       <Clickable use="backless">Backless</Clickable>
-      <Clickable isBorderless>Borderless</Clickable>
-      <Clickable isWarning>Warning</Clickable>
-      <Clickable isError>Error</Clickable>
-      <Clickable use="default" isDisabled>Disabled</Clickable>
+      <Clickable borderless>Borderless</Clickable>
+      <Clickable warning>Warning</Clickable>
+      <Clickable error>Error</Clickable>
+      <Clickable use="default" disabled>Disabled</Clickable>
     </Gapped>
     <Gapped style={bgStyle}>
       <Clickable use="default">Default</Clickable>
@@ -62,10 +62,10 @@ const Component = ({ children, cursor, isSafe, style, ...rest }) => {
       <Clickable use="pay">Pay</Clickable>
       <Clickable use="text">Text</Clickable>
       <Clickable use="backless">Backless</Clickable>
-      <Clickable isBorderless>Borderless</Clickable>
-      <Clickable isWarning>Warning</Clickable>
-      <Clickable isError>Error</Clickable>
-      <Clickable use="default" isDisabled>Disabled</Clickable>
+      <Clickable borderless>Borderless</Clickable>
+      <Clickable warning>Warning</Clickable>
+      <Clickable error>Error</Clickable>
+      <Clickable use="default" disabled>Disabled</Clickable>
     </Gapped>
   </Gapped>
 
@@ -167,31 +167,31 @@ const [isLoading, setIsLoading] = React.useState(false);
   </Clickable>
 
   <Gapped gap={15}>
-    <Clickable isLoading={isLoading} href="/" leftIcon={<XIcon16Regular />}>
+    <Clickable loading={isLoading} href="/" leftIcon={<XIcon16Regular />}>
       Иконка слева
     </Clickable>
-    <Clickable isLoading={isLoading} href="/" leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
+    <Clickable loading={isLoading} href="/" leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
       Иконка и там, и там
     </Clickable>
-    <Clickable isLoading={isLoading} href="/" rightIcon={<XIcon16Regular />}>
+    <Clickable loading={isLoading} href="/" rightIcon={<XIcon16Regular />}>
       Иконка справа
     </Clickable>
-    <Clickable isLoading={isLoading} href="/">
+    <Clickable loading={isLoading} href="/">
       Без иконки
     </Clickable>
   </Gapped>
 
   <Gapped gap={15}>
-    <Clickable isLoading={isLoading} leftIcon={<XIcon16Regular />}>
+    <Clickable loading={isLoading} leftIcon={<XIcon16Regular />}>
       Иконка слева
     </Clickable>
-    <Clickable isLoading={isLoading} leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
+    <Clickable loading={isLoading} leftIcon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
       Иконка и там, и там
     </Clickable>
-    <Clickable isLoading={isLoading} rightIcon={<XIcon16Regular />}>
+    <Clickable loading={isLoading} rightIcon={<XIcon16Regular />}>
       Иконка справа
     </Clickable>
-    <Clickable isLoading={isLoading}>
+    <Clickable loading={isLoading}>
       Без иконки
     </Clickable>
   </Gapped>

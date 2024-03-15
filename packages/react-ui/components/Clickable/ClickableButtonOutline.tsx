@@ -6,21 +6,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { ClickableButtonProps } from './ClickableButton';
 import { buttonOutlineStyles } from './ClickableButtonOutline.styles';
 
-type ClickableButtonOutlineProps = Pick<
-  ClickableButtonProps,
-  'isWarning' | 'isError' | 'isDisabled' | 'isLoading' | 'isFocused'
->;
+type ClickableButtonOutlineProps = Pick<ClickableButtonProps, 'warning' | 'error' | 'disabled' | 'loading' | 'focused'>;
 
-export const ClickableButtonOutline = ({
-  isWarning,
-  isError,
-  isDisabled,
-  isLoading,
-  isFocused,
-}: ClickableButtonOutlineProps) => {
+export const ClickableButtonOutline = ({ warning, error, disabled, loading, focused }: ClickableButtonOutlineProps) => {
   const theme = useContext(ThemeContext);
 
-  if (isFocused || isDisabled || isLoading) {
+  if (focused || disabled || loading) {
     return null;
   }
 
@@ -28,8 +19,8 @@ export const ClickableButtonOutline = ({
     <div
       className={cx({
         [buttonOutlineStyles.buttonOutline()]: true,
-        [buttonOutlineStyles.buttonOutlineWarning(theme)]: isWarning,
-        [buttonOutlineStyles.buttonOutlineError(theme)]: isError,
+        [buttonOutlineStyles.buttonOutlineWarning(theme)]: warning,
+        [buttonOutlineStyles.buttonOutlineError(theme)]: error,
       })}
     />
   );

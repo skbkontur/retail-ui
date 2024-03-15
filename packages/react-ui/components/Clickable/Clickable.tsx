@@ -51,15 +51,15 @@ interface ClickableOwnProps
   /**
    * Позволяет перевести контрол в состояние загрузки.
    */
-  isLoading?: boolean;
+  loading?: boolean;
   /**
    * Позволяет отключить контрол.
    */
-  isDisabled?: boolean;
+  disabled?: boolean;
   /**
    * Применяет к кнопке стили псеводкласса :active.
    */
-  isActive?: boolean;
+  active?: boolean;
   /**
    * Позволяет задать иконку слева от контрола.
    */
@@ -84,11 +84,11 @@ interface ClickableOwnProps
   /**
    * Состояние валидации при предупреждении.
    */
-  isWarning?: boolean;
+  warning?: boolean;
   /**
    * Состояние валидации при ошибке.
    */
-  isError?: boolean;
+  error?: boolean;
   /**
    * Превращает кнопку в кнопку со стрелкой.
    */
@@ -96,11 +96,11 @@ interface ClickableOwnProps
   /**
    * Сужает кнопку.
    */
-  isNarrow?: boolean;
+  narrow?: boolean;
   /**
    * Убирает обводку у кнопки.
    */
-  isBorderless?: boolean;
+  borderless?: boolean;
   /**
    * @ignore
    *
@@ -125,7 +125,7 @@ export const ClickableDataTids = {
 export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, typeof CLICKABLE_DEFAULT_ELEMENT> =
   forwardRefAndName(COMPONENT_NAME, function Clickable<
     T extends React.ElementType = typeof CLICKABLE_DEFAULT_ELEMENT,
-  >({ size = 'small', use = 'default', type = 'button', as, arrow, corners, rel, theme: userTheme, href, isNarrow, view, leftIcon, rightIcon, onClick, onFocus, onBlur, isLoading, isDisabled, isActive, isBorderless, width, isWarning, isError, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
+  >({ size = 'small', use = 'default', type = 'button', as, arrow, corners, rel, theme: userTheme, href, narrow, view, leftIcon, rightIcon, onClick, onFocus, onBlur, loading, disabled, active, borderless, width, warning, error, align, style, className, children, ...rest }: PolymorphicPropsWithoutRef<ClickableOwnProps, T>, ref: React.ForwardedRef<Element>) {
     const Root: React.ElementType = getRootTag(href, as);
 
     const contextTheme = useContext(ThemeContext);
@@ -134,7 +134,7 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
     const buttonSize = getButtonSize({ size, leftIcon, rightIcon, children, theme });
     const currentView = getCurrentView(view, href, as);
 
-    const isNotInteractive = !!isLoading || !!isDisabled;
+    const isNotInteractive = !!loading || !!disabled;
 
     const [isFocused, setIsFocused] = useState(false);
     const isRootFocused = isFocused && !isNotInteractive;
@@ -176,7 +176,7 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
         key={ClickableDataTids.root}
         className={cx(
           generalStyles.root(theme),
-          currentView === 'link' && getLinkStyles({ use, isFocused, isNotInteractive, theme }),
+          currentView === 'link' && getLinkStyles({ use, focused: isFocused, isNotInteractive, theme }),
           currentView === 'button' &&
             getButtonStyles({
               use,
@@ -184,10 +184,10 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
               theme,
               arrow,
               size,
-              isNarrow,
-              isBorderless,
-              isFocused,
-              isActive,
+              narrow,
+              borderless,
+              focused: isFocused,
+              active,
               isNotInteractive,
             }),
           className,
@@ -206,9 +206,9 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
       >
         {currentView === 'link' && (
           <ClickableLink
-            isLoading={isLoading}
-            isFocused={isRootFocused}
-            isError={isError}
+            loading={loading}
+            focused={isRootFocused}
+            error={error}
             leftIcon={leftIcon}
             rightIcon={rightIcon}
           >
@@ -219,11 +219,11 @@ export const Clickable: PolymorphicForwardRefExoticComponent<ClickableOwnProps, 
           <ClickableButton
             leftIcon={leftIcon}
             rightIcon={rightIcon}
-            isDisabled={isDisabled}
-            isLoading={isLoading}
-            isFocused={isRootFocused}
-            isWarning={isWarning}
-            isError={isError}
+            disabled={disabled}
+            loading={loading}
+            focused={isRootFocused}
+            warning={warning}
+            error={error}
             arrow={arrow}
             size={size}
           >

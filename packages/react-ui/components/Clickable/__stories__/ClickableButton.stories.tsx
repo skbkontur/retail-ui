@@ -48,17 +48,17 @@ export const Use: Story = () => (
   </ComponentTable>
 );
 
-const useDifferentStates: ButtonState[] = [{}, { isActive: true }];
+const useDifferentStates: ButtonState[] = [{}, { active: true }];
 
 export const Warning: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={sizeDifferentStates.map((x) => ({ props: x }))}>
-    <Clickable isWarning>Button</Clickable>
+    <Clickable warning>Button</Clickable>
   </ComponentTable>
 );
 
 export const Error: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={sizeDifferentStates.map((x) => ({ props: x }))}>
-    <Clickable isError>Button</Clickable>
+    <Clickable error>Button</Clickable>
   </ComponentTable>
 );
 
@@ -74,11 +74,7 @@ export const ArrowLeft: Story = () => (
   </ComponentTable>
 );
 
-const arrowDifferentStates: ButtonState[] = [
-  { isWarning: true },
-  { isError: true },
-  { isWarning: true, isError: true },
-];
+const arrowDifferentStates: ButtonState[] = [{ warning: true }, { error: true }, { warning: true, error: true }];
 
 export const ArrowSize: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={arrowDifferentSizeStates.map((x) => ({ props: x }))}>
@@ -97,17 +93,17 @@ const arrowDifferentSizeStates: ButtonState[] = [
 
 export const Borderless: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={borderlessDifferentStates.map((x) => ({ props: x }))}>
-    <Clickable isBorderless>Button</Clickable>
+    <Clickable borderless>Button</Clickable>
   </ComponentTable>
 );
 
 const borderlessDifferentStates: ButtonState[] = [
   {},
-  { isDisabled: true },
-  { isLoading: true },
-  { isError: true },
-  { isWarning: true },
-  { isActive: true },
+  { disabled: true },
+  { loading: true },
+  { error: true },
+  { warning: true },
+  { active: true },
 ];
 
 export const Size: Story = () => (
@@ -120,15 +116,15 @@ const sizeDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' 
 
 export const Loading: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={loadingDifferentStates.map((x) => ({ props: x }))}>
-    <Clickable isLoading>Button</Clickable>
+    <Clickable loading>Button</Clickable>
   </ComponentTable>
 );
 
-const loadingDifferentStates: ButtonState[] = [{ isActive: true }];
+const loadingDifferentStates: ButtonState[] = [{ active: true }];
 
 export const Narrow: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={narrowDifferentStates.map((x) => ({ props: x }))}>
-    <Clickable isNarrow>Button</Clickable>
+    <Clickable narrow>Button</Clickable>
   </ComponentTable>
 );
 
@@ -161,9 +157,9 @@ const iconDifferentStates: ButtonState[] = [
   { leftIcon: <XIcon16Regular />, children: 'Button' },
   { rightIcon: <XIcon16Regular />, children: 'Button' },
   { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular />, children: 'Button' },
-  { leftIcon: <XIcon16Regular />, isLoading: true },
-  { rightIcon: <XIcon16Regular />, isLoading: true },
-  { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular />, isLoading: true },
+  { leftIcon: <XIcon16Regular />, loading: true },
+  { rightIcon: <XIcon16Regular />, loading: true },
+  { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular />, loading: true },
   { leftIcon: <XIcon16Regular />, children: 'Button' },
   { rightIcon: <XIcon16Regular />, children: 'Button' },
   { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular />, children: 'Button' },
@@ -173,14 +169,14 @@ const iconDifferentStates: ButtonState[] = [
   { leftIcon: <XIcon24Regular />, children: 'Button', size: 'large' },
   { rightIcon: <XIcon16Regular />, children: 'Button', size: 'large' },
   { leftIcon: <XIcon24Regular />, rightIcon: <XIcon16Regular />, children: 'Button', size: 'large' },
-  { leftIcon: <XIcon16Regular />, children: 'Button', isLoading: true },
-  { rightIcon: <XIcon16Regular />, children: 'Button', isLoading: true },
-  { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular />, children: 'Button', isLoading: true },
+  { leftIcon: <XIcon16Regular />, children: 'Button', loading: true },
+  { rightIcon: <XIcon16Regular />, children: 'Button', loading: true },
+  { leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular />, children: 'Button', loading: true },
 ];
 
 export const Disabled: Story = () => (
   <ComponentTable cols={getButtonUseStates()} rows={disabledDifferentStates.map((x) => ({ props: x }))}>
-    <Clickable isDisabled>Button</Clickable>
+    <Clickable disabled>Button</Clickable>
   </ComponentTable>
 );
 
@@ -189,7 +185,7 @@ export const ArrowDisabled: Story = () => (
     cols={getUseStates()}
     rows={disabledDifferentStates.filter((state) => !state.leftIcon).map((state) => ({ props: state }))}
   >
-    <Clickable isDisabled arrow="right">
+    <Clickable disabled arrow="right">
       Button
     </Clickable>
   </ComponentTable>
@@ -197,10 +193,10 @@ export const ArrowDisabled: Story = () => (
 
 const disabledDifferentStates: ButtonState[] = [
   {},
-  { isLoading: true },
-  { isLoading: true, leftIcon: <XIcon16Regular /> },
-  { isLoading: true, rightIcon: <XIcon16Regular /> },
-  { isLoading: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
+  { loading: true },
+  { loading: true, leftIcon: <XIcon16Regular /> },
+  { loading: true, rightIcon: <XIcon16Regular /> },
+  { loading: true, leftIcon: <XIcon16Regular />, rightIcon: <XIcon16Regular /> },
 ];
 
 export const DifferentPrioritization: Story = () => (
@@ -210,15 +206,15 @@ export const DifferentPrioritization: Story = () => (
 );
 
 const differentPriorityStates: ButtonState[] = [
-  { isWarning: true, isError: true },
-  { isWarning: true, isDisabled: true },
-  { isWarning: true, isLoading: true },
-  { isError: true, isDisabled: true },
-  { isError: true, isLoading: true },
-  { isDisabled: true, isLoading: true },
-  { isWarning: true, isError: true, isDisabled: true },
-  { isWarning: true, isError: true, isLoading: true },
-  { isWarning: true, isDisabled: true, isLoading: true },
+  { warning: true, error: true },
+  { warning: true, disabled: true },
+  { warning: true, loading: true },
+  { error: true, disabled: true },
+  { error: true, loading: true },
+  { disabled: true, loading: true },
+  { warning: true, error: true, disabled: true },
+  { warning: true, error: true, loading: true },
+  { warning: true, disabled: true, loading: true },
 ];
 
 export const IconDifferentContent = () => (
@@ -302,7 +298,7 @@ PlaygroundDefault.parameters = {
 };
 
 export const PlaygroundDisabled: Story = () => (
-  <Clickable leftIcon={<XIcon16Regular />} isDisabled data-tid="test-button">
+  <Clickable leftIcon={<XIcon16Regular />} disabled data-tid="test-button">
     Hello
   </Clickable>
 );
@@ -320,18 +316,18 @@ export const UnusedPropValues: Story = () => (
   </ComponentTable>
 );
 const unusedDifferentStates: ButtonState[] = [
-  { isActive: false },
+  { active: false },
   { autoFocus: false },
-  { isBorderless: false },
+  { borderless: false },
   { className: '' },
   { 'data-tid': '' },
-  { isDisabled: false },
-  { isError: false },
-  { isLoading: false },
-  { isNarrow: false },
+  { disabled: false },
+  { error: false },
+  { loading: false },
+  { narrow: false },
   { style: {} },
   { theme: {} },
   { title: '' },
-  { isWarning: false },
+  { warning: false },
   { width: '' },
 ];

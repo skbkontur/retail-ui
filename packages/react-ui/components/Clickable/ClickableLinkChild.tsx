@@ -8,14 +8,14 @@ import { clickableGlobalClasses } from './Clickable.styles';
 import { linkChildStyles } from './ClickableLinkChild.styles';
 import { ClickableProps } from './Clickable';
 
-export interface ClickableLinkChildProps extends Pick<ClickableProps, 'isError'> {
+export interface ClickableLinkChildProps extends Pick<ClickableProps, 'error'> {
   children: React.ReactNode;
-  isFocused: boolean;
+  focused: boolean;
 }
 
 export const ClickableLinkChild = forwardRefAndName<HTMLSpanElement, ClickableLinkChildProps>(
   'ClickableLinkChild',
-  ({ isFocused, isError, children }, ref) => {
+  ({ focused, error, children }, ref) => {
     const theme = useContext(ThemeContext);
 
     return (
@@ -23,8 +23,8 @@ export const ClickableLinkChild = forwardRefAndName<HTMLSpanElement, ClickableLi
         ref={ref}
         className={cx({
           [linkChildStyles.linkLineTextWrapper(theme)]: true,
-          [linkChildStyles.linkLineTextWrapperFocused(theme)]: isFocused,
-          [linkChildStyles.linkError(theme)]: isError,
+          [linkChildStyles.linkLineTextWrapperFocused(theme)]: focused,
+          [linkChildStyles.linkError(theme)]: error,
         })}
       >
         <span

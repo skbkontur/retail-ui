@@ -113,21 +113,21 @@ export const linkStyles = memoizeStyle({
 });
 
 interface GetLinkStylesArgs extends GetStylesBase {
-  isFocused: boolean;
+  focused: boolean;
   isNotInteractive: boolean;
 }
 
-export const getLinkStyles = ({ use, isFocused, isNotInteractive, theme }: GetLinkStylesArgs) => {
+export const getLinkStyles = ({ use, focused, isNotInteractive, theme }: GetLinkStylesArgs) => {
   return cx({
     [linkStyles.linkRoot()]: true,
     [linkStyles.linkDefault(theme)]: use === 'default' || use === undefined,
     [linkStyles.linkSuccess(theme)]: use === 'success',
     [linkStyles.linkDanger(theme)]: use === 'danger',
     [linkStyles.linkGrayed(theme)]: use === 'grayed',
-    [linkStyles.linkLineFocus(theme)]: use === 'default' && isFocused,
-    [linkStyles.linkLineFocusSuccess(theme)]: use === 'success' && isFocused,
-    [linkStyles.linkLineFocusDanger(theme)]: use === 'danger' && isFocused,
-    [linkStyles.linkLineFocusGrayed(theme)]: isFocused && use === 'grayed',
+    [linkStyles.linkLineFocus(theme)]: use === 'default' && focused,
+    [linkStyles.linkLineFocusSuccess(theme)]: use === 'success' && focused,
+    [linkStyles.linkLineFocusDanger(theme)]: use === 'danger' && focused,
+    [linkStyles.linkLineFocusGrayed(theme)]: focused && use === 'grayed',
     [linkStyles.linkDisabled(theme)]: isNotInteractive,
     [linkStyles.linkDisabledDark(theme)]: isNotInteractive && isDarkTheme(theme),
   });

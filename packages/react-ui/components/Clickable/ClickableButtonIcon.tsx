@@ -11,7 +11,7 @@ import { buttonIconStyles, getButtonIconSizeClassName } from './ClickableButtonI
 import { ClickableButtonLoadingIcon } from './ClickableButtonLoadingIcon';
 import { buttonGlobalClasses } from './ClickableButton.styles';
 
-export interface ClickableButtonIconProps extends Pick<ClickableProps, 'size' | 'isLoading' | 'children'> {
+export interface ClickableButtonIconProps extends Pick<ClickableProps, 'size' | 'loading' | 'children'> {
   icon: ClickableProps['leftIcon'];
   position: 'right' | 'left';
   hasBothIcons?: boolean;
@@ -38,7 +38,7 @@ export const ClickableButtonIcon = ({
   icon,
   position,
   children,
-  isLoading = false,
+  loading = false,
   hasBothIcons = false,
   size = 'small',
 }: ClickableButtonIconProps) => {
@@ -54,7 +54,7 @@ export const ClickableButtonIcon = ({
         [buttonIconStyles.iconNoMargin()]: hasNoChildren,
       })}
     >
-      {isLoading && !hasBothIcons ? (
+      {loading && !hasBothIcons ? (
         <ClickableButtonLoadingIcon isCentered={false} size={size} />
       ) : (
         getIcon(icon, size, theme)

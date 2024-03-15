@@ -8,32 +8,32 @@ import { ClickableButtonOutline } from './ClickableButtonOutline';
 export interface ClickableButtonProps
   extends Pick<
     ClickableProps,
-    'leftIcon' | 'rightIcon' | 'isDisabled' | 'isLoading' | 'size' | 'arrow' | 'children' | 'isWarning' | 'isError'
+    'leftIcon' | 'rightIcon' | 'disabled' | 'loading' | 'size' | 'arrow' | 'children' | 'warning' | 'error'
   > {
-  isFocused?: boolean;
+  focused?: boolean;
 }
 
 export const ClickableButton = ({
   leftIcon,
   rightIcon,
-  isDisabled,
-  isLoading,
-  isFocused,
+  disabled,
+  loading,
+  focused,
   size,
-  isWarning,
-  isError,
+  warning,
+  error,
   arrow,
   children,
 }: ClickableButtonProps) => {
   return (
     <>
-      <ClickableButtonOutline isFocused={isFocused} isDisabled={isDisabled} isWarning={isWarning} isError={isError} />
+      <ClickableButtonOutline focused={focused} disabled={disabled} warning={warning} error={error} />
       {arrow && <ClickableButtonArrow arrow={arrow} size={size} />}
       <ClickableButtonCaption
         leftIcon={leftIcon}
         rightIcon={rightIcon}
-        isDisabled={isDisabled}
-        isLoading={isLoading}
+        disabled={disabled}
+        loading={loading}
         size={size}
       >
         {children}

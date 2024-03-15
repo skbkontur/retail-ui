@@ -7,13 +7,13 @@ import { Spinner } from '../Spinner';
 import { ClickableProps } from './Clickable';
 import { linkIconStyles } from './ClickableLinkIcon.styles';
 
-export interface ClickableLinkIconProps extends Pick<ClickableProps, 'isLoading'> {
+export interface ClickableLinkIconProps extends Pick<ClickableProps, 'loading'> {
   icon: ClickableProps['leftIcon'];
   position?: 'left' | 'right';
   hasBothIcons?: boolean;
 }
 
-export const ClickableLinkIcon = ({ icon, isLoading, hasBothIcons, position }: ClickableLinkIconProps) => {
+export const ClickableLinkIcon = ({ icon, loading, hasBothIcons, position }: ClickableLinkIconProps) => {
   const theme = useContext(ThemeContext);
 
   return (
@@ -24,7 +24,7 @@ export const ClickableLinkIcon = ({ icon, isLoading, hasBothIcons, position }: C
         [linkIconStyles.linkIconRight(theme)]: position === 'right',
       })}
     >
-      {isLoading && !hasBothIcons ? <Spinner caption={null} dimmed inline /> : icon}
+      {loading && !hasBothIcons ? <Spinner caption={null} dimmed inline /> : icon}
     </span>
   );
 };

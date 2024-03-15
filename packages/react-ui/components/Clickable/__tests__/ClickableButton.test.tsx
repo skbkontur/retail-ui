@@ -40,7 +40,7 @@ describe('ClickableButton', () => {
   it('should not be able to click on disabled button', () => {
     const onClick = jest.fn();
     render(
-      <Clickable onClick={onClick} isDisabled>
+      <Clickable onClick={onClick} disabled>
         test
       </Clickable>,
     );
@@ -59,7 +59,7 @@ describe('ClickableButton', () => {
   it('has data-tid `Button__spinner` when component in loading state (THEME_2022)', () => {
     render(
       <ThemeContext.Provider value={THEME_2022}>
-        <Clickable isLoading />
+        <Clickable loading />
       </ThemeContext.Provider>,
     );
 
