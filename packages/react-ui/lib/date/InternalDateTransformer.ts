@@ -169,4 +169,19 @@ export class InternalDateTransformer {
       .map(({ valueWithPad }) => valueWithPad)
       .join(InternalDateSeparator.Dot);
   }
+
+  public static componentsToNativeDate(componentsRaw: InternalDateComponentsRaw): Date {
+    const { year, month, date } = InternalDateTransformer.dateComponentsStringToNumber(componentsRaw);
+    return new Date(Date.UTC(year, month - 1, date));
+  }
+
+  public static componentsToA11YFormat(components: InternalDateComponentsRaw, canonicalLocale: string): string {
+    const nativeDate = InternalDateTransformer.componentsToNativeDate(components);
+    return nativeDate.toLocaleDateString(canonicalLocale, {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
 }
