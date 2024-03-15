@@ -6,11 +6,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
+import { InternalDate } from '../../lib/date/InternalDate';
+import { LocaleContext } from '../../lib/locale';
 
 import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
-import { getMonthInHumanFormat } from './CalendarUtils';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -42,14 +43,16 @@ export function DayCellView(props: DayCellViewProps) {
   const isToday = Boolean(today && CDS.isEqual(date, today));
 
   const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
+  const { langCode } = useContext(LocaleContext);
+  const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${new InternalDate({ langCode })
+    .setComponents({ ...date }, true)
+    .toA11YFormat()}`;
 
   return (
     <button
       data-tid={CalendarDataTids.dayCell}
       tabIndex={-1}
-      aria-label={`${locale.dayCellChooseDateAriaLabel} ${value?.date}.${value && getMonthInHumanFormat(value.month)}.${
-        value?.year
-      }`}
+      aria-label={ariaLabel}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cx({
         [styles.baseCell(theme)]: true,

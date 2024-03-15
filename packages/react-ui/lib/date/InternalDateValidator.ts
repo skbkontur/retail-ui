@@ -6,6 +6,7 @@ import {
   InternalDateComponentsRaw,
   InternalDateComponentType,
 } from './types';
+import { InternalDateTransformer } from './InternalDateTransformer';
 
 const calculateStartDate = (startDate: number | null) => {
   if (startDate) {
@@ -77,7 +78,7 @@ export class InternalDateValidator {
   }
 
   public static compareWithNativeDate({ year, month, date }: InternalDateComponentsNumber): boolean {
-    const nativeDate: Date = new Date(Date.UTC(year, month - 1, date));
+    const nativeDate = InternalDateTransformer.componentsToNativeDate({ year, month, date });
     return (
       nativeDate.getUTCFullYear() === year && nativeDate.getUTCMonth() + 1 === month && nativeDate.getUTCDate() === date
     );

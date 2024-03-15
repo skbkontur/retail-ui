@@ -397,10 +397,11 @@ describe('DatePicker', () => {
 
       userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute(
-        'aria-label',
-        `${customAriaLabel} ${date}`,
-      );
+      const ariaLabel = `${customAriaLabel}: ${new InternalDate({
+        value: date,
+      }).toA11YFormat()}`;
+
+      expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 
