@@ -21,6 +21,8 @@ import { delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
+import { ComboBoxItem } from '..';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -464,6 +466,7 @@ describe('ComboBox', () => {
     });
   });
 
+  //TODO: Remove this test in 5.0, while removing comboBoxAllowValueChangeInEditingState feature flag, because it tests old behavior
   describe('keep edited input text when value changes', () => {
     const value = { value: 1, label: 'one' };
 
@@ -1338,6 +1341,56 @@ describe('ComboBox', () => {
     await delay(0);
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+
+  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
+    const initialValue = testValues[0];
+    const expectedValue = testValues[1];
+
+    const getItems = jest.fn((searchQuery) =>
+      Promise.resolve(testValues.filter((value) => value.label.includes(searchQuery))),
+    );
+
+    const TestComponent = ({ initValue, testValue }: { initValue?: ComboBoxItem; testValue?: ComboBoxItem }) => {
+      const [selected, setSelected] = React.useState(initValue);
+
+      const handleValueChange = () => {
+        setSelected(expectedValue);
+      };
+
+      return (
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+          <button onClick={handleValueChange}>Обновить</button>
+          <ComboBox
+            ref={comboboxRef}
+            value={testValue ?? selected}
+            getItems={getItems}
+            onValueChange={(value) => setSelected(value)}
+          />
+        </ReactUIFeatureFlagsContext.Provider>
+      );
+    };
+
+    it('should allow value change in editing state', async () => {
+      render(<TestComponent initValue={initialValue} />);
+      comboboxRef.current?.focus();
+      expect(screen.getByRole('textbox')).toHaveValue(initialValue.label);
+      userEvent.clear(screen.getByRole('textbox'));
+
+      expect(await screen.findByRole('textbox')).toHaveValue('');
+      userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
+      expect(await screen.findByRole('textbox')).toHaveValue(expectedValue.label);
+    });
+
+    it('should correctly render new value while in editing mode', async () => {
+      const { rerender } = render(<TestComponent testValue={testValues[0]} />);
+      comboboxRef.current?.focus();
+      expect(await screen.findAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
+      rerender(<TestComponent testValue={testValues[1]} />);
+
+      expect(await screen.findByRole('textbox')).toHaveValue(testValues[1].label);
+      expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
+    });
   });
 });
 

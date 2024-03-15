@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.0-next.0...@skbkontur/react-ui@4.21.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* **Button:** add variables for hover text color ([#3365](https://github.com/skbkontur/retail-ui/issues/3365)) ([c2ff765](https://github.com/skbkontur/retail-ui/commit/c2ff765ed47b0b11dd08aa5da58aaf90d0d4d383))
+* **Button, Link:** add rightIcon prop ([#3317](https://github.com/skbkontur/retail-ui/issues/3317)) ([83527fc](https://github.com/skbkontur/retail-ui/commit/83527fcfd1e5ef41990e7577a17612f1a4c4f4ac))
+* **ComboBox:** allow to change value in editing state ([#3340](https://github.com/skbkontur/retail-ui/issues/3340)) ([caa4bef](https://github.com/skbkontur/retail-ui/commit/caa4beff7e1fefb9a64984ca8f58524b5d3aa8fc))
+
+
+
+
+
+# [4.21.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.0-next.3...@skbkontur/react-ui@4.21.0) (2024-02-21)
+
+
+### Features
+
+* **MuskedInput:** add MaskedInput component ([#3341](https://github.com/skbkontur/retail-ui/issues/3341)) ([4343d51](https://github.com/skbkontur/retail-ui/commit/223aa724d3497ae53d62ea8a86578c3564343d51))
+
+
+
+
+
+## [4.20.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.2...@skbkontur/react-ui@4.20.3) (2024-02-21)
+
+
+### Bug Fixes
+
+* **Token:** prevent focus on cross ([#3361](https://github.com/skbkontur/retail-ui/issues/3361)) ([757899c](https://github.com/skbkontur/retail-ui/commit/757899c17a1f5e040848ecd25a0eaf98ebe8e9e4))
+
+
+
+
+
 ## [4.20.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.20.1...@skbkontur/react-ui@4.20.2) (2024-02-19)
 
 
