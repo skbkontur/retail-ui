@@ -69,6 +69,7 @@ export const buttonHoverMixin = ({
   btnBackgroundStart,
   btnBackgroundEnd,
   borderColor,
+  color,
   borderBottomColor,
   borderWidth,
 }: Record<string, string>) => {
@@ -77,6 +78,7 @@ export const buttonHoverMixin = ({
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    color: ${color};
 
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 ${borderColor};

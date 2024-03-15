@@ -1,5 +1,3 @@
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -28,7 +26,6 @@ export const globalClasses = prefix('button')({
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    // ! DONE
     return css`
       ${resetButton()};
       ${resetText()};
@@ -547,6 +544,7 @@ export const styles = memoizeStyle({
           btnBackground: t.btnDefaultHoverBg,
           btnBackgroundStart: t.btnDefaultHoverBgStart,
           btnBackgroundEnd: t.btnDefaultHoverBgEnd,
+          color: t.btnDefaultHoverTextColor,
           borderColor: t.btnDefaultHoverBorderColor,
           borderBottomColor: t.btnDefaultHoverBorderBottomColor,
           borderWidth: t.btnBorderWidth,
@@ -576,6 +574,7 @@ export const styles = memoizeStyle({
           btnBackground: t.btnPrimaryHoverBg,
           btnBackgroundStart: t.btnPrimaryHoverBgStart,
           btnBackgroundEnd: t.btnPrimaryHoverBgEnd,
+          color: t.btnPrimaryHoverTextColor,
           borderColor: t.btnPrimaryHoverBorderColor,
           borderBottomColor: t.btnPrimaryHoverBorderBottomColor,
           borderWidth: t.btnBorderWidth,
@@ -606,6 +605,7 @@ export const styles = memoizeStyle({
           btnBackgroundStart: t.btnSuccessHoverBgStart,
           btnBackgroundEnd: t.btnSuccessHoverBgEnd,
           borderColor: t.btnSuccessHoverBorderColor,
+          color: t.btnSuccessHoverTextColor,
           borderBottomColor: t.btnSuccessHoverBorderBottomColor,
           borderWidth: t.btnBorderWidth,
         })};
@@ -634,6 +634,7 @@ export const styles = memoizeStyle({
           btnBackground: t.btnDangerHoverBg,
           btnBackgroundStart: t.btnDangerHoverBgStart,
           btnBackgroundEnd: t.btnDangerHoverBgEnd,
+          color: t.btnDangerHoverTextColor,
           borderColor: t.btnDangerHoverBorderColor,
           borderBottomColor: t.btnDangerHoverBorderBottomColor,
           borderWidth: t.btnBorderWidth,
@@ -663,6 +664,7 @@ export const styles = memoizeStyle({
           btnBackground: t.btnPayHoverBg,
           btnBackgroundStart: t.btnPayHoverBgStart,
           btnBackgroundEnd: t.btnPayHoverBgEnd,
+          color: t.btnPayHoverTextColor,
           borderColor: t.btnPayHoverBorderColor,
           borderBottomColor: t.btnPayHoverBorderBottomColor,
           borderWidth: t.btnBorderWidth,
@@ -696,6 +698,7 @@ export const styles = memoizeStyle({
       &:hover:enabled {
         ${buttonHoverMixin({
           btnBackground: t.btnTextHoverBg,
+          color: t.btnTextHoverTextColor,
           borderColor: t.btnTextHoverBorderColor,
           borderWidth: t.btnBorderWidth,
         })};
@@ -722,6 +725,7 @@ export const styles = memoizeStyle({
       &:hover:enabled {
         ${buttonHoverMixin({
           btnBackground: t.btnBacklessHoverBg,
+          color: t.btnBacklessHoverTextColor,
           borderColor: t.btnBacklessHoverBorderColor,
           borderWidth: t.btnBorderWidth,
         })};
@@ -917,18 +921,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconNoRightMargin() {
-    return css`
-      margin-right: 0;
-    `;
-  },
-
-  iconLink(t: Theme) {
-    return css`
-      margin-right: ${t.btnLinkIconMarginRight};
-    `;
-  },
-
   wrapLink() {
     return css`
       padding: 0;
@@ -945,35 +937,6 @@ export const styles = memoizeStyle({
     return css`
       margin-right: 0;
       margin-left: 10px;
-    `;
-  },
-
-  icon(t: Theme) {
-    const space = isTheme2022(t) ? `'${ZERO_WIDTH_SPACE_CSS}'` : null;
-    return css`
-      display: inline-block;
-
-      &::before {
-        content: ${space};
-      }
-    `;
-  },
-  iconSmall(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeSmall};
-      margin-right: ${t.btnIconGapSmall};
-    `;
-  },
-  iconMedium(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeMedium};
-      margin-right: ${t.btnIconGapMedium};
-    `;
-  },
-  iconLarge(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeLarge};
-      margin-right: ${t.btnIconGapLarge};
     `;
   },
 

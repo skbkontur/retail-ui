@@ -11,7 +11,7 @@ export default {
 const validation: ValidationInfo = { message: 'Error', type: 'immediate', level: 'error', independent: true };
 
 export const Default = () => (
-  <ValidationContainer>
+  <ValidationContainer data-tid="TestTid">
     <Gapped vertical gap={20}>
       <ValidationWrapper validationInfo={validation}>
         <div>Tooltip</div>

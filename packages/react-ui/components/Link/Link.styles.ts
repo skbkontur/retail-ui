@@ -235,10 +235,21 @@ export const styles = memoizeStyle({
     `;
   },
 
-  icon(t: Theme) {
+  icon() {
     return css`
       display: inline-block;
+    `;
+  },
+
+  iconLeft(t: Theme) {
+    return css`
       margin-right: ${t.linkIconMarginRight};
+    `;
+  },
+
+  iconRight(t: Theme) {
+    return css`
+      margin-left: ${t.linkIconMarginLeft};
     `;
   },
 });

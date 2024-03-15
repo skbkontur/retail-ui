@@ -1,9 +1,29 @@
 import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 import React from 'react';
+import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { Story } from '../../../typings/stories';
+import { CreeveyTests, Story } from '../../../typings/stories';
 import { Link, LinkProps } from '../Link';
+import { Gapped } from '../../../components/Gapped';
+
+const linkTests: CreeveyTests = {
+  async idle() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  },
+  async hover() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: 'a' }),
+      })
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+  },
+};
 
 export default {
   title: 'Link',
@@ -25,6 +45,46 @@ export const Use: Story = () => (
   <ComponentTable rows={getUseStates()} cols={useDifferentStates.map((x) => ({ props: x }))}>
     <Link>Link</Link>
   </ComponentTable>
+);
+
+export const WithIcon: Story = () => {
+  return (
+    <Gapped vertical>
+      <Gapped gap={20}>
+        <Link icon={<CheckAIcon16Light />}>Left Icon Link</Link>
+        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+          Both Icons Link
+        </Link>
+        <Link rightIcon={<CheckAIcon16Light />}>Right Icon Link</Link>
+      </Gapped>
+      <Gapped gap={20}>
+        <Link loading icon={<CheckAIcon16Light />}>
+          Left Icon Link
+        </Link>
+        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+          Both Icons Link
+        </Link>
+        <Link loading rightIcon={<CheckAIcon16Light />}>
+          Right Icon Link
+        </Link>
+      </Gapped>
+    </Gapped>
+  );
+};
+WithIcon.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: {
+      // TODO @Khlutkova fix after update browsers
+      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    },
+  },
+};
+
+export const Danger: Story = () => (
+  <Link icon={<OkIcon />} use="danger">
+    Simple Link
+  </Link>
 );
 
 const useDifferentStates: LinkState[] = [{}, { disabled: true }, { loading: true }];
