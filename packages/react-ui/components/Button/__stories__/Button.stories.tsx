@@ -243,12 +243,9 @@ const iconDifferentStates: ButtonState[] = [
 ];
 
 export const RightIcon: Story = (_, { globals: { theme } }) => (
-  <ComponentTable
-    Component={Button}
-    cols={getButtonUseStates(theme)}
-    rows={rightIconDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
+  <ComponentTable cols={getButtonUseStates(theme)} rows={rightIconDifferentStates.map((x) => ({ props: x }))}>
+    <Button />
+  </ComponentTable>
 );
 const rightIconDifferentStates: ButtonState[] = [
   { rightIcon: <CheckAIcon16Light /> },
@@ -262,12 +259,9 @@ const rightIconDifferentStates: ButtonState[] = [
 ];
 
 export const BothIcons: Story = (_, { globals: { theme } }) => (
-  <ComponentTable
-    Component={Button}
-    cols={getButtonUseStates(theme)}
-    rows={bothIconsDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
+  <ComponentTable cols={getButtonUseStates(theme)} rows={bothIconsDifferentStates.map((x) => ({ props: x }))}>
+    <Button />
+  </ComponentTable>
 );
 const bothIconsDifferentStates: ButtonState[] = [
   { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
