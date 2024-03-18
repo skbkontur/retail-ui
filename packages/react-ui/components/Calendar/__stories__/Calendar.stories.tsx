@@ -2,7 +2,6 @@ import React, { CSSProperties, useState } from 'react';
 import MagicWand from '@skbkontur/react-icons/MagicWand';
 
 import { delay } from '../../../lib/utils';
-import { CalendarDateShape } from '../CalendarDateShape';
 import { Calendar } from '../Calendar';
 import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
@@ -27,10 +26,11 @@ CalendarWithBottomSeparator.parameters = {
   },
 };
 
-const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
+const CustomDayItem: React.FC<{ date: string }> = ({ date }) => {
   const isEven = (num: number): boolean => num % 2 === 0;
+  const [day] = date.split('.').map(Number);
 
-  return <div>{isEven(date.date) ? <MagicWand /> : date.date}</div>;
+  return <div>{isEven(day) ? <MagicWand /> : day}</div>;
 };
 
 export const CalendarWithCustomDates: Story = () => {
@@ -65,9 +65,10 @@ CalendarWithCustomCellSize.parameters = {
   },
 };
 
-const CustomDay: React.FC<{ date: CalendarDateShape }> = ({ date }) => {
-  const isCustomDate = date.date === 2 && date.month === 0 && date.year === 2018;
-  return isCustomDate ? <div data-tid="CustomDayItem">{date.date}</div> : <div>{date.date}</div>;
+const CustomDay: React.FC<{ date: string }> = ({ date }) => {
+  const [day, month, year] = date.split('.').map(Number);
+  const isCustomDate = day === 2 && month === 1 && year === 2018;
+  return isCustomDate ? <div data-tid="CustomDayItem">{day}</div> : <div>{day}</div>;
 };
 
 export const CalendarWithMonthChangeHandle: Story = () => {

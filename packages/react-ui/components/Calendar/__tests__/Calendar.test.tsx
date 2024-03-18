@@ -7,7 +7,7 @@ import { componentsLocales as DateSelectLocalesEn } from '../../../internal/Date
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { Calendar } from '../Calendar';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { CalendarDataTids, CalendarDateShape } from '..';
+import { CalendarDataTids } from '..';
 import { CalendarLocaleHelper } from '../locale';
 
 describe('Calendar', () => {
@@ -48,14 +48,14 @@ describe('Calendar', () => {
   });
 
   it('renders day cells with renderDay prop', async () => {
-    const CustomDayItem: React.FC<{ date: CalendarDateShape }> = ({ date }) => (
-      <span data-tid="customDayItem">{date.date === 1 ? 'Custom' : date.date}</span>
+    const CustomDayItem: React.FC<{ date: string }> = ({ date }) => (
+      <span data-tid="customDayItem">{date === '02.07.2017' ? 'Custom' : date}</span>
     );
     render(
       <Calendar
         value="02.07.2017"
         onValueChange={jest.fn()}
-        renderDay={(date: CalendarDateShape): React.ReactNode => <CustomDayItem date={date} />}
+        renderDay={(date: string): React.ReactNode => <CustomDayItem date={date} />}
       />,
     );
 

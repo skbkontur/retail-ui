@@ -110,12 +110,13 @@ import MagicWand from '@skbkontur/react-icons/MagicWand';
 
 const [value, setValue] = React.useState('12.05.2022');
 
-const CustomDayItem = ({ date }) => {
+const CustomDayItem = (date ) => {
+  const [day, month, year] = date.split('.').map(Number);
   const isEven = (num) => num % 2 === 0;
 
   return (
     <div>
-      {isEven(date.date) ? <MagicWand /> : date.date}
+      {isEven(day) ? <MagicWand /> : date}
     </div>
   );
 };

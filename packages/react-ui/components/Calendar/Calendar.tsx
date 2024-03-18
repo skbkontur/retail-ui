@@ -72,11 +72,11 @@ export interface CalendarProps extends CommonProps {
   /**
    * Метод отрисовки дат в календаре
    * @default (date) => date.date as number
-   * @param {CalendarDateShape} date - дата в формате `{ year: number; month: number; date: number; }`
+   * @param {string} date - дата в формате `dd.mm.yyyy`
    *
    * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
    */
-  renderDay?: (date: CalendarDateShape) => React.ReactNode;
+  renderDay?: (date: string) => React.ReactNode;
 
   /**
    * Вызывается при каждом изменении месяца
@@ -369,10 +369,21 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         onDateClick={this.handleDateChange}
         onMonthYearChange={this.handleMonthYearChange}
         isHoliday={this.isHoliday}
-        renderDay={this.props.renderDay}
+        renderDay={this.renderDay}
       />
     );
   }
+
+  private renderDay = ({ date, month, year }: CalendarDateShape): React.ReactNode => {
+    const dateString = InternalDateTransformer.dateToInternalString({
+      date,
+      month: CalendarUtils.getMonthInHumanFormat(month),
+      year,
+    });
+    const { renderDay } = this.getProps();
+
+    return renderDay ? renderDay(dateString) : date;
+  };
 
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({
