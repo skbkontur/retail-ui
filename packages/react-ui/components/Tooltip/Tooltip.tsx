@@ -164,18 +164,18 @@ export const TooltipDataTids = {
  * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
  */
 const Positions: PopupPositionsType[] = [
-  'right bottom',
-  'right middle',
-  'right top',
-  'top right',
   'top center',
   'top left',
-  'left top',
-  'left middle',
-  'left bottom',
-  'bottom left',
+  'top right',
   'bottom center',
+  'bottom left',
   'bottom right',
+  'left middle',
+  'left top',
+  'left bottom',
+  'right middle',
+  'right top',
+  'right bottom',
 ];
 
 type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>>;
