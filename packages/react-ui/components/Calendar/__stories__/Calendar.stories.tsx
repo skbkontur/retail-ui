@@ -1,5 +1,4 @@
 import React, { CSSProperties, useState } from 'react';
-import MagicWand from '@skbkontur/react-icons/MagicWand';
 
 import { delay } from '../../../lib/utils';
 import { Calendar } from '../Calendar';
@@ -30,7 +29,7 @@ const CustomDayItem: React.FC<{ date: string }> = ({ date }) => {
   const isEven = (num: number): boolean => num % 2 === 0;
   const [day] = date.split('.').map(Number);
 
-  return <div>{isEven(day) ? <MagicWand /> : day}</div>;
+  return <div>{isEven(day) ? '#' : day}</div>;
 };
 
 export const CalendarWithCustomDates: Story = () => {
