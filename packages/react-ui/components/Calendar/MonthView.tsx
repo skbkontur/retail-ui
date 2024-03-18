@@ -4,7 +4,6 @@ import { DateSelect } from '../../internal/DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { cx } from '../../lib/theming/Emotion';
-import { usePrevious } from '../../hooks/usePrevious';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { Nullable } from '../..//typings/utility-types';
 
@@ -12,7 +11,6 @@ import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 import { CalendarDataTids } from './Calendar';
-import { CalendarContext } from './CalendarContext';
 
 export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShape>) => {
   let min = 0;
@@ -42,6 +40,8 @@ interface MonthViewProps {
   height: number;
   isFirstInYear?: boolean;
   isLastInYear?: boolean;
+  maxDate?: CDS.CalendarDateShape;
+  minDate?: CDS.CalendarDateShape;
   month: number;
   top: number;
   year: number;
@@ -53,7 +53,6 @@ interface MonthViewProps {
 
 export function MonthView(props: MonthViewProps) {
   const theme = useContext(ThemeContext);
-  const { minDate, maxDate, onStuckMonth } = useContext(CalendarContext);
   const { isMobile } = useResponsiveLayout();
 
   const {
@@ -61,6 +60,8 @@ export function MonthView(props: MonthViewProps) {
     height,
     isFirstInYear,
     isLastInYear,
+    maxDate,
+    minDate,
     month,
     top,
     year,
@@ -79,16 +80,6 @@ export function MonthView(props: MonthViewProps) {
   const yearTop = isHeaderSticky && !isLastInYear ? -headerTop - top : 0;
   const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
   const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
-  const prevMonthSelectDisabled = usePrevious(monthSelectDisabled);
-
-  const monthInfo = {
-    month: month + 1,
-    year,
-  };
-
-  if (onStuckMonth && prevMonthSelectDisabled && !monthSelectDisabled) {
-    onStuckMonth(monthInfo);
-  }
 
   return (
     <div

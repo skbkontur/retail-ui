@@ -7,49 +7,38 @@ export const globalClasses = prefix('day-cell-view')({
 });
 
 export const styles = memoizeStyle({
-  cell(t: Theme) {
+  baseCell(t: Theme) {
+    return css`
+      flex: 1 1 ${t.calendarCellWidth};
+      height: ${t.calendarCellHeight};
+    `;
+  },
+  dayCell(t: Theme) {
     return css`
       ${resetButton()};
 
       background: ${t.calendarCellBg};
-      display: inline-block;
+      border: 1px solid transparent;
       font-size: ${t.calendarCellFontSize};
       padding: 0;
       text-align: center;
       user-select: none;
       position: relative;
-      cursor: pointer;
-      width: ${t.calendarCellWidth};
-      height: ${t.calendarCellHeight};
       line-height: ${t.calendarCellLineHeight};
-      flex: 1 1;
+      border-radius: ${t.calendarCellBorderRadius};
 
+      &:hover {
+        background-color: ${t.calendarCellHoverBgColor};
+        color: ${t.calendarCellHoverColor};
+        cursor: pointer;
+      }
       &:disabled {
         opacity: 0.5;
         pointer-events: none;
       }
-
-      > * {
-        pointer-events: none;
-      }
-    `;
-  },
-
-  element(t: Theme) {
-    return css`
-      border-radius: ${t.calendarCellBorderRadius};
-      border: 1px solid transparent;
-
       &:active:hover:enabled {
         color: ${t.calendarCellActiveHoverColor};
       }
-    `;
-  },
-
-  elementHover(t: Theme) {
-    return css`
-      background-color: ${t.calendarCellHoverBgColor};
-      color: ${t.calendarCellHoverColor};
     `;
   },
 
@@ -57,26 +46,6 @@ export const styles = memoizeStyle({
     return css`
       background-color: ${t.calendarCellSelectedBgColor};
       color: ${t.calendarCellSelectedFontColor};
-    `;
-  },
-
-  period(t: Theme) {
-    return css`
-      background-color: ${t.calendarCellSelectedBgColor};
-    `;
-  },
-
-  periodStart() {
-    return css`
-      border-top-left-radius: 50%;
-      border-bottom-left-radius: 50%;
-    `;
-  },
-
-  periodEnd() {
-    return css`
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
     `;
   },
 
