@@ -190,6 +190,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (prevProps.checked !== this.props.checked) {
       this.resetIndeterminate();
     }
+    if (prevProps.disabled !== this.props.disabled) {
+      this.setState({ focusedByTab: false });
+    }
   }
 
   public render() {

@@ -22,6 +22,12 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
 
   private input: Nullable<HTMLInputElement>;
 
+  public componentDidUpdate(prevProps: Readonly<NativeDateInputProps>) {
+    if (prevProps.disabled !== this.props.disabled) {
+      this.setState({ focusByTab: false });
+    }
+  }
+
   public render() {
     return (
       <input

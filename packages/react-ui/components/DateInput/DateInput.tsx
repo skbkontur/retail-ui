@@ -147,6 +147,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.updateFromProps(false);
     }
     this.selectNode();
+    if (prevProps.disabled !== this.props.disabled) {
+      this.setState({ focused: false });
+    }
   }
 
   public selectNode = () => {

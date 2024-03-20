@@ -290,6 +290,10 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);
   }, [isMinLengthReached, hasOneFileForSingle]);
 
+  useEffect(() => {
+    setFocusedByTab(false);
+  }, [disabled]);
+
   const rootNodeRef = useRef(null);
 
   const iconSizes: Record<SizeProp, number> = {
