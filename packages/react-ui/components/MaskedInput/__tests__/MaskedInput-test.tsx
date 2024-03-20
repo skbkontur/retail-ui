@@ -124,6 +124,6 @@ describe('MaskedInput', () => {
     const input = screen.getByRole('textbox');
     fireEvent.input(input, { target: { value: 'A' } });
 
-    expect(handleUnexpectedInput).not.toHaveBeenCalled();
+    expect(handleUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 });

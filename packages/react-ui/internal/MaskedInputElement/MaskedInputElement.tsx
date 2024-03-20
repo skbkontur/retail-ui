@@ -1,4 +1,5 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { InputMask } from 'imask';
 import { IMaskInput, IMask } from 'react-imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -35,8 +36,9 @@ export const MaskedInputElement = forwardRefAndName(
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const rootNodeRef = React.useRef<HTMLDivElement>(null);
+    const maskRef = useRef<{ maskRef: InputMask }>(null);
     const theme = useContext(ThemeContext);
-    const expectedChangesRef = useRef(false);
+    const prevUnmaskedValue = useRef('');
     const isFirstRender = useRef(true);
 
     useImperativeHandle(
@@ -106,6 +108,7 @@ export const MaskedInputElement = forwardRefAndName(
           onBlur={handleBlur}
           value={currentValue}
           inputRef={inputRef}
+          ref={maskRef}
           style={{ ...style }}
         />
         {isMaskVisible && (
@@ -123,39 +126,27 @@ export const MaskedInputElement = forwardRefAndName(
 
     /** В imask вызывается только когда значение с маской меняется*/
     function handleAccept(value: string) {
-      expectedChangesRef.current = true;
-      // Если разделить на 2 setState - между первым и вторым происходит рендер и иногда символы "съедаются"
       setValues({ value, originValue: value });
-
-      setTimeout(() => {
-        /** При вводе с клавиатуры срабатывает handleAccept, за ним handleInput
-         * expectedChanges - нужен чтобы сообщить из handleAccept в handleInput, что значение с маской изменилось.
-         * Если маска не изменилась и сработал handleInput, вызываем handleUnexpectedInput. Ввели значение не по маске.
-         * setTimeout нужен чтобы сбросить expectedChanges, например, если изменилось значение в пропах.
-         * Маска изменится, вызовется handleAccept, но не handleInput
-         */
-        expectedChangesRef.current = false;
-      });
     }
 
     /** Отслеживаем неправильные нажатия,
      * handleAccept не вызывается когда значение с маской не меняется, а handleInput вызывается
      * Сначала вызывается handleAccept, затем handleInput
      * */
-    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      const value = e.target.value;
+    function handleInput() {
+      if (maskRef.current) {
+        const { unmaskedValue } = maskRef.current.maskRef;
 
-      if (!expectedChangesRef.current && value === originValue) {
-        handleUnexpectedInput();
+        if (prevUnmaskedValue.current === unmaskedValue) {
+          handleUnexpectedInput();
+        }
+
+        prevUnmaskedValue.current = unmaskedValue;
       }
-
-      expectedChangesRef.current = false;
     }
 
     function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
       setFocused(true);
-
-      expectedChangesRef.current = false;
 
       if (props.onFocus) {
         props.onFocus(event);
