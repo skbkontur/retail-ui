@@ -158,6 +158,12 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
+  public componentDidUpdate(prevProps: Readonly<ToggleProps>) {
+    if (prevProps.disabled !== this.props.disabled) {
+      this.setState({ focusByTab: false });
+    }
+  }
+
   /**
    * @public
    */

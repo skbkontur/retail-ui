@@ -210,6 +210,9 @@ export class Input extends React.Component<InputProps, InputState> {
     if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
       this.outputMaskError();
     }
+    if (prevProps.disabled !== this.props.disabled) {
+      this.setState({ focused: false });
+    }
   }
 
   public componentWillUnmount() {

@@ -20,6 +20,12 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
   public static __KONTUR_REACT_UI__ = 'NativeDatePicker';
   private input: Nullable<HTMLInputElement>;
 
+  public componentDidUpdate(prevProps: Readonly<NativeDateInputProps>) {
+    if (prevProps.disabled !== this.props.disabled) {
+      this.setState({ focusByTab: false });
+    }
+  }
+
   public render() {
     return (
       <input
