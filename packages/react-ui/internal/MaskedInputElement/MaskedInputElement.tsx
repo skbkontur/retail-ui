@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { ForwardedRef, useContext, useImperativeHandle, useRef, useState } from 'react';
 import { InputMask } from 'imask';
 import { IMaskInput } from 'react-imask';
 
@@ -9,7 +9,7 @@ import { InputElement, InputElementProps, InputProps } from '../../components/In
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './MaskedInputElement.styles';
-import { getDefinitions, getMaskChar, getMaskedPattern, getMaskedShadows } from './MaskedInputElement.helpers';
+import { getDefinitions, getMaskChar } from './MaskedInputElement.helpers';
 
 export interface MaskedInputElementProps
   extends InputElementProps,
@@ -18,7 +18,11 @@ export interface MaskedInputElementProps
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
+  imaskRef: React.RefObject<{ maskRef: InputMask }>;
+  maskedShadows: MaskedShadow;
 }
+
+export type MaskedShadow = [string, string];
 
 export const MaskedInputElementDataTids = {
   root: 'MaskedInput__root',
@@ -29,9 +33,7 @@ export const MaskedInputElement = forwardRefAndName(
   function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const rootNodeRef = React.useRef<HTMLDivElement>(null);
-    const maskRef = useRef<{ maskRef: InputMask }>(null);
     const [focused, setFocused] = useState(false);
-    const [helpers, setHelpers] = useState(['', '']);
     const theme = useContext(ThemeContext);
     const prevUnmaskedValue = useRef('');
 
@@ -45,6 +47,8 @@ export const MaskedInputElement = forwardRefAndName(
       onValueChange,
       defaultValue,
       style,
+      imaskRef,
+      maskedShadows,
       ...inputProps
     } = props;
 
@@ -57,14 +61,8 @@ export const MaskedInputElement = forwardRefAndName(
       [],
     );
 
-    useEffect(() => {
-      if (props.alwaysShowMask || focused) {
-        setHelpers(getMaskedShadows(getMaskedPattern(maskRef)));
-      }
-    }, [focused, props.value]);
-
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
-    const [left, right] = helpers;
+    const [left, right] = maskedShadows;
 
     /**
      * В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обратной совместимости.
@@ -93,7 +91,7 @@ export const MaskedInputElement = forwardRefAndName(
           onBlur={handleBlur}
           value={getValue()}
           inputRef={inputRef}
-          ref={maskRef}
+          ref={imaskRef}
           placeholderChar={getMaskChar(props.maskChar)}
           style={{ ...style }}
         />
@@ -120,8 +118,8 @@ export const MaskedInputElement = forwardRefAndName(
      * Сначала вызывается handleAccept, затем handleInput
      * */
     function handleInput() {
-      if (maskRef.current) {
-        const { unmaskedValue } = maskRef.current.maskRef;
+      if (imaskRef.current) {
+        const { unmaskedValue } = imaskRef.current.maskRef;
 
         if (prevUnmaskedValue.current === unmaskedValue) {
           onUnexpectedInput?.(unmaskedValue);

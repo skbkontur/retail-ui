@@ -1,9 +1,11 @@
-import React, { Ref, useImperativeHandle, useRef, useState } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import { InputMask } from 'imask';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
-import { MaskedInputElement } from '../../internal/MaskedInputElement';
+import { MaskedInputElement, MaskedShadow } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { getMaskedPattern, getMaskedShadows } from '../../internal/MaskedInputElement/MaskedInputElement.helpers';
 
 export interface MaskedProps {
   /** Паттерн маски */
@@ -33,9 +35,19 @@ export const MaskedInput = forwardRefAndName(
   'MaskedInput',
   function MaskedInput(props: MaskedInputProps, ref: Ref<Input | null>) {
     const { mask = '', maskChar, formatChars, alwaysShowMask, placeholder, onValueChange, ...inputProps } = props;
-    const [focused, setFocused] = useState(false);
-    const showPlaceholder = !(alwaysShowMask || focused);
+
     const innerRef = useRef<Input>(null);
+    const imaskRef = useRef<{ maskRef: InputMask }>(null);
+
+    const [focused, setFocused] = useState(false);
+    const [maskedShadows, setMaskedShadows] = useState<MaskedShadow>(['', '']);
+    const showPlaceholder = !(alwaysShowMask || focused);
+
+    useEffect(() => {
+      if (alwaysShowMask || focused) {
+        setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef)));
+      }
+    }, [focused, props.value]);
 
     useImperativeHandle(ref, () => innerRef.current);
 
@@ -54,6 +66,8 @@ export const MaskedInput = forwardRefAndName(
             alwaysShowMask={alwaysShowMask}
             onUnexpectedInput={handleUnexpectedInput}
             onValueChange={onValueChange}
+            maskedShadows={maskedShadows}
+            imaskRef={imaskRef}
           />
         }
       />
