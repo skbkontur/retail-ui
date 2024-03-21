@@ -7,6 +7,7 @@ export interface ReactUIFeatureFlags {
   menuItemsAtAnyLevel?: boolean;
   textareaUseSafari17Workaround?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
+  hintAddDynamicPositioning?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -16,6 +17,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   menuItemsAtAnyLevel: false,
   textareaUseSafari17Workaround: false,
   comboBoxAllowValueChangeInEditingState: false,
+  hintAddDynamicPositioning: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.1...@skbkontur/react-ui@4.21.2) (2024-03-13)
+
+
+### Bug Fixes
+
+* **DatePicker:** prop 'width' is not required ([#3374](https://github.com/skbkontur/retail-ui/issues/3374)) ([becfa87](https://github.com/skbkontur/retail-ui/commit/becfa8712fc648ee216ad22fdd46466c435627cf))
+
+
+
+
+
 ## [4.21.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.0-next.0...@skbkontur/react-ui@4.21.1) (2024-03-12)
 
 

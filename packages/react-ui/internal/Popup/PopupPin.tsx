@@ -56,7 +56,7 @@ export class PopupPin extends React.Component<Props> {
     popupElement: PropTypes.any,
 
     /**
-     * Позиция поапа, по которой будет вычеслено положение пина
+     * Позиция попапа, по которой будет вычислено положение пина
      */
     popupPosition: PropTypes.string,
 
