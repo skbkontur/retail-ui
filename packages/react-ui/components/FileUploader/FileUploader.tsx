@@ -291,7 +291,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
   useEffect(() => {
-    if (!disabled) {
+    if (focusedByTab) {
       setFocusedByTab(false);
     }
   }, [disabled]);
