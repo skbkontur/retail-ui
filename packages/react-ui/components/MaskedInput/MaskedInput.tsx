@@ -30,6 +30,10 @@ export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'pas
 
 export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' | 'maxLength' | 'type'> {
   type?: MaskInputType;
+  /**
+   * Пропы для компонента `IMaskInput`
+   * @see https://imask.js.org/guide.html
+   */
   imaskProps?: MaskedPatternOptions;
 }
 
@@ -57,6 +61,7 @@ export const MaskedInput = forwardRefAndName(
     const imaskRef = useRef<{ maskRef: InputMask }>(null);
     const nativeInputRef = useRef<HTMLInputElement | null>(null);
 
+    const [value, setValue] = useState(props.value || '');
     const [focused, setFocused] = useState(false);
     const [maskedShadows, setMaskedShadows] = useState<MaskedShadows>(['', '']);
     const prevValue = useRef('');
@@ -65,9 +70,9 @@ export const MaskedInput = forwardRefAndName(
 
     useEffect(() => {
       if (alwaysShowMask || focused) {
-        setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, props.value)));
+        setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, value)));
       }
-    }, [focused, props.value]);
+    }, [focused, props.value, value]);
 
     useImperativeHandle(ref, () => inputRef.current, []);
 
@@ -87,6 +92,7 @@ export const MaskedInput = forwardRefAndName(
     );
 
     function handleAccept(value: string) {
+      setValue(value);
       onValueChange?.(value);
     }
 
