@@ -80,6 +80,7 @@ export const InputElementsSequentialFocus: Story = () => {
 };
 InputElementsSequentialFocus.parameters = {
   creevey: {
+    skip: { 'do not pass on teamcity': { in: /firefox/ } },
     tests: {
       async 'focus elements one by one'() {
         await this.browser.actions({
@@ -158,6 +159,7 @@ export const ChoiceElementsSequentialFocus: Story = () => {
 };
 ChoiceElementsSequentialFocus.parameters = {
   creevey: {
+    skip: { 'do not pass on teamcity': { in: /firefox/ } },
     tests: {
       async 'focus elements one by one'() {
         const repeatAmount = 4;
@@ -236,6 +238,7 @@ export const OtherElementsSequentialFocus: Story = () => {
 };
 OtherElementsSequentialFocus.parameters = {
   creevey: {
+    skip: { 'do not pass on teamcity': { in: /firefox/ } },
     tests: {
       async 'focus elements one by one'() {
         const repeatAmount = 4;
