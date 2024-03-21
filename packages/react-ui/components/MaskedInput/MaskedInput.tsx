@@ -3,11 +3,10 @@ import { InputMask } from 'imask';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
-import { MaskedInputElement, MaskedShadow } from '../../internal/MaskedInputElement';
+import { MaskedInputElement, MaskedShadows } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import {
-  getDefinitions,
-  getMaskChar,
+  convertMaskedPropsToIMaskProps,
   getMaskedPattern,
   getMaskedShadows,
 } from '../../internal/MaskedInputElement/MaskedInputElement.helpers';
@@ -54,7 +53,7 @@ export const MaskedInput = forwardRefAndName(
     const imaskRef = useRef<{ maskRef: InputMask }>(null);
 
     const [focused, setFocused] = useState(false);
-    const [maskedShadows, setMaskedShadows] = useState<MaskedShadow>(['', '']);
+    const [maskedShadows, setMaskedShadows] = useState<MaskedShadows>(['', '']);
     const prevUnmaskedValue = useRef('');
 
     const showPlaceholder = !(alwaysShowMask || focused);
@@ -77,8 +76,7 @@ export const MaskedInput = forwardRefAndName(
         element={
           <MaskedInputElement
             mask={mask}
-            placeholderChar={getMaskChar(maskChar)}
-            definitions={getDefinitions(formatChars)}
+            {...convertMaskedPropsToIMaskProps(props)}
             onAccept={handleAccept}
             onInput={handleInput}
             maskedShadows={alwaysShowMask || focused ? maskedShadows : null}
@@ -92,7 +90,7 @@ export const MaskedInput = forwardRefAndName(
       onValueChange?.(value);
     }
 
-    // Отслеживаем неправильные нажатия
+    // Отслеживаем неожиданные нажатия
     // handleAccept не вызывается когда значение с маской не меняется
     // Сначала вызывается handleAccept, затем handleInput
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {

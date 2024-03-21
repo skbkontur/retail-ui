@@ -13,10 +13,10 @@ import { styles } from './MaskedInputElement.styles';
 export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
   InputElementProps & {
     imaskRef: React.RefObject<{ maskRef: InputMask }>;
-    maskedShadows: MaskedShadow | null;
+    maskedShadows: MaskedShadows | null;
   };
 
-export type MaskedShadow = [string, string];
+export type MaskedShadows = [string, string];
 
 export const MaskedInputElementDataTids = {
   root: 'MaskedInput__root',
@@ -29,7 +29,7 @@ export const MaskedInputElement = forwardRefAndName(
     const rootNodeRef = React.useRef<HTMLDivElement>(null);
     const theme = useContext(ThemeContext);
 
-    const { maxLength, defaultValue, imaskRef, maskedShadows, ...inputProps } = props;
+    const { imaskRef, maskedShadows, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -47,17 +47,16 @@ export const MaskedInputElement = forwardRefAndName(
         className={styles.container()}
         x-ms-format-detection="none"
       >
-        <IMaskInput {...inputProps} eager overwrite={'shift'} value={getValue()} inputRef={inputRef} ref={imaskRef} />
+        <IMaskInput inputRef={inputRef} ref={imaskRef} {...inputProps} />
         {renderMaskedShadows()}
       </span>
     );
 
     function renderMaskedShadows() {
-      const isMaskVisible = maskedShadows;
-
       if (!maskedShadows) {
         return null;
       }
+
       const [left, right] = maskedShadows;
 
       // В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обратной совместимости.
@@ -68,17 +67,11 @@ export const MaskedInputElement = forwardRefAndName(
       const leftClass = props.style?.textAlign !== 'right' && styles.inputMaskLeft();
 
       return (
-        isMaskVisible && (
-          <span className={cx(styles.inputMask(theme), leftClass)}>
-            {leftHelper}
-            {rightHelper}
-          </span>
-        )
+        <span className={cx(styles.inputMask(theme), leftClass)}>
+          {leftHelper}
+          {rightHelper}
+        </span>
       );
-    }
-
-    function getValue(): string {
-      return (props.value ?? props.defaultValue ?? '').toString();
     }
   },
 );

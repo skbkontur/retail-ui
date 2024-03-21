@@ -1,7 +1,10 @@
 import React from 'react';
-import IMask, { InputMask } from 'imask';
+import IMask, { InputMask, MaskedPatternOptions } from 'imask';
 
 import { isNonNullable } from '../../lib/utils';
+import { MaskedInputProps } from '../../components/MaskedInput';
+
+import { MaskedShadows } from './MaskedInputElement';
 
 export const DEFAULT_MASK_CHAR = '_';
 export const DEFINITIONS = { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ };
@@ -28,6 +31,15 @@ export function getMaskChar(maskChar: string | null | undefined): string {
   return maskChar === undefined ? DEFAULT_MASK_CHAR : maskChar;
 }
 
+export function convertMaskedPropsToIMaskProps(props: MaskedInputProps): MaskedPatternOptions {
+  return {
+    placeholderChar: getMaskChar(props.maskChar),
+    definitions: getDefinitions(props.formatChars),
+    eager: true,
+    overwrite: 'shift',
+  };
+}
+
 export function getMaskedPattern(
   maskRef: React.RefObject<{ maskRef: InputMask }>,
 ): ReturnType<typeof IMask.createMask> | null {
@@ -52,13 +64,13 @@ export function getMaskedPattern(
 /**
  * Получить введенное значение и оставшуюся часть маски
  */
-export function getMaskedShadows(maskedPattern: ReturnType<typeof IMask.createMask> | null): [string, string] {
+export function getMaskedShadows(maskedPattern: ReturnType<typeof IMask.createMask> | null): MaskedShadows {
   if (!maskedPattern) {
     return ['', ''];
   }
 
-  // В рамках этого хелпера обозначит следующие понятия:
-  // pattern - это правила, заданные разработчиком. Исторически это называется mask
+  // В рамках этого хелпера обозначим следующие понятия:
+  // pattern - это правила, заданные разработчиком. Исторически называется mask
   // placeholder - это заполнитель паттерна, демонстрирующий пользователю ограничения ввода
   // value - это значение, вводимое пользователем. Оно может содержать фиксированные символы из паттерна, или быть "чистым"
 
