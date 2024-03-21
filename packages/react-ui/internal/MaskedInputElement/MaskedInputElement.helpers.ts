@@ -1,3 +1,6 @@
+import React from 'react';
+import IMask, { InputMask } from 'imask';
+
 import { isNonNullable } from '../../lib/utils';
 
 export const DEFAULT_MASK_CHAR = '_';
@@ -25,28 +28,50 @@ export function getMaskChar(maskChar: string | null | undefined): string {
   return maskChar === undefined ? DEFAULT_MASK_CHAR : maskChar;
 }
 
-interface MaskedInputValues {
-  // Users can unmask value themselves. In these cases we take origin value length
-  originValue: string;
-  value: string;
-  emptyValue: string;
-}
-
-export function getFocusPrefix(emptyValue: string, maskChar: string | null | undefined): string {
-  return emptyValue.slice(0, emptyValue.indexOf(getMaskChar(maskChar)));
-}
-
-export function getCurrentValue(
-  values: MaskedInputValues,
-  focused: boolean,
-  maskChar: string | null | undefined,
-): [currentValue: string, left: string, right: string] {
-  const { emptyValue, value, originValue } = values;
-
-  if (focused && originValue.length === 0 && emptyValue.length > 0) {
-    const currentValue = getFocusPrefix(emptyValue, maskChar);
-    return [currentValue, currentValue, emptyValue.slice(currentValue.length)];
+export function getMaskedPattern(
+  maskRef: React.RefObject<{ maskRef: InputMask }>,
+): ReturnType<typeof IMask.createMask> | null {
+  if (!maskRef.current?.maskRef) {
+    return null;
   }
 
-  return [value, originValue, emptyValue.slice(originValue.length)];
+  // На основе текущих настроек IMask создаём другой экземпляр IMask, но с полем `lazy: false`
+  // Это поле показывает все доступные символы маски в зависимости от настроек
+  const maskedPattern = IMask.createMask({
+    ...maskRef.current.maskRef.masked,
+    lazy: false,
+  });
+
+  // createMask принимает только поля настроек
+  // value надо явно зарезолвить
+  maskedPattern.resolve(maskRef.current.maskRef.masked._value);
+
+  return maskedPattern;
+}
+
+/**
+ * Получить введенное значение и оставшуюся часть маски
+ */
+export function getMaskedShadows(maskedPattern: ReturnType<typeof IMask.createMask> | null): [string, string] {
+  if (!maskedPattern) {
+    return ['', ''];
+  }
+
+  // В рамках этого хелпера обозначит следующие понятия:
+  // pattern - это правила, заданные разработчиком. Исторически это называется mask
+  // placeholder - это заполнитель паттерна, демонстрирующий пользователю ограничения ввода
+  // value - это значение, вводимое пользователем. Оно может содержать фиксированные символы из паттерна, или быть "чистым"
+
+  // Допустим, что pattern был "+7 (999) 999 99 99", а value "123"
+
+  // "+7 (123"
+  const filledValue = maskedPattern._value;
+
+  // "+7 (123) ___ __ __"
+  const filledPlaceholder = maskedPattern.value;
+
+  // ") ___ __ __"
+  const restPlaceholder = filledPlaceholder.slice(filledValue.length);
+
+  return [filledValue, restPlaceholder];
 }

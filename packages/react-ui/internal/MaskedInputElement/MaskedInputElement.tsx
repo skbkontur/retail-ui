@@ -1,6 +1,6 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { InputMask, FactoryReturnMasked, Masked } from 'imask';
-import { IMaskInput, IMask } from 'react-imask';
+import { InputMask } from 'imask';
+import { IMaskInput } from 'react-imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
@@ -9,7 +9,7 @@ import { InputElement, InputElementProps, InputProps } from '../../components/In
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './MaskedInputElement.styles';
-import { getDefinitions, getMaskChar } from './MaskedInputElement.helpers';
+import { getDefinitions, getMaskChar, getMaskedPattern, getMaskedShadows } from './MaskedInputElement.helpers';
 
 export interface MaskedInputElementProps
   extends InputElementProps,
@@ -59,7 +59,7 @@ export const MaskedInputElement = forwardRefAndName(
 
     useEffect(() => {
       if (props.alwaysShowMask || focused) {
-        setHelpers(getHelpers());
+        setHelpers(getMaskedShadows(getMaskedPattern(maskRef)));
       }
     }, [focused, props.value]);
 
@@ -145,33 +145,6 @@ export const MaskedInputElement = forwardRefAndName(
       if (props.onBlur) {
         props.onBlur(event);
       }
-    }
-
-    function getMaskedPattern(): FactoryReturnMasked<Masked> | null {
-      if (maskRef.current?.maskRef) {
-        /**
-         * На основе текущих настроек IMask создаём другой экземпляр IMask, но с полем `lazy: false`
-         * Это поле генерирует все символы маски в зависимости от настроек
-         */
-        const maskedPattern: FactoryReturnMasked<Masked> = IMask.createMask({
-          ...maskRef.current.maskRef.masked,
-          lazy: false,
-        });
-        maskedPattern.resolve(getValue());
-        return maskedPattern;
-      }
-      return null;
-    }
-
-    function getHelpers(): [string, string] {
-      const maskPattern = getMaskedPattern();
-      if (maskPattern) {
-        const typedValue = maskPattern._value;
-        const filledMask = maskPattern.value;
-        const blankMask = filledMask.slice(typedValue.length);
-        return [typedValue, blankMask];
-      }
-      return ['', ''];
     }
   },
 );

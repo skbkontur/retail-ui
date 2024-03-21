@@ -1,58 +1,49 @@
-import { getCurrentValue } from '../MaskedInputElement.helpers';
+import React from 'react';
+import IMask, { MaskedPatternOptions, InputMask } from 'imask';
+
+import { getMaskedPattern, getMaskedShadows, DEFAULT_MASK_CHAR, DEFINITIONS } from '../MaskedInputElement.helpers';
 
 describe('MaskedInputElement.helpers', () => {
-  describe('getCurrentValue', () => {
+  const getFakeMaskedPattern = (options: Partial<MaskedPatternOptions>, value: string) => {
+    const mockMaskRef = {
+      current: {
+        maskRef: {
+          masked: IMask.createMask({
+            ...options,
+            placeholderChar: DEFAULT_MASK_CHAR,
+            definitions: DEFINITIONS,
+            _value: value,
+          }),
+        },
+      },
+    } as any as React.RefObject<{ maskRef: InputMask }>;
+
+    return getMaskedPattern(mockMaskRef);
+  };
+
+  describe('getMaskedShadows', () => {
     it.each([
-      ['+7 (XXX) XXX-XX-XX', '+7 (', 'X'],
-      ['+7 XXX XXX XX XX', '+7 ', 'X'],
-      ['+7             ', '+7', ' '],
-      ['__:__', '', '_'],
-      [' : ', '', ''],
-    ])('empty focused value with mask "%s" is "%s"', (emptyValue, focusedValue, maskChar) => {
-      const [currentValue] = getCurrentValue({ emptyValue, originValue: '', value: '' }, true, maskChar);
-      expect(currentValue).toBe(focusedValue);
+      ['+7 (999) 999-99-99', '+7 (1', '+7 (1', '__) ___-__-__'],
+      ['+7 (999) 999-99-99', '+7 (123) 4', '+7 (123) 4', '__-__-__'],
+      ['99:99', '1', '1', '_:__'],
+      ['99:99', '12:3', '12:3', '_'],
+    ])('mask "%s" and masked value "%s"', (mask, value, expectedFilledValue, expectedRestPlaceholder) => {
+      const [filledValue, restPlaceholder] = getMaskedShadows(getFakeMaskedPattern({ mask }, value));
+
+      expect(filledValue).toBe(expectedFilledValue);
+      expect(restPlaceholder).toBe(expectedRestPlaceholder);
     });
 
     it.each([
-      ['', '', '+7 ___'],
-      ['X', 'X', '+7 ___'],
-      ['X', '', '+7 ___'],
-      ['', 'X', '+7 ___'],
-    ])('current unfocused value equals %s', (value, emptyValue, originValue) => {
-      const [currentValue] = getCurrentValue({ emptyValue, originValue, value }, false, '_');
-      expect(currentValue).toBe(value);
-    });
+      ['+7 (999) 999-99-99', '1', '+7 (1', '__) ___-__-__'],
+      ['+7 (999) 999-99-99', '1234', '+7 (123) 4', '__-__-__'],
+      ['99:99', '1', '1', '_:__'],
+      ['99:99', '123', '12:3', '_'],
+    ])('mask "%s" and unmasked value "%s"', (mask, value, expectedFilledValue, expectedRestPlaceholder) => {
+      const [filledValue, restPlaceholder] = getMaskedShadows(getFakeMaskedPattern({ mask }, value));
 
-    it.each([
-      ['', '+7 (XXX) XXX-XX-XX', '+7 (XXX) XXX-XX-XX'],
-      ['+7 (888) 888-88-88', '', '+7 (XXX) XXX-XX-XX'],
-      ['+7 (777)', ' XXX-XX-XX', '+7 (XXX) XXX-XX-XX'],
-      ['+7 (999) 999-99-', 'XX', '+7 (XXX) XXX-XX-XX'],
-      ['+7 95', 'X XXX-XX-XX', '+7 XXX XXX-XX-XX'],
-    ])('tail  for value `%s` is `%s`', (value, expectedTail, mask) => {
-      const [, left, right] = getCurrentValue({ emptyValue: mask, originValue: value, value }, false, 'X');
-      expect(left).toBe(value);
-      expect(right).toBe(expectedTail);
-    });
-
-    it('tail for focused empty value`', () => {
-      const [, left, right] = getCurrentValue(
-        { emptyValue: '+7 (XXX) XXX-XX-XX', originValue: '', value: '' },
-        true,
-        'X',
-      );
-      expect(left).toBe('+7 (');
-      expect(right).toBe('XXX) XXX-XX-XX');
-    });
-
-    it('tail for formatted value`', () => {
-      const [, left, right] = getCurrentValue(
-        { emptyValue: '+7 (XXX) XXX-XX-XX', originValue: '+7 (987) 65', value: '+798765' },
-        true,
-        'X',
-      );
-      expect(left).toBe('+7 (987) 65');
-      expect(right).toBe('X-XX-XX');
+      expect(filledValue).toBe(expectedFilledValue);
+      expect(restPlaceholder).toBe(expectedRestPlaceholder);
     });
   });
 });
