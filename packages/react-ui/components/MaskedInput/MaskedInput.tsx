@@ -66,7 +66,7 @@ export const MaskedInput = forwardRefAndName(
             alwaysShowMask={alwaysShowMask}
             onUnexpectedInput={handleUnexpectedInput}
             onValueChange={onValueChange}
-            maskedShadows={maskedShadows}
+            maskedShadows={alwaysShowMask || focused ? maskedShadows : null}
             imaskRef={imaskRef}
           />
         }
