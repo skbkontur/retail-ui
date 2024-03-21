@@ -23,6 +23,7 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
   private input: Nullable<HTMLInputElement>;
 
   public componentDidUpdate(prevProps: Readonly<NativeDateInputProps>) {
+    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
     if (prevProps.disabled !== this.props.disabled) {
       this.setState({ focusByTab: false });
     }

@@ -160,6 +160,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<ToggleProps>) {
+    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
     if (prevProps.disabled !== this.props.disabled) {
       this.setState({ focusByTab: false });
     }

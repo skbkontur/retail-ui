@@ -135,6 +135,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   public componentDidUpdate(prevProps: Readonly<InputLikeTextProps>) {
+    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
     if (prevProps.disabled !== this.props.disabled) {
       this.setState({ focused: false });
     }
