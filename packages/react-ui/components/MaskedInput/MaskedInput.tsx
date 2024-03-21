@@ -5,7 +5,12 @@ import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement, MaskedShadow } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { getMaskedPattern, getMaskedShadows } from '../../internal/MaskedInputElement/MaskedInputElement.helpers';
+import {
+  getDefinitions,
+  getMaskChar,
+  getMaskedPattern,
+  getMaskedShadows,
+} from '../../internal/MaskedInputElement/MaskedInputElement.helpers';
 
 export interface MaskedProps {
   /** Паттерн маски */
@@ -34,13 +39,24 @@ export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' |
 export const MaskedInput = forwardRefAndName(
   'MaskedInput',
   function MaskedInput(props: MaskedInputProps, ref: Ref<Input | null>) {
-    const { mask = '', maskChar, formatChars, alwaysShowMask, placeholder, onValueChange, ...inputProps } = props;
+    const {
+      mask = '',
+      maskChar,
+      formatChars,
+      alwaysShowMask,
+      placeholder,
+      onValueChange,
+      onUnexpectedInput,
+      ...inputProps
+    } = props;
 
-    const innerRef = useRef<Input>(null);
+    const inputRef = useRef<Input>(null);
     const imaskRef = useRef<{ maskRef: InputMask }>(null);
 
     const [focused, setFocused] = useState(false);
     const [maskedShadows, setMaskedShadows] = useState<MaskedShadow>(['', '']);
+    const prevUnmaskedValue = useRef('');
+
     const showPlaceholder = !(alwaysShowMask || focused);
 
     useEffect(() => {
@@ -49,23 +65,22 @@ export const MaskedInput = forwardRefAndName(
       }
     }, [focused, props.value]);
 
-    useImperativeHandle(ref, () => innerRef.current);
+    useImperativeHandle(ref, () => inputRef.current, []);
 
     return (
       <Input
-        ref={innerRef}
+        ref={inputRef}
         {...inputProps}
         placeholder={showPlaceholder ? placeholder : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
         element={
           <MaskedInputElement
-            mask={mask || ''}
-            maskChar={maskChar}
-            formatChars={formatChars}
-            alwaysShowMask={alwaysShowMask}
-            onUnexpectedInput={handleUnexpectedInput}
-            onValueChange={onValueChange}
+            mask={mask}
+            placeholderChar={getMaskChar(maskChar)}
+            definitions={getDefinitions(formatChars)}
+            onAccept={handleAccept}
+            onInput={handleInput}
             maskedShadows={alwaysShowMask || focused ? maskedShadows : null}
             imaskRef={imaskRef}
           />
@@ -73,22 +88,38 @@ export const MaskedInput = forwardRefAndName(
       />
     );
 
-    function handleUnexpectedInput(value: string) {
-      if (props.onUnexpectedInput) {
-        props.onUnexpectedInput(value);
-      } else if (innerRef.current) {
-        innerRef.current.blink();
+    function handleAccept(value: string) {
+      onValueChange?.(value);
+    }
+
+    // Отслеживаем неправильные нажатия
+    // handleAccept не вызывается когда значение с маской не меняется
+    // Сначала вызывается handleAccept, затем handleInput
+    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+      if (imaskRef.current) {
+        const { unmaskedValue } = imaskRef.current.maskRef;
+
+        if (prevUnmaskedValue.current === unmaskedValue) {
+          if (onUnexpectedInput) {
+            onUnexpectedInput(props.value || '');
+          } else if (inputRef.current) {
+            inputRef.current.blink();
+          }
+        }
+
+        prevUnmaskedValue.current = unmaskedValue;
       }
+      props.onInput?.(e);
     }
 
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(true);
-      props.onFocus && props.onFocus(e);
+      props.onFocus?.(e);
     }
 
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(false);
-      props.onBlur && props.onBlur(e);
+      props.onBlur?.(e);
     }
   },
 );
