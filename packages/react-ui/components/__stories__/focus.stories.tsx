@@ -87,6 +87,7 @@ InputElementsSequentialFocus.parameters = {
           bridge: true,
         });
 
+        // В FxInput сначала происходит фокусировка на кнопке, потом на поле ввода. Поэтому необходимо 6 повторений для 5 элементов
         const repeatAmount = 6;
         for (let i = 0; i < repeatAmount; i++) {
           await this.browser
