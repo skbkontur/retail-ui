@@ -42,23 +42,27 @@ export function convertMaskedPropsToIMaskProps(props: MaskedInputProps): MaskedP
 }
 
 export function getMaskedPattern(
-  maskRef: React.RefObject<{ maskRef: InputMask }>,
+  imaskRef: React.RefObject<{ maskRef: InputMask; element: HTMLInputElement }>,
   value = '',
 ): ReturnType<typeof IMask.createMask> | null {
-  if (!maskRef.current?.maskRef) {
+  if (!imaskRef.current?.maskRef) {
     return null;
   }
 
   // На основе текущих настроек IMask создаём другой экземпляр IMask, но с полем `lazy: false`
   // Это поле показывает все доступные символы маски в зависимости от настроек
   const maskedPattern = IMask.createMask({
-    ...maskRef.current.maskRef.masked,
+    ...imaskRef.current.maskRef.masked,
     lazy: false,
   });
 
+  // обработка uncontrolled режима
+  // если props.value не пришёл, то смотрим в реальный input.value
+  const uncontrolledValue = imaskRef.current?.element.value;
+
   // createMask принимает только поля настроек
   // value надо явно зарезолвить
-  maskedPattern.resolve(value);
+  maskedPattern.resolve(value || uncontrolledValue);
 
   return maskedPattern;
 }
@@ -78,11 +82,12 @@ export function getMaskedShadows(maskedPattern: ReturnType<typeof IMask.createMa
 
   // Допустим, что pattern был "+7 (999) 999 99 99", а value "123"
 
-  // "+7 (123"
-  const filledValue = maskedPattern._value;
-
   // "+7 (123) ___ __ __"
   const filledPlaceholder = maskedPattern.value;
+
+  // "+7 (123"
+  // При unmask фиксированные сиволы в конце игнорируются
+  const filledValue = maskedPattern.isComplete ? filledPlaceholder : maskedPattern._value;
 
   // ") ___ __ __"
   const restPlaceholder = filledPlaceholder.slice(filledValue.length);

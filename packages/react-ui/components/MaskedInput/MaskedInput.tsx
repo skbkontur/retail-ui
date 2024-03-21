@@ -58,10 +58,9 @@ export const MaskedInput = forwardRefAndName(
     } = props;
 
     const inputRef = useRef<Input>(null);
-    const imaskRef = useRef<{ maskRef: InputMask }>(null);
+    const imaskRef = useRef<{ maskRef: InputMask; element: HTMLInputElement }>(null);
     const nativeInputRef = useRef<HTMLInputElement | null>(null);
 
-    const [value, setValue] = useState(props.value || '');
     const [focused, setFocused] = useState(false);
     const [maskedShadows, setMaskedShadows] = useState<MaskedShadows>(['', '']);
     const prevValue = useRef('');
@@ -69,10 +68,8 @@ export const MaskedInput = forwardRefAndName(
     const showPlaceholder = !(alwaysShowMask || focused);
 
     useEffect(() => {
-      if (alwaysShowMask || focused) {
-        setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, value)));
-      }
-    }, [focused, props.value, value]);
+      setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, props.value)));
+    }, [imaskRef.current, props.value, alwaysShowMask, focused]);
 
     useImperativeHandle(ref, () => inputRef.current, []);
 
@@ -92,8 +89,12 @@ export const MaskedInput = forwardRefAndName(
     );
 
     function handleAccept(value: string) {
-      setValue(value);
       onValueChange?.(value);
+
+      // обработка uncontrolled режима
+      if (typeof props.value === 'undefined') {
+        setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, value)));
+      }
     }
 
     // Отслеживаем неожиданные нажатия
