@@ -33,6 +33,7 @@ export function getMaskChar(maskChar: string | null | undefined): string {
 
 export function convertMaskedPropsToIMaskProps(props: MaskedInputProps): MaskedPatternOptions {
   return {
+    mask: props.mask,
     placeholderChar: getMaskChar(props.maskChar),
     definitions: getDefinitions(props.formatChars),
     eager: true,
@@ -42,6 +43,7 @@ export function convertMaskedPropsToIMaskProps(props: MaskedInputProps): MaskedP
 
 export function getMaskedPattern(
   maskRef: React.RefObject<{ maskRef: InputMask }>,
+  value = '',
 ): ReturnType<typeof IMask.createMask> | null {
   if (!maskRef.current?.maskRef) {
     return null;
@@ -56,7 +58,7 @@ export function getMaskedPattern(
 
   // createMask принимает только поля настроек
   // value надо явно зарезолвить
-  maskedPattern.resolve(maskRef.current.maskRef.masked._value);
+  maskedPattern.resolve(value);
 
   return maskedPattern;
 }

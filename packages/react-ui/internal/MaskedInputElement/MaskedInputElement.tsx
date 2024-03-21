@@ -1,6 +1,6 @@
 import React, { ForwardedRef, useContext, useImperativeHandle, useRef } from 'react';
 import { InputMask } from 'imask';
-import { IMaskInput, IMaskInputProps } from 'react-imask';
+import { IMaskInputProps } from 'react-imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
@@ -14,6 +14,7 @@ export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
   InputElementProps & {
     imaskRef: React.RefObject<{ maskRef: InputMask }>;
     maskedShadows: MaskedShadows | null;
+    children: React.ReactElement;
   };
 
 export type MaskedShadows = [string, string];
@@ -29,7 +30,7 @@ export const MaskedInputElement = forwardRefAndName(
     const rootNodeRef = React.useRef<HTMLDivElement>(null);
     const theme = useContext(ThemeContext);
 
-    const { imaskRef, maskedShadows, ...inputProps } = props;
+    const { children, imaskRef, maskedShadows, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -47,7 +48,7 @@ export const MaskedInputElement = forwardRefAndName(
         className={styles.container()}
         x-ms-format-detection="none"
       >
-        <IMaskInput inputRef={inputRef} ref={imaskRef} {...inputProps} />
+        {React.cloneElement(children, inputProps)}
         {renderMaskedShadows()}
       </span>
     );
