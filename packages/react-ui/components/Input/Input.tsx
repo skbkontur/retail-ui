@@ -213,7 +213,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled) {
+    if (prevProps.disabled !== this.props.disabled && this.state.focused) {
       this.setState({ focused: false });
     }
   }

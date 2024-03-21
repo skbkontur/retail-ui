@@ -106,7 +106,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public componentDidUpdate(prevProps: Readonly<RadioProps<T>>) {
     // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled) {
+    if (prevProps.disabled !== this.props.disabled && this.state.focusedByKeyboard) {
       this.setState({ focusedByKeyboard: false });
     }
   }

@@ -149,7 +149,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.selectNode();
 
     // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled) {
+    if (prevProps.disabled !== this.props.disabled && this.state.focused) {
       this.setState({ focused: false });
     }
   }
