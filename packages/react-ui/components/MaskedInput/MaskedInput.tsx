@@ -7,7 +7,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 export interface MaskedProps {
   /** Паттерн маски */
-  mask: string;
+  mask?: string;
   /** Символ маски */
   maskChar?: Nullable<string>;
   /**
@@ -32,7 +32,7 @@ export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' |
 export const MaskedInput = forwardRefAndName(
   'MaskedInput',
   function MaskedInput(props: MaskedInputProps, ref: Ref<Input | null>) {
-    const { mask, maskChar, formatChars, alwaysShowMask, placeholder, ...inputProps } = props;
+    const { mask = '', maskChar, formatChars, alwaysShowMask, placeholder, onValueChange, ...inputProps } = props;
     const [focused, setFocused] = useState(false);
     const showPlaceholder = !(alwaysShowMask || focused);
     const innerRef = useRef<Input>(null);
@@ -48,11 +48,12 @@ export const MaskedInput = forwardRefAndName(
         onBlur={handleBlur}
         element={
           <MaskedInputElement
-            mask={mask}
+            mask={mask || ''}
             maskChar={maskChar}
             formatChars={formatChars}
             alwaysShowMask={alwaysShowMask}
             onUnexpectedInput={handleUnexpectedInput}
+            onValueChange={onValueChange}
           />
         }
       />

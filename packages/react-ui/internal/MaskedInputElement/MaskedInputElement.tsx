@@ -1,22 +1,23 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { InputMask } from 'imask';
+import { InputMask, FactoryReturnMasked, Masked } from 'imask';
 import { IMaskInput, IMask } from 'react-imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
-import { InputElement, InputElementProps } from '../../components/Input';
+import { InputElement, InputElementProps, InputProps } from '../../components/Input';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './MaskedInputElement.styles';
-import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './MaskedInputElement.helpers';
+import { getDefinitions, getMaskChar } from './MaskedInputElement.helpers';
 
-export interface MaskedInputElementProps extends InputElementProps {
+export interface MaskedInputElementProps
+  extends InputElementProps,
+    Pick<InputProps, 'onValueChange' | 'onUnexpectedInput'> {
   mask: string;
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
-  onUnexpectedInput: (value: string) => void;
 }
 
 export const MaskedInputElementDataTids = {
@@ -26,20 +27,26 @@ export const MaskedInputElementDataTids = {
 export const MaskedInputElement = forwardRefAndName(
   'MaskedInputElement',
   function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
-    const [values, setValues] = useState<{ value: string; originValue: string }>(() => {
-      const value = getValue(props);
-      return { value, originValue: value };
-    });
-    const { value, originValue } = values;
-
-    const [emptyValue, setEmptyValue] = useState('');
-    const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const rootNodeRef = React.useRef<HTMLDivElement>(null);
     const maskRef = useRef<{ maskRef: InputMask }>(null);
+    const [focused, setFocused] = useState(false);
+    const [helpers, setHelpers] = useState(['', '']);
     const theme = useContext(ThemeContext);
     const prevUnmaskedValue = useRef('');
-    const isFirstRender = useRef(true);
+
+    const {
+      mask,
+      maskChar,
+      formatChars,
+      alwaysShowMask,
+      maxLength,
+      onUnexpectedInput,
+      onValueChange,
+      defaultValue,
+      style,
+      ...inputProps
+    } = props;
 
     useImperativeHandle(
       ref,
@@ -51,39 +58,17 @@ export const MaskedInputElement = forwardRefAndName(
     );
 
     useEffect(() => {
-      setEmptyValue(getEmptyValue(props.mask, props.maskChar, props.formatChars));
-    }, [props.mask, props.maskChar]);
-
-    useEffect(() => {
-      if (isFirstRender.current) {
-        return;
+      if (props.alwaysShowMask || focused) {
+        setHelpers(getHelpers());
       }
-
-      const value = props.value ? props.value.toString() : '';
-      setValues((values) => ({ ...values, value }));
-    }, [props.value]);
-
-    useEffect(() => {
-      isFirstRender.current = false;
-    }, []);
-
-    const {
-      mask,
-      maskChar,
-      formatChars,
-      alwaysShowMask,
-      maxLength,
-      onUnexpectedInput,
-      defaultValue,
-      style,
-      ...inputProps
-    } = props;
+    }, [focused, props.value]);
 
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
-    const [currentValue, left, right] = getCurrentValue({ value, originValue, emptyValue }, focused, maskChar);
+    const [left, right] = helpers;
 
-    /* В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обработки подчркивания('_').
-     * Не менять на DEFAULT_MASK_CHAR
+    /**
+     * В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обратной совместимости.
+     * Раньше использовался специальный шрифт с моноришиным подчёркиванием.
      */
     const rightHelper = right.split('').map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
     const leftHelper = style?.textAlign !== 'right' && <span style={{ color: 'transparent' }}>{left}</span>;
@@ -106,9 +91,10 @@ export const MaskedInputElement = forwardRefAndName(
           onInput={handleInput}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          value={currentValue}
+          value={getValue()}
           inputRef={inputRef}
           ref={maskRef}
+          placeholderChar={getMaskChar(props.maskChar)}
           style={{ ...style }}
         />
         {isMaskVisible && (
@@ -120,13 +106,13 @@ export const MaskedInputElement = forwardRefAndName(
       </span>
     );
 
-    function getValue(props: MaskedInputElementProps): string {
+    function getValue(): string {
       return (props.value ?? props.defaultValue ?? '').toString();
     }
 
     /** В imask вызывается только когда значение с маской меняется*/
     function handleAccept(value: string) {
-      setValues({ value, originValue: value });
+      onValueChange?.(value);
     }
 
     /** Отслеживаем неправильные нажатия,
@@ -138,7 +124,7 @@ export const MaskedInputElement = forwardRefAndName(
         const { unmaskedValue } = maskRef.current.maskRef;
 
         if (prevUnmaskedValue.current === unmaskedValue) {
-          handleUnexpectedInput();
+          onUnexpectedInput?.(unmaskedValue);
         }
 
         prevUnmaskedValue.current = unmaskedValue;
@@ -154,10 +140,6 @@ export const MaskedInputElement = forwardRefAndName(
     }
 
     function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
-      if (value === getFocusPrefix(emptyValue, maskChar)) {
-        setValues({ value: '', originValue: '' });
-      }
-
       setFocused(false);
 
       if (props.onBlur) {
@@ -165,24 +147,31 @@ export const MaskedInputElement = forwardRefAndName(
       }
     }
 
-    function handleUnexpectedInput() {
-      if (props.onUnexpectedInput) {
-        props.onUnexpectedInput(value);
+    function getMaskedPattern(): FactoryReturnMasked<Masked> | null {
+      if (maskRef.current?.maskRef) {
+        /**
+         * На основе текущих настроек IMask создаём другой экземпляр IMask, но с полем `lazy: false`
+         * Это поле генерирует все символы маски в зависимости от настроек
+         */
+        const maskedPattern: FactoryReturnMasked<Masked> = IMask.createMask({
+          ...maskRef.current.maskRef.masked,
+          lazy: false,
+        });
+        maskedPattern.resolve(getValue());
+        return maskedPattern;
       }
+      return null;
     }
 
-    function getEmptyValue(
-      mask: MaskedInputElementProps['mask'],
-      maskChar: MaskedInputElementProps['maskChar'],
-      formatChars: MaskedInputElementProps['formatChars'],
-    ): string {
-      const maskPattern = IMask.createMask({
-        mask,
-        definitions: getDefinitions(formatChars),
-        lazy: false,
-        placeholderChar: getMaskChar(maskChar),
-      });
-      return maskPattern.appendTail('').inserted;
+    function getHelpers(): [string, string] {
+      const maskPattern = getMaskedPattern();
+      if (maskPattern) {
+        const typedValue = maskPattern._value;
+        const filledMask = maskPattern.value;
+        const blankMask = filledMask.slice(typedValue.length);
+        return [typedValue, blankMask];
+      }
+      return ['', ''];
     }
   },
 );
