@@ -1,24 +1,18 @@
 import React from 'react';
-import IMask, { MaskedPatternOptions, InputMask } from 'imask';
+import { MaskedPatternOptions } from 'imask';
 
-import { getMaskedPattern, getMaskedShadows, DEFAULT_MASK_CHAR, DEFINITIONS } from '../MaskedInputElement.helpers';
+import { getMaskedPattern, getMaskedShadows } from '../MaskedInputElement.helpers';
+import { IMaskRefType } from '../../../components/MaskedInput';
 
 describe('MaskedInputElement.helpers', () => {
   const getFakeMaskedPattern = (options: Partial<MaskedPatternOptions>, value: string) => {
     const mockMaskRef = {
       current: {
-        maskRef: {
-          masked: IMask.createMask({
-            ...options,
-            placeholderChar: DEFAULT_MASK_CHAR,
-            definitions: DEFINITIONS,
-            _value: value,
-          }),
-        },
+        element: { value },
       },
-    } as any as React.RefObject<{ maskRef: InputMask }>;
+    } as any as React.RefObject<IMaskRefType>;
 
-    return getMaskedPattern(mockMaskRef);
+    return getMaskedPattern(mockMaskRef, options);
   };
 
   describe('getMaskedShadows', () => {

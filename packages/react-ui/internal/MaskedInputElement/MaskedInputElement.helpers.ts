@@ -1,15 +1,15 @@
 import React from 'react';
-import IMask, { InputMask, MaskedPatternOptions } from 'imask';
+import IMask, { MaskedPatternOptions, MaskedPattern, Definitions } from 'imask';
 
 import { isNonNullable } from '../../lib/utils';
-import { MaskedInputProps } from '../../components/MaskedInput';
+import { IMaskRefType, MaskedInputProps } from '../../components/MaskedInput';
 
 import { MaskedShadows } from './MaskedInputElement';
 
 export const DEFAULT_MASK_CHAR = '_';
 export const DEFINITIONS = { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ };
 
-export function getDefinitions(formatChars: Record<string, string> | undefined): Record<string, RegExp> {
+export function getDefinitions(formatChars: Record<string, string> | undefined): Definitions {
   if (isNonNullable(formatChars)) {
     const chars: Record<string, RegExp> = {};
 
@@ -31,9 +31,9 @@ export function getMaskChar(maskChar: string | null | undefined): string {
   return maskChar === undefined ? DEFAULT_MASK_CHAR : maskChar;
 }
 
-export function convertMaskedPropsToIMaskProps(props: MaskedInputProps): MaskedPatternOptions {
+export function getCompatibleIMaskProps(props: MaskedInputProps): MaskedPatternOptions {
   return {
-    mask: props.mask,
+    mask: props.mask || '',
     placeholderChar: getMaskChar(props.maskChar),
     definitions: getDefinitions(props.formatChars),
     eager: true,
@@ -42,27 +42,23 @@ export function convertMaskedPropsToIMaskProps(props: MaskedInputProps): MaskedP
 }
 
 export function getMaskedPattern(
-  imaskRef: React.RefObject<{ maskRef: InputMask; element: HTMLInputElement }>,
-  value = '',
-): ReturnType<typeof IMask.createMask> | null {
-  if (!imaskRef.current?.maskRef) {
-    return null;
-  }
-
+  imaskRef: React.RefObject<IMaskRefType>,
+  props: MaskedInputProps = {},
+): MaskedPattern | null {
   // На основе текущих настроек IMask создаём другой экземпляр IMask, но с полем `lazy: false`
   // Это поле показывает все доступные символы маски в зависимости от настроек
-  const maskedPattern = IMask.createMask({
-    ...imaskRef.current.maskRef.masked,
+  const maskedPattern = IMask.createMask<MaskedPatternOptions>({
+    ...getCompatibleIMaskProps(props),
     lazy: false,
   });
 
   // обработка uncontrolled режима
   // если props.value не пришёл, то смотрим в реальный input.value
-  const uncontrolledValue = imaskRef.current?.element.value;
+  const uncontrolledValue = imaskRef.current?.element.value || '';
 
   // createMask принимает только поля настроек
   // value надо явно зарезолвить
-  maskedPattern.resolve(value || uncontrolledValue);
+  maskedPattern.resolve(props.value || uncontrolledValue);
 
   return maskedPattern;
 }
