@@ -105,7 +105,6 @@ export interface PopupProps
   tryPreserveFirstRenderedPosition?: boolean;
   withoutMobile?: boolean;
   mobileOnCloseRequest?: () => void;
-  mobileOnBlurRequest?: () => void;
   /**
    * Возвращает текущую позицию попапа
    */
@@ -310,14 +309,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const children = this.renderChildren();
 
     return children ? (
-      <MobilePopup
-        opened={opened}
-        withoutRenderContainer
-        onCloseRequest={this.props.mobileOnCloseRequest}
-        onBlurRequest={this.props.mobileOnBlurRequest}
-      >
-        {this.content(children)}
-      </MobilePopup>
+      <CommonWrapper rootNodeRef={this.setRootNode}>
+        <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
+          {this.content(children)}
+        </MobilePopup>
+      </CommonWrapper>
     ) : null;
   }
 

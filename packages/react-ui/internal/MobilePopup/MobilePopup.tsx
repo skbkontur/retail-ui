@@ -7,6 +7,7 @@ import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ZIndex } from '../ZIndex';
 import { RenderLayer } from '../RenderLayer';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
@@ -33,10 +34,6 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    */
   onCloseRequest?: () => void;
   /**
-   * Функция, вызываемая при блюре
-   */
-  onBlurRequest?: () => void;
-  /**
    * Позволяет контролировать текущее состояние всплывающего окна
    */
   opened: boolean;
@@ -47,10 +44,12 @@ export const MobilePopupDataTids = {
   container: 'MobilePopup__container',
 } as const;
 
+@rootNode
 export class MobilePopup extends React.Component<MobilePopupProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -68,8 +67,12 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
       <ZIndex id={this.props.id} className={jsStyles.zIndex()} priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
-            <RenderLayer onClickOutside={this.close} onFocusOutside={this.blur}>
-              <div data-tid={MobilePopupDataTids.container} className={jsStyles.container(this.theme)}>
+            <RenderLayer onClickOutside={this.close}>
+              <div
+                ref={this.setRootNode}
+                data-tid={MobilePopupDataTids.container}
+                className={jsStyles.container(this.theme)}
+              >
                 <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
                   <div className={jsStyles.content(this.theme)}>{this.props.children}</div>
@@ -94,12 +97,6 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   public close = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
-    }
-  };
-
-  public blur = () => {
-    if (this.props.onBlurRequest) {
-      this.props.onBlurRequest();
     }
   };
 }
