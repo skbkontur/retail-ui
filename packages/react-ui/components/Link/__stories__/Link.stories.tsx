@@ -1,11 +1,12 @@
+import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { Story, CreeveyTests } from '../../../typings/stories';
-import { Link } from '../Link';
-import { Toast } from '../../Toast';
-import { Gapped } from '../../Gapped';
+import { ComponentTable } from '../../../internal/ComponentTable';
+import { CreeveyTests, Story } from '../../../typings/stories';
+import { Link, LinkProps } from '../Link';
+import { Gapped } from '../../../components/Gapped';
 
 const linkTests: CreeveyTests = {
   async idle() {
@@ -28,23 +29,23 @@ export default {
   title: 'Link',
   parameters: {
     creevey: {
-      skip: {
-        'kind-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      },
+      skip: { in: ['ie11', 'ie118px', 'ie11Flat8px'] },
     },
   },
 };
 
-export const Simple: Story = () => <Link>Simple Link</Link>;
-Simple.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
+type LinkState = Partial<LinkProps>;
+
+const useStates: LinkState[] = [{ use: 'default' }, { use: 'success' }, { use: 'danger' }, { use: 'grayed' }];
+const getUseStates = () => {
+  return useStates.map((x) => ({ props: x }));
 };
+
+export const Use: Story = () => (
+  <ComponentTable rows={getUseStates()} cols={useDifferentStates.map((x) => ({ props: x }))}>
+    <Link>Link</Link>
+  </ComponentTable>
+);
 
 export const WithIcon: Story = () => {
   return (
@@ -85,66 +86,21 @@ export const Danger: Story = () => (
     Simple Link
   </Link>
 );
-Danger.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
 
-export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
-Grayed.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
+const useDifferentStates: LinkState[] = [{}, { disabled: true }, { loading: true }];
 
-export const Disabled: Story = () => <Link disabled>Simple link</Link>;
-Disabled.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
+export const Icon: Story = () => (
+  <ComponentTable rows={getUseStates()} cols={iconDifferentStates.map((x) => ({ props: x }))}>
+    <Link>Link</Link>
+  </ComponentTable>
+);
 
-export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
-WithOnClick.storyName = 'With onClick';
-WithOnClick.parameters = { creevey: { skip: true } };
+const iconDifferentStates: LinkState[] = [{ icon: <XIcon16Regular /> }];
 
 export const Loading: Story = () => (
-  <Gapped vertical>
-    <Link loading>Simple loading </Link>
-    <div style={{ width: '300px', border: '1px solid lightgrey', padding: '5px' }}>
-      {'Some long text '}
-      <Link loading>loading link </Link>
-      and end of line
-    </div>
-    <div style={{ width: '150px', border: '1px solid lightgrey', padding: '5px' }}>
-      {'Some long text '}
-      <Link loading>loading link </Link>
-      and end of line
-    </div>
-    <Link loading icon={<OkIcon />}>
-      Loading link with icon
-    </Link>
-  </Gapped>
+  <ComponentTable rows={getUseStates()} cols={loadingDifferentStates.map((x) => ({ props: x }))}>
+    <Link>Link</Link>
+  </ComponentTable>
 );
-Loading.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
+
+const loadingDifferentStates: LinkState[] = [{ loading: true }, { loading: true, icon: <XIcon16Regular /> }];

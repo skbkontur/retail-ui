@@ -10,6 +10,7 @@ import { isInputLike } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { isClickable } from '../Clickable';
 
 import { styles } from './Group.styles';
 
@@ -64,6 +65,10 @@ export const getButtonCorners = (isFirstChild: boolean, isLastChild: boolean): R
   };
 };
 
+const passCorners = (child: React.ReactElement, corners: React.CSSProperties) => {
+  return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
+};
+
 const passCornersIfButton = (
   child: React.ReactNode,
   firstChild: React.ReactNode,
@@ -71,11 +76,8 @@ const passCornersIfButton = (
   isInputLikeToo = false,
 ) => {
   const corners = getButtonCorners(child === firstChild, child === lastChild);
-  if (isButton(child)) {
-    return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
-  }
-  if (isInputLikeToo && isInputLike(child)) {
-    return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
+  if (isButton(child) || isClickable(child) || (isInputLikeToo && isInputLike(child))) {
+    return passCorners(child, corners);
   }
 
   return child;

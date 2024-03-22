@@ -131,8 +131,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
 
   public static btnWithIconPaddingLeftSmall = '8px';
+  public static btnWithIconPaddingRightSmall = '8px';
   public static btnWithIconPaddingLeftMedium = '10px';
+  public static btnWithIconPaddingRightMedium = '10px';
   public static btnWithIconPaddingLeftLarge = '12px';
+  public static btnWithIconPaddingRightLarge = '12px';
 
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;

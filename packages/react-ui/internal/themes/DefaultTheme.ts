@@ -119,6 +119,9 @@ export class DefaultTheme {
   public static get linkGrayedActiveColor() {
     return this.textColorDisabled;
   }
+  public static get linkErrorBgColor() {
+    return this.redXxLight;
+  }
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
@@ -586,8 +589,11 @@ export class DefaultTheme {
     return this.btnTextHoverBg;
   }
   public static btnWithIconPaddingLeftSmall = '';
+  public static btnWithIconPaddingRightSmall = '';
   public static btnWithIconPaddingLeftMedium = '';
+  public static btnWithIconPaddingRightMedium = '';
   public static btnWithIconPaddingLeftLarge = '';
+  public static btnWithIconPaddingRightLarge = '';
 
   public static btnIconColor = '';
   public static btnIconHoverColor = '';

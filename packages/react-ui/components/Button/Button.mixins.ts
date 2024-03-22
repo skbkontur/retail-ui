@@ -3,13 +3,19 @@ import { shift } from '../../lib/styles/DimensionFunctions';
 
 import { globalClasses } from './Button.styles';
 
-const getBtnPadding = (
-  fontSize: string,
-  paddingY: string,
-  paddingX: string,
-  fontFamilyCompensation: string,
+const getBtnPadding = ({
+  fontSize,
+  paddingY,
+  paddingX,
+  fontFamilyCompensation,
   additionalOffset = 0,
-): string => {
+}: {
+  fontSize: string;
+  paddingY: string;
+  paddingX: string;
+  fontFamilyCompensation: string;
+  additionalOffset?: number;
+}): string => {
   let paddingTop = paddingY;
   let paddingBottom = paddingY;
   const offset = parseInt(fontFamilyCompensation) || 0;
@@ -28,15 +34,15 @@ const getBtnPadding = (
   return `${paddingTop} ${paddingX} ${paddingBottom}`;
 };
 
-export const buttonUseMixin = (
-  btnBackground: string,
-  btnBackgroundStart: string,
-  btnBackgroundEnd: string,
-  color: string,
-  borderColor: string,
-  borderBottomColor: string,
-  borderWidth: string,
-) => {
+export const buttonUseMixin = ({
+  btnBackground,
+  btnBackgroundStart,
+  btnBackgroundEnd,
+  color,
+  borderColor,
+  borderBottomColor,
+  borderWidth,
+}: Record<string, string>) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
     background-color: ${hasGradient ? `initial` : btnBackground};
@@ -58,15 +64,15 @@ export const buttonUseMixin = (
   `;
 };
 
-export const buttonHoverMixin = (
-  btnBackground: string,
-  btnBackgroundStart: string,
-  btnBackgroundEnd: string,
-  color: string,
-  borderColor: string,
-  borderBottomColor: string,
-  borderWidth: string,
-) => {
+export const buttonHoverMixin = ({
+  btnBackground,
+  btnBackgroundStart,
+  btnBackgroundEnd,
+  borderColor,
+  color,
+  borderBottomColor,
+  borderWidth,
+}: Record<string, string>) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
     background-color: ${hasGradient ? `initial` : btnBackground};
@@ -80,14 +86,14 @@ export const buttonHoverMixin = (
   `;
 };
 
-export const buttonActiveMixin = (
-  btnBackground: string,
-  btnShadow: string,
-  borderColor: string,
-  borderTopColor: string,
-  borderWidth: string,
-  arrowBgImage: string,
-) => {
+export const buttonActiveMixin = ({
+  btnBackground,
+  btnShadow,
+  borderColor,
+  borderTopColor,
+  borderWidth,
+  arrowBgImage,
+}: Record<string, string>) => {
   return css`
     &,
     &:hover {
@@ -110,39 +116,34 @@ export const buttonActiveMixin = (
   `;
 };
 
-export const buttonSizeMixin = (
-  fontSize: string,
-  lineHeight: string,
-  paddingX: string,
-  paddingY: string,
-  fontFamilyCompensation: string,
-) => {
+export const buttonSizeMixin = ({
+  fontSize,
+  lineHeight,
+  paddingX,
+  paddingY,
+  fontFamilyCompensation,
+}: Record<string, string>) => {
   return css`
     font-size: ${fontSize};
     box-sizing: border-box;
-    padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
+    padding: ${getBtnPadding({ fontSize, paddingY, paddingX, fontFamilyCompensation })};
     line-height: ${lineHeight};
   `;
 };
 
-export const buttonSizeMixinIE11 = (
-  fontSize: string,
-  paddingX: string,
-  paddingY: string,
-  fontFamilyCompensation: string,
-) => {
+export const buttonSizeMixinIE11 = ({
+  fontSize,
+  paddingX,
+  paddingY,
+  fontFamilyCompensation,
+}: Record<string, string>) => {
   return css`
-    padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
+    padding: ${getBtnPadding({ fontSize, paddingY, paddingX, fontFamilyCompensation, additionalOffset: 1 })};
     line-height: normal;
   `;
 };
 
-export const arrowOutlineMixin = (
-  insetWidth: string,
-  outlineColor: string,
-  outlineWidth: string,
-  insetColor: string,
-) => {
+export const arrowOutlineMixin = ({ insetWidth, outlineColor, outlineWidth, insetColor }: Record<string, string>) => {
   return css`
     .${globalClasses.arrowHelper} {
       &.${globalClasses.arrowHelperTop} {

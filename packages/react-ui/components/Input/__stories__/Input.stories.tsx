@@ -21,12 +21,9 @@ const inputDefaultState: InputState[] = [{}, { defaultValue: 'Value' }];
 const inputWidthStates: InputState[] = [{}, { width: '100px' }, { width: '350px' }];
 
 export const Align: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={alignStates.map((x) => ({ props: x }))}
-    rows={alignDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ value: 'Value', width: '200px' }}
-  />
+  <ComponentTable cols={alignStates.map((x) => ({ props: x }))} rows={alignDifferentStates.map((x) => ({ props: x }))}>
+    <Input value="Value" width="200px" />
+  </ComponentTable>
 );
 
 const alignStates: InputState[] = [{ align: 'center' }, { align: 'left' }, { align: 'right' }];
@@ -46,12 +43,9 @@ const alignDifferentStates: InputState[] = [
 ];
 
 export const AlwaysShowMask: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={alwaysShowMaskStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: '(***) ***-**-**' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={alwaysShowMaskStates.map((x) => ({ props: x }))}>
+    <Input mask="'(***) ***-**-**'" />
+  </ComponentTable>
 );
 
 const alwaysShowMaskStates: InputState[] = [
@@ -64,23 +58,17 @@ const alwaysShowMaskStates: InputState[] = [
 ];
 
 export const Borderless: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={borderlessStates.map((x) => ({ props: x }))}
-    presetProps={{ borderless: true }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={borderlessStates.map((x) => ({ props: x }))}>
+    <Input borderless />
+  </ComponentTable>
 );
 
 const borderlessStates: InputState[] = [{}];
 
 export const Disabled: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={disabledStates.map((x) => ({ props: x }))}
-    presetProps={{ disabled: true }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={disabledStates.map((x) => ({ props: x }))}>
+    <Input disabled />
+  </ComponentTable>
 );
 
 const disabledStates: InputState[] = [
@@ -95,31 +83,22 @@ const disabledStates: InputState[] = [
 ];
 
 export const Error: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={errorStates.map((x) => ({ props: x }))}
-    presetProps={{ error: true }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={errorStates.map((x) => ({ props: x }))}>
+    <Input error />
+  </ComponentTable>
 );
 const errorStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
 
 export const LeftIcon: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={iconsLeftStates.map((x) => ({ props: x }))}
-    presetProps={{ leftIcon: <SearchIcon /> }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={iconsLeftStates.map((x) => ({ props: x }))}>
+    <Input leftIcon={<SearchIcon />} />
+  </ComponentTable>
 );
 
 export const RightIcon: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={iconsRightStates.map((x) => ({ props: x }))}
-    presetProps={{ rightIcon: <SearchIcon /> }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={iconsRightStates.map((x) => ({ props: x }))}>
+    <Input rightIcon={<SearchIcon />} />
+  </ComponentTable>
 );
 
 const iconFunc = () => <SearchIcon />;
@@ -148,12 +127,9 @@ const iconsRightStates: InputState[] = [
 ];
 
 export const Mask: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={inputWidthStates.map((x) => ({ props: x }))}
-    rows={maskStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
+  <ComponentTable cols={inputWidthStates.map((x) => ({ props: x }))} rows={maskStates.map((x) => ({ props: x }))}>
+    <Input />
+  </ComponentTable>
 );
 
 const maskStates: InputState[] = [
@@ -173,22 +149,19 @@ const maskStates: InputState[] = [
 
 export const Placeholder: Story = () => (
   <ComponentTable
-    Component={Input}
     cols={inputDefaultState.map((x) => ({ props: x }))}
     rows={placeholderStates.map((x) => ({ props: x }))}
-    presetProps={{ placeholder: '1234567890' }}
-  />
+  >
+    <Input placeholder="1234567890" />
+  </ComponentTable>
 );
 
 const placeholderStates: InputState[] = [{}, { disabled: true }];
 
 export const Prefix: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputPrefixStates.map((x) => ({ props: x }))}
-    presetProps={{ prefix: 'Prefix' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={inputPrefixStates.map((x) => ({ props: x }))}>
+    <Input prefix="Prefix" />
+  </ComponentTable>
 );
 const inputPrefixOrSuffixStates: InputState[] = [
   {},
@@ -207,30 +180,24 @@ const inputPrefixStates: InputState[] = [...inputPrefixOrSuffixStates, { prefix:
 const inputSuffixStates: InputState[] = [...inputPrefixOrSuffixStates, { suffix: 'ooo-long-long-long-johnson' }];
 
 export const Suffix: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputSuffixStates.map((x) => ({ props: x }))}
-    presetProps={{ suffix: 'Suffix' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={inputSuffixStates.map((x) => ({ props: x }))}>
+    <Input suffix="Suffix" />
+  </ComponentTable>
 );
 
 export const PrefixAndSuffixBoth: Story = () => (
   <ComponentTable
-    Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={inputPrefixOrSuffixStates.map((x) => ({ props: x }))}
-    presetProps={{ prefix: 'Prefix', suffix: 'Suffix' }}
-  />
+  >
+    <Input prefix="Prefix" suffix="Suffix" />
+  </ComponentTable>
 );
 
 export const Size: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={inputDefaultState.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Input' }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={inputDefaultState.map((x) => ({ props: x }))}>
+    <Input>Input</Input>
+  </ComponentTable>
 );
 
 export const TextStylesReset: Story = () => (
@@ -260,12 +227,9 @@ export const TextStylesReset: Story = () => (
 );
 
 export const Type: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={typeStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={typeStates.map((x) => ({ props: x }))}>
+    <Input />
+  </ComponentTable>
 );
 Type.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
 
@@ -287,24 +251,21 @@ const typeStates: InputState[] = [
 
 export const TypeApi: Story = () => (
   <>
+    <ComponentTable cols={typeApiProps.map((x) => ({ props: x }))} rows={typeApiTypes.map((x) => ({ props: x }))}>
+      <Input />
+    </ComponentTable>
     <ComponentTable
-      Component={Input}
-      cols={typeApiProps.map((x) => ({ props: x }))}
-      rows={typeApiTypes.map((x) => ({ props: x }))}
-      presetProps={{}}
-    />
-    <ComponentTable
-      Component={Input}
       cols={typeApiPropsDate.map((x) => ({ props: x }))}
       rows={typeApiTypesDate.map((x) => ({ props: x }))}
-      presetProps={{}}
-    />
+    >
+      <Input />
+    </ComponentTable>
     <ComponentTable
-      Component={Input}
       cols={typeApiPropsTime.map((x) => ({ props: x }))}
       rows={typeApiTypesTime.map((x) => ({ props: x }))}
-      presetProps={{}}
-    />
+    >
+      <Input />
+    </ComponentTable>
   </>
 );
 TypeApi.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
@@ -342,12 +303,9 @@ const typeApiPropsTime: InputState[] = [
 ];
 
 export const Warning: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={warningStates.map((x) => ({ props: x }))}
-    presetProps={{ warning: true }}
-  />
+  <ComponentTable cols={sizeStates.map((x) => ({ props: x }))} rows={warningStates.map((x) => ({ props: x }))}>
+    <Input warning />
+  </ComponentTable>
 );
 
 const warningStates: InputState[] = [{}, { borderless: true }, { disabled: true }];
