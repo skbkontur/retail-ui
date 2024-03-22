@@ -43,46 +43,49 @@ const bgStyle = {
 </Gapped>
 ```
 
-Пример кнопки с иконкой.
+В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
 
 ```jsx harmony
-import PrintIcon from '@skbkontur/react-icons/Print';
-import { Button } from '@skbkontur/react-ui';
+import { Button, Gapped } from '@skbkontur/react-ui';
+import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 
-<Button icon={<PrintIcon />}>Напечатать</Button>;
+<Gapped gap={5}>
+  <Button icon={<XIcon16Regular />}>Закрыть</Button>
+  <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>Закрыть</Button>
+  <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
+</Gapped>
 ```
 
 У кнопки есть 3 стандартных размера.
 
 ```jsx harmony
 <div
-  style={{
-    display: "flex",
-    alignItems: "end",
-    justifyContent: "space-between",
-    width: "330px"
-  }}>
-  <Button size="small">Маленькая</Button>
-  <Button size="medium">Средняя</Button>
-  <Button size="large">Большая</Button>
+    style={{
+      display: "flex",
+      alignItems: "end",
+      gap: '10px',
+    }}
+  >
+    <Button size="small">Маленькая</Button>
+    <Button size="medium">Средняя</Button>
+    <Button size="large">Большая</Button>
 </div>
 ```
 
-Кнопки в виде стрелок.
+Кнопки могут принимать вид стрелок. В таком случае иконка привязывается к краю кнопки.
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
 
-<Gapped gap={25}>
-  <Gapped gap={5}>
-    <Button arrow="left" size="medium">
-      Назад
-    </Button>
-    <Button arrow size="medium">
-      Далее
-    </Button>
-  </Gapped>
-</Gapped>;
+
+<Gapped gap={5}>
+  <Button arrow="left" size="medium">
+    Назад
+  </Button>
+  <Button arrow size="medium">
+    Далее
+  </Button>
+</Gapped>
 ```
 
 Кнопка в состоянии загрузки.
@@ -91,12 +94,11 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 
 Кнопка на время нахождения в состоянии загрузки отключается.
 
-Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет - весь контент кнопки заменяется на спиннер.
+Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import BookmarkIcon from '@skbkontur/react-icons/Bookmark';
+import { MinusCircleIcon16Light } from '@skbkontur/icons/MinusCircleIcon16Light';
 
 const [loading, setLoading] = React.useState(false);
 
@@ -116,10 +118,16 @@ const handleClick = () => {
 
 <Gapped>
   <Button width={150} onClick={handleClick} loading={loading}>
-    Сохранить
+    Удалить
   </Button>
-  <Button icon={<BookmarkIcon />} width={150} onClick={handleClick} loading={loading}>
-    Сохранить
+  <Button icon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+    Удалить
+  </Button>
+  <Button rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+    Удалить
+  </Button>
+  <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+    Удалить
   </Button>
 </Gapped>
 
@@ -142,7 +150,7 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Toast } from "@skbkontur/react-ui";
-import { Copy } from "@skbkontur/react-icons"
+import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
   btnLinkLineBorderBottomWidth: '0',
@@ -186,7 +194,7 @@ const renderExampleRow = (title, styles, index) => {
           <td style={tdStyle}>
             <div style={{display: 'flex'}}>
               <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-              <Button icon={<Copy />} use={'text'} onClick={() => copyStyles(styles)}/>
+              <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
             </div>
           </td>
         </tr>

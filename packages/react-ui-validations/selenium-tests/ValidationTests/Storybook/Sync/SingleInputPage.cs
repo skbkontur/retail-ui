@@ -1,4 +1,4 @@
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 using SKBKontur.SeleniumTesting;
 using SKBKontur.SeleniumTesting.Controls;
@@ -8,7 +8,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 {
     public class SingleInputPage : PageBase
     {
-        public SingleInputPage(RemoteWebDriver webDriver)
+        public SingleInputPage(IWebDriver webDriver)
             : base(webDriver)
         {
             InputValidation = new ValidationWrapper(this, new UniversalSelector("##InputValidation"));
@@ -24,7 +24,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         public Label ValidationState { get; }
         public Select ValidationLevel { get; }
 
-    public SingleInputPage WaitReady()
+        public SingleInputPage WaitReady()
         {
             SubmitButton.WaitPresent();
             ValidationLevel.WaitPresent();

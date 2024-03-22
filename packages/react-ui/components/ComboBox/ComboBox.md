@@ -467,19 +467,18 @@ class ComboboxExample extends React.Component {
 ```
 
 
-При изменении значения и блюре `ComboBox` остается в состоянии `editing` и не дает изменить значение через проп `value`. Поэтому, для того чтобы задать новое значение, необходимо вызвать метод `reset`.
+Если нужно сбросить контрол без изменения `value`, то можно использовать метод `reset`.
 
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
   const [selected, setSelected] = React.useState({ value: 1, label: "First" });
-  const ref = React.useRef();
+  const ref = React.useRef(null);
 
-  const handleButtonClick = () => {
+  const handleReset = () => {
     if (ref.current) {
       ref.current.reset();
     }
-    setSelected({ value: 3, label: "Third" });
   };
 
   const getItems = (q) =>
@@ -503,7 +502,7 @@ import { Button } from '@skbkontur/react-ui';
       placeholder="Enter number"
       value={selected}
     />
-    <Button onClick={handleButtonClick}>Make it three!</Button>
+    <Button onClick={handleReset}>Reset</Button>
   </div>
 
 ```
