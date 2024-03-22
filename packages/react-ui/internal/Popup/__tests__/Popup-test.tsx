@@ -5,6 +5,7 @@ import { ReactComponentLike } from 'prop-types';
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { RenderLayer } from '../../RenderLayer';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
@@ -15,7 +16,13 @@ import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
-import { PopupDataTids } from '..';
+
+function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+
+  document.body.dispatchEvent(event);
+}
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
@@ -248,6 +255,8 @@ describe('mobile Popup', () => {
     };
   });
 
+  const popupContent = 'Test content';
+
   beforeEach(() => {
     window.matchMedia = matchMediaMock;
   });
@@ -261,31 +270,43 @@ describe('mobile Popup', () => {
     const handleClick = () => {
       setOpened((opened) => !opened);
     };
+    const anchor = <button onClick={handleClick} />;
+
     return (
-      <button onClick={handleClick}>
-        Foo
+      <RenderLayer onClickOutside={handleClick} onFocusOutside={handleClick}>
         <Popup
           positions={['bottom left', 'bottom right', 'top left', 'top right']}
           opened={opened}
-          anchorElement={null}
+          anchorElement={anchor}
           disableAnimations
-          mobileOnBlurRequest={handleClick}
         >
-          Test content
+          {popupContent}
         </Popup>
-      </button>
+      </RenderLayer>
     );
   };
 
-  it('should close by mobileOnBlurRequest', async () => {
+  it('inside RenderLayer should be closed by onClickOutside', async () => {
     render(<TestPopup />);
 
     userEvent.click(await screen.findByRole('button'));
-    expect(await screen.findByTestId(PopupDataTids.content)).toBeInTheDocument();
+    expect(await screen.findByText(popupContent)).toBeInTheDocument();
+
+    clickOutside();
+
+    await waitForElementToBeRemoved(() => screen.queryByText(popupContent));
+    expect(screen.queryByText(popupContent)).not.toBeInTheDocument();
+  });
+
+  it('inside RenderLayer should be closed by onFocusOutside', async () => {
+    render(<TestPopup />);
+
+    userEvent.click(await screen.findByRole('button'));
+    expect(await screen.findByText(popupContent)).toBeInTheDocument();
 
     fireEvent.blur(window);
 
-    await waitForElementToBeRemoved(() => screen.queryByTestId(PopupDataTids.content));
-    expect(screen.queryByTestId(PopupDataTids.content)).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByText(popupContent));
+    expect(screen.queryByText(popupContent)).not.toBeInTheDocument();
   });
 });
