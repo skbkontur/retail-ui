@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { RenderLayer } from '../../RenderLayer';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
-import { delay } from '../../../lib/utils';
+import { delay, clickOutside } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { CommonWrapper } from '../../CommonWrapper';
@@ -16,13 +16,6 @@ import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
-
-function clickOutside() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-
-  document.body.dispatchEvent(event);
-}
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
