@@ -1,7 +1,7 @@
 import React from 'react';
 import { MaskedPatternOptions } from 'imask';
 
-import { getMaskedPattern, getMaskedShadows } from '../MaskedInputElement.helpers';
+import { getMasked, getMaskedShadows } from '../MaskedInputElement.helpers';
 import { IMaskRefType } from '../../../components/MaskedInput';
 
 describe('MaskedInputElement.helpers', () => {
@@ -12,7 +12,7 @@ describe('MaskedInputElement.helpers', () => {
       },
     } as any as React.RefObject<IMaskRefType>;
 
-    return getMaskedPattern(mockMaskRef, options);
+    return getMasked(mockMaskRef, options);
   };
 
   describe('getMaskedShadows', () => {

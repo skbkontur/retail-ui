@@ -86,7 +86,7 @@ describe('MaskedInput', () => {
 
   it('masked input calls onUnexpectedInput', () => {
     const handleUnexpectedInput = jest.fn();
-    render(<MaskedInput mask="999" onUnexpectedInput={handleUnexpectedInput} imaskProps={{ unmask: true }} />);
+    render(<MaskedInput mask="999" onUnexpectedInput={handleUnexpectedInput} />);
 
     const input = screen.getByRole('textbox');
     fireEvent.input(input, { target: { value: 'A' } });

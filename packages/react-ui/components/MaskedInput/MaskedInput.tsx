@@ -1,6 +1,6 @@
 import React, { Ref, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { InputMask, MaskedPatternOptions, PatternFixedDefinition } from 'imask';
-import { IMaskInput, ReactMaskOpts } from 'react-imask';
+import { InputMask, MaskedPatternOptions } from 'imask';
+import { IMaskInput, ReactMaskOpts, IMaskInputProps } from 'react-imask';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
@@ -8,13 +8,14 @@ import { MaskedInputElement, MaskedShadows } from '../../internal/MaskedInputEle
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import {
   getCompatibleIMaskProps,
-  getMaskedPattern,
+  getFixedPartValue,
+  getMasked,
   getMaskedShadows,
 } from '../../internal/MaskedInputElement/MaskedInputElement.helpers';
 
 export interface MaskedProps {
   /** Паттерн маски */
-  mask?: string;
+  mask?: IMaskInputProps<HTMLInputElement>['mask'];
   /** Символ маски */
   maskChar?: Nullable<string>;
   /**
@@ -29,7 +30,7 @@ export interface MaskedProps {
    *
    * @see https://imask.js.org/guide.html
    */
-  imaskProps?: ReactMaskOpts;
+  imaskProps?: IMaskInputProps<HTMLInputElement>;
   /**
    * При фокусе, если `value` пустое, будет вызывать `onValueChange` с фиксированной частью маски в начале строки
    *
@@ -65,7 +66,7 @@ export const MaskedInput = forwardRefAndName(
       maskChar,
       formatChars,
       alwaysShowMask,
-      imaskProps: customIMaskProps = {},
+      imaskProps: { onAccept, ...customIMaskProps } = {},
       applyFixedPart = true,
       placeholder,
       onValueChange,
@@ -85,10 +86,12 @@ export const MaskedInput = forwardRefAndName(
     const showPlaceholder = !(alwaysShowMask || focused);
 
     useEffect(() => {
-      setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, props)));
+      setMaskedShadows(getMaskedShadows(getMasked(imaskRef, props)));
     }, [imaskRef.current, props.value, alwaysShowMask, focused]);
 
     useImperativeHandle(ref, () => inputRef.current, []);
+
+    console.log('getAllIMaskProps()', getAllIMaskProps());
 
     return (
       <Input
@@ -112,13 +115,18 @@ export const MaskedInput = forwardRefAndName(
       />
     );
 
-    function handleAccept(value: string) {
+    function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
+      const [value] = args;
       onValueChange?.(value);
 
       // обработка uncontrolled режима
       if (typeof props.value === 'undefined') {
-        setMaskedShadows(getMaskedShadows(getMaskedPattern(imaskRef, props)));
+        setMaskedShadows(getMaskedShadows(getMasked(imaskRef, props)));
       }
+
+      // type w = ReturnType<any>;
+
+      onAccept?.(...args);
     }
 
     // Отслеживаем неожиданные нажатия
@@ -160,20 +168,20 @@ export const MaskedInput = forwardRefAndName(
 
     // Если в маске есть фиксированные символы вначале строки, то рендерим их сразу при фокусе
     function getValueWithFixedPart() {
-      const maskedPattern = getMaskedPattern(imaskRef, props);
-      if (!applyFixedPart || !maskedPattern || customIMaskProps.unmask) {
+      const masked = getMasked(imaskRef, props);
+      const fixedPartValue = getFixedPartValue(masked);
+
+      if (!applyFixedPart || customIMaskProps.unmask || !fixedPartValue) {
         return props.value;
       }
-      const index = maskedPattern._blocks.findIndex((value1) => !(value1 instanceof PatternFixedDefinition));
 
       const nativeInputValue = imaskRef.current?.element.value || '';
-      const minValue = maskedPattern.value.slice(0, index);
 
-      if (focused && nativeInputValue.length <= minValue.length) {
-        return minValue;
+      if (focused && nativeInputValue.length <= fixedPartValue.length) {
+        return fixedPartValue;
       }
 
-      if (!focused && nativeInputValue === minValue) {
+      if (!focused && nativeInputValue === fixedPartValue) {
         return '';
       }
 
