@@ -7,7 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement, MaskedShadows } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { getCompatibleIMaskProps, getFixedPartValue, getMasked, getMaskedShadows } from './MaskedInput.helpers';
+import { getCompatibleIMaskProps, getMasked, getMaskedShadows } from './MaskedInput.helpers';
 
 export interface MaskedProps {
   /** Паттерн маски */
@@ -27,16 +27,6 @@ export interface MaskedProps {
    * @see https://imask.js.org/guide.html
    */
   imaskProps?: IMaskInputProps<HTMLInputElement>;
-  /**
-   * При фокусе, если `value` пустое, будет вызывать `onValueChange` с фиксированной частью маски в начале строки
-   *
-   * По блюру, если `value` не изменится, будет вызывать `onValueChange` с пустой строкой
-   *
-   * **Проп игнорируется, если `imaskProps.unmask = true`**
-   *
-   * @default true
-   */
-  applyFixedPart?: boolean;
 }
 
 export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'password'>;
@@ -63,7 +53,6 @@ export const MaskedInput = forwardRefAndName(
       formatChars,
       alwaysShowMask,
       imaskProps: { onAccept, ...customIMaskProps } = {},
-      applyFixedPart = true,
       placeholder,
       onValueChange,
       onUnexpectedInput,
@@ -76,7 +65,7 @@ export const MaskedInput = forwardRefAndName(
 
     const [focused, setFocused] = useState(false);
     const [maskedShadows, setMaskedShadows] = useState<MaskedShadows>(['', '']);
-    const valueVhanged = useRef(false);
+    const prevValue = useRef<string>(props.value || '');
 
     const showPlaceholder = !(alwaysShowMask || focused);
 
@@ -115,17 +104,18 @@ export const MaskedInput = forwardRefAndName(
         setMaskedShadows(getMaskedShadows(getMasked(imaskRef, props)));
       }
 
-      valueVhanged.current = true;
-
-      onValueChange?.(value);
       onAccept?.(...args);
+
+      // onAccept вызывается при монтировании, если value не пустой
+      // но onValueChange должен вызываться только при изменении value
+      props.value !== value && onValueChange?.(value);
     }
 
     // Отслеживаем неожиданные нажатия
     // handleAccept не вызывается когда значение с маской не меняется
     // Сначала вызывается handleAccept, затем handleInput
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      if (!valueVhanged.current) {
+      if (prevValue.current === e.target.value) {
         if (onUnexpectedInput) {
           onUnexpectedInput(props.value || '');
         } else if (inputRef.current) {
@@ -133,7 +123,7 @@ export const MaskedInput = forwardRefAndName(
         }
       }
 
-      valueVhanged.current = false;
+      prevValue.current = e.target.value;
 
       props.onInput?.(e);
     }
@@ -146,32 +136,6 @@ export const MaskedInput = forwardRefAndName(
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(false);
       props.onBlur?.(e);
-    }
-
-    // Если в маске есть фиксированные символы вначале строки, то рендерим их сразу при фокусе
-    function getValueWithFixedPart() {
-      const masked = getMasked(imaskRef, props);
-      const fixedPartValue = getFixedPartValue(masked);
-
-      if (!applyFixedPart || customIMaskProps.unmask || fixedPartValue === '' || props.value === fixedPartValue) {
-        return props.value;
-      }
-
-      const nativeInputValue = imaskRef.current?.element.value || '';
-
-      if (focused && nativeInputValue.length <= fixedPartValue.length) {
-        // prevValue.current = fixedPartValue;
-        valueVhanged.current = false;
-        return fixedPartValue;
-      }
-
-      if (!focused && nativeInputValue === fixedPartValue) {
-        // prevValue.current = '';
-        // valueVhanged.current = true;
-        return '';
-      }
-
-      return props.value;
     }
   },
 );

@@ -15,7 +15,7 @@ describe('MaskedInput', () => {
     ['+9+9+', 'X', '+X+X+'],
   ])('mask "%s" with maskChar "%s" -> "%s"', (mask, maskChar, maskPlaceholder) => {
     it('without `alwaysShowMask`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} applyFixedPart={false} />);
+      render(<MaskedInput maskChar={maskChar} mask={mask} />);
 
       const input = screen.getByRole('textbox');
       input.focus();
@@ -25,7 +25,7 @@ describe('MaskedInput', () => {
     });
 
     it('with `alwaysShowMask`', () => {
-      render(<MaskedInput alwaysShowMask maskChar={maskChar} mask={mask} applyFixedPart={false} />);
+      render(<MaskedInput alwaysShowMask maskChar={maskChar} mask={mask} />);
 
       const placeholder = screen.getByText(maskPlaceholder);
 
@@ -41,13 +41,13 @@ describe('MaskedInput', () => {
     ['99:aa', '11:22', '11:'],
   ])('mask "%s" pass value "%s" -> "%s"', (mask, value, expectedValue) => {
     it('when mounting', () => {
-      render(<MaskedInput value={value} maskChar="_" mask={mask} applyFixedPart={false} />);
+      render(<MaskedInput value={value} maskChar="_" mask={mask} />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(expectedValue);
     });
 
     it('when entering', () => {
-      render(<MaskedInput maskChar="_" mask={mask} applyFixedPart={false} />);
+      render(<MaskedInput maskChar="_" mask={mask} />);
 
       const input = screen.getByRole('textbox');
       fireEvent.change(input, { target: { value } });
@@ -58,7 +58,7 @@ describe('MaskedInput', () => {
 
   it('should accept `null` as value', () => {
     // @ts-expect-error: `Input` techinically can't accept `null` as a `value`
-    expect(() => render(<MaskedInput value={null} mask="99:99" applyFixedPart={false} />)).not.toThrow();
+    expect(() => render(<MaskedInput value={null} mask="99:99" />)).not.toThrow();
   });
 
   it.each([
@@ -71,16 +71,14 @@ describe('MaskedInput', () => {
   ])(
     `mask '%s' - pass value '%s' and defaultValue '%s' - state value '%s'`,
     (mask, inputValue, defaultValue, expected) => {
-      render(
-        <MaskedInput maskChar="_" mask={mask} value={inputValue} defaultValue={defaultValue} applyFixedPart={false} />,
-      );
+      render(<MaskedInput maskChar="_" mask={mask} value={inputValue} defaultValue={defaultValue} />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(expected);
     },
   );
 
   it('custom format chars', () => {
-    render(<MaskedInput value={'123'} mask="XX:XX" formatChars={{ X: '[0-9]' }} applyFixedPart={false} />);
+    render(<MaskedInput value={'123'} mask="XX:XX" formatChars={{ X: '[0-9]' }} />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12:3');
@@ -88,64 +86,11 @@ describe('MaskedInput', () => {
 
   it('masked input calls onUnexpectedInput', () => {
     const handleUnexpectedInput = jest.fn();
-    render(<MaskedInput mask="999" onUnexpectedInput={handleUnexpectedInput} applyFixedPart={false} />);
+    render(<MaskedInput mask="999" onUnexpectedInput={handleUnexpectedInput} />);
 
     const input = screen.getByRole('textbox');
     fireEvent.input(input, { target: { value: 'A' } });
 
     expect(handleUnexpectedInput).toHaveBeenCalledTimes(1);
-  });
-
-  describe('`applyFixedPart` prop', () => {
-    it('prefix on focus', () => {
-      render(<MaskedInput mask="+7 (999) 999 99 99" />);
-
-      const input = screen.getByRole('textbox');
-      input.focus();
-
-      expect(input).toHaveValue('+7 (');
-    });
-
-    it.each([
-      ['', ''],
-      ['+7 (', ''],
-      ['+7 (9', '+7 (9'],
-    ])('focus and blur with value %s', (value, expectedValue) => {
-      render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
-
-      const input = screen.getByRole('textbox');
-      input.focus();
-      input.blur();
-
-      expect(input).toHaveValue(expectedValue);
-    });
-
-    it.each([
-      ['', 1],
-      ['+7 (', 1],
-      ['+7 (9', 0],
-    ])('onValueChange fire on focus when value is "%s"', (value, calledTimes) => {
-      const valueChangeEvent = jest.fn();
-      render(<MaskedInput mask="+7 (999) 999 99 99" value={value} onValueChange={valueChangeEvent} />);
-
-      const input = screen.getByRole('textbox');
-      input.focus();
-
-      expect(valueChangeEvent).toHaveBeenCalledTimes(calledTimes);
-    });
-
-    it('masked input calls onValueChange', () => {
-      const valueChangeEvent = jest.fn();
-      render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
-
-      const input = screen.getByRole('textbox');
-      input.focus();
-      fireEvent.input(input, { target: { value: '1' } });
-      fireEvent.input(input, { target: { value: '2' } });
-      fireEvent.input(input, { target: { value: '3' } });
-      input.blur();
-
-      expect(valueChangeEvent).toHaveBeenCalledTimes(4);
-    });
   });
 });

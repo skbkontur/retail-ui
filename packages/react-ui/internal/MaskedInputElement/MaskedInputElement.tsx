@@ -46,7 +46,7 @@ export const MaskedInputElement = forwardRefAndName(
         className={styles.container()}
         x-ms-format-detection="none"
       >
-        {React.cloneElement(children, inputProps)}
+        {React.cloneElement(children, { ...inputProps, inputRef })}
         {renderMaskedShadows()}
       </span>
     );
