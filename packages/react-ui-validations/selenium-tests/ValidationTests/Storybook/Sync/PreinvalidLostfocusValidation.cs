@@ -12,7 +12,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidByDefault()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
             page.Input.WaitNoError();
             page.InputValidation.Label.WaitAbsent();
@@ -21,7 +21,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestInvalidAfterBlur()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
 
             page.Input.WaitNoError();
@@ -36,7 +36,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToValid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
 
             page.Input.Click();
@@ -56,7 +56,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToValidToInvalid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
 
             page.Input.Click();
@@ -82,7 +82,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToInvalid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
 
             page.Input.Click();
@@ -104,7 +104,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestInvalidOnSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
 
             page.SubmitButton.Click();

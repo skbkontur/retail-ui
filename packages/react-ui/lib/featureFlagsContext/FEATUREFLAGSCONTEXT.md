@@ -8,6 +8,7 @@ export interface ReactUIFeatureFlags {
   kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
 }
 ```
 
@@ -239,6 +240,63 @@ import { Link, Button, Gapped, ThemeContext, THEME_2022, DEFAULT_THEME, ReactUIF
     <Link>Старая ссылка</Link>
   </Gapped>
 </ThemeContext.Provider>
+```
+
+### comboBoxAllowValueChangeInEditingState
+
+Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
+
+В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
+
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState({ value: '', label: '' });
+
+const handleValueChange = () => {
+  setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
+};
+
+const getItems = () =>
+  Promise.resolve([
+    { value: 'Первый', label: 'Первый' },
+    { value: 'Второй', label: 'Второй' },
+  ]);
+
+<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+  <Button onClick={handleValueChange}>Обновить</Button>
+  <ComboBox
+    value={value}
+    searchOnFocus={false}
+    getItems={getItems}
+    onValueChange={(value) => setValue(value)}
+    onInputValueChange={(value) => {
+      setValue({ value, label: value });
+     }}
+  />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### hintAddDynamicPositioning
+
+Этот флаг включает у Hint'а изменение положения, если Hint не попадает во viewport. Если существует положение, в котором Hint будет виден полностью, то Hint будет занимать его.
+При включении флага могут потребоваться обновления скриншотных тестов.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true }}>
+  <div style={{ marginRight: '-130px', top: '50px', textAlign: 'right' }}>
+    <Hint text={'Example!'} pos="bottom center" maxWidth={295} manual opened>
+      <Button use="success" size="medium" width={135} disabled>
+        Пригласить
+      </Button>
+    </Hint>
+  </div>
+</ReactUIFeatureFlagsContext.Provider>
 ```
 
 ## Объект со всеми флагами

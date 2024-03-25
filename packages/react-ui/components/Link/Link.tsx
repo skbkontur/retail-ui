@@ -7,7 +7,6 @@ import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
-import { Spinner } from '../Spinner';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -18,6 +17,7 @@ import { isIE11 } from '../../lib/client';
 import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 
 import { globalClasses, styles } from './Link.styles';
+import { LinkIcon } from './LinkIcon';
 
 export interface LinkProps
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -34,9 +34,13 @@ export interface LinkProps
          */
         href?: string;
         /**
-         * Добавляет ссылке иконку.
+         * Добавляет ссылке иконку слева.
          */
-        icon?: React.ReactElement<any>;
+        icon?: React.ReactElement;
+        /**
+         * Добавляет ссылке иконку справа.
+         */
+        rightIcon?: React.ReactElement;
         /**
          * Тема ссылки.
          */
@@ -150,6 +154,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       disabled,
       href,
       icon,
+      rightIcon,
       use,
       loading,
       _button,
@@ -161,15 +166,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
 
-    const isFocused = !disabled && (this.state.focusedByTab || focused);
-
-    let iconElement = null;
-    if (icon) {
-      iconElement = (
-        <span className={styles.icon(this.theme)}>{loading ? <Spinner caption={null} dimmed inline /> : icon}</span>
-      );
-    }
-
     let arrow = null;
     if (_button) {
       arrow = <span className={styles.arrow()} />;
@@ -179,6 +175,13 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (typeof rel === 'undefined' && href) {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
+
+    const isFocused = !disabled && (this.state.focusedByTab || focused);
+
+    const leftIconElement = icon && <LinkIcon icon={icon} loading={loading} position="left" />;
+    const rightIconElement = rightIcon && (
+      <LinkIcon hasBothIcons={!!icon && !!rightIcon} icon={rightIcon} loading={loading} position="right" />
+    );
 
     const linkProps = {
       className: cx(
@@ -222,8 +225,9 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     return (
       <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
-        {iconElement}
+        {leftIconElement}
         {child}
+        {rightIconElement}
         {arrow}
       </Component>
     );

@@ -526,9 +526,9 @@ object Validations : Project({
 
     buildType(Validations_Build)
     buildType(Validations_LintTest)
-    buildType(Validations_ScreenshotTests)
     buildType(Validations_Publish)
-    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish)
+    buildType(Validations_ScreenshotTests)
+    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish, Validations_ScreenshotTests)
 })
 
 object Validations_Build : BuildType({
@@ -701,7 +701,40 @@ object Validations_Publish : BuildType({
 object Validations_ScreenshotTests : BuildType({
     name = "Screenshot tests"
 
+    artifactRules = ""
+
+    maxRunningBuilds = 2
+
     vcs {
         root(DslContext.settingsRoot)
+    }
+
+    steps {
+        step {
+          name = "Install"
+          id = "RUNNER_1"
+          type = "jonnyzzz.yarn"
+          param("yarn_commands", "install")
+        }
+        step {
+          name = "Build Storybook"
+          id = "RUNNER_2"
+          type = "jonnyzzz.yarn"
+          param("yarn_commands", "workspace react-ui-validations storybook:build")
+        }
+        script {
+            name = "Start"
+            id = "RUNNER_3"
+            scriptContent = """
+                start /b yarn workspace react-ui-validations storybook:serve
+                ping 127.0.0.1 -n 11
+            """.trimIndent()
+        }
+        step {
+          name = "Test UI"
+          id = "RUNNER_4"
+          type = "jonnyzzz.yarn"
+          param("yarn_commands", "workspace react-ui-validations creevey")
+        }
     }
 })

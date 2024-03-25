@@ -47,7 +47,7 @@ namespace SKBKontur.ValidationTests.Controls
                     var inputTag = x.FindElement(By.CssSelector("input"));
                     inputTag.Click();
                     inputTag.SendKeys(Keys.Tab);
-                }, $"TabOut()");
+                }, "TabOut()");
         }
     }
 }

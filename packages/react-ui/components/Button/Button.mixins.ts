@@ -62,6 +62,7 @@ export const buttonHoverMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
+  color: string,
   borderColor: string,
   borderBottomColor: string,
   borderWidth: string,
@@ -71,6 +72,7 @@ export const buttonHoverMixin = (
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    color: ${color};
 
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 ${borderColor};

@@ -1,5 +1,3 @@
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -531,6 +529,7 @@ export const styles = memoizeStyle({
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
           t.btnDefaultHoverBgEnd,
+          t.btnDefaultHoverTextColor,
           t.btnDefaultHoverBorderColor,
           t.btnDefaultHoverBorderBottomColor,
           t.btnBorderWidth,
@@ -560,6 +559,7 @@ export const styles = memoizeStyle({
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
           t.btnPrimaryHoverBgEnd,
+          t.btnPrimaryHoverTextColor,
           t.btnPrimaryHoverBorderColor,
           t.btnPrimaryHoverBorderBottomColor,
           t.btnBorderWidth,
@@ -589,6 +589,7 @@ export const styles = memoizeStyle({
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
           t.btnSuccessHoverBgEnd,
+          t.btnSuccessHoverTextColor,
           t.btnSuccessHoverBorderColor,
           t.btnSuccessHoverBorderBottomColor,
           t.btnBorderWidth,
@@ -618,6 +619,7 @@ export const styles = memoizeStyle({
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
           t.btnDangerHoverBgEnd,
+          t.btnDangerHoverTextColor,
           t.btnDangerHoverBorderColor,
           t.btnDangerHoverBorderBottomColor,
           t.btnBorderWidth,
@@ -647,6 +649,7 @@ export const styles = memoizeStyle({
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
           t.btnPayHoverBgEnd,
+          t.btnPayHoverTextColor,
           t.btnPayHoverBorderColor,
           t.btnPayHoverBorderBottomColor,
           t.btnBorderWidth,
@@ -673,7 +676,15 @@ export const styles = memoizeStyle({
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
       &:hover:enabled {
-        ${buttonHoverMixin(t.btnTextHoverBg, '', '', t.btnTextHoverBorderColor, '', t.btnBorderWidth)};
+        ${buttonHoverMixin(
+          t.btnTextHoverBg,
+          '',
+          '',
+          t.btnTextHoverTextColor,
+          t.btnTextHoverBorderColor,
+          '',
+          t.btnBorderWidth,
+        )};
       }
 
       &:active:enabled {
@@ -698,7 +709,15 @@ export const styles = memoizeStyle({
       background: transparent;
 
       &:hover:enabled {
-        ${buttonHoverMixin(t.btnBacklessHoverBg, '', '', t.btnBacklessHoverBorderColor, '', t.btnBorderWidth)};
+        ${buttonHoverMixin(
+          t.btnBacklessHoverBg,
+          '',
+          '',
+          t.btnBacklessHoverTextColor,
+          t.btnBacklessHoverBorderColor,
+          '',
+          t.btnBorderWidth,
+        )};
       }
 
       &:active:enabled {
@@ -891,18 +910,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconNoRightMargin() {
-    return css`
-      margin-right: 0;
-    `;
-  },
-
-  iconLink(t: Theme) {
-    return css`
-      margin-right: ${t.btnLinkIconMarginRight};
-    `;
-  },
-
   wrapLink() {
     return css`
       padding: 0;
@@ -919,35 +926,6 @@ export const styles = memoizeStyle({
     return css`
       margin-right: 0;
       margin-left: 10px;
-    `;
-  },
-
-  icon(t: Theme) {
-    const space = isTheme2022(t) ? `'${ZERO_WIDTH_SPACE_CSS}'` : null;
-    return css`
-      display: inline-block;
-
-      &::before {
-        content: ${space};
-      }
-    `;
-  },
-  iconSmall(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeSmall};
-      margin-right: ${t.btnIconGapSmall};
-    `;
-  },
-  iconMedium(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeMedium};
-      margin-right: ${t.btnIconGapMedium};
-    `;
-  },
-  iconLarge(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeLarge};
-      margin-right: ${t.btnIconGapLarge};
     `;
   },
 
