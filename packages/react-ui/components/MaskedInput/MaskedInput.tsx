@@ -91,8 +91,6 @@ export const MaskedInput = forwardRefAndName(
 
     useImperativeHandle(ref, () => inputRef.current, []);
 
-    console.log('getAllIMaskProps()', getAllIMaskProps());
-
     return (
       <Input
         ref={inputRef}
@@ -123,8 +121,6 @@ export const MaskedInput = forwardRefAndName(
       if (typeof props.value === 'undefined') {
         setMaskedShadows(getMaskedShadows(getMasked(imaskRef, props)));
       }
-
-      // type w = ReturnType<any>;
 
       onAccept?.(...args);
     }
@@ -171,7 +167,7 @@ export const MaskedInput = forwardRefAndName(
       const masked = getMasked(imaskRef, props);
       const fixedPartValue = getFixedPartValue(masked);
 
-      if (!applyFixedPart || customIMaskProps.unmask || !fixedPartValue) {
+      if (!applyFixedPart || customIMaskProps.unmask || fixedPartValue === '') {
         return props.value;
       }
 

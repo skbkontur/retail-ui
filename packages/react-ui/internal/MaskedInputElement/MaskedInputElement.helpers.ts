@@ -38,7 +38,7 @@ export function getMaskChar(maskChar: string | null | undefined): string {
 
 export function getCompatibleIMaskProps(props: MaskedInputProps): ThisType<FactoryArg> {
   return {
-    mask: props.mask || '',
+    mask: props.mask,
     placeholderChar: getMaskChar(props.maskChar),
     definitions: getDefinitions(props.formatChars),
     eager: 'append',
@@ -48,22 +48,18 @@ export function getCompatibleIMaskProps(props: MaskedInputProps): ThisType<Facto
 
 export function getMasked(imaskRef: React.RefObject<IMaskRefType>, props: MaskedInputProps = {}) {
   // На основе текущих настроек IMask создаём другой экземпляр IMask, но с полем `lazy: false`
-  // Это поле всегда генерит все фиксированные символы маски
   const masked = IMask.createMask({
     ...getCompatibleIMaskProps(props),
     ...props.imaskProps,
+    // Это поле генерирует все фиксированные символы маски
     lazy: false,
   });
 
-  // обработка uncontrolled режима
-  // если props.value не пришёл, то смотрим в реальный input.value
-  const uncontrolledValue = imaskRef.current?.element.value || '';
+  const uncontrolledValue = imaskRef.current?.element.value;
 
   // createMask принимает только поля настроек
   // value надо явно зарезолвить
-  masked.resolve(props.value || uncontrolledValue);
-
-  console.log(masked);
+  masked.resolve(props.value || uncontrolledValue || '');
 
   return masked;
 }
@@ -71,11 +67,7 @@ export function getMasked(imaskRef: React.RefObject<IMaskRefType>, props: Masked
 /**
  * Получить введенное значение и оставшуюся часть маски
  */
-export function getMaskedShadows(masked: AnyIMaskType | null): MaskedShadows {
-  if (!masked) {
-    return ['', ''];
-  }
-
+export function getMaskedShadows(masked: AnyIMaskType): MaskedShadows {
   // В рамках этого хелпера обозначим следующие понятия:
   // pattern - это правила, заданные разработчиком. Исторически называется mask
   // placeholder - это заполнитель паттерна, демонстрирующий пользователю ограничения ввода
@@ -87,8 +79,7 @@ export function getMaskedShadows(masked: AnyIMaskType | null): MaskedShadows {
   const filledPlaceholder = masked.value;
 
   // "+7 (123"
-  // При unmask фиксированные сиволы в конце игнорируются
-  const filledValue = masked.isComplete ? filledPlaceholder : masked._value;
+  const filledValue = masked._value;
 
   // ") ___ __ __"
   const restPlaceholder = filledPlaceholder.slice(filledValue.length);
@@ -96,9 +87,9 @@ export function getMaskedShadows(masked: AnyIMaskType | null): MaskedShadows {
   return [filledValue, restPlaceholder];
 }
 
-export function getFixedPartValue(masked: AnyIMaskType): string | null {
+export function getFixedPartValue(masked: AnyIMaskType): string {
   if (!(masked instanceof IMask.MaskedPattern)) {
-    return null;
+    return '';
   }
 
   // IMask разбивает маску на массив объектов, где можно найти фиксированные части
