@@ -8,6 +8,9 @@ export interface ReactUIFeatureFlags {
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
+  menuItemsAtAnyLevel?: boolean;
+  textareaUseSafari17Workaround?: boolean;
+  popupUnifyPositioning?: boolean;
 }
 ```
 
@@ -211,6 +214,27 @@ const getItems = () =>
       setValue({ value, label: value });
      }}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### popupUnifyPositioning
+
+Этот флаг делает одинаковым порядок выбора позиции Hint'ом и Tooltip'ом. Таким образом при одинаковых условиях Hint и Tooltip будут отрисовываться с одинаковой стороны с одинаковым выравниванием.
+При неполном попадании во viewport Hint, как и Tooltip, будет пытаться выбрать позицию, на которой он будет полностью виден. Отличие Hint и Tooltip остается в том, что при изменении viewport открытый Tooltip остается на том месте, на котором он был отрисован, а Hint -- ищет более "выгодное" положение.
+При включении флага могут потребоваться обновления скриншотных тестов.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ popupUnifyPositioning: true }}>
+  <div style={{ marginRight: '-130px', top: '50px', textAlign: 'right' }}>
+    <Hint text={'Example!'} pos="bottom center" maxWidth={295} manual opened>
+      <Button use="success" size="medium" width={135} disabled>
+        Пригласить
+      </Button>
+    </Hint>
+  </div>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
