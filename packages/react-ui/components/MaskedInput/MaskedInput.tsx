@@ -1,6 +1,6 @@
 import React, { Ref, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { InputMask, MaskedPatternOptions } from 'imask';
-import { IMaskInput, ReactMaskOpts, IMaskInputProps } from 'react-imask';
+import { IMaskInput, IMaskInputProps } from 'react-imask';
 
 import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
@@ -77,11 +77,10 @@ export const MaskedInput = forwardRefAndName(
 
     const inputRef = useRef<Input>(null);
     const imaskRef = useRef<IMaskRefType>(null);
-    const nativeInputRef = useRef<HTMLInputElement | null>(null);
 
     const [focused, setFocused] = useState(false);
     const [maskedShadows, setMaskedShadows] = useState<MaskedShadows>(['', '']);
-    const prevValue = useRef('');
+    const valueVhanged = useRef(false);
 
     const showPlaceholder = !(alwaysShowMask || focused);
 
@@ -95,18 +94,17 @@ export const MaskedInput = forwardRefAndName(
       <Input
         ref={inputRef}
         {...inputProps}
-        value={getValueWithFixedPart()}
         placeholder={showPlaceholder ? placeholder : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onInput={handleInput}
         element={
           <MaskedInputElement maskedShadows={alwaysShowMask || focused ? maskedShadows : null}>
             <IMaskInput
-              inputRef={nativeInputRef}
               ref={imaskRef}
+              {...getCompatibleIMaskProps(props)}
+              {...customIMaskProps}
               onAccept={handleAccept}
-              onInput={handleInput}
-              {...getAllIMaskProps()}
             />
           </MaskedInputElement>
         }
@@ -115,13 +113,15 @@ export const MaskedInput = forwardRefAndName(
 
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
       const [value] = args;
-      onValueChange?.(value);
 
       // обработка uncontrolled режима
       if (typeof props.value === 'undefined') {
         setMaskedShadows(getMaskedShadows(getMasked(imaskRef, props)));
       }
 
+      valueVhanged.current = true;
+
+      onValueChange?.(value);
       onAccept?.(...args);
     }
 
@@ -129,19 +129,16 @@ export const MaskedInput = forwardRefAndName(
     // handleAccept не вызывается когда значение с маской не меняется
     // Сначала вызывается handleAccept, затем handleInput
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      if (imaskRef.current) {
-        const { _value } = imaskRef.current.maskRef;
-
-        if (prevValue.current === _value) {
-          if (onUnexpectedInput) {
-            onUnexpectedInput(props.value || '');
-          } else if (inputRef.current) {
-            inputRef.current.blink();
-          }
+      if (!valueVhanged.current) {
+        if (onUnexpectedInput) {
+          onUnexpectedInput(props.value || '');
+        } else if (inputRef.current) {
+          inputRef.current.blink();
         }
-
-        prevValue.current = _value;
       }
+
+      valueVhanged.current = false;
+
       props.onInput?.(e);
     }
 
@@ -153,13 +150,6 @@ export const MaskedInput = forwardRefAndName(
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(false);
       props.onBlur?.(e);
-    }
-
-    function getAllIMaskProps(): ReactMaskOpts {
-      return {
-        ...getCompatibleIMaskProps(props),
-        ...customIMaskProps,
-      } as ReactMaskOpts;
     }
 
     // Если в маске есть фиксированные символы вначале строки, то рендерим их сразу при фокусе
@@ -174,10 +164,14 @@ export const MaskedInput = forwardRefAndName(
       const nativeInputValue = imaskRef.current?.element.value || '';
 
       if (focused && nativeInputValue.length <= fixedPartValue.length) {
+        // prevValue.current = fixedPartValue;
+        valueVhanged.current = false;
         return fixedPartValue;
       }
 
       if (!focused && nativeInputValue === fixedPartValue) {
+        // prevValue.current = '';
+        // valueVhanged.current = true;
         return '';
       }
 

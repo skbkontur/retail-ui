@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { MaskedInput, MaskedInputProps } from '../MaskedInput';
+import { MaskedInput } from '../MaskedInput';
 
 describe('MaskedInput - backward compatibility', () => {
   it('prefix on focus', () => {
@@ -13,7 +13,7 @@ describe('MaskedInput - backward compatibility', () => {
     expect(input).toHaveValue('+7 (');
   });
 
-  it.each<[MaskedInputProps['value'], string]>([
+  it.each([
     ['', ''],
     ['+7 (', ''],
     ['+7 (9', '+7 (9'],
@@ -27,14 +27,18 @@ describe('MaskedInput - backward compatibility', () => {
     expect(input).toHaveValue(expectedValue);
   });
 
-  it('onValueChange do not fire on focus', () => {
+  it.each([
+    ['', 1],
+    ['+7 (', 1],
+    ['+7 (9', 0],
+  ])('onValueChange fire on focus when value is "%s"', (value, calledTimes) => {
     const valueChangeEvent = jest.fn();
-    render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
+    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} onValueChange={valueChangeEvent} />);
 
     const input = screen.getByRole('textbox');
     input.focus();
 
-    expect(valueChangeEvent).toHaveBeenCalledTimes(1);
+    expect(valueChangeEvent).toHaveBeenCalledTimes(calledTimes);
   });
 
   it('masked input calls onValueChange', () => {

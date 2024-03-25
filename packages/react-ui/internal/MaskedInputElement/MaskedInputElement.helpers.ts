@@ -9,9 +9,6 @@ import { MaskedShadows } from './MaskedInputElement';
 export type AnyIMaskType = ReturnType<typeof IMask.createMask>;
 
 export const DEFAULT_MASK_CHAR = '_';
-
-// IMask объдиняет `definitions` из пропа с дефолтным значениям, где `0=/\d/`
-// Чтобы в старых масках нули '0' не превратились в землю '_', надо сбросить это значение
 export const DEFINITIONS = Object.freeze({ '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ });
 
 export function getDefinitions(formatChars: Record<string, string> | undefined): Definitions {
