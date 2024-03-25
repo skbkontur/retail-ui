@@ -1,8 +1,8 @@
 import React from 'react';
 import { MaskedPatternOptions } from 'imask';
 
-import { getMasked, getMaskedShadows } from '../MaskedInputElement.helpers';
-import { IMaskRefType } from '../../../components/MaskedInput';
+import { getMasked, getMaskedShadows } from '../MaskedInput.helpers';
+import { IMaskRefType } from '../index';
 
 describe('MaskedInputElement.helpers', () => {
   const getFakeMaskedPattern = (options: Partial<MaskedPatternOptions>, value: string) => {

@@ -6,12 +6,8 @@ import { Input, InputProps, InputType } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement, MaskedShadows } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import {
-  getCompatibleIMaskProps,
-  getFixedPartValue,
-  getMasked,
-  getMaskedShadows,
-} from '../../internal/MaskedInputElement/MaskedInputElement.helpers';
+
+import { getCompatibleIMaskProps, getFixedPartValue, getMasked, getMaskedShadows } from './MaskedInput.helpers';
 
 export interface MaskedProps {
   /** Паттерн маски */
@@ -157,7 +153,7 @@ export const MaskedInput = forwardRefAndName(
       const masked = getMasked(imaskRef, props);
       const fixedPartValue = getFixedPartValue(masked);
 
-      if (!applyFixedPart || customIMaskProps.unmask || fixedPartValue === '') {
+      if (!applyFixedPart || customIMaskProps.unmask || fixedPartValue === '' || props.value === fixedPartValue) {
         return props.value;
       }
 
