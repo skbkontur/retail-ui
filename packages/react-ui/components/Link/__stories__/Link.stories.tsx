@@ -227,7 +227,7 @@ export const FocusedStyledLink: Story = () => {
 FocusedStyledLink.parameters = {
   creevey: {
     tests: focusedStyledLinkTest,
-    skip: { in: /^(?!\b(firefox2022)\b)/ },
+    skip: { flacky: { in: /^(?!\b(firefox2022)\b)/ } },
   },
 };
 
