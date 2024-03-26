@@ -13,6 +13,7 @@ import {
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
 
 export default {
@@ -599,5 +600,25 @@ const unusedDifferentStates: ButtonState[] = [
 UnusedPropValues.parameters = {
   creevey: {
     skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
+  },
+};
+
+export const WithLinkFocusOutlineFeatureFlag = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+    <Button use="link" data-tid="test-button">
+      Link
+    </Button>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+
+WithLinkFocusOutlineFeatureFlag.parameters = {
+  creevey: {
+    tests: buttonTests,
+    skip: {
+      'hover does not work': {
+        in: /chrome/,
+        tests: ['hover', 'pressed', 'clicked'],
+      },
+    },
   },
 };

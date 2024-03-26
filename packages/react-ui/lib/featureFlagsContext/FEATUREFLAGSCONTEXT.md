@@ -5,6 +5,7 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
@@ -41,6 +42,49 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### kebabHintRemovePin
+
+В Hint и Kebab будет убран "клювик" в THEME_2022.
+В React UI 5.0 фича будет применена по умолчанию.
+```jsx harmony
+import { Hint, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <Hint text="Подсказка">Пример с Hint</Hint>
+</ReactUIFeatureFlagsContext.Provider>
+```
+```jsx harmony
+import EditIcon from '@skbkontur/react-icons/Edit';
+import TrashIcon from '@skbkontur/react-icons/Trash';
+import { Kebab, MenuItem, Toast, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+let style = {
+  alignItems: 'center',
+  border: '1px solid #dfdede',
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0 20px',
+  width: 250,
+};
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <div style={style}>
+    <div>
+      <h3>Пример с Kebab</h3>
+    </div>
+
+    <Kebab positions={['left middle']} >
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        Редактировать
+      </MenuItem>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        Удалить
+      </MenuItem>
+    </Kebab>
+  </div>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
@@ -175,6 +219,27 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
     rows={5}
   />
 </ReactUIFeatureFlagsContext.Provider>
+```
+
+### linkFocusOutline
+
+Для компонентов `<Link />` и `<Button use="link" />` в THEME_2022 добавлена обводка при фокусе.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Link, Button, Gapped, ThemeContext, THEME_2022, DEFAULT_THEME, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={THEME_2022}>
+  <Gapped vertical>
+    <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+      <Gapped>
+        <Button use="link">Кнопка</Button>
+        <Link>Ссылка</Link>
+      </Gapped>
+    </ReactUIFeatureFlagsContext.Provider>
+    <Link>Старая ссылка</Link>
+  </Gapped>
+</ThemeContext.Provider>
 ```
 
 ### comboBoxAllowValueChangeInEditingState
