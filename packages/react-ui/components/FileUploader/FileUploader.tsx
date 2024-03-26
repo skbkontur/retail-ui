@@ -299,7 +299,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const icon = _isTheme2022 ? <UploadIcon2022 size={iconSizes[size]} /> : <UploadIcon />;
 
   return (
-    <CommonWrapper {...props}>
+    <CommonWrapper dataAttributes={{ error, warning }} {...props}>
       <div
         data-tid={FileUploaderDataTids.root}
         className={jsStyles.root(theme)}

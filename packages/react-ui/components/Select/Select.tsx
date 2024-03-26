@@ -344,7 +344,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        {...this.props}
+      >
         <RenderLayer
           onClickOutside={this.close}
           onFocusOutside={this.close}
