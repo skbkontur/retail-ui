@@ -3,8 +3,11 @@ import React from 'react';
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
-import { getRootNode, rootNode, TSetRootNode, TRootNodeSubscription, isInstanceWithRootNode } from '../../lib/rootNode';
+import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+
+import { getCommonDataAttributes } from './getCommonDataAttributes';
+import { PrimitiveType } from "./primitiveType";
 
 export interface CommonProps {
   /**
@@ -20,6 +23,7 @@ export interface CommonProps {
    */
   'data-tid'?: string;
   children?: React.ReactNode;
+  dataAttributes?: Record<string, PrimitiveType>;
 }
 
 interface CommonPropsRootNodeRef {
@@ -43,7 +47,9 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
 
   render() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
+    const [{ className, style, children, rootNodeRef, dataAttributes, ...dataProps }, { ...rest }] = extractCommonProps(
+      this.props,
+    );
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
@@ -53,6 +59,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
             ...this.child.props.style,
             ...style,
           },
+          ...getCommonDataAttributes(dataAttributes),
           ...dataProps,
         })
       : this.child;
@@ -105,6 +112,7 @@ const isCommonProp = (name: string) => {
     case name === 'rootNodeRef':
     case name === 'children':
     case name.indexOf('data-') === 0: // все data-атрибуты
+    case name === 'dataAttributes':
       return true;
     default:
       return false;
