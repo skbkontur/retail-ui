@@ -2,6 +2,8 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
+import { tokenSizeMixin } from './Token.mixins';
+
 export const globalClasses = prefix('token')({
   removeIcon: 'remove-icon',
 });
@@ -12,10 +14,6 @@ export const styles = memoizeStyle({
       display: inline-flex;
       align-items: center;
       border-radius: ${t.tokenBorderRadius};
-      padding: ${t.tokenPaddingY} ${t.tokenPaddingX};
-      line-height: ${t.tokenLineHeight};
-      font-size: ${t.tokenFontSize};
-      margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
       word-break: break-all;
       user-select: none;
@@ -26,11 +24,56 @@ export const styles = memoizeStyle({
     `;
   },
 
+  tokenSmall(t: Theme) {
+    return css`
+      ${tokenSizeMixin(
+        t.tokenPaddingYSmall,
+        t.tokenPaddingXSmall,
+        t.tokenLineHeightSmall,
+        t.tokenFontSizeSmall,
+        t.tokenMarginYSmall,
+        t.tokenMarginXSmall,
+      )};
+    `;
+  },
+
+  tokenMedium(t: Theme) {
+    return css`
+      ${tokenSizeMixin(
+        t.tokenPaddingYMedium,
+        t.tokenPaddingXMedium,
+        t.tokenLineHeightMedium,
+        t.tokenFontSizeMedium,
+        t.tokenMarginYMedium,
+        t.tokenMarginXMedium,
+      )};
+    `;
+  },
+
+  tokenLarge(t: Theme) {
+    return css`
+      ${tokenSizeMixin(
+        t.tokenPaddingYLarge,
+        t.tokenPaddingXLarge,
+        t.tokenLineHeightLarge,
+        t.tokenFontSizeLarge,
+        t.tokenMarginYLarge,
+        t.tokenMarginXLarge,
+      )};
+    `;
+  },
+
+  token2022(t: Theme) {
+    return css`
+      border: solid ${t.tokenBorderWidth} transparent;
+    `;
+  },
+
   tokenDefaultIdle2022(t: Theme) {
     return css`
       color: ${t.tokenDefaultIdleColor};
       background: ${t.tokenDefaultIdleBg};
-      border: solid ${t.tokenBorderWidth} ${t.tokenDefaultIdleBorderColor};
+      border-color: ${t.tokenDefaultIdleBorderColor};
       background-clip: border-box;
     `;
   },
@@ -69,8 +112,6 @@ export const styles = memoizeStyle({
 
   tokenDisabled2022(t: Theme) {
     return css`
-      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
-      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled};
@@ -85,8 +126,6 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
-      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled};
@@ -117,10 +156,47 @@ export const styles = memoizeStyle({
       fill: currentColor;
       opacity: 0.5;
       line-height: 0;
+      display: inline-block;
 
       &:hover {
         opacity: 1;
       }
+    `;
+  },
+
+  helperText() {
+    return css`
+      max-width: 100%;
+      word-break: break-all;
+
+      // don't collapse spaces
+      // so they get counted in width
+      white-space: pre-wrap;
+    `;
+  },
+  helperContainer() {
+    return css`
+      display: flex;
+      position: absolute;
+      visibility: hidden;
+    `;
+  },
+  helperContainerSmall(t: Theme) {
+    return css`
+      left: ${t.tokenInputPaddingXSmall};
+      right: ${t.tokenInputPaddingXSmall};
+    `;
+  },
+  helperContainerMedium(t: Theme) {
+    return css`
+      left: ${t.tokenInputPaddingXMedium};
+      right: ${t.tokenInputPaddingXMedium};
+    `;
+  },
+  helperContainerLarge(t: Theme) {
+    return css`
+      left: ${t.tokenInputPaddingXLarge};
+      right: ${t.tokenInputPaddingXLarge};
     `;
   },
 });

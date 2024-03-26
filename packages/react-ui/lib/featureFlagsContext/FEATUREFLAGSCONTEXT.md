@@ -5,8 +5,10 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
 }
 ```
 
@@ -40,6 +42,49 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### kebabHintRemovePin
+
+В Hint и Kebab будет убран "клювик" в THEME_2022.
+В React UI 5.0 фича будет применена по умолчанию.
+```jsx harmony
+import { Hint, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <Hint text="Подсказка">Пример с Hint</Hint>
+</ReactUIFeatureFlagsContext.Provider>
+```
+```jsx harmony
+import EditIcon from '@skbkontur/react-icons/Edit';
+import TrashIcon from '@skbkontur/react-icons/Trash';
+import { Kebab, MenuItem, Toast, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+let style = {
+  alignItems: 'center',
+  border: '1px solid #dfdede',
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0 20px',
+  width: 250,
+};
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <div style={style}>
+    <div>
+      <h3>Пример с Kebab</h3>
+    </div>
+
+    <Kebab positions={['left middle']} >
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        Редактировать
+      </MenuItem>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        Удалить
+      </MenuItem>
+    </Kebab>
+  </div>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
@@ -173,6 +218,84 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
     onValueChange={setValue}
     rows={5}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### linkFocusOutline
+
+Для компонентов `<Link />` и `<Button use="link" />` в THEME_2022 добавлена обводка при фокусе.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Link, Button, Gapped, ThemeContext, THEME_2022, DEFAULT_THEME, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={THEME_2022}>
+  <Gapped vertical>
+    <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+      <Gapped>
+        <Button use="link">Кнопка</Button>
+        <Link>Ссылка</Link>
+      </Gapped>
+    </ReactUIFeatureFlagsContext.Provider>
+    <Link>Старая ссылка</Link>
+  </Gapped>
+</ThemeContext.Provider>
+```
+
+### comboBoxAllowValueChangeInEditingState
+
+Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
+
+В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
+
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState({ value: '', label: '' });
+
+const handleValueChange = () => {
+  setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
+};
+
+const getItems = () =>
+  Promise.resolve([
+    { value: 'Первый', label: 'Первый' },
+    { value: 'Второй', label: 'Второй' },
+  ]);
+
+<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+  <Button onClick={handleValueChange}>Обновить</Button>
+  <ComboBox
+    value={value}
+    searchOnFocus={false}
+    getItems={getItems}
+    onValueChange={(value) => setValue(value)}
+    onInputValueChange={(value) => {
+      setValue({ value, label: value });
+     }}
+  />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### hintAddDynamicPositioning
+
+Этот флаг включает у Hint'а изменение положения, если Hint не попадает во viewport. Если существует положение, в котором Hint будет виден полностью, то Hint будет занимать его.
+При включении флага могут потребоваться обновления скриншотных тестов.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true }}>
+  <div style={{ marginRight: '-130px', top: '50px', textAlign: 'right' }}>
+    <Hint text={'Example!'} pos="bottom center" maxWidth={295} manual opened>
+      <Button use="success" size="medium" width={135} disabled>
+        Пригласить
+      </Button>
+    </Hint>
+  </div>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 

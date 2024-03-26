@@ -9,18 +9,18 @@ namespace SKBKontur.ValidationTests.Controls
     {
         public static IProp<bool> WithError(this ControlBase control)
         {
-            return Prop.Check(control.HasError, v =>
-            {
-                bool v1 = v == true;
-            });
+            return control.HasError.Check(v =>
+                {
+                    var v1 = v;
+                });
         }
 
         public static IProp<bool> WithWarning(this ControlBase control)
         {
-            return Prop.Check(control.HasWarning, v =>
-            {
-                bool v1 = v == true;
-            });
+            return control.HasWarning.Check(v =>
+                {
+                    var v1 = v;
+                });
         }
 
         public static IProp<bool> WithFocus(this ControlBase control)

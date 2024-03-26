@@ -2,11 +2,18 @@ import React, { ReactElement } from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { XIcon16Light, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
+import {
+  CheckAIcon,
+  CheckAIcon16Light,
+  CheckAIcon20Light,
+  CheckAIcon24Regular,
+} from '@skbkontur/icons/icons/CheckAIcon';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
 
 export default {
@@ -275,6 +282,44 @@ const iconDifferentStates: ButtonState[] = [
   { icon: <OkIcon />, children: 'Button', loading: true },
 ];
 
+export const RightIcon: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme)}
+    rows={rightIconDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+const rightIconDifferentStates: ButtonState[] = [
+  { rightIcon: <CheckAIcon16Light /> },
+  { rightIcon: <CheckAIcon16Light />, children: 'Button' },
+  { rightIcon: <CheckAIcon16Light /> },
+  { rightIcon: <CheckAIcon16Light />, loading: true },
+  { rightIcon: <CheckAIcon16Light />, children: 'Button' },
+  { rightIcon: <CheckAIcon20Light />, children: 'Button', size: 'medium' },
+  { rightIcon: <CheckAIcon24Regular />, children: 'Button', size: 'large' },
+  { rightIcon: <CheckAIcon16Light />, children: 'Button', loading: true },
+];
+
+export const BothIcons: Story = (_, { globals: { theme } }) => (
+  <ComponentTable
+    Component={Button}
+    cols={getButtonUseStates(theme)}
+    rows={bothIconsDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+const bothIconsDifferentStates: ButtonState[] = [
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button' },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, loading: true },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button' },
+  { icon: <CheckAIcon20Light />, rightIcon: <XIcon20Light />, children: 'Button', size: 'medium' },
+  { icon: <CheckAIcon24Regular />, rightIcon: <XIcon24Regular />, children: 'Button', size: 'large' },
+  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button', loading: true },
+];
+
 export const Disabled: Story = (_, { globals: { theme } }) => (
   <ComponentTable
     Component={Button}
@@ -295,7 +340,7 @@ export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
 
 ArrowDisabled.parameters = {
   creevey: {
-    skip: { in: /2022/ },
+    skip: { 'not 2022': { in: /2022/ } },
   },
 };
 
@@ -377,6 +422,28 @@ export const IconDifferentContent = () => (
       Icon with long text and color
     </Button>
     <Button icon={<OkIcon />} width="200px">
+      With icon, fixed width and long-lon-long text
+    </Button>
+  </Gapped>
+);
+
+export const RightIconDifferentContent = () => (
+  <Gapped vertical>
+    <Button rightIcon={<OkIcon />} use={'primary'}>
+      Icon with long text and color
+    </Button>
+    <Button rightIcon={<OkIcon />} width="200px">
+      With icon, fixed width and long-lon-long text
+    </Button>
+  </Gapped>
+);
+
+export const BothIconsDifferentContent = () => (
+  <Gapped vertical>
+    <Button icon={<OkIcon />} rightIcon={<OkIcon />} use={'primary'}>
+      Icon with long text and color
+    </Button>
+    <Button icon={<OkIcon />} rightIcon={<OkIcon />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
@@ -532,6 +599,26 @@ const unusedDifferentStates: ButtonState[] = [
 ];
 UnusedPropValues.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome(2022)?\b)/ },
+    skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
+  },
+};
+
+export const WithLinkFocusOutlineFeatureFlag = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+    <Button use="link" data-tid="test-button">
+      Link
+    </Button>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+
+WithLinkFocusOutlineFeatureFlag.parameters = {
+  creevey: {
+    tests: buttonTests,
+    skip: {
+      'hover does not work': {
+        in: /chrome/,
+        tests: ['hover', 'pressed', 'clicked'],
+      },
+    },
   },
 };

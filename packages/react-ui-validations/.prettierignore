@@ -5,9 +5,13 @@
 
 node_modules
 build
+selenium-tests
 
 yarn-debug.log
 yarn-error.log
 npm-debug.log
 
 *.md
+
+.creevey
+dist
