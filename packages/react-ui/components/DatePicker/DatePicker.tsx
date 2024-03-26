@@ -254,7 +254,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
           return (
             <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <CommonWrapper
+                rootNodeRef={this.setRootNode}
+                dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+                {...this.props}
+              >
                 {this.renderMain}
               </CommonWrapper>
             </ThemeContext.Provider>

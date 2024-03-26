@@ -307,7 +307,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        {...this.props}
+      >
         <label data-tid={ToggleDataTids.root} className={labelClassNames}>
           <div
             className={cx(this.getButtonSizeClassName(), {

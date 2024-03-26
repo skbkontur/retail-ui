@@ -146,7 +146,11 @@ export class Token extends React.Component<TokenProps> {
     );
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        {...this.props}
+      >
         <TokenView
           className={classNames}
           size={size}
