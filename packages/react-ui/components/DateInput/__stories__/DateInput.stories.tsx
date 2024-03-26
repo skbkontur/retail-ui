@@ -474,7 +474,7 @@ export const ShouldSetFocusOnPlaceholderClick: Story = () => {
 ShouldSetFocusOnPlaceholderClick.storyName = 'should set focus on placeholder click';
 ShouldSetFocusOnPlaceholderClick.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
+    skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } },
     tests: {
       async focused() {
         const DateInputPlaceholder = this.browser.findElement({ css: '[data-tid~="DateFragmentsView__placeholder"]' });

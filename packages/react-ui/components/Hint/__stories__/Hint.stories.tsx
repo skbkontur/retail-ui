@@ -423,6 +423,6 @@ HintNearScreenEdge.storyName = 'hint near screen edge';
 HintNearScreenEdge.parameters = {
   creevey: {
     captureElement: 'body',
-    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
   },
 };

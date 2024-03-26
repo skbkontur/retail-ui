@@ -1098,7 +1098,7 @@ export const ModalWithDropdown: Story = () => {
 
 ModalWithDropdown.parameters = {
   creevey: {
-    skip: { "themes don't affect logic": { in: /^(?!\b(chrome|firefox)\b)/ } },
+    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
     tests: {
       async 'dropdown overlaps static header'() {
         await this.browser

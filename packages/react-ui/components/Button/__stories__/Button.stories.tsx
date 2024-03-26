@@ -340,7 +340,7 @@ export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
 
 ArrowDisabled.parameters = {
   creevey: {
-    skip: { in: /2022/ },
+    skip: { 'not 2022': { in: /2022/ } },
   },
 };
 
@@ -599,7 +599,7 @@ const unusedDifferentStates: ButtonState[] = [
 ];
 UnusedPropValues.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome(2022)?\b)/ },
+    skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
   },
 };
 
