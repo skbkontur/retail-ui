@@ -1,6 +1,11 @@
 import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
@@ -45,15 +50,19 @@ export interface HintProps extends CommonProps {
    */
   opened?: boolean;
   /**
-   * Расположение подсказки относительно текста.
+   * Приоритетное расположение подсказки относительно текста.
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  pos?: PopupPositionsType;
   /**
    * Текст подсказки.
    */
   text: React.ReactNode;
+  /**
+   Список позиций, которые Hint может занимать. Если положение Hint'а в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
+   */
+  allowedPositions?: PopupPositionsType[];
   /**
    * Отключает анимацию.
    */
@@ -71,6 +80,9 @@ export interface HintState {
   position: PopupPositionsType;
 }
 
+/**
+ * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
+ */
 const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
@@ -86,9 +98,7 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
-type DefaultProps = Required<
-  Pick<HintProps, 'pos' | 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>
->;
+type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
@@ -98,7 +108,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   public static __KONTUR_REACT_UI__ = 'Hint';
 
   public static defaultProps: DefaultProps = {
-    pos: 'top',
     manual: false,
     opened: false,
     maxWidth: 200,
@@ -115,6 +124,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();
@@ -142,26 +152,33 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.hintPinOffset,
-                  popupMargin: theme.hintMargin,
-                  popupBorder: theme.hintBorder,
-                  popupBorderRadius: theme.hintBorderRadius,
-                },
-                this.theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <ThemeContext.Provider
+                    value={ThemeFactory.create(
+                      {
+                        popupPinOffset: theme.hintPinOffset,
+                        popupMargin: theme.hintMargin,
+                        popupBorder: theme.hintBorder,
+                        popupBorderRadius: theme.hintBorderRadius,
+                      },
+                      this.theme,
+                    )}
+                  >
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -173,6 +190,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           hasPin
           opened={this.state.opened}
           anchorElement={this.props.children}
+          pos={this.props.pos}
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
@@ -212,8 +230,18 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PopupPositionsType[] => {
-    return Positions.filter((x) => x.startsWith(this.getProps().pos));
+  private getPositions = (): PopupPositionsType[] | undefined => {
+    if (this.featureFlags.popupUnifyPositioning) {
+      const { allowedPositions, pos } = this.props;
+      if (allowedPositions && pos) {
+        const index = allowedPositions.indexOf(pos);
+        if (index === -1) {
+          throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
+        }
+      }
+      return allowedPositions;
+    }
+    return Positions.filter((x) => x.startsWith(this.props.pos ?? 'top'));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

@@ -4,6 +4,11 @@ import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
 
+import {
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
+} from '../../lib/featureFlagsContext';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -34,6 +39,28 @@ const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
 export const PopupPositions = [
+  'top',
+  'top center',
+  'top left',
+  'top right',
+  'bottom',
+  'bottom center',
+  'bottom left',
+  'bottom right',
+  'left',
+  'left middle',
+  'left top',
+  'left bottom',
+  'right',
+  'right middle',
+  'right top',
+  'right bottom',
+] as const;
+
+/**
+ * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
+ */
+export const OldPopupPositions = [
   'top left',
   'top center',
   'top right',
@@ -47,7 +74,21 @@ export const PopupPositions = [
   'left middle',
   'left top',
 ] as const;
-export const DefaultPosition = PopupPositions[0];
+
+const normalizePosition = (position: PopupPositionsType) => {
+  if (position === 'top') {
+    return 'top center' as PopupPositionsType;
+  } else if (position === 'bottom') {
+    return 'bottom center' as PopupPositionsType;
+  } else if (position === 'left') {
+    return 'left middle' as PopupPositionsType;
+  } else if (position === 'right') {
+    return 'right middle' as PopupPositionsType;
+  }
+  return position as PopupPositionsType;
+};
+
+export const DefaultPosition = normalizePosition(PopupPositions[0]);
 
 export type PopupPositionsType = typeof PopupPositions[number];
 
@@ -86,7 +127,15 @@ export interface PopupProps
   pinOffset?: number;
   pinSize?: number;
   popupOffset?: number;
-  positions: Readonly<PopupPositionsType[]>;
+  /**
+   * Приоритетное расположение подсказки относительно текста.
+   * **Допустимые значения**: `"top"`, `"top center"`, `"top left"`, `"top right"`, `"bottom"`, `"bottom center"`, `"bottom left"`, `"bottom right"`, `"left"`, `"left middle"`, `"left bottom"`, `"left top"`, `"right"`, `"right middle"`, `"right top"`, `"right bottom"`.
+   */
+  pos?: PopupPositionsType;
+  /**
+   Список позиций, которые Popup может занимать. Если положение Popup'а в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
+   */
+  positions?: Readonly<PopupPositionsType[]>;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
@@ -97,7 +146,7 @@ export interface PopupProps
   width?: React.CSSProperties['width'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
-   * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
+   * (в том числе, когда он выходит за пределы экрана, но может быть проскролен в него).
    *
    * Нужен только для Tooltip. В остальных случаях позиция перестраивается автоматически.
    * @see https://github.com/skbkontur/retail-ui/pull/1195
@@ -197,10 +246,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     popupOffset: PropTypes.number,
 
     /**
-     * С какой стороны показывать попап и край попапа,
-     * на котором будет отображаться пин
+     Список позиций, которые Popup может занимать. Если положение Popup'а в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
      */
     positions: PropTypes.array,
+
+    /**
+     * Приоритетное положение Popup'а
+     */
+    pos: PropTypes.string,
 
     /**
      * Игнорировать ли события hover/click
@@ -225,6 +278,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
+  private featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
@@ -295,12 +349,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -504,7 +565,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseLeave={this.handleMouseLeave}
             >
               {this.content(children)}
-              {(!this.isMobileLayout || this.props.withoutMobile) && this.renderPin(location.position)}
+              {(!this.isMobileLayout || this.props.withoutMobile) &&
+                this.renderPin(normalizePosition(location.position))}
             </ZIndex>
           </CommonWrapper>
         )}
@@ -536,13 +598,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const { pinSize, backgroundColor, borderColor } = this.props;
     const { hasShadow, hasPin } = this.getProps();
-    const position = PopupHelper.getPositionObject(positionName);
+    const normalizedPositionName = normalizePosition(positionName as PopupPositionsType);
+    const position = PopupHelper.getPositionObject(normalizedPositionName);
 
     return (
       hasPin && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
-          popupPosition={positionName}
+          popupPosition={normalizedPositionName}
           size={pinSize || parseInt(this.theme.popupPinSize)}
           offset={this.getPinOffset(position.align)}
           borderWidth={hasShadow ? 1 : 0}
@@ -617,7 +680,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
-    const { positions, tryPreserveFirstRenderedPosition } = this.props;
+    const { pos, positions, tryPreserveFirstRenderedPosition } = this.props;
     const anchorElement = this.anchorElement;
 
     warning(
@@ -635,6 +698,29 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     let position: PopupPositionsType;
     let coordinates: Offset;
 
+    let priorityPosition = pos;
+    let allowedPositions = positions;
+
+    // надо рассчитать pos и positions
+    if (!allowedPositions) {
+      if (!priorityPosition) {
+        priorityPosition = DefaultPosition;
+      }
+      allowedPositions = PopupPositions;
+    } else {
+      if (!priorityPosition) {
+        priorityPosition = allowedPositions[0];
+      }
+      const index = allowedPositions.indexOf(priorityPosition as PopupPositionsType);
+      if (index === -1) {
+        if (allowedPositions.indexOf(normalizePosition(priorityPosition)) === -1) {
+          throw new Error(
+            'Unexpected position ' + pos + ' passed to Popup. Expected one of: ' + allowedPositions.join(', '),
+          );
+        }
+      }
+    }
+
     if (location && location !== DUMMY_LOCATION && location.position) {
       position = location.position;
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
@@ -648,23 +734,64 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         (tryPreserveFirstRenderedPosition && (isFullyVisible || canBecomeVisible)) ||
         // если Попап целиком во вьюпорте и в самой приоритетной позиции
         // (иначе нужно попытаться позицию сменить)
-        (isFullyVisible && position === positions[0])
+        (isFullyVisible && position === priorityPosition)
       ) {
         // сохраняем текущую позицию
-        return { coordinates, position };
+        return { coordinates, position: normalizePosition(position) };
       }
     }
 
-    for (position of positions) {
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    if (this.featureFlags.popupUnifyPositioning && !this.props.positions) {
+      const otherPositions: Record<string, PopupPositionsType[]> = {};
+
+      let roundSideOrder: string[] = ['top', 'bottom', 'left', 'right'];
+      const horizontalAlignOrder = ['center', 'left', 'right'];
+      const verticalAlignOrder = ['middle', 'top', 'bottom'];
+
+      for (position of allowedPositions.slice(1)) {
+        const side = position.split(' ')[0];
+        if (otherPositions[side]) {
+          otherPositions[side].push(normalizePosition(position));
+        } else {
+          otherPositions[side] = [normalizePosition(position)];
+        }
+      }
+
+      // проверяем приоритетную позицию
+      coordinates = this.getCoordinates(anchorRect, popupRect, priorityPosition);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
-        return { coordinates, position };
+        return { coordinates, position: normalizePosition(priorityPosition) };
+      }
+
+      // проверяем остальные позиции
+      const index = roundSideOrder.indexOf(priorityPosition.split(' ')[0]);
+      roundSideOrder = [...roundSideOrder.slice(index), ...roundSideOrder.slice(0, index)];
+      for (const side of roundSideOrder) {
+        if (otherPositions[side]) {
+          otherPositions[side].sort((a, b) =>
+            side === 'top' || side === 'bottom'
+              ? horizontalAlignOrder.indexOf(a) - horizontalAlignOrder.indexOf(b)
+              : verticalAlignOrder.indexOf(a) - verticalAlignOrder.indexOf(b),
+          );
+          for (const pos of otherPositions[side]) {
+            coordinates = this.getCoordinates(anchorRect, popupRect, pos);
+            if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+              return { coordinates, position: pos };
+            }
+          }
+        }
+      }
+    } else {
+      for (position of allowedPositions) {
+        coordinates = this.getCoordinates(anchorRect, popupRect, position);
+        if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+          return { coordinates, position: normalizePosition(position) };
+        }
       }
     }
 
-    position = positions[0];
-    coordinates = this.getCoordinates(anchorRect, popupRect, position);
-    return { coordinates, position };
+    coordinates = this.getCoordinates(anchorRect, popupRect, priorityPosition);
+    return { coordinates, position: normalizePosition(priorityPosition) };
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
@@ -688,7 +815,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       isNonNullable(marginFromProps) && !isNaN(marginFromProps)
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
-    const position = PopupHelper.getPositionObject(positionName);
+    const position = PopupHelper.getPositionObject(normalizePosition(positionName as PopupPositionsType));
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
     switch (position.direction) {
