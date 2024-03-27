@@ -87,7 +87,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
-    return this.textColorDisabled;
+    return this.textColorDisabledContrast;
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 
@@ -304,9 +304,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get selectBorderColorHover() {
     return this.inputBorderColorHover;
-  }
-  public static get selectPlaceholderColorDisabled() {
-    return this.textColorDisabled;
   }
 
   //#endregion
