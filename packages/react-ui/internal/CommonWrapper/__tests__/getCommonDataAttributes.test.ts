@@ -17,11 +17,11 @@ describe('getCommonDataAttributes', () => {
         objectState: Object.entries({ prop: 'test' }).toString(),
       }),
     ).toStrictEqual({
-      'data-comp-arrayState': '1,2,3',
-      'data-comp-dateState': '2000-06-04T00:00:00.000Z',
+      'data-comp-array-state': '1,2,3',
+      'data-comp-date-state': '2000-06-04T00:00:00.000Z',
       'data-comp-error': 'true',
-      'data-comp-stringState': 'state',
-      'data-comp-objectState': 'prop,test',
+      'data-comp-string-state': 'state',
+      'data-comp-object-state': 'prop,test',
     });
   });
 });
