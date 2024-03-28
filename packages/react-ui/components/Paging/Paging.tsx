@@ -171,7 +171,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
-        dataAttributes={{ activePageNumber: this.props.activePage }}
+        dataAttributes={{
+          activePageNumber: this.props.activePage,
+          disabled: this.props.disabled,
+          pagesCount: this.props.pagesCount,
+        }}
         {...this.props}
       >
         <span
