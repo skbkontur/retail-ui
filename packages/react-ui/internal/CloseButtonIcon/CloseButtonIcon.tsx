@@ -101,6 +101,5 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   );
 };
 
-// @ts-expect-error: untyped field
 CloseButtonIcon.__KONTUR_REACT_UI__ = 'CloseButtonIcon';
 CloseButtonIcon.displayName = 'CloseButtonIcon';
