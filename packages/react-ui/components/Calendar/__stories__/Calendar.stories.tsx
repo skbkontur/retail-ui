@@ -14,8 +14,9 @@ CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
 CalendarWithBottomSeparator.parameters = {
   creevey: {
     skip: {
-      reason: "8px and 2022 themes don't affect the bottom separator",
-      in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
+      "8px and 2022 themes don't affect the bottom separator": {
+        in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
+      },
     },
   },
 };

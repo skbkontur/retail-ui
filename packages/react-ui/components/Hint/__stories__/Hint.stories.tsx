@@ -252,6 +252,20 @@ export const WithClassChildren = () => (
 );
 WithClassChildren.storyName = 'with class children';
 
+export const KebabHintRemovePinFeatureFlag = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+    <Hint text="Something will never be changed" manual opened>
+      <span className="hint-content">Ich Liebe dich</span>
+    </Hint>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
+KebabHintRemovePinFeatureFlag.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b.*2022.*\b)/ },
+  },
+};
+
 export const HintNearScreenEdge = () => (
   <>
     <div>
@@ -409,6 +423,6 @@ HintNearScreenEdge.storyName = 'hint near screen edge';
 HintNearScreenEdge.parameters = {
   creevey: {
     captureElement: 'body',
-    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
   },
 };

@@ -18,6 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Hint.styles';
 
@@ -184,27 +185,35 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
+
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <Popup
-          hasPin
-          opened={this.state.opened}
-          anchorElement={this.props.children}
-          pos={this.props.pos}
-          positions={this.getPositions()}
-          backgroundColor={this.theme.hintBgColor}
-          borderColor={HINT_BORDER_COLOR}
-          onPositionChange={(position) => this.setState({ position })}
-          disableAnimations={disableAnimations}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          useWrapper={useWrapper}
-          ref={this.popupRef}
-          withoutMobile
-        >
-          {this.renderContent()}
-        </Popup>
-      </CommonWrapper>
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <Popup
+                hasPin={hasPin}
+                opened={this.state.opened}
+                anchorElement={this.props.children}
+                pos={this.props.pos}
+                positions={this.getPositions()}
+                backgroundColor={this.theme.hintBgColor}
+                borderColor={HINT_BORDER_COLOR}
+                onPositionChange={(position) => this.setState({ position })}
+                disableAnimations={disableAnimations}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+                useWrapper={useWrapper}
+                ref={this.popupRef}
+                withoutMobile
+              >
+                {this.renderContent()}
+              </Popup>
+            </CommonWrapper>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
