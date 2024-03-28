@@ -137,9 +137,13 @@ export class Link extends React.Component<LinkProps, LinkState> {
               {(theme) => {
                 this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
                 const props = this.getProps();
-                
+
                 return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} dataAttributes={{ disabled: props.disabled }} {...this.getProps()}>
+                  <CommonWrapper
+                    rootNodeRef={this.setRootNode}
+                    dataAttributes={{ disabled: props.disabled }}
+                    {...this.getProps()}
+                  >
                     {this.renderMain}
                   </CommonWrapper>
                 );

@@ -1,2 +1,2 @@
 export * from './CommonWrapper';
-export { getCommonDataAttributes } from "./getCommonDataAttributes";
+export { getCommonDataAttributes } from './getCommonDataAttributes';
