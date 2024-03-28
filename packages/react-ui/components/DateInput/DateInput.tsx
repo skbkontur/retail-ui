@@ -206,7 +206,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const { width, size } = this.getProps();
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        {...this.props}
+      >
         <InputLikeText
           width={width}
           ref={this.inputLikeTextRef}

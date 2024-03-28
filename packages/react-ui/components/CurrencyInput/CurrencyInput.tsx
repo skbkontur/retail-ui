@@ -155,7 +155,11 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        {...this.props}
+      >
         {this.renderMain}
       </CommonWrapper>
     );

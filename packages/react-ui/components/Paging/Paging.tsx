@@ -169,7 +169,15 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private renderMain() {
     const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        dataAttributes={{
+          activePageNumber: this.props.activePage,
+          disabled: this.props.disabled,
+          pagesCount: this.props.pagesCount,
+        }}
+        {...this.props}
+      >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
