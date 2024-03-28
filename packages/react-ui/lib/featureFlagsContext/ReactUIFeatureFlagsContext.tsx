@@ -6,6 +6,7 @@ export interface ReactUIFeatureFlags {
   spinnerLoaderRemoveDefaultCaption?: boolean;
   menuItemsAtAnyLevel?: boolean;
   textareaUseSafari17Workaround?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -14,6 +15,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   spinnerLoaderRemoveDefaultCaption: false,
   menuItemsAtAnyLevel: false,
   textareaUseSafari17Workaround: false,
+  comboBoxAllowValueChangeInEditingState: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

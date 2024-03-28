@@ -137,7 +137,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     warning: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onBlur: PropTypes.func,
 

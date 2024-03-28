@@ -20,6 +20,7 @@ export type CustomComboBoxAction<T> =
       type: 'DidUpdate';
       prevProps: CustomComboBoxProps<T>;
       prevState: CustomComboBoxState<T>;
+      fixValueChange: boolean | undefined;
     }
   | { type: 'Mount' }
   | { type: 'Focus' }
@@ -104,7 +105,6 @@ export const Effect: EffectFactory = {
   },
   unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
     const { onUnexpectedInput, valueToString } = getProps();
-
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
       const valueContent = getValueString(singleItem, valueToString);
@@ -289,6 +289,32 @@ export function reducer<T>(
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
         return state;
+      }
+
+      if (action.fixValueChange) {
+        const nextTextValue = getValueString(props.value, props.valueToString);
+
+        if (!state.focused) {
+          return [
+            {
+              editing: false,
+              inputChanged: false,
+              textValue: nextTextValue,
+            },
+            [Effect.cancelRequest],
+          ];
+        }
+
+        if (state.focused && state.opened) {
+          return [{ ...state, textValue: nextTextValue }, [Effect.cancelRequest, Effect.search(nextTextValue)]];
+        }
+
+        if (state.focused) {
+          return {
+            ...state,
+            textValue: nextTextValue,
+          };
+        }
       }
 
       return {

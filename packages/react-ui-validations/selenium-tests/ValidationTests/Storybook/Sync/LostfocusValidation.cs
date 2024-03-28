@@ -12,7 +12,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidByDefault()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.ValidationState.WaitText("none");
             page.Input.WaitNoError();
             page.InputValidation.Label.WaitAbsent();
@@ -21,7 +21,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidateOnLostfocus()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.Input.WaitError();
             page.ValidationState.WaitText("none");
@@ -31,7 +31,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestInvalidOnSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.Input.WaitError();
 
@@ -44,7 +44,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidateOnSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.InputValue("bad");
             page.Input.WaitNoError();
             page.InputValidation.Label.WaitAbsent();
@@ -57,7 +57,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestDoNotValidateUntilLostfocus()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.InputValue("bad");
             page.Input.WaitNoError();
             page.InputValidation.Label.WaitAbsent();
@@ -70,7 +70,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToValid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.Input.WaitError();
 
@@ -86,7 +86,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToValidToInvalid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.Input.WaitError();
 
@@ -108,7 +108,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToInvalid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.Input.WaitError();
 

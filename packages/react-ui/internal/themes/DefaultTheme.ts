@@ -103,6 +103,7 @@ export class DefaultTheme {
   public static linkDangerHoverColor = '#cb3d35';
   public static linkDangerActiveColor = '#a92a27';
   public static linkIconMarginRight = '4px';
+  public static linkIconMarginLeft = '4px';
   public static get linkHoverColor() {
     return this.linkColor;
   }
@@ -339,9 +340,30 @@ export class DefaultTheme {
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '19px';
+  /**
+   * @deprecated use btnIconGapSmallLeft
+   */
   public static btnIconGapSmall = '4px';
+  public static get btnIconGapSmallLeft() {
+    return this.btnIconGapSmall;
+  }
+  public static btnIconGapSmallRight = '4px';
+  /**
+   * @deprecated use btnIconGapMediumLeft
+   */
   public static btnIconGapMedium = '4px';
+  public static get btnIconGapMediumLeft() {
+    return this.btnIconGapMedium;
+  }
+  public static btnIconGapMediumRight = '4px';
+  /**
+   * @deprecated use btnIconGapLargeLeft
+   */
   public static btnIconGapLarge = '4px';
+  public static get btnIconGapLargeLeft() {
+    return this.btnIconGapLarge;
+  }
+  public static btnIconGapLargeRight = '4px';
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
@@ -360,6 +382,7 @@ export class DefaultTheme {
   public static btnDefaultActiveBg = '#ebebeb';
   public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnDefaultHoverBorderBottomColor = '';
+  public static btnDefaultHoverTextColor = '';
   public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnDefaultActiveBorderTopColor = '';
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
@@ -369,6 +392,7 @@ export class DefaultTheme {
   public static btnSuccessHoverBg = '#477916';
   public static btnSuccessHoverBorderColor = '#477916';
   public static btnSuccessHoverBorderBottomColor = '';
+  public static btnSuccessHoverTextColor = '';
   public static btnSuccessBorderColor = '#538a1b';
   public static btnSuccessBorderBottomColor = '';
   public static btnSuccessBgStart = 'none';
@@ -384,6 +408,7 @@ export class DefaultTheme {
   public static btnPrimaryHoverBg = '#1874cf';
   public static btnPrimaryHoverBorderColor = '#1874cf';
   public static btnPrimaryHoverBorderBottomColor = '';
+  public static btnPrimaryHoverTextColor = '';
   public static btnPrimaryBorderColor = '#1c7edf';
   public static btnPrimaryBorderBottomColor = '';
   public static btnPrimaryBgStart = 'none';
@@ -399,6 +424,7 @@ export class DefaultTheme {
   public static btnDangerHoverBg = '#cb3d35';
   public static btnDangerHoverBorderColor = '#cb3d35';
   public static btnDangerHoverBorderBottomColor = '';
+  public static btnDangerHoverTextColor = '';
   public static btnDangerBorderColor = '#dd473b';
   public static btnDangerBorderBottomColor = '';
   public static btnDangerBgStart = 'none';
@@ -414,6 +440,7 @@ export class DefaultTheme {
   public static btnPayHoverBg = '#fda70c';
   public static btnPayHoverBorderColor = '#fda70c';
   public static btnPayHoverBorderBottomColor = '';
+  public static btnPayHoverTextColor = '';
   public static btnPayBorderColor = '#fcb73e';
   public static btnPayBorderBottomColor = '';
   public static btnPayBgStart = 'none';
@@ -509,6 +536,9 @@ export class DefaultTheme {
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
   }
+  public static get btnLinkIconMarginLeft() {
+    return this.linkIconMarginRight;
+  }
   public static get btnErrorSecondary() {
     return this.errorSecondary;
   }
@@ -537,6 +567,7 @@ export class DefaultTheme {
   public static get btnBacklessHoverBorderColor() {
     return this.btnBacklessBorderColor;
   }
+  public static btnBacklessHoverTextColor = '';
   public static get btnBacklessTextColor() {
     return this.btnDefaultTextColor;
   }
@@ -550,6 +581,7 @@ export class DefaultTheme {
   public static get btnTextTextColor() {
     return this.btnDefaultTextColor;
   }
+  public static btnTextHoverTextColor = '';
   public static get btnTextHoverBorderColor() {
     return this.btnTextHoverBg;
   }

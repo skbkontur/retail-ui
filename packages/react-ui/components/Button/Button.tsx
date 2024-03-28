@@ -14,14 +14,13 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link, LinkProps } from '../Link';
-import { Spinner } from '../Spinner';
-import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { SizeProp } from '../../lib/types/props';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
+import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
+import { LoadingButtonIcon } from './LoadingButtonIcon';
 
 /**
  * @deprecated use SizeProp
@@ -95,7 +94,12 @@ export interface ButtonProps
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
+
+  /**
+   * Иконка справа от текста кнопки.
+   */
+  rightIcon?: React.ReactElement;
 
   /**
    * Переводит кнопку в состояние загрузки.
@@ -275,6 +279,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       loading,
       narrow,
       icon,
+      rightIcon,
       _noPadding,
       _noRightPadding,
       visuallyFocused,
@@ -419,25 +424,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       );
     }
 
-    const iconNode = icon && (
-      <ButtonIcon
-        icon={icon}
-        size={size}
-        hasChildren={Boolean(children)}
-        disabled={disabled || false}
-        loading={loading || false}
-        use={use}
-      />
+    const iconProps: Omit<ButtonIconProps, 'position'> = {
+      use,
+      size: this.getProps().size,
+      hasChildren: !!children,
+      loading: loading || false,
+    };
+    const leftIconNode = icon && <ButtonIcon {...iconProps} position="left" icon={icon} />;
+    const rightIconNode = rightIcon && (
+      <ButtonIcon {...iconProps} hasBothIcons={!!icon && !!rightIcon} position="right" icon={rightIcon} />
     );
-    let loadingNode = null;
-    if (loading && !icon) {
-      const loadingIcon = _isTheme2022 ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />;
-      loadingNode = (
-        <div data-tid={ButtonDataTids.spinner} className={styles.loading()}>
-          {loadingIcon}
-        </div>
-      );
-    }
 
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
@@ -457,6 +453,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.style.textAlign = undefined;
     }
 
+    const hasLoadingNode = loading && !icon && !rightIcon;
+    const loadingNode = hasLoadingNode && <LoadingButtonIcon size={size} />;
+
     let captionNode = (
       <div
         className={cx(styles.caption(), globalClasses.caption, {
@@ -466,14 +465,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         })}
       >
         {loadingNode}
-        {iconNode}
+        {leftIconNode}
         <span
           className={cx(globalClasses.text, {
-            [styles.visibilityHidden()]: !!loadingNode,
+            [styles.visibilityHidden()]: hasLoadingNode,
           })}
         >
           {children}
         </span>
+        {rightIconNode}
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {
@@ -483,6 +483,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             focused={isFocused}
             disabled={disabled}
             icon={this.renderIcon2022(icon)}
+            rightIcon={this.renderIcon2022(rightIcon)}
             as={this.renderLinkRootWithoutHandlers}
             tabIndex={-1}
           >

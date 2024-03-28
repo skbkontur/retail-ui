@@ -5,16 +5,11 @@ import { Nullable } from '../typings/Types';
 import { createPropsGetter } from './utils/createPropsGetter';
 import { isTestEnv } from './utils/utils';
 import { ValidationContextWrapper } from './ValidationContextWrapper';
+import { FocusMode } from './FocusMode';
 
 export interface ScrollOffset {
   top?: number;
   bottom?: number;
-}
-
-export enum FocusMode {
-  'Errors',
-  'ErrorsAndWarnings',
-  'None',
 }
 
 export interface ValidationSettings {
@@ -24,6 +19,7 @@ export interface ValidationSettings {
 export type ValidateArgumentType = boolean | ValidationSettings;
 
 export interface ValidationContainerProps {
+  'data-tid'?: string;
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
   scrollOffset?: number | ScrollOffset;
@@ -82,6 +78,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   public render() {
     return (
       <ValidationContextWrapper
+        data-tid={this.props['data-tid']}
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
         disableSmoothScroll={this.getProps().disableSmoothScroll}
