@@ -43,6 +43,18 @@ export const Default = () => {
 };
 Default.storyName = 'default';
 
+export const Size = () => {
+  return (
+    <Gapped vertical>
+      <Token>Size: no size chosen</Token>
+      <Token size="small">Size: small</Token>
+      <Token size="medium">Size: medium</Token>
+      <Token size="large">Size: large</Token>
+    </Gapped>
+  );
+};
+Size.storyName = 'size';
+
 export const Disabled = () => {
   return (
     <>
@@ -118,12 +130,12 @@ Colored.storyName = 'colored';
 
 export const Validations = () => {
   return (
-    <>
+    <Gapped>
       <Token error>test</Token>
       <Token warning isActive>
         test
       </Token>
-    </>
+    </Gapped>
   );
 };
 Validations.storyName = 'validations';

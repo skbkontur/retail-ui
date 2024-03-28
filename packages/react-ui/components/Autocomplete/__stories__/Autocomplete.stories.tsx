@@ -378,7 +378,7 @@ export const WithManualPosition: Story = () => {
 WithManualPosition.storyName = 'with manual position';
 WithManualPosition.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
     tests: {
       async 'opened top with portal'() {
         const screenshotElement = this.browser.findElement({ css: '#test-element' });

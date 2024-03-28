@@ -2,10 +2,14 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
-  root(t: Theme) {
+  root() {
     return css`
       cursor: text;
+    `;
+  },
 
+  selected(t: Theme) {
+    return css`
       & ::selection {
         background: ${t.dateInputComponentSelectedBgColor};
       }
@@ -15,10 +19,18 @@ export const styles = memoizeStyle({
     `;
   },
 
-  selected(t: Theme) {
+  selectedFor22Themes(t: Theme) {
+    const getSelection = (background: string, color: string) =>
+      (background || color) &&
+      `& ::selection {
+      background: ${background};
+      color: ${color};
+    }`;
+
     return css`
-      border-color: ${t.dateInputComponentSelectedBgColor};
-      background-color: ${t.dateInputComponentSelectedBgColor};
+      cursor: text;
+
+      ${getSelection(t.dateInputComponentSelectedBgColor, t.dateInputComponentSelectedTextColor)}
     `;
   },
 

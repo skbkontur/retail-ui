@@ -2,6 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
@@ -82,6 +83,7 @@ const kebabTests: CreeveyTests = {
       })
       .sendKeys(this.keys.ESCAPE)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
   },
 };
@@ -151,6 +153,27 @@ Large.parameters = {
       'story-skip-1': {
         in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
         tests: ['hovered', 'clickedOnButton2ndTime'],
+      },
+    },
+    tests: kebabTests,
+  },
+};
+
+export const KebabHintRemovePinFeatureFlag: Story = () => {
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+      <SomethingWithKebab size="large" />
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
+KebabHintRemovePinFeatureFlag.parameters = {
+  creevey: {
+    skip: {
+      'story-skip-0': { in: /^(?!\b.*2022.*\b)/ },
+      'story-skip-1': {
+        in: /(?!\b.*2022.*\b)/,
+        tests: ['plain', 'hovered', 'clickedOnButton2ndTime', 'tabPress', 'enterPress', 'escapePress'],
       },
     },
     tests: kebabTests,
