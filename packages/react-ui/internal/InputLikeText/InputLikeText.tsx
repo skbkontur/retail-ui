@@ -133,6 +133,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     globalObject.document?.addEventListener('keydown', this.handleDocumentKeyDown);
   }
 
+  public componentDidUpdate(prevProps: Readonly<InputLikeTextProps>) {
+    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
+    if (prevProps.disabled !== this.props.disabled && this.state.focused) {
+      this.setState({ focused: false });
+    }
+  }
+
   public componentWillUnmount() {
     if (this.blinkTimeout) {
       globalObject.clearTimeout(this.blinkTimeout);

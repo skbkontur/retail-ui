@@ -289,6 +289,13 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);
   }, [isMinLengthReached, hasOneFileForSingle]);
 
+  // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
+  useEffect(() => {
+    if (focusedByTab) {
+      setFocusedByTab(false);
+    }
+  }, [disabled]);
+
   const rootNodeRef = useRef(null);
 
   const iconSizes: Record<SizeProp, number> = {
