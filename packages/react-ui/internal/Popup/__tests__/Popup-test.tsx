@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import { RenderLayer } from '../../RenderLayer';
+import { MobilePopupDataTids } from '../../MobilePopup';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
-import { delay, clickOutside } from '../../../lib/utils';
+import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { CommonWrapper } from '../../CommonWrapper';
@@ -233,7 +232,7 @@ describe('properly renders opened/closed states', () => {
   });
 });
 
-describe('mobile Popup', () => {
+describe('mobile rootNode', () => {
   const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
   const matchMediaMock = jest.fn().mockImplementation((query) => {
@@ -247,7 +246,7 @@ describe('mobile Popup', () => {
       removeEventListener: jest.fn(),
     };
   });
-
+  const popupRef = React.createRef<Popup & InstanceWithRootNode>();
   const popupContent = 'Test content';
 
   beforeEach(() => {
@@ -258,48 +257,48 @@ describe('mobile Popup', () => {
     window.matchMedia = oldMatchMedia;
   });
 
-  const TestPopup = () => {
-    const [opened, setOpened] = useState(false);
-    const handleClick = () => {
-      setOpened((opened) => !opened);
-    };
-    const anchor = <button onClick={handleClick} />;
+  const TestPopup = ({ opened }: Pick<PopupProps, 'opened'>) => {
+    const anchor = <button />;
 
     return (
-      <RenderLayer onClickOutside={handleClick} onFocusOutside={handleClick}>
-        <Popup
-          positions={['bottom left', 'bottom right', 'top left', 'top right']}
-          opened={opened}
-          anchorElement={anchor}
-          disableAnimations
-        >
-          {popupContent}
-        </Popup>
-      </RenderLayer>
+      <Popup
+        positions={['bottom left', 'bottom right', 'top left', 'top right']}
+        opened={opened}
+        anchorElement={anchor}
+        disableAnimations
+        ref={popupRef}
+      >
+        {popupContent}
+      </Popup>
     );
   };
 
-  it('inside RenderLayer should be closed by onClickOutside', async () => {
-    render(<TestPopup />);
+  it('is renderContainer by default when closed and getRootNode is defined', () => {
+    render(<TestPopup opened={false} />);
 
-    userEvent.click(await screen.findByRole('button'));
-    expect(await screen.findByText(popupContent)).toBeInTheDocument();
+    expect(popupRef.current?.getRootNode).toBeDefined();
 
-    clickOutside();
+    const rootNode = popupRef.current?.getRootNode();
+    expect(popupRef.current).not.toBeNull();
 
-    await waitForElementToBeRemoved(() => screen.queryByText(popupContent));
-    expect(screen.queryByText(popupContent)).not.toBeInTheDocument();
+    expect(rootNode).not.toBeNull();
   });
 
-  it('inside RenderLayer should be closed by onFocusOutside', async () => {
-    render(<TestPopup />);
+  it('is content container when opened and is null when closed', async () => {
+    const { rerender } = render(<TestPopup opened />);
 
-    userEvent.click(await screen.findByRole('button'));
-    expect(await screen.findByText(popupContent)).toBeInTheDocument();
+    const contentContainer = await screen.findByTestId(MobilePopupDataTids.container);
+    let rootNode = popupRef.current?.getRootNode();
 
-    fireEvent.blur(window);
+    expect(popupRef.current).not.toBeNull();
+    expect(rootNode).toBeInstanceOf(HTMLElement);
+    expect(rootNode).toBe(contentContainer);
 
-    await waitForElementToBeRemoved(() => screen.queryByText(popupContent));
-    expect(screen.queryByText(popupContent)).not.toBeInTheDocument();
+    rerender(<TestPopup opened={false} />);
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId(MobilePopupDataTids.container));
+    rootNode = popupRef.current?.getRootNode();
+    expect(popupRef.current).not.toBeNull();
+    expect(rootNode).toBeNull();
   });
 });
