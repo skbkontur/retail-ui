@@ -5,7 +5,7 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { DefaultPosition, Popup, PopupProps, PopupPositionsType } from '../../internal/Popup';
+import { DefaultPosition, Popup, PopupProps, PopupPositionsType, normalizePosition } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
@@ -432,8 +432,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (this.featureFlags.popupUnifyPositioning) {
       const { allowedPositions, pos } = this.props;
       if (allowedPositions && pos) {
-        const index = allowedPositions.indexOf(pos);
-        if (index === -1) {
+        if (allowedPositions.indexOf(pos) === -1 && allowedPositions.indexOf(normalizePosition(pos)) === -1) {
           throw new Error(
             'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
           );
@@ -444,11 +443,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (!this.positions) {
       const allowedPositions = this.props.allowedPositions ?? Tooltip.oldDefaultAllowedPositions;
       const pos = this.props.pos ?? Tooltip.oldDefaultPosition;
-      const index = allowedPositions.indexOf(pos);
+      let index = allowedPositions.indexOf(pos);
       if (index === -1) {
-        throw new Error(
-          'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
-        );
+        index = allowedPositions.indexOf(normalizePosition(pos));
+        if (index === -1) {
+          throw new Error(
+            'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
+          );
+        }
       }
       this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
     }

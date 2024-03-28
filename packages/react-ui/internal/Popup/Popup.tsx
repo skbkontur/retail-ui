@@ -75,7 +75,7 @@ export const OldPopupPositions = [
   'left top',
 ] as const;
 
-const normalizePosition = (position: PopupPositionsType) => {
+export const normalizePosition = (position: PopupPositionsType) => {
   if (position === 'top') {
     return 'top center' as PopupPositionsType;
   } else if (position === 'bottom') {
