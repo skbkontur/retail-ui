@@ -17,6 +17,7 @@ export const styles = memoizeStyle({
       font-size: inherit;
       z-index: 5;
       user-select: none;
+      white-space: pre;
     `;
   },
   inputMaskLeft() {
