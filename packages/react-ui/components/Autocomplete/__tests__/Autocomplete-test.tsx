@@ -6,14 +6,8 @@ import { mount } from 'enzyme';
 
 import { InputDataTids } from '../../../components/Input';
 import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
-import { delay } from '../../../lib/utils';
+import { delay, clickOutside } from '../../../lib/utils';
 
-function clickOutside() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-
-  document.body.dispatchEvent(event);
-}
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
     const onValueChange = jest.fn();

@@ -2,7 +2,9 @@ import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
+import { MobilePopupDataTids } from '../../MobilePopup';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
@@ -12,6 +14,7 @@ import { CommonWrapper } from '../../CommonWrapper';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
@@ -79,6 +82,7 @@ describe('Popup', () => {
 
     expect(wrapper.state('location')).not.toBeNull();
     expect(wrapper.state('location')?.position).toBe('bottom right');
+    wrapper.unmount();
   });
 
   it('одна и та же позиция при каждом открытии', async () => {
@@ -118,12 +122,17 @@ describe('Popup', () => {
     };
 
     await checkLocation();
+    wrapper.unmount();
   });
 
   describe('rootNode', () => {
     const popupRef = React.createRef<Popup & InstanceWithRootNode>();
 
     const wrapper = renderWrapper({ opened: false }, popupRef);
+
+    afterAll(() => {
+      wrapper.unmount();
+    });
 
     it('getRootNode is defined', () => {
       expect(popupRef.current?.getRootNode).toBeDefined();
@@ -189,6 +198,10 @@ describe('properly renders opened/closed states', () => {
 
   const wrapper = renderWrapper();
 
+  afterAll(() => {
+    wrapper.unmount();
+  });
+
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
     expect(innerContainer).toBeDefined();
@@ -216,5 +229,76 @@ describe('properly renders opened/closed states', () => {
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer?.children()).toHaveLength(0);
+  });
+});
+
+describe('mobile rootNode', () => {
+  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const oldMatchMedia = window.matchMedia;
+  const matchMediaMock = jest.fn().mockImplementation((query) => {
+    return {
+      matches: calcMatches(query),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    };
+  });
+  const popupRef = React.createRef<Popup & InstanceWithRootNode>();
+  const popupContent = 'Test content';
+
+  beforeEach(() => {
+    window.matchMedia = matchMediaMock;
+  });
+
+  afterEach(() => {
+    window.matchMedia = oldMatchMedia;
+  });
+
+  const TestPopup = ({ opened }: Pick<PopupProps, 'opened'>) => {
+    const anchor = <button />;
+
+    return (
+      <Popup
+        positions={['bottom left', 'bottom right', 'top left', 'top right']}
+        opened={opened}
+        anchorElement={anchor}
+        disableAnimations
+        ref={popupRef}
+      >
+        {popupContent}
+      </Popup>
+    );
+  };
+
+  it('is renderContainer by default when closed and getRootNode is defined', () => {
+    render(<TestPopup opened={false} />);
+
+    expect(popupRef.current?.getRootNode).toBeDefined();
+
+    const rootNode = popupRef.current?.getRootNode();
+    expect(popupRef.current).not.toBeNull();
+
+    expect(rootNode).not.toBeNull();
+  });
+
+  it('is content container when opened and is null when closed', async () => {
+    const { rerender } = render(<TestPopup opened />);
+
+    const contentContainer = await screen.findByTestId(MobilePopupDataTids.container);
+    let rootNode = popupRef.current?.getRootNode();
+
+    expect(popupRef.current).not.toBeNull();
+    expect(rootNode).toBeInstanceOf(HTMLElement);
+    expect(rootNode).toBe(contentContainer);
+
+    rerender(<TestPopup opened={false} />);
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId(MobilePopupDataTids.container));
+    rootNode = popupRef.current?.getRootNode();
+    expect(popupRef.current).not.toBeNull();
+    expect(rootNode).toBeNull();
   });
 });

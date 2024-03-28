@@ -5,14 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../Button';
 import { Tooltip, TooltipProps, TooltipDataTids } from '../Tooltip';
-import { delay } from '../../../lib/utils';
-
-function clickOutside() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-
-  document.body.dispatchEvent(event);
-}
+import { delay, clickOutside } from '../../../lib/utils';
 
 /** Wraps test and runs it twice with external and child anchor */
 const withVariousAnchors = (testFn: (render: (props: Partial<TooltipProps>) => { anchor: HTMLElement }) => void) => {

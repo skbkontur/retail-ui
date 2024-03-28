@@ -4,19 +4,13 @@ import userEvent from '@testing-library/user-event';
 
 import { RadioGroup, RadioGroupDataTids, RadioGroupProps } from '../RadioGroup';
 import { Radio, RadioDataTids } from '../../Radio';
+import { clickOutside } from '../../../lib/utils';
 
 const renderRadioGroup = (
   props: Partial<RadioGroupProps<any>> & {
     children?: React.ReactElement<any>;
   },
 ) => render(<RadioGroup {...props} />);
-
-function clickOutside() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-
-  document.body.dispatchEvent(event);
-}
 
 describe('<RadioGroup />', () => {
   const items = ['one', 'two', 'three'];

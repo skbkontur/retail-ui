@@ -1,14 +1,8 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
+import { clickOutside } from '../../../lib/utils';
 import { FocusTrap, FocusTrapProps } from '../FocusTrap';
-
-function clickOutside() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-
-  document.body.dispatchEvent(event);
-}
 
 describe('<FocusTrap>', () => {
   let onBlur: jest.Mock<Promise<string[]>>;
