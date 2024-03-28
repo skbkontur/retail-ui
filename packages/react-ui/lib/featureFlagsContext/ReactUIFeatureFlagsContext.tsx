@@ -9,7 +9,7 @@ export interface ReactUIFeatureFlags {
   textareaUseSafari17Workaround?: boolean;
   linkFocusOutline?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
-  hintAddDynamicPositioning?: boolean;
+  popupUnifyPositioning?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -21,7 +21,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   textareaUseSafari17Workaround: false,
   linkFocusOutline: false,
   comboBoxAllowValueChangeInEditingState: false,
-  hintAddDynamicPositioning: false,
+  popupUnifyPositioning: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

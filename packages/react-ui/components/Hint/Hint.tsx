@@ -1,6 +1,5 @@
 import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
-import isEqual from 'lodash.isequal';
 
 import {
   ReactUIFeatureFlags,
@@ -52,19 +51,17 @@ export interface HintProps extends CommonProps {
    */
   opened?: boolean;
   /**
-   * Расположение подсказки относительно текста.
+   * Приоритетное расположение подсказки относительно текста.
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  pos?: PopupPositionsType;
   /**
    * Текст подсказки.
    */
   text: React.ReactNode;
   /**
-   * Список позиций, которые хинт будет занимать. Если положение хинт в определенной позиции будет выходить
-   * за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
-   * Для применения этого пропа необходимо включить фиче-флаг hintAddDynamicPositioning.
+   Список позиций, которые Hint может занимать. Если положение Hint'а в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
    */
   allowedPositions?: PopupPositionsType[];
   /**
@@ -84,6 +81,9 @@ export interface HintState {
   position: PopupPositionsType;
 }
 
+/**
+ * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
+ */
 const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
@@ -99,9 +99,7 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
-type DefaultProps = Required<
-  Pick<HintProps, 'pos' | 'allowedPositions' | 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>
->;
+type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
@@ -111,11 +109,9 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   public static __KONTUR_REACT_UI__ = 'Hint';
 
   public static defaultProps: DefaultProps = {
-    pos: 'top',
     manual: false,
     opened: false,
     maxWidth: 200,
-    allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
   };
@@ -131,12 +127,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private theme!: Theme;
   private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
-  private positions: Nullable<PopupPositionsType[]> = null;
 
   private popupRef = React.createRef<Popup>();
 
   public componentDidUpdate(prevProps: HintProps) {
-    const { opened, manual, pos, allowedPositions } = this.getProps();
+    const { opened, manual } = this.getProps();
     if (!manual) {
       return;
     }
@@ -146,15 +141,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     }
     if (opened !== prevProps.opened) {
       this.setState({ opened: !!opened });
-    }
-
-    if (this.featureFlags.hintAddDynamicPositioning) {
-      const posChanged = prevProps.pos !== pos;
-      const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
-
-      if (posChanged || allowedChanged) {
-        this.positions = null;
-      }
     }
   }
 
@@ -210,6 +196,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
                 hasPin={hasPin}
                 opened={this.state.opened}
                 anchorElement={this.props.children}
+                pos={this.props.pos}
                 positions={this.getPositions()}
                 backgroundColor={this.theme.hintBgColor}
                 borderColor={HINT_BORDER_COLOR}
@@ -252,36 +239,18 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PopupPositionsType[] => {
-    if (this.featureFlags.hintAddDynamicPositioning) {
-      if (!this.positions) {
-        const { allowedPositions, pos } = this.getProps();
-        let priorityPosition: PopupPositionsType;
-        switch (pos) {
-          case 'top':
-            priorityPosition = 'top center';
-            break;
-          case 'bottom':
-            priorityPosition = 'bottom center';
-            break;
-          case 'left':
-            priorityPosition = 'left middle';
-            break;
-          case 'right':
-            priorityPosition = 'right middle';
-            break;
-          default:
-            priorityPosition = pos;
-        }
-        const index = allowedPositions.indexOf(priorityPosition);
+  private getPositions = (): PopupPositionsType[] | undefined => {
+    if (this.featureFlags.popupUnifyPositioning) {
+      const { allowedPositions, pos } = this.props;
+      if (allowedPositions && pos) {
+        const index = allowedPositions.indexOf(pos);
         if (index === -1) {
           throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
         }
-        this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
       }
-      return this.positions;
+      return allowedPositions;
     }
-    return Positions.filter((x) => x.startsWith(this.getProps().pos));
+    return Positions.filter((x) => x.startsWith(this.props.pos ?? 'top'));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {
