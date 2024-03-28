@@ -181,7 +181,7 @@ export class DefaultTheme {
    * @deprecated use tokenLineHeightSmall
    */
   public static get tokenLineHeight() {
-    return this.controlLineHeightSmall;
+    return '22px';
   }
   public static get tokenLineHeightSmall() {
     return this.tokenLineHeight;
@@ -195,7 +195,7 @@ export class DefaultTheme {
   /**
    * @deprecated use tokenPaddingYSmall
    */
-  public static tokenPaddingY = '1px';
+  public static tokenPaddingY = '0px';
   /**
    * @deprecated use tokenPaddingXSmall
    */

@@ -65,7 +65,7 @@ export const styles = memoizeStyle({
 
   token2022(t: Theme) {
     return css`
-      border: solid ${t.tokenBorderWidth} transparent;
+      // border: solid ${t.tokenBorderWidth} transparent;
     `;
   },
 
@@ -73,8 +73,8 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.tokenDefaultIdleColor};
       background: ${t.tokenDefaultIdleBg};
-      border-color: ${t.tokenDefaultIdleBorderColor};
       background-clip: border-box;
+      box-shadow: 0 0 0 ${t.tokenBorderWidth} ${t.tokenDefaultIdleBorderColor};
     `;
   },
 
