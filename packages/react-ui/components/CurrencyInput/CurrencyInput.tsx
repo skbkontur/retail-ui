@@ -72,6 +72,7 @@ type DefaultProps = Required<
 @rootNode
 export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
+  public static displayName = 'CurrencyInput';
 
   public static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),

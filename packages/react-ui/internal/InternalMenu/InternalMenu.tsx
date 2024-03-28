@@ -72,6 +72,7 @@ type DefaultProps = Required<
 @rootNode
 export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
+  public static displayName = 'InternalMenu';
 
   public static defaultProps: DefaultProps = {
     width: 'auto',

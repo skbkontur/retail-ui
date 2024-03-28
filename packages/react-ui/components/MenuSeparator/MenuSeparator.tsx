@@ -37,5 +37,6 @@ function MenuSeparator(props: MenuSeparatorProps) {
 }
 
 MenuSeparator.__KONTUR_REACT_UI__ = 'MenuSeparator';
+MenuSeparator.displayName = 'MenuSeparator';
 
 export { MenuSeparator };

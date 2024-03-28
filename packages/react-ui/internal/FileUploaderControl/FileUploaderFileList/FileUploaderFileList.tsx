@@ -43,4 +43,5 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   );
 };
 
+FileUploaderFileList.__KONTUR_REACT_UI__ = 'FileUploaderFileList';
 FileUploaderFileList.displayName = 'FileUploaderFileList';

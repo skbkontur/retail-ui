@@ -146,6 +146,7 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
 @rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
+  public static displayName = 'Textarea';
 
   public static propTypes = {
     error: PropTypes.bool,

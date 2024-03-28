@@ -39,8 +39,6 @@ export const MiniModal = forwardRefAndName<
   );
 });
 
-MiniModal.__KONTUR_REACT_UI__ = 'MiniModal';
-
 MiniModal.Header = MiniModalHeader;
 MiniModal.Footer = MiniModalFooter;
 MiniModal.Indent = MiniModalIndent;

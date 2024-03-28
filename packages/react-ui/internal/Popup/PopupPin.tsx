@@ -28,6 +28,7 @@ interface Props {
 
 export class PopupPin extends React.Component<Props> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
+  public static displayName = 'PopupPin';
 
   public static propTypes = {
     /**

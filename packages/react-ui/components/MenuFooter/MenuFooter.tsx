@@ -72,6 +72,7 @@ function MenuFooter({ _enableIconPadding = false, children, size = 'small', ...r
 }
 
 MenuFooter.__KONTUR_REACT_UI__ = 'MenuFooter';
+MenuFooter.displayName = 'MenuFooter';
 MenuFooter.__MENU_FOOTER__ = true;
 
 export { MenuFooter };

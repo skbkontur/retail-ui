@@ -55,6 +55,7 @@ type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
+  public static displayName = 'FxInput';
 
   public static propTypes = {
     auto: PropTypes.bool,

@@ -88,6 +88,7 @@ type DefaultProps = Required<
 @rootNode
 export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
+  public static displayName = 'Menu';
 
   public static defaultProps: DefaultProps = {
     align: 'left',

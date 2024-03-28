@@ -43,6 +43,7 @@ type DefaultProps = Required<Pick<GappedProps, 'wrap' | 'vertical' | 'verticalAl
 @rootNode
 export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
+  public static displayName = 'Gapped';
 
   public static propTypes = {
     /**

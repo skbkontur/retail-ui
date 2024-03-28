@@ -61,3 +61,6 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 };
+
+ValidationText.__KONTUR_REACT_UI__ = 'ValidationText';
+ValidationText.displayName = 'ValidationText';

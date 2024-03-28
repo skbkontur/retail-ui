@@ -48,6 +48,7 @@ type DefaultProps = Required<Pick<DropdownContainerProps, 'align' | 'disablePort
 
 export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
+  public static displayName = 'DropdownContainer';
 
   public static defaultProps: DefaultProps = {
     align: 'left',

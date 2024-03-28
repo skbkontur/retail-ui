@@ -25,6 +25,7 @@ export const SidePageContainerDataTids = {
 @rootNode
 export class SidePageContainer extends React.Component<SidePageContainerProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageContainer';
+  public static displayName = 'SidePageContainer';
 
   private theme!: Theme;
   private isMobileLayout!: boolean;

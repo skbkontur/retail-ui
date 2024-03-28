@@ -38,6 +38,7 @@ interface PickerState {
 @locale('DatePicker', DatePickerLocaleHelper)
 export class Picker extends React.Component<PickerProps, PickerState> {
   public static __KONTUR_REACT_UI__ = 'Picker';
+  public static displayName = 'Picker';
 
   private theme!: Theme;
   private calendar: Calendar | null = null;

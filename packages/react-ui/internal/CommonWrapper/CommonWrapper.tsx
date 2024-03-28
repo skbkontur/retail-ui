@@ -37,6 +37,9 @@ export type CommonWrapperRestProps<P> = Omit<NotCommonProps<P>, 'children'>;
 export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> extends React.Component<
   CommonWrapperProps<P> & CommonPropsRootNodeRef
 > {
+  public static __KONTUR_REACT_UI__ = 'CommonWrapper';
+  public static displayName = 'CommonWrapper';
+
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;

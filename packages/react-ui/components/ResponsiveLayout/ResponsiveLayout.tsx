@@ -31,3 +31,6 @@ export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(props
     </CommonWrapper>
   );
 }
+
+ResponsiveLayout.__KONTUR_REACT_UI__ = 'ResponsiveLayout';
+ResponsiveLayout.displayName = 'ResponsiveLayout';

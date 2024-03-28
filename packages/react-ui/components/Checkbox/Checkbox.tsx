@@ -89,6 +89,7 @@ type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
+  public static displayName = 'Checkbox';
 
   public static defaultProps: DefaultProps = {
     size: 'small',

@@ -87,6 +87,7 @@ type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
+  public static displayName = 'DateInput';
 
   public static defaultProps: DefaultProps = {
     value: '',

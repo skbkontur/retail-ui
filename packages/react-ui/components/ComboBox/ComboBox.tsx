@@ -200,6 +200,7 @@ type DefaultProps<T> = Required<
 @rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
+  public static displayName = 'ComboBox';
 
   public static defaultProps: DefaultProps<any> = {
     itemToValue: (item: ComboBoxItem) => item.value,

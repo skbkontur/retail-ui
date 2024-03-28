@@ -145,6 +145,7 @@ type DefaultProps = Required<
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
+  public static displayName = 'Popup';
 
   public static propTypes = {
     /**

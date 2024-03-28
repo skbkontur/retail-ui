@@ -22,6 +22,7 @@ import { FileUploaderFileValidationResult } from '../../internal/FileUploaderCon
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -90,7 +91,7 @@ export const FileUploaderDataTids = {
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
-const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
+const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
 

@@ -76,6 +76,7 @@ type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 @rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
+  public static displayName = 'Tabs';
 
   public static defaultProps: DefaultProps = {
     vertical: false,

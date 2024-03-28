@@ -64,6 +64,7 @@ type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 @locale('Spinner', SpinnerLocaleHelper)
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
+  public static displayName = 'Spinner';
 
   public static propTypes = {
     /**

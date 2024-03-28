@@ -61,6 +61,7 @@ export const TokenDataTids = {
 @locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
+  public static displayName = 'Token';
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;

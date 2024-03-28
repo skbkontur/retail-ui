@@ -47,6 +47,7 @@ interface ZIndexState {
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
+  public static displayName = 'ZIndex';
 
   public static defaultProps: DefaultProps = {
     delta: 10,

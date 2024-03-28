@@ -27,6 +27,7 @@ export interface ValidationWrapperProps extends Pick<ValidationWrapperInternalPr
 
 export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationWrapper';
+  public static displayName = 'ValidationWrapper';
 
   public render() {
     const { children, validationInfo, renderMessage, 'data-tid': datTid } = this.props;

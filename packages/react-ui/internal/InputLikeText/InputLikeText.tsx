@@ -50,6 +50,7 @@ type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
+  public static displayName = 'InputLikeText';
 
   public static defaultProps: DefaultProps = { size: 'small' };
 

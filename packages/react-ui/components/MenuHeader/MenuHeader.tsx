@@ -74,6 +74,7 @@ function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...r
 }
 
 MenuHeader.__KONTUR_REACT_UI__ = 'MenuHeader';
+MenuHeader.displayName = 'MenuHeader';
 MenuHeader.__MENU_HEADER__ = true;
 
 export { MenuHeader };
