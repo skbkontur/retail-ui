@@ -7,7 +7,7 @@ import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, T
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { getCommonDataAttributes } from './getCommonDataAttributes';
-import { PrimitiveType } from "./primitiveType";
+import { PrimitiveType } from './primitiveType';
 
 export interface CommonProps {
   /**
