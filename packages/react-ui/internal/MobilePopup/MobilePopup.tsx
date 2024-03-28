@@ -10,6 +10,7 @@ import { RenderLayer } from '../RenderLayer';
 
 import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
+import { MobilePopupFooter } from './MobilePopupFooter';
 
 interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
@@ -24,6 +25,10 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    * Шапка всплывающего окна
    */
   headerChildComponent?: React.ReactNode;
+  /**
+   * Подвал всплывающего окна
+   */
+  footerChildComponent?: React.ReactNode;
   /**
    * Позволяет получить контент всплывающего окна без обёртки в виде `RenderContainer`
    */
@@ -69,6 +74,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
                 <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
                   <div className={jsStyles.content(this.theme)}>{this.props.children}</div>
+                  <MobilePopupFooter>{this.props.footerChildComponent}</MobilePopupFooter>
                 </div>
                 <div onClick={this.close} className={jsStyles.bottomIndent()} />
               </div>

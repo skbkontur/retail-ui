@@ -4,4 +4,5 @@ export const componentsLocales: DateSelectLocale = {
   selectMonthAriaLabel: 'месяц',
   selectYearAriaLabel: 'год',
   selectChosenAriaLabel: 'Выбранный',
+  selectChooseAriaLabel: 'Выбрать',
 };
