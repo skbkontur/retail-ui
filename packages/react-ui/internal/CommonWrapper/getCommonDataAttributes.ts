@@ -1,5 +1,6 @@
+import { toKebabCase } from '../../lib/toKebabCase';
+
 import { PrimitiveType } from './primitiveType';
-import { toKebabCase } from './toKebabCase';
 
 const prefix = `data-comp-`;
 
