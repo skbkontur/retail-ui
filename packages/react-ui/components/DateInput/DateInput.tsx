@@ -204,11 +204,17 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const showValue = Boolean(focused || valueFormatted);
     const { width, size } = this.getProps();
+    const internalStringValue = this.iDateMediator.getInternalString();
 
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        dataAttributes={{
+          value: internalStringValue,
+          disabled: this.props.disabled,
+          error: this.props.error,
+          warning: this.props.warning,
+        }}
         {...this.props}
       >
         <InputLikeText
@@ -228,7 +234,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           onDoubleClickCapture={this.handleDoubleClick}
           onMouseDragStart={this.handleMouseDragStart}
           onMouseDragEnd={this.handleMouseDragEnd}
-          value={this.iDateMediator.getInternalString()}
+          value={internalStringValue}
           inputMode={'numeric'}
           takeContentWidth
         >

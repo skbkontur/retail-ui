@@ -74,6 +74,7 @@ const PASS_BUTTON_PROPS = {
 export const SelectDataTids = {
   root: 'Select__root',
   menu: 'Select__menu',
+  label: 'Select__label',
 } as const;
 
 export const SelectIds = {
@@ -346,7 +347,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
+        dataAttributes={{
+          value: typeof buttonParams.label === 'string' ? buttonParams.label : undefined,
+          disabled: this.props.disabled,
+          error: this.props.error,
+          warning: this.props.warning,
+        }}
         {...this.props}
       >
         <RenderLayer
@@ -387,7 +393,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     return {
-      label: <span>{this.props.placeholder || this.locale?.placeholder}</span>,
+      label: <span data-tid={SelectDataTids.label}>{this.props.placeholder || this.locale?.placeholder}</span>,
       isPlaceholder: true,
     };
   }
