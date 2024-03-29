@@ -273,7 +273,7 @@ describe('mobile rootNode', () => {
     );
   };
 
-  it('is renderContainer by default when closed and getRootNode is defined', () => {
+  it('is null by default when closed and getRootNode is defined', () => {
     render(<TestPopup opened={false} />);
 
     expect(popupRef.current?.getRootNode).toBeDefined();
@@ -281,7 +281,7 @@ describe('mobile rootNode', () => {
     const rootNode = popupRef.current?.getRootNode();
     expect(popupRef.current).not.toBeNull();
 
-    expect(rootNode).not.toBeNull();
+    expect(rootNode).toBeNull();
   });
 
   it('is content container when opened and is null when closed', async () => {
