@@ -48,6 +48,9 @@ export const MobilePopupDataTids = {
 export class MobilePopup extends React.Component<MobilePopupProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
 
+  // see #2873 and #2895
+  public static readonly defaultRootNode = null;
+
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
