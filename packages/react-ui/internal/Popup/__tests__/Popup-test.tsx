@@ -2,8 +2,9 @@ import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
+import { PopupDataTids } from '..';
 import { MobilePopupDataTids } from '../../MobilePopup';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
@@ -124,42 +125,6 @@ describe('Popup', () => {
     await checkLocation();
     wrapper.unmount();
   });
-
-  describe('rootNode', () => {
-    const popupRef = React.createRef<Popup & InstanceWithRootNode>();
-
-    const wrapper = renderWrapper({ opened: false }, popupRef);
-
-    afterAll(() => {
-      wrapper.unmount();
-    });
-
-    it('getRootNode is defined', () => {
-      expect(popupRef.current?.getRootNode).toBeDefined();
-    });
-
-    it('is null by default when closed', () => {
-      const rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeNull();
-    });
-
-    it('is content container when opened', async () => {
-      await openPopup(wrapper);
-      const contentContainer = wrapper.find('[data-tid~="Popup__root"]').last().getDOMNode();
-      const rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeInstanceOf(HTMLElement);
-      expect(rootNode).toBe(contentContainer);
-    });
-
-    it('is null when closed', async () => {
-      await closePopup(wrapper);
-      const rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeNull();
-    });
-  });
 });
 
 describe('properly renders opened/closed states', () => {
@@ -232,30 +197,8 @@ describe('properly renders opened/closed states', () => {
   });
 });
 
-describe('mobile rootNode', () => {
-  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
-  const oldMatchMedia = window.matchMedia;
-  const matchMediaMock = jest.fn().mockImplementation((query) => {
-    return {
-      matches: calcMatches(query),
-      media: query,
-      onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-    };
-  });
+describe('rootNode', () => {
   const popupRef = React.createRef<Popup & InstanceWithRootNode>();
-  const popupContent = 'Test content';
-
-  beforeEach(() => {
-    window.matchMedia = matchMediaMock;
-  });
-
-  afterEach(() => {
-    window.matchMedia = oldMatchMedia;
-  });
 
   const TestPopup = ({ opened }: Pick<PopupProps, 'opened'>) => {
     const anchor = <button />;
@@ -268,37 +211,71 @@ describe('mobile rootNode', () => {
         disableAnimations
         ref={popupRef}
       >
-        {popupContent}
+        Test content
       </Popup>
     );
   };
 
-  it('is null by default when closed and getRootNode is defined', () => {
-    render(<TestPopup opened={false} />);
+  const testRootNode = (
+    Component: ({ opened }: Pick<PopupProps, 'opened'>) => JSX.Element,
+    popupRef: React.RefObject<Popup & InstanceWithRootNode>,
+    dataTid: string,
+  ) => {
+    it('is null by default when closed and getRootNode is defined', () => {
+      render(<Component opened={false} />);
 
-    expect(popupRef.current?.getRootNode).toBeDefined();
+      expect(popupRef.current?.getRootNode).toBeDefined();
 
-    const rootNode = popupRef.current?.getRootNode();
-    expect(popupRef.current).not.toBeNull();
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
 
-    expect(rootNode).toBeNull();
+    it('is content container when opened and is null when closed', async () => {
+      const { rerender } = render(<Component opened />);
+
+      const contentContainer = await screen.findByTestId(dataTid);
+      let rootNode = popupRef.current?.getRootNode();
+
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeInstanceOf(HTMLElement);
+      expect(rootNode).toBe(contentContainer);
+
+      rerender(<Component opened={false} />);
+      await delay(0);
+
+      rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+  };
+
+  describe('on desktop', () => {
+    testRootNode(TestPopup, popupRef, PopupDataTids.root);
   });
+  describe('on mobile', () => {
+    const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+    const oldMatchMedia = window.matchMedia;
+    const matchMediaMock = jest.fn().mockImplementation((query) => {
+      return {
+        matches: calcMatches(query),
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      };
+    });
 
-  it('is content container when opened and is null when closed', async () => {
-    const { rerender } = render(<TestPopup opened />);
+    beforeEach(() => {
+      window.matchMedia = matchMediaMock;
+    });
 
-    const contentContainer = await screen.findByTestId(MobilePopupDataTids.container);
-    let rootNode = popupRef.current?.getRootNode();
+    afterEach(() => {
+      window.matchMedia = oldMatchMedia;
+    });
 
-    expect(popupRef.current).not.toBeNull();
-    expect(rootNode).toBeInstanceOf(HTMLElement);
-    expect(rootNode).toBe(contentContainer);
-
-    rerender(<TestPopup opened={false} />);
-
-    await waitForElementToBeRemoved(() => screen.queryByTestId(MobilePopupDataTids.container));
-    rootNode = popupRef.current?.getRootNode();
-    expect(popupRef.current).not.toBeNull();
-    expect(rootNode).toBeNull();
+    testRootNode(TestPopup, popupRef, MobilePopupDataTids.container);
   });
 });
