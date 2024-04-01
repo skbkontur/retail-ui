@@ -247,9 +247,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
               data-tid={InputLikeTextDataTids.input}
               className={cx(jsInputStyles.input(this.theme), {
                 [styles.absolute()]: !takeContentWidth && !isMultiline,
+                [styles.multiline()]: isMultiline,
                 [jsInputStyles.inputFocus(this.theme)]: focused,
                 [jsInputStyles.inputDisabled(this.theme)]: disabled,
-                [styles.multiline()]: isMultiline,
               })}
             >
               {this.props.children}
