@@ -123,17 +123,17 @@ export const styles = memoizeStyle({
   },
   inputSmall(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenFontSizeSmall, t.tokenLineHeightSmall)};
+      ${inputSizeMixin(t.tokenFontSizeSmall, t.tokenInputLineHeightSmall)};
     `;
   },
   inputMedium(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenFontSizeMedium, t.tokenLineHeightMedium)};
+      ${inputSizeMixin(t.tokenFontSizeMedium, t.tokenInputLineHeightMedium)};
     `;
   },
   inputLarge(t: Theme) {
     return css`
-      ${inputSizeMixin(t.tokenFontSizeLarge, t.tokenLineHeightLarge)};
+      ${inputSizeMixin(t.tokenFontSizeLarge, t.tokenInputLineHeightLarge)};
     `;
   },
 
