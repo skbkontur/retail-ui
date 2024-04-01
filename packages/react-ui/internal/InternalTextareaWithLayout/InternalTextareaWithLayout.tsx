@@ -146,6 +146,7 @@ export class InternalTextareaWithLayout extends React.Component<
             textareaOutlineWidth: '0px',
             textareaShadow: 'none',
             textareaDisabledBg: 'transparent',
+            textareaBg: 'transparent',
           },
           this.theme,
         )}
