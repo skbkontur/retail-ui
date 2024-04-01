@@ -827,9 +827,9 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ...ComboBox.defaultProps,
     getItems: () => Promise.resolve([]),
   };
-  private repeat = this.props.viewMode === 'singleLine' ? 1 : 8;
+  private repeatCount = this.props.viewMode === 'singleLine' ? 1 : 8;
   public state = {
-    value: this.props.noInitialValue ? null : { value: 1, label: `${'First'.repeat(this.repeat)}` },
+    value: this.props.noInitialValue ? null : { value: 1, label: `${'First'.repeat(this.repeatCount)}` },
   };
   private setRootNode!: TSetRootNode;
   private comboBoxRef: React.RefObject<ComboBox> = React.createRef<ComboBox>();
@@ -861,12 +861,12 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   }
 
   private items: ComboboxItem[] = [
-    { value: 1, label: `${'First'.repeat(this.repeat)}` },
-    { value: 2, label: `${'Second'.repeat(this.repeat)}` },
-    { value: 3, label: `${'Third'.repeat(this.repeat)}` },
-    { value: 4, label: `${'Fourth'.repeat(this.repeat)}` },
-    { value: 5, label: `${'Fifth'.repeat(this.repeat)}` },
-    { value: 6, label: `${'Sixth'.repeat(this.repeat)}` },
+    { value: 1, label: `${'First'.repeat(this.repeatCount)}` },
+    { value: 2, label: `${'Second'.repeat(this.repeatCount)}` },
+    { value: 3, label: `${'Third'.repeat(this.repeatCount)}` },
+    { value: 4, label: `${'Fourth'.repeat(this.repeatCount)}` },
+    { value: 5, label: `${'Fifth'.repeat(this.repeatCount)}` },
+    { value: 6, label: `${'Sixth'.repeat(this.repeatCount)}` },
     { value: 7, label: 'A long long long long long long time ago' },
   ];
   private getItems = (query: string) =>
