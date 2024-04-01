@@ -10,7 +10,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 
-export type ComboBoxViewMode = 'singleLine' | 'multiline' | 'multiLineEditing';
+export type ComboBoxViewMode = 'singleLine' | 'multiline' | 'multilineEditing';
 
 export interface ComboBoxProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,

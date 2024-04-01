@@ -1515,7 +1515,7 @@ MultilineComboboxStory.parameters = {
 };
 export const MultilineEditingComboboxStory: Story = () => (
   <div style={{ paddingBottom: 230, paddingRight: 40 }}>
-    <SimpleCombobox viewMode={'multiLineEditing'} />
+    <SimpleCombobox viewMode={'multilineEditing'} />
   </div>
 );
 MultilineEditingComboboxStory.storyName = 'multiline editing combobox';

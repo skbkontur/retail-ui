@@ -571,7 +571,7 @@ const tdStyle = {
         onValueChange={handleValueChange}
         placeholder="Enter number"
         value={selected}
-        viewMode={'multiLineEditing'}
+        viewMode={'multilineEditing'}
       />
     </td>
   </tr>

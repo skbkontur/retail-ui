@@ -344,7 +344,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     };
 
     if (editing) {
-      if (this.props.viewMode === 'multiline' || this.props.viewMode === 'multiLineEditing') {
+      if (this.props.viewMode === 'multiline' || this.props.viewMode === 'multilineEditing') {
         return <InternalTextareaWithLayout {...editingStateProps} {...multilineTextareaProps} />;
       }
       return <Input {...editingStateProps} />;
