@@ -388,7 +388,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     return {
-      label: <span data-tid={SelectDataTids.label}>{this.props.placeholder || this.locale?.placeholder}</span>,
+      label: <span>{this.props.placeholder || this.locale?.placeholder}</span>,
       isPlaceholder: true,
     };
   }
@@ -423,6 +423,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const use = this.getProps().use;
 
     const labelProps = {
+      'data-tid': SelectDataTids.label,
       className: cx({
         [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,

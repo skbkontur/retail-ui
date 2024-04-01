@@ -19,6 +19,7 @@ describe('getTestDataAttributes', () => {
       ),
     ).toStrictEqual({
       'data-test-error': 'true',
+      'data-test-warning': 'false',
       'data-test-disabled': 'true',
       'data-test-attribute-boolean': 'true',
       'data-test-attribute-string': 'state',
