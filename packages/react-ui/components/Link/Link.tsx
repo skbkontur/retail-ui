@@ -99,6 +99,7 @@ type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 @rootNode
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
+  public static displayName = 'Link';
 
   public static propTypes = {
     disabled: PropTypes.bool,

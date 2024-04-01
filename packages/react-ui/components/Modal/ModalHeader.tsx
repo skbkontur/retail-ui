@@ -69,6 +69,7 @@ function ModalHeader(props: ModalHeaderProps) {
 }
 
 ModalHeader.__KONTUR_REACT_UI__ = 'ModalHeader';
+ModalHeader.displayName = 'ModalHeader';
 ModalHeader.__MODAL_HEADER__ = true;
 
 export { ModalHeader };

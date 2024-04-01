@@ -95,6 +95,7 @@ type DefaultProps = Required<
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
+  public static displayName = 'Paging';
 
   public static defaultProps: DefaultProps = {
     component: PagingDefaultComponent,

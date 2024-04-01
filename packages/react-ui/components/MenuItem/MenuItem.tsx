@@ -120,6 +120,7 @@ export const MenuItemDataTids = {
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
+  public static displayName = 'MenuItem';
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {

@@ -175,6 +175,7 @@ type DefaultProps = Required<
 @rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
+  public static displayName = 'Tooltip';
 
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
