@@ -221,7 +221,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
+  public featureFlags!: ReactUIFeatureFlags;
   private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
 
@@ -265,7 +265,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return (
       <ReactUIFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+          if (!this.featureFlags) {
+            this.featureFlags = getFullReactUIFlagsContext(flags);
+          }
           return (
             <ThemeContext.Consumer>
               {(theme) => {
@@ -428,11 +430,18 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     this.contentElement = node;
   };
 
-  private getPositions = (): PopupPositionsType[] | undefined => {
+  public getPositions = (): PopupPositionsType[] | undefined => {
     if (this.featureFlags.popupUnifyPositioning) {
       const { allowedPositions, pos } = this.props;
       if (allowedPositions && pos) {
-        if (allowedPositions.indexOf(pos) === -1 && allowedPositions.indexOf(normalizePosition(pos)) === -1) {
+        const splitPosition = pos.split(' ');
+        if (
+          allowedPositions.indexOf(pos) === -1 &&
+          allowedPositions.indexOf(normalizePosition(pos)) === -1 &&
+          splitPosition.length === 2 &&
+          (splitPosition[1] === 'middle' || splitPosition[1] === 'center') &&
+          allowedPositions.indexOf(splitPosition[0] as PopupPositionsType) === -1
+        ) {
           throw new Error(
             'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
           );
@@ -447,9 +456,15 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       if (index === -1) {
         index = allowedPositions.indexOf(normalizePosition(pos));
         if (index === -1) {
-          throw new Error(
-            'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
-          );
+          const splitPosition = pos.split(' ');
+          if (splitPosition.length === 2 && (splitPosition[1] === 'middle' || splitPosition[1] === 'center')) {
+            index = allowedPositions.indexOf(splitPosition[0] as PopupPositionsType);
+          }
+          if (index === -1) {
+            throw new Error(
+              'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
+            );
+          }
         }
       }
       this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];

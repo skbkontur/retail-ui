@@ -4,7 +4,7 @@ import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
 
 import { InstanceWithRootNode } from '../../../lib/rootNode';
-import { Popup, PopupProps, PopupState } from '../Popup';
+import { DefaultPosition, Popup, PopupPositions, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
@@ -216,5 +216,84 @@ describe('properly renders opened/closed states', () => {
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer?.children()).toHaveLength(0);
+  });
+
+  describe('test getPosAndPositions method', () => {
+    const anchor = document.createElement('button');
+    const defaultProps = { children: <></>, opened: false, anchorElement: anchor as HTMLElement };
+    it('flag, no positions, no pos', () => {
+      const popup = new Popup({ ...defaultProps });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({ allowedPositions: PopupPositions, priorityPosition: DefaultPosition });
+    });
+
+    it('flag, no positions, pos', () => {
+      const popup = new Popup({ ...defaultProps, pos: 'top' });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({ allowedPositions: PopupPositions, priorityPosition: 'top' });
+    });
+
+    it('flag, positions, no pos', () => {
+      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom right'] });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({ allowedPositions: ['top', 'top right', 'bottom right'], priorityPosition: 'top' });
+    });
+
+    it('flag, positions, first pos', () => {
+      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom right'], pos: 'top' });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({ allowedPositions: ['top', 'top right', 'bottom right'], priorityPosition: 'top' });
+    });
+
+    it('flag, positions, equal pos', () => {
+      const popup = new Popup({ ...defaultProps, positions: ['bottom right'], pos: 'bottom right' });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({ allowedPositions: ['bottom right'], priorityPosition: 'bottom right' });
+    });
+
+    it('flag, positions, not first pos', () => {
+      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom right'], pos: 'top right' });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({
+        allowedPositions: ['top', 'top right', 'bottom right'],
+        priorityPosition: 'top right',
+      });
+    });
+
+    it('flag, positions, need normalize pos', () => {
+      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom center'], pos: 'bottom' });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({
+        allowedPositions: ['top', 'top right', 'bottom center'],
+        priorityPosition: 'bottom',
+      });
+    });
+
+    it('flag, positions, another pos', () => {
+      const popup = new Popup({
+        ...defaultProps,
+        positions: ['top', 'top right', 'bottom center'],
+        pos: 'left middle',
+      });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      expect(() => popup.getPosAndPositions(popup.props.pos, popup.props.positions)).toThrow();
+    });
+
+    it('flag, need normalize positions, pos', () => {
+      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom center'], pos: 'top center' });
+      popup.featureFlags = { popupUnifyPositioning: true };
+      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
+      expect(positions).toEqual({
+        allowedPositions: ['top', 'top right', 'bottom center'],
+        priorityPosition: 'top center',
+      });
+    });
   });
 });

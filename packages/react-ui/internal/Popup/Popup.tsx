@@ -57,24 +57,6 @@ export const PopupPositions = [
   'right bottom',
 ] as const;
 
-/**
- * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
- */
-export const OldPopupPositions = [
-  'top left',
-  'top center',
-  'top right',
-  'right top',
-  'right middle',
-  'right bottom',
-  'bottom right',
-  'bottom center',
-  'bottom left',
-  'left bottom',
-  'left middle',
-  'left top',
-] as const;
-
 export const normalizePosition = (position: PopupPositionsType) => {
   if (position === 'top') {
     return 'top center' as PopupPositionsType;
@@ -278,7 +260,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
+  public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
@@ -698,27 +680,20 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     let position: PopupPositionsType;
     let coordinates: Offset;
 
-    let priorityPosition = pos;
-    let allowedPositions = positions;
+    const temp = this.getPosAndPositions(pos, positions);
 
-    // надо рассчитать pos и positions
-    if (!allowedPositions) {
-      if (!priorityPosition) {
-        priorityPosition = DefaultPosition;
-      }
-      allowedPositions = PopupPositions;
-    } else {
-      if (!priorityPosition) {
-        priorityPosition = allowedPositions[0];
-      }
-      const index = allowedPositions.indexOf(priorityPosition as PopupPositionsType);
-      if (index === -1) {
-        if (allowedPositions.indexOf(normalizePosition(priorityPosition)) === -1) {
-          throw new Error(
-            'Unexpected position ' + pos + ' passed to Popup. Expected one of: ' + allowedPositions.join(', '),
-          );
-        }
-      }
+    let priorityPosition = 'top center' as PopupPositionsType;
+    if (this.featureFlags.popupUnifyPositioning) {
+      priorityPosition = temp.priorityPosition as PopupPositionsType;
+    } else if (positions) {
+      priorityPosition = positions[0];
+    }
+
+    let allowedPositions: Readonly<PopupPositionsType[]> = PopupPositions;
+    if (this.featureFlags.popupUnifyPositioning) {
+      allowedPositions = temp.allowedPositions;
+    } else if (positions) {
+      allowedPositions = positions;
     }
 
     if (location && location !== DUMMY_LOCATION && location.position) {
@@ -792,6 +767,40 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     coordinates = this.getCoordinates(anchorRect, popupRect, priorityPosition);
     return { coordinates, position: normalizePosition(priorityPosition) };
+  }
+
+  public getPosAndPositions(
+    pos?: PopupPositionsType,
+    positions?: Readonly<PopupPositionsType[]>,
+  ): { priorityPosition: PopupPositionsType; allowedPositions: PopupPositionsType[] } {
+    let priorityPosition = pos;
+    let allowedPositions = positions;
+
+    if (!allowedPositions) {
+      if (!priorityPosition) {
+        priorityPosition = DefaultPosition;
+      }
+      allowedPositions = PopupPositions;
+    } else {
+      if (!priorityPosition) {
+        priorityPosition = allowedPositions[0];
+      } else {
+        const splitPosition = priorityPosition.split(' ');
+        if (
+          allowedPositions.indexOf(priorityPosition as PopupPositionsType) === -1 &&
+          allowedPositions.indexOf(normalizePosition(priorityPosition as PopupPositionsType)) === -1 &&
+          splitPosition.length === 2 &&
+          (splitPosition[1] === 'middle' || splitPosition[1] === 'center') &&
+          allowedPositions.indexOf(splitPosition[0] as PopupPositionsType) === -1
+        ) {
+          throw new Error(
+            'Unexpected position ' + pos + ' passed to Popup. Expected one of: ' + allowedPositions.join(', '),
+          );
+        }
+      }
+    }
+
+    return { priorityPosition, allowedPositions: Array.from(allowedPositions) };
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {

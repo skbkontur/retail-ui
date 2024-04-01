@@ -9,7 +9,7 @@ import {
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { DUMMY_LOCATION, Popup, PopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, normalizePosition, Popup, PopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -84,7 +84,7 @@ export interface HintState {
 /**
  * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
  */
-const Positions: PopupPositionsType[] = [
+export const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
   'top right',
@@ -125,7 +125,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
+  public featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();
@@ -239,12 +239,18 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PopupPositionsType[] | undefined => {
+  public getPositions = (): PopupPositionsType[] | undefined => {
     if (this.featureFlags.popupUnifyPositioning) {
       const { allowedPositions, pos } = this.props;
       if (allowedPositions && pos) {
-        const index = allowedPositions.indexOf(pos);
-        if (index === -1) {
+        const splitPosition = pos.split(' ');
+        if (
+          allowedPositions.indexOf(pos) === -1 &&
+          allowedPositions.indexOf(normalizePosition(pos)) === -1 &&
+          splitPosition.length === 2 &&
+          (splitPosition[1] === 'middle' || splitPosition[1] === 'center') &&
+          allowedPositions.indexOf(splitPosition[0] as PopupPositionsType) === -1
+        ) {
           throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
         }
       }
