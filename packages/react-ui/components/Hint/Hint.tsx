@@ -96,6 +96,7 @@ type DefaultProps = Required<
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Hint';
+  public static displayName = 'Hint';
 
   public static defaultProps: DefaultProps = {
     pos: 'top',

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "server": "run-s clean server:*",
-    "server:build": "cross-env NODE_ENV=development webpack --config webpack.server.js",
+    "server:build": "node ../../../scripts/patch-node-options.js \"cross-env NODE_ENV=development webpack --config webpack.server.js\"",
     "server:render": "node dist/SSR.js",
     "client": "cross-env NODE_ENV=development webpack-dev-server --config webpack.client.js",
     "clean": "git clean -fdxqe node_modules"
@@ -22,7 +22,7 @@
     "babel-loader": "^8.2.2",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
-    "css-loader": "^5.2.7",
+    "css-loader": "5.2.7",
     "npm-run-all": "^4.1.5",
     "null-loader": "^4.0.1",
     "string-replace-loader": "^3.0.2",

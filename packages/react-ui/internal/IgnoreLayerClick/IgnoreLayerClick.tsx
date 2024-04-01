@@ -25,6 +25,7 @@ interface WrapperProps {
 @rootNode
 class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   public static __KONTUR_REACT_UI__ = 'IgnoreLayerClick';
+  public static displayName = 'IgnoreLayerClick';
 
   private element: Element | null = null;
   private setRootNode!: TSetRootNode;

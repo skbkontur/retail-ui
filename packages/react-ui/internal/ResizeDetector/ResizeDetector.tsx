@@ -11,6 +11,7 @@ export interface ResizeDetectorProps {
 
 export class ResizeDetector extends React.Component<ResizeDetectorProps> {
   public static __KONTUR_REACT_UI__ = 'ResizeDetector';
+  public static displayName = 'ResizeDetector';
 
   private iframeWindow: Window | null = null;
 

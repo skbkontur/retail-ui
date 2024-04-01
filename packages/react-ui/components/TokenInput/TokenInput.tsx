@@ -271,6 +271,7 @@ const defaultRenderToken = <T extends AnyObject>(
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
+  public static displayName = 'TokenInput';
 
   public static defaultProps: DefaultProps<any> = {
     selectedItems: [],

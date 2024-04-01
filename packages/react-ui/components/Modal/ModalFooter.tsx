@@ -101,6 +101,7 @@ function ModalFooter(props: ModalFooterProps) {
 }
 
 ModalFooter.__KONTUR_REACT_UI__ = 'ModalFooter';
+ModalFooter.displayName = 'ModalFooter';
 ModalFooter.__MODAL_FOOTER__ = true;
 
 export { ModalFooter };
