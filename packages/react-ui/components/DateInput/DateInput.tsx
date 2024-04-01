@@ -207,16 +207,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const internalStringValue = this.iDateMediator.getInternalString();
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        dataAttributes={{
-          value: internalStringValue,
-          disabled: this.props.disabled,
-          error: this.props.error,
-          warning: this.props.warning,
-        }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} testDataAttributes={{ value: internalStringValue }} {...this.props}>
         <InputLikeText
           width={width}
           ref={this.inputLikeTextRef}

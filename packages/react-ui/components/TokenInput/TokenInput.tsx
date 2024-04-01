@@ -507,11 +507,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}

@@ -79,11 +79,7 @@ export class FxInput extends React.Component<FxInputProps> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-              {...this.getProps()}
-            >
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );

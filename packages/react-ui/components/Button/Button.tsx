@@ -494,11 +494,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
           <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}

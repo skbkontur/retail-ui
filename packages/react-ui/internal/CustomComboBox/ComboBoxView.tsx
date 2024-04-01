@@ -175,7 +175,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const input = this.renderInput();
 
     return (
-      <CommonWrapper dataAttributes={{ error: this.props.error, warning: this.props.warning }} {...this.props}>
+      <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
             data-tid={CustomComboBoxDataTids.comboBoxView}

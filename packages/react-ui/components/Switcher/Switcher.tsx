@@ -40,8 +40,6 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
 
   error?: boolean;
 
-  warning?: boolean;
-
   /** Размер */
   size?: SizeProp;
 
@@ -133,11 +131,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SwitcherDataTids.root} className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>

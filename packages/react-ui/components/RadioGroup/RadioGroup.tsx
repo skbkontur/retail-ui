@@ -164,11 +164,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
           <span
             data-tid={RadioGroupDataTids.root}

@@ -1,2 +1,3 @@
 export * from './CommonWrapper';
-export { getCommonDataAttributes } from './getCommonDataAttributes';
+export type { CommonWrapperRestProps } from './types';
+export type { CommonProps } from './types';

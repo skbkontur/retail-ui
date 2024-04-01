@@ -148,11 +148,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-              {...this.props}
-            >
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               {this.renderMain}
             </CommonWrapper>
           );

@@ -347,12 +347,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
-        dataAttributes={{
-          value: typeof buttonParams.label === 'string' ? buttonParams.label : undefined,
-          disabled: this.props.disabled,
-          error: this.props.error,
-          warning: this.props.warning,
-        }}
+        testDataAttributes={{ value: typeof buttonParams.label === 'string' ? buttonParams.label : undefined }}
         {...this.props}
       >
         <RenderLayer

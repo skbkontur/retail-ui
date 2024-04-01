@@ -110,13 +110,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              dataAttributes={{
-                activeTabId: value,
-              }}
-              {...this.props}
-            >
+            <CommonWrapper rootNodeRef={this.setRootNode} testDataAttributes={{ activeTabId: value }} {...this.props}>
               <div
                 data-tid={TabsDataTids.root}
                 className={cx({

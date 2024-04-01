@@ -196,11 +196,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     const items = React.Children.map(this.props.children, (item) => item) || [];
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        dataAttributes={{ error: this.props.error, warning: this.props.warning }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Select<React.ReactNode, React.ReactNode>
           data-tid={DropdownDataTids.root}
           ref={this._refSelect}

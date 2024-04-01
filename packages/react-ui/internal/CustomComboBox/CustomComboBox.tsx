@@ -320,7 +320,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <CommonWrapper dataAttributes={{ error: this.props.error, warning: this.props.warning }} {...this.props}>
+            <CommonWrapper {...this.props}>
               <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
             </CommonWrapper>
           );
