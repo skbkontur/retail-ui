@@ -12,7 +12,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { rootNode } from '../../lib/rootNode';
 import { Theme } from '../../lib/theming/Theme';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { styles as inputLayerStyles } from '../../components/Input/Input.styles';
+import { styles as inputStyles } from '../../components/Input/Input.styles';
 import { isFunction } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
@@ -96,8 +96,8 @@ export class InternalTextareaWithLayout extends React.Component<
         this.getTextareaSizeClassName(),
         this.getRootSizeClassName(),
         {
-          [styles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
-          [inputLayerStyles.borderless()]: this.props.borderless && !this.state.focused,
+          [inputStyles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
+          [inputStyles.borderless()]: this.props.borderless && !this.state.focused,
           [textareaStyles.disabled(this.theme)]: this.props.disabled,
           [textareaStyles.warning(this.theme)]: this.props.warning,
           [textareaStyles.error(this.theme)]: this.props.error,
@@ -120,11 +120,9 @@ export class InternalTextareaWithLayout extends React.Component<
     }
     return (
       <span {...labelProps}>
-        <span className={inputLayerStyles.sideContainer()}>{this.renderLeftIcon()}</span>
+        <span className={inputStyles.sideContainer()}>{this.renderLeftIcon()}</span>
         {this.renderTextarea()}
-        <span className={cx(inputLayerStyles.sideContainer(), inputLayerStyles.rightContainer())}>
-          {this.renderRightIcon()}
-        </span>
+        <span className={cx(inputStyles.sideContainer(), inputStyles.rightContainer())}>{this.renderRightIcon()}</span>
       </span>
     );
   };
@@ -165,12 +163,12 @@ export class InternalTextareaWithLayout extends React.Component<
   private getIconSizeClassname(right = false) {
     switch (this.getProps().size) {
       case 'large':
-        return right ? inputLayerStyles.rightIconLarge(this.theme) : inputLayerStyles.leftIconLarge(this.theme);
+        return right ? inputStyles.rightIconLarge(this.theme) : inputStyles.leftIconLarge(this.theme);
       case 'medium':
-        return right ? inputLayerStyles.rightIconMedium(this.theme) : inputLayerStyles.leftIconMedium(this.theme);
+        return right ? inputStyles.rightIconMedium(this.theme) : inputStyles.leftIconMedium(this.theme);
       case 'small':
       default:
-        return right ? inputLayerStyles.rightIconSmall(this.theme) : inputLayerStyles.leftIconSmall(this.theme);
+        return right ? inputStyles.rightIconSmall(this.theme) : inputStyles.leftIconSmall(this.theme);
     }
   }
 
@@ -191,9 +189,9 @@ export class InternalTextareaWithLayout extends React.Component<
 
     return (
       <span
-        className={cx(inputLayerStyles.icon(), sizeClassName, inputLayerStyles.useDefaultColor(this.theme), {
-          [inputLayerStyles.iconFocus(this.theme)]: this.state.focused,
-          [inputLayerStyles.iconDisabled()]: disabled,
+        className={cx(inputStyles.icon(), sizeClassName, inputStyles.useDefaultColor(this.theme), {
+          [inputStyles.iconFocus(this.theme)]: this.state.focused,
+          [inputStyles.iconDisabled()]: disabled,
         })}
       >
         {iconNode}
