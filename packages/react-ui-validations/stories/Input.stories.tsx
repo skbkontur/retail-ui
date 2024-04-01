@@ -1,5 +1,5 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
@@ -16,13 +16,26 @@ import {
 } from '../src';
 import { Nullable } from '../typings/Types';
 
-class Example1 extends React.Component {
-  public state = {
-    value: '',
-  };
+export default {
+  title: 'Input',
+} as Meta;
 
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
+type Sex = 'male' | 'female';
+
+const validateValue = (value: string): Nullable<ValidationInfo> => {
+  if (value === '') {
+    return { message: 'Должно быть не пусто', type: 'submit' };
+  }
+  if (value.split(' ').length !== 2) {
+    return { message: <span>Значение должно состоять из двух слов</span>, type: 'lostfocus' };
+  }
+  return null;
+};
+
+export const Example_1 = () => {
+  const [value, setValue] = useState<string>('');
+
+  const validateValue = (value: string): Nullable<ValidationInfo> => {
     if (value === '') {
       return { message: 'Должно быть не пусто', type: 'submit' };
     }
@@ -30,265 +43,121 @@ class Example1 extends React.Component {
       return { message: 'Значение должно состоять из двух слов', type: 'lostfocus' };
     }
     return null;
-  }
-
-  public render() {
-    return (
-      <ValidationContainer>
-        <div style={{ padding: 10 }}>
-          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-          </ValidationWrapper>
-        </div>
-      </ValidationContainer>
-    );
-  }
-}
-
-class Example2 extends React.Component {
-  public state = {
-    value: '',
   };
 
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
+  return (
+    <ValidationContainer>
+      <div style={{ padding: 10 }}>
+        <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+          <Input value={value} onValueChange={setValue} />
+        </ValidationWrapper>
+      </div>
+    </ValidationContainer>
+  );
+};
+
+// #2 ReactElement в сообщении
+export const Example_2 = () => {
+  const [value, setValue] = useState<string>('');
+
+  return (
+    <ValidationContainer>
+      <div style={{ padding: 10 }}>
+        <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+          <Input value={value} onValueChange={setValue} />
+        </ValidationWrapper>
+      </div>
+    </ValidationContainer>
+  );
+};
+
+// #3 Промотка сообщении
+export const Example_3 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value, setValue] = useState<string>('');
+
+  const submit = () => refContainer.current?.submit();
+
+  return (
+    <ValidationContainer ref={refContainer}>
+      <div style={{ padding: 10 }}>
+        <Button onClick={() => submit()}>Отправить</Button>
+        <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+          <Input value={value} onValueChange={setValue} />
+        </ValidationWrapper>
+        <Button onClick={() => submit()}>Отправить</Button>
+        <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        <Button onClick={() => submit()}>Отправить</Button>
+      </div>
+    </ValidationContainer>
+  );
+};
+
+// #4 Зависимые поля
+export const Example_4 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value, setValue] = useState<string>('');
+  const [sex, setSex] = useState<Nullable<Sex>>(null);
+
+  const validateValue = (): Nullable<ValidationInfo> => {
     if (value === '') {
       return { message: 'Должно быть не пусто', type: 'submit' };
     }
-    if (value.split(' ').length !== 2) {
-      return { message: <span>Значение должно состоять из двух слов.</span>, type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  public render() {
-    return (
-      <ValidationContainer>
-        <div style={{ padding: 10 }}>
-          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-          </ValidationWrapper>
-        </div>
-      </ValidationContainer>
-    );
-  }
-}
-
-class Example3 extends React.Component {
-  public state = {
-    value: '',
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
-    if (value === '') {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    if (value.split(' ').length !== 2) {
-      return { message: <span>Значение должно состоять из двух слов.</span>, type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  public render() {
-    return (
-      <ValidationContainer ref={this.refContainer}>
-        <div style={{ padding: 10 }}>
-          <Button onClick={() => this.submit()}>Отправить</Button>
-          <div style={{ height: 1000, backgroundColor: '#eee' }} />
-          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-          </ValidationWrapper>
-          <Button onClick={() => this.submit()}>Отправить</Button>
-          <div style={{ height: 1000, backgroundColor: '#eee' }} />
-          <Button onClick={() => this.submit()}>Отправить</Button>
-        </div>
-      </ValidationContainer>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-
-  private submit(): Promise<void> | void {
-    if (this.container) {
-      return this.container.submit();
-    }
-  }
-}
-
-class Example8 extends React.Component {
-  public state = {
-    value: '',
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
-    if (value === '') {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    if (value.split(' ').length !== 2) {
-      return { message: <span>Значение должно состоять из двух слов.</span>, type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  public render() {
-    return (
-      <ValidationContainer ref={this.refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
-        <div
-          style={{
-            position: 'fixed',
-            zIndex: 1000,
-            top: 0,
-            right: 0,
-            left: 0,
-            background: '#1e79be',
-            padding: 10,
-            height: 80,
-          }}
-        >
-          <Button onClick={() => this.submit()}>Отправить сверху</Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <div style={{ height: 600, backgroundColor: '#eee' }} />
-          <ValidationWrapper validationInfo={this.validateValue()}>
-            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-          </ValidationWrapper>
-          <div style={{ height: 1000, backgroundColor: '#eee' }} />
-        </div>
-        <div
-          style={{
-            position: 'fixed',
-            zIndex: 1000,
-            top: 600,
-            right: 0,
-            left: 0,
-            bottom: 0,
-            background: '#1e79be',
-            padding: 10,
-            height: 80,
-          }}
-        >
-          <Button onClick={() => this.submit()}>Отправить снизу</Button>
-        </div>
-      </ValidationContainer>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-
-  private submit(): Promise<void> | void {
-    if (this.container) {
-      return this.container.submit();
-    }
-  }
-}
-
-type Sex = 'male' | 'female';
-
-interface Example4State {
-  type: Nullable<Sex>;
-  value: string;
-}
-class Example4 extends React.Component {
-  public state: Example4State = {
-    type: null,
-    value: '',
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateValue(): Nullable<ValidationInfo> {
-    const { type, value } = this.state;
-    if (value === '') {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    if (type !== null && value !== type) {
+    if (sex !== null && value !== sex) {
       return { message: <span>Значение должно быть равно type.</span>, type: 'lostfocus' };
     }
     return null;
-  }
-
-  public render() {
-    return (
-      <ValidationContainer ref={this.refContainer}>
-        <div style={{ padding: 10 }}>
-          <Select<Nullable<Sex>>
-            items={['male', 'female']}
-            value={this.state.type}
-            onValueChange={(value) => this.setState({ type: value })}
-          />
-          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-          </ValidationWrapper>
-          <div style={{ height: 1000, backgroundColor: '#eee' }} />
-          <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
-        </div>
-      </ValidationContainer>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
-
-class Example5 extends React.Component {
-  public state = {
-    value: '',
   };
 
-  private container: ValidationContainer | null = null;
+  return (
+    <ValidationContainer ref={refContainer}>
+      <div style={{ padding: 10 }}>
+        <Select<Nullable<Sex>> items={['male', 'female']} value={sex} onValueChange={setSex} />
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+          <Input value={value} onValueChange={setValue} />
+        </ValidationWrapper>
+        <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
+      </div>
+    </ValidationContainer>
+  );
+};
 
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
-    if (value === '') {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    if (value.split(' ').length !== 2) {
-      return { message: <span>Значение должно состоять из двух слов.</span>, type: 'lostfocus' };
-    }
-    return null;
-  }
+// #5 Промотка внутри котейнера
+export const Example_5 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value, setValue] = useState<string>('');
 
-  public render() {
-    return (
-      <ValidationContainer ref={this.refContainer}>
-        <div style={{ padding: 50 }}>
-          <br />
-          <br />
-          <br />
-          <br />
-          <div style={{ height: 300, width: 300, overflow: 'scroll' }}>
-            <div style={{ height: 1000, width: 1000, position: 'relative' }}>
-              <div style={{ position: 'absolute', top: 500, left: 500 }}>
-                <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-                  <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-                </ValidationWrapper>
-              </div>
+  return (
+    <ValidationContainer ref={refContainer}>
+      <div style={{ padding: 50 }}>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div style={{ height: 300, width: 300, overflow: 'scroll' }}>
+          <div style={{ height: 1000, width: 1000, position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 500, left: 500 }}>
+              <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+                <Input value={value} onValueChange={setValue} />
+              </ValidationWrapper>
             </div>
           </div>
-          <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
         </div>
-      </ValidationContainer>
-    );
-  }
+        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
+      </div>
+    </ValidationContainer>
+  );
+};
 
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
+// #6 Выбор первого контра для валидации
+export const Example_6 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value1, setValue1] = useState<string>('');
+  const [value2, setValue2] = useState<string>('');
 
-class Example6 extends React.Component {
-  public state = {
-    value1: '',
-    value2: '',
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateValue1(): Nullable<ValidationInfo> {
-    const { value1 } = this.state;
+  const validateValue1 = (): Nullable<ValidationInfo> => {
     if (value1 === '') {
       return { message: 'Должно быть не пусто', type: 'submit' };
     }
@@ -296,10 +165,9 @@ class Example6 extends React.Component {
       return { message: <span>Значение должно состоять из двух слов.</span>, type: 'lostfocus' };
     }
     return null;
-  }
+  };
 
-  public validateValue2(): Nullable<ValidationInfo> {
-    const { value2 } = this.state;
+  const validateValue2 = (): Nullable<ValidationInfo> => {
     if (value2 === '') {
       return { message: 'Должно быть не пусто', type: 'submit' };
     }
@@ -307,161 +175,136 @@ class Example6 extends React.Component {
       return { message: <span>Значение должно состоять из двух слов.</span>, type: 'lostfocus' };
     }
     return null;
-  }
-
-  public render() {
-    return (
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer ref={this.refContainer}>
-          <div style={{ padding: 50, height: 200, position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 100 }}>
-              <ValidationWrapper validationInfo={this.validateValue1()}>
-                <Input value={this.state.value1} onValueChange={(value) => this.setState({ value1: value })} />
-              </ValidationWrapper>
-            </div>
-            <div style={{ position: 'absolute', top: 20 }}>
-              <ValidationWrapper validationInfo={this.validateValue2()}>
-                <Input value={this.state.value2} onValueChange={(value) => this.setState({ value2: value })} />
-              </ValidationWrapper>
-            </div>
-          </div>
-          <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
-
-class Example7 extends React.Component {
-  public state = {
-    value1: '',
-    value2: '',
-    value3: '',
   };
 
-  private container: ValidationContainer | null = null;
-
-  public validateValue(value: string): Nullable<ValidationInfo> {
-    if (value === '') {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    if (value.split(' ').length !== 2) {
-      return { message: 'Значение должно состоять из двух слов.', type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  public render() {
-    const { value1, value2, value3 } = this.state;
-    return (
-      <ValidationContainer ref={this.refContainer}>
-        <div>
-          <div style={{ padding: 20 }}>
-            <ValidationWrapper validationInfo={this.validateValue(value1)}>
-              <Input value={value1} onValueChange={(value) => this.setState({ value1: value })} />
+  return (
+    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <ValidationContainer ref={refContainer}>
+        <div style={{ padding: 50, height: 200, position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 100 }}>
+            <ValidationWrapper validationInfo={validateValue1()}>
+              <Input value={value1} onValueChange={setValue1} />
             </ValidationWrapper>
           </div>
-          <div style={{ padding: 20 }}>
-            <ValidationWrapper validationInfo={this.validateValue(value2)}>
-              <Input value={value2} onValueChange={(value) => this.setState({ value2: value })} />
-            </ValidationWrapper>
-          </div>
-          <div style={{ padding: 20 }}>
-            <ValidationWrapper validationInfo={this.validateValue(value3)}>
-              <Input value={value3} onValueChange={(value) => this.setState({ value3: value })} />
+          <div style={{ position: 'absolute', top: 20 }}>
+            <ValidationWrapper validationInfo={validateValue2()}>
+              <Input value={value2} onValueChange={setValue2} />
             </ValidationWrapper>
           </div>
         </div>
-        <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
+        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
       </ValidationContainer>
-    );
-  }
+    </ValidationsFeatureFlagsContext.Provider>
+  );
+};
 
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
+// #7 Три невалидных поля по сабмиту
+export const Example_7 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value1, setValue1] = useState<string>('');
+  const [value2, setValue2] = useState<string>('');
+  const [value3, setValue3] = useState<string>('');
 
-class Example9 extends React.Component {
-  public state = {
-    value: '',
-  };
-
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
-    return !value ? { message: 'Error msg', type: 'lostfocus' } : null;
-  }
-
-  public render() {
-    return (
-      <ValidationContainer>
-        <div style={{ padding: 10 }}>
-          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onValueChange={(value) => this.setState({ value })} />
+  return (
+    <ValidationContainer ref={refContainer}>
+      <div>
+        <div style={{ padding: 20 }}>
+          <ValidationWrapper validationInfo={validateValue(value1)}>
+            <Input value={value1} onValueChange={setValue1} />
           </ValidationWrapper>
         </div>
-      </ValidationContainer>
-    );
-  }
-}
+        <div style={{ padding: 20 }}>
+          <ValidationWrapper validationInfo={validateValue(value2)}>
+            <Input value={value2} onValueChange={setValue2} />
+          </ValidationWrapper>
+        </div>
+        <div style={{ padding: 20 }}>
+          <ValidationWrapper validationInfo={validateValue(value3)}>
+            <Input value={value3} onValueChange={setValue3} />
+          </ValidationWrapper>
+        </div>
+      </div>
+      <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
+    </ValidationContainer>
+  );
+};
 
-interface Example10State {
-  immediate: string;
-  lostfocus: string;
-  submit: string;
-  isValid: boolean | null;
-}
+// #8 Промотка с фиксированной плашкой снизу
+export const Example_8 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [value, setValue] = useState<string>('');
 
-class Example10 extends React.Component<Record<string, never>, Example10State> {
-  container: ValidationContainer | null = null;
+  const submit = () => refContainer.current?.submit();
 
-  state: Example10State = {
-    immediate: '',
-    lostfocus: '',
-    submit: '',
-    isValid: null,
-  };
-
-  render() {
-    const { immediate, lostfocus, submit } = this.state;
-    return (
-      <ValidationContainer ref={this.refContainer}>
-        <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
-          <Input
-            placeholder={'Только цифры'}
-            value={immediate}
-            onValueChange={(value) => this.handleChange({ immediate: value })}
-          />
+  return (
+    <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
+      <div
+        style={{
+          position: 'fixed',
+          zIndex: 1000,
+          top: 0,
+          right: 0,
+          left: 0,
+          background: '#1e79be',
+          padding: 10,
+          height: 80,
+        }}
+      >
+        <Button onClick={() => submit()}>Отправить сверху</Button>
+      </div>
+      <div style={{ padding: 10 }}>
+        <div style={{ height: 600, backgroundColor: '#eee' }} />
+        <ValidationWrapper validationInfo={validateValue(value)}>
+          <Input value={value} onValueChange={setValue} />
         </ValidationWrapper>
+        <div style={{ height: 1000, backgroundColor: '#eee' }} />
+      </div>
+      <div
+        style={{
+          position: 'fixed',
+          zIndex: 1000,
+          top: 600,
+          right: 0,
+          left: 0,
+          bottom: 0,
+          background: '#1e79be',
+          padding: 10,
+          height: 80,
+        }}
+      >
+        <Button onClick={() => submit()}>Отправить снизу</Button>
+      </div>
+    </ValidationContainer>
+  );
+};
 
-        <ValidationWrapper validationInfo={this.validate(lostfocus, 'lostfocus')}>
-          <Input
-            placeholder={'Только цифры'}
-            value={lostfocus}
-            onValueChange={(value) => this.handleChange({ lostfocus: value })}
-          />
+// #9 lostfocus не срабатывает после первого рендера
+export const Example_9 = () => {
+  const [value, setValue] = useState<string>('');
+
+  const validateValue = (): Nullable<ValidationInfo> => (!value ? { message: 'Error msg', type: 'lostfocus' } : null);
+
+  return (
+    <ValidationContainer>
+      <div style={{ padding: 10 }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+          <Input value={value} onValueChange={setValue} />
         </ValidationWrapper>
+      </div>
+    </ValidationContainer>
+  );
+};
 
-        <ValidationWrapper validationInfo={this.validate(submit, 'submit')}>
-          <Input
-            placeholder={'Только цифры'}
-            value={submit}
-            onValueChange={(value) => this.handleChange({ submit: value })}
-          />
-        </ValidationWrapper>
+// #10 валидация формы с level = warning
+export const Example_10 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [immediate, setImmediate] = useState<string>('');
+  const [lostfocus, setLostfocus] = useState<string>('');
+  const [submit, setSubmit] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean | null>(null);
 
-        <Gapped wrap verticalAlign="middle">
-          <Button use={'primary'} onClick={this.handleSubmit}>
-            Submit
-          </Button>
-          {this.renderFormState()}
-        </Gapped>
-      </ValidationContainer>
-    );
-  }
-
-  renderFormState = () => {
-    switch (this.state.isValid) {
+  const renderFormState = () => {
+    switch (isValid) {
       case null:
         return <b>Отправьте форму</b>;
       case false:
@@ -473,93 +316,92 @@ class Example10 extends React.Component<Record<string, never>, Example10State> {
     }
   };
 
-  validate = (v: string, type: ValidationBehaviour): ValidationInfo | null => {
+  const validate = (v: string, type: ValidationBehaviour): ValidationInfo | null => {
     return !/^\d*$/.test(v) ? { message: 'Только цифры', level: 'warning', type } : null;
   };
 
-  handleChange = (value: any) => {
-    this.setState({ ...value, isValid: null });
+  const handleChange = (setState: () => void) => {
+    setState();
+    setIsValid(null);
   };
 
-  handleSubmit = async (): Promise<void> => {
-    if (!this.container) {
+  const handleSubmit = async () => {
+    if (!refContainer.current) {
       throw new Error('invalid state');
     }
-    const isValid = await this.container.validate();
-    this.setState({ isValid });
+    const isValid = await refContainer.current.validate();
+    setIsValid(isValid);
   };
 
-  refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
+  return (
+    <ValidationContainer ref={refContainer}>
+      <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
+        <Input
+          placeholder={'Только цифры'}
+          value={immediate}
+          onValueChange={(value) => handleChange(() => setImmediate(value))}
+        />
+      </ValidationWrapper>
 
-class Example11 extends React.Component {
-  public render() {
-    let container: ValidationContainer | null;
-    return (
-      <form
-        style={{ width: '600px' }}
-        onSubmit={(e) => {
-          e.preventDefault();
-          container?.submit();
-        }}
-      >
-        <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-          <ValidationContainer ref={(el) => (container = el)}>
-            <ValidationWrapper
-              renderMessage={tooltip('left middle')}
-              validationInfo={{ message: 'Ошибка!', type: 'submit' }}
-            >
-              <Input width="100%" placeholder={'Валидация'} />
-            </ValidationWrapper>
-            <br />
-            <br />
-            <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
-              <Input width="100%" placeholder={'Валидация'} />
-            </ValidationWrapper>
-          </ValidationContainer>
-        </ValidationsFeatureFlagsContext.Provider>
-        <br />
-        <br />
-        <br />
-        <Button use="success" width="100%" type="submit">
-          Ок
+      <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
+        <Input
+          placeholder={'Только цифры'}
+          value={lostfocus}
+          onValueChange={(value) => handleChange(() => setLostfocus(value))}
+        />
+      </ValidationWrapper>
+
+      <ValidationWrapper validationInfo={validate(submit, 'submit')}>
+        <Input
+          placeholder={'Только цифры'}
+          value={submit}
+          onValueChange={(value) => handleChange(() => setSubmit(value))}
+        />
+      </ValidationWrapper>
+
+      <Gapped wrap verticalAlign="middle">
+        <Button use={'primary'} onClick={handleSubmit}>
+          Submit
         </Button>
-      </form>
-    );
-  }
-}
+        {renderFormState()}
+      </Gapped>
+    </ValidationContainer>
+  );
+};
 
-storiesOf('Input', module)
-  .add('#1', () => {
-    return <Example1 />;
-  })
-  .add('#2 ReactElement в сообщении', () => {
-    return <Example2 />;
-  })
-  .add('#3 Промотка сообщении', () => {
-    return <Example3 />;
-  })
-  .add('#4 Зависимые поля', () => {
-    return <Example4 />;
-  })
-  .add('#5 Промотка внутри котейнера', () => {
-    return <Example5 />;
-  })
-  .add('#6 Выбор первого контра для валидации', () => {
-    return <Example6 />;
-  })
-  .add('#7 Три невалидных поля по сабмиту', () => {
-    return <Example7 />;
-  })
-  .add('#8 Промотка с фиксированной плашкой снизу', () => {
-    return <Example8 />;
-  })
-  .add('#9 lostfocus не срабатывает после первого рендера', () => {
-    return <Example9 />;
-  })
-  .add('#10 валидация формы с level = warning', () => {
-    return <Example10 />;
-  })
-  .add('#11 задание ширины в процентах', () => {
-    return <Example11 />;
-  });
+// #11 задание ширины в процентах
+export const Example_11 = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+
+  return (
+    <form
+      style={{ width: '600px' }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        refContainer.current?.submit();
+      }}
+    >
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+        <ValidationContainer ref={refContainer}>
+          <ValidationWrapper
+            renderMessage={tooltip('left middle')}
+            validationInfo={{ message: 'Ошибка!', type: 'submit' }}
+          >
+            <Input width="100%" placeholder={'Валидация'} />
+          </ValidationWrapper>
+          <br />
+          <br />
+          <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
+            <Input width="100%" placeholder={'Валидация'} />
+          </ValidationWrapper>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+      <br />
+      <br />
+      <br />
+      <Button use="success" width="100%" type="submit">
+        Ок
+      </Button>
+    </form>
+  );
+};

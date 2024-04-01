@@ -2,7 +2,6 @@ import { text, tooltip } from './ErrorRenderer';
 import {
   ValidationContainer,
   ValidationContainerProps,
-  FocusMode,
   ValidationSettings,
   ValidateArgumentType,
   ScrollOffset,
@@ -29,6 +28,7 @@ import {
   ValidationsFeatureFlagsContext,
   getFullValidationsFlagsContext,
 } from './utils/featureFlagsContext';
+import { FocusMode } from './FocusMode';
 
 export {
   ValidationContainer,

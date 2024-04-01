@@ -12,7 +12,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidByDefault()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.WaitNoError();
             page.ValidationState.WaitText("none");
             page.InputValidation.Label.WaitAbsent();
@@ -21,7 +21,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestDoNotValidateUntilSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.Input.WaitNoError();
             page.InputValidation.Label.WaitAbsent();
@@ -30,7 +30,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidateOnSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
 
             page.SubmitButton.Click();
@@ -42,7 +42,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestResetValidationAfterEdit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
 
@@ -54,7 +54,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidOnSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("ok");
             page.SubmitButton.Click();
             page.Input.WaitNoError();
@@ -65,7 +65,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToValid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
             page.Input.WaitError();
@@ -88,7 +88,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToValidToInvalid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
             page.Input.WaitError();
@@ -111,7 +111,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestUpdateInvalidToInvalid()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
             page.Input.WaitError();
@@ -134,7 +134,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestFocusWhenNothing()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.SubmitButton.Click();
             page.ValidationState.WaitText("valid");
             page.Input.WaitNotFocus();
@@ -143,7 +143,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestFocusWhenError()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
             page.Input.WaitError();
@@ -153,15 +153,15 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestFocusWhenWarning()
         {
-            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            var page = new SingleInputPage(WebDriver).WaitReady();
             page.ValidationLevel.ExecuteAction(x =>
-            {
-                var tag = x.FindElement(By.CssSelector("button"));
-                tag.Click();
-                tag.SendKeys(Keys.Down);
-                tag.SendKeys(Keys.Down);
-                tag.SendKeys(Keys.Enter);
-            }, "SetValue('warning')");
+                {
+                    var tag = x.FindElement(By.CssSelector("button"));
+                    tag.Click();
+                    tag.SendKeys(Keys.Down);
+                    tag.SendKeys(Keys.Down);
+                    tag.SendKeys(Keys.Enter);
+                }, "SetValue('warning')");
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
             page.Input.WaitWarning();

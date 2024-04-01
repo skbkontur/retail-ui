@@ -22,7 +22,6 @@ namespace SKBKontur.ValidationTests.Infrastructure
             SetChromeVersionToRegistry(chromeExe);
 
             for(var i = 0; i < 3; i++)
-            {
                 try
                 {
                     var chromeDriverService = CreateChromeDriverService();
@@ -32,7 +31,6 @@ namespace SKBKontur.ValidationTests.Infrastructure
                 catch(InvalidOperationException e) when(e.Message.Contains("session not created exception"))
                 {
                 }
-            }
 
             return null;
         }
@@ -40,15 +38,11 @@ namespace SKBKontur.ValidationTests.Infrastructure
         private static void SetChromeVersionToRegistry(string chromeExe)
         {
             if(chromeExe == null)
-            {
                 return;
-            }
 
             var key = Registry.CurrentUser.CreateSubKey(RegistryKey);
             if(key == null)
-            {
                 throw new Exception($"Не удалось создать ключ {Registry.CurrentUser}\\{RegistryKey}");
-            }
 
             key.SetValue("pv", FileVersionInfo.GetVersionInfo(chromeExe).ProductVersion);
             key.Close();
@@ -58,9 +52,7 @@ namespace SKBKontur.ValidationTests.Infrastructure
         {
             var options = new ChromeOptions();
             if(chromeExe != null)
-            {
                 options.BinaryLocation = chromeExe;
-            }
 
             options.AddArguments("--no-sandbox", "--start-maximized", "--disable-extensions");
             return options;

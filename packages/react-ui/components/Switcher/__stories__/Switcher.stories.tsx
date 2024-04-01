@@ -154,6 +154,6 @@ export const WithCustomRenderItems: Story = () => {
 WithCustomRenderItems.storyName = 'with custom render item';
 WithCustomRenderItems.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
+    skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } },
   },
 };

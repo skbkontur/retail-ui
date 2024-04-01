@@ -1,52 +1,40 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React, { useRef, useState } from 'react';
+import { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper, ValidationsFeatureFlagsContext } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
+export default {
+  title: 'Checkbox',
+} as Meta;
 
-interface CheckboxStoryState {
-  checked: boolean;
-}
-class CheckboxStory extends React.Component {
-  public state: CheckboxStoryState = {
-    checked: false,
-  };
+export const Required = () => {
+  const refContainer = useRef<ValidationContainer>(null);
+  const [checked, setChecked] = useState<boolean>(false);
 
-  private container: ValidationContainer | null = null;
-
-  public validateSex(): Nullable<ValidationInfo> {
-    const { checked } = this.state;
-    if (checked === false) {
+  const validateSex = (): Nullable<ValidationInfo> => {
+    if (!checked) {
       return { message: 'Поле обязательно', type: 'submit' };
     }
     return null;
-  }
+  };
 
-  public render() {
-    return (
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <div style={{ padding: '20px 20px' }}>
-          <ValidationContainer ref={this.refContainer}>
-            <ValidationWrapper validationInfo={this.validateSex()}>
-              <Checkbox
-                checked={this.state.checked ? this.state.checked : false}
-                onValueChange={(v) => this.setState({ checked: v })}
-              >
-                Checkbox
-              </Checkbox>
-            </ValidationWrapper>
-            <div style={{ padding: '20px 0' }}>
-              <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-            </div>
-          </ValidationContainer>
-        </div>
-      </ValidationsFeatureFlagsContext.Provider>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
+  return (
+    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <div style={{ padding: 20 }}>
+        <ValidationContainer ref={refContainer}>
+          <ValidationWrapper validationInfo={validateSex()}>
+            <Checkbox checked={checked ? checked : false} onValueChange={setChecked}>
+              Checkbox
+            </Checkbox>
+          </ValidationWrapper>
+          <div style={{ padding: '20px 0' }}>
+            <Button onClick={() => refContainer.current?.validate()}>Check</Button>
+          </div>
+        </ValidationContainer>
+      </div>
+    </ValidationsFeatureFlagsContext.Provider>
+  );
+};

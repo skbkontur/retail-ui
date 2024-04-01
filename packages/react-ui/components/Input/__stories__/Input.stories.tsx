@@ -267,7 +267,7 @@ export const Type: Story = () => (
     presetProps={{}}
   />
 );
-Type.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
+Type.parameters = { creevey: { skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } } };
 
 const typeStates: InputState[] = [
   { type: 'text', defaultValue: 'Value' },
@@ -307,7 +307,9 @@ export const TypeApi: Story = () => (
     />
   </>
 );
-TypeApi.parameters = { creevey: { skip: { in: /^(?!\b(chrome|firefox)\b)/ } } };
+TypeApi.parameters = {
+  creevey: { skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } },
+};
 
 const typeApiTypes: InputState[] = [
   { type: 'number' },

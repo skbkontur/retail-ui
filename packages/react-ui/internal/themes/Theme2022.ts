@@ -31,6 +31,14 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkLineBorderBottomWidth = '1px';
 
   public static linkDisabledColor = '#858585';
+
+  public static linkFocusOutlineColor = '#3D3D3D';
+  public static get linkFocusOutlineWidth() {
+    return this.controlOutlineWidth;
+  }
+  public static get linkFocusOutline() {
+    return `${this.linkFocusOutlineWidth} solid ${this.linkFocusOutlineColor}`;
+  }
   //#endregion Link
 
   //#region Button
@@ -83,6 +91,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06) !important';
+
+  public static btnTextBg = 'transparent !important';
+  public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06) !important';
+
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
   public static btnBorderRadiusLarge = '8px';
@@ -99,9 +112,36 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
 
+  /**
+   * @deprecated use btnIconGapSmallLeft
+   */
   public static btnIconGapSmall = '4px';
+  public static get btnIconGapSmallLeft() {
+    return this.btnIconGapSmall;
+  }
+  public static get btnIconGapSmallRight() {
+    return this.btnIconGapSmall;
+  }
+  /**
+   * @deprecated use btnIconGapMediumLeft
+   */
   public static btnIconGapMedium = '6px';
+  public static get btnIconGapMediumLeft() {
+    return this.btnIconGapMedium;
+  }
+  public static get btnIconGapMediumRight() {
+    return this.btnIconGapMedium;
+  }
+  /**
+   * @deprecated use btnIconGapLargeLeft
+   */
   public static btnIconGapLarge = '8px';
+  public static get btnIconGapLargeLeft() {
+    return this.btnIconGapLarge;
+  }
+  public static get btnIconGapLargeRight() {
+    return this.btnIconGapLarge;
+  }
 
   public static btnWithIconPaddingLeftSmall = '8px';
   public static btnWithIconPaddingLeftMedium = '10px';
@@ -190,8 +230,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Hint
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
-  public static hintBorderRadius = '8px';
-  public static hintPaddingY = '8px';
+  public static hintBorderRadius = '6px';
+  public static hintPaddingY = '4px';
   public static hintPaddingX = '8px';
   //#endregion
 
@@ -265,6 +305,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderColorHover() {
     return this.inputBorderColorHover;
   }
+
   //#endregion
 
   //#region FileUploader
@@ -318,8 +359,19 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActive = '#323232';
   public static tokenBorderRadius = '2px';
 
-  public static tokenPaddingY = '0px';
-  public static tokenMarginX = '2px';
+  public static tokenMarginY = '2px';
+  public static tokenMarginX = '1px';
+  public static get tokenMarginYSmall() {
+    return this.tokenMarginY;
+  }
+  public static get tokenMarginXSmall() {
+    return this.tokenMarginX;
+  }
+  public static tokenMarginYMedium = '2px';
+  public static tokenMarginXMedium = '2px';
+  public static tokenMarginYLarge = '2px';
+  public static tokenMarginXLarge = '3px';
+
   public static tokenOutlineWidth = '1px';
 
   public static tokenShadowDisabled = '';
@@ -334,10 +386,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActiveColor = '#FFFFFF';
   public static tokenDefaultActiveBg = '#3D3D3D';
   public static tokenDefaultActiveBorderColor = 'transparent';
+
   //#endregion
 
   //#region DateInput
-  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
+  public static dateInputComponentSelectedBgColor = '';
+  public static dateInputComponentSelectedTextColor = '';
   //#endregion
 
   //#region Checkbox
@@ -371,11 +425,16 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemCommentOpacity = '0.6';
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
 
+  //#region TokenInput
+  public static tokenInputPopupOffset = '2px';
   public static tokenInputBorderRadius = '2px';
 
-  public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '2px';
+  public static tokenInputPaddingXLarge = '4px';
+
   public static tokenInputMenuPopupBg = 'transparent';
+
+  //#endregion
 
   //#region Toggle
   public static toggleHandleSize = '14px';
