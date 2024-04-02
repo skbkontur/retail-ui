@@ -622,3 +622,69 @@ WithLinkFocusOutlineFeatureFlag.parameters = {
     },
   },
 };
+
+export const IconColor = () => {
+  return (
+    <Gapped vertical>
+      <Button icon={<OkIcon color="red" />}>Old icon</Button>
+      <Button icon={<CheckAIcon color="red" />}>New icon</Button>
+      <Button
+        icon={
+          <span style={{ color: 'red' }}>
+            <OkIcon />
+          </span>
+        }
+      >
+        Old icon in span
+      </Button>
+      <Button
+        icon={
+          <span style={{ color: 'red' }}>
+            <CheckAIcon />
+          </span>
+        }
+      >
+        New icon in span
+      </Button>
+      <Button theme={{ btnIconColor: 'red' }} icon={<OkIcon />}>
+        btnIconColor
+      </Button>
+    </Gapped>
+  );
+};
+
+export const IconAndTextHoverColor: Story = () => {
+  return (
+    <Button
+      data-tid="test-button"
+      use="text"
+      icon={<CheckAIcon />}
+      theme={{ btnIconHoverColor: 'red', btnTextHoverTextColor: 'red' }}
+    >
+      Button
+    </Button>
+  );
+};
+
+IconAndTextHoverColor.parameters = {
+  creevey: {
+    skip: {
+      'hover does not work in chrome': {
+        in: /^(?!\bfirefox(2022)?\b)/,
+      },
+    },
+    tests: {
+      async hover() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+          })
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+      },
+    },
+  },
+};
