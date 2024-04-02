@@ -167,7 +167,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
               {(theme) => {
                 this.theme = theme;
                 return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                  <CommonWrapper
+                    rootNodeRef={this.setRootNode}
+                    testDataAttributes={{ state: this.activeState?.toString() }}
+                    {...this.props}
+                  >
                     {this.renderMain}
                   </CommonWrapper>
                 );
@@ -343,7 +347,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         data-tid={MenuItemDataTids.root}
         {...rest}
         disabled={disabled}
-        state={this.state.highlighted ? 'hover' : state}
+        state={this.activeState}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         onClick={this.handleClick}
@@ -376,6 +380,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
       </Component>
     );
   };
+
+  private get activeState() {
+    return this.state.highlighted ? 'hover' : this.props.state;
+  }
 
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button
