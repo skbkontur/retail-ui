@@ -103,7 +103,7 @@ export class InternalTextareaWithLayout extends React.Component<
           [textareaStyles.error(this.theme)]: this.props.error,
         },
       ),
-      style: { width: this.props.width || '250px' },
+      style: { width: this.props.width, minWidth: '0' },
     };
     if (isTheme2022(this.theme)) {
       return (
