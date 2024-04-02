@@ -754,7 +754,7 @@ describe('Tooltip', () => {
       const tooltip = new Tooltip({});
       tooltip.featureFlags = { popupUnifyPositioning: false };
       const positions = tooltip.getPositions();
-      expect(positions).toEqual(Tooltip.oldDefaultAllowedPositions);
+      expect(positions).toEqual(["top center", "top left", "left top", "left middle", "left bottom", "bottom left", "bottom center", "bottom right", "right bottom", "right middle", "right top", "top right"]);
     });
 
     it('flag, no allowedPositions, pos', () => {
@@ -767,7 +767,7 @@ describe('Tooltip', () => {
       const tooltip = new Tooltip({ pos: 'top' });
       tooltip.featureFlags = { popupUnifyPositioning: false };
       const positions = tooltip.getPositions();
-      expect(positions).toEqual(Tooltip.oldDefaultAllowedPositions);
+      expect(positions).toEqual(["top center", "top left", "left top", "left middle", "left bottom", "bottom left", "bottom center", "bottom right", "right bottom", "right middle", "right top", "top right"]);
     });
 
     it('flag, allowedPositions, no pos', () => {
