@@ -78,9 +78,6 @@ export const styles = memoizeStyle({
 
   input(t: Theme) {
     return css`
-      min-width: 0;
-      max-width: 100%;
-      width: 50px;
       background: transparent;
       border: none;
       box-shadow: none;
@@ -97,6 +94,8 @@ export const styles = memoizeStyle({
       word-break: break-all;
       padding: 0;
       margin: 0;
+      flex: 1 1 100%;
+
       &::-ms-clear {
         display: none;
       }
@@ -149,6 +148,12 @@ export const styles = memoizeStyle({
       /* fix text color in safari */
       -webkit-text-fill-color: currentcolor;
       color: ${t.tokenInputTextColorDisabled};
+    `;
+  },
+
+  inputPlaceholderWrapper() {
+    return css`
+      flex: 1 1 100%;
     `;
   },
 
