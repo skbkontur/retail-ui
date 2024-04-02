@@ -37,7 +37,7 @@ import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround
  */
 export type TextareaSize = SizeProp;
 
-const DEFAULT_WIDTH = 250;
+export const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps

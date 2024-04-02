@@ -4,7 +4,7 @@ import React from 'react';
 
 import { InputIconType, InputProps } from '../../components/Input';
 import { InputLayout } from '../../components/Input/InputLayout/InputLayout';
-import { Textarea, TextareaProps } from '../../components/Textarea';
+import { DEFAULT_WIDTH, Textarea, TextareaProps } from '../../components/Textarea';
 import { styles as textareaStyles } from '../../components/Textarea/Textarea.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -103,7 +103,7 @@ export class InternalTextareaWithLayout extends React.Component<
           [textareaStyles.error(this.theme)]: this.props.error,
         },
       ),
-      style: { width: this.props.width, minWidth: '0' },
+      style: { width: this.props.width || DEFAULT_WIDTH, minWidth: '0' },
     };
     if (isTheme2022(this.theme)) {
       return (
