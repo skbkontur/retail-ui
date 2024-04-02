@@ -623,7 +623,7 @@ WithLinkFocusOutlineFeatureFlag.parameters = {
   },
 };
 
-export const IconColor = () => {
+export const IconColor: Story = () => {
   return (
     <Gapped vertical>
       <Button icon={<OkIcon color="red" />}>Old icon</Button>
