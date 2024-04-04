@@ -416,7 +416,7 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.hasAttribute('data-visual-state-state'))).toBeFalsy();
+    expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === 'true')).toBeFalsy();
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -428,9 +428,9 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.hasAttribute('data-visual-state-state'))).toHaveAttribute(
-      'data-visual-state-state',
-      'hover',
+    expect(menuItems.find((element) => element.hasAttribute('data-visual-state-hover'))).toHaveAttribute(
+      'data-visual-state-hover',
+      'true',
     );
   });
 
