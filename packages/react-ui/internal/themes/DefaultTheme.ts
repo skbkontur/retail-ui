@@ -304,10 +304,10 @@ export class DefaultTheme {
    * @deprecated use tokenInputLineHeightSmall
    */
   public static get tokenInputLineHeight() {
-    return this.tokenLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get tokenInputLineHeightSmall() {
-    return this.tokenLineHeightSmall;
+    return this.tokenInputLineHeight;
   }
   public static get tokenInputLineHeightMedium() {
     return this.controlLineHeightMedium;
