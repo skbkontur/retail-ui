@@ -21,7 +21,6 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
-  icon: 'icon',
 });
 
 export const styles = memoizeStyle({

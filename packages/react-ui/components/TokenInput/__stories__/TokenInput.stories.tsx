@@ -259,6 +259,9 @@ EmptyCombined.storyName = 'empty combined';
 
 EmptyCombined.parameters = {
   creevey: {
+    skip: {
+      'flaky tests': { in: ['firefox2022', 'firefox2022Dark'] },
+    },
     tests: {
       async selectFirst() {
         await this.browser

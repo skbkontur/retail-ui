@@ -246,3 +246,10 @@ export function getChildrenText(children: React.ReactNode): string {
 
   return getChildrenText(nextChild);
 }
+
+export function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+
+  document.body.dispatchEvent(event);
+}
