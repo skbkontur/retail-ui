@@ -50,7 +50,9 @@ describe('Select', () => {
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
     const selectedMenuItem = menuItems.find(
-      (element) => element.hasAttribute('data-test-state') && element.getAttribute('data-test-state') === 'selected',
+      (element) =>
+        element.hasAttribute('data-visual-state-state') &&
+        element.getAttribute('data-visual-state-state') === 'selected',
     );
     expect(selectedMenuItem).toBeInTheDocument();
     expect(selectedMenuItem).toHaveTextContent(currentValueText);
@@ -446,19 +448,23 @@ describe('Select', () => {
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      expect(menuItems.find((element) => element.hasAttribute('data-test-state'))).toBeFalsy();
+      expect(menuItems.find((element) => element.hasAttribute('data-visual-state-state'))).toBeFalsy();
       userEvent.keyboard('{arrowdown}');
 
       expect(
         menuItems.find(
-          (element) => element.hasAttribute('data-test-state') && element.getAttribute('data-test-state') === 'hover',
+          (element) =>
+            element.hasAttribute('data-visual-state-state') &&
+            element.getAttribute('data-visual-state-state') === 'hover',
         ),
       ).toHaveTextContent(testItems[0]);
 
       userEvent.keyboard('{arrowdown}');
       expect(
         menuItems.find(
-          (element) => element.hasAttribute('data-test-state') && element.getAttribute('data-test-state') === 'hover',
+          (element) =>
+            element.hasAttribute('data-visual-state-state') &&
+            element.getAttribute('data-visual-state-state') === 'hover',
         ),
       ).toHaveTextContent(testItems[1]);
     });
@@ -469,12 +475,14 @@ describe('Select', () => {
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      expect(menuItems.find((element) => element.hasAttribute('data-test-state'))).toBeFalsy();
+      expect(menuItems.find((element) => element.hasAttribute('data-visual-state-state'))).toBeFalsy();
       userEvent.keyboard('{arrowup}');
 
       expect(
         menuItems.find(
-          (element) => element.hasAttribute('data-test-state') && element.getAttribute('data-test-state') === 'hover',
+          (element) =>
+            element.hasAttribute('data-visual-state-state') &&
+            element.getAttribute('data-visual-state-state') === 'hover',
         ),
       ).toHaveTextContent(testItems[testItems.length - 1]);
     });

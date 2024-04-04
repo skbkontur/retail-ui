@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
-import { getTestDataAttributes } from './getTestDataAttributes';
+import { getVisualStateDataAttributes } from './getVisualStateDataAttributes';
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
 import { extractCommonProps } from './extractCommonProps';
 
@@ -22,7 +22,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
 
   render() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [{ className, style, children, rootNodeRef, testDataAttributes, ...dataProps }, { ...rest }] =
+    const [{ className, style, children, rootNodeRef, visualStateDataAttributes, ...dataProps }, { ...rest }] =
       extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
@@ -33,7 +33,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
             ...this.child.props.style,
             ...style,
           },
-          ...getTestDataAttributes(rest, testDataAttributes),
+          ...getVisualStateDataAttributes(rest, visualStateDataAttributes),
           ...dataProps,
         })
       : this.child;

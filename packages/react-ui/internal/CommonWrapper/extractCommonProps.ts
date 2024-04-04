@@ -27,7 +27,7 @@ const isCommonProp = (prop: keyof CommonPropsWithRootNodeRef) => {
     case prop === 'rootNodeRef':
     case prop === 'children':
     case prop.indexOf('data-') === 0: // все data-атрибуты
-    case prop === 'testDataAttributes':
+    case prop === 'visualStateDataAttributes':
       return true;
     default:
       return false;

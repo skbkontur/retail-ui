@@ -169,7 +169,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
                 return (
                   <CommonWrapper
                     rootNodeRef={this.setRootNode}
-                    testDataAttributes={{ state: this.activeState?.toString() }}
+                    visualStateDataAttributes={{
+                      hover: this.isHover,
+                      selected: this.isSelected,
+                    }}
                     {...this.props}
                   >
                     {this.renderMain}
@@ -303,8 +306,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = props;
 
-    const hover = (this.state.highlighted || state === 'hover') && !disabled;
-
     let iconElement = null;
     if (icon) {
       iconElement = (
@@ -325,8 +326,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
-      [styles.hover(this.theme)]: hover,
-      [styles.selected(this.theme)]: state === 'selected' && !this.state.highlighted,
+      [styles.hover(this.theme)]: this.isHover,
+      [styles.selected(this.theme)]: this.isSelected,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
@@ -371,7 +372,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
             data-tid={MenuItemDataTids.comment}
             className={cx({
               [styles.comment(this.theme)]: true,
-              [styles.commentHover(this.theme)]: hover,
+              [styles.commentHover(this.theme)]: this.isHover,
             })}
           >
             {comment}
@@ -383,6 +384,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private get activeState() {
     return this.state.highlighted ? 'hover' : this.props.state;
+  }
+
+  private get isHover(): boolean {
+    return (this.state.highlighted || this.props.state === 'hover') && !this.props.disabled;
+  }
+
+  private get isSelected(): boolean {
+    return this.props.state === 'selected' && !this.state.highlighted;
   }
 
   // https://github.com/facebook/react/issues/10109

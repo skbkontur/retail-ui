@@ -345,11 +345,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
 
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        testDataAttributes={{ value: typeof buttonParams.label === 'string' ? buttonParams.label : undefined }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
           onClickOutside={this.close}
           onFocusOutside={this.close}

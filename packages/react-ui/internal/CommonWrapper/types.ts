@@ -4,7 +4,7 @@ import type { Nullable } from '../../typings/utility-types';
 
 export type PrimitiveType = string | number | boolean | null | undefined;
 
-export interface TestDataAttributes {
+export interface VisualStateDataAttributes {
   [key: string]: PrimitiveType;
   error?: never;
   warning?: never;
@@ -25,7 +25,7 @@ export interface CommonProps {
    */
   'data-tid'?: string;
   children?: React.ReactNode;
-  testDataAttributes?: TestDataAttributes;
+  visualStateDataAttributes?: VisualStateDataAttributes;
 }
 
 export interface CommonPropsRootNodeRef {

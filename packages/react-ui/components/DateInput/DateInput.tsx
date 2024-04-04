@@ -11,7 +11,7 @@ import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -204,10 +204,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const showValue = Boolean(focused || valueFormatted);
     const { width, size } = this.getProps();
-    const internalStringValue = this.iDateMediator.getInternalString();
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} testDataAttributes={{ value: internalStringValue }} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <InputLikeText
           width={width}
           ref={this.inputLikeTextRef}
@@ -225,7 +224,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           onDoubleClickCapture={this.handleDoubleClick}
           onMouseDragStart={this.handleMouseDragStart}
           onMouseDragEnd={this.handleMouseDragEnd}
-          value={internalStringValue}
+          value={this.iDateMediator.getInternalString()}
           inputMode={'numeric'}
           takeContentWidth
         >

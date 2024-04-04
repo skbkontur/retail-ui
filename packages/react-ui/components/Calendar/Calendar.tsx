@@ -285,7 +285,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const props = this.getProps();
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} testDataAttributes={{ value: props.value }} {...props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
         <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
           <div style={wrapperStyle} className={styles.wrapper()}>
             {this.state.months

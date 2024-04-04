@@ -192,7 +192,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} testDataAttributes={{ active: isActive }} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} visualStateDataAttributes={{ active: isActive }} {...this.props}>
         <Component
           data-tid={TabDataTids.root}
           className={cx({

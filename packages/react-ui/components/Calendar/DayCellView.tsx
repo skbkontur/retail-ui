@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
 import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
@@ -38,6 +39,7 @@ export function DayCellView(props: DayCellViewProps) {
   );
 
   const isToday = Boolean(today && CDS.isEqual(date, today));
+  const isSelected = Boolean(value && CDS.isEqual(date, value));
 
   const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
 
@@ -51,9 +53,10 @@ export function DayCellView(props: DayCellViewProps) {
         [styles.cell(theme)]: true,
         [styles.today(theme)]: isToday && !_isTheme2022,
         [styles.today2022(theme)]: isToday && _isTheme2022,
-        [styles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
+        [styles.selected(theme)]: isSelected,
         [styles.weekend(theme)]: Boolean(isWeekend),
       })}
+      {...getVisualStateDataAttributes(props, { selected: isSelected })}
       onClick={handleClick}
     >
       {child}

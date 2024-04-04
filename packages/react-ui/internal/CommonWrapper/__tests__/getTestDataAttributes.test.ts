@@ -1,13 +1,13 @@
-import { getTestDataAttributes } from '../getTestDataAttributes';
+import { getVisualStateDataAttributes } from '../getVisualStateDataAttributes';
 
-describe('getTestDataAttributes', () => {
+describe('VisualStateDataAttributes', () => {
   it('empty object', () => {
-    expect(getTestDataAttributes()).toStrictEqual({});
+    expect(getVisualStateDataAttributes()).toStrictEqual({});
   });
 
   it('filled', () => {
     expect(
-      getTestDataAttributes(
+      getVisualStateDataAttributes(
         { skip: true, error: true, warning: false, disabled: true },
         {
           attributeNull: null,
@@ -18,12 +18,12 @@ describe('getTestDataAttributes', () => {
         },
       ),
     ).toStrictEqual({
-      'data-test-error': 'true',
-      'data-test-warning': 'false',
-      'data-test-disabled': 'true',
-      'data-test-attribute-boolean': 'true',
-      'data-test-attribute-string': 'state',
-      'data-test-attribute-number': '0',
+      'data-visual-state-error': 'true',
+      'data-visual-state-warning': 'false',
+      'data-visual-state-disabled': 'true',
+      'data-visual-state-attribute-boolean': 'true',
+      'data-visual-state-attribute-string': 'state',
+      'data-visual-state-attribute-number': '0',
     });
   });
 });

@@ -17,6 +17,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -169,11 +170,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private renderMain() {
     const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
-      <CommonWrapper
-        rootNodeRef={this.setRootNode}
-        testDataAttributes={{ activePageNumber: this.props.activePage, pagesCount: this.props.pagesCount }}
-        {...this.props}
-      >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
@@ -276,6 +273,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
         className={styles.pageLinkWrapper()}
+        {...getVisualStateDataAttributes(this.props, { active })}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component
