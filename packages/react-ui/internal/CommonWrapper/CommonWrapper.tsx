@@ -6,9 +6,9 @@ import { Nullable } from '../../typings/utility-types';
 import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
-import { getVisualStateDataAttributes } from './getVisualStateDataAttributes';
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
 import { extractCommonProps } from './extractCommonProps';
+import { getCommonVisualStateDataAttributes } from './getCommonVisualStateDataAttributes';
 
 export type CommonPropsWithRootNodeRef = CommonProps & CommonPropsRootNodeRef;
 
@@ -22,8 +22,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
 
   render() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [{ className, style, children, rootNodeRef, visualStateDataAttributes, ...dataProps }, { ...rest }] =
-      extractCommonProps(this.props);
+    const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
@@ -33,7 +32,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
             ...this.child.props.style,
             ...style,
           },
-          ...getVisualStateDataAttributes(rest, visualStateDataAttributes),
+          ...getCommonVisualStateDataAttributes(rest),
           ...dataProps,
         })
       : this.child;
@@ -43,7 +42,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
     this.setRootNode(instance);
     this.props.rootNodeRef?.(getRootNode(instance));
 
-    // refs are called when instances change
+    // refs are called when instances change,
     // so we have to renew or remove old subscription
     this.rootNodeSubscription?.remove();
     this.rootNodeSubscription = null;

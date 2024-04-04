@@ -2,15 +2,6 @@ import React from 'react';
 
 import type { Nullable } from '../../typings/utility-types';
 
-export type PrimitiveType = string | number | boolean | null | undefined;
-
-export interface VisualStateDataAttributes {
-  [key: string]: PrimitiveType;
-  error?: never;
-  warning?: never;
-  disabled?: never;
-}
-
 export interface CommonProps {
   /**
    * HTML-атрибут `class`.
@@ -25,7 +16,6 @@ export interface CommonProps {
    */
   'data-tid'?: string;
   children?: React.ReactNode;
-  visualStateDataAttributes?: VisualStateDataAttributes;
 }
 
 export interface CommonPropsRootNodeRef {

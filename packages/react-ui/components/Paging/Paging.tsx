@@ -273,7 +273,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
         className={styles.pageLinkWrapper()}
-        {...getVisualStateDataAttributes(this.props, { active })}
+        {...getVisualStateDataAttributes({ active })}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component

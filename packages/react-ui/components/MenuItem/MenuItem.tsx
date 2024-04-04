@@ -14,6 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
 import { styles } from './MenuItem.styles';
 
@@ -169,10 +170,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
                 return (
                   <CommonWrapper
                     rootNodeRef={this.setRootNode}
-                    visualStateDataAttributes={{
+                    {...getVisualStateDataAttributes({
                       hover: this.isHover,
                       selected: this.isSelected,
-                    }}
+                    })}
                     {...this.props}
                   >
                     {this.renderMain}

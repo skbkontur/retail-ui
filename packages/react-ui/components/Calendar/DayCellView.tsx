@@ -56,7 +56,7 @@ export function DayCellView(props: DayCellViewProps) {
         [styles.selected(theme)]: isSelected,
         [styles.weekend(theme)]: Boolean(isWeekend),
       })}
-      {...getVisualStateDataAttributes(props, { selected: isSelected })}
+      {...getVisualStateDataAttributes({ selected: isSelected })}
       onClick={handleClick}
     >
       {child}
