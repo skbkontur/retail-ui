@@ -2,7 +2,10 @@ import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
+import { render, screen } from '@testing-library/react';
 
+import { PopupDataTids } from '..';
+import { MobilePopupDataTids } from '../../MobilePopup';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { DefaultPosition, Popup, PopupPositions, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
@@ -12,6 +15,7 @@ import { CommonWrapper } from '../../CommonWrapper';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
@@ -79,6 +83,7 @@ describe('Popup', () => {
 
     expect(wrapper.state('location')).not.toBeNull();
     expect(wrapper.state('location')?.position).toBe('bottom right');
+    wrapper.unmount();
   });
 
   it('одна и та же позиция при каждом открытии', async () => {
@@ -118,38 +123,7 @@ describe('Popup', () => {
     };
 
     await checkLocation();
-  });
-
-  describe('rootNode', () => {
-    const popupRef = React.createRef<Popup & InstanceWithRootNode>();
-
-    const wrapper = renderWrapper({ opened: false }, popupRef);
-
-    it('getRootNode is defined', () => {
-      expect(popupRef.current?.getRootNode).toBeDefined();
-    });
-
-    it('is null by default when closed', () => {
-      const rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeNull();
-    });
-
-    it('is content container when opened', async () => {
-      await openPopup(wrapper);
-      const contentContainer = wrapper.find('[data-tid~="Popup__root"]').last().getDOMNode();
-      const rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeInstanceOf(HTMLElement);
-      expect(rootNode).toBe(contentContainer);
-    });
-
-    it('is null when closed', async () => {
-      await closePopup(wrapper);
-      const rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeNull();
-    });
+    wrapper.unmount();
   });
 });
 
@@ -188,6 +162,10 @@ describe('properly renders opened/closed states', () => {
   }
 
   const wrapper = renderWrapper();
+
+  afterAll(() => {
+    wrapper.unmount();
+  });
 
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
@@ -295,5 +273,88 @@ describe('properly renders opened/closed states', () => {
         priorityPosition: 'top center',
       });
     });
+  });
+});
+
+describe('rootNode', () => {
+  const popupRef = React.createRef<Popup & InstanceWithRootNode>();
+
+  const TestPopup = ({ opened }: Pick<PopupProps, 'opened'>) => {
+    const anchor = <button />;
+
+    return (
+      <Popup
+        positions={['bottom left', 'bottom right', 'top left', 'top right']}
+        opened={opened}
+        anchorElement={anchor}
+        disableAnimations
+        ref={popupRef}
+      >
+        Test content
+      </Popup>
+    );
+  };
+
+  const testRootNode = (
+    Component: ({ opened }: Pick<PopupProps, 'opened'>) => JSX.Element,
+    popupRef: React.RefObject<Popup & InstanceWithRootNode>,
+    dataTid: string,
+  ) => {
+    it('is null by default when closed and getRootNode is defined', () => {
+      render(<Component opened={false} />);
+
+      expect(popupRef.current?.getRootNode).toBeDefined();
+
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+
+    it('is content container when opened and is null when closed', async () => {
+      const { rerender } = render(<Component opened />);
+
+      const contentContainer = await screen.findByTestId(dataTid);
+      let rootNode = popupRef.current?.getRootNode();
+
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeInstanceOf(HTMLElement);
+      expect(rootNode).toBe(contentContainer);
+
+      rerender(<Component opened={false} />);
+      await delay(0);
+
+      rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+  };
+
+  describe('on desktop', () => {
+    testRootNode(TestPopup, popupRef, PopupDataTids.root);
+  });
+  describe('on mobile', () => {
+    const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+    const oldMatchMedia = window.matchMedia;
+    const matchMediaMock = jest.fn().mockImplementation((query) => {
+      return {
+        matches: calcMatches(query),
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      };
+    });
+
+    beforeEach(() => {
+      window.matchMedia = matchMediaMock;
+    });
+
+    afterEach(() => {
+      window.matchMedia = oldMatchMedia;
+    });
+
+    testRootNode(TestPopup, popupRef, MobilePopupDataTids.container);
   });
 });
