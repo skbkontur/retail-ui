@@ -11,7 +11,7 @@ import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
