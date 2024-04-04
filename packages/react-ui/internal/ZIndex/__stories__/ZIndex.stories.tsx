@@ -852,6 +852,12 @@ ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
 
 ElementsInLoaderInModalStory.parameters = {
   creevey: {
+    skip: {
+      'flaky test': {
+        in: ['chrome2022Dark'],
+        tests: ['Hide Hint on active Loader'],
+      },
+    },
     tests: {
       async 'Open Dropdown while Loader is inactive'() {
         await this.browser
