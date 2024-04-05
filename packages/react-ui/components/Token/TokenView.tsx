@@ -11,10 +11,11 @@ import { globalClasses, styles } from './Token.styles';
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: TokenSize;
   closeButton?: ReactNode;
+  hideCloseButton?: boolean;
 }
 
 export function TokenView(props: TokenViewProps) {
-  const { size = 'small', children, closeButton, className, ...rest } = props;
+  const { size = 'small', children, closeButton, hideCloseButton, className, ...rest } = props;
   const theme = useContext(ThemeContext);
   const getSizeClassName = (size: TokenSize) => {
     switch (size) {
@@ -27,6 +28,9 @@ export function TokenView(props: TokenViewProps) {
         return styles.tokenSmall(theme);
     }
   };
+  const closeButtonNode = hideCloseButton ? null : (
+    <span className={cx(styles.removeIcon(theme), globalClasses.removeIcon)}>{closeButton}</span>
+  );
 
   return (
     <CommonWrapper {...props}>
@@ -38,7 +42,7 @@ export function TokenView(props: TokenViewProps) {
         })}
       >
         {children}
-        <span className={cx(styles.removeIcon(theme), globalClasses.removeIcon)}>{closeButton}</span>
+        {closeButtonNode}
       </div>
     </CommonWrapper>
   );
