@@ -14,6 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
 import { styles } from './MenuItem.styles';
 
@@ -168,7 +169,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
               {(theme) => {
                 this.theme = theme;
                 return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                  <CommonWrapper
+                    rootNodeRef={this.setRootNode}
+                    {...getVisualStateDataAttributes({
+                      hover: this.isHover,
+                      selected: this.isSelected,
+                    })}
+                    {...this.props}
+                  >
                     {this.renderMain}
                   </CommonWrapper>
                 );
@@ -300,8 +308,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = props;
 
-    const hover = (this.state.highlighted || state === 'hover') && !disabled;
-
     let iconElement = null;
     if (icon) {
       iconElement = (
@@ -322,8 +328,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
-      [styles.hover(this.theme)]: hover,
-      [styles.selected(this.theme)]: state === 'selected' && !this.state.highlighted,
+      [styles.hover(this.theme)]: this.isHover,
+      [styles.selected(this.theme)]: this.isSelected,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
@@ -344,7 +350,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         data-tid={MenuItemDataTids.root}
         {...rest}
         disabled={disabled}
-        state={this.state.highlighted ? 'hover' : state}
+        state={this.activeState}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         onClick={this.handleClick}
@@ -368,7 +374,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
             data-tid={MenuItemDataTids.comment}
             className={cx({
               [styles.comment(this.theme)]: true,
-              [styles.commentHover(this.theme)]: hover,
+              [styles.commentHover(this.theme)]: this.isHover,
             })}
           >
             {comment}
@@ -377,6 +383,18 @@ export class MenuItem extends React.Component<MenuItemProps> {
       </Component>
     );
   };
+
+  private get activeState() {
+    return this.state.highlighted ? 'hover' : this.props.state;
+  }
+
+  private get isHover(): boolean {
+    return (this.state.highlighted || this.props.state === 'hover') && !this.props.disabled;
+  }
+
+  private get isSelected(): boolean {
+    return this.props.state === 'selected' && !this.state.highlighted;
+  }
 
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button
