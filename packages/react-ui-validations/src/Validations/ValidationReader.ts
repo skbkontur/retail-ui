@@ -6,7 +6,10 @@ import { ValidationNode } from './Types';
 import { LambdaPath, PathTokensCache } from './PathHelper';
 
 export class ValidationReader<T> {
-  constructor(private readonly node: Nullable<ValidationNode<T>>, private readonly tokens: PathTokensCache) {}
+  constructor(
+    private readonly node: Nullable<ValidationNode<T>>,
+    private readonly tokens: PathTokensCache,
+  ) {}
 
   public getNode<TChild>(lambdaPath: LambdaPath<T, TChild>): ValidationReader<TChild> {
     const path = this.tokens.getOrAdd(lambdaPath);
