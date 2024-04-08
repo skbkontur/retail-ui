@@ -146,11 +146,15 @@ export const arrowOutlineMixin = (
   return css`
     .${globalClasses.arrowHelper} {
       &.${globalClasses.arrowHelperTop} {
-        box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
+        box-shadow:
+          inset -${insetWidth} ${insetWidth} 0 0 ${insetColor},
+          ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
       &.${globalClasses.arrowHelperBottom} {
-        box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
+        box-shadow:
+          inset -${insetWidth} -${insetWidth} 0 0 ${insetColor},
+          ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
       // don't hide inner outline

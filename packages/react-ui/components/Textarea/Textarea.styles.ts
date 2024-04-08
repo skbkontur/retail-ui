@@ -42,7 +42,9 @@ export const styles = memoizeStyle({
       max-width: 100%;
       min-width: ${t.textareaWidth};
       outline: none;
-      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction}, height 0.2s ease-out;
+      transition:
+        border-color ${t.transitionDuration} ${t.transitionTimingFunction},
+        height 0.2s ease-out;
       vertical-align: middle;
       width: 100%;
       border-radius: ${t.textareaBorderRadius};
