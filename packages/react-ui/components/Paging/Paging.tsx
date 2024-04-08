@@ -258,12 +258,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
+    const disabled = this.props.disabled;
     const classes = cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,
-      [styles.pageLinkDisabled(this.theme)]: this.props.disabled,
+      [styles.pageLinkDisabled(this.theme)]: disabled,
       [styles.pageLinkCurrent(this.theme)]: active,
-      [styles.pageLinkCurrentDisabled(this.theme)]: active && this.props.disabled,
+      [styles.pageLinkCurrentDisabled(this.theme)]: active && disabled,
     });
     const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -273,7 +274,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
         className={styles.pageLinkWrapper()}
-        {...getVisualStateDataAttributes({ active })}
+        {...getVisualStateDataAttributes({ active, disabled })}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component

@@ -8,6 +8,5 @@ export function getCommonVisualStateDataAttributes(
   return getVisualStateDataAttributes({
     error: tryGetBoolean(componentProps['error']),
     warning: tryGetBoolean(componentProps['warning']),
-    disabled: tryGetBoolean(componentProps['disabled']),
   });
 }

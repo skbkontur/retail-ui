@@ -195,7 +195,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
-        {...getVisualStateDataAttributes({ active: isActive })}
+        {...getVisualStateDataAttributes({ active: isActive, disabled })}
         {...this.props}
       >
         <Component

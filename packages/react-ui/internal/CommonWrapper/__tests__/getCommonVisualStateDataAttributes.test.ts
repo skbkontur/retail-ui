@@ -11,7 +11,6 @@ describe('getCommonVisualStateDataAttributes', () => {
     ).toStrictEqual({
       'data-visual-state-error': 'true',
       'data-visual-state-warning': 'false',
-      'data-visual-state-disabled': 'true',
     });
   });
 });
