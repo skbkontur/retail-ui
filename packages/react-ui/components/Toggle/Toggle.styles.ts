@@ -296,7 +296,9 @@ export const styles = memoizeStyle({
 
   focused(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
+      box-shadow:
+        0 0 0 1px ${t.toggleOutlineColorFocus},
+        0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
     `;
   },
 
@@ -327,13 +329,17 @@ export const styles = memoizeStyle({
 
   isWarning(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorWarning};
+      box-shadow:
+        0 0 0 1px ${t.toggleOutlineColorFocus},
+        0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorWarning};
     `;
   },
 
   isError(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.toggleOutlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorError};
+      box-shadow:
+        0 0 0 1px ${t.toggleOutlineColorFocus},
+        0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorError};
     `;
   },
 

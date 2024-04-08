@@ -243,11 +243,15 @@ export const colorStyles = [
       const getVStyle = () => {
         if (v === 'error') {
           return css`
-            box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
+            box-shadow:
+              0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError},
+              inset 0 0 0 1px ${color(t)};
           `;
         } else if (v === 'warning') {
           return css`
-            box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
+            box-shadow:
+              0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning},
+              inset 0 0 0 1px ${color(t)};
           `;
         }
 
@@ -257,7 +261,9 @@ export const colorStyles = [
       return css`
         background-color: ${color(t)};
         color: ${ColorFunctions.contrast(color(t))};
-        box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
+        box-shadow:
+          0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(color(t), '5%')},
+          inset 0 0 0 1px ${color(t)};
 
         ${getVStyle()}
 
@@ -276,12 +282,16 @@ export const colorStyles = [
     },
     defaultDisabledWarning(t: Theme) {
       return css`
-        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow:
+          0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning},
+          inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
     defaultDisabledError(t: Theme) {
       return css`
-        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow:
+          0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError},
+          inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
   } as TokenColors,
