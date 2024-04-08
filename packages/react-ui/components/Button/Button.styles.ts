@@ -138,14 +138,17 @@ export const styles = memoizeStyle({
 
   outlineWarning(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
+      box-shadow:
+        0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
         inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
   outlineError(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}, inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+      box-shadow:
+        0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError},
+        inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
@@ -350,7 +353,8 @@ export const styles = memoizeStyle({
       &:hover:enabled,
       &:active:enabled,
       &:active:hover:enabled {
-        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+        box-shadow:
+          inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
       }
     `;
@@ -799,7 +803,8 @@ export const styles = memoizeStyle({
     return css`
       &:hover:enabled,
       &:hover:active:enabled {
-        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+        box-shadow:
+          inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
         border-color: ${t.btnBorderColorFocus} !important;
       }
