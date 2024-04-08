@@ -5754,15 +5754,15 @@
   resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.4.4.tgz#216f2b8370547ccc2bf1af63f68b80207714a777"
   integrity sha512-GC6UKPxTNDG7jGC7OIIoiI97lMSpq7zIU8F46HpdKuPfJsdToxHYrrez51cgJnL8EDjUfydqf1Hmqpw+tjd9Zw==
 
-"@skbkontur/icons@1.9.0":
-  version "1.9.0"
-  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-1.9.0.tgz#59e9e982ad376b01c26c8605c370175f262e60f2"
-  integrity sha512-OzhzdeKxB/Z3LojJw/13ugs/5HzS77qJx3Q1TotvRmI7Tah7lyGyZflveKH7004C1UVYRtfnLaD2z9X/EgNgIw==
+"@skbkontur/icons@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@skbkontur/icons/-/icons-1.5.1.tgz#764301ba2e9e3a2fe876b9bdc92a45de8d7c7652"
+  integrity sha512-MzeOo8rTDBZZpD5CjziB6c9CrI1IZ2nHyoeDzu1E6aHJVrwFijzKfBpP9c9fmfW8cfBWlpYHKr8DBOjaBaatjQ==
 
-"@skbkontur/react-icons@5.2.9":
-  version "5.2.9"
-  resolved "https://registry.npmjs.org/@skbkontur/react-icons/-/react-icons-5.2.9.tgz#2f15a0d7676d8479d9ac95eca018c3661f0b8bc6"
-  integrity sha512-Z9+9u3elKLcwu5S7YPVuv3u8QGt3cKRpoJdOV3Wlr3OynSbr9pz0R7PPE7jb53NpLqMfdsaCFLm/h+dyxapR4Q==
+"@skbkontur/react-icons@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npmjs.org/@skbkontur/react-icons/-/react-icons-5.2.0.tgz#b6562c7327eb19f71ad6ff48765dcbd7c8cd1212"
+  integrity sha512-mwc4kB3vMjan/40AsXDTeOxe8HFrXrQ0EpWbP2Z8DrJz1kOn8ftn8nAWsNxTo+WbNuiIlAnYBVjz6skRNbsMhg==
   dependencies:
     tslib "^1.9.2"
 
