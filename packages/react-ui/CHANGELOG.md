@@ -23,6 +23,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **Token,TokenInput:** add prop size ([#3251](https://github.com/skbkontur/retail-ui/pull/3251)) ([693e800](https://github.com/skbkontur/retail-ui/commit/693e800d4351ac84ae0f643d3f972509fd890fbc))
 * **Hint, Kebab:** add kebabHintRemovePin featureFlag ([#3331](https://github.com/skbkontur/retail-ui/pull/3331)) ([d15c682](https://github.com/skbkontur/retail-ui/commit/d15c68263c4b946e787e99f13e1a8029bce8bd45))
 * **Button,Link:** linkFocusOutline feature flag ([#3362](https://github.com/skbkontur/retail-ui/pull/3362)) ([fec72e4](https://github.com/skbkontur/retail-ui/commit/fec72e4fa6e5f190034d4db1611c193578b8a178))
+* **Hint, Toast:** update styles ([#3331](https://github.com/skbkontur/retail-ui/pull/3331)) ([d15c682](https://github.com/skbkontur/retail-ui/commit/d15c68263c4b946e787e99f13e1a8029bce8bd45))
+
 
 
 
