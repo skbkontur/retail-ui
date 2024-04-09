@@ -101,7 +101,13 @@ export class Token extends React.Component<TokenProps> {
     const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + getChildrenText(children);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" tabbable={false} />
+      <CloseButtonIcon
+        side={16}
+        color="inherit"
+        colorHover="inherit"
+        aria-label={removeButtonAriaLabel}
+        tabbable={false}
+      />
     ) : (
       <CrossIcon />
     );
