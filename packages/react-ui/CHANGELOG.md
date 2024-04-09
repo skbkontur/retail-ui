@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.2...@skbkontur/react-ui@4.21.3) (2024-04-09)
+
+
+### Bug Fixes
+
+* **Token:** suppress a11y issue ([#3401](https://github.com/skbkontur/retail-ui/issues/3401)) ([3763442](https://github.com/skbkontur/retail-ui/commit/37634428fe01c0df63a977beb77929a2fde163a1))
+* add visual state attributes ([#3399](https://github.com/skbkontur/retail-ui/issues/3399)) ([c2d8780](https://github.com/skbkontur/retail-ui/commit/c2d8780607a5979662956b419706bf5957bb2f1c))
+
+
+
+
+
 ## [4.21.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.1...@skbkontur/react-ui@4.21.2) (2024-03-13)
 
 
