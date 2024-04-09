@@ -8,8 +8,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **Button:** transparent bg for use='text' in disabled state ((#3272](https://github.com/skbkontur/retail-ui/pull/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
-* **Button:** fix bg for use='backless' and use='text' in hover state ((#3272](https://github.com/skbkontur/retail-ui/pull/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
+* **Button:** transparent bg for use='text' in disabled state ([#3272](https://github.com/skbkontur/retail-ui/pull/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
+* **Button:** fix bg for use='backless' and use='text' in hover state ([#3272](https://github.com/skbkontur/retail-ui/pull/3272)) ([5653505](https://github.com/skbkontur/retail-ui/commit/56535052fb0b4edea30636b6b66cd0bd5fe8af63))
 * **DateInput:** use default selection colors ([#3284](https://github.com/skbkontur/retail-ui/pull/3284)) ([bed1414](https://github.com/skbkontur/retail-ui/commit/bed14140859195703617a9b584dedf984848f50f))
 * **Button:**  inherit icon color from text color in THEME_2022_DARK ([#3300](https://github.com/skbkontur/retail-ui/pull/3300)) ([96ac3f7](https://github.com/skbkontur/retail-ui/commit/96ac3f7a0569226eae8abce99c2f03efe3ec342d))
 * **Textarea:** correct bg color in dark 2022 theme ([#3367](https://github.com/skbkontur/retail-ui/pull/3367)) ([b5ea9ff](https://github.com/skbkontur/retail-ui/commit/b5ea9ff736e0a067ac5f151e7835e9fa0e7b0c4c))
