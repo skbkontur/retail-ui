@@ -46,3 +46,6 @@ export const SidePageCloseButton = () => {
     </button>
   );
 };
+
+SidePageCloseButton.__KONTUR_REACT_UI__ = 'SidePageCloseButton';
+SidePageCloseButton.displayName = 'SidePageCloseButton';

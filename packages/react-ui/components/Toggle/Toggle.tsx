@@ -111,6 +111,7 @@ type DefaultProps = Required<
 @rootNode
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
+  public static displayName = 'Toggle';
 
   public static propTypes = {
     checked: PropTypes.bool,

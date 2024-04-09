@@ -69,6 +69,7 @@ export const TokenDataTids = {
 @locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
+  public static displayName = 'Token';
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
@@ -109,7 +110,13 @@ export class Token extends React.Component<TokenProps> {
     const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + getChildrenText(children);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" tabbable={false} />
+      <CloseButtonIcon
+        side={16}
+        color="inherit"
+        colorHover="inherit"
+        aria-label={removeButtonAriaLabel}
+        tabbable={false}
+      />
     ) : (
       <CrossIcon />
     );

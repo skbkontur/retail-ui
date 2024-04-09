@@ -62,3 +62,6 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
     </CommonWrapper>
   );
 }
+
+ModalClose.__KONTUR_REACT_UI__ = 'ModalClose';
+ModalClose.displayName = 'ModalClose';
