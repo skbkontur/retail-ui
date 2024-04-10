@@ -17,6 +17,7 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -190,11 +191,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (prevProps.checked !== this.props.checked) {
       this.resetIndeterminate();
     }
-
-    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled && this.state.focusedByTab) {
-      this.setState({ focusedByTab: false });
-    }
   }
 
   public render() {
@@ -354,7 +350,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        <Native {...inputProps} as="input" aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
         {box}
         {caption}
       </label>

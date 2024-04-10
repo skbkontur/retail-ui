@@ -12,6 +12,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -156,13 +157,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     if (this.props.autoFocus) {
       keyListener.isTabPressed = true;
       this.focus();
-    }
-  }
-
-  public componentDidUpdate(prevProps: Readonly<ToggleProps>) {
-    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled && this.state.focusByTab) {
-      this.setState({ focusByTab: false });
     }
   }
 
@@ -326,7 +320,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <input
+            <Native
+              as="input"
               type="checkbox"
               checked={checked}
               onChange={this.handleChange}

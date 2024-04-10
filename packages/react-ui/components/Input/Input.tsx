@@ -19,6 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
+import { removeAllSelections } from '../DateInput/helpers/SelectionHelpers';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -672,6 +673,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ focused: false });
+    removeAllSelections();
 
     if (this.props.onBlur) {
       this.props.onBlur(event);

@@ -15,6 +15,7 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -103,13 +104,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private inputEl = React.createRef<HTMLInputElement>();
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
-
-  public componentDidUpdate(prevProps: Readonly<RadioProps<T>>) {
-    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled && this.state.focusedByKeyboard) {
-      this.setState({ focusedByKeyboard: false });
-    }
-  }
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
@@ -253,7 +247,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     return (
       <label data-tid={RadioDataTids.root} {...labelProps}>
-        <input {...inputProps} />
+        <Native as="input" {...inputProps} />
         <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>

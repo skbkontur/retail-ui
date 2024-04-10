@@ -23,6 +23,7 @@ import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/us
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -290,13 +291,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);
   }, [isMinLengthReached, hasOneFileForSingle]);
 
-  // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-  useEffect(() => {
-    if (focusedByTab) {
-      setFocusedByTab(false);
-    }
-  }, [disabled]);
-
   const rootNodeRef = useRef(null);
 
   const iconSizes: Record<SizeProp, number> = {
@@ -350,7 +344,8 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
                 )}
               </div>
             </div>
-            <input
+            <Native
+              as="input"
               {...inputProps}
               data-tid={FileUploaderDataTids.input}
               ref={inputRef}
