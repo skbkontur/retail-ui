@@ -127,5 +127,9 @@ describe('Token', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel + ' ');
     });
+
+    it('doesn`t throw on conditional render', () => {
+      expect(() => render(<Token>{false && 'Deleted'}</Token>)).not.toThrow();
+    });
   });
 });
