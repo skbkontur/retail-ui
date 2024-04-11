@@ -231,6 +231,10 @@ export const isKonturIcon = (icon: React.ReactElement) => {
  * @returns Nested child text or an empty string
  */
 export function getChildrenText(children: React.ReactNode): string {
+  if (typeof children === 'boolean') {
+    return '';
+  }
+
   if (typeof children === 'string' || typeof children === 'number') {
     return children.toString();
   }
