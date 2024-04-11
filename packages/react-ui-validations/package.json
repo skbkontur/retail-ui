@@ -30,8 +30,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\"",
-    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
-    "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
+    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && creevey -c .creevey/config.js",
+    "creevey:update": "creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui"
   },
   "main": "./index.js",
