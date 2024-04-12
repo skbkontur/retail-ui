@@ -11,7 +11,7 @@ import { SelectLocaleHelper } from '../locale';
 import { Select, SelectDataTids, SelectIds } from '../Select';
 
 describe('Select', () => {
-  it('uses areValuesEqual for comparing value with item in menu', () => {
+  it('uses areValuesEqual for comparing value with item in menu', async () => {
     interface ValueType {
       id: number;
       name: string;
@@ -45,7 +45,7 @@ describe('Select', () => {
     );
     const currentValueText = currentValue.name;
 
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
@@ -66,20 +66,20 @@ describe('Select', () => {
     expect(onKeyDown).toHaveBeenCalledWith(expect.objectContaining({ key: 'k' }));
   });
 
-  it('should execute `onFocus` with default button', () => {
+  it('should execute `onFocus` with default button', async () => {
     const onFocus = jest.fn();
     render(<Select onFocus={onFocus} />);
 
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('should execute `onBlur` with default button', () => {
+  it('should execute `onBlur` with default button', async () => {
     const onBlur = jest.fn();
     render(<Select onFocus={onBlur} />);
 
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
@@ -208,7 +208,7 @@ describe('Select', () => {
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
   });
 
-  it('should clear the value when null passed', () => {
+  it('should clear the value when null passed', async () => {
     const Comp = () => {
       const items = ['One'];
 
@@ -227,7 +227,7 @@ describe('Select', () => {
     const input = screen.getByText('One');
     expect(input).toHaveTextContent(/^One$/);
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     const placeholderRegExp = new RegExp(`^${SelectLocaleHelper.get(defaultLangCode).placeholder}$`);
     expect(input).toHaveTextContent(placeholderRegExp);
   });
@@ -241,26 +241,26 @@ describe('Select', () => {
   });
 
   describe('a11y', () => {
-    it('should change value of aria-expanded when opening and closing', () => {
+    it('should change value of aria-expanded when opening and closing', async () => {
       render(<Select />);
 
       const button = screen.getByRole('button');
 
       expect(button).toHaveAttribute('aria-expanded', 'false');
 
-      userEvent.click(button);
+      await userEvent.click(button);
 
       expect(button).toHaveAttribute('aria-expanded', 'true');
     });
 
-    it('should connect dropdown with button through aria-controls', () => {
+    it('should connect dropdown with button through aria-controls', async () => {
       render(<Select items={['one', 'two', 'three']} />);
 
       const button = screen.getByRole('button');
 
       expect(button).toHaveAttribute('aria-controls', expect.stringContaining(SelectIds.menu));
 
-      userEvent.click(button);
+      await userEvent.click(button);
 
       expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
     });
@@ -429,44 +429,44 @@ describe('Select', () => {
       render(<Comp />);
     });
 
-    it('should choose item when pressing enter key', () => {
-      userEvent.click(screen.getByRole('button'));
+    it('should choose item when pressing enter key', async () => {
+      await userEvent.click(screen.getByRole('button'));
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
-      userEvent.keyboard('{arrowdown}');
-      userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{arrowdown}');
 
-      userEvent.keyboard('{enter}');
+      await userEvent.keyboard('{enter}');
 
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByRole('button')).toHaveTextContent(testItems[1]);
     });
 
-    it('should move highligted item when pressing arrow down key', () => {
-      userEvent.click(screen.getByRole('button'));
+    it('should move highligted item when pressing arrow down key', async () => {
+      await userEvent.click(screen.getByRole('button'));
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
       expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
-      userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{arrowdown}');
 
       expect(
         menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
       ).toHaveTextContent(testItems[0]);
 
-      userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{arrowdown}');
       expect(
         menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
       ).toHaveTextContent(testItems[1]);
     });
 
-    it('should move highligted item when pressing arrow up key', () => {
-      userEvent.click(screen.getByRole('button'));
+    it('should move highligted item when pressing arrow up key', async () => {
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
       expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
-      userEvent.keyboard('{arrowup}');
+      await userEvent.keyboard('{arrowup}');
 
       expect(
         menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),

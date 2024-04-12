@@ -28,24 +28,24 @@ describe('Dropdown', () => {
     expect(screen.getByTestId(DropdownDataTids.root)).toBeInTheDocument();
   });
 
-  it('Renders items', () => {
+  it('Renders items', async () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByText(menuItemText)).toBeInTheDocument();
   });
 
-  it('opens and closes', () => {
+  it('opens and closes', async () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 

@@ -28,7 +28,7 @@ describe('ZIndex', () => {
     expect(unmountFn).not.toHaveBeenCalled();
   });
 
-  it('should update `zIndex` style when update `priority` prop', () => {
+  it('should update `zIndex` style when update `priority` prop', async () => {
     const DemoUpdatePriority = () => {
       const [priority, setPriority] = useState(1);
       return (
@@ -46,11 +46,11 @@ describe('ZIndex', () => {
     const priority = screen.getByTestId('priority');
 
     expect(zIndex).toHaveStyle('z-index: 1000');
-    userEvent.click(priority);
+    await userEvent.click(priority);
     expect(zIndex).toHaveStyle('z-index: 2000');
   });
 
-  it('should update `zIndex` style when update `delta` prop', () => {
+  it('should update `zIndex` style when update `delta` prop', async () => {
     const DemoUpdatePriority = () => {
       const [delta, setDelta] = useState<number | undefined>();
       return (
@@ -71,12 +71,12 @@ describe('ZIndex', () => {
 
     expect(zIndex1).toHaveStyle('z-index: 5000');
     expect(zIndex2).toHaveStyle('z-index: 5010');
-    userEvent.click(delta);
+    await userEvent.click(delta);
     expect(zIndex1).toHaveStyle('z-index: 5000');
     expect(zIndex2).toHaveStyle('z-index: 5011');
   });
 
-  it('should store correct zIndexes in `__RetailUiZIndexes`', () => {
+  it('should store correct zIndexes in `__RetailUiZIndexes`', async () => {
     globalObject.__RetailUiZIndexes = [];
     const DemoUpdatePriority = () => {
       const [delta, setDelta] = useState<number | undefined>();
@@ -95,7 +95,7 @@ describe('ZIndex', () => {
     const delta = screen.getByTestId('delta');
 
     expect(globalObject.__RetailUiZIndexes).toEqual([3000, 3010]);
-    userEvent.click(delta);
+    await userEvent.click(delta);
     expect(globalObject.__RetailUiZIndexes).toEqual([3000, 3011]);
   });
 

@@ -72,7 +72,7 @@ describe('Toast', () => {
     expect(screen.getByTestId(ToastDataTids.action)).toHaveTextContent(actionLabel);
   });
 
-  it('passes right actions in tosts', () => {
+  it('passes right actions in tosts', async () => {
     const toastRef = React.createRef<Toast>();
     const handler = jest.fn();
 
@@ -82,7 +82,7 @@ describe('Toast', () => {
       handler,
     });
 
-    userEvent.click(screen.getByTestId(ToastDataTids.action));
+    await userEvent.click(screen.getByTestId(ToastDataTids.action));
     expect(handler).toHaveBeenCalled();
   });
 });

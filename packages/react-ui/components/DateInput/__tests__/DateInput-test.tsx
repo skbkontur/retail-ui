@@ -118,11 +118,11 @@ describe('DateInput as InputlikeText', () => {
     KeyDownCases.forEach(([initDate, keys, expected]) => {
       const keyString = keys.join(' > ');
       const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
-      it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, () => {
+      it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, async () => {
         const onValueChange = jest.fn();
         render({ value: initDate, onValueChange });
         const input = getInput();
-        userEvent.click(input);
+        await userEvent.click(input);
 
         keys.forEach((key) => fireEvent.keyDown(input, { key }));
 
@@ -196,11 +196,11 @@ describe('DateInput as InputlikeText', () => {
     KeyDownCases.forEach(([initDate, keys]) => {
       const keyString = keys.join(' > ');
 
-      it(`does not call onValueChange if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
+      it(`does not call onValueChange if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, async () => {
         const onValueChange = jest.fn();
         render({ value: initDate, onValueChange, minDate, maxDate });
         const input = getInput();
-        userEvent.click(input);
+        await userEvent.click(input);
         keys.forEach((key) => fireEvent.keyDown(input, { key }));
 
         expect(onValueChange).not.toHaveBeenCalled();
@@ -224,11 +224,11 @@ describe('DateInput as InputlikeText', () => {
       const keyString = keys.join(' > ');
       const expectedDateStr = 'calls onValueChange with ' + `"${expected}"`.padEnd(12, ' ');
 
-      it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
+      it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, async () => {
         const onValueChange = jest.fn();
         render({ value: initDate, onValueChange, minDate, maxDate });
         const input = getInput();
-        userEvent.click(input);
+        await userEvent.click(input);
         keys.forEach((key) => fireEvent.keyDown(input, { key }));
         const [value] = onValueChange.mock.calls[0];
 
@@ -252,21 +252,21 @@ describe('DateInput as InputlikeText', () => {
     expect(onKeyDown).toHaveBeenCalled();
   });
 
-  it('should handle onFocus event', () => {
+  it('should handle onFocus event', async () => {
     const onFocus = jest.fn();
     renderRTL(<DateInput onFocus={onFocus} />);
 
-    userEvent.click(getInput());
+    await userEvent.click(getInput());
 
     expect(onFocus).toHaveBeenCalled();
   });
 
-  it('should handle onBlur event', () => {
+  it('should handle onBlur event', async () => {
     const onBlur = jest.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
     expect(onBlur).toHaveBeenCalled();
   });
@@ -277,7 +277,7 @@ describe('DateInput as InputlikeText', () => {
 
     renderRTL(<DateInput value={value} ref={inputLikeTextRef} />);
     const input = getInput();
-    userEvent.dblClick(input);
+    await userEvent.dblClick(input);
     expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
     await delay(0);
     expect(getSelection()?.toString()).toBe(value);
@@ -287,30 +287,30 @@ describe('DateInput as InputlikeText', () => {
     2,
   )}.${MASK_CHAR_EXEMPLAR.repeat(4)}`;
 
-  it('should clear selected text in the input after pressing delete button', () => {
+  it('should clear selected text in the input after pressing delete button', async () => {
     renderRTL(<DateInput value="27.04.1988" />);
     const input = getInput();
-    userEvent.dblClick(input);
-    userEvent.keyboard('{delete}');
+    await userEvent.dblClick(input);
+    await userEvent.keyboard('{delete}');
 
     // eslint-disable-next-line jest-dom/prefer-to-have-text-content
     expect(input.textContent).toBe(textContentWithMaskChars);
   });
 
-  it('should clear selected text in the input after pressing backspace button', () => {
+  it('should clear selected text in the input after pressing backspace button', async () => {
     renderRTL(<DateInput value="27.04.1988" />);
     const input = getInput();
-    userEvent.dblClick(input);
-    userEvent.keyboard('{backspace}');
+    await userEvent.dblClick(input);
+    await userEvent.keyboard('{backspace}');
 
     // eslint-disable-next-line jest-dom/prefer-to-have-text-content
     expect(input.textContent).toBe(textContentWithMaskChars);
   });
 
-  it('should delete one char in DD by default after focus on element', () => {
+  it('should delete one char in DD by default after focus on element', async () => {
     renderRTL(<DateInput value="27.04.1988" />);
     const input = getInput();
-    userEvent.type(input, '{backspace}');
+    await userEvent.type(input, '{backspace}');
 
     // eslint-disable-next-line jest-dom/prefer-to-have-text-content
     expect(input.textContent).toBe(`2${MASK_CHAR_EXEMPLAR.repeat(1)}.04.1988`);
@@ -336,7 +336,7 @@ describe('DateInput as InputlikeText', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  it('blink method works', () => {
+  it('blink method works', async () => {
     const blinkMock = jest.fn();
     const inputLikeTextRef = React.createRef<DateInput>();
     renderRTL(<DateInput ref={inputLikeTextRef} />);
@@ -344,7 +344,7 @@ describe('DateInput as InputlikeText', () => {
     if (inputLikeTextRef.current) {
       inputLikeTextRef.current.blink = blinkMock;
     }
-    userEvent.type(getInput(), '{enter}');
+    await userEvent.type(getInput(), '{enter}');
 
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });

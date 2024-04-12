@@ -52,20 +52,20 @@ describe('<RadioGroup />', () => {
     });
   });
 
-  it('checks radio on click', () => {
+  it('checks radio on click', async () => {
     renderRadioGroup({ items });
     const radios = screen.getAllByTestId(RadioDataTids.root);
-    userEvent.click(radios[clickedIndex]);
+    await userEvent.click(radios[clickedIndex]);
 
     expect(screen.getAllByRole('radio')[clickedIndex]).toBeChecked();
   });
 
-  it('calls onValueChange on radio click', () => {
+  it('calls onValueChange on radio click', async () => {
     const onValueChange = jest.fn();
 
     renderRadioGroup({ items, onValueChange });
     const radios = screen.getAllByTestId(RadioDataTids.root);
-    userEvent.click(radios[clickedIndex]);
+    await userEvent.click(radios[clickedIndex]);
 
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
@@ -122,7 +122,7 @@ describe('<RadioGroup />', () => {
     expect(screen.getByTestId('myDupaComponent')).toBeInTheDocument();
   });
 
-  it('checks children radio on click', () => {
+  it('checks children radio on click', async () => {
     const children = (
       <div>
         <Radio value="one">Hello</Radio>
@@ -133,11 +133,11 @@ describe('<RadioGroup />', () => {
     renderRadioGroup({ children });
 
     const radios = screen.getAllByRole('radio');
-    userEvent.click(radios[clickedIndex]);
+    await userEvent.click(radios[clickedIndex]);
     expect(screen.getAllByRole('radio')[clickedIndex]).toBeChecked();
   });
 
-  it('calls onValueChange on children radio click', () => {
+  it('calls onValueChange on children radio click', async () => {
     const children = (
       <div>
         <Radio value="one">Hello</Radio>
@@ -149,7 +149,7 @@ describe('<RadioGroup />', () => {
     renderRadioGroup({ children, onValueChange });
 
     const radios = screen.getAllByRole('radio');
-    userEvent.click(radios[clickedIndex]);
+    await userEvent.click(radios[clickedIndex]);
 
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
@@ -214,12 +214,12 @@ describe('<RadioGroup />', () => {
     expect(RadioGroup.Prevent).toBeDefined();
   });
 
-  it('works with number values', () => {
+  it('works with number values', async () => {
     const items = [1, 2, 3, 4];
     renderRadioGroup({ items });
 
     const radios = screen.getAllByRole('radio');
-    userEvent.click(radios[clickedIndex]);
+    await userEvent.click(radios[clickedIndex]);
     expect(screen.getAllByRole('radio')[clickedIndex]).toBeChecked();
   });
 
@@ -237,7 +237,7 @@ describe('<RadioGroup />', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('should call `onBlur` after click outside of radio group', () => {
+  it('should call `onBlur` after click outside of radio group', async () => {
     const onBlur = jest.fn();
     const onRadioBlur = jest.fn();
 
@@ -249,7 +249,7 @@ describe('<RadioGroup />', () => {
     );
     const radioOne = screen.getAllByRole('radio')[0];
     const radioTwo = screen.getAllByRole('radio')[1];
-    userEvent.click(radioOne);
+    await userEvent.click(radioOne);
     fireEvent.blur(radioOne);
     fireEvent.blur(radioTwo);
 

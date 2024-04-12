@@ -30,7 +30,7 @@ const getFilesList = () => {
 
 const addFiles = async (files: File[]) => {
   await act(async () => {
-    const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+    const input = screen.getByTestId(FileUploaderDataTids.input);
     if (input !== null) {
       fireEvent.change(input, { target: { files } });
     }
@@ -41,7 +41,7 @@ const addFiles = async (files: File[]) => {
 
 const removeFile = async () => {
   await act(async () => {
-    userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
+    await userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
   });
 };
 
@@ -106,7 +106,8 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const renderComp = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) =>
+    const renderComp = (props: FileUploaderProps & RefAttributes<FileUploaderRef>) =>
+      // @ts-expect-error message
       render(<FileUploader {...props} />);
     let file: File;
 
@@ -126,7 +127,7 @@ describe('FileUploader', () => {
         const onFocus = jest.fn();
         renderComp({ onFocus });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         expect(onFocus).toHaveBeenCalledTimes(1);
@@ -136,7 +137,7 @@ describe('FileUploader', () => {
         const onFocus = jest.fn();
         renderComp({ onFocus, disabled: true });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
 
         expect(input).not.toHaveFocus();
@@ -149,7 +150,7 @@ describe('FileUploader', () => {
         const onBlur = jest.fn();
         renderComp({ onBlur });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         if (input !== null) {

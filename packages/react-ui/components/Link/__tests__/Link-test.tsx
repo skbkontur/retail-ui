@@ -8,31 +8,31 @@ import { Link, LinkDataTids } from '../Link';
 const renderRTL = (props?: LinkProps) => render(<Link {...props} />);
 
 describe('Link', () => {
-  it('calls `onClick` when link clicked', () => {
+  it('calls `onClick` when link clicked', async () => {
     const onClick = jest.fn();
 
     renderRTL({ onClick });
-    userEvent.click(screen.getByTestId(LinkDataTids.root));
+    await userEvent.click(screen.getByTestId(LinkDataTids.root));
     expect(onClick).toHaveBeenCalled();
   });
 
   describe('disabled link', () => {
-    it('does not call `onClick` when link clicked', () => {
+    it('does not call `onClick` when link clicked', async () => {
       const onClick = jest.fn();
 
       renderRTL({ onClick, disabled: true });
 
       const linkElement = screen.getByTestId(LinkDataTids.root);
-      userEvent.click(linkElement, {}, { skipPointerEventsCheck: true });
+      await userEvent.click(linkElement);
 
       expect(onClick).toHaveBeenCalledTimes(0);
     });
 
-    it('does not call `onClick` when Enter pressed', () => {
+    it('does not call `onClick` when Enter pressed', async () => {
       const onClick = jest.fn();
 
       renderRTL({ onClick, disabled: true });
-      userEvent.type(screen.getByTestId(LinkDataTids.root), '{enter}');
+      await userEvent.type(screen.getByTestId(LinkDataTids.root), '{enter}');
       expect(onClick).toHaveBeenCalledTimes(0);
     });
   });

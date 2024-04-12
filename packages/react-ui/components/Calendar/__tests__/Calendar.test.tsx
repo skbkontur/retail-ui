@@ -17,10 +17,10 @@ describe('Calendar', () => {
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
-  it('should pass max and min date to year select', () => {
+  it('should pass max and min date to year select', async () => {
     render(<Calendar value="02.06.2017" onValueChange={jest.fn()} minDate="21.02.2017" maxDate="15.07.2020" />);
 
-    userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
+    await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015')).toHaveAttribute('data-prop-disabled', 'true');
     expect(screen.getByText('2018')).toHaveAttribute('data-prop-disabled', 'false');
     expect(screen.queryByText('2021')).not.toBeInTheDocument();
@@ -172,26 +172,26 @@ describe('Calendar', () => {
       );
     });
 
-    it('month selector sets correct value for aria-expanded', () => {
+    it('month selector sets correct value for aria-expanded', async () => {
       render(<Calendar value={'1.2.2021'} />);
 
       const monthButton = screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button') as Element;
 
       expect(monthButton).toHaveAttribute('aria-expanded', 'false');
 
-      userEvent.click(monthButton);
+      await userEvent.click(monthButton);
 
       expect(monthButton).toHaveAttribute('aria-expanded', 'true');
     });
 
-    it('year selector sets correct value for aria-expanded', () => {
+    it('year selector sets correct value for aria-expanded', async () => {
       render(<Calendar value={'1.2.2021'} />);
 
       const yearButton = screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button') as Element;
 
       expect(yearButton).toHaveAttribute('aria-expanded', 'false');
 
-      userEvent.click(yearButton);
+      await userEvent.click(yearButton);
 
       expect(yearButton).toHaveAttribute('aria-expanded', 'true');
     });
@@ -200,7 +200,7 @@ describe('Calendar', () => {
       render(<Calendar value={'1.2.2021'} />);
 
       const monthButton = screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button') as Element;
-      userEvent.click(monthButton);
+      await userEvent.click(monthButton);
 
       expect(monthButton).toHaveAttribute('aria-controls', expect.stringContaining(DateSelectDataTids.menu));
       await waitFor(() => {
@@ -215,7 +215,7 @@ describe('Calendar', () => {
       render(<Calendar value={'1.2.2021'} />);
 
       const yearButton = screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button') as Element;
-      userEvent.click(yearButton);
+      await userEvent.click(yearButton);
 
       expect(yearButton).toHaveAttribute('aria-controls', expect.stringContaining(DateSelectDataTids.menu));
       await waitFor(() => {

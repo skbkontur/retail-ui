@@ -45,7 +45,7 @@ describe('Modal', () => {
     ).not.toThrow();
   });
 
-  it('Non-sticky header works', () => {
+  it('Non-sticky header works', async () => {
     const Component = () => {
       const [isSticky, setIsSticky] = useState(true);
 
@@ -59,11 +59,11 @@ describe('Modal', () => {
 
     render(<Component />);
     expect(screen.getByTestId(StickyDataTids.root)).toBeInTheDocument();
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.queryByTestId(StickyDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('Non-sticky footer works', () => {
+  it('Non-sticky footer works', async () => {
     const Component = () => {
       const [isSticky, setIsSticky] = useState(true);
 
@@ -77,11 +77,11 @@ describe('Modal', () => {
 
     render(<Component />);
     expect(screen.getByTestId(StickyDataTids.root)).toBeInTheDocument();
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.queryByTestId(StickyDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('onClose handler works', () => {
+  it('onClose handler works', async () => {
     const onCloseHandler = jest.fn();
     render(
       <Modal onClose={onCloseHandler}>
@@ -89,7 +89,7 @@ describe('Modal', () => {
       </Modal>,
     );
     expect(onCloseHandler).not.toHaveBeenCalled();
-    userEvent.click(screen.getByTestId(ModalDataTids.close));
+    await userEvent.click(screen.getByTestId(ModalDataTids.close));
     expect(onCloseHandler).toHaveBeenCalledTimes(1);
   });
 
