@@ -275,6 +275,7 @@ function mapItems<T>(
 
 function normalizeEntry<T>(entry: T | [T, React.ReactNode]): [T, React.ReactNode] {
   if (!Array.isArray(entry)) {
+    // @ts-expect-error message
     return [entry, entry];
   }
   return entry;

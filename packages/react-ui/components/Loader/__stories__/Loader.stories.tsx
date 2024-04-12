@@ -28,7 +28,7 @@ interface ContentComponentProps {
   additionalStyle?: AnyObject;
   loaderProps?: Partial<LoaderProps>;
 }
-class ContentComponent extends React.Component<ContentComponentProps> {
+class ContentComponent extends React.Component<React.PropsWithChildren<ContentComponentProps>> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;
     return (

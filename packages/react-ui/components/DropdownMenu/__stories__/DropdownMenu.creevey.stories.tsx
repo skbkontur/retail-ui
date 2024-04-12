@@ -13,7 +13,7 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 export default {
   title: 'DropdownMenu/Functional tests',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: '20px 120px 150px',

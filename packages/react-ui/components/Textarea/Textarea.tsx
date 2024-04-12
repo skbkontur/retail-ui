@@ -311,7 +311,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
                 this.theme = theme;
                 return (
                   <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                    {this.renderMain}
+                    {this.renderMain(this.props)}
                   </CommonWrapper>
                 );
               }}

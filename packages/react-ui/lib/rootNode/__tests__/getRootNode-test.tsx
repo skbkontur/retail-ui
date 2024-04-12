@@ -10,7 +10,7 @@ import { InstanceWithRootNode } from '../rootNodeDecorator';
 const getInstance = (element: React.ReactElement): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;
   const refCallback = (instance: React.ReactInstance) => {
-    const originalRef = (element as React.RefAttributes<any>).ref;
+    const originalRef = (element as React.RefAttributes<any>).ref as React.RefCallback<any>;
     if (originalRef) {
       callChildRef(originalRef, instance);
     }
@@ -99,8 +99,10 @@ describe('getRootNode', () => {
       class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
         rootNode: Nullable<HTMLDivElement>;
         rootRef = (instance: HTMLDivElement | null) => {
+          // eslint-disable-next-line testing-library/no-node-access
           this.rootNode = instance;
         };
+        // eslint-disable-next-line testing-library/no-node-access
         getRootNode = () => this.rootNode;
         render = () => <div ref={this.rootRef} />;
       }
@@ -126,8 +128,10 @@ describe('getRootNode', () => {
         }
         rootNode: Nullable<HTMLDivElement>;
         rootRef = (instance: HTMLDivElement | null) => {
+          // eslint-disable-next-line testing-library/no-node-access
           this.rootNode = instance;
         };
+        // eslint-disable-next-line testing-library/no-node-access
         getRootNode = () => this.rootNode;
         render = () => <div ref={this.rootRef} />;
       }
@@ -176,8 +180,10 @@ describe('getRootNode', () => {
         class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
           rootNode: Nullable<HTMLDivElement>;
           rootRef = (instance: HTMLDivElement | null) => {
+            // eslint-disable-next-line testing-library/no-node-access
             this.rootNode = instance;
           };
+          // eslint-disable-next-line testing-library/no-node-access
           getRootNode = () => this.rootNode;
           render = () => <div ref={this.rootRef} />;
         }

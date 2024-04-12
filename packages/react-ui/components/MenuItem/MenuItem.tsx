@@ -168,7 +168,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
                 this.theme = theme;
                 return (
                   <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                    {this.renderMain}
+                    {this.renderMain(this.props)}
                   </CommonWrapper>
                 );
               }}
@@ -279,7 +279,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
+  private renderMain = (props: CommonWrapperRestProps<MenuItemProps & { children: any }>) => {
     const {
       link,
       comment,
@@ -360,7 +360,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
           ref={this.contentRef}
           data-tid={MenuItemDataTids.content}
         >
-          {content}
+          {typeof content === 'function' ? content() : content}
         </span>
         {this.props.comment && (
           <div

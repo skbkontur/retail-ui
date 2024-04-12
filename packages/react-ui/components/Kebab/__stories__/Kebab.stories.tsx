@@ -91,7 +91,7 @@ const kebabTests: CreeveyTests = {
 export default {
   title: 'Kebab',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: '120px 0',

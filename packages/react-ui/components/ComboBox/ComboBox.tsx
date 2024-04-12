@@ -118,7 +118,7 @@ export interface ComboBoxProps<T>
    *    }
    * }}
    */
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType<any>;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска

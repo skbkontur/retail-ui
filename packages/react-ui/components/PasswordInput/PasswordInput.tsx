@@ -101,7 +101,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
+              {this.renderMain(this.props)}
             </CommonWrapper>
           );
         }}

@@ -49,7 +49,7 @@ export const PopupPositions = [
 ] as const;
 export const DefaultPosition = PopupPositions[0];
 
-export type PopupPositionsType = (typeof PopupPositions)[number];
+export type PopupPositionsType = typeof PopupPositions[number];
 
 export const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
@@ -336,10 +336,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? React.cloneElement(anchor, {
             ref: (instance: Nullable<React.ReactInstance>) => {
               this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
+              const originalRef = (anchor as React.RefAttributes<any>)?.ref as React.RefCallback<any>;
               originalRef && callChildRef(originalRef, instance);
             },
-          })
+          } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
 
     // we need to get anchor's DOM node

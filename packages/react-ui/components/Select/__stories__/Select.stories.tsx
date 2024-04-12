@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
-import { DecoratorFn } from '@storybook/react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
@@ -15,7 +14,7 @@ import { ResponsiveLayout } from '../../ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
 
-const mobileDecorator: DecoratorFn = (Story) => {
+const mobileDecorator = (Story: () => JSX.Element) => {
   return (
     <div
       style={{
@@ -248,7 +247,7 @@ MobileSimple.parameters = {
   creevey: { skip: true },
 };
 MobileSimple.decorators = [
-  (Story: Story) => (
+  (Story: () => JSX.Element) => (
     <div
       style={{
         width: 'calc(100vw - 16px)',
@@ -300,7 +299,7 @@ MobileWithSearch.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithSearch.decorators = [mobileDecorator];
+MobileWithSearch.decorators = [mobileDecorator as () => JSX.Element];
 
 export const MobileWithTitle: Story = () => (
   <Select
@@ -316,7 +315,7 @@ MobileWithTitle.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithTitle.decorators = [mobileDecorator];
+MobileWithTitle.decorators = [mobileDecorator as () => JSX.Element];
 
 export const MobileWithTitleAndSearch: Story = () => (
   <Select
@@ -333,7 +332,7 @@ MobileWithTitleAndSearch.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithTitleAndSearch.decorators = [mobileDecorator];
+MobileWithTitleAndSearch.decorators = [mobileDecorator as () => JSX.Element];
 
 export const MobileWithoutTitleAndSearch: Story = () => (
   <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
@@ -346,7 +345,7 @@ MobileWithoutTitleAndSearch.parameters = {
     tests: clickedTest,
   },
 };
-MobileWithoutTitleAndSearch.decorators = [mobileDecorator];
+MobileWithoutTitleAndSearch.decorators = [mobileDecorator as () => JSX.Element];
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
@@ -685,7 +684,7 @@ WithMenuAlignAndVariousWidth.parameters = {
 export default {
   title: 'Select',
   decorators: [
-    (Story, context) => {
+    (Story: () => JSX.Element, context) => {
       if (
         !/mobile/i.test(context.name) &&
         ![WithMenuAlignAndVariousWidth, WithManualPosition].includes(context.originalStoryFn as Story)

@@ -404,7 +404,13 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       if (isTheme2022(this.theme)) {
         return rightIcon || <ArrowDownIcon size={size} />;
       }
-      return <span className={styles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
+      let icon;
+      if (rightIcon) {
+        icon = typeof rightIcon === 'function' ? rightIcon() : rightIcon;
+      } else {
+        icon = <ArrowChevronDownIcon />;
+      }
+      return <span className={styles.rightIconWrapper()}>{icon}</span>;
     }
 
     return null;

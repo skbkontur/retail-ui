@@ -12,7 +12,7 @@ import { PopupMenuDataTids } from '../../../internal/PopupMenu';
 export default {
   title: 'TooltipMenu/Functional tests',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: 200,

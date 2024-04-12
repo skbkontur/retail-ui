@@ -183,7 +183,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
 interface ScrollableContainerProps {
   id?: string;
 }
-class ScrollableContainer extends React.Component<ScrollableContainerProps> {
+class ScrollableContainer extends React.Component<React.PropsWithChildren<ScrollableContainerProps>> {
   public render() {
     return (
       <div
@@ -205,7 +205,7 @@ interface ScrollMakerProps {
   xScroll: number;
   yScroll: number;
 }
-class ScrollMaker extends React.Component<ScrollMakerProps> {
+class ScrollMaker extends React.Component<React.PropsWithChildren<ScrollMakerProps>> {
   public static defaultProps = {
     xScroll: 100,
     yScroll: 100,
@@ -235,7 +235,7 @@ interface GridProps {
   children: (row: string, col: string) => React.ReactNode;
 }
 class Grid extends React.Component<GridProps> {
-  public static Row = class Row extends React.Component {
+  public static Row = class Row extends React.Component<React.PropsWithChildren> {
     public render() {
       return (
         <div
@@ -251,7 +251,7 @@ class Grid extends React.Component<GridProps> {
     }
   };
 
-  public static Cell = class Cell extends React.Component {
+  public static Cell = class Cell extends React.Component<React.PropsWithChildren> {
     public render() {
       return <div style={{ padding: 20 }}>{this.props.children}</div>;
     }
@@ -289,7 +289,7 @@ interface DropdownWithToggleProps {
   };
 }
 @rootNode
-class DropdownWithToggle extends React.Component<DropdownWithToggleProps> {
+class DropdownWithToggle extends React.Component<React.PropsWithChildren<DropdownWithToggleProps>> {
   private setRootNode!: TSetRootNode;
 
   public render() {

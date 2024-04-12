@@ -107,7 +107,7 @@ function StickyWithWideContainer() {
   );
 }
 
-const withThinContainer = (Story: Story) => (
+const withThinContainer = (Story: () => JSX.Element) => (
   <div style={{ width: 200 }}>
     <Story />
   </div>
@@ -139,7 +139,7 @@ WideContainer.parameters = {
 
 export const Top: Story = () => <SampleTop />;
 
-Top.decorators = [withThinContainer];
+Top.decorators = [withThinContainer as () => JSX.Element];
 Top.parameters = {
   creevey: {
     skip: {
@@ -183,7 +183,7 @@ Top.parameters = {
 
 export const Bottom: Story = () => <SampleBottom />;
 
-Bottom.decorators = [withThinContainer];
+Bottom.decorators = [withThinContainer as () => JSX.Element];
 Bottom.parameters = {
   creevey: {
     skip: {

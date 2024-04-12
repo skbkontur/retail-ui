@@ -17,11 +17,9 @@ export const InputLayoutAsideText: React.FunctionComponent<InputLayoutAsideTextP
 
   const asideClassName = stylesLayout.aside();
 
-  return (
-    text && (
-      <span className={cx(asideClassName, stylesLayout.text(theme), disabled && stylesLayout.textDisabled(theme))}>
-        {text}
-      </span>
-    )
-  );
+  return text ? (
+    <span className={cx(asideClassName, stylesLayout.text(theme), disabled && stylesLayout.textDisabled(theme))}>
+      {text}
+    </span>
+  ) : null;
 };

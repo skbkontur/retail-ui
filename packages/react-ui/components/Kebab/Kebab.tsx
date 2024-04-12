@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
@@ -255,14 +255,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon2022() {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
-    if (isElement(icon) && isKonturIcon(icon)) {
+    if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
       const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),
       };
 
-      return React.cloneElement(icon, {
+      return React.cloneElement(icon as ReactElement, {
         size: icon.props.size ?? sizes[size],
         color: icon.props.color ?? this.theme.kebabIconColor,
       });

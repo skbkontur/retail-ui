@@ -14,7 +14,7 @@ import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
@@ -149,7 +149,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
+              {this.renderMain(this.props)}
             </CommonWrapper>
           );
         }}
@@ -157,7 +157,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<InputLikeTextProps>) => {
+  private renderMain = (props: InputLikeTextProps) => {
     const {
       innerRef,
       tabIndex,

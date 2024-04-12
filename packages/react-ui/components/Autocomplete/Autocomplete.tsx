@@ -202,7 +202,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           return (
             <ThemeContext.Provider value={this.theme}>
               <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                {this.renderMain}
+                {this.renderMain(this.props)}
               </CommonWrapper>
             </ThemeContext.Provider>
           );

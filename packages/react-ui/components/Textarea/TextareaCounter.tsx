@@ -60,6 +60,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     const counterHelp = isFunction(help) ? (
       help()
     ) : (
+      // @ts-expect-error message
       <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
         {helpIcon}
       </Tooltip>
@@ -97,5 +98,5 @@ TextareaCounter.propTypes = {
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   help: propTypes.oneOfType([propTypes.node, propTypes.func]),
   onCloseHelp: propTypes.func.isRequired,
-  textarea: safePropTypesInstanceOf(globalObject.HTMLElement).isRequired,
+  textarea: safePropTypesInstanceOf(globalObject.HTMLTextAreaElement).isRequired,
 };

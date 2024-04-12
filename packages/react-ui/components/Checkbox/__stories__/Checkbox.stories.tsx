@@ -11,7 +11,7 @@ interface PlainCheckboxState {
   checked: false;
   size?: SizeProp;
 }
-class PlainCheckbox extends React.Component {
+class PlainCheckbox extends React.Component<React.PropsWithChildren> {
   public state: PlainCheckboxState = {
     checked: false,
   };
@@ -35,7 +35,7 @@ interface IndeterminatePlaygroundState {
   checked: boolean;
 }
 
-class IndeterminatePlayground extends React.Component {
+class IndeterminatePlayground extends React.Component<React.PropsWithChildren> {
   public state: IndeterminatePlaygroundState = {
     checked: false,
   };

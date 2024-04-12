@@ -22,7 +22,7 @@ interface TestTooltipProps {
   disableAnimations?: boolean;
 }
 
-class TestTooltip extends React.Component<TestTooltipProps> {
+class TestTooltip extends React.Component<React.PropsWithChildren<TestTooltipProps>> {
   public static defaultProps: TestTooltipProps = {
     pos: 'top center',
   };
