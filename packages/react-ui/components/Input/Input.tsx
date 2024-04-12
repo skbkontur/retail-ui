@@ -32,7 +32,7 @@ export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time'
  */
 export type InputSize = SizeProp;
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = typeof inputTypes[number];
+export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
@@ -303,7 +303,8 @@ export class Input extends React.Component<InputProps, InputState> {
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain(this.props)}
+              {/*@ts-expect-error message*/}
+              {this.renderMain}
             </CommonWrapper>
           );
         }}
