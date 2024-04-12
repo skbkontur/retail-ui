@@ -23,7 +23,7 @@ import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/us
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -344,23 +344,29 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
                 )}
               </div>
             </div>
-            <Native
-              as="input"
-              {...inputProps}
-              data-tid={FileUploaderDataTids.input}
-              ref={inputRef}
-              tabIndex={disabled ? -1 : 0}
-              type="file"
+            <FocusControlWrapper
               disabled={disabled}
-              multiple={multiple}
-              className={jsStyles.visuallyHidden()}
-              onClick={stopPropagation}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-              value={''}
-            />
+              onBlurWhenDisabled={() => {
+                setFocusedByTab(false);
+              }}
+            >
+              <input
+                {...inputProps}
+                data-tid={FileUploaderDataTids.input}
+                ref={inputRef}
+                tabIndex={disabled ? -1 : 0}
+                type="file"
+                disabled={disabled}
+                multiple={multiple}
+                className={jsStyles.visuallyHidden()}
+                onClick={stopPropagation}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+                value={''}
+              />
+            </FocusControlWrapper>
           </label>
         </div>
       </div>

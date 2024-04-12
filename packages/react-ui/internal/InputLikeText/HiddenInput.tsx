@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { css } from '../../lib/theming/Emotion';
-import { Native } from '../NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 interface Props extends React.HTMLAttributes<HTMLInputElement> {
   nodeRef: (ref: HTMLInputElement | null) => void;
@@ -30,8 +29,7 @@ export class HiddenInput extends React.Component<Props> {
   public render() {
     const { nodeRef, ...props } = this.props;
     return (
-      <Native
-        as="input"
+      <input
         {...props}
         ref={nodeRef}
         type="text"

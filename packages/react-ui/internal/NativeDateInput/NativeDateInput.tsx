@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { Native } from '../NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { getDateForNative, getDateForComponent } from './utils';
 import { jsStyles } from './NativeDateInput.styles';
@@ -25,8 +24,7 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
 
   public render() {
     return (
-      <Native
-        as="input"
+      <input
         type={'date'}
         max={this.props.maxDate ? getDateForNative(this.props.maxDate) : DEFAULT_MAX_DATE}
         min={this.props.minDate ? getDateForNative(this.props.minDate) : DEFAULT_MIN_DATE}

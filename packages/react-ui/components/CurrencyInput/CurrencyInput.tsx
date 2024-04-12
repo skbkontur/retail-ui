@@ -11,9 +11,10 @@ import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -166,26 +167,40 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
 
     return (
-      <Input
-        data-tid={CurrencyInputDataTids.root}
-        {...rest}
-        align={this.getProps().align}
-        value={this.state.formatted}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onMouseUp={this.handleMouseUp}
-        onKeyDown={this.handleKeyDown}
-        onValueChange={this.handleValueChange}
-        onPaste={this.handlePaste}
-        onCopy={this.handleCopy}
-        onCut={this.handleCut}
-        aria-label={this.props['aria-label']}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
-        ref={this.refInput}
-        placeholder={this.state.focused ? '' : getPlaceholder(props)}
-      />
+      <FocusControlWrapper
+        disabled={rest.disabled}
+        onBlurWhenDisabled={() => {
+          this.setState({
+            ...this.getState(
+              CurrencyHelper.parse(this.state.formatted),
+              this.getProps().fractionDigits,
+              this.getProps().hideTrailingZeros,
+            ),
+            focused: false,
+          });
+        }}
+      >
+        <Input
+          data-tid={CurrencyInputDataTids.root}
+          {...rest}
+          align={this.getProps().align}
+          value={this.state.formatted}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          onMouseUp={this.handleMouseUp}
+          onKeyDown={this.handleKeyDown}
+          onValueChange={this.handleValueChange}
+          onPaste={this.handlePaste}
+          onCopy={this.handleCopy}
+          onCut={this.handleCut}
+          aria-label={this.props['aria-label']}
+          onMouseEnter={this.props.onMouseEnter}
+          onMouseLeave={this.props.onMouseLeave}
+          onMouseOver={this.props.onMouseOver}
+          ref={this.refInput}
+          placeholder={this.state.focused ? '' : getPlaceholder(props)}
+        />
+      </FocusControlWrapper>
     );
   };
 

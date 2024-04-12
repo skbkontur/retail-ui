@@ -15,6 +15,7 @@ import { Radio } from '../Radio';
 import { Toggle } from '../Toggle';
 import { Button } from '../Button';
 import { delay } from '../../lib/utils';
+import { MaskedInput } from '../MaskedInput';
 
 export default { title: 'Focus' };
 
@@ -54,25 +55,16 @@ export const InputElementsSequentialFocus: Story = () => {
       <h1 style={{ margin: '10px' }}>Форма</h1>
       <Gapped gap={5} style={{ border: 'black solid 1px', margin: '10px', padding: '10px' }}>
         <form onSubmit={onSubmit}>
-          <div>
-            <Input disabled={isDisabled} value={'Input'}></Input>
-          </div>
-          <br />
-          <div>
+          <Gapped vertical>
+            <Input disabled={isDisabled} value="Input" />
+            <MaskedInput disabled={isDisabled} value="Input" mask="99:99" />
             <Autocomplete onValueChange={emptyFunction} value="Autocomplete" disabled={isDisabled} />
-          </div>
-          <br />
-          <div>
             <CurrencyInput onValueChange={emptyFunction} disabled={isDisabled} />
-          </div>
-          <br />
-          <div>
             <FxInput onValueChange={emptyFunction} disabled={isDisabled} />
-          </div>
-          <br />
-          <Button use="primary" type="submit">
-            Submit
-          </Button>
+            <Button use="primary" type="submit">
+              Submit
+            </Button>
+          </Gapped>
         </form>
       </Gapped>
     </>

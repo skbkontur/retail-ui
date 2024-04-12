@@ -12,7 +12,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
-import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -320,23 +320,27 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <Native
-              as="input"
-              type="checkbox"
-              checked={checked}
-              onChange={this.handleChange}
-              className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
-                [styles.input(this.theme)]: true,
-              })}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              ref={this.inputRef}
+            <FocusControlWrapper
               disabled={disabled}
-              id={id}
-              role="switch"
-              aria-label={ariaLabel}
-              aria-describedby={ariaDescribedby}
-            />
+              onBlurWhenDisabled={() => this.setState({ focusByTab: false })}
+            >
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={this.handleChange}
+                className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
+                  [styles.input(this.theme)]: true,
+                })}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                ref={this.inputRef}
+                disabled={disabled}
+                id={id}
+                role="switch"
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              />
+            </FocusControlWrapper>
             <div
               className={containerClassNames}
               style={

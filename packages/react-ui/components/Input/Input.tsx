@@ -19,7 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
-import { removeAllSelections } from '../DateInput/helpers/SelectionHelpers';
+import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -211,11 +211,6 @@ export class Input extends React.Component<InputProps, InputState> {
   public componentDidUpdate(prevProps: Readonly<InputProps>) {
     if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
       this.outputMaskError();
-    }
-
-    // при установке disabled на нативный input нативный blur не срабатывает, подробнее PR 3378
-    if (prevProps.disabled !== this.props.disabled && this.state.focused) {
-      this.setState({ focused: false });
     }
   }
 
@@ -448,7 +443,16 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-label': ariaLabel,
     };
 
-    const input = this.getInput(inputProps);
+    const input = (
+      <FocusControlWrapper
+        disabled={inputProps.disabled}
+        onBlurWhenDisabled={() => {
+          this.setState({ focused: false });
+        }}
+      >
+        {this.getInput(inputProps)}
+      </FocusControlWrapper>
+    );
 
     if (isTheme2022(this.theme)) {
       return (
@@ -673,7 +677,6 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ focused: false });
-    removeAllSelections();
 
     if (this.props.onBlur) {
       this.props.onBlur(event);

@@ -23,7 +23,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { Native } from '../NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -219,46 +219,51 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <Native
-        as="span"
-        data-tid={InputLikeTextDataTids.root}
-        {...rest}
-        disabled={disabled}
-        className={className}
-        style={{ width, textAlign: align }}
-        tabIndex={disabled ? undefined : 0}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        ref={this.innerRef}
-        onKeyDown={this.handleKeyDown}
-        onMouseDown={this.handleMouseDown}
+      <FocusControlWrapper
+        disabled={this.props.disabled}
+        onBlurWhenDisabled={() => {
+          this.setState({ focused: false });
+        }}
       >
-        <InputLayoutContext.Provider value={context}>
-          <input
-            data-tid={InputLikeTextDataTids.nativeInput}
-            type="hidden"
-            value={value}
-            disabled={disabled}
-            aria-describedby={ariaDescribedby}
-          />
-          {leftSide}
-          <span className={wrapperClass}>
-            <span
-              data-tid={InputLikeTextDataTids.input}
-              className={cx(jsInputStyles.input(this.theme), {
-                [styles.absolute()]: !takeContentWidth,
-                [jsInputStyles.inputFocus(this.theme)]: focused,
-                [jsInputStyles.inputDisabled(this.theme)]: disabled,
-              })}
-            >
-              {this.props.children}
+        <span
+          data-tid={InputLikeTextDataTids.root}
+          {...rest}
+          className={className}
+          style={{ width, textAlign: align }}
+          tabIndex={disabled ? undefined : 0}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          ref={this.innerRef}
+          onKeyDown={this.handleKeyDown}
+          onMouseDown={this.handleMouseDown}
+        >
+          <InputLayoutContext.Provider value={context}>
+            <input
+              data-tid={InputLikeTextDataTids.nativeInput}
+              type="hidden"
+              value={value}
+              disabled={disabled}
+              aria-describedby={ariaDescribedby}
+            />
+            {leftSide}
+            <span className={wrapperClass}>
+              <span
+                data-tid={InputLikeTextDataTids.input}
+                className={cx(jsInputStyles.input(this.theme), {
+                  [styles.absolute()]: !takeContentWidth,
+                  [jsInputStyles.inputFocus(this.theme)]: focused,
+                  [jsInputStyles.inputDisabled(this.theme)]: disabled,
+                })}
+              >
+                {this.props.children}
+              </span>
+              {this.renderPlaceholder()}
             </span>
-            {this.renderPlaceholder()}
-          </span>
-          {rightSide}
-          {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
-        </InputLayoutContext.Provider>
-      </Native>
+            {rightSide}
+            {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+          </InputLayoutContext.Provider>
+        </span>
+      </FocusControlWrapper>
     );
   };
 
@@ -444,7 +449,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
-    console.log('focus');
     if (isMobile) {
       e.target.setAttribute('contenteditable', 'true');
     }
@@ -477,15 +481,14 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    console.log('blur');
     this.selectNodeContentsDebounced.cancel();
-    if (isMobile && e) {
+    if (isMobile) {
       e.target.removeAttribute('contenteditable');
     }
 
     if (this.props.disabled) {
       e.stopPropagation();
-      //  return;
+      return;
     }
 
     if ((isIE11 || isEdge) && this.frozenBlur) {

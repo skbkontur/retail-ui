@@ -11,7 +11,6 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
-import { Native } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -138,7 +137,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>
             <input {...inputProps} />
-            <Native as="input" {...inputProps} />
             <div className={listClassName}>
               <Group>{this._renderItems()}</Group>
             </div>
