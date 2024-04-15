@@ -12,7 +12,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
-import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -320,10 +320,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <FocusControlWrapper
-              disabled={disabled}
-              onBlurWhenDisabled={() => this.setState({ focusByTab: false })}
-            >
+            <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
               <input
                 type="checkbox"
                 checked={checked}
@@ -412,13 +409,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focusByTab: false });
+
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
-    this.setState({
-      focusByTab: false,
-    });
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private isUncontrolled() {

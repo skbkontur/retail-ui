@@ -14,7 +14,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -167,19 +167,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
 
     return (
-      <FocusControlWrapper
-        disabled={rest.disabled}
-        onBlurWhenDisabled={() => {
-          this.setState({
-            ...this.getState(
-              CurrencyHelper.parse(this.state.formatted),
-              this.getProps().fractionDigits,
-              this.getProps().hideTrailingZeros,
-            ),
-            focused: false,
-          });
-        }}
-      >
+      <FocusControlWrapper disabled={rest.disabled} onBlurWhenDisabled={this.resetFocus}>
         <Input
           data-tid={CurrencyInputDataTids.root}
           {...rest}
@@ -469,17 +457,18 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     }
   };
 
-  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  private resetFocus = () => {
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
       ...this.getState(value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
       focused: false,
     });
+  };
 
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private refInput = (element: Nullable<Input>) => {

@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
   disabled?: boolean;
-  onBlur?: React.FocusEventHandler;
   onFocus?: React.FocusEventHandler;
+  onBlur?: React.FocusEventHandler;
   onBlurWhenDisabled?(): void;
 }
 
-// "fix" bug in react https://github.com/facebook/react/issues/9142
-export function useFocusCotrol({ disabled, onBlur, onFocus, onBlurWhenDisabled }: Props) {
-  const [isFocused, setFocused] = React.useState<boolean>(false);
+export function useFocusControl({ disabled, onFocus, onBlur, onBlurWhenDisabled }: Props) {
+  const [isFocused, setFocused] = useState<boolean>(false);
 
   useEffect(() => {
     if (disabled && isFocused && onBlurWhenDisabled) {
+      // force calling custom blur event, try "fix" bug in react https://github.com/facebook/react/issues/9142
       onBlurWhenDisabled();
     }
   }, [disabled, isFocused]);

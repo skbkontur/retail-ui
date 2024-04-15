@@ -17,7 +17,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
-import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -209,12 +209,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <FocusControlWrapper
-          disabled={this.props.disabled}
-          onBlurWhenDisabled={() => {
-            this.setState({ focused: false });
-          }}
-        >
+        <FocusControlWrapper disabled={this.props.disabled} onBlurWhenDisabled={this.resetFocus}>
           <InputLikeText
             width={width}
             ref={this.inputLikeTextRef}
@@ -285,11 +280,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
+  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    const restored = this.iDateMediator.restore();
-    this.updateValue({ focused: false, selected: null, inputMode: false });
+    this.resetFocus();
 
     if (this.props.onBlur) {
+      const restored = this.iDateMediator.restore();
       if (restored) {
         e.persist();
         this.blurEvent = e;

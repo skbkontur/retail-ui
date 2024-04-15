@@ -9,7 +9,7 @@ import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
-import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
+import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -23,7 +23,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { FocusControlWrapper } from '../NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../FocusControlWrapper';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -219,12 +219,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <FocusControlWrapper
-        disabled={this.props.disabled}
-        onBlurWhenDisabled={() => {
-          this.setState({ focused: false });
-        }}
-      >
+      <FocusControlWrapper disabled={this.props.disabled} onBlurWhenDisabled={this.resetFocus}>
         <span
           data-tid={InputLikeTextDataTids.root}
           {...rest}
@@ -480,6 +475,11 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
+  private resetFocus = () => {
+    removeAllSelections();
+    this.setState({ focused: false });
+  };
+
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     this.selectNodeContentsDebounced.cancel();
     if (isMobile) {
@@ -499,13 +499,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return;
     }
 
-    removeAllSelections();
-
-    this.setState({ focused: false });
-
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    this.resetFocus();
+    this.props.onBlur?.(e);
   };
 
   private hiddenInputRef = (el: HTMLInputElement | null) => {

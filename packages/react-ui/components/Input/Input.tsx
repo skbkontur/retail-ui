@@ -19,7 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
-import { FocusControlWrapper } from '../../internal/NativeBlurEventWrapper/NativeBlurEventWrapper';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -444,12 +444,7 @@ export class Input extends React.Component<InputProps, InputState> {
     };
 
     const input = (
-      <FocusControlWrapper
-        disabled={inputProps.disabled}
-        onBlurWhenDisabled={() => {
-          this.setState({ focused: false });
-        }}
-      >
+      <FocusControlWrapper disabled={inputProps.disabled} onBlurWhenDisabled={this.resetFocus}>
         {this.getInput(inputProps)}
       </FocusControlWrapper>
     );
@@ -675,12 +670,11 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({ focused: false });
+  private resetFocus = () => this.setState({ focused: false });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private renderPrefix = () => {
