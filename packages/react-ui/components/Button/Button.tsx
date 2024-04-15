@@ -195,6 +195,7 @@ export interface ButtonState {
 }
 
 export const ButtonDataTids = {
+  trueRoot: 'Button__trueRoot',
   root: 'Button__root',
   spinner: 'Button__spinner',
 } as const;
@@ -495,7 +496,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps}>
+        <span {...wrapProps} data-tid={ButtonDataTids.trueRoot}>
           <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
