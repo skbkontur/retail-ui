@@ -699,7 +699,11 @@ export const HoverTextColor: Story = () => {
 
 HoverTextColor.parameters = {
   creevey: {
-    skip: { in: /^(?!\bfirefox(2022)?\b)/ },
+    skip: {
+      'hover does not work in chrome': {
+        in: /^(?!\bfirefox(2022)?\b)/,
+      },
+    },
     tests: {
       async hover() {
         await this.browser

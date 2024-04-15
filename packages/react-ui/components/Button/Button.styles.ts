@@ -957,6 +957,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  textDisabled2022() {
+    return css`
+      background-color: transparent;
+    `;
+  },
+
   loading() {
     return css`
       position: absolute;
