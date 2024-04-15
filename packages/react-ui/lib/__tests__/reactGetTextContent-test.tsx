@@ -63,4 +63,11 @@ describe('reactGetTextContent', () => {
       expect(textContent).toBe(label);
     });
   });
+
+  it('does not throw on conditional render', () => {
+    expect(() => {
+      const renderNode = (label: React.ReactNode) => <SimpleComponent>{label}</SimpleComponent>;
+      reactGetTextContent(renderNode(false && 'Disabled'));
+    }).not.toThrow();
+  });
 });
