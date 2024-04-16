@@ -257,7 +257,7 @@ object ReactUI_BuildRetailUi : BuildType({
             name = "Pack @skbkontur/react-ui"
             id = "RUNNER_3"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace @skbkontur/react-ui --cwd ./build pack --filename skbkontur-react-ui-%build.counter%.tgz")
+            param("yarn_commands", "workspace @skbkontur/react-ui pack --cwd ./build --filename skbkontur-react-ui-%build.counter%.tgz")
         }
     }
 })
@@ -312,7 +312,7 @@ object ReactUI_LintTest : BuildType({
     }
 
     failureConditions {
-        executionTimeoutMin = 15
+        executionTimeoutMin = 20
     }
 })
 
@@ -566,13 +566,13 @@ object Validations_Build : BuildType({
             name = "Pack react-ui-validations"
             id = "RUNNER_4"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-validations --cwd ./build/retail-ui-dist/ pack --filename react-ui-validations-%build.counter%.tgz")
+            param("yarn_commands", "workspace react-ui-validations pack --cwd ./build/retail-ui-dist/ --filename react-ui-validations-%build.counter%.tgz")
         }
         step {
             name = "Pack @skbkontur/react-ui-validations"
             id = "RUNNER_5"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-validations --cwd ./build/react-ui-dist/ pack --filename skbkontur-react-ui-validations-%build.counter%.tgz")
+            param("yarn_commands", "workspace react-ui-validations pack --cwd ./build/react-ui-dist/ --filename skbkontur-react-ui-validations-%build.counter%.tgz")
         }
     }
 })
