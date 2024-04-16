@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.3...@skbkontur/react-ui@4.21.4) (2024-04-16)
+
+
+### Bug Fixes
+
+* **Token:** correct render with conditional children ([#3404](https://github.com/skbkontur/retail-ui/issues/3404)) ([31c3159](https://github.com/skbkontur/retail-ui/commit/31c31594aa5bbc4823faf0f78b80bf79452d134b))
+
+
+
+
+
 ## [4.21.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.2...@skbkontur/react-ui@4.21.3) (2024-04-09)
 
 
