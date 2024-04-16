@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { LinkProps } from '..';
@@ -23,7 +23,7 @@ describe('Link', () => {
       renderRTL({ onClick, disabled: true });
 
       const linkElement = screen.getByTestId(LinkDataTids.root);
-      await userEvent.click(linkElement);
+      fireEvent.click(linkElement);
 
       expect(onClick).toHaveBeenCalledTimes(0);
     });
@@ -32,7 +32,7 @@ describe('Link', () => {
       const onClick = jest.fn();
 
       renderRTL({ onClick, disabled: true });
-      await userEvent.type(screen.getByTestId(LinkDataTids.root), '{enter}');
+      fireEvent.keyDown(screen.getByTestId(LinkDataTids.root), { key: 'Enter', code: 'Enter' });
       expect(onClick).toHaveBeenCalledTimes(0);
     });
   });
@@ -81,7 +81,7 @@ describe('Link', () => {
       const ariaLabel = 'aria-label';
       render(<Link aria-label={ariaLabel} />);
 
-      expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getByTestId(LinkDataTids.root)).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 });

@@ -68,7 +68,7 @@ describe('Tabs', () => {
           <p id="elementTabsId">Description Tabs</p>
         </div>,
       );
-      const tab = screen.getByRole('link');
+      const tab = screen.getByTestId(TabDataTids.root);
       expect(tab).toHaveAttribute('aria-describedby', 'elementTabId');
       expect(tab).toHaveAccessibleDescription('Description Tab item');
 

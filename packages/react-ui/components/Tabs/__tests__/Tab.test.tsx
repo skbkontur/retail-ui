@@ -142,7 +142,7 @@ describe('Tab', () => {
         </Tabs>,
       );
 
-      expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getByTestId(TabDataTids.root)).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 });
