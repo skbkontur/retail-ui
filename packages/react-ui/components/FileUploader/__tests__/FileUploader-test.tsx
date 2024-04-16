@@ -1,4 +1,4 @@
-import React, { RefAttributes } from 'react';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -106,9 +106,7 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const renderComp = (props: FileUploaderProps & RefAttributes<FileUploaderRef>) =>
-      // @ts-expect-error message
-      render(<FileUploader {...props} />);
+    const renderComp = (props: FileUploaderProps) => render(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {
@@ -305,7 +303,7 @@ describe('FileUploader', () => {
       it('should handle onValueChange after reset', async () => {
         const onValueChange = jest.fn();
         const ref = React.createRef<FileUploaderRef>();
-        renderComp({ onValueChange, ref });
+        render(<FileUploader onValueChange={onValueChange} ref={ref} />);
 
         await addFiles([file]);
 
