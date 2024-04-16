@@ -444,9 +444,7 @@ export class Input extends React.Component<InputProps, InputState> {
     };
 
     const input = (
-      <FocusControlWrapper disabled={inputProps.disabled} onBlurWhenDisabled={this.resetFocus}>
-        {this.getInput(inputProps)}
-      </FocusControlWrapper>
+      <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>{this.getInput(inputProps)}</FocusControlWrapper>
     );
 
     if (isTheme2022(this.theme)) {

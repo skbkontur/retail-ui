@@ -247,7 +247,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     return (
       <label data-tid={RadioDataTids.root} {...labelProps}>
-        <FocusControlWrapper disabled={inputProps.disabled} onBlurWhenDisabled={this.resetFocus}>
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <input {...inputProps} />
         </FocusControlWrapper>
         <span {...radioProps}>

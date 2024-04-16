@@ -3,7 +3,14 @@ import React, { PropsWithChildren, isValidElement } from 'react';
 import { useFocusControl } from './useFocusControl';
 
 interface Props {
-  disabled: boolean | undefined;
+  /**
+   * Использовать только когда на children нет пропса disabled
+   */
+  disabled?: boolean | undefined;
+
+  /**
+   * Событие вызывается когда элемент потеряет фокус, и при этом он задисэйблен
+   */
   onBlurWhenDisabled(): void | undefined;
 }
 
@@ -11,7 +18,7 @@ export function FocusControlWrapper({ children, disabled, onBlurWhenDisabled }: 
   const isValidChildren = children && isValidElement(children);
 
   const { handleFocus, handleBlur } = useFocusControl({
-    disabled,
+    disabled: disabled ?? (isValidChildren ? children.props.disabled : undefined),
     onFocus: isValidChildren ? children.props.onFocus : undefined,
     onBlur: isValidChildren ? children.props.onBlur : undefined,
     onBlurWhenDisabled,

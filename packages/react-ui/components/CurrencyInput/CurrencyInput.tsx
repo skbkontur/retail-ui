@@ -167,7 +167,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
 
     return (
-      <FocusControlWrapper disabled={rest.disabled} onBlurWhenDisabled={this.resetFocus}>
+      <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
         <Input
           data-tid={CurrencyInputDataTids.root}
           {...rest}

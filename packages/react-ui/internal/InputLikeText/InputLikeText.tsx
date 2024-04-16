@@ -219,7 +219,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <FocusControlWrapper disabled={this.props.disabled} onBlurWhenDisabled={this.resetFocus}>
+      <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
         <span
           data-tid={InputLikeTextDataTids.root}
           {...rest}

@@ -344,7 +344,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
                 )}
               </div>
             </div>
-            <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={() => setFocusedByTab(false)}>
+            <FocusControlWrapper onBlurWhenDisabled={() => setFocusedByTab(false)}>
               <input
                 {...inputProps}
                 data-tid={FileUploaderDataTids.input}

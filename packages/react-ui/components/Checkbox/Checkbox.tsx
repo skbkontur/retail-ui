@@ -350,7 +350,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <FocusControlWrapper disabled={inputProps.disabled} onBlurWhenDisabled={this.resetFocus}>
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
         </FocusControlWrapper>
         {box}

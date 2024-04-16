@@ -320,7 +320,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
+            <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
               <input
                 type="checkbox"
                 checked={checked}

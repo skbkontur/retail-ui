@@ -209,7 +209,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <FocusControlWrapper disabled={this.props.disabled} onBlurWhenDisabled={this.resetFocus}>
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <InputLikeText
             width={width}
             ref={this.inputLikeTextRef}
