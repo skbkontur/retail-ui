@@ -1,8 +1,12 @@
 import React, { PropsWithChildren, isValidElement } from 'react';
 
+import type { CommonProps } from '../CommonWrapper';
+import { extractCommonProps } from '../CommonWrapper/extractCommonProps';
+import { cx } from '../../lib/theming/Emotion';
+
 import { useFocusControl } from './useFocusControl';
 
-interface Props {
+interface Props extends CommonProps {
   /**
    * Использовать только когда на children нет пропса disabled
    */
@@ -14,7 +18,9 @@ interface Props {
   onBlurWhenDisabled(): void | undefined;
 }
 
-export function FocusControlWrapper({ children, disabled, onBlurWhenDisabled }: PropsWithChildren<Props>) {
+export function FocusControlWrapper({ disabled, onBlurWhenDisabled, ...rest }: PropsWithChildren<Props>) {
+  const [{ className, style, children, rootNodeRef, ...dataProps }] = extractCommonProps(rest);
+
   const isValidChildren = children && isValidElement(children);
 
   const { handleFocus, handleBlur } = useFocusControl({
@@ -29,7 +35,12 @@ export function FocusControlWrapper({ children, disabled, onBlurWhenDisabled }: 
   }
 
   return React.cloneElement(children, {
-    ...children.props,
+    ...dataProps,
+    className: cx(children.props.className, className),
+    style: {
+      ...children.props.style,
+      ...style,
+    },
     onFocus: handleFocus,
     onBlur: handleBlur,
   });
