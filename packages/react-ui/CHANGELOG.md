@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.0...@skbkontur/react-ui@4.22.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* **Button:** fix btnTextHoverBg var ([#3403](https://github.com/skbkontur/retail-ui/issues/3403)) ([0801972](https://github.com/skbkontur/retail-ui/commit/0801972b6c3afad052b6ec7af2befe1add635481))
+* **Token:** correct render with conditional children ([#3404](https://github.com/skbkontur/retail-ui/issues/3404)) ([0ce8800](https://github.com/skbkontur/retail-ui/commit/0ce8800f45df807c4e97c9cb972324105011f404))
+
+
+
+
+
 # [4.22.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.21.3...@skbkontur/react-ui@4.22.0) (2024-04-09)
 
 
