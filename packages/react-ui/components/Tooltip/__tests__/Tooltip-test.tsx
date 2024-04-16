@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../Button';
@@ -114,8 +114,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('opens by focus on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -137,8 +138,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('keeps open after click on anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           await userEvent.click(anchor);
@@ -149,8 +151,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('closes after click on content', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -163,8 +166,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('closes after click outside', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -177,13 +181,15 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('closes after blur', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
-
-          anchor.blur();
+          act(() => {
+            anchor.blur();
+          });
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -205,8 +211,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('opens by focus on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -291,13 +298,15 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('closes after blur', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
-
-          anchor.blur();
+          act(() => {
+            anchor.blur();
+          });
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -442,8 +451,9 @@ describe('Tooltip', () => {
         </Tooltip>,
       );
       await userEvent.click(screen.getByRole('button'));
-
-      clickOutside();
+      act(() => {
+        clickOutside();
+      });
 
       expect(onClose).toHaveBeenCalledTimes(1);
     });
@@ -476,12 +486,14 @@ describe('Tooltip', () => {
           <div />
         </Tooltip>,
       );
-
-      tooltipRef.current?.show();
+      act(() => {
+        tooltipRef.current?.show();
+      });
 
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
-
-      tooltipRef.current?.hide();
+      act(() => {
+        tooltipRef.current?.hide();
+      });
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
     });
 
@@ -551,8 +563,9 @@ describe('Tooltip', () => {
     );
 
     expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
-
-    screen.getByRole('button').click();
+    act(() => {
+      screen.getByRole('button').click();
+    });
 
     expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
@@ -591,7 +604,6 @@ describe('Tooltip', () => {
       await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
-
       clickOutside();
 
       expect(onCloseRequest).toHaveBeenCalledTimes(1);
@@ -657,7 +669,6 @@ describe('Tooltip', () => {
   });
 
   it('clears hoverTimeout timer after unmount', async () => {
-    jest.useFakeTimers();
     jest.spyOn(window, 'setTimeout');
     jest.spyOn(window, 'clearTimeout');
 

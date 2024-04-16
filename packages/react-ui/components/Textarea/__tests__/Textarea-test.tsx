@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Textarea, TextareaDataTids } from '../Textarea';
@@ -15,10 +15,11 @@ describe('Textarea', () => {
   it('setSelectionRange method works', async () => {
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} value="Method works" />);
-    textareaRef.current?.setSelectionRange(3, 5);
+    act(() => {
+      textareaRef.current?.setSelectionRange(3, 5);
+    });
 
-    await userEvent.click(screen.getByRole('textbox'));
-
+    fireEvent.click(screen.getByRole('textbox'));
     expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(3);
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(5);
@@ -29,7 +30,9 @@ describe('Textarea', () => {
 
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} value={value} />);
-    textareaRef.current?.selectAll();
+    act(() => {
+      textareaRef.current?.selectAll();
+    });
 
     expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
@@ -48,14 +51,18 @@ describe('Textarea', () => {
   it('focus method works', () => {
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} />);
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('blur method works', () => {
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} />);
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
     textareaRef.current?.blur();
     expect(screen.getByRole('textbox')).not.toHaveFocus();
@@ -169,8 +176,9 @@ describe('Textarea', () => {
 
   it('renders TextareaHelper with text content', async () => {
     render(<Textarea counterHelp="Hello" lengthCounter={10} showLengthCounter />);
-
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
 
     const helpIcon = screen.getByTestId(TextareaDataTids.helpIcon);
     expect(helpIcon).toBeInTheDocument();
@@ -183,7 +191,9 @@ describe('Textarea', () => {
   it('renders TextareaHelper with react element content', () => {
     render(<Textarea counterHelp={() => <span>Help me</span>} lengthCounter={10} showLengthCounter />);
 
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByText('Help me')).toBeInTheDocument();
   });
 

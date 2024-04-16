@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -72,8 +72,9 @@ describe('DatePicker', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
-
-    datePickerRef.current?.blur();
+    act(() => {
+      datePickerRef.current?.blur();
+    });
     expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
   });
 

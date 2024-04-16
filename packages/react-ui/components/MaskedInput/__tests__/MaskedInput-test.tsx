@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 
@@ -88,7 +88,9 @@ describe('MaskedInput', () => {
     render(<MaskedInput mask="+7 (999) 999 99 99" />);
 
     const input = screen.getByRole('textbox');
-    input.focus();
+    act(() => {
+      input.focus();
+    });
 
     expect(input).toHaveValue('+7 (');
   });
@@ -101,8 +103,10 @@ describe('MaskedInput', () => {
     render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
 
     const input = screen.getByRole('textbox');
-    input.focus();
-    input.blur();
+    act(() => {
+      input.focus();
+      input.blur();
+    });
 
     expect(input).toHaveValue(expectedValue);
   });
@@ -112,7 +116,9 @@ describe('MaskedInput', () => {
     render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
 
     const input = screen.getByRole('textbox');
-    input.focus();
+    act(() => {
+      input.focus();
+    });
 
     expect(valueChangeEvent).not.toHaveBeenCalled();
   });

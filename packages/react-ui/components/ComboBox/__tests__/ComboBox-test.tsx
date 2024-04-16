@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
@@ -38,6 +38,10 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
     searchCalled();
 
     return promise;
+  });
+
+  promise.catch((error) => {
+    console.error(error);
   });
 
   return [search, searchPromise];
@@ -288,8 +292,9 @@ describe('ComboBox', () => {
 
     it('calls onBlur on input blur when menu is closed', async () => {
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      await userEvent.type(screen.getByRole('textbox'), '{esc}');
-
+      act(() => {
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape', code: 'Escape' });
+      });
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
 
       fireEvent.blur(screen.getByRole('textbox'));
@@ -378,9 +383,9 @@ describe('ComboBox', () => {
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foo' } });
-
-    clickOutside();
-    await delay(0);
+    act(() => {
+      clickOutside();
+    });
 
     expect(screen.getByRole('textbox')).toHaveTextContent('');
   });
@@ -1198,6 +1203,7 @@ describe('ComboBox', () => {
     const addNewElement = async () => {
       render(<Comp />);
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.clear(screen.getByRole('textbox'));
       await userEvent.type(screen.getByRole('textbox'), 'newItem');
       await delay(0);
       await userEvent.click(screen.getByTestId('addButton'));

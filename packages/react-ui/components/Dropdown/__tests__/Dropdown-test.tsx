@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Dropdown, DropdownDataTids } from '../Dropdown';
@@ -81,7 +81,9 @@ describe('Dropdown', () => {
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
-    dropdownRef.current?.open();
+    act(() => {
+      dropdownRef.current?.open();
+    });
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
   });
 
@@ -95,11 +97,13 @@ describe('Dropdown', () => {
     );
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
-
-    dropdownRef.current?.open();
+    act(() => {
+      dropdownRef.current?.open();
+    });
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
-
-    dropdownRef.current?.close();
+    act(() => {
+      dropdownRef.current?.close();
+    });
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 });

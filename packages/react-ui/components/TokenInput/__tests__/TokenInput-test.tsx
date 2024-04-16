@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { PopupIds } from '../../../internal/Popup';
@@ -53,13 +53,15 @@ describe('<TokenInput />', () => {
     const tokenInputRef = React.createRef<TokenInput>();
     render(<TokenInput getItems={getItems} selectedItems={[]} ref={tokenInputRef} />);
     const textarea = screen.getByRole('textbox');
-    fireEvent.focus(textarea);
+    act(() => {
+      fireEvent.focus(textarea);
+    });
     fireEvent.change(screen.getByRole('textbox'), { target: { value: inputValue } });
-
     expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toBeInTheDocument();
     expect(textarea).toHaveValue(inputValue);
-
-    tokenInputRef.current?.reset();
+    act(() => {
+      tokenInputRef.current?.reset();
+    });
 
     expect(screen.queryByTestId(TokenInputDataTids.tokenInputMenu)).not.toBeInTheDocument();
     expect(textarea).toHaveValue('');
@@ -156,10 +158,14 @@ describe('<TokenInput />', () => {
     );
 
     const element = screen.getByRole('textbox');
-    tokenInputRef.current?.focus();
+    act(() => {
+      tokenInputRef.current?.focus();
+    });
     expect(element).toHaveFocus();
 
-    await userEvent.keyboard('{esc}');
+    act(() => {
+      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape', code: 'Escape' });
+    });
     expect(element).not.toHaveFocus();
   });
 
@@ -262,8 +268,9 @@ describe('<TokenInput />', () => {
     await userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
     await delay(0);
     expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
-    input.blur();
-
+    act(() => {
+      input.blur();
+    });
     expect(screen.getByTestId(TokenDataTids.root)).toBeInTheDocument();
   });
 

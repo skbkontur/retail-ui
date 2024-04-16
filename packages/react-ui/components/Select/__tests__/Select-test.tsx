@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
@@ -382,7 +382,9 @@ describe('Select', () => {
     });
 
     it('should open menu by method', () => {
-      selectRef.current?.open();
+      act(() => {
+        selectRef.current?.open();
+      });
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
     });
 
@@ -392,16 +394,23 @@ describe('Select', () => {
     });
 
     it('should close menu by method', () => {
-      selectRef.current?.open();
+      act(() => {
+        selectRef.current?.open();
+      });
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
-
-      selectRef.current?.close();
+      act(() => {
+        selectRef.current?.close();
+      });
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     });
 
     it('should handel onClose event when close() method has been called', () => {
-      selectRef.current?.open();
-      selectRef.current?.close();
+      act(() => {
+        selectRef.current?.open();
+      });
+      act(() => {
+        selectRef.current?.close();
+      });
 
       expect(onClose).toHaveBeenCalled();
     });

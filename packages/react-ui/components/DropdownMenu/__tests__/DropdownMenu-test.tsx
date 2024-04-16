@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { PopupDataTids } from '../../../internal/Popup';
@@ -121,8 +121,9 @@ describe('<DropdownMenu />', () => {
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
-
-    dropdownMenuRef.current?.open();
+    act(() => {
+      dropdownMenuRef.current?.open();
+    });
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
   });
 
@@ -136,7 +137,9 @@ describe('<DropdownMenu />', () => {
     );
     await userEvent.click(screen.getByTestId(captionDatatid));
 
-    dropdownMenuRef.current?.close();
+    act(() => {
+      dropdownMenuRef.current?.close();
+    });
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 

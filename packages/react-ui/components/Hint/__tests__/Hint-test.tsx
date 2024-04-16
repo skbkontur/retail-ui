@@ -84,7 +84,6 @@ describe('Hint', () => {
   });
 
   it('clears timer after unmount', async () => {
-    jest.useFakeTimers();
     jest.spyOn(window, 'setTimeout');
     jest.spyOn(window, 'clearTimeout');
 
