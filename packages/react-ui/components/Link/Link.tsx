@@ -1,7 +1,8 @@
 import React, { AriaAttributes } from 'react';
-import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
+import { resetButton } from '../../lib/styles/Mixins';
+import { PolymorphicPropsWithRef } from '../../typings/react-ref';
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -83,6 +84,13 @@ export interface LinkProps
       }
     > {}
 
+const DEFAULT_LINK_ELEMENT = 'a';
+
+type LinkPropsWithComponent<C extends React.ElementType = typeof DEFAULT_LINK_ELEMENT> = PolymorphicPropsWithRef<
+  LinkProps,
+  C
+>;
+
 export interface LinkState {
   focusedByTab: boolean;
 }
@@ -91,27 +99,20 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as'>>;
-type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
+type DefaultProps = Required<Pick<LinkPropsWithComponent, 'href' | 'use' | 'as'>>;
+type DefaultizedLinkProps<T extends React.ElementType> = DefaultizedProps<LinkPropsWithComponent<T>, DefaultProps>;
 
 /**
  * Элемент ссылки из HTML.
  */
 @rootNode
-export class Link extends React.Component<LinkProps, LinkState> {
+export class Link<C extends React.ElementType = typeof DEFAULT_LINK_ELEMENT> extends React.Component<
+  LinkPropsWithComponent<C>,
+  LinkState
+> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.node,
-
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
-  };
-
-  public static defaultProps: DefaultProps = {
+  public static defaultProps = {
     href: '',
     use: 'default',
     as: 'a',
@@ -149,7 +150,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
+  private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps<C>>) => {
     const {
       disabled,
       href,
@@ -160,11 +161,13 @@ export class Link extends React.Component<LinkProps, LinkState> {
       _button,
       _buttonOpened,
       rel: relOrigin,
-      as: Component,
+      as,
+      component,
       focused = false,
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
+    const Root = component || as;
 
     let arrow = null;
     if (_button) {
@@ -193,6 +196,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
         this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+        Root === 'button' && resetButton(),
       ),
       href,
       rel,
@@ -224,12 +228,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
+      <Root data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {leftIconElement}
         {child}
         {rightIconElement}
         {arrow}
-      </Component>
+      </Root>
     );
   };
 
@@ -251,7 +255,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading } = this.props;
-    const href = this.getProps().href;
+    const href = this.getProps().href || this.getProps().to;
     if (!href) {
       event.preventDefault();
     }
