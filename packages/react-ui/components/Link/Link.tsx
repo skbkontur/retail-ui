@@ -189,6 +189,7 @@ export class Link<C extends React.ElementType = typeof DEFAULT_LINK_ELEMENT> ext
     const linkProps = {
       className: cx(
         styles.useRoot(),
+        Root === 'button' && resetButton(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
@@ -196,7 +197,6 @@ export class Link<C extends React.ElementType = typeof DEFAULT_LINK_ELEMENT> ext
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
         this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
-        Root === 'button' && resetButton(),
       ),
       href,
       rel,
