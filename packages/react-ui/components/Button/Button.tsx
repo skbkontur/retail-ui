@@ -531,7 +531,7 @@ export class Button<C extends React.ElementType = typeof DEFAULT_BUTTON_ELEMENT>
         </ThemeContext.Provider>
       );
     }
-    console.log(this.props);
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
