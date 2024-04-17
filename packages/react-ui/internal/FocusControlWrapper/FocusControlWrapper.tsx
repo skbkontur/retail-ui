@@ -1,10 +1,10 @@
-import React, { PropsWithChildren, isValidElement, HTMLAttributes } from 'react';
+import { PropsWithChildren, isValidElement, cloneElement, CSSProperties } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
 
 import { useFocusControl } from './useFocusControl';
 
-interface Props extends HTMLAttributes<unknown> {
+interface Props {
   /**
    * Использовать только когда на children нет пропса disabled
    */
@@ -14,9 +14,19 @@ interface Props extends HTMLAttributes<unknown> {
    * Событие вызывается когда элемент потеряет фокус, и при этом он задисэйблен
    */
   onBlurWhenDisabled(): void | undefined;
+
+  className?: string;
+  style?: CSSProperties;
 }
 
-export function FocusControlWrapper({ disabled, children, onBlurWhenDisabled, ...rest }: PropsWithChildren<Props>) {
+export function FocusControlWrapper({
+  disabled,
+  children,
+  onBlurWhenDisabled,
+  style,
+  className,
+  ...rest
+}: PropsWithChildren<Props>) {
   const isValidChildren = children && isValidElement(children);
 
   const { handleFocus, handleBlur } = useFocusControl({
@@ -30,16 +40,10 @@ export function FocusControlWrapper({ disabled, children, onBlurWhenDisabled, ..
     return null;
   }
 
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     ...rest,
-    className: /* todo: fix CommonWrapper перетирает className передавая пустую строку ""*/ cx(
-      children.props.className,
-      rest.className,
-    ),
-    style: /* todo: fix CommonWrapper перетирает style передавая пустой объект {} */ {
-      ...children.props.style,
-      ...rest.style,
-    },
+    className: cx(children.props.className, className),
+    style: { ...children.props.style, ...style },
     onFocus: handleFocus,
     onBlur: handleBlur,
   });
