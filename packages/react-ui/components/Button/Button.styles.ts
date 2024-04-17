@@ -523,7 +523,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
@@ -535,7 +535,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.default(t)};
       }
     `;
@@ -553,7 +553,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
@@ -565,7 +565,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.primary(t)}
       }
     `;
@@ -583,7 +583,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
@@ -595,7 +595,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.success(t)}
       }
     `;
@@ -613,7 +613,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
@@ -625,7 +625,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.danger(t)}
       }
     `;
@@ -643,7 +643,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
@@ -655,7 +655,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.pay(t)}
       }
     `;
@@ -665,7 +665,7 @@ export const styles = memoizeStyle({
     return css`
       &,
       &:enabled,
-      &:hover:enabled {
+      &:hover {
         box-shadow: none;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
           box-shadow: none !important;
@@ -674,7 +674,7 @@ export const styles = memoizeStyle({
 
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnTextHoverBg,
           '',
@@ -707,7 +707,7 @@ export const styles = memoizeStyle({
       color: ${t.btnDefaultTextColor};
       background: transparent;
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
           '',
@@ -719,7 +719,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.backless(t)}
       }
     `;
@@ -975,6 +975,18 @@ export const styles = memoizeStyle({
   visibilityHidden() {
     return css`
       visibility: hidden;
+    `;
+  },
+
+  userSelect() {
+    return css`
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
     `;
   },
 });
