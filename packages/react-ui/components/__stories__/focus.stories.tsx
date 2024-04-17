@@ -1,7 +1,11 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { FC, FormEvent, PropsWithChildren, useCallback, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Meta } from '@storybook/react';
+import type { SkipOptions } from 'creevey';
+import { WebDriver } from 'selenium-webdriver';
+import { IKey } from 'selenium-webdriver/lib/input';
 
-import { Story } from '../../typings/stories';
+import type { Story } from '../../typings/stories';
 import { Input } from '../Input';
 import { Gapped } from '../Gapped';
 import { Autocomplete } from '../Autocomplete';
@@ -17,13 +21,20 @@ import { Button } from '../Button';
 import { delay } from '../../lib/utils';
 import { MaskedInput } from '../MaskedInput';
 
-export default { title: 'Focus' };
+export default { title: 'Focus' } as Meta;
+
+const skip: SkipOptions = { 'do not pass on teamcity': { in: /firefox/ } };
 
 const DELAY = 1500;
+const Header: FC<PropsWithChildren<any>> = ({ children }) => <h1 style={{ margin: 10 }}>{children}</h1>;
+const Wrapper: FC<PropsWithChildren<any>> = ({ children }) => (
+  <div style={{ border: 'black solid 1px', margin: 10, padding: 10 }}>{children}</div>
+);
 
-export const InputElementsSequentialFocus: Story = () => {
+const useFormHandlers = () => {
   const [isDisabled, setIsDisabled] = useState(false);
-  const onSubmit = (e: FormEvent) => {
+
+  const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
     new Promise((resolve) => {
@@ -32,9 +43,9 @@ export const InputElementsSequentialFocus: Story = () => {
     }).then(() => {
       setIsDisabled(false);
     });
-  };
+  }, []);
 
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       new Promise((resolve) => {
         setIsDisabled(true);
@@ -43,18 +54,43 @@ export const InputElementsSequentialFocus: Story = () => {
         setIsDisabled(false);
       });
     }
-  };
+  }, []);
+
   globalObject.document?.addEventListener('keydown', handleKeyDown);
 
   const emptyFunction = useCallback(() => {
     return;
   }, []);
 
+  return {
+    isDisabled,
+    emptyFunction,
+    handleSubmit,
+    handleKeyDown,
+  };
+};
+
+const makeSteps = async function (ctf: { browser: WebDriver; keys: IKey }, repeatAmount: number) {
+  for (let i = 0; i < repeatAmount; i++) {
+    await ctf.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(ctf.keys.TAB)
+      .pause(DELAY)
+      .sendKeys(ctf.keys.ENTER)
+      .pause(DELAY)
+      .perform();
+  }
+};
+
+export const InputElementsSequentialFocus: Story = () => {
+  const { isDisabled, emptyFunction, handleSubmit } = useFormHandlers();
   return (
     <>
-      <h1 style={{ margin: '10px' }}>Форма</h1>
-      <Gapped gap={5} style={{ border: 'black solid 1px', margin: '10px', padding: '10px' }}>
-        <form onSubmit={onSubmit}>
+      <Header>Форма</Header>
+      <Wrapper>
+        <form onSubmit={handleSubmit}>
           <Gapped vertical>
             <Input disabled={isDisabled} value="Input" />
             <MaskedInput disabled={isDisabled} value="Input" mask="99:99" />
@@ -66,33 +102,17 @@ export const InputElementsSequentialFocus: Story = () => {
             </Button>
           </Gapped>
         </form>
-      </Gapped>
+      </Wrapper>
     </>
   );
 };
 InputElementsSequentialFocus.parameters = {
   creevey: {
-    skip: { 'do not pass on teamcity': { in: /firefox/ } },
+    skip,
     tests: {
       async 'focus elements one by one'() {
-        await this.browser.actions({
-          bridge: true,
-        });
-
         // В FxInput сначала происходит фокусировка на кнопке, потом на поле ввода. Поэтому необходимо 6 повторений для 5 элементов
-        const repeatAmount = 6;
-        for (let i = 0; i < repeatAmount; i++) {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.TAB)
-            .pause(DELAY)
-            .sendKeys(this.keys.ENTER)
-            .pause(DELAY)
-            .perform();
-        }
-
+        await makeSteps(this, 6);
         await delay(DELAY);
         await this.expect(await this.takeScreenshot()).to.matchImage('focus elements one by one');
       },
@@ -101,72 +121,32 @@ InputElementsSequentialFocus.parameters = {
 };
 
 export const ChoiceElementsSequentialFocus: Story = () => {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    new Promise((resolve) => {
-      setIsDisabled(true);
-      setTimeout(resolve, 1000);
-    }).then(() => {
-      setIsDisabled(false);
-    });
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      new Promise((resolve) => {
-        setIsDisabled(true);
-        setTimeout(resolve, 1000);
-      }).then(() => {
-        setIsDisabled(false);
-      });
-    }
-  };
-  globalObject.document?.addEventListener('keydown', handleKeyDown);
+  const { isDisabled, handleSubmit } = useFormHandlers();
 
   return (
     <>
-      <h1 style={{ margin: '10px' }}>Форма</h1>
-      <Gapped gap={5} style={{ border: 'black solid 1px', margin: '10px', padding: '10px' }}>
-        <form onSubmit={onSubmit}>
-          <div>
+      <Header>Форма</Header>
+      <Wrapper>
+        <form onSubmit={handleSubmit}>
+          <Gapped vertical>
             <Radio value={'Radio'} disabled={isDisabled} />
-          </div>
-          <br />
-          <div>
             <Toggle disabled={isDisabled} />
-          </div>
-          <br />
-          <div>
             <Checkbox disabled={isDisabled} />
-          </div>
-          <br />
-          <Button use="primary" type="submit">
-            Submit
-          </Button>
+            <Button use="primary" type="submit">
+              Submit
+            </Button>
+          </Gapped>
         </form>
-      </Gapped>
+      </Wrapper>
     </>
   );
 };
 ChoiceElementsSequentialFocus.parameters = {
   creevey: {
-    skip: { 'do not pass on teamcity': { in: /firefox/ } },
+    skip,
     tests: {
       async 'focus elements one by one'() {
-        const repeatAmount = 4;
-        for (let i = 0; i < repeatAmount; i++) {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.TAB)
-            .pause(DELAY)
-            .sendKeys(this.keys.ENTER)
-            .pause(DELAY)
-            .perform();
-        }
+        await makeSteps(this, 4);
         await delay(DELAY);
         await this.expect(await this.takeScreenshot()).to.matchImage('focus elements one by one');
       },
@@ -175,77 +155,32 @@ ChoiceElementsSequentialFocus.parameters = {
 };
 
 export const OtherElementsSequentialFocus: Story = () => {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    new Promise((resolve) => {
-      setIsDisabled(true);
-      setTimeout(resolve, 1000);
-    }).then(() => {
-      setIsDisabled(false);
-    });
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      new Promise((resolve) => {
-        setIsDisabled(true);
-        setTimeout(resolve, 1000);
-      }).then(() => {
-        setIsDisabled(false);
-      });
-    }
-  };
-  globalObject.document?.addEventListener('keydown', handleKeyDown);
+  const { isDisabled, handleSubmit, emptyFunction } = useFormHandlers();
 
   return (
     <>
-      <h1 style={{ margin: '10px' }}>Форма</h1>
-      <Gapped gap={5} style={{ border: 'black solid 1px', margin: '10px', padding: '10px' }}>
-        <form onSubmit={onSubmit}>
-          <div>
+      <Header>Форма</Header>
+      <Wrapper>
+        <form onSubmit={handleSubmit}>
+          <Gapped vertical>
             <DateInput disabled={isDisabled} />
-          </div>
-          <br />
-          <div>
-            <DatePicker
-              onValueChange={useCallback(() => {
-                return;
-              }, [])}
-              disabled={isDisabled}
-            />
-          </div>
-          <br />
-          <div>
+            <DatePicker onValueChange={emptyFunction} disabled={isDisabled} />
             <FileUploader disabled={isDisabled} />
-          </div>
-          <br />
-          <Button use="primary" type="submit">
-            Submit
-          </Button>
+            <Button use="primary" type="submit">
+              Submit
+            </Button>
+          </Gapped>
         </form>
-      </Gapped>
+      </Wrapper>
     </>
   );
 };
 OtherElementsSequentialFocus.parameters = {
   creevey: {
-    skip: { 'do not pass on teamcity': { in: /firefox/ } },
+    skip,
     tests: {
       async 'focus elements one by one'() {
-        const repeatAmount = 4;
-        for (let i = 0; i < repeatAmount; i++) {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.TAB)
-            .pause(DELAY)
-            .sendKeys(this.keys.ENTER)
-            .pause(DELAY)
-            .perform();
-        }
+        await makeSteps(this, 4);
         await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('focus elements one by one');
       },

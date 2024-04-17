@@ -10,7 +10,7 @@ interface Props extends CommonProps {
   /**
    * Использовать только когда на children нет пропса disabled
    */
-  disabled?: boolean | undefined;
+  disabled?: boolean;
 
   /**
    * Событие вызывается когда элемент потеряет фокус, и при этом он задисэйблен
