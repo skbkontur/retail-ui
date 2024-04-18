@@ -204,6 +204,7 @@ type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
+  public static displayName = 'Button';
   public static __BUTTON__ = true;
 
   public static defaultProps: DefaultProps = {
@@ -333,6 +334,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               checked && styles.checkedDisabled(this.theme),
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
+              use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
+              use === 'text' && styles.textDisabled2022(),
             ]
           : [
               active && !checked && activeStyles[use](this.theme),

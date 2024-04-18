@@ -107,6 +107,7 @@ type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role'>>;
  */
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
+  public static displayName = 'Modal';
 
   public static Header = ModalHeader;
   public static Body = ModalBody;

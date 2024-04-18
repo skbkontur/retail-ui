@@ -145,6 +145,7 @@ type DefaultProps = Required<
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
+  public static displayName = 'Popup';
 
   public static propTypes = {
     /**
@@ -309,9 +310,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const children = this.renderChildren();
 
     return children ? (
-      <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
-        {this.content(children)}
-      </MobilePopup>
+      <CommonWrapper rootNodeRef={this.setRootNode}>
+        <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
+          {this.content(children)}
+        </MobilePopup>
+      </CommonWrapper>
     ) : null;
   }
 

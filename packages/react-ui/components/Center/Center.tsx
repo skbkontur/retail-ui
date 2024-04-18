@@ -37,6 +37,7 @@ type DefaultizedCenterProps = DefaultizedProps<CenterProps, DefaultProps>;
 @rootNode
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
+  public static displayName = 'Center';
 
   public static defaultProps: DefaultProps = {
     align: 'center',

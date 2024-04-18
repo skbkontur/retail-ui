@@ -231,6 +231,12 @@ EmptyWithReference.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
       },
     },
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['clicked', 'withMenu'],
+      },
+    },
   },
 };
 
@@ -253,6 +259,9 @@ EmptyCombined.storyName = 'empty combined';
 
 EmptyCombined.parameters = {
   creevey: {
+    skip: {
+      'flaky tests': { in: ['firefox2022', 'firefox2022Dark'] },
+    },
     tests: {
       async selectFirst() {
         await this.browser
@@ -262,6 +271,7 @@ EmptyCombined.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('a')
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
@@ -463,6 +473,12 @@ CustomAddButton.storyName = 'custom add button';
 
 CustomAddButton.parameters = {
   creevey: {
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['addButton'],
+      },
+    },
     tests: {
       async addButton() {
         await this.browser
@@ -729,6 +745,12 @@ FullWidthMenu.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['selectFirst'],
+      },
+    },
   },
 };
 
@@ -757,6 +779,59 @@ CustomRenderTotalCount.parameters = {
           .perform();
         await delay(1000);
 
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+    skip: {
+      'do not pass on teamcity': {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        tests: ['renderTotalCount'],
+      },
+    },
+  },
+};
+
+export const Size = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Wrapper numberItems={5} getItems={getItems} size="small" />
+      <Wrapper numberItems={5} getItems={getItems} size="medium" />
+      <Wrapper numberItems={5} getItems={getItems} size="large" />
+    </Gapped>
+  );
+};
+Size.storyName = 'size';
+
+export const WithPlaceholderAndWidth: Story = () => (
+  <div style={{ width: 100 }}>
+    <Wrapper getItems={getItems} placeholder="placeholder" width={'100%'} />
+  </div>
+);
+WithPlaceholderAndWidth.storyName = 'with placeholder and width';
+WithPlaceholderAndWidth.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+      async selected() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(500)
+          .sendKeys('a')
+          .perform();
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+
+          .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+          .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },

@@ -110,6 +110,7 @@ interface ScrollContainerState {
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
+  public static displayName = 'ScrollContainer';
 
   public inner: Nullable<HTMLElement>;
 

@@ -1,22 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const mixins = {
-  inputAndHelperCommonStyles(t: Theme) {
-    return css`
-      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
-      line-height: ${t.tokenInputLineHeight};
-      font-size: ${t.tokenInputFontSize};
-    `;
-  },
-  inputAndHelperCommonEditingStyles(t: Theme) {
-    return css`
-      margin: ${t.tokenMarginY} ${t.tokenMarginX};
-      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenPaddingX};
-      line-height: ${t.tokenLineHeight};
-    `;
-  },
-};
+import { labelSizeMixin, inputSizeMixin } from './TokenInput.mixins';
 
 export const styles = memoizeStyle({
   label(t: Theme) {
@@ -28,13 +13,27 @@ export const styles = memoizeStyle({
       transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       box-sizing: border-box;
       cursor: text;
-      padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
       display: flex;
       flex-wrap: wrap;
       align-items: start;
       outline: none;
       position: relative;
       border-radius: ${t.tokenInputBorderRadius};
+    `;
+  },
+  labelSmall(t: Theme) {
+    return css`
+      ${labelSizeMixin(t.tokenInputPaddingYSmall, t.tokenInputPaddingXSmall)}
+    `;
+  },
+  labelMedium(t: Theme) {
+    return css`
+      ${labelSizeMixin(t.tokenInputPaddingYMedium, t.tokenInputPaddingXMedium)}
+    `;
+  },
+  labelLarge(t: Theme) {
+    return css`
+      ${labelSizeMixin(t.tokenInputPaddingYLarge, t.tokenInputPaddingXLarge)}
     `;
   },
 
@@ -79,18 +78,13 @@ export const styles = memoizeStyle({
 
   input(t: Theme) {
     return css`
-      min-width: 0;
-      max-width: 100%;
-      width: 50px;
       background: transparent;
       border: none;
       box-shadow: none;
       outline: none;
       font-family: inherit;
-      margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
       overflow: hidden;
       resize: none;
-      height: ${t.tokenInputLineHeight};
       -webkit-appearance: none;
       text-overflow: clip;
       background-clip: padding-box;
@@ -98,8 +92,9 @@ export const styles = memoizeStyle({
       color: ${t.tokenInputTextColor};
       box-sizing: border-box;
       word-break: break-all;
-
-      ${mixins.inputAndHelperCommonStyles(t)};
+      padding: 0;
+      margin: 0;
+      flex: 1 1 100%;
 
       &::-ms-clear {
         display: none;
@@ -125,37 +120,24 @@ export const styles = memoizeStyle({
       }
     `;
   },
-
-  helperContainer(t: Theme) {
+  inputSmall(t: Theme) {
     return css`
-      display: flex;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
-      visibility: hidden;
+      ${inputSizeMixin(t.tokenFontSizeSmall, t.tokenInputLineHeightSmall)};
     `;
   },
-
-  helperText(t: Theme) {
+  inputMedium(t: Theme) {
     return css`
-      max-width: 100%;
-      word-break: break-all;
-
-      // don't collapse spaces
-      // so they get counted in width
-      white-space: pre-wrap;
-
-      ${mixins.inputAndHelperCommonStyles(t)}
+      ${inputSizeMixin(t.tokenFontSizeMedium, t.tokenInputLineHeightMedium)};
+    `;
+  },
+  inputLarge(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.tokenFontSizeLarge, t.tokenInputLineHeightLarge)};
     `;
   },
 
   helperTextEditing(t: Theme) {
     return css`
-      ${mixins.inputAndHelperCommonEditingStyles(t)};
-
-      font-size: ${t.tokenFontSize};
       padding-bottom: ${t.tokenLegacyTextShift};
     `;
   },
@@ -169,20 +151,15 @@ export const styles = memoizeStyle({
     `;
   },
 
-  inputEditing(t: Theme) {
+  inputPlaceholderWrapper() {
     return css`
-      ${mixins.inputAndHelperCommonEditingStyles(t)};
+      flex: 1 1 100%;
     `;
   },
 
   reservedInput(t: Theme) {
     return css`
       min-width: 2px;
-      min-height: ${t.tokenInputLineHeight};
-      line-height: ${t.tokenInputLineHeight};
-      font-size: ${t.tokenInputFontSize};
-      margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
-      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
       color: ${t.tokenInputTextColorDisabled};
       word-break: break-all;
     `;

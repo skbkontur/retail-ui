@@ -117,6 +117,7 @@ type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
+  public static displayName = 'DatePicker';
 
   public static propTypes = {
     autoFocus: PropTypes.bool,

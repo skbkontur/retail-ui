@@ -49,6 +49,7 @@ export const SidePageFooterDataTids = {
 @rootNode
 export class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
+  public static displayName = 'SidePageFooter';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;

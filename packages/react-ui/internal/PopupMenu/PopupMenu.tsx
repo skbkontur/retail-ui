@@ -112,6 +112,7 @@ type DefaultProps = Required<Pick<PopupMenuProps, 'positions' | 'type' | 'popupH
 @responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
+  public static displayName = 'PopupMenu';
 
   private isMobileLayout!: boolean;
   private rootId = PopupIds.root + getRandomID();

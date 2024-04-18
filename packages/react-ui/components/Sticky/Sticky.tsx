@@ -47,6 +47,7 @@ type DefaultProps = Required<Pick<StickyProps, 'offset'>>;
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
+  public static displayName = 'Sticky';
 
   public static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),

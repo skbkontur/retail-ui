@@ -8,6 +8,7 @@ import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { LocaleContext } from '../../lib/locale';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
 import { globalClasses, styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
@@ -136,6 +137,7 @@ const Day: FunctionComponent<DayProps> = ({
         [styles.periodStart()]: isPeriodStart,
         [styles.periodEnd()]: isPeriodEnd,
       })}
+      {...getVisualStateDataAttributes({ selected: isSelected })}
     >
       <div
         className={cx({

@@ -7,6 +7,7 @@ import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { TokenSize } from '../Token';
 
 import { TokenInputDataTids, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
@@ -20,10 +21,12 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
    * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
    */
   popupMenuId?: HTMLProps['id'];
+  size?: TokenSize;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
+  public static displayName = 'TokenInputMenu';
 
   private theme!: Theme;
 
@@ -54,6 +57,18 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   public getMenuRef = (): any | null => this.menu;
 
+  private getPopupMarginSize(t: Theme) {
+    switch (this.props.size) {
+      case 'large':
+        return t.tokenInputPopupMarginLarge;
+      case 'medium':
+        return t.tokenInputPopupMarginMedium;
+      case 'small':
+      default:
+        return t.tokenInputPopupMarginSmall;
+    }
+  }
+
   private renderMain() {
     const {
       loading,
@@ -78,8 +93,12 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         opened={!!opened}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}
-        popupOffset={menuAlign === 'left' ? 0 : 5}
-        margin={menuAlign === 'left' ? 1 : undefined}
+        popupOffset={
+          menuAlign === 'left'
+            ? parseInt(this.theme.tokenInputPopupOffset)
+            : 8 + parseInt(this.theme.tokenInputPopupOffset)
+        }
+        margin={menuAlign === 'left' ? 1 : parseInt(this.getPopupMarginSize(this.theme))}
         hasShadow
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
         withoutMobile
