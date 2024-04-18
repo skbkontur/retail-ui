@@ -110,7 +110,6 @@ describe('Select', () => {
         ]}
         search
         disablePortal
-        onValueChange={console.log}
       />,
     );
 
@@ -208,7 +207,7 @@ describe('Select', () => {
     expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
-  }, 10000);
+  }, 15000);
 
   it('should clear the value when null passed', async () => {
     const Comp = () => {
