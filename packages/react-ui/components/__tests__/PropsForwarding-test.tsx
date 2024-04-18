@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import { act } from '@testing-library/react';
 
 import { AnyObject, delay } from '../../lib/utils';
 import * as ReactUI from '../../index';
@@ -68,7 +69,9 @@ describe('Props Forwarding', () => {
           wrapper.update();
           return wrapper.getDOMNode();
         case 'Toast':
-          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
+          act(() => {
+            (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
+          });
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
         case 'GlobalLoader':
