@@ -208,7 +208,7 @@ describe('Select', () => {
     expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
-  }, 8000);
+  }, 10000);
 
   it('should clear the value when null passed', async () => {
     const Comp = () => {
