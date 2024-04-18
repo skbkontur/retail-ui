@@ -131,7 +131,9 @@ export const CalendarWithCustomDates: Story = () => {
 
 CalendarWithCustomDates.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    skip: {
+      'no themes': { in: /^(?!\b(chrome|firefox)\b)/ },
+    },
   },
 };
 
@@ -149,7 +151,9 @@ export const CalendarWithCustomCellSize: Story = () => {
 
 CalendarWithCustomCellSize.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    skip: {
+      'no themes': { in: /^(?!\b(chrome|firefox)\b)/ },
+    },
   },
 };
 
@@ -192,7 +196,9 @@ export const CalendarWithMonthChangeHandle: Story = () => {
 };
 CalendarWithMonthChangeHandle.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|firefox)\b)/ },
+    skip: {
+      'no themes': { in: /^(?!\b(chrome|firefox)\b)/ },
+    },
     tests: {
       async 'month and year change when selecting day'() {
         await this.browser
