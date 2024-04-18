@@ -49,7 +49,7 @@ describe('<Input />', () => {
   it('renders rightIcon', () => {
     const rightIcon = <i data-tid="my-testy-icon" />;
     render(<Input value="" rightIcon={rightIcon} />);
-    expect(screen.getByTestId('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
   it('renders MaskedInput on mask prop', () => {
