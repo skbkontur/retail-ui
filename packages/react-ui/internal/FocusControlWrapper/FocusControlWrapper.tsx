@@ -1,6 +1,6 @@
-import { PropsWithChildren, isValidElement, cloneElement, CSSProperties } from 'react';
+import React, { PropsWithChildren, isValidElement, cloneElement } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { CommonWrapper } from '../CommonWrapper';
 
 import { useFocusControl } from './useFocusControl';
 
@@ -14,19 +14,9 @@ interface Props {
    * Событие вызывается когда элемент потеряет фокус, и при этом он задисэйблен
    */
   onBlurWhenDisabled(): void | undefined;
-
-  className?: string;
-  style?: CSSProperties;
 }
 
-export function FocusControlWrapper({
-  disabled,
-  children,
-  onBlurWhenDisabled,
-  style,
-  className,
-  ...rest
-}: PropsWithChildren<Props>) {
+export function FocusControlWrapper({ disabled, children, onBlurWhenDisabled, ...rest }: PropsWithChildren<Props>) {
   const isValidChildren = children && isValidElement(children);
 
   const { handleFocus, handleBlur } = useFocusControl({
@@ -40,13 +30,16 @@ export function FocusControlWrapper({
     return null;
   }
 
-  return cloneElement(children, {
-    ...rest,
-    className: cx(children.props.className, className),
-    style: { ...children.props.style, ...style },
-    onFocus: handleFocus,
-    onBlur: handleBlur,
-  });
+  return (
+    <CommonWrapper {...rest}>
+      {React.Children.only(
+        cloneElement(children, {
+          onFocus: handleFocus,
+          onBlur: handleBlur,
+        }),
+      )}
+    </CommonWrapper>
+  );
 }
 
 FocusControlWrapper.__KONTUR_REACT_UI__ = 'FocusControlWrapper';
