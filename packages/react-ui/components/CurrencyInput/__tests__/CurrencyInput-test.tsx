@@ -313,16 +313,14 @@ describe('CurrencyInput', () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
-      act(() => {
-        fireEvent.focus(input);
-      });
+      fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
-
-      await userEvent.keyboard('{shift}{arrowleft/}{arrowleft/}{/shift}');
+      fireEvent.keyDown(input, { key: 'ArrowLeft', code: 'ArrowLeft', shiftKey: true });
+      fireEvent.keyDown(input, { key: 'ArrowLeft', code: 'ArrowLeft', shiftKey: true });
 
       //should be selected from 1 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(1);
-      // expect(input.selectionEnd).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(4);
     });
 
     it('should handle selection right extension key down correctly', async () => {
@@ -333,10 +331,10 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      await userEvent.keyboard('{shift}{arrowright/}{arrowright/}{/shift}');
-
+      fireEvent.keyDown(input, { key: 'ArrowRight', code: 'ArrowRight', shiftKey: true });
+      fireEvent.keyDown(input, { key: 'ArrowRight', code: 'ArrowRight', shiftKey: true });
       //should be selected till 3 position due to the automatic ⎵ between 12 and 300
-      // expect(input.selectionStart).toBe(startCursorPosition);
+      expect(input.selectionStart).toBe(startCursorPosition);
       expect(input.selectionEnd).toBe(3);
     });
 
@@ -348,10 +346,10 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      await userEvent.keyboard('{ctrl}a{/ctrl}');
+      fireEvent.keyDown(input, { key: 'a', code: 'KeyA', ctrlKey: true });
 
       expect(input.selectionStart).toBe(startCursorPosition);
-      // expect(input.selectionEnd).toBe(input.value?.length);
+      expect(input.selectionEnd).toBe(input.value?.length);
     });
 
     it('should handle selection to start key down correctly', async () => {
@@ -362,10 +360,10 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      await userEvent.keyboard('{shift}{home/}{/shift}');
+      fireEvent.keyDown(input, { key: 'Home', code: 'Home', shiftKey: true });
 
       expect(input.selectionStart).toBe(0);
-      // expect(input.selectionEnd).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(startCursorPosition);
     });
 
     it('should handle selection to end key down correctly', async () => {
@@ -376,9 +374,9 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      await userEvent.keyboard('{shift}{end/}{/shift}');
+      fireEvent.keyDown(input, { key: 'End', code: 'End', shiftKey: true });
 
-      // expect(input.selectionStart).toBe(startCursorPosition);
+      expect(input.selectionStart).toBe(startCursorPosition);
       expect(input.selectionEnd).toBe(input.value?.length);
     });
   });
