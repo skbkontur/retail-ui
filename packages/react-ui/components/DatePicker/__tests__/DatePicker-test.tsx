@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -287,7 +287,8 @@ describe('DatePicker', () => {
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      expect(monthButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} Февраль`,
       );
@@ -303,7 +304,8 @@ describe('DatePicker', () => {
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} 2021`,
       );
@@ -319,7 +321,8 @@ describe('DatePicker', () => {
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${customAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );

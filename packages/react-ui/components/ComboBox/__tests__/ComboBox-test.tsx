@@ -628,7 +628,9 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
+        // eslint-disable-next-line testing-library/no-node-access
         (document.activeElement as HTMLInputElement).selectionEnd,
       );
 
@@ -645,7 +647,9 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
+        // eslint-disable-next-line testing-library/no-node-access
         (document.activeElement as HTMLInputElement).selectionEnd,
       );
 

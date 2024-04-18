@@ -389,7 +389,9 @@ describe('Select', () => {
     });
 
     it('should handel onOpen event when open() method has been called', () => {
-      selectRef.current?.open();
+      act(() => {
+        selectRef.current?.open();
+      });
       expect(onOpen).toHaveBeenCalled();
     });
 
@@ -416,12 +418,16 @@ describe('Select', () => {
     });
 
     it('should not call onClose event when menu wasn`t open', () => {
-      selectRef.current?.close();
+      act(() => {
+        selectRef.current?.close();
+      });
       expect(onClose).not.toHaveBeenCalled();
     });
 
     it('should focus by method', () => {
-      selectRef.current?.focus();
+      act(() => {
+        selectRef.current?.focus();
+      });
       expect(screen.getByRole('button')).toHaveFocus();
     });
   });

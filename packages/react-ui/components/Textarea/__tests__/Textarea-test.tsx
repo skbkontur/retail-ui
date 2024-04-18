@@ -20,8 +20,11 @@ describe('Textarea', () => {
     });
 
     fireEvent.click(screen.getByRole('textbox'));
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(3);
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(5);
   });
 
@@ -34,8 +37,11 @@ describe('Textarea', () => {
       textareaRef.current?.selectAll();
     });
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
   });
 
@@ -44,7 +50,9 @@ describe('Textarea', () => {
     render(<Textarea value={value} selectAllOnFocus />);
     await userEvent.tab();
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
   });
 

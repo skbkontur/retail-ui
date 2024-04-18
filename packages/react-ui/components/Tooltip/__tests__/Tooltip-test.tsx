@@ -36,6 +36,7 @@ const withVariousAnchors = (testFn: (render: (props: Partial<TooltipProps>) => {
     });
 
     afterEach(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       externalAnchor?.parentNode?.removeChild(externalAnchor);
     });
 

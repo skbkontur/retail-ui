@@ -41,15 +41,15 @@ describe('<Input />', () => {
   });
 
   it('renders leftIcon', () => {
-    const leftIcon = <i className="my-testy-icon" />;
+    const leftIcon = <i data-tid="my-testy-icon" />;
     render(<Input value="" leftIcon={leftIcon} />);
-    expect(document.querySelector('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
   it('renders rightIcon', () => {
-    const rightIcon = <i className="my-testy-icon" />;
+    const rightIcon = <i data-tid="my-testy-icon" />;
     render(<Input value="" rightIcon={rightIcon} />);
-    expect(document.querySelector('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('.my-testy-icon')).toBeInTheDocument();
   });
 
   it('renders MaskedInput on mask prop', () => {
@@ -243,8 +243,11 @@ describe('<Input />', () => {
       render(<Input type={type} ref={inputRef} value={value} />);
       inputRef.current?.selectAll();
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
     });
   });
@@ -259,7 +262,9 @@ describe('<Input />', () => {
       render(<Input type={type} ref={inputRef} value="value" />);
       inputRef.current?.selectAll();
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
       expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type)}`);
     });
@@ -271,8 +276,11 @@ describe('<Input />', () => {
       render(<Input type={type} ref={inputRef} value="Method works" />);
       inputRef.current?.setSelectionRange(3, 5);
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(3);
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(5);
     });
   });
@@ -283,7 +291,9 @@ describe('<Input />', () => {
       render(<Input type={type} ref={inputRef} value="value" />);
       inputRef.current?.setSelectionRange(0, 1);
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
       expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type)}`);
     });
@@ -295,7 +305,9 @@ describe('<Input />', () => {
       render(<Input type={type} value={value} selectAllOnFocus />);
       await userEvent.tab();
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
     });
   });
@@ -305,7 +317,9 @@ describe('<Input />', () => {
       render(<Input type={type} value="value" selectAllOnFocus />);
       await userEvent.tab();
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
+      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
       expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(type)}`);
     });
@@ -328,13 +342,17 @@ describe('<Input />', () => {
 
     fireEvent.focus(screen.getByRole('textbox'));
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
 
     await userEvent.click(screen.getByRole('button'));
     fireEvent.focus(screen.getByRole('textbox'));
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
+    // eslint-disable-next-line testing-library/no-node-access
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
     expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType)}`);
   });
