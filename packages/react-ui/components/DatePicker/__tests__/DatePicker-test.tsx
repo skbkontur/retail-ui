@@ -3,7 +3,7 @@ import { render, screen, waitFor, within, fireEvent } from '@testing-library/rea
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { CalendarDataTids } from '../../../components/Calendar';
+import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../../components/Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
@@ -100,15 +100,17 @@ describe('DatePicker', () => {
   });
 
   it('renders day cells with renderItem prop', async () => {
-    const CustomDayItem: React.FC<{ date: string }> = ({ date }) => (
-      <span data-tid="customDayItem">{date === '02.07.2017' ? 'Custom' : date}</span>
-    );
+    const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
+      const { date, month, year } = props.date;
+      const isCustom = date === 2 && month === 6 && year === 2017;
+      return (
+        <CalendarDay {...props}>
+          <span data-tid="customDayItem">{isCustom ? 'Custom' : date}</span>
+        </CalendarDay>
+      );
+    };
     render(
-      <DatePicker
-        value="02.07.2017"
-        onValueChange={jest.fn()}
-        renderDay={(date: string): React.ReactNode => <CustomDayItem date={date} />}
-      />,
+      <DatePicker value="02.07.2017" onValueChange={jest.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
     );
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 

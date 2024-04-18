@@ -69,9 +69,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  todayCaption() {
+  todayCaption2022(t: Theme) {
     return css`
       padding-bottom: 2px;
+      border-bottom: ${t.calendarCellTodayBorder};
     `;
   },
 });

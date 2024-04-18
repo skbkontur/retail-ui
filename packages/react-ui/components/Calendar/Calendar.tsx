@@ -26,6 +26,7 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
+import { CalendarDayProps } from './CalendarDay';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -76,7 +77,7 @@ export interface CalendarProps extends CommonProps {
    *
    * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
    */
-  renderDay?: (date: string) => React.ReactNode;
+  renderDay?: (props: CalendarDayProps) => React.ReactElement;
 
   /**
    * Вызывается при каждом изменении месяца
@@ -369,21 +370,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         onDateClick={this.handleDateChange}
         onMonthYearChange={this.handleMonthYearChange}
         isHoliday={this.isHoliday}
-        renderDay={this.renderDay}
+        renderDay={this.props.renderDay}
       />
     );
   }
-
-  private renderDay = ({ date, month, year }: CalendarDateShape): React.ReactNode => {
-    const dateString = InternalDateTransformer.dateToInternalString({
-      date,
-      month: CalendarUtils.getMonthInHumanFormat(month),
-      year,
-    });
-    const { renderDay } = this.getProps();
-
-    return renderDay ? renderDay(dateString) : date;
-  };
 
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({

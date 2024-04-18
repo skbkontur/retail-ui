@@ -14,6 +14,7 @@ import { DayCellView } from './DayCellView';
 import { styles as cellStyles } from './DayCellView.styles';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { styles } from './MonthView.styles';
+import type { CalendarProps } from './Calendar';
 
 interface MonthProps {
   top: number;
@@ -25,10 +26,10 @@ interface MonthProps {
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderDay?: (date: CDS.CalendarDateShape) => React.ReactNode;
+  renderDay?: CalendarProps['renderDay'];
 }
 
-type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday' | 'renderItem'>>;
+type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
@@ -104,7 +105,7 @@ export class Month extends React.Component<MonthProps> {
         value={this.props.value}
         onDateClick={this.props.onDateClick}
         isHoliday={this.props.isHoliday}
-        renderItem={this.props.renderDay}
+        renderDay={this.props.renderDay}
       />
     );
   }
@@ -146,7 +147,7 @@ interface MonthDayGridProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-  renderItem: (date: CDS.CalendarDateShape) => React.ReactNode;
+  renderDay?: CalendarProps['renderDay'];
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
@@ -154,7 +155,6 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public static defaultProps: DefaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
-    renderItem: (date: CDS.CalendarDateShape) => date.date,
   };
 
   private getProps = createPropsGetter(MonthDayGrid.defaultProps);
@@ -207,7 +207,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
           value={this.props.value}
           isWeekend={isWeekend}
           onDateClick={this.props.onDateClick}
-          renderItem={this.props.renderItem}
+          renderDay={this.props.renderDay}
         />
       );
     });

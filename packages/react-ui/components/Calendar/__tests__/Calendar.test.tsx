@@ -9,6 +9,7 @@ import { Calendar } from '../Calendar';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { CalendarDataTids } from '..';
 import { CalendarLocaleHelper } from '../locale';
+import { CalendarDay, CalendarDayProps } from '../CalendarDay';
 
 describe('Calendar', () => {
   it('renders', () => {
@@ -48,18 +49,21 @@ describe('Calendar', () => {
   });
 
   it('renders day cells with renderDay prop', async () => {
-    const CustomDayItem: React.FC<{ date: string }> = ({ date }) => (
-      <span data-tid="customDayItem">{date === '02.07.2017' ? 'Custom' : date}</span>
-    );
+    const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
+      const { date, month, year } = props.date;
+      const isCustom = date === 2 && month === 6 && year === 2017;
+      return (
+        <CalendarDay {...props}>
+          <span data-tid="customDayItem">{isCustom ? 'Custom' : date}</span>
+        </CalendarDay>
+      );
+    };
     render(
-      <Calendar
-        value="02.07.2017"
-        onValueChange={jest.fn()}
-        renderDay={(date: string): React.ReactNode => <CustomDayItem date={date} />}
-      />,
+      <Calendar value="02.07.2017" onValueChange={jest.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
     );
 
-    expect(screen.getAllByTestId('customDayItem')[0]).toBeInTheDocument();
+    expect(screen.getAllByTestId('customDayItem')).not.toHaveLength(0);
+    expect(screen.getByText('Custom')).toBeInTheDocument();
   });
 
   it('onMonthChange returns correct month', async () => {

@@ -6,6 +6,7 @@ import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { CalendarMonthChangeInfo } from '../';
+import { CalendarDay, CalendarDayProps } from '../CalendarDay';
 
 export default { title: 'Calendar' };
 
@@ -25,15 +26,15 @@ CalendarWithBottomSeparator.parameters = {
   },
 };
 
-const CustomDayItem: React.FC<{ date: string }> = ({ date }) => {
+const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
   const isEven = (num: number): boolean => num % 2 === 0;
-  const [day] = date.split('.').map(Number);
+  const { date: day } = props.date;
 
-  return <div>{isEven(day) ? '#' : day}</div>;
+  return <CalendarDay {...props}>{isEven(day) ? '#' : day}</CalendarDay>;
 };
 
 export const CalendarWithCustomDates: Story = () => {
-  return <Calendar value={'12.05.2022'} renderDay={(date) => <CustomDayItem date={date} />} />;
+  return <Calendar value={'12.05.2022'} renderDay={(props) => <CustomDayItem {...props} />} />;
 };
 
 CalendarWithCustomDates.parameters = {
@@ -64,10 +65,11 @@ CalendarWithCustomCellSize.parameters = {
   },
 };
 
-const CustomDay: React.FC<{ date: string }> = ({ date }) => {
-  const [day, month, year] = date.split('.').map(Number);
-  const isCustomDate = day === 2 && month === 1 && year === 2018;
-  return isCustomDate ? <div data-tid="CustomDayItem">{day}</div> : <div>{day}</div>;
+const CustomDay: React.FC<CalendarDayProps> = (props) => {
+  const { date: day, month, year } = props.date;
+  const isCustomDate = day === 2 && month === 0 && year === 2018;
+
+  return <CalendarDay {...props} data-tid={isCustomDate ? 'CustomDayItem' : 'OriginalDayItem'} />;
 };
 
 export const CalendarWithMonthChangeHandle: Story = () => {
@@ -97,7 +99,7 @@ export const CalendarWithMonthChangeHandle: Story = () => {
         value={value}
         onValueChange={setValue}
         onMonthChange={onMonthChange}
-        renderDay={(date) => <CustomDay date={date} />}
+        renderDay={(props) => <CustomDay {...props} />}
       />
       <div style={containerWithInfoStyle}>
         <div style={containersStyle}>
