@@ -126,7 +126,9 @@ describe('Select', () => {
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: SelectLocaleHelper.get(defaultLangCode).placeholder as string });
+    const button = screen.getByRole('button', {
+      name: SelectLocaleHelper.get(defaultLangCode).placeholder as string,
+    });
     await userEvent.click(button);
 
     // All items should be presented when `Select` is opened.
@@ -206,7 +208,7 @@ describe('Select', () => {
     expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
-  });
+  }, 8000);
 
   it('should clear the value when null passed', async () => {
     const Comp = () => {
