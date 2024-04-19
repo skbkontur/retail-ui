@@ -17,7 +17,7 @@ import { ComboBox } from '../ComboBox';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { delay, clickOutside } from '../../../lib/utils';
+import { clickOutside, delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
@@ -416,7 +416,7 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === 'true')).toBeFalsy();
+    expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toBeFalsy();
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -430,7 +430,6 @@ describe('ComboBox', () => {
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
     expect(menuItems.find((element) => element.hasAttribute('data-visual-state-hover'))).toHaveAttribute(
       'data-visual-state-hover',
-      'true',
     );
   });
 

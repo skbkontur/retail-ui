@@ -9,7 +9,7 @@ describe('getCommonVisualStateDataAttributes', () => {
     expect(
       getCommonVisualStateDataAttributes({ skip: true, error: true, warning: false, disabled: true }),
     ).toStrictEqual({
-      'data-visual-state-error': true,
+      'data-visual-state-error': '',
     });
   });
 });

@@ -25,8 +25,8 @@ describe('CommonWrapper', () => {
     expect(element).toHaveStyle('padding: 10px;');
     expect(element).toHaveAttribute('data-tid', 'CommonWrapper');
     expect(element).toHaveAttribute('data-selected', 'true');
-    expect(element).toHaveAttribute('data-visual-state-error', 'true');
-    expect(element).toHaveAttribute('data-visual-state-warning', 'true');
+    expect(element).toHaveAttribute('data-visual-state-error');
+    expect(element).toHaveAttribute('data-visual-state-warning');
     expect(element).not.toHaveAttribute('data-visual-state-disabled');
     expect(element).not.toHaveAttribute('data-visual-state-hover');
   });

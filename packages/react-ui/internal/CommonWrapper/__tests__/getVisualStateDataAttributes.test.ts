@@ -14,7 +14,7 @@ describe('getVisualStateDataAttributes', () => {
         attributeBooleanTrue: true,
       }),
     ).toStrictEqual({
-      'data-visual-state-attribute-boolean-true': true,
+      'data-visual-state-attribute-boolean-true': '',
     });
   });
 });
