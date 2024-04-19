@@ -23,7 +23,7 @@ import { MaskedInput } from '../MaskedInput';
 
 export default { title: 'Focus' } as Meta;
 
-const skip: SkipOptions = { 'do not pass on teamcity': { in: /firefox/ } };
+const skip: SkipOptions = { 'chrome only': { in: /^(?!\bchrome2022\b)/ } };
 
 const DELAY = 1500;
 const Header: FC<PropsWithChildren<any>> = ({ children }) => <h1 style={{ margin: 10 }}>{children}</h1>;
