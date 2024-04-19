@@ -78,7 +78,7 @@ interface ComboBoxViewProps<T>
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;

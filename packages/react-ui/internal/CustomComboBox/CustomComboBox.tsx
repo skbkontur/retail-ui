@@ -66,7 +66,7 @@ export interface CustomComboBoxProps<T>
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
