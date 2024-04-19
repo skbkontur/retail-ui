@@ -43,7 +43,12 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       setHeight(clientHeight);
     }, [textarea]);
     useImperativeHandle(ref, () => ({ reflow }), [reflow]);
-    const renderTooltipContent = useCallback(() => help, [help]);
+    const renderTooltipContent = useCallback(() => {
+      if (typeof help === 'function') {
+        return help();
+      }
+      return help;
+    }, [help]);
     const textareaValue = value ? value.toString().length : 0;
     const counterValue = length - textareaValue;
 
@@ -60,7 +65,6 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     const counterHelp = isFunction(help) ? (
       help()
     ) : (
-      // @ts-expect-error message
       <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
         {helpIcon}
       </Tooltip>
