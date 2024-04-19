@@ -471,6 +471,13 @@ describe('Select', () => {
       expect(screen.getByRole('button', { name: itemsObject.seventh })).toBeInTheDocument();
       expect(screen.getByText(itemsObject.eighth)).toBeInTheDocument();
       expect(screen.getByRole('button', { name: itemsObject.ninth })).toBeInTheDocument();
+    });
+    it('should correctly filter items on input change (more cases)', async () => {
+      const button = screen.getByRole('button', {
+        name: SelectLocaleHelper.get(defaultLangCode).placeholder as string,
+      });
+      await userEvent.click(button);
+      const input = screen.getByRole('textbox');
 
       await userEvent.type(input, 's');
       // After entering 's' only `second` and `seventh` items should be presented.
