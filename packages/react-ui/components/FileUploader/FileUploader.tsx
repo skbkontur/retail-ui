@@ -194,8 +194,10 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
       }
 
       const { dataTransfer } = event;
-      if (dataTransfer && dataTransfer.files?.length > 0) {
-        handleChange(dataTransfer.files);
+      if (dataTransfer) {
+        if (dataTransfer.files?.length > 0) {
+          handleChange(dataTransfer.files);
+        }
         dataTransfer.clearData();
       }
     },

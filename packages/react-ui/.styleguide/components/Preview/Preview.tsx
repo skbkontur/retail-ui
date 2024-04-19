@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { createRoot } from 'react-dom/client';
 import PlaygroundError from 'react-styleguidist/lib/client/rsg-components/PlaygroundError';

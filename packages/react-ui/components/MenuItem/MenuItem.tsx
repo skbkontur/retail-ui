@@ -279,7 +279,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  private renderMain = (props: CommonWrapperRestProps<MenuItemProps & { children: any }>) => {
+  private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
     const {
       link,
       comment,

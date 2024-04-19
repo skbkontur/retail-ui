@@ -197,8 +197,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {/*@ts-expect-error message*/}
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );

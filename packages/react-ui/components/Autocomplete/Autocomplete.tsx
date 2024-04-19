@@ -201,8 +201,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           this.theme = getAutocompleteTheme(theme);
           return (
             <ThemeContext.Provider value={this.theme}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                {this.renderMain(this.props)}
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                {this.renderMain}
               </CommonWrapper>
             </ThemeContext.Provider>
           );

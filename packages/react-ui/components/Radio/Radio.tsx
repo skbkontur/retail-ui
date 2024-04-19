@@ -145,8 +145,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {/*@ts-expect-error message*/}
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );

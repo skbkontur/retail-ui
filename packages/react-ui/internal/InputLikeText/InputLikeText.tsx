@@ -14,7 +14,7 @@ import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
@@ -148,8 +148,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain(this.props)}
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
             </CommonWrapper>
           );
         }}
@@ -157,7 +157,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   }
 
-  private renderMain = (props: InputLikeTextProps) => {
+  private renderMain = (props: CommonWrapperRestProps<InputLikeTextProps>) => {
     const {
       innerRef,
       tabIndex,
@@ -458,7 +458,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }
 
-    ReactDOM.flushSync(() => this.setState({ focused: true }));
+    // Auto-batching React@18 creates problems that are fixed with flushSync
+    // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
+    if (React.version.search('18') === 0) {
+      ReactDOM.flushSync(() => this.setState({ focused: true }));
+    } else {
+      this.setState({ focused: true });
+    }
 
     if (this.props.onFocus) {
       this.props.onFocus(e);
