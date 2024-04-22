@@ -21,9 +21,7 @@ export const useUpload = (
 
   const switchToSuccess = useCallback(
     (fileId: string) => {
-      ReactDOM.flushSync(() => {
-        setFileStatus(fileId, FileUploaderFileStatus.Uploaded);
-      });
+      setFileStatus(fileId, FileUploaderFileStatus.Uploaded);
       onRequestSuccess?.(fileId);
     },
     [setFileStatus, onRequestSuccess],
@@ -40,8 +38,9 @@ export const useUpload = (
   return useCallback(
     async (file: FileUploaderAttachedFile) => {
       const { id } = file;
-      switchToLoading(id);
-
+      ReactDOM.flushSync(() => {
+        switchToLoading(id);
+      });
       try {
         await request?.(file);
         switchToSuccess(id);
