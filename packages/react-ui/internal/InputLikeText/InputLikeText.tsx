@@ -10,14 +10,14 @@ import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
+import { InputIconType, InputProps, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
-import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
@@ -445,7 +445,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
     if (isMobile) {
-      e.target.setAttribute('contenteditable', 'true');
+      this.node?.setAttribute('contenteditable', 'true');
     }
 
     if (this.props.disabled) {
@@ -476,6 +476,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private resetFocus = () => {
+    this.selectNodeContentsDebounced.cancel();
+    if (isMobile) {
+      this.node?.removeAttribute('contenteditable');
+    }
+    if ((isIE11 || isEdge) && this.frozenBlur) {
+      this.frozenBlur = false;
+    }
     removeAllSelections();
     this.setState({ focused: false });
   };
@@ -483,7 +490,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     this.selectNodeContentsDebounced.cancel();
     if (isMobile) {
-      e.target.removeAttribute('contenteditable');
+      this.node?.removeAttribute('contenteditable');
     }
 
     if (this.props.disabled) {
@@ -499,7 +506,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return;
     }
 
-    this.resetFocus();
+    removeAllSelections();
+    this.setState({ focused: false });
+
     this.props.onBlur?.(e);
   };
 
