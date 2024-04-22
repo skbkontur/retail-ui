@@ -95,7 +95,7 @@ WithHTMLOverflowYScroll.parameters = { creevey: { tests: testScrollLockUnlock } 
 export const Multiple_WithScrollableContent: Story = () => (
   <>
     <HideBodyVerticalScroll />
-    <WithScrollableContent />
+    {WithScrollableContent}
   </>
 );
 Multiple_WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };

@@ -30,7 +30,7 @@ export default {
     },
   },
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div style={{ height: 150, width: 200, padding: 4 }}>
         <Story />
       </div>

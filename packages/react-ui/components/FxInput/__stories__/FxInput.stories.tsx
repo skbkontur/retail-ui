@@ -116,7 +116,7 @@ interface TestWrapperProps {
   width?: number | string;
   ruler?: boolean;
 }
-class TestWrapper extends React.Component<TestWrapperProps> {
+class TestWrapper extends React.Component<React.PropsWithChildren<TestWrapperProps>> {
   public render() {
     const { width, ruler, children } = this.props;
     const style: React.CSSProperties = {

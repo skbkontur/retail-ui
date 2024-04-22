@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { PopupDataTids } from '../../../internal/Popup';
@@ -27,19 +27,19 @@ describe('<DropdownMenu />', () => {
     expect(renderNoCaption).toThrow();
   });
 
-  it('Contains <Menu /> after clicking on caption', () => {
+  it('Contains <Menu /> after clicking on caption', async () => {
     render(
       <DropdownMenu caption={caption}>
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
     expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
   });
 
-  it("Contains <MenuItem />'s after clicking on caption", () => {
+  it("Contains <MenuItem />'s after clicking on caption", async () => {
     render(
       <DropdownMenu caption={caption}>
         <MenuItem>Test</MenuItem>
@@ -49,12 +49,12 @@ describe('<DropdownMenu />', () => {
     );
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
   });
 
-  it('Click handler on menu item should be called before closing', () => {
+  it('Click handler on menu item should be called before closing', async () => {
     const onClick = jest.fn();
 
     render(
@@ -63,14 +63,14 @@ describe('<DropdownMenu />', () => {
       </DropdownMenu>,
     );
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
-    userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+    await userEvent.click(screen.getByTestId(MenuItemDataTids.root));
     expect(onClick).toHaveBeenCalled();
   });
 
-  it('Fire onOpen and onClose when open and close dropdown', () => {
+  it('Fire onOpen and onClose when open and close dropdown', async () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
     render(
@@ -80,15 +80,15 @@ describe('<DropdownMenu />', () => {
     );
 
     // open
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
     expect(onOpen.mock.calls).toHaveLength(1);
 
     // close
-    userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+    await userEvent.click(screen.getByTestId(MenuItemDataTids.root));
     expect(onClose.mock.calls).toHaveLength(1);
   });
 
-  it('Renders header', () => {
+  it('Renders header', async () => {
     const testHeader = 'testHeader';
     render(
       <DropdownMenu caption={caption} header={<div data-tid={testHeader}>Test header</div>}>
@@ -96,11 +96,11 @@ describe('<DropdownMenu />', () => {
       </DropdownMenu>,
     );
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
     expect(screen.getByTestId(testHeader)).toBeInTheDocument();
   });
 
-  it('Renders footer', () => {
+  it('Renders footer', async () => {
     const testFooter = 'testFooter';
     render(
       <DropdownMenu caption={caption} footer={<div data-tid={testFooter}>Test header</div>}>
@@ -108,7 +108,7 @@ describe('<DropdownMenu />', () => {
       </DropdownMenu>,
     );
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByTestId(testFooter)).toBeInTheDocument();
   });
@@ -121,12 +121,13 @@ describe('<DropdownMenu />', () => {
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
-
-    dropdownMenuRef.current?.open();
+    act(() => {
+      dropdownMenuRef.current?.open();
+    });
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
   });
 
-  it('Public method close() works', () => {
+  it('Public method close() works', async () => {
     const dropdownMenuRef = React.createRef<DropdownMenu>();
 
     render(
@@ -134,20 +135,22 @@ describe('<DropdownMenu />', () => {
         <MenuItem>Test</MenuItem>
       </DropdownMenu>,
     );
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
-    dropdownMenuRef.current?.close();
+    act(() => {
+      dropdownMenuRef.current?.close();
+    });
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('prop `popupMenuId` sets an `id` for root of the popup', () => {
+  it('prop `popupMenuId` sets an `id` for root of the popup', async () => {
     const menuId = 'menu';
     render(
       <DropdownMenu caption={<button>test</button>} popupMenuId={menuId}>
         <p>test</p>
       </DropdownMenu>,
     );
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
@@ -179,17 +182,17 @@ describe('<DropdownMenu />', () => {
         ),
       );
       it("doesn't highlight a not selectable MenuItem", async () => {
-        userEvent.click(screen.getByTestId(captionDatatid));
-        userEvent.keyboard('{arrowdown}');
-        userEvent.keyboard('{arrowdown}');
+        await userEvent.click(screen.getByTestId(captionDatatid));
+        await userEvent.keyboard('{arrowdown}');
+        await userEvent.keyboard('{arrowdown}');
         await delay(0);
         expect(screen.getByTestId('menuItem2')).not.toHaveAttribute('state', 'hover');
         expect(screen.getByTestId('menuItem3')).toHaveAttribute('state', 'hover');
       });
 
       it("doesn't click on a not selectable MenuItem", async () => {
-        userEvent.click(screen.getByTestId(captionDatatid));
-        userEvent.click(screen.getByTestId('menuItem2'));
+        await userEvent.click(screen.getByTestId(captionDatatid));
+        await userEvent.click(screen.getByTestId('menuItem2'));
         await delay(0);
         expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       });

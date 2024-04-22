@@ -19,7 +19,7 @@ import { delay } from '../../../lib/utils';
 export default {
   title: 'DropdownMenu',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: '20px 120px 150px',

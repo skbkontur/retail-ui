@@ -27,14 +27,16 @@ const wrapperStyle = {
   border: '1px solid #000',
 };
 
-const DynamicContent: React.FC<{
-  state: ScrollContainerScrollStateY | ScrollContainerScrollStateX;
-  scroll: (percentage: number) => void;
-  add: () => void;
-  remove: () => void;
-  onChangeScrollYState?: (x: ScrollContainerScrollStateY) => void;
-  onChangeScrollXState?: (x: ScrollContainerScrollStateX) => void;
-}> = ({ children, state, scroll, add, remove, onChangeScrollXState, onChangeScrollYState }) => {
+const DynamicContent: React.FC<
+  React.PropsWithChildren<{
+    state: ScrollContainerScrollStateY | ScrollContainerScrollStateX;
+    scroll: (percentage: number) => void;
+    add: () => void;
+    remove: () => void;
+    onChangeScrollYState?: (x: ScrollContainerScrollStateY) => void;
+    onChangeScrollXState?: (x: ScrollContainerScrollStateX) => void;
+  }>
+> = ({ children, state, scroll, add, remove, onChangeScrollXState, onChangeScrollYState }) => {
   return (
     <Gapped verticalAlign="top">
       <div id="test-container" style={{ padding: 10 }}>

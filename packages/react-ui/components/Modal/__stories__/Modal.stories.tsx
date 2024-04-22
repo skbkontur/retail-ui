@@ -347,7 +347,7 @@ interface ModalWithVariableHeightState {
   opened: boolean;
   panel: boolean;
 }
-class ModalWithVariableHeight extends React.Component {
+class ModalWithVariableHeight extends React.Component<React.PropsWithChildren> {
   public state: ModalWithVariableHeightState = {
     opened: false,
     panel: false,

@@ -268,7 +268,7 @@ const defaultRenderToken = <T extends AnyObject>(
     disabled={disabled}
     size={size}
   >
-    {item}
+    {item.toString()}
   </Token>
 );
 

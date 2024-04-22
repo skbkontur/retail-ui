@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import { configure } from '@testing-library/dom';
 import React from 'react';
 import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 
 configure({
   testIdAttribute: 'data-tid',

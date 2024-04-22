@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PlaygroundError from 'react-styleguidist/lib/client/rsg-components/PlaygroundError';
 import ReactExample from 'react-styleguidist/lib/client/rsg-components/ReactExample';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
@@ -72,7 +72,8 @@ const Preview = withContext(
 
     public unmountPreview() {
       if (this.mountNode) {
-        ReactDOM.unmountComponentAtNode(this.mountNode);
+        const root = createRoot(this.mountNode);
+        root.unmount();
       }
     }
 
@@ -100,7 +101,8 @@ const Preview = withContext(
       window.requestAnimationFrame(() => {
         // this.unmountPreview();
         try {
-          ReactDOM.render(wrappedComponent, this.mountNode);
+          const root = createRoot(this.mountNode);
+          root.render(wrappedComponent);
         } catch (err) {
           this.handleError(err as Error);
         }

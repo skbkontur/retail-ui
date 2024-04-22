@@ -11,7 +11,7 @@ export default {
   title: 'Menu',
   parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div id="menu-test-container" style={{ padding: 10 }}>
         <Story />
       </div>
@@ -219,7 +219,7 @@ WithDisabledMenuItem.parameters = {
   },
 };
 
-class MoveControls extends React.Component {
+class MoveControls extends React.Component<React.PropsWithChildren> {
   private menu: Menu | null = null;
 
   public render() {

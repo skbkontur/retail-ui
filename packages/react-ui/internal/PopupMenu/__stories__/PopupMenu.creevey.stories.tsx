@@ -11,7 +11,7 @@ import { Button } from '../../../components/Button';
 export default {
   title: 'PopupMenu/Functional tests',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: 200,

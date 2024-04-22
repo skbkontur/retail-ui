@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 
 import { getRootNode } from './getRootNode';
 
-export type TSetRootNode = (e: Nullable<React.ReactNode>) => void;
+export type TSetRootNode = (e: Nullable<React.ReactInstance>) => void;
 
 export interface TRootNodeSubscription {
   remove: () => void;

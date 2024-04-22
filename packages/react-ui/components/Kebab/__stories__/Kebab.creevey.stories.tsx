@@ -11,7 +11,7 @@ import { Kebab } from '../Kebab';
 export default {
   title: 'Kebab/Functional tests',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: '180px 0',

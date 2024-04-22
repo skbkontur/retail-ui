@@ -13,43 +13,43 @@ describe('Toggle', () => {
     expect(toggle).toHaveFocus();
   });
 
-  it('handels onValueChange event', () => {
+  it('handels onValueChange event', async () => {
     const onValueChange = jest.fn();
 
     render(<Toggle onValueChange={onValueChange}>Toggle</Toggle>);
 
     const toggle = screen.getByRole('switch', { name: 'Toggle' });
-    userEvent.click(toggle);
+    await userEvent.click(toggle);
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onChange event', () => {
+  it('handels onChange event', async () => {
     const onChange = jest.fn();
 
     render(<Toggle onChange={onChange}>Toggle</Toggle>);
 
     const toggle = screen.getByRole('switch', { name: 'Toggle' });
-    userEvent.click(toggle);
+    await userEvent.click(toggle);
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', () => {
+  it('handels onFocus event', async () => {
     const onFocus = jest.fn();
 
     render(<Toggle onFocus={onFocus}>Toggle</Toggle>);
 
     const toggle = screen.getByRole('switch', { name: 'Toggle' });
-    userEvent.click(toggle);
+    await userEvent.click(toggle);
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onBlur event', () => {
+  it('handels onBlur event', async () => {
     const onBlur = jest.fn();
 
     render(<Toggle onBlur={onBlur}>Toggle</Toggle>);
 
     const toggle = screen.getByRole('switch', { name: 'Toggle' });
-    userEvent.click(toggle);
+    await userEvent.click(toggle);
 
     expect(toggle).toHaveFocus();
 

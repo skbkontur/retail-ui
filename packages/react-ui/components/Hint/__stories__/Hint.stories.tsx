@@ -15,7 +15,7 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 export default {
   title: 'Hint',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div style={{ padding: '100px 300px' }}>
         <Story />
       </div>

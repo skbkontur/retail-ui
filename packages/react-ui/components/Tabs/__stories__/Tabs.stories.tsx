@@ -166,7 +166,7 @@ interface UnexpectedUpdatedTabProps {
   id: string;
 }
 
-class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps> {
+class UnexpectedUpdatedTab extends React.Component<React.PropsWithChildren<UnexpectedUpdatedTabProps>> {
   public state = {
     updated: false,
   };

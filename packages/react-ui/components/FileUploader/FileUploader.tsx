@@ -188,16 +188,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   );
 
   const handleDrop = useCallback(
-    (event) => {
+    (event: DragEvent) => {
       if (disabled) {
         return;
       }
 
       const { dataTransfer } = event;
-      const { files } = dataTransfer;
-
-      if (files?.length > 0) {
-        handleChange(files);
+      if (dataTransfer) {
+        if (dataTransfer.files?.length > 0) {
+          handleChange(dataTransfer.files);
+        }
         dataTransfer.clearData();
       }
     },

@@ -126,7 +126,7 @@ describe('<Autocomplete />', () => {
     expect(screen.getByPlaceholderText('SomePlaceholder')).toBeInTheDocument();
   });
 
-  it('passes maxLength prop to input and it works', () => {
+  it('passes maxLength prop to input and it works', async () => {
     const Comp = () => {
       const [value, setValue] = useState('');
 
@@ -142,26 +142,26 @@ describe('<Autocomplete />', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
 
-    userEvent.type(input, '123456');
+    await userEvent.type(input, '123456');
     expect(input).toHaveValue('12345');
   });
 
   it('passes leftIcon prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
-    const leftIcon = <OkIcon className="my-testy-icon" />;
+    const leftIcon = <OkIcon data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, leftIcon };
     render(<Autocomplete {...props} />);
-    expect(document.querySelector('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
   it('passes rightIcon prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
-    const rightIcon = <OkIcon className="my-testy-icon" />;
+    const rightIcon = <OkIcon data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, rightIcon };
     render(<Autocomplete {...props} />);
-    expect(document.querySelector('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
   it('passes id prop to input', () => {
@@ -219,36 +219,37 @@ describe('<Autocomplete />', () => {
     expect(onCut).toHaveBeenCalledTimes(1);
   });
 
-  it('passes onInput prop to input', () => {
+  it('passes onInput prop to input', async () => {
     const onInput = jest.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onInput };
     render(<Autocomplete {...props} />);
 
-    userEvent.type(screen.getByRole('textbox'), 'a');
+    await userEvent.type(screen.getByRole('textbox'), 'a');
     expect(onInput).toHaveBeenCalledTimes(1);
   });
 
-  it('passes onKeyUp prop to input', () => {
+  it('passes onKeyUp prop to input', async () => {
     const onKeyUp = jest.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onKeyUp };
     render(<Autocomplete {...props} />);
 
-    userEvent.type(screen.getByRole('textbox'), 'a');
+    await userEvent.type(screen.getByRole('textbox'), 'a');
     expect(onKeyUp).toHaveBeenCalledTimes(1);
   });
 
-  it('passes onPaste prop to input', () => {
+  it('passes onPaste prop to input', async () => {
     const onPaste = jest.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onPaste };
     render(<Autocomplete {...props} />);
 
-    userEvent.paste(screen.getByRole('textbox'), 'text');
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.paste('text');
     expect(onPaste).toHaveBeenCalledTimes(1);
   });
 
@@ -285,21 +286,21 @@ describe('<Autocomplete />', () => {
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it('handles onKeyDown prop', () => {
+  it('handles onKeyDown prop', async () => {
     const onValueChange = () => undefined;
     const onKeyDown = jest.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onKeyDown };
 
     render(<Autocomplete {...props} />);
-    userEvent.type(screen.getByRole('textbox'), 'a');
+    await userEvent.type(screen.getByRole('textbox'), 'a');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
     const [event] = onKeyDown.mock.calls[0];
     expect(event.key).toBe('a');
   });
 
-  it('should clear the value when an empty string passed', () => {
+  it('should clear the value when an empty string passed', async () => {
     const Comp = () => {
       const [value, setValue] = useState('');
 
@@ -316,13 +317,13 @@ describe('<Autocomplete />', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'abc');
+    await userEvent.type(input, 'abc');
     expect(input).toHaveValue('abc');
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'a');
+    await userEvent.type(input, 'a');
     expect(input).toHaveValue('a');
   });
 
@@ -357,7 +358,7 @@ describe('<Autocomplete />', () => {
       render(<Comp />);
 
       const input = screen.getByTestId(InputDataTids.root);
-      userEvent.type(input, 'one');
+      await userEvent.type(input, 'one');
 
       expect(input).toHaveAttribute('aria-controls', expect.stringContaining(AutocompleteIds.menu));
       await waitFor(() => {

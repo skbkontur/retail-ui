@@ -1373,7 +1373,7 @@ export const WithExtendedItem: Story = () => {
         }
         renderItem={(item, state) => <RenderItem {...{ ...item, state }} />}
         itemWrapper={(item) =>
-          function itemWrapper(props) {
+          function itemWrapper(props: React.PropsWithChildren) {
             const isJust2Items = item.id === 5 || item.id === 6;
             return <button {...props}>{isJust2Items ? props.children : <ItemWrapper {...item} />}</button>;
           }

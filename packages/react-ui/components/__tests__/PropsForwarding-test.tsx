@@ -1,7 +1,8 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import { act } from '@testing-library/react';
 
-import { AnyObject } from '../../lib/utils';
+import { AnyObject, delay } from '../../lib/utils';
 import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
@@ -68,7 +69,9 @@ describe('Props Forwarding', () => {
           wrapper.update();
           return wrapper.getDOMNode();
         case 'Toast':
-          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
+          act(() => {
+            (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
+          });
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
         case 'GlobalLoader':
@@ -82,7 +85,7 @@ describe('Props Forwarding', () => {
 
     it.each<[string, ReactWrapper]>(PUBLIC_COMPONENTS.map((name) => [name, createWrapper(name)]))(
       '%s',
-      (compName, wrapper) => {
+      async (compName, wrapper) => {
         const props = {
           'data-tid': 'my-data-tid',
           'data-testid': 'my-data-testid',
@@ -93,7 +96,7 @@ describe('Props Forwarding', () => {
           },
         };
         wrapper.setProps(props);
-
+        await delay(0);
         const wrapperNode = getTestDOMNode(compName, wrapper);
 
         expect(wrapperNode).toHaveAttribute('data-tid', props['data-tid']);
