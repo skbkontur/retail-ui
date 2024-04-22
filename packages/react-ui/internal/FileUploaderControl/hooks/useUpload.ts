@@ -1,4 +1,5 @@
 import { useCallback, useContext } from 'react';
+import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../../typings/utility-types';
 import { FileUploaderAttachedFile, FileUploaderFileStatus } from '../fileUtils';
@@ -20,7 +21,9 @@ export const useUpload = (
 
   const switchToSuccess = useCallback(
     (fileId: string) => {
-      setFileStatus(fileId, FileUploaderFileStatus.Uploaded);
+      ReactDOM.flushSync(() => {
+        setFileStatus(fileId, FileUploaderFileStatus.Uploaded);
+      });
       onRequestSuccess?.(fileId);
     },
     [setFileStatus, onRequestSuccess],
