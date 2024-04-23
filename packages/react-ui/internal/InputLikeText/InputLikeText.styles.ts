@@ -6,11 +6,32 @@ export const styles = memoizeStyle({
       padding-right: 10px;
     `;
   },
+  rootMultiline() {
+    return css`
+      align-items: flex-start;
+      height: auto;
+    `;
+  },
 
   absolute() {
     return css`
       position: absolute;
       top: 0;
+    `;
+  },
+
+  multiline() {
+    return css`
+      overflow-wrap: anywhere;
+      white-space: normal;
+    `;
+  },
+
+  wrapperMultiline() {
+    return css`
+      overflow-wrap: anywhere;
+      white-space: normal;
+      overflow: visible;
     `;
   },
 

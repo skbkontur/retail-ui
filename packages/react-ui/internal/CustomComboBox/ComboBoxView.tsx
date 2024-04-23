@@ -13,14 +13,15 @@ import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
-import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
+import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -85,9 +86,10 @@ interface ComboBoxViewProps<T>
   renderAddButton?: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
-  refInput?: (input: Nullable<Input>) => void;
+  refInput?: (input: Nullable<Input | InternalTextareaWithLayout>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
+  viewMode?: ComboBoxViewMode;
 }
 
 type DefaultProps<T> = Required<
@@ -133,7 +135,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
 
-  private input: Nullable<Input>;
+  private input: Nullable<Input | InternalTextareaWithLayout>;
   private setRootNode!: TSetRootNode;
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
@@ -311,33 +313,42 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     const rightIcon = this.getRightIcon();
 
+    const editingStateProps = {
+      align,
+      borderless,
+      disabled,
+      error,
+      maxLength: this.props.maxLength,
+      onBlur: isMobile ? undefined : onInputBlur,
+      onValueChange: onInputValueChange,
+      onFocus: onInputFocus,
+      onClick: isMobile ? this.handleMobileFocus : onInputClick,
+      leftIcon,
+      rightIcon,
+      value: textValue || '',
+      onKeyDown: onInputKeyDown,
+      placeholder,
+      width: '100%',
+      size,
+      ref: this.refInput,
+      warning,
+      inputMode,
+      'aria-describedby': ariaDescribedby,
+      'aria-controls': this.menuId,
+      'aria-label': ariaLabel,
+    };
+
+    const multilineTextareaProps = {
+      autoResize: true,
+      rows: 1,
+      extraRow: false,
+    };
+
     if (editing) {
-      return (
-        <Input
-          align={align}
-          borderless={borderless}
-          disabled={disabled}
-          error={error}
-          maxLength={this.props.maxLength}
-          onBlur={isMobile ? undefined : onInputBlur}
-          onValueChange={onInputValueChange}
-          onFocus={onInputFocus}
-          onClick={isMobile ? this.handleMobileFocus : onInputClick}
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
-          value={textValue || ''}
-          onKeyDown={onInputKeyDown}
-          placeholder={placeholder}
-          width="100%"
-          size={size}
-          ref={this.refInput}
-          warning={warning}
-          inputMode={inputMode}
-          aria-describedby={ariaDescribedby}
-          aria-controls={this.menuId}
-          aria-label={ariaLabel}
-        />
-      );
+      if (this.props.viewMode === 'multiline' || this.props.viewMode === 'multilineEditing') {
+        return <InternalTextareaWithLayout {...editingStateProps} {...multilineTextareaProps} />;
+      }
+      return <Input {...editingStateProps} />;
     }
 
     return (
@@ -356,6 +367,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
+        isMultiline={this.props.viewMode === 'multiline'}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
@@ -378,7 +390,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   };
 
-  private refInput = (input: Nullable<Input>) => {
+  private refInput = (input: Nullable<Input | InternalTextareaWithLayout>) => {
     if (this.props.refInput) {
       this.props.refInput(input);
     }
