@@ -44,6 +44,7 @@ module.exports = async ({ config }) => {
             modules: {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
+              namedExport: false,
             },
           },
         },
