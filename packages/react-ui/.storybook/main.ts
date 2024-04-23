@@ -1,6 +1,7 @@
-const path = require('path');
-
 module.exports = {
+  core: {
+    builder: 'webpack5',
+  },
   addons: [
     'creevey',
     'creevey/preset/ie11',
@@ -17,20 +18,5 @@ module.exports = {
   stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
   typescript: {
     reactDocgen: 'none',
-  },
-  features: {
-    postcss: false,
-  },
-  managerWebpack: (config) => {
-    config.module.rules.push({
-      test: /@remix-run|react-router/,
-      loader: 'babel-loader',
-      options: {
-        babelrc: false,
-        envName: 'cjs',
-        extends: path.join(__dirname, '../.babelrc.js'),
-      },
-    });
-    return config;
   },
 };

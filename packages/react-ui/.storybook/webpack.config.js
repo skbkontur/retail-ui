@@ -31,7 +31,7 @@ module.exports = async ({ config, mode }) => {
     },
     {
       test: /\.css$/,
-      loaders: [
+      use: [
         'style-loader',
         {
           loader: 'dts-css-modules-loader',
