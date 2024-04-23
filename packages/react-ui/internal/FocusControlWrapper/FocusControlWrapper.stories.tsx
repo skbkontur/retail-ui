@@ -1,15 +1,10 @@
 import React, { CSSProperties, FC, FormEvent, PropsWithChildren, useCallback, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import type { Meta } from '@storybook/react';
-import type { SkipOptions } from 'creevey';
 
 import type { Story } from '../../typings/stories';
 
-import { FocusControlWrapper } from './FocusControlWrapper';
-
 export default { title: 'FocusControlWrapper' } as Meta;
-
-const skip: SkipOptions = { 'chrome only': { in: /^(?!\bchrome2022\b)/ } };
 
 const Header: FC<PropsWithChildren<any>> = ({ children }) => <h1 style={{ margin: 10 }}>{children}</h1>;
 const Wrapper: FC<PropsWithChildren<any>> = ({ children }) => (
@@ -52,13 +47,8 @@ const BrokenInput = ({ disabled }: { disabled?: boolean }) => {
 
   const handleBlur = (event: React.FocusEvent) => setFocus(false);
   const handleFocus = (event: React.FocusEvent) => setFocus(true);
-  const handleResetFocus = () => setFocus(false);
 
-  return (
-    <FocusControlWrapper onBlurWhenDisabled={handleResetFocus}>
-      <input type="text" disabled={disabled} style={styles} onBlur={handleBlur} onFocus={handleFocus} />
-    </FocusControlWrapper>
-  );
+  return <input type="text" disabled={disabled} style={styles} onBlur={handleBlur} onFocus={handleFocus} />;
 };
 
 export const Input: Story = () => {
@@ -78,17 +68,6 @@ export const Input: Story = () => {
 
 Input.parameters = {
   creevey: {
-    skip,
-    tests: {
-      async 'focus ring out'() {
-        await this.browser
-          .actions({ bridge: true })
-          .sendKeys(this.keys.TAB)
-          .sendKeys(this.keys.ENTER)
-          .pause(1000)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('focus ring out');
-      },
-    },
+    skip: true,
   },
 };
