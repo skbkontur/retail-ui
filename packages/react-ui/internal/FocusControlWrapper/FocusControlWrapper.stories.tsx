@@ -4,6 +4,8 @@ import type { Meta } from '@storybook/react';
 
 import type { Story } from '../../typings/stories';
 
+import { FocusControlWrapper } from './FocusControlWrapper';
+
 export default { title: 'FocusControlWrapper' } as Meta;
 
 const Header: FC<PropsWithChildren<any>> = ({ children }) => <h1 style={{ margin: 10 }}>{children}</h1>;
@@ -47,8 +49,13 @@ const BrokenInput = ({ disabled }: { disabled?: boolean }) => {
 
   const handleBlur = (event: React.FocusEvent) => setFocus(false);
   const handleFocus = (event: React.FocusEvent) => setFocus(true);
+  const handleResetFocus = () => setFocus(false);
 
-  return <input type="text" disabled={disabled} style={styles} onBlur={handleBlur} onFocus={handleFocus} />;
+  return (
+    <FocusControlWrapper onBlurWhenDisabled={handleResetFocus}>
+      <input type="text" disabled={disabled} style={styles} onBlur={handleBlur} onFocus={handleFocus} />
+    </FocusControlWrapper>
+  );
 };
 
 export const Input: Story = () => {
