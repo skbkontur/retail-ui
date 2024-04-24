@@ -108,6 +108,7 @@ type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
+  public static displayName = 'RadioGroup';
 
   public static defaultProps: DefaultProps = {
     renderItem,

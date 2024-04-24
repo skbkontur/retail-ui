@@ -300,6 +300,21 @@ export class DefaultTheme {
 
   //#endregion
   //#region TokenInput
+  /**
+   * @deprecated use tokenInputLineHeightSmall
+   */
+  public static get tokenInputLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static get tokenInputLineHeightSmall() {
+    return this.tokenInputLineHeight;
+  }
+  public static get tokenInputLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tokenInputLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
   public static get tokenInputBorderColor() {
     return this.inputBorderColor;
   }

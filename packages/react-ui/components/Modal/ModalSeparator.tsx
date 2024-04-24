@@ -24,3 +24,6 @@ export function ModalSeparator({ fixed }: ModalSeparatorProps) {
     </div>
   );
 }
+
+ModalSeparator.__KONTUR_REACT_UI__ = 'ModalSeparator';
+ModalSeparator.displayName = 'ModalSeparator';

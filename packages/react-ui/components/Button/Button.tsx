@@ -195,6 +195,7 @@ export interface ButtonState {
 }
 
 export const ButtonDataTids = {
+  rootElement: 'Button__rootElement',
   root: 'Button__root',
   spinner: 'Button__spinner',
 } as const;
@@ -204,6 +205,7 @@ type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
+  public static displayName = 'Button';
   public static __BUTTON__ = true;
 
   public static defaultProps: DefaultProps = {
@@ -334,6 +336,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
               use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
+              use === 'text' && styles.textDisabled2022(),
             ]
           : [
               active && !checked && activeStyles[use](this.theme),
@@ -495,7 +498,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps}>
+        <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
           <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}

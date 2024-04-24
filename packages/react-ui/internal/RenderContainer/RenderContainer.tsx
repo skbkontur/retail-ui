@@ -11,6 +11,7 @@ import { RenderContainerProps } from './RenderContainerTypes';
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
+  public static displayName = 'RenderContainer';
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;

@@ -74,6 +74,7 @@ const PASS_BUTTON_PROPS = {
 export const SelectDataTids = {
   root: 'Select__root',
   menu: 'Select__menu',
+  label: 'Select__label',
 } as const;
 
 export const SelectIds = {
@@ -197,6 +198,7 @@ type DefaultProps<TValue, TItem> = Required<
 // eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
+  public static displayName = 'Select';
 
   public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
     renderValue,
@@ -418,6 +420,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const use = this.getProps().use;
 
     const labelProps = {
+      'data-tid': SelectDataTids.label,
       className: cx({
         [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,

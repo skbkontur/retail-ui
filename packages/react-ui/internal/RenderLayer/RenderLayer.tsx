@@ -21,6 +21,7 @@ type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
+  public static displayName = 'RenderLayer';
 
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {

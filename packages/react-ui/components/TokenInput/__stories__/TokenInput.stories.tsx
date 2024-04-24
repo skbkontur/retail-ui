@@ -259,6 +259,9 @@ EmptyCombined.storyName = 'empty combined';
 
 EmptyCombined.parameters = {
   creevey: {
+    skip: {
+      'flaky tests': { in: ['firefox2022', 'firefox2022Dark'] },
+    },
     tests: {
       async selectFirst() {
         await this.browser
@@ -798,3 +801,39 @@ export const Size = () => {
   );
 };
 Size.storyName = 'size';
+
+export const WithPlaceholderAndWidth: Story = () => (
+  <div style={{ width: 100 }}>
+    <Wrapper getItems={getItems} placeholder="placeholder" width={'100%'} />
+  </div>
+);
+WithPlaceholderAndWidth.storyName = 'with placeholder and width';
+WithPlaceholderAndWidth.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+      async selected() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(500)
+          .sendKeys('a')
+          .perform();
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+
+          .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};

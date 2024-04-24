@@ -57,6 +57,8 @@ export const ToastDataTids = {
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
+  public static displayName = 'Toast';
+
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 

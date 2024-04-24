@@ -70,6 +70,7 @@ type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions'
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
+  public static displayName = 'Kebab';
 
   public static propTypes = {};
 
