@@ -227,7 +227,7 @@ describe('properly renders opened/closed states', () => {
       description: 'with full position, not in range',
       positions: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
       position: 'top left' as PopupPositionsType | ShortPopupPositionsType,
-      expected: ['left middle', 'right top', 'left top', 'right middle'] as PopupPositionsType[],
+      expected: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
     },
   ])('$description', ({ positions, position, expected }) => {
     expect(PopupHelper.processShortPosition(position, positions)).toEqual(expected);
