@@ -1,5 +1,5 @@
 import React from 'react';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import OkIcon from '@skbkontur/react-icons/';
 
 import { Story } from '../../../typings/stories';
 import { ComboBoxView } from '../ComboBoxView';
@@ -8,7 +8,6 @@ import { Modal } from '../../../components/Modal';
 import { MenuItem } from '../../../components/MenuItem';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 import { MenuHeader } from '../../../components/MenuHeader';
-import { InputIconType } from '../../../components/Input';
 
 export default { title: 'ComboBoxView' };
 
@@ -44,8 +43,8 @@ export const InputLikeText: Story = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={OkIcon as InputIconType} items={new Array(2)} value="Hello" /> ComboBoxView с
-      правой иконкой в состоянии загрузки
+      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
+      состоянии загрузки
     </div>
     <ComboBoxView error disabled placeholder="Error and Disabled" />
   </Gapped>
