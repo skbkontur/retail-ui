@@ -12,6 +12,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -319,22 +320,24 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={this.handleChange}
-              className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
-                [styles.input(this.theme)]: true,
-              })}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              ref={this.inputRef}
-              disabled={disabled}
-              id={id}
-              role="switch"
-              aria-label={ariaLabel}
-              aria-describedby={ariaDescribedby}
-            />
+            <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={this.handleChange}
+                className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
+                  [styles.input(this.theme)]: true,
+                })}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                ref={this.inputRef}
+                disabled={disabled}
+                id={id}
+                role="switch"
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              />
+            </FocusControlWrapper>
             <div
               className={containerClassNames}
               style={
@@ -406,13 +409,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focusByTab: false });
+
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
-    this.setState({
-      focusByTab: false,
-    });
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private isUncontrolled() {
