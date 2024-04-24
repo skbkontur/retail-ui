@@ -13,7 +13,7 @@ import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { CommonWrapper } from '../../CommonWrapper';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
-import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
+import { Portal, RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { PopupHelper } from '../PopupHelper';
@@ -223,17 +223,14 @@ describe('properly renders opened/closed states', () => {
       position: 'left middle' as PopupPositionsType | ShortPopupPositionsType,
       expected: ['left middle', 'right top', 'left top', 'right middle'] as PopupPositionsType[],
     },
+    {
+      description: 'with full position, not in range',
+      positions: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
+      position: 'top left' as PopupPositionsType | ShortPopupPositionsType,
+      expected: ['left middle', 'right top', 'left top', 'right middle'] as PopupPositionsType[],
+    },
   ])('$description', ({ positions, position, expected }) => {
-    const _positions = PopupHelper.processShortPosition(position, positions);
-    expect(_positions).toEqual(expected);
-  });
-
-  it('with full position, not in range', async () => {
-    const positions = ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[];
-    const position = 'top left' as PopupPositionsType | ShortPopupPositionsType;
-    const expected = ['left top', 'right middle', 'left middle', 'right top'];
-    const _positions = PopupHelper.processShortPosition(position, positions);
-    expect(_positions).toEqual(expected);
+    expect(PopupHelper.processShortPosition(position, positions)).toEqual(expected);
   });
 });
 

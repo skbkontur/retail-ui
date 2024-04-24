@@ -5,7 +5,7 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupProps, PopupPositionsType, ShortPopupPositionsType, DefaultPosition } from '../../internal/Popup';
+import { DefaultPosition, Popup, PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';

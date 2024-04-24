@@ -3,9 +3,9 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 import isEqual from 'lodash.isequal';
 
 import {
-  getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
+  getFullReactUIFlagsContext,
 } from '../../lib/featureFlagsContext';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';

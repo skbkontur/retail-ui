@@ -52,7 +52,7 @@ export const PopupPositions = [
   'left middle',
   'left top',
 ] as const;
-export const DefaultPosition = PopupPositions[0]; // надо ли
+export const DefaultPosition = PopupPositions[0];
 
 export type PopupPositionsType = typeof PopupPositions[number];
 export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
@@ -675,7 +675,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     for (position of positions) {
-      coordinates = this.getCoordinates(anchorRect, popupRect, position); // getCoordinates должно принимать уже полную позицию
+      coordinates = this.getCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
         return { coordinates, position };
       }
