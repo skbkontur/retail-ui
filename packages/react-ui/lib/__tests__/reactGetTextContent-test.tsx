@@ -52,6 +52,8 @@ const testCase: TextContent[] = [
     label: '123',
     renderNode: () => 123,
   },
+
+  { label: '', renderNode: () => false },
 ];
 
 describe('reactGetTextContent', () => {

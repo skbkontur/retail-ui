@@ -7,7 +7,7 @@ import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter((name) => {
-  return isPublicComponent((ReactUI as any)[name]) && name !== 'SingleToast';
+  return isPublicComponent((ReactUI as any)[name]);
 });
 
 // some components have required props
@@ -38,6 +38,7 @@ const DEFAULT_PROPS = {
   Hint: { text: 'Hint', manual: true, opened: true, children: <i /> },
   Tooltip: { trigger: 'opened', render: () => 'Tooltip', children: <i /> },
   Toast: { children: <i /> },
+  ResponsiveLayout: { children: <i /> },
   Tab: { id: 'tab' },
 };
 
@@ -70,7 +71,11 @@ describe('Props Forwarding', () => {
           return wrapper.getDOMNode();
         case 'Toast':
           act(() => {
-            (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
+            (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Toast');
+          wrapper.update();
+          return wrapper.find('ToastView').getDOMNode();
+        case 'SingleToast':
+          (wrapper.instance().constructor as typeof ReactUI.SingleToast).push('Toast');
           });
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();

@@ -109,6 +109,7 @@ export const DropdownDataTids = {
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';
+  public static displayName = 'Dropdown';
 
   public static Header = MenuHeader;
   public static MenuItem = MenuItem;

@@ -41,6 +41,7 @@ export const SidePageHeaderDataTids = {
 @rootNode
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
+  public static displayName = 'SidePageHeader';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;

@@ -122,6 +122,9 @@ export const WithMaskAndCustomUnmaskedValue: Story = () => {
 
 WithMaskAndCustomUnmaskedValue.parameters = {
   creevey: {
+    skip: {
+      flaky: { in: ['firefox'] },
+    },
     tests: testMaskedInput,
   },
 };

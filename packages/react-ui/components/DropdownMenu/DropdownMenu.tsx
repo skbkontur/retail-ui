@@ -66,6 +66,7 @@ type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'posi
 @rootNode
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
+  public static displayName = 'DropdownMenu';
 
   public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,

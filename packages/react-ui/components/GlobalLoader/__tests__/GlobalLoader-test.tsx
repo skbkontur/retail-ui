@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
@@ -150,7 +150,9 @@ describe('Global Loader', () => {
       );
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
-      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      });
     });
   });
 

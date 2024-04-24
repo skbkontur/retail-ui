@@ -21,7 +21,6 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
-  icon: 'icon',
 });
 
 export const styles = memoizeStyle({
@@ -960,6 +959,12 @@ export const styles = memoizeStyle({
   backlessDisabled2022(t: Theme) {
     return css`
       box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
+    `;
+  },
+
+  textDisabled2022() {
+    return css`
+      background-color: transparent;
     `;
   },
 

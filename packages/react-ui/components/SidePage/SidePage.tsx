@@ -121,6 +121,7 @@ const TRANSITION_TIMEOUT = 200;
  */
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
+  public static displayName = 'SidePage';
 
   public static Header = SidePageHeader;
   public static Body = SidePageBody;
