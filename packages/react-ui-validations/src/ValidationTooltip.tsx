@@ -30,6 +30,9 @@ export interface ValidationTooltipProps {
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
+  public static __KONTUR_REACT_UI__ = 'ValidationTooltip';
+  public static displayName = 'ValidationTooltip';
+
   private featureFlags!: ValidationsFeatureFlags;
   public render() {
     const { children, pos, error, render, ...rest } = this.props;

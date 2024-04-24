@@ -52,6 +52,7 @@ type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 're
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
+  public static displayName = 'ComboBoxMenu';
 
   public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,

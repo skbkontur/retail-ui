@@ -116,6 +116,7 @@ type DefaultProps = Required<
 @locale('Autocomplete', AutocompleteLocaleHelper)
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
+  public static displayName = 'Autocomplete';
 
   public static propTypes = {
     /**

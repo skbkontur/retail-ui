@@ -69,23 +69,6 @@ const kebabTests: CreeveyTests = {
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
   },
-  async escapePress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .sendKeys(this.keys.ENTER)
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.ESCAPE)
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
-  },
 };
 
 export default {
@@ -173,7 +156,7 @@ KebabHintRemovePinFeatureFlag.parameters = {
       'story-skip-0': { in: /^(?!\b.*2022.*\b)/ },
       'story-skip-1': {
         in: /(?!\b.*2022.*\b)/,
-        tests: ['plain', 'hovered', 'clickedOnButton2ndTime', 'tabPress', 'enterPress', 'escapePress'],
+        tests: ['plain', 'hovered', 'clickedOnButton2ndTime', 'tabPress', 'enterPress'],
       },
     },
     tests: kebabTests,

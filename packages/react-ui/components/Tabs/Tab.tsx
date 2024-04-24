@@ -14,6 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -101,6 +102,7 @@ type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
+  public static displayName = 'Tab';
 
   public static contextType = TabsContext;
   public context: TabsContextType = this.context;
@@ -192,7 +194,11 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...getVisualStateDataAttributes({ active: isActive, disabled })}
+        {...this.props}
+      >
         <Component
           data-tid={TabDataTids.root}
           className={cx({

@@ -84,6 +84,7 @@ type DefaultProps = Required<Pick<RadioProps<any>, 'focused' | 'size'>>;
 @rootNode
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
+  public static displayName = 'Radio';
 
   public state = {
     focusedByKeyboard: false,

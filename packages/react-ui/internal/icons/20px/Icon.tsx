@@ -22,6 +22,7 @@ export interface IconProps {
 
 export class Icon extends React.Component<IconProps> {
   public static __KONTUR_REACT_UI__ = 'Icon20px';
+  public static displayName = 'Icon20px';
 
   public static propTypes = {
     color: PropTypes.string,

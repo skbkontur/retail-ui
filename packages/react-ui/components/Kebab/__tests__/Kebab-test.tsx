@@ -39,6 +39,22 @@ describe('Kebab', () => {
     expect(kebab).not.toHaveFocus();
   });
 
+  it('should close by pressing escape', () => {
+    const content = 'Kebab content';
+    render(<Kebab>{content}</Kebab>);
+
+    userEvent.tab();
+    userEvent.keyboard('{Enter}');
+    expect(screen.getByText(content)).toBeInTheDocument();
+
+    userEvent.keyboard('{Escape}');
+
+    const kebab = screen.getByTestId(KebabDataTids.caption);
+    expect(kebab).toHaveFocus();
+
+    expect(screen.queryByText(content)).not.toBeInTheDocument();
+  });
+
   describe('a11y', () => {
     it('passes value to aria-describedby prop', () => {
       const id = 'id';
