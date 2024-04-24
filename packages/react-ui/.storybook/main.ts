@@ -29,9 +29,7 @@ module.exports = {
       test: /@remix-run|react-router/,
       loader: 'babel-loader',
       options: {
-        babelrc: false,
         envName: 'cjs',
-        extends: path.join(__dirname, '../.babelrc.js'),
       },
     });
     return config;
