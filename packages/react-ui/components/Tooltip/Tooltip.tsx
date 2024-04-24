@@ -5,7 +5,7 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { DefaultPosition, Popup, PopupProps, PopupPositionsType, normalizePosition } from '../../internal/Popup';
+import { Popup, PopupProps, PopupPositionsType, ShortPopupPositionsType, DefaultPosition } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
@@ -21,11 +21,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
+import { PopupHelper } from '../../internal/Popup/PopupHelper';
+import { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 
 import { styles } from './Tooltip.styles';
 
@@ -79,7 +76,7 @@ export interface TooltipProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?: PopupPositionsType;
+  pos?: ShortPopupPositionsType | PopupPositionsType;
 
   /**
    * Триггер открытия тултипа
@@ -160,9 +157,6 @@ export const TooltipDataTids = {
   crossIcon: 'Tooltip__crossIcon',
 } as const;
 
-/**
- * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
- */
 const Positions: PopupPositionsType[] = [
   'right bottom',
   'right middle',
@@ -178,11 +172,14 @@ const Positions: PopupPositionsType[] = [
   'bottom right',
 ];
 
-type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>>;
+type DefaultProps = Required<
+  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>
+>;
 
 @rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
+  public static displayName = 'Tooltip';
 
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
@@ -198,17 +195,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     },
   };
 
-  /**
-   * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
-   */
-  public static oldDefaultPosition = DefaultPosition;
-  /**
-   * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
-   */
-  public static oldDefaultAllowedPositions = Positions;
-
   public static defaultProps: DefaultProps = {
+    pos: DefaultPosition,
     trigger: 'hover',
+    allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
     delayBeforeShow: DEFAULT_DELAY,
@@ -224,36 +214,21 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public featureFlags!: ReactUIFeatureFlags;
   private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
-
-  /**
-   * @deprecated This field will be removed in the next version because of applying popupUnifyPositioning feature flag.
-   */
   private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();
   public componentDidUpdate(prevProps: TooltipProps) {
-    if (this.featureFlags.popupUnifyPositioning) {
-      const { trigger } = this.getProps();
-      if (trigger === 'closed' && this.state.opened) {
-        this.close();
-      }
-    } else {
-      const { trigger } = this.getProps();
+    const { trigger, allowedPositions, pos } = this.getProps();
+    if (trigger === 'closed' && this.state.opened) {
+      this.close();
+    }
+    const posChanged = prevProps.pos !== pos;
+    const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
-      if (trigger === 'closed' && this.state.opened) {
-        this.close();
-      }
-      const posChanged = prevProps.pos !== (this.props.pos ? this.props.pos : Tooltip.oldDefaultPosition);
-      const allowedChanged = !isEqual(
-        prevProps.allowedPositions,
-        this.props.allowedPositions ?? Tooltip.oldDefaultAllowedPositions,
-      );
-
-      if (posChanged || allowedChanged) {
-        this.positions = null;
-      }
+    if (posChanged || allowedChanged) {
+      this.positions = null;
     }
   }
 
@@ -263,39 +238,30 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          if (!this.featureFlags) {
-            this.featureFlags = getFullReactUIFlagsContext(flags);
-          }
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <ThemeContext.Provider
-                    value={ThemeFactory.create(
-                      {
-                        popupPinOffset: theme.tooltipPinOffset,
-                        popupMargin: theme.tooltipMargin,
-                        popupBorder: theme.tooltipBorder,
-                        popupBorderRadius: theme.tooltipBorderRadius,
-                        popupPinSize: theme.tooltipPinSize,
-                        popupPinOffsetX: theme.tooltipPinOffsetX,
-                        popupPinOffsetY: theme.tooltipPinOffsetY,
-                        popupBackground: theme.tooltipBg,
-                      },
-                      theme,
-                    )}
-                  >
-                    {this.renderMain()}
-                  </ThemeContext.Provider>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: theme.tooltipPinOffset,
+                  popupMargin: theme.tooltipMargin,
+                  popupBorder: theme.tooltipBorder,
+                  popupBorderRadius: theme.tooltipBorderRadius,
+                  popupPinSize: theme.tooltipPinSize,
+                  popupPinOffsetX: theme.tooltipPinOffsetX,
+                  popupPinOffsetY: theme.tooltipPinOffsetY,
+                  popupBackground: theme.tooltipBg,
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -410,7 +376,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
-          pos={this.props.pos}
           positions={this.getPositions()}
           ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
@@ -430,47 +395,21 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     this.contentElement = node;
   };
 
-  public getPositions = (): PopupPositionsType[] | undefined => {
-    if (this.featureFlags.popupUnifyPositioning) {
-      const { allowedPositions, pos } = this.props;
-      if (allowedPositions && pos) {
-        const splitPosition = pos.split(' ');
-        if (
-          allowedPositions.indexOf(pos) === -1 &&
-          allowedPositions.indexOf(normalizePosition(pos)) === -1 &&
-          splitPosition.length === 2 &&
-          (splitPosition[1] === 'middle' || splitPosition[1] === 'center') &&
-          allowedPositions.indexOf(splitPosition[0] as PopupPositionsType) === -1
-        ) {
-          throw new Error(
-            'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
-          );
-        }
-      }
-      return allowedPositions;
-    }
+  private getPositions() {
     if (!this.positions) {
-      const allowedPositions = this.props.allowedPositions ?? Tooltip.oldDefaultAllowedPositions;
-      const pos = this.props.pos ?? Tooltip.oldDefaultPosition;
-      let index = allowedPositions.indexOf(pos);
-      if (index === -1) {
-        index = allowedPositions.indexOf(normalizePosition(pos));
+      const { allowedPositions, pos } = this.getProps();
+      if (this.featureFlags.popupUnifyPositioning) {
+        this.positions = PopupHelper.processShortPosition(pos, allowedPositions);
+      } else {
+        const index = allowedPositions.indexOf(pos as PopupPositionsType);
         if (index === -1) {
-          const splitPosition = pos.split(' ');
-          if (splitPosition.length === 2 && (splitPosition[1] === 'middle' || splitPosition[1] === 'center')) {
-            index = allowedPositions.indexOf(splitPosition[0] as PopupPositionsType);
-          }
-          if (index === -1) {
-            throw new Error(
-              'Unexpected position ' + pos + ' passed to Tooltip. Expected one of: ' + allowedPositions.join(', '),
-            );
-          }
+          throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
         }
+        this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
       }
-      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
     }
     return this.positions;
-  };
+  }
 
   private getPopupAndLayerProps(): {
     layerProps?: Partial<RenderLayerProps>;

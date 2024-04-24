@@ -808,7 +808,7 @@ class DynamicContentTooltip extends React.Component {
   public render() {
     return (
       <Tooltip
-        allowedPositions={['top center', 'left middle', 'right middle', 'bottom left']}
+        allowedPositions={['top left', 'left middle', 'right middle', 'bottom left']}
         render={this.tooltipContentGetter}
         trigger={this.state.opened ? 'opened' : 'closed'}
         closeButton={false}

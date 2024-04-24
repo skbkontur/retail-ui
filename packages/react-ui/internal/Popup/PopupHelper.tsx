@@ -1,8 +1,9 @@
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
-import { PopupPositionsType } from './Popup';
+import { PopupPositions, PopupPositionsType, ShortPopupPositionsType } from './Popup';
 
 export interface Rect {
   top: number;
@@ -127,9 +128,28 @@ function _getViewProperty(getProperty: (e: Element) => number): number {
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
 }
 
+function processShortPosition(
+  position: ShortPopupPositionsType | PopupPositionsType,
+  allowedPositions: PopupPositionsType[],
+): PopupPositionsType[] {
+  if (PopupPositions.includes(position as PopupPositionsType)) {
+    const index = allowedPositions.indexOf(position as PopupPositionsType);
+    if (index === -1) {
+      warning(true, 'Unexpected position "' + position + '" passed. Expected one of: ' + allowedPositions.join(', '));
+      return allowedPositions;
+    }
+    return [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
+  }
+  return [
+    ...allowedPositions.filter((x) => x.startsWith(position)),
+    ...allowedPositions.filter((x) => !x.startsWith(position)),
+  ];
+}
+
 export const PopupHelper = {
   getPositionObject,
   getElementAbsoluteRect,
   isFullyVisible: isAbsoluteRectFullyVisible,
   canBecomeFullyVisible,
+  processShortPosition,
 };

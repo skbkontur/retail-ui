@@ -1,24 +1,26 @@
 import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import isEqual from 'lodash.isequal';
 
 import {
+  getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
 } from '../../lib/featureFlagsContext';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { DUMMY_LOCATION, normalizePosition, Popup, PopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { PopupHelper } from '../../internal/Popup/PopupHelper';
 
 import { styles } from './Hint.styles';
 
@@ -55,7 +57,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?: PopupPositionsType;
+  pos?: ShortPopupPositionsType | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -81,10 +83,7 @@ export interface HintState {
   position: PopupPositionsType;
 }
 
-/**
- * @deprecated This variable will be removed in the next version because of applying popupUnifyPositioning feature flag.
- */
-export const Positions: PopupPositionsType[] = [
+const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
   'top right',
@@ -99,7 +98,9 @@ export const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
-type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
+type DefaultProps = Required<
+  Pick<HintProps, 'pos' | 'allowedPositions' | 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>
+>;
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
@@ -107,11 +108,14 @@ type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Hint';
+  public static displayName = 'Hint';
 
   public static defaultProps: DefaultProps = {
+    pos: 'top',
     manual: false,
     opened: false,
     maxWidth: 200,
+    allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
   };
@@ -127,11 +131,12 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private theme!: Theme;
   public featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
+  private positions: Nullable<PopupPositionsType[]> = null;
 
   private popupRef = React.createRef<Popup>();
 
   public componentDidUpdate(prevProps: HintProps) {
-    const { opened, manual } = this.getProps();
+    const { opened, manual, pos, allowedPositions } = this.getProps();
     if (!manual) {
       return;
     }
@@ -141,6 +146,15 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     }
     if (opened !== prevProps.opened) {
       this.setState({ opened: !!opened });
+    }
+
+    if (this.featureFlags.popupUnifyPositioning) {
+      const posChanged = prevProps.pos !== pos;
+      const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
+
+      if (posChanged || allowedChanged) {
+        this.positions = null;
+      }
     }
   }
 
@@ -196,7 +210,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
                 hasPin={hasPin}
                 opened={this.state.opened}
                 anchorElement={this.props.children}
-                pos={this.props.pos}
                 positions={this.getPositions()}
                 backgroundColor={this.theme.hintBgColor}
                 borderColor={HINT_BORDER_COLOR}
@@ -239,24 +252,15 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  public getPositions = (): PopupPositionsType[] | undefined => {
+  public getPositions = (): PopupPositionsType[] => {
     if (this.featureFlags.popupUnifyPositioning) {
-      const { allowedPositions, pos } = this.props;
-      if (allowedPositions && pos) {
-        const splitPosition = pos.split(' ');
-        if (
-          allowedPositions.indexOf(pos) === -1 &&
-          allowedPositions.indexOf(normalizePosition(pos)) === -1 &&
-          splitPosition.length === 2 &&
-          (splitPosition[1] === 'middle' || splitPosition[1] === 'center') &&
-          allowedPositions.indexOf(splitPosition[0] as PopupPositionsType) === -1
-        ) {
-          throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
-        }
+      if (!this.positions) {
+        const { allowedPositions, pos } = this.getProps();
+        this.positions = PopupHelper.processShortPosition(pos, allowedPositions);
       }
-      return allowedPositions;
+      return this.positions;
     }
-    return Positions.filter((x) => x.startsWith(this.props.pos ?? 'top'));
+    return Positions.filter((x) => x.startsWith(this.getProps().pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

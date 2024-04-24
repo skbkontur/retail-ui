@@ -4,10 +4,10 @@ import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
 import { render, screen } from '@testing-library/react';
 
-import { PopupDataTids } from '..';
+import { PopupDataTids, ShortPopupPositionsType } from '..';
 import { MobilePopupDataTids } from '../../MobilePopup';
 import { InstanceWithRootNode } from '../../../lib/rootNode';
-import { DefaultPosition, Popup, PopupPositions, PopupProps, PopupState } from '../Popup';
+import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
@@ -16,6 +16,8 @@ import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { PopupHelper } from '../PopupHelper';
+import { PopupPositionsType } from '../types';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
@@ -196,83 +198,42 @@ describe('properly renders opened/closed states', () => {
     expect(innerContainer?.children()).toHaveLength(0);
   });
 
-  describe('test getPosAndPositions method', () => {
-    const anchor = document.createElement('button');
-    const defaultProps = { children: <></>, opened: false, anchorElement: anchor as HTMLElement };
-    it('flag, no positions, no pos', () => {
-      const popup = new Popup({ ...defaultProps });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({ allowedPositions: PopupPositions, priorityPosition: DefaultPosition });
-    });
+  it.each([
+    {
+      description: 'with short position, no permutation',
+      positions: ['left top', 'right middle', 'right top'] as PopupPositionsType[],
+      position: 'left' as PopupPositionsType | ShortPopupPositionsType,
+      expected: ['left top', 'right middle', 'right top'] as PopupPositionsType[],
+    },
+    {
+      description: 'with short position, with permutation',
+      positions: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
+      position: 'right' as PopupPositionsType | ShortPopupPositionsType,
+      expected: ['right middle', 'right top', 'left top', 'left middle'] as PopupPositionsType[],
+    },
+    {
+      description: 'with full position, no permutation',
+      positions: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
+      position: 'left top' as PopupPositionsType | ShortPopupPositionsType,
+      expected: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
+    },
+    {
+      description: 'with full position, with permutation',
+      positions: ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[],
+      position: 'left middle' as PopupPositionsType | ShortPopupPositionsType,
+      expected: ['left middle', 'right top', 'left top', 'right middle'] as PopupPositionsType[],
+    },
+  ])('$description', ({ positions, position, expected }) => {
+    const _positions = PopupHelper.processShortPosition(position, positions);
+    expect(_positions).toEqual(expected);
+  });
 
-    it('flag, no positions, pos', () => {
-      const popup = new Popup({ ...defaultProps, pos: 'top' });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({ allowedPositions: PopupPositions, priorityPosition: 'top' });
-    });
-
-    it('flag, positions, no pos', () => {
-      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom right'] });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({ allowedPositions: ['top', 'top right', 'bottom right'], priorityPosition: 'top' });
-    });
-
-    it('flag, positions, first pos', () => {
-      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom right'], pos: 'top' });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({ allowedPositions: ['top', 'top right', 'bottom right'], priorityPosition: 'top' });
-    });
-
-    it('flag, positions, equal pos', () => {
-      const popup = new Popup({ ...defaultProps, positions: ['bottom right'], pos: 'bottom right' });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({ allowedPositions: ['bottom right'], priorityPosition: 'bottom right' });
-    });
-
-    it('flag, positions, not first pos', () => {
-      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom right'], pos: 'top right' });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({
-        allowedPositions: ['top', 'top right', 'bottom right'],
-        priorityPosition: 'top right',
-      });
-    });
-
-    it('flag, positions, need normalize pos', () => {
-      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom center'], pos: 'bottom' });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({
-        allowedPositions: ['top', 'top right', 'bottom center'],
-        priorityPosition: 'bottom',
-      });
-    });
-
-    it('flag, positions, another pos', () => {
-      const popup = new Popup({
-        ...defaultProps,
-        positions: ['top', 'top right', 'bottom center'],
-        pos: 'left middle',
-      });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      expect(() => popup.getPosAndPositions(popup.props.pos, popup.props.positions)).toThrow();
-    });
-
-    it('flag, need normalize positions, pos', () => {
-      const popup = new Popup({ ...defaultProps, positions: ['top', 'top right', 'bottom center'], pos: 'top center' });
-      popup.featureFlags = { popupUnifyPositioning: true };
-      const positions = popup.getPosAndPositions(popup.props.pos, popup.props.positions);
-      expect(positions).toEqual({
-        allowedPositions: ['top', 'top right', 'bottom center'],
-        priorityPosition: 'top center',
-      });
-    });
+  it('with full position, not in range', async () => {
+    const positions = ['left top', 'right middle', 'left middle', 'right top'] as PopupPositionsType[];
+    const position = 'top left' as PopupPositionsType | ShortPopupPositionsType;
+    const expected = ['left top', 'right middle', 'left middle', 'right top'];
+    const _positions = PopupHelper.processShortPosition(position, positions);
+    expect(_positions).toEqual(expected);
   });
 });
 
