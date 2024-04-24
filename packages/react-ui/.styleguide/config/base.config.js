@@ -169,7 +169,7 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        loaders: [
+        use: [
           'style-loader',
           {
             loader: 'dts-css-modules-loader',
@@ -195,7 +195,7 @@ const webpackConfig = {
     ],
   },
   devServer: {
-    public: 'localhost.testkontur.ru',
+    host: 'localhost.testkontur.ru',
   },
 };
 

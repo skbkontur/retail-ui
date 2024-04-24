@@ -1,6 +1,7 @@
-const path = require('path');
-
 module.exports = {
+  core: {
+    builder: 'webpack5',
+  },
   addons: [
     'creevey',
     'creevey/preset/ie11',
@@ -26,9 +27,7 @@ module.exports = {
       test: /@remix-run|react-router/,
       loader: 'babel-loader',
       options: {
-        babelrc: false,
         envName: 'cjs',
-        extends: path.join(__dirname, '../.babelrc.js'),
       },
     });
     return config;
