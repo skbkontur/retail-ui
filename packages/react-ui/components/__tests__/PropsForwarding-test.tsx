@@ -72,10 +72,12 @@ describe('Props Forwarding', () => {
         case 'Toast':
           act(() => {
             (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Toast');
+          });
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
         case 'SingleToast':
-          (wrapper.instance().constructor as typeof ReactUI.SingleToast).push('Toast');
+          act(() => {
+            (wrapper.instance().constructor as typeof ReactUI.SingleToast).push('Toast');
           });
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();

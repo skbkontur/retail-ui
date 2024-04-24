@@ -39,15 +39,15 @@ describe('Kebab', () => {
     expect(kebab).not.toHaveFocus();
   });
 
-  it('should close by pressing escape', () => {
+  it('should close by pressing escape', async () => {
     const content = 'Kebab content';
     render(<Kebab>{content}</Kebab>);
 
-    userEvent.tab();
-    userEvent.keyboard('{Enter}');
+    await userEvent.tab();
+    await userEvent.keyboard('{Enter}');
     expect(screen.getByText(content)).toBeInTheDocument();
 
-    userEvent.keyboard('{Escape}');
+    await userEvent.keyboard('{Escape}');
 
     const kebab = screen.getByTestId(KebabDataTids.caption);
     expect(kebab).toHaveFocus();
