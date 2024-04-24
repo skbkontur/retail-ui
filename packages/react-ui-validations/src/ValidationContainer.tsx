@@ -30,6 +30,7 @@ type DefaultProps = Required<Pick<ValidationContainerProps, 'disableSmoothScroll
 
 export class ValidationContainer extends React.Component<ValidationContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
+  public static displayName = 'ValidationContainer';
 
   public static defaultProps: DefaultProps = {
     disableSmoothScroll: isTestEnv,

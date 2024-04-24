@@ -276,6 +276,7 @@ const defaultRenderToken = <T extends AnyObject>(
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
+  public static displayName = 'TokenInput';
 
   public static defaultProps: DefaultProps<any> = {
     selectedItems: [],
@@ -425,7 +426,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       error,
       warning,
       disabled,
-      placeholder,
       renderNotFound,
       hideMenuIfEmptyInputValue,
       inputMode,
@@ -460,8 +460,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
       height: inputValueHeight,
-      // input растягивается на всю ширину чтобы placeholder не обрезался
-      flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
@@ -477,25 +475,36 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [styles.inputDisabled(theme)]: !!disabled,
     });
 
-    const textHolder = (
-      <textarea
-        id={this.textareaId}
-        ref={this.inputRef}
-        value={inputValue}
-        style={inputInlineStyles}
-        spellCheck={false}
-        disabled={disabled}
-        className={inputClassName}
-        placeholder={selectedItems.length > 0 ? undefined : placeholder}
-        onFocus={this.handleInputFocus}
-        onBlur={this.handleInputBlur}
-        onChange={this.handleChangeInputValue}
-        onKeyDown={this.handleKeyDown}
-        onPaste={this.handleInputPaste}
-        inputMode={inputMode}
-        aria-label={ariaLabel}
-        aria-describedby={ariaDescribedby}
-      />
+    const placeholder = selectedItems.length === 0 && !inputValue ? this.props.placeholder : '';
+
+    const inputNode = (
+      <TokenView
+        size={this.getProps().size}
+        className={cx({
+          // input растягивается на всю ширину чтобы placeholder не обрезался
+          [styles.inputPlaceholderWrapper()]: Boolean(placeholder),
+        })}
+        hideCloseButton={Boolean(placeholder)}
+      >
+        <textarea
+          id={this.textareaId}
+          ref={this.inputRef}
+          value={inputValue}
+          style={inputInlineStyles}
+          spellCheck={false}
+          disabled={disabled}
+          className={inputClassName}
+          placeholder={placeholder}
+          onFocus={this.handleInputFocus}
+          onBlur={this.handleInputBlur}
+          onChange={this.handleChangeInputValue}
+          onKeyDown={this.handleKeyDown}
+          onPaste={this.handleInputPaste}
+          inputMode={inputMode}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+        />
+      </TokenView>
     );
 
     return (
@@ -513,13 +522,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              text={inputValue === '' ? placeholder : inputValue}
+              text={inputValue}
               theme={this.theme}
               size={this.getProps().size}
             />
             {this.renderTokensStart()}
-
-            <TokenView size={this.getProps().size}>{textHolder}</TokenView>
+            {inputNode}
             {showMenu && (
               <TokenInputMenu
                 popupMenuId={this.rootId}

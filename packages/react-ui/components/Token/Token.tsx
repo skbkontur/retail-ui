@@ -2,7 +2,7 @@ import React, { AriaAttributes } from 'react';
 
 import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { emptyHandler, getChildrenText } from '../../lib/utils';
+import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -11,6 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { SizeProp } from '../../lib/types/props';
+import { reactGetTextContent } from '../../lib/reactGetTextContent';
 
 import { styles, colorStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
@@ -69,6 +70,7 @@ export const TokenDataTids = {
 @locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
+  public static displayName = 'Token';
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
@@ -106,10 +108,16 @@ export class Token extends React.Component<TokenProps> {
     const theme = this.theme;
 
     const validation = getValidation(error, warning);
-    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + getChildrenText(children);
+    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + reactGetTextContent(children);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" tabbable={false} />
+      <CloseButtonIcon
+        side={16}
+        color="inherit"
+        colorHover="inherit"
+        aria-label={removeButtonAriaLabel}
+        tabbable={false}
+      />
     ) : (
       <CrossIcon />
     );

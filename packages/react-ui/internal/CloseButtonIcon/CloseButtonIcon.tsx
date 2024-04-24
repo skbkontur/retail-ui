@@ -100,3 +100,6 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
     </CommonWrapper>
   );
 };
+
+CloseButtonIcon.__KONTUR_REACT_UI__ = 'CloseButtonIcon';
+CloseButtonIcon.displayName = 'CloseButtonIcon';

@@ -8,6 +8,7 @@ let disposeDocumentStyle: (() => void) | null = null;
 
 export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
+  public static displayName = 'HideBodyVerticalScroll';
 
   private initialScroll = 0;
   private master = false;

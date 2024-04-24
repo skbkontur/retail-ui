@@ -178,6 +178,7 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
+  public static displayName = 'Input';
 
   public static defaultProps: DefaultProps = {
     size: 'small',

@@ -53,41 +53,20 @@ const getItems = () => {};
 В Hint и Kebab будет убран "клювик" в THEME_2022.
 В React UI 5.0 фича будет применена по умолчанию.
 ```jsx harmony
-import { Hint, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+import { Hint, Kebab, MenuItem, Gapped, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-  <Hint text="Подсказка">Пример с Hint</Hint>
-</ReactUIFeatureFlagsContext.Provider>
-```
-```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
-import { Kebab, MenuItem, Toast, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-let style = {
-  alignItems: 'center',
-  border: '1px solid #dfdede',
-  display: 'flex',
-  justifyContent: 'space-between',
-  padding: '0 20px',
-  width: 250,
-};
-
-<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-  <div style={style}>
-    <div>
-      <h3>Пример с Kebab</h3>
-    </div>
-
-    <Kebab positions={['left middle']} >
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+  <Gapped vertical>
+    <Hint text="Подсказка">Hint</Hint>
+    <Kebab>
+      <MenuItem>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem>
         Удалить
       </MenuItem>
     </Kebab>
-  </div>
+  </Gapped>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 

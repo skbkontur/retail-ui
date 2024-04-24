@@ -74,6 +74,7 @@ interface SwitcherItem {
 @rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';
+  public static displayName = 'Switcher';
 
   public static defaultProps: DefaultProps = {
     role: 'switch',

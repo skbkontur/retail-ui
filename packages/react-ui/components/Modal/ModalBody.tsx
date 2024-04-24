@@ -30,6 +30,7 @@ export interface ModalBodyProps extends CommonProps {
 @rootNode
 export class ModalBody extends React.Component<ModalBodyProps> {
   public static __KONTUR_REACT_UI__ = 'ModalBody';
+  public static displayName = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
   private theme!: Theme;
