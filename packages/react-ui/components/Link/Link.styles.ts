@@ -163,6 +163,7 @@ export const styles = memoizeStyle({
   useRoot() {
     return css`
       border-bottom-color: currentColor;
+      cursor: pointer;
     `;
   },
 

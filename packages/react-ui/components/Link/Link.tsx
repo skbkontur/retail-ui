@@ -143,7 +143,13 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps<C>>) => {
+  private getTabIndex = ({
+    disabled,
+    loading,
+    tabIndex = 0,
+  }: Pick<LinkPropsWithComponent, 'disabled' | 'loading' | 'tabIndex'>) => {
+    return disabled || loading ? -1 : tabIndex;
+  };
 
   private getSecureRel = ({ href, rel }: Pick<LinkPropsWithComponent, 'href' | 'rel'>) => {
     if (typeof rel === 'undefined' && href) {
@@ -204,7 +210,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       onClick: this.handleClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
+      tabIndex: this.getTabIndex({ disabled, loading, tabIndex: this.props.tabIndex }),
       ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
     };
 
