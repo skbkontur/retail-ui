@@ -978,7 +978,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  userSelect() {
+  disableTextSelect() {
     return css`
       -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
@@ -987,6 +987,12 @@ export const styles = memoizeStyle({
       -ms-user-select: none; /* Internet Explorer/Edge */
       user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
+    `;
+  },
+  anchorDisabled() {
+    return css`
+      cursor: default;
+      pointer-events: none;
     `;
   },
 });

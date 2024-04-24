@@ -352,7 +352,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
         rootClassNameWithArrow,
-        Root === 'a' && styles.userSelect(),
+        Root === 'a' && styles.disableTextSelect(),
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
@@ -361,6 +361,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
               use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
+              Root === 'a' && styles.anchorDisabled(),
             ]
           : [
               active && !checked && activeStyles[use](this.theme),
