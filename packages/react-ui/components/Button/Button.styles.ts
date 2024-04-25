@@ -21,6 +21,7 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
+  anchor: 'anchor',
 });
 
 export const styles = memoizeStyle({
@@ -523,7 +524,8 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
@@ -535,7 +537,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.default(t)};
       }
     `;
@@ -553,7 +555,8 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
@@ -565,7 +568,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.primary(t)}
       }
     `;
@@ -583,7 +586,8 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
@@ -595,7 +599,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.success(t)}
       }
     `;
@@ -613,7 +617,8 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
@@ -625,7 +630,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.danger(t)}
       }
     `;
@@ -643,7 +648,8 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
@@ -655,7 +661,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.pay(t)}
       }
     `;
@@ -674,7 +680,8 @@ export const styles = memoizeStyle({
 
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnTextHoverBg,
           '',
@@ -707,7 +714,8 @@ export const styles = memoizeStyle({
       color: ${t.btnDefaultTextColor};
       background: transparent;
 
-      &:hover {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
           '',
@@ -719,7 +727,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active {
+      &:hover:enabled,
+      &.${globalClasses.anchor}:hover {
         ${activeStyles.backless(t)}
       }
     `;
