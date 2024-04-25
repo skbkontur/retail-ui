@@ -1,5 +1,6 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import pick from 'lodash/pick';
 
 import { HTMLProps } from '../../typings/html';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
@@ -191,7 +192,7 @@ interface ButtonOwnProps
   theme?: ThemeIn;
 }
 
-const BUTTON_DEFAULT_ELEMENT = 'button';
+export const BUTTON_DEFAULT_ELEMENT = 'button';
 
 export type ButtonProps<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
   ButtonOwnProps,
@@ -223,6 +224,9 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
   public static defaultProps: DefaultProps = {
     use: 'default',
     size: 'small',
+    // By default the type attribute is 'submit'. IE8 will fire a click event
+    // on this button if somewhere on the page user presses Enter while some
+    // input is focused. So we set type to 'button' by default.
     type: BUTTON_DEFAULT_ELEMENT,
   };
 
@@ -308,10 +312,6 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
       onClickCapture,
       width,
       children,
-      className, //exclude from rest to prevent class override
-      size: sizeProp, //exclude from rest to prevent class override
-      use: useProp, //exclude from rest to prevent class override
-      type: typeProp,
       component = BUTTON_DEFAULT_ELEMENT,
       'aria-describedby': ariaDescribedby,
       'aria-haspopup': ariaHasPopup,
@@ -323,17 +323,15 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
       ...rest
     } = this.props;
     const { use, type, size } = this.getProps();
-    console.log(rest);
+
     const sizeClass = this.getSizeClassName();
 
     const Root = component as React.ElementType;
-
+    // TODO настроить таб индекс в кнопке ссылке
     const buttonOnlyProps = {
-      // By default the type attribute is 'submit'. IE8 will fire a click event
-      // on this button if somewhere on the page user presses Enter while some
-      // input is focused. So we set type to 'button' by default.
       type,
     };
+    const linkOnlyProps = pick(rest, ['href', 'hrefTo', 'rel', 'target']);
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
@@ -386,7 +384,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
         [styles.checkedFocused(this.theme)]: checked && isFocused,
-        [styles.disabled(this.theme)]: disabled || loading,
+        [styles.disabled(this.theme)]: trueDisabled,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
         [styles.narrow()]: narrow,
@@ -410,7 +408,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
         textAlign: align,
         ...corners,
       },
-      disabled: disabled || loading,
+      disabled: trueDisabled,
       onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -424,6 +422,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
       tabIndex: disableFocus ? -1 : 0,
       title: this.props.title,
       ...(Root === BUTTON_DEFAULT_ELEMENT ? buttonOnlyProps : {}),
+      ...(Root === 'a' ? linkOnlyProps : {}),
     };
 
     const wrapProps = {
@@ -440,7 +439,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
     const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
-    const isDisabled2022 = _isTheme2022 && (disabled || loading);
+    const isDisabled2022 = _isTheme2022 && trueDisabled;
     if ((!isFocused || isLink) && !isDisabled2022) {
       outlineNode = (
         <div
@@ -476,12 +475,13 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
         [styles.linkLineHeight()]: !isSafari || (isSafari && !_isTheme2022),
         [styles.linkLineHeightSafariFallback()]: isSafari && _isTheme2022,
         [styles.linkFocus(this.theme)]: isFocused,
-        [styles.linkDisabled(this.theme)]: disabled || loading,
+        [styles.linkDisabled(this.theme)]: trueDisabled,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
+      //@ts-expect-error textAlign doesn't exist on link
       rootProps.style.textAlign = undefined;
     }
 
@@ -530,7 +530,7 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} {...rest}>
+          <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}
