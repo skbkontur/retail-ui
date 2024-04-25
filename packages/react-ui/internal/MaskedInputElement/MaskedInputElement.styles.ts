@@ -2,12 +2,21 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
-  container() {
+  container(t: Theme) {
     return css`
       display: inline-flex;
       position: relative;
       font-size: inherit;
       flex: 100% 1 1;
+
+      & > input {
+        display: inline-block;
+        background-color: ${t.inputTextColor};
+        background-size: 100%;
+        background-repeat: repeat;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     `;
   },
   inputMask(t: Theme) {

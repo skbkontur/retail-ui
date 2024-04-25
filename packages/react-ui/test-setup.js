@@ -59,6 +59,18 @@ global.MutationObserver = class {
   }
 };
 
+global.ResizeObserver = class {
+  disconnect() {
+    /**/
+  }
+  observe() {
+    /**/
+  }
+  unobserve() {
+    /**/
+  }
+};
+
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`
  * https://reactjs.org/blog/2017/04/07/react-v15.5.0.html#new-deprecation-warnings

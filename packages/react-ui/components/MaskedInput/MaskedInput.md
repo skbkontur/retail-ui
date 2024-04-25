@@ -1,9 +1,98 @@
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
+const fontStyles = [
+  {
+    fontStyle: 'normal',
+    fontWeight: 100,
+  },
+  {
+    fontStyle: 'normal',
+    fontWeight: 300,
+  },
+  {
+    fontStyle: 'normal',
+    fontWeight: 400,
+  },
+  {
+    fontStyle: 'normal',
+    fontWeight: 500,
+  },
+  {
+    fontStyle: 'normal',
+    fontWeight: 600,
+  },
+  {
+    fontStyle: 'normal',
+    fontWeight: 700,
+  },
+  {
+    fontStyle: 'normal',
+    fontWeight: 900,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 100,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 300,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 400,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 500,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 600,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 700,
+  },
+  {
+    fontStyle: 'italic',
+    fontWeight: 900,
+  }];
+
+
+<Gapped vertical>
+  <span>Lab Grotesque</span>
+  <Gapped vertical>
+    {[fontStyles.map((style, i) => <><MaskedInput key={i} mask='+7 999-999-99-99' value="123" imaskProps={{ lazy: false }}
+                                               style={{ ...style }} /><tt>{JSON.stringify(style)}</tt></>)]}
+
+  </Gapped>
+</Gapped>
+```
+
 #### `mask`
 
 Маска телефона
 
 ```jsx harmony
-<MaskedInput mask="+7 999 999 99 99" placeholder="Номер телефона" />
+const [value, setValue] = React.useState('123');
+
+<>
+  <MaskedInput
+    mask="+7 999-999-99-99"
+    value={value}
+    alwaysShowMask
+    onValueChange={(v) => {
+      console.log('onValueChange', v);
+      // setValue(v);
+    }}
+    onUnexpectedInput={(v) => {
+      console.log('onUnexpectedInput', v);
+      // setValue(v);
+    }}
+    imaskProps={{ lazy: false }}
+  />
+</>
 ```
 
 #### `maskChar`
@@ -65,7 +154,7 @@ const [value, setValue] = React.useState('');
 mask: typeof props.mask === 'string' ? props.mask.replace(/0/g, '{\\0}') : props.mask,
 placeholderChar: props.maskChar || '_',
 definitions: props.formatChars || { '0': /\d/, '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ },
-eager: props.imaskProps.unmask ? 'remove' : 'append',
+eager: 'remove',
 overwrite: 'shift',
 ...props.imaskProps,
 ```
@@ -120,8 +209,8 @@ const [complete, setComplete] = React.useState(false);
 
 ##### `imaskProps.mask {}`
 
-Фиксированные чисти маски, которые попадут в `value` при `unmask = true`.
-Нажимайте `пробел` для переключения области ввода.
+Фиксированные чисти маски, которые попадут в `value` при `unmask = true`. Нажимайте `пробел` для переключения области
+ввода.
 
 ```jsx harmony
 const [value, setValue] = React.useState('');

@@ -11,4 +11,4 @@ import { styles } from './MaskCharLowLine.styles';
  */
 export const MASK_CHAR_EXEMPLAR = String.fromCharCode(0x2007);
 
-export const MaskCharLowLine = () => <span className={styles.root()}>{MASK_CHAR_EXEMPLAR}</span>;
+export const MaskCharLowLine = () => <span>_</span>;

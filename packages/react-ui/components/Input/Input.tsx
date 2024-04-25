@@ -196,7 +196,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private selectAllId: number | null = null;
   private theme!: Theme;
   private blinkTimeout: SafeTimer;
-  private input: HTMLInputElement | null = null;
+  public input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
   private outputMaskError() {
