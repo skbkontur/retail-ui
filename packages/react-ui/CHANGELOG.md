@@ -3,10 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [4.22.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.3-next.0...@skbkontur/react-ui@4.22.3) (2024-04-25)
+## [4.22.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.2...@skbkontur/react-ui@4.22.3) (2024-04-25)
 
-**Note:** Version bump only for package @skbkontur/react-ui
 
+### Bug Fixes
+
+* Reset focus if disabled ([#3378](https://github.com/skbkontur/retail-ui/issues/3378)) ([ed728b6](https://github.com/skbkontur/retail-ui/commit/ed728b66e30735cfe01e5d2acec3b81efa3fcdb8))
 
 
 
