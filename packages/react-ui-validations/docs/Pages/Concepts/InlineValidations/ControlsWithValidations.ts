@@ -1,5 +1,5 @@
-import React from 'react';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import React, { ComponentType } from 'react';
+import { DatePicker, DatePickerProps } from '@skbkontur/react-ui/components/DatePicker';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
@@ -87,7 +87,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
 }
 
 const WrappedInput = wrapControl(Input);
-const WrappedDatePicker = wrapControl(DatePicker);
+const WrappedDatePicker = wrapControl(DatePicker as ComponentType<DatePickerProps>);
 
 export { WrappedInput as Input };
 export { WrappedDatePicker as DatePicker };
