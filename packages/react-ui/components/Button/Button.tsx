@@ -207,7 +207,7 @@ export const ButtonDataTids = {
   spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type' | 'component'>>;
+type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 
 const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children }: LinkProps) => (
   <Link focused={focused} disabled={disabled} icon={icon} rightIcon={rightIcon} as={as} tabIndex={tabIndex}>
@@ -224,7 +224,6 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
     use: 'default',
     size: 'small',
     type: BUTTON_DEFAULT_ELEMENT,
-    component: BUTTON_DEFAULT_ELEMENT,
   };
 
   private getProps = createPropsGetter(Button.defaultProps);
@@ -309,6 +308,11 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
       onClickCapture,
       width,
       children,
+      className, //exclude from rest to prevent class override
+      size: sizeProp, //exclude from rest to prevent class override
+      use: useProp, //exclude from rest to prevent class override
+      type: typeProp,
+      component = BUTTON_DEFAULT_ELEMENT,
       'aria-describedby': ariaDescribedby,
       'aria-haspopup': ariaHasPopup,
       'aria-controls': ariaControls,
@@ -318,8 +322,8 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
       role,
       ...rest
     } = this.props;
-    const { use, type, size, component } = this.getProps();
-
+    const { use, type, size } = this.getProps();
+    console.log(rest);
     const sizeClass = this.getSizeClassName();
 
     const Root = component as React.ElementType;
@@ -342,8 +346,8 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
     let rootClassName = '';
+    const trueDisabled = disabled || loading;
     if (_isTheme2022) {
-      const trueDisabled = disabled || loading;
       rootClassName = cx(
         styles.root(this.theme),
         styles[use](this.theme),
@@ -387,6 +391,8 @@ export class Button<C extends React.ElementType> extends React.Component<ButtonP
         [styles.narrow()]: narrow,
         [styles.noPadding()]: _noPadding,
         [styles.noRightPadding()]: _noRightPadding,
+        [styles.disableTextSelect()]: Root === 'a',
+        [styles.anchorDisabled()]: Root === 'a' && trueDisabled,
       });
     }
 
