@@ -140,7 +140,7 @@
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-styleguidist": "^12.0.1",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.5",
     "semver": "^7.3.5",
     "serve": "^13.0.2",
     "style-loader": "^4.0.0",
