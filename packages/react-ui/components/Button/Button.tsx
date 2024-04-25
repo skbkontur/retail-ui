@@ -217,7 +217,10 @@ const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children
 );
 
 @rootNode
-export class Button<C extends React.ElementType> extends React.Component<ButtonProps<C>, ButtonState> {
+export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT> extends React.Component<
+  ButtonProps<C>,
+  ButtonState
+> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
 

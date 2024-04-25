@@ -19,7 +19,7 @@ import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../li
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
-export interface LinkProps
+export interface LinkInnerProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'onBlur' | 'onFocus'> {
@@ -78,8 +78,8 @@ export interface LinkProps
 
 const LINK_DEFAULT_ELEMENT = 'a';
 
-type LinkPropsWithComponent<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
-  LinkProps,
+export type LinkProps<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
+  LinkInnerProps,
   C
 >;
 export interface LinkState {
@@ -90,9 +90,9 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkPropsWithComponent, 'use' | 'as'>>;
+type DefaultProps = Required<Pick<LinkProps, 'use' | 'as'>>;
 type DefaultizedLinkProps<T extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = DefaultizedProps<
-  LinkPropsWithComponent<T>,
+  LinkProps<T>,
   DefaultProps
 >;
 
@@ -101,7 +101,7 @@ type DefaultizedLinkProps<T extends React.ElementType = typeof LINK_DEFAULT_ELEM
  */
 @rootNode
 export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> extends React.Component<
-  LinkPropsWithComponent<C>,
+  LinkProps<C>,
   LinkState
 > {
   public static __KONTUR_REACT_UI__ = 'Link';
@@ -143,15 +143,11 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     );
   }
 
-  private getTabIndex = ({
-    disabled,
-    loading,
-    tabIndex = 0,
-  }: Pick<LinkPropsWithComponent, 'disabled' | 'loading' | 'tabIndex'>) => {
+  private getTabIndex = ({ disabled, loading, tabIndex = 0 }: Pick<LinkProps, 'disabled' | 'loading' | 'tabIndex'>) => {
     return disabled || loading ? -1 : tabIndex;
   };
 
-  private getSecureRel = ({ href, rel }: Pick<LinkPropsWithComponent, 'href' | 'rel'>) => {
+  private getSecureRel = ({ href, rel }: Pick<LinkProps, 'href' | 'rel'>) => {
     if (typeof rel === 'undefined' && href) {
       return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
@@ -194,7 +190,6 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       href,
       rel: this.getSecureRel({ href, rel }),
     };
-
     const linkProps = {
       className: cx(
         styles.useRoot(),
@@ -262,7 +257,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
   };
 
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { onClick, disabled, loading, href } = this.props as LinkPropsWithComponent<'a'>;
+    const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
 
     if (!href) {
       event.preventDefault();
