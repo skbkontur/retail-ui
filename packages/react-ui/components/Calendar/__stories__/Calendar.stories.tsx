@@ -1,14 +1,11 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
-import { delay } from '../../../lib/utils';
-import { Calendar, CalendarProps } from '../Calendar';
+import { Calendar, CalendarDay, CalendarDayProps } from '../';
 import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { CalendarMonthInfo } from '../';
-import { Gapped } from '../../Gapped';
-import { LocaleContext } from '../../../lib/locale';
-import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
+import * as CDS from '../CalendarDateShape';
+import { useMemoObject } from '../../../hooks/useMemoObject';
 
 export default { title: 'Calendar' };
 
@@ -29,104 +26,15 @@ CalendarWithBottomSeparator.parameters = {
   },
 };
 
-export const CalendarWithPeriod: Story = () => {
-  const [min, setMin] = React.useState('05.08.2022');
-  const [max, setMax] = React.useState('30.08.2022');
-  const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
-  const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
-  const [focus, setFocus] = useState<'periodStartDate' | 'periodEndDate'>('periodStartDate');
-
-  const getFocusStyle = (type: 'periodStartDate' | 'periodEndDate') =>
-    focus === type ? { background: '#80A6FF' } : {};
-
-  const periodClearing = () => {
-    setFocus('periodStartDate');
-    setPeriodStartDate('');
-    setPeriodEndDate('');
-  };
-
-  const onValueChange = (date: string) => {
-    if (focus === 'periodEndDate') {
-      setPeriodEndDate(date);
-      setFocus('periodStartDate');
-    }
-    if (focus === 'periodStartDate') {
-      setPeriodStartDate(date);
-      setFocus('periodEndDate');
-    }
-  };
-
-  return (
-    <Gapped vertical gap={10}>
-      <label>
-        Свободные дни с: <input type="text" value={min} placeholder="min" onChange={(e) => setMin(e.target.value)} />
-      </label>
-      <label>
-        Свободные дни до: <input type="text" value={max} placeholder="max" onChange={(e) => setMax(e.target.value)} />
-      </label>
-      <label>
-        Начало периода:
-        <input
-          type="text"
-          style={getFocusStyle('periodStartDate')}
-          onClick={() => setFocus('periodStartDate')}
-          value={periodStartDate}
-          onChange={(e) => setPeriodStartDate(e.target.value)}
-        />
-      </label>
-      <label>
-        Окончание периода:
-        <input
-          type="text"
-          onClick={() => setFocus('periodEndDate')}
-          style={getFocusStyle('periodEndDate')}
-          value={periodEndDate}
-          onChange={(e) => setPeriodEndDate(e.target.value)}
-        />
-      </label>
-      <LocaleContext.Provider
-        value={{
-          locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
-        }}
-      >
-        <button onClick={periodClearing}>Очистить период</button>
-        <div>
-          <Calendar
-            value={periodStartDate || periodEndDate}
-            data-tid="calendar_with_period"
-            periodStartDate={periodStartDate}
-            periodEndDate={periodEndDate}
-            minDate={periodStartDate && !periodEndDate ? periodStartDate : min}
-            maxDate={!periodStartDate && periodEndDate ? periodEndDate : max}
-            onValueChange={onValueChange}
-          />
-        </div>
-      </LocaleContext.Provider>
-    </Gapped>
-  );
-};
-CalendarWithPeriod.storyName = 'Calendar with period';
-CalendarWithPeriod.parameters = {
-  creevey: {
-    captureElement: '[data-tid="calendar_with_period"]',
-    skip: { 'logic is covered with unit tests': { in: /^(?!\bchrome\b)/ } },
-  },
-};
-
-const customDayItem: CalendarProps['renderDay'] = (date, defaultProps, RenderDefault) => {
-  const [dd] = date.split('.').map(Number);
-
+const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
   const isEven = (num: number): boolean => num % 2 === 0;
+  const { date: day } = props.date;
 
-  return (
-    <RenderDefault {...defaultProps}>
-      <div>{isEven(dd) ? '#' : dd}</div>
-    </RenderDefault>
-  );
+  return <CalendarDay {...props}>{isEven(day) ? '#' : day}</CalendarDay>;
 };
 
 export const CalendarWithCustomDates: Story = () => {
-  return <Calendar value={'12.05.2022'} renderDay={customDayItem} />;
+  return <Calendar value={'12.05.2022'} renderDay={(props) => <CustomDayItem {...props} />} />;
 };
 
 CalendarWithCustomDates.parameters = {
@@ -154,5 +62,107 @@ CalendarWithCustomCellSize.parameters = {
     skip: {
       'no themes': { in: /^(?!\b(chrome|firefox)\b)/ },
     },
+  },
+};
+
+const CalendarPeriodDay = (props: CalendarDayProps) => {
+  const { date: dateShape } = props;
+  const date = CDS.toString(dateShape);
+  const { periodStart, periodEnd, hoveredDate, setPeriodStart, setPeriodEnd, setHoveredDate } =
+    useContext(CalendarPeriodContext);
+
+  const isDayInPeriod = ({
+    date,
+    periodStart,
+    periodEnd,
+    hoveredDate,
+  }: {
+    date: string | null;
+    periodStart: string | null;
+    periodEnd: string | null;
+    hoveredDate: string | null;
+  }): boolean => {
+    const dateShape = date ? CDS.fromString(date) : null;
+    const periodStartShape = periodStart ? CDS.fromString(periodStart) : null;
+    const periodEndShape = periodEnd ? CDS.fromString(periodEnd) : null;
+    const hoveredDateShape = hoveredDate ? CDS.fromString(hoveredDate) : null;
+
+    return Boolean(
+      dateShape &&
+        periodStartShape &&
+        CDS.isGreaterOrEqual(dateShape, periodStartShape) &&
+        (periodEndShape
+          ? CDS.isLessOrEqual(dateShape, periodEndShape)
+          : hoveredDateShape && CDS.isLessOrEqual(dateShape, hoveredDateShape)),
+    );
+  };
+
+  const handleClick = useCallback(() => {
+    if (!periodStart) {
+      setPeriodStart?.(date);
+    } else if (!periodEnd) {
+      setPeriodEnd?.(date);
+    } else {
+      setPeriodStart?.(date);
+      setPeriodEnd?.(null);
+    }
+  }, [setPeriodStart, setPeriodEnd, periodStart, periodEnd, date]);
+
+  const handleMouseEnter = useCallback(() => setHoveredDate?.(date), [setHoveredDate, date]);
+  const handleMouseLeave = useCallback(() => setHoveredDate?.(null), [setHoveredDate]);
+
+  const dayInPediodStyles = useMemoObject({
+    background: 'green',
+    color: 'white',
+  });
+
+  const dayStyles = isDayInPeriod({ date, periodStart, periodEnd, hoveredDate }) ? dayInPediodStyles : undefined;
+
+  return (
+    <CalendarDay
+      {...props}
+      style={dayStyles}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    />
+  );
+};
+
+interface CalendarPeriodContext {
+  periodStart: string | null;
+  periodEnd: string | null;
+  hoveredDate: string | null;
+  setPeriodStart?: (date: string | null) => void;
+  setPeriodEnd?: (date: string | null) => void;
+  setHoveredDate?: (date: string | null) => void;
+}
+
+const CalendarPeriodContext = React.createContext<CalendarPeriodContext>({
+  periodStart: null,
+  periodEnd: null,
+  hoveredDate: null,
+});
+
+export const CalendarWithPeriod = () => {
+  const [periodStart, setPeriodStart] = useState<string | null>('10.08.2022');
+  const [periodEnd, setPeriodEnd] = useState<string | null>('20.08.2022');
+  const [hoveredDate, setHoveredDate] = useState<string | null>(null);
+  const [value, setValue] = useState('25.08.2022');
+
+  const renderDay = useCallback((props: CalendarDayProps) => <CalendarPeriodDay {...props} />, []);
+
+  return (
+    <CalendarPeriodContext.Provider
+      value={{ periodStart, periodEnd, hoveredDate, setPeriodStart, setPeriodEnd, setHoveredDate }}
+    >
+      <Calendar value={value} onValueChange={setValue} renderDay={renderDay} />
+    </CalendarPeriodContext.Provider>
+  );
+};
+
+CalendarWithPeriod.parameters = {
+  creevey: {
+    skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },
   },
 };
