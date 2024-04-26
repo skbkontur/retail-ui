@@ -21,7 +21,7 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
-  anchor: 'anchor',
+  link: 'link',
 });
 
 export const styles = memoizeStyle({
@@ -525,7 +525,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
@@ -537,7 +537,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.default(t)};
       }
     `;
@@ -556,7 +557,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
@@ -568,7 +569,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.primary(t)}
       }
     `;
@@ -587,7 +589,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
@@ -599,7 +601,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.success(t)}
       }
     `;
@@ -618,7 +621,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
@@ -630,7 +633,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.danger(t)}
       }
     `;
@@ -649,7 +653,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
@@ -661,7 +665,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.pay(t)}
       }
     `;
@@ -681,7 +686,7 @@ export const styles = memoizeStyle({
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnTextHoverBg,
           '',
@@ -693,7 +698,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.text(t)}
       }
     `;
@@ -715,7 +721,7 @@ export const styles = memoizeStyle({
       background: transparent;
 
       &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &.${globalClasses.link}:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
           '',
@@ -727,8 +733,8 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:hover:enabled,
-      &.${globalClasses.anchor}:hover {
+      &:active:enabled,
+      &.${globalClasses.link}:active {
         ${activeStyles.backless(t)}
       }
     `;

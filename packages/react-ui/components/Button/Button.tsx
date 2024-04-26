@@ -357,7 +357,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
         rootClassNameWithArrow,
-        Root === 'a' && globalClasses.anchor,
+        Root === 'a' && globalClasses.link,
         Root === 'a' && styles.disableTextSelect(),
         ...(trueDisabled
           ? [
