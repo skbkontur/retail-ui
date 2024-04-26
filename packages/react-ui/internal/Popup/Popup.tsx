@@ -34,22 +34,23 @@ const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
 export const PopupPositions = [
-  'top left',
   'top center',
+  'top left',
   'top right',
-  'right top',
-  'right middle',
-  'right bottom',
-  'bottom right',
   'bottom center',
   'bottom left',
-  'left bottom',
+  'bottom right',
   'left middle',
   'left top',
+  'left bottom',
+  'right middle',
+  'right top',
+  'right bottom',
 ] as const;
 export const DefaultPosition = PopupPositions[0];
 
 export type PopupPositionsType = typeof PopupPositions[number];
+export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
 
 export const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
@@ -86,7 +87,8 @@ export interface PopupProps
   pinOffset?: number;
   pinSize?: number;
   popupOffset?: number;
-  positions: Readonly<PopupPositionsType[]>;
+  positions?: Readonly<PopupPositionsType[]>;
+  pos?: PopupPositionsType | ShortPopupPositionsType;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
@@ -137,7 +139,7 @@ export const PopupIds = {
 type DefaultProps = Required<
   Pick<
     PopupProps,
-    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width'
+    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width' | 'positions'
   >
 >;
 
@@ -204,12 +206,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     positions: PropTypes.array,
 
     /**
+     * Приоритетная позиция попапа
+     */
+    pos: PropTypes.string,
+
+    /**
      * Игнорировать ли события hover/click
      */
     ignoreHover: PropTypes.bool,
   };
 
   public static defaultProps: DefaultProps = {
+    positions: PopupPositions,
     popupOffset: 0,
     hasPin: false,
     hasShadow: false,
@@ -619,8 +627,24 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
+  private processPosAndPositions() {
+    const { positions } = this.getProps();
+    let pos_ = '';
+    if (this.props.pos) {
+      pos_ = this.props.pos;
+    } else {
+      pos_ = positions[0];
+    }
+    const index = positions.findIndex((position) => position.startsWith(pos_));
+    if (index === -1) {
+      throw new Error('Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+    }
+    return [...positions.slice(index), ...positions.slice(0, index)];
+  }
+
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
-    const { positions, tryPreserveFirstRenderedPosition } = this.props;
+    const { tryPreserveFirstRenderedPosition } = this.getProps();
+    const positions = this.processPosAndPositions();
     const anchorElement = this.anchorElement;
 
     warning(
