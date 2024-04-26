@@ -164,6 +164,7 @@ export const styles = memoizeStyle({
     return css`
       border-bottom-color: currentColor;
       cursor: pointer;
+      position: relative;
     `;
   },
 
@@ -275,6 +276,30 @@ export const styles = memoizeStyle({
   iconRight(t: Theme) {
     return css`
       margin-left: ${t.linkIconMarginLeft};
+    `;
+  },
+
+  outline(t: Theme) {
+    return css`
+      border-radius: ${t.btnLinkBorderRadius};
+      position: absolute;
+      box-shadow: none;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      top: -2px;
+    `;
+  },
+
+  outlineWarning(t: Theme) {
+    return css`
+      background-color: ${t.btnWarningSecondary};
+    `;
+  },
+
+  outlineError(t: Theme) {
+    return css`
+      background-color: ${t.btnErrorSecondary};
     `;
   },
 });

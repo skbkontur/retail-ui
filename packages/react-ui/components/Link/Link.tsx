@@ -74,6 +74,14 @@ export interface LinkInnerProps
    * @ignore
    */
   focused?: boolean;
+  /**
+   * Состояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Состояние валидации при предупреждении.
+   */
+  warning?: boolean;
 }
 
 const LINK_DEFAULT_ELEMENT = 'a';
@@ -169,6 +177,8 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       as,
       component,
       focused = false,
+      error,
+      warning,
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
@@ -190,6 +200,18 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       href,
       rel: this.getSecureRel({ href, rel }),
     };
+
+    const outlineNode = (
+      <div
+        style={{ zIndex: -1 }}
+        className={cx(
+          styles.outline(this.theme),
+          warning && styles.outlineWarning(this.theme),
+          error && styles.outlineError(this.theme),
+        )}
+      />
+    );
+
     const linkProps = {
       className: cx(
         styles.useRoot(),
@@ -233,6 +255,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     return (
       <Root data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {leftIconElement}
+        {outlineNode}
         {child}
         {rightIconElement}
         {arrow}

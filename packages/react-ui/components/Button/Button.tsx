@@ -330,7 +330,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
     const sizeClass = this.getSizeClassName();
 
     const Root = component as React.ElementType;
-    // TODO настроить таб индекс в кнопке ссылке
+
     const buttonOnlyProps = {
       type,
     };
