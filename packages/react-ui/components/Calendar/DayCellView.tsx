@@ -10,7 +10,7 @@ import { InternalDate } from '../../lib/date/InternalDate';
 import { LocaleContext } from '../../lib/locale';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 
-import { globalClasses, styles } from './DayCellView.styles';
+import { styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
 import { CalendarContext } from './CalendarContext';
 import * as CalendarUtils from './CalendarUtils';
@@ -76,11 +76,7 @@ const Day: FunctionComponent<DayProps> = ({
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
 
-  const child = _isTheme2022 ? (
-    <span className={cx(globalClasses.todayCaption, styles.todayCaption())}>{children}</span>
-  ) : (
-    children
-  );
+  const child = _isTheme2022 ? <span className={cx(styles.todayCaption2022(theme))}>{children}</span> : children;
 
   return (
     <button
@@ -91,8 +87,8 @@ const Day: FunctionComponent<DayProps> = ({
       disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,
+        [styles.day(theme)]: true,
         [styles.today(theme)]: isToday && !_isTheme2022,
-        [styles.today2022(theme)]: isToday && _isTheme2022,
         [styles.selected(theme)]: isSelected,
         [styles.weekend(theme)]: isWeekend,
       })}

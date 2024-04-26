@@ -10,6 +10,7 @@ import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { styles } from './MonthView.styles';
+import { styles as cellStyles } from './DayCellView.styles';
 
 interface MonthProps {
   top: number;
@@ -124,17 +125,11 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public renderMain() {
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
-      <div
-        key={`leadgin_${i}`}
-        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
-      />
+      <div key={`leadgin_${i}`} className={cellStyles.cell(this.theme)} />
     ));
     const trailingOffset = DAYS_PER_WEEK - ((this.props.offset + this.props.days.length) % DAYS_PER_WEEK);
     const trailingDays = Array.from({ length: trailingOffset }, (_, i) => (
-      <div
-        key={`trailing_${i}`}
-        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
-      />
+      <div key={`trailing_${i}`} className={cellStyles.cell(this.theme)} />
     ));
     const days = this.props.days.map((day) => {
       return <DayCellView date={day} key={`${day.date}.${day.month}.${day.year}`} />;
