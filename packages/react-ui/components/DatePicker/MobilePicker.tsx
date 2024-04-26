@@ -31,10 +31,7 @@ export interface MobilePickerProps
     | 'isHoliday'
     | 'enableTodayLink'
     | 'renderDay'
-    | 'onStuckMonth'
-    | 'onMonthSelect'
-    | 'periodStartDate'
-    | 'periodEndDate'
+    | 'onMonthChange'
   > {
   onCloseRequest?: () => void;
 }
@@ -113,10 +110,7 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
           onValueChange={onValueChange}
           isHoliday={props.isHoliday}
           renderDay={props.renderDay}
-          onStuckMonth={props.onStuckMonth}
-          onMonthSelect={props.onMonthSelect}
-          periodStartDate={props.periodStartDate}
-          periodEndDate={props.periodEndDate}
+          onMonthChange={props.onMonthChange}
         />
       </MobilePopup>
     </ThemeContext.Provider>

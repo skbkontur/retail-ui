@@ -15,27 +15,15 @@ import { CalendarDataTids } from './Calendar';
 import { CalendarContext } from './CalendarContext';
 import * as CalendarUtils from './CalendarUtils';
 import { DayCellViewModel } from './DayCellViewModel';
-import { isBetween, isEqual, isGreaterOrEqual, isLess, isLessOrEqual } from './CalendarDateShape';
+import { isBetween, isEqual } from './CalendarDateShape';
 
 export interface DayCellViewProps {
   date: DayCellViewModel;
 }
 
-export interface DayCellViewFlags {
-  isSelected: boolean;
-  isHovered: boolean;
-  isDisabled: boolean;
-  isToday: boolean;
-  isWeekend: boolean;
-  isDayInSelectedPeriod: boolean;
-  isPeriodStart: boolean;
-  isPeriodEnd: boolean;
-}
-
 export const DayCellView = (props: DayCellViewProps) => {
   const { date } = props;
-  const { value, hoveredDate, periodStartDate, periodEndDate, minDate, maxDate, isHoliday, renderDay, today } =
-    useContext(CalendarContext);
+  const { value, minDate, maxDate, isHoliday, renderDay, today } = useContext(CalendarContext);
   const { langCode } = useContext(LocaleContext);
   const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
 
@@ -46,26 +34,9 @@ export const DayCellView = (props: DayCellViewProps) => {
   });
 
   const isWeekend = isHoliday?.(stringDate, date.isWeekend) ?? date.isWeekend;
-  const isSelected = Boolean((!periodStartDate || !periodEndDate) && value && isEqual(date, value));
-  const isHovered = isEqual(date, hoveredDate);
+  const isSelected = Boolean(value && isEqual(date, value));
   const isDisabled = !isBetween(date, minDate, maxDate);
   const isToday = isEqual(today, date);
-
-  let isDayInSelectedPeriod = false,
-    isPeriodStart = false,
-    isPeriodEnd = false;
-
-  const periodStart = periodStartDate || hoveredDate;
-  const periodEnd = periodEndDate || hoveredDate;
-  if (periodStart && periodEnd) {
-    const [earliestDate, latestDate] = isLess(periodStart, periodEnd)
-      ? [periodStart, periodEnd]
-      : [periodEnd, periodStart];
-
-    isDayInSelectedPeriod = isGreaterOrEqual(date, earliestDate) && isLessOrEqual(date, latestDate);
-    isPeriodStart = isEqual(date, earliestDate);
-    isPeriodEnd = isEqual(date, latestDate);
-  }
 
   const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${new InternalDate({ langCode })
     .setComponents({ ...date }, true)
@@ -75,13 +46,9 @@ export const DayCellView = (props: DayCellViewProps) => {
     ariaLabel,
     stringDate,
     isSelected,
-    isHovered,
     isDisabled,
     isToday,
     isWeekend,
-    isDayInSelectedPeriod,
-    isPeriodStart,
-    isPeriodEnd,
     children: date.date,
   };
 
@@ -92,13 +59,9 @@ export type DayProps = PropsWithChildren<{
   ariaLabel: string;
   stringDate: string;
   isSelected: boolean;
-  isHovered: boolean;
   isDisabled: boolean;
   isToday: boolean;
   isWeekend: boolean;
-  isDayInSelectedPeriod: boolean;
-  isPeriodStart: boolean;
-  isPeriodEnd: boolean;
 }>;
 
 const Day: FunctionComponent<DayProps> = ({
@@ -106,13 +69,9 @@ const Day: FunctionComponent<DayProps> = ({
   stringDate,
   children,
   isSelected,
-  isHovered,
   isDisabled,
   isToday,
   isWeekend,
-  isDayInSelectedPeriod,
-  isPeriodStart,
-  isPeriodEnd,
 }) => {
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
@@ -132,24 +91,14 @@ const Day: FunctionComponent<DayProps> = ({
       disabled={isDisabled}
       className={cx({
         [styles.cell(theme)]: true,
+        [styles.today(theme)]: isToday && !_isTheme2022,
+        [styles.today2022(theme)]: isToday && _isTheme2022,
+        [styles.selected(theme)]: isSelected,
         [styles.weekend(theme)]: isWeekend,
-        [styles.period(theme)]: isDayInSelectedPeriod,
-        [styles.periodStart()]: isPeriodStart,
-        [styles.periodEnd()]: isPeriodEnd,
       })}
       {...getVisualStateDataAttributes({ selected: isSelected })}
     >
-      <div
-        className={cx({
-          [styles.element(theme)]: true,
-          [styles.today(theme)]: isToday && !_isTheme2022,
-          [styles.today2022(theme)]: isToday && _isTheme2022,
-          [styles.selected(theme)]: isSelected,
-          [styles.elementHover(theme)]: isHovered,
-        })}
-      >
-        {child}
-      </div>
+      {child}
     </button>
   );
 };

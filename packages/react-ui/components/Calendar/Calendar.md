@@ -82,69 +82,6 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
-### Период дат
-
-В календаре можно задать период пропами `periodStartDate` и `periodEndDate`.
-Если задан только один из пропов, то при наведении мышью будет подсвечиваться период между заданным пропом и датой под указателем мыши.
-```jsx harmony
-import { Button, DateInput, Gapped, Radio, RadioGroup, Group } from '@skbkontur/react-ui';
-
-const [periodStartDate, setPeriodStartDate] = React.useState('10.08.2022');
-const [periodEndDate, setPeriodEndDate] = React.useState('20.08.2022');
-const [period, setPeriod] = React.useState('start');
-
-const onValueChange = (date) => {
-  if (period === 'start') {
-    setPeriodStartDate(date);
-  }
-  if (period === 'end') {
-    setPeriodEndDate(date);
-  }
-}
-<Gapped verticalAlign="top" wrap>
-  <Calendar
-    value={periodStartDate || periodEndDate}
-    periodStartDate={periodStartDate}
-    periodEndDate={periodEndDate}
-    onValueChange={onValueChange}
-    minDate="05.08.2022"
-  />
-  <RadioGroup value={period} onValueChange={setPeriod}>
-    <Gapped vertical gap={40}>
-      <Gapped gap={0} vertical>
-        <span>Как сохранять дату из <tt>onValueChange</tt></span>
-        <Radio value="start">Как начало периода</Radio>
-        <Radio value="end">Как окончание периода</Radio>
-      </Gapped>
-      <Gapped vertical>
-        <span>Начало периода</span>
-        <Gapped>
-          <Group>
-            <DateInput
-              onValueChange={setPeriodStartDate}
-              value={periodStartDate}
-            />
-            <Button onClick={() => setPeriodStartDate(null)}>x</Button>
-          </Group>
-        </Gapped>
-      </Gapped>
-      <Gapped vertical>
-        <span>Окончание периода</span>
-        <Gapped>
-          <Group>
-            <DateInput
-              onValueChange={setPeriodEndDate}
-              value={periodEndDate}
-            />
-            <Button icon={<span>x</span>} onClick={() => setPeriodEndDate(null)} />
-          </Group>
-        </Gapped>
-      </Gapped>
-    </Gapped>
-  </RadioGroup>
-</Gapped>
-```
-
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
 
 - Базовая высота календаря - `330px`
@@ -210,8 +147,6 @@ const renderDay = (date, defaultProps, RenderDefault) => {
   value={value}
   onValueChange={setValue}
   renderDay={renderDay}
-  onMonthSelect={(...args) => console.log('onMonthSelect', ...args)}
-  onStuckMonth={(...args) => console.log('onStuckMonth', ...args)}
 />;
 ```
 

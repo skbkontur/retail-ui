@@ -4,7 +4,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../../internal/DateSelect';
 
-import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
 import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
@@ -24,13 +23,7 @@ export class Month extends React.Component<MonthProps> {
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
 
-  constructor(props: MonthProps) {
-    super(props);
-    this.state = {};
-  }
-
   public shouldComponentUpdate(nextProps: MonthProps) {
-    // console.log('Month shouldComponentUpdate', nextProps);
     if (this.props.top !== nextProps.top) {
       return true;
     }
@@ -113,11 +106,6 @@ interface MonthDayGridProps {
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
-
-  constructor(props: MonthDayGridProps) {
-    super(props);
-    this.state = {};
-  }
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     return this.props.days !== nextProps.days;
