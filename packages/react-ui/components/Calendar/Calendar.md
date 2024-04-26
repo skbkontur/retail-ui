@@ -107,40 +107,34 @@ const theme = React.useContext(ThemeContext);
 ### Кастомный рендер дня
 
 ```jsx harmony
-import { Tooltip, Hint } from '@skbkontur/react-ui';
+import { Tooltip, Hint, CalendarDay } from '@skbkontur/react-ui';
 
 const initialValue = "02.09.2023";
-const [day, month, year] = initialValue.split('.').map(Number);
 
 const [value, setValue] = React.useState(initialValue);
 
-const renderDay = (date, defaultProps, RenderDefault) => {
-  const [dd, mm, yyyy] = date.split('.').map(Number);
+const renderDay = (props) => {
+  const { date, month, year } = props.date;
 
-  if (mm === month && dd > 7 && dd < 11) {
+  if (month == 8 && date > 7 && date < 11) {
     return (
-      <Tooltip render={() => "Кастомный период"}>
-        <RenderDefault
-          {...defaultProps}
-          isDayInSelectedPeriod={true}
-          isPeriodStart={dd === 8}
-          isPeriodEnd={dd === 10}
-        />
+      <Tooltip render={() => "Кастомный день"}>
+        <CalendarDay {...props} style={{ background: 'darkgray' }} />
       </Tooltip>
     );
   }
 
-  if (mm === month && dd === 20) {
+  if (month == 8 && date == 20) {
     return (
       <Hint text={date} pos="right middle">
-        <RenderDefault {...defaultProps}>
+        <CalendarDay {...props}>
           <b style={{color: 'orange'}}>#</b>
-        </RenderDefault>
+        </CalendarDay>
       </Hint>
     );
   }
 
-  return <RenderDefault {...defaultProps} />
+  return <CalendarDay {...props} />
 };
 
 <Calendar

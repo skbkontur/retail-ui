@@ -26,7 +26,7 @@ import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
 import { CalendarContext, CalendarContextProps } from './CalendarContext';
-import { DayProps } from './DayCellView';
+import { CalendarDayProps } from './CalendarDay';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -83,21 +83,13 @@ export interface CalendarProps extends CommonProps {
    */
   initialYear?: number;
   /**
-   * Метод отрисовки ячеки даты в календаре
+   * Метод отрисовки дат в календаре
+   * @default (props: CalendarDayProps) => <CalendarDay {...props} />
+   * @param {CalendarDayProps} props
    *
-   * @default undefined
-   *
-   * @param date - дата в формате `dd.mm.yyyy`
-   * @param defaultProps - дефолтные пропы `DayProps`
-   * @param RenderDefault - дефолтный комопнент для рендера ячейки
-   *
-   * @returns {ReactNode} возвращает компонент, который отрисовывает контент числа месяца
+   * @returns {ReactElement} Элемент, который отрисовывает контент числа месяца.
    */
-  renderDay?: (
-    date: string,
-    defaultProps: DayProps,
-    RenderDefault: React.FunctionComponent<DayProps>,
-  ) => React.ReactNode;
+  renderDay?: (props: CalendarDayProps) => React.ReactElement;
 
   /**
    * Вызывается при каждом изменении месяца
