@@ -5,7 +5,7 @@ import { Story } from '../../../typings/stories';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
 import { Loader } from '../../../components/Loader';
-import { Select } from '../../../components/Select';
+import { Select, SelectDataTids } from '../../../components/Select';
 import { Kebab } from '../../../components/Kebab';
 import { MenuItem } from '../../../components/MenuItem';
 import { Center } from '../../../components/Center';
@@ -420,7 +420,6 @@ class TooltipAndSelect extends React.Component {
             value={'small'}
             items={['small', 'medium', 'large']}
             size={'small'}
-            data-tid="test-select"
           />
         </Tooltip>
       </div>
@@ -777,7 +776,7 @@ TooltipAndSelectStory.parameters = {
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="test-select"]' }))
+          .click(this.browser.findElement({ css: `[data-tid=${SelectDataTids.label}]` }))
           .sendKeys('q')
           .perform();
         await delay(1000);

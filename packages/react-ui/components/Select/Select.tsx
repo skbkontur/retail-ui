@@ -550,7 +550,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           const element = item();
 
           if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key: i, isMobile, size });
+            return React.cloneElement(element, { key: i, isMobile, size } as MenuItemProps);
           }
 
           return null;

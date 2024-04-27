@@ -65,12 +65,14 @@ export const Sample: Story = () => (
 );
 Sample.parameters = { creevey: { tests: testScrollLockUnlock } };
 
-export const WithScrollableContent: Story = () => (
+const renderScrollableContent = () => (
   <div>
     <SampleLockScroll />
     <div>{'s c r o l l . '.repeat(1000)}</div>
   </div>
 );
+
+export const WithScrollableContent: Story = () => renderScrollableContent();
 WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };
 
 export const WithHTMLOverflowYScroll: Story = () => {
@@ -95,7 +97,7 @@ WithHTMLOverflowYScroll.parameters = { creevey: { tests: testScrollLockUnlock } 
 export const Multiple_WithScrollableContent: Story = () => (
   <>
     <HideBodyVerticalScroll />
-    {WithScrollableContent}
+    {renderScrollableContent()}
   </>
 );
 Multiple_WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 import { OkIcon } from '../../../internal/icons/16px';
 import { Menu } from '../Menu';
-import { MenuItem } from '../../../components/MenuItem';
+import { MenuItem, MenuItemProps } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 
@@ -236,7 +236,7 @@ class MoveControls extends React.Component<React.PropsWithChildren> {
         <br />
         <div data-tid="menu-container" style={{ padding: 10 }}>
           {React.isValidElement(this.props.children)
-            ? React.cloneElement(this.props.children, { ref: this.refMenu })
+            ? React.cloneElement(this.props.children, { ref: this.refMenu } as MenuItemProps)
             : this.props.children}
         </div>
       </div>
