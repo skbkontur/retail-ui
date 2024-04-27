@@ -11,27 +11,7 @@ describe('tryGetBoolean', () => {
 });
 
 describe('tryGetBoolean with invalid input', () => {
-  it('should return undefined when passed null', () => {
-    expect(tryGetBoolean(null)).toBeUndefined();
-  });
-
-  it('should return undefined when passed undefined', () => {
-    expect(tryGetBoolean(undefined)).toBeUndefined();
-  });
-
-  it('should return undefined when passed a number', () => {
-    expect(tryGetBoolean(42)).toBeUndefined();
-  });
-
-  it('should return undefined when passed a string', () => {
-    expect(tryGetBoolean('hello')).toBeUndefined();
-  });
-
-  it('should return undefined when passed an object', () => {
-    expect(tryGetBoolean({})).toBeUndefined();
-  });
-
-  it('should return undefined when passed an array', () => {
-    expect(tryGetBoolean([])).toBeUndefined();
+  it.each([null, undefined, 42, 'hello', {}, []])('should return undefined when passed `%s`', (value) => {
+    expect(tryGetBoolean(value)).toBeUndefined();
   });
 });
