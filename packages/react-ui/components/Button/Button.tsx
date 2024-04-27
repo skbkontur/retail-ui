@@ -287,6 +287,18 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
     return <span {...rest}>{children}</span>;
   }
 
+  private getTabIndex({
+    disableFocus,
+    disabled,
+    tabIndex = 0,
+  }: Pick<ButtonProps, 'disableFocus' | 'disabled' | 'tabIndex'>) {
+    if (disableFocus || disabled) {
+      return -1;
+    }
+
+    return tabIndex;
+  }
+
   private renderMain() {
     const {
       corners,
@@ -315,6 +327,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
       onClickCapture,
       width,
       children,
+      tabIndex,
       component = BUTTON_DEFAULT_ELEMENT,
       'aria-describedby': ariaDescribedby,
       'aria-haspopup': ariaHasPopup,
@@ -420,7 +433,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
       onMouseDown,
       onMouseUp,
       onClickCapture,
-      tabIndex: disableFocus ? -1 : 0,
+      tabIndex: this.getTabIndex({ disableFocus, disabled, tabIndex }),
       title: this.props.title,
       ...(Root === BUTTON_DEFAULT_ELEMENT ? buttonOnlyProps : {}),
       ...(Root === 'a' ? linkOnlyProps : {}),
