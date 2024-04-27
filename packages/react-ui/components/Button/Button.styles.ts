@@ -22,6 +22,7 @@ export const globalClasses = prefix('button')({
   text: 'text',
   innerShadow: 'inner-shadow',
   link: 'link',
+  disabled: 'disabled',
 });
 
 export const styles = memoizeStyle({
@@ -65,13 +66,16 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:hover:enabled svg {
+      &:hover:enabled svg,
+      &.${globalClasses.link}:hover svg {
         color: ${t.btnIconHoverColor};
       }
-      &:disabled svg {
+      &:disabled svg,
+      &.${globalClasses.link}.${globalClasses.disabled} svg {
         color: ${t.btnIconDisabledColor};
       }
-      &:enabled svg {
+      &:enabled svg,
+      &.${globalClasses.link} svg {
         color: ${t.btnIconColor};
       }
     `;
@@ -359,6 +363,7 @@ export const styles = memoizeStyle({
   disabled(t: Theme) {
     return css`
       cursor: default;
+      pointer-events: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
 
       background-image: none;
@@ -1002,12 +1007,6 @@ export const styles = memoizeStyle({
       -ms-user-select: none; /* Internet Explorer/Edge */
       user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
-    `;
-  },
-  anchorDisabled() {
-    return css`
-      cursor: default;
-      pointer-events: none;
     `;
   },
 });

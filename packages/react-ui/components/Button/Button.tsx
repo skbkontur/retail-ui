@@ -353,12 +353,12 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
         styles.root(this.theme),
         styles[use](this.theme),
         sizeClass,
+        styles.disableTextSelect(),
         narrow && styles.narrow(),
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
         rootClassNameWithArrow,
         Root === 'a' && globalClasses.link,
-        Root === 'a' && styles.disableTextSelect(),
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
@@ -367,7 +367,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
               use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
-              Root === 'a' && styles.anchorDisabled(),
+              Root === 'a' && globalClasses.disabled,
             ]
           : [
               active && !checked && activeStyles[use](this.theme),
@@ -393,8 +393,6 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
         [styles.narrow()]: narrow,
         [styles.noPadding()]: _noPadding,
         [styles.noRightPadding()]: _noRightPadding,
-        [styles.disableTextSelect()]: Root === 'a',
-        [styles.anchorDisabled()]: Root === 'a' && trueDisabled,
       });
     }
 
