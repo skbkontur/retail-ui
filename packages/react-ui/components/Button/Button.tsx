@@ -344,11 +344,6 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
 
     const Root = component as React.ElementType;
 
-    const buttonOnlyProps = {
-      type,
-    };
-    const linkOnlyProps = pick(rest, ['href', 'hrefTo', 'rel', 'target']);
-
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
     const _isTheme2022 = isTheme2022(this.theme);
@@ -409,6 +404,13 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
       });
     }
 
+    const buttonOnlyProps = {
+      type,
+      disabled: trueDisabled,
+    };
+
+    const linkOnlyProps = pick(rest, ['href', 'hrefTo', 'rel', 'target']);
+
     const rootProps = {
       role,
       'aria-describedby': ariaDescribedby,
@@ -422,7 +424,6 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
         textAlign: align,
         ...corners,
       },
-      disabled: trueDisabled,
       onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
