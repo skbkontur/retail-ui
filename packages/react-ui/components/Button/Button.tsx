@@ -434,7 +434,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
       onMouseDown,
       onMouseUp,
       onClickCapture,
-      tabIndex: this.getTabIndex({ disableFocus, disabled, tabIndex }),
+      tabIndex: this.getTabIndex({ disableFocus, disabled: trueDisabled, tabIndex }),
       title: this.props.title,
       ...(Root === BUTTON_DEFAULT_ELEMENT ? buttonOnlyProps : {}),
       ...(Root === 'a' ? linkOnlyProps : {}),
