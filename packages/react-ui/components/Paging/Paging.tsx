@@ -12,12 +12,12 @@ import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
