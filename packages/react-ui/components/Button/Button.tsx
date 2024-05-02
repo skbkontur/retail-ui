@@ -409,7 +409,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
       disabled: trueDisabled,
     };
 
-    const linkOnlyProps = pick(rest, ['href', 'hrefTo', 'rel', 'target']);
+    const linkOnlyProps = pick(rest, ['href', 'hrefLang', 'rel', 'target']);
 
     const rootProps = {
       role,
