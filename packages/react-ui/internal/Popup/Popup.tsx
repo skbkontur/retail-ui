@@ -627,7 +627,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private processPosAndPositions() {
+  private reorderPropsPositionsWithPriorityPos() {
     const { positions } = this.getProps();
     let pos_ = '';
     if (this.props.pos) {
@@ -637,14 +637,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
     const index = positions.findIndex((position) => position.startsWith(pos_));
     if (index === -1) {
-      throw new Error('Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+      warning(false, 'Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+      return positions;
     }
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
 
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
-    const positions = this.processPosAndPositions();
+    const positions = this.reorderPropsPositionsWithPriorityPos();
     const anchorElement = this.anchorElement;
 
     warning(
