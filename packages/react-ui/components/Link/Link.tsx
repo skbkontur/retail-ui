@@ -155,8 +155,8 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     return disabled || loading ? -1 : tabIndex;
   };
 
-  private getSecureRel = ({ href, rel }: Pick<LinkProps, 'href' | 'rel'>) => {
-    if (typeof rel === 'undefined' && href) {
+  private getRel = ({ href, rel }: Pick<LinkProps, 'href' | 'rel'>) => {
+    if (!rel && href) {
       return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
@@ -198,7 +198,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
 
     const linkOnlyProps = {
       href,
-      rel: this.getSecureRel({ href, rel }),
+      rel: this.getRel({ href, rel }),
     };
 
     const outlineNode = (
