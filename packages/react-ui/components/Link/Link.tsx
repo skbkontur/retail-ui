@@ -197,7 +197,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     );
 
     const linkOnlyProps = {
-      href,
+      href: '',
       rel: this.getRel({ href, rel }),
     };
 
