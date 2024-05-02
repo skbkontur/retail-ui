@@ -235,4 +235,79 @@ describe('Button', () => {
       expect(handleReset).toHaveBeenCalled();
     });
   });
+
+  describe('with component=a prop', () => {
+    const linkProps = { href: '/', hrefLang: 'ru', rel: 'noopener', target: '_blank' };
+    const buttonProps = { type: 'button' as const, disabled: true };
+    it('should render <a> tag by default', () => {
+      render(
+        <Button component="a" href="/">
+          Button as Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toBeInTheDocument();
+    });
+
+    it('should render <button> tag when ommitted', () => {
+      render(<Button>Button</Button>);
+
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
+
+    test('should only have link props', () => {
+      render(
+        <Button component="a" {...linkProps} {...buttonProps}>
+          Button Link
+        </Button>,
+      );
+
+      const buttonLink = screen.getByRole('link');
+
+      Object.entries(linkProps).forEach(([prop]) => {
+        expect(buttonLink).toHaveAttribute(prop);
+      });
+      Object.entries(buttonProps).forEach(([prop]) => {
+        expect(buttonLink).not.toHaveAttribute(prop);
+      });
+    });
+
+    test('should only have button props when ommited', () => {
+      render(
+        <Button {...linkProps} {...buttonProps}>
+          Button
+        </Button>,
+      );
+      const button = screen.getByRole('button');
+
+      Object.entries(linkProps).forEach(([prop]) => {
+        expect(button).not.toHaveAttribute(prop);
+      });
+      Object.entries(buttonProps).forEach(([prop]) => {
+        expect(button).toHaveAttribute(prop);
+      });
+    });
+
+    it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {
+      render(
+        <Button href="/" component="a" {...prop}>
+          Button Link
+        </Button>,
+      );
+
+      userEvent.tab();
+      expect(screen.getByRole('link')).not.toHaveFocus();
+    });
+
+    it(`should have correct tabIndex`, () => {
+      render(
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+        <Button component="a" href="/" tabIndex={1}>
+          Button Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toHaveAttribute('tabindex', '1');
+    });
+  });
 });
