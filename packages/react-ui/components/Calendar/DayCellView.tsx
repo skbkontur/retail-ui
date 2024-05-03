@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './DayCellView.styles';
@@ -41,7 +40,7 @@ export const DayCellView = (props: DayCellViewProps) => {
   const dayElement = renderDay?.(dayProps) ?? <CalendarDay {...dayProps} />;
 
   return (
-    <div onClick={handleClick} className={cx(styles.cell(theme))}>
+    <div onClick={handleClick} className={styles.cell(theme)}>
       {dayElement}
     </div>
   );

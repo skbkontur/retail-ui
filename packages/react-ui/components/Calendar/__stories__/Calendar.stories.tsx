@@ -111,12 +111,12 @@ const CalendarPeriodDay = (props: CalendarDayProps) => {
   const handleMouseEnter = useCallback(() => setHoveredDate?.(date), [setHoveredDate, date]);
   const handleMouseLeave = useCallback(() => setHoveredDate?.(null), [setHoveredDate]);
 
-  const dayInPediodStyles = useMemoObject({
+  const dayInPeriodStyles = useMemoObject({
     background: 'green',
     color: 'white',
   });
 
-  const dayStyles = isDayInPeriod({ date, periodStart, periodEnd, hoveredDate }) ? dayInPediodStyles : undefined;
+  const dayStyles = isDayInPeriod({ date, periodStart, periodEnd, hoveredDate }) ? dayInPeriodStyles : undefined;
 
   return (
     <CalendarDay

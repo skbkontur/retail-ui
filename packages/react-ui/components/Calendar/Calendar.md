@@ -145,7 +145,7 @@ const renderDay = (props) => {
 ```
 
 ### Компонент CalendarDay
-Доступен публичный компонет `CalendarDay` и интерфейс его пропов `CalendarDayProps`. Может быть полезен для использования вмсете с пропом `renderDay`.
+Доступен публичный компонет `CalendarDay` и интерфейс его пропов `CalendarDayProps`. Может быть полезен для использования вместе с пропом `renderDay`.
 
 ```jsx harmony
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';

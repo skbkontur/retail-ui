@@ -125,7 +125,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public renderMain() {
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
-      <div key={`leadgin_${i}`} className={cellStyles.cell(this.theme)} />
+      <div key={`leading_${i}`} className={cellStyles.cell(this.theme)} />
     ));
     const trailingOffset = DAYS_PER_WEEK - ((this.props.offset + this.props.days.length) % DAYS_PER_WEEK);
     const trailingDays = Array.from({ length: trailingOffset }, (_, i) => (

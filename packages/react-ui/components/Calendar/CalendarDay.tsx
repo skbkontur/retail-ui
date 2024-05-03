@@ -16,16 +16,16 @@ import { styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
 
 export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement> {
-  isToday: boolean;
-  isSelected: boolean;
-  isDisabled: boolean;
-  isWeekend: boolean;
+  isToday?: boolean;
+  isSelected?: boolean;
+  isDisabled?: boolean;
+  isWeekend?: boolean;
   date: CDS.CalendarDateShape;
 }
 
 export const CalendarDay: React.FC<CalendarDayProps> = memo(
   forwardRefAndName(
-    'MaskedInput',
+    'CalendarDay',
     function CalendarDay(
       { isToday, isSelected, isDisabled, isWeekend, date, children, className, ...rest },
       ref: React.Ref<HTMLButtonElement>,
@@ -39,7 +39,7 @@ export const CalendarDay: React.FC<CalendarDayProps> = memo(
         .setComponents({ ...date }, true)
         .toA11YFormat()}`;
 
-      const day = children ?? date.date;
+      const caption = children ?? date.date;
 
       return (
         <button
@@ -53,14 +53,14 @@ export const CalendarDay: React.FC<CalendarDayProps> = memo(
               [styles.day(theme)]: true,
               [styles.today(theme)]: isToday && !_isTheme2022,
               [styles.selected(theme)]: isSelected,
-              [styles.weekend(theme)]: Boolean(isWeekend),
+              [styles.weekend(theme)]: isWeekend,
             },
             className,
           )}
           {...getVisualStateDataAttributes({ selected: isSelected })}
           {...rest}
         >
-          <span className={cx({ [styles.todayCaption2022(theme)]: isToday && _isTheme2022 })}>{day}</span>
+          <span className={cx({ [styles.todayCaption2022(theme)]: isToday && _isTheme2022 })}>{caption}</span>
         </button>
       );
     },
