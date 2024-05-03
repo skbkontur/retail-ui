@@ -1,6 +1,6 @@
 import { Nullable } from '../../typings/utility-types';
 
-import { getMonthInHumanFormat } from './CalendarUtils';
+import { getMonthInHumanFormat, getMonthInNativeFormat } from './CalendarUtils';
 
 export interface CalendarDateShape {
   year: number;
@@ -55,7 +55,7 @@ export const isBetween = (
 
 export const fromString = (dateString: string): CalendarDateShape => {
   const [date, month, year] = dateString.split('.').map(Number);
-  return create(date, month, year);
+  return create(date, getMonthInNativeFormat(month), year);
 };
 
 export const toString = ({ date, month, year }: CalendarDateShape): string => {

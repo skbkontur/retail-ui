@@ -168,7 +168,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       maxDate: maxDateShape,
     });
 
-    const initialMonth = CalendarUtils.getMonthInNativeFormat(this.props.initialMonth) ?? initialDate.month;
+    const initialMonth = this.props.initialMonth
+      ? CalendarUtils.getMonthInNativeFormat(this.props.initialMonth)
+      : initialDate.month;
     const initialYear = this.props.initialYear ?? initialDate.year;
 
     this.state = {
@@ -180,13 +182,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<CalendarProps>, prevState: Readonly<CalendarState>): void {
-    const { value } = this.props;
+    const { value, onMonthChange } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       const date = new InternalDate().parseValue(value).getComponentsLikeNumber();
       this.scrollToMonth(date.month - 1, date.year);
     }
 
-    if (this.props.onMonthChange) {
+    if (onMonthChange) {
       const visibleMonthsModels = this.getVisibleMonths(this.state).map(this.getViewModel);
       const prevFirstVisibleMonthModels = this.getVisibleMonths(prevState).map(this.getViewModel);
       const currentMonth = visibleMonthsModels[0].month;
@@ -405,9 +407,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       year: dateShape.year,
     });
 
-    if (this.props.onValueChange) {
-      this.props.onValueChange(value);
-    }
+    this.props.onValueChange?.(value);
   };
 
   private getDateInNativeFormat(date: Nullable<string>) {
