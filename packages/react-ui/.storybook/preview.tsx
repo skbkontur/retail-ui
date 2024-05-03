@@ -130,13 +130,6 @@ export const parameters: Meta['parameters'] = {
   viewport: {
     viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
   },
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/i,
-    },
-  },
 };
 
 export const globalTypes = {

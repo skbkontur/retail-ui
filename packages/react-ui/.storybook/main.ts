@@ -6,8 +6,14 @@ const config: StorybookConfig = {
     'creevey',
     'creevey/preset/ie11',
     '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+    '@storybook/addon-a11y',
+    '@storybook/addon-ie11',
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        docs: false,
+      },
+    },
   ],
   framework: {
     name: '@storybook/react-webpack5',
