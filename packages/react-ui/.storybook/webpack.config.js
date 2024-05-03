@@ -14,7 +14,9 @@ module.exports = async ({ config }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   // storybook's rule for css doesn't handle css-modules
-  const filteredStorybooksWebpackRules = (config.module.rules || []).slice(2).filter((r) => !r.test.test('.css'));
+  const filteredStorybooksWebpackRules = (config.module.rules || [])
+    .slice(2)
+    .filter((r) => r.test && !r.test.test('.css'));
 
   config.module.rules = [
     ...filteredStorybooksWebpackRules,

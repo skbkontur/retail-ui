@@ -124,11 +124,18 @@ export const parameters: Meta['parameters'] = {
       'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
     },
   },
-  options: {
-    storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
-  },
+  // options: {
+  //   storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
+  // },
   viewport: {
     viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
+  },
+  actions: { argTypesRegex: '^on[A-Z].*' },
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/i,
+    },
   },
 };
 
