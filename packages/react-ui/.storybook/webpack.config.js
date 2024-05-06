@@ -26,7 +26,6 @@ module.exports = async ({ config }) => {
       exclude: /node_modules/,
       options: {
         babelrc: false,
-        envName: 'cjs',
         extends: path.join(__dirname, '../.babelrc.js'),
       },
     },

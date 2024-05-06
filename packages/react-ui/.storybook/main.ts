@@ -19,9 +19,7 @@ const config: StorybookConfig = {
     name: '@storybook/react-webpack5',
     options: {
       docs: false,
-      builder: {
-        useSWC: true,
-      },
+      legacyRootApi: true,
     },
   },
 };
