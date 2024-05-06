@@ -238,7 +238,7 @@ describe('Button', () => {
 
   describe('with component=a prop', () => {
     const linkProps = { href: '/', hrefLang: 'ru', rel: 'noopener', target: '_blank' };
-    const buttonProps = { type: 'button' as const, disabled: true };
+    const buttonProps = { type: 'button' as const };
     it('should render <a> tag', () => {
       render(
         <Button component="a" href="/">
