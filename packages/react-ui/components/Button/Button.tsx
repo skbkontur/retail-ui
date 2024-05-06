@@ -406,7 +406,6 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
 
     const buttonOnlyProps = {
       type,
-      disabled: trueDisabled,
     };
 
     const linkOnlyProps = pick(rest, ['href', 'hrefLang', 'rel', 'target']);
@@ -424,6 +423,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
         textAlign: align,
         ...corners,
       },
+      disabled: trueDisabled,
       onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
