@@ -239,7 +239,7 @@ describe('Button', () => {
   describe('with component=a prop', () => {
     const linkProps = { href: '/', hrefLang: 'ru', rel: 'noopener', target: '_blank' };
     const buttonProps = { type: 'button' as const, disabled: true };
-    it('should render <a> tag by default', () => {
+    it('should render <a> tag', () => {
       render(
         <Button component="a" href="/">
           Button as Link
@@ -249,7 +249,7 @@ describe('Button', () => {
       expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
-    it('should render <button> tag when ommitted', () => {
+    it('should render <button> tag when omitted', () => {
       render(<Button>Button</Button>);
 
       expect(screen.getByRole('button')).toBeInTheDocument();
@@ -272,7 +272,7 @@ describe('Button', () => {
       });
     });
 
-    test('should only have button props when ommited', () => {
+    test('should only have button props when omitted', () => {
       render(
         <Button {...linkProps} {...buttonProps}>
           Button
