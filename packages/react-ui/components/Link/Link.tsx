@@ -214,7 +214,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       target,
     };
 
-    const buttonOnlyProps = { disabled: nonInteractive, type };
+    const buttonOnlyProps = { type };
 
     const outlineNode = (
       <div
@@ -227,7 +227,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       />
     );
 
-    const linkProps = {
+    const rootProps = {
       className: cx(
         styles.useRoot(),
         Root === 'button' && resetButton(),
@@ -243,6 +243,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       tabIndex: this.getTabIndex({ nonInteractive, tabIndex }),
+      disabled: nonInteractive,
       ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
       ...(Root === 'button' ? buttonOnlyProps : {}),
     };
@@ -269,7 +270,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     }
 
     return (
-      <Root data-tid={LinkDataTids.root} {...rest} {...linkProps}>
+      <Root data-tid={LinkDataTids.root} {...rest} {...rootProps}>
         {leftIconElement}
         {outlineNode}
         {child}
