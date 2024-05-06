@@ -151,8 +151,14 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     );
   }
 
-  private getTabIndex = ({ disabled, loading, tabIndex = 0 }: Pick<LinkProps, 'disabled' | 'loading' | 'tabIndex'>) => {
-    return disabled || loading ? -1 : tabIndex;
+  private getTabIndex = ({
+    nonInteractive,
+    tabIndex = 0,
+  }: {
+    nonInteractive: boolean | undefined;
+    tabIndex: number | undefined;
+  }) => {
+    return nonInteractive ? -1 : tabIndex;
   };
 
   private getRel = ({ href, rel }: Pick<LinkProps, 'href' | 'rel'>) => {
@@ -167,6 +173,8 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     const {
       disabled,
       href,
+      hrefLang,
+      target,
       icon,
       rightIcon,
       use,
@@ -179,6 +187,8 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       focused = false,
       error,
       warning,
+      type,
+      tabIndex,
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
@@ -195,11 +205,16 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     const rightIconElement = rightIcon && (
       <LinkIcon hasBothIcons={!!icon && !!rightIcon} icon={rightIcon} loading={loading} position="right" />
     );
+    const nonInteractive = disabled || loading;
 
     const linkOnlyProps = {
       href: '',
+      hrefLang,
       rel: this.getRel({ href, rel }),
+      target,
     };
+
+    const buttonOnlyProps = { disabled: nonInteractive, type };
 
     const outlineNode = (
       <div
@@ -222,13 +237,14 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
-        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+        this.getLinkClassName(isFocused, Boolean(nonInteractive), _isTheme2022),
       ),
       onClick: this.handleClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      tabIndex: this.getTabIndex({ disabled, loading, tabIndex: this.props.tabIndex }),
+      tabIndex: this.getTabIndex({ nonInteractive, tabIndex }),
       ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
+      ...(Root === 'button' ? buttonOnlyProps : {}),
     };
 
     let child = this.props.children;
