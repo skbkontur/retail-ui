@@ -1,6 +1,5 @@
 import { getVisualStateDataAttributes, VisualStateDataAttributesResultType } from './getVisualStateDataAttributes';
-
-const tryGetBoolean = (value: unknown): boolean | undefined => (typeof value === 'boolean' ? value : undefined);
+import { tryGetBoolean } from './tryGetBoolean';
 
 export function getCommonVisualStateDataAttributes(
   componentProps: Record<string, unknown>,

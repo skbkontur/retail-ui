@@ -15,6 +15,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
 import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
@@ -225,7 +226,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
+      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps} {...getVisualStateDataAttributes({ disabled })}>
         {leftIconElement}
         {child}
         {rightIconElement}
