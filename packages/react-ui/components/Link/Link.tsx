@@ -14,6 +14,7 @@ import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
+import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
@@ -125,19 +126,27 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
+  private linkFocusOutline?: boolean;
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.linkFocusOutline = getFullReactUIFlagsContext(flags).linkFocusOutline;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -199,7 +208,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
         <span
-          className={cx(styles.lineTextWrapper(this.theme), {
+          className={cx(globalClasses.textWrapper, styles.lineTextWrapper(this.theme), {
             [styles.lineTextWrapperFocused(this.theme)]: isFocused,
           })}
         >
@@ -272,6 +281,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+          isFocused && _isTheme2022 && this.linkFocusOutline && styles.focus2022(this.theme),
         );
   }
 }

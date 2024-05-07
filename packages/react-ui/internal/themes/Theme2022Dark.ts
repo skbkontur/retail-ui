@@ -66,19 +66,14 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnBacklessHoverBg = 'rgba(255, 255, 255, 0.1) !important';
   public static btnBacklessActiveBg = 'rgba(255, 255, 255, 0.06) !important';
   public static btnBacklessBorderColor = 'rgba(255, 255, 255, 0.16) !important';
+  public static btnBacklessDisabledBorderColor = 'rgba(255, 255, 255, 0.06) !important';
   public static btnBacklessHoverBorderColor = 'rgba(255, 255, 255, 0.1)';
   public static btnBacklessTextColor = 'rgba(255, 255, 255, 0.87)';
 
-  public static btnTextBg = 'transparent';
+  public static btnTextBg = 'transparent !important';
   public static btnTextHoverBg = 'rgba(255, 255, 255, 0.1)';
   public static btnTextActiveBg = 'rgba(255, 255, 255, 0.06)';
   public static btnTextBorderColor = 'transparent';
-
-  public static btnIconColor = 'rgba(255, 255, 255, 0.54)';
-  public static btnIconHoverColor = 'rgba(255, 255, 255, 0.87)';
-  public static get btnIconDisabledColor() {
-    return this.btnDisabledTextColor;
-  }
 
   public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
   public static btnErrorSecondary = 'rgba(169, 42, 39, 1)';
@@ -91,6 +86,10 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnCheckedTextColor = 'rgba(0, 0, 0, 0.865)';
   public static btnCheckedDisabledBg = 'rgba(255, 255, 255, 0.32) !important';
   public static btnCheckedDisabledColor = 'rgba(0, 0, 0, 0.48)';
+  //#endregion
+
+  //#region Select
+  public static selectMenuArrowColor = 'rgba(255, 255, 255, 0.54)';
   //#endregion
 
   //#region Link
@@ -112,6 +111,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkGrayedActiveColor = '#C2C2C2';
 
   public static linkDisabledColor = 'rgba(255, 255, 255, 0.48)';
+  public static linkFocusOutlineColor = '#EBEBEB';
   //#endregion Link
 
   //#region Input
@@ -140,6 +140,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion TokenInput
 
   //#region Textarea
+  public static get textareaBg() {
+    return this.inputBg;
+  }
   public static get textareaBorderColorFocus() {
     return this.inputBorderColorFocus;
   }
@@ -290,13 +293,18 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region Toast
-  public static toastBg = 'rgba(67, 67, 67, 0.92)';
-  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.16)';
-  public static toastLinkBgActive = '';
+  public static toastColor = 'rgba(44, 44, 44, 1.0)';
+  public static toastBg = 'rgba(255, 255, 255, 0.8)';
+  public static toastLinkColor = 'rgba(44, 44, 44, 1.0)';
+  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.87)';
+  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.16)';
+  public static toastCloseColor = 'rgba(0, 0, 0, 0.32)';
+  public static toastCloseHoverColor = 'rgba(0, 0, 0, 0.87)';
   //#endregion
 
   //#region Hint
-  public static hintBgColor = 'rgba(67, 67, 67, 0.92)';
+  public static hintColor = 'rgba(44, 44, 44, 1.0)';
+  public static hintBgColor = 'rgba(255, 255, 255, 0.8)';
   //#endregion
 
   //#region Tooltip
@@ -314,7 +322,8 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 
   //#region DateInput
-  public static dateInputComponentSelectedBgColor = ''; // will apply native selection bg color
+  public static dateInputComponentSelectedBgColor = '';
+  public static dateInputComponentSelectedTextColor = '';
   //#endregion
 
   //#region Calendar

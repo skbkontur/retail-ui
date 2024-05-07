@@ -9,20 +9,21 @@ import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
-import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
+import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
+import { InputIconType, InputProps, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
-import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { FocusControlWrapper } from '../FocusControlWrapper';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -218,44 +219,46 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <span
-        data-tid={InputLikeTextDataTids.root}
-        {...rest}
-        className={className}
-        style={{ width, textAlign: align }}
-        tabIndex={disabled ? undefined : 0}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        ref={this.innerRef}
-        onKeyDown={this.handleKeyDown}
-        onMouseDown={this.handleMouseDown}
-      >
-        <InputLayoutContext.Provider value={context}>
-          <input
-            data-tid={InputLikeTextDataTids.nativeInput}
-            type="hidden"
-            value={value}
-            disabled={disabled}
-            aria-describedby={ariaDescribedby}
-          />
-          {leftSide}
-          <span className={wrapperClass}>
-            <span
-              data-tid={InputLikeTextDataTids.input}
-              className={cx(jsInputStyles.input(this.theme), {
-                [styles.absolute()]: !takeContentWidth,
-                [jsInputStyles.inputFocus(this.theme)]: focused,
-                [jsInputStyles.inputDisabled(this.theme)]: disabled,
-              })}
-            >
-              {this.props.children}
+      <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
+        <span
+          data-tid={InputLikeTextDataTids.root}
+          {...rest}
+          className={className}
+          style={{ width, textAlign: align }}
+          tabIndex={disabled ? undefined : 0}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          ref={this.innerRef}
+          onKeyDown={this.handleKeyDown}
+          onMouseDown={this.handleMouseDown}
+        >
+          <InputLayoutContext.Provider value={context}>
+            <input
+              data-tid={InputLikeTextDataTids.nativeInput}
+              type="hidden"
+              value={value}
+              disabled={disabled}
+              aria-describedby={ariaDescribedby}
+            />
+            {leftSide}
+            <span className={wrapperClass}>
+              <span
+                data-tid={InputLikeTextDataTids.input}
+                className={cx(jsInputStyles.input(this.theme), {
+                  [styles.absolute()]: !takeContentWidth,
+                  [jsInputStyles.inputFocus(this.theme)]: focused,
+                  [jsInputStyles.inputDisabled(this.theme)]: disabled,
+                })}
+              >
+                {this.props.children}
+              </span>
+              {this.renderPlaceholder()}
             </span>
-            {this.renderPlaceholder()}
-          </span>
-          {rightSide}
-          {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
-        </InputLayoutContext.Provider>
-      </span>
+            {rightSide}
+            {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+          </InputLayoutContext.Provider>
+        </span>
+      </FocusControlWrapper>
     );
   };
 
@@ -442,7 +445,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
     if (isMobile) {
-      e.target.setAttribute('contenteditable', 'true');
+      this.node?.setAttribute('contenteditable', 'true');
     }
 
     if (this.props.disabled) {
@@ -472,10 +475,22 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
+  private resetFocus = () => {
+    this.selectNodeContentsDebounced.cancel();
+    if (isMobile) {
+      this.node?.removeAttribute('contenteditable');
+    }
+    if ((isIE11 || isEdge) && this.frozenBlur) {
+      this.frozenBlur = false;
+    }
+    removeAllSelections();
+    this.setState({ focused: false });
+  };
+
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     this.selectNodeContentsDebounced.cancel();
     if (isMobile) {
-      e.target.removeAttribute('contenteditable');
+      this.node?.removeAttribute('contenteditable');
     }
 
     if (this.props.disabled) {
@@ -492,12 +507,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     removeAllSelections();
-
     this.setState({ focused: false });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    this.props.onBlur?.(e);
   };
 
   private hiddenInputRef = (el: HTMLInputElement | null) => {

@@ -224,25 +224,9 @@ export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
 
-/**
- * Allows to get text of all nested children as a string
- *
- * @param children React's children
- * @returns Nested child text or an empty string
- */
-export function getChildrenText(children: React.ReactNode): string {
-  if (typeof children === 'string' || typeof children === 'number') {
-    return children.toString();
-  }
+export function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
 
-  if (Array.isArray(children)) {
-    return children.map((entry) => getChildrenText(entry)).join('');
-  }
-
-  const nextChild = (children as React.ReactElement)?.props.children;
-  if (!nextChild) {
-    return '';
-  }
-
-  return getChildrenText(nextChild);
+  document.body.dispatchEvent(event);
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.14.2",
+  "version": "1.14.4",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -30,8 +30,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\"",
-    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
-    "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
+    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && creevey -c .creevey/config.js",
+    "creevey:update": "creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui"
   },
   "main": "./index.js",
@@ -86,7 +86,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-search-and-replace": "1.1.0",
     "core-js": "^3.9.1",
-    "creevey": "0.8.0-beta.1",
+    "creevey": "0.8.2-fix-wait.2",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.7",
     "dts-bundle": "^0.7.3",

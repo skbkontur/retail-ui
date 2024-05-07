@@ -2,7 +2,7 @@ import React, { AriaAttributes } from 'react';
 
 import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { emptyHandler, getChildrenText } from '../../lib/utils';
+import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -10,9 +10,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { SizeProp } from '../../lib/types/props';
+import { reactGetTextContent } from '../../lib/reactGetTextContent';
 
-import { styles, colorStyles, globalClasses } from './Token.styles';
+import { styles, colorStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
+import { TokenView } from './TokenView';
 
 export type TokenColorName = keyof typeof colorStyles;
 
@@ -20,6 +23,8 @@ export interface TokenColors {
   idle: TokenColorName;
   active?: TokenColorName;
 }
+
+export type TokenSize = SizeProp;
 
 export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, CommonProps {
   colors?: TokenColors;
@@ -33,6 +38,10 @@ export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, Co
    */
   warning?: boolean;
   disabled?: boolean;
+  /**
+   * Размер
+   */
+  size?: TokenSize;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;
@@ -80,6 +89,7 @@ export class Token extends React.Component<TokenProps> {
 
   private renderMain() {
     const {
+      size,
       children,
       isActive,
       colors = { idle: 'defaultIdle', active: 'defaultActive' },
@@ -98,42 +108,58 @@ export class Token extends React.Component<TokenProps> {
     const theme = this.theme;
 
     const validation = getValidation(error, warning);
-    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + getChildrenText(children);
+    const removeButtonAriaLabel = this.locale.removeButtonAriaLabel + ' ' + reactGetTextContent(children);
 
     const icon = isTheme2022(theme) ? (
-      <CloseButtonIcon side={16} color="inherit" colorHover="inherit" role="none" tabbable={false} />
+      <CloseButtonIcon
+        side={16}
+        color="inherit"
+        colorHover="inherit"
+        aria-label={removeButtonAriaLabel}
+        tabbable={false}
+      />
     ) : (
       <CrossIcon />
     );
 
-    let classNames = '';
-    if (isTheme2022(theme)) {
-      classNames = cx(
-        styles.tokenDefaultIdle2022(theme),
-        !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
-        isActive && styles.tokenDefaultActive2022(theme),
-        warning && styles.tokenWarning2022(theme),
-        error && styles.tokenError2022(theme),
-        disabled && styles.tokenDisabled2022(theme),
-      );
-    } else {
-      classNames = cx(
-        colorStyles[colors.idle](theme, validation),
-        !!isActive && colorStyles[colors.active || colors.idle](theme, validation),
-        !!disabled && styles.disabled(theme),
-        !!disabled && colorStyles.defaultDisabled(theme),
-        !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
-        !!disabled && error && colorStyles.defaultDisabledError(theme),
-      );
-    }
+    const classNames = isTheme2022(theme)
+      ? cx(
+          styles.tokenDefaultIdle2022(theme),
+          !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
+          isActive && styles.tokenDefaultActive2022(theme),
+          warning && styles.tokenWarning2022(theme),
+          error && styles.tokenError2022(theme),
+          disabled && styles.tokenDisabled2022(theme),
+        )
+      : cx(
+          colorStyles[colors.idle](theme, validation),
+          !!isActive && colorStyles[colors.active || colors.idle](theme, validation),
+          !!disabled && styles.disabled(theme),
+          !!disabled && colorStyles.defaultDisabled(theme),
+          !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
+          !!disabled && error && colorStyles.defaultDisabledError(theme),
+        );
 
-    const tokenClassNames = cx(styles.token(this.theme), classNames);
+    const textholder = <span className={styles.text(this.theme)}>{children}</span>;
+
+    const closeButton = (
+      <span
+        role={isTheme2022(theme) ? undefined : 'button'}
+        aria-label={isTheme2022(theme) ? undefined : removeButtonAriaLabel}
+        onClick={this.onRemoveClick}
+        data-tid={TokenDataTids.removeIcon}
+      >
+        {icon}
+      </span>
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div
+        <TokenView
+          className={classNames}
+          size={size}
+          closeButton={closeButton}
           data-tid={TokenDataTids.root}
-          className={tokenClassNames}
           aria-describedby={ariaDescribedby}
           onClick={onClick}
           onDoubleClick={onDoubleClick}
@@ -142,17 +168,8 @@ export class Token extends React.Component<TokenProps> {
           onFocus={onFocus}
           onBlur={onBlur}
         >
-          <span className={styles.text(this.theme)}>{children}</span>
-          <span
-            role={isTheme2022(theme) ? undefined : 'button'}
-            aria-label={isTheme2022(theme) ? undefined : removeButtonAriaLabel}
-            className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)}
-            onClick={this.onRemoveClick}
-            data-tid={TokenDataTids.removeIcon}
-          >
-            {icon}
-          </span>
-        </div>
+          {textholder}
+        </TokenView>
       </CommonWrapper>
     );
   }

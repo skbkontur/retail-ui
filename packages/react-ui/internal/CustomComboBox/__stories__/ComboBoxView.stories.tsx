@@ -142,7 +142,7 @@ Opened.storyName = 'opened';
 Opened.parameters = {
   creevey: {
     skip: {
-      in: ['chrome2022Dark'],
+      flacky: { in: ['chrome2022Dark'] },
     },
   },
 };

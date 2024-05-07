@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineHovered } from './Link.mixins';
 
 export const globalClasses = prefix('link')({
+  textWrapper: 'textWrapper',
   text: 'text',
 });
 
@@ -68,6 +69,7 @@ export const styles = memoizeStyle({
     return css`
       @supports (border-bottom-color: ${t.linkLineBorderBottomColor}) {
         border-bottom-color: currentColor;
+        border-bottom-style: ${t.linkLineHoverBorderBottomStyle};
       }
     `;
   },
@@ -94,6 +96,7 @@ export const styles = memoizeStyle({
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
+
       .${globalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
@@ -103,6 +106,7 @@ export const styles = memoizeStyle({
   lineFocusSuccess(t: Theme) {
     return css`
       color: ${t.linkSuccessHoverColor} !important;
+
       .${globalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
@@ -112,6 +116,7 @@ export const styles = memoizeStyle({
   lineFocusDanger(t: Theme) {
     return css`
       color: ${t.linkDangerHoverColor} !important;
+
       .${globalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
@@ -121,6 +126,7 @@ export const styles = memoizeStyle({
   lineFocusGrayed(t: Theme) {
     return css`
       color: ${t.linkGrayedHoverColor} !important;
+
       .${globalClasses.text} {
         ${linkUseLineHovered(t.linkLineHoverBorderBottomStyle)}
       }
@@ -159,6 +165,7 @@ export const styles = memoizeStyle({
       border-bottom-color: currentColor;
     `;
   },
+
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
@@ -212,6 +219,23 @@ export const styles = memoizeStyle({
   focus(t: Theme) {
     return css`
       text-decoration: ${t.linkHoverTextDecoration};
+    `;
+  },
+
+  focus2022(t: Theme) {
+    return css`
+      outline: ${t.linkFocusOutline};
+
+      .${globalClasses.text} {
+        &,
+        &:hover {
+          ${linkUseLineHovered('none')}
+        }
+      }
+
+      .${globalClasses.textWrapper} {
+        border-bottom-style: none;
+      }
     `;
   },
 

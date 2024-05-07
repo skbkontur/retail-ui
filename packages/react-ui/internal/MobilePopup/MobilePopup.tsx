@@ -7,6 +7,7 @@ import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ZIndex } from '../ZIndex';
 import { RenderLayer } from '../RenderLayer';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
@@ -43,11 +44,16 @@ export const MobilePopupDataTids = {
   container: 'MobilePopup__container',
 } as const;
 
+@rootNode
 export class MobilePopup extends React.Component<MobilePopupProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
   public static displayName = 'MobileMenuHeader';
 
+  // see #2873 and #2895
+  public static readonly defaultRootNode = null;
+
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -66,7 +72,11 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
             <RenderLayer onClickOutside={this.close}>
-              <div data-tid={MobilePopupDataTids.container} className={jsStyles.container(this.theme)}>
+              <div
+                ref={this.setRootNode}
+                data-tid={MobilePopupDataTids.container}
+                className={jsStyles.container(this.theme)}
+              >
                 <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
                   <div className={jsStyles.content(this.theme)}>{this.props.children}</div>

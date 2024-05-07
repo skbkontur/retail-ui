@@ -5,6 +5,7 @@
 ```typescript static
 export interface ReactUIFeatureFlags {
   tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
+  kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
@@ -41,6 +42,28 @@ const getItems = () => {};
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### kebabHintRemovePin
+
+В Hint и Kebab будет убран "клювик" в THEME_2022.
+В React UI 5.0 фича будет применена по умолчанию.
+```jsx harmony
+import { Hint, Kebab, MenuItem, Gapped, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
+  <Gapped vertical>
+    <Hint text="Подсказка">Hint</Hint>
+    <Kebab>
+      <MenuItem>
+        Редактировать
+      </MenuItem>
+      <MenuItem>
+        Удалить
+      </MenuItem>
+    </Kebab>
+  </Gapped>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
@@ -177,6 +200,27 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
+### linkFocusOutline
+
+Для компонентов `<Link />` и `<Button use="link" />` в THEME_2022 добавлена обводка при фокусе.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Link, Button, Gapped, ThemeContext, THEME_2022, DEFAULT_THEME, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={THEME_2022}>
+  <Gapped vertical>
+    <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
+      <Gapped>
+        <Button use="link">Кнопка</Button>
+        <Link>Ссылка</Link>
+      </Gapped>
+    </ReactUIFeatureFlagsContext.Provider>
+    <Link>Старая ссылка</Link>
+  </Gapped>
+</ThemeContext.Provider>
+```
+
 ### comboBoxAllowValueChangeInEditingState
 
 Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
@@ -211,6 +255,24 @@ const getItems = () =>
       setValue({ value, label: value });
      }}
   />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+### hintAddDynamicPositioning
+
+Этот флаг включает у Hint'а изменение положения, если Hint не попадает во viewport. Если существует положение, в котором Hint будет виден полностью, то Hint будет занимать его.
+При включении флага могут потребоваться обновления скриншотных тестов.
+В React UI 5.0 фича будет применена по умолчанию.
+
+```jsx harmony
+import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true }}>
+  <Hint text={'Example!'} pos="bottom center" manual opened>
+    <Button use="success" size="medium" disabled>
+      Пригласить
+    </Button>
+  </Hint>
 </ReactUIFeatureFlagsContext.Provider>
 ```
 

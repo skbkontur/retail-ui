@@ -10,7 +10,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -228,7 +228,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
-  private lastPopupElement: Nullable<Element>;
+  private lastPopupContentElement: Nullable<Element>;
   private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
@@ -310,9 +310,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const children = this.renderChildren();
 
     return children ? (
-      <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
-        {this.content(children)}
-      </MobilePopup>
+      <CommonWrapper rootNodeRef={this.setRootNode}>
+        <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
+          {this.content(children)}
+        </MobilePopup>
+      </CommonWrapper>
     ) : null;
   }
 
@@ -442,7 +444,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const width = this.getProps().width;
 
     return (
-      <div className={styles.content(this.theme)} data-tid={PopupDataTids.content} ref={this.refForTransition}>
+      <div
+        className={styles.content(this.theme)}
+        data-tid={PopupDataTids.content}
+        ref={mergeRefs([this.refForTransition, this.refPopupContentElement])}
+      >
         <div
           className={styles.contentInner(this.theme)}
           style={{ backgroundColor, width: this.calculateWidth(width) }}
@@ -481,7 +487,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             <ZIndex
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
-              wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
                 [styles.popup(this.theme)]: true,
@@ -519,8 +524,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupElement = (element: Nullable<Element>) => {
-    this.lastPopupElement = element;
+  private refPopupContentElement = (element: Nullable<Element>) => {
+    this.lastPopupContentElement = element;
   };
 
   private renderPin(positionName: string): React.ReactNode {
@@ -539,7 +544,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return (
       hasPin && (
         <PopupPin
-          popupElement={this.lastPopupElement}
+          popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
           size={pinSize || parseInt(this.theme.popupPinSize)}
           offset={this.getPinOffset(position.align)}
@@ -571,13 +576,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private updateLocation = () => {
-    const popupElement = this.lastPopupElement;
+    const popupContentElement = this.lastPopupContentElement;
 
-    if (!popupElement) {
+    if (!popupContentElement) {
       return;
     }
 
-    const location = this.getLocation(popupElement, this.state.location);
+    const location = this.getLocation(popupContentElement, this.state.location);
     if (location) {
       this.props.onPositionChange?.(location?.position);
     }
