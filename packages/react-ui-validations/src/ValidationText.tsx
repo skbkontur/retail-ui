@@ -15,7 +15,7 @@ export interface ValidationTextProps {
 
 export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
   const featureFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
-  const color = getValidationTextColor('light', validation?.level);
+  const color = featureFlags.fixedValidationTextColors ? getValidationTextColor('light', validation?.level) : '#d43517';
 
   if (pos === 'right') {
     const childrenAndValidationText = (
