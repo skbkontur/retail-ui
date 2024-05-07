@@ -1,6 +1,8 @@
 import type { ValidationLevel } from '../ValidationWrapperInternal';
 
-export function getValidationTextColor(theme: 'light' | 'dark', level: ValidationLevel = 'error') {
+import type { ValidationTheme } from './featureFlagsContext';
+
+export function getValidationTextColor(theme: ValidationTheme = 'light', level: ValidationLevel = 'error') {
   switch (level) {
     case 'warning':
       return theme === 'light' ? '#ef8b17' : '#fdd481';

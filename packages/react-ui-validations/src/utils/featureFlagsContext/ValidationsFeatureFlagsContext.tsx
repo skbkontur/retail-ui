@@ -1,8 +1,11 @@
 import React from 'react';
 
+export type ValidationTheme = 'light' | 'dark';
+
 export interface ValidationsFeatureFlags {
   validationsRemoveExtraSpans?: boolean;
   fixedValidationTextColors?: boolean;
+  theme?: ValidationTheme;
 }
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
