@@ -171,7 +171,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private renderMain() {
     const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...this.props}
+        {...getVisualStateDataAttributes({ disabled: this.props.disabled })}
+      >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
@@ -251,6 +255,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as const}
+        {...getVisualStateDataAttributes({ disabled })}
       >
         {this.props.caption || forward}
         {forwardIcon}
