@@ -159,4 +159,14 @@ kind('Button', () => {
       await this.expect(await this.takeScreenshot()).to.matchImage('hover');
     });
   });
+  story('ArrowDisabled', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'not 2022': { in: /2022/ } },
+    });
+  });
+  story('UnusedPropValues', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
+    });
+  });
 });
