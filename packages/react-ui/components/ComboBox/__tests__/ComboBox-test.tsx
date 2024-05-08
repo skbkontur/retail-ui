@@ -1258,6 +1258,12 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 
+  it('should disable default browser autofill', () => {
+    render(<ComboBox getItems={() => Promise.resolve([])} />);
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    expect(screen.getByRole('textbox')).toHaveAttribute('autocomplete', 'off');
+  });
+
   describe('a11y', () => {
     it('props aria-describedby applied correctly on Input', () => {
       const getItems = () => {
