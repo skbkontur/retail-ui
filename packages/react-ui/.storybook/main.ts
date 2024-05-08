@@ -4,10 +4,8 @@ const config: StorybookConfig = {
   stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
   addons: [
     'creevey',
-    'creevey/preset/ie11',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
-    '@storybook/addon-ie11',
     {
       name: '@storybook/addon-essentials',
       options: {
@@ -18,7 +16,6 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      docs: false,
       legacyRootApi: true,
     },
   },

@@ -26,7 +26,7 @@ const resolverStorybookUrl = (port) => ({
 const config = {
   ...resolverStorybookUrl(6060),
   storiesProvider: hybridStoriesProvider,
-  testDir: path.join(__dirname, '../'),
+  testsDir: path.join(__dirname, '../'),
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
