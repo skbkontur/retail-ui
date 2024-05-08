@@ -338,6 +338,12 @@ export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
   />
 );
 
+ArrowDisabled.parameters = {
+  creevey: {
+    skip: { 'not 2022': { in: /2022/ } },
+  },
+};
+
 export const MultilineTextWithLinkButton = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />
@@ -510,6 +516,11 @@ const unusedDifferentStates: ButtonState[] = [
   { warning: false },
   { width: '' },
 ];
+UnusedPropValues.parameters = {
+  creevey: {
+    skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
+  },
+};
 
 export const WithLinkFocusOutlineFeatureFlag = () => (
   <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>

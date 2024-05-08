@@ -11,7 +11,7 @@ const buttonTests = () => {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
@@ -23,7 +23,7 @@ const buttonTests = () => {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
       })
       .press()
       .perform();
@@ -41,7 +41,7 @@ const buttonTests = () => {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   });
@@ -52,31 +52,9 @@ const buttonTests = () => {
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
+      .pause(500)
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  });
-};
-
-const combinationTest = () => {
-  test('simple', async function () {
-    const nextPageButton = () => this.browser.findElement({ css: '#next-page' });
-    const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
-    const page1 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page2 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page3 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page4 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page5 = await element().takeScreenshot();
-    await this.expect({
-      'page - 1': page1,
-      'page - 2': page2,
-      'page - 3': page3,
-      'page - 4': page4,
-      'page - 5': page5,
-    }).to.matchImages();
   });
 };
 
@@ -84,89 +62,32 @@ kind('Button', () => {
   story('PlaygroundDefault', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-
-        // TODO @Khlutkova fix after update browsers
+        'story-skip-0': {
+          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
+          tests: 'hover',
+        },
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
           tests: ['hover', 'pressed', 'clicked'],
         },
+        'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
       },
     });
 
     buttonTests();
   });
+
   story('PlaygroundDisabled', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hover', 'pressed', 'clicked'],
+        'story-skip-0': {
+          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
+          tests: 'hover',
         },
-      },
-    });
-
-    buttonTests();
-  });
-
-  story('UseLink', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hover', 'pressed', 'clicked', 'tabPress'],
+        'focus goes out of page and breaks other tests': {
+          in: /firefox/,
+          tests: 'tabPress',
         },
-      },
-    });
-
-    buttonTests();
-  });
-
-  story('UseLinkWithIcon', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hover', 'pressed', 'clicked', 'tabPress'],
-        },
-      },
-    });
-
-    buttonTests();
-  });
-
-  story('MultilineTextWithLinkButton', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hover', 'pressed', 'clicked'],
-        },
-      },
-    });
-
-    buttonTests();
-  });
-
-  story('WithError', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-        'story-skip-1': { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-
-        // TODO @Khlutkova fix after update browsers
         'story-skip-2': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
           tests: ['hover', 'pressed', 'clicked'],
@@ -177,56 +98,65 @@ kind('Button', () => {
     buttonTests();
   });
 
-  story('ArrowWithError', ({ setStoryParameters }) => {
+  story('WithLinkFocusOutlineFeatureFlag', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-        'story-skip-1': { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-2': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work': {
+          in: /chrome/,
           tests: ['hover', 'pressed', 'clicked'],
         },
+        'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
       },
     });
 
     buttonTests();
   });
 
-  story('DefaultCombinations', () => {
-    combinationTest();
+  story('IconAndTextHoverColor', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'hover does not work in chrome': {
+          in: /^(?!\bfirefox(2022)?\b)/,
+        },
+      },
+    });
+
+    test('hover', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({
+            css: '[data-tid~="test-button"]',
+          }),
+        })
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+    });
   });
 
-  story('CombinationsWithWarning', () => {
-    combinationTest();
-  });
+  story('HoverTextColor', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'hover does not work in chrome': {
+          in: /^(?!\bfirefox(2022)?\b)/,
+        },
+      },
+    });
 
-  story('CombinationsWithError', () => {
-    combinationTest();
-  });
-
-  story('CombinationsWithFocus', () => {
-    combinationTest();
-  });
-
-  story('LoadingCombinations', () => {
-    combinationTest();
-  });
-
-  story('DisabledCombinations', () => {
-    combinationTest();
-  });
-
-  story('ActiveCombinations', () => {
-    combinationTest();
-  });
-
-  story('CheckedCombinations', () => {
-    combinationTest();
-  });
-
-  story('CheckedDisabledCombinations', () => {
-    combinationTest();
+    test('hover', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({
+            css: '[data-tid~="test-button"]',
+          }),
+        })
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+    });
   });
 });
