@@ -99,10 +99,7 @@ const sizeTests = () => {
 };
 
 kind('Autocomplete', () => {
-  story('Simple', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('Simple', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
     });
@@ -119,45 +116,27 @@ kind('Autocomplete', () => {
     commonTests();
   });
 
-  story('WithRenderItem', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('WithRenderItem', () => {
     commonTests();
   });
 
-  story('WithBigRenderItemWidth', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('WithBigRenderItemWidth', () => {
     commonTests();
   });
 
-  story('WithFixedMenuSize', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('WithFixedMenuSize', () => {
     commonTests();
   });
 
-  story('WithPercentageWidth', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('WithPercentageWidth', () => {
     commonTests();
   });
 
-  story('WithFixedWidth', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('WithFixedWidth', () => {
     commonTests();
   });
 
-  story('WithZeroWidth', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('WithZeroWidth', () => {
     commonTests();
   });
 
@@ -217,10 +196,7 @@ kind('Autocomplete', () => {
     });
   });
 
-  story('Size', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'no themes': { in: /Flat8px/ } },
-    });
+  story('Size', () => {
     sizeTests();
   });
 });
