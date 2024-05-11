@@ -25,6 +25,11 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -47,7 +52,24 @@ export const PopupPositions = [
   'right top',
   'right bottom',
 ] as const;
+
+export const OldPopupPositions = [
+  'top left',
+  'top center',
+  'top right',
+  'right top',
+  'right middle',
+  'right bottom',
+  'bottom right',
+  'bottom center',
+  'bottom left',
+  'left bottom',
+  'left middle',
+  'left top',
+] as const;
+
 export const DefaultPosition = PopupPositions[0];
+export const OldDefaultPosition = OldPopupPositions[0];
 
 export type PopupPositionsType = typeof PopupPositions[number];
 export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
@@ -99,7 +121,7 @@ export interface PopupProps
   width?: React.CSSProperties['width'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
-   * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
+   * (в том числе, когда он выходит за пределы экрана, но может быть проскролен в него).
    *
    * Нужен только для Tooltip. В остальных случаях позиция перестраивается автоматически.
    * @see https://github.com/skbkontur/retail-ui/pull/1195
@@ -139,7 +161,7 @@ export const PopupIds = {
 type DefaultProps = Required<
   Pick<
     PopupProps,
-    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width' | 'positions'
+    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width'
   >
 >;
 
@@ -217,7 +239,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   public static defaultProps: DefaultProps = {
-    positions: PopupPositions,
     popupOffset: 0,
     hasPin: false,
     hasShadow: false,
@@ -234,6 +255,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
+  public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
@@ -304,12 +326,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -628,7 +657,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private processPosAndPositions() {
-    const { positions } = this.getProps();
+    const positions = this.props.positions ? this.props.positions : PopupPositions;
     let pos_ = '';
     if (this.props.pos) {
       pos_ = this.props.pos;
@@ -644,7 +673,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
-    const positions = this.processPosAndPositions();
+    let positions;
+    if (this.featureFlags.popupUnifyPositioning) {
+      positions = this.processPosAndPositions();
+    } else if (this.props.positions) {
+      positions = this.props.positions;
+    } else {
+      positions = OldPopupPositions;
+    }
     const anchorElement = this.anchorElement;
 
     warning(
