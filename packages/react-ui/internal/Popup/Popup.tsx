@@ -656,7 +656,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private processPosAndPositions() {
+  private reorderPropsPositionsWithPriorityPos() {
     const positions = this.props.positions ? this.props.positions : PopupPositions;
     let pos_ = '';
     if (this.props.pos) {
@@ -666,7 +666,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
     const index = positions.findIndex((position) => position.startsWith(pos_));
     if (index === -1) {
-      throw new Error('Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+      warning(false, 'Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+      return positions;
     }
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
@@ -675,7 +676,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
     let positions;
     if (this.featureFlags.popupUnifyPositioning) {
-      positions = this.processPosAndPositions();
+      positions = this.reorderPropsPositionsWithPriorityPos();
     } else if (this.props.positions) {
       positions = this.props.positions;
     } else {
