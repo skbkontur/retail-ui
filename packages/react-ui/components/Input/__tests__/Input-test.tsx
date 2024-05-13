@@ -452,7 +452,6 @@ describe('<Input />', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} />);
     if (inputRef.current) {
-      //@ts-expect-error privat field
       inputRef.current.input = null;
     }
     const setSelectionToNull = () => inputRef.current?.setSelectionRange(0, 3);
