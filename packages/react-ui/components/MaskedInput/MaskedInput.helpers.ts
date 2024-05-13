@@ -1,19 +1,6 @@
-import React from 'react';
-import IMask, {
-  FactoryArg,
-  MaskedPatternOptions,
-  MaskedRegExp,
-  Masked,
-  FactoryOpts,
-  Definitions,
-  FactoryConstructorOpts,
-} from 'imask';
-import { IMaskInput, IMaskInputProps } from 'react-imask';
+import IMask, { Definitions } from 'imask';
 
 import { isNonNullable } from '../../lib/utils';
-import { MaskedShadows } from '../../internal/MaskedInputElement/MaskedInputElement';
-
-import { IMaskRefType, MaskedInputProps } from './index';
 
 export type AnyIMaskType = ReturnType<typeof IMask.createMask>;
 
