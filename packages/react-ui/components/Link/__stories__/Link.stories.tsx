@@ -277,7 +277,18 @@ export const LinkAsButton: Story = () => {
     />
   );
 };
-export const Validation = () => {
+
+LinkAsButton.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
+};
+
+export const LinkAsButtonValidation: Story = () => {
   return (
     <Gapped vertical gap={10}>
       <Button use="link" warning>
@@ -290,4 +301,14 @@ export const Validation = () => {
       <Link error>Error</Link>
     </Gapped>
   );
+};
+
+LinkAsButtonValidation.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
 };
