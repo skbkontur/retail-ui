@@ -20,7 +20,7 @@ export default {
   title: 'Button',
 };
 
-type ButtonState = Partial<ButtonProps>;
+type ButtonState = Partial<ButtonProps<'a'>>;
 
 const useStates: ButtonState[] = [
   { use: 'default' },
@@ -48,6 +48,31 @@ const testingButtonUseStates2022: ButtonState[] = [
   { use: 'backless' },
   { use: 'link' },
 ];
+
+const buttonAsLinkUseStates: ButtonState[] = [
+  { use: 'default' },
+  { use: 'primary' },
+  { use: 'danger' },
+  { use: 'pay' },
+  { use: 'success' },
+  { use: 'text' },
+  { use: 'backless' },
+];
+
+const buttonAsLinkTestingProps: ButtonState[] = [
+  { children: 'Link' },
+  { disabled: true },
+  { loading: true },
+  { icon: <OkIcon /> },
+  { icon: <OkIcon />, disabled: true },
+  { rightIcon: <OkIcon /> },
+  { rightIcon: <OkIcon />, disabled: true },
+  { icon: <OkIcon />, rightIcon: <OkIcon /> },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, disabled: true },
+  { error: true },
+  { warning: true },
+];
+
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
 
 const getButtonUseStates = (theme: string) => {
@@ -687,4 +712,31 @@ IconAndTextHoverColor.parameters = {
       },
     },
   },
+};
+
+export const ButtonAsLink: Story = () => {
+  return (
+    <ComponentTable
+      Component={Button}
+      cols={buttonAsLinkUseStates.map((x) => ({ props: x }))}
+      rows={buttonAsLinkTestingProps.map((x) => ({ props: x }))}
+      presetProps={{ children: 'Link', component: 'a' }}
+    />
+  );
+};
+
+export const ButtonAsLinkIconColor = () => {
+  return (
+    <Button theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }} component="a" icon={<OkIcon />}>
+      Button as link
+    </Button>
+  );
+};
+
+export const ButtonAsLinkIconDisabledColor = () => {
+  return (
+    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<OkIcon />} disabled>
+      Button as link
+    </Button>
+  );
 };

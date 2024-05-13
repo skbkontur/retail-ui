@@ -263,6 +263,8 @@ const componentPropStates: LinkState[] = [
   { rightIcon: <CheckAIcon16Light />, loading: true },
   { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light /> },
   { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light />, loading: true },
+  { warning: true },
+  { error: true },
 ];
 
 export const LinkAsButton: Story = () => {
@@ -273,5 +275,19 @@ export const LinkAsButton: Story = () => {
       rows={componentPropStates.map((x) => ({ props: x }))}
       presetProps={{ children: 'Button', component: 'button' }}
     />
+  );
+};
+export const Validation = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Button use="link" warning>
+        Warning
+      </Button>
+      <Link warning>Warning</Link>
+      <Button use="link" error>
+        Error
+      </Button>
+      <Link error>Error</Link>
+    </Gapped>
   );
 };
