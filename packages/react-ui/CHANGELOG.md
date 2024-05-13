@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.3...@skbkontur/react-ui@4.22.4) (2024-05-07)
+
+
+### Features
+
+* **Kebab,Link,Paging:** add visual state disabled ([#3418](https://github.com/skbkontur/retail-ui/issues/3418)) ([c47c213](https://github.com/skbkontur/retail-ui/commit/c47c213f3986b4c8a16e0f542fa2b530fc78b632))
+* boolean visual state attributes ([#3407](https://github.com/skbkontur/retail-ui/issues/3407)) ([132a177](https://github.com/skbkontur/retail-ui/commit/132a177782baa51cdca5d59d97d41780217ef73d))
+
+
+
+
+
 ## [4.22.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.2...@skbkontur/react-ui@4.22.3) (2024-04-25)
 
 

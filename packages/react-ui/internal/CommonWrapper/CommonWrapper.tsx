@@ -7,8 +7,8 @@ import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, T
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
-import { extractCommonProps } from './extractCommonProps';
-import { getCommonVisualStateDataAttributes } from './getCommonVisualStateDataAttributes';
+import { extractCommonProps } from './utils/extractCommonProps';
+import { getCommonVisualStateDataAttributes } from './utils/getCommonVisualStateDataAttributes';
 
 export type CommonPropsWithRootNodeRef = CommonProps & CommonPropsRootNodeRef;
 
