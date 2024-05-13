@@ -725,18 +725,79 @@ export const ButtonAsLink: Story = () => {
   );
 };
 
-export const ButtonAsLinkIconColor = () => {
+ButtonAsLink.parameters = {
+  creevey: {
+    skip: {
+      'changes don`t affect old themes': {
+        in: /^(?!\bfirefox(2022)|chrome(2022)?\b)/,
+      },
+    },
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
+};
+
+export const ButtonAsLinkIconColor: Story = () => {
   return (
-    <Button theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }} component="a" icon={<OkIcon />}>
+    <Button
+      data-tid="test-button"
+      theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }}
+      component="a"
+      icon={<OkIcon />}
+    >
       Button as link
     </Button>
   );
 };
 
-export const ButtonAsLinkIconDisabledColor = () => {
+ButtonAsLinkIconColor.parameters = {
+  creevey: {
+    skip: {
+      'hover does not work in chrome': {
+        in: /^(?!\bfirefox(2022)?\b)/,
+      },
+    },
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async hover() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+          })
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+      },
+    },
+  },
+};
+
+export const ButtonAsLinkIconDisabledColor: Story = () => {
   return (
     <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<OkIcon />} disabled>
       Button as link
     </Button>
   );
+};
+
+ButtonAsLinkIconDisabledColor.parameters = {
+  creevey: {
+    skip: {
+      'changes don`t affect old theme': {
+        in: /^(?!\bfirefox(2022)|chrome(2022)?\b)/,
+      },
+    },
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
 };
