@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import { pick } from 'lodash';
 
 import { resetButton } from '../../lib/styles/Mixins';
 import { PolymorphicPropsWithoutRef } from '../../typings/react-ref';
@@ -208,7 +209,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     const nonInteractive = disabled || loading;
 
     const linkOnlyProps = {
-      href: '',
+      href: href || '',
       hrefLang,
       rel: this.getRel({ href, rel }),
       target,
@@ -298,8 +299,10 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
 
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
+    const to = pick(this.props, 'to');
+    const destination = href || to;
 
-    if (!href) {
+    if (!destination) {
       event.preventDefault();
     }
     if (onClick && !disabled && !loading) {
