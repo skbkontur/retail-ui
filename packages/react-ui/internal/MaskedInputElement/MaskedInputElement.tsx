@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef } from 'react';
+import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { IMaskInputProps } from 'react-imask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -28,10 +28,12 @@ export const MaskedInputElement = forwardRefAndName(
   function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const spanRef = useRef<HTMLSpanElement | null>(null);
+    const focused = useRef(false);
+    const [uncontrolledValue, setUncontrolledValue] = useState('');
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
 
-    const { children, onInput, onBlur, maskChars, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, maskChars, defaultValue, value, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -61,19 +63,37 @@ export const MaskedInputElement = forwardRefAndName(
 
     return (
       <>
-        {React.cloneElement(children, { ...inputProps, onInput: handleInput, onBlur: handleBlur, inputRef })}
+        {React.cloneElement(children, {
+          ...inputProps,
+          onInput: handleInput,
+          onFocus: handleFocus,
+          onBlur: handleBlur,
+          value,
+          defaultValue,
+          inputRef,
+        })}
         <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
       </>
     );
 
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+      setUncontrolledValue(e.target.value);
+
       // iMask может изменить value после вызова onInput
       setTimeout(paintText);
 
       onInput?.(e);
     }
 
+    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+      focused.current = true;
+      setTimeout(paintText);
+
+      onFocus?.(e);
+    }
+
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+      focused.current = false;
       setTimeout(paintText);
 
       onBlur?.(e);
@@ -88,9 +108,10 @@ export const MaskedInputElement = forwardRefAndName(
         spanRef.current.attachShadow({ mode: 'open' });
       }
 
+
       const style = inputStyle.current;
 
-      const val = inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0];
+      const val = (focused.current || uncontrolledValue || value || defaultValue) ? (inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || '') : '';
 
       spanRef.current.shadowRoot &&
         (spanRef.current.shadowRoot.innerHTML = `

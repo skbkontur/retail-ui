@@ -126,7 +126,6 @@ export const MaskedInput = forwardRefAndName(
       if (!imaskRef.current || !imaskRef.current.maskRef || !imaskRef.current.element) {
         return { current: 0, nearest: 0 };
       }
-      console.log('imaskRef.current', imaskRef.current);
       const { selectionStart, selectionEnd } = imaskRef.current.element;
 
       const nearest = imaskRef.current.maskRef.masked.nearestInputPos(999, 'LEFT');
@@ -163,17 +162,16 @@ export const MaskedInput = forwardRefAndName(
     }
 
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
-      const [value, imask] = args;
+      const [value] = args;
 
       onAccept?.(...args);
 
       // onAccept вызывается при монтировании, если value не пустой
       // но onValueChange должен вызываться только при изменении value
-      const val = imaskRef.current?.element ? imaskRef.current.element.value : '';
-      console.log(imask, { value, val, val2: props.value });
+      // const val = imaskRef.current?.element ? imaskRef.current.element.value : '';
 
-      val !== value && onValueChange?.(value);
-      // onValueChange?.(value);
+      // val !== value && onValueChange?.(value);
+      onValueChange?.(value);
     }
 
     // Отслеживаем неожиданные нажатия
