@@ -1,9 +1,9 @@
-import React, { Ref, useEffect, useImperativeHandle, useRef, useState, useContext } from 'react';
-import { InputMask, MaskedPatternOptions, FactoryConstructorOpts } from 'imask';
+import React, { Ref, useImperativeHandle, useRef, useState, useContext } from 'react';
+import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
 
 import { Nullable } from '../../typings/utility-types';
-import { MaskedInputElement, MaskedInputElementDataTids, MaskedShadows } from '../../internal/MaskedInputElement';
+import { MaskedInputElement, MaskedInputElementDataTids } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { isKeyArrow, isKeyArrowRight } from '../../lib/events/keyboard/identifiers';
 import { cx } from '../../lib/theming/Emotion';
@@ -16,7 +16,7 @@ import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
 
 export interface MaskedProps {
   /** Паттерн маски */
-  mask?: IMaskInputProps<HTMLInputElement>['mask'];
+  mask: string;
   /** Символ маски */
   maskChar?: Nullable<string>;
   /**
@@ -92,29 +92,30 @@ export const MaskedInput = forwardRefAndName(
         data-tid={MaskedInputElementDataTids.root}
         element={
           <MaskedInputElement maskChars={getMaskChars(imaskProps)}>
-            <IMaskInput ref={imaskRef} {...imaskProps} lazy={!(alwaysShowMask || focused)} onAccept={handleAccept} />
+            <IMaskInput ref={imaskRef} {...imaskProps} onAccept={handleAccept} />
           </MaskedInputElement>
         }
       />
     );
 
-    function getCompatibleIMaskProps() {
+    function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
       return {
-        mask: typeof mask === 'string' ? mask.replace(/0/g, '{\\0}') : mask,
+        mask: mask.replace(/0/g, '{\\0}') as any,
         placeholderChar: getMaskChar(maskChar),
         definitions: getDefinitions(formatChars),
         eager: 'append',
         overwrite: 'shift',
         lazy: !(alwaysShowMask || focused),
         ...customIMaskProps,
-      };
+      } as IMaskInputProps<HTMLInputElement>;
     }
 
-    function getMaskChars(imaskProps) {
-      const maskChars = [imaskProps.placeholderChar];
-      if (imaskProps.blocks) {
-        Object.values(imaskProps.blocks).forEach(
-          (block) => block.placeholderChar && maskChars.push(block.placeholderChar),
+    function getMaskChars(imaskProps: IMaskInputProps<HTMLInputElement>): string[] {
+      const imaskPropsFix = imaskProps as MaskedPattern;
+      const maskChars = [imaskPropsFix.placeholderChar];
+      if (imaskPropsFix.blocks) {
+        (Object.values(imaskPropsFix.blocks) as Array<{ placeholderChar?: string }>).forEach(
+          ({ placeholderChar }) => placeholderChar && maskChars.push(placeholderChar),
         );
       }
 
@@ -122,10 +123,11 @@ export const MaskedInput = forwardRefAndName(
     }
 
     function getCursorPositions(): { nearest: number; current: number } {
-      if (!inputRef.current?.input || !imaskRef.current) {
+      if (!imaskRef.current || !imaskRef.current.maskRef || !imaskRef.current.element) {
         return { current: 0, nearest: 0 };
       }
-      const { selectionStart, selectionEnd } = inputRef.current.input;
+      console.log('imaskRef.current', imaskRef.current);
+      const { selectionStart, selectionEnd } = imaskRef.current.element;
 
       const nearest = imaskRef.current.maskRef.masked.nearestInputPos(999, 'LEFT');
       const current = Math.min(selectionStart || 0, selectionEnd || 0);
@@ -134,9 +136,9 @@ export const MaskedInput = forwardRefAndName(
     }
 
     function setCursorPosition(pos: number) {
-      if (inputRef.current?.input) {
-        inputRef.current.input.selectionStart = pos;
-        inputRef.current.input.selectionEnd = pos;
+      if (imaskRef.current?.element) {
+        imaskRef.current.element.selectionStart = pos;
+        imaskRef.current.element.selectionEnd = pos;
       }
     }
 
@@ -167,7 +169,7 @@ export const MaskedInput = forwardRefAndName(
 
       // onAccept вызывается при монтировании, если value не пустой
       // но onValueChange должен вызываться только при изменении value
-      const val = inputRef.current?.input ? inputRef.current.input.value : '';
+      const val = imaskRef.current?.element ? imaskRef.current.element.value : '';
       console.log(imask, { value, val, val2: props.value });
 
       val !== value && onValueChange?.(value);

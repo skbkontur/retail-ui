@@ -5,8 +5,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InputElement, InputElementProps } from '../../components/Input';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './MaskedInputElement.styles';
-
 export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
   InputElementProps & {
     maskChars: string[];
@@ -30,7 +28,6 @@ export const MaskedInputElement = forwardRefAndName(
   function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const spanRef = useRef<HTMLSpanElement | null>(null);
-    const rootNodeRef = React.useRef<HTMLDivElement>(null);
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
 
@@ -65,7 +62,7 @@ export const MaskedInputElement = forwardRefAndName(
     return (
       <>
         {React.cloneElement(children, { ...inputProps, onInput: handleInput, onBlur: handleBlur, inputRef })}
-        <span style={{ visibility: 'hidden', position: 'absolute', background: '#ff000020' }} ref={spanRef} />
+        <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
       </>
     );
 
@@ -87,15 +84,12 @@ export const MaskedInputElement = forwardRefAndName(
         return;
       }
 
-      // console.log('shadowRoot', spanRef.current, spanRef.current.shadowRoot);
       if (!spanRef.current.shadowRoot) {
         spanRef.current.attachShadow({ mode: 'open' });
       }
 
-      const cur = Math.min(inputRef.current.selectionStart || 0, inputRef.current.selectionEnd || 0);
       const style = inputStyle.current;
 
-      // const val = cur < _val.length ? _val.slice(0, cur) : _val;
       const val = inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0];
 
       spanRef.current.shadowRoot &&
@@ -103,9 +97,6 @@ export const MaskedInputElement = forwardRefAndName(
         <style> p { font: ${style.font}; } </style>
         ${val}
       `);
-
-      // spanRef.current.innerHTML = val;
-      // spanRef.current.style.font = style.font;
 
       const inputRect = inputRef.current.getBoundingClientRect();
       const filledRect = spanRef.current.getBoundingClientRect();
@@ -119,8 +110,6 @@ export const MaskedInputElement = forwardRefAndName(
           ${theme.inputTextColor} ${threshold}%,
           ${theme.placeholderColor} ${threshold}%
       )`;
-
-      // console.log('updateColor', { val, cur, input: inputRef.current, font: style.font });
     }
   },
 );
