@@ -19,7 +19,7 @@
     "storybook": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true start-storybook -p 8081\"",
     "storybook:build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true build-storybook -o .storybook/build --quiet\"",
     "storybook:serve": "serve -l 8081 .storybook/build",
-    "start:docs": "webpack-dev-server -d --config webpack.docs.config.js --hot",
+    "start:docs": "node ../../scripts/patch-node-options.js \"webpack-dev-server -d --config webpack.docs.config.js --hot\"",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
