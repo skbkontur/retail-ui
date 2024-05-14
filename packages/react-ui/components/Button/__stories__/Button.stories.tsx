@@ -727,11 +727,6 @@ export const ButtonAsLink: Story = () => {
 
 ButtonAsLink.parameters = {
   creevey: {
-    skip: {
-      'changes don`t affect old themes': {
-        in: /^(?!\bfirefox(2022)|chrome(2022)?\b)/,
-      },
-    },
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -757,7 +752,8 @@ ButtonAsLinkIconColor.parameters = {
   creevey: {
     skip: {
       'hover does not work in chrome': {
-        in: /^(?!\bfirefox(2022)?\b)/,
+        in: /^(?!\b(firefox.*)\b)/,
+        tests: ['hover'],
       },
     },
     tests: {
@@ -789,11 +785,6 @@ export const ButtonAsLinkIconDisabledColor: Story = () => {
 
 ButtonAsLinkIconDisabledColor.parameters = {
   creevey: {
-    skip: {
-      'changes don`t affect old theme': {
-        in: /^(?!\bfirefox(2022)|chrome(2022)?\b)/,
-      },
-    },
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
