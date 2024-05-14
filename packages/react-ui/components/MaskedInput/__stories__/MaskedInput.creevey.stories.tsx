@@ -113,9 +113,7 @@ WithCustomUnmaskedValue.parameters = {
   },
 };
 
-export const SelectAllByProp: Story = () => (
-  <MaskedInput mask="+7 999 999-99-99" defaultValue="+798765" selectAllOnFocus />
-);
+export const SelectAllByProp: Story = () => <MaskedInput mask="+7 999 999-99-99" value="+798765" selectAllOnFocus />;
 
 SelectAllByProp.parameters = {
   creevey: {
@@ -149,7 +147,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} defaultValue="12:34" />
+        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} value="12:34" />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all
@@ -230,7 +228,7 @@ const testRewriteInMiddle: CreeveyTests = {
   },
 };
 
-export const RewriteInMiddle: Story = () => <MaskedInput width="150" value={'34'} mask="9999" alwaysShowMask />;
+export const RewriteInMiddle: Story = () => <MaskedInput width="150" defaultValue={'34'} mask="9999" alwaysShowMask />;
 
 RewriteInMiddle.parameters = {
   creevey: {

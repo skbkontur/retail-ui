@@ -1,4 +1,4 @@
-import React, { Ref, useImperativeHandle, useRef, useState, useContext } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
 
@@ -7,11 +7,10 @@ import { MaskedInputElement, MaskedInputElementDataTids } from '../../internal/M
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { isKeyArrow, isKeyArrowRight } from '../../lib/events/keyboard/identifiers';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
 
-import { globalClasses, styles } from './MaskedInput.styles';
+import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
 
 export interface MaskedProps {
@@ -64,7 +63,6 @@ export const MaskedInput = forwardRefAndName(
       element,
       ...inputProps
     } = props;
-    const theme = useContext(ThemeContext);
 
     const inputRef = useRef<Input>(null);
     const imaskRef = useRef<IMaskRefType>(null);
@@ -73,6 +71,15 @@ export const MaskedInput = forwardRefAndName(
     const prevValue = useRef<string>(props.value || '');
 
     const showPlaceholder = !(alwaysShowMask || focused);
+
+    useEffect(() => {
+      inputRef.current &&
+        (inputRef.current.selectAll = () => {
+          setTimeout(() => {
+            inputRef.current?.setSelectionRange(0, 999);
+          });
+        });
+    }, []);
 
     useImperativeHandle(ref, () => inputRef.current, []);
 
@@ -88,7 +95,7 @@ export const MaskedInput = forwardRefAndName(
         onInput={handleInput}
         onMouseUp={handleMouseUp}
         onKeyDown={handleKeyUp}
-        className={cx(globalClasses.root, uiFontGlobalClasses.root, styles.root(theme))}
+        className={cx(globalClasses.root, uiFontGlobalClasses.root)}
         data-tid={MaskedInputElementDataTids.root}
         element={
           <MaskedInputElement maskChars={getMaskChars(imaskProps)}>

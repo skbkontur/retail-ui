@@ -4,6 +4,9 @@ import { IMaskInputProps } from 'react-imask';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InputElement, InputElementProps } from '../../components/Input';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { cx } from '../../lib/theming/Emotion';
+
+import { styles } from './MaskedInputElement.styles';
 
 export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
   InputElementProps & {
@@ -71,6 +74,7 @@ export const MaskedInputElement = forwardRefAndName(
           value,
           defaultValue,
           inputRef,
+          className: cx(props.className, styles.container(theme)),
         })}
         <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
       </>
@@ -108,14 +112,16 @@ export const MaskedInputElement = forwardRefAndName(
         spanRef.current.attachShadow({ mode: 'open' });
       }
 
-
       const style = inputStyle.current;
 
-      const val = (focused.current || uncontrolledValue || value || defaultValue) ? (inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || '') : '';
+      const val =
+        focused.current || uncontrolledValue || value || defaultValue
+          ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
+          : '';
 
       spanRef.current.shadowRoot &&
         (spanRef.current.shadowRoot.innerHTML = `
-        <style> p { font: ${style.font}; } </style>
+        <style> * { font: ${style.font}; } </style>
         ${val}
       `);
 
