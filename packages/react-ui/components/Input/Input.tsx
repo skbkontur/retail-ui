@@ -19,6 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -178,6 +179,7 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
+  public static displayName = 'Input';
 
   public static defaultProps: DefaultProps = {
     size: 'small',
@@ -441,7 +443,9 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-label': ariaLabel,
     };
 
-    const input = this.getInput(inputProps);
+    const input = (
+      <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>{this.getInput(inputProps)}</FocusControlWrapper>
+    );
 
     if (isTheme2022(this.theme)) {
       return (
@@ -664,12 +668,11 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({ focused: false });
+  private resetFocus = () => this.setState({ focused: false });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private renderPrefix = () => {

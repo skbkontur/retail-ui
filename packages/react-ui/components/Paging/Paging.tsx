@@ -12,11 +12,12 @@ import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -95,6 +96,7 @@ type DefaultProps = Required<
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
+  public static displayName = 'Paging';
 
   public static defaultProps: DefaultProps = {
     component: PagingDefaultComponent,
@@ -169,7 +171,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private renderMain() {
     const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...this.props}
+        {...getVisualStateDataAttributes({ disabled: this.props.disabled })}
+      >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
@@ -249,6 +255,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as const}
+        {...getVisualStateDataAttributes({ disabled })}
       >
         {this.props.caption || forward}
         {forwardIcon}
@@ -257,12 +264,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
+    const disabled = this.props.disabled;
     const classes = cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,
-      [styles.pageLinkDisabled(this.theme)]: this.props.disabled,
+      [styles.pageLinkDisabled(this.theme)]: disabled,
       [styles.pageLinkCurrent(this.theme)]: active,
-      [styles.pageLinkCurrentDisabled(this.theme)]: active && this.props.disabled,
+      [styles.pageLinkCurrentDisabled(this.theme)]: active && disabled,
     });
     const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -272,6 +280,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
         className={styles.pageLinkWrapper()}
+        {...getVisualStateDataAttributes({ active, disabled })}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component

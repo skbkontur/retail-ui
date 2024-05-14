@@ -26,6 +26,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
+  public static displayName = 'TokenInputMenu';
 
   private theme!: Theme;
 

@@ -22,6 +22,8 @@ import { FileUploaderFileValidationResult } from '../../internal/FileUploaderCon
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -90,7 +92,7 @@ export const FileUploaderDataTids = {
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
-const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
+const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
   const theme = useContext(ThemeContext);
   const _isTheme2022 = isTheme2022(theme);
 
@@ -342,22 +344,24 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                 )}
               </div>
             </div>
-            <input
-              {...inputProps}
-              data-tid={FileUploaderDataTids.input}
-              ref={inputRef}
-              tabIndex={disabled ? -1 : 0}
-              type="file"
-              disabled={disabled}
-              multiple={multiple}
-              className={jsStyles.visuallyHidden()}
-              onClick={stopPropagation}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-              value={''}
-            />
+            <FocusControlWrapper onBlurWhenDisabled={() => setFocusedByTab(false)}>
+              <input
+                {...inputProps}
+                data-tid={FileUploaderDataTids.input}
+                ref={inputRef}
+                tabIndex={disabled ? -1 : 0}
+                type="file"
+                disabled={disabled}
+                multiple={multiple}
+                className={jsStyles.visuallyHidden()}
+                onClick={stopPropagation}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+                value={''}
+              />
+            </FocusControlWrapper>
           </label>
         </div>
       </div>

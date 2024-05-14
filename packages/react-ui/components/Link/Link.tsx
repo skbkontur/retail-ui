@@ -16,6 +16,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
 import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
@@ -114,6 +115,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
   LinkState
 > {
   public static __KONTUR_REACT_UI__ = 'Link';
+  public static displayName = 'Link';
 
   public static defaultProps = {
     use: 'default',
@@ -271,7 +273,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     }
 
     return (
-      <Root data-tid={LinkDataTids.root} {...rest} {...rootProps}>
+      <Root data-tid={LinkDataTids.root} {...rest} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
         {leftIconElement}
         {outlineNode}
         {child}

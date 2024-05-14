@@ -116,6 +116,7 @@ type DefaultProps = Required<
 @locale('Autocomplete', AutocompleteLocaleHelper)
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
+  public static displayName = 'Autocomplete';
 
   public static propTypes = {
     /**
@@ -236,6 +237,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const inputProps = {
       ...rest,
       width: '100%',
+      autoComplete: 'off',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -306,6 +308,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
+      autoComplete: 'off',
       autoFocus: true,
       width: '100%',
       onValueChange: this.handleValueChange,

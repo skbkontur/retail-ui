@@ -9,6 +9,12 @@ export default {
 } as Meta;
 
 const validation: ValidationInfo = { message: 'Error', type: 'immediate', level: 'error', independent: true };
+const validationWarning: ValidationInfo = {
+  message: 'Warning',
+  type: 'immediate',
+  level: 'warning',
+  independent: true,
+};
 
 export const Default = () => (
   <ValidationContainer data-tid="TestTid">
@@ -19,7 +25,7 @@ export const Default = () => (
       <ValidationWrapper renderMessage={text()} validationInfo={validation}>
         <div>Text</div>
       </ValidationWrapper>
-      <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
+      <ValidationWrapper renderMessage={text('bottom')} validationInfo={validationWarning}>
         <div>TextBottom</div>
       </ValidationWrapper>
       <ValidationWrapper renderMessage={text('right')} validationInfo={validation}>
@@ -66,18 +72,22 @@ export const WithWrapperError = () => (
 
 export const WithWrapperErrorWithoutSpan = () => (
   <Gapped vertical gap={20}>
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+    <ValidationsFeatureFlagsContext.Provider
+      value={{ validationsRemoveExtraSpans: true, fixedValidationTextColors: true, darkTheme: true }}
+    >
       <ValidationContainer>
         <div>
           <Button>Submit</Button>
-          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
+          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validationWarning}>
             <Input />
           </ValidationWrapper>
         </div>
       </ValidationContainer>
     </ValidationsFeatureFlagsContext.Provider>
 
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: false }}>
+    <ValidationsFeatureFlagsContext.Provider
+      value={{ validationsRemoveExtraSpans: false, fixedValidationTextColors: true }}
+    >
       <ValidationContainer>
         <div>
           <Button>Submit</Button>

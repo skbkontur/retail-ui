@@ -4,6 +4,7 @@ import { Nullable } from '../typings/Types';
 
 import { getFullValidationsFlagsContext, ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 import { TextPosition, Validation } from './ValidationWrapperInternal';
+import { getValidationTextColor } from './utils/getValidationTextColor';
 
 export interface ValidationTextProps {
   pos: TextPosition;
@@ -14,12 +15,15 @@ export interface ValidationTextProps {
 
 export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
   const featureFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
+  const color = featureFlags.fixedValidationTextColors
+    ? getValidationTextColor(featureFlags.darkTheme, validation?.level)
+    : '#d43517';
 
   if (pos === 'right') {
     const childrenAndValidationText = (
       <>
         {children}
-        <span data-tid={dataTid} data-validation-message="text" style={{ marginLeft: '10px', color: '#d43517' }}>
+        <span data-tid={dataTid} data-validation-message="text" style={{ marginLeft: '10px', color }}>
           {(validation && validation.message) || ''}
         </span>
       </>
@@ -37,7 +41,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
       data-tid={dataTid}
       data-validation-message="text"
       style={{
-        color: '#d43517',
+        color,
         overflow: 'visible',
         whiteSpace: 'nowrap',
         position: 'absolute',
@@ -61,3 +65,6 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 };
+
+ValidationText.__KONTUR_REACT_UI__ = 'ValidationText';
+ValidationText.displayName = 'ValidationText';

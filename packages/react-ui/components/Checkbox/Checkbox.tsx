@@ -17,6 +17,7 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -89,6 +90,7 @@ type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
+  public static displayName = 'Checkbox';
 
   public static defaultProps: DefaultProps = {
     size: 'small',
@@ -348,7 +350,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        </FocusControlWrapper>
         {box}
         {caption}
       </label>
@@ -371,9 +375,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByTab: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByTab: false });
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

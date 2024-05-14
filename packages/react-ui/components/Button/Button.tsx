@@ -204,6 +204,7 @@ export interface ButtonState {
 }
 
 export const ButtonDataTids = {
+  rootElement: 'Button__rootElement',
   root: 'Button__root',
   spinner: 'Button__spinner',
 } as const;
@@ -222,6 +223,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
   ButtonState
 > {
   public static __KONTUR_REACT_UI__ = 'Button';
+  public static displayName = 'Button';
   public static __BUTTON__ = true;
 
   public static defaultProps: DefaultProps = {
@@ -375,6 +377,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
               checked && styles.checkedDisabled2022(this.theme),
               borderless && styles.borderless2022(),
               use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
+              use === 'text' && styles.textDisabled2022(),
               Root === 'a' && globalClasses.disabled,
             ]
           : [
@@ -547,7 +550,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps}>
+        <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
           <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
