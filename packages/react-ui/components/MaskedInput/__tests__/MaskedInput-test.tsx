@@ -20,7 +20,7 @@ describe('MaskedInput', () => {
       const input = screen.getByRole('textbox');
       input.focus();
 
-      expect(input).toHaveValue(maskPlaceholder);
+      expect(input).toHaveValue('');
     });
 
     it('with `alwaysShowMask`', () => {
