@@ -26,7 +26,7 @@ import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
 import { CalendarContext, CalendarContextProps } from './CalendarContext';
-import { CalendarDayProps } from './CalendarDay';
+import { CalendarDay, CalendarDayProps } from './CalendarDay';
 
 export interface CalendarProps extends CommonProps {
   /**
@@ -131,6 +131,8 @@ type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoli
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
   public static displayName = 'Calendar';
+
+  public static Day = CalendarDay;
 
   private static formatDate(date: number, month: number, year: number) {
     return new InternalDate().setComponents({ date, month, year }).toString({ withPad: true });

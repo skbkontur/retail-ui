@@ -23,6 +23,9 @@ export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement
   date: CDS.CalendarDateShape;
 }
 
+/**
+ * @visibleName Calendar.Day
+ */
 export const CalendarDay: React.FC<CalendarDayProps> = memo(
   forwardRefAndName(
     'CalendarDay',

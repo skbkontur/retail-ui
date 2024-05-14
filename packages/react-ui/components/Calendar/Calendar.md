@@ -144,26 +144,6 @@ const renderDay = (props) => {
 />;
 ```
 
-### Компонент CalendarDay
-Доступен публичный компонет `CalendarDay` и интерфейс его пропов `CalendarDayProps`. Может быть полезен для использования вместе с пропом `renderDay`.
-
-```jsx harmony
-import { CalendarDay, Gapped } from '@skbkontur/react-ui';
-import * as CDS from '@skbkontur/react-ui/components/Calendar/CalendarDateShape';
-
-const date = CDS.fromString('20.05.2024');
-const style = { width: 32, height: 32 };
-
-<Gapped>
-  <CalendarDay style={style} date={date} />
-  <CalendarDay style={style} date={date} isToday={true} />
-  <CalendarDay style={style} date={date} isSelected={true} />
-  <CalendarDay style={style} date={date} isDisabled={true} />
-  <CalendarDay style={style} date={date} isWeekend={true} />
-  <CalendarDay style={style}><b>20</b></CalendarDay>
-</Gapped>
-```
-
 #### Локали по умолчанию
 
 ```typescript static
