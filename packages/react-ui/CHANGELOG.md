@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.4...@skbkontur/react-ui@4.22.5) (2024-05-14)
+
+
+### Bug Fixes
+
+* **Autocomplete, ComboBox:** disable browser autofill ([#3419](https://github.com/skbkontur/retail-ui/issues/3419)) ([f805126](https://github.com/skbkontur/retail-ui/commit/f8051261304878b9cfffa744dc82a7296a7448b9))
+
+
+
+
+
 ## [4.22.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.3...@skbkontur/react-ui@4.22.4) (2024-05-07)
 
 
