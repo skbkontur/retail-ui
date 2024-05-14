@@ -1,6 +1,5 @@
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import { pick } from 'lodash';
 
 import { resetButton } from '../../lib/styles/Mixins';
 import { PolymorphicPropsWithoutRef } from '../../typings/react-ref';
@@ -300,7 +299,8 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
 
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
-    const to = pick(this.props, 'to');
+    // we have to check for 'to' prop in case Root is react-router link
+    const to = Object.prototype.hasOwnProperty.call(this.props, 'to');
     const destination = href || to;
 
     if (!destination) {
