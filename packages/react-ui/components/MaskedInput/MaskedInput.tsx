@@ -112,7 +112,7 @@ export const MaskedInput = forwardRefAndName(
         definitions: getDefinitions(formatChars),
         eager: 'append',
         overwrite: 'shift',
-        lazy: !(alwaysShowMask || focused),
+        lazy: !alwaysShowMask,
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
     }

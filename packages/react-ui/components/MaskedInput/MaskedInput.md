@@ -151,11 +151,12 @@ const [value, setValue] = React.useState('');
 Конвертация пропов выглядит примерно так:
 
 ```typescript static
-mask: typeof props.mask === 'string' ? props.mask.replace(/0/g, '{\\0}') : props.mask,
+mask: mask.replace(/0/g, '{\\0}'),
 placeholderChar: props.maskChar || '_',
-definitions: props.formatChars || { '0': /\d/, '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ },
+definitions: props.formatChars || { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ },
 eager: 'remove',
 overwrite: 'shift',
+lazy: !alwaysShowMask,
 ...props.imaskProps,
 ```
 

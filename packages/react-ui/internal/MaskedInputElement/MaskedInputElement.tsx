@@ -36,7 +36,7 @@ export const MaskedInputElement = forwardRefAndName(
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
 
-    const { children, onInput, onFocus, onBlur, maskChars, defaultValue, value, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, maskChars, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -64,6 +64,8 @@ export const MaskedInputElement = forwardRefAndName(
       }
     });
 
+    const placeholderColor = !(props.value || props.defaultValue);
+
     return (
       <>
         {React.cloneElement(children, {
@@ -71,10 +73,8 @@ export const MaskedInputElement = forwardRefAndName(
           onInput: handleInput,
           onFocus: handleFocus,
           onBlur: handleBlur,
-          value,
-          defaultValue,
           inputRef,
-          className: cx(props.className, styles.container(theme)),
+          className: cx(props.className, styles.input(theme), placeholderColor && styles.inputPlaceholder(theme)),
         })}
         <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
       </>
@@ -115,7 +115,7 @@ export const MaskedInputElement = forwardRefAndName(
       const style = inputStyle.current;
 
       const val =
-        focused.current || uncontrolledValue || value || defaultValue
+        focused.current || uncontrolledValue || props.value || props.defaultValue
           ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
           : '';
 
