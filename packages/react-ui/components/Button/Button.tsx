@@ -1,9 +1,8 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import pick from 'lodash/pick';
 
 import { HTMLProps } from '../../typings/html';
-import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
+import { pick, isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -505,7 +504,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
-      //@ts-expect-error textAlign doesn't exist on link
+
       rootProps.style.textAlign = undefined;
     }
 

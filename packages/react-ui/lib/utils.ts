@@ -230,3 +230,13 @@ export function clickOutside() {
 
   document.body.dispatchEvent(event);
 }
+
+export function pick(object: Record<string, unknown>, keys: string[]) {
+  const result: Record<string, unknown> = {};
+  return keys.reduce((acc, key) => {
+    if (object && Object.prototype.hasOwnProperty.call(object, key)) {
+      acc[key] = object[key];
+    }
+    return acc;
+  }, result);
+}

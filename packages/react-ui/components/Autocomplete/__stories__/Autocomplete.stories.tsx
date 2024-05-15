@@ -1,5 +1,5 @@
 import React from 'react';
-import flatten from 'lodash/flatten';
+import { flatten } from 'lodash';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
