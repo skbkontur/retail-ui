@@ -39,7 +39,7 @@ export const CalendarDay: React.FC<CalendarDayProps> = memo(
       const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
       const { langCode } = useContext(LocaleContext);
       const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${new InternalDate({ langCode })
-        .setComponents({ ...date }, true)
+        .setComponents({ ...date })
         .toA11YFormat()}`;
 
       const caption = children ?? date.date;

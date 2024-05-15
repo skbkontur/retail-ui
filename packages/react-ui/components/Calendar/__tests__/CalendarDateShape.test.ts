@@ -290,11 +290,16 @@ test('CDS.isBetween returns false if date is not between given', () => {
 test('CDS.fromString returns given date', () => {
   const date = CDS.fromString('10.03.2017');
   expect(date.date).toBe(10);
-  expect(date.month).toBe(2);
+  expect(date.month).toBe(3);
   expect(date.year).toBe(2017);
 });
 
 test('CDS.toString returns string date', () => {
-  const date = CDS.create(10, 2, 2017);
+  const date = CDS.create(10, 3, 2017);
   expect(CDS.toString(date)).toBe('10.03.2017');
+});
+
+test('CDS.toString(CDS.fromString(...)) returns initial string', () => {
+  const stringDate = '10.03.2017';
+  expect(CDS.toString(CDS.fromString(stringDate))).toBe(stringDate);
 });

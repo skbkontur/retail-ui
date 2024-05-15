@@ -51,7 +51,7 @@ describe('Calendar', () => {
   it('renders day cells with renderDay prop', async () => {
     const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
       const { date, month, year } = props.date;
-      const isCustom = date === 2 && month === 6 && year === 2017;
+      const isCustom = date === 2 && month === 7 && year === 2017;
       return (
         <CalendarDay {...props}>
           <span data-tid="customDayItem">{isCustom ? 'Custom' : date}</span>

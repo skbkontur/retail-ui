@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 
-import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
 import * as CalendarUtils from './CalendarUtils';
 import { DayCellViewModel } from './DayCellViewModel';
-import { isBetween, isEqual } from './CalendarDateShape';
+import * as CDS from './CalendarDateShape';
 import { CalendarDay, CalendarDayProps } from './CalendarDay';
 
 export interface DayCellViewProps {
@@ -16,6 +15,7 @@ export interface DayCellViewProps {
 
 export const DayCellView = (props: DayCellViewProps) => {
   const { date } = props;
+  const { date: day, month: nativeMonth, year } = date;
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
   const theme = useContext(ThemeContext);
 
@@ -23,18 +23,15 @@ export const DayCellView = (props: DayCellViewProps) => {
     onDateClick?.(date);
   };
 
-  const stringDate = InternalDateTransformer.dateToInternalString({
-    date: date.date,
-    month: CalendarUtils.getMonthInHumanFormat(date.month),
-    year: date.year,
-  });
+  const humanDate = CDS.create(day, CalendarUtils.getMonthInHumanFormat(nativeMonth), year);
+  const humanDateString = CDS.toString(humanDate);
 
   const dayProps: CalendarDayProps = {
-    isToday: Boolean(today && isEqual(date, today)),
-    isSelected: Boolean(value && isEqual(date, value)),
-    isDisabled: !isBetween(date, minDate, maxDate),
-    isWeekend: isHoliday?.(stringDate, date.isWeekend) ?? date.isWeekend,
-    date,
+    isToday: Boolean(today && CDS.isEqual(date, today)),
+    isSelected: Boolean(value && CDS.isEqual(date, value)),
+    isDisabled: !CDS.isBetween(date, minDate, maxDate),
+    isWeekend: isHoliday?.(humanDateString, date.isWeekend) ?? date.isWeekend,
+    date: humanDate,
   };
 
   const dayElement = renderDay?.(dayProps) ?? <CalendarDay {...dayProps} />;
