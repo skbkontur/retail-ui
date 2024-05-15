@@ -169,6 +169,9 @@ interface ButtonInnerProps
    * Стиль кнопки.
    *
    * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
+   *
+   * **Вариант `link` устарел.**
+   * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
    */
   use?: ButtonUse;
 
