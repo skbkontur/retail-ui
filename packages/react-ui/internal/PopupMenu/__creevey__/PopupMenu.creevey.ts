@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-import { PopupMenu, PopupMenuDataTids } from '../PopupMenu';
+import { PopupMenuDataTids } from '../PopupMenu';
 import { delay } from '../../../lib/utils';
 
 const textAlignmentTests = () => {
