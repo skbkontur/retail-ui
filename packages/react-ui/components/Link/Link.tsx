@@ -20,7 +20,7 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
-export interface LinkInnerProps
+interface LinkInnerProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'onBlur' | 'onFocus'> {

@@ -31,7 +31,7 @@ export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-interface ButtonOwnProps
+interface ButtonInnerProps
   extends CommonProps,
     Pick<
       AriaAttributes,
@@ -195,7 +195,7 @@ interface ButtonOwnProps
 export const BUTTON_DEFAULT_ELEMENT = 'button';
 
 export type ButtonProps<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
-  ButtonOwnProps,
+  ButtonInnerProps,
   C
 >;
 
