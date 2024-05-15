@@ -70,7 +70,7 @@ export interface CalendarDateShape {
 export function create(date: number, month: number, year: number): CalendarDateShape;
 export function fromString(dateString: string): CalendarDateShape;
 export function toString({ date, month, year }: CalendarDateShape): string;
-export function isEqual: Nullable<CalendarDateShape>, b: Nullable<CalendarDateShape>): boolean;
+export function isEqual(Nullable<CalendarDateShape>, b: Nullable<CalendarDateShape>): boolean;
 export function isLess(left: CalendarDateShape, right: CalendarDateShape): boolean;
 export function isLessOrEqual(left: CalendarDateShape, right: CalendarDateShape): boolean;
 export function isGreater(left: CalendarDateShape, right: CalendarDateShape): boolean;
