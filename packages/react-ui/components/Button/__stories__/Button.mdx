@@ -1,17 +1,47 @@
 import * as ButtonStories from './Button.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
+import { Button } from '../Button';
+import { Gapped } from '../../Gapped';
 
 <Meta of={ButtonStories} />
 
-# Кнопка - h1
-## Кнопка - h2
+# Кнопка
+Я - обычная кнопочка...
+
+## Базовый пример
+<Primary />
+
+## Пропы
+<Controls />
+
 ### Кнопка - h3
 #### Кнопка - h4
 ##### Кнопка - h5
 ###### Кнопка - h6
 
-Я - обычная кнопочка...
-
-<Primary />
-
-<Controls />
+## Примеры использования
+### Различные стили
+<Canvas>
+  <Gapped vertical>
+    <Gapped>
+      <Button use="default">Default</Button>
+      <Button use="primary">Primary</Button>
+      <Button use="success">Success</Button>
+      <Button use="danger">Danger</Button>
+      <Button use="pay">Pay</Button>
+      <Button use="text">Text</Button>
+      <Button use="backless">Backless</Button>
+      <Button use="link">Link</Button>
+    </Gapped>
+    <Gapped>
+      <Button use="default">Default</Button>
+      <Button use="primary">Primary</Button>
+      <Button use="success">Success</Button>
+      <Button use="danger">Danger</Button>
+      <Button use="pay">Pay</Button>
+      <Button use="text">Text</Button>
+      <Button use="backless">Backless</Button>
+      <Button use="link">Link</Button>
+    </Gapped>
+  </Gapped>
+</Canvas>
