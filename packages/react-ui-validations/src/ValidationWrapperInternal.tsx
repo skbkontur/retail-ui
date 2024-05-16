@@ -110,11 +110,12 @@ export class ValidationWrapperInternal extends React.Component<
     const { children, 'data-tid': dataTid } = this.props;
     const { validation } = this.state;
 
+    const immediate = validation?.behaviour === 'immediate';
     let clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
         ref: this.customRef,
-        error: !this.isChanging && getLevel(validation) === 'error',
-        warning: !this.isChanging && getLevel(validation) === 'warning',
+        error: (!this.isChanging || immediate) && getLevel(validation) === 'error',
+        warning: (!this.isChanging || immediate) && getLevel(validation) === 'warning',
         onBlur: (...args: any[]) => {
           this.handleBlur();
           if (children.props && children.props.onBlur) {
