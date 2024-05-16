@@ -22,7 +22,7 @@ const componentPriorities = {
   Popup: 3,
 };
 const priorityStep = 1000;
-
+// @ts-expect-error message
 const getZIndexes = (): number[] => globalObject.__RetailUiZIndexes || (globalObject.__RetailUiZIndexes = [0]);
 const getIndexPriority = (zIndex: number) => Math.trunc(zIndex / priorityStep);
 const getMaxAllowedValue = (priority: number): number => (priority + 1) * priorityStep - 1;

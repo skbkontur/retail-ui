@@ -59,7 +59,9 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
       }
+      // @ts-expect-error message
       if (globalObject.ReactTesting) {
+        // @ts-expect-error message
         globalObject.ReactTesting.addRenderContainer(this.rootId, this);
       }
     }
@@ -80,7 +82,9 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
+      // @ts-expect-error message
       if (globalObject.ReactTesting) {
+        // @ts-expect-error message
         globalObject.ReactTesting.removeRenderContainer(this.rootId);
       }
     }

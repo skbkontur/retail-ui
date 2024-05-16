@@ -40,7 +40,9 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
+  // @ts-expect-error message
   if (globalObject.XDomainRequest) {
+    // @ts-expect-error message
     return new globalObject.XDomainRequest();
   }
   if (globalObject.XMLHttpRequest) {

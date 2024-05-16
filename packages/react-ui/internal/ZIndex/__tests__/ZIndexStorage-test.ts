@@ -2,6 +2,8 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { incrementZIndex, removeZIndex } from '../ZIndexStorage';
 
+// @ts-expect-error message
+
 const setZIndexes = (indexes: number[]) => (globalObject.__RetailUiZIndexes = indexes);
 
 beforeEach(() => setZIndexes([]));
@@ -11,6 +13,7 @@ describe('removeZIndex', () => {
     setZIndexes([1, 2, 3]);
     removeZIndex(3);
 
+    // @ts-expect-error message
     expect(globalObject.__RetailUiZIndexes).toEqual([1, 2]);
   });
 
@@ -18,6 +21,7 @@ describe('removeZIndex', () => {
     setZIndexes([1, 2, 3]);
     removeZIndex(4);
 
+    // @ts-expect-error message
     expect(globalObject.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
@@ -25,12 +29,14 @@ describe('removeZIndex', () => {
     setZIndexes([1, 2, 2, 3]);
     removeZIndex(2);
 
+    // @ts-expect-error message
     expect(globalObject.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should not change empty array', () => {
     removeZIndex(2);
 
+    // @ts-expect-error message
     expect(globalObject.__RetailUiZIndexes).toEqual([]);
   });
 });
@@ -105,6 +111,7 @@ describe('incrementZindex', () => {
       const result = incrementZIndex(priority, delta);
 
       expect(result).toBe(expected.result);
+      // @ts-expect-error message
       expect(globalObject.__RetailUiZIndexes).toEqual(expected.storage);
     });
   });
