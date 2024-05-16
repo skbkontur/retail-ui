@@ -11057,7 +11057,7 @@ core-js@^3.23.4, core-js@^3.6.4, core-js@^3.6.5, core-js@^3.8.2:
 
 core-js@^3.37.0:
   version "3.37.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/core-js/-/core-js-3.37.0.tgz#d8dde58e91d156b2547c19d8a4efd5c7f6c426bb"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.37.0.tgz#d8dde58e91d156b2547c19d8a4efd5c7f6c426bb"
   integrity sha512-fu5vHevQ8ZG4og+LXug8ulUtVxjOcEYvifJr7L5Bfq9GOztVqsKd9/59hUk2ZSbCrS3BqUr3EpaYGIYzq7g3Ug==
 
 core-util-is@1.0.2:
@@ -18352,9 +18352,9 @@ jss@10.10.0, jss@^10.0.0, jss@^10.9.0:
     array-includes "^3.1.2"
     object.assign "^4.1.2"
 
-jszip@^3.10.1:
+jszip@^3.6.0:
   version "3.10.1"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
+  resolved "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
   dependencies:
     lie "~3.3.0"
@@ -23460,14 +23460,15 @@ select@^1.1.2:
   resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selenium-webdriver@^4.3.1:
-  version "4.20.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/selenium-webdriver/-/selenium-webdriver-4.20.0.tgz#14941ab4a59e8956a5e4b4491a8ba2bd6619d1ac"
-  integrity sha512-s/G44lGQ1xB3tmtX6NNPomlkpL6CxLdmAvp/AGWWwi4qv5Te1+qji7tPSyr6gyuoPpdYiof1rKnWe3luy0MrYA==
+selenium-webdriver@4.0.0-beta.4, selenium-webdriver@^4.3.1:
+  version "4.0.0-beta.4"
+  resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.0.0-beta.4.tgz#db4fc7505a515ea3b4a95ded031b738a1544eddd"
+  integrity sha512-+s/CIYkWzmnC9WASBxxVj7Lm0dcyl6OaFxwIJaFCT5WCuACiimEEr4lUnOOFP/QlKfkDQ56m+aRczaq2EvJEJg==
   dependencies:
-    jszip "^3.10.1"
-    tmp "^0.2.3"
-    ws ">=8.16.0"
+    jszip "^3.6.0"
+    rimraf "^3.0.2"
+    tmp "^0.2.1"
+    ws ">=7.4.6"
 
 selfsigned@^1.10.8:
   version "1.10.8"
@@ -25068,7 +25069,7 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tmp@^0.2.3, tmp@~0.2.1:
+tmp@^0.2.1, tmp@~0.2.1:
   version "0.2.3"
   resolved "https://registry.npmjs.org/tmp/-/tmp-0.2.3.tgz#eb783cc22bc1e8bebd0671476d46ea4eb32a79ae"
   integrity sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==
@@ -26776,7 +26777,7 @@ write-pkg@4.0.0:
     type-fest "^0.4.1"
     write-json-file "^3.2.0"
 
-ws@>=8.16.0, ws@^8.16.0, ws@^8.2.3:
+ws@>=7.4.6, ws@^8.16.0, ws@^8.2.3:
   version "8.17.0"
   resolved "https://registry.npmjs.org/ws/-/ws-8.17.0.tgz#d145d18eca2ed25aaf791a183903f7be5e295fea"
   integrity sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==
