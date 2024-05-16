@@ -2,7 +2,7 @@ import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
-import { Meta } from '@storybook/react';
+import { Meta, Preview } from '@storybook/react';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
@@ -58,6 +58,16 @@ setFilter((fiber) => {
 });
 
 const MOBILE_REGEXP = /Mobile.*/i;
+const preview: Preview = {
+  parameters: {
+    docs: {
+      toc: {
+        headingSelector: 'h1, h2, h3', // может еще что-то включить
+      }
+    },
+  },
+};
+export default preview;
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
