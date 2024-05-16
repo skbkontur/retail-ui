@@ -7,7 +7,6 @@ module.exports = {
   presets: ['@babel/preset-env', '@babel/typescript', '@babel/preset-react'],
   plugins: [
     '@babel/plugin-transform-runtime',
-    '@babel/plugin-proposal-export-default-from',
     'react-hot-loader/babel',
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     [
