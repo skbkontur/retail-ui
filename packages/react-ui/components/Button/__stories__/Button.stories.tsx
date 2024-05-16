@@ -10,15 +10,16 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { Story } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
 
 export default {
-  title: 'Button',
-};
+  title: 'ExampleFolder/Button',
+  component: Button,
+} as Meta;
 
 type ButtonState = Partial<ButtonProps>;
 
@@ -49,6 +50,13 @@ const testingButtonUseStates2022: ButtonState[] = [
   { use: 'link' },
 ];
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
+
+export const Default: Story = () => (
+  <Button data-tid="test-button">
+    Здесь рисуется первая история из файла .stories.tsx
+  </Button>
+);
+
 
 const getButtonUseStates = (theme: string) => {
   if (theme === 'THEME_2022' || theme === 'THEME_2022_DARK') {
