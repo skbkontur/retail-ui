@@ -9,6 +9,7 @@ import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 import { FocusMode } from './FocusMode';
+import { InlineDiv } from './utils/InlineDiv';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -165,8 +166,8 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   private featureFlags!: ValidationsFeatureFlags;
 
   private children = (flags: ValidationsFeatureFlags) => {
-    if (flags.validationsRemoveExtraSpans) {
-      return this.props.children;
+    if (flags.validationsDivWrapper) {
+      return <InlineDiv>{this.props.children}</InlineDiv>;
     }
 
     return <span>{this.props.children}</span>;

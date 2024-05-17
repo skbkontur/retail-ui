@@ -13,7 +13,7 @@ interface CheckboxState {
   checked: boolean;
 }
 
-export default class FeatureFlagsExampleValidationsWrapperAndContainerRemoveExtraSpan extends React.Component {
+export default class FeatureFlagsExampleValidationsWrapperAndContainerDivWrapper extends React.Component {
   public state: CheckboxState = {
     checked: false,
   };
@@ -31,9 +31,7 @@ export default class FeatureFlagsExampleValidationsWrapperAndContainerRemoveExtr
 
   render() {
     return (
-      <ValidationsFeatureFlagsContext.Provider
-        value={{ validationsRemoveExtraSpans: true }}
-      >
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
         <ValidationContainer ref={this.refContainer}>
           <ValidationWrapper validationInfo={this.validateSex()}>
             <Checkbox

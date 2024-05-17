@@ -33,9 +33,9 @@ describe('ValidationContainer', () => {
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
   });
 
-  it('renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
+  it('renders passed data-tid on container when validationsDivWrapper enabled', () => {
     render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
         <ValidationContainer data-tid="passed-container">
           <div />
         </ValidationContainer>
@@ -45,9 +45,9 @@ describe('ValidationContainer', () => {
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
   });
 
-  it('not renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
+  it('renders passed data-tid on container when validationsDivWrapper enabled', () => {
     render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
         <ValidationContainer data-tid="passed-container">
           <div />
           <div />
@@ -55,7 +55,7 @@ describe('ValidationContainer', () => {
       </ValidationsFeatureFlagsContext.Provider>,
     );
 
-    expect(screen.queryByTestId('passed-container')).toBeNull();
+    expect(screen.queryByTestId('passed-container')).toBeInTheDocument();
   });
 
   it('renders passed children', () => {

@@ -21,19 +21,13 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
   const color = getValidationTextColor(featureFlags, theme, validation?.level);
 
   if (pos === 'right') {
-    const childrenAndValidationText = (
-      <>
+    return (
+      <span style={{ display: 'inline-block' }}>
         {children}
         <span data-tid={dataTid} data-validation-message="text" style={{ marginLeft: '10px', color }}>
           {(validation && validation.message) || ''}
         </span>
-      </>
-    );
-
-    return featureFlags.validationsRemoveExtraSpans ? (
-      childrenAndValidationText
-    ) : (
-      <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>
+      </span>
     );
   }
 
@@ -54,12 +48,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 
-  return featureFlags.validationsRemoveExtraSpans ? (
-    <>
-      {children}
-      <span style={{ position: 'absolute', display: 'block' }}>{validationText}</span>
-    </>
-  ) : (
+  return (
     <span style={{ position: 'relative', display: 'inline-block' }}>
       {children}
       <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>{validationText}</span>
