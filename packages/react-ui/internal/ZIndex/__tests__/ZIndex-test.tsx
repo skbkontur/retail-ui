@@ -77,8 +77,7 @@ describe('ZIndex', () => {
   });
 
   it('should store correct zIndexes in `__RetailUiZIndexes`', async () => {
-    // @ts-expect-error message
-    globalObject.__RetailUiZIndexes = [];
+    (globalObject as any).__RetailUiZIndexes = [];
     const DemoUpdatePriority = () => {
       const [delta, setDelta] = useState<number | undefined>();
       return (
@@ -94,11 +93,9 @@ describe('ZIndex', () => {
 
     render(<DemoUpdatePriority />);
     const delta = screen.getByTestId('delta');
-    // @ts-expect-error message
-    expect(globalObject.__RetailUiZIndexes).toEqual([3000, 3010]);
+    expect((globalObject as any).__RetailUiZIndexes).toEqual([3000, 3010]);
     await userEvent.click(delta);
-    // @ts-expect-error message
-    expect(globalObject.__RetailUiZIndexes).toEqual([3000, 3011]);
+    expect((globalObject as any).__RetailUiZIndexes).toEqual([3000, 3011]);
   });
 
   it('should not add wrapper if `useWrapper = false`', async () => {
