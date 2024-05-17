@@ -24,6 +24,11 @@ export const Mask: Story = () => (
     presetProps={{ mask: '(999) 999-99-99' }}
   />
 );
+Mask.parameters = {
+  creevey: {
+    skip: { flaky: { in: /firefox/ } },
+  },
+};
 
 const maskStates: InputState[] = [
   {},

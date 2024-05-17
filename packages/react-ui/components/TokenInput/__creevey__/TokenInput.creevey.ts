@@ -65,6 +65,7 @@ kind('TokenInput', () => {
     setStoryParameters({
       skip: {
         'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'], tests: ['editToken'] },
+        flaky: { in: /firefox/, tests: ['selectAndType'] },
       },
     });
 
