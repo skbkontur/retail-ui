@@ -225,6 +225,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();
+
+  public getAllowedPositions() {
+    return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+  }
+
   public componentDidUpdate(prevProps: TooltipProps) {
     const { trigger } = this.getProps();
     if (trigger === 'closed' && this.state.opened) {
@@ -232,7 +237,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
     if (!this.featureFlags.popupUnifyPositioning) {
       const pos = this.props.pos ? this.props.pos : OldDefaultPosition;
-      const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+      const allowedPositions = this.getAllowedPositions();
       const posChanged = prevProps.pos !== pos;
       const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
@@ -393,7 +398,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
-          positions={this.featureFlags.popupUnifyPositioning ? this.props.allowedPositions : this.getPositions()}
+          positions={this.getPositions()}
           pos={this.props.pos}
           ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
@@ -409,7 +414,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  private getPositions() {
+  private getPositions = (): PopupPositionsType[] | undefined => {
+    if (this.featureFlags.popupUnifyPositioning) {
+      return this.props.allowedPositions;
+    }
     if (!this.positions) {
       let pos;
       if (this.props.pos) {
@@ -419,7 +427,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       } else {
         pos = OldDefaultPosition;
       }
-      const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+      const allowedPositions = this.getAllowedPositions();
       const index = allowedPositions.indexOf(pos as PopupPositionsType);
       if (index === -1) {
         throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
@@ -429,7 +437,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     return this.positions;
-  }
+  };
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;

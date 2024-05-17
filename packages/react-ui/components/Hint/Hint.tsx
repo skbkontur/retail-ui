@@ -132,6 +132,10 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private popupRef = React.createRef<Popup>();
 
+  public getAllowedPositions() {
+    return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+  }
+
   public componentDidUpdate(prevProps: HintProps) {
     const { opened, manual } = this.getProps();
     if (!manual) {
@@ -206,7 +210,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           hasPin={hasPin}
           opened={this.state.opened}
           anchorElement={this.props.children}
-          positions={this.featureFlags.popupUnifyPositioning ? this.props.allowedPositions : this.getPositions()}
+          positions={this.getPositions()}
           pos={this.props.pos}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
@@ -246,9 +250,12 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PopupPositionsType[] => {
+  private getPositions = (): PopupPositionsType[] | undefined => {
+    if (this.featureFlags.popupUnifyPositioning) {
+      return this.props.allowedPositions;
+    }
     const pos = this.props.pos ? this.props.pos : 'top';
-    const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+    const allowedPositions = this.getAllowedPositions();
     if (this.featureFlags.hintAddDynamicPositioning) {
       if (!this.positions) {
         let priorityPosition: PopupPositionsType;
