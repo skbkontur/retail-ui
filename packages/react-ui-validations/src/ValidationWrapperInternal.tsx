@@ -3,6 +3,11 @@ import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
 
+import {
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+  getFullValidationsFlagsContext,
+} from './utils/featureFlagsContext';
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
@@ -64,6 +69,8 @@ export class ValidationWrapperInternal extends React.Component<
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
+
+  private featureFlags!: ValidationsFeatureFlags;
 
   public componentDidMount() {
     warning(
@@ -142,9 +149,22 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    return React.cloneElement(this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation), {
+    const i = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
       'data-tid': dataTid,
     });
+
+    return (
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullValidationsFlagsContext(flags);
+          return this.featureFlags.validationsDivWrapper ? (
+            <div style={{ display: 'inline' }}>{i}</div>
+          ) : (
+            <span>{i}</span>
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
+    );
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {
@@ -227,10 +247,12 @@ export class ValidationWrapperInternal extends React.Component<
     }
 
     return new Promise((resolve) => {
-      this.setState({ validation }, resolve);
-      if (Boolean(current) !== Boolean(validation)) {
-        this.context.onValidationUpdated(this, !validation);
-      }
+      this.setState({ validation }, () => {
+        if (Boolean(current) !== Boolean(validation)) {
+          this.context.onValidationUpdated(this, !validation);
+        }
+        resolve();
+      });
     });
   }
 
