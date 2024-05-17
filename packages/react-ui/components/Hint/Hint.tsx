@@ -149,7 +149,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       this.setState({ opened: !!opened });
     }
 
-    if (!this.featureFlags.popupUnifyPositioning) {
+    if (this.featureFlags.hintAddDynamicPositioning && !this.featureFlags.popupUnifyPositioning) {
       const pos = this.props.pos ? this.props.pos : 'top';
       const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
       const posChanged = prevProps.pos !== pos;
