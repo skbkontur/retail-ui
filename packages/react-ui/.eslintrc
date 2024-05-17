@@ -7,8 +7,7 @@
         "plugin:jest-dom/recommended",
         "plugin:storybook/recommended",
         "plugin:jest/recommended",
-        "plugin:jest/style",
-        "plugin:import/typescript"
+        "plugin:jest/style"
       ],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
