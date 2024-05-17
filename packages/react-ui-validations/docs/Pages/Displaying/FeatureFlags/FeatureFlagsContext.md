@@ -4,6 +4,8 @@
 
     export interface ValidationsFeatureFlags {
       validationsRemoveExtraSpans?: boolean;
+      fixedValidationTextColors?: boolean;
+      darkTheme?: boolean;
     }
 
 Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
@@ -22,6 +24,21 @@
 В Validations 2.0 фича будет применена по умолчанию.
 
     !!DemoWithCode!!FeatureFlagsExamplevalidationsRemoveExtraSpans
+
+
+### fixedValidationTextColors
+
+В ValidationText будут использоваться цвета по гайдам для error и warning.
+В Validations 2.0 фича будет применена по умолчанию.
+
+    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColors
+
+### darkTheme
+
+На данный момент работает только в паре с **fixedValidationTextColors: true**.
+В ValidationText будут использоваться цвета по гайдам для error и warning из темной темы
+
+    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
 
 ## Объект со всеми флагами
 

@@ -14,10 +14,10 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
-import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
-import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
+import { TabsContext, TabsContextDefaultValue, TabsContextType } from './TabsContext';
+import { globalClasses, horizontalStyles, styles, verticalStyles } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;

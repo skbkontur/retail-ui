@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import * as CDS from './CalendarDateShape';
 import { globalClasses, styles } from './DayCellView.styles';
