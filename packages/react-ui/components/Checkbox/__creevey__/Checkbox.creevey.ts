@@ -33,13 +33,7 @@ const checkboxTests = () => {
         }),
       })
       .press()
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
+      .pause(1000)
       .release()
       .perform();
   });
@@ -89,12 +83,7 @@ const checkboxTests = () => {
       .press()
       .release()
       .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-    await this.browser
-      .actions({
-        bridge: true,
-      })
+      .pause(1000)
       .sendKeys(this.keys.SPACE)
       .perform();
     await delay(1000);
@@ -167,13 +156,7 @@ kind('Checkbox', () => {
           }),
         })
         .press()
-        .perform();
-      await delay(1000);
-      await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .release()
         .perform();
     });

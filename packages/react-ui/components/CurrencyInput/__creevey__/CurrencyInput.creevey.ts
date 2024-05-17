@@ -1,7 +1,5 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/utils';
-
 kind('CurrencyInput', () => {
   story('SampleStory', ({ setStoryParameters }) => {
     setStoryParameters({
@@ -42,33 +40,13 @@ kind('CurrencyInput', () => {
           }),
         )
         .sendKeys('1')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('2')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('3')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('4')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .perform();
       await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
     });
@@ -85,33 +63,13 @@ kind('CurrencyInput', () => {
           bridge: true,
         })
         .sendKeys('1')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('2')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('3')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('4')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .perform();
       await this.expect(await this.takeScreenshot()).to.matchImage('External focus and input');
     });
