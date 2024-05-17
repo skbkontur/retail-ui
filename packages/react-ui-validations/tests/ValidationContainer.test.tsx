@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   Button,
   ComboBox,
@@ -21,7 +22,6 @@ import {
   ValidationWrapper,
 } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
-import userEvent from '@testing-library/user-event';
 
 describe('ValidationContainer', () => {
   it('renders passed data-tid on container', () => {
