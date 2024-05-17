@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.4...@skbkontur/react-ui@4.22.5) (2024-05-14)
+
+
+### Bug Fixes
+
+* **Autocomplete, ComboBox:** disable browser autofill ([#3419](https://github.com/skbkontur/retail-ui/issues/3419)) ([f805126](https://github.com/skbkontur/retail-ui/commit/f8051261304878b9cfffa744dc82a7296a7448b9))
+
+
+
+
+
+## [4.22.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.3...@skbkontur/react-ui@4.22.4) (2024-05-07)
+
+
+### Features
+
+* **Kebab,Link,Paging:** add visual state disabled ([#3418](https://github.com/skbkontur/retail-ui/issues/3418)) ([c47c213](https://github.com/skbkontur/retail-ui/commit/c47c213f3986b4c8a16e0f542fa2b530fc78b632))
+* boolean visual state attributes ([#3407](https://github.com/skbkontur/retail-ui/issues/3407)) ([132a177](https://github.com/skbkontur/retail-ui/commit/132a177782baa51cdca5d59d97d41780217ef73d))
+
+
+
+
+
+## [4.22.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.2...@skbkontur/react-ui@4.22.3) (2024-04-25)
+
+
+### Bug Fixes
+
+* Reset focus if disabled ([#3378](https://github.com/skbkontur/retail-ui/issues/3378)) ([ed728b6](https://github.com/skbkontur/retail-ui/commit/ed728b66e30735cfe01e5d2acec3b81efa3fcdb8))
+
+
+
+
 ## [4.22.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.1...@skbkontur/react-ui@4.22.2) (2024-04-19)
 
 **Note:** Version bump only for package @skbkontur/react-ui
