@@ -2,11 +2,12 @@ import * as ButtonStories from './Button.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
 import { Button } from '../Button';
 import { Gapped } from '../../Gapped';
+import { CopyIcon16Regular, MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
 
 <Meta of={ButtonStories} />
 
 # Button
-Я - обычная кнопочка...
+Я - обычная кнопочка... Описание компонента
 
 [Компонент в Контур.Гайдах](https://guides.kontur.ru/components/button)
 
@@ -14,12 +15,9 @@ import { Gapped } from '../../Gapped';
 <Primary />
 
 ## Пропы
-<Controls />
+тут будет таблица с пропами
 
-### Кнопка - h3
-#### Кнопка - h4
-##### Кнопка - h5
-###### Кнопка - h6
+[//]: # (<Controls />)
 
 ## Примеры использования
 ### Различные стили
@@ -47,3 +45,102 @@ import { Gapped } from '../../Gapped';
     </Gapped>
   </Gapped>
 </Canvas>
+
+### Иконка
+В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
+<Canvas>
+  <Gapped gap={5}>
+    <Button icon={<XIcon16Regular />}>Закрыть</Button>
+    <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>Закрыть</Button>
+    <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
+  </Gapped>
+</Canvas>
+
+### Размеры
+У кнопки есть 3 стандартных размера.
+<Canvas>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "end",
+      gap: '10px',
+    }}
+  >
+    <Button size="small">Маленькая</Button>
+    <Button size="medium">Средняя</Button>
+    <Button size="large">Большая</Button>
+  </div>
+</Canvas>
+
+### Стрелка
+Кнопки могут принимать вид стрелок. В таком случае иконка привязывается к краю кнопки.
+<Canvas>
+  <Gapped gap={5}>
+    <Button arrow="left" size="medium">
+      Назад
+    </Button>
+    <Button arrow size="medium">
+      Далее
+    </Button>
+  </Gapped>
+</Canvas>
+
+### Состояние загрузки
+**Поведение:**
+Кнопка на время нахождения в состоянии загрузки отключается.
+Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
+<Canvas>
+  <Gapped>
+    <Button width={150} loading={true}>
+      Удалить
+    </Button>
+    <Button icon={<MinusCircleIcon16Light />} width={150} loading={true}>
+      Удалить
+    </Button>
+    <Button rightIcon={<MinusCircleIcon16Light />} width={150} loading={true}>
+      Удалить
+    </Button>
+    <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150} loading={true}>
+      Удалить
+    </Button>
+  </Gapped>
+</Canvas>
+
+### Проп theme
+Пример кнопки с пропом theme
+<Canvas>
+  <Gapped>
+    <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
+    <Button use="link" theme={{ linkColor: '#C00000' }}>Ok</Button>
+    <Button>Ok</Button>
+  </Gapped>
+</Canvas>
+
+[//]: # (###)
+
+[//]: # (.)
+
+[//]: # (<Canvas>)
+
+[//]: # ()
+[//]: # (</Canvas>)
+
+[//]: # ()
+[//]: # (###)
+
+[//]: # (.)
+
+[//]: # (<Canvas>)
+
+[//]: # ()
+[//]: # (</Canvas>)
+
+
+
+# h1
+## h2
+### h3
+#### h4
+##### h5
+###### h6
+текст

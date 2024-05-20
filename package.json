@@ -35,6 +35,7 @@
     }
   },
   "resolutions": {
-    "selenium-webdriver": "4.0.0-beta.4"
+    "selenium-webdriver": "4.0.0-beta.4",
+    "react-ui-validation/@storybook/components": "6.4.22"
   }
 }

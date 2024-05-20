@@ -72,6 +72,7 @@
     "@skbkontur/react-sorge": "0.2.1",
     "@storybook/addon-docs": "6.4.22",
     "@storybook/react": "6.4.22",
+    "@storybook/components": "6.4.22",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
