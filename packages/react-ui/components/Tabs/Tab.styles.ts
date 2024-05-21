@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
@@ -10,164 +12,9 @@ export const globalClasses = prefix('tab')({
   focus: 'focus',
 });
 
-export const styles = memoizeStyle({
-  rootSmall(t: Theme) {
-    return tabRoot(t, 'small');
-  },
-
-  rootMedium(t: Theme) {
-    return tabRoot(t, 'medium');
-  },
-
-  rootLarge(t: Theme) {
-    return tabRoot(t, 'large');
-  },
-
-  verticalSmall(t: Theme) {
-    return tabVertical(t, 'small');
-  },
-
-  verticalMedium(t: Theme) {
-    return tabVertical(t, 'medium');
-  },
-
-  verticalLarge(t: Theme) {
-    return tabVertical(t, 'large');
-  },
-
-  focusSmall(t: Theme) {
-    return tabFocus(t, 'small');
-  },
-
-  focusMedium(t: Theme) {
-    return tabFocus(t, 'medium');
-  },
-
-  focusLarge(t: Theme) {
-    return tabFocus(t, 'large');
-  },
-
-  disabled(t: Theme) {
-    return css`
-      color: rgba(
-        ${ColorFunctions.red(t.tabTextColorDefault)},
-        ${ColorFunctions.green(t.tabTextColorDefault)},
-        ${ColorFunctions.blue(t.tabTextColorDefault)},
-        0.5
-      );
-      cursor: default;
-    `;
-  },
-
-  active() {
-    return css`
-      cursor: default;
-    `;
-  },
-});
-
-export const horizontalStyles = memoizeStyle({
-  active(t: Theme) {
-    return css`
-      &:hover {
-        border-bottom: ${t.tabBorderWidth} solid transparent;
-      }
-    `;
-  },
-
-  disabled() {
-    return css`
-      &:hover {
-        border-bottom-color: transparent;
-      }
-    `;
-  },
-
-  primary(t: Theme) {
-    return css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverPrimary};
-      }
-    `;
-  },
-
-  success(t: Theme) {
-    return css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverSuccess};
-      }
-    `;
-  },
-
-  warning(t: Theme) {
-    return css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverWarning};
-      }
-    `;
-  },
-
-  error(t: Theme) {
-    return css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverError};
-      }
-    `;
-  },
-});
-
-export const verticalStyles = memoizeStyle({
-  active(t: Theme) {
-    return css`
-      &:hover {
-        border-left: ${t.tabBorderWidth} solid transparent;
-      }
-    `;
-  },
-
-  disabled() {
-    return css`
-      &:hover {
-        border-left-color: transparent;
-      }
-    `;
-  },
-
-  primary(t: Theme) {
-    return css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverPrimary};
-      }
-    `;
-  },
-
-  success(t: Theme) {
-    return css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverSuccess};
-      }
-    `;
-  },
-
-  warning(t: Theme) {
-    return css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverWarning};
-      }
-    `;
-  },
-
-  error(t: Theme) {
-    return css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverError};
-      }
-    `;
-  },
-});
-
-function tabRoot(t: Theme, size: SizeProp) {
-  return css`
+export const getStyles = (emotion: Emotion) => {
+  function tabRoot(t: Theme, size: SizeProp) {
+    return emotion.css`
     border-bottom: ${t.tabBorderWidth} solid transparent;
     box-sizing: border-box;
     color: ${t.tabTextColorDefault};
@@ -192,10 +39,10 @@ function tabRoot(t: Theme, size: SizeProp) {
       outline: inherit;
     }
   `;
-}
+  }
 
-function tabVertical(t: Theme, size: SizeProp) {
-  return css`
+  function tabVertical(t: Theme, size: SizeProp) {
+    return emotion.css`
     border-bottom: none;
     border-left: ${t.tabBorderWidth} solid transparent;
     display: block;
@@ -215,10 +62,10 @@ function tabVertical(t: Theme, size: SizeProp) {
       right: 0;
     }
   `;
-}
+  }
 
-function tabFocus(t: Theme, size: SizeProp) {
-  return css`
+  function tabFocus(t: Theme, size: SizeProp) {
+    return emotion.css`
     border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
     bottom: -${t.tabBorderWidth};
     left: -${paddingX(t, size)};
@@ -226,4 +73,163 @@ function tabFocus(t: Theme, size: SizeProp) {
     right: -${paddingX(t, size)};
     top: 0;
   `;
-}
+  }
+
+  return memoizeStyle({
+    rootSmall(t: Theme) {
+      return tabRoot(t, 'small');
+    },
+
+    rootMedium(t: Theme) {
+      return tabRoot(t, 'medium');
+    },
+
+    rootLarge(t: Theme) {
+      return tabRoot(t, 'large');
+    },
+
+    verticalSmall(t: Theme) {
+      return tabVertical(t, 'small');
+    },
+
+    verticalMedium(t: Theme) {
+      return tabVertical(t, 'medium');
+    },
+
+    verticalLarge(t: Theme) {
+      return tabVertical(t, 'large');
+    },
+
+    focusSmall(t: Theme) {
+      return tabFocus(t, 'small');
+    },
+
+    focusMedium(t: Theme) {
+      return tabFocus(t, 'medium');
+    },
+
+    focusLarge(t: Theme) {
+      return tabFocus(t, 'large');
+    },
+
+    disabled(t: Theme) {
+      return emotion.css`
+        color: rgba(
+          ${ColorFunctions.red(t.tabTextColorDefault)},
+          ${ColorFunctions.green(t.tabTextColorDefault)},
+          ${ColorFunctions.blue(t.tabTextColorDefault)},
+          0.5
+        );
+        cursor: default;
+      `;
+    },
+
+    active() {
+      return emotion.css`
+        cursor: default;
+      `;
+    },
+  });
+};
+
+export const getHorizontalStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    active(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-bottom: ${t.tabBorderWidth} solid transparent;
+      }
+    `;
+    },
+
+    disabled() {
+      return emotion.css`
+      &:hover {
+        border-bottom-color: transparent;
+      }
+    `;
+    },
+
+    primary(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-bottom-color: ${t.tabColorHoverPrimary};
+      }
+    `;
+    },
+
+    success(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-bottom-color: ${t.tabColorHoverSuccess};
+      }
+    `;
+    },
+
+    warning(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-bottom-color: ${t.tabColorHoverWarning};
+      }
+    `;
+    },
+
+    error(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-bottom-color: ${t.tabColorHoverError};
+      }
+    `;
+    },
+  });
+
+export const getVerticalStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    active(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-left: ${t.tabBorderWidth} solid transparent;
+      }
+    `;
+    },
+
+    disabled() {
+      return emotion.css`
+      &:hover {
+        border-left-color: transparent;
+      }
+    `;
+    },
+
+    primary(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverPrimary};
+      }
+    `;
+    },
+
+    success(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverSuccess};
+      }
+    `;
+    },
+
+    warning(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverWarning};
+      }
+    `;
+    },
+
+    error(t: Theme) {
+      return emotion.css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverError};
+      }
+    `;
+    },
+  });

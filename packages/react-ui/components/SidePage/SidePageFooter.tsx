@@ -1,10 +1,10 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
@@ -12,9 +12,10 @@ import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
+import { getStyles } from './SidePage.styles';
 
 export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -60,6 +61,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private content: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
   private setRootNode!: TSetRootNode;
@@ -99,12 +101,19 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -118,6 +127,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
       separator = (this.props.panel || this.state.fixed) && <ModalSeparator fixed={this.state.fixed} />;
     }
 
+    const styles = getStyles(this.emotion);
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
@@ -128,7 +138,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
-                className={cx(styles.footer(this.theme), {
+                className={this.emotion.cx(styles.footer(this.theme), {
                   [styles.positionStatic()]: !this.getSticky(),
                 })}
                 style={{
@@ -137,7 +147,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
               >
                 {separator}
                 <div
-                  className={cx(styles.footerContent(this.theme), {
+                  className={this.emotion.cx(styles.footerContent(this.theme), {
                     [styles.footerFixed(this.theme)]: this.state.fixed,
                     [styles.panel(this.theme)]: !!this.props.panel,
                     [styles.panelFixed(this.theme)]: !!this.props.panel && this.state.fixed,

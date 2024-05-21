@@ -1,7 +1,7 @@
-import { css } from '../theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const resetButton = () => {
-  return css`
+export const resetButton = (emotion: Emotion) => {
+  return emotion.css`
     outline: none;
     border: none;
     margin: 0; /* Need for Safari. */
@@ -32,8 +32,8 @@ export const resetButton = () => {
   `;
 };
 
-export const resetText = () => {
-  return css`
+export const resetText = (emotion: Emotion) => {
+  return emotion.css`
     letter-spacing: normal;
     line-height: normal;
     font-family: inherit;
