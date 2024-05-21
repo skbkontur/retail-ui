@@ -7,8 +7,8 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static grayXLight = '#313131';
   public static gray = 'rgba(255, 255, 255, 0.48)';
   public static grayDark = '#e1e1e1';
-  public static green = '#5f9c20';
-  public static greenDark = '#538a1b';
+  public static green = '#23A14A';
+  public static greenDark = '#1C8A3F';
   public static red = '#ee5042';
   public static redDark = '#dd473b';
   public static yellowXxLight = '#ffe0c3';
@@ -35,9 +35,9 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static linkColor = '#51adff';
   public static linkHoverColor = '#2291ff';
   public static linkActiveColor = '#1f87ef';
-  public static linkSuccessColor = '#78bf2b';
-  public static linkSuccessHoverColor = '#6cad26';
-  public static linkSuccessActiveColor = '#5f9c20';
+  public static linkSuccessColor = '#46CD68';
+  public static linkSuccessHoverColor = '#26AD50';
+  public static linkSuccessActiveColor = '#23A14A';
   public static linkDangerColor = '#ff887b';
   public static linkDangerHoverColor = '#ff5a49';
   public static linkDangerActiveColor = '#ee5042';
@@ -59,13 +59,13 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnDefaultBorderColor() {
     return this.borderColorGrayLight;
   }
-  public static btnSuccessBg = '#5f9c20';
+  public static btnSuccessBg = '#23A14A';
   public static get btnSuccessTextColor() {
     return this.textColorDefault;
   }
-  public static btnSuccessBorderColor = '#5f9c20';
-  public static btnSuccessActiveBg = '#3a6710';
-  public static btnSuccessActiveBorderColor = '#3a6710';
+  public static btnSuccessBorderColor = '#23A14A';
+  public static btnSuccessActiveBg = '#167333';
+  public static btnSuccessActiveBorderColor = '#167333';
   public static btnPrimaryBg = '#1f87ef';
   public static get btnPrimaryTextColor() {
     return this.textColorDefault;
