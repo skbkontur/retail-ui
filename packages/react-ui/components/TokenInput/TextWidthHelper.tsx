@@ -1,11 +1,12 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { TokenView } from '../Token/TokenView';
 import { TokenSize } from '../Token';
-import { styles } from '../Token/Token.styles';
+import { getStyles } from '../Token/Token.styles';
 
 // a thin character to preserve some space
 // for the caret visibillity in the input
@@ -21,9 +22,11 @@ export interface TextWidthHelperProps {
  * для последующего выставления размеров input
  */
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
+  private emotion!: Emotion;
   private element: HTMLDivElement | null = null;
 
   private getSizeClassName(size: TokenSize) {
+    const styles = getStyles(this.emotion);
     switch (size) {
       case 'large':
         return styles.helperContainerLarge(this.props.theme);
@@ -37,9 +40,21 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
 
   public render() {
     return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  public renderMain() {
+    const styles = getStyles(this.emotion);
+    return (
       <TokenView
         size={this.props.size}
-        className={cx(styles.helperContainer(), this.getSizeClassName(this.props.size))}
+        className={this.emotion.cx(styles.helperContainer(), this.getSizeClassName(this.props.size))}
       >
         <div className={styles.helperText()} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}

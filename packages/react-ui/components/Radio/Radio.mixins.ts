@@ -1,9 +1,11 @@
-import { css } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
 import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 import { isChrome, isFirefox } from '../../lib/client';
 
-export const radioSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, radioSize: string) => {
-  return css`
+export const radioSizeMixin =
+  (emotion: Emotion) => (fontSize: string, lineHeight: string, paddingY: string, radioSize: string) => {
+    return emotion.css`
     font-size: ${fontSize};
     line-height: ${lineHeight};
     padding: ${paddingY} 0;
@@ -11,36 +13,38 @@ export const radioSizeMixin = (fontSize: string, lineHeight: string, paddingY: s
       width: ${radioSize};
     }
   `;
-};
+  };
 
-export const circleSizeMixin = (
-  labGrotesqueBaselineCompensation: string,
-  fontSize: string,
-  radioSize: string,
-  radioBorderWidthCompensation: string,
-  radioCircleOffsetY: string,
-) => {
-  const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
-  const radioFontSize = parseInt(fontSize);
+export const circleSizeMixin =
+  (emotion: Emotion) =>
+  (
+    labGrotesqueBaselineCompensation: string,
+    fontSize: string,
+    radioSize: string,
+    radioBorderWidthCompensation: string,
+    radioCircleOffsetY: string,
+  ) => {
+    const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
+    const radioFontSize = parseInt(fontSize);
 
-  const baselineCompensation = getLabGrotesqueBaselineCompensation(
-    radioFontSize,
-    labGrotesqueCompenstation,
-    isChrome,
-    isFirefox,
-  );
-  const circleSize = `calc(${radioSize} - 2 * ${radioBorderWidthCompensation})`;
-  const circleOffsetY = `calc(${radioCircleOffsetY} + ${radioBorderWidthCompensation} + ${baselineCompensation}px)`;
-  const circleMarginX = radioBorderWidthCompensation;
-  return css`
+    const baselineCompensation = getLabGrotesqueBaselineCompensation(
+      radioFontSize,
+      labGrotesqueCompenstation,
+      isChrome,
+      isFirefox,
+    );
+    const circleSize = `calc(${radioSize} - 2 * ${radioBorderWidthCompensation})`;
+    const circleOffsetY = `calc(${radioCircleOffsetY} + ${radioBorderWidthCompensation} + ${baselineCompensation}px)`;
+    const circleMarginX = radioBorderWidthCompensation;
+    return emotion.css`
     height: ${circleSize};
     width: ${circleSize};
     margin: ${circleOffsetY} ${circleMarginX} 0;
   `;
-};
+  };
 
-export const radioCheckedMixin = (bulletSize: string) => {
-  return css`
+export const radioCheckedMixin = (emotion: Emotion) => (bulletSize: string) => {
+  return emotion.css`
     &::before {
       height: ${bulletSize};
       width: ${bulletSize};
@@ -48,8 +52,8 @@ export const radioCheckedMixin = (bulletSize: string) => {
   `;
 };
 
-export const afterOutlineMixin = (radioOutlineWidth: string) => {
-  return css`
+export const afterOutlineMixin = (emotion: Emotion) => (radioOutlineWidth: string) => {
+  return emotion.css`
     content: ' ';
     position: absolute;
     top: -${radioOutlineWidth};
@@ -63,8 +67,8 @@ export const afterOutlineMixin = (radioOutlineWidth: string) => {
   `;
 };
 
-export const outlineColorMixin = (shadow: string, borderColor: string) => {
-  return css`
+export const outlineColorMixin = (emotion: Emotion) => (shadow: string, borderColor: string) => {
+  return emotion.css`
     box-shadow: ${shadow};
     border-color: ${borderColor};
   `;

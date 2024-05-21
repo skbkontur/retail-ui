@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import {
+  getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Spinner.styles';
+import { getStyles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 const types = ['big', 'mini', 'normal'] as const;
@@ -94,6 +95,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   public static Types: Record<SpinnerType, SpinnerType> = Object.assign({}, ...types.map((type) => ({ [type]: type })));
   private theme!: Theme;
+  private emotion!: Emotion;
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;
   private featureFlags!: ReactUIFeatureFlags;
@@ -104,12 +106,19 @@ export class Spinner extends React.Component<SpinnerProps> {
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
+                return (
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = theme;
+                      return this.renderMain();
+                    }}
+                  </ThemeContext.Consumer>
+                );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -121,6 +130,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     const defaultCaption = canDefaultCaptionBeRemoved ? null : this.locale.loading;
     const { caption = defaultCaption, dimmed, inline } = this.props;
     const type = this.getProps().type;
+    const styles = getStyles(this.emotion);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -133,10 +143,12 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderSpinner = (type: SpinnerType, dimmed?: boolean, inline?: boolean) => {
+    const styles = getStyles(this.emotion);
+
     return (
       <SpinnerIcon
         size={type}
-        className={cx({
+        className={this.emotion.cx({
           [styles.circle(this.theme)]: !dimmed && !this.props.color,
           [styles.circleDimmedColor(this.theme)]: dimmed,
           [styles.circleWithoutColorAnimation()]: dimmed || !!this.props.color,
@@ -149,7 +161,10 @@ export class Spinner extends React.Component<SpinnerProps> {
     );
   };
 
-  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
-    <span className={cx(styles[type](this.theme), styles.captionColor(this.theme))}>{caption}</span>
-  );
+  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
+    const styles = getStyles(this.emotion);
+    return (
+      <span className={this.emotion.cx(styles[type](this.theme), styles.captionColor(this.theme))}>{caption}</span>
+    );
+  };
 }
