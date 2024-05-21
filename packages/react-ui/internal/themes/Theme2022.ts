@@ -7,7 +7,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
   public static bgDisabled = '#F0F0F0';
-  public static errorMain = '#FF5A49';
+  public static errorMain = '#FE4C4C';
 
   //#region Link
   public static linkColor = '#222222';
@@ -19,9 +19,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkSuccessHoverColor = '#197F39';
   public static linkSuccessActiveColor = '#167333';
 
-  public static linkDangerColor = '#CB3D35';
-  public static linkDangerHoverColor = '#BA342E';
-  public static linkDangerActiveColor = '#A92A27';
+  public static linkDangerColor = '#CC2626';
+  public static linkDangerHoverColor = '#BB1919';
+  public static linkDangerActiveColor = '#AB0D0D';
 
   public static linkGrayedColor = '#858585';
   public static linkGrayedHoverColor = '#292929';
@@ -71,12 +71,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
 
-  public static btnDangerBg = '#FF5A49';
-  public static btnDangerHoverBg = '#EE5042';
-  public static btnDangerHoverBorderColor = '#EE5042';
-  public static btnDangerBorderColor = '#FF5A49';
-  public static btnDangerActiveBg = '#DD473B';
-  public static btnDangerActiveBorderColor = '#DD473B';
+  public static btnDangerBg = '#FE4C4C';
+  public static btnDangerHoverBg = '#ED3F3F';
+  public static btnDangerHoverBorderColor = '#ED3F3F';
+  public static btnDangerBorderColor = '#FE4C4C';
+  public static btnDangerActiveBg = '#DD3333';
+  public static btnDangerActiveBorderColor = '#DD3333';
 
   public static btnSuccessBg = '#46CD68';
   public static btnSuccessHoverBg = '#26AD50';

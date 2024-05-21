@@ -9,13 +9,13 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static grayDark = '#e1e1e1';
   public static green = '#23A14A';
   public static greenDark = '#1C8A3F';
-  public static red = '#ee5042';
-  public static redDark = '#dd473b';
+  public static red = '#ED3F3F';
+  public static redDark = '#DD3333';
   public static yellowXxLight = '#ffe0c3';
   public static yellow = '#ffa236';
   public static yellowDark = '#ea7324';
   public static warningMain = '#ffa236';
-  public static errorMain = '#ee5042';
+  public static errorMain = '#ED3F3F';
   public static errorText = '#ffa236';
   public static borderColorFocusLight = '#1260ae';
   public static borderColorGrayLight = 'rgba(255, 255, 255, 0.16)';
@@ -38,9 +38,9 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static linkSuccessColor = '#46CD68';
   public static linkSuccessHoverColor = '#26AD50';
   public static linkSuccessActiveColor = '#23A14A';
-  public static linkDangerColor = '#ff887b';
-  public static linkDangerHoverColor = '#ff5a49';
-  public static linkDangerActiveColor = '#ee5042';
+  public static linkDangerColor = '#FE6C6C';
+  public static linkDangerHoverColor = '#FE4C4C';
+  public static linkDangerActiveColor = '#ED3F3F';
   public static fixedPanelShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.4)';
 
   public static linkFocusOutlineColor = 'transparent';
@@ -73,13 +73,13 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryBorderColor = '#1f87ef';
   public static btnPrimaryActiveBg = '#1261ae';
   public static btnPrimaryActiveBorderColor = '#1261ae';
-  public static btnDangerBg = '#ee5042';
+  public static btnDangerBg = '#ED3F3F';
   public static get btnDangerTextColor() {
     return this.textColorDefault;
   }
-  public static btnDangerBorderColor = '#ee5042';
-  public static btnDangerActiveBg = '#a92a27';
-  public static btnDangerActiveBorderColor = '#a92a27';
+  public static btnDangerBorderColor = '#ED3F3F';
+  public static btnDangerActiveBg = '#AB0D0D';
+  public static btnDangerActiveBorderColor = '#AB0D0D';
   public static btnPayBg = '#ffa236';
   public static btnPayHoverBg = '#ff8227';
   public static btnPayHoverBorderColor = '#ff8227';
@@ -124,7 +124,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   //#endregion
   //#region Calendar
-  public static calendarCellWeekendColor = '#ff887b';
+  public static calendarCellWeekendColor = '#FE6C6C';
   public static calendarCellTodayBorder = '1px solid rgba(255, 255, 255, 0.48)';
   public static calendarCellSelectedBgColor = 'rgba(255, 255, 255, 0.16)';
   public static calendarMonthTitleBorderBottomColor = 'rgba(255, 255, 255, 0.08)';
@@ -233,7 +233,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static fileUploaderLinkColor = '#51adff';
   public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.48)';
   public static fileUploaderIconHoverColor = 'rgba(255, 255, 255, 0.80)';
-  public static fileUploaderBorderColorError = '#ee5042';
+  public static fileUploaderBorderColorError = '#ED3F3F';
   public static fileUploaderBorderColorWarning = '#ffa236';
   public static fileUploaderDisabledBg = 'rgba(255, 255, 255, 0.16)';
   public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.32)';
