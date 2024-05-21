@@ -66,6 +66,7 @@ function createConfig(reactVersion, reactUIVersion) {
     },
     plugins: [
       new webpack.DefinePlugin({
+        'process.env.retailUIVersion': JSON.stringify(process.env.RETAIL_UI_VERSION),
         'process.env.enableReactTesting': JSON.stringify(true),
         'process.env.hasKebab': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.9.0')),
         'process.env.hasPaging': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.9.0')),

@@ -40,11 +40,11 @@ import SwitcherTestPage from './components/TestPages/SwitcherTestPage';
 // eslint-disable-next-line import/no-default-export
 export default function ReactTestApplication() {
   return (
-    <Router>
+    <Router basename={process.env.baseUrl}>
       <Layout>
         <Routes>
-          <Route path="/TestPage" element={<TestPage />} />
-          <Route path="/Input" element={<InputTestPage />} />
+          <Route path="TestPage" element={<TestPage />} />
+          <Route path="Input" element={<InputTestPage />} />
           <Route path="/Lists" element={<ListsTestPage />} />
           <Route path="/Modals" element={<ModalsTestPage />} />
           <Route path="/ComboBoxes" element={<ComboBoxTestPage />} />
