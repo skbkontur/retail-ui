@@ -1,16 +1,13 @@
 import React from 'react';
 
-import { Nullable } from '../../../typings/Types';
+export type FeatureFlags = 'validationsRemoveExtraSpans' | 'fixedValidationTextColors' | 'darkTheme';
 
-export interface ValidationsFeatureFlags extends Record<string, Nullable<boolean>> {
-  validationsRemoveExtraSpans?: boolean;
-  fixedValidationTextColors?: boolean;
-  darkTheme?: boolean;
-}
+export type ValidationsFeatureFlags = Record<FeatureFlags, boolean | undefined>;
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
   validationsRemoveExtraSpans: false,
   fixedValidationTextColors: false,
+  darkTheme: false,
 };
 
 export const ValidationsFeatureFlagsContext =
