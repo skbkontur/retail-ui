@@ -36,8 +36,18 @@ function createConfig(reactVersion, reactUIVersion) {
     module: {
       rules: [
         {
-          test: /\.(css)$/,
-          use: ['style-loader', 'css-loader'],
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  namedExport: false,
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.(less)$/,
@@ -53,7 +63,6 @@ function createConfig(reactVersion, reactUIVersion) {
           use: {
             loader: 'babel-loader',
             options: {
-              babelrc: false,
               presets: ['@babel/preset-react', '@babel/preset-env'],
             },
           },

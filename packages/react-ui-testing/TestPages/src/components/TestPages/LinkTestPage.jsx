@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from '@skbkontur/react-ui/components/Link';
+import AddIcon from '@skbkontur/react-icons/Add';
+import USBIcon from '@skbkontur/react-icons/USB';
 
 import { CaseSuite, Case } from '../Case';
 
@@ -27,14 +29,14 @@ export default class LinkTestPage extends React.Component {
         </Case>
         <Case title="Iconic Link">
           <Case.Body>
-            <Link href="#" data-tid="IconicLink">
+            <Link href="#" data-tid="IconicLink" icon={<AddIcon />}>
               Iconic link
             </Link>
           </Case.Body>
         </Case>
         <Case title="Iconic Link Complex">
           <Case.Body>
-            <Link href="#" data-tid="IconicLinkComplex">
+            <Link href="#" data-tid="IconicLinkComplex" icon={<USBIcon />}>
               <span>prefix</span>
               text
               <span>suffix</span>
