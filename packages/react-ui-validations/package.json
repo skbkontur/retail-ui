@@ -29,7 +29,7 @@
     "fix:prettier": "yarn prettier --write .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\"",
+    "test:pack": "tsc -p check-dts.tsconfig.json && jest --testMatch ** --testPathPattern=\\\"scripts/check-pack-files.js\\\"",
     "creevey": "wait-on -t 300000 http-get://localhost:8081/ && creevey -c .creevey/config.js",
     "creevey:update": "creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui"
