@@ -8,6 +8,10 @@ interface ApiResponseType {
   json: () => Promise<Record<string, any>>;
 }
 
+interface GlobalWithXDomainRequest {
+  XDomainRequest?: typeof XDomainRequest;
+}
+
 type Result = Promise<ApiResponseType>;
 
 export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: string } = {}): Result {
@@ -40,8 +44,9 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
-  if (globalObject.XDomainRequest) {
-    return new globalObject.XDomainRequest();
+  const globalWithXDomainRequest = globalObject as GlobalWithXDomainRequest;
+  if (globalWithXDomainRequest.XDomainRequest) {
+    return new globalWithXDomainRequest.XDomainRequest();
   }
   if (globalObject.XMLHttpRequest) {
     return new globalObject.XMLHttpRequest();

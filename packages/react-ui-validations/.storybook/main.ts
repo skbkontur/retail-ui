@@ -1,6 +1,9 @@
 module.exports = {
-  core: { disableTelemetry: true },
-  addons: ['creevey', 'creevey/preset/ie11'],
+  core: {
+    builder: 'webpack5',
+    disableTelemetry: true,
+  },
+  addons: ['creevey'],
   stories: ['../stories/**/*.stories.tsx'],
   typescript: {
     check: false,

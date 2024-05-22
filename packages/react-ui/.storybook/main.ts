@@ -1,13 +1,11 @@
-module.exports = {
-  core: {
-    builder: 'webpack5',
-  },
+import type { StorybookConfig } from '@storybook/react-webpack5';
+
+const config: StorybookConfig = {
+  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
   addons: [
     'creevey',
-    'creevey/preset/ie11',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
-    '@storybook/addon-ie11',
     {
       name: '@storybook/addon-essentials',
       options: {
@@ -15,21 +13,12 @@ module.exports = {
       },
     },
   ],
-  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
-  typescript: {
-    reactDocgen: 'none',
-  },
-  features: {
-    postcss: false,
-  },
-  managerWebpack: (config) => {
-    config.module.rules.push({
-      test: /@remix-run|react-router/,
-      loader: 'babel-loader',
-      options: {
-        envName: 'cjs',
-      },
-    });
-    return config;
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: true,
+      strictMode: true,
+    },
   },
 };
+export default config;

@@ -33,7 +33,7 @@ module.exports = async ({ config, mode }) => {
     },
     {
       test: /\.(css|less)$/,
-      loaders: [
+      use: [
         'style-loader',
         {
           loader: 'css-loader',
@@ -41,6 +41,7 @@ module.exports = async ({ config, mode }) => {
             modules: {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
+              namedExport: false,
             },
           },
         },

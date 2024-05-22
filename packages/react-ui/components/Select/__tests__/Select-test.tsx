@@ -380,7 +380,7 @@ describe('Select', () => {
         <Select
           items={[
             itemsObject.first,
-            Select.static(() => <Select.Item>{itemsObject.second}</Select.Item>),
+            Select.staticElement(() => <Select.Item>{itemsObject.second}</Select.Item>),
             itemsObject.third,
             +itemsObject.fourth,
             Select.SEP,

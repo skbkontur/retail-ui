@@ -3,7 +3,6 @@ import { action } from '@storybook/addon-actions';
 
 import { Meta } from '../../../typings/stories';
 import { Toast } from '../Toast';
-import { delay } from '../../../lib/utils';
 
 const TestNotifier = ({ complex }: { complex?: boolean }) => {
   const toastRef = React.useRef<Toast>(null);
@@ -11,10 +10,14 @@ const TestNotifier = ({ complex }: { complex?: boolean }) => {
     const { current: toast } = toastRef;
     if (toast) {
       complex
-        ? toast.push('Successfully saved', {
-            label: 'Cancel',
-            handler: action('cancel_save'),
-          })
+        ? toast.push(
+            'Successfully saved',
+            {
+              label: 'Cancel',
+              handler: action('cancel_save'),
+            },
+            1000000,
+          )
         : toast.push('Successfully saved');
     }
   };
@@ -47,16 +50,6 @@ export default {
     creevey: {
       captureElement: 'body',
       skip: { 'flickering screenshot': { in: /^(?!\b(firefox))/, tests: 'toastShown' } },
-      tests: {
-        async toastShown() {
-          const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
-
-          await this.browser.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
-          await delay(1000);
-
-          await this.expect(await this.takeScreenshot()).to.matchImage();
-        },
-      },
     },
   },
 } as Meta;
