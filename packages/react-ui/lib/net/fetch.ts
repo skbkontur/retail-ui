@@ -40,8 +40,8 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
-  if ((globalObject as any).XDomainRequest) {
-    return new (globalObject as any).XDomainRequest();
+  if (globalObject.XDomainRequest) {
+    return new globalObject.XDomainRequest();
   }
   if (globalObject.XMLHttpRequest) {
     return new globalObject.XMLHttpRequest();

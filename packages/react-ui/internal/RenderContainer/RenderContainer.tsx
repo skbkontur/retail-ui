@@ -59,8 +59,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
       }
-      if ((globalObject as any).ReactTesting) {
-        (globalObject as any).ReactTesting.addRenderContainer(this.rootId, this);
+      if (globalObject.ReactTesting) {
+        globalObject.ReactTesting.addRenderContainer(this.rootId, this);
       }
     }
   }
@@ -80,8 +80,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
-      if ((globalObject as any).ReactTesting) {
-        (globalObject as any).ReactTesting.removeRenderContainer(this.rootId);
+      if (globalObject.ReactTesting) {
+        globalObject.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
   }

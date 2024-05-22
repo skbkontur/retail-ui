@@ -84,17 +84,17 @@ export class HideBodyVerticalScroll extends React.Component {
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const counter = (globalObject as any).RetailUIVerticalScrollCounter || 0;
-    return ((globalObject as any).RetailUIVerticalScrollCounter = counter + 1);
+    const counter = globalObject.RetailUIVerticalScrollCounter || 0;
+    return (globalObject.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
-    const counter = (globalObject as any).RetailUIVerticalScrollCounter || 0;
-    return ((globalObject as any).RetailUIVerticalScrollCounter = counter - 1);
+    const counter = globalObject.RetailUIVerticalScrollCounter || 0;
+    return (globalObject.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
-    return (globalObject as any).RetailUIVerticalScrollCounter || 0;
+    return globalObject.RetailUIVerticalScrollCounter || 0;
   };
 }
 

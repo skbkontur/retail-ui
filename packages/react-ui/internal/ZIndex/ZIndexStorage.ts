@@ -22,8 +22,7 @@ const componentPriorities = {
   Popup: 3,
 };
 const priorityStep = 1000;
-const getZIndexes = (): number[] =>
-  (globalObject as any).__RetailUiZIndexes || ((globalObject as any).__RetailUiZIndexes = [0]);
+const getZIndexes = (): number[] => globalObject.__RetailUiZIndexes || (globalObject.__RetailUiZIndexes = [0]);
 const getIndexPriority = (zIndex: number) => Math.trunc(zIndex / priorityStep);
 const getMaxAllowedValue = (priority: number): number => (priority + 1) * priorityStep - 1;
 
