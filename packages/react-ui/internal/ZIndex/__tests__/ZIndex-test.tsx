@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { globalObject } from '@skbkontur/global-object';
 
 import { ZIndex } from '../ZIndex';
+import { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {
@@ -77,7 +78,8 @@ describe('ZIndex', () => {
   });
 
   it('should store correct zIndexes in `__RetailUiZIndexes`', async () => {
-    globalObject.__RetailUiZIndexes = [];
+    const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
+    globalWithRetailUiZIndexes.__RetailUiZIndexes = [];
     const DemoUpdatePriority = () => {
       const [delta, setDelta] = useState<number | undefined>();
       return (
@@ -93,9 +95,9 @@ describe('ZIndex', () => {
 
     render(<DemoUpdatePriority />);
     const delta = screen.getByTestId('delta');
-    expect(globalObject.__RetailUiZIndexes).toEqual([3000, 3010]);
+    expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual([3000, 3010]);
     await userEvent.click(delta);
-    expect(globalObject.__RetailUiZIndexes).toEqual([3000, 3011]);
+    expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual([3000, 3011]);
   });
 
   it('should not add wrapper if `useWrapper = false`', async () => {
