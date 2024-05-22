@@ -28,6 +28,7 @@ import {
   Paging,
   Radio,
   RadioGroup,
+  ScrollContainer,
   Select,
   SidePage,
   Spinner,
@@ -118,6 +119,7 @@ export const App = () => {
       <RadioGroup>
         <Radio value="value" />
       </RadioGroup>
+      <ScrollContainer>scroll container</ScrollContainer>
       <Select onValueChange={() => ({})} />
       <SidePage>
         <SidePage.Header />
