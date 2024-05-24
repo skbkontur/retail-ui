@@ -1,4 +1,5 @@
 const { FlatCompat } = require('@eslint/eslintrc');
+const { fixupPluginRules } = require('@eslint/compat');
 const js = require('@eslint/js');
 
 const compat = new FlatCompat({
@@ -26,8 +27,8 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-      react: require('eslint-plugin-react'),
-      'react-hooks': require('eslint-plugin-react-hooks'),
+      react: fixupPluginRules(require('eslint-plugin-react')),
+      'react-hooks': fixupPluginRules(require('eslint-plugin-react-hooks')),
       import: require('eslint-plugin-import'),
       'jsx-a11y': require('eslint-plugin-jsx-a11y'),
     },
