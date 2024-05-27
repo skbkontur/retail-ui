@@ -21,7 +21,6 @@ describe('Group', () => {
     render(<Group>{undefined}</Group>);
 
     const wrappingElements = screen.getByTestId(GroupDataTids.root).childNodes;
-    // eslint-disable-next-line jest-dom/prefer-in-document
     expect(wrappingElements).toHaveLength(0);
   });
 

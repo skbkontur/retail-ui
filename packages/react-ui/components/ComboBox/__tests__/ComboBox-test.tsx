@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
@@ -631,9 +630,7 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
-      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
-        // eslint-disable-next-line testing-library/no-node-access
         (document.activeElement as HTMLInputElement).selectionEnd,
       );
 
@@ -650,9 +647,7 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
-      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
-        // eslint-disable-next-line testing-library/no-node-access
         (document.activeElement as HTMLInputElement).selectionEnd,
       );
 

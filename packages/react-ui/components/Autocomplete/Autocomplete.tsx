@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 

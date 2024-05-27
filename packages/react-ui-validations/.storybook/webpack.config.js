@@ -1,8 +1,6 @@
-const webpack = require('webpack');
-
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
-module.exports = async ({ config, mode }) => {
+module.exports = async ({ config }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   if (isTestEnv) {

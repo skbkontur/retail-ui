@@ -18,7 +18,6 @@ import { mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
-// eslint-disable-next-line jest/no-mocks-import
 const { getCities } = require('../__mocks__/getCities.js');
 
 export default { title: 'ComboBox' } as Meta;
