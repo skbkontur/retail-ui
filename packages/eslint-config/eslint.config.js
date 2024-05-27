@@ -1,6 +1,11 @@
 const { FlatCompat } = require('@eslint/eslintrc');
-const { fixupPluginRules } = require('@eslint/compat');
+const { fixupConfigRules, fixupPluginRules } = require('@eslint/compat');
 const js = require('@eslint/js');
+const eslintPluginReact = require('eslint-plugin-react');
+const eslintPluginReactHooks = require('eslint-plugin-react-hooks');
+const eslintPluginImport = require('eslint-plugin-import');
+const typescriptEslintParser = require('@typescript-eslint/parser');
+const globals = require('globals');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -8,30 +13,30 @@ const compat = new FlatCompat({
 });
 
 module.exports = [
-  ...compat.extends('prettier'),
+  js.configs.recommended,
+  ...fixupConfigRules(
+    compat.extends(
+      'plugin:jsx-a11y/recommended',
+      'plugin:@typescript-eslint/eslint-recommended',
+      'plugin:@typescript-eslint/recommended',
+      'prettier',
+    ),
+  ),
   {
-    languageOptions: {
-      parser: require('@typescript-eslint/parser'),
-      globals: {
-        browser: true,
-        node: true,
-        jest: true,
-        mocha: true,
-        es2020: true,
-      },
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
     plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-      react: fixupPluginRules(require('eslint-plugin-react')),
-      'react-hooks': fixupPluginRules(require('eslint-plugin-react-hooks')),
-      import: require('eslint-plugin-import'),
-      'jsx-a11y': require('eslint-plugin-jsx-a11y'),
+      react: fixupPluginRules(eslintPluginReact),
+      'react-hooks': fixupPluginRules(eslintPluginReactHooks),
+      import: eslintPluginImport,
     },
+  },
+  {
+    settings: { react: { version: 'detect' } },
+    languageOptions: {
+      parser: typescriptEslintParser,
+      globals: { ...globals.browser, ...globals.node, ...globals.jest, ...globals.mocha, ...globals.es2020 },
+    },
+  },
+  {
     rules: {
       '@typescript-eslint/ban-ts-comment': 0,
       '@typescript-eslint/ban-types': 0,

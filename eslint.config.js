@@ -1,10 +1,11 @@
+const typescriptEslintParser = require('@typescript-eslint/parser');
 const generalEslintConfig = require('@skbkontur/eslint-config');
+
 module.exports = [
   ...generalEslintConfig,
   {
-    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
-      parser: require('@typescript-eslint/parser'),
+      parser: typescriptEslintParser,
       globals: {
         __DEV__: true,
         Generator: true,
@@ -25,6 +26,8 @@ module.exports = [
         ReactTesting: true,
       },
     },
+  },
+  {
     rules: {
       'no-self-compare': 1,
       'no-template-curly-in-string': 1,
@@ -75,12 +78,7 @@ module.exports = [
         },
       ],
       'import/default': 0,
-      'import/order': [
-        2,
-        {
-          'newlines-between': 'always',
-        },
-      ],
+      'import/order': [2, { 'newlines-between': 'always' }],
       'import/no-unresolved': 0,
       'import/no-duplicates': 2,
       'import/no-default-export': 2,

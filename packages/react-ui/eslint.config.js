@@ -1,4 +1,5 @@
 const rootConfig = require('../../eslint.config');
+
 module.exports = [
   ...rootConfig,
   {
@@ -26,7 +27,7 @@ module.exports = [
       storybook: require('eslint-plugin-storybook'),
     },
     rules: {
-      'import/no-default-export': 'off',
+      'import/no-default-export': 0,
     },
   },
 ];
