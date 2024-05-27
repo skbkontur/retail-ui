@@ -1,4 +1,3 @@
- 
 import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
