@@ -1,7 +1,9 @@
 const path = require('path');
+
 const axios = require('axios');
-require('dotenv').config({ path: '../../.env' });
 const { hybridStoriesProvider } = require('creevey');
+
+require('dotenv').config({ path: '../../.env' });
 
 /**
  * Debuggin instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157

@@ -63,7 +63,6 @@ describe('DateInput as InputlikeText', () => {
       rerender(<LocaleDateInput propsDateInput={{ value: '99.9' }} propsLocale={{}} />);
       const input = getInput();
 
-      // eslint-disable-next-line jest-dom/prefer-to-have-text-content
       expect(input.textContent).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
     });
 
@@ -293,7 +292,6 @@ describe('DateInput as InputlikeText', () => {
     await userEvent.dblClick(input);
     await userEvent.keyboard('{delete}');
 
-    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
     expect(input.textContent).toBe(textContentWithMaskChars);
   });
 
@@ -303,7 +301,6 @@ describe('DateInput as InputlikeText', () => {
     await userEvent.dblClick(input);
     await userEvent.keyboard('{backspace}');
 
-    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
     expect(input.textContent).toBe(textContentWithMaskChars);
   });
 
@@ -312,7 +309,6 @@ describe('DateInput as InputlikeText', () => {
     const input = getInput();
     await userEvent.type(input, '{backspace}');
 
-    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
     expect(input.textContent).toBe(`2${MASK_CHAR_EXEMPLAR.repeat(1)}.04.1988`);
   });
 

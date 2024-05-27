@@ -1,4 +1,5 @@
 const path = require('path');
+
 const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
@@ -7,6 +8,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
+
 const { publishVersion } = require('../helpers');
 
 const styles = {

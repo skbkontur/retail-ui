@@ -1,5 +1,4 @@
 // TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
 import React, { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
 import warning from 'warning';
@@ -32,7 +31,7 @@ export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time'
  */
 export type InputSize = SizeProp;
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = (typeof inputTypes)[number];
+export type InputType = typeof inputTypes[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];

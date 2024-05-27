@@ -3,9 +3,9 @@ import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Meta } from '@storybook/react';
+
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';

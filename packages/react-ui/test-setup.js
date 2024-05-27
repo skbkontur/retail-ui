@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/dom';

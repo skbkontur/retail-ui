@@ -15,6 +15,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "7.34.1",
     "eslint-plugin-react-hooks": "4.6.2",
-    "globals": "^15.3.0"
+    "globals": "^15.3.0",
+    "typescript-eslint": "^7.10.0"
   }
 }

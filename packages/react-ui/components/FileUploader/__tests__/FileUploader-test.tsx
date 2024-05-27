@@ -463,13 +463,11 @@ describe('FileUploader', () => {
       expect(getBaseButtonContent()).toBe(expectedText);
     };
 
-    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render files for multiple control', async () => {
       render(<FileUploader multiple hideFiles />);
       await expectation();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render file for single control', async () => {
       render(<FileUploader hideFiles />);
       await expectation();

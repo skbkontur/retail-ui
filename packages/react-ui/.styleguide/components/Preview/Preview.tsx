@@ -21,9 +21,8 @@ interface PreviewState {
   error: string | null;
 }
 
-const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewProps>) => (props: PreviewProps) => (
-  <Context.Consumer>{(value: any) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>
-);
+const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewProps>) => (props: PreviewProps) =>
+  <Context.Consumer>{(value: any) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>;
 
 /**
  * Измененный компонент Preview, которому был добавлен контекст
@@ -49,7 +48,6 @@ const Preview = withContext(
       // Clear console after hot reload, do not clear on the first load
       // to keep any warnings
       if (this.context.codeRevision > 0) {
-        // eslint-disable-next-line no-console
         console.clear();
       }
 
@@ -116,7 +114,7 @@ const Preview = withContext(
         error: improveErrorMessage(err.toString()),
       });
 
-      console.error(err); // eslint-disable-line no-console
+      console.error(err);
     };
 
     public render() {

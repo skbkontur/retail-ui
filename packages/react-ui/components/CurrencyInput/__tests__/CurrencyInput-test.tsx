@@ -5,8 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { CurrencyInput } from '../CurrencyInput';
 import { Nullable } from '../../../typings/utility-types';
 
-// Intended behavior. CurrencyInput technically can't accept strings
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
   const handleValueChange = jest.fn();
   return <CurrencyInput value={props.value} onValueChange={handleValueChange} />;
@@ -18,8 +16,6 @@ const CurrencyInputWithState = () => {
 };
 
 const CurrencyInputAndButton = (props: { value: unknown }): JSX.Element => {
-  // Intended behavior. CurrencyInput technically can't accept strings
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
