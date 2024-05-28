@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PlaygroundError from 'react-styleguidist/lib/client/rsg-components/PlaygroundError';
 import ReactExample from 'react-styleguidist/lib/client/rsg-components/ReactExample';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
@@ -49,7 +49,6 @@ const Preview = withContext(
       // Clear console after hot reload, do not clear on the first load
       // to keep any warnings
       if (this.context.codeRevision > 0) {
-        // eslint-disable-next-line no-console
         console.clear();
       }
 
@@ -72,7 +71,8 @@ const Preview = withContext(
 
     public unmountPreview() {
       if (this.mountNode) {
-        ReactDOM.unmountComponentAtNode(this.mountNode);
+        const root = createRoot(this.mountNode);
+        root.unmount();
       }
     }
 
@@ -100,7 +100,8 @@ const Preview = withContext(
       window.requestAnimationFrame(() => {
         // this.unmountPreview();
         try {
-          ReactDOM.render(wrappedComponent, this.mountNode);
+          const root = createRoot(this.mountNode);
+          root.render(wrappedComponent);
         } catch (err) {
           this.handleError(err as Error);
         }
@@ -114,7 +115,7 @@ const Preview = withContext(
         error: improveErrorMessage(err.toString()),
       });
 
-      console.error(err); // eslint-disable-line no-console
+      console.error(err);
     };
 
     public render() {

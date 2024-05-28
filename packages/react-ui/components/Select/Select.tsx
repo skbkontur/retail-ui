@@ -122,7 +122,7 @@ export interface SelectProps<TValue, TItem>
    * Вставить невыделяемый элемент со своей разметкой можно так:
    * ```
    * <Select ...
-   *   items={[Select.static(() => <div>My Element</div>)]}
+   *   items={[Select.staticElement(() => <div>My Element</div>)]}
    * />
    * ```
    *
@@ -212,10 +212,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static static = (element: React.ReactElement | (() => React.ReactElement)) => {
+  public static staticElement = (element: React.ReactElement | (() => React.ReactElement)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
-      'Select.static(element) expects element to be a valid react element.',
+      'Select.staticElement(element) expects element to be a valid react element.',
     );
     return element;
   };
@@ -550,7 +550,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           const element = item();
 
           if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key: i, isMobile, size });
+            return React.cloneElement(element, { key: i, isMobile, size } as MenuItemProps);
           }
 
           return null;
@@ -725,7 +725,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,
-          'aria-label': buttonElement.props['aria-label'] ?? this.props['aria-label'],
+          'aria-label': (buttonElement as React.ReactElement).props['aria-label'] ?? this.props['aria-label'],
         })
       : buttonElement;
   };

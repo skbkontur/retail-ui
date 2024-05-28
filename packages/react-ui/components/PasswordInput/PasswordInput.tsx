@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
@@ -102,7 +100,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
+              {this.renderMain(this.props)}
             </CommonWrapper>
           );
         }}

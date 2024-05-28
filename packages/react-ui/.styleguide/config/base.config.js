@@ -1,4 +1,5 @@
 const path = require('path');
+
 const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
@@ -7,6 +8,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
+
 const { publishVersion } = require('../helpers');
 
 const styles = {
@@ -169,7 +171,7 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        loaders: [
+        use: [
           'style-loader',
           {
             loader: 'dts-css-modules-loader',
@@ -195,7 +197,7 @@ const webpackConfig = {
     ],
   },
   devServer: {
-    public: 'localhost.testkontur.ru',
+    host: 'localhost.testkontur.ru',
   },
 };
 

@@ -6,7 +6,6 @@ import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
-import { delay } from '../../../lib/utils';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 import { Button } from '../../Button';
 import { Tooltip } from '../../Tooltip';
@@ -15,7 +14,7 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 export default {
   title: 'Hint',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div style={{ padding: '100px 300px' }}>
         <Story />
       </div>
@@ -79,11 +78,6 @@ export const TopBottomCenter = () => (
   </div>
 );
 TopBottomCenter.storyName = 'top bottom center';
-TopBottomCenter.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
-  },
-};
 
 export const WithLargeWord = () => (
   <div style={{ marginTop: -100 }}>
@@ -174,21 +168,6 @@ const HandleClickHint = () => {
 
 export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 
-SetManualAndOpenedPropOnClick.parameters = {
-  creevey: {
-    tests: {
-      async 'click on hint'() {
-        await this.browser
-          .actions()
-          .click(this.browser.findElement({ css: '#main' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
-      },
-    },
-  },
-};
-
 export const WithSVGIcon: Story = () => {
   return (
     <Hint text="hint">
@@ -197,42 +176,6 @@ export const WithSVGIcon: Story = () => {
       </svg>
     </Hint>
   );
-};
-
-WithSVGIcon.parameters = {
-  creevey: {
-    skip: {
-      'internal logic being tested and not something UI related': {
-        in: [
-          'chromeDark',
-          'chrome8px',
-          'firefox8px',
-          'firefox',
-          'firefoxFlat8px',
-          'firefoxDark',
-          'ie118px',
-          'ie11',
-          'ie11Dark',
-        ],
-      },
-    },
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async hover() {
-        await this.browser
-          .actions()
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid="icon"]' }),
-          })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open');
-      },
-    },
-  },
 };
 
 @rootNode
@@ -260,11 +203,6 @@ export const KebabHintRemovePinFeatureFlag = () => (
   </ReactUIFeatureFlagsContext.Provider>
 );
 KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
-KebabHintRemovePinFeatureFlag.parameters = {
-  creevey: {
-    skip: { in: /^(?!\b.*2022.*\b)/ },
-  },
-};
 
 export const HintNearScreenEdge = () => (
   <>
@@ -420,9 +358,3 @@ export const HintNearScreenEdge = () => (
   </>
 );
 HintNearScreenEdge.storyName = 'hint near screen edge';
-HintNearScreenEdge.parameters = {
-  creevey: {
-    captureElement: 'body',
-    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
-  },
-};

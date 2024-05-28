@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { LinkProps } from '..';
@@ -8,31 +8,31 @@ import { Link, LinkDataTids } from '../Link';
 const renderRTL = (props?: LinkProps) => render(<Link {...props} />);
 
 describe('Link', () => {
-  it('calls `onClick` when link clicked', () => {
+  it('calls `onClick` when link clicked', async () => {
     const onClick = jest.fn();
 
     renderRTL({ onClick });
-    userEvent.click(screen.getByTestId(LinkDataTids.root));
+    await userEvent.click(screen.getByTestId(LinkDataTids.root));
     expect(onClick).toHaveBeenCalled();
   });
 
   describe('disabled link', () => {
-    it('does not call `onClick` when link clicked', () => {
+    it('does not call `onClick` when link clicked', async () => {
       const onClick = jest.fn();
 
       renderRTL({ onClick, disabled: true });
 
       const linkElement = screen.getByTestId(LinkDataTids.root);
-      userEvent.click(linkElement, {}, { skipPointerEventsCheck: true });
+      fireEvent.click(linkElement);
 
       expect(onClick).toHaveBeenCalledTimes(0);
     });
 
-    it('does not call `onClick` when Enter pressed', () => {
+    it('does not call `onClick` when Enter pressed', async () => {
       const onClick = jest.fn();
 
       renderRTL({ onClick, disabled: true });
-      userEvent.type(screen.getByTestId(LinkDataTids.root), '{enter}');
+      fireEvent.keyDown(screen.getByTestId(LinkDataTids.root), { key: 'Enter', code: 'Enter' });
       expect(onClick).toHaveBeenCalledTimes(0);
     });
   });
@@ -81,7 +81,7 @@ describe('Link', () => {
       const ariaLabel = 'aria-label';
       render(<Link aria-label={ariaLabel} />);
 
-      expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getByTestId(LinkDataTids.root)).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 });

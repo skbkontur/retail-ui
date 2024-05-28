@@ -37,6 +37,7 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    * Позволяет контролировать текущее состояние всплывающего окна
    */
   opened: boolean;
+  children?: React.ReactNode;
 }
 
 export const MobilePopupDataTids = {

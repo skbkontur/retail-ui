@@ -24,7 +24,6 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
   render() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
@@ -58,6 +57,8 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
     }
 
     const originalRef = (this.child as React.RefAttributes<any>)?.ref;
-    originalRef && callChildRef(originalRef, instance);
+    if (typeof originalRef === 'function' || (originalRef && typeof originalRef === 'object')) {
+      originalRef && callChildRef(originalRef, instance);
+    }
   };
 }

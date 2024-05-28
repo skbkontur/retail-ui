@@ -57,7 +57,7 @@ export class ToastView extends React.Component<ToastViewProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return <CommonWrapper {...this.props}>{this.renderMain(this.props)}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
