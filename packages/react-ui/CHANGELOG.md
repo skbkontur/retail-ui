@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.5...@skbkontur/react-ui@4.22.6) (2024-05-28)
+
+
+### Bug Fixes
+
+* **Autocomplete:** fix dropdown position when disablePortal ([#3426](https://github.com/skbkontur/retail-ui/issues/3426)) ([a991806](https://github.com/skbkontur/retail-ui/commit/a991806862eedbbc9dfb76dfa95cca94d24b6974))
+
+
+
+
+
 ## [4.22.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.4...@skbkontur/react-ui@4.22.5) (2024-05-14)
 
 
