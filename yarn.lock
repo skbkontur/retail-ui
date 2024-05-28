@@ -2125,14 +2125,16 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cfaester/enzyme-adapter-react-18@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.npmjs.org/@cfaester/enzyme-adapter-react-18/-/enzyme-adapter-react-18-0.7.1.tgz#487961110389e8285f076a965ad279f20a5ebf1e"
-  integrity sha512-Z3m1qNSlQdrcXdnPSGOAysLdgJFSowu7sbK1cHRcWXuZGS3WOTFOS0kIXbWMa1FnkEbswlIU6KgS+8qKgM6Kqw==
+"@cfaester/enzyme-adapter-react-18@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.npmjs.org/@cfaester/enzyme-adapter-react-18/-/enzyme-adapter-react-18-0.8.0.tgz#313814eb79658a6e74209f9f1743bcefff14a46f"
+  integrity sha512-3Z3ThTUouHwz8oIyhTYQljEMNRFtlVyc3VOOHCbxs47U6cnXs8K9ygi/c1tv49s7MBlTXeIcuN+Ttd9aPtILFQ==
   dependencies:
     enzyme-shallow-equal "^1.0.0"
+    function.prototype.name "^1.1.6"
+    has "^1.0.4"
     react-is "^18.2.0"
-    react-test-renderer "^18.2.0"
+    react-shallow-renderer "^16.15.0"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
@@ -2711,14 +2713,14 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hot-loader/react-dom@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.npmjs.org/@hot-loader/react-dom/-/react-dom-17.0.1.tgz#0c75b4dd068f819435dafb3e8809ca1749695656"
-  integrity sha512-QttzEibkIFkl/WV1dsLXg73YIweNo9ySbB0/26068RqFGWyv7pKyictWsaQXqSj1y66/BDn3kglCHgroGrv3vA==
+"@hot-loader/react-dom@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.npmjs.org/@hot-loader/react-dom/-/react-dom-17.0.2.tgz#0b24e484093e8f97eb5c72bebdda44fc20bc8400"
+  integrity sha512-G2RZrFhsQClS+bdDh/Ojpk3SgocLPUGnvnJDTQYnmKSSwXtU+Yh+8QMs+Ia3zaAvBiOSpIIDSUxuN69cvKqrWg==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    scheduler "^0.20.1"
+    scheduler "^0.20.2"
 
 "@humanwhocodes/config-array@^0.13.0":
   version "0.13.0"
@@ -14805,6 +14807,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+has@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/has/-/has-1.0.4.tgz#2eb2860e000011dae4f1406a86fe80e530fb2ec6"
+  integrity sha512-qdSAmqLF6209RFj4VVItywPMbm3vWylknmB3nvNiUIs72xAimcM8nVYxYr7ncvZq5qzk9MKIZR8ijqD/1QuYjQ==
+
 hash-base@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/hash-base/-/hash-base-3.1.0.tgz#55c381d9e06e1d2997a883b4a3fddfe7f0d3af33"
@@ -22138,15 +22145,6 @@ react-syntax-highlighter@^13.5.3:
     prismjs "^1.21.0"
     refractor "^3.1.0"
 
-react-test-renderer@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-18.2.0.tgz#1dd912bd908ff26da5b9fca4fd1c489b9523d37e"
-  integrity sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==
-  dependencies:
-    react-is "^18.2.0"
-    react-shallow-renderer "^16.15.0"
-    scheduler "^0.23.0"
-
 react-textarea-autosize@^8.3.0:
   version "8.5.3"
   resolved "https://registry.npmjs.org/react-textarea-autosize/-/react-textarea-autosize-8.5.3.tgz#d1e9fe760178413891484847d3378706052dd409"
@@ -23063,7 +23061,7 @@ saxes@^6.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@^0.20.1:
+scheduler@^0.20.2:
   version "0.20.2"
   resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
   integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
