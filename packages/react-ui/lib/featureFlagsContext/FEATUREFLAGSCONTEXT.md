@@ -276,6 +276,30 @@ import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
+
+### popupUnifyPositioning
+
+Этот флаг делает одинаковым порядок выбора позиции Hint'ом и Tooltip'ом. Таким образом при одинаковых условиях Hint и Tooltip будут отрисовываться с одинаковой стороны с одинаковым выравниванием.
+Отличие Hint и Tooltip остается в том, что при изменении viewport открытый Tooltip остается на том месте, на котором он был отрисован, а Hint -- ищет более "выгодное" положение.
+
+```jsx harmony
+import { Hint, Button, Tooltip, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+
+<ReactUIFeatureFlagsContext.Provider value={{ popupUnifyPositioning: true }}>
+  <Hint text={'Example!'} manual opened>
+    <Button use="success" size="medium" disabled>
+      Пригласить
+    </Button>
+  </Hint>
+
+  <Tooltip render={() => 'Example!'} trigger="opened">
+    <Button use="success" size="medium" disabled>
+      Пригласить
+    </Button>
+  </Tooltip>
+</ReactUIFeatureFlagsContext.Provider>
+```
+
 ## Объект со всеми флагами
 
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
