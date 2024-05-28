@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { mount } from 'enzyme';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -93,7 +93,9 @@ describe('<Input />', () => {
     };
     render(<Component />);
 
-    await userEvent.click(screen.getByRole('button'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
 
     expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
   });
@@ -112,7 +114,9 @@ describe('<Input />', () => {
     };
     render(<Component />);
 
-    await userEvent.click(screen.getByRole('button'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
 
     expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
   });
@@ -292,7 +296,9 @@ describe('<Input />', () => {
     it(`selectAllOnFocus prop works with type="${type}"`, async () => {
       const value = 'Prop works';
       render(<Input type={type} value={value} selectAllOnFocus />);
-      await userEvent.tab();
+      await act(async () => {
+        await userEvent.tab();
+      });
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
@@ -302,7 +308,9 @@ describe('<Input />', () => {
   selectionForbiddenTypes.forEach((type) => {
     it(`selectAllOnFocus prop doesn't work with type="${type}"`, async () => {
       render(<Input type={type} value="value" selectAllOnFocus />);
-      await userEvent.tab();
+      await act(async () => {
+        await userEvent.tab();
+      });
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
@@ -324,14 +332,18 @@ describe('<Input />', () => {
       );
     };
     render(<Component />);
-
-    fireEvent.focus(screen.getByRole('textbox'));
+    await act(async () => {
+      fireEvent.focus(screen.getByRole('textbox'));
+    });
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
-
-    await userEvent.click(screen.getByRole('button'));
-    fireEvent.focus(screen.getByRole('textbox'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
+    act(() => {
+      fireEvent.focus(screen.getByRole('textbox'));
+    });
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
