@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.23.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.6...@skbkontur/react-ui@4.23.0) (2024-05-28)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip:** unify positioning ([#3416](https://github.com/skbkontur/retail-ui/issues/3416)) ([be0c447](https://github.com/skbkontur/retail-ui/commit/be0c447d228b861e4967737b95bbdecde4e2281d))
+
+
+
+
+
 ## [4.22.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.5...@skbkontur/react-ui@4.22.6) (2024-05-28)
 
 
