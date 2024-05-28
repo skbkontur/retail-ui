@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
   "compilerOptions": {
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "useUnknownInCatchVariables": false
   }
 }
