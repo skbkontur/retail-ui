@@ -224,8 +224,9 @@ object ReactUI : Project({
     buildType(ReactUI_LintTest)
     buildType(ReactUI_ScreenshotTests)
     buildType(ReactUI_BuildRetailUi)
+    buildType(ReactUI_Storybook)
     buildType(ReactUI_Publish)
-    buildTypesOrder = arrayListOf(ReactUI_LintTest, ReactUI_ScreenshotTests, ReactUI_BuildRetailUi, ReactUI_Publish)
+    buildTypesOrder = arrayListOf(ReactUI_LintTest, ReactUI_ScreenshotTests, ReactUI_BuildRetailUi, ReactUI_Storybook, ReactUI_Publish)
 })
 
 object ReactUI_BuildRetailUi : BuildType({
@@ -413,6 +414,65 @@ object ReactUI_ScreenshotTests : BuildType({
     }
 })
 
+object ReactUI_Storybook : BuildType({
+    name = "Storybook"
+
+    artifactRules = "docs-repo/docs/storybook/react-ui => docs.zip"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            id = "RUNNER_1"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Build Storybook"
+            id = "RUNNER_2"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace @skbkontur/react-ui storybook:build")
+        }
+        script {
+            name = "Git clone"
+            scriptContent = """
+                git clone git@git.skbkontur.ru:ui/docs.git docs-repo
+            """.trimIndent()
+        }
+        script {
+            name = "move dir"
+            scriptContent = """
+                cd ./docs/storybook/react-ui
+                ls ./docs-repo/docs/storybook/react-ui
+                cp -r ./packages/react-ui/.storybook/build ./docs-repo/docs/storybook/react-ui/%teamcity.build.branch%
+            """.trimIndent()
+        }
+        script {
+            name = "git push"
+            scriptContent = """
+                cd ./docs-repo
+                git config --list --show-origin
+                git add .
+                git commit -m "Deploy react-ui storybook from TC"
+                git pull --rebase
+                git push origin master
+            """.trimIndent()
+        }
+    }
+
+    triggers {
+        vcs {
+            id = "VCS_TRIGGER"
+            branchFilter = "+:refs/tags/@skbkontur/react-ui@*"
+        }
+    }
+    
+    disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
+})
+
 
 object SeleniumTesting : Project({
     name = "SeleniumTesting"
@@ -528,7 +588,8 @@ object Validations : Project({
     buildType(Validations_LintTest)
     buildType(Validations_Publish)
     buildType(Validations_ScreenshotTests)
-    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish, Validations_ScreenshotTests)
+    buildType(Validations_Storybook)
+    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish, Validations_ScreenshotTests, Validations_Storybook)
 })
 
 object Validations_Build : BuildType({
@@ -737,4 +798,63 @@ object Validations_ScreenshotTests : BuildType({
           param("yarn_commands", "workspace react-ui-validations creevey")
         }
     }
+})
+
+object Validations_Storybook : BuildType({
+    name = "Storybook"
+
+    artifactRules = "docs-repo/docs/storybook/react-ui-validations => docs.zip"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            id = "RUNNER_1"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Build Storybook"
+            id = "RUNNER_2"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace react-ui-validations storybook:build")
+        }
+        script {
+            name = "Git clone"
+            scriptContent = """
+                git clone git@git.skbkontur.ru:ui/docs.git docs-repo
+            """.trimIndent()
+        }
+        script {
+            name = "move dir"
+            scriptContent = """
+                cd ./docs/storybook/react-ui-validations
+                ls ./docs-repo/docs/storybook/react-ui-validations
+                cp -r ./packages/react-ui-validations/.storybook/build ./docs-repo/docs/storybook/react-ui-validations/%teamcity.build.branch%
+            """.trimIndent()
+        }
+        script {
+            name = "git push"
+            scriptContent = """
+                cd ./docs-repo
+                git config --list --show-origin
+                git add .
+                git commit -m "Deploy validations storybook from TC"
+                git pull --rebase
+                git push origin master
+            """.trimIndent()
+        }
+    }
+
+    triggers {
+        vcs {
+            id = "VCS_TRIGGER"
+            branchFilter = "+:refs/tags/@skbkontur/react-ui-validations@*"
+        }
+    }
+    
+    disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
 })
