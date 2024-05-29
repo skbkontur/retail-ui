@@ -4289,50 +4289,6 @@
     webpack-hot-middleware "^2.25.1"
     webpack-virtual-modules "^0.5.0"
 
-"@storybook/builder-webpack5@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/builder-webpack5/-/builder-webpack5-7.6.19.tgz#1e2ff6328ead8d1fa0fef6aa552ee8c6d1d434ee"
-  integrity sha512-PeP66orYG0tWoWeOGNcCDKtk/kpDBFfosViCkd0Pxb6c2MtvjOuHSGWGB/9AI3hjodsoe5p9xo/SqGf7lDzpoA==
-  dependencies:
-    "@babel/core" "^7.23.2"
-    "@storybook/channels" "7.6.19"
-    "@storybook/client-logger" "7.6.19"
-    "@storybook/core-common" "7.6.19"
-    "@storybook/core-events" "7.6.19"
-    "@storybook/core-webpack" "7.6.19"
-    "@storybook/node-logger" "7.6.19"
-    "@storybook/preview" "7.6.19"
-    "@storybook/preview-api" "7.6.19"
-    "@swc/core" "^1.3.82"
-    "@types/node" "^18.0.0"
-    "@types/semver" "^7.3.4"
-    babel-loader "^9.0.0"
-    browser-assert "^1.2.1"
-    case-sensitive-paths-webpack-plugin "^2.4.0"
-    cjs-module-lexer "^1.2.3"
-    constants-browserify "^1.0.0"
-    css-loader "^6.7.1"
-    es-module-lexer "^1.4.1"
-    express "^4.17.3"
-    fork-ts-checker-webpack-plugin "^8.0.0"
-    fs-extra "^11.1.0"
-    html-webpack-plugin "^5.5.0"
-    magic-string "^0.30.5"
-    path-browserify "^1.0.1"
-    process "^0.11.10"
-    semver "^7.3.7"
-    style-loader "^3.3.1"
-    swc-loader "^0.2.3"
-    terser-webpack-plugin "^5.3.1"
-    ts-dedent "^2.0.0"
-    url "^0.11.0"
-    util "^0.12.4"
-    util-deprecate "^1.0.2"
-    webpack "5"
-    webpack-dev-middleware "^6.1.1"
-    webpack-hot-middleware "^2.25.1"
-    webpack-virtual-modules "^0.5.0"
-
 "@storybook/channels@6.5.15":
   version "6.5.15"
   resolved "https://registry.npmjs.org/@storybook/channels/-/channels-6.5.15.tgz#586681b6ec458124da084c39bc8c518d9e96b10b"
@@ -4508,14 +4464,6 @@
     "@storybook/client-logger" "7.6.18"
     "@storybook/preview-api" "7.6.18"
 
-"@storybook/core-client@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/core-client/-/core-client-7.6.19.tgz#ca47b71bfebb0e1e5cb112b5b88e9f7b0c88eee4"
-  integrity sha512-F0V9nzcEnj6DIpnw2ilrxsV4d9ibyyQS+Wi2uQtXy+wCQQm9PeBVqrOywjXAY2F9pcoftXOaepfhp8jrxX4MXw==
-  dependencies:
-    "@storybook/client-logger" "7.6.19"
-    "@storybook/preview-api" "7.6.19"
-
 "@storybook/core-common@7.6.18":
   version "7.6.18"
   resolved "https://registry.npmjs.org/@storybook/core-common/-/core-common-7.6.18.tgz#5866a6be2eaf0cd095bd2f0cde48796d1c6ee863"
@@ -4650,17 +4598,6 @@
     "@storybook/core-common" "7.6.18"
     "@storybook/node-logger" "7.6.18"
     "@storybook/types" "7.6.18"
-    "@types/node" "^18.0.0"
-    ts-dedent "^2.0.0"
-
-"@storybook/core-webpack@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/core-webpack/-/core-webpack-7.6.19.tgz#bf1bdcc6899c21c8a3c7702737dd5e1847380dbb"
-  integrity sha512-Ezvn54hFN99qwP8kDOQa7/IEk2V3NyJys2eg0Afqz1cy9Uc3SkL7U7hQorKOHr5+66dsryNDfJdPzM1YMKFMBQ==
-  dependencies:
-    "@storybook/core-common" "7.6.19"
-    "@storybook/node-logger" "7.6.19"
-    "@storybook/types" "7.6.19"
     "@types/node" "^18.0.0"
     ts-dedent "^2.0.0"
 
@@ -4855,29 +4792,6 @@
     semver "^7.3.7"
     webpack "5"
 
-"@storybook/preset-react-webpack@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/preset-react-webpack/-/preset-react-webpack-7.6.19.tgz#c79e1e3727175012fe6f2ac92a58c19426a4dd3f"
-  integrity sha512-WvfDE4upH7jmisx5XOn4E07p9Fm8YJn4Aywc9vYM1jqQ8A1lEH8VSC1KR6dPfdmGr94jRscQkD6fjs9sUNTdrw==
-  dependencies:
-    "@babel/preset-flow" "^7.22.15"
-    "@babel/preset-react" "^7.22.15"
-    "@pmmmwh/react-refresh-webpack-plugin" "^0.5.11"
-    "@storybook/core-webpack" "7.6.19"
-    "@storybook/docs-tools" "7.6.19"
-    "@storybook/node-logger" "7.6.19"
-    "@storybook/react" "7.6.19"
-    "@storybook/react-docgen-typescript-plugin" "1.0.6--canary.9.0c3f3b7.0"
-    "@types/node" "^18.0.0"
-    "@types/semver" "^7.3.4"
-    babel-plugin-add-react-displayname "^0.0.5"
-    fs-extra "^11.1.0"
-    magic-string "^0.30.5"
-    react-docgen "^7.0.0"
-    react-refresh "^0.14.0"
-    semver "^7.3.7"
-    webpack "5"
-
 "@storybook/preview-api@7.6.18":
   version "7.6.18"
   resolved "https://registry.npmjs.org/@storybook/preview-api/-/preview-api-7.6.18.tgz#423b1722c11ad58dd258bc3db32fa8720bbb7675"
@@ -4923,11 +4837,6 @@
   resolved "https://registry.npmjs.org/@storybook/preview/-/preview-7.6.18.tgz#bdd0a472ccb1543c898d662e293c26ed58edc30b"
   integrity sha512-iltkZxz991GmzXMNkM9b7ddM45IsfZoQ+pMGXOv902Xawx9otvNkMVxBMhpXG+tf7G3FrSM1DFT6V9SycC6pqg==
 
-"@storybook/preview@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/preview/-/preview-7.6.19.tgz#4cb2b2e1730aea8612c07d80a7908835f9806265"
-  integrity sha512-VqRPua2koOQTOteB+VvuKNXFYQ7IDEopaPpj9Nx+3kom+bqp0hWdAysWcm6CtKN2GGzBQm+5PvGibMNdawsaVg==
-
 "@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0":
   version "1.0.6--canary.9.0c3f3b7.0"
   resolved "https://registry.npmjs.org/@storybook/react-docgen-typescript-plugin/-/react-docgen-typescript-plugin-1.0.6--canary.9.0c3f3b7.0.tgz#7f10f3c641f32e4513a8b6ffb5036933e7059534"
@@ -4946,11 +4855,6 @@
   resolved "https://registry.npmjs.org/@storybook/react-dom-shim/-/react-dom-shim-7.6.18.tgz#896c726f1f77c10feaef0c7aabb15c6afb0a0a03"
   integrity sha512-s4eIq5KVnS7E4pIXdq31YzqRZX0FZEYKoUeZziBBajRvmPAJ/zWSBbrGeOIR71xDHT7UkUoeb5EuyfykS9yuoA==
 
-"@storybook/react-dom-shim@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/react-dom-shim/-/react-dom-shim-7.6.19.tgz#c6472be7c53b8d9d3ed3007f5fc5d41daa76ac09"
-  integrity sha512-tpt2AC1428d1gF4fetMkpkeFZ1WdDr1CLKoLbSInWQZ7i96nbnIMIA9raR/W8ai1bo55KSz9Bq5ytC/1Pac2qQ==
-
 "@storybook/react-webpack5@7.6.18":
   version "7.6.18"
   resolved "https://registry.npmjs.org/@storybook/react-webpack5/-/react-webpack5-7.6.18.tgz#f00a088b500d87c24001ce9ed8350efe1e4d425f"
@@ -4959,16 +4863,6 @@
     "@storybook/builder-webpack5" "7.6.18"
     "@storybook/preset-react-webpack" "7.6.18"
     "@storybook/react" "7.6.18"
-    "@types/node" "^18.0.0"
-
-"@storybook/react-webpack5@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/react-webpack5/-/react-webpack5-7.6.19.tgz#efd4ba044d3d18020ef60a7c352080d0773bee3e"
-  integrity sha512-QPnDv5eimvgc0zBIvc1H49iBUfZhs0hhrs9eO0+rAC6sIo5BiDcX9nQJZEuamRPVuLjqoRByj6vUpqGI25zASg==
-  dependencies:
-    "@storybook/builder-webpack5" "7.6.19"
-    "@storybook/preset-react-webpack" "7.6.19"
-    "@storybook/react" "7.6.19"
     "@types/node" "^18.0.0"
 
 "@storybook/react@7.6.18":
@@ -4983,33 +4877,6 @@
     "@storybook/preview-api" "7.6.18"
     "@storybook/react-dom-shim" "7.6.18"
     "@storybook/types" "7.6.18"
-    "@types/escodegen" "^0.0.6"
-    "@types/estree" "^0.0.51"
-    "@types/node" "^18.0.0"
-    acorn "^7.4.1"
-    acorn-jsx "^5.3.1"
-    acorn-walk "^7.2.0"
-    escodegen "^2.1.0"
-    html-tags "^3.1.0"
-    lodash "^4.17.21"
-    prop-types "^15.7.2"
-    react-element-to-jsx-string "^15.0.0"
-    ts-dedent "^2.0.0"
-    type-fest "~2.19"
-    util-deprecate "^1.0.2"
-
-"@storybook/react@7.6.19":
-  version "7.6.19"
-  resolved "https://registry.npmjs.org/@storybook/react/-/react-7.6.19.tgz#a15b41fc98a80086b2f40d025f34f8641b3dea8b"
-  integrity sha512-uKShAAp1/pRki1YnRjBveH/jAD3f8V0W2WP1LxTQqnKVFkl01mTbDZ/9ZIK6rVTSILUlmsk3fwsNyRbOKVgBGQ==
-  dependencies:
-    "@storybook/client-logger" "7.6.19"
-    "@storybook/core-client" "7.6.19"
-    "@storybook/docs-tools" "7.6.19"
-    "@storybook/global" "^5.0.0"
-    "@storybook/preview-api" "7.6.19"
-    "@storybook/react-dom-shim" "7.6.19"
-    "@storybook/types" "7.6.19"
     "@types/escodegen" "^0.0.6"
     "@types/estree" "^0.0.51"
     "@types/node" "^18.0.0"
