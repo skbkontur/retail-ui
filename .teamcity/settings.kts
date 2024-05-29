@@ -13,6 +13,8 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.nuGetInstaller
 import jetbrains.buildServer.configs.kotlin.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.buildSteps.nunit
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.buildSteps.PowerShellStep
+import jetbrains.buildServer.configs.kotlin.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.projectFeatures.githubConnection
@@ -442,13 +444,23 @@ object ReactUI_Storybook : BuildType({
                 git clone git@git.skbkontur.ru:ui/docs.git docs-repo
             """.trimIndent()
         }
-        script {
+        powerShell {
             name = "move dir"
-            scriptContent = """
-                cd ./docs/storybook/react-ui
-                ls ./docs-repo/docs/storybook/react-ui
-                cp -r ./packages/react-ui/.storybook/build ./docs-repo/docs/storybook/react-ui/%teamcity.build.branch%
-            """.trimIndent()
+            scriptMode = script {
+                content = """
+                    ${'$'}version_from_git = "%teamcity.build.branch%".replace('@skbkontur/react-ui@', '')
+                    ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
+                    ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
+                                        
+                    Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
+                  
+                    ${'$'}src_path = "./packages/react-ui/.storybook/build"
+                    ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
+                    mkdir ${'$'}src_path
+                    cp -r ${'$'}src_path ${'$'}dest_path
+                """.trimIndent()
+            }
         }
         script {
             name = "git push"
@@ -460,6 +472,14 @@ object ReactUI_Storybook : BuildType({
                 git pull --rebase
                 git push origin master
             """.trimIndent()
+        }
+        powerShell {
+            name = "echo url"
+            scriptMode = script {
+                content = """
+                    echo "https://ui.gitlab-pages.kontur.host/docs/storybook/react-ui/${'$'}env:STORYBOOK_VERSION"
+                """.trimIndent()
+            }
         }
     }
 
@@ -828,13 +848,22 @@ object Validations_Storybook : BuildType({
                 git clone git@git.skbkontur.ru:ui/docs.git docs-repo
             """.trimIndent()
         }
-        script {
+        powerShell {
             name = "move dir"
-            scriptContent = """
-                cd ./docs/storybook/react-ui-validations
-                ls ./docs-repo/docs/storybook/react-ui-validations
-                cp -r ./packages/react-ui-validations/.storybook/build ./docs-repo/docs/storybook/react-ui-validations/%teamcity.build.branch%
-            """.trimIndent()
+            scriptMode = script {
+                content = """
+                    ${'$'}version_from_git = "%teamcity.build.branch%".replace('@skbkontur/react-ui-validations@', '')
+                    ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
+                    ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
+                    
+                    Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
+                    
+                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
+                    ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
+                    cp -r ${'$'}src_path ${'$'}dest_path
+                """.trimIndent()
+            }
         }
         script {
             name = "git push"
@@ -846,6 +875,14 @@ object Validations_Storybook : BuildType({
                 git pull --rebase
                 git push origin master
             """.trimIndent()
+        }
+        powerShell {
+            name = "echo url"
+            scriptMode = script {
+                content = """
+                    echo "https://ui.gitlab-pages.kontur.host/docs/storybook/react-ui-validations/${'$'}env:STORYBOOK_VERSION"
+                """.trimIndent()
+            }
         }
     }
 
