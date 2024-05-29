@@ -1,6 +1,7 @@
 const path = require('path');
 const axios = require('axios');
 require('dotenv').config({ path: '../../.env' });
+const { hybridStoriesProvider } = require('creevey');
 
 /**
  * Debuggin instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157
@@ -24,6 +25,8 @@ const resolverStorybookUrl = (port) => ({
 
 const config = {
   ...resolverStorybookUrl(8081),
+  storiesProvider: hybridStoriesProvider,
+  testsDir: path.join(__dirname, '../'),
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
