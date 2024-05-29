@@ -3,6 +3,7 @@
   "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
   "compilerOptions": {
     "types": ["node", "jest", "@testing-library/jest-dom"],
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "moduleResolution": "Node"
   }
 }
