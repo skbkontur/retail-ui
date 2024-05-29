@@ -12,7 +12,7 @@ module.exports = async ({ config }) => {
   config.module.rules = [
     {
       test: /\.(ts|tsx)$/,
-      exclude: /node_moduels/,
+      exclude: /node_modules/,
       use: [
         {
           loader: 'ts-loader',

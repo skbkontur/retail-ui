@@ -24,7 +24,7 @@ const resolverStorybookUrl = (port) => ({
 });
 
 const config = {
-  ...resolverStorybookUrl(8081),
+  ...resolverStorybookUrl(6060),
   storiesProvider: hybridStoriesProvider,
   testsDir: path.join(__dirname, '../'),
   storybookDir: path.join(__dirname, '../.storybook'),
