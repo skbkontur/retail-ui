@@ -14,7 +14,6 @@ namespace SKBKontur.ValidationTests.Infrastructure
             var port = 6060;
             var uri = new Uri($"http://localhost:{port}/iframe.html?id={CreateStoryId(kind, story)}");
             WebDriver.Navigate().GoToUrl(uri);
-            WebDriver.Navigate().Refresh();
         }
 
         public static string CreateStoryId(string kind, string story)
