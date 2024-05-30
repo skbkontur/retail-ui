@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace SKBKontur.ValidationTests.Infrastructure
 {
@@ -14,6 +15,7 @@ namespace SKBKontur.ValidationTests.Infrastructure
             var port = 6060;
             var uri = new Uri($"http://localhost:{port}/iframe.html?id={CreateStoryId(kind, story)}");
             WebDriver.Navigate().GoToUrl(uri);
+            Thread.Sleep(10000);
         }
 
         public static string CreateStoryId(string kind, string story)
