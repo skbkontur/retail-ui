@@ -852,7 +852,7 @@ object Validations_Storybook : BuildType({
             name = "move dir"
             scriptMode = script {
                 content = """
-                    ${'$'}version_from_git = "%teamcity.build.branch%".replace('@skbkontur/react-ui-validations@', '')
+                    ${'$'}version_from_git = "%teamcity.build.branch%".replace('react-ui-validations@', '')
                     ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
                     
