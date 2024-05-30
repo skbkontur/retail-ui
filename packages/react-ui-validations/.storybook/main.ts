@@ -1,15 +1,15 @@
-module.exports = {
-  core: {
-    builder: 'webpack5',
-    disableTelemetry: true,
-  },
-  addons: ['creevey'],
+import type { StorybookConfig } from '@storybook/react-webpack5';
+
+const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.tsx'],
-  typescript: {
-    check: false,
-    reactDocgen: 'none',
-  },
-  features: {
-    postcss: false,
+  addons: ['creevey'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: true,
+      strictMode: true,
+    },
   },
 };
+
+export default config;
