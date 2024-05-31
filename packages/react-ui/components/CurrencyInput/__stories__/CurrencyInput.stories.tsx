@@ -14,8 +14,6 @@ interface CurrencyInputDemoProps {
   borderless?: boolean;
 }
 interface CurrencyInputDemoState {
-  // Intended behavior. CurrencyInput technically can't accept strings
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
   hideTrailingZeros: boolean;
   fractionDigits: number;

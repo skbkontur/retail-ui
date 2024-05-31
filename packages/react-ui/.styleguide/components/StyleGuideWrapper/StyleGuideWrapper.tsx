@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 import { useStyleGuideContext } from 'react-styleguidist/lib/client/rsg-components/Context/Context';
+
+import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import { cx } from '../../../lib/theming/Emotion';
-import { styles } from './StyleGuideWrapper.styles';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
+
+import { styles } from './StyleGuideWrapper.styles';
 
 interface StyleGuideRendererProps {
   children: React.ReactNode;

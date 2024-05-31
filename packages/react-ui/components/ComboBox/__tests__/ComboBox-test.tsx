@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';

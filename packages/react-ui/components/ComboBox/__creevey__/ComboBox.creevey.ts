@@ -109,12 +109,7 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .sendKeys('Second')
-        .perform();
-      await delay(1000);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .sendKeys(this.keys.ENTER)
         .perform();
       await this.expect(await this.takeScreenshot()).to.matchImage('selcted');
@@ -132,12 +127,7 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .sendKeys('Second')
-        .perform();
-      await delay(1000);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .sendKeys(this.keys.ENTER)
         .perform();
       await this.browser
@@ -190,12 +180,7 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-        .perform();
-      await delay(1000);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .sendKeys(this.keys.ARROW_DOWN)
         .sendKeys(this.keys.ARROW_DOWN)
         .sendKeys(this.keys.ARROW_DOWN)
@@ -211,26 +196,11 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .sendKeys('Second')
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(500)
         .move({ origin: this.browser.findElement({ css: 'body' }) })
-        .perform();
-      await delay(1000);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .press()
         .release()
         .perform();
@@ -244,15 +214,10 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-        .perform();
-      await delay(500);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .sendKeys('Second')
+        .pause(500)
         .perform();
-      await delay(500);
       await this.browser
         .actions({
           bridge: true,
@@ -403,12 +368,7 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
-        .perform();
-      await delay(200);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(200)
         .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
         .perform();
       await delay(200);
@@ -523,12 +483,7 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
-        .perform();
-      await delay(1000);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await delay(1000);
@@ -541,12 +496,7 @@ kind('ComboBox', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
-        .perform();
-      await delay(1000);
-      await this.browser
-        .actions({
-          bridge: true,
-        })
+        .pause(1000)
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await delay(1000);

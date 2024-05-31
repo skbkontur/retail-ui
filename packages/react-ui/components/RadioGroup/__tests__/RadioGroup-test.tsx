@@ -37,7 +37,6 @@ describe('<RadioGroup />', () => {
     const radios = screen.getAllByRole('radio');
 
     items.forEach((item, index) => {
-      // eslint-disable-next-line jest-dom/prefer-to-have-value
       expect(radios[index]).toHaveAttribute('value', item);
     });
   });

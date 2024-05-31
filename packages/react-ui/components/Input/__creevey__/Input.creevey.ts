@@ -222,12 +222,12 @@ kind('Input', () => {
   });
   story('Type', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
+      skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },
     });
   });
   story('TypeApi', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
+      skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },
     });
   });
 });

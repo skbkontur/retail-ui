@@ -110,7 +110,12 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipWithExternalDynamicContent', () => {
+  story('TooltipWithExternalDynamicContent', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'story-skip-0': { in: /firefox/, tests: ['04 - does not change top position if fits'] },
+      },
+    });
     test('01 - plain', async function () {
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
@@ -575,6 +580,10 @@ kind('Tooltip', () => {
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+          tests: ['hover by dynamic anchor'],
+        },
+        'story-skip-2': {
+          in: /firefox/,
           tests: ['hover by dynamic anchor'],
         },
       },

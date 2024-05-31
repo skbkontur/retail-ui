@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.@(tsx|ts)', '../internal/**/*.stories.tsx', '../components/**/*.mdx'], // было бы неплохо, чтобы .stories.tsx и .mdx писались вместе
+  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx', '../components/**/*.mdx'],
   addons: [
     'creevey',
     '@storybook/addon-links',
@@ -18,7 +18,8 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      legacyRootApi: true,
+      fastRefresh: true,
+      strictMode: true,
     },
   },
 };

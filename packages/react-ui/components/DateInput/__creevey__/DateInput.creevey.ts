@@ -98,7 +98,7 @@ kind('DateInput', () => {
         .actions({
           bridge: true,
         })
-        .sendKeys(this.keys.DELETE)
+        .sendKeys(this.keys.NUMPAD1)
         .click(this.browser.findElement({ css: 'body' }))
         .perform();
       await this.browser.executeScript(function () {

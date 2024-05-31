@@ -254,6 +254,7 @@ type DefaultProps<T> = Required<
 >;
 
 const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,

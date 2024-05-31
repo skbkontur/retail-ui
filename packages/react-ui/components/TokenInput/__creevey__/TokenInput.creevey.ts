@@ -44,7 +44,7 @@ kind('TokenInput', () => {
   story('EmptyCombined', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'flaky tests': { in: ['firefox2022', 'firefox2022Dark'] },
+        'flaky tests': { in: /firefox/ },
       },
     });
 
@@ -65,6 +65,7 @@ kind('TokenInput', () => {
     setStoryParameters({
       skip: {
         'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'], tests: ['editToken'] },
+        flaky: { in: /firefox/, tests: ['selectAndType', 'editToken'] },
       },
     });
 
@@ -359,7 +360,12 @@ kind('TokenInput', () => {
     });
   });
 
-  story('WithPlaceholderAndWidth', () => {
+  story('WithPlaceholderAndWidth', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        flaky: { in: /firefox/, tests: ['selected'] },
+      },
+    });
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage();
     });

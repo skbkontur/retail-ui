@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 
 import { iconSizer } from '../../internal/icons2022/iconSizer';

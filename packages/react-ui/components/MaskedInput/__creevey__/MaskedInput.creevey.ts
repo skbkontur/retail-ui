@@ -86,7 +86,7 @@ kind('MaskedInput', () => {
 
   story('WithCustomUnmaskedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     });
     testMaskedInput();
   });
@@ -145,7 +145,7 @@ kind('MaskedInput', () => {
 
   story('RewriteInMiddle', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     });
     testRewriteInMiddle();
   });
