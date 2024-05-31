@@ -99,6 +99,27 @@ const sizeTests = () => {
   });
 };
 
+const menuPosTests = () => {
+  test('focus and type text menu top', async function () {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  });
+  test('focus and type text menu bottom', async function () {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  });
+};
+
 kind('Autocomplete', () => {
   story('Simple', () => {
     test('idle', async function () {
@@ -199,5 +220,14 @@ kind('Autocomplete', () => {
 
   story('Size', () => {
     sizeTests();
+  });
+
+  story('WithDisabledPortal', () => {
+    commonTests();
+    menuPosTests();
+  });
+
+  story('MenuPos', () => {
+    menuPosTests();
   });
 });
