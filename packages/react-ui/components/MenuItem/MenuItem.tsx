@@ -12,7 +12,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './MenuItem.styles';
 

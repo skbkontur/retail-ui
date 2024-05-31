@@ -281,7 +281,7 @@ export const HintNearScreenEdge = () => (
       </div>
     </div>
 
-    <ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true }}>
+    <ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true, popupUnifyPositioning: true }}>
       <div style={{ position: 'absolute', bottom: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
         <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
@@ -301,7 +301,7 @@ export const HintNearScreenEdge = () => (
             Пригласить
           </Button>
         </Hint>
-        <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Tooltip render={() => <div>Hey there!</div>} pos="top center" trigger="opened">
           <Button use="success" size="medium" width={135} disabled>
             Пригласить
           </Button>

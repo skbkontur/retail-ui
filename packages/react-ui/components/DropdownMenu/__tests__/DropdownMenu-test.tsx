@@ -186,8 +186,8 @@ describe('<DropdownMenu />', () => {
         await userEvent.keyboard('{arrowdown}');
         await userEvent.keyboard('{arrowdown}');
         await delay(0);
-        expect(screen.getByTestId('menuItem2')).not.toHaveAttribute('data-visual-state-hover', 'true');
-        expect(screen.getByTestId('menuItem3')).toHaveAttribute('data-visual-state-hover', 'true');
+        expect(screen.getByTestId('menuItem2')).not.toHaveAttribute('data-visual-state-hover');
+        expect(screen.getByTestId('menuItem3')).toHaveAttribute('data-visual-state-hover');
       });
 
       it("doesn't click on a not selectable MenuItem", async () => {

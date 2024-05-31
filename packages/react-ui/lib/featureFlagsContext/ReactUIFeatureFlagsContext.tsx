@@ -10,6 +10,7 @@ export interface ReactUIFeatureFlags {
   linkFocusOutline?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
   hintAddDynamicPositioning?: boolean;
+  popupUnifyPositioning?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -22,6 +23,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   linkFocusOutline: false,
   comboBoxAllowValueChangeInEditingState: false,
   hintAddDynamicPositioning: false,
+  popupUnifyPositioning: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
