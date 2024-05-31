@@ -1263,9 +1263,9 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 
-  it('should disable default browser autofill', () => {
+  it('should disable default browser autofill', async () => {
     render(<ComboBox getItems={() => Promise.resolve([])} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     expect(screen.getByRole('textbox')).toHaveAttribute('autocomplete', 'off');
   });
 
