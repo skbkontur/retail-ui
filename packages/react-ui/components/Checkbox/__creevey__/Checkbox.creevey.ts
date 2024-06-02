@@ -10,7 +10,7 @@ const checkboxTests = () => {
   test('hovered', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true
       })
       .move({
         origin: this.browser.findElement({
@@ -25,7 +25,7 @@ const checkboxTests = () => {
   test('pressed', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({
@@ -41,7 +41,7 @@ const checkboxTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
@@ -51,13 +51,13 @@ const checkboxTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({ origin: this.browser.findElement({ css: 'body' }) })
       .press()
@@ -71,13 +71,13 @@ const checkboxTests = () => {
   test('spacePress', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({ origin: this.browser.findElement({ css: 'body' }) })
       .press()
@@ -133,7 +133,7 @@ kind('Checkbox', () => {
     test('hovered', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .move({
           origin: this.browser.findElement({
@@ -148,7 +148,7 @@ kind('Checkbox', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .move({
           origin: this.browser.findElement({
@@ -192,7 +192,7 @@ kind('Checkbox', () => {
       });
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'label' }),
@@ -208,7 +208,7 @@ kind('Checkbox', () => {
       });
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
@@ -222,7 +222,7 @@ kind('Checkbox', () => {
       });
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
@@ -239,7 +239,7 @@ kind('Checkbox', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
@@ -257,9 +257,9 @@ kind('Checkbox', () => {
       const checkbox = await this.browser.findElement({
         css: '[data-comp-name~="Checkbox"]',
       });
-      await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
+      await this.browser.actions({ async: undefined, bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
       await this.expect(await this.takeScreenshot()).to.matchImage('selected with pressed shift');
-      await this.browser.actions({ bridge: true }).keyUp(this.keys.SHIFT).perform();
+      await this.browser.actions({ async: undefined, bridge: true }).keyUp(this.keys.SHIFT).perform();
     });
   });
 });

@@ -20,6 +20,7 @@ export default {
       </div>
     ),
   ],
+  tags: ['autodocs'],
 } as Meta;
 
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;

@@ -7,7 +7,7 @@ const testScrollLockUnlock = () => {
     const toggle = async () => {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="toggle-lock"]' }))
         .perform();

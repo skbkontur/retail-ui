@@ -19,6 +19,9 @@ import { Button, ButtonProps } from '../Button';
 export default {
   title: 'Actions/Button',
   component: Button,
+  argTypes: {
+    label: { size: 'string', defaultValue: 'medium' },
+  },
 } as Meta;
 
 type ButtonState = Partial<ButtonProps>;

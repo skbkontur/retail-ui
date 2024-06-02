@@ -6,7 +6,7 @@ const clickedTest = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
       .perform();
@@ -28,13 +28,13 @@ const selectTests = () => {
   test('MenuItem hover', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
       .perform();
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
@@ -47,13 +47,13 @@ const selectTests = () => {
   test('selected item', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
       .perform();
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .perform();
@@ -140,7 +140,7 @@ kind('Select', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .sendKeys(this.keys.ENTER)
@@ -165,7 +165,7 @@ kind('Select', () => {
       const select = await this.browser.findElement({ css: '[data-comp-name~="Select"]' });
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(select)
         .pause(500)
@@ -173,7 +173,7 @@ kind('Select', () => {
       const plainSearch = await root.takeScreenshot();
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .sendKeys(this.keys.ARROW_DOWN)
         .pause(500)
@@ -181,7 +181,7 @@ kind('Select', () => {
       const pressKeyDown = await root.takeScreenshot();
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
         .sendKeys('test')
@@ -190,7 +190,7 @@ kind('Select', () => {
       const fullFieldSearch = await root.takeScreenshot();
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(select)
         .click(select)
@@ -203,19 +203,19 @@ kind('Select', () => {
     test('and various width', async function () {
       const root = await this.browser.findElement({ css: '[data-tid="root"]' });
       await this.browser
-        .actions({ bridge: true })
+        .actions({ async: undefined, bridge: true })
         .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
         .pause(500)
         .perform();
       const w100px = await root.takeScreenshot();
       await this.browser
-        .actions({ bridge: true })
+        .actions({ async: undefined, bridge: true })
         .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
         .pause(500)
         .perform();
       const w300px = await root.takeScreenshot();
       await this.browser
-        .actions({ bridge: true })
+        .actions({ async: undefined, bridge: true })
         .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
         .pause(500)
         .perform();
@@ -238,7 +238,7 @@ kind('Select', () => {
     test('opened top with portal', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
         .perform();
@@ -249,7 +249,7 @@ kind('Select', () => {
     test('opened bottom with portal', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
@@ -262,7 +262,7 @@ kind('Select', () => {
     test('opened top without portal', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
@@ -275,7 +275,7 @@ kind('Select', () => {
     test('opened bottom without portal', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
@@ -292,7 +292,7 @@ kind('Select', () => {
     test('ClickedAll', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
         .pause(500)

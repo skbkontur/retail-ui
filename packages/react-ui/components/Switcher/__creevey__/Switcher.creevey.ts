@@ -15,7 +15,7 @@ kind('Switcher', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
         .perform();

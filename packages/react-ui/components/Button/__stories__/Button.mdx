@@ -2,7 +2,7 @@ import * as ButtonStories from './Button.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
 import { Button } from '../Button';
 import { Gapped } from '../../Gapped';
-import { CopyIcon16Regular, MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
+import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
 
 <Meta of={ButtonStories} />
 
@@ -17,22 +17,12 @@ import { CopyIcon16Regular, MinusCircleIcon16Light, XIcon16Regular } from '@skbk
 ## Пропы
 тут будет таблица с пропами
 
-[//]: # (<Controls />)
+<Controls />
 
 ## Примеры использования
 ### Различные стили
 <Canvas>
   <Gapped vertical>
-    <Gapped>
-      <Button use="default">Default</Button>
-      <Button use="primary">Primary</Button>
-      <Button use="success">Success</Button>
-      <Button use="danger">Danger</Button>
-      <Button use="pay">Pay</Button>
-      <Button use="text">Text</Button>
-      <Button use="backless">Backless</Button>
-      <Button use="link">Link</Button>
-    </Gapped>
     <Gapped>
       <Button use="default">Default</Button>
       <Button use="primary">Primary</Button>

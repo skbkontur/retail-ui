@@ -15,7 +15,7 @@ kind('Radio', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
         .sendKeys(this.keys.TAB)

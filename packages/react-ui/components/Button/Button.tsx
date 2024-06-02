@@ -148,8 +148,6 @@ export interface ButtonProps
 
   /**
    * Задаёт размер кнопки.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
    */
   size?: SizeProp;
 

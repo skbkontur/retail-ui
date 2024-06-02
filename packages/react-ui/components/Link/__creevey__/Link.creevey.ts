@@ -6,7 +6,7 @@ const focusedLinkTest = () => {
   test('tab press', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
@@ -14,7 +14,7 @@ const focusedLinkTest = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: 'a' }),
@@ -32,7 +32,7 @@ const linkTests = () => {
   test('hover', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: 'a' }),
@@ -46,7 +46,7 @@ const focusedStyledLinkTest = () => {
   test('tab press', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: 'a' }),
@@ -56,13 +56,13 @@ const focusedStyledLinkTest = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: 'a' }),

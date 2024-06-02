@@ -8,7 +8,7 @@ const buttonTests = () => {
   test('hover', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
@@ -20,7 +20,7 @@ const buttonTests = () => {
   test('pressed', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
@@ -30,7 +30,7 @@ const buttonTests = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .release()
       .perform();
@@ -39,7 +39,7 @@ const buttonTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
       .perform();
@@ -49,7 +49,7 @@ const buttonTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .pause(500)
@@ -124,7 +124,7 @@ kind('Button', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .move({
           origin: this.browser.findElement({
@@ -148,7 +148,7 @@ kind('Button', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .move({
           origin: this.browser.findElement({

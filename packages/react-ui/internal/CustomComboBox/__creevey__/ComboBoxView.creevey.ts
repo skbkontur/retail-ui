@@ -21,7 +21,7 @@ kind('ComboBoxView', () => {
     test('focused first element', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();

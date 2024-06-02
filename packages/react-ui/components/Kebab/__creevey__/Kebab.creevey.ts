@@ -6,7 +6,7 @@ const textAlignmentTests = () => {
   test('opened', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
       .perform();
@@ -23,7 +23,7 @@ const kebabTests = () => {
   test('hovered', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }),
@@ -35,7 +35,7 @@ const kebabTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
       .perform();
@@ -45,7 +45,7 @@ const kebabTests = () => {
   test('clickedOnButton2ndTime', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
       .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
@@ -56,7 +56,7 @@ const kebabTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
@@ -66,7 +66,7 @@ const kebabTests = () => {
   test('enterPress', async function () {
     await this.browser
       .actions({
-        bridge: true,
+        async: undefined, bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .sendKeys(this.keys.ENTER)
@@ -143,12 +143,12 @@ kind('Kebab', () => {
 
     test('opened', async function () {
       await this.browser
-        .actions({ bridge: true })
+        .actions({ async: undefined, bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
         .perform();
       await delay(200);
       await this.browser
-        .actions({ bridge: true })
+        .actions({ async: undefined, bridge: true })
         .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
         .perform();
       await delay(1000);

@@ -12,7 +12,7 @@ kind('Textarea', () => {
     test('Focus', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
         .perform();
@@ -23,7 +23,7 @@ kind('Textarea', () => {
     test('FocusedByTab', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .move({ x: 0, y: 0 })
         .click()
@@ -37,7 +37,7 @@ kind('Textarea', () => {
     test('Typed', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
         .sendKeys('Test...')
@@ -53,7 +53,7 @@ kind('Textarea', () => {
       const before = await textArea().takeScreenshot();
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
         .pause(500)
@@ -61,7 +61,7 @@ kind('Textarea', () => {
       const addText = await textArea().takeScreenshot();
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="CollapseButton"]' }))
         .pause(500)
@@ -80,7 +80,7 @@ kind('Textarea', () => {
     test('Focused', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .pause(500)
@@ -99,7 +99,7 @@ kind('Textarea', () => {
     test('Selected', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="select-all"]' }))
         .pause(500)
@@ -126,7 +126,7 @@ kind('Textarea', () => {
     test('Focus', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '#CounterPlain textarea' }))
         .perform();
@@ -137,7 +137,7 @@ kind('Textarea', () => {
     test('FocusAutoresize', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '#CounterAutoresizeTextarea textarea' }))
         .perform();
@@ -148,7 +148,7 @@ kind('Textarea', () => {
     test('FocusWithHelpClosed', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
         .perform();
@@ -159,13 +159,13 @@ kind('Textarea', () => {
     test('FocusWithHelpOpened', async function () {
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
         .perform();
       await this.browser
         .actions({
-          bridge: true,
+          async: undefined, bridge: true,
         })
         .click(this.browser.findElement({ css: `svg` }))
         .perform();
