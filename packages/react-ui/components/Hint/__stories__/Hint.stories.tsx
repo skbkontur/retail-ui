@@ -195,15 +195,6 @@ export const WithClassChildren = () => (
 );
 WithClassChildren.storyName = 'with class children';
 
-export const KebabHintRemovePinFeatureFlag = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-    <Hint text="Something will never be changed" manual opened>
-      <span className="hint-content">Ich Liebe dich</span>
-    </Hint>
-  </ReactUIFeatureFlagsContext.Provider>
-);
-KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
-
 export const HintNearScreenEdge = () => (
   <>
     <div>

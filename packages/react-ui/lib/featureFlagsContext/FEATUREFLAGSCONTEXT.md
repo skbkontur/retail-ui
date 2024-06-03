@@ -4,7 +4,6 @@
 
 ```typescript static
 export interface ReactUIFeatureFlags {
-  kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
@@ -22,28 +21,6 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 ```
 
 ## Использование
-
-### kebabHintRemovePin
-
-В Hint и Kebab будет убран "клювик" в THEME_2022.
-В React UI 5.0 фича будет применена по умолчанию.
-```jsx harmony
-import { Hint, Kebab, MenuItem, Gapped, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-<ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-  <Gapped vertical>
-    <Hint text="Подсказка">Hint</Hint>
-    <Kebab>
-      <MenuItem>
-        Редактировать
-      </MenuItem>
-      <MenuItem>
-        Удалить
-      </MenuItem>
-    </Kebab>
-  </Gapped>
-</ReactUIFeatureFlagsContext.Provider>
-```
 
 ### spinnerLoaderRemoveDefaultCaption
 

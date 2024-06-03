@@ -1,7 +1,6 @@
 import React from 'react';
 
 export interface ReactUIFeatureFlags {
-  kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
   menuItemsAtAnyLevel?: boolean;
@@ -13,7 +12,6 @@ export interface ReactUIFeatureFlags {
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  kebabHintRemovePin: false,
   sidePageEnableFocusLockWhenBackgroundBlocked: false,
   spinnerLoaderRemoveDefaultCaption: false,
   menuItemsAtAnyLevel: false,
