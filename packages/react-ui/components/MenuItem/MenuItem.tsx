@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
@@ -177,7 +175,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
                     })}
                     {...this.props}
                   >
-                    {this.renderMain}
+                    {this.renderMain(this.props)}
                   </CommonWrapper>
                 );
               }}
@@ -367,7 +365,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
           ref={this.contentRef}
           data-tid={MenuItemDataTids.content}
         >
-          {content}
+          {typeof content === 'function' ? content() : content}
         </span>
         {this.props.comment && (
           <div

@@ -78,7 +78,7 @@ interface ComboBoxViewProps<T>
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
@@ -407,7 +407,13 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       if (isTheme2022(this.theme)) {
         return rightIcon || <ArrowDownIcon size={size} />;
       }
-      return <span className={styles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
+      let icon;
+      if (rightIcon) {
+        icon = typeof rightIcon === 'function' ? rightIcon() : rightIcon;
+      } else {
+        icon = <ArrowChevronDownIcon />;
+      }
+      return <span className={styles.rightIconWrapper()}>{icon}</span>;
     }
 
     return null;

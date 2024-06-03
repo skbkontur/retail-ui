@@ -7,47 +7,47 @@ import { MenuItem } from '../../../components/MenuItem';
 import { Kebab, KebabDataTids } from '../Kebab';
 
 describe('Kebab', () => {
-  it('prop `popupMenuId` sets an `id` for root of the popup', () => {
+  it('prop `popupMenuId` sets an `id` for root of the popup', async () => {
     const menuId = 'menu';
     render(
       <Kebab popupMenuId={menuId}>
         <p>test</p>
       </Kebab>,
     );
-    userEvent.click(screen.getByTestId(KebabDataTids.caption));
+    await userEvent.click(screen.getByTestId(KebabDataTids.caption));
 
     const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
   });
 
-  it('should focus by pressing tab', () => {
+  it('should focus by pressing tab', async () => {
     render(<Kebab />);
-    userEvent.tab();
+    await userEvent.tab();
 
     const kebab = screen.getByTestId(KebabDataTids.caption);
     expect(kebab).toHaveFocus();
   });
 
-  it('should handle blur by pressing tab', () => {
+  it('should handle blur by pressing tab', async () => {
     render(<Kebab />);
-    userEvent.tab();
+    await userEvent.tab();
 
     const kebab = screen.getByTestId(KebabDataTids.caption);
     expect(kebab).toHaveFocus();
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(kebab).not.toHaveFocus();
   });
 
-  it('should close by pressing escape', () => {
+  it('should close by pressing escape', async () => {
     const content = 'Kebab content';
     render(<Kebab>{content}</Kebab>);
 
-    userEvent.tab();
-    userEvent.keyboard('{Enter}');
+    await userEvent.tab();
+    await userEvent.keyboard('{Enter}');
     expect(screen.getByText(content)).toBeInTheDocument();
 
-    userEvent.keyboard('{Escape}');
+    await userEvent.keyboard('{Escape}');
 
     const kebab = screen.getByTestId(KebabDataTids.caption);
     expect(kebab).toHaveFocus();
@@ -77,7 +77,7 @@ describe('Kebab', () => {
       expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
-    it('should connect dropdown with button through aria-controls', () => {
+    it('should connect dropdown with button through aria-controls', async () => {
       render(
         <Kebab>
           <MenuItem>test</MenuItem>
@@ -85,7 +85,7 @@ describe('Kebab', () => {
       );
 
       const button = screen.getByRole('button');
-      userEvent.click(button);
+      await userEvent.click(button);
 
       expect(button).toHaveAttribute('aria-controls', expect.stringContaining(PopupIds.root));
       expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('id', expect.stringContaining(PopupIds.root));

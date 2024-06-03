@@ -9,20 +9,20 @@ import { componentsLocales as PasswordInputLocaleEn } from '../locale/locales/en
 import { componentsLocales as PasswordInputLocaleRu } from '../locale/locales/ru';
 
 describe('PasswordInput', () => {
-  it('should change icon after clicking on the toggle button', () => {
+  it('should change icon after clicking on the toggle button', async () => {
     render(<PasswordInput />);
 
     const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
     const toggleButtonInitialIcon = toggleButton.innerHTML;
 
-    userEvent.click(toggleButton);
+    await userEvent.click(toggleButton);
 
     const toggleButtonUpdatedIcon = toggleButton.innerHTML;
 
     expect(toggleButtonInitialIcon).not.toBe(toggleButtonUpdatedIcon);
   });
 
-  it('should change input type after clicking on the toggle button', () => {
+  it('should change input type after clicking on the toggle button', async () => {
     const inputValue = 'input';
 
     render(<PasswordInput value={inputValue} />);
@@ -33,7 +33,7 @@ describe('PasswordInput', () => {
     expect(input).toHaveAttribute('type', 'password');
 
     const toggleButton = screen.getByTestId(PasswordInputDataTids.eyeIcon);
-    userEvent.click(toggleButton);
+    await userEvent.click(toggleButton);
 
     // After clicking on the toggle button input should have type `text`
     expect(input).toHaveAttribute('type', 'text');
@@ -52,7 +52,7 @@ describe('PasswordInput', () => {
     expect(component.find(`[data-tid~="PasswordInputCapsLockDetector"]`)).toHaveLength(0);
   });
 
-  it('should focus on the input after clicking on the toggle button', () => {
+  it('should focus on the input after clicking on the toggle button', async () => {
     const inputValue = 'input';
 
     render(<PasswordInput value={inputValue} />);
@@ -64,12 +64,12 @@ describe('PasswordInput', () => {
     // Input should have type `password` at the moment
     expect(input).not.toHaveFocus();
 
-    userEvent.click(toggleButton);
+    await userEvent.click(toggleButton);
     // After clicking on the toggle button input should get focus
     // Input should have type `text` at the moment
     expect(input).toHaveFocus();
 
-    userEvent.click(toggleButton);
+    await userEvent.click(toggleButton);
     // After re-clicking on the toggle button input should get focus again
     // Input should have type `password` at the moment
     expect(input).toHaveFocus();
@@ -98,24 +98,24 @@ describe('PasswordInput', () => {
     expect(screen.queryByDisplayValue(inputValue)).not.toHaveFocus();
   });
 
-  it('handels onKeyPress event', () => {
+  it('handels onKeyPress event', async () => {
     const onKeyPress = jest.fn();
     const inputValue = 'input';
 
     render(<PasswordInput onKeyPress={onKeyPress} value={inputValue} />);
 
-    userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
+    await userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
 
     expect(onKeyPress).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', () => {
+  it('handels onKeyDown event', async () => {
     const onKeyDown = jest.fn();
     const inputValue = 'input';
 
     render(<PasswordInput onKeyDown={onKeyDown} value={inputValue} />);
 
-    userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
+    await userEvent.type(screen.getByDisplayValue(inputValue), '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
@@ -125,14 +125,14 @@ describe('PasswordInput', () => {
     expect(screen.queryByTestId(PasswordInputDataTids.eyeIcon)).not.toBeInTheDocument();
   });
 
-  it('should hide symbols on click outside', () => {
+  it('should hide symbols on click outside', async () => {
     const inputValue = 'input';
     render(<PasswordInput value={inputValue} />);
 
-    userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
+    await userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
     expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'text');
 
-    userEvent.click(document.body);
+    await userEvent.click(document.body);
     expect(screen.getByDisplayValue(inputValue)).toHaveAttribute('type', 'password');
   });
 
@@ -143,27 +143,27 @@ describe('PasswordInput', () => {
   });
 
   describe('a11y', () => {
-    it('sets value for aria-label attribute', () => {
+    it('sets value for aria-label attribute', async () => {
       const ariaLabel = 'aria-label';
       render(<PasswordInput aria-label={ariaLabel} />);
 
       // Clicking on the eye icon to turn input from password to text
-      userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
+      await userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
 
-    it('eye icon has correct aria-label attribute (ru)', () => {
+    it('eye icon has correct aria-label attribute (ru)', async () => {
       render(<PasswordInput />);
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleRu.eyeOpenedAriaLabel);
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleRu.eyeClosedAriaLabel);
     });
 
-    it('eye icon has correct aria-label attribute (en)', () => {
+    it('eye icon has correct aria-label attribute (en)', async () => {
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <PasswordInput />
@@ -172,7 +172,7 @@ describe('PasswordInput', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleEn.eyeOpenedAriaLabel);
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', PasswordInputLocaleEn.eyeClosedAriaLabel);
     });
@@ -188,7 +188,7 @@ describe('PasswordInput', () => {
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
     });
 
-    it('sets custom value for `eyeClosedAriaLabel` locale', () => {
+    it('sets custom value for `eyeClosedAriaLabel` locale', async () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { PasswordInput: { eyeClosedAriaLabel: customAriaLabel } } }}>
@@ -196,7 +196,7 @@ describe('PasswordInput', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
     });

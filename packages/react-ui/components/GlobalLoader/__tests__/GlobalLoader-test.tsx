@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
@@ -177,21 +177,29 @@ describe('Global Loader', () => {
     });
 
     it('should set error', async () => {
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
 
-      GlobalLoader.reject();
+      act(() => {
+        GlobalLoader.reject();
+      });
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'error');
     });
 
     it('should set success', async () => {
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
 
-      GlobalLoader.done();
+      act(() => {
+        GlobalLoader.done();
+      });
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'success');
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
@@ -199,10 +207,16 @@ describe('Global Loader', () => {
     });
 
     it('should start after success animation', async () => {
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      GlobalLoader.done();
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.done();
+      });
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
 

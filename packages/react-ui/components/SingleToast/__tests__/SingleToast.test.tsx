@@ -10,7 +10,7 @@ import { ToastLocaleHelper } from '../../Toast/locale';
 
 describe('ToastView', () => {
   describe('a11y', () => {
-    it('has correct aria-label on close button', () => {
+    it('has correct aria-label on close button', async () => {
       function showComplexNotification() {
         SingleToast.push(
           'Successfully saved',
@@ -28,7 +28,7 @@ describe('ToastView', () => {
         </>,
       );
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute(
         'aria-label',
@@ -57,7 +57,7 @@ describe('ToastView', () => {
         </>,
       );
 
-      userEvent.click(screen.getByRole('button', { name: buttonName }));
+      await userEvent.click(screen.getByRole('button', { name: buttonName }));
 
       expect(screen.getByTestId(ToastDataTids.action)).toHaveAttribute('aria-label', ariaLabel);
     });

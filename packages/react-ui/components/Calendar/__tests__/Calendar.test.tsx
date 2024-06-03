@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -17,10 +17,10 @@ describe('Calendar', () => {
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
-  it('should pass max and min date to year select', () => {
+  it('should pass max and min date to year select', async () => {
     render(<Calendar value="02.06.2017" onValueChange={jest.fn()} minDate="21.02.2017" maxDate="15.07.2020" />);
 
-    userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
+    await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015')).toHaveAttribute('data-prop-disabled', 'true');
     expect(screen.getByText('2018')).toHaveAttribute('data-prop-disabled', 'false');
     expect(screen.queryByText('2021')).not.toBeInTheDocument();
@@ -86,7 +86,8 @@ describe('Calendar', () => {
       const date = '1.2.2021';
       render(<Calendar value={date} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      expect(monthButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} Февраль`,
       );
@@ -100,7 +101,8 @@ describe('Calendar', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      expect(monthButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesEn.selectChosenAriaLabel} ${DateSelectLocalesEn.selectMonthAriaLabel} February`,
       );
@@ -110,7 +112,8 @@ describe('Calendar', () => {
       const date = '1.2.2021';
       render(<Calendar value={date} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );
@@ -124,7 +127,8 @@ describe('Calendar', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesEn.selectChosenAriaLabel} ${DateSelectLocalesEn.selectYearAriaLabel} 2021`,
       );
@@ -138,7 +142,8 @@ describe('Calendar', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      expect(monthButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} Февраль`,
       );
@@ -152,7 +157,8 @@ describe('Calendar', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} 2021`,
       );
@@ -166,32 +172,32 @@ describe('Calendar', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${customAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );
     });
 
-    it('month selector sets correct value for aria-expanded', () => {
+    it('month selector sets correct value for aria-expanded', async () => {
       render(<Calendar value={'1.2.2021'} />);
 
-      const monthButton = screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button') as Element;
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
 
       expect(monthButton).toHaveAttribute('aria-expanded', 'false');
 
-      userEvent.click(monthButton);
+      await userEvent.click(monthButton);
 
       expect(monthButton).toHaveAttribute('aria-expanded', 'true');
     });
 
-    it('year selector sets correct value for aria-expanded', () => {
+    it('year selector sets correct value for aria-expanded', async () => {
       render(<Calendar value={'1.2.2021'} />);
 
-      const yearButton = screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button') as Element;
-
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
       expect(yearButton).toHaveAttribute('aria-expanded', 'false');
 
-      userEvent.click(yearButton);
+      await userEvent.click(yearButton);
 
       expect(yearButton).toHaveAttribute('aria-expanded', 'true');
     });
@@ -199,8 +205,8 @@ describe('Calendar', () => {
     it('month selector has aria-controls attribute', async () => {
       render(<Calendar value={'1.2.2021'} />);
 
-      const monthButton = screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button') as Element;
-      userEvent.click(monthButton);
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      await userEvent.click(monthButton);
 
       expect(monthButton).toHaveAttribute('aria-controls', expect.stringContaining(DateSelectDataTids.menu));
       await waitFor(() => {
@@ -214,8 +220,8 @@ describe('Calendar', () => {
     it('year selector has aria-controls attribute', async () => {
       render(<Calendar value={'1.2.2021'} />);
 
-      const yearButton = screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button') as Element;
-      userEvent.click(yearButton);
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      await userEvent.click(yearButton);
 
       expect(yearButton).toHaveAttribute('aria-controls', expect.stringContaining(DateSelectDataTids.menu));
       await waitFor(() => {
@@ -229,25 +235,29 @@ describe('Calendar', () => {
     it('month selector renders button when active', () => {
       render(<Calendar value={'31.12.2021'} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toBeInTheDocument();
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      expect(monthButton).toBeInTheDocument();
     });
 
     it('year selector renders button when active', () => {
       render(<Calendar value={'31.12.2021'} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toBeInTheDocument();
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toBeInTheDocument();
     });
 
     it('month selector renders span when disabled', () => {
       render(<Calendar value={'31.12.2021'} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[1].querySelector('span')).toBeInTheDocument();
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[1]).queryByRole('button'); //с помощью RTL нельзя проверить, что есть спан. Но мы можем проверить, что это не кнопка
+      expect(monthButton).not.toBeInTheDocument();
     });
 
     it('year selector renders span when disabled', () => {
       render(<Calendar value={'31.12.2021'} />);
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[1].querySelector('span')).toBeInTheDocument();
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[1]).queryByRole('button'); //с помощью RTL нельзя проверить, что есть спан. Но мы можем проверить, что это не кнопка
+      expect(yearButton).not.toBeInTheDocument();
     });
   });
 });

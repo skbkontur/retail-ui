@@ -178,23 +178,25 @@ export const Example_6 = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-      <ValidationContainer ref={refContainer}>
-        <div style={{ padding: 50, height: 200, position: 'relative' }}>
-          <div style={{ position: 'absolute', top: 100 }}>
-            <ValidationWrapper validationInfo={validateValue1()}>
-              <Input value={value1} onValueChange={setValue1} />
-            </ValidationWrapper>
+    <div style={{ height: '100vh', width: '100vw' }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+        <ValidationContainer ref={refContainer}>
+          <div style={{ padding: 50, height: 200, position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 100 }}>
+              <ValidationWrapper validationInfo={validateValue1()}>
+                <Input value={value1} onValueChange={setValue1} />
+              </ValidationWrapper>
+            </div>
+            <div style={{ position: 'absolute', top: 20 }}>
+              <ValidationWrapper validationInfo={validateValue2()}>
+                <Input value={value2} onValueChange={setValue2} />
+              </ValidationWrapper>
+            </div>
           </div>
-          <div style={{ position: 'absolute', top: 20 }}>
-            <ValidationWrapper validationInfo={validateValue2()}>
-              <Input value={value2} onValueChange={setValue2} />
-            </ValidationWrapper>
-          </div>
-        </div>
-        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
-      </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
+          <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+    </div>
   );
 };
 
@@ -237,44 +239,46 @@ export const Example_8 = () => {
   const submit = () => refContainer.current?.submit();
 
   return (
-    <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
-      <div
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 0,
-          right: 0,
-          left: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80,
-        }}
-      >
-        <Button onClick={() => submit()}>Отправить сверху</Button>
-      </div>
-      <div style={{ padding: 10 }}>
-        <div style={{ height: 600, backgroundColor: '#eee' }} />
-        <ValidationWrapper validationInfo={validateValue(value)}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-        <div style={{ height: 1000, backgroundColor: '#eee' }} />
-      </div>
-      <div
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 600,
-          right: 0,
-          left: 0,
-          bottom: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80,
-        }}
-      >
-        <Button onClick={() => submit()}>Отправить снизу</Button>
-      </div>
-    </ValidationContainer>
+    <div style={{ width: '100vw' }}>
+      <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 0,
+            right: 0,
+            left: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => submit()}>Отправить сверху</Button>
+        </div>
+        <div style={{ padding: 10 }}>
+          <div style={{ height: 600, backgroundColor: '#eee' }} />
+          <ValidationWrapper validationInfo={validateValue(value)}>
+            <Input value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+          <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 600,
+            right: 0,
+            left: 0,
+            bottom: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => submit()}>Отправить снизу</Button>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 

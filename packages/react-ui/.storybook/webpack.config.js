@@ -1,9 +1,9 @@
 const path = require('path');
-const webpack = require('webpack');
+
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
-module.exports = async ({ config, mode }) => {
+module.exports = async ({ config }) => {
   config.devtool = 'eval-source-map';
 
   if (isTestEnv) {
@@ -15,7 +15,9 @@ module.exports = async ({ config, mode }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   // storybook's rule for css doesn't handle css-modules
-  const filteredStorybooksWebpackRules = (config.module.rules || []).slice(2).filter((r) => !r.test.test('.css'));
+  const filteredStorybooksWebpackRules = (config.module.rules || [])
+    .slice(2)
+    .filter((r) => r.test && !r.test.test('.css'));
 
   config.module.rules = [
     ...filteredStorybooksWebpackRules,
@@ -25,13 +27,12 @@ module.exports = async ({ config, mode }) => {
       exclude: /node_modules/,
       options: {
         babelrc: false,
-        envName: 'cjs',
         extends: path.join(__dirname, '../.babelrc.js'),
       },
     },
     {
       test: /\.css$/,
-      loaders: [
+      use: [
         'style-loader',
         {
           loader: 'dts-css-modules-loader',
@@ -45,6 +46,7 @@ module.exports = async ({ config, mode }) => {
             modules: {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
+              namedExport: false,
             },
           },
         },

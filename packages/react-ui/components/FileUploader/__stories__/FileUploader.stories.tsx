@@ -9,7 +9,6 @@ export default {
   decorators: [(storyFn: () => JSX.Element) => <div style={{ padding: '10px' }}>{storyFn()}</div>],
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const loadingRequest = () => new Promise<void>(() => {});
 
 const successRequest = () =>

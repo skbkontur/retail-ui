@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { CreeveyTests, Story } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -9,7 +9,6 @@ import { Toggle } from '../../Toggle';
 import { Modal } from '../../Modal';
 import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
-import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
@@ -265,7 +264,7 @@ class SidePageWithCloseConfiguration extends React.Component {
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
             this.setState(
               (state: SidePageWithCloseConfigurationState) =>
-                ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>),
+                ({ [propertyName]: !state[propertyName] }) as Shape<SidePageWithCloseConfigurationState>,
             );
           }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
@@ -625,72 +624,8 @@ WithInputInHeader.parameters = { creevey: { skip: true } };
 export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 
-SidePageOverAnotherSidePageStory.parameters = {
-  creevey: {
-    tests: {
-      async 'open internal side-page'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
-      },
-      async 'close internal side-page'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
-      },
-    },
-  },
-};
-
 export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
 StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
-
-StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
-  creevey: {
-    tests: {
-      async 'sticky header, open and close internal side-page'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-
-          if (sidepageContainer) {
-            sidepageContainer.scrollTop = 3000;
-          }
-        });
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-          'sticky header, open and close internal side-page',
-        );
-      },
-    },
-  },
-};
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
 SidePageWithConfiguration.storyName = 'SidePage with configuration';
@@ -719,78 +654,15 @@ export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSi
 LeftSidePageWithRightSidePageStory.storyName = 'Left SidePage With Right SidePage';
 LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: null } };
 
-const simpleTests: CreeveyTests = {
-  async 'open side-page'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-      .perform();
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
-  },
-};
-
 export const Simple: Story = () => <SimpleSidePage />;
 
-Simple.parameters = {
-  creevey: {
-    tests: simpleTests,
-  },
-};
-
 export const MobileSimple: Story = () => <SimpleSidePage />;
-
-MobileSimple.parameters = {
-  creevey: {
-    tests: simpleTests,
-  },
-};
 
 export const BodyWithoutFooter: Story = () => <Sample withoutFooter withContent withLongBody />;
 BodyWithoutFooter.storyName = 'Body without Footer';
 
-BodyWithoutFooter.parameters = {
-  creevey: {
-    tests: {
-      async 'scroll to bottom'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
-          sidepageContainer.scrollTop = 3000;
-        });
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom');
-      },
-    },
-  },
-};
-
 export const BodyWithoutHeader: Story = () => <Sample withoutHeader withContent withLongBody />;
 BodyWithoutHeader.storyName = 'Body without Header';
-
-BodyWithoutHeader.parameters = {
-  creevey: {
-    tests: {
-      async 'open side-page without header'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page without header');
-      },
-    },
-  },
-};
 
 export const SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag: Story = () => {
   return (
@@ -801,45 +673,6 @@ export const SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag: Story = () =
 };
 SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.storyName =
   'SidePage with sidePageEnableFocusLockWhenBackgroundBlocked feature flag';
-SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.parameters = {
-  creevey: {
-    skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } },
-    tests: {
-      async 'open side-page'() {
-        const pressTab = async () => {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.TAB)
-            .perform();
-          await delay(5000);
-        };
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await delay(1000);
-        await pressTab();
-        const firstTimeTabPress = await this.browser.takeScreenshot();
-        await pressTab();
-        const secondTimeTabPress = await this.browser.takeScreenshot();
-        await pressTab();
-        const thirdTimeTabPress = await this.browser.takeScreenshot();
-        await pressTab();
-        const fourthTimeTabPress = await this.browser.takeScreenshot();
-        await this.expect({
-          firstTimeTabPress,
-          secondTimeTabPress,
-          thirdTimeTabPress,
-          fourthTimeTabPress,
-        }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const SidePageWithVariableContent = () => <WithVariableContent />;
 SidePageWithVariableContent.storyName = 'SidePage with variable content';
@@ -847,50 +680,6 @@ SidePageWithVariableContent.parameters = { creevey: { skip: true } };
 
 export const TestUpdateLayoutMethodStory: Story = () => <TestUpdateLayoutMethod />;
 TestUpdateLayoutMethodStory.storyName = 'test updateLayout method';
-
-TestUpdateLayoutMethodStory.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
-      },
-      async 'Body content has been changed'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="toggle-body-content"]' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Body content has been changed');
-      },
-      async 'child component content has been changed'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-          'child component content has been changed',
-        );
-      },
-      async 'update layout'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid="update"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('update layout');
-      },
-    },
-  },
-};
 
 export const WithScrollableParentContentAndScrollingBeforeOpen = () => (
   <div style={{ width: '300px' }}>
@@ -909,38 +698,6 @@ WithScrollableParentContentAndScrollingBeforeOpen.parameters = { creevey: { skip
 
 export const WithLongTitleStory: Story = () => <WithLongTitle />;
 WithLongTitleStory.storyName = 'With long title';
-
-WithLongTitleStory.parameters = {
-  creevey: {
-    tests: {
-      async 'not fixed'() {
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
-      },
-      async 'fixed close element'() {
-        await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]') as HTMLElement;
-          const fixedHeaderHeight = 50;
-
-          sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
-        });
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
-      },
-      async 'fixed header'() {
-        await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]') as HTMLElement;
-          const fixedHeaderHeight = 50;
-
-          sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
-        });
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed header');
-      },
-    },
-  },
-};
 
 const SidePageHeader = () => <SidePage.Header>Header</SidePage.Header>;
 const SidePageBody = () => {
@@ -992,78 +749,3 @@ export const SidePageWithChildrenFromOtherComponent: Story = () => {
 };
 
 SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Children';
-SidePageWithChildrenFromOtherComponent.parameters = {
-  creevey: {
-    tests: {
-      async 'without header, footer'() {
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('without header, footer');
-      },
-      async 'scroll to bottom without header, footer'() {
-        await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
-          sidepageContainer.scrollTop = 3000;
-        });
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom without header, footer');
-      },
-      async 'with header, footer'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-          .pause(1000)
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('with header, footer');
-      },
-      async 'scroll to bottom with header, footer'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
-          sidepageContainer.scrollTop = 3000;
-        });
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with header, footer');
-      },
-      async 'with panel'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('with panel');
-      },
-      async 'scroll to bottom with panel'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
-          sidepageContainer.scrollTop = 3000;
-        });
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with panel');
-      },
-    },
-  },
-};
