@@ -18,7 +18,8 @@ import { OkIcon } from '../../../internal/icons/16px';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
-  title: 'DropdownMenu',
+  title: 'Menu/DropdownMenu',
+  component: DropdownMenu,
   decorators: [
     (Story: () => JSX.Element) => (
       <div

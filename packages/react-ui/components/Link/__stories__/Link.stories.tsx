@@ -11,7 +11,8 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
-  title: 'Link',
+  title: 'Navigation/Link',
+  component: Link,
   parameters: {
     creevey: {
       skip: {

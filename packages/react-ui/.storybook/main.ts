@@ -8,6 +8,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/blocks',
     '@storybook/addon-docs',
+    //'storybook-addon-live-examples',
     {
       name: '@storybook/addon-essentials',
       options: {

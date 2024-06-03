@@ -5,7 +5,8 @@ import { MenuFooter } from '../MenuFooter';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'MenuFooter',
+  title: 'Menu/MenuFooter',
+  component: MenuFooter,
 } as Meta;
 
 export const Size = () => {

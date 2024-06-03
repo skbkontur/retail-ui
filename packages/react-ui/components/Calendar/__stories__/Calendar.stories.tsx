@@ -7,7 +7,10 @@ import { Gapped } from '../../Gapped';
 import { LocaleContext } from '../../../lib/locale';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 
-export default { title: 'Calendar' };
+export default {
+    title: 'Date/Calendar',
+    component: Calendar,
+};
 
 export const CalendarWithBottomSeparator: Story = () => {
   const [date, setDate] = React.useState('12.05.2022');

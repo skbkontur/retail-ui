@@ -93,7 +93,8 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
 }
 
 export default {
-  title: 'DatePicker',
+  title: 'Date/DatePicker',
+  component: DatePicker,
 } as Meta;
 
 export const WithMouseeventHandlers: Story = () => {

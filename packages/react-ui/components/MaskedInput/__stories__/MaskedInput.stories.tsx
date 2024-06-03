@@ -7,7 +7,8 @@ import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input } from '../../Input';
 
 export default {
-  title: 'MaskedInput',
+  title: 'Input elements/MaskedInput',
+  component: MaskedInput,
 } as Meta;
 
 type InputState = Partial<MaskedInputProps>;

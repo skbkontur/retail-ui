@@ -7,7 +7,8 @@ import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 
 export default {
-  title: 'Radio',
+  title: 'Choose/Radio',
+  component: Radio,
   parameters: {
     creevey: {
       skip: {

@@ -12,7 +12,8 @@ import { Tooltip } from '../../Tooltip';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
-  title: 'Hint',
+  title: 'Popup/Hint',
+  component: Hint,
   decorators: [
     (Story: () => JSX.Element) => (
       <div style={{ padding: '100px 300px' }}>

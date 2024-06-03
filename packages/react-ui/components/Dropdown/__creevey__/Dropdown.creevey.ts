@@ -90,7 +90,7 @@ kind('Dropdown', () => {
 
     test('scrolled', async function () {
       await this.browser
-        .actions()
+        .actions({ async: undefined, bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       const opened = await this.takeScreenshot();

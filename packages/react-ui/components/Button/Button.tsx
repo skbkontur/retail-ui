@@ -43,34 +43,22 @@ export interface ButtonProps
   /** @ignore */
   _noRightPadding?: boolean;
 
-  /**
-   * Применяет к кнопке стили псевдокласса `:active`.
-   */
+  /** Применяет к кнопке стили псевдокласса `:active`. */
   active?: boolean;
 
-  /**
-   * CSS-свойство `text-align`.
-   */
+  /** Задаёт выравнивание тексту в кнопке. */
   align?: React.CSSProperties['textAlign'];
 
-  /**
-   * Превращает обычную кнопку в кнопку со стрелкой.
-   */
+  /** Превращает обычную кнопку в кнопку со стрелкой. */
   arrow?: boolean | 'left';
 
-  /**
-   * Даёт кнопке фокус после окончания загрузки страницы.
-   */
+  /** Даёт кнопке фокус после окончания загрузки страницы.*/
   autoFocus?: boolean;
 
-  /**
-   * Убирает обводку у кнопки.
-   */
+  /** Убирает обводку у кнопки. */
   borderless?: boolean;
 
-  /**
-   * @ignore
-   */
+  /** @ignore */
   checked?: boolean;
 
   children?: React.ReactNode;
@@ -78,113 +66,70 @@ export interface ButtonProps
   /** @ignore */
   corners?: React.CSSProperties;
 
-  /**
-   * Отключенное состояние кнопки.
-   */
+  /** Делает кнопку недоступной. */
   disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
 
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
 
-  /**
-   * Иконка слева от текста кнопки.
-   */
+  /** Добавляет иконку слева от текста кнопки. */
   icon?: React.ReactElement;
 
-  /**
-   * Иконка справа от текста кнопки.
-   */
+  /** Добавляет иконку справа от текста кнопки. */
   rightIcon?: React.ReactElement;
 
-  /**
-   * Переводит кнопку в состояние загрузки.
-   */
+  /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
 
-  /**
-   * Сужает кнопку.
-   */
+  /** Сужает кнопку. */
   narrow?: boolean;
 
-  /**
-   * HTML-событие `onblur`.
-   */
+  /** Задаёт HTML-событие `onblur`. */
   onBlur?: React.FocusEventHandler<HTMLButtonElement>;
 
-  /**
-   * HTML-событие `onclick`.
-   */
+  /** Задаёт HTML-событие `onclick`. */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 
-  /**
-   * HTML-событие `onfocus`.
-   */
+  /** Задаёт HTML-событие `onfocus`. */
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 
-  /**
-   * HTML-событие `keydown`.
-   */
+  /** Задаёт HTML-событие `keydown`. */
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 
-  /**
-   * HTML-событие `onmouseenter`.
-   */
+  /** Задаёт HTML-событие `onmouseenter`. */
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
 
-  /**
-   * HTML-событие `mouseleave`.
-   */
+  /** Задаёт HTML-событие `mouseleave`. */
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
 
-  /**
-   * HTML-событие `onmouseover`.
-   */
+  /** Задаёт HTML-событие `onmouseover`. */
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
-  /**
-   * Задаёт размер кнопки.
-   */
+  /** Задаёт размер кнопки. */
   size?: SizeProp;
 
-  /**
-   * HTML-атрибут `type`.
-   */
+  /** Задаёт HTML-атрибут `type`. */
   type?: ButtonType;
 
-  /**
-   * HTML-атрибут `title`.
-   */
+  /** Задаёт HTML-атрибут `title`. */
   title?: string;
 
-  /**
-   * Стиль кнопки.
-   *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
-   */
+  /** Задаёт стиль кнопки. */
   use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
 
-  /**
-   * Состояние валидации при предупреждении.
-   */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
 
-  /**
-   * CSS-свойство `width`.
-   */
+  /** Задаёт ширину кнопки. */
   width?: number | string;
 
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+  /** Задаёт объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
 

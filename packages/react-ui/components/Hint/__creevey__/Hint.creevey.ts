@@ -6,7 +6,9 @@ kind('Hint', () => {
   story('SetManualAndOpenedPropOnClick', () => {
     test('click on hint', async function () {
       await this.browser
-        .actions()
+        .actions({
+          async: undefined, bridge: true,
+        })
         .click(this.browser.findElement({ css: '#main' }))
         .perform();
       await delay(1000);
@@ -39,7 +41,9 @@ kind('Hint', () => {
 
     test('hover', async function () {
       await this.browser
-        .actions()
+        .actions({
+          async: undefined, bridge: true,
+        })
         .move({
           origin: this.browser.findElement({ css: '[data-tid="icon"]' }),
         })

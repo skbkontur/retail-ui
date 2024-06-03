@@ -21,7 +21,8 @@ const SpinnerLikeIcon = () => (
 );
 
 export default {
-  title: 'Spinner',
+  title: 'Action/Spinner',
+  component: Spinner,
   parameters: {
     creevey: {
       skip: {

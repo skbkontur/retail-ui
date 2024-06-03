@@ -4,6 +4,8 @@ import { Button } from '../Button';
 import { Gapped } from '../../Gapped';
 import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
 
+[//]: # (import { Canvas } from 'storybook-addon-live-examples';)
+
 <Meta of={ButtonStories} />
 
 # Button
@@ -15,8 +17,6 @@ import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
 <Primary />
 
 ## Пропы
-тут будет таблица с пропами
-
 <Controls />
 
 ## Примеры использования
@@ -37,7 +37,6 @@ import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
 </Canvas>
 
 ### Иконка
-В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
 <Canvas>
   <Gapped gap={5}>
     <Button icon={<XIcon16Regular />}>Закрыть</Button>
@@ -46,32 +45,31 @@ import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
   </Gapped>
 </Canvas>
 
-### Размеры
-У кнопки есть 3 стандартных размера.
+### Размер
 <Canvas>
-  <div
-    style={{
-      display: "flex",
-      alignItems: "end",
-      gap: '10px',
-    }}
-  >
+  <div style={{ display: "flex", alignItems: "end", gap: '10px' }}>
     <Button size="small">Маленькая</Button>
     <Button size="medium">Средняя</Button>
     <Button size="large">Большая</Button>
   </div>
 </Canvas>
 
+### Ширина
+<Canvas>
+    <Button width={40}>Закрыть</Button>
+</Canvas>
+
+### Состояние валидации
+<Canvas>
+  <Button warning>Закрыть</Button>
+  <Button error>Закрыть</Button>
+</Canvas>
+
 ### Стрелка
-Кнопки могут принимать вид стрелок. В таком случае иконка привязывается к краю кнопки.
 <Canvas>
   <Gapped gap={5}>
-    <Button arrow="left" size="medium">
-      Назад
-    </Button>
-    <Button arrow size="medium">
-      Далее
-    </Button>
+    <Button arrow="left" size="medium">Назад</Button>
+    <Button arrow size="medium">Далее</Button>
   </Gapped>
 </Canvas>
 
@@ -81,23 +79,14 @@ import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
 <Canvas>
   <Gapped>
-    <Button width={150} loading={true}>
-      Удалить
-    </Button>
-    <Button icon={<MinusCircleIcon16Light />} width={150} loading={true}>
-      Удалить
-    </Button>
-    <Button rightIcon={<MinusCircleIcon16Light />} width={150} loading={true}>
-      Удалить
-    </Button>
-    <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150} loading={true}>
-      Удалить
-    </Button>
+    <Button width={150} loading={true}>Удалить</Button>
+    <Button icon={<MinusCircleIcon16Light />} width={150} loading={true}>Удалить</Button>
+    <Button rightIcon={<MinusCircleIcon16Light />} width={150} loading={true}>Удалить</Button>
+    <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150} loading={true}>Удалить</Button>
   </Gapped>
 </Canvas>
 
-### Проп theme
-Пример кнопки с пропом theme
+### Проп темы
 <Canvas>
   <Gapped>
     <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
@@ -105,27 +94,6 @@ import { MinusCircleIcon16Light, XIcon16Regular } from '@skbkontur/icons';
     <Button>Ok</Button>
   </Gapped>
 </Canvas>
-
-[//]: # (###)
-
-[//]: # (.)
-
-[//]: # (<Canvas>)
-
-[//]: # ()
-[//]: # (</Canvas>)
-
-[//]: # ()
-[//]: # (###)
-
-[//]: # (.)
-
-[//]: # (<Canvas>)
-
-[//]: # ()
-[//]: # (</Canvas>)
-
-
 
 # h1
 ## h2

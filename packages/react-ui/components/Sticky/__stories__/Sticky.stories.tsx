@@ -112,7 +112,10 @@ const withThinContainer = (Story: () => JSX.Element) => (
   </div>
 );
 
-export default { title: 'Sticky' };
+export default {
+    title: 'Layout/Sticky',
+    component: Sticky,
+};
 
 export const WideContainer: Story = () => <StickyWithWideContainer />;
 

@@ -17,14 +17,20 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
 
 export default {
-  title: 'Actions/Button',
+  title: 'Action/Button',
   component: Button,
   argTypes: {
-    label: { size: 'string', defaultValue: 'medium' },
-  },
+    size: {control: "radio"}
+  }
 } as Meta;
 
 type ButtonState = Partial<ButtonProps>;
+
+export const Default: Story = () => (
+  <Button data-tid="test-button">
+    Здесь рисуется первая история из файла .stories.tsx
+  </Button>
+);
 
 const useStates: ButtonState[] = [
   { use: 'default' },
