@@ -53,11 +53,6 @@ kind('Hint', () => {
       skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     });
   });
-  story('KebabHintRemovePinFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'only for 22 theme': { in: /^(?!\b.*2022.*\b)/ } },
-    });
-  });
   story('HintNearScreenEdge', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: 'body',

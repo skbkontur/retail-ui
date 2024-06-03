@@ -202,7 +202,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
-    const hasPin = !this.featureFlags.kebabHintRemovePin || !isTheme2022(this.theme);
+    const hasPin = !isTheme2022(this.theme);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

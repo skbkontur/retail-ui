@@ -124,20 +124,6 @@ kind('Kebab', () => {
     kebabTests();
   });
 
-  story('KebabHintRemovePinFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: /^(?!\b.*2022.*\b)/ },
-        'story-skip-1': {
-          in: /(?!\b.*2022.*\b)/,
-          tests: ['plain', 'hovered', 'clickedOnButton2ndTime', 'tabPress', 'enterPress'],
-        },
-      },
-    });
-
-    kebabTests();
-  });
-
   story('MobileExampleWithHorizontalPadding', ({ setStoryParameters }) => {
     setStoryParameters({ captureElement: null });
 
