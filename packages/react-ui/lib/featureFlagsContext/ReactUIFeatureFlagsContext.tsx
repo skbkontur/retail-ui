@@ -1,7 +1,6 @@
 import React from 'react';
 
 export interface ReactUIFeatureFlags {
-  tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
   kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
@@ -14,7 +13,6 @@ export interface ReactUIFeatureFlags {
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  tokenInputRemoveWhitespaceFromDefaultDelimiters: false,
   kebabHintRemovePin: false,
   sidePageEnableFocusLockWhenBackgroundBlocked: false,
   spinnerLoaderRemoveDefaultCaption: false,

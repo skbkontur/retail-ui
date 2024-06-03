@@ -4,7 +4,6 @@
 
 ```typescript static
 export interface ReactUIFeatureFlags {
-  tokenInputRemoveWhitespaceFromDefaultDelimiters?: boolean;
   kebabHintRemovePin?: boolean;
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
   spinnerLoaderRemoveDefaultCaption?: boolean;
@@ -19,31 +18,10 @@ export interface ReactUIFeatureFlags {
 ```jsx static
 import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
+<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
 ```
 
 ## Использование
-
-### tokenInputRemoveWhitespaceFromDefaultDelimiters
-
-В TokenInput из дефолтных разделителей удалён пробел.
-В React UI 5.0 фича будет применена по умолчанию.
-
-```jsx harmony
-import { TokenInput, TokenInputType, Token, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-const [selectedItems, setSelectedItems] = React.useState([]);
-const getItems = () => {};
-
-<ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
-  <TokenInput
-    type={TokenInputType.Combined}
-    getItems={getItems}
-    selectedItems={selectedItems}
-    onValueChange={setSelectedItems}
-  />
-</ReactUIFeatureFlagsContext.Provider>
-```
 
 ### kebabHintRemovePin
 
