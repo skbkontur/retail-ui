@@ -2,7 +2,6 @@ import React from 'react';
 
 export interface ReactUIFeatureFlags {
   sidePageEnableFocusLockWhenBackgroundBlocked?: boolean;
-  spinnerLoaderRemoveDefaultCaption?: boolean;
   menuItemsAtAnyLevel?: boolean;
   textareaUseSafari17Workaround?: boolean;
   linkFocusOutline?: boolean;
@@ -13,7 +12,6 @@ export interface ReactUIFeatureFlags {
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   sidePageEnableFocusLockWhenBackgroundBlocked: false,
-  spinnerLoaderRemoveDefaultCaption: false,
   menuItemsAtAnyLevel: false,
   textareaUseSafari17Workaround: false,
   linkFocusOutline: false,
