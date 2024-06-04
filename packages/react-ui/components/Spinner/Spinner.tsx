@@ -8,6 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+
 import { styles } from './Spinner.styles';
 
 const types = ['big', 'mini', 'normal'] as const;
