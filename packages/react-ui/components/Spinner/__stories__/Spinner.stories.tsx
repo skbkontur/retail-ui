@@ -42,6 +42,7 @@ export const Normal = () => <Spinner />;
 export const Big = () => <Spinner type="big" />;
 export const Mini = () => <Spinner type="mini" />;
 export const MiniDimmed = () => <Spinner type="mini" dimmed />;
+export const WithCaption = () => <Spinner caption={'Loading'} />;
 export const WithCustomColor = () => <Spinner type="big" color={'pink'} />;
 export const WithCustomWidth = () => <Spinner type="big" width={10} />;
 MiniDimmed.storyName = 'Mini dimmed';
