@@ -26,15 +26,15 @@ CalendarWithBottomSeparator.parameters = {
   },
 };
 
-const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
+const CustomDay: React.FC<CalendarDayProps> = (props) => {
   const isEven = (num: number): boolean => num % 2 === 0;
-  const { date: day } = props.date;
+  const day = Number(props.date.split('.')[0]);
 
   return <CalendarDay {...props}>{isEven(day) ? '#' : day}</CalendarDay>;
 };
 
 export const CalendarWithCustomDates: Story = () => {
-  return <Calendar value={'12.05.2022'} renderDay={(props) => <CustomDayItem {...props} />} />;
+  return <Calendar value={'12.05.2022'} renderDay={(props) => <CustomDay {...props} />} />;
 };
 
 CalendarWithCustomDates.parameters = {

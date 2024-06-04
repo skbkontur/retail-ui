@@ -2,9 +2,8 @@
 
 ```jsx harmony
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';
-import * as CDS from '@skbkontur/react-ui/components/Calendar/CalendarDateShape';
 
-const date = CDS.fromString('20.05.2024');
+const date = '20.05.2024';
 const style = { width: 32, height: 32 };
 
 <Gapped>

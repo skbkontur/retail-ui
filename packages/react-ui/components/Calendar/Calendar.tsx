@@ -403,11 +403,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   }
 
   private handleDateClick = (dateShape: CalendarDateShape) => {
-    const value = InternalDateTransformer.dateToInternalString({
-      date: dateShape.date,
-      month: CalendarUtils.getMonthInHumanFormat(dateShape.month),
-      year: dateShape.year,
-    });
+    const value = InternalDateTransformer.dateToHumanString(dateShape);
 
     this.props.onValueChange?.(value);
   };

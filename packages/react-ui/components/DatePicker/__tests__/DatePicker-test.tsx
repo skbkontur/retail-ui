@@ -101,7 +101,7 @@ describe('DatePicker', () => {
 
   it('renders day cells with renderDay prop', async () => {
     const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
-      const { date, month, year } = props.date;
+      const [date, month, year] = props.date.split('.').map(Number);
       const isCustom = date === 2 && month === 6 && year === 2017;
       return (
         <CalendarDay {...props}>

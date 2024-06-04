@@ -1,5 +1,4 @@
 import React, { useContext, memo } from 'react';
-import isEqual from 'lodash.isequal';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,7 +10,6 @@ import { LocaleContext } from '../../lib/locale';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import * as CDS from './CalendarDateShape';
 import { styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
 
@@ -20,7 +18,7 @@ export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement
   isSelected?: boolean;
   isDisabled?: boolean;
   isWeekend?: boolean;
-  date: CDS.CalendarDateShape;
+  date: string;
 }
 
 /**
@@ -36,13 +34,14 @@ export const CalendarDay: React.FC<CalendarDayProps> = memo(
       const theme = useContext(ThemeContext);
       const _isTheme2022 = isTheme2022(theme);
 
-      const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
       const { langCode } = useContext(LocaleContext);
-      const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${new InternalDate({ langCode })
-        .setComponents({ ...date })
-        .toA11YFormat()}`;
+      const internalDate = new InternalDate({ langCode, value: date });
 
-      const caption = children ?? date.date;
+      const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
+      const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${internalDate.toA11YFormat()}`;
+
+      const { date: day } = internalDate.getComponentsLikeNumber();
+      const caption = children ?? day;
 
       return (
         <button
@@ -68,9 +67,4 @@ export const CalendarDay: React.FC<CalendarDayProps> = memo(
       );
     },
   ),
-  function arePropsEqual(oldProps, newProps) {
-    const { date: oldDate, ...oldRest } = oldProps;
-    const { date: newDate, ...newRest } = newProps;
-    return Boolean(CDS.isEqual(oldDate, newDate) && isEqual(oldRest, newRest));
-  },
 );
