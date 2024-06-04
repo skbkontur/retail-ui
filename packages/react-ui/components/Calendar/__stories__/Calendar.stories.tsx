@@ -4,7 +4,7 @@ import { Calendar, CalendarDay, CalendarDayProps } from '../';
 import { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import * as CDS from '../CalendarDateShape';
+import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { useMemoObject } from '../../../hooks/useMemoObject';
 
 export default { title: 'Calendar' };
@@ -66,8 +66,7 @@ CalendarWithCustomCellSize.parameters = {
 };
 
 const CalendarPeriodDay = (props: CalendarDayProps) => {
-  const { date: dateShape } = props;
-  const date = CDS.toString(dateShape);
+  const { date } = props;
   const { periodStart, periodEnd, hoveredDate, setPeriodStart, setPeriodEnd, setHoveredDate } =
     useContext(CalendarPeriodContext);
 
@@ -82,18 +81,11 @@ const CalendarPeriodDay = (props: CalendarDayProps) => {
     periodEnd: string | null;
     hoveredDate: string | null;
   }): boolean => {
-    const dateShape = date ? CDS.fromString(date) : null;
-    const periodStartShape = periodStart ? CDS.fromString(periodStart) : null;
-    const periodEndShape = periodEnd ? CDS.fromString(periodEnd) : null;
-    const hoveredDateShape = hoveredDate ? CDS.fromString(hoveredDate) : null;
-
     return Boolean(
-      dateShape &&
-        periodStartShape &&
-        CDS.isGreaterOrEqual(dateShape, periodStartShape) &&
-        (periodEndShape
-          ? CDS.isLessOrEqual(dateShape, periodEndShape)
-          : hoveredDateShape && CDS.isLessOrEqual(dateShape, hoveredDateShape)),
+      date &&
+        periodStart &&
+        isGreaterOrEqual(date, periodStart) &&
+        (periodEnd ? isLessOrEqual(date, periodEnd) : hoveredDate && isLessOrEqual(date, hoveredDate)),
     );
   };
 
