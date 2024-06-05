@@ -1,4 +1,4 @@
-import { defaultLangCode } from '../locale/constants';
+import { defaultLangCode, langCodesToCanonicalLocale } from '../locale/constants';
 
 import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants';
 import { InternalDateCalculator } from './InternalDateCalculator';
@@ -43,6 +43,7 @@ export class InternalDate {
   private order: InternalDateOrder;
   private separator: InternalDateSeparator;
   private components: InternalDateComponentsRaw = { ...emptyDateComponents };
+  private canonicalLocale = 'ru-RU';
 
   private start: InternalDate | null = null;
   private end: InternalDate | null = null;
@@ -50,6 +51,8 @@ export class InternalDate {
   public constructor({ order, separator, langCode = defaultLangCode, value }: InternalDateConstructorProps = {}) {
     this.order = order ?? internalDateLocale[langCode].order;
     this.separator = separator ?? internalDateLocale[langCode].separator;
+    this.canonicalLocale = langCodesToCanonicalLocale[langCode];
+
     if (value !== undefined) {
       this.parseInternalValue(value);
     }
@@ -293,6 +296,10 @@ export class InternalDate {
       return { ...components, month: components.month - 1 };
     }
     return undefined;
+  }
+
+  public toA11YFormat(): string {
+    return InternalDateTransformer.componentsToA11YFormat(this.components, this.canonicalLocale);
   }
 
   public clone(): InternalDate {
