@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -35,11 +35,13 @@ const PASS_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
   menuPos: true,
+  id: true,
   'aria-describedby': true,
 };
 
 export interface DropdownProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps,
     Pick<DropdownContainerProps, 'menuPos'> {
   /**

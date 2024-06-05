@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
@@ -29,6 +29,7 @@ import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
   extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   disabled?: boolean;
@@ -147,6 +148,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
               {...getVisualStateDataAttributes({ disabled })}
             >
               <PopupMenu
+                id={this.props.id}
                 popupHasPin={hasPin}
                 preventIconsOffset={this.props.preventIconsOffset}
                 positions={positions}

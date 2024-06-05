@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { getRandomID } from '../../lib/utils';
@@ -15,7 +15,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -34,6 +34,7 @@ export interface PopupMenuCaptionProps {
 export interface PopupMenuProps
   extends CommonProps,
     Pick<MenuProps, 'preventIconsOffset'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<AriaAttributes, 'aria-label'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
@@ -224,6 +225,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     }
 
     return React.cloneElement(caption as React.ReactElement, {
+      id: this.props.id,
       'aria-controls': this.props.popupMenuId ?? this.rootId,
       'aria-expanded': this.state.menuVisible ? 'true' : 'false',
       'aria-label': this.props['aria-label'],

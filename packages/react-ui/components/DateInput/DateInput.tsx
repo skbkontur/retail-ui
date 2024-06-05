@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -37,7 +37,7 @@ export const DateInputDataTids = {
   icon: 'DateInput__icon',
 } as const;
 
-export interface DateInputProps extends CommonProps {
+export interface DateInputProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   autoFocus?: boolean;
   value?: string;
   /**
@@ -211,6 +211,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <InputLikeText
+            id={this.props.id}
             width={width}
             ref={this.inputLikeTextRef}
             size={size}

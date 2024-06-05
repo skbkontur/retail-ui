@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -27,6 +27,7 @@ import { ComboBoxView } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -273,6 +274,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       warning: this.props.warning,
       'aria-describedby': this.props['aria-describedby'],
       'aria-label': this.props['aria-label'],
+      id: this.props.id,
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,

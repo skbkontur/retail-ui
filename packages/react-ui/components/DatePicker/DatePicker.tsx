@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
@@ -44,6 +44,7 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate'>,
     CommonProps {
   autoFocus?: boolean;
@@ -322,6 +323,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         data-tid={DatePickerDataTids.label}
       >
         <DateInput
+          id={this.props.id}
           {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
