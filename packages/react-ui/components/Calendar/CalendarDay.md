@@ -25,14 +25,12 @@ const date_a = '10.03.2017';
 const date_b = '11.03.2017';
 const date_c = '12.03.2017';
 
-const Cell = ({ children }) => <td style={{ padding: 5 }}>{children}</td>;
-
 const Table = ({ children }) => (
-    <table border='1' style={{ borderCollapse: 'collapse' }}>
+    <table>
         <thead>
             <tr>
-                <Cell>Функция</Cell>
-                <Cell>Результат</Cell>
+                <td>Функция</td>
+                <td>Результат</td>
             </tr>
         </thead>
         <tbody>
@@ -43,8 +41,8 @@ const Table = ({ children }) => (
 
 const Row = ({ code }) => (
     <tr>
-        <Cell><code>{code}</code></Cell>
-        <Cell><code>{JSON.stringify(eval(code), null, 2)}</code></Cell>
+        <td><code>{code}</code></td>
+        <td><code>{JSON.stringify(eval(code), null, 2)}</code></td>
     </tr>
 );
 
