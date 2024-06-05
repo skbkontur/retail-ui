@@ -9,7 +9,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **Calendar:** add public component Calendar.Day ([#3415](https://github.com/skbkontur/retail-ui/issues/3415)) ([f32c251](https://github.com/skbkontur/retail-ui/commit/f32c251426b057fbb5a704af23ce60fc0ce0b967))
-* **Calendar:** added period ([#3258](https://github.com/skbkontur/retail-ui/issues/3258)) ([0fce964](https://github.com/skbkontur/retail-ui/commit/0fce96495b36d8e06f985f02d25cdef0c38e2608))
 * **Calendar, DatePicker:** add renderDay and onMonthChange props ([#3257](https://github.com/skbkontur/retail-ui/issues/3257)) ([228a6f4](https://github.com/skbkontur/retail-ui/commit/228a6f44621115037013cf27235b4dda2ad3896d))
 * **DatePicker:** mobile version ([#3323](https://github.com/skbkontur/retail-ui/issues/3323)) ([2785f2b](https://github.com/skbkontur/retail-ui/commit/2785f2b7c05958e76acb0dc749d275b7b2263d79))
 
