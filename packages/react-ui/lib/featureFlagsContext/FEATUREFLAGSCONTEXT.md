@@ -4,7 +4,7 @@
 
 ```typescript static
 export interface ReactUIFeatureFlags {
-  comboBoxAllowValueChangeInEditingState?: boolean;
+  textareaUseSafari17Workaround?: boolean;
 }
 ```
 
@@ -15,7 +15,7 @@ export interface ReactUIFeatureFlags {
 ```jsx static
 import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
+<ReactUIFeatureFlagsContext.Provider value={{ textareaUseSafari17Workaround: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
 ```
 
 ## Использование
@@ -42,43 +42,6 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
     value={value}
     onValueChange={setValue}
     rows={5}
-  />
-</ReactUIFeatureFlagsContext.Provider>
-```
-
-### comboBoxAllowValueChangeInEditingState
-
-Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
-
-В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
-
-В React UI 5.0 фича будет применена по умолчанию.
-
-```jsx harmony
-import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-const [value, setValue] = React.useState({ value: '', label: '' });
-
-const handleValueChange = () => {
-  setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
-};
-
-const getItems = () =>
-  Promise.resolve([
-    { value: 'Первый', label: 'Первый' },
-    { value: 'Второй', label: 'Второй' },
-  ]);
-
-<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
-  <Button onClick={handleValueChange}>Обновить</Button>
-  <ComboBox
-    value={value}
-    searchOnFocus={false}
-    getItems={getItems}
-    onValueChange={(value) => setValue(value)}
-    onInputValueChange={(value) => {
-      setValue({ value, label: value });
-     }}
   />
 </ReactUIFeatureFlagsContext.Provider>
 ```
