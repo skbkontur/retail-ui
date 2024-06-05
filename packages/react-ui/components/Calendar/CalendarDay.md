@@ -1,18 +1,18 @@
 Компонент для отрисовки дня в Calendar. Полезен при использовании вместе с его пропом `renderDay`.
 
 ```jsx harmony
-import { CalendarDay, Gapped } from '@skbkontur/react-ui';
+import { Calendar, Gapped } from '@skbkontur/react-ui';
 
 const date = '20.05.2024';
 const style = { width: 32, height: 32 };
 
 <Gapped>
-  <CalendarDay style={style} date={date} />
-  <CalendarDay style={style} date={date} isToday={true} />
-  <CalendarDay style={style} date={date} isSelected={true} />
-  <CalendarDay style={style} date={date} isDisabled={true} />
-  <CalendarDay style={style} date={date} isWeekend={true} />
-  <CalendarDay style={style}><b>20</b></CalendarDay>
+  <Calendar.Day style={style} date={date} />
+  <Calendar.Day style={style} date={date} isToday={true} />
+  <Calendar.Day style={style} date={date} isSelected={true} />
+  <Calendar.Day style={style} date={date} isDisabled={true} />
+  <Calendar.Day style={style} date={date} isWeekend={true} />
+  <Calendar.Day style={style}><b>20</b></Calendar.Day>
 </Gapped>
 ```
 
@@ -25,12 +25,14 @@ const date_a = '10.03.2017';
 const date_b = '11.03.2017';
 const date_c = '12.03.2017';
 
+const Cell = ({ children }) => <td style={{ padding: 5 }}>{children}</td>;
+
 const Table = ({ children }) => (
-    <table border='1' cellSpacing='0' cellPadding='8'>
+    <table border='1' style={{ borderCollapse: 'collapse' }}>
         <thead>
             <tr>
-                <td>Функция</td>
-                <td>Результат</td>
+                <Cell>Функция</Cell>
+                <Cell>Результат</Cell>
             </tr>
         </thead>
         <tbody>
@@ -41,8 +43,8 @@ const Table = ({ children }) => (
 
 const Row = ({ code }) => (
     <tr>
-        <td><code>{code}</code></td>
-        <td><code>{JSON.stringify(eval(code), null, 2)}</code></td>
+        <Cell><code>{code}</code></Cell>
+        <Cell><code>{JSON.stringify(eval(code), null, 2)}</code></Cell>
     </tr>
 );
 

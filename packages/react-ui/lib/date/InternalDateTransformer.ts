@@ -1,5 +1,3 @@
-import { getMonthInHumanFormat } from '../../components/Calendar/CalendarUtils';
-
 import {
   CHAR_PAD,
   defaultDateComponentsOrder,
@@ -175,7 +173,7 @@ export class InternalDateTransformer {
   public static dateToHumanString({ date, month, year }: InternalDateComponentsRaw): string {
     return InternalDateTransformer.dateToInternalString({
       date,
-      month: month !== null ? getMonthInHumanFormat(Number(month)) : null,
+      month: month !== null ? Number(month) + 1 : null,
       year,
     });
   }

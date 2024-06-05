@@ -1,4 +1,4 @@
-import React, { useContext, memo } from 'react';
+import React, { PropsWithChildren, useContext, memo } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -24,11 +24,20 @@ export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement
 /**
  * @visibleName Calendar.Day
  */
-export const CalendarDay: React.FC<CalendarDayProps> = memo(
+export const CalendarDay = memo(
   forwardRefAndName(
     'CalendarDay',
     function CalendarDay(
-      { isToday, isSelected, isDisabled, isWeekend, date, children, className, ...rest },
+      {
+        isToday,
+        isSelected,
+        isDisabled,
+        isWeekend,
+        date,
+        children,
+        className,
+        ...rest
+      }: PropsWithChildren<CalendarDayProps>,
       ref: React.Ref<HTMLButtonElement>,
     ) {
       const theme = useContext(ThemeContext);
