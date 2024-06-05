@@ -313,6 +313,7 @@ export function reducer<T>(
           textValue: nextTextValue,
         };
       }
+      break;
     }
     case 'Mount': {
       return {
