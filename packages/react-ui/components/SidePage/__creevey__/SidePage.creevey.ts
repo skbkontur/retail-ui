@@ -111,7 +111,7 @@ kind('SidePage', () => {
     });
   });
 
-  story('SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag', ({ setStoryParameters }) => {
+  story('SidePageWithFocusLockWhenBackgroundBlocked', ({ setStoryParameters }) => {
     setStoryParameters({ skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } } });
 
     test('open side-page', async function () {
