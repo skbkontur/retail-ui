@@ -54,6 +54,12 @@ describe('Select', () => {
     expect(selectedMenuItem).toHaveTextContent(currentValueText);
   });
 
+  it('has id attribute', () => {
+    const selectId = 'selectId';
+    const result = render(<Select id={selectId} />);
+    expect(result.container.querySelector(`button#${selectId}`)).not.toBeNull();
+  });
+
   it('calls onKeyDown', () => {
     const onKeyDown = jest.fn();
     render(<Select onKeyDown={onKeyDown} />);

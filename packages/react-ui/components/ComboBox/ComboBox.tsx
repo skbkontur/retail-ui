@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { CustomComboBox } from '../../internal/CustomComboBox';
@@ -12,6 +12,7 @@ import { SizeProp } from '../../lib/types/props';
 
 export interface ComboBoxProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     CommonProps {
   align?: 'left' | 'center' | 'right';
