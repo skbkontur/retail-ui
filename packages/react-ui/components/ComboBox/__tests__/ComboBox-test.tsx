@@ -1140,7 +1140,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputDataTids.root));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
