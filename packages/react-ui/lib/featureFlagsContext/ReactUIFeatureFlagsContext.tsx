@@ -1,7 +1,6 @@
 import React from 'react';
 
 export interface ReactUIFeatureFlags {
-  menuItemsAtAnyLevel?: boolean;
   textareaUseSafari17Workaround?: boolean;
   linkFocusOutline?: boolean;
   comboBoxAllowValueChangeInEditingState?: boolean;
@@ -10,7 +9,6 @@ export interface ReactUIFeatureFlags {
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  menuItemsAtAnyLevel: false,
   textareaUseSafari17Workaround: false,
   linkFocusOutline: false,
   comboBoxAllowValueChangeInEditingState: false,
