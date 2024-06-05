@@ -798,9 +798,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const selectItemIndex = autocompleteItemsUnique.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
-      if (this.menuRef) {
-        this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
-      }
+      setTimeout(() => this.menuRef?.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex), 0);
     }
   };
 
