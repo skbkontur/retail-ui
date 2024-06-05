@@ -147,16 +147,4 @@ kind('Link', () => {
 
     focusedStyledLinkTest();
   });
-
-  story('WithLinkFocusOutlineFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'hover does not work': {
-          in: /chrome/,
-        },
-      },
-    });
-
-    focusedStyledLinkTest();
-  });
 });
