@@ -8,7 +8,6 @@ import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
   title: 'Link',
@@ -93,9 +92,3 @@ export const FocusedStyledLink: Story = () => {
     </ThemeContext.Consumer>
   );
 };
-
-export const WithLinkFocusOutlineFeatureFlag = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
-    <Link>Link</Link>
-  </ReactUIFeatureFlagsContext.Provider>
-);
