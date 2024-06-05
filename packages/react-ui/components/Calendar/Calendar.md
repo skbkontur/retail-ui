@@ -114,9 +114,9 @@ const initialValue = "02.09.2023";
 const [value, setValue] = React.useState(initialValue);
 
 const renderDay = (props) => {
-  const { date, month, year } = props.date;
+  const [date, month, year] = props.date.split('.').map(Number);
 
-  if (month == 8 && date > 7 && date < 11) {
+  if (month == 9 && date > 12 && date < 16) {
     return (
       <Tooltip render={() => "Кастомный день"}>
         <CalendarDay {...props} style={{ background: 'darkgray' }} />
