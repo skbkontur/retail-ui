@@ -46,17 +46,7 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<
-      CalendarProps,
-      | 'isHoliday'
-      | 'minDate'
-      | 'maxDate'
-      | 'renderDay'
-      | 'onStuckMonth'
-      | 'onMonthSelect'
-      | 'periodStartDate'
-      | 'periodEndDate'
-    >,
+    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -170,7 +160,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     renderDay: PropTypes.func,
 
-    onStuckMonth: PropTypes.func,
+    onMonthChange: PropTypes.func,
   };
 
   public static defaultProps: DefaultProps = {
@@ -302,10 +292,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             isHoliday={this.props.isHoliday}
             onCloseRequest={this.handleBlur}
             renderDay={props.renderDay}
-            onStuckMonth={props.onStuckMonth}
-            onMonthSelect={props.onMonthSelect}
-            periodStartDate={props.periodStartDate}
-            periodEndDate={props.periodEndDate}
+            onMonthChange={props.onMonthChange}
           />
         );
       } else {
@@ -343,10 +330,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                   isHoliday={this.props.isHoliday}
                   value={this.parseValueToDate(this.props.value)}
                   renderDay={this.props.renderDay}
-                  onStuckMonth={this.props.onStuckMonth}
-                  onMonthSelect={this.props.onMonthSelect}
-                  periodStartDate={this.props.periodStartDate}
-                  periodEndDate={this.props.periodEndDate}
+                  onMonthChange={this.props.onMonthChange}
                 />
                 {this.props.enableTodayLink && this.renderTodayLink()}{' '}
               </div>

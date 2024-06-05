@@ -3,7 +3,7 @@ import { render, screen, waitFor, within, fireEvent } from '@testing-library/rea
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { CalendarDataTids } from '../../../components/Calendar';
+import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../../components/Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
@@ -99,25 +99,27 @@ describe('DatePicker', () => {
     expect(onFocus).toHaveBeenCalled();
   });
 
-  it('renders day cells with renderItem prop', async () => {
-    const CustomDayItem: React.FC<{ date: string }> = ({ date }) => (
-      <span data-tid="customDayItem">{date === '02.07.2017' ? 'Custom' : date}</span>
-    );
+  it('renders day cells with renderDay prop', async () => {
+    const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
+      const [date, month, year] = props.date.split('.').map(Number);
+      const isCustom = date === 2 && month === 6 && year === 2017;
+      return (
+        <CalendarDay {...props}>
+          <span data-tid="customDayItem">{isCustom ? 'Custom' : date}</span>
+        </CalendarDay>
+      );
+    };
     render(
-      <DatePicker
-        value="02.07.2017"
-        onValueChange={jest.fn()}
-        renderDay={(date: string): React.ReactNode => <CustomDayItem date={date} />}
-      />,
+      <DatePicker value="02.07.2017" onValueChange={jest.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
     );
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.getAllByTestId('customDayItem')[0]).toBeInTheDocument();
   });
 
-  it('onStuckMonth returns correct month', async () => {
-    const onStuckMonth = jest.fn(({ month, year }) => ({ month, year }));
-    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onStuckMonth={onStuckMonth} />);
+  it('onMonthChange returns correct month', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     userEvent.click(
@@ -135,12 +137,12 @@ describe('DatePicker', () => {
       }),
     );
 
-    await waitFor(() => expect(onStuckMonth).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 3000 });
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 3000 });
   });
 
-  it('onStuckMonth returns correct year', async () => {
-    const onStuckMonth = jest.fn(({ month, year }) => ({ month, year }));
-    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onStuckMonth={onStuckMonth} />);
+  it('onMonthChange returns correct year', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
     userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     userEvent.click(
@@ -154,7 +156,7 @@ describe('DatePicker', () => {
       }),
     );
 
-    await waitFor(() => expect(onStuckMonth).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
   });
 
   describe('Locale', () => {

@@ -50,3 +50,13 @@ export const isBetween = (
   }
   return true;
 };
+
+export const fromString = (dateString: string): CalendarDateShape => {
+  const [date, month, year] = dateString.split('.').map(Number);
+  return create(date, month, year);
+};
+
+export const toString = ({ date, month, year }: CalendarDateShape): string => {
+  const [d, m, y] = [date, month, year].map((x) => x.toString());
+  return `${d.padStart(2, '0')}.${m.padStart(2, '0')}.${y.padStart(4, '0')}`;
+};

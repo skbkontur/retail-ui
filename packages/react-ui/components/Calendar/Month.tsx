@@ -4,13 +4,13 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../../internal/DateSelect';
 
-import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
 import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { styles } from './MonthView.styles';
+import { styles as cellStyles } from './DayCellView.styles';
 
 interface MonthProps {
   top: number;
@@ -24,13 +24,7 @@ export class Month extends React.Component<MonthProps> {
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
 
-  constructor(props: MonthProps) {
-    super(props);
-    this.state = {};
-  }
-
   public shouldComponentUpdate(nextProps: MonthProps) {
-    // console.log('Month shouldComponentUpdate', nextProps);
     if (this.props.top !== nextProps.top) {
       return true;
     }
@@ -114,11 +108,6 @@ interface MonthDayGridProps {
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
 
-  constructor(props: MonthDayGridProps) {
-    super(props);
-    this.state = {};
-  }
-
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     return this.props.days !== nextProps.days;
   }
@@ -136,17 +125,11 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public renderMain() {
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
-      <div
-        key={`leadgin_${i}`}
-        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
-      />
+      <div key={`leading_${i}`} className={cellStyles.cell(this.theme)} />
     ));
     const trailingOffset = DAYS_PER_WEEK - ((this.props.offset + this.props.days.length) % DAYS_PER_WEEK);
     const trailingDays = Array.from({ length: trailingOffset }, (_, i) => (
-      <div
-        key={`trailing_${i}`}
-        style={{ display: 'inline-block', width: themeConfig(this.theme).DAY_SIZE, flex: '1 1' }}
-      />
+      <div key={`trailing_${i}`} className={cellStyles.cell(this.theme)} />
     ));
     const days = this.props.days.map((day) => {
       return <DayCellView date={day} key={`${day.date}.${day.month}.${day.year}`} />;

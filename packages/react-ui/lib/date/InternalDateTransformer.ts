@@ -170,6 +170,14 @@ export class InternalDateTransformer {
       .join(InternalDateSeparator.Dot);
   }
 
+  public static dateToHumanString({ date, month, year }: InternalDateComponentsRaw): string {
+    return InternalDateTransformer.dateToInternalString({
+      date,
+      month: month !== null ? Number(month) + 1 : null,
+      year,
+    });
+  }
+
   public static componentsToNativeDate(componentsRaw: InternalDateComponentsRaw): Date {
     const { year, month, date } = InternalDateTransformer.dateComponentsStringToNumber(componentsRaw);
     return new Date(Date.UTC(year, month - 1, date));

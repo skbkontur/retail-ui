@@ -3,7 +3,7 @@ import { Theme } from '../../lib/theming/Theme';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
-import { CalendarDataTids, CalendarState } from './Calendar';
+import { CalendarState } from './Calendar';
 import { CalendarDateShape, isGreater, isLess } from './CalendarDateShape';
 
 export const calculateScrollPosition = (
@@ -75,11 +75,7 @@ export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map((x) => MonthViewModel.create(month + x, year));
 };
 
-export const getMonthInNativeFormat = (initialMonth: number | undefined) => {
-  if (initialMonth) {
-    return initialMonth - 1;
-  }
-};
+export const getMonthInNativeFormat = (month: number) => month - 1;
 
 export const getMonthInHumanFormat = (month: number) => month + 1;
 
@@ -117,11 +113,3 @@ export const getTodayDate = () => {
     year: date.getFullYear(),
   };
 };
-
-export const hasDayElement = (
-  e: React.MouseEvent<Element>,
-): e is typeof e & { target: HTMLButtonElement & { dataset: { date: string } } } =>
-  e.target instanceof HTMLButtonElement &&
-  !e.target.disabled &&
-  e.target.getAttribute('data-tid') === CalendarDataTids.dayCell &&
-  e.target.hasAttribute('data-date');
