@@ -25,6 +25,11 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -34,6 +39,21 @@ const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
 export const PopupPositions = [
+  'top center',
+  'top left',
+  'top right',
+  'bottom center',
+  'bottom left',
+  'bottom right',
+  'left middle',
+  'left top',
+  'left bottom',
+  'right middle',
+  'right top',
+  'right bottom',
+] as const;
+
+export const OldPopupPositions = [
   'top left',
   'top center',
   'top right',
@@ -47,9 +67,12 @@ export const PopupPositions = [
   'left middle',
   'left top',
 ] as const;
+
 export const DefaultPosition = PopupPositions[0];
+export const OldDefaultPosition = OldPopupPositions[0];
 
 export type PopupPositionsType = typeof PopupPositions[number];
+export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
 
 export const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
@@ -86,7 +109,8 @@ export interface PopupProps
   pinOffset?: number;
   pinSize?: number;
   popupOffset?: number;
-  positions: Readonly<PopupPositionsType[]>;
+  positions?: Readonly<PopupPositionsType[]>;
+  pos?: PopupPositionsType | ShortPopupPositionsType;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
@@ -97,7 +121,7 @@ export interface PopupProps
   width?: React.CSSProperties['width'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
-   * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
+   * (в том числе, когда он выходит за пределы экрана, но может быть проскролен в него).
    *
    * Нужен только для Tooltip. В остальных случаях позиция перестраивается автоматически.
    * @see https://github.com/skbkontur/retail-ui/pull/1195
@@ -204,6 +228,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     positions: PropTypes.array,
 
     /**
+     * Приоритетная позиция попапа
+     */
+    pos: PropTypes.string,
+
+    /**
      * Игнорировать ли события hover/click
      */
     ignoreHover: PropTypes.bool,
@@ -226,6 +255,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
+  public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
@@ -296,12 +326,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -619,8 +656,32 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
+  private reorderPropsPositionsWithPriorityPos() {
+    const positions = this.props.positions ? this.props.positions : PopupPositions;
+    let pos_ = '';
+    if (this.props.pos) {
+      pos_ = this.props.pos;
+    } else {
+      pos_ = positions[0];
+    }
+    const index = positions.findIndex((position) => position.startsWith(pos_));
+    if (index === -1) {
+      warning(false, 'Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+      return positions;
+    }
+    return [...positions.slice(index), ...positions.slice(0, index)];
+  }
+
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
-    const { positions, tryPreserveFirstRenderedPosition } = this.props;
+    const { tryPreserveFirstRenderedPosition } = this.getProps();
+    let positions;
+    if (this.featureFlags.popupUnifyPositioning) {
+      positions = this.reorderPropsPositionsWithPriorityPos();
+    } else if (this.props.positions) {
+      positions = this.props.positions;
+    } else {
+      positions = OldPopupPositions;
+    }
     const anchorElement = this.anchorElement;
 
     warning(

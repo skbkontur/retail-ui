@@ -22,6 +22,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -140,7 +141,11 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         {(flags) => {
           const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper
+              rootNodeRef={this.setRootNode}
+              {...this.props}
+              {...getVisualStateDataAttributes({ disabled })}
+            >
               <PopupMenu
                 popupHasPin={hasPin}
                 preventIconsOffset={this.props.preventIconsOffset}

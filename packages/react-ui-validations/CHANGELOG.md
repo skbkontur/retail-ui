@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.15.0...react-ui-validations@1.15.1) (2024-05-22)
+
+
+### Bug Fixes
+
+* **Validation:** correct types ([#3423](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3423)) ([ad99c60](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/ad99c60de80c7bd4388e18df1c635b05801a6693))
+
+
+
+
+
+# [1.15.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.4...react-ui-validations@1.15.0) (2024-05-14)
+
+
+### Features
+
+* **Validations:** fixedValidationTextColors and darkTheme feature flags ([#3420](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3420)) ([248da6f](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/248da6fe1223a88fabd7f2d3934f6d45bd1b081c))
+
+
+
+
+
+## [1.14.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.3...react-ui-validations@1.14.4) (2024-04-16)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 ## [1.14.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.2...react-ui-validations@1.14.3) (2024-04-09)
 
 **Note:** Version bump only for package react-ui-validations

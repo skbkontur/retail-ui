@@ -7,7 +7,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { LocaleContext } from '../../lib/locale';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './DayCellView.styles';
