@@ -1,12 +1,6 @@
 import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
-import isEqual from 'lodash.isequal';
 
-import {
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
-} from '../../lib/featureFlagsContext';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
@@ -83,21 +77,6 @@ export interface HintState {
   position: PopupPositionsType;
 }
 
-const OldPositions: PopupPositionsType[] = [
-  'top center',
-  'top left',
-  'top right',
-  'bottom center',
-  'bottom left',
-  'bottom right',
-  'left middle',
-  'left top',
-  'left bottom',
-  'right middle',
-  'right top',
-  'right bottom',
-];
-
 type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
 /**
@@ -125,14 +104,12 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
-  private positions: Nullable<PopupPositionsType[]> = null;
 
   private popupRef = React.createRef<Popup>();
 
   public getAllowedPositions() {
-    return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+    return this.props.allowedPositions;
   }
 
   public componentDidUpdate(prevProps: HintProps) {
@@ -147,17 +124,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     if (opened !== prevProps.opened) {
       this.setState({ opened: !!opened });
     }
-
-    if (!this.featureFlags.popupUnifyPositioning) {
-      const pos = this.props.pos ? this.props.pos : 'top';
-      const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
-      const posChanged = prevProps.pos !== pos;
-      const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
-
-      if (posChanged || allowedChanged) {
-        this.positions = null;
-      }
-    }
   }
 
   public componentWillUnmount() {
@@ -169,33 +135,26 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <ThemeContext.Provider
-                    value={ThemeFactory.create(
-                      {
-                        popupPinOffset: theme.hintPinOffset,
-                        popupMargin: theme.hintMargin,
-                        popupBorder: theme.hintBorder,
-                        popupBorderRadius: theme.hintBorderRadius,
-                      },
-                      this.theme,
-                    )}
-                  >
-                    {this.renderMain()}
-                  </ThemeContext.Provider>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: theme.hintPinOffset,
+                  popupMargin: theme.hintMargin,
+                  popupBorder: theme.hintBorder,
+                  popupBorderRadius: theme.hintBorderRadius,
+                },
+                this.theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -250,36 +209,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   private getPositions = (): PopupPositionsType[] | undefined => {
-    if (this.featureFlags.popupUnifyPositioning) {
-      return this.props.allowedPositions;
-    }
-    const pos = this.props.pos ? this.props.pos : 'top';
-    const allowedPositions = this.getAllowedPositions();
-    if (!this.positions) {
-      let priorityPosition: PopupPositionsType;
-      switch (pos) {
-        case 'top':
-          priorityPosition = 'top center';
-          break;
-        case 'bottom':
-          priorityPosition = 'bottom center';
-          break;
-        case 'left':
-          priorityPosition = 'left middle';
-          break;
-        case 'right':
-          priorityPosition = 'right middle';
-          break;
-        default:
-          priorityPosition = pos;
-      }
-      const index = allowedPositions.indexOf(priorityPosition);
-      if (index === -1) {
-        throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
-      }
-      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
-    }
-    return this.positions;
+    return this.props.allowedPositions;
   };
 
   private handleMouseEnter = (e: MouseEventType) => {
