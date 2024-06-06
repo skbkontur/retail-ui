@@ -2,14 +2,12 @@ import React from 'react';
 
 export interface ReactUIFeatureFlags {
   textareaUseSafari17Workaround?: boolean;
-  comboBoxAllowValueChangeInEditingState?: boolean;
   hintAddDynamicPositioning?: boolean;
   popupUnifyPositioning?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   textareaUseSafari17Workaround: false,
-  comboBoxAllowValueChangeInEditingState: false,
   hintAddDynamicPositioning: false,
   popupUnifyPositioning: false,
 };
