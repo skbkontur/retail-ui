@@ -13,6 +13,8 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.nuGetInstaller
 import jetbrains.buildServer.configs.kotlin.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.buildSteps.nunit
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.buildSteps.PowerShellStep
+import jetbrains.buildServer.configs.kotlin.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.projectFeatures.githubConnection
@@ -224,8 +226,9 @@ object ReactUI : Project({
     buildType(ReactUI_LintTest)
     buildType(ReactUI_ScreenshotTests)
     buildType(ReactUI_BuildRetailUi)
+    buildType(ReactUI_Storybook)
     buildType(ReactUI_Publish)
-    buildTypesOrder = arrayListOf(ReactUI_LintTest, ReactUI_ScreenshotTests, ReactUI_BuildRetailUi, ReactUI_Publish)
+    buildTypesOrder = arrayListOf(ReactUI_LintTest, ReactUI_ScreenshotTests, ReactUI_BuildRetailUi, ReactUI_Storybook, ReactUI_Publish)
 })
 
 object ReactUI_BuildRetailUi : BuildType({
@@ -413,6 +416,83 @@ object ReactUI_ScreenshotTests : BuildType({
     }
 })
 
+object ReactUI_Storybook : BuildType({
+    name = "Storybook"
+
+    artifactRules = "docs-repo/docs/storybook/react-ui => docs.zip"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            id = "RUNNER_1"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Build Storybook"
+            id = "RUNNER_2"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace @skbkontur/react-ui storybook:build")
+        }
+        script {
+            name = "Git clone"
+            scriptContent = """
+                git clone git@git.skbkontur.ru:ui/docs.git docs-repo
+            """.trimIndent()
+        }
+        powerShell {
+            name = "move dir"
+            scriptMode = script {
+                content = """
+                    ${'$'}version_from_git = "%teamcity.build.branch%".replace('@skbkontur/react-ui@', '')
+                    ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
+                    ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
+                                        
+                    Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
+                  
+                    ${'$'}src_path = "./packages/react-ui/.storybook/build"
+                    ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
+                    mkdir ${'$'}src_path
+                    cp -r ${'$'}src_path ${'$'}dest_path
+                """.trimIndent()
+            }
+        }
+        script {
+            name = "git push"
+            scriptContent = """
+                cd ./docs-repo
+                git config --list --show-origin
+                git add .
+                git commit -m "Deploy react-ui storybook from TC"
+                git pull --rebase
+                git push origin master
+            """.trimIndent()
+        }
+        powerShell {
+            name = "echo url"
+            scriptMode = script {
+                content = """
+                    echo "https://ui.gitlab-pages.kontur.host/docs/storybook/react-ui/${'$'}env:STORYBOOK_VERSION"
+                """.trimIndent()
+            }
+        }
+    }
+
+    triggers {
+        vcs {
+            id = "VCS_TRIGGER"
+            branchFilter = "+:refs/tags/@skbkontur/react-ui@*"
+        }
+    }
+    
+    disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
+})
+
 
 object SeleniumTesting : Project({
     name = "SeleniumTesting"
@@ -528,7 +608,8 @@ object Validations : Project({
     buildType(Validations_LintTest)
     buildType(Validations_Publish)
     buildType(Validations_ScreenshotTests)
-    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish, Validations_ScreenshotTests)
+    buildType(Validations_Storybook)
+    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish, Validations_ScreenshotTests, Validations_Storybook)
 })
 
 object Validations_Build : BuildType({
@@ -737,4 +818,80 @@ object Validations_ScreenshotTests : BuildType({
           param("yarn_commands", "workspace react-ui-validations creevey")
         }
     }
+})
+
+object Validations_Storybook : BuildType({
+    name = "Storybook"
+
+    artifactRules = "docs-repo/docs/storybook/react-ui-validations => docs.zip"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            id = "RUNNER_1"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Build Storybook"
+            id = "RUNNER_2"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace react-ui-validations storybook:build")
+        }
+        script {
+            name = "Git clone"
+            scriptContent = """
+                git clone git@git.skbkontur.ru:ui/docs.git docs-repo
+            """.trimIndent()
+        }
+        powerShell {
+            name = "move dir"
+            scriptMode = script {
+                content = """
+                    ${'$'}version_from_git = "%teamcity.build.branch%".replace('react-ui-validations@', '')
+                    ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
+                    ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
+                    
+                    Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
+                    
+                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
+                    ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
+                    cp -r ${'$'}src_path ${'$'}dest_path
+                """.trimIndent()
+            }
+        }
+        script {
+            name = "git push"
+            scriptContent = """
+                cd ./docs-repo
+                git config --list --show-origin
+                git add .
+                git commit -m "Deploy validations storybook from TC"
+                git pull --rebase
+                git push origin master
+            """.trimIndent()
+        }
+        powerShell {
+            name = "echo url"
+            scriptMode = script {
+                content = """
+                    echo "https://ui.gitlab-pages.kontur.host/docs/storybook/react-ui-validations/${'$'}env:STORYBOOK_VERSION"
+                """.trimIndent()
+            }
+        }
+    }
+
+    triggers {
+        vcs {
+            id = "VCS_TRIGGER"
+            branchFilter = "+:refs/tags/@skbkontur/react-ui-validations@*"
+        }
+    }
+    
+    disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
 })

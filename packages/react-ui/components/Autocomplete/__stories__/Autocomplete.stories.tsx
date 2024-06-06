@@ -65,6 +65,27 @@ const sizeTests: CreeveyTests = {
   },
 };
 
+const menuPosTests: CreeveyTests = {
+  async 'focus and type text menu top'() {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  },
+  async 'focus and type text menu bottom'() {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  },
+};
+
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';
 
@@ -83,6 +104,29 @@ Simple.parameters = {
         await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
       },
       ...commonTests,
+    },
+  },
+};
+
+export const WithDisabledPortal: Story = () => {
+  const source = ['One', 'Two', 'Three'];
+
+  return (
+    <div>
+      <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
+        <UncontrolledAutocomplete disablePortal source={source} menuPos={'top'} />
+        <UncontrolledAutocomplete disablePortal source={source} menuPos={'bottom'} />
+      </Gapped>
+    </div>
+  );
+};
+WithDisabledPortal.storyName = 'with disabled portal';
+
+WithDisabledPortal.parameters = {
+  creevey: {
+    tests: {
+      ...commonTests,
+      ...menuPosTests,
     },
   },
 };
@@ -434,5 +478,25 @@ Size.storyName = 'size';
 Size.parameters = {
   creevey: {
     tests: sizeTests,
+  },
+};
+
+export const MenuPos = () => {
+  const source = ['One', 'Two', 'Three'];
+
+  return (
+    <div>
+      <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
+        <UncontrolledAutocomplete source={source} menuPos={'top'} />
+        <UncontrolledAutocomplete source={source} menuPos={'bottom'} />
+      </Gapped>
+    </div>
+  );
+};
+MenuPos.storyName = 'menuPos';
+
+MenuPos.parameters = {
+  creevey: {
+    tests: menuPosTests,
   },
 };

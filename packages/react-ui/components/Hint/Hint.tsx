@@ -10,7 +10,7 @@ import {
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { DUMMY_LOCATION, Popup, PopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -56,7 +56,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  pos?: ShortPopupPositionsType | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -84,7 +84,7 @@ export interface HintState {
   position: PopupPositionsType;
 }
 
-const Positions: PopupPositionsType[] = [
+const OldPositions: PopupPositionsType[] = [
   'top center',
   'top left',
   'top right',
@@ -99,9 +99,7 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
-type DefaultProps = Required<
-  Pick<HintProps, 'pos' | 'allowedPositions' | 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>
->;
+type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
@@ -112,11 +110,9 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   public static displayName = 'Hint';
 
   public static defaultProps: DefaultProps = {
-    pos: 'top',
     manual: false,
     opened: false,
     maxWidth: 200,
-    allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
   };
@@ -136,8 +132,12 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private popupRef = React.createRef<Popup>();
 
+  public getAllowedPositions() {
+    return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+  }
+
   public componentDidUpdate(prevProps: HintProps) {
-    const { opened, manual, pos, allowedPositions } = this.getProps();
+    const { opened, manual } = this.getProps();
     if (!manual) {
       return;
     }
@@ -149,7 +149,9 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       this.setState({ opened: !!opened });
     }
 
-    if (this.featureFlags.hintAddDynamicPositioning) {
+    if (this.featureFlags.hintAddDynamicPositioning && !this.featureFlags.popupUnifyPositioning) {
+      const pos = this.props.pos ? this.props.pos : 'top';
+      const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
       const posChanged = prevProps.pos !== pos;
       const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
@@ -200,34 +202,29 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
+    const hasPin = !this.featureFlags.kebabHintRemovePin || !isTheme2022(this.theme);
 
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <Popup
-                hasPin={hasPin}
-                opened={this.state.opened}
-                anchorElement={this.props.children}
-                positions={this.getPositions()}
-                backgroundColor={this.theme.hintBgColor}
-                borderColor={HINT_BORDER_COLOR}
-                onPositionChange={(position) => this.setState({ position })}
-                disableAnimations={disableAnimations}
-                onMouseEnter={this.handleMouseEnter}
-                onMouseLeave={this.handleMouseLeave}
-                useWrapper={useWrapper}
-                ref={this.popupRef}
-                withoutMobile
-              >
-                {this.renderContent()}
-              </Popup>
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <Popup
+          hasPin={hasPin}
+          opened={this.state.opened}
+          anchorElement={this.props.children}
+          positions={this.getPositions()}
+          pos={this.props.pos}
+          backgroundColor={this.theme.hintBgColor}
+          borderColor={HINT_BORDER_COLOR}
+          onPositionChange={(position) => this.setState({ position })}
+          disableAnimations={disableAnimations}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          useWrapper={useWrapper}
+          ref={this.popupRef}
+          withoutMobile
+        >
+          {this.renderContent()}
+        </Popup>
+      </CommonWrapper>
     );
   }
 
@@ -253,10 +250,14 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PopupPositionsType[] => {
+  private getPositions = (): PopupPositionsType[] | undefined => {
+    if (this.featureFlags.popupUnifyPositioning) {
+      return this.props.allowedPositions;
+    }
+    const pos = this.props.pos ? this.props.pos : 'top';
+    const allowedPositions = this.getAllowedPositions();
     if (this.featureFlags.hintAddDynamicPositioning) {
       if (!this.positions) {
-        const { allowedPositions, pos } = this.getProps();
         let priorityPosition: PopupPositionsType;
         switch (pos) {
           case 'top':
@@ -282,7 +283,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       }
       return this.positions;
     }
-    return Positions.filter((x) => x.startsWith(this.getProps().pos));
+    return OldPositions.filter((x) => x.startsWith(pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

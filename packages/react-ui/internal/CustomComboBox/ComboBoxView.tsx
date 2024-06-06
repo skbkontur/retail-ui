@@ -250,6 +250,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     const inputProps: InputProps = {
+      autoComplete: 'off',
       autoFocus: true,
       width: '100%',
       onFocus,
@@ -333,6 +334,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           ref={this.refInput}
           warning={warning}
           inputMode={inputMode}
+          autoComplete="off"
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
           aria-label={ariaLabel}

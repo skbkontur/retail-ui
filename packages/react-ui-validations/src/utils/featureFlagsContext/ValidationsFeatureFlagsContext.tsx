@@ -1,11 +1,12 @@
 import React from 'react';
 
-export interface ValidationsFeatureFlags {
-  validationsRemoveExtraSpans?: boolean;
-}
+export type FeatureFlags = 'validationsRemoveExtraSpans' | 'fixedValidationTextColors' | 'darkTheme';
+
+export type ValidationsFeatureFlags = Partial<Record<FeatureFlags, boolean>>;
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
   validationsRemoveExtraSpans: false,
+  fixedValidationTextColors: false,
 };
 
 export const ValidationsFeatureFlagsContext =
