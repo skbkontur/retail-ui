@@ -46,25 +46,6 @@ const [value, setValue] = React.useState('1\n\n\n\n2');
 </ReactUIFeatureFlagsContext.Provider>
 ```
 
-### hintAddDynamicPositioning
-
-Этот флаг включает у Hint'а изменение положения, если Hint не попадает во viewport. Если существует положение, в котором Hint будет виден полностью, то Hint будет занимать его.
-При включении флага могут потребоваться обновления скриншотных тестов.
-В React UI 5.0 фича будет применена по умолчанию.
-
-```jsx harmony
-import { Hint, Button, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-<ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true }}>
-  <Hint text={'Example!'} pos="bottom center" manual opened>
-    <Button use="success" size="medium" disabled>
-      Пригласить
-    </Button>
-  </Hint>
-</ReactUIFeatureFlagsContext.Provider>
-```
-
-
 ### popupUnifyPositioning
 
 Этот флаг делает одинаковым порядок выбора позиции Hint'ом и Tooltip'ом. Таким образом при одинаковых условиях Hint и Tooltip будут отрисовываться с одинаковой стороны с одинаковым выравниванием.

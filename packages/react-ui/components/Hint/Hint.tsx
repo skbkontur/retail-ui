@@ -64,7 +64,6 @@ export interface HintProps extends CommonProps {
   /**
    * Список позиций, которые хинт будет занимать. Если положение хинт в определенной позиции будет выходить
    * за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
-   * Для применения этого пропа необходимо включить фиче-флаг hintAddDynamicPositioning.
    */
   allowedPositions?: PopupPositionsType[];
   /**
@@ -149,7 +148,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       this.setState({ opened: !!opened });
     }
 
-    if (this.featureFlags.hintAddDynamicPositioning && !this.featureFlags.popupUnifyPositioning) {
+    if (!this.featureFlags.popupUnifyPositioning) {
       const pos = this.props.pos ? this.props.pos : 'top';
       const allowedPositions = this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
       const posChanged = prevProps.pos !== pos;
@@ -256,34 +255,31 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     }
     const pos = this.props.pos ? this.props.pos : 'top';
     const allowedPositions = this.getAllowedPositions();
-    if (this.featureFlags.hintAddDynamicPositioning) {
-      if (!this.positions) {
-        let priorityPosition: PopupPositionsType;
-        switch (pos) {
-          case 'top':
-            priorityPosition = 'top center';
-            break;
-          case 'bottom':
-            priorityPosition = 'bottom center';
-            break;
-          case 'left':
-            priorityPosition = 'left middle';
-            break;
-          case 'right':
-            priorityPosition = 'right middle';
-            break;
-          default:
-            priorityPosition = pos;
-        }
-        const index = allowedPositions.indexOf(priorityPosition);
-        if (index === -1) {
-          throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
-        }
-        this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
+    if (!this.positions) {
+      let priorityPosition: PopupPositionsType;
+      switch (pos) {
+        case 'top':
+          priorityPosition = 'top center';
+          break;
+        case 'bottom':
+          priorityPosition = 'bottom center';
+          break;
+        case 'left':
+          priorityPosition = 'left middle';
+          break;
+        case 'right':
+          priorityPosition = 'right middle';
+          break;
+        default:
+          priorityPosition = pos;
       }
-      return this.positions;
+      const index = allowedPositions.indexOf(priorityPosition);
+      if (index === -1) {
+        throw new Error('Unexpected position passed to Hint. Expected one of: ' + allowedPositions.join(', '));
+      }
+      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
     }
-    return OldPositions.filter((x) => x.startsWith(pos));
+    return this.positions;
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

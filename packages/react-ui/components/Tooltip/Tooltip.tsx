@@ -235,7 +235,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'closed' && this.state.opened) {
       this.close();
     }
-    if (this.featureFlags.hintAddDynamicPositioning && !this.featureFlags.popupUnifyPositioning) {
+    if (!this.featureFlags.popupUnifyPositioning) {
       const pos = this.props.pos ? this.props.pos : OldDefaultPosition;
       const allowedPositions = this.getAllowedPositions();
       const posChanged = prevProps.pos !== pos;
