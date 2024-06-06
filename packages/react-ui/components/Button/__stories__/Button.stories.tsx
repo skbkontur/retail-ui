@@ -2,15 +2,16 @@ import React, { ReactElement } from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { XIcon16Light, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
+import { XIcon16Light, XIcon16Regular, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
 import {
   CheckAIcon,
   CheckAIcon16Light,
   CheckAIcon20Light,
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
+import { MinusCircleIcon16Light } from '@skbkontur/icons';
 
-import { Meta, Story } from '../../../typings/stories';
+import { ArgsStory, Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
@@ -26,11 +27,89 @@ export default {
 
 type ButtonState = Partial<ButtonProps>;
 
+export const _Primary: ArgsStory<Button> = {
+  args: {
+    use: 'default',
+    children: 'Нажать',
+  },
+};
+
 export const Default: Story = () => (
+
   <Button data-tid="test-button">
     Здесь рисуется первая история из файла .stories.tsx
   </Button>
 );
+
+// for docs
+
+export const Styles: Story = (_, { globals: { theme } }) => (
+  <Gapped vertical>
+    <Gapped>
+      <Button use="default">Default</Button>
+      <Button use="primary">Primary</Button>
+      <Button use="success">Success</Button>
+      <Button use="danger">Danger</Button>
+      <Button use="pay">Pay</Button>
+      <Button use="text">Text</Button>
+      <Button use="backless">Backless</Button>
+      <Button use="link">Link</Button>
+    </Gapped>
+  </Gapped>
+);
+
+export const _Icon: Story = (_, { globals: { theme } }) => (
+  <Gapped gap={5}>
+    <Button icon={<XIcon16Regular />}>Закрыть</Button>
+    <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>Закрыть</Button>
+    <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
+  </Gapped>
+);
+
+export const _Size: Story = (_, { globals: { theme } }) => (
+  <div style={{ display: 'flex', alignItems: 'end', gap: '10px' }}>
+    <Button size="small">Маленькая</Button>
+    <Button size="medium">Средняя</Button>
+    <Button size="large">Большая</Button>
+  </div>
+);
+
+export const _Width: Story = (_, { globals: { theme } }) => (
+  <Button width={400}>Закрыть</Button>
+);
+
+export const _Validations: Story = (_, { globals: { theme } }) => (
+  <>
+    <Button warning>Закрыть</Button>
+    <Button error>Закрыть</Button>
+  </>
+);
+
+export const _Arrow: Story = (_, { globals: { theme } }) => (
+  <Gapped gap={5}>
+    <Button arrow="left" size="medium">Назад</Button>
+    <Button arrow size="medium">Далее</Button>
+  </Gapped>
+);
+
+export const _Loading: Story = (_, { globals: { theme } }) => (
+  <Gapped>
+    <Button width={150}>Удалить</Button>
+    <Button icon={<MinusCircleIcon16Light />} width={150}>Удалить</Button>
+    <Button rightIcon={<MinusCircleIcon16Light />} width={150}>Удалить</Button>
+    <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150}>Удалить</Button>
+  </Gapped>
+);
+
+export const _Theme: Story = (_, { globals: { theme } }) => (
+  <Gapped>
+    <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
+    <Button use="link" theme={{ linkColor: '#C00000' }}>Ok</Button>
+    <Button>Ok</Button>
+  </Gapped>
+);
+
+//
 
 const useStates: ButtonState[] = [
   { use: 'default' },
