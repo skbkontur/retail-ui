@@ -10,9 +10,7 @@ import {
 
 export default function FeatureFlagsExampleFixedValidationTextColorsDarkTheme() {
   return (
-    <ValidationsFeatureFlagsContext.Provider
-      value={{ fixedValidationTextColors: true, darkTheme: true }}
-    >
+    <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>
       <ValidationContainer>
         <Gapped style={{ background: '#2b2b2b', padding: '10px 0 32px 10px' }}>
           <ValidationWrapper
