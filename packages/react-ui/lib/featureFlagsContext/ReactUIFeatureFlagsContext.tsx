@@ -1,12 +1,8 @@
 import React from 'react';
 
-export interface ReactUIFeatureFlags {
-  textareaUseSafari17Workaround?: boolean;
-}
+export interface ReactUIFeatureFlags {}
 
-export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  textareaUseSafari17Workaround: false,
-};
+export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {};
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
 
