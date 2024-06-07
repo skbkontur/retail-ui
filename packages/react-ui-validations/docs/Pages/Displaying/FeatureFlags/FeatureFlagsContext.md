@@ -3,7 +3,6 @@
 ## Доступные флаги
 
     export interface ValidationsFeatureFlags {
-      validationsRemoveExtraSpans?: boolean;
       darkTheme?: boolean;
     }
 
@@ -13,16 +12,9 @@
 
     import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
+    <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
 
 ## Использование
-
-### validationsRemoveExtraSpans
-
-В ValidationContainer, ValidationWrapper и ValidationText из корня удалён лишний span.
-В Validations 2.0 фича будет применена по умолчанию.
-
-    !!DemoWithCode!!FeatureFlagsExamplevalidationsRemoveExtraSpans
 
 ### darkTheme
 
