@@ -86,4 +86,9 @@ export const styles = memoizeStyle({
       transform: translate(0, 0);
     `;
   },
+  wrapper() {
+    return css`
+      position: relative;
+    `;
+  },
 });

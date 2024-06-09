@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, LegacyRef } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
@@ -128,6 +128,7 @@ export interface PopupProps
    */
   tryPreserveFirstRenderedPosition?: boolean;
   withoutMobile?: boolean;
+  disablePortal?: boolean;
   mobileOnCloseRequest?: () => void;
   /**
    * Возвращает текущую позицию попапа
@@ -161,7 +162,14 @@ export const PopupIds = {
 type DefaultProps = Required<
   Pick<
     PopupProps,
-    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width'
+    | 'popupOffset'
+    | 'hasPin'
+    | 'hasShadow'
+    | 'disablePortal'
+    | 'disableAnimations'
+    | 'useWrapper'
+    | 'ignoreHover'
+    | 'width'
   >
 >;
 
@@ -233,6 +241,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     pos: PropTypes.string,
 
     /**
+     * Отключает использование портала
+     */
+    disablePortal: PropTypes.bool,
+
+    /**
      * Игнорировать ли события hover/click
      */
     ignoreHover: PropTypes.bool,
@@ -245,6 +258,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
+    disablePortal: false,
     width: 'auto',
   };
 
@@ -266,6 +280,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
+  private wrapperElement: Nullable<HTMLDivElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -356,7 +371,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderMain() {
-    const { location } = this.state;
     const { anchorElement } = this.props;
     const useWrapper = this.getProps().useWrapper;
 
@@ -387,15 +401,40 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // in the case when the anchor is not refable
 
     const canGetAnchorNode = !!anchorWithRef || isInstanceOf(anchorElement, globalObject.Element);
+    const renderRef = canGetAnchorNode ? null : this.updateAnchorElement;
+    const renderAnchor = anchorWithRef || anchor;
+
+    return this.props.disablePortal
+      ? this.renderWithoutPortal(renderAnchor, renderRef)
+      : this.renderInPortal(renderAnchor, renderRef);
+  }
+
+  private renderInPortal = (anchor: React.ReactNode, ref: null | LegacyRef<RenderContainer>) => {
+    const { location } = this.state;
 
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
+      <RenderContainer anchor={anchor} ref={ref}>
         {this.isMobileLayout && !this.props.withoutMobile
           ? this.renderMobile()
           : location && this.renderContent(location)}
       </RenderContainer>
     );
-  }
+  };
+
+  private renderWithoutPortal = (anchor: React.ReactNode, ref: null | LegacyRef<EmptyWrapper>) => {
+    const { location } = this.state;
+
+    return (
+      <EmptyWrapper ref={ref}>
+        {anchor}
+        {location && (
+          <div ref={this.updateWrapperElement} className={styles.wrapper()}>
+            {this.renderContent(location)}
+          </div>
+        )}
+      </EmptyWrapper>
+    );
+  };
 
   private updateAnchorElement = (instance: Nullable<React.ReactInstance>) => {
     const childDomNode = isInstanceWithAnchorElement(instance) ? instance.getAnchorElement() : getRootNode(instance);
@@ -406,6 +445,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.anchorElement = childDomNode;
       this.addEventListeners(childDomNode);
     }
+  };
+
+  private updateWrapperElement = (instance: HTMLDivElement) => {
+    this.wrapperElement = instance;
   };
 
   private addEventListeners(element: Nullable<Element>) {
@@ -746,35 +789,54 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
+  private getWrapperShift = () => {
+    const { wrapperElement } = this;
+
+    if (!this.props.disablePortal || !wrapperElement) {
+      return {
+        top: 0,
+        left: 0,
+      };
+    }
+
+    const wrapperRect = PopupHelper.getElementAbsoluteRect(wrapperElement);
+
+    return {
+      top: -wrapperRect.top,
+      left: -wrapperRect.left,
+    };
+  };
+
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
     const { margin: marginFromProps } = this.props;
     const margin =
       isNonNullable(marginFromProps) && !isNaN(marginFromProps)
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
+    const wrapperShift = this.getWrapperShift();
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
     switch (position.direction) {
       case 'top':
         return {
-          top: anchorRect.top - popupRect.height - margin,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+          top: anchorRect.top - popupRect.height - margin + wrapperShift.top,
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.left,
         };
       case 'bottom':
         return {
-          top: anchorRect.top + anchorRect.height + margin,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+          top: anchorRect.top + anchorRect.height + margin + wrapperShift.top,
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.left,
         };
       case 'left':
         return {
-          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
-          left: anchorRect.left - popupRect.width - margin,
+          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.top,
+          left: anchorRect.left - popupRect.width - margin + wrapperShift.left,
         };
       case 'right':
         return {
-          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
-          left: anchorRect.left + anchorRect.width + margin,
+          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.top,
+          left: anchorRect.left + anchorRect.width + margin + wrapperShift.left,
         };
       default:
         throw new Error(`Unexpected direction '${position.direction}'`);
@@ -823,5 +885,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       default:
         throw new Error(`Unexpected align '${align}'`);
     }
+  }
+}
+
+// Нужно, чтобы получать по рефу dom-элемент, в который зарендерится anchor
+class EmptyWrapper extends React.Component {
+  public render() {
+    return this.props.children;
   }
 }
