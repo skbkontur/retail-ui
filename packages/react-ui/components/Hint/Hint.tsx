@@ -72,6 +72,10 @@ export interface HintProps extends CommonProps {
    */
   disableAnimations?: boolean;
   /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean;
+  /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования хинта при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
@@ -215,6 +219,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
           onPositionChange={(position) => this.setState({ position })}
+          disablePortal={this.props.disablePortal}
           disableAnimations={disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
