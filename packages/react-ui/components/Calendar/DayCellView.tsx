@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useEmotion } from '../../lib/theming/Emotion';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { useTheme } from '../../lib/theming/useTheme';
 
-import { styles } from './DayCellView.styles';
+import { getStyles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
 import { DayCellViewModel } from './DayCellViewModel';
 import * as CDS from './CalendarDateShape';

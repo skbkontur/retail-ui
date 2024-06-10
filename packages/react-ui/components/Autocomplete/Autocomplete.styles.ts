@@ -11,9 +11,10 @@ export const getStyles = (emotion: Emotion) =>
         width: ${t.inputWidth};
       `;
     },
-  noPortal() {
-    return css`
+
+    noPortal() {
+      return emotion.css`
       position: relative;
     `;
-  },
+    },
   });
