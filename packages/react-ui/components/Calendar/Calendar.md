@@ -82,10 +82,11 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
-
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
+
 - Базовая высота календаря - `330px`
 - Максимальная высота календаря - `450px`
+
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
@@ -101,6 +102,46 @@ const theme = React.useContext(ThemeContext);
     onValueChange={setDate}
   />
 </ThemeContext.Provider>
+```
+
+### Кастомный рендер дня
+
+```jsx harmony
+import { Tooltip, Hint, CalendarDay } from '@skbkontur/react-ui';
+
+const initialValue = "02.09.2023";
+
+const [value, setValue] = React.useState(initialValue);
+
+const renderDay = (props) => {
+  const [date, month, year] = props.date.split('.').map(Number);
+
+  if (month == 9 && date > 12 && date < 16) {
+    return (
+      <Tooltip render={() => "Кастомный день"}>
+        <CalendarDay {...props} style={{ background: 'darkgray' }} />
+      </Tooltip>
+    );
+  }
+
+  if (month == 8 && date == 20) {
+    return (
+      <Hint text={date} pos="right middle">
+        <CalendarDay {...props}>
+          <b style={{color: 'orange'}}>#</b>
+        </CalendarDay>
+      </Hint>
+    );
+  }
+
+  return <CalendarDay {...props} />
+};
+
+<Calendar
+  value={value}
+  onValueChange={setValue}
+  renderDay={renderDay}
+/>;
 ```
 
 #### Локали по умолчанию

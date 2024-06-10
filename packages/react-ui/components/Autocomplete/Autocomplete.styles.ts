@@ -8,4 +8,9 @@ export const styles = memoizeStyle({
       width: ${t.inputWidth};
     `;
   },
+  noPortal() {
+    return css`
+      position: relative;
+    `;
+  },
 });

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { isNonNullable } from '../src/utils/isNonNullable';
 
 declare function require(name: string): any;
@@ -5,9 +7,12 @@ declare function require(name: string): any;
 const defaultOrNamed = (module: any, component: string) =>
   module && module.__esModule && module.default ? module.default : module[component];
 
-const Tooltip = defaultOrNamed(require('__REACT_UI_PACKAGE__/components/Tooltip'), 'Tooltip');
+const importContext = (module: any, component: string) => module[component] || React.createContext({});
 
-export { Tooltip };
+const Tooltip = defaultOrNamed(require('__REACT_UI_PACKAGE__/components/Tooltip'), 'Tooltip');
+const ThemeContext = importContext(require('__REACT_UI_PACKAGE__/lib/theming/ThemeContext'), 'ThemeContext');
+
+export { Tooltip, ThemeContext };
 
 export class ReactUiDetection {
   public static isDatePicker(childrenArray: any): boolean {

@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.24.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.23.0...@skbkontur/react-ui@4.24.0) (2024-06-05)
+
+
+### Features
+
+* **Calendar:** add public component Calendar.Day ([#3415](https://github.com/skbkontur/retail-ui/issues/3415)) ([f32c251](https://github.com/skbkontur/retail-ui/commit/f32c251426b057fbb5a704af23ce60fc0ce0b967))
+* **Calendar, DatePicker:** add renderDay and onMonthChange props ([#3257](https://github.com/skbkontur/retail-ui/issues/3257)) ([228a6f4](https://github.com/skbkontur/retail-ui/commit/228a6f44621115037013cf27235b4dda2ad3896d))
+* **DatePicker:** mobile version ([#3323](https://github.com/skbkontur/retail-ui/issues/3323)) ([2785f2b](https://github.com/skbkontur/retail-ui/commit/2785f2b7c05958e76acb0dc749d275b7b2263d79))
+
+
+
+
+
+# [4.23.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.6...@skbkontur/react-ui@4.23.0) (2024-05-28)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip:** unify positioning ([#3416](https://github.com/skbkontur/retail-ui/issues/3416)) ([be0c447](https://github.com/skbkontur/retail-ui/commit/be0c447d228b861e4967737b95bbdecde4e2281d))
+
+
+
+
+
+## [4.22.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.5...@skbkontur/react-ui@4.22.6) (2024-05-28)
+
+
+### Bug Fixes
+
+* **Autocomplete:** fix dropdown position when disablePortal ([#3426](https://github.com/skbkontur/retail-ui/issues/3426)) ([a991806](https://github.com/skbkontur/retail-ui/commit/a991806862eedbbc9dfb76dfa95cca94d24b6974))
+
+
+
+
+
 ## [4.22.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.4...@skbkontur/react-ui@4.22.5) (2024-05-14)
 
 
