@@ -49,9 +49,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.btnPayActiveBg;
   }
 
-  public static btnDangerBg = '#ED3F3F';
-  public static btnDangerHoverBg = '#FE4C4C';
-  public static btnDangerActiveBg = '#CC2626';
+  public static btnDangerBg = '#EE5042';
+  public static btnDangerHoverBg = '#FF5A49';
+  public static btnDangerActiveBg = '#CB3D35';
   public static get btnDangerBorderColor() {
     return this.btnDangerBg;
   }
@@ -102,8 +102,8 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkSuccessHoverColor = '#B9E96E';
   public static linkSuccessActiveColor = '#5F9C20';
 
-  public static linkDangerColor = '#FE6C6C';
-  public static linkDangerHoverColor = '#FE8C8C';
+  public static linkDangerColor = '#FF887B';
+  public static linkDangerHoverColor = '#FF9D92';
   public static linkDangerActiveColor = '#ED3F3F';
 
   public static linkGrayedColor = 'rgba(255, 255, 255, 0.54)';

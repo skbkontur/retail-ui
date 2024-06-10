@@ -25,9 +25,9 @@ export class DefaultTheme {
   public static greenXxLight = '#d7f8ae';
   public static green = '#538a1b';
   public static greenDark = '#477916';
-  public static redXxLight = '#FFEBEB';
-  public static red = '#DD3333';
-  public static redDark = '#CC2626';
+  public static redXxLight = '#ffddd6';
+  public static red = '#dd473b';
+  public static redDark = '#cb3d35';
   public static yellowXxLight = '#ffeec2';
   public static yellow = '#fcb73e';
   public static yellowDark = '#ef8b17';
@@ -36,9 +36,9 @@ export class DefaultTheme {
     return this.bgDefault;
   }
   public static bgDisabled = '#f6f6f6';
-  public static errorMain = '#DD3333';
+  public static errorMain = '#dd473b';
   public static errorSecondary = '#ffd6d6';
-  public static errorText = '#CC2626';
+  public static errorText = '#cb3d35';
   public static warningMain = '#fcb73e';
   public static warningSecondary = '#fff0bc';
   public static warningText = '#d97e00';
@@ -99,9 +99,9 @@ export class DefaultTheme {
   public static linkSuccessColor = '#477916';
   public static linkSuccessHoverColor = '#477916';
   public static linkSuccessActiveColor = '#325a0c';
-  public static linkDangerColor = '#CC2626';
-  public static linkDangerHoverColor = '#CC2626';
-  public static linkDangerActiveColor = '#AB0D0D';
+  public static linkDangerColor = '#cb3d35';
+  public static linkDangerHoverColor = '#cb3d35';
+  public static linkDangerActiveColor = '#a92a27';
   public static linkIconMarginRight = '4px';
   public static linkIconMarginLeft = '4px';
   public static get linkHoverColor() {
@@ -511,20 +511,20 @@ export class DefaultTheme {
   public static btnPrimaryActiveBorderColor = '#156abe';
   public static btnPrimaryActiveBorderTopColor = '';
   public static btnPrimaryActiveShadow = 'none';
-  public static btnDangerBg = '#DD3333';
-  public static btnDangerHoverBg = '#CC2626';
-  public static btnDangerHoverBorderColor = '#CC2626';
+  public static btnDangerBg = '#dd473b';
+  public static btnDangerHoverBg = '#cb3d35';
+  public static btnDangerHoverBorderColor = '#cb3d35';
   public static btnDangerHoverBorderBottomColor = '';
   public static btnDangerHoverTextColor = '';
-  public static btnDangerBorderColor = '#DD3333';
+  public static btnDangerBorderColor = '#dd473b';
   public static btnDangerBorderBottomColor = '';
   public static btnDangerBgStart = 'none';
   public static btnDangerBgEnd = 'none';
   public static btnDangerTextColor = '#fff';
   public static btnDangerHoverBgStart = 'none';
   public static btnDangerHoverBgEnd = 'none';
-  public static btnDangerActiveBg = '#BB1919';
-  public static btnDangerActiveBorderColor = '#BB1919';
+  public static btnDangerActiveBg = '#ba342e';
+  public static btnDangerActiveBorderColor = '#ba342e';
   public static btnDangerActiveBorderTopColor = '';
   public static btnDangerActiveShadow = 'none';
   public static btnPayBg = '#fcb73e';
@@ -1006,7 +1006,7 @@ export class DefaultTheme {
   }
   public static calendarCellHoverColor = 'white';
   public static calendarCellActiveHoverColor = 'white';
-  public static calendarCellWeekendColor = '#CC2626';
+  public static calendarCellWeekendColor = '#cb3d35';
   public static calendarCellTodayBorder = '1px solid rgba(0, 0, 0, 0.32)';
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
