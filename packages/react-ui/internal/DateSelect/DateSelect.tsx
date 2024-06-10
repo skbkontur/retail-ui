@@ -456,6 +456,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     for (let item = from; item <= to; ++item) {
       items.push({ item, disabled: item < min || item > max });
     }
+    const styles = getStyles(this.emotion);
 
     return (
       // eslint-disable-next-line jsx-a11y/no-onchange

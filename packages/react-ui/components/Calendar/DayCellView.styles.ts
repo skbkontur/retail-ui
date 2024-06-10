@@ -1,22 +1,21 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { resetButton } from '../../lib/styles/Mixins';
 
-export const getStyles = (emotion: Emotion) =>
-  memoizeStyle({
+export const getStyles = (emotion: Emotion) => {
+  return memoizeStyle({
     cell(t: Theme) {
       return emotion.css`
         flex: 1 1 ${t.calendarCellWidth};
         height: ${t.calendarCellHeight};
     `;
-  },
-  day(t: Theme) {
-    return css`
-      width: 100%;
-      height: 100%;
+    },
+
+    day(t: Theme) {
+      return emotion.css`
+        width: 100%;
+        height: 100%;
 
         background: ${t.calendarCellBg};
         border: 1px solid transparent;
@@ -62,10 +61,11 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  todayCaption2022(t: Theme) {
+    todayCaption2022(t: Theme) {
       return emotion.css`
         padding-bottom: 2px;
         border-bottom: ${t.calendarCellTodayBorder};
       `;
     },
   });
+};

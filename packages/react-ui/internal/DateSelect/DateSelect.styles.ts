@@ -192,8 +192,8 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  nativeSelect() {
-    return css`
+    nativeSelect() {
+      return emotion.css`
       position: absolute;
       top: -12px;
       right: 0;
@@ -204,5 +204,5 @@ export const getStyles = (emotion: Emotion) =>
       opacity: 0;
       border: none;
     `;
-  },
+    },
   });

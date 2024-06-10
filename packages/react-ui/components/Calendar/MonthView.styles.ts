@@ -29,11 +29,11 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  monthMobile() {
-    return css`
-      width: 100%;
-    `;
-  },
+    monthMobile() {
+      return emotion.css`
+        width: 100%;
+      `;
+    },
 
     header() {
       return emotion.css`
@@ -57,10 +57,10 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  /* Note: this could've been
-   * display: grid;
-   * grid-template-columns: repeat(7, minmax(0, 1fr));
-   */
+    /* Note: this could've been
+     * display: grid;
+     * grid-template-columns: repeat(7, minmax(0, 1fr));
+     */
     monthDayGrid(t: Theme) {
       return emotion.css`
         line-height: ${t.calendarCellLineHeight};
@@ -68,10 +68,10 @@ export const getStyles = (emotion: Emotion) =>
       flex-direction: column;
       padding: ${t.calendarGridRowSpacing} 0px;
     `;
-  },
+    },
 
-  monthDayRow(t: Theme) {
-    return css`
+    monthDayRow(t: Theme) {
+      return emotion.css`
       display: flex;
       justify-content: space-between;
 
@@ -79,10 +79,10 @@ export const getStyles = (emotion: Emotion) =>
         margin-top: ${t.calendarGridRowSpacing};
       }
     `;
-  },
+    },
 
-  nativeSelect() {
-    return css`
+    nativeSelect() {
+      return emotion.css`
       position: absolute;
       top: -12px;
       right: 0;

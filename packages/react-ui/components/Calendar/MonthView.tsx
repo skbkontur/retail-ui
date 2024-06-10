@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { DateSelect } from '../../internal/DateSelect';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
@@ -84,7 +84,7 @@ export function MonthView(props: MonthViewProps) {
   return (
     <div
       data-tid={CalendarDataTids.month}
-      className={cx({ [styles.month(theme)]: true, [styles.monthMobile()]: isMobile })}
+      className={emotion.cx({ [styles.month(theme)]: true, [styles.monthMobile()]: isMobile })}
       style={{ top }}
       key={month + '-' + year}
     >

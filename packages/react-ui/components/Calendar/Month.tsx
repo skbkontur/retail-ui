@@ -12,7 +12,7 @@ import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { getStyles } from './MonthView.styles';
-import { styles as cellStyles } from './DayCellView.styles';
+import { getStyles as getCellStyles } from './DayCellView.styles';
 
 interface MonthProps {
   top: number;
@@ -134,6 +134,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public renderMain() {
     const styles = getStyles(this.emotion);
+    const cellStyles = getCellStyles(this.emotion);
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
       <div key={`leading_${i}`} className={cellStyles.cell(this.theme)} />
     ));
