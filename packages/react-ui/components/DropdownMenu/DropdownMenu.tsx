@@ -56,6 +56,11 @@ export interface DropdownMenuProps
    * Не показывать анимацию
    */
   disableAnimations?: boolean;
+
+  /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean;
 }
 
 type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
@@ -113,6 +118,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           popupHasPin={false}
           positions={positions}
           disableAnimations={disableAnimations}
+          disablePortal={this.props.disablePortal}
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}
