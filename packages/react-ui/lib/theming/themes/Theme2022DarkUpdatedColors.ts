@@ -2,7 +2,7 @@ import { ThemeFactory } from '../ThemeFactory';
 
 import { THEME_2022_DARK } from './Theme2022Dark';
 
-export const THEME_2022_DARK_UPDATED_COLORS = ThemeFactory.create(
+export const THEME_2022_DARK_UPDATE_JUNE_2024 = ThemeFactory.create(
   {
     green: '23A14A',
     greenDark: '#1C8A3F',

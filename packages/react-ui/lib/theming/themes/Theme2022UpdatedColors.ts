@@ -2,7 +2,7 @@ import { ThemeFactory } from '../ThemeFactory';
 
 import { THEME_2022 } from './Theme2022';
 
-export const THEME_2022_UPDATED_COLORS = ThemeFactory.create(
+export const THEME_2022_UPDATE_JUNE_2024 = ThemeFactory.create(
   {
     green: '#1C8A3F',
     greenXxLight: '#C7F9CC',
