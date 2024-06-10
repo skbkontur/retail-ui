@@ -23,9 +23,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnPrimaryActiveBg = '#C2C2C2';
   public static btnPrimaryTextColor = 'rgba(0, 0, 0, 0.865)';
 
-  public static btnSuccessBg = '#23A14A';
-  public static btnSuccessHoverBg = '#26AD50';
-  public static btnSuccessActiveBg = '#197F39';
+  public static btnSuccessBg = '#5F9C20';
+  public static btnSuccessHoverBg = '#6CAD26';
+  public static btnSuccessActiveBg = '#477916';
   public static get btnSuccessBorderColor() {
     return this.btnSuccessBg;
   }
@@ -98,9 +98,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkActiveColor = '#c2c2c2';
   public static linkHoverTextDecoration = 'none';
 
-  public static linkSuccessColor = '#46CD68';
-  public static linkSuccessHoverColor = '#67D881';
-  public static linkSuccessActiveColor = '#23A14A';
+  public static linkSuccessColor = '#78BF2B';
+  public static linkSuccessHoverColor = '#B9E96E';
+  public static linkSuccessActiveColor = '#5F9C20';
 
   public static linkDangerColor = '#FE6C6C';
   public static linkDangerHoverColor = '#FE8C8C';
