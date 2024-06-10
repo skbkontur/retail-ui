@@ -39,6 +39,7 @@ export const VARIABLES_GROUPS = [
   { title: 'Legacy', prefix: 'chb slt' },
   { title: 'GlobalLoader', prefix: 'globalLoader' },
   { title: 'CloseButtonIcon', prefix: 'closeBtnIcon' },
+  { title: 'react-ui-validations', prefix: 'validations' },
 ];
 
 export const DEPRECATED_VARIABLES: Array<keyof Theme> = [];

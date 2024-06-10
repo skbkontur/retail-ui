@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  DARK_THEME,
-  Gapped,
-  Input,
-  ThemeContext,
-  ThemeFactory,
-} from '@skbkontur/react-ui';
+import { Meta } from '@storybook/react';
+import { DARK_THEME, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
-import {
-  text,
-  ValidationContainer,
-  ValidationsFeatureFlagsContext,
-  ValidationWrapper,
-} from '../../../../src';
+import { text, ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+
+export default {
+  title: 'FeatureFlags',
+} as Meta;
 
 function ValidationExamples() {
   return (
@@ -55,9 +49,7 @@ function DarkTheme() {
   return (
     <div style={{ background: '#2b2b2b' }}>
       <ThemeContext.Provider value={DARK_THEME}>
-        <ValidationsFeatureFlagsContext.Provider
-          value={{ fixedValidationTextColors: true }}
-        >
+        <ValidationsFeatureFlagsContext.Provider value={{ fixedValidationTextColors: true }}>
           <ValidationExamples />
         </ValidationsFeatureFlagsContext.Provider>
       </ThemeContext.Provider>
@@ -70,13 +62,11 @@ function CustomTheme() {
     <div style={{ background: '#faf7f3' }}>
       <ThemeContext.Provider
         value={ThemeFactory.create({
-          validationsTextColorWarning: 'orange',
+          validationsTextColorWarning: 'sandybrown',
           validationsTextColorError: 'red',
         })}
       >
-        <ValidationsFeatureFlagsContext.Provider
-          value={{ fixedValidationTextColors: true }}
-        >
+        <ValidationsFeatureFlagsContext.Provider value={{ fixedValidationTextColors: true }}>
           <ValidationExamples />
         </ValidationsFeatureFlagsContext.Provider>
       </ThemeContext.Provider>
@@ -84,12 +74,11 @@ function CustomTheme() {
   );
 }
 
-export default function FeatureFlagsExampleFixedValidationTextColors() {
-  return (
-    <Gapped vertical>
-      <LightTheme />
-      <DarkTheme />
-      <CustomTheme />
-    </Gapped>
-  );
-}
+export const FeatureFlag_fixedValidationTextColors = () => (
+  <Gapped vertical>
+    <LightTheme />
+    <DarkTheme />
+    <CustomTheme />
+  </Gapped>
+);
+FeatureFlag_fixedValidationTextColors.storyName = 'fixedValidationTextColors';

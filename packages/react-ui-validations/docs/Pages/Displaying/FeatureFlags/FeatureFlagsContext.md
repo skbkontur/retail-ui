@@ -29,14 +29,19 @@
 ### fixedValidationTextColors
 
 В ValidationText будут использоваться цвета по гайдам для error и warning.
+
+Для кастомизации цветов используйте переменные темы `validationsTextColorWarning` и
+`validationsTextColorError`.
+
 В Validations 2.0 фича будет применена по умолчанию.
 
     !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColors
 
-### darkTheme
+### darkTheme*
 
-На данный момент работает только в паре с **fixedValidationTextColors: true**.
-В ValidationText будут использоваться цвета по гайдам для error и warning из темной темы
+Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
+`validationsTextColorError`.
+В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
 
     !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
 
