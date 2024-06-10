@@ -1,5 +1,5 @@
 import type { ValidationLevel } from '../ValidationWrapperInternal';
-import { ThemeValidations } from '../../typings/theme-context';
+import type { ThemeValidations } from '../../typings/theme-context';
 
 import { ValidationsFeatureFlags } from './featureFlagsContext';
 
