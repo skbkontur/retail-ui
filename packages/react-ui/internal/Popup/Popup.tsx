@@ -545,8 +545,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { hasShadow, disableAnimations, ignoreHover } = this.getProps();
     const children = this.renderChildren();
 
+    const wrapperShift = this.getWrapperShift();
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
+    const rootStyle: React.CSSProperties = {
+      maxWidth,
+      top: location.coordinates.top + wrapperShift.top,
+      left: location.coordinates.left + wrapperShift.left,
+    };
 
     const shouldFallbackShadow = isIE11 || isEdge || isSafari;
 
@@ -813,30 +818,29 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       isNonNullable(marginFromProps) && !isNaN(marginFromProps)
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
-    const wrapperShift = this.getWrapperShift();
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
     switch (position.direction) {
       case 'top':
         return {
-          top: anchorRect.top - popupRect.height - margin + wrapperShift.top,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.left,
+          top: anchorRect.top - popupRect.height - margin,
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'bottom':
         return {
-          top: anchorRect.top + anchorRect.height + margin + wrapperShift.top,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.left,
+          top: anchorRect.top + anchorRect.height + margin,
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'left':
         return {
-          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.top,
-          left: anchorRect.left - popupRect.width - margin + wrapperShift.left,
+          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
+          left: anchorRect.left - popupRect.width - margin,
         };
       case 'right':
         return {
-          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset) + wrapperShift.top,
-          left: anchorRect.left + anchorRect.width + margin + wrapperShift.left,
+          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
+          left: anchorRect.left + anchorRect.width + margin,
         };
       default:
         throw new Error(`Unexpected direction '${position.direction}'`);
