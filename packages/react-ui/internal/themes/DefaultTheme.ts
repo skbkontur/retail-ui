@@ -2793,6 +2793,11 @@ export class DefaultTheme {
   public static miniModalHeaderPaddingMobile = '32px 16px 0';
   public static miniModalBodyPaddingMobile = '16px 16px 0';
   //#endregion
+
+  //#region react-ui-validations
+  public static validationsTextColorError = '#cb3d35';
+  public static validationsTextColorWarning = '#ef8b17';
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(DefaultTheme);
