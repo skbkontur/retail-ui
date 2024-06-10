@@ -48,6 +48,10 @@ export interface KebabProps
    */
   disableAnimations?: boolean;
   /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean;
+  /**
    * Кастомная иконка
    */
   icon?: React.ReactNode;
@@ -153,6 +157,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
                 onChangeMenuState={this.handleChangeMenuState}
                 caption={this.renderCaption}
                 disableAnimations={disableAnimations}
+                disablePortal={this.props.disablePortal}
                 menuMaxHeight={this.props.menuMaxHeight}
                 onOpen={onOpen}
                 onClose={onClose}
