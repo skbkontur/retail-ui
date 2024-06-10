@@ -104,7 +104,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   public static linkDangerColor = '#FF887B';
   public static linkDangerHoverColor = '#FF9D92';
-  public static linkDangerActiveColor = '#ED3F3F';
+  public static linkDangerActiveColor = '#EE5042';
 
   public static linkGrayedColor = 'rgba(255, 255, 255, 0.54)';
   public static linkGrayedHoverColor = '#FFFFFF';
