@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
@@ -13,7 +14,6 @@ import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
 import { DateInput } from '../DateInput';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
@@ -42,11 +42,12 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
+const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
+
 export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
+  extends Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -58,6 +59,12 @@ export interface DatePickerProps
    * Состояние валидации при ошибке.
    */
   error?: boolean;
+  /** Отключает использование портала */
+  disablePortal?: boolean;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   size?: SizeProp;
   value?: string | null;
@@ -100,7 +107,7 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'menuPos' | 'minDate' | 'maxDate' | 'menuAlign'>>;
 
 @responsiveLayout
 @rootNode
@@ -121,10 +128,14 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     error: PropTypes.bool,
 
+    disablePortal: PropTypes.bool,
+
     /**
      * Максимальная дата в календаре.
      */
     maxDate: PropTypes.string.isRequired,
+
+    menuPos: PropTypes.oneOf(['top', 'bottom']),
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
@@ -164,6 +175,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   };
 
   public static defaultProps: DefaultProps = {
+    menuPos: 'top',
+    menuAlign: 'left',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
   };
@@ -273,8 +286,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     );
   }
 
+  private getPos = () => {
+    const { menuPos, menuAlign } = this.getProps();
+
+    return `${menuPos} ${menuAlign}` as PopupPositionsType;
+  };
+
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
     let picker = null;
+    const pos = this.getPos();
 
     const { minDate, maxDate } = this.getProps();
 
@@ -310,12 +330,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
               },
             }}
           >
-            <DropdownContainer
-              menuPos={this.props.menuPos}
+            <Popup
+              opened
+              hasShadow
+              pos={pos}
+              disablePortal={this.props.disablePortal}
+              positions={[pos, ...POSITIONS]}
               data-tid={DatePickerDataTids.root}
-              getParent={this.getParent}
-              offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
-              align={this.props.menuAlign}
+              anchorElement={this.getParent()}
+              margin={parseInt(this.theme.datePickerMenuOffsetY)}
             >
               <div
                 data-tid={DatePickerDataTids.pickerRoot}
@@ -334,7 +357,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                 />
                 {this.props.enableTodayLink && this.renderTodayLink()}{' '}
               </div>
-            </DropdownContainer>
+            </Popup>
           </LocaleContext.Provider>
         );
       }
