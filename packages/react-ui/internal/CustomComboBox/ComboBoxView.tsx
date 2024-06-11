@@ -1,7 +1,6 @@
 import React, { AriaAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
-import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
@@ -21,6 +20,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
+import { Popup, PopupPositionsType } from '../Popup';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -29,10 +29,7 @@ import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
-interface ComboBoxViewProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
-    CommonProps {
+interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -45,6 +42,10 @@ interface ComboBoxViewProps<T>
   error?: boolean;
   items?: Nullable<Array<ComboBoxExtendedItem<T>>>;
   loading?: boolean;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   opened?: boolean;
   drawArrow?: boolean;
@@ -93,6 +94,8 @@ interface ComboBoxViewProps<T>
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxViewProps<T>,
+    | 'menuPos'
+    | 'menuAlign'
     | 'renderItem'
     | 'renderValue'
     | 'renderAddButton'
@@ -109,9 +112,15 @@ export const ComboBoxViewIds = {
   menu: 'ComboBoxView__menu',
 };
 
+const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
+
+interface ComboBoxViewState {
+  anchorElement: Nullable<Element>;
+}
+
 @responsiveLayout
 @rootNode
-export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
+export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
   public static displayName = 'ComboBoxView';
 
@@ -129,6 +138,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     },
     size: 'small',
     width: 250,
+    menuPos: 'bottom',
+    menuAlign: 'left',
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
@@ -137,15 +148,24 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   private setRootNode!: TSetRootNode;
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
-  private dropdownContainerRef = React.createRef<DropdownContainer>();
+  private dropdownContainerRef = React.createRef<Popup>();
   private theme!: Theme;
   private menuId = ComboBoxViewIds.menu + getRandomID();
+
+  public state = {
+    anchorElement: null,
+  };
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
       this.props.onFocus();
     }
-    this.props.opened && this.dropdownContainerRef.current?.position();
+
+    if (this.props.opened) {
+      this.setState({
+        anchorElement: this.getParent(),
+      });
+    }
   }
 
   public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
@@ -202,6 +222,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
       <ComboBoxMenu
+        hasMargin={false}
+        hasShadow={false}
         menuId={this.menuId}
         items={items}
         loading={loading}
@@ -223,20 +245,32 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     );
   };
 
+  private getPos = () => {
+    const { menuPos, menuAlign } = this.getProps();
+
+    return `${menuPos} ${menuAlign}` as PopupPositionsType;
+  };
+
   private renderMenu = () => {
-    const { menuAlign, opened, menuPos } = this.props;
+    const pos = this.getPos();
+    const { opened } = this.props;
+    const { anchorElement } = this.state;
 
     return (
-      opened && (
-        <DropdownContainer
-          menuPos={menuPos}
-          align={menuAlign}
-          getParent={this.getParent}
+      opened &&
+      anchorElement && (
+        <Popup
+          opened
+          pos={pos}
+          hasShadow
+          anchorElement={anchorElement}
+          positions={[pos, ...POSITIONS]}
           disablePortal={this.props.disablePortal}
+          margin={parseInt(this.theme.menuOffsetY)}
           ref={this.dropdownContainerRef}
         >
           {this.getComboBoxMenu()}
-        </DropdownContainer>
+        </Popup>
       )
     );
   };
