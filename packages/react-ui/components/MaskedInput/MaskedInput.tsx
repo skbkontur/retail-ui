@@ -1,4 +1,4 @@
-import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState } from 'react';
 import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
 
@@ -71,15 +71,6 @@ export const MaskedInput = forwardRefAndName(
     const prevValue = useRef<string>(props.value || '');
 
     const showPlaceholder = !(alwaysShowMask || focused);
-
-    useEffect(() => {
-      inputRef.current &&
-        (inputRef.current.selectAll = () => {
-          setTimeout(() => {
-            inputRef.current?.setSelectionRange(0, 999);
-          });
-        });
-    }, []);
 
     useImperativeHandle(ref, () => inputRef.current, []);
 
