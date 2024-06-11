@@ -11,10 +11,11 @@ import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
 import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
 import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
-import { THEME_2022 } from '../lib/theming/themes/Theme2022';
-import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
+// import { THEME_2022 } from '../lib/theming/themes/Theme2022';
+// import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
-
+import { THEME_2022_UPDATE_JUNE_2024 as THEME_2022 } from '../lib/theming/themes/Theme2022UpdatedColors';
+import { THEME_2022_DARK_UPDATE_JUNE_2024 as THEME_2022_DARK } from '../lib/theming/themes/Theme2022DarkUpdatedColors';
 const customViewports = {
   iphone: {
     name: 'Iphone',
