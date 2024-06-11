@@ -280,7 +280,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
-  private wrapperElement: Nullable<HTMLDivElement> = null;
+  private relativeParent: Nullable<HTMLDivElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -428,7 +428,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <EmptyWrapper ref={ref}>
         {anchor}
         {location && (
-          <div ref={this.updateWrapperElement} className={styles.wrapper()}>
+          <div ref={this.updateRelativeElement} className={styles.relativeParent()}>
             {this.renderContent(location)}
           </div>
         )}
@@ -447,8 +447,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private updateWrapperElement = (instance: HTMLDivElement) => {
-    this.wrapperElement = instance;
+  private updateRelativeElement = (instance: HTMLDivElement) => {
+    this.relativeParent = instance;
   };
 
   private addEventListeners(element: Nullable<Element>) {
@@ -545,12 +545,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { hasShadow, disableAnimations, ignoreHover } = this.getProps();
     const children = this.renderChildren();
 
-    const wrapperShift = this.getWrapperShift();
+    const relativeShift = this.getRelativeShift();
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = {
       maxWidth,
-      top: location.coordinates.top + wrapperShift.top,
-      left: location.coordinates.left + wrapperShift.left,
+      top: location.coordinates.top + relativeShift.top,
+      left: location.coordinates.left + relativeShift.left,
     };
 
     const shouldFallbackShadow = isIE11 || isEdge || isSafari;
@@ -794,21 +794,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private getWrapperShift = () => {
-    const { wrapperElement } = this;
+  private getRelativeShift = () => {
+    const { relativeParent } = this;
 
-    if (!this.props.disablePortal || !wrapperElement) {
+    if (!this.props.disablePortal || !relativeParent) {
       return {
         top: 0,
         left: 0,
       };
     }
 
-    const wrapperRect = PopupHelper.getElementAbsoluteRect(wrapperElement);
+    const rect = PopupHelper.getElementAbsoluteRect(relativeParent);
 
     return {
-      top: -wrapperRect.top,
-      left: -wrapperRect.left,
+      top: -rect.top,
+      left: -rect.left,
     };
   };
 
