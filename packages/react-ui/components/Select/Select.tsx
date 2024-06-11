@@ -14,7 +14,6 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonUse } from '../Button';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -41,6 +40,7 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -58,6 +58,8 @@ export interface ButtonParams
   isPlaceholder: boolean;
   size: SizeProp;
 }
+
+const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
 
 const PASS_BUTTON_PROPS = {
   disabled: true,
@@ -90,7 +92,6 @@ type SelectItem<TValue, TItem> =
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
   /** @ignore */
   _icon?: React.ReactNode;
@@ -134,6 +135,10 @@ export interface SelectProps<TValue, TItem>
   items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
   onValueChange?: (value: TValue) => void;
@@ -188,7 +193,10 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 type DefaultProps<TValue, TItem> = Required<
-  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
+  Pick<
+    SelectProps<TValue, TItem>,
+    'menuPos' | 'menuAlign' | 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'
+  >
 >;
 
 @responsiveLayout
@@ -207,6 +215,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
+    menuPos: 'bottom',
+    menuAlign: 'left',
   };
 
   public static Item = Item;
@@ -472,23 +482,34 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return arrowLeftPadding;
   }
 
+  private getPos = () => {
+    const { menuPos, menuAlign } = this.getProps();
+
+    return `${menuPos} ${menuAlign}` as PopupPositionsType;
+  };
+
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? this.getSearch() : null;
 
+    const pos = this.getPos();
     const value = this.getValue();
-    const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
 
     return (
-      <DropdownContainer
+      <Popup
+        opened
+        pos={pos}
+        hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        getParent={this.dropdownContainerGetParent}
-        align={this.props.menuAlign}
+        positions={[pos, ...POSITIONS]}
+        anchorElement={this.dropdownContainerGetParent()}
         disablePortal={this.props.disablePortal}
-        hasFixedWidth={hasFixedWidth}
-        menuPos={this.props.menuPos}
+        margin={parseInt(this.theme.menuOffsetY)}
+        width={this.props.menuWidth}
       >
         <Menu
+          hasMargin={false}
+          hasShadow={false}
           ref={this.refMenu}
           width={this.props.menuWidth}
           onItemClick={this.close}
@@ -498,7 +519,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           {search}
           {this.getMenuItems(value)}
         </Menu>
-      </DropdownContainer>
+      </Popup>
     );
   }
 
