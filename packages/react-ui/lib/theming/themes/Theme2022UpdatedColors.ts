@@ -48,6 +48,29 @@ export const THEME_2022_UPDATE_JUNE_2024 = ThemeFactory.create(
     validationsTextColorError: '#CC2626',
     // error background for button use=link
     btnErrorSecondary: '#FFEBEB',
+
+    // disabled colors
+    btnDisabledTextColor: '#ADADAD',
+
+    inputIconColor: '#ADADAD',
+    inputTextColorDisabled: '#ADADAD',
+    inputPlaceholderColorDisabled: '#ADADAD',
+
+    textareaTextColorDisabled: '#ADADAD',
+    textareaPlaceholderColorDisabled: '#ADADAD',
+
+    tokenTextColorDisabled: '#ADADAD',
+
+    selectPlaceholderColorDisabled: '#ADADAD',
+    selectMenuArrowColorDisabled: '#ADADAD',
+
+    menuItemDisabledColor: '#ADADAD',
+
+    linkDisabledColor: '#ADADAD',
+
+    fileUploaderDisabledTextColor: '#ADADAD',
+    fileUploaderDisabledLinkColor: '#ADADAD',
+    fileUploaderDisabledIconColor: '#ADADAD',
   },
   THEME_2022,
 );
