@@ -40,6 +40,12 @@ export const THEME_2022_DARK_UPDATE_JUNE_2024 = ThemeFactory.create(
     calendarCellWeekendColor: '#FE6C6C',
 
     fileUploaderBorderColorError: '#ED3F3F',
+
+    inputBorderColorError: '#FE6C6C',
+
+    validationsTextColorError: '#ED3F3F',
+    // error background for button use=link
+    btnErrorSecondary: '#AB0D0D',
   },
   THEME_2022_DARK,
 );

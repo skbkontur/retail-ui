@@ -42,6 +42,12 @@ export const THEME_2022_UPDATE_JUNE_2024 = ThemeFactory.create(
     btnDangerActiveBorderColor: '#DD3333',
 
     calendarCellWeekendColor: '#CC2626',
+
+    inputBorderColorError: '#DD3333',
+
+    validationsTextColorError: '#CC2626',
+    // error background for button use=link
+    btnErrorSecondary: '#FFEBEB',
   },
   THEME_2022,
 );
