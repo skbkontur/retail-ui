@@ -1,5 +1,6 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { IMaskInputProps } from 'react-imask';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InputElement, InputElementProps } from '../../components/Input';
@@ -104,12 +105,25 @@ export const MaskedInputElement = forwardRefAndName(
     }
 
     function paintText() {
-      if (!spanRef.current || !inputRef.current || !inputStyle.current) {
+      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
 
-      if (!spanRef.current.shadowRoot) {
-        spanRef.current.attachShadow({ mode: 'open' });
+      let shadow = spanRef.current.shadowRoot;
+      let styleEl = shadow?.getElementById('style');
+      let spanEl = shadow?.getElementById('span');
+
+      if (!(styleEl && spanEl)) {
+        shadow = spanRef.current.attachShadow({ mode: 'open' });
+
+        styleEl = globalObject.document.createElement('style');
+        styleEl.setAttribute('id', 'style');
+
+        spanEl = globalObject.document.createElement('span');
+        spanEl.setAttribute('id', 'span');
+
+        shadow.appendChild(styleEl);
+        shadow.appendChild(spanEl);
       }
 
       const style = inputStyle.current;
@@ -119,11 +133,8 @@ export const MaskedInputElement = forwardRefAndName(
           ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
           : '';
 
-      spanRef.current.shadowRoot &&
-        (spanRef.current.shadowRoot.innerHTML = `
-        <style> * { font: ${style.font}; } </style>
-        ${val}
-      `);
+      styleEl.textContent = `<style> * { font: ${style.font}; } </style>`;
+      spanEl.textContent = val;
 
       const inputRect = inputRef.current.getBoundingClientRect();
       const filledRect = spanRef.current.getBoundingClientRect();
