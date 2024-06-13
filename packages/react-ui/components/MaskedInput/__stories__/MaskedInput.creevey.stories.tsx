@@ -10,7 +10,7 @@ export default {
   title: 'MaskedInput/Functional tests',
   parameters: {
     creevey: {
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     },
   },
 } as Meta;

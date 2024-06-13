@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { MaskedInput } from '../MaskedInput';
 
@@ -54,7 +55,7 @@ describe('MaskedInput', () => {
   });
 
   it('should accept `null` as value', () => {
-    // @ts-expect-error: `Input` techinically can't accept `null` as a `value`
+    // @ts-expect-error: `Input` technically can't accept `null` as a `value`
     expect(() => render(<MaskedInput value={null} mask="99:99" />)).not.toThrow();
   });
 
@@ -89,5 +90,57 @@ describe('MaskedInput', () => {
     fireEvent.input(input, { target: { value: 'A' } });
 
     expect(handleUnexpectedInput).toHaveBeenCalledTimes(1);
+  });
+
+  it('fixed symbols on focus', () => {
+    render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" alwaysShowMask />);
+
+    const input = screen.getByRole('textbox');
+    input.focus();
+
+    expect(input).toHaveValue('+7 (___) ___ __ __');
+  });
+
+  it.each([
+    ['', ''],
+    ['+7 (', '+7 ('],
+    ['+7 (9', '+7 (9'],
+  ])(`focus and blur with value '%s'`, (value, expectedValue) => {
+    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
+
+    const input = screen.getByRole('textbox');
+    input.focus();
+    input.blur();
+
+    expect(input).toHaveValue(expectedValue);
+  });
+
+  it('onValueChange do not fire on focus when value is empty', () => {
+    const valueChangeEvent = jest.fn();
+    render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
+
+    const input = screen.getByRole('textbox');
+    input.focus();
+
+    expect(valueChangeEvent).not.toHaveBeenCalled();
+  });
+
+  it('onValueChange fire on mount when value is not empty', () => {
+    const valueChangeEvent = jest.fn();
+    render(<MaskedInput mask="+7 (999) 999 99 99" value="123" onValueChange={valueChangeEvent} />);
+
+    expect(valueChangeEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('onValueChange fire on every input event', () => {
+    const valueChangeEvent = jest.fn();
+    render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
+    const input = screen.getByRole('textbox');
+
+    userEvent.type(input, '1');
+    userEvent.type(input, '2');
+    userEvent.type(input, '3');
+
+    expect(valueChangeEvent).toHaveBeenCalledTimes(3);
   });
 });
