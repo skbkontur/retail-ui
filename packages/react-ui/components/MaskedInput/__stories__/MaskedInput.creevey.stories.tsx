@@ -247,7 +247,7 @@ const testRewriteInMiddle: CreeveyTests = {
   },
 };
 
-export const RewriteInMiddle: Story = () => <MaskedInput width="150" value={'34'} mask="9999" alwaysShowMask />;
+export const RewriteInMiddle: Story = () => <MaskedInput width="150" defaultValue={'34'} mask="9999" alwaysShowMask />;
 
 RewriteInMiddle.parameters = {
   creevey: {
