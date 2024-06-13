@@ -5,7 +5,6 @@ import { IMaskInput, IMaskInputProps } from 'react-imask';
 import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement, MaskedInputElementDataTids } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { isKeyArrow, isKeyArrowRight } from '../../lib/events/keyboard/identifiers';
 import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
@@ -84,8 +83,6 @@ export const MaskedInput = forwardRefAndName(
         onFocus={handleFocus}
         onBlur={handleBlur}
         onInput={handleInput}
-        onMouseUp={handleMouseUp}
-        onKeyDown={handleKeyUp}
         className={cx(globalClasses.root, uiFontGlobalClasses.root)}
         data-tid={MaskedInputElementDataTids.root}
         element={
@@ -118,45 +115,6 @@ export const MaskedInput = forwardRefAndName(
       }
 
       return maskChars;
-    }
-
-    function getCursorPositions(): { nearest: number; current: number } {
-      if (!imaskRef.current || !imaskRef.current.maskRef || !imaskRef.current.element) {
-        return { current: 0, nearest: 0 };
-      }
-      const { selectionStart, selectionEnd } = imaskRef.current.element;
-
-      const nearest = imaskRef.current.maskRef.masked.nearestInputPos(999, 'LEFT');
-      const current = Math.min(selectionStart || 0, selectionEnd || 0);
-
-      return { current, nearest };
-    }
-
-    function setCursorPosition(pos: number) {
-      if (imaskRef.current?.element) {
-        imaskRef.current.element.selectionStart = pos;
-        imaskRef.current.element.selectionEnd = pos;
-      }
-    }
-
-    function handleMouseUp() {
-      const { current, nearest } = getCursorPositions();
-      if (current > nearest) {
-        setCursorPosition(nearest);
-      }
-    }
-
-    function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
-      if (isKeyArrow(e)) {
-        const { current, nearest } = getCursorPositions();
-
-        if (isKeyArrowRight(e) && current >= nearest) {
-          e.preventDefault();
-        }
-        if (current > nearest) {
-          setCursorPosition(nearest);
-        }
-      }
     }
 
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
