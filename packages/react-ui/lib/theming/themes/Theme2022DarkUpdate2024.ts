@@ -4,7 +4,7 @@ import { THEME_2022_DARK } from './Theme2022Dark';
 
 export const THEME_2022_DARK_UPDATE_2024 = ThemeFactory.create(
   {
-    green: '23A14A',
+    green: '#23A14A',
     greenDark: '#1C8A3F',
 
     red: '#ED3F3F',
@@ -32,10 +32,10 @@ export const THEME_2022_DARK_UPDATE_2024 = ThemeFactory.create(
     btnDangerBorderColor: '#ED3F3F',
 
     btnDangerHoverBg: '#FE4C4C',
-    btnDangerHoverBorderColor: 'FE4C4C',
+    btnDangerHoverBorderColor: '#FE4C4C',
 
     btnDangerActiveBg: '#CC2626',
-    btnDangerActiveBorderColor: 'CC2626',
+    btnDangerActiveBorderColor: '#CC2626',
 
     calendarCellWeekendColor: '#FE6C6C',
 
