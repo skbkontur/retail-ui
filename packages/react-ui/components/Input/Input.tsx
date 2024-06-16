@@ -536,7 +536,7 @@ export class Input extends React.Component<InputProps, InputState> {
       <span
         className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
           [styles.iconFocus(this.theme)]: this.state.focused,
-          [styles.iconDisabled()]: disabled,
+          [styles.iconDisabled(this.theme)]: disabled,
         })}
       >
         {iconNode}

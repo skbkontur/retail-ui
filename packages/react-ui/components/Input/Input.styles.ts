@@ -395,9 +395,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconDisabled() {
+  iconDisabled(t: Theme) {
     return css`
       cursor: default;
+      color: ${t.inputIconColorDisabled};
     `;
   },
 

@@ -52,7 +52,7 @@ export const THEME_2022_UPDATE_2024 = ThemeFactory.create(
     // disabled colors
     btnDisabledTextColor: '#ADADAD',
 
-    inputIconColor: '#ADADAD',
+    inputIconColorDisabled: '#ADADAD',
     inputTextColorDisabled: '#ADADAD',
     inputPlaceholderColorDisabled: '#ADADAD',
 
