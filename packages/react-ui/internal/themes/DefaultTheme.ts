@@ -1846,6 +1846,9 @@ export class DefaultTheme {
   public static inputShadow = 'none';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
+  public static get inputIconColorDisabled() {
+    return this.inputIconColor;
+  }
   public static get inputFocusedIconColor() {
     return this.inputIconColor;
   }
