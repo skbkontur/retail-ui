@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.15.1...react-ui-validations@1.16.0) (2024-06-17)
+
+
+### Features
+
+* **validations:** use `ThemeContext` ([#3446](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3446)) ([74fd90b](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/74fd90b337968eed217a478bf913e6ce2f7fe962))
+
+
+
+
+
 ## [1.15.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.15.0...react-ui-validations@1.15.1) (2024-05-22)
 
 
