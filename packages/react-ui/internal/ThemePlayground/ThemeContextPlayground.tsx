@@ -13,9 +13,12 @@ import { ComboBox } from '../../components/ComboBox';
 import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
-import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
-import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
+// TODO: revert in 5.0
+// import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
+// import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
+import { THEME_2022_DARK_UPDATE_2024 } from '../../lib/theming/themes/Theme2022DarkUpdate2024';
+import { THEME_2022_UPDATE_2024 } from '../../lib/theming/themes/Theme2022Update2024';
 
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
@@ -83,8 +86,8 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
         defaultOld: DEFAULT_THEME_8PX_OLD,
         dark: DARK_THEME,
         flatOld: FLAT_THEME_8PX_OLD,
-        theme2022: THEME_2022,
-        theme2022Dark: THEME_2022_DARK,
+        theme2022: THEME_2022_UPDATE_2024,
+        theme2022Dark: THEME_2022_DARK_UPDATE_2024,
       },
       themesErrors: {
         default: {},
