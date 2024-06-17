@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { Button, DARK_THEME, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { Button, Gapped, Input } from '@skbkontur/react-ui';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 
@@ -68,35 +68,4 @@ export const WithWrapperError = () => (
       </div>
     </ValidationContainer>
   </>
-);
-
-export const WithWrapperErrorWithoutSpan = () => (
-  <ThemeContext.Provider
-    value={ThemeFactory.create({
-      validationsTextColorWarning: '',
-      validationsTextColorError: '',
-    })}
-  >
-    <Gapped vertical gap={20}>
-      <ThemeContext.Provider value={DARK_THEME}>
-        <ValidationContainer>
-          <div>
-            <Button>Submit</Button>
-            <ValidationWrapper renderMessage={text('bottom')} validationInfo={validationWarning}>
-              <Input />
-            </ValidationWrapper>
-          </div>
-        </ValidationContainer>
-      </ThemeContext.Provider>
-
-      <ValidationContainer>
-        <div>
-          <Button>Submit</Button>
-          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
-            <Input />
-          </ValidationWrapper>
-        </div>
-      </ValidationContainer>
-    </Gapped>
-  </ThemeContext.Provider>
 );
