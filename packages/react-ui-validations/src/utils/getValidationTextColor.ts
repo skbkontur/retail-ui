@@ -10,18 +10,15 @@ export function getValidationTextColor(
   theme: ThemeValidations,
   level: ValidationLevel = 'error',
 ) {
-  if (flags.fixedValidationTextColors) {
-    if (!theme.validationsTextColorWarning && !theme.validationsTextColorError) {
-      switch (level) {
-        case 'warning':
-          return flags.darkTheme ? '#fdd481' : '#ef8b17';
-        case 'error':
-          return flags.darkTheme ? '#ff887b' : '#cb3d35';
-      }
+  if (!theme.validationsTextColorWarning && !theme.validationsTextColorError) {
+    switch (level) {
+      case 'warning':
+        return flags.darkTheme ? '#fdd481' : '#ef8b17';
+      case 'error':
+        return flags.darkTheme ? '#ff887b' : '#cb3d35';
     }
-    return (
-      (level === 'warning' ? theme.validationsTextColorWarning : theme.validationsTextColorError) || DEFAULT_TEXT_COLOR
-    );
   }
-  return DEFAULT_TEXT_COLOR;
+  return (
+    (level === 'warning' ? theme.validationsTextColorWarning : theme.validationsTextColorError) || DEFAULT_TEXT_COLOR
+  );
 }

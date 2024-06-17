@@ -2,10 +2,10 @@ import React from 'react';
 import { Meta } from '@storybook/react';
 import { DARK_THEME, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationWrapper } from '../src';
 
 export default {
-  title: 'FeatureFlags',
+  title: 'Themes',
 } as Meta;
 
 function ValidationExamples() {
@@ -38,20 +38,14 @@ function ValidationExamples() {
 }
 
 function LightTheme() {
-  return (
-    <ValidationsFeatureFlagsContext.Provider value={{ fixedValidationTextColors: true }}>
-      <ValidationExamples />
-    </ValidationsFeatureFlagsContext.Provider>
-  );
+  return <ValidationExamples />;
 }
 
 function DarkTheme() {
   return (
     <div style={{ background: '#2b2b2b' }}>
       <ThemeContext.Provider value={DARK_THEME}>
-        <ValidationsFeatureFlagsContext.Provider value={{ fixedValidationTextColors: true }}>
-          <ValidationExamples />
-        </ValidationsFeatureFlagsContext.Provider>
+        <ValidationExamples />
       </ThemeContext.Provider>
     </div>
   );
@@ -66,19 +60,17 @@ function CustomTheme() {
           validationsTextColorError: 'red',
         })}
       >
-        <ValidationsFeatureFlagsContext.Provider value={{ fixedValidationTextColors: true }}>
-          <ValidationExamples />
-        </ValidationsFeatureFlagsContext.Provider>
+        <ValidationExamples />
       </ThemeContext.Provider>
     </div>
   );
 }
 
-export const FeatureFlag_fixedValidationTextColors = () => (
+export const ThemesStory = () => (
   <Gapped vertical>
     <LightTheme />
     <DarkTheme />
     <CustomTheme />
   </Gapped>
 );
-FeatureFlag_fixedValidationTextColors.storyName = 'fixedValidationTextColors';
+ThemesStory.storyName = 'themes';
