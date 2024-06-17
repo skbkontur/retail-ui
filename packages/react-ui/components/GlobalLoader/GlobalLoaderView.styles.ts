@@ -116,7 +116,8 @@ export const animations = {
     return css`
       left: 0;
       width: 100%;
-      animation: ${moveToRightAnimation} ${transitionDuration}ms linear,
+      animation:
+        ${moveToRightAnimation} ${transitionDuration}ms linear,
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
@@ -124,7 +125,8 @@ export const animations = {
     const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
       width: 90%;
-      animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
+      animation:
+        ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
         ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime}ms linear;
     `;
   },
@@ -133,7 +135,8 @@ export const animations = {
     const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
       width: 90%;
-      animation: transitionAnimation ${transitionTime}ms linear,
+      animation:
+        transitionAnimation ${transitionTime}ms linear,
         ${expectedTime}ms acceptAnimation ${transitionTime}ms cubic-bezier(0, 0.4, 0.4, 1),
         ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime + transitionTime}ms linear;
       @keyframes transitionAnimation {
@@ -161,7 +164,8 @@ export const animations = {
     const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
       width: 90%;
-      animation: transitionAnimation ${transitionTime}ms linear,
+      animation:
+        transitionAnimation ${transitionTime}ms linear,
         ${slowProgressAnimationTime}ms acceptAnimation ${transitionTime}ms linear;
       @keyframes transitionAnimation {
         from {

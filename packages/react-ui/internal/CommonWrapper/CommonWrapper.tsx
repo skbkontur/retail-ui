@@ -66,6 +66,8 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
     }
 
     const originalRef = (this.child as React.RefAttributes<any>)?.ref;
-    originalRef && callChildRef(originalRef, instance);
+    if (typeof originalRef === 'function' || (originalRef && typeof originalRef === 'object')) {
+      originalRef && callChildRef(originalRef, instance);
+    }
   };
 }

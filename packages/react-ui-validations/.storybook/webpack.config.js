@@ -1,8 +1,6 @@
-const webpack = require('webpack');
-
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
-module.exports = async ({ config, mode }) => {
+module.exports = async ({ config }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   if (isTestEnv) {
@@ -14,7 +12,7 @@ module.exports = async ({ config, mode }) => {
   config.module.rules = [
     {
       test: /\.(ts|tsx)$/,
-      exclude: /node_moduels/,
+      exclude: /node_modules/,
       use: [
         {
           loader: 'ts-loader',
@@ -33,7 +31,7 @@ module.exports = async ({ config, mode }) => {
     },
     {
       test: /\.(css|less)$/,
-      loaders: [
+      use: [
         'style-loader',
         {
           loader: 'css-loader',
@@ -41,6 +39,7 @@ module.exports = async ({ config, mode }) => {
             modules: {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
+              namedExport: false,
             },
           },
         },

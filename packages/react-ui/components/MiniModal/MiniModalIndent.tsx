@@ -13,7 +13,7 @@ import { MiniModalDataTids } from './MiniModal';
  *
  * @visibleName MiniModal.Indent
  */
-export const MiniModalIndent = forwardRefAndName<HTMLDivElement, unknown>(
+export const MiniModalIndent = forwardRefAndName<HTMLDivElement, React.InputHTMLAttributes<HTMLDivElement>>(
   'MiniModalIndent',
   ({ children, ...rest }, ref) => {
     const theme = useContext(ThemeContext);

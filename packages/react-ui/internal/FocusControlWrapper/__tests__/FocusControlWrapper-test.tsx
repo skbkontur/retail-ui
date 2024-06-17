@@ -29,12 +29,12 @@ describe('FocusControlWrapper', () => {
 
     const input = getInput();
 
-    userEvent.click(input);
+    await userEvent.click(input);
     expect(handleFocus).toHaveBeenCalledTimes(1);
     expect(input).toHaveFocus();
 
     input.setAttribute('disabled', '');
-    userEvent.tab();
+    await userEvent.tab();
     expect(handleBlur).not.toHaveBeenCalled();
     expect(input).toHaveStyle('border: 1px solid blue;');
   });
@@ -63,7 +63,7 @@ describe('FocusControlWrapper', () => {
     expect(input).toHaveStyle('margin: 10px; padding: 10px;');
   });
 
-  it('called onBlurWhenDisabled only when disabled', () => {
+  it('called onBlurWhenDisabled only when disabled', async () => {
     const handleFocus = jest.fn();
     const handleBlur = jest.fn();
     const handleBlurWhenDisabled = jest.fn();
@@ -79,13 +79,13 @@ describe('FocusControlWrapper', () => {
     expect(handleBlurWhenDisabled).not.toHaveBeenCalled();
 
     const element = screen.getByRole('textbox');
-    userEvent.click(element);
+    await userEvent.click(element);
     expect(handleFocus).toHaveBeenCalledTimes(1);
-    userEvent.tab();
+    await userEvent.tab();
     expect(handleBlur).toHaveBeenCalledTimes(1);
     expect(handleBlurWhenDisabled).not.toHaveBeenCalled();
 
-    userEvent.click(element);
+    await userEvent.click(element);
     expect(handleFocus).toHaveBeenCalledTimes(2);
     rerender(
       <FocusControlTestWrapper

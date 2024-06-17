@@ -8,7 +8,7 @@ import { componentsLocales as ToastViewLocaleRu } from '../locale/locales/ru';
 
 describe('ToastView', () => {
   describe('a11y', () => {
-    it('has correct aria-label on close button', () => {
+    it('has correct aria-label on close button', async () => {
       function showComplexNotification() {
         Toast.push(
           'Successfully saved',
@@ -21,7 +21,7 @@ describe('ToastView', () => {
       }
       render(<Button onClick={showComplexNotification}>Show notification</Button>);
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute(
         'aria-label',
@@ -45,7 +45,7 @@ describe('ToastView', () => {
       }
       render(<Button onClick={showComplexNotification}>{buttonName}</Button>);
 
-      userEvent.click(screen.getByRole('button', { name: buttonName }));
+      await userEvent.click(screen.getByRole('button', { name: buttonName }));
 
       expect(screen.getByTestId(ToastDataTids.action)).toHaveAttribute('aria-label', ariaLabel);
     });

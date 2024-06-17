@@ -9,10 +9,10 @@ import { PagingLocaleHelper } from '../locale';
 import { Paging, PagingDataTids } from '../Paging';
 
 describe('Paging', () => {
-  it('should keep focus on body when the component is disabled', () => {
+  it('should keep focus on body when the component is disabled', async () => {
     render(<Paging disabled pagesCount={3} activePage={1} onPageChange={emptyHandler} />);
 
-    userEvent.tab();
+    await userEvent.tab();
 
     expect(document.body).toHaveFocus();
   });

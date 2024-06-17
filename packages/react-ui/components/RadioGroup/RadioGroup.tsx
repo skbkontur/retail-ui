@@ -276,7 +276,7 @@ function mapItems<T>(
 
 function normalizeEntry<T>(entry: T | [T, React.ReactNode]): [T, React.ReactNode] {
   if (!Array.isArray(entry)) {
-    return [entry, entry];
+    return [entry, entry as unknown as React.ReactNode];
   }
   return entry;
 }

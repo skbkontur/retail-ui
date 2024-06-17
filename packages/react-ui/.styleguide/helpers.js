@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+
 const semver = require('semver');
-const { version: packageVersion } = require('../package.json');
 const { version: styleguidistVersion } = require('react-styleguidist/package.json');
+
+const { version: packageVersion } = require('../package.json');
 const { getPackageInfo } = require('../scripts/package');
 
 const ROOT_DIR = path.join(__dirname, 'build');

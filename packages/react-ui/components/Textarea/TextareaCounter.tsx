@@ -43,7 +43,12 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       setHeight(clientHeight);
     }, [textarea]);
     useImperativeHandle(ref, () => ({ reflow }), [reflow]);
-    const renderTooltipContent = useCallback(() => help, [help]);
+    const renderTooltipContent = useCallback(() => {
+      if (typeof help === 'function') {
+        return help();
+      }
+      return help;
+    }, [help]);
     const textareaValue = value ? value.toString().length : 0;
     const counterValue = length - textareaValue;
 
@@ -97,5 +102,5 @@ TextareaCounter.propTypes = {
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   help: propTypes.oneOfType([propTypes.node, propTypes.func]),
   onCloseHelp: propTypes.func.isRequired,
-  textarea: safePropTypesInstanceOf(globalObject.HTMLElement).isRequired,
+  textarea: safePropTypesInstanceOf(globalObject.HTMLTextAreaElement).isRequired,
 };

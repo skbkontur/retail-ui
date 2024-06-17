@@ -38,28 +38,6 @@ export const Horizontal: Story = () => {
 };
 Horizontal.storyName = 'horizontal';
 
-Horizontal.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['chromeFlat8px'], tests: 'clicked' },
-    },
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};
-
 export const Errored = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
@@ -152,8 +130,3 @@ export const WithCustomRenderItems: Story = () => {
 };
 
 WithCustomRenderItems.storyName = 'with custom render item';
-WithCustomRenderItems.parameters = {
-  creevey: {
-    skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } },
-  },
-};

@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -203,7 +201,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           this.theme = getAutocompleteTheme(theme);
           return (
             <ThemeContext.Provider value={this.theme}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
                 {this.renderMain}
               </CommonWrapper>
             </ThemeContext.Provider>

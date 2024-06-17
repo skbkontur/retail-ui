@@ -3,9 +3,9 @@ import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Meta } from '@storybook/react';
+
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
@@ -125,7 +125,7 @@ export const parameters: Meta['parameters'] = {
     },
   },
   options: {
-    storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
+    storySort: (a, b) => (a.title === b.title ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true })),
   },
   viewport: {
     viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },

@@ -1,7 +1,10 @@
 const path = require('path');
 const { execSync } = require('child_process');
+
 const { copySync, removeSync } = require('fs-extra');
+
 const { getPackageInfo, TAGS } = require('../scripts/package');
+
 const { distTag, publishVersion } = getPackageInfo();
 const { LATEST, LTS, UNSTABLE, OLD, NEXT } = TAGS;
 const { ROOT_DIR, VERSION_DIR, DEPLOY_DIR } = require('./helpers');

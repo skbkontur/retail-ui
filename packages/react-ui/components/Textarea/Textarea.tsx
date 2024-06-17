@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
@@ -311,7 +309,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               {(theme) => {
                 this.theme = theme;
                 return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
                     {this.renderMain}
                   </CommonWrapper>
                 );

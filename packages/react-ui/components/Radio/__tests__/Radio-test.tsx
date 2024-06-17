@@ -48,18 +48,18 @@ describe('Radio', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('should handle onValueChange event', () => {
+  it('should handle onValueChange event', async () => {
     const onValueChange = jest.fn();
     const radioRef = React.createRef<Radio<string>>();
 
     render(<Radio value={'One'} onValueChange={onValueChange} ref={radioRef} />);
-    userEvent.click(screen.getByRole('radio'));
+    await userEvent.click(screen.getByRole('radio'));
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('should focus by tab pressing', () => {
+  it('should focus by tab pressing', async () => {
     render(<Radio value={'One'} />);
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByRole('radio')).toHaveFocus();
   });
 
@@ -80,7 +80,7 @@ describe('Radio', () => {
     expect(screen.getByRole('radio')).not.toHaveFocus();
   });
 
-  it('should check radio in RadioGroup', () => {
+  it('should check radio in RadioGroup', async () => {
     render(
       <RadioGroup>
         <Radio value={'One'} />
@@ -89,7 +89,7 @@ describe('Radio', () => {
     );
 
     const radios = screen.getAllByRole('radio');
-    userEvent.click(radios[0]);
+    await userEvent.click(radios[0]);
     expect(screen.getAllByRole('radio')[0]).toBeChecked();
   });
 });

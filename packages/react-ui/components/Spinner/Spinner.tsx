@@ -20,7 +20,7 @@ import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 const types = ['big', 'mini', 'normal'] as const;
 
-export type SpinnerType = typeof types[number];
+export type SpinnerType = (typeof types)[number];
 
 export interface SpinnerProps extends CommonProps {
   /**

@@ -128,6 +128,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public componentDidMount() {
     this.setInitialSelection();
     this.calculateMaxHeight();
+    this.unmounted = false;
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
@@ -492,9 +493,11 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private move(step: number) {
     if (this.unmounted) {
+      console.log('there!!');
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
     }
+    console.log('here');
     if (this.menuItemsAtAnyLevel) {
       const nextIndex = this.menuNavigation.move(step, this.getProps().cyclicSelection);
       this.scroll(nextIndex);
@@ -553,9 +556,11 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
 
     if (isKeyArrowUp(event)) {
+      console.log('here');
       event.preventDefault();
       this.up();
     } else if (isKeyArrowDown(event)) {
+      console.log('there');
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {

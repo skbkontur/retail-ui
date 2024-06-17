@@ -10,7 +10,7 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { CreeveyTests, Story } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
@@ -338,12 +338,6 @@ export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
   />
 );
 
-ArrowDisabled.parameters = {
-  creevey: {
-    skip: { 'not 2022': { in: /2022/ } },
-  },
-};
-
 export const MultilineTextWithLinkButton = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />
@@ -449,98 +443,17 @@ export const BothIconsDifferentContent = () => (
   </Gapped>
 );
 
-const buttonTests: CreeveyTests = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hover() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-  },
-  async pressed() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
-      })
-      .press()
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .release()
-      .perform();
-  },
-  async clicked() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-  },
-  async tabPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .pause(500)
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  },
-};
-
 export const PlaygroundDefault: Story = (_, { globals: { theme } }) => (
   <Button icon={getIcon(theme, <CheckAIcon />, <OkIcon />)} data-tid="test-button">
     Hello
   </Button>
 );
 
-PlaygroundDefault.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'pressed', 'clicked'],
-      },
-    },
-    tests: buttonTests,
-  },
-};
-
 export const PlaygroundDisabled: Story = (_, { globals: { theme } }) => (
   <Button icon={getIcon(theme, <CheckAIcon />, <OkIcon />)} disabled data-tid="test-button">
     Hello
   </Button>
 );
-
-PlaygroundDisabled.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
-      'story-skip-2': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'pressed', 'clicked'],
-      },
-    },
-    tests: buttonTests,
-  },
-};
 
 export const TextStylesReset = () => (
   <div
@@ -597,11 +510,6 @@ const unusedDifferentStates: ButtonState[] = [
   { warning: false },
   { width: '' },
 ];
-UnusedPropValues.parameters = {
-  creevey: {
-    skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
-  },
-};
 
 export const WithLinkFocusOutlineFeatureFlag = () => (
   <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
@@ -610,18 +518,6 @@ export const WithLinkFocusOutlineFeatureFlag = () => (
     </Button>
   </ReactUIFeatureFlagsContext.Provider>
 );
-
-WithLinkFocusOutlineFeatureFlag.parameters = {
-  creevey: {
-    tests: buttonTests,
-    skip: {
-      'hover does not work': {
-        in: /chrome/,
-        tests: ['hover', 'pressed', 'clicked'],
-      },
-    },
-  },
-};
 
 export const IconColor: Story = () => {
   return (
@@ -666,56 +562,10 @@ export const IconAndTextHoverColor: Story = () => {
   );
 };
 
-IconAndTextHoverColor.parameters = {
-  creevey: {
-    skip: {
-      'hover does not work in chrome': {
-        in: /^(?!\bfirefox(2022)?\b)/,
-      },
-    },
-    tests: {
-      async hover() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-      },
-    },
-  },
-};
-
 export const HoverTextColor: Story = () => {
   return (
     <Button theme={{ btnTextHoverTextColor: 'white', btnTextHoverBg: '#ff5a49' }} use="text" data-tid="test-button">
       Use Text
     </Button>
   );
-};
-
-HoverTextColor.parameters = {
-  creevey: {
-    skip: {
-      'hover does not work in chrome': {
-        in: /^(?!\bfirefox(2022)?\b)/,
-      },
-    },
-    tests: {
-      async hover() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-      },
-    },
-  },
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Displaying } from './Pages/Displaying';
@@ -8,8 +8,12 @@ import { Validator } from './Pages/Validator';
 import { Examples } from './Pages/Examples';
 import { Concepts } from './Pages/Concepts';
 
-export const Layout = withRouter((props) => {
-  window.scrollTo(0, 0);
+export const Layout: React.FC<React.PropsWithChildren> = (props) => {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [navigate]);
+
   return (
     <Root>
       <Helmet defaultTitle="React-UI Validations" titleTemplate="%s | React-UI Validations" />
@@ -18,7 +22,7 @@ export const Layout = withRouter((props) => {
           <h3>react-ui-validations</h3>
         </MainHeader>
         <div style={{ paddingBottom: 50 }}>
-          <NavigationLink activeClassName={'active'} to="/api">
+          <NavigationLink className={({ isActive }) => (isActive ? 'active' : '')} to="/api">
             API reference
           </NavigationLink>
           <Divider />
@@ -26,7 +30,11 @@ export const Layout = withRouter((props) => {
             <React.Fragment key={i}>
               <Header>{x.caption}</Header>
               {x.items.map((page) => (
-                <NavigationLink key={page.url} activeClassName={'active'} to={'/' + page.url}>
+                <NavigationLink
+                  key={page.url}
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                  to={'/' + page.url}
+                >
                   {page.caption}
                 </NavigationLink>
               ))}
@@ -39,7 +47,7 @@ export const Layout = withRouter((props) => {
       </Content>
     </Root>
   );
-});
+};
 
 const navigationBarSize = '290px';
 const sidebarColor = '#41464e';
