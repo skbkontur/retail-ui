@@ -18,7 +18,9 @@
 
 ### darkTheme
 
-В ValidationText будут использоваться цвета по гайдам для error и warning из темной темы
+Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
+`validationsTextColorError`.
+В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
 
     !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
 
