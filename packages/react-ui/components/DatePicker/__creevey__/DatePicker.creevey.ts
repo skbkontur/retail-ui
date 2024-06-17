@@ -185,4 +185,17 @@ kind('DatePicker', () => {
       await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom');
     });
   });
+  story('MobilePicker', () => {
+    test('MobilePicker on iphone opened', async function () {
+      await delay(1000);
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .perform();
+      await delay(1000);
+      await this.expect(await this.browser.takeScreenshot()).to.matchImage('MobilePicker on iphone opened');
+    });
+  });
 });

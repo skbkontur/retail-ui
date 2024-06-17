@@ -16,6 +16,7 @@ module.exports = [
       '**/lib/**/*.js',
       '**/components/**/*.js',
       '**/*.d.ts',
+      '**/.creevey/**',
     ],
   },
   {
