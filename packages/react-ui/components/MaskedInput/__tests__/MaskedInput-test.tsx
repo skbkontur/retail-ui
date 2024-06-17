@@ -2,7 +2,8 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { MaskedInput } from '../MaskedInput';
+import { MaskedInput, MaskedInputProps } from '../MaskedInput';
+import { Input, InputProps } from '../../Input';
 
 describe('MaskedInput', () => {
   it('renders without crash', () => {
@@ -115,32 +116,78 @@ describe('MaskedInput', () => {
     expect(input).toHaveValue(expectedValue);
   });
 
-  it('onValueChange do not fire on focus when value is empty', () => {
-    const valueChangeEvent = jest.fn();
-    render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
+  describe('compare with Input', () => {
+    const getTyped = (Comp: unknown, props: unknown) => {
+      return [Comp, props] as typeof Comp extends typeof MaskedInput
+        ? [typeof MaskedInput, MaskedInputProps]
+        : [typeof Input, InputProps];
+    };
+    describe.each<[string, MaskedInputProps, typeof MaskedInput] | [string, InputProps, typeof Input]>([
+      ['Input', {}, Input],
+      ['MaskedInput', { mask: '+7 (999) 999 99 99' }, MaskedInput],
+    ])('%s:', (_, _props, _Comp) => {
+      const [Comp, props] = getTyped(_Comp, _props);
 
-    const input = screen.getByRole('textbox');
-    input.focus();
+      it('onValueChange don`t fire on focus when value is empty', () => {
+        const valueChangeEvent = jest.fn();
+        render(<Comp {...props} onValueChange={valueChangeEvent} />);
 
-    expect(valueChangeEvent).not.toHaveBeenCalled();
-  });
+        const input = screen.getByRole('textbox');
+        input.focus();
 
-  it('onValueChange fire on mount when value is not empty', () => {
-    const valueChangeEvent = jest.fn();
-    render(<MaskedInput mask="+7 (999) 999 99 99" value="123" onValueChange={valueChangeEvent} />);
+        expect(valueChangeEvent).not.toHaveBeenCalled();
+      });
 
-    expect(valueChangeEvent).toHaveBeenCalledTimes(1);
-  });
+      it('onValueChange don`t fire on blur when value is empty', () => {
+        const valueChangeEvent = jest.fn();
+        render(<Comp {...props} onValueChange={valueChangeEvent} />);
 
-  it('onValueChange fire on every input event', () => {
-    const valueChangeEvent = jest.fn();
-    render(<MaskedInput mask="+7 (999) 999 99 99" onValueChange={valueChangeEvent} />);
-    const input = screen.getByRole('textbox');
+        const input = screen.getByRole('textbox');
+        input.focus();
+        input.blur();
 
-    userEvent.type(input, '1');
-    userEvent.type(input, '2');
-    userEvent.type(input, '3');
+        expect(valueChangeEvent).not.toHaveBeenCalled();
+      });
 
-    expect(valueChangeEvent).toHaveBeenCalledTimes(3);
+      it('onValueChange don`t fire on focus when value is not empty', () => {
+        const valueChangeEvent = jest.fn();
+        render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
+
+        const input = screen.getByRole('textbox');
+        input.focus();
+
+        expect(valueChangeEvent).not.toHaveBeenCalled();
+      });
+
+      it('onValueChange don`t fire on blur when value is not empty', () => {
+        const valueChangeEvent = jest.fn();
+        render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
+
+        const input = screen.getByRole('textbox');
+        input.focus();
+        input.blur();
+
+        expect(valueChangeEvent).not.toHaveBeenCalled();
+      });
+
+      it('onValueChange don`t fire on mount when value is not empty', () => {
+        const valueChangeEvent = jest.fn();
+        render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
+
+        expect(valueChangeEvent).not.toHaveBeenCalled();
+      });
+
+      it(`'onValueChange' fires the same number of times as input event`, () => {
+        const valueChangeEvent = jest.fn();
+        render(<Comp {...props} onValueChange={valueChangeEvent} />);
+        const input = screen.getByRole('textbox');
+
+        userEvent.type(input, '1');
+        userEvent.type(input, '2');
+        userEvent.type(input, '3');
+
+        expect(valueChangeEvent).toHaveBeenCalledTimes(3);
+      });
+    });
   });
 });

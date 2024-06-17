@@ -118,16 +118,16 @@ export const MaskedInput = forwardRefAndName(
     }
 
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
-      const [value] = args;
+      const [value, , e] = args;
 
       onAccept?.(...args);
 
-      // onAccept вызывается при монтировании, если value не пустой
-      // но onValueChange должен вызываться только при изменении value
-      // const val = imaskRef.current?.element ? imaskRef.current.element.value : '';
-
-      // val !== value && onValueChange?.(value);
-      onValueChange?.(value);
+      // `onAccept` может вызываться при монтировании, если не задан проп `defaultValue`
+      // но нативный input никогда не вызывает `onChange` при монтировании
+      // наше событие `onValueChange` в Input вывается в тех случаях, что и нативный `onChange`
+      // чтобы сохранить консинстентность будем ориентироваться на наличие аргумента `e`
+      // он содержит нативное событие, вызвавшее изменение
+      e && onValueChange?.(value);
     }
 
     // Отслеживаем неожиданные нажатия
