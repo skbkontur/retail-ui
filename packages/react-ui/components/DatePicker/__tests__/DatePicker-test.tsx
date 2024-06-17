@@ -122,15 +122,15 @@ describe('DatePicker', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    userEvent.click(
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
           DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[5]
         }`,
       }),
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
           DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[6]
@@ -145,13 +145,13 @@ describe('DatePicker', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    userEvent.click(
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
       }),
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
       }),
@@ -471,9 +471,9 @@ describe('DatePicker', () => {
 
     it('should scroll on today click', async () => {
       render(<MobilePicker />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
+      await userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
 
       const today = new Date();
       const todayMonth = today.getMonth();
@@ -486,9 +486,9 @@ describe('DatePicker', () => {
       const month = 11;
       const year = 2011;
       render(<MobilePicker initialDate={`01.01.${year}`} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      userEvent.selectOptions(screen.getByTestId(CalendarDataTids.monthSelectMobile), month.toString());
+      await userEvent.selectOptions(screen.getByTestId(CalendarDataTids.monthSelectMobile), month.toString());
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
     });
@@ -497,9 +497,9 @@ describe('DatePicker', () => {
       const month = 10;
       const year = 2011;
       render(<MobilePicker initialDate={`01.${month + 1}.2010`} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      userEvent.selectOptions(screen.getByTestId(CalendarDataTids.yearSelectMobile), year.toString());
+      await userEvent.selectOptions(screen.getByTestId(CalendarDataTids.yearSelectMobile), year.toString());
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
     });
@@ -507,26 +507,26 @@ describe('DatePicker', () => {
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
       render(<MobilePicker initialDate={initialDate} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       const month = 10;
       const year = 2022;
       fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
-      userEvent.keyboard(`{ArrowRight}{${month + 1}}{${year}}`);
+      await userEvent.keyboard(`{ArrowRight}{${month + 1}}{${year}}`);
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
     });
 
-    it('should change value from inner input', () => {
+    it('should change value from inner input', async () => {
       const initialDate = '01.01.2011';
       render(<MobilePicker initialDate={initialDate} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       const month = 10;
       const year = 2022;
       fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
-      userEvent.keyboard(`{ArrowRight}{${month}}{${year}}`);
+      await userEvent.keyboard(`{ArrowRight}{${month}}{${year}}`);
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(`01.${month}.${year}`);
@@ -536,7 +536,7 @@ describe('DatePicker', () => {
       const initialDate = '10.10.2010';
       const expectedDate = '20.10.2010';
       render(<MobilePicker initialDate={initialDate} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       const months = screen.getAllByTestId(CalendarDataTids.month);
       const currentMonth = months.find((month) => {
@@ -551,7 +551,7 @@ describe('DatePicker', () => {
       const ariaLabel = `${DatePickerLocaleHelper.get().dayCellChooseDateAriaLabel}: ${new InternalDate({
         value: expectedDate,
       }).toA11YFormat()}`;
-      userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
+      await userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(expectedDate);

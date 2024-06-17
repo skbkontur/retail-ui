@@ -70,14 +70,14 @@ describe('Calendar', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
           CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[5]
         }`,
       }),
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
           CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6]
@@ -92,12 +92,12 @@ describe('Calendar', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
       }),
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
       }),
