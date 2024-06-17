@@ -78,25 +78,25 @@ export const WithWrapperErrorWithoutSpan = () => (
     })}
   >
     <Gapped vertical gap={20}>
-    <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>
+        <ValidationContainer>
+          <div>
+            <Button>Submit</Button>
+            <ValidationWrapper renderMessage={text('bottom')} validationInfo={validationWarning}>
+              <Input />
+            </ValidationWrapper>
+          </div>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+
       <ValidationContainer>
         <div>
           <Button>Submit</Button>
-          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validationWarning}>
+          <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
             <Input />
           </ValidationWrapper>
         </div>
       </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
-
-      <ValidationContainer>
-      <div>
-        <Button>Submit</Button>
-        <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
-          <Input />
-        </ValidationWrapper>
-      </div>
-    </ValidationContainer>
     </Gapped>
   </ThemeContext.Provider>
 );
