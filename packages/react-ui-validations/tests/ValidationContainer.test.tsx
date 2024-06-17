@@ -11,13 +11,7 @@ import {
   TokenInputType,
 } from '@skbkontur/react-ui';
 
-import {
-  FocusMode,
-  ValidationContainer,
-  ValidationContainerProps,
-  ValidationsFeatureFlagsContext,
-  ValidationWrapper,
-} from '../src';
+import { FocusMode, ValidationContainer, ValidationContainerProps, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
 
 describe('ValidationContainer', () => {
