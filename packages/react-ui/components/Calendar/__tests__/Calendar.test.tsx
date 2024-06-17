@@ -9,6 +9,7 @@ import { Calendar } from '../Calendar';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { CalendarDataTids } from '..';
 import { CalendarLocaleHelper } from '../locale';
+import { CalendarDay, CalendarDayProps } from '../CalendarDay';
 
 describe('Calendar', () => {
   it('renders', () => {
@@ -45,6 +46,64 @@ describe('Calendar', () => {
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[0] as string)).toBeInTheDocument();
     expect(screen.getByText('2000')).toBeInTheDocument();
+  });
+
+  it('renders day cells with renderDay prop', async () => {
+    const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
+      const [date, month, year] = props.date.split('.').map(Number);
+      const isCustom = date === 2 && month === 7 && year === 2017;
+      return (
+        <CalendarDay {...props}>
+          <span data-tid="customDayItem">{isCustom ? 'Custom' : date}</span>
+        </CalendarDay>
+      );
+    };
+    render(
+      <Calendar value="02.07.2017" onValueChange={jest.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
+    );
+
+    expect(screen.getAllByTestId('customDayItem')).not.toHaveLength(0);
+    expect(screen.getByText('Custom')).toBeInTheDocument();
+  });
+
+  it('onMonthChange returns correct month', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[5]
+        }`,
+      }),
+    );
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
+          CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6]
+        }`,
+      }),
+    );
+
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 5000 });
+  });
+
+  it('onMonthChange returns correct year', async () => {
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
+      }),
+    );
+    userEvent.click(
+      screen.getByRole('button', {
+        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
+      }),
+    );
+
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 5000 });
   });
 
   it('should set langCode', () => {
