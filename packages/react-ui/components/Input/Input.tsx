@@ -328,7 +328,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): number | null =>
+  public delaySelectAll = (): number | null =>
     (this.selectAllId = globalObject.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {

@@ -150,6 +150,10 @@ export const MaskedInput = forwardRefAndName(
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(true);
       props.onFocus?.(e);
+
+      // если `value` из пропов отличается от `value`, которое получит `input` после обработки,
+      // то `imask` будет ставить курсор за последним валидным символом.
+      props.selectAllOnFocus && inputRef.current?.delaySelectAll();
     }
 
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
