@@ -1846,6 +1846,9 @@ export class DefaultTheme {
   public static inputShadow = 'none';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
+  public static get inputIconColorDisabled() {
+    return this.inputIconColor;
+  }
   public static get inputFocusedIconColor() {
     return this.inputIconColor;
   }
@@ -2792,6 +2795,11 @@ export class DefaultTheme {
   public static miniModalFooterPaddingMobile = '24px 16px 16px';
   public static miniModalHeaderPaddingMobile = '32px 16px 0';
   public static miniModalBodyPaddingMobile = '16px 16px 0';
+  //#endregion
+
+  //#region react-ui-validations
+  public static validationsTextColorError = '#cb3d35';
+  public static validationsTextColorWarning = '#ef8b17';
   //#endregion
 }
 
