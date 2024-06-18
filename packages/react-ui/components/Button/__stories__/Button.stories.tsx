@@ -13,7 +13,6 @@ import {
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
 
 export default {
@@ -510,14 +509,6 @@ const unusedDifferentStates: ButtonState[] = [
   { warning: false },
   { width: '' },
 ];
-
-export const WithLinkFocusOutlineFeatureFlag = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
-    <Button use="link" data-tid="test-button">
-      Link
-    </Button>
-  </ReactUIFeatureFlagsContext.Provider>
-);
 
 export const IconColor: Story = () => {
   return (

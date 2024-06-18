@@ -1,8 +1,8 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { Button, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { Button, Gapped, Input } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationInfo, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 
 export default {
   title: 'ValidationContainer',
@@ -68,41 +68,4 @@ export const WithWrapperError = () => (
       </div>
     </ValidationContainer>
   </>
-);
-
-export const WithWrapperErrorWithoutSpan = () => (
-  <ThemeContext.Provider
-    value={ThemeFactory.create({
-      validationsTextColorWarning: '',
-      validationsTextColorError: '',
-    })}
-  >
-    <Gapped vertical gap={20}>
-      <ValidationsFeatureFlagsContext.Provider
-        value={{ validationsRemoveExtraSpans: true, fixedValidationTextColors: true, darkTheme: true }}
-      >
-        <ValidationContainer>
-          <div>
-            <Button>Submit</Button>
-            <ValidationWrapper renderMessage={text('bottom')} validationInfo={validationWarning}>
-              <Input />
-            </ValidationWrapper>
-          </div>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
-
-      <ValidationsFeatureFlagsContext.Provider
-        value={{ validationsRemoveExtraSpans: false, fixedValidationTextColors: true }}
-      >
-        <ValidationContainer>
-          <div>
-            <Button>Submit</Button>
-            <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
-              <Input />
-            </ValidationWrapper>
-          </div>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
-    </Gapped>
-  </ThemeContext.Provider>
 );

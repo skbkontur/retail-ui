@@ -114,6 +114,7 @@ kind('Tooltip', () => {
     setStoryParameters({
       skip: {
         'story-skip-0': { in: /firefox/, tests: ['04 - does not change top position if fits'] },
+        'story-skip-1': { in: 'chrome2022', tests: ['06 - changes left position if does not fit'] },
       },
     });
     test('01 - plain', async function () {

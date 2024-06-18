@@ -98,20 +98,6 @@ kind('Button', () => {
     buttonTests();
   });
 
-  story('WithLinkFocusOutlineFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'hover does not work': {
-          in: /chrome/,
-          tests: ['hover', 'pressed', 'clicked'],
-        },
-        'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
-      },
-    });
-
-    buttonTests();
-  });
-
   story('IconAndTextHoverColor', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
