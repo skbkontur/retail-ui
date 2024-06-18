@@ -5,7 +5,7 @@ export type FeatureFlags = 'validationsRemoveExtraSpans' | 'fixedValidationTextC
 export type ValidationsFeatureFlags = Partial<Record<FeatureFlags, boolean>>;
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
-  validationsRemoveExtraSpans: false,
+  validationsDivWrapper: false,
   fixedValidationTextColors: false,
 };
 
