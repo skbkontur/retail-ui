@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type FeatureFlags = 'darkTheme';
+export type FeatureFlags = '';
 
 export type ValidationsFeatureFlags = Partial<Record<FeatureFlags, boolean>>;
 
