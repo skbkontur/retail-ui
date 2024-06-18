@@ -83,16 +83,6 @@ describe('MaskedInput', () => {
     expect(input).toHaveValue('12:3');
   });
 
-  it('masked input calls onUnexpectedInput', () => {
-    const handleUnexpectedInput = jest.fn();
-    render(<MaskedInput mask="999" onUnexpectedInput={handleUnexpectedInput} />);
-
-    const input = screen.getByRole('textbox');
-    fireEvent.input(input, { target: { value: 'A' } });
-
-    expect(handleUnexpectedInput).toHaveBeenCalledTimes(1);
-  });
-
   it('fixed symbols on focus', () => {
     render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" alwaysShowMask />);
 
@@ -114,6 +104,58 @@ describe('MaskedInput', () => {
     input.blur();
 
     expect(input).toHaveValue(expectedValue);
+  });
+
+  describe('onUnexpectedInput', () => {
+    const [props1, props2]: [Array<Partial<MaskedInputProps>>, Array<Partial<MaskedInputProps>>] = [
+      [
+        { value: 'invalid' },
+        { value: '12' },
+        { value: '1234' },
+        { value: '12:34' },
+        { defaultValue: 'invalid' },
+        { defaultValue: '12' },
+        { defaultValue: '1234' },
+        { defaultValue: '12:34' },
+      ],
+      [
+        {},
+        { alwaysShowMask: true },
+        { imaskProps: { unmask: true } }, // если следующий символ будет фиксированным, то при вводе
+        { imaskProps: { eager: 'remove' } },
+        { alwaysShowMask: true, imaskProps: { unmask: true } },
+      ],
+    ];
+    const props: Array<Partial<MaskedInputProps>> = [];
+    props1.forEach((_props1) => {
+      props2.forEach((_props2) => {
+        props.push(Object.assign({}, _props1, _props2));
+      });
+    });
+
+    // исключаем эти сценарии из-за особенностей `imask`
+    // в них при первом невалидном вводе сперва отрисуется фиксированный символ
+    // в данном случае это будет `:`
+    // из-за чего `onUnexpectedInput` будет вызыван только на второй невалидный ввод
+    // визуально содержимое инпута изменяется, поэтому эти сценарии можно считать ислючениями
+    const exceptions = [
+      { value: '12', imaskProps: { unmask: true } },
+      { value: '12', imaskProps: { eager: 'remove' } },
+      { defaultValue: '12', imaskProps: { eager: 'remove' } },
+    ].map((_w) => JSON.stringify(_w));
+
+    it.each<Partial<MaskedInputProps>>(props.filter((_props) => !exceptions.includes(JSON.stringify(_props))))(
+      '%j',
+      (props) => {
+        const handleUnexpectedInput = jest.fn();
+        render(<MaskedInput mask="99:99" {...props} onUnexpectedInput={handleUnexpectedInput} />);
+
+        const input = screen.getByRole('textbox');
+        userEvent.type(input, 'a');
+
+        expect(handleUnexpectedInput).toHaveBeenCalledTimes(1);
+      },
+    );
   });
 
   describe('compare with Input', () => {

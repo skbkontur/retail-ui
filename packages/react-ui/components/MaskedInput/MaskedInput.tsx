@@ -1,4 +1,4 @@
-import React, { Ref, useImperativeHandle, useRef, useState } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
 
@@ -67,11 +67,21 @@ export const MaskedInput = forwardRefAndName(
     const imaskRef = useRef<IMaskRefType>(null);
 
     const [focused, setFocused] = useState(false);
-    const prevValue = useRef<string>(props.value || '');
+    const prevValue = useRef<string>(props.value || String(props.defaultValue) || '');
 
     const showPlaceholder = !(alwaysShowMask || focused);
 
     useImperativeHandle(ref, () => inputRef.current, []);
+
+    useEffect(() => {
+      // для корректной работы `onUnexpectedInput` надо знать предыдущий `value`,
+      // но `imask` при монтировании не вызывает `onAccept`, если `value` невалиден или `imaskProps.laze=false`
+      // из-за чего метод `onUnexpectedInput` сработает только со второго раза.
+      // поэтому актуальный `value` при монтировании надо получать вручную
+      if (inputRef.current?.input) {
+        prevValue.current = inputRef.current?.input?.value;
+      }
+    }, []);
 
     const imaskProps = getCompatibleIMaskProps();
 
