@@ -1,13 +1,12 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input } from '../../Input';
-import { testPropsSets } from '../testPropsSets';
 
 export default {
   title: 'MaskedInput',
@@ -213,7 +212,7 @@ export const AllLabGrotesqueStyles: Story = () => {
       Component={MaskedInput}
       cols={sizeStates.map((x) => ({ props: x }))}
       rows={fontStyles.map((x) => ({ props: { style: x } }))}
-      presetProps={{ mask: '+7 999-999-99-99', value: '123', alwaysShowMask: true }}
+      presetProps={{ mask: '+7 999-999-99-99', defaultValue: '123', alwaysShowMask: true }}
     />
   );
 };
@@ -224,16 +223,51 @@ AllLabGrotesqueStyles.parameters = {
   },
 };
 
+const [propsPreset, propsSetA, propsSetB]: [
+  MaskedInputProps,
+  Array<Partial<MaskedInputProps>>,
+  Array<Partial<MaskedInputProps>>,
+] = [
+  { mask: '9-9-9-9' },
+  [
+    { value: 'invalid' },
+    { value: '1' },
+    // { value: '12' },  c vf
+    { value: '1234' },
+    { value: '12:34' },
+    { defaultValue: 'invalid' },
+    { defaultValue: '1' },
+    { defaultValue: '1234' },
+    { defaultValue: '12:34' },
+  ],
+  [
+    {},
+    { alwaysShowMask: true },
+    { imaskProps: { unmask: true } },
+    { imaskProps: { eager: 'remove' } },
+    { alwaysShowMask: true, imaskProps: { unmask: true } },
+  ],
+];
+
+const testPropsSets: MaskedInputProps[] = [];
+
+propsSetA.forEach((_props1) => {
+  propsSetB.forEach((_props2) => {
+    testPropsSets.push(Object.assign({}, propsPreset, _props1, _props2));
+  });
+});
+
 export const CompareWithInput: Story = () => {
-  const Comp = ({ comp, ...props }: { comp: 'MaskedInput' | 'Input-mask' | 'Input' }) => {
-    const mask = '99:99';
+  const Comp = ({ comp, ...props }: { comp: 'MaskedInput' | 'Input-mask' | 'Input' } & MaskedInputProps) => {
+    const [value, setValue] = useState(props.value);
+
     if (comp === 'MaskedInput') {
-      return <MaskedInput mask={mask} {...props} />;
+      return <MaskedInput {...{ ...props, value }} onValueChange={setValue} />;
     }
     if (comp === 'Input-mask') {
-      return <Input mask={mask} {...props} />;
+      return <Input {...{ ...props, value }} onValueChange={setValue} />;
     }
-    return <Input {...props} />;
+    return <Input {...{ ...props, value, mask: null }} onValueChange={setValue} />;
   };
 
   return (

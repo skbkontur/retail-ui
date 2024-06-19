@@ -35,7 +35,7 @@ export const MaskedInputElement = forwardRefAndName(
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
 
-    const { children, onInput, onFocus, onBlur, maskChars, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, maskChars, onChange, onKeyPress, onKeyDown, ...inputProps } = props;
 
     useImperativeHandle(
       ref,

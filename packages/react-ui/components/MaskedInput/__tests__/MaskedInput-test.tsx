@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input, InputProps } from '../../Input';
-import { testPropsSets } from '../testPropsSets';
 
 describe('MaskedInput', () => {
   it('renders without crash', () => {
@@ -108,36 +107,31 @@ describe('MaskedInput', () => {
   });
 
   describe('onUnexpectedInput', () => {
-    /**
-     * Исключаем эти сценарии из-за особенностей `imask`.
-     * В них при первом невалидном вводе сперва отрисуется фиксированный символ,
-     * из-за чего `onUnexpectedInput` будет вызыван только на второй невалидный ввод.
-     * Визуально содержимое инпута изменяется, поэтому эти сценарии можно считать ислючениями.
-     *
-     * С пропом `eager=remove` кажется, что ничего не меняется, но на самом деле `onAccept` вызывается дважды.
-     * Сначала с фиксированным символом, затем отрабатывает логика `eager=remove`, и фиксированный символ удаляется.
-     *
-     * Наглядно посмотреть можно в стори CompareWithInput
-     * @see http://localhost:6060/?path=/story/maskedinput--compare-with-input
-     */
-    const exceptions = [
-      { value: '12', imaskProps: { unmask: true } },
-      { value: '12', imaskProps: { eager: 'remove' } },
-      { defaultValue: '12', imaskProps: { eager: 'remove' } },
-    ].map((_w) => JSON.stringify(_w));
+    it.each<[MaskedInputProps, string, number]>([
+      [{ mask: '9-9-9-9' }, '123', 0],
+      [{ mask: '9-9-9-9' }, '12345', 1],
+      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 1],
+      [{ mask: '9-9-9-9' }, 'a', 1],
+      [{ mask: '9-9-9-9' }, '{backspace}', 1],
+      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, '12345', 1],
+      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(8)}`, 1],
+      [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, '12345', 1],
+      [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, `1234${'{backspace}'.repeat(5)}`, 1],
+    ])('%j > %s > %s times', (props, keys, expectedCount) => {
+      const handleUnexpectedInput = jest.fn();
+      const Comp = () => {
+        const [value, setValue] = useState('');
+        return (
+          <MaskedInput {...props} value={value} onValueChange={setValue} onUnexpectedInput={handleUnexpectedInput} />
+        );
+      };
+      render(<Comp />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
 
-    it.each<Partial<MaskedInputProps>>(testPropsSets.filter((_props) => !exceptions.includes(JSON.stringify(_props))))(
-      '%j',
-      (props) => {
-        const handleUnexpectedInput = jest.fn();
-        render(<MaskedInput mask="99:99" {...props} onUnexpectedInput={handleUnexpectedInput} />);
+      userEvent.type(input, keys);
 
-        const input = screen.getByRole('textbox');
-        userEvent.type(input, 'a');
-
-        expect(handleUnexpectedInput).toHaveBeenCalledTimes(1);
-      },
-    );
+      expect(handleUnexpectedInput).toHaveBeenCalledTimes(expectedCount);
+    });
   });
 
   describe('compare with Input', () => {

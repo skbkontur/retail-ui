@@ -8,6 +8,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
+import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 
 import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
@@ -59,6 +60,8 @@ export const MaskedInput = forwardRefAndName(
       placeholder,
       onValueChange,
       onUnexpectedInput,
+      onKeyDownCapture,
+      onChange,
       element,
       ...inputProps
     } = props;
@@ -68,6 +71,7 @@ export const MaskedInput = forwardRefAndName(
 
     const [focused, setFocused] = useState(false);
     const prevValue = useRef<string>(props.value || String(props.defaultValue) || '');
+    const prevSelectionStart = useRef<number | null>(null);
 
     const showPlaceholder = !(alwaysShowMask || focused);
 
@@ -80,7 +84,8 @@ export const MaskedInput = forwardRefAndName(
        * Поэтому актуальный `value` при монтировании надо получать вручную
        */
       if (inputRef.current?.input) {
-        prevValue.current = inputRef.current?.input?.value;
+        prevValue.current = inputRef.current.input.value;
+        prevSelectionStart.current = inputRef.current.input.selectionStart;
       }
     }, []);
 
@@ -94,6 +99,7 @@ export const MaskedInput = forwardRefAndName(
         onFocus={handleFocus}
         onBlur={handleBlur}
         onInput={handleInput}
+        onKeyDownCapture={handleKeyDownCapture}
         className={cx(globalClasses.root, uiFontGlobalClasses.root)}
         data-tid={MaskedInputElementDataTids.root}
         element={
@@ -148,16 +154,10 @@ export const MaskedInput = forwardRefAndName(
      * Отслеживаем неожиданные нажатия
      * handleAccept не вызывается когда значение с маской не меняется
      * Сначала вызывается handleAccept, затем handleInput
-     *
-     * @param e
      */
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      if (prevValue.current === e.target.value) {
-        if (onUnexpectedInput) {
-          onUnexpectedInput(e.target.value);
-        } else if (inputRef.current) {
-          inputRef.current.blink();
-        }
+      if (prevValue.current === e.target.value && prevSelectionStart.current === e.target.selectionStart) {
+        handleUnexpectedInput(e.target.value);
       }
 
       prevValue.current = e.target.value;
@@ -174,9 +174,30 @@ export const MaskedInput = forwardRefAndName(
       props.selectAllOnFocus && inputRef.current?.delaySelectAll();
     }
 
+    function handleUnexpectedInput(value = '') {
+      if (onUnexpectedInput) {
+        onUnexpectedInput(value);
+      } else if (inputRef.current) {
+        inputRef.current.blink();
+      }
+    }
+
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(false);
       props.onBlur?.(e);
+    }
+
+    function handleKeyDownCapture(e: React.KeyboardEvent<HTMLInputElement>) {
+      const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
+
+      prevSelectionStart.current = e.currentTarget.selectionStart;
+
+      if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
+        handleUnexpectedInput(e.currentTarget.value);
+        prevValue.current = e.currentTarget.value;
+      }
+
+      onKeyDownCapture?.(e);
     }
   },
 );
