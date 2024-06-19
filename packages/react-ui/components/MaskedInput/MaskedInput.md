@@ -5,22 +5,12 @@
 ```jsx harmony
 const [value, setValue] = React.useState('123');
 
-<>
-  <MaskedInput
-    mask="+7 999-999-99-99"
-    value={value}
-    alwaysShowMask
-    onValueChange={(v) => {
-      // console.log('onValueChange', v);
-      // setValue(v);
-    }}
-    onUnexpectedInput={(v) => {
-      console.log('onUnexpectedInput', v);
-      // setValue(v);
-    }}
-    imaskProps={{ lazy: false }}
-  />
-</>
+<MaskedInput
+  mask="+7 999-999-99-99"
+  alwaysShowMask
+  value={value}
+  onValueChange={setValue}
+/>
 ```
 
 #### `maskChar`
@@ -28,7 +18,12 @@ const [value, setValue] = React.useState('123');
 может изменить символ значения с маской
 
 ```jsx harmony
-<MaskedInput mask="9999 9999 9999 9999" maskChar={'X'} placeholder="Номер карты" />
+<MaskedInput
+  mask="9999 9999 9999 9999"
+  maskChar="X"
+  placeholder="Номер карты"
+  alwaysShowMask
+/>
 ```
 
 #### `formatChars`
@@ -59,6 +54,8 @@ const [value, setValue] = React.useState('');
 #### `alwaysShowMask`
 
 Показывает маску всегда. Placeholder в этом случае игнорируется.
+Логика немного отличается от старой реализации, из-за специфики iMask.
+Раньше маска обязательно появлялась при фокусе, но теперь чтобы маску было видно надо явно задать этот проп.
 
 ```jsx harmony
 <MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask placeholder="Номер телефона" />
@@ -87,8 +84,6 @@ overwrite: 'shift',
 lazy: !alwaysShowMask,
 ...props.imaskProps,
 ```
-
-У iMask гараздо больше найстроек, и мы не можем гарантировать поддержку из всех. Но при возможности будем стараться.
 
 ---
 
@@ -138,8 +133,7 @@ const [complete, setComplete] = React.useState(false);
 
 ##### `imaskProps.mask {}`
 
-Фиксированные чисти маски, которые попадут в `value` при `unmask = true`. Нажимайте `пробел` для переключения области
-ввода.
+Фиксированные части маски, которые попадут в `value` при `unmask = true`. Любой невалидный символ (например`пробел`) переведёт каретку за фиксированный символ.
 
 ```jsx harmony
 const [value, setValue] = React.useState('');

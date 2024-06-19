@@ -232,11 +232,12 @@ const [propsPreset, propsSetA, propsSetB]: [
   [
     { value: 'invalid' },
     { value: '1' },
-    // { value: '12' },  c vf
+    { value: '12' },
     { value: '1234' },
     { value: '12:34' },
     { defaultValue: 'invalid' },
     { defaultValue: '1' },
+    { defaultValue: '12' },
     { defaultValue: '1234' },
     { defaultValue: '12:34' },
   ],
@@ -267,7 +268,7 @@ export const CompareWithInput: Story = () => {
     if (comp === 'Input-mask') {
       return <Input {...{ ...props, value }} onValueChange={setValue} />;
     }
-    return <Input {...{ ...props, value, mask: null }} onValueChange={setValue} />;
+    return <Input {...{ ...props, value, mask: undefined }} onValueChange={setValue} />;
   };
 
   return (
