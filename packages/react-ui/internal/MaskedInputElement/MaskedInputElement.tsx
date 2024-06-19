@@ -15,8 +15,6 @@ export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
     children: React.ReactElement;
   };
 
-export type MaskedShadows = [string, string];
-
 export const MaskedInputElementDataTids = {
   root: 'MaskedInput__root',
 } as const;
@@ -25,7 +23,7 @@ const dictionary = new WeakMap<Element, () => void>();
 const paintText: ResizeObserverCallback = (entries) => {
   entries.forEach((entry) => dictionary.get(entry.target)?.());
 };
-const resizeObserver = new ResizeObserver(paintText);
+const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(paintText) : null;
 
 export const MaskedInputElement = forwardRefAndName(
   'MaskedInputElement',
@@ -51,11 +49,11 @@ export const MaskedInputElement = forwardRefAndName(
     useEffect(() => {
       if (spanRef.current) {
         dictionary.set(spanRef.current, paintText);
-        resizeObserver.observe(spanRef.current);
+        resizeObserver?.observe(spanRef.current);
       }
       if (inputRef.current) {
         dictionary.set(inputRef.current, paintText);
-        resizeObserver.observe(inputRef.current);
+        resizeObserver?.observe(inputRef.current);
       }
     }, []);
 
