@@ -74,10 +74,11 @@ export const MaskedInput = forwardRefAndName(
     useImperativeHandle(ref, () => inputRef.current, []);
 
     useEffect(() => {
-      // для корректной работы `onUnexpectedInput` надо знать предыдущий `value`,
-      // но `imask` при монтировании не вызывает `onAccept`, если `value` невалиден или `imaskProps.laze=false`
-      // из-за чего метод `onUnexpectedInput` сработает только со второго раза.
-      // поэтому актуальный `value` при монтировании надо получать вручную
+      /**
+       * Для корректной работы `onUnexpectedInput` надо знать предыдущий `value`,
+       * но `imask` при монтировании не вызывает `onAccept`, если `value` невалиден или `laze=false`
+       * Поэтому актуальный `value` при монтировании надо получать вручную
+       */
       if (inputRef.current?.input) {
         prevValue.current = inputRef.current?.input?.value;
       }
@@ -132,17 +133,24 @@ export const MaskedInput = forwardRefAndName(
 
       onAccept?.(...args);
 
-      // `onAccept` может вызываться при монтировании, если не задан проп `defaultValue`
-      // но нативный input никогда не вызывает `onChange` при монтировании
-      // наше событие `onValueChange` в Input вывается в тех случаях, что и нативный `onChange`
-      // чтобы сохранить консинстентность будем ориентироваться на наличие аргумента `e`
-      // он содержит нативное событие, вызвавшее изменение
+      /**
+       * Метод `onAccept` может вызываться при монтировании, если не задан проп `defaultValue`.
+       * Но нативный `input` никогда не вызывает `onChange` при монтировании.
+       * Наше событие `onValueChange` в `Input` вывается в тех же случаях, что и нативный `onChange`,
+       * поэтому чтобы сохранить консинстентность будем ориентироваться на наличие аргумента `e`.
+       * Он содержит нативное событие, вызвавшее изменение.
+       * Если его нет, значит `imask` вызывал `onAccept` по некой собственной логике.
+       */
       e && onValueChange?.(value);
     }
 
-    // Отслеживаем неожиданные нажатия
-    // handleAccept не вызывается когда значение с маской не меняется
-    // Сначала вызывается handleAccept, затем handleInput
+    /**
+     * Отслеживаем неожиданные нажатия
+     * handleAccept не вызывается когда значение с маской не меняется
+     * Сначала вызывается handleAccept, затем handleInput
+     *
+     * @param e
+     */
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
       if (prevValue.current === e.target.value) {
         if (onUnexpectedInput) {

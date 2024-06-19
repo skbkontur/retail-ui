@@ -6,6 +6,8 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
+import { Input } from '../../Input';
+import { testPropsSets } from '../testPropsSets';
 
 export default {
   title: 'MaskedInput',
@@ -145,3 +147,106 @@ const disabledStates: InputState[] = [
   { value: '12', alwaysShowMask: true },
   { placeholder: 'Placeholder' },
 ];
+
+export const AllLabGrotesqueStyles: Story = () => {
+  const fontStyles = [
+    {
+      fontStyle: 'normal',
+      fontWeight: 100,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 300,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 500,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 700,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 900,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 100,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 300,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 500,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 700,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 900,
+    },
+  ];
+
+  return (
+    <ComponentTable
+      Component={MaskedInput}
+      cols={sizeStates.map((x) => ({ props: x }))}
+      rows={fontStyles.map((x) => ({ props: { style: x } }))}
+      presetProps={{ mask: '+7 999-999-99-99', value: '123', alwaysShowMask: true }}
+    />
+  );
+};
+
+AllLabGrotesqueStyles.parameters = {
+  creevey: {
+    skip: true,
+  },
+};
+
+export const CompareWithInput: Story = () => {
+  const Comp = ({ comp, ...props }: { comp: 'MaskedInput' | 'Input-mask' | 'Input' }) => {
+    const mask = '99:99';
+    if (comp === 'MaskedInput') {
+      return <MaskedInput mask={mask} {...props} />;
+    }
+    if (comp === 'Input-mask') {
+      return <Input mask={mask} {...props} />;
+    }
+    return <Input {...props} />;
+  };
+
+  return (
+    <ComponentTable<any, any, any>
+      Component={Comp}
+      cols={[{ comp: 'MaskedInput' }, { comp: 'Input-mask' }, { comp: 'Input' }].map((x) => ({ props: x }))}
+      rows={testPropsSets.map((x) => ({ props: x }))}
+    />
+  );
+};
+
+CompareWithInput.parameters = {
+  creevey: {
+    skip: true,
+  },
+};

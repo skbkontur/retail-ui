@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input, InputProps } from '../../Input';
+import { testPropsSets } from '../testPropsSets';
 
 describe('MaskedInput', () => {
   it('renders without crash', () => {
@@ -107,44 +108,25 @@ describe('MaskedInput', () => {
   });
 
   describe('onUnexpectedInput', () => {
-    const [props1, props2]: [Array<Partial<MaskedInputProps>>, Array<Partial<MaskedInputProps>>] = [
-      [
-        { value: 'invalid' },
-        { value: '12' },
-        { value: '1234' },
-        { value: '12:34' },
-        { defaultValue: 'invalid' },
-        { defaultValue: '12' },
-        { defaultValue: '1234' },
-        { defaultValue: '12:34' },
-      ],
-      [
-        {},
-        { alwaysShowMask: true },
-        { imaskProps: { unmask: true } }, // если следующий символ будет фиксированным, то при вводе
-        { imaskProps: { eager: 'remove' } },
-        { alwaysShowMask: true, imaskProps: { unmask: true } },
-      ],
-    ];
-    const props: Array<Partial<MaskedInputProps>> = [];
-    props1.forEach((_props1) => {
-      props2.forEach((_props2) => {
-        props.push(Object.assign({}, _props1, _props2));
-      });
-    });
-
-    // исключаем эти сценарии из-за особенностей `imask`
-    // в них при первом невалидном вводе сперва отрисуется фиксированный символ
-    // в данном случае это будет `:`
-    // из-за чего `onUnexpectedInput` будет вызыван только на второй невалидный ввод
-    // визуально содержимое инпута изменяется, поэтому эти сценарии можно считать ислючениями
+    /**
+     * Исключаем эти сценарии из-за особенностей `imask`.
+     * В них при первом невалидном вводе сперва отрисуется фиксированный символ,
+     * из-за чего `onUnexpectedInput` будет вызыван только на второй невалидный ввод.
+     * Визуально содержимое инпута изменяется, поэтому эти сценарии можно считать ислючениями.
+     *
+     * С пропом `eager=remove` кажется, что ничего не меняется, но на самом деле `onAccept` вызывается дважды.
+     * Сначала с фиксированным символом, затем отрабатывает логика `eager=remove`, и фиксированный символ удаляется.
+     *
+     * Наглядно посмотреть можно в стори CompareWithInput
+     * @see http://localhost:6060/?path=/story/maskedinput--compare-with-input
+     */
     const exceptions = [
       { value: '12', imaskProps: { unmask: true } },
       { value: '12', imaskProps: { eager: 'remove' } },
       { defaultValue: '12', imaskProps: { eager: 'remove' } },
     ].map((_w) => JSON.stringify(_w));
 
-    it.each<Partial<MaskedInputProps>>(props.filter((_props) => !exceptions.includes(JSON.stringify(_props))))(
+    it.each<Partial<MaskedInputProps>>(testPropsSets.filter((_props) => !exceptions.includes(JSON.stringify(_props))))(
       '%j',
       (props) => {
         const handleUnexpectedInput = jest.fn();
@@ -219,7 +201,7 @@ describe('MaskedInput', () => {
         expect(valueChangeEvent).not.toHaveBeenCalled();
       });
 
-      it(`'onValueChange' fires the same number of times as input event`, () => {
+      it('onValueChange fires the same number of times as input event', () => {
         const valueChangeEvent = jest.fn();
         render(<Comp {...props} onValueChange={valueChangeEvent} />);
         const input = screen.getByRole('textbox');
