@@ -1,75 +1,3 @@
-```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
-
-const fontStyles = [
-  {
-    fontStyle: 'normal',
-    fontWeight: 100,
-  },
-  {
-    fontStyle: 'normal',
-    fontWeight: 300,
-  },
-  {
-    fontStyle: 'normal',
-    fontWeight: 400,
-  },
-  {
-    fontStyle: 'normal',
-    fontWeight: 500,
-  },
-  {
-    fontStyle: 'normal',
-    fontWeight: 600,
-  },
-  {
-    fontStyle: 'normal',
-    fontWeight: 700,
-  },
-  {
-    fontStyle: 'normal',
-    fontWeight: 900,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 100,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 300,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 400,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 500,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 600,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 700,
-  },
-  {
-    fontStyle: 'italic',
-    fontWeight: 900,
-  }];
-
-
-<Gapped vertical>
-  <span>Lab Grotesque</span>
-  <Gapped vertical>
-    {[fontStyles.map((style, i) => <><MaskedInput key={i} mask='+7 999-999-99-99' value="123" imaskProps={{ lazy: false }}
-                                               style={{ ...style }} /><tt>{JSON.stringify(style)}</tt></>)]}
-
-  </Gapped>
-</Gapped>
-```
-
 #### `mask`
 
 Маска телефона
@@ -83,7 +11,7 @@ const [value, setValue] = React.useState('123');
     value={value}
     alwaysShowMask
     onValueChange={(v) => {
-      console.log('onValueChange', v);
+      // console.log('onValueChange', v);
       // setValue(v);
     }}
     onUnexpectedInput={(v) => {

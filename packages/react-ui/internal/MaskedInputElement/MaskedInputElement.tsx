@@ -73,7 +73,11 @@ export const MaskedInputElement = forwardRefAndName(
           onFocus: handleFocus,
           onBlur: handleBlur,
           inputRef,
-          className: cx(props.className, styles.input(theme), placeholderColor && styles.inputPlaceholder(theme)),
+          className: cx(
+            props.className,
+            !props.disabled && styles.input(theme),
+            !props.disabled && placeholderColor && styles.inputPlaceholder(theme),
+          ),
         })}
         <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
       </>
@@ -103,7 +107,7 @@ export const MaskedInputElement = forwardRefAndName(
     }
 
     function paintText() {
-      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
+      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject) || props.disabled) {
         return;
       }
 

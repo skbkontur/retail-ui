@@ -100,12 +100,14 @@ export const Validations: Story = () => (
 );
 
 const validationsStates: InputState[] = [
-  {},
-  { borderless: true },
-  { disabled: true },
-  { alwaysShowMask: true, disabled: true },
   { warning: true },
+  { value: '12', warning: true },
+  { alwaysShowMask: true, warning: true },
+  { value: '12', alwaysShowMask: true, warning: true },
   { error: true },
+  { value: '12', error: true },
+  { alwaysShowMask: true, error: true },
+  { value: '12', alwaysShowMask: true, error: true },
 ];
 
 export const Positions: Story = () => (
@@ -125,4 +127,21 @@ const positionsStates: InputState[] = [
   { value: 'WWWW W' },
   { value: 'WWWW WWWW WWW' },
   { value: 'W1W1 W1W1 W1' },
+];
+
+export const Disabled: Story = () => (
+  <ComponentTable
+    Component={MaskedInput}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={disabledStates.map((x) => ({ props: x }))}
+    presetProps={{ mask: '99:99', disabled: true }}
+  />
+);
+
+const disabledStates: InputState[] = [
+  {},
+  { alwaysShowMask: true },
+  { value: '12' },
+  { value: '12', alwaysShowMask: true },
+  { placeholder: 'Placeholder' },
 ];
