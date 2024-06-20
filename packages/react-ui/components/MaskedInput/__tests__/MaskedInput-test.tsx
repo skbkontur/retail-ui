@@ -33,7 +33,7 @@ describe('MaskedInput', () => {
   });
 
   describe.each([
-    ['+7 (999) 999-99-99', '+7 (912) 247', '+7 (912) 247-'],
+    ['+7 (999) 999-99-99', '+7 (912) 247', '+7 (912) 247'],
     ['+7 (999) 999-99-99', '+7 (912) abc', '+7 (912) '],
     ['aa:aa', '122', ''],
     ['999', 'ttt', ''],
@@ -110,13 +110,13 @@ describe('MaskedInput', () => {
     it.each<[MaskedInputProps, string, number]>([
       [{ mask: '9-9-9-9' }, '123', 0],
       [{ mask: '9-9-9-9' }, '12345', 1],
-      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 1],
+      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(5)}`, 1],
       [{ mask: '9-9-9-9' }, 'a', 1],
       [{ mask: '9-9-9-9' }, '{backspace}', 1],
       [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, '12345', 1],
-      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(8)}`, 1],
+      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(5)}`, 1],
       [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, '12345', 1],
-      [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, `1234${'{backspace}'.repeat(5)}`, 1],
+      [{ mask: '9-9-9-9', imaskProps: { eager: 'append' } }, `1234${'{backspace}'.repeat(8)}`, 1],
     ])('%j > %s > %s times', (props, keys, expectedCount) => {
       const handleUnexpectedInput = jest.fn();
       const Comp = () => {
