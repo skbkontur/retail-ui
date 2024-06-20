@@ -19,9 +19,9 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    userEvent.click(screen.getByTestId('DateSelect__caption'));
+    userEvent.click(screen.getByTestId('DateSelect__caption').getElementsByTagName('button')[0]);
     expectedDisabledMonths.forEach((month) => {
-      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+      expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
 
@@ -36,9 +36,9 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    userEvent.click(screen.getByTestId('DateSelect__caption'));
+    userEvent.click(screen.getByTestId('DateSelect__caption').getElementsByTagName('button')[0]);
     expectedDisabledMonths?.forEach((month) => {
-      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+      expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
 });
