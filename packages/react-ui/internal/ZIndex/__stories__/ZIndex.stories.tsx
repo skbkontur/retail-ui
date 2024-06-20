@@ -916,16 +916,14 @@ StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
 StickyAndTooltipsStory.parameters = {
   creevey: {
     tests: {
-      async 'Sticky covers outside Popup and DropdownContainer'() {
+      async 'Sticky covers outside Popup'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
         await delay(1000);
 
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-          'Sticky covers outside Popup and DropdownContainer',
-        );
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Sticky covers outside Popup');
       },
     },
   },
