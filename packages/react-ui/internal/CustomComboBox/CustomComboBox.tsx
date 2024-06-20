@@ -54,6 +54,7 @@ export interface CustomComboBoxProps<T>
   onMouseLeave?: (e: React.MouseEvent) => void;
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
+  /** Задаёт размер контрола. */
   size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;

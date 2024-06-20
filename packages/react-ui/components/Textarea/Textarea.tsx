@@ -43,47 +43,30 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /**
-         * Состояние валидации при ошибке.
-         */
+        /** Задаёт состояние валидации при ошибке. */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+        /** Задаёт состояние валидации при предупреждении. */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
-        /** Размер */
+        /** Задаёт размер контрола. */
         size?: SizeProp;
-        /**
-         * Автоматический ресайз
-         * в зависимости от содержимого
-         */
+        /** Автоматический ресайз
+         * в зависимости от содержимого */
         autoResize?: boolean;
-        /**
-         * Число строк
-         */
+        /** Число строк */
         rows?: number;
-        /**
-         * Максимальное число строк при
-         * автоматическом ресайзе
-         */
+        /** Максимальное число строк при
+         * автоматическом ресайзе */
         maxRows?: string | number;
 
-        /**
-         * Стандартный ресайз
-         * Попадает в `style`
-         */
+        /** Стандартный ресайз. Попадает в `style` */
         resize?: React.CSSProperties['resize'];
 
-        /**
-         * Ширина
-         */
+        /** Ширина */
         width?: React.CSSProperties['width'];
 
-        /**
-         * Вызывается при изменении `value`
-         */
+        /** Вызывается при изменении `value` */
         onValueChange?: (value: string) => void;
 
         /** Выделение значения при фокусе */
@@ -92,15 +75,11 @@ export interface TextareaProps
         /** Показывать счетчик символов */
         showLengthCounter?: boolean;
 
-        /** Допустимое количество символов в поле. Отображается в счетчике.
-         * Если не указано, равно `maxLength`
-         */
+        /** Допустимое количество символов в поле. Отображается в счетчике. Если не указано, равно `maxLength` */
         lengthCounter?: number;
 
         /** Подсказка к счетчику символов.
-         *
          * По умолчанию - тултип с содержимым из пропа, если передан`ReactNode`.
-         *
          * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
          *
          * ```
@@ -114,9 +93,7 @@ export interface TextareaProps
          * */
         extraRow?: boolean;
 
-        /** Отключать анимацию при авто-ресайзе.
-         * Автоматически отключается когда в `extraRow` передан `false`.
-         */
+        /** Отключает анимации. Автоматически отключается когда в `extraRow` передан `false`. */
         disableAnimations?: boolean;
       }
     > {}
@@ -321,17 +298,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     );
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus() {
     if (this.node) {
       this.node.focus();
     }
   }
 
-  /**
-   * @public
+  /** @public
    */
   public blur() {
     if (this.node) {
@@ -339,8 +313,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  /**
-   * @public
+  /** @public
    * @param {number} start
    * @param {number} end
    */
@@ -356,8 +329,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.node.setSelectionRange(start, end);
   };
 
-  /**
-   * @public
+  /** @public
    */
   public selectAll = () => {
     if (this.node) {

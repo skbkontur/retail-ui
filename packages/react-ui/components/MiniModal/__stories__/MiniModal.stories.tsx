@@ -13,6 +13,7 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 export default {
   title: 'Overlays/MiniModal',
   component: MiniModal,
+  tags: ['autodocs'],
   parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
 } as Meta;
 

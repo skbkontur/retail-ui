@@ -77,8 +77,9 @@ class NumberList extends React.Component<NumberListProps> {
 }
 
 export default {
-    title: 'Action/Loader',
-    component: Loader,
+  title: 'Action/Loader',
+  component: Loader,
+  tags: ['autodocs'],
 };
 
 export const Simple = () => {

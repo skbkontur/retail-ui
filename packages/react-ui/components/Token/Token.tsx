@@ -29,18 +29,12 @@ export type TokenSize = SizeProp;
 export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
   disabled?: boolean;
-  /**
-   * Размер
-   */
+  /** Задаёт размер контрола. */
   size?: TokenSize;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;

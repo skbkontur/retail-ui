@@ -23,6 +23,7 @@ const SpinnerLikeIcon = () => (
 export default {
   title: 'Action/Spinner',
   component: Spinner,
+  tags: ['autodocs'],
   parameters: {
     creevey: {
       skip: {

@@ -16,7 +16,7 @@ export type MenuHeaderSize = SizeProp;
 export interface MenuHeaderProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
-  /** Размер */
+  /** Задаёт размер контрола. */
   size?: SizeProp;
 }
 

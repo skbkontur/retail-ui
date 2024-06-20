@@ -5,7 +5,8 @@ const testMaskedInput = () => {
     const click = (css: string) => {
       return this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css }));
     };
@@ -25,7 +26,8 @@ const testIdleFocusBlur = () => {
     const click = (css: string) => {
       return this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css }));
     };
@@ -99,7 +101,8 @@ kind('MaskedInput', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
@@ -116,7 +119,8 @@ kind('MaskedInput', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
         .perform();
@@ -133,7 +137,8 @@ kind('MaskedInput', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('text')

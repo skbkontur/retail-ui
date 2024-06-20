@@ -363,8 +363,9 @@ class TabsTable extends React.Component {
 }
 
 export default {
-    title: 'Navigation/Tabs',
-    component: Tabs,
+  title: 'Navigation/Tabs',
+  component: Tabs,
+  tags: ['autodocs'],
 };
 
 export const Simple: Story = () => <UncTabs size="large" />;

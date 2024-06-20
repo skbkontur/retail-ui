@@ -15,7 +15,7 @@ export type MenuFooterSize = SizeProp;
 export interface MenuFooterProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
-  /** Размер */
+  /** Задаёт размер контрола. */
   size?: SizeProp;
 }
 

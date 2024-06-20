@@ -17,7 +17,8 @@ kind('Toggle', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'label' }),
@@ -31,7 +32,8 @@ kind('Toggle', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
@@ -44,7 +46,8 @@ kind('Toggle', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'label' }),
@@ -76,7 +79,8 @@ kind('Toggle', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();

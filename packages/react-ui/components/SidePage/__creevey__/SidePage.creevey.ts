@@ -6,7 +6,8 @@ const simpleTests = () => {
   test('open side-page', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
       .perform();
@@ -84,7 +85,8 @@ kind('SidePage', () => {
     test('scroll to bottom', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
@@ -102,7 +104,8 @@ kind('SidePage', () => {
     test('open side-page without header', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
@@ -118,7 +121,8 @@ kind('SidePage', () => {
       const pressTab = async () => {
         await this.browser
           .actions({
-            async: undefined, bridge: true,
+            async: undefined,
+            bridge: true,
           })
           .sendKeys(this.keys.TAB)
           .perform();
@@ -126,7 +130,8 @@ kind('SidePage', () => {
       };
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
@@ -156,7 +161,8 @@ kind('SidePage', () => {
     test('Body content has been changed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="toggle-body-content"]' }))
         .perform();
@@ -167,7 +173,8 @@ kind('SidePage', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
         .perform();
@@ -178,7 +185,8 @@ kind('SidePage', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
         .pause(1000)
@@ -237,7 +245,8 @@ kind('SidePage', () => {
     test('with header, footer', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
         .pause(1000)
@@ -251,7 +260,8 @@ kind('SidePage', () => {
     test('scroll to bottom with header, footer', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
         .pause(1000)
@@ -269,7 +279,8 @@ kind('SidePage', () => {
     test('with panel', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
         .pause(1000)

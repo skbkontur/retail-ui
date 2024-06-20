@@ -62,122 +62,76 @@ export enum TokenInputType {
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
-  /**
-   * Выбранные токены, которые будут отображаться в поле ввода
-   */
+  /** Выбранные токены, которые будут отображаться в поле ввода */
   selectedItems?: T[];
-  /**
-   * Вызывается при добавлении нового токена
-   */
+  /** Вызывается при добавлении нового токена */
   onValueChange?: (items: T[]) => void;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: MouseEventHandler<HTMLDivElement>;
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
-  /** Размер */
+  /** Задаёт размер контрола. */
   size?: TokenSize;
-  /**
-   * Тип инпута. Возможные значения:
-   *
+  /** Тип инпута. Возможные значения:
    *   `TokenInputType.WithReference` (можно выбирать токены только из предложенных, нельзя добавить новые)
-   *
    *   `TokenInputType.WithoutReference` (можно добавлять токены, но нельзя выбирать)
-   *
-   *   `TokenInputType.Combined` (можно и выбирать, и добавлять)
-   */
+   *   `TokenInputType.Combined` (можно и выбирать, и добавлять) */
   type?: TokenInputType;
-  /**
-   * Ширина выпадающего меню может быть указана как 'auto'
+  /** Ширина выпадающего меню может быть указана как 'auto'
    * а также в пикселях, процентах (от ширины инпута)
    * или других конкретных единицах
    *
    * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
-   * (по ширине текста)
-   */
+   * (по ширине текста) */
   menuWidth?: React.CSSProperties['width'];
-  /**
-   * Определяет выравнивание меню. Принимает значения `left` и `cursor`
-   */
+  /** Определяет выравнивание меню. Принимает значения `left` и `cursor` */
   menuAlign?: TokenInputMenuAlign;
-  /**
-   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+  /** Функция поиска элементов, должна возвращать Promise с массивом элементов.
    * По умолчанию ожидаются строки.
    *
    * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `renderItem`, `valueToString`
-   */
+   * свойства `renderItem`, `valueToString` */
   getItems?: (query: string) => Promise<T[]>;
-  /**
-   * Скрывает меню при пустом вводе
-   */
+  /** Скрывает меню при пустом вводе */
   hideMenuIfEmptyInputValue?: boolean;
-  /**
-   * Позволяет настроить отображение элемента списка
-   */
+  /** Позволяет настроить отображение элемента списка */
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode | null;
-  /**
-   * Позволяет настроить отображение выбранного значения
-   */
+  /** Позволяет настроить отображение выбранного значения */
   renderValue?: (item: T) => React.ReactNode;
-  /**
-   * Функция должна возвращать строковое представление токена
-   * @default item => item
-   */
+  /** Функция должна возвращать строковое представление токена
+   * @default item => item */
   valueToString?: (item: T) => string;
-  /**
-   * Функция отображающая сообщение об общем количестве элементов.
-   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`.
-   */
+  /** Функция отображающая сообщение об общем количестве элементов.
+   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`. */
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  /**
-   * Общее количество элементов.
-   * Необходим для работы `renderTotalCount`
-   */
+  /** Общее количество элементов.
+   * Необходим для работы `renderTotalCount` */
   totalCount?: number;
-  /**
-   * Отображает заданное содержимое, если ничего не найдено. Работает если не рендерится `AddButton`
-   */
+  /** Отображает заданное содержимое, если ничего не найдено. Работает если не рендерится `AddButton` */
   renderNotFound?: () => React.ReactNode;
-  /**
-   * Преобразует значение в элемент списка
-   */
+  /** Преобразует значение в элемент списка */
   valueToItem?: (item: string) => T;
-  /**
-   * Определяет уникальный ключ по элементу
-   */
+  /** Определяет уникальный ключ по элементу */
   toKey?: (item: T) => string | number | undefined;
   placeholder?: string;
-  /**
-   * Символы, которые разделяют введённый текст на токены
-   */
+  /** Символы, которые разделяют введённый текст на токены */
   delimiters?: string[];
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
   disabled?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
-  /**
-   * Позволяет настроить отображение токена, предоставляя возможность кастомизации внешнего вида и поведения токена
-   */
+  /** Позволяет настроить отображение токена, предоставляя возможность кастомизации внешнего вида и поведения токена */
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
-  /**
-   * Вызывается при изменении текста в поле ввода,
-   */
+  /** Вызывается при изменении текста в поле ввода, */
   onInputValueChange?: (value: string) => void;
-  /**
-   * Функция отрисовки кнопки добавления в выпадающем списке.
-   * Работает только когда тип инпута = `TokenInputType.Combined`
-   */
+  /** Функция отрисовки кнопки добавления в выпадающем списке.
+   * Работает только когда тип инпута = `TokenInputType.Combined` */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
-  /**
-   * Функция для обработки ситуации, когда была введена
+  /** Функция для обработки ситуации, когда была введена
    * строка в инпут и был потерян фокус с компонента
    *
    * Функция срабатывает с аргументом инпута строки
@@ -191,8 +145,7 @@ export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-described
    * неравное `undefined`, с которым будет вызван `onValueChange`.
    * Если возвращаемое значение будет равно `null`,
    * то сработает очистка текущего значения инпута,
-   * а в режиме редактирования токен будет удален
-   */
+   * а в режиме редактирования токен будет удален */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
   inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
 }
@@ -361,15 +314,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     globalObject.document?.removeEventListener('copy', this.handleCopy);
   }
 
-  /**
-   * @public
+  /** @public
    */
   public focus() {
     this.input?.focus();
   }
 
-  /**
-   * @public
+  /** @public
    */
   public blur() {
     this.input?.blur();
@@ -560,8 +511,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
   }
 
-  /**
-   * Сбрасывает введенное пользователем значение
+  /** Сбрасывает введенное пользователем значение
    * @public
    */
   public reset() {

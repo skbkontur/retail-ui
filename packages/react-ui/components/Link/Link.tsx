@@ -25,60 +25,32 @@ export interface LinkProps
     Override<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
       {
-        /**
-         * Отключенное состояние.
-         */
+        /** Отключенное состояние. */
         disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
+        /** HTML-атрибут `href`. */
         href?: string;
-        /**
-         * Добавляет ссылке иконку слева.
-         */
+        /** Добавляет ссылке иконку слева. */
         icon?: React.ReactElement;
-        /**
-         * Добавляет ссылке иконку справа.
-         */
+        /** Добавляет ссылке иконку справа. */
         rightIcon?: React.ReactElement;
-        /**
-         * Тема ссылки.
-         */
+        /** Тема ссылки. */
         use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
+        /** @ignore */
         _button?: boolean;
-        /**
-         * @ignore
-         */
+        /** @ignore */
         _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
+        /** HTML-атрибут `tabindex`. */
         tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
+        /** Переводит ссылку в состояние загрузки. */
         loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
+        /** HTML-событие `onclick`. */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-
-        /**
-         * Обычный объект с переменными темы.
-         * Он будет объединён с темой из контекста.
-         */
+        /** Обычный объект с переменными темы. Он будет объединён с темой из контекста. */
         theme?: ThemeIn;
-        /**
-         * Компонент, используемый в качестве корневого узла.
-         * @ignore
-         */
+        /** Компонент, используемый в качестве корневого узла.
+         * @ignore */
         as?: React.ElementType | keyof React.ReactHTML;
-        /**
-         * @ignore
-         */
+        /** @ignore */
         focused?: boolean;
       }
     > {}

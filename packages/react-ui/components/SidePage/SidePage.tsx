@@ -37,57 +37,25 @@ export interface SidePageProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<AriaAttributes, 'aria-label'> {
-  /**
-   * Добавить блокирующий фон, когда сайдпейдж открыт
-   */
+  /** Добавить блокирующий фон, когда сайдпейдж открыт */
   blockBackground?: boolean;
-
-  /**
-   * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
-   */
+  /** Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа */
   disableClose?: boolean;
-
-  /**
-   * Не закрывать сайдпейдж при клике на фон.
-   */
+  /** Не закрывать сайдпейдж при клике на фон. */
   ignoreBackgroundClick?: boolean;
-
-  /**
-   * Задать ширину сайдпейджа
-   */
+  /** Задать ширину сайдпейджа */
   width?: number | string;
-
-  /**
-   * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
-   * Escape или на крестик).
-   */
+  /** Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
-
-  /**
-   * Вызывается, когда анимация открытия сайдпейджа полностью прошла
-   */
+  /** Вызывается, когда анимация открытия сайдпейджа полностью прошла */
   onOpened?: () => void;
-
-  /**
-   * Показывать сайдпэйдж слева
-   *
-   */
+  /** Показывать сайдпэйдж слева  */
   fromLeft?: boolean;
-
-  /**
-   * Отключить анимации
-   *
-   */
+  /** Отключает анимации. */
   disableAnimations?: boolean;
-
-  /**
-   * Работает только при заблокированном фоне: `blockBackground = true`
-   */
+  /** Работает только при заблокированном фоне: `blockBackground = true` */
   disableFocusLock?: boolean;
-
-  /**
-   * задает отступ от края экрана
-   */
+  /** задает отступ от края экрана */
   offset?: number | string;
 }
 
@@ -152,10 +120,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     ModalStack.remove(this);
   }
 
-  /**
-   * Обновляет разметку компонента.
-   * @public
-   */
+  /** Обновляет разметку компонента.
+   * @public */
   public updateLayout = (): void => {
     this.header?.update();
     this.footer?.update();

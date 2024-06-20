@@ -14,6 +14,7 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 export default {
   title: 'Popup/Hint',
   component: Hint,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element) => (
       <div style={{ padding: '100px 300px' }}>

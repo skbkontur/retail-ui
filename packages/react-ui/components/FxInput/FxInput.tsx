@@ -153,18 +153,14 @@ export class FxInput extends React.Component<FxInputProps> {
     );
   };
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus = () => {
     if (this.input) {
       this.input.focus();
     }
   };
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur = () => {
     if (this.input) {
       this.input.blur();

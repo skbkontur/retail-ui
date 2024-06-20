@@ -32,19 +32,15 @@ type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
 type OffsetCSSPropsX = 'right' | 'bottom' | 'left';
 
 export interface ScrollContainerProps extends CommonProps {
-  /**
-   * Инвертировать цвет скроллбара
+  /** Инвертировать цвет скроллбара
    * @default false
    */
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   maxWidth?: React.CSSProperties['maxWidth'];
-  /**
-   * @default false
-   */
+  /** @default false */
   preventWindowScroll?: boolean;
-  /**
-   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+  /** Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
    * @default 'auto'
    */
   scrollBehaviour?: ScrollBehaviour;
@@ -52,34 +48,21 @@ export interface ScrollContainerProps extends CommonProps {
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
-  /**
-   * Отключение кастомного скролла
-   */
+  /** Отключение кастомного скролла. */
   disabled?: boolean;
-  /**
-   * Смещение вертикального скроллбара
-   */
+  /** Смещение вертикального скроллбара. */
   offsetY?: Partial<Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>>;
-  /**
-   * Смещение горизонтального скроллбара
-   */
+  /** Смещение горизонтального скроллбара. */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
-  /**
-   * Скрывать скроллбар при отсутствии активности пользователя
+  /** Скрывать скроллбар при отсутствии активности пользователя
    * @deprecated use showScrollBar
    */
   hideScrollBar?: boolean;
-  /**
-   * Показывать скроллбар
-   */
+  /** Показывать скроллбар. */
   showScrollBar?: 'always' | 'scroll' | 'hover' | 'never';
-  /**
-   * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`
-   */
+  /** Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`. */
   hideScrollBarDelay?: number;
-  /**
-   * Отключить анимации
-   */
+  /** Отключает анимации. */
   disableAnimations?: boolean;
 }
 
@@ -214,8 +197,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     );
   };
 
-  /**
-   * @public
+  /** @public
    * @param {Element} element
    */
   public scrollTo(element: Nullable<HTMLElement>) {
@@ -227,8 +209,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollTop = getScrollYOffset(element, this.inner);
   }
 
-  /**
-   * @public
+  /** @public
    */
   public scrollToTop() {
     if (!this.inner) {
@@ -237,8 +218,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollTop = 0;
   }
 
-  /**
-   * @public
+  /** @public
    */
   public scrollToBottom() {
     if (!this.inner) {
@@ -247,8 +227,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollTop = this.inner.scrollHeight - this.inner.offsetHeight;
   }
 
-  /**
-   * @public
+  /** @public
    */
   public scrollToLeft() {
     if (!this.inner) {
@@ -257,8 +236,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollLeft = 0;
   }
 
-  /**
-   * @public
+  /** @public
    */
   public scrollToRight() {
     if (!this.inner) {

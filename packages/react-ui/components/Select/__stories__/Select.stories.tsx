@@ -437,6 +437,7 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
 export default {
   title: 'Choose/Select',
   component: Select,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element, context) => {
       if (

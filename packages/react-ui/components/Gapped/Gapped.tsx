@@ -7,25 +7,17 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface GappedProps extends CommonProps {
-  /**
-   * Расстояние между элементами в пикселях
-   * @default 8
-   */
+  /** Расстояние между элементами в пикселях
+   * @default 8 */
   gap?: number;
-  /**
-   * Вертикальное выравнивание
-   * @default "baseline"
-   */
+  /** Вертикальное выравнивание
+   * @default "baseline" */
   verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
-  /**
-   * Расположение элементов по вертикали
-   * @default false
-   */
+  /** Расположение элементов по вертикали
+   * @default false */
   vertical?: boolean;
-  /**
-   * Перенос элементов на новую строку при горизонтальном расположении
-   * @default false
-   */
+  /** Перенос элементов на новую строку при горизонтальном расположении
+   * @default false */
   wrap?: boolean;
   children: React.ReactNode;
 }

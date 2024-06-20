@@ -10,6 +10,7 @@ import { Gapped } from '../../Gapped';
 export default {
   title: 'Menu/MenuItem',
   component: MenuItem,
+  tags: ['autodocs'],
 } as Meta;
 
 export const MobileMenuItemWithIcon = () => {

@@ -7,7 +7,8 @@ const textAlignmentTests = () => {
   test('opened', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
       .perform();
@@ -37,7 +38,8 @@ kind('TooltipMenu', () => {
     test('clickAfterClickedOnCaption', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
@@ -48,7 +50,8 @@ kind('TooltipMenu', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
         .perform();
@@ -58,7 +61,8 @@ kind('TooltipMenu', () => {
     test('clickedOutside', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
         .click(this.browser.findElement({ css: 'body' }))
@@ -69,7 +73,8 @@ kind('TooltipMenu', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
@@ -79,7 +84,8 @@ kind('TooltipMenu', () => {
     test('enterPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .sendKeys(this.keys.ENTER)
@@ -90,7 +96,8 @@ kind('TooltipMenu', () => {
     test('escapePress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .sendKeys(this.keys.ENTER)

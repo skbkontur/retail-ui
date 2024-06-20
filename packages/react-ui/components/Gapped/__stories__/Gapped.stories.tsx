@@ -7,6 +7,7 @@ import { Button } from '../../Button';
 export default {
   title: 'Layout/Gapped',
   component: Gapped,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element) => (
       <div style={{ padding: '5px', border: '1px solid black', width: '300px' }}>

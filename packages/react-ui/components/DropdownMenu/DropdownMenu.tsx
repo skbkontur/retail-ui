@@ -22,39 +22,23 @@ export interface DropdownMenuProps
   /** Ширина caption */
   width?: React.CSSProperties['width'];
 
-  /**
-   * Элемент или функция возвращающая элемент,
+  /** Элемент или функция возвращающая элемент,
    * если передана, используется вместо `caption`,
    * в таком случае управлять открытием и закрытием меню
-   * придется в этой функции
-   */
+   * придется в этой функции */
   caption: PopupMenuProps['caption'];
 
-  /**
-   * Произвольный элемент, который будет отрендерен в шапке меню.
-   *
-   * _Примечание_: контрол [MenuHeader](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`.
-   */
+  /** Произвольный элемент, который будет отрендерен в шапке меню.
+   * _Примечание_: контрол [MenuHeader](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`. */
   header?: React.ReactNode;
-  /**
-   * Произвольный элемент, который будет отрендерен в подвале меню.
-   *
-   * Перед элементом переданным в `footer` будет отрендерен [MenuSeparator](#/Components/MenuSeparator).
-   */
+  /** Произвольный элемент, который будет отрендерен в подвале меню.
+   * Перед элементом переданным в `footer` будет отрендерен [MenuSeparator](#/Components/MenuSeparator). */
   footer?: React.ReactNode;
-  /**
-   *  Список позиций доступных для расположения выпадашки относительно `caption`.
-   *
+  /**  Список позиций доступных для расположения выпадашки относительно `caption`.
    * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
-   *
-   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
-   * @default ['bottom left', 'bottom right', 'top left', 'top right']
-   */
+   * @default ['bottom left', 'bottom right', 'top left', 'top right'] */
   positions?: PopupPositionsType[];
-
-  /**
-   * Не показывать анимацию
-   */
+  /** Отключает анимации. */
   disableAnimations?: boolean;
 }
 

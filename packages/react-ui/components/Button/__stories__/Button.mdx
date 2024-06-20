@@ -3,49 +3,70 @@ import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
 
 <Meta of={ButtonStories} />
 
-# Button
-Я - обычная кнопочка... Описание компонента
+[//]: # "name='BBB/b' -- меняет название в URL"
 
-[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/button)
+# Button
+
+Кнопка запускает действие.
+
+[Описание компонента в Контур.Гайдах](https://guides.kontur.ru/components/button)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
+
 ### Стиль
+
 <Canvas of={ButtonStories.Styles} />
 
 ### Иконка
+
 <Canvas of={ButtonStories._Icon} />
 
 ### Размер
+
 <Canvas of={ButtonStories._Size} />
 
 ### Ширина
+
 <Canvas of={ButtonStories._Width} />
 
 ### Состояние валидации
+
 <Canvas of={ButtonStories._Validations} />
 
 ### Стрелка
+
 <Canvas of={ButtonStories._Arrow} />
 
 ### Состояние загрузки
+
 **Поведение:**
 Кнопка на время нахождения в состоянии загрузки отключается.
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
+
 <Canvas of={ButtonStories._Loading} />
 
 ### Проп темы
+
 <Canvas of={ButtonStories._Theme} />
 
 # h1
+
 ## h2
+
 ### h3
+
 #### h4
+
 ##### h5
+
 ###### h6
+
 текст

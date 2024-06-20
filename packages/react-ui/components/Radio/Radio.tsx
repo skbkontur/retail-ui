@@ -27,41 +27,23 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         *  Состояние валидации при ошибке.
-         */
+        /** Задаёт состояние валидации при ошибке. */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+        /** Задаёт состояние валидации при предупреждении. */
         warning?: boolean;
-        /**
-         * Размер
-         */
+        /** Задаёт размер контрола. */
         size?: SizeProp;
-        /**
-         * Состояние фокуса.
-         */
+        /** Состояние фокуса. */
         focused?: boolean;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+        /** Функция, вызываемая при изменении `value`. */
         onValueChange?: (value: T) => void;
-        /**
-         * HTML-событие `onmouseenter`
-         */
+        /** HTML-событие `onmouseenter` */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`
-         */
+        /** HTML-событие `mouseleave` */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `onmouseover`
-         */
+        /** HTML-событие `onmouseover` */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-атрибут `value`.
-         */
+        /** HTML-атрибут `value`. */
         value: T;
       }
     > {}
@@ -153,17 +135,13 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     );
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus() {
     keyListener.isTabPressed = true;
     this.inputEl.current?.focus();
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur() {
     this.inputEl.current?.blur();
   }

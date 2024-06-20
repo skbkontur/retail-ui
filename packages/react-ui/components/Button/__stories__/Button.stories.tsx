@@ -20,9 +20,6 @@ import { Button, ButtonProps } from '../Button';
 export default {
   title: 'Action/Button',
   component: Button,
-  argTypes: {
-    size: {control: "radio"}
-  }
 } as Meta;
 
 type ButtonState = Partial<ButtonProps>;
@@ -35,10 +32,7 @@ export const _Primary: ArgsStory<Button> = {
 };
 
 export const Default: Story = () => (
-
-  <Button data-tid="test-button">
-    Здесь рисуется первая история из файла .stories.tsx
-  </Button>
+  <Button data-tid="test-button">Здесь рисуется первая история из файла .stories.tsx</Button>
 );
 
 // for docs
@@ -61,7 +55,9 @@ export const Styles: Story = (_, { globals: { theme } }) => (
 export const _Icon: Story = (_, { globals: { theme } }) => (
   <Gapped gap={5}>
     <Button icon={<XIcon16Regular />}>Закрыть</Button>
-    <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>Закрыть</Button>
+    <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
+      Закрыть
+    </Button>
     <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
   </Gapped>
 );
@@ -74,9 +70,7 @@ export const _Size: Story = (_, { globals: { theme } }) => (
   </div>
 );
 
-export const _Width: Story = (_, { globals: { theme } }) => (
-  <Button width={400}>Закрыть</Button>
-);
+export const _Width: Story = (_, { globals: { theme } }) => <Button width={400}>Закрыть</Button>;
 
 export const _Validations: Story = (_, { globals: { theme } }) => (
   <>
@@ -87,24 +81,36 @@ export const _Validations: Story = (_, { globals: { theme } }) => (
 
 export const _Arrow: Story = (_, { globals: { theme } }) => (
   <Gapped gap={5}>
-    <Button arrow="left" size="medium">Назад</Button>
-    <Button arrow size="medium">Далее</Button>
+    <Button arrow="left" size="medium">
+      Назад
+    </Button>
+    <Button arrow size="medium">
+      Далее
+    </Button>
   </Gapped>
 );
 
 export const _Loading: Story = (_, { globals: { theme } }) => (
   <Gapped>
     <Button width={150}>Удалить</Button>
-    <Button icon={<MinusCircleIcon16Light />} width={150}>Удалить</Button>
-    <Button rightIcon={<MinusCircleIcon16Light />} width={150}>Удалить</Button>
-    <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150}>Удалить</Button>
+    <Button icon={<MinusCircleIcon16Light />} width={150}>
+      Удалить
+    </Button>
+    <Button rightIcon={<MinusCircleIcon16Light />} width={150}>
+      Удалить
+    </Button>
+    <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150}>
+      Удалить
+    </Button>
   </Gapped>
 );
 
 export const _Theme: Story = (_, { globals: { theme } }) => (
   <Gapped>
     <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
-    <Button use="link" theme={{ linkColor: '#C00000' }}>Ok</Button>
+    <Button use="link" theme={{ linkColor: '#C00000' }}>
+      Ok
+    </Button>
     <Button>Ok</Button>
   </Gapped>
 );

@@ -31,28 +31,18 @@ export interface KebabProps
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   disabled?: boolean;
+  /** Задаёт размер контрола. */
   size?: SizeProp;
-  /**
-   * Список позиций доступных для расположения выпадашки.
-   *
+  /** Список позиций доступных для расположения выпадашки.
    * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
-   *
-   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
-   * @default ['bottom left', 'bottom right', 'top left', 'top right']
-   */
+   * @default ['bottom left', 'bottom right', 'top left', 'top right'] */
   positions?: PopupPositionsType[];
   menuMaxHeight?: number | string;
-  /**
-   * Не показывать анимацию
-   */
+  /** Отключает анимации. */
   disableAnimations?: boolean;
-  /**
-   * Кастомная иконка
-   */
+  /** Кастомная иконка */
   icon?: React.ReactNode;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
+  /** Атрибут для указания id элемента(-ов), описывающих его */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
@@ -278,18 +268,12 @@ Kebab.propTypes = {
   disabled: PropTypes.bool,
   menuMaxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
-  /**
-   * Размер кебаба small 14px | large 20px
-   */
+  /** Размер кебаба small 14px | large 20px */
   size: PropTypes.string,
 
-  /**
-   * Коллбек, вызывающийся перед закрытием кебаба
-   */
+  /** Коллбек, вызывающийся перед закрытием кебаба */
   onClose: PropTypes.func,
 
-  /**
-   * Коллбек, вызывающийся перед открытием кебаба
-   */
+  /** Коллбек, вызывающийся перед открытием кебаба */
   onOpen: PropTypes.func,
 };

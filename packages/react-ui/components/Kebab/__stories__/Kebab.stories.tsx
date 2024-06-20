@@ -19,6 +19,7 @@ interface KebabItem {
 export default {
   title: 'Menu/Kebab',
   component: Kebab,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element) => (
       <div

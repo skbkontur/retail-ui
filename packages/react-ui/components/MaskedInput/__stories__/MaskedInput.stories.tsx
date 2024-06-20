@@ -9,6 +9,7 @@ import { Input } from '../../Input';
 export default {
   title: 'Input elements/MaskedInput',
   component: MaskedInput,
+  tags: ['autodocs'],
 } as Meta;
 
 type InputState = Partial<MaskedInputProps>;

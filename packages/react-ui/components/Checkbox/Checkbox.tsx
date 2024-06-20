@@ -31,43 +31,25 @@ export interface CheckboxProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Контент `label`
-         */
+        /** Контент `label` */
         children?: React.ReactNode;
-        /**
-         * Состояние валидации при ошибке.
-         */
+        /** Задает состояние валидации при ошибке. */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+        /** Задаёт состояние валидации при предупреждении. */
         warning?: boolean;
-        /** Размер */
+        /** Задаёт размер контрола. */
         size?: SizeProp;
-        /**
-         * HTML-событие `mouseenter`.
-         */
+        /** HTML-событие `mouseenter`. */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`.
-         */
+        /** HTML-событие `mouseleave`. */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseover`.
-         */
+        /** HTML-событие `mouseover`. */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+        /** Функция, вызываемая при изменении `value`. */
         onValueChange?: (value: boolean) => void;
-        /**
-         * HTML-событие `onblur`.
-         */
+        /** HTML-событие `onblur`. */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
-         */
+        /** [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.*/
         initialIndeterminate?: boolean;
       }
     > {}
@@ -205,27 +187,21 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     );
   }
 
-  /**
-   * Программная установка фокуса чекбоксу.
-   * @public
-   */
+  /** Программная установка фокуса чекбоксу.
+   * @public */
   public focus() {
     keyListener.isTabPressed = true;
     this.input.current?.focus();
   }
 
-  /**
-   * Программное снятие фокуса с чекбокса.
-   * @public
-   */
+  /** Программное снятие фокуса с чекбокса.
+   * @public */
   public blur() {
     this.input.current?.blur();
   }
 
-  /**
-   * Устанавливает чекбокс в HTML-состояние `indeterminate`.
-   * @public
-   */
+  /** Устанавливает чекбокс в HTML-состояние `indeterminate`.
+   * @public */
   public setIndeterminate = () => {
     this.setState({
       indeterminate: true,
@@ -235,10 +211,8 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
-  /**
-   * Снимает с чекбокса HTML-состояние `indeterminate`.
-   * @public
-   */
+  /** Снимает с чекбокса HTML-состояние `indeterminate`.
+   * @public */
   public resetIndeterminate = () => {
     this.setState({
       indeterminate: false,

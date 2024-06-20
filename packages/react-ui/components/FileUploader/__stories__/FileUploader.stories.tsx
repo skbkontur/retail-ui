@@ -5,8 +5,9 @@ import { Gapped } from '../../Gapped';
 import { FileUploader, FileUploaderRef } from '../FileUploader';
 
 export default {
-  title: 'Work with files/FileUploader',
+  title: 'File/FileUploader',
   component: FileUploader,
+  tags: ['autodocs'],
   decorators: [(storyFn: () => JSX.Element) => <div style={{ padding: '10px' }}>{storyFn()}</div>],
 };
 

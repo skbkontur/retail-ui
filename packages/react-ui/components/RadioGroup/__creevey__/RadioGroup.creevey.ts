@@ -21,7 +21,8 @@ kind('RadioGroup', () => {
     test('hovered', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }),
@@ -33,7 +34,8 @@ kind('RadioGroup', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
         .perform();
@@ -45,13 +47,15 @@ kind('RadioGroup', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
         .perform();
@@ -61,7 +65,8 @@ kind('RadioGroup', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
         .sendKeys(this.keys.TAB)
@@ -72,7 +77,8 @@ kind('RadioGroup', () => {
     test('arrow_down', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
         .sendKeys(this.keys.TAB)

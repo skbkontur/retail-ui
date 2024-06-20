@@ -39,96 +39,65 @@ export interface ButtonProps
     Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
   /** @ignore */
   _noPadding?: boolean;
-
   /** @ignore */
   _noRightPadding?: boolean;
-
   /** Применяет к кнопке стили псевдокласса `:active`. */
   active?: boolean;
-
   /** Задаёт выравнивание тексту в кнопке. */
   align?: React.CSSProperties['textAlign'];
-
   /** Превращает обычную кнопку в кнопку со стрелкой. */
   arrow?: boolean | 'left';
-
   /** Даёт кнопке фокус после окончания загрузки страницы.*/
   autoFocus?: boolean;
-
   /** Убирает обводку у кнопки. */
   borderless?: boolean;
-
   /** @ignore */
   checked?: boolean;
-
   children?: React.ReactNode;
-
   /** @ignore */
   corners?: React.CSSProperties;
-
   /** Делает кнопку недоступной. */
   disabled?: boolean;
-
   /** @ignore */
   disableFocus?: boolean;
-
   /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
-
   /** Добавляет иконку слева от текста кнопки. */
   icon?: React.ReactElement;
-
   /** Добавляет иконку справа от текста кнопки. */
   rightIcon?: React.ReactElement;
-
   /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
-
   /** Сужает кнопку. */
   narrow?: boolean;
-
   /** Задаёт HTML-событие `onblur`. */
   onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
   /** Задаёт HTML-событие `onclick`. */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
   /** Задаёт HTML-событие `onfocus`. */
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
   /** Задаёт HTML-событие `keydown`. */
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
   /** Задаёт HTML-событие `onmouseenter`. */
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
   /** Задаёт HTML-событие `mouseleave`. */
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
   /** Задаёт HTML-событие `onmouseover`. */
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /** Задаёт размер кнопки. */
+  /** Задаёт размер контрола. */
   size?: SizeProp;
-
   /** Задаёт HTML-атрибут `type`. */
   type?: ButtonType;
-
   /** Задаёт HTML-атрибут `title`. */
   title?: string;
-
   /** Задаёт стиль кнопки. */
   use?: ButtonUse;
-
   /** @ignore */
   visuallyFocused?: boolean;
-
   /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
-
   /** Задаёт ширину кнопки. */
   width?: number | string;
-
   /** Задаёт объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
@@ -181,16 +150,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return null;
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus() {
     this.node?.focus();
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur() {
     this.node?.blur();
   }

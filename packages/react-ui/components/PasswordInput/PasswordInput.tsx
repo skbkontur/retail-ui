@@ -108,8 +108,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     );
   }
 
-  /**
-   * @public
+  /** @public
    */
   public focus = () => {
     if (this.input) {
@@ -117,8 +116,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  /**
-   * @public
+  /** @public
    */
   public blur = () => {
     this.handleBlur();

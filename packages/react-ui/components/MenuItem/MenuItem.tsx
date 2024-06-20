@@ -26,79 +26,45 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Omit<CommonProps, 'children'> {
-  /**
-   * @ignore
-   */
+  /** @ignore */
   _enableIconPadding?: boolean;
-  /**
-   * Добавляет описание для элемента меню.
-   */
+  /** Добавляет описание для элемента меню. */
   comment?: React.ReactNode;
-  /**
-   * Отключенное состояние.
-   */
+  /** Отключенное состояние. */
   disabled?: boolean;
-  /**
-   * Добавляет элементу меню иконку.
-   */
+  /** Добавляет элементу меню иконку. */
   icon?: React.ReactElement<any>;
-  /**
-   * Меняет цвет текста на синий.
-   */
+  /** Меняет цвет текста на синий. */
   link?: boolean;
-  /**
-   * Размер
-   */
+  /** Задаёт размер контрола. */
   size?: SizeProp;
-  /**
-   * @ignore
-   */
+  /** @ignore */
   loose?: boolean;
-  /**
-   * @ignore
-   */
+  /** @ignore */
   state?: MenuItemState;
-  /**
-   * HTML-событие `onclick`.
-   */
+  /** HTML-событие `onclick`. */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  /**
-   * HTML-событие `mouseenter`.
-   */
+  /** HTML-событие `mouseenter`. */
   onMouseEnter?: React.MouseEventHandler;
-  /**
-   * HTML-событие `mouseleave`.
-   */
+  /** HTML-событие `mouseleave`. */
   onMouseLeave?: React.MouseEventHandler;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
-  /**
-   * HTML-атрибут `target`.
-   */
+  /** HTML-атрибут `target`. */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-  /**
-   * HTML-атрибут `title`.
-   */
+  /** HTML-атрибут `title`. */
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
-  /**
-   * HTML-атрибут `href`.
-   */
+  /** HTML-атрибут `href`. */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
-  /**
-   * HTML-атрибут `rel`.
+  /** HTML-атрибут `rel`.
    *
-   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
-   */
+   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer" */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
-  /**
-   * Заменяет корневой элемент, на компонент переданный в проп.
+  /** Заменяет корневой элемент, на компонент переданный в проп.
    *
-   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
-   */
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`. */
   component?: React.ComponentType<any>;
-  /**
-   * Запрещает выделение и выбор данного пункта меню
-   *
-   */
+  /** Запрещает выделение и выбор данного пункта меню
+   * */
   isNotSelectable?: boolean;
 
   isMobile?: boolean;

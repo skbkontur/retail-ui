@@ -6,7 +6,8 @@ const textAlignmentTests = () => {
   test('opened', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
       .perform();
@@ -23,7 +24,8 @@ const kebabTests = () => {
   test('hovered', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }),
@@ -35,7 +37,8 @@ const kebabTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
       .perform();
@@ -45,7 +48,8 @@ const kebabTests = () => {
   test('clickedOnButton2ndTime', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
       .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
@@ -56,7 +60,8 @@ const kebabTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
@@ -66,7 +71,8 @@ const kebabTests = () => {
   test('enterPress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .sendKeys(this.keys.ENTER)

@@ -126,8 +126,9 @@ function GlobalLoaderWithTimer() {
 }
 
 export default {
-    title: 'Action/GlobalLoader',
-    component: GlobalLoader
+  title: 'Action/GlobalLoader',
+  component: GlobalLoader,
+  tags: ['autodocs'],
 };
 
 export const GlobalLoaderWithPropsContent: Story = () => <GlobalLoaderWithProps />;

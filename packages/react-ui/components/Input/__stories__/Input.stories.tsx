@@ -11,6 +11,7 @@ import { Gapped } from '../../Gapped';
 export default {
   title: 'Input elements/Input',
   component: Input,
+  tags: ['autodocs'],
 } as Meta;
 
 type InputState = Partial<InputProps>;

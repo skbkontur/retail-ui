@@ -202,8 +202,9 @@ class SimpleChildrenLines extends React.Component {
 }
 
 export default {
-    title: 'Choose/Toggle',
-    component: Toggle,
+  title: 'Choose/Toggle',
+  component: Toggle,
+  tags: ['autodocs'],
 };
 
 export const Plain: Story = () => <Simple />;

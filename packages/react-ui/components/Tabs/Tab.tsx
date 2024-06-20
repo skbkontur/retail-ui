@@ -39,54 +39,34 @@ export type TabSize = SizeProp;
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps {
-  /**
-   * Позволяет передавать свой компонент, строку или функцию, которая заменит собой элемент используемый в компоненте по умолчанию. Реализует паттерн [render prop](https://www.patterns.dev/posts/render-props-pattern).
-   */
+  /** Позволяет передавать свой компонент, строку или функцию, которая заменит собой элемент используемый в компоненте по умолчанию. Реализует паттерн [render prop](https://www.patterns.dev/posts/render-props-pattern). */
   component?: React.ComponentType<any> | string;
 
-  /**
-   * `HTML`-аттрибут `href`.
-   */
+  /** `HTML`-аттрибут `href`. */
   href?: string;
 
-  /**
-   * Уникальный идентификатор таба. По нему компонент `<Tabs />` определяет какой `<Tab />` сейчас выбран.
-   */
+  /** Уникальный идентификатор таба. По нему компонент `<Tabs />` определяет какой `<Tab />` сейчас выбран. */
   id?: T;
 
-  /**
-   * `HTML`-событие `onclick`.
-   */
+  /** `HTML`-событие `onclick`. */
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 
-  /**
-   * `HTML`-событие `onkeydown`.
-   */
+  /** `HTML`-событие `onkeydown`. */
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
-  /**
-   * Переводит компонент в отключенное состояние.
-   */
+  /** Переводит компонент в отключенное состояние. */
   disabled?: boolean;
 
-  /**
-   * Визуальное состояние ошибки.
-   */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
 
-  /**
-   * Визуальное состояние предупреждения.
-   */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
 
-  /**
-   * Визуальное состояние успеха.
-   */
+  /** Визуальное состояние успеха. */
   success?: boolean;
 
-  /**
-   * Визуальное состояние главного элемента.
-   */
+  /** Визуальное состояние главного элемента. */
   primary?: boolean;
 }
 

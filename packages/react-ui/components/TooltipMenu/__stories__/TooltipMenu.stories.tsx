@@ -12,6 +12,7 @@ import { Button } from '../../Button';
 export default {
   title: 'Menu/TooltipMenu',
   component: TooltipMenu,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element) => (
       <div

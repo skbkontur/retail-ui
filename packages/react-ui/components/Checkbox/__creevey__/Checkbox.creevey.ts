@@ -10,7 +10,8 @@ const checkboxTests = () => {
   test('hovered', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true
+        async: undefined,
+        bridge: true,
       })
       .move({
         origin: this.browser.findElement({
@@ -25,7 +26,8 @@ const checkboxTests = () => {
   test('pressed', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .move({
         origin: this.browser.findElement({
@@ -41,7 +43,8 @@ const checkboxTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
@@ -51,13 +54,15 @@ const checkboxTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .move({ origin: this.browser.findElement({ css: 'body' }) })
       .press()
@@ -71,13 +76,15 @@ const checkboxTests = () => {
   test('spacePress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
       .perform();
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        async: undefined,
+        bridge: true,
       })
       .move({ origin: this.browser.findElement({ css: 'body' }) })
       .press()
@@ -133,7 +140,8 @@ kind('Checkbox', () => {
     test('hovered', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({
@@ -148,7 +156,8 @@ kind('Checkbox', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({
@@ -192,7 +201,8 @@ kind('Checkbox', () => {
       });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'label' }),
@@ -208,7 +218,8 @@ kind('Checkbox', () => {
       });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
@@ -222,7 +233,8 @@ kind('Checkbox', () => {
       });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
@@ -239,7 +251,8 @@ kind('Checkbox', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();

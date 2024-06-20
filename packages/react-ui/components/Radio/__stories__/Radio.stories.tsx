@@ -9,6 +9,7 @@ import { Radio } from '../Radio';
 export default {
   title: 'Choose/Radio',
   component: Radio,
+  tags: ['autodocs'],
   parameters: {
     creevey: {
       skip: {

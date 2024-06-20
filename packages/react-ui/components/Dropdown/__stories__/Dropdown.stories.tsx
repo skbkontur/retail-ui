@@ -14,6 +14,7 @@ import { MenuHeader } from '../../MenuHeader';
 export default {
   title: 'Menu/Dropdown',
   component: Dropdown,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element) => (
       <div className="dropdown-test-container" style={{ minHeight: 150, minWidth: 400, padding: 4, overflow: 'auto' }}>

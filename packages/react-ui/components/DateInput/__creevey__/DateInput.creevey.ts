@@ -61,7 +61,8 @@ kind('DateInput', () => {
       });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
         .perform();
@@ -78,7 +79,8 @@ kind('DateInput', () => {
       });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys('12')
         .click(this.browser.findElement({ css: 'body' }))
@@ -96,7 +98,8 @@ kind('DateInput', () => {
       });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .sendKeys(this.keys.NUMPAD1)
         .click(this.browser.findElement({ css: 'body' }))

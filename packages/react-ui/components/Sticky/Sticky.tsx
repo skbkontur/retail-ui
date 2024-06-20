@@ -19,10 +19,8 @@ const MAX_REFLOW_RETRIES = 5;
 
 export interface StickyProps extends Omit<CommonProps, 'children'> {
   side: 'top' | 'bottom';
-  /**
-   * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
-   * @default 0
-   */
+  /** Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
+   * @default 0 */
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -152,11 +150,9 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
-  /**
-   * Пересчитать габариты и позицию залипшего элемента
+  /** Пересчитать габариты и позицию залипшего элемента
    *
-   * @public
-   */
+   * @public */
   public reflow = () => {
     if (!globalObject.document?.documentElement) {
       throw Error('There is no "documentElement" in document');

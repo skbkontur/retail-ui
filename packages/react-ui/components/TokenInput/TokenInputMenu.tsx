@@ -15,11 +15,9 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: PopupProps['anchorElement'];
   menuWidth: TokenInputProps<string>['menuWidth'];
   menuAlign: TokenInputMenuAlign;
-  /**
-   * Позволяет задать `id` выпадающему меню.
+  /** Позволяет задать `id` выпадающему меню.
    *
-   * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
-   */
+   * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню. */
   popupMenuId?: HTMLProps['id'];
   size?: TokenSize;
 }

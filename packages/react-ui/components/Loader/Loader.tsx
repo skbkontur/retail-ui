@@ -27,34 +27,22 @@ export type LoaderType = (typeof types)[number];
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
-  /**
-   * Флаг переключения состояния лоадера
-   * @default false
-   */
+  /** Флаг переключения состояния лоадера
+   * @default false */
   active?: boolean;
-  /**
-   * Подпись под спиннером
-   */
+  /** Подпись под спиннером */
   caption?: SpinnerProps['caption'];
-  /**
-   * Компонент заменяющий спиннер.
-   */
+  /** Компонент заменяющий спиннер. */
   component?: React.ReactNode;
-  /**
-   * Размер спиннера и текста
+  /** Размер спиннера и текста
    *
-   * @default normal
-   */
+   * @default normal */
   type?: LoaderType;
-  /**
-   * Время в миллисекундах для показа вуали без спиннера.
-   * @default 300
-   */
+  /** Время в миллисекундах для показа вуали без спиннера.
+   * @default 300 */
   delayBeforeSpinnerShow?: number;
-  /**
-   * Минимальное время в миллисекундах для показа спиннера
-   * @default 1000
-   */
+  /** Минимальное время в миллисекундах для показа спиннера
+   * @default 1000 */
   minimalDelayBeforeSpinnerHide?: number;
 }
 

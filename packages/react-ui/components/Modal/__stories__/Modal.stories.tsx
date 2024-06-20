@@ -412,8 +412,9 @@ class SmallModalOnTop extends React.Component {
 }
 
 export default {
-    title: 'Overlays/Modal',
-    component: Modal,
+  title: 'Overlays/Modal',
+  component: Modal,
+  tags: ['autodocs'],
 };
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;

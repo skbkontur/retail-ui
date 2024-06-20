@@ -80,7 +80,7 @@ const preview: Preview = {
       toc: {
         title: 'Содержание',
         headingSelector: 'h1, h2, h3', // может еще что-то включить
-      }
+      },
     },
   },
 };

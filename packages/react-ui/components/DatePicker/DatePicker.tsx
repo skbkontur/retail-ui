@@ -48,39 +48,28 @@ export interface DatePickerProps
     CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
-  /**
-   * Отвечает за отображение кнопки "Сегодня".
-   */
+  /** Отвечает за отображение кнопки "Сегодня".*/
   enableTodayLink?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
   menuAlign?: 'left' | 'right';
+  /** Задаёт размер контрола. */
   size?: SizeProp;
   value?: string | null;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
   width?: number | string;
   onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+  /** Вызывается при изменении `value`
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange: (value: string) => void;
   onFocus?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
-  /**
-   * Использовать на мобильных устройствах нативный календарь для выбора дат.
-   *
-   * - На iOS нативный календарь не умеет работать с minDate и maxDate
-   */
+  /** Использовать на мобильных устройствах нативный календарь для выбора дат.
+   * - На iOS нативный календарь не умеет работать с minDate и maxDate */
   useMobileNativeDatePicker?: boolean;
 }
 
@@ -216,9 +205,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur() {
     if (this.input) {
       this.input.blur();
@@ -226,9 +213,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     this.handleBlur();
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus() {
     if (this.props.disabled) {
       return;
@@ -239,10 +224,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     this.handleFocus();
   }
 
-  /**
-   * Закрывает выпадашку выбора дня
-   * @public
-   */
+  /** Закрывает выпадашку выбора дня
+   * @public */
   public close() {
     this.setState({ opened: false });
   }

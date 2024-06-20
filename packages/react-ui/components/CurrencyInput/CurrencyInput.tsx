@@ -33,10 +33,8 @@ export interface CurrencyInputProps
         fractionDigits?: Nullable<number>;
         /** Отрицательные значения */
         signed?: boolean;
-        /**
-         * Допустимое кол-во цифр целой части.
-         * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
-         */
+        /** Допустимое кол-во цифр целой части.
+         * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**. */
         integerDigits?: Nullable<number>;
         /** Вызывается при изменении `value` */
         onValueChange: (value: Nullable<number>) => void;
@@ -187,18 +185,14 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     );
   };
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus = () => {
     if (this.input) {
       this.input.focus();
     }
   };
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur = () => {
     if (this.input) {
       this.input.blur();

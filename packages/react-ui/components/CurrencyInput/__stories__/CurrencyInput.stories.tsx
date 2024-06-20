@@ -158,7 +158,8 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
 
 export default {
   title: 'Input elements/CurrencyInput',
-  component: CurrencyInput
+  component: CurrencyInput,
+  tags: ['autodocs'],
 } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;

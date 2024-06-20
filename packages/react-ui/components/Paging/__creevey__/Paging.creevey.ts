@@ -27,7 +27,8 @@ kind('Paging', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
@@ -39,7 +40,8 @@ kind('Paging', () => {
     test('change page by number', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .perform();
@@ -51,7 +53,8 @@ kind('Paging', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
         .perform();
@@ -63,7 +66,8 @@ kind('Paging', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .perform();
@@ -73,7 +77,8 @@ kind('Paging', () => {
     test('Move focus right', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .pause(100)
@@ -85,7 +90,8 @@ kind('Paging', () => {
     test('Move to page by Ender', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .pause(100)

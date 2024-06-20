@@ -31,10 +31,8 @@ export interface ToastState {
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+  /** Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
 
@@ -105,8 +103,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
-  /**
-   * Показывает тост с `notification` в качестве сообщения.
+  /** Показывает тост с `notification` в качестве сообщения.
    * Тост автоматически скрывается через 3 или 7 секунд,
    * в зависимости от наличия у него кнопки `action`.
    * Время показа можно задать вручную, передав `showTime`.
@@ -115,8 +112,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * @param {string} notification
    * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
-   * @param {number} showTime Время существования Toast в миллисекундах
-   */
+   * @param {number} showTime Время существования Toast в миллисекундах */
   public push(notification: string, action?: Nullable<Action>, showTime?: number) {
     if (this.state.notification) {
       this.close();
@@ -127,9 +123,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     this.setState(({ id }) => ({ notification, action, id: id + 1, showTime }), this._setTimer);
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public close = () => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
     this.setState({ notification: null, action: null });

@@ -13,6 +13,7 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 export default {
   title: 'Navigation/Link',
   component: Link,
+  tags: ['autodocs'],
   parameters: {
     creevey: {
       skip: {

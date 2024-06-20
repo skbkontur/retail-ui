@@ -58,52 +58,30 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Иконка слева
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
+        /** Иконка слева. Если `ReactNode` применяются дефолтные стили для иконки. Если `() => ReactNode` применяются только стили для позиционирование*/
         leftIcon?: InputIconType;
-        /**
-         * Иконка справа
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
+        /** Иконка справа. Если `ReactNode` применяются дефолтные стили для иконки. Если `() => ReactNode` применяются только стили для позиционирование*/
         rightIcon?: InputIconType;
-        /**
-         * Состояние валидации при ошибке.
-         */
+        /** Задаёт состояние валидации при ошибке. */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+        /** Задаёт состояние валидации при предупреждении. */
         warning?: boolean;
         /** Режим прозрачной рамки */
         borderless?: boolean;
         /** Выравнивание текста */
         align?: InputAlign;
-        /**
-         * Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+        /** Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`. @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput*/
         mask?: Nullable<string>;
-        /**
-         * Символ маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+        /** Символ маски. @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput*/
         maskChar?: Nullable<string>;
-        /**
-         * Словарь символов-регулярок для задания маски
+        /** Словарь символов-регулярок для задания маски.
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-         */
+         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }*/
         formatChars?: Record<string, string>;
-        /**
-         * Показывать символы маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+        /** Показывать символы маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput */
         alwaysShowMask?: boolean;
-        /** Размер */
+        /** Задаёт размер контрола. */
         size?: SizeProp;
         /** onValueChange */
         onValueChange?: (value: string) => void;
@@ -113,35 +91,20 @@ export interface InputProps
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
         /** Вызывается на label */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email'
-         * */
+        /** Тип. */
         type?: InputType;
         /** Значение */
         value?: string;
         capture?: boolean;
 
-        /**
-         * Префикс
-         * `ReactNode` перед значением, но после иконки
-         */
+        /** Префикс. `ReactNode` перед значением, но после иконки */
         prefix?: React.ReactNode;
-        /**
-         * Суффикс
-         * `ReactNode` после значения, но перед правой иконкой
-         */
+        /** Суффикс. `ReactNode` после значения, но перед правой иконкой */
         suffix?: React.ReactNode;
         /** Выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
         selectAllOnFocus?: boolean;
-        /**
-         * Обработчик неправильного ввода.
-         * По-умолчанию, инпут вспыхивает акцентным цветом.
-         * Если передан - вызывается переданный обработчик,
-         * в таком случае вспыхивание можно вызвать
-         * публичным методом инстанса `blink()`.
-         *
-         * @param value значение инпута.
-         */
+        /** Обработчик неправильного ввода. По-умолчанию, инпут вспыхивает акцентным цветом. Если передан - вызывается переданный обработчик, в таком случае вспыхивание можно вызвать публичным методом инстанса `blink()`.
+         * @param value значение инпута.*/
         onUnexpectedInput?: (value: string) => void;
         /** @ignore */
         corners?: Partial<
@@ -150,10 +113,7 @@ export interface InputProps
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
-        /**
-         * Элемент заменяет нативный input.
-         * Должен иметь пропы `InputElementProps` и тип `InputElement`
-         * */
+        /** Элемент заменяет нативный input. Должен иметь пропы `InputElementProps` и тип `InputElement` */
         element?: ReactElement<InputElementProps>;
       }
     > {}
@@ -219,32 +179,24 @@ export class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
     this.input.focus();
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input.blur();
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public getNode() {
     return this.input;
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public blink() {
     if (this.blinkTimeout) {
       this.cancelBlink(() => {
@@ -260,11 +212,9 @@ export class Input extends React.Component<InputProps, InputState> {
     });
   }
 
-  /**
-   * @public
+  /** @public
    * @param {number} start
-   * @param {number} end
-   */
+   * @param {number} end */
   public setSelectionRange(start: number, end: number) {
     // https://github.com/facebook/react/issues/7769
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
@@ -315,11 +265,9 @@ export class Input extends React.Component<InputProps, InputState> {
     return maskForbiddenTypes.includes(this.getProps().type);
   }
 
-  /**
-   * Работает с типами `text`, `password`, `tel`, `search`, `url`
+  /** Работает с типами `text`, `password`, `tel`, `search`, `url`
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
-   * @public
-   */
+   * @public */
   public selectAll = (): void => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);

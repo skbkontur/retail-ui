@@ -20,6 +20,7 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 export default {
   title: 'Menu/DropdownMenu',
   component: DropdownMenu,
+  tags: ['autodocs'],
   decorators: [
     (Story: () => JSX.Element) => (
       <div

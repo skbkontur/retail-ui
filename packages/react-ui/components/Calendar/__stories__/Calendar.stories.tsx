@@ -8,8 +8,9 @@ import { LocaleContext } from '../../../lib/locale';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 
 export default {
-    title: 'Date/Calendar',
-    component: Calendar,
+  title: 'Date/Calendar',
+  component: Calendar,
+  tags: ['autodocs'],
 };
 
 export const CalendarWithBottomSeparator: Story = () => {

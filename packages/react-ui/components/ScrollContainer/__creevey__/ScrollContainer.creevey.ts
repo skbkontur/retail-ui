@@ -10,28 +10,32 @@ kind('ScrollContainer', () => {
       const idle = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#add' }))
         .perform();
       const addContent = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll50' }))
         .perform();
       const scroll50 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll100' }))
         .perform();
       const scroll100 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#remove' }))
         .perform();
@@ -47,21 +51,24 @@ kind('ScrollContainer', () => {
       const idle = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll50' }))
         .perform();
       const scroll50 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll100' }))
         .perform();
       const scroll100 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll0' }))
         .perform();
@@ -72,35 +79,40 @@ kind('ScrollContainer', () => {
     test('changeContent', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#add' }))
         .perform();
       const addContent = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll50' }))
         .perform();
       const scroll50 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll100' }))
         .perform();
       const scroll100 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scroll0' }))
         .perform();
       const scroll0 = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#remove' }))
         .perform();
@@ -116,35 +128,40 @@ kind('ScrollContainer', () => {
       const idle = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scrollTo' }))
         .perform();
       const scrollTo = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scrollToTop' }))
         .perform();
       const scrollToTop = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scrollToLeft' }))
         .perform();
       const scrollToLeft = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scrollToBottom' }))
         .perform();
       const scrollToBottom = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#scrollToRight' }))
         .perform();
@@ -173,7 +190,8 @@ kind('ScrollContainer', () => {
       });
       this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({ origin: this.browser.findElement({ css: 'body' }) });
       await delay(200);
@@ -190,7 +208,8 @@ kind('ScrollContainer', () => {
     test('toggleDisabled', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="disable-button"]' }))
         .click(this.browser.findElement({ css: '[data-tid="disable-button"]' }))
@@ -212,7 +231,8 @@ kind('ScrollContainer', () => {
       });
       this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({ origin: this.browser.findElement({ css: 'body' }) });
       await delay(200);
@@ -229,7 +249,8 @@ kind('ScrollContainer', () => {
     test('hideScroll', async function () {
       this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: '[data-tid~="ScrollContainer__root"]' }),
@@ -239,7 +260,8 @@ kind('ScrollContainer', () => {
       const hovered = await this.takeScreenshot();
       this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({ x: 1000, y: 700 })
         .perform();

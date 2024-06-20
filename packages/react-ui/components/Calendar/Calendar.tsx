@@ -27,46 +27,24 @@ import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShap
 import * as CalendarUtils from './CalendarUtils';
 
 export interface CalendarProps extends CommonProps {
-  /**
-   * Вызывается при изменении `value`
-   *
-   * В аргументе хранится дата в формате `dd.mm.yyyy`
-   */
+  /** Вызывается при изменении `value`
+   * В аргументе хранится дата в формате `dd.mm.yyyy` */
   onValueChange?: (date: string) => void;
-  /**
-   * Задаёт текущую дату
-   *
-   * Дата задаётся в формате `dd.mm.yyyy`
-   */
+  /** Задаёт текущую дату в формате `dd.mm.yyyy` */
   value: Nullable<string>;
-  /**
-   * Задаёт максимальную возможную дату
-   *
-   * Дата задаётся в формате `dd.mm.yyyy`
-   */
+  /** Задаёт максимальную возможную дату в формате `dd.mm.yyyy` */
   maxDate?: string;
-  /**
-   * Задаёт минимальную возможную дату
-   *
-   * Дата задаётся в формате `dd.mm.yyyy`
-   */
+  /** Задаёт минимальную возможную дату в формате `dd.mm.yyyy` */
   minDate?: string;
-  /**
-   * Функция для определения праздничных дней
+  /** Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
    * @param {string} day - строка в формате `dd.mm.yyyy`
    * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
-   *
-   * @returns {boolean} `true` для выходного или `false` для рабочего дня
-   */
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня */
   isHoliday?: (day: string, isWeekend: boolean) => boolean;
-  /**
-   * Позволяет задать начальный месяц
-   */
+  /** Позволяет задать начальный месяц */
   initialMonth?: Range<1, 13>;
-  /**
-   * Позволяет задать начальный год
-   */
+  /** Позволяет задать начальный год */
   initialYear?: number;
 }
 
@@ -169,10 +147,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     );
   }
 
-  /**
-   * Прокручивает календарь до переданной даты
-   * @public
-   */
+  /** Прокручивает календарь до переданной даты
+   * @public */
   public scrollToMonth = async (month: number, year: number) => {
     if (this.animation.inProgress()) {
       this.animation.finish();

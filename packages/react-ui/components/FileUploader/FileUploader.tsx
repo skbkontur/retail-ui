@@ -39,17 +39,13 @@ type FileUploaderOverriddenProps = 'size';
 interface _FileUploaderProps
   extends CommonProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
-  /** Состояние ошибки всего контрола */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
-  /** Состояние предупреждения всего контрола */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
   /** Свойство ширины. */
   width?: React.CSSProperties['width'];
-  /**
-   * Задаёт размер контрола.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+  /** Задаёт размер контрола. */
   size?: SizeProp;
   /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
@@ -61,15 +57,13 @@ interface _FileUploaderProps
   /** Срабатывает при неудачной попытке отправки через request */
   onRequestError?: (fileId: string) => void;
 
-  /**
-   * Функция валидации каждого файла.
+  /** Функция валидации каждого файла.
    * Срабатывает после выбора файлов и перед попыткой отправить в request.
    * Чтобы вывести валидацию ошибки, промис должен вернуть строку.
    * */
   validateBeforeUpload?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
 
-  /**
-   * Функция, позволяющая кастомизировать файлы.
+  /** Функция, позволяющая кастомизировать файлы.
    * Через нее можно вешать кастомные валидации на каждый файл.
    * */
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;

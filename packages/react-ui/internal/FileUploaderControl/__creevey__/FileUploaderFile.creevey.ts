@@ -13,7 +13,8 @@ kind('FileUploaderFile', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: '[data-tid="FileUploader__fileName"]' }),

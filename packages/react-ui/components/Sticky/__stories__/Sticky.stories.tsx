@@ -113,8 +113,9 @@ const withThinContainer = (Story: () => JSX.Element) => (
 );
 
 export default {
-    title: 'Layout/Sticky',
-    component: Sticky,
+  title: 'Layout/Sticky',
+  component: Sticky,
+  tags: ['autodocs'],
 };
 
 export const WideContainer: Story = () => <StickyWithWideContainer />;

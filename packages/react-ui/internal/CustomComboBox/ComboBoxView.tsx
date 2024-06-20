@@ -49,6 +49,7 @@ interface ComboBoxViewProps<T>
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
+  /** Задаёт размер контрола. */
   size?: SizeProp;
   textValue?: string;
   totalCount?: number;

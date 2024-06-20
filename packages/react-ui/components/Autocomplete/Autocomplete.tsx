@@ -50,33 +50,31 @@ export interface AutocompleteProps
     Override<
       InputProps,
       {
-        /** Функция отрисовки элемента меню */
+        /** Задает функцию отрисовки элемента меню */
         renderItem?: (item: string) => React.ReactNode;
         /** Промис, резолвящий элементы меню */
         source?: string[] | ((patter: string) => Promise<string[]>);
         /** Отключает использование портала */
         disablePortal?: boolean;
-        /** Отрисовка тени у выпадающего меню */
+        /** Добавляет тень у выпадающего меню */
         hasShadow?: boolean;
-        /** Выравнивание выпадающего меню */
+        /** Задает выравнивание выпадающего меню */
         menuAlign?: 'left' | 'right';
-        /** Максимальная высота меню */
+        /** Задает максимальную высоту меню */
         menuMaxHeight?: number | string;
-        /** Ширина меню */
+        /** Задает ширину меню */
         menuWidth?: number | string;
-        /** Отключить скролл окна, когда меню открыто */
+        /** Отключает скролл окна, когда меню открыто */
         preventWindowScroll?: boolean;
-        /** Вызывается при изменении `value` */
+        /** Задает поведение при изменении `value` */
         onValueChange: (value: string) => void;
         /** onBlur */
         onBlur?: () => void;
-        /** Размер инпута */
+        /** Задаёт размер контрола. */
         size?: SizeProp;
-        /** value */
+        /** Задает значение */
         value: string;
-        /**
-         * Текст заголовка выпадающего меню в мобильной версии
-         */
+        /** Задает текст заголовка выпадающего меню в мобильной версии */
         mobileMenuHeaderText?: string;
       }
     > {}
@@ -171,18 +169,14 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private getProps = createPropsGetter(Autocomplete.defaultProps);
   private setRootNode!: TSetRootNode;
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus() {
     if (this.input) {
       this.input.focus();
     }
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public blur() {
     this.handleBlur();
   }

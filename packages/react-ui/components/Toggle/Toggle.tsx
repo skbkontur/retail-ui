@@ -24,71 +24,39 @@ let colorWarningShown = false;
 
 export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   children?: React.ReactNode;
-  /**
-   * Положение `children` относительно переключателя.
-   * @default 'right'
-   */
+  /** Положение `children` относительно переключателя.
+   * @default 'right' */
   captionPosition?: 'left' | 'right';
-  /**
-   * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
-   * @default false
-   */
+  /** Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
+   * @default false */
   checked?: boolean;
-  /**
-   * Делает `тогл` включенным по умолчанию.
-   */
+  /** Делает `тогл` включенным по умолчанию. */
   defaultChecked?: boolean;
-  /**
-   * Отключает `тогл`.
-   */
+  /** Отключает `тогл`. */
   disabled?: boolean;
-  /**
-   * Событие вызывающееся, когда значение `тогла` меняется, передаёт текущее значение тогла в переданную функцию.
-   */
+  /** Событие вызывающееся, когда значение `тогла` меняется, передаёт текущее значение тогла в переданную функцию. */
   onValueChange?: (value: boolean) => void;
-  /**
-   * Событие вызывающееся при клике на `тогл`.
-   */
+  /** Событие вызывающееся при клике на `тогл`. */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  /**
-   * Состояние валидации при предупреждении.
-   * @default false
-   */
+  /** Задаёт состояние валидации при предупреждении. */
   warning?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   * @default false
-   */
+  /** Задаёт состояние валидации при ошибке. */
   error?: boolean;
-  /**
-   * Добавляет стили для состояния `loading` и отключает `тогл`.
-   */
+  /** Добавляет стили для состояния `loading` и отключает `тогл`. */
   loading?: boolean;
-  /**
-   * Если true, выставляет фокус на `тогле` после загрузки страницы.
-   */
+  /** Если true, выставляет фокус на `тогле` после загрузки страницы. */
   autoFocus?: boolean;
-  /** Размер */
+  /** Задаёт размер контрола. */
   size?: SizeProp;
-  /**
-   * Событие вызывающееся, когда `тогл` получает фокус.
-   */
+  /** Событие вызывающееся, когда `тогл` получает фокус. */
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
-  /**
-   * Событие вызывающееся, когда `тогл` теряет фокус.
-   */
+  /** Событие вызывающееся, когда `тогл` теряет фокус. */
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  /**
-   * @deprecated используйте переменную темы `toggleBgChecked` вместо этого пропа.
-   */
+  /** @deprecated используйте переменную темы `toggleBgChecked` вместо этого пропа. */
   color?: React.CSSProperties['color'];
-  /**
-   * HTML-атрибут `id` для передачи во внутренний `<input />`.
-   */
+  /** HTML-атрибут `id` для передачи во внутренний `<input />`. */
   id?: string;
-  /**
-   * Не показывать анимацию
-   */
+  /** Отключает анимации. */
   disableAnimations?: boolean;
 }
 
@@ -159,9 +127,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
-  /**
-   * @public
-   */
+  /** @public */
   public focus = () => {
     if (this.input) {
       keyListener.isTabPressed = true;

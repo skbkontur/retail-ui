@@ -8,7 +8,8 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .perform();
@@ -20,7 +21,8 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .perform();
@@ -41,7 +43,8 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .perform();
@@ -73,14 +76,16 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .pause(1000)
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(
           this.browser.findElement({
@@ -96,14 +101,16 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .pause(1000)
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(
           this.browser.findElement({
@@ -120,7 +127,8 @@ kind('DatePicker', () => {
     test('opened', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
@@ -136,7 +144,8 @@ kind('DatePicker', () => {
     test('opened top without relative position', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .perform();
@@ -147,7 +156,8 @@ kind('DatePicker', () => {
     test('opened bottom without relative position', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
@@ -160,7 +170,8 @@ kind('DatePicker', () => {
     test('opened top with relative position', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
         .pause(1000)
@@ -173,7 +184,8 @@ kind('DatePicker', () => {
     test('opened bottom with relative position', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          async: undefined,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
