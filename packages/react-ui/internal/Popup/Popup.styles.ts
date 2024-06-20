@@ -57,6 +57,9 @@ export const styles = memoizeStyle({
       transform: translateY(10px);
     `;
   },
+  'transition-enter-middle'() {
+    return css``;
+  },
   'transition-enter-bottom'() {
     return css`
       transform: translateY(-10px);

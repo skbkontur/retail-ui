@@ -42,6 +42,9 @@ export const PopupPositions = [
   'top center',
   'top left',
   'top right',
+  'middle center',
+  'middle left',
+  'middle right',
   'bottom center',
   'bottom left',
   'bottom right',
@@ -825,6 +828,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'top':
         return {
           top: anchorRect.top - popupRect.height - margin,
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+        };
+      case 'middle':
+        return {
+          top: anchorRect.top + anchorRect.height / 2 - popupRect.height / 2,
           left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'bottom':
