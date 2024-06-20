@@ -98,11 +98,13 @@ export interface SelectProps<TValue, TItem>
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
+  menuOffset?: number;
   /**
    * Отключает использование портала
    */
   disablePortal?: boolean;
   disabled?: boolean;
+  focusOnSelect?: boolean;
   /**
    * Состояние валидации при ошибке.
    */
@@ -138,7 +140,7 @@ export interface SelectProps<TValue, TItem>
   /**
    * Позволяет вручную задать текущую позицию выпадающего окна
    */
-  menuPos?: 'top' | 'bottom';
+  menuPos?: 'top' | 'bottom' | 'middle';
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
   onValueChange?: (value: TValue) => void;
@@ -195,7 +197,15 @@ interface FocusableReactElement extends React.ReactElement<any> {
 type DefaultProps<TValue, TItem> = Required<
   Pick<
     SelectProps<TValue, TItem>,
-    'menuPos' | 'menuAlign' | 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'
+    | 'menuPos'
+    | 'menuAlign'
+    | 'focusOnSelect'
+    | 'renderValue'
+    | 'renderItem'
+    | 'areValuesEqual'
+    | 'filterItem'
+    | 'use'
+    | 'size'
   >
 >;
 
@@ -217,6 +227,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     size: 'small',
     menuPos: 'bottom',
     menuAlign: 'left',
+    focusOnSelect: true,
   };
 
   public static Item = Item;
@@ -308,7 +319,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    * @public
    */
   public focus = () => {
-    if (this.buttonElement && this.buttonElement.focus) {
+    if (this.props.focusOnSelect && this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
   };
@@ -331,6 +342,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
+    const dataTid = this.getProps()['data-tid'] ?? SelectDataTids.root;
     const button = (
       <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
         {this.getButton(buttonParams)}
@@ -346,7 +358,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const root = (
       <span
-        data-tid={SelectDataTids.root}
+        data-tid={dataTid}
         className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
         style={style}
       >
@@ -502,10 +514,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         id={this.menuId}
         data-tid={SelectDataTids.menu}
         positions={[pos, ...POSITIONS]}
-        anchorElement={this.dropdownContainerGetParent()}
+        anchorElement={this.popupGetParent()}
         disablePortal={this.props.disablePortal}
         margin={parseInt(this.theme.menuOffsetY)}
         width={this.props.menuWidth}
+        popupOffset={this.props.menuOffset}
       >
         <Menu
           hasMargin={false}
@@ -603,7 +616,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   };
 
-  private dropdownContainerGetParent = () => {
+  private popupGetParent = () => {
     return getRootNode(this);
   };
 
