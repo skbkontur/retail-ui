@@ -31,6 +31,7 @@ jest.mock('react-dom', () => {
     findDOMNode: jest.fn(originalModule.findDOMNode),
   };
 });
+window.Element.prototype.scrollIntoView = jest.fn();
 window.matchMedia = jest.fn().mockImplementation((query) => {
   return {
     matches: false,
