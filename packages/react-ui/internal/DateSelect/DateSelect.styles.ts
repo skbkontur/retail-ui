@@ -6,6 +6,13 @@ export const globalClasses = prefix('select')({
 });
 
 export const styles = memoizeStyle({
+  enabled(t: Theme) {
+    return css`
+      * {
+        font-weight: ${t.dateSelectFontWeight};
+      }
+    `;
+  },
   disabled(t: Theme) {
     return css`
       padding: ${t.btnPaddingYSmall} calc(5px + ${t.btnIconSizeSmall} + ${t.btnIconGapSmallRight}) ${t.btnPaddingYSmall}

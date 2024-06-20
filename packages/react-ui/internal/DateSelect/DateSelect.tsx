@@ -152,6 +152,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         focusOnSelect={false}
         menuAlign="left"
         menuPos="middle"
+        className={styles.enabled(this.theme)}
         renderValue={this.getItem}
         items={this.getItems()}
         menuOffset={parseInt(this.theme.menuPaddingX)}
