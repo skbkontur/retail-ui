@@ -160,16 +160,18 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     if (this.props.autoFocus && this.props.onFocus) {
       this.props.onFocus();
     }
-
-    if (this.props.opened) {
-      this.setState({
-        anchorElement: this.getParent(),
-      });
-    }
   }
 
   public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
     const { input, props } = this;
+    const parent = this.getParent();
+    const anchorElement = this.state.anchorElement;
+
+    if (anchorElement !== parent) {
+      this.setState({
+        anchorElement: parent,
+      });
+    }
 
     if (props.editing && !prevProps.editing && input) {
       input.focus();
