@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { Theme2022Internal } from './newTheme';
+import { NewTheme2022Internal } from './newTheme';
 
-export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
+export class Theme2022Dark extends (class {} as typeof NewTheme2022Internal) {
   //#region Common variables
   public static green: '#23A14A';
   public static greenDark: '#1C8A3F';
@@ -378,7 +378,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion
 }
 
-export const Theme2022DarkInternal = Object.setPrototypeOf(
+export const NewTheme2022DarkInternal = Object.setPrototypeOf(
   exposeGetters(Theme2022Dark),
-  Theme2022Internal,
+  NewTheme2022Internal,
 ) as typeof Theme2022Dark;
