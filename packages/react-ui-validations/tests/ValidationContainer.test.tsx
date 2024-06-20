@@ -21,6 +21,7 @@ import {
   ValidationWrapper,
 } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
+import userEvent from '@testing-library/user-event';
 
 describe('ValidationContainer', () => {
   it('renders passed data-tid on container', () => {
@@ -43,19 +44,6 @@ describe('ValidationContainer', () => {
     );
 
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
-  });
-
-  it('not renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
-    render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer data-tid="passed-container">
-          <div />
-          <div />
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>,
-    );
-
-    expect(screen.queryByTestId('passed-container')).toBeNull();
   });
 
   it('renders passed children', () => {
@@ -199,7 +187,7 @@ describe('ValidationContainer', () => {
       const errors = await screen.findAllByText('Ошибка');
       expect(errors.length).toBe(1);
 
-      screen.getByRole('button', { name: 'Repair' }).click();
+      await userEvent.click(screen.getByRole('button', { name: 'Repair' }));
       expect(onValidationUpdated).toBeCalledWith(true);
     });
 
@@ -238,10 +226,10 @@ describe('ValidationContainer', () => {
       const errors = await screen.findAllByText('Ошибка');
       expect(errors.length).toBe(1);
 
-      screen.getByRole('button', { name: 'Partial Repair' }).click();
+      await userEvent.click(screen.getByRole('button', { name: 'Partial Repair' }));
       expect(onValidationUpdated).toBeCalledWith(false);
 
-      screen.getByRole('button', { name: 'Repair' }).click();
+      await userEvent.click(screen.getByRole('button', { name: 'Repair' }));
       expect(onValidationUpdated).toBeCalledWith(true);
     });
   });
