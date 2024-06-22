@@ -152,6 +152,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         focusOnSelect={false}
         menuAlign="left"
         menuPos="middle"
+        menuWidth={this.isYearType ? 65 : undefined}
         className={styles.enabled(this.theme)}
         renderValue={this.getItem}
         items={this.getItems()}
@@ -159,7 +160,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         onValueChange={onValueChange}
         ref={this.selectRef}
         aria-label={`${this.locale.selectChosenAriaLabel} ${
-          this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
+          this.isYearType ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
         } ${this.getItem(value)}`}
       />
     );

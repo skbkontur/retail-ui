@@ -75,6 +75,7 @@ export function MonthView(props: MonthViewProps) {
   const alpha = isHeaderSticky ? (height + top - themeConfig(theme).MONTH_TITLE_HEIGHT) / 10 : 1;
   const borderBottomColor = ColorFunctions.fade(theme.calendarMonthTitleBorderBottomColor, alpha);
   const isYearVisible = isFirstInYear || isHeaderSticky;
+  const yearTop = isHeaderSticky && !isLastInYear ? -headerTop - top : 0;
   const monthSelectDisabled = top > 52 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
   const yearSelectDisabled = top > 52 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
 
@@ -105,7 +106,7 @@ export function MonthView(props: MonthViewProps) {
             />
           </div>
           {isYearVisible && (
-            <div data-tid={CalendarDataTids.headerYear} className={styles.headerYear(theme)}>
+            <div data-tid={CalendarDataTids.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
               <DateSelect
                 disabled={yearSelectDisabled}
                 type="year"
