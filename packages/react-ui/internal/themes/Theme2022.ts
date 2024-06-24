@@ -112,35 +112,19 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
 
-  /**
-   * @deprecated use btnIconGapSmallLeft
-   */
-  public static btnIconGapSmall = '4px';
-  public static get btnIconGapSmallLeft() {
-    return this.btnIconGapSmall;
-  }
+  public static btnIconGapSmallLeft = '4px';
   public static get btnIconGapSmallRight() {
-    return this.btnIconGapSmall;
+    return this.btnIconGapSmallLeft;
   }
-  /**
-   * @deprecated use btnIconGapMediumLeft
-   */
-  public static btnIconGapMedium = '6px';
-  public static get btnIconGapMediumLeft() {
-    return this.btnIconGapMedium;
-  }
+
+  public static btnIconGapMediumLeft = '6px';
   public static get btnIconGapMediumRight() {
-    return this.btnIconGapMedium;
+    return this.btnIconGapMediumLeft;
   }
-  /**
-   * @deprecated use btnIconGapLargeLeft
-   */
-  public static btnIconGapLarge = '8px';
-  public static get btnIconGapLargeLeft() {
-    return this.btnIconGapLarge;
-  }
+
+  public static btnIconGapLargeLeft = '8px';
   public static get btnIconGapLargeRight() {
-    return this.btnIconGapLarge;
+    return this.btnIconGapLargeLeft;
   }
 
   public static btnWithIconPaddingLeftSmall = '8px';
