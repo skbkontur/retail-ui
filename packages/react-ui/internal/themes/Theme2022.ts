@@ -255,7 +255,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion Textarea
 
   //#region Radio
-  public static radioBulletSize = '6px';
+  public static radioBulletSizeSmall = '6px';
   public static radioDisabledBg = '#F0F0F0';
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.1)`;
