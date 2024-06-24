@@ -3,11 +3,32 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 import { DefaultThemeInternal } from './DefaultTheme';
 
 export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
+  //#region Common Variables
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
   public static bgDisabled = '#F0F0F0';
-  public static errorMain = '#FF5A49';
+
+  public static green = '#1C8A3F';
+  public static greenXxLight = '#C7F9CC';
+  public static greenDark = '#197F39';
+
+  public static red = '#DD3333';
+  public static redXxLight = '#FFEBEB';
+  public static redDark = '#CC2626';
+
+  public static get errorMain() {
+    return this.red;
+  }
+  public static get errorText() {
+    return this.redDark;
+  }
+
+  public static get errorSecondary() {
+    return this.redXxLight;
+  }
+
+  //#endregion Common Variables
 
   //#region Link
   public static linkColor = '#222222';
@@ -15,13 +36,19 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkActiveColor = '#141414';
   public static linkHoverTextDecoration = 'none';
 
-  public static linkSuccessColor = '#538A1B';
-  public static linkSuccessHoverColor = '#477916';
-  public static linkSuccessActiveColor = '#3A6710';
+  public static get linkSuccessColor() {
+    return this.green;
+  }
+  public static get linkSuccessHoverColor() {
+    return this.greenDark;
+  }
+  public static linkSuccessActiveColor = '#167333';
 
-  public static linkDangerColor = '#CB3D35';
-  public static linkDangerHoverColor = '#BA342E';
-  public static linkDangerActiveColor = '#A92A27';
+  public static get linkDangerColor() {
+    return this.errorText;
+  }
+  public static linkDangerHoverColor = '#BB1919';
+  public static linkDangerActiveColor = '#AB0D0D';
 
   public static linkGrayedColor = '#858585';
   public static linkGrayedHoverColor = '#292929';
@@ -30,7 +57,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkLineBorderBottomStyle = 'solid';
   public static linkLineBorderBottomWidth = '1px';
 
-  public static linkDisabledColor = '#858585';
+  public static get linkDisabledColor() {
+    return this.textColorDisabled;
+  }
 
   public static linkFocusOutlineColor = '#3D3D3D';
   public static get linkFocusOutlineWidth() {
@@ -71,23 +100,33 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
 
-  public static btnDangerBg = '#FF5A49';
-  public static btnDangerHoverBg = '#EE5042';
-  public static btnDangerHoverBorderColor = '#EE5042';
-  public static btnDangerBorderColor = '#FF5A49';
-  public static btnDangerActiveBg = '#DD473B';
-  public static btnDangerActiveBorderColor = '#DD473B';
+  public static btnDangerBg = '#FE4C4C';
+  public static get btnDangerBorderColor() {
+    return this.btnDangerBg;
+  }
 
-  public static btnSuccessBg = '#78BF2B';
-  public static btnSuccessHoverBg = '#6CAD26';
-  public static btnSuccessHoverBorderColor = '#6CAD26';
-  public static btnSuccessBorderColor = '#78BF2B';
-  public static btnSuccessActiveBg = '#5F9C20';
-  public static btnSuccessActiveBorderColor = '#5F9C20';
+  public static btnDangerHoverBg = '#ED3F3F';
+  public static btnDangerHoverBorderColor = '#ED3F3F';
+
+  public static get btnDangerActiveBg() {
+    return this.red;
+  }
+  public static get btnDangerActiveBorderColor() {
+    return this.btnDangerActiveBg;
+  }
+
+  public static btnSuccessBg = '#26AD50';
+  public static btnSuccessBorderColor = '#26AD50';
+
+  public static btnSuccessHoverBg = '#23A14A';
+  public static btnSuccessHoverBorderColor = '#23A14A';
+
+  public static btnSuccessActiveBg = '#209644';
+  public static btnSuccessActiveBorderColor = '#209644';
 
   public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
   public static get btnDisabledTextColor() {
-    return this.textColorDisabledContrast;
+    return this.textColorDisabled;
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 
@@ -157,7 +196,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.linkDisabledColor;
   }
 
-  //#endregion
+  //#endregion Button
 
   //#region Dropdown
   public static dropdownButtonBorderRadiusSmall = '8px';
@@ -174,6 +213,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get dropdownPaddingXLarge() {
     return this.btnPaddingXLarge;
   }
+
+  //#endregion Dropdown
 
   //#region Input
   public static inputIconColor = '#858585';
@@ -198,7 +239,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static inputBlinkColor = 'rgba(61, 61, 61, 0.2)';
 
   public static inputDisabledBackgroundClip = 'padding-box';
-  //#endregion
+
+  public static get inputIconColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get inputTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get inputPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
+  //#endregion Input
 
   //#region Textarea
   public static textareaBorderRadius = '2px';
@@ -208,8 +259,16 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get textareaDisabledBg() {
     return this.inputDisabledBg;
   }
+
+  public static get textareaTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get textareaPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
+
   public static textareaBackgroundClip = 'padding-box';
-  //#endregion
+  //#endregion Textarea
 
   //#region Radio
   public static radioBulletSize = '6px';
@@ -217,7 +276,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.1)`;
   }
-  //#endregion
+  //#endregion Radio
 
   public static menuSeparatorMarginX = '8px';
 
@@ -233,7 +292,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static hintBorderRadius = '6px';
   public static hintPaddingY = '4px';
   public static hintPaddingX = '8px';
-  //#endregion
+  //#endregion Hint
 
   //#region Modal
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.06)';
@@ -275,7 +334,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static modalHeaderPaddingBottom = '16px';
   public static modalBackBg = '#000';
   public static modalBackOpacity = '0.16';
-  //#endregion
+  //#endregion Modal
 
   //#region Select
   public static get selectBgDisabled() {
@@ -306,13 +365,25 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.inputBorderColorHover;
   }
 
-  //#endregion
+  public static get selectPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get selectMenuArrowColorDisabled() {
+    return this.textColorDisabled;
+  }
+  //#endregion Select
 
   //#region FileUploader
   public static fileUploaderIconColor = '#222222';
-  public static fileUploaderDisabledIconColor = '#858585';
-  public static fileUploaderDisabledTextColor = '#858585';
-  public static fileUploaderDisabledLinkColor = '#858585';
+  public static get fileUploaderDisabledIconColor() {
+    return this.textColorDisabled;
+  }
+  public static get fileUploaderDisabledTextColor() {
+    return this.textColorDisabled;
+  }
+  public static get fileUploaderDisabledLinkColor() {
+    return this.textColorDisabled;
+  }
   public static fileUploaderAfterLinkColor = '#858585';
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderLinkHoverTextDecoration = 'none';
@@ -333,7 +404,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get fileUploaderDisabledBorder() {
     return `${this.fileUploaderBorderWidth} ${this.fileUploaderBorderStyle} ${this.fileUploaderDisabledBorderColor}`;
   }
-  //#endregion
+  //#endregion FileUploader
 
   //#region Toast
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
@@ -344,13 +415,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toastBorderRadius = '8px';
   public static toastCloseSize = '16px';
   public static toastClosePadding = '14px';
-  //#endregion
+  //#endregion Toast
 
   //#region Tooltip
   public static tooltipBorderRadius = '8px';
   public static tooltipCloseBtnPadding = '4px';
   public static tooltipCloseBtnSide = '16px';
-  //#endregion
+  //#endregion Tooltip
 
   //#region Token
   public static tokenRemoveIconSize = '16px';
@@ -387,12 +458,16 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tokenDefaultActiveBg = '#3D3D3D';
   public static tokenDefaultActiveBorderColor = 'transparent';
 
-  //#endregion
+  public static get tokenTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+
+  //#endregion Token
 
   //#region DateInput
   public static dateInputComponentSelectedBgColor = '';
   public static dateInputComponentSelectedTextColor = '';
-  //#endregion
+  //#endregion DateInput
 
   //#region Checkbox
   public static checkboxBorderRadius = '4px';
@@ -402,7 +477,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get checkboxShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.1)`;
   }
-  //#endregion
+  //#endregion Checkbox
 
   public static menuBorderRadius = '8px';
   public static menuPaddingX = '4px';
@@ -411,7 +486,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemHoverBg = '#F0F0F0';
   public static menuItemSelectedBg = '#E6E6E6';
   public static menuItemBorderRadius = '6px';
-  public static menuItemDisabledColor = '#858585';
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
   public static get menuItemHoverColor() {
     return this.menuItemTextColor;
   }
@@ -434,7 +511,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static tokenInputMenuPopupBg = 'transparent';
 
-  //#endregion
+  //#endregion TokenInput
 
   //#region Toggle
   public static toggleHandleSize = '14px';
@@ -485,7 +562,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toggleContainerBoxShadowDisabledChecked = 'none';
   public static toggleHandleBgDisabledChecked = '#F0F0F0';
   public static toggleHandleBoxShadowDisabledChecked = 'none';
-  //#endregion
+  //#endregion Toggle
 
   public static switcherBorderRadius = '8px';
 
@@ -495,44 +572,46 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static calendarCellActiveHoverColor = '';
   public static calendarCellSelectedBgColor = '#E6E6E6';
   public static calendarCellTodayBorder = '1px solid';
-  //#endregion
+  public static calendarCellWeekendColor: '#CC2626';
+
+  //#endregion Calendar
 
   //#region DateSelect
   public static dateSelectMenuItemBgActive = '#F0F0F0';
   public static dateSelectMenuItemFontActive = '';
   public static dateSelectTextColorInvert = '';
-  //#endregion
+  //#endregion DateSelect
 
   //#region InternalMenu
   public static get internalMenuPaddingY() {
     return this.menuScrollContainerContentWrapperPaddingY;
   } // deprecated, use menuLegacyPaddingY
-  //#endregion
+  //#endregion InternalMenu
 
   //#region Menu
   public static get menuLegacyPaddingY() {
     return this.menuScrollContainerContentWrapperPaddingY;
   }
-  //#endregion
+  //#endregion Menu
 
   //#region Autocomplete
   public static get autocompleteMenuOffsetY() {
     return this.menuOffsetY;
   }
-  //#endregion
+  //#endregion Autocomplete
 
   //#region DatePicker
   public static get datePickerMenuOffsetY() {
     return this.menuOffsetY;
   }
   public static pickerBorderRadius = '8px';
-  //#endregion
+  //#endregion DatePicker
 
   //#region Combobox
   public static get comboboxMenuOffsetY() {
     return this.menuOffsetY;
   }
-  //#endregion
+  //#endregion Combobox
 
   //#region Paging
   public static pagingPageForwardLinkMarginTop = '';
@@ -549,7 +628,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static pagingForwardLinkColor = '#222222';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
-  //#endregion
+  //#endregion Paging
 
   //#region SidePage
   public static sidePageBgDefault = '#fff';
@@ -567,12 +646,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFontWeight = 'bold';
   public static sidePageBackingBg = '#000';
   public static sidePageBackingBgOpacity = '0.16';
-  //#endregion
+  //#endregion SidePage
 
   //#region Tabs
   public static tabColorHover = '#D6D6D6';
   public static tabIndicatorBorderRadius = '2px';
-  //#endregion
+  //#endregion Tabs
 
   //#region Kebab
   public static kebabSizeSmall = '24px';
@@ -583,7 +662,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static kebabIconSizeLarge = '24px';
   public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.06)';
   public static kebabBackgroundActive = 'rgba(0, 0, 0, 0.10)';
-  //#endregion
+  //#endregion Kebab
+
+  //#region react-ui-validations
+  public static validationsTextColorError = '#CC2626';
+  //#endregion react-ui-validations
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(
