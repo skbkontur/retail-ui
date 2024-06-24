@@ -516,7 +516,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private calculateWidth = (width: PopupProps['width']) => {
     if (typeof width === 'string' && width.includes('%')) {
-      const anchorWidth = getDOMRect(this.anchorElement).width;
+      const anchorWidth = Math.floor(getDOMRect(this.anchorElement).width);
       return this.anchorElement ? (anchorWidth * parseFloat(width)) / 100 : 0;
     }
     return width;
