@@ -142,14 +142,9 @@ export class DefaultTheme {
   public static get tokenTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
-  /**
-   * @deprecated use tokenFontSizeSmall
-   */
-  public static get tokenFontSize() {
-    return this.fontSizeSmall;
-  }
+
   public static get tokenFontSizeSmall() {
-    return this.tokenFontSize;
+    return this.fontSizeSmall;
   }
   public static get tokenFontSizeMedium() {
     return this.fontSizeMedium;
@@ -158,33 +153,15 @@ export class DefaultTheme {
     return this.fontSizeLarge;
   }
 
-  /**
-   * @deprecated use tokenMarginYSmall
-   */
-  public static tokenMarginY = '3px';
-  /**
-   * @deprecated use tokenMarginXSmall
-   */
-  public static tokenMarginX = '2px';
-  public static get tokenMarginYSmall() {
-    return this.tokenMarginY;
-  }
-  public static get tokenMarginXSmall() {
-    return this.tokenMarginX;
-  }
+  public static tokenMarginYSmall = '3px';
+  public static tokenMarginXSmall = '2px';
   public static tokenMarginYMedium = '3px';
   public static tokenMarginXMedium = '3px';
   public static tokenMarginYLarge = '3px';
   public static tokenMarginXLarge = '4px';
 
-  /**
-   * @deprecated use tokenLineHeightSmall
-   */
-  public static get tokenLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get tokenLineHeightSmall() {
-    return this.tokenLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get tokenLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -192,20 +169,9 @@ export class DefaultTheme {
   public static get tokenLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
-  /**
-   * @deprecated use tokenPaddingYSmall
-   */
-  public static tokenPaddingY = '1px';
-  /**
-   * @deprecated use tokenPaddingXSmall
-   */
-  public static tokenPaddingX = '3px';
-  public static get tokenPaddingYSmall() {
-    return this.tokenPaddingY;
-  }
-  public static get tokenPaddingXSmall() {
-    return this.tokenPaddingX;
-  }
+
+  public static tokenPaddingYSmall = '1px';
+  public static tokenPaddingXSmall = '3px';
   public static tokenPaddingYMedium = '2px';
   public static tokenPaddingXMedium = '5px';
   public static tokenPaddingYLarge = '3px';
@@ -271,17 +237,17 @@ export class DefaultTheme {
   public static tokenLegacyTextShift = '0px';
 
   public static get tokenPaddingYDisabled() {
-    return this.tokenPaddingY;
+    return this.tokenPaddingYSmall;
   }
   public static get tokenPaddingXDisabled() {
-    return this.tokenPaddingX;
+    return this.tokenPaddingXSmall;
   }
 
   public static get tokenMarginYDisabled() {
-    return this.tokenMarginY;
+    return this.tokenMarginYSmall;
   }
   public static get tokenMarginXDisabled() {
-    return this.tokenMarginX;
+    return this.tokenMarginXSmall;
   }
 
   public static get tokenShadowDisabled() {
@@ -300,14 +266,9 @@ export class DefaultTheme {
 
   //#endregion
   //#region TokenInput
-  /**
-   * @deprecated use tokenInputLineHeightSmall
-   */
-  public static get tokenInputLineHeight() {
-    return this.controlLineHeightSmall;
-  }
+
   public static get tokenInputLineHeightSmall() {
-    return this.tokenInputLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get tokenInputLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -371,22 +332,12 @@ export class DefaultTheme {
     return this.textColorDisabledContrast;
   }
 
-  /**
-   * @deprecated use tokenInputPaddingYSmall
-   */
-  public static tokenInputPaddingY = '1px';
-  /**
-   * @deprecated use tokenInputPaddingXSmall
-   */
-  public static tokenInputPaddingX = '2px';
-  public static get tokenInputPaddingYSmall() {
-    return this.tokenInputPaddingY;
-  }
-  public static get tokenInputPaddingXSmall() {
-    return this.tokenInputPaddingX;
-  }
+  public static tokenInputPaddingYSmall = '1px';
+  public static tokenInputPaddingXSmall = '2px';
+
   public static tokenInputPaddingYMedium = '3px';
   public static tokenInputPaddingXMedium = '3px';
+
   public static tokenInputPaddingYLarge = '5px';
   public static tokenInputPaddingXLarge = '4px';
 
@@ -431,30 +382,16 @@ export class DefaultTheme {
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '19px';
-  /**
-   * @deprecated use btnIconGapSmallLeft
-   */
-  public static btnIconGapSmall = '4px';
-  public static get btnIconGapSmallLeft() {
-    return this.btnIconGapSmall;
-  }
+
+  public static btnIconGapSmallLeft = '4px';
   public static btnIconGapSmallRight = '4px';
-  /**
-   * @deprecated use btnIconGapMediumLeft
-   */
-  public static btnIconGapMedium = '4px';
-  public static get btnIconGapMediumLeft() {
-    return this.btnIconGapMedium;
-  }
+
+  public static btnIconGapMediumLeft = '4px';
   public static btnIconGapMediumRight = '4px';
-  /**
-   * @deprecated use btnIconGapLargeLeft
-   */
-  public static btnIconGapLarge = '4px';
-  public static get btnIconGapLargeLeft() {
-    return this.btnIconGapLarge;
-  }
+
+  public static btnIconGapLargeLeft = '4px';
   public static btnIconGapLargeRight = '4px';
+
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
@@ -1311,32 +1248,21 @@ export class DefaultTheme {
   public static get menuItemHoverBg() {
     return this.dropdownMenuHoverBg;
   }
-  /**
-   * @deprecated use menuItemIconWidthSmall
-   */
-  public static menuItemIconWidth = '16px';
-  public static get menuItemIconWidthSmall() {
-    return this.menuItemIconWidth;
-  }
+
+  public static menuItemIconWidthSmall = '16px';
   public static menuItemIconWidthMedium = '20px';
   public static menuItemIconWidthLarge = '24px';
   public static menuItemIconGap = '4px';
   public static menuItemIconLegacyMargin = '0px';
   public static menuItemIconLegacyShift = '0px';
 
-  /**
-   * @deprecated use menuItemPaddingForIconSmall
-   */
-  public static get menuItemPaddingForIcon() {
+  public static get menuItemPaddingForIconSmall() {
     return `${
       parseInt(this.menuItemPaddingXSmall) +
       parseInt(this.menuItemIconWidthSmall) +
       parseInt(this.menuItemIconGap) +
       parseInt(this.menuItemIconLegacyMargin)
     }px`;
-  }
-  public static get menuItemPaddingForIconSmall() {
-    return this.menuItemPaddingForIcon;
   }
   public static get menuItemPaddingForIconMedium() {
     return `${
@@ -1355,14 +1281,8 @@ export class DefaultTheme {
     }px`;
   }
 
-  /**
-   * @deprecated use menuItemLineHeightSmall
-   */
-  public static get menuItemLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get menuItemLineHeightSmall() {
-    return this.menuItemLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get menuItemLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -1371,14 +1291,8 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
 
-  /**
-   * @deprecated use menuItemFontSizeSmall
-   */
-  public static get menuItemFontSize() {
-    return this.fontSizeSmall;
-  }
   public static get menuItemFontSizeSmall() {
-    return this.menuItemFontSize;
+    return this.fontSizeSmall;
   }
   public static get menuItemFontSizeMedium() {
     return this.fontSizeMedium;
@@ -1387,24 +1301,15 @@ export class DefaultTheme {
     return this.fontSizeLarge;
   }
 
-  /**
-   * @deprecated use menuItemPaddingXSmall
-   */
-  public static menuItemPaddingX = '8px';
-  /**
-   * @deprecated use menuItemPaddingYSmall
-   */
-  public static menuItemPaddingY = '6px';
-  public static get menuItemPaddingXSmall() {
-    return this.menuItemPaddingX;
-  }
-  public static get menuItemPaddingYSmall() {
-    return this.menuItemPaddingY;
-  }
+  public static menuItemPaddingXSmall = '8px';
+  public static menuItemPaddingYSmall = '6px';
+
   public static menuItemPaddingXMedium = '12px';
   public static menuItemPaddingYMedium = '9px';
+
   public static menuItemPaddingXLarge = '16px';
   public static menuItemPaddingYLarge = '12px';
+
   public static menuItemBorderRadius = '0px';
   public static menuItemLegacyPaddingX = '0px';
   public static menuItemLegacyPaddingY = '0px';
@@ -1448,21 +1353,11 @@ export class DefaultTheme {
   public static get menuMessagePaddingMobile() {
     return this.menuItemPaddingMobile;
   }
-  /**
-   * @deprecated use menuMessageLineHeightSmall
-   */
-  public static get menuMessageLineHeight() {
-    return this.menuItemLineHeightSmall;
-  }
+
   public static get menuMessageLineHeightMobile() {
     return this.menuItemLineHeightMobile;
   }
-  /**
-   * @deprecated use menuMessageFontSizeSmall
-   */
-  public static get menuMessageFontSize() {
-    return this.menuItemFontSizeSmall;
-  }
+
   public static get menuMessageFontSizeMobile() {
     return this.menuItemFontSizeMobile;
   }
@@ -1490,50 +1385,22 @@ export class DefaultTheme {
   //menuHeader
   public static menuHeaderColor = '#757575';
 
-  /**
-   * @deprecated use menuHeaderLineHeightSmall
-   */
-  public static menuHeaderLineHeight = '16px';
-  public static get menuHeaderLineHeightSmall() {
-    return this.menuHeaderLineHeight;
-  }
+  public static menuHeaderLineHeightSmall = '16px';
   public static menuHeaderLineHeightMedium = '20px';
   public static menuHeaderLineHeightLarge = '22px';
 
-  /**
-   * @deprecated use menuHeaderFontSizeSmall
-   */
-  public static menuHeaderFontSize = '12px';
-  public static get menuHeaderFontSizeSmall() {
-    return this.menuHeaderFontSize;
-  }
+  public static menuHeaderFontSizeSmall = '12px';
   public static menuHeaderFontSizeMedium = '14px';
   public static menuHeaderFontSizeLarge = '16px';
 
-  /**
-   * @deprecated use menuHeaderPaddingXSmall
-   */
-  public static menuHeaderPaddingX = '8px';
-  /**
-   * @deprecated use menuHeaderPaddingTopSmall
-   */
-  public static menuHeaderPaddingTop = '12px';
-  /**
-   * @deprecated use menuHeaderPaddingBottomSmall
-   */
-  public static menuHeaderPaddingBottom = '4px';
-  public static get menuHeaderPaddingXSmall() {
-    return this.menuHeaderPaddingX;
-  }
-  public static get menuHeaderPaddingTopSmall() {
-    return this.menuHeaderPaddingTop;
-  }
-  public static get menuHeaderPaddingBottomSmall() {
-    return this.menuHeaderPaddingBottom;
-  }
+  public static menuHeaderPaddingXSmall = '8px';
+  public static menuHeaderPaddingTopSmall = '12px';
+  public static menuHeaderPaddingBottomSmall = '4px';
+
   public static menuHeaderPaddingXMedium = '12px';
   public static menuHeaderPaddingTopMedium = '14px';
   public static menuHeaderPaddingBottomMedium = '6px';
+
   public static menuHeaderPaddingXLarge = '16px';
   public static menuHeaderPaddingTopLarge = '18px';
   public static menuHeaderPaddingBottomLarge = '8px';
@@ -1614,20 +1481,8 @@ export class DefaultTheme {
   public static mobileMenuSeparatorMarginX = '24px';
   //#endregion
   //#region Toggle
-  /**
-   * @deprecated use toggleFontSizeSmall
-   */
-  public static get toggleFontSize() {
-    return this.fontSizeSmall;
-  }
-  /**
-   * @deprecated use toggleLineHeightSmall
-   */
-  public static get toggleLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get toggleLineHeightSmall() {
-    return this.toggleLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get toggleLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -1636,7 +1491,7 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get toggleFontSizeSmall() {
-    return this.toggleFontSize;
+    return this.fontSizeSmall;
   }
   public static get toggleFontSizeMedium() {
     return this.fontSizeMedium;
@@ -1648,17 +1503,11 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static toggleHandleActiveWidthIncrement = '4px';
-  /**
-   * @deprecated use toggleHandleBorderRadiusSmall
-   */
-  public static get toggleHandleBorderRadius() {
+  public static get toggleHandleBorderRadiusSmall() {
     const height = parseInt(this.toggleHeightSmall, 10) || 0;
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
-  }
-  public static get toggleHandleBorderRadiusSmall() {
-    return this.toggleHandleBorderRadius;
   }
   public static get toggleHandleBorderRadiusMedium() {
     const height = parseInt(this.toggleHeightMedium, 10) || 0;
@@ -1672,34 +1521,18 @@ export class DefaultTheme {
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
   }
-  /**
-   * @deprecated use toggleHeightSmall
-   */
-  public static toggleHeight = '20px';
 
-  /**
-   * @deprecated use toggleWidthSmall
-   */
-  public static toggleWidth = '32px';
+  public static toggleHeightSmall = '20px';
+  public static toggleWidthSmall = '32px';
 
-  public static get toggleHeightSmall() {
-    return this.toggleHeight;
-  }
-  public static get toggleWidthSmall() {
-    return this.toggleWidth;
-  }
   public static toggleHeightMedium = '22px';
   public static toggleWidthMedium = '34px';
+
   public static toggleHeightLarge = '24px';
   public static toggleWidthLarge = '36px';
-  /**
-   * @deprecated use toggleBorderRadiusSmall
-   */
-  public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeightSmall} * 0.5)`;
-  }
+
   public static get toggleBorderRadiusSmall() {
-    return this.toggleBorderRadius;
+    return `calc(${this.toggleHeightSmall} * 0.5)`;
   }
   public static get toggleBorderRadiusMedium() {
     return `calc(${this.toggleHeightMedium} * 0.5)`;
@@ -1707,10 +1540,8 @@ export class DefaultTheme {
   public static get toggleBorderRadiusLarge() {
     return `calc(${this.toggleHeightLarge} * 0.5)`;
   }
-  /**
-   * @deprecated use toggleHandleBg
-   */
-  public static toggleBg = '#fff';
+
+  public static toggleHandleBg = '#fff';
   public static toggleCheckedBg = '#fff';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
@@ -1736,16 +1567,11 @@ export class DefaultTheme {
   public static get toggleBorderColorDisabledChecked() {
     return this.toggleBorderColor;
   }
-  /**
-   * @deprecated use toggleHandleSizeSmall
-   */
-  public static get toggleHandleSize() {
+
+  public static get toggleHandleSizeSmall() {
     const toggleHeight = parseInt(this.toggleHeightSmall, 10) || 0;
     const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
-  }
-  public static get toggleHandleSizeSmall() {
-    return this.toggleHandleSize;
   }
   public static get toggleHandleSizeMedium() {
     const toggleHeight = parseInt(this.toggleHeightMedium, 10) || 0;
@@ -1800,9 +1626,6 @@ export class DefaultTheme {
   public static toggleContainerBoxShadowChecked = '';
   public static toggleContainerBoxShadowCheckedHover = '';
 
-  public static get toggleHandleBg() {
-    return this.toggleBg;
-  }
   public static toggleHandleBgHover = '';
   public static toggleHandleBgChecked = '';
   public static toggleHandleBgCheckedHover = '';
@@ -1968,14 +1791,8 @@ export class DefaultTheme {
   public static inputColorScheme = 'light';
   //#endregion
   //#region Checkbox
-  /**
-   * @deprecated use checkboxFontSizeSmall
-   */
-  public static get checkboxFontSize() {
-    return this.fontSizeSmall;
-  }
   public static get checkboxFontSizeSmall() {
-    return this.checkboxFontSize;
+    return this.fontSizeSmall;
   }
   public static get checkboxFontSizeMedium() {
     return this.fontSizeMedium;
@@ -1984,14 +1801,8 @@ export class DefaultTheme {
     return this.fontSizeLarge;
   }
 
-  /**
-   * @deprecated use checkboxLineHeightSmall
-   */
-  public static get checkboxLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get checkboxLineHeightSmall() {
-    return this.checkboxLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get checkboxLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -1999,26 +1810,18 @@ export class DefaultTheme {
   public static get checkboxLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
-  /**
-   * @deprecated use checkboxBoxSizeSmall
-   */
-  public static checkboxBoxSize = '16px';
+
   public static checkboxBoxSizeSmall = '16px';
   public static checkboxBoxSizeMedium = '20px';
   public static checkboxBoxSizeLarge = '24px';
   public static checkboxCaptionGap = '8px';
 
-  /**
-   * @deprecated use checkboxPaddingYSmall
-   */
-  public static get checkboxPaddingY() {
+  public static get checkboxPaddingYSmall() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
     const lineHeight = parseInt(this.checkboxLineHeightSmall, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
-  public static get checkboxPaddingYSmall() {
-    return this.checkboxPaddingY;
-  }
+
   public static get checkboxPaddingYMedium() {
     const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
     const lineHeight = parseInt(this.checkboxLineHeightMedium, 10) || 0;
@@ -2119,14 +1922,9 @@ export class DefaultTheme {
   }
   public static textareaShadow = 'none';
   public static textareaBackgroundClip = 'border-box';
-  /**
-   * @deprecated use textareaFontSizeSmall
-   */
-  public static get textareaFontSize() {
-    return this.fontSizeSmall;
-  }
+
   public static get textareaFontSizeSmall() {
-    return this.textareaFontSize;
+    return this.fontSizeSmall;
   }
   public static get textareaFontSizeMedium() {
     return this.fontSizeMedium;
@@ -2134,14 +1932,9 @@ export class DefaultTheme {
   public static get textareaFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  /**
-   * @deprecated use textareaLineHeightSmall
-   */
-  public static get textareaLineHeight() {
-    return this.controlLineHeightSmall;
-  }
+
   public static get textareaLineHeightSmall() {
-    return this.textareaLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get textareaLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -2158,18 +1951,14 @@ export class DefaultTheme {
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
     return `${outlineWidth - borderWidth}px`;
   }
-  /**
-   * @deprecated use textareaMinHeightSmall
-   */
-  public static get textareaMinHeight() {
+
+  public static get textareaMinHeightSmall() {
     const lineHeight = parseInt(this.textareaLineHeightSmall, 10) || 0;
     const paddingY = parseInt(this.textareaPaddingYSmall, 10) || 0;
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
-  public static get textareaMinHeightSmall() {
-    return this.textareaMinHeight;
-  }
+
   public static get textareaMinHeightMedium() {
     const lineHeight = parseInt(this.textareaLineHeightMedium, 10) || 0;
     const paddingY = parseInt(this.textareaPaddingYMedium, 10) || 0;
@@ -2184,25 +1973,15 @@ export class DefaultTheme {
   }
 
   public static textareaWidth = '250px';
-  /**
-   * @deprecated use textareaPaddingXSmall
-   */
-  public static textareaPaddingX = '7px';
-  static get textareaPaddingXSmall() {
-    return this.textareaPaddingX;
-  }
+  public static textareaPaddingXSmall = '7px';
+
   public static textareaPaddingXMedium = '11px';
   public static textareaPaddingXLarge = '15px';
 
-  /**
-   * @deprecated use textareaPaddingYSmall
-   */
-  public static get textareaPaddingY() {
+  public static get textareaPaddingYSmall() {
     return this.controlPaddingYSmall;
   }
-  public static get textareaPaddingYSmall() {
-    return this.textareaPaddingY;
-  }
+
   public static get textareaPaddingYMedium() {
     return this.controlPaddingYMedium;
   }
@@ -2242,13 +2021,7 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Radio
-  /**
-   * @deprecated use radioBulletSizeSmall
-   */
-  public static radioBulletSize = '8px';
-  public static get radioBulletSizeSmall() {
-    return this.radioBulletSize;
-  }
+  public static radioBulletSizeSmall = '8px';
   public static radioBulletSizeMedium = '10px';
   public static radioBulletSizeLarge = '12px';
   public static get radioOutlineWidth() {
@@ -2258,24 +2031,12 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
 
-  /**
-   * @deprecated use radioSizeSmall
-   */
-  public static radioSize = '16px';
-  public static get radioSizeSmall() {
-    return this.radioSize;
-  }
+  public static radioSizeSmall = '16px';
   public static radioSizeMedium = '20px';
   public static radioSizeLarge = '24px';
 
-  /**
-   * @deprecated use radioFontSizeSmall
-   */
-  public static get radioFontSize() {
-    return this.fontSizeSmall;
-  }
   public static get radioFontSizeSmall() {
-    return this.radioFontSize;
+    return this.fontSizeSmall;
   }
   public static get radioFontSizeMedium() {
     return this.fontSizeMedium;
@@ -2284,14 +2045,8 @@ export class DefaultTheme {
     return this.fontSizeLarge;
   }
 
-  /**
-   * @deprecated use radioLineHeightSmall
-   */
-  public static get radioLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get radioLineHeightSmall() {
-    return this.radioLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get radioLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -2302,16 +2057,10 @@ export class DefaultTheme {
 
   public static radioCaptionGap = '8px';
 
-  /**
-   * @deprecated use radioPaddingYSmall
-   */
-  public static get radioPaddingY() {
+  public static get radioPaddingYSmall() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
     const lineHeight = parseInt(this.radioLineHeightSmall, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
-  }
-  public static get radioPaddingYSmall() {
-    return this.radioPaddingY;
   }
   public static get radioPaddingYMedium() {
     const controlHeight = parseInt(this.controlHeightMedium, 10) || 0;
@@ -2382,12 +2131,6 @@ export class DefaultTheme {
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
   //#region Tabs
-  /**
-   * @deprecated use tabFontSizeLarge
-   */
-  public static get tabFontSize() {
-    return this.fontSizeLarge;
-  }
   public static get tabFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -2395,13 +2138,7 @@ export class DefaultTheme {
     return this.fontSizeMedium;
   }
   public static get tabFontSizeLarge() {
-    return this.tabFontSize;
-  }
-  /**
-   * @deprecated use tabLineHeightLarge
-   */
-  public static get tabLineHeight() {
-    return this.controlLineHeightLarge;
+    return this.fontSizeLarge;
   }
   public static get tabLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -2410,31 +2147,13 @@ export class DefaultTheme {
     return this.controlLineHeightMedium;
   }
   public static get tabLineHeightLarge() {
-    return this.tabLineHeight;
+    return this.controlLineHeightLarge;
   }
-  /**
-   * @deprecated use tabPaddingXLarge
-   */
-  public static tabPaddingX = '12px';
+
   public static tabPaddingXSmall = '8px';
   public static tabPaddingXMedium = '10px';
-  public static get tabPaddingXLarge() {
-    return this.tabPaddingX;
-  }
-  /**
-   * @deprecated use tabPaddingXLarge
-   */
-  public static get tabsMarginX() {
-    return this.tabPaddingX;
-  }
-  /**
-   * @deprecated use tabPaddingYLarge
-   */
-  public static get tabPaddingY() {
-    const paddingY = parseInt(this.controlPaddingYLarge);
-    const borderWidth = parseInt(this.controlBorderWidth);
-    return `${paddingY + borderWidth}px`;
-  }
+  public static tabPaddingXLarge = '12px';
+
   public static get tabPaddingYSmall() {
     const paddingY = parseInt(this.controlPaddingYSmall);
     const borderWidth = parseInt(this.controlBorderWidth);
@@ -2446,7 +2165,9 @@ export class DefaultTheme {
     return `${paddingY + borderWidth}px`;
   }
   public static get tabPaddingYLarge() {
-    return this.tabPaddingY;
+    const paddingY = parseInt(this.controlPaddingYLarge);
+    const borderWidth = parseInt(this.controlBorderWidth);
+    return `${paddingY + borderWidth}px`;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {
