@@ -343,7 +343,7 @@ export const styles = memoizeStyle({
       left: 0;
       top: 0;
       background: ${t.toggleBaseBg};
-      line-height: ${t.toggleHeight};
+      line-height: ${t.toggleHeightSmall};
     `;
   },
   buttonSmall(t: Theme) {
