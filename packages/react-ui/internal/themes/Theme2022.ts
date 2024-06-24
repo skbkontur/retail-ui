@@ -572,7 +572,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static calendarCellActiveHoverColor = '';
   public static calendarCellSelectedBgColor = '#E6E6E6';
   public static calendarCellTodayBorder = '1px solid';
-  public static calendarCellWeekendColor: '#CC2626';
+  public static get calendarCellWeekendColor() {
+    return this.errorText;
+  }
 
   //#endregion Calendar
 
@@ -665,7 +667,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion Kebab
 
   //#region react-ui-validations
-  public static validationsTextColorError = '#CC2626';
+  public static get validationsTextColorError() {
+    return this.errorText;
+  }
   //#endregion react-ui-validations
 }
 
