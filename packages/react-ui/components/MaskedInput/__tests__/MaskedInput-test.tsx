@@ -17,7 +17,7 @@ describe('MaskedInput', () => {
     ['+9+9+', 'X', '+X+X+'],
   ])('mask "%s" with maskChar "%s" -> "%s"', (mask, maskChar, maskPlaceholder) => {
     it('without `alwaysShowMask`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} />);
+      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={null} />);
 
       const input = screen.getByRole('textbox');
       input.focus();
@@ -122,7 +122,13 @@ describe('MaskedInput', () => {
       const Comp = () => {
         const [value, setValue] = useState('');
         return (
-          <MaskedInput {...props} value={value} onValueChange={setValue} onUnexpectedInput={handleUnexpectedInput} />
+          <MaskedInput
+            {...props}
+            value={value}
+            onValueChange={setValue}
+            onUnexpectedInput={handleUnexpectedInput}
+            alwaysShowMask={null}
+          />
         );
       };
       render(<Comp />);
@@ -144,7 +150,7 @@ describe('MaskedInput', () => {
       ['9--9--9--9', '123{backspace}{backspace}', '1--'],
       ['9--9---9---9', '123{backspace}{backspace}', '1--'],
     ])(`%s > %s > "%s"`, (mask, keys, expected) => {
-      render(<MaskedInput mask={mask} />);
+      render(<MaskedInput mask={mask} alwaysShowMask={null} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       userEvent.type(input, keys);

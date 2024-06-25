@@ -6,7 +6,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
-import { Input } from '../../Input';
+import { Input, InputProps } from '../../Input';
 
 export default {
   title: 'MaskedInput',
@@ -263,12 +263,12 @@ export const CompareWithInput: Story = () => {
     const [value, setValue] = useState(props.value);
 
     if (comp === 'MaskedInput') {
-      return <MaskedInput {...{ ...props, value }} onValueChange={setValue} />;
+      return <MaskedInput {...({ ...props, value } as MaskedInputProps)} onValueChange={setValue} />;
     }
     if (comp === 'Input-mask') {
-      return <Input {...{ ...props, value }} onValueChange={setValue} />;
+      return <Input {...({ ...props, value } as InputProps)} onValueChange={setValue} />;
     }
-    return <Input {...{ ...props, value, mask: undefined }} onValueChange={setValue} />;
+    return <Input {...({ ...props, value, mask: undefined } as InputProps)} onValueChange={setValue} />;
   };
 
   return (

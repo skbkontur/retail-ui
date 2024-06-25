@@ -25,8 +25,14 @@ export interface MaskedProps {
    * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
    */
   formatChars?: Record<string, string>;
-  /** Показывать символы маски */
-  alwaysShowMask?: boolean;
+  /**
+   * Показывать символы маски
+   *
+   * null - не показывать
+   * true - показывать всегда
+   * false - показывать по фокусу
+   */
+  alwaysShowMask?: boolean | null;
   /**
    * Пропы для компонента `IMaskInput`
    *
@@ -42,7 +48,9 @@ export interface IMaskRefType {
   element: HTMLInputElement;
 }
 
-export interface MaskedInputProps extends MaskedProps, Omit<InputProps, 'mask' | 'maxLength' | 'type'> {
+export interface MaskedInputProps
+  extends MaskedProps,
+    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask'> {
   type?: MaskInputType;
 }
 
@@ -138,7 +146,7 @@ export const MaskedInput = forwardRefAndName(
         definitions: getDefinitions(formatChars),
         eager: true,
         overwrite: 'shift',
-        lazy: !alwaysShowMask,
+        lazy: alwaysShowMask === null ? true : !(alwaysShowMask || focused),
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
     }
