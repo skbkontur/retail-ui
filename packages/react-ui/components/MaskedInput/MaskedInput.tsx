@@ -1,12 +1,12 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
+import { InputMask, MaskedPatternOptions, MaskedPattern, PatternFixedDefinition } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
 
 import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement, MaskedInputElementDataTids } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
-import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
+import { uiFontGlobalClasses } from '../../lib/styles/ui-font-spy';
 import { Input, InputProps, InputType } from '../Input';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 
@@ -92,22 +92,24 @@ export const MaskedInput = forwardRefAndName(
     const imaskProps = getCompatibleIMaskProps();
 
     return (
-      <Input
-        ref={inputRef}
-        {...inputProps}
-        placeholder={showPlaceholder ? placeholder : undefined}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onInput={handleInput}
-        onKeyDownCapture={handleKeyDownCapture}
-        className={cx(globalClasses.root, uiFontGlobalClasses.root)}
-        data-tid={MaskedInputElementDataTids.root}
-        element={
-          <MaskedInputElement maskChars={getMaskChars(imaskProps)}>
-            <IMaskInput ref={imaskRef} {...imaskProps} onAccept={handleAccept} />
-          </MaskedInputElement>
-        }
-      />
+      <>
+        <Input
+          ref={inputRef}
+          {...inputProps}
+          placeholder={showPlaceholder ? placeholder : undefined}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onInput={handleInput}
+          onKeyDownCapture={handleKeyDownCapture}
+          className={cx(globalClasses.root, uiFontGlobalClasses.element)}
+          data-tid={MaskedInputElementDataTids.root}
+          element={
+            <MaskedInputElement maskChars={getMaskChars(imaskProps)} fixedChars={getFixedChars()}>
+              <IMaskInput ref={imaskRef} {...imaskProps} onAccept={handleAccept} />
+            </MaskedInputElement>
+          }
+        />
+      </>
     );
 
     function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
@@ -115,7 +117,7 @@ export const MaskedInput = forwardRefAndName(
         mask: mask.replace(/0/g, '{\\0}') as any,
         placeholderChar: getMaskChar(maskChar),
         definitions: getDefinitions(formatChars),
-        eager: 'remove',
+        eager: true,
         overwrite: 'shift',
         lazy: !alwaysShowMask,
         ...customIMaskProps,
@@ -134,10 +136,27 @@ export const MaskedInput = forwardRefAndName(
       return maskChars;
     }
 
+    function getFixedChars(): string[] {
+      const fixedChars = new Set<string>();
+
+      if (imaskRef.current?.maskRef?.masked?._blocks) {
+        const _blocks = imaskRef.current.maskRef.masked._blocks;
+
+        _blocks.forEach((block) => {
+          if (block instanceof PatternFixedDefinition) {
+            fixedChars.add(block.char);
+            // console.log('block', block.char);
+          }
+        });
+      }
+      console.log('fixedChars', fixedChars);
+
+      return [];
+      // return fixedChars.values().toArray();
+    }
+
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
       const [value, , e] = args;
-
-      onAccept?.(...args);
 
       /**
        * Метод `onAccept` может вызываться при монтировании, если не задан проп `defaultValue`.
@@ -148,6 +167,8 @@ export const MaskedInput = forwardRefAndName(
        * Если его нет, значит `imask` вызывал `onAccept` по некой собственной логике.
        */
       e && onValueChange?.(value);
+
+      onAccept?.(...args);
     }
 
     /**
@@ -167,11 +188,12 @@ export const MaskedInput = forwardRefAndName(
 
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
       setFocused(true);
-      props.onFocus?.(e);
 
       // если `value` из пропов отличается от `value`, которое получит `input` после обработки,
       // то `imask` будет ставить курсор за последним валидным символом.
       props.selectAllOnFocus && inputRef.current?.delaySelectAll();
+
+      props.onFocus?.(e);
     }
 
     function handleUnexpectedInput(value = '') {

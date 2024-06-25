@@ -31,6 +31,7 @@ jest.mock('react-dom', () => {
     findDOMNode: jest.fn(originalModule.findDOMNode),
   };
 });
+jest.mock('./internal/MaskedInputElement/exposed-input', () => ({}));
 window.matchMedia = jest.fn().mockImplementation((query) => {
   return {
     matches: false,

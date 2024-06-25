@@ -48,6 +48,9 @@ const findComponent = (dirPath) => {
   const ts = path.join(dirPath, `${name}.tsx`);
   const js = path.join(dirPath, `${name}.js`);
   const readme = path.join(dirPath, `${name}.md`);
+  if (!['Input', 'MaskedInput'].includes(name)) {
+    return null;
+  }
   if (!fs.existsSync(readme) || excludedComponents.includes(name)) {
     return null;
   }

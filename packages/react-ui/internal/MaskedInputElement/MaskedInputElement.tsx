@@ -9,9 +9,15 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInputElement.styles';
 
+import './exposed-input';
+import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
+
+// customElements.define('exposed-input', ExposedInput);
+
 export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
   InputElementProps & {
     maskChars: string[];
+    fixedChars: string[];
     children: React.ReactElement;
   };
 
@@ -19,17 +25,11 @@ export const MaskedInputElementDataTids = {
   root: 'MaskedInput__root',
 } as const;
 
-const dictionary = new WeakMap<Element, () => void>();
-const paintText: ResizeObserverCallback = (entries) => {
-  entries.forEach((entry) => dictionary.get(entry.target)?.());
-};
-const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(paintText) : null;
-
 export const MaskedInputElement = forwardRefAndName(
   'MaskedInputElement',
   function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const spanRef = useRef<HTMLSpanElement | null>(null);
+    const exposedInputRef = useRef<HTMLElement | null>(null);
     const focused = useRef(false);
     const [uncontrolledValue, setUncontrolledValue] = useState('');
     const inputStyle = React.useRef<CSSStyleDeclaration>();
@@ -47,109 +47,158 @@ export const MaskedInputElement = forwardRefAndName(
     );
 
     useEffect(() => {
-      if (spanRef.current) {
-        dictionary.set(spanRef.current, paintText);
-        resizeObserver?.observe(spanRef.current);
-      }
-      if (inputRef.current) {
-        dictionary.set(inputRef.current, paintText);
-        resizeObserver?.observe(inputRef.current);
-      }
-    }, []);
+      setTimeout(paintText_2);
 
-    useEffect(() => {
       if (inputRef.current) {
         inputStyle.current = getComputedStyle(inputRef.current);
       }
-    });
+    }, []);
 
     const placeholderColor = !(props.value || props.defaultValue);
 
     return (
-      <>
+      <exposed-input ref={exposedInputRef}>
         {React.cloneElement(children, {
+          slot: 'input',
           ...inputProps,
           onInput: handleInput,
           onFocus: handleFocus,
           onBlur: handleBlur,
           inputRef,
-          className: cx(
-            props.className,
-            !props.disabled && styles.input(theme),
-            !props.disabled && placeholderColor && styles.inputPlaceholder(theme),
-          ),
+          className: cx(props.className),
         })}
-        <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
-      </>
+      </exposed-input>
     );
 
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
       setUncontrolledValue(e.target.value);
 
       // iMask может изменить value после вызова onInput
-      setTimeout(paintText);
+      // setTimeout(paintText);
+      // paintText();
+      paintText_2();
 
       onInput?.(e);
     }
 
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
       focused.current = true;
-      setTimeout(paintText);
+      // setTimeout(paintText);
 
       onFocus?.(e);
     }
 
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
       focused.current = false;
-      setTimeout(paintText);
+      // setTimeout(paintText);
 
       onBlur?.(e);
     }
 
-    function paintText() {
-      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject) || props.disabled) {
+    function paintText_2() {
+      // console.log('paintText_2', exposedInputRef.current);
+
+      // console.log('123', !inputRef.current, !inputStyle.current, !isBrowser(globalObject), props.disabled);
+      if (
+        !inputRef.current ||
+        !inputStyle.current ||
+        !isBrowser(globalObject) ||
+        props.disabled ||
+        !exposedInputRef.current ||
+        !exposedInputRef.current.value
+      ) {
         return;
       }
 
-      let shadow = spanRef.current.shadowRoot;
-      let styleEl = shadow?.getElementById('style');
-      let spanEl = shadow?.getElementById('span');
+      const val0 = exposedInputRef.current.input.value;
+      const chars = exposedInputRef.current.value.querySelectorAll('*');
+      console.log({ maskChars, fixedChars: props.fixedChars });
 
-      if (!(styleEl && spanEl)) {
-        shadow = spanRef.current.attachShadow({ mode: 'open' });
+      let wer = val0.split('').map((char) => {
+        if (maskChars.includes(char)) {
+          return {
+            char,
+            type: 'mask',
+          };
+        }
+        if (props.fixedChars.includes(char)) {
+          return {
+            char,
+            type: 'fixed',
+          };
+        }
+        return {
+          char,
+          type: 'user',
+        };
+      });
 
-        styleEl = globalObject.document.createElement('style');
-        styleEl.setAttribute('id', 'style');
+      for (let i = 0; i < wer.length; i++) {
+        const { type } = wer[i];
+        if (type === 'user') {
+          wer[i].color = 'black';
+          chars[i].style.color = 'black';
+          continue;
+        }
+        if (type === 'mask') {
+          wer[i].color = 'lightgray';
+          chars[i].style.color = 'lightgray';
+          continue;
+        }
+        if (type === 'fixed') {
+          const er = wer[i - 1] || {};
+          const der = wer[i + 1] || {};
+          if (er.color === 'black' || er.type === 'user' || der.color === 'black' || der.type === 'user' || i === 0) {
+            wer[i].color = 'black';
+            chars[i].style.color = 'black';
+          } else {
+            wer[i].color = 'lightgray';
+            chars[i].style.color = 'lightgray';
+          }
+          continue;
+        }
 
-        spanEl = globalObject.document.createElement('span');
-        spanEl.setAttribute('id', 'span');
-
-        shadow.appendChild(styleEl);
-        shadow.appendChild(spanEl);
+        wer[i].color = 'lightgray';
+        chars[i].style.color = 'lightgray';
       }
 
-      const style = inputStyle.current;
+      // wer = wer.reverse();
 
-      const val =
-        focused.current || uncontrolledValue || props.value || props.defaultValue
-          ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
-          : '';
+      // console.log('wer.length', wer);
+      for (let i = wer.length - 1; i >= 0; i--) {
+        // console.log(`wer[${i}]`, wer[i]);
+        const { type, color } = wer[i];
+        if (color === 'black') {
+          continue;
+        }
+        if (type === 'user') {
+          wer[i].color = 'black';
+          chars[i].style.color = 'black';
+          continue;
+        }
+        if (type === 'mask') {
+          wer[i].color = 'lightgray';
+          chars[i].style.color = 'lightgray';
+          continue;
+        }
+        if (type === 'fixed') {
+          const er = wer[i - 1] || {};
+          const der = wer[i + 1] || {};
+          if (er.color === 'black' || er.type === 'user' || der.color === 'black' || der.type === 'user' || i === 0) {
+            wer[i].color = 'black';
+            chars[i].style.color = 'black';
+          } else {
+            wer[i].color = 'lightgray';
+            chars[i].style.color = 'lightgray';
+          }
+          continue;
+        }
 
-      styleEl.textContent = `<style> * { font: ${style.font}; } </style>`;
-      spanEl.textContent = val;
+        wer[i].color = 'lightgray';
+        chars[i].style.color = 'lightgray';
+      }
 
-      const inputRect = inputRef.current.getBoundingClientRect();
-      const filledRect = spanRef.current.getBoundingClientRect();
-
-      const threshold = filledRect.width / (inputRect.width / 100);
-      const degree = style.fontStyle === 'italic' ? 100 : 90;
-
-      inputRef.current.style.backgroundImage = `
-      linear-gradient(
-          ${degree}deg,
-          ${theme.inputTextColor} ${threshold}%,
-          ${theme.placeholderColor} ${threshold}%
-      )`;
+      // console.log('222', wer, e.detail.chars);
     }
   },
 );

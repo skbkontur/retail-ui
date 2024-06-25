@@ -3,14 +3,85 @@
 Маска телефона
 
 ```jsx harmony
+import { Input } from '@skbkontur/react-ui';
+
 const [value, setValue] = React.useState('123');
 
-<MaskedInput
-  mask="+7 999-999-99-99"
-  alwaysShowMask
-  value={value}
-  onValueChange={setValue}
-/>
+const css = `
+#value > *:nth-of-type(2) {
+  color: red;
+}
+`;
+
+<>
+  <div style={{position: 'relative'}}>
+    <span style={{position: 'absolute', top: -68, left: 8, zIndex: 10}}>{value}</span>
+  </div>
+  <MaskedInput
+    style={{width: 100}}
+    mask="++++7 777-999-99-99"
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+  <br/>
+  <MaskedInput
+    style={{width: 100}}
+    mask="+7 000-999-99-99"
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+  <br/>
+  <MaskedInput
+    style={{width: 100}}
+    mask="+7 888-999-99-99"
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+  <br/>
+  <Input
+    style={{width: 100}}
+    value={value}
+    onValueChange={setValue}
+  />
+  <br/>
+  <input
+    style={{width: 100}}
+    value={value}
+    onValueChange={setValue}
+  />
+  <br/>
+  <exposed-input css={css}>
+    <input
+      slot="input"
+      style={{width: 100}}
+      value={value}
+      onValueChange={setValue}
+    />
+  </exposed-input>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <MaskedInput
+    style={{width: 300}}
+    mask="+7 999-999----99-99"
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+  <br/>
+  <MaskedInput
+    align="center"
+    style={{width: 300}}
+    mask="+7 999-999----99-99"
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+</>
 ```
 
 #### `maskChar`
@@ -171,13 +242,23 @@ const block = {
   autofix: 'pad',
 };
 
+const block2 = {
+  mask: Number,
+  from: 0,
+  autofix: 'pad',
+  maxLength: 3,
+};
+
+
 <MaskedInput
-  mask="HH:MM:SS"
+  mask="HH:MM:SS-d"
   imaskProps={{
+    expose: true,
     blocks: {
       HH: { ...block, to: 23, },
       MM: { ...block, to: 59, },
       SS: { ...block, to: 59, },
+      d: block2
     }
   }}
   alwaysShowMask
