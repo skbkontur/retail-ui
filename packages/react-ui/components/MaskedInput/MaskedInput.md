@@ -79,7 +79,7 @@ const [value, setValue] = React.useState('');
 mask: mask.replace(/0/g, '{\\0}'),
 placeholderChar: props.maskChar || '_',
 definitions: props.formatChars || { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ },
-eager: 'remove',
+eager: true,
 overwrite: 'shift',
 lazy: !alwaysShowMask,
 ...props.imaskProps,

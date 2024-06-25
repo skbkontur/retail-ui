@@ -115,7 +115,7 @@ export const MaskedInput = forwardRefAndName(
         mask: mask.replace(/0/g, '{\\0}') as any,
         placeholderChar: getMaskChar(maskChar),
         definitions: getDefinitions(formatChars),
-        eager: 'remove',
+        eager: true,
         overwrite: 'shift',
         lazy: !alwaysShowMask,
         ...customIMaskProps,

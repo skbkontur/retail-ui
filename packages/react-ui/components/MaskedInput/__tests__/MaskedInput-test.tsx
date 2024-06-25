@@ -33,7 +33,7 @@ describe('MaskedInput', () => {
   });
 
   describe.each([
-    ['+7 (999) 999-99-99', '+7 (912) 247', '+7 (912) 247'],
+    ['+7 (999) 999-99-99', '+7 (912) 247', '+7 (912) 247-'],
     ['+7 (999) 999-99-99', '+7 (912) abc', '+7 (912) '],
     ['aa:aa', '122', ''],
     ['999', 'ttt', ''],
@@ -131,6 +131,25 @@ describe('MaskedInput', () => {
       userEvent.type(input, keys);
 
       expect(handleUnexpectedInput).toHaveBeenCalledTimes(expectedCount);
+    });
+  });
+
+  describe('fixed symbols on typing', () => {
+    it.each<[string, string, string]>([
+      ['9-9-9-9', '123', '1-2-3-'],
+      ['9-9-9-9', '123{backspace}', '1-2-'],
+      ['9-9-9--9', '123', '1-2-3--'],
+      ['9-9-9--9', '123{backspace}', '1-2-'],
+      ['9-9--9--9', '123{backspace}{backspace}', '1-'],
+      ['9--9--9--9', '123{backspace}{backspace}', '1--'],
+      ['9--9---9---9', '123{backspace}{backspace}', '1--'],
+    ])(`%s > %s > "%s"`, (mask, keys, expected) => {
+      render(<MaskedInput mask={mask} />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      userEvent.type(input, keys);
+
+      expect(input).toHaveValue(expected);
     });
   });
 
