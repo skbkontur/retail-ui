@@ -1,6 +1,7 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
+import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { MaskedInputElement, MaskedInputElementDataTids } from '../../internal/MaskedInputElement';
@@ -9,6 +10,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
+import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
@@ -99,6 +101,7 @@ export const MaskedInput = forwardRefAndName(
         onFocus={handleFocus}
         onBlur={handleBlur}
         onInput={handleInput}
+        onMouseUp={handleSelect}
         onKeyDownCapture={handleKeyDownCapture}
         className={cx(globalClasses.root, uiFontGlobalClasses.root)}
         data-tid={MaskedInputElementDataTids.root}
@@ -109,6 +112,24 @@ export const MaskedInput = forwardRefAndName(
         }
       />
     );
+
+    function handleSelect(e: React.MouseEvent<HTMLInputElement>) {
+      if (
+        isInstanceOf(e.target, globalObject.HTMLInputElement) &&
+        e.target === inputRef.current?.input &&
+        e.target.closest('.react-ui-masked-input-root')
+      ) {
+        const nearest = imaskRef.current?.maskRef.masked.nearestInputPos(Number.MAX_SAFE_INTEGER, 'LEFT');
+        if (
+          typeof e.target.selectionStart === 'number' &&
+          typeof nearest === 'number' &&
+          e.target.selectionStart > nearest
+        ) {
+          e.target.selectionStart = nearest;
+          e.target.selectionEnd = nearest;
+        }
+      }
+    }
 
     function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
       return {
