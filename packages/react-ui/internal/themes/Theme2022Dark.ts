@@ -19,6 +19,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   }
 
   public static errorSecondary = '#AB0D0D';
+  public static textColorDisabled = 'rgba(255, 255, 255, 0.32)';
 
   //#endregion Common Variables
 
@@ -117,6 +118,12 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   //#region Select
   public static selectMenuArrowColor = 'rgba(255, 255, 255, 0.54)';
+  public static get selectPlaceholderColorDisabled() {
+    return 'rgba(255, 255, 255, 0.48)';
+  }
+  public static get selectMenuArrowColorDisabled() {
+    return 'rgba(255, 255, 255, 0.54)';
+  }
   //#endregion Select
 
   //#region Link
@@ -164,6 +171,12 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static inputOutlineWidth = '1px';
 
   public static inputTextColorDisabled = 'rgba(255, 255, 255, 0.32)';
+  public static get inputIconColorDisabled() {
+    return '#858585';
+  }
+  public static get inputPlaceholderColorDisabled() {
+    return 'rgba(255, 255, 255, 0.48)';
+  }
   public static inputDisabledBg = 'rgba(255, 255, 255, 0.04)';
   public static inputDisabledBorderColor = 'rgba(255, 255, 255, 0.04)';
   //#endregion Input
@@ -188,6 +201,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static get textareaTextColorDisabled() {
     return this.inputTextColorDisabled;
   }
+  public static get textareaPlaceholderColorDisabled() {
+    return '#858585';
+  }
   //#endregion Textarea
 
   //#region Menu
@@ -210,6 +226,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region Token
   public static tokenShadowDisabled = '';
   public static tokenBorderColorDisabled = 'transparent';
+  public static get tokenTextColorDisabled() {
+    return 'rgba(255, 255, 255, 0.48)';
+  }
 
   public static tokenDefaultIdleColor = 'rgba(255, 255, 255, 0.865)';
   public static tokenDefaultIdleBg = 'rgba(255, 255, 255, 0.1)';
@@ -237,6 +256,15 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   public static get fileUploaderBorderColorError() {
     return this.borderColorError;
+  }
+  public static get fileUploaderDisabledTextColor() {
+    return '#858585';
+  }
+  public static get fileUploaderDisabledLinkColor() {
+    return '#858585';
+  }
+  public static get fileUploaderDisabledIconColor() {
+    return '#858585';
   }
   //#endregion FileUploader
 
