@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.4.4...@skbkontur/colors@0.5.0) (2024-06-25)
+
+
+### Features
+
+* **colors:** update colors 2024 ([7020c9b](https://git.skbkontur.ru/ui/ui-parking/commits/7020c9b1311e4e37973847af70bad28cbbd2902d))
+
+
+### Reverts
+
+* remove screenshots in ie11 and obsolete packages ([57a6e89](https://git.skbkontur.ru/ui/ui-parking/commits/57a6e8962089825b6c71c1b96f4d09bc8a5a4ef7))
+
+
+
+
+
 ## [0.4.4](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.4.3...@skbkontur/colors@0.4.4) (2023-08-11)
 
 **Note:** Version bump only for package @skbkontur/colors
