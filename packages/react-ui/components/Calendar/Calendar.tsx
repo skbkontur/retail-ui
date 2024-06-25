@@ -54,18 +54,6 @@ export interface CalendarProps extends CommonProps {
    */
   minDate?: string;
   /**
-   * Задаёт начальную дату периода
-   *
-   * Дата задаётся в формате `dd.mm.yyyy`
-   */
-  periodStartDate?: string;
-  /**
-   * Задаёт конечную дату периода
-   *
-   * Дата задаётся в формате `dd.mm.yyyy`
-   */
-  periodEndDate?: string;
-  /**
    * Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
    * @param {string} day - строка в формате `dd.mm.yyyy`

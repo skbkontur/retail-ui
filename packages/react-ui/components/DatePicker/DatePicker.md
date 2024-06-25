@@ -274,20 +274,6 @@ class DatePickerFormatting extends React.Component {
 <DatePickerFormatting />;
 ```
 
-### Период дат
-Подбробный пример в [Calendar](#/Components/Calendar)
-
-```jsx harmony
-const [value, setValue] = React.useState('12.05.2022');
-
-<DatePicker
-  value={value}
-  onValueChange={setValue}
-  periodStartDate="16.05.2022"
-  periodEndDate="20.05.2022"
-/>;
-```
-
 ### Кастомный рендер дня
 Подбробный пример в [Calendar](#/Components/Calendar)
 
