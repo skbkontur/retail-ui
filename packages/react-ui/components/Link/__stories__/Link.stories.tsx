@@ -2,6 +2,7 @@ import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
+import { ComponentTable } from '../../../internal/ComponentTable';
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
@@ -10,6 +11,8 @@ import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
+import { Button } from '../../Button';
+import { LinkProps } from '..';
 
 const linkTests: CreeveyTests = {
   async idle() {
@@ -243,6 +246,68 @@ WithLinkFocusOutlineFeatureFlag.parameters = {
     skip: {
       'hover does not work': {
         in: /chrome/,
+      },
+    },
+  },
+};
+
+type LinkState = Partial<LinkProps<'button'>>;
+
+const linkUseStates: LinkState[] = [{ use: 'default' }, { use: 'danger' }, { use: 'success' }, { use: 'grayed' }];
+const componentPropStates: LinkState[] = [
+  { children: 'Button' },
+  { disabled: true },
+  { icon: <CheckAIcon16Light /> },
+  { icon: <CheckAIcon16Light />, loading: true },
+  { rightIcon: <CheckAIcon16Light /> },
+  { rightIcon: <CheckAIcon16Light />, loading: true },
+  { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light /> },
+  { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light />, loading: true },
+  { warning: true },
+  { error: true },
+];
+
+export const LinkAsButton: Story = () => {
+  return (
+    <ComponentTable
+      Component={Link}
+      cols={linkUseStates.map((state) => ({ props: state }))}
+      rows={componentPropStates.map((x) => ({ props: x }))}
+      presetProps={{ children: 'Button', component: 'button' }}
+    />
+  );
+};
+
+LinkAsButton.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+    },
+  },
+};
+
+export const LinkAsButtonValidation: Story = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Button use="link" warning>
+        Warning
+      </Button>
+      <Link warning>Warning</Link>
+      <Button use="link" error>
+        Error
+      </Button>
+      <Link error>Error</Link>
+    </Gapped>
+  );
+};
+
+LinkAsButtonValidation.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
     },
   },

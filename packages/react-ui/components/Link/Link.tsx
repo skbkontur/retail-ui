@@ -1,8 +1,8 @@
 import React, { AriaAttributes } from 'react';
-import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Override } from '../../typings/utility-types';
+import { resetButton } from '../../lib/styles/Mixins';
+import { PolymorphicPropsWithoutRef } from '../../typings/react-ref';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -20,70 +20,77 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
-export interface LinkProps
+interface LinkInnerProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
-    Override<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      {
-        /**
-         * Отключенное состояние.
-         */
-        disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
-        href?: string;
-        /**
-         * Добавляет ссылке иконку слева.
-         */
-        icon?: React.ReactElement;
-        /**
-         * Добавляет ссылке иконку справа.
-         */
-        rightIcon?: React.ReactElement;
-        /**
-         * Тема ссылки.
-         */
-        use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
-        _button?: boolean;
-        /**
-         * @ignore
-         */
-        _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
-        tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
-        loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
-        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+    Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'onBlur' | 'onFocus'> {
+  /**
+   * Отключенное состояние.
+   */
+  disabled?: boolean;
+  /**
+   * Добавляет ссылке иконку слева.
+   */
+  icon?: React.ReactElement;
+  /**
+   * Добавляет ссылке иконку справа.
+   */
+  rightIcon?: React.ReactElement;
+  /**
+   * Тема ссылки.
+   */
+  use?: 'default' | 'success' | 'danger' | 'grayed';
+  /**
+   * @ignore
+   */
+  _button?: boolean;
+  /**
+   * @ignore
+   */
+  _buttonOpened?: boolean;
+  /**
+   * HTML-атрибут `tabindex`.
+   */
+  tabIndex?: number;
+  /**
+   * Переводит ссылку в состояние загрузки.
+   */
+  loading?: boolean;
+  /**
+   * HTML-событие `onclick`.
+   */
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 
-        /**
-         * Обычный объект с переменными темы.
-         * Он будет объединён с темой из контекста.
-         */
-        theme?: ThemeIn;
-        /**
-         * Компонент, используемый в качестве корневого узла.
-         * @ignore
-         */
-        as?: React.ElementType | keyof React.ReactHTML;
-        /**
-         * @ignore
-         */
-        focused?: boolean;
-      }
-    > {}
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
+  /**
+   * Компонент, используемый в качестве корневого узла.
+   * @ignore
+   */
+  as?: React.ElementType | keyof React.ReactHTML;
+  /**
+   * @ignore
+   */
+  focused?: boolean;
+  /**
+   * Состояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Состояние валидации при предупреждении.
+   */
+  warning?: boolean;
+}
 
+const LINK_DEFAULT_ELEMENT = 'a';
+
+export type LinkProps<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
+  LinkInnerProps,
+  C
+>;
 export interface LinkState {
   focusedByTab: boolean;
 }
@@ -92,31 +99,26 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as'>>;
-type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
+type DefaultProps = Required<Pick<LinkProps, 'use' | 'as'>>;
+type DefaultizedLinkProps<T extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = DefaultizedProps<
+  LinkProps<T>,
+  DefaultProps
+>;
 
 /**
  * Элемент ссылки из HTML.
  */
 @rootNode
-export class Link extends React.Component<LinkProps, LinkState> {
+export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> extends React.Component<
+  LinkProps<C>,
+  LinkState
+> {
   public static __KONTUR_REACT_UI__ = 'Link';
   public static displayName = 'Link';
 
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.node,
-
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
-  };
-
-  public static defaultProps: DefaultProps = {
-    href: '',
+  public static defaultProps = {
     use: 'default',
-    as: 'a',
+    as: LINK_DEFAULT_ELEMENT,
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -151,31 +153,52 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   }
 
+  private getTabIndex = ({
+    nonInteractive,
+    tabIndex = 0,
+  }: {
+    nonInteractive: boolean | undefined;
+    tabIndex: number | undefined;
+  }) => {
+    return nonInteractive ? -1 : tabIndex;
+  };
+
+  private getRel = ({ href, rel }: Pick<LinkProps, 'href' | 'rel'>) => {
+    if (!rel && href) {
+      return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
+    }
+
+    return rel;
+  };
+
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
     const {
       disabled,
       href,
+      hrefLang,
+      target,
       icon,
       rightIcon,
       use,
       loading,
       _button,
       _buttonOpened,
-      rel: relOrigin,
-      as: Component,
+      rel,
+      as,
+      component,
       focused = false,
+      error,
+      warning,
+      type,
+      tabIndex,
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
+    const Root = (component || as) as React.ElementType;
 
     let arrow = null;
     if (_button) {
       arrow = <span className={styles.arrow()} />;
-    }
-
-    let rel = relOrigin;
-    if (typeof rel === 'undefined' && href) {
-      rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
     const isFocused = !disabled && (this.state.focusedByTab || focused);
@@ -184,24 +207,46 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const rightIconElement = rightIcon && (
       <LinkIcon hasBothIcons={!!icon && !!rightIcon} icon={rightIcon} loading={loading} position="right" />
     );
+    const nonInteractive = disabled || loading;
 
-    const linkProps = {
+    const linkOnlyProps = {
+      href: href || '',
+      hrefLang,
+      rel: this.getRel({ href, rel }),
+      target,
+    };
+
+    const buttonOnlyProps = { disabled: nonInteractive, type };
+
+    const outlineNode = (
+      <div
+        style={{ zIndex: -1 }}
+        className={cx(
+          styles.outline(this.theme),
+          warning && styles.outlineWarning(this.theme),
+          error && styles.outlineError(this.theme),
+        )}
+      />
+    );
+
+    const rootProps = {
       className: cx(
         styles.useRoot(),
+        Root === 'button' && resetButton(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
-        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+        this.getLinkClassName(isFocused, Boolean(nonInteractive), _isTheme2022),
       ),
-      href,
-      rel,
       onClick: this.handleClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
+      tabIndex: this.getTabIndex({ nonInteractive, tabIndex }),
+      ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
+      ...(Root === 'button' ? buttonOnlyProps : {}),
     };
 
     let child = this.props.children;
@@ -226,12 +271,13 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps} {...getVisualStateDataAttributes({ disabled })}>
+      <Root data-tid={LinkDataTids.root} {...rest} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
         {leftIconElement}
+        {outlineNode}
         {child}
         {rightIconElement}
         {arrow}
-      </Component>
+      </Root>
     );
   };
 
@@ -252,9 +298,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { onClick, disabled, loading } = this.props;
-    const href = this.getProps().href;
-    if (!href) {
+    const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
+    // we have to check for 'to' prop in case Root is react-router link
+    const to = Object.prototype.hasOwnProperty.call(this.props, 'to');
+    const destination = href || to;
+
+    if (!destination) {
       event.preventDefault();
     }
     if (onClick && !disabled && !loading) {
