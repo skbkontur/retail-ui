@@ -55,6 +55,17 @@ export const MaskedInputElement = forwardRefAndName(
         dictionary.set(inputRef.current, paintText);
         resizeObserver?.observe(inputRef.current);
       }
+
+      return () => {
+        if (spanRef.current) {
+          dictionary.delete(spanRef.current);
+          resizeObserver?.unobserve(spanRef.current);
+        }
+        if (inputRef.current) {
+          dictionary.delete(inputRef.current);
+          resizeObserver?.unobserve(inputRef.current);
+        }
+      };
     }, []);
 
     useEffect(() => {
