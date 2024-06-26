@@ -41,24 +41,8 @@ public context: Theme = this.context;
 | `DARK_THEME_2022`       | Станет дефолтной темной в `5.0`                   |
 | `DEFAULT_THEME`         | Текущая дефолтная тема. Станет deprecated в `5.0` |
 | `DARK_THEME`            | Темная дефолтная. Станет deprecated в `5.0`       |
-| `DEFAULT_THEME_8PX_OLD` | Тема 2021 г. Будет удалена в  `5.0`               |
-| `FLAT_THEME_8PX_OLD`    | Плоская тема 2021 г. Будет удалена в `5.0`        |
 
 ## Примеры использования
-
-### Подключение старой плоской темы
-
-```jsx harmony
-import { ThemeContext, FLAT_THEME_8PX_OLD } from '@skbkontur/react-ui';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
-
-
-<ThemeContext.Provider value={FLAT_THEME_8PX_OLD}>
-  <div style={{ height: '100%', background: '#fff', padding: '16px' }}>
-    <ShowcaseGroup title="Flat Theme Old" />
-  </div>
-</ThemeContext.Provider>;
-```
 
 ### Создание собственной темы
 
@@ -80,10 +64,9 @@ const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });
 Вторым аргументом `ThemeFactory.create` может принимать объект, который будет использован в качестве базовой темы.
 
 ```jsx static
-import { ThemeFactory } from '@skbkontur/react-ui';
-import { FLAT_THEME_8PX_OLD } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme8pxOld';
+import { ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
-const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, FLAT_THEME_8PX_OLD);
+const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, THEME_2022);
 ```
 
 ### Использование темы в своих компонентах
@@ -149,7 +132,7 @@ ThemeFactory.overrideDefaultTheme(theme);
 <br/>
 
 ```jsx harmony
-import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME } from '@skbkontur/react-ui';
+import { ThemeContext, THEME_2022, DEFAULT_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
@@ -162,9 +145,9 @@ const CombinedComponents = () => (
       </ThemeContext.Provider>
     </div>
     <div style={{height: '100%', background: '#fff', padding: '16px'}}>
-      <ThemeContext.Provider value={DEFAULT_THEME_8PX_OLD}>
+      <ThemeContext.Provider value={THEME_2022}>
         <div>
-          <ShowcaseGroup title="Default Theme Old" />
+          <ShowcaseGroup title="Theme 2022" />
         </div>
       </ThemeContext.Provider>
     </div>
@@ -178,7 +161,7 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME, DARK_THEME } from '@skbkontur/react-ui';
+import { ThemeContext, THEME_2022, DEFAULT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {

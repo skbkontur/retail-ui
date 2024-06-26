@@ -3,8 +3,6 @@ import React, { ReactNode } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { FLAT_THEME_8PX_OLD } from '../../lib/theming/themes/FlatTheme8pxOld';
-import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { SidePage } from '../../components/SidePage';
@@ -33,16 +31,12 @@ interface PlaygroundState {
 interface Themes {
   default: Theme;
   dark: Theme;
-  defaultOld: Theme;
-  flatOld: Theme;
   theme2022: Theme;
   theme2022Dark: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
   dark: ThemeErrorsType;
-  defaultOld: ThemeErrorsType;
-  flatOld: ThemeErrorsType;
   theme2022: ThemeErrorsType;
   theme2022Dark: ThemeErrorsType;
 }
@@ -66,8 +60,6 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
     { value: ThemeType.Dark, label: 'Темная' },
-    { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
-    { value: ThemeType.FlatOld, label: 'Старая плоская' },
     { value: ThemeType.Theme2022, label: 'Новая 2022' },
     { value: ThemeType.Theme2022Dark, label: 'Новая 2022 Тёмная' },
   ];
@@ -80,17 +72,13 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
-        defaultOld: DEFAULT_THEME_8PX_OLD,
         dark: DARK_THEME,
-        flatOld: FLAT_THEME_8PX_OLD,
         theme2022: THEME_2022,
         theme2022Dark: THEME_2022_DARK,
       },
       themesErrors: {
         default: {},
-        defaultOld: {},
         dark: {},
-        flatOld: {},
         theme2022: {},
         theme2022Dark: {},
       },
