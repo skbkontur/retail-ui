@@ -1,6 +1,7 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { IMaskInputProps } from 'react-imask';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import debounce from 'lodash.debounce';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InputElement, InputElementProps } from '../../components/Input';
@@ -23,7 +24,7 @@ const dictionary = new WeakMap<Element, () => void>();
 const paintText: ResizeObserverCallback = (entries) => {
   entries.forEach((entry) => dictionary.get(entry.target)?.());
 };
-const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(paintText) : null;
+const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(debounce(paintText)) : null;
 
 export const MaskedInputElement = forwardRefAndName(
   'MaskedInputElement',
