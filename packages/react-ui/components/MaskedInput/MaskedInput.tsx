@@ -85,7 +85,15 @@ export const MaskedInput = forwardRefAndName(
 
     const showPlaceholder = !(alwaysShowMask || focused);
 
-    useImperativeHandle(ref, () => inputRef.current, []);
+    useImperativeHandle(
+      ref,
+      () =>
+        inputRef.current &&
+        Object.assign(inputRef.current, {
+          selectAll: inputRef.current.delaySelectAll,
+        }),
+      [],
+    );
 
     useEffect(() => {
       /**
@@ -98,6 +106,15 @@ export const MaskedInput = forwardRefAndName(
         prevSelectionStart.current = inputRef.current.input.selectionStart;
       }
     }, []);
+
+    // useEffect(() => {
+    //   inputRef.current &&
+    //     (inputRef.current.selectAll = () => {
+    //       setTimeout(() => {
+    //         inputRef.current?.setSelectionRange(0, 999);
+    //       });
+    //     });
+    // }, []);
 
     const imaskProps = getCompatibleIMaskProps();
 
@@ -127,11 +144,11 @@ export const MaskedInput = forwardRefAndName(
         e.target === inputRef.current?.input &&
         e.target.closest('.react-ui-masked-input-root')
       ) {
-        const nearest = imaskRef.current?.maskRef.masked.nearestInputPos(Number.MAX_SAFE_INTEGER, 'LEFT');
+        const nearest = imaskRef.current?.maskRef.masked.nearestInputPos(e.target.value.length, 'LEFT');
         if (
           typeof e.target.selectionStart === 'number' &&
           typeof nearest === 'number' &&
-          e.target.selectionStart > nearest
+          e.target.selectionStart >= nearest
         ) {
           e.target.selectionStart = nearest;
           e.target.selectionEnd = nearest;

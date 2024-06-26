@@ -166,7 +166,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} defaultValue="12:34" />
+        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} value="12:34" />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all
