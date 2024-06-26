@@ -171,12 +171,12 @@ const wrapperStyles = {
 };
 
 const NestedThemes = () => (
-  <ThemeContext.Provider value={DEFAULT_THEME_8PX_OLD}>
+  <ThemeContext.Provider value={ DEFAULT_THEME}>
     <div style={{ ...wrapperStyles, width: 750, background: '#fff' }}>
-      <ShowcaseGroup title="Default Theme Old" />
-      <ThemeContext.Provider value={DEFAULT_THEME}>
+      <ShowcaseGroup title="Default Theme" />
+      <ThemeContext.Provider value={THEME_2022}>
         <div style={{ ...wrapperStyles, background: '#fff' }}>
-          <ShowcaseGroup title="Default Theme" />
+          <ShowcaseGroup title="Theme 2022" />
           <ThemeContext.Provider value={DARK_THEME}>
             <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
               <ShowcaseGroup title="Dark Theme" />

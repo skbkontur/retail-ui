@@ -9,8 +9,7 @@ import { ThemeContext } from '../lib/theming/ThemeContext';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
-import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
-import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
+
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
@@ -37,8 +36,6 @@ const customViewports = {
 const themes = {
   DEFAULT_THEME,
   DARK_THEME,
-  DEFAULT_THEME_8PX_OLD,
-  FLAT_THEME_8PX_OLD,
   DEFAULT_THEME_MOBILE,
   THEME_2022,
   THEME_2022_DARK,
