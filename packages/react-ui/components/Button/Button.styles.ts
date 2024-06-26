@@ -1,14 +1,12 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
-import { isFirefox } from '../../lib/client';
 
 import {
   buttonUseMixin,
   buttonHoverMixin,
   buttonActiveMixin,
   buttonSizeMixin,
-  arrowOutlineMixin,
   buttonSizeMixinIE11,
 } from './Button.mixins';
 
@@ -380,101 +378,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  arrowWarning(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorWarning, t.btnOutlineWidth, t.btnInsetColor)}
-    `;
-  },
-
-  arrowError(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorError, t.btnOutlineWidth, t.btnInsetColor)}
-    `;
-  },
-
-  arrowFocus(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorFocus, t.btnOutlineWidth, t.btnOutlineColorFocus)}
-    `;
-  },
-
-  arrow() {
-    return css`
-      background: inherit;
-      border-radius: inherit;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-
-      .${globalClasses.arrowHelper} {
-        width: 100%;
-        height: 50%;
-        position: absolute;
-        left: 0;
-        background: inherit;
-        background-size: 200% 200%;
-        border-radius: inherit;
-        background-clip: padding-box;
-
-        // fix ugly arrow edge
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: inherit;
-          border-radius: inherit;
-          transform: translateX(${isFirefox ? `0.2px` : `0.3px`});
-        }
-      }
-
-      .${globalClasses.arrowHelperTop} {
-        top: 0;
-        transform: skewX(30deg);
-        transform-origin: top;
-        background-position-y: top;
-        border-bottom-right-radius: 1px;
-
-        // fix ugly line in the
-        // middle of the button
-        &:before {
-          bottom: -1px;
-        }
-      }
-
-      .${globalClasses.arrowHelperBottom} {
-        bottom: 0;
-        transform: skewX(-30deg);
-        transform-origin: bottom;
-        background-position-y: bottom;
-        border-top-right-radius: 1px;
-
-        // fix ugly line in the
-        // middle of the button
-        &:before {
-          top: -1px;
-        }
-      }
-    `;
-  },
-
-  arrowLeft() {
-    return css`
-      transform: scaleX(-1);
-    `;
-  },
-
   arrowIconRoot() {
     return css`
       position: absolute;
@@ -827,11 +730,6 @@ export const styles = memoizeStyle({
           background-image: none;
         }
       }
-    `;
-  },
-
-  checkedDisabled2022(t: Theme) {
-    return css`
       svg {
         color: ${t.btnCheckedDisabledColor} !important;
       }
@@ -852,12 +750,6 @@ export const styles = memoizeStyle({
     return css`
       display: inline;
       transform: none !important; // override root:active style
-    `;
-  },
-
-  captionTranslated() {
-    return css`
-      transform: translateY(1px);
     `;
   },
 
@@ -920,33 +812,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  wrapArrow() {
-    return css`
-      margin-right: 10px;
-    `;
-  },
-
-  wrapArrowLeft() {
-    return css`
-      margin-right: 0;
-      margin-left: 10px;
-    `;
-  },
-
   borderless() {
-    return css`
-      &:enabled,
-      &:active:hover:enabled,
-      &:hover:enabled {
-        box-shadow: none !important; // override root:hover style
-        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none !important; // override root:hover style
-        }
-      }
-    `;
-  },
-
-  borderless2022() {
     return css`
       &,
       &:active:hover,
@@ -956,13 +822,13 @@ export const styles = memoizeStyle({
     `;
   },
 
-  backlessDisabled2022(t: Theme) {
+  backlessDisabled(t: Theme) {
     return css`
       box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
     `;
   },
 
-  textDisabled2022() {
+  textDisabled() {
     return css`
       background-color: transparent;
     `;

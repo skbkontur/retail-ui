@@ -135,37 +135,3 @@ export const buttonSizeMixinIE11 = (
     line-height: normal;
   `;
 };
-
-export const arrowOutlineMixin = (
-  insetWidth: string,
-  outlineColor: string,
-  outlineWidth: string,
-  insetColor: string,
-) => {
-  return css`
-    .${globalClasses.arrowHelper} {
-      &.${globalClasses.arrowHelperTop} {
-        box-shadow:
-          inset -${insetWidth} ${insetWidth} 0 0 ${insetColor},
-          ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
-      }
-
-      &.${globalClasses.arrowHelperBottom} {
-        box-shadow:
-          inset -${insetWidth} -${insetWidth} 0 0 ${insetColor},
-          ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
-      }
-
-      // don't hide inner outline
-      // and keep the middle-line fix
-      &:before {
-        top: ${insetWidth};
-        right: ${insetWidth};
-        left: ${insetWidth};
-      }
-      &.${globalClasses.arrowHelperBottom}:before {
-        bottom: ${insetWidth};
-      }
-    }
-  `;
-};
