@@ -36,13 +36,6 @@ export const styles = memoizeStyle({
 
   shadow(t: Theme) {
     return css`
-      filter: ${t.popupDropShadow};
-      -webkit-filter: ${t.popupDropShadow};
-    `;
-  },
-
-  shadowFallback(t: Theme) {
-    return css`
       box-shadow: ${t.popupBoxShadow};
     `;
   },
