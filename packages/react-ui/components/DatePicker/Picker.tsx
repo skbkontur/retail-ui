@@ -4,7 +4,6 @@ import warning from 'warning';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { locale } from '../../lib/locale/decorators';
@@ -13,7 +12,6 @@ import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { getTodayDate } from '../Calendar/CalendarUtils';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 
@@ -117,32 +115,17 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       .setComponents(InternalDateGetter.getTodayComponents())
       .toString({ withPad: true, withSeparator: true });
 
-    if (isTheme2022(this.theme)) {
-      return (
-        <div style={{ margin: 8 }}>
-          <Button
-            data-tid={DatePickerDataTids.pickerTodayWrapper}
-            width="100%"
-            onClick={this.handleSelectToday(today)}
-            icon={<ArrowAUpIcon16Light />}
-          >
-            {this.locale.today}
-          </Button>
-        </div>
-      );
-    }
-
     return (
-      <button
-        data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
-          [styles.todayLinkWrapper(this.theme)]: true,
-        })}
-        onClick={this.handleSelectToday(today)}
-        tabIndex={-1}
-      >
-        {`${this.locale.today} ${today}`}
-      </button>
+      <div style={{ margin: 8 }}>
+        <Button
+          data-tid={DatePickerDataTids.pickerTodayWrapper}
+          width="100%"
+          onClick={this.handleSelectToday(today)}
+          icon={<ArrowAUpIcon16Light />}
+        >
+          {this.locale.today}
+        </Button>
+      </div>
     );
   }
 

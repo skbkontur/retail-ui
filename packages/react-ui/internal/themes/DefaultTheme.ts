@@ -1005,15 +1005,6 @@ export class DefaultTheme {
     return this.bgSecondary;
   }
   public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
-  public static get pickerTodayWrapperBgColor() {
-    return this.bgSecondary;
-  }
-  public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
-  public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
-  public static pickerTodayWrapperFontSize = '14px';
-  public static pickerTodayWrapperLineHeight = '20px';
-  public static pickerTodayWrapperPaddingTop = '6px';
-  public static pickerTodayWrapperPaddingBottom = '6px';
   public static pickerBorderRadius = '';
 
   public static mobileCalendarPaddingX = '16px';
