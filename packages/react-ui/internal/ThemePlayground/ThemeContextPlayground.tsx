@@ -11,8 +11,8 @@ import { ComboBox } from '../../components/ComboBox';
 import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
-import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
+import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
 
 import { ThemeEditor } from './ThemeEditor';

@@ -291,7 +291,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return (
       <span
         className={cx(jsInputStyles.icon(), className, jsInputStyles.useDefaultColor(this.theme), {
-          [jsInputStyles.iconDisabled()]: disabled,
+          [jsInputStyles.iconDisabled(this.theme)]: disabled,
         })}
       >
         {iconNode}
