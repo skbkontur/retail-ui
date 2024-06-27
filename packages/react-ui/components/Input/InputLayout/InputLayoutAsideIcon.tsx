@@ -43,19 +43,17 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     }
   }
 
-  return (
-    _icon && (
-      <span
-        style={style}
-        className={cx(
-          stylesLayout.aside(),
-          stylesLayout.icon(theme),
-          focused && stylesLayout.iconFocus(theme),
-          disabled && stylesLayout.iconDisabled(theme),
-        )}
-      >
-        {_icon}
-      </span>
-    )
-  );
+ return _icon ? (
+    <span
+      style={style}
+      className={cx(
+        stylesLayout.aside(),
+        stylesLayout.icon(theme),
+        focused && stylesLayout.iconFocus(theme),
+        disabled && stylesLayout.iconDisabled(theme),
+      )}
+    >
+      {_icon}
+    </span>
+  ) : null;
 };
