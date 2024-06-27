@@ -5,15 +5,7 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
 
-import {
-  text,
-  tooltip,
-  ValidationBehaviour,
-  ValidationContainer,
-  ValidationInfo,
-  ValidationWrapper,
-  ValidationsFeatureFlagsContext,
-} from '../src';
+import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 export default {
@@ -178,7 +170,7 @@ export const Example_6 = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+    <div style={{ height: '100vh', width: '100vw' }}>
       <ValidationContainer ref={refContainer}>
         <div style={{ padding: 50, height: 200, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 100 }}>
@@ -194,7 +186,7 @@ export const Example_6 = () => {
         </div>
         <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
       </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
+    </div>
   );
 };
 
@@ -237,44 +229,46 @@ export const Example_8 = () => {
   const submit = () => refContainer.current?.submit();
 
   return (
-    <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
-      <div
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 0,
-          right: 0,
-          left: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80,
-        }}
-      >
-        <Button onClick={() => submit()}>Отправить сверху</Button>
-      </div>
-      <div style={{ padding: 10 }}>
-        <div style={{ height: 600, backgroundColor: '#eee' }} />
-        <ValidationWrapper validationInfo={validateValue(value)}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-        <div style={{ height: 1000, backgroundColor: '#eee' }} />
-      </div>
-      <div
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 600,
-          right: 0,
-          left: 0,
-          bottom: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80,
-        }}
-      >
-        <Button onClick={() => submit()}>Отправить снизу</Button>
-      </div>
-    </ValidationContainer>
+    <div style={{ width: '100vw' }}>
+      <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 0,
+            right: 0,
+            left: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => submit()}>Отправить сверху</Button>
+        </div>
+        <div style={{ padding: 10 }}>
+          <div style={{ height: 600, backgroundColor: '#eee' }} />
+          <ValidationWrapper validationInfo={validateValue(value)}>
+            <Input value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+          <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 600,
+            right: 0,
+            left: 0,
+            bottom: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => submit()}>Отправить снизу</Button>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -381,21 +375,19 @@ export const Example_11 = () => {
         refContainer.current?.submit();
       }}
     >
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer ref={refContainer}>
-          <ValidationWrapper
-            renderMessage={tooltip('left middle')}
-            validationInfo={{ message: 'Ошибка!', type: 'submit' }}
-          >
-            <Input width="100%" placeholder={'Валидация'} />
-          </ValidationWrapper>
-          <br />
-          <br />
-          <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
-            <Input width="100%" placeholder={'Валидация'} />
-          </ValidationWrapper>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper
+          renderMessage={tooltip('left middle')}
+          validationInfo={{ message: 'Ошибка!', type: 'submit' }}
+        >
+          <Input width="100%" placeholder={'Валидация'} />
+        </ValidationWrapper>
+        <br />
+        <br />
+        <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
+          <Input width="100%" placeholder={'Валидация'} />
+        </ValidationWrapper>
+      </ValidationContainer>
       <br />
       <br />
       <br />

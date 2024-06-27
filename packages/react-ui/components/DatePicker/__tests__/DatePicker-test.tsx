@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen, waitFor, within, fireEvent } from '@testing-library/react';
+import { act, render, screen, waitFor, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -43,23 +43,23 @@ describe('DatePicker', () => {
     expect(screen.getByTestId(DatePickerDataTids.label)).toBeInTheDocument();
   });
 
-  it('renders date select when open', () => {
+  it('renders date select when open', async () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
-  it("doesn't open on focus if disabled", () => {
+  it("doesn't open on focus if disabled", async () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
-  it('closes when become disabled', () => {
+  it('closes when become disabled', async () => {
     const { rerender } = render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
     rerender(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
@@ -71,31 +71,32 @@ describe('DatePicker', () => {
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
-  it('blur() methon works', () => {
+  it('blur() methon works', async () => {
     const datePickerRef = React.createRef<DatePicker>();
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />);
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
-
-    datePickerRef.current?.blur();
+    act(() => {
+      datePickerRef.current?.blur();
+    });
     expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('handle onBlur event', () => {
+  it('handle onBlur event', async () => {
     const datePickerRef = React.createRef<DatePicker>();
     const onBlur = jest.fn();
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} onBlur={onBlur} />);
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
     datePickerRef.current?.blur();
     expect(onBlur).toHaveBeenCalled();
   });
 
-  it('handle onFocus event', () => {
+  it('handle onFocus event', async () => {
     const onFocus = jest.fn();
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(onFocus).toHaveBeenCalled();
   });
 
@@ -121,15 +122,15 @@ describe('DatePicker', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    userEvent.click(
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
           DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[5]
         }`,
       }),
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
           DatePickerLocaleHelper.get(LangCodes.ru_RU).months?.[6]
@@ -144,10 +145,9 @@ describe('DatePicker', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
-    userEvent.click(screen.getByText('2018').parentElement as Element);
-
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+    await userEvent.click(screen.getByText('2018').parentElement as Element);
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
   });
 
@@ -157,17 +157,17 @@ describe('DatePicker', () => {
         .setComponents(InternalDateGetter.getTodayComponents())
         .toString({ withPad: true, withSeparator: true });
 
-    it('render without LocaleProvider', () => {
+    it('render without LocaleProvider', async () => {
       render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
-    it('render default locale', () => {
+    it('render default locale', async () => {
       render(
         <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
           <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
@@ -176,12 +176,12 @@ describe('DatePicker', () => {
 
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
-    it('render correct locale when set langCode', () => {
+    it('render correct locale when set langCode', async () => {
       render(
         <LocaleContext.Provider value={{ locale: {}, langCode: LangCodes.en_GB }}>
           <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
@@ -191,12 +191,12 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
-    it('render custom locale', () => {
+    it('render custom locale', async () => {
       render(
         <LocaleContext.Provider
           value={{ locale: { DatePicker: { separator: InternalDateSeparator.Dash } }, langCode: LangCodes.en_GB }}
@@ -208,12 +208,12 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB, separator: InternalDateSeparator.Dash });
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
-    it('updates when langCode changes', () => {
+    it('updates when langCode changes', async () => {
       const { rerender } = render(
         <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
           <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
@@ -229,12 +229,12 @@ describe('DatePicker', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
     });
 
-    it('should rename months using locale', () => {
+    it('should rename months using locale', async () => {
       const renamedMonths = [
         'one',
         'two',
@@ -255,12 +255,12 @@ describe('DatePicker', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
     });
 
-    it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+    it.each(['', null, undefined])('should clear the value when %s passed', async (testValue) => {
       const Comp = () => {
         const [value, setValue] = useState<string | null | undefined>('24.08.2022');
 
@@ -277,12 +277,12 @@ describe('DatePicker', () => {
       const input = screen.getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(/^24.08.2022$/);
 
-      userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
       const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
       const expectedRegExp = new RegExp(`^${expected}$`);
       expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
 
-      userEvent.type(input, '24.08.2022');
+      await userEvent.type(input, '24.08.2022');
       expect(input).toHaveTextContent(/^24.08.2022$/);
     });
 
@@ -294,10 +294,10 @@ describe('DatePicker', () => {
   });
 
   describe('a11y', () => {
-    it('sets value for aria-label attribute (ru)', () => {
+    it('sets value for aria-label attribute (ru)', async () => {
       render(<DatePicker enableTodayLink onValueChange={jest.fn()} />);
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
         'aria-label',
@@ -305,14 +305,14 @@ describe('DatePicker', () => {
       );
     });
 
-    it('sets value for aria-label attribute (en)', () => {
+    it('sets value for aria-label attribute (en)', async () => {
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <DatePicker enableTodayLink onValueChange={jest.fn()} />
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
         'aria-label',
@@ -320,7 +320,7 @@ describe('DatePicker', () => {
       );
     });
 
-    it('sets custom value for `todayAriaLabel` locale', () => {
+    it('sets custom value for `todayAriaLabel` locale', async () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { todayAriaLabel: customAriaLabel } } }}>
@@ -328,11 +328,11 @@ describe('DatePicker', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
       expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute('aria-label', customAriaLabel);
     });
 
-    it('sets custom value for `selectMonthAriaLabel` locale', () => {
+    it('sets custom value for `selectMonthAriaLabel` locale', async () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { selectMonthAriaLabel: customAriaLabel } } }}>
@@ -340,15 +340,16 @@ describe('DatePicker', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].querySelector('button')).toHaveAttribute(
+      const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+      expect(monthButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} Февраль`,
       );
     });
 
-    it('sets custom value for `selectYearAriaLabel` locale', () => {
+    it('sets custom value for `selectYearAriaLabel` locale', async () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { selectYearAriaLabel: customAriaLabel } } }}>
@@ -356,15 +357,16 @@ describe('DatePicker', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${DateSelectLocalesRu.selectChosenAriaLabel} ${customAriaLabel} 2021`,
       );
     });
 
-    it('sets custom value for `selectChosenAriaLabel` locale', () => {
+    it('sets custom value for `selectChosenAriaLabel` locale', async () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { selectChosenAriaLabel: customAriaLabel } } }}>
@@ -372,15 +374,16 @@ describe('DatePicker', () => {
         </LocaleContext.Provider>,
       );
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getAllByTestId(CalendarDataTids.headerYear)[0].querySelector('button')).toHaveAttribute(
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      expect(yearButton).toHaveAttribute(
         'aria-label',
         `${customAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2021`,
       );
     });
 
-    it('sets custom value for `dayCellChooseDateAriaLabel` locale', () => {
+    it('sets custom value for `dayCellChooseDateAriaLabel` locale', async () => {
       const customAriaLabel = 'test';
       const date = '1.2.2021';
       render(
@@ -392,7 +395,7 @@ describe('DatePicker', () => {
         value: date,
       }).toA11YFormat()}`;
 
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
     });
@@ -459,9 +462,9 @@ describe('DatePicker', () => {
 
     it('should scroll on today click', async () => {
       render(<MobilePicker />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
+      await userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
 
       const today = new Date();
       const todayMonth = today.getMonth();
@@ -473,26 +476,26 @@ describe('DatePicker', () => {
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
       render(<MobilePicker initialDate={initialDate} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       const month = 10;
       const year = 2022;
       fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
-      userEvent.keyboard(`{ArrowRight}{${month + 1}}{${year}}`);
+      await userEvent.keyboard(`{ArrowRight}{${month + 1}}{${year}}`);
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
     });
 
-    it('should change value from inner input', () => {
+    it('should change value from inner input', async () => {
       const initialDate = '01.01.2011';
       render(<MobilePicker initialDate={initialDate} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       const month = 10;
       const year = 2022;
       fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
-      userEvent.keyboard(`{ArrowRight}{${month}}{${year}}`);
+      await userEvent.keyboard(`{ArrowRight}{${month}}{${year}}`);
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(`01.${month}.${year}`);
@@ -502,7 +505,7 @@ describe('DatePicker', () => {
       const initialDate = '10.10.2010';
       const expectedDate = '20.10.2010';
       render(<MobilePicker initialDate={initialDate} />);
-      userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
       const months = screen.getAllByTestId(CalendarDataTids.month);
       const currentMonth = months.find((month) => {
@@ -516,7 +519,7 @@ describe('DatePicker', () => {
       const ariaLabel = `${DatePickerLocaleHelper.get().dayCellChooseDateAriaLabel}: ${new InternalDate({
         value: expectedDate,
       }).toA11YFormat()}`;
-      userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
+      await userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(expectedDate);

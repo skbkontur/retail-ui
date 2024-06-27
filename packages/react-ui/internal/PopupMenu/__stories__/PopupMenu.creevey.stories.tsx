@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { delay } from '../../../lib/utils';
-import { CreeveyTests, Meta, Story } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { OkIcon } from '../../icons/16px';
-import { PopupMenu, PopupMenuDataTids } from '../PopupMenu';
+import { PopupMenu } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
 import { Button } from '../../../components/Button';
 
 export default {
-  title: 'PopupMenu/Functional tests',
+  title: 'PopupMenu',
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: 200,
@@ -26,20 +25,6 @@ export default {
   ],
 } as Meta;
 
-const textAlignmentTests: CreeveyTests = {
-  async opened() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-  },
-};
-
 export const WithItems: Story = () => (
   <PopupMenu caption={<Button>Click me</Button>}>
     <MenuItem>MenuItem1</MenuItem>
@@ -47,12 +32,6 @@ export const WithItems: Story = () => (
     <MenuItem>MenuItem3</MenuItem>
   </PopupMenu>
 );
-WithItems.parameters = {
-  creevey: {
-    tests: textAlignmentTests,
-    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
-  },
-};
 WithItems.storyName = 'with Items';
 
 export const WithItemsWithIcons: Story = () => (
@@ -63,12 +42,6 @@ export const WithItemsWithIcons: Story = () => (
     <MenuItem>MenuItem3</MenuItem>
   </PopupMenu>
 );
-WithItemsWithIcons.parameters = {
-  creevey: {
-    tests: textAlignmentTests,
-    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
-  },
-};
 
 export const WithItemsWithIconsWithoutTextAlignment: Story = () => (
   <PopupMenu preventIconsOffset caption={<Button>Click me</Button>}>
@@ -78,9 +51,3 @@ export const WithItemsWithIconsWithoutTextAlignment: Story = () => (
     <MenuItem>MenuItem3</MenuItem>
   </PopupMenu>
 );
-WithItemsWithIconsWithoutTextAlignment.parameters = {
-  creevey: {
-    tests: textAlignmentTests,
-    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
-  },
-};

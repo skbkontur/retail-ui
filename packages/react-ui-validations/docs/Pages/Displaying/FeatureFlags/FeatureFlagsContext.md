@@ -3,8 +3,6 @@
 ## Доступные флаги
 
     export interface ValidationsFeatureFlags {
-      validationsRemoveExtraSpans?: boolean;
-      fixedValidationTextColors?: boolean;
       darkTheme?: boolean;
     }
 
@@ -14,29 +12,15 @@
 
     import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
+    <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
 
 ## Использование
 
-### validationsRemoveExtraSpans
-
-В ValidationContainer, ValidationWrapper и ValidationText из корня удалён лишний span.
-В Validations 2.0 фича будет применена по умолчанию.
-
-    !!DemoWithCode!!FeatureFlagsExamplevalidationsRemoveExtraSpans
-
-
-### fixedValidationTextColors
-
-В ValidationText будут использоваться цвета по гайдам для error и warning.
-В Validations 2.0 фича будет применена по умолчанию.
-
-    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColors
-
 ### darkTheme
 
-На данный момент работает только в паре с **fixedValidationTextColors: true**.
-В ValidationText будут использоваться цвета по гайдам для error и warning из темной темы
+Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
+`validationsTextColorError`.
+В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
 
     !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
 

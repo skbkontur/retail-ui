@@ -118,7 +118,7 @@ export interface ComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby
    *    }
    * }}
    */
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска

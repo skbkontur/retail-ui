@@ -56,25 +56,9 @@ export const PopupPositions = [
   'right bottom',
 ] as const;
 
-export const OldPopupPositions = [
-  'top left',
-  'top center',
-  'top right',
-  'right top',
-  'right middle',
-  'right bottom',
-  'bottom right',
-  'bottom center',
-  'bottom left',
-  'left bottom',
-  'left middle',
-  'left top',
-] as const;
-
 export const DefaultPosition = PopupPositions[0];
-export const OldDefaultPosition = OldPopupPositions[0];
 
-export type PopupPositionsType = typeof PopupPositions[number];
+export type PopupPositionsType = (typeof PopupPositions)[number];
 export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
 
 export const DUMMY_LOCATION: PopupLocation = {
@@ -391,10 +375,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? React.cloneElement(anchor, {
             ref: (instance: Nullable<React.ReactInstance>) => {
               this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
+              const originalRef = (anchor as React.RefAttributes<any>)?.ref as React.RefCallback<any>;
               originalRef && callChildRef(originalRef, instance);
             },
-          })
+          } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
 
     // we need to get anchor's DOM node
@@ -725,14 +709,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
-    let positions;
-    if (this.featureFlags.popupUnifyPositioning) {
-      positions = this.reorderPropsPositionsWithPriorityPos();
-    } else if (this.props.positions) {
-      positions = this.props.positions;
-    } else {
-      positions = OldPopupPositions;
-    }
+    const positions = this.reorderPropsPositionsWithPriorityPos();
+
     const anchorElement = this.anchorElement;
 
     warning(

@@ -11,13 +11,7 @@ import {
   TokenInputType,
 } from '@skbkontur/react-ui';
 
-import {
-  FocusMode,
-  ValidationContainer,
-  ValidationContainerProps,
-  ValidationsFeatureFlagsContext,
-  ValidationWrapper,
-} from '../src';
+import { FocusMode, ValidationContainer, ValidationContainerProps, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
 
 describe('ValidationContainer', () => {
@@ -29,31 +23,6 @@ describe('ValidationContainer', () => {
     );
 
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
-  });
-
-  it('renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
-    render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer data-tid="passed-container">
-          <div />
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>,
-    );
-
-    expect(screen.getByTestId('passed-container')).toBeInTheDocument();
-  });
-
-  it('not renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
-    render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer data-tid="passed-container">
-          <div />
-          <div />
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>,
-    );
-
-    expect(screen.queryByTestId('passed-container')).toBeNull();
   });
 
   it('renders passed children', () => {

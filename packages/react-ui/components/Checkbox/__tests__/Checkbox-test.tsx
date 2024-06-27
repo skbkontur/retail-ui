@@ -68,20 +68,20 @@ describe('Checkbox', () => {
     expect(screen.getByTestId('Checkbox__root')).toHaveTextContent('test');
   });
 
-  it('handels onFocus event', () => {
+  it('handels onFocus event', async () => {
     const onFocus = jest.fn();
     render(<Checkbox onFocus={onFocus} />);
 
-    userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('checkbox'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onBlur event', () => {
+  it('handels onBlur event', async () => {
     const onBlur = jest.fn();
     render(<Checkbox onBlur={onBlur} />);
 
-    userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('checkbox'));
     screen.getByRole('checkbox').blur();
 
     expect(onBlur).toHaveBeenCalledTimes(1);
@@ -101,44 +101,44 @@ describe('Checkbox', () => {
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onValueChange event', () => {
+  it('handels onValueChange event', async () => {
     const onValueChange = jest.fn();
     render(<Checkbox onChange={onValueChange} />);
-    userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('checkbox'));
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onClick event', () => {
+  it('handels onClick event', async () => {
     const onClick = jest.fn();
     render(<Checkbox onClick={onClick} />);
-    userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('checkbox'));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('click to checkbox children sets state to checkbox', () => {
+  it('click to checkbox children sets state to checkbox', async () => {
     render(<Checkbox>Обычный чекбокс</Checkbox>);
     expect(screen.getByRole('checkbox')).not.toBeChecked();
 
-    userEvent.click(screen.getByText('Обычный чекбокс'));
+    await userEvent.click(screen.getByText('Обычный чекбокс'));
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
-  it('focuses by tab', () => {
+  it('focuses by tab', async () => {
     render(<Checkbox />);
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByRole('checkbox')).toHaveFocus();
   });
 
-  it('uncheck checked checkbox', () => {
+  it('uncheck checked checkbox', async () => {
     const checkboxRef = React.createRef<Checkbox>();
 
     render(<Checkbox ref={checkboxRef} />);
     const checkbox = screen.getByRole('checkbox');
 
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
     expect(checkbox).toBeChecked();
 
-    userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('checkbox'));
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 

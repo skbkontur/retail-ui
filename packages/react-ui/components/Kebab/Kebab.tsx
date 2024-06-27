@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
@@ -21,7 +21,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Kebab.styles';
@@ -140,36 +139,26 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderMain() {
     const { disabled } = this.props;
     const { positions, disableAnimations, onOpen, onClose } = this.getProps();
+    const hasPin = !isTheme2022(this.theme);
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
-          return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              {...this.props}
-              {...getVisualStateDataAttributes({ disabled })}
-            >
-              <PopupMenu
-                popupHasPin={hasPin}
-                preventIconsOffset={this.props.preventIconsOffset}
-                positions={positions}
-                onChangeMenuState={this.handleChangeMenuState}
-                caption={this.renderCaption}
-                disableAnimations={disableAnimations}
-                disablePortal={this.props.disablePortal}
-                menuMaxHeight={this.props.menuMaxHeight}
-                onOpen={onOpen}
-                onClose={onClose}
-                popupMenuId={this.props.popupMenuId}
-                aria-label={this.props['aria-label']}
-              >
-                {!disabled && this.props.children}
-              </PopupMenu>
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
+        <PopupMenu
+          popupHasPin={hasPin}
+          preventIconsOffset={this.props.preventIconsOffset}
+          positions={positions}
+          onChangeMenuState={this.handleChangeMenuState}
+          caption={this.renderCaption}
+          disableAnimations={disableAnimations}
+          disablePortal={this.props.disablePortal}
+          menuMaxHeight={this.props.menuMaxHeight}
+          onOpen={onOpen}
+          onClose={onClose}
+          popupMenuId={this.props.popupMenuId}
+          aria-label={this.props['aria-label']}
+        >
+          {!disabled && this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 
@@ -266,14 +255,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon2022() {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
-    if (isElement(icon) && isKonturIcon(icon)) {
+    if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
       const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),
       };
 
-      return React.cloneElement(icon, {
+      return React.cloneElement(icon as ReactElement, {
         size: icon.props.size ?? sizes[size],
         color: icon.props.color ?? this.theme.kebabIconColor,
       });

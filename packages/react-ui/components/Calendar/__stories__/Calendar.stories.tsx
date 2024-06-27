@@ -1,7 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react';
+import { action } from '@storybook/addon-actions';
 
 import { Calendar, CalendarDay, CalendarDayProps } from '../';
 import { Story } from '../../../typings/stories';
+import { Gapped } from '../../Gapped';
+import { LocaleContext } from '../../../lib/locale';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
@@ -16,15 +20,44 @@ export const CalendarWithBottomSeparator: Story = () => {
 };
 
 CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
-CalendarWithBottomSeparator.parameters = {
-  creevey: {
-    skip: {
-      "8px and 2022 themes don't affect the bottom separator": {
-        in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
-      },
-    },
-  },
+
+export const CalendarWithMinMaxDate: Story = () => {
+  const [min, setMin] = React.useState('02.07.2017');
+  const [max, setMax] = React.useState('30.01.2020');
+
+  return (
+    <Gapped vertical gap={10}>
+      <label>
+        Начало периода: <input type="text" value={min} placeholder="min" onChange={(e) => setMin(e.target.value)} />
+      </label>
+      <label>
+        Окончание периода: <input type="text" value={max} placeholder="max" onChange={(e) => setMax(e.target.value)} />
+      </label>
+      <LocaleContext.Provider
+        value={{
+          locale: { DatePicker: { order: InternalDateOrder.DMY, separator: InternalDateSeparator.Dot } },
+        }}
+      >
+        <Calendar value="02.07.2017" minDate={min} maxDate={max} onValueChange={action('pick')} />
+      </LocaleContext.Provider>
+    </Gapped>
+  );
 };
+CalendarWithMinMaxDate.storyName = 'Calendar with min max date';
+
+export const ScrollsCalendarOnDateChange: Story = () => {
+  const [date, setDate] = useState('01.01.2001');
+
+  return (
+    <>
+      <button data-tid="change-date-button" onClick={() => setDate('12.12.2012')}>
+        set new date
+      </button>
+      <Calendar value={date} onValueChange={setDate} />
+    </>
+  );
+};
+ScrollsCalendarOnDateChange.storyName = 'Scrolls Calendar on date change';
 
 const CustomDay: React.FC<CalendarDayProps> = (props) => {
   const isEven = (num: number): boolean => num % 2 === 0;

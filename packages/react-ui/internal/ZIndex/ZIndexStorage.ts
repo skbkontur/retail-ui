@@ -11,6 +11,10 @@ const calculatePriority = (priority: Priority) => {
 
 export type LayerComponentName = keyof typeof componentPriorities;
 
+export interface GlobalWithRetailUiZIndexes {
+  __RetailUiZIndexes?: number[];
+}
+
 const componentPriorities = {
   MobilePopup: 9000,
   Toast: 10000,
@@ -21,8 +25,9 @@ const componentPriorities = {
   Popup: 3,
 };
 const priorityStep = 1000;
-
-const getZIndexes = (): number[] => globalObject.__RetailUiZIndexes || (globalObject.__RetailUiZIndexes = [0]);
+const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
+const getZIndexes = (): number[] =>
+  globalWithRetailUiZIndexes.__RetailUiZIndexes || (globalWithRetailUiZIndexes.__RetailUiZIndexes = [0]);
 const getIndexPriority = (zIndex: number) => Math.trunc(zIndex / priorityStep);
 const getMaxAllowedValue = (priority: number): number => (priority + 1) * priorityStep - 1;
 

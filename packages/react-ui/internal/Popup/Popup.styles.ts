@@ -77,7 +77,9 @@ export const styles = memoizeStyle({
   },
   transitionEnterActive() {
     return css`
-      transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition:
+        transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
       transform: translate(0, 0);
     `;

@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const reactUiPath = path.resolve(__dirname, '../../react-ui/build');
 const { versions, reactUiLocalVersionStub } = require('./versions');
 
-const versionsDependencies = versions.map(x => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
+const versionsDependencies = versions.map((x) => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
 
 const dependencies = ['react', '@skbkontur/react-ui', ...new Set(versionsDependencies)];
 
@@ -23,7 +23,6 @@ function createConfig(reactVersion, reactUIVersion) {
   return {
     entry: {
       [`index_${reactVersion}_${reactUIVersion}`]: [
-        'babel-polyfill',
         './react-selenium-testing-custom-props.js',
         '../react-selenium-testing.js',
         `./${targetDir}/index.js`,
@@ -37,29 +36,35 @@ function createConfig(reactVersion, reactUIVersion) {
     module: {
       rules: [
         {
-          test: /\.(css)$/,
-          loaders: ['style-loader', 'css-loader'],
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  namedExport: false,
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.(less)$/,
-          loaders: ['style-loader', 'css-loader', 'less-loader'],
+          use: ['style-loader', 'css-loader', 'less-loader'],
         },
         {
           test: /\.(woff|eot|png|gif|ttf|woff2)$/,
-          loader: 'file-loader',
+          use: 'file-loader',
         },
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          loader: 'babel-loader',
-          query: {
-            babelrc: false,
-            // presets: [
-            //   require.resolve('babel-preset-react'),
-            //   require.resolve('babel-preset-es2015'),
-            //   require.resolve('babel-preset-stage-0'),
-            // ],
-            presets: ['@babel/preset-react', '@babel/preset-env'],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-react', '@babel/preset-env'],
+            },
           },
         },
       ],
@@ -70,6 +75,7 @@ function createConfig(reactVersion, reactUIVersion) {
     },
     plugins: [
       new webpack.DefinePlugin({
+        'process.env.retailUIVersion': JSON.stringify(process.env.RETAIL_UI_VERSION),
         'process.env.enableReactTesting': JSON.stringify(true),
         'process.env.hasKebab': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.9.0')),
         'process.env.hasPaging': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.9.0')),
@@ -84,16 +90,20 @@ function createConfig(reactVersion, reactUIVersion) {
       }),
     ],
     devServer: {
+      static: {
+        directory: path.join(__dirname, 'dist'),
+      },
       host: '0.0.0.0',
       port: 8083,
       historyApiFallback: {
-        rewrites: versions.map(version => ({
+        rewrites: versions.map((version) => ({
           from: new RegExp(`^/${version['react']}/${version['@skbkontur/react-ui']}/.*`),
           to: `/${version['react']}/${version['@skbkontur/react-ui']}/index.html`,
         })),
       },
+      hot: true,
     },
   };
 }
 
-module.exports = versions.map(version => createConfig(version['react'], version['@skbkontur/react-ui']));
+module.exports = versions.map((version) => createConfig(version['react'], version['@skbkontur/react-ui']));

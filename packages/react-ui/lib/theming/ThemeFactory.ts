@@ -5,6 +5,7 @@ import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 
 export class ThemeFactory {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
   public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
     const base = baseTheme || DefaultThemeInternal;
     return this.constructTheme(base, theme);

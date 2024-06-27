@@ -14,7 +14,6 @@ import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
-import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { globalClasses, styles } from './Link.styles';
@@ -127,27 +126,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
-  private linkFocusOutline?: boolean;
 
   public render(): JSX.Element {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.linkFocusOutline = getFullReactUIFlagsContext(flags).linkFocusOutline;
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -282,7 +273,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
-          isFocused && _isTheme2022 && this.linkFocusOutline && styles.focus2022(this.theme),
+          isFocused && _isTheme2022 && styles.focus2022(this.theme),
         );
   }
 }
