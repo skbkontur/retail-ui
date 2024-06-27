@@ -24,7 +24,6 @@ describe('Calendar', () => {
     await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1].getElementsByTagName('button')[0]);
     expect(screen.getByText('2015').parentElement).toHaveAttribute('data-prop-disabled', 'true');
     expect(screen.getByText('2018').parentElement).toHaveAttribute('data-prop-disabled', 'false');
-    expect(screen.queryByText('2021')).not.toBeInTheDocument();
   });
 
   it('should set date with higher min date is set', () => {

@@ -83,7 +83,7 @@ export interface PopupProps
   extends Omit<CommonProps, 'children'>,
     PopupHandlerProps,
     Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
-  anchorElement: React.ReactNode | HTMLElement;
+  anchorElement: React.ReactNode | Element;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
@@ -879,7 +879,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 }
 
 // Нужно, чтобы получать по рефу dom-элемент, в который зарендерится anchor
-class EmptyWrapper extends React.Component {
+type EmptyWrapperProps = Readonly<{
+  children: React.ReactNode;
+}>;
+
+class EmptyWrapper extends React.Component<EmptyWrapperProps> {
   public render() {
     return this.props.children;
   }
