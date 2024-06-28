@@ -68,12 +68,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  useDefaultColor(t: Theme) {
-    return css`
-      color: ${t.inputIconColor};
-    `;
-  },
-
   focus(t: Theme) {
     return css`
       background-color: ${t.inputFocusedBg};
@@ -329,118 +323,6 @@ export const styles = memoizeStyle({
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
       line-height: normal;
-    `;
-  },
-
-  prefix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColor};
-    `;
-  },
-
-  prefixDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
-
-  suffix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColor};
-    `;
-  },
-
-  suffixDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
-
-  sideContainer() {
-    return css`
-      align-items: center;
-      display: flex;
-      flex-shrink: 0;
-      height: 100%;
-
-      &::before {
-        content: '\\a0';
-        display: inline-block;
-        width: 0;
-      }
-    `;
-  },
-
-  rightContainer() {
-    return css`
-      justify-self: flex-end;
-      margin: 0 0 0 auto;
-      padding-left: 0;
-    `;
-  },
-
-  icon() {
-    return css`
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
-      text-align: center;
-      box-sizing: content-box !important; // fix possible "reset.css" problem
-    `;
-  },
-
-  iconFocus(t: Theme) {
-    return css`
-      color: ${t.inputFocusedIconColor};
-    `;
-  },
-
-  iconDisabled(t: Theme) {
-    return css`
-      cursor: default;
-      color: ${t.inputIconColorDisabled};
-    `;
-  },
-
-  leftIconSmall(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeSmall};
-      padding-right: ${t.inputIconGapSmall};
-    `;
-  },
-
-  rightIconSmall(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeSmall};
-      padding-left: ${t.inputIconGapSmall};
-    `;
-  },
-
-  leftIconMedium(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeMedium};
-      padding-right: ${t.inputIconGapMedium};
-    `;
-  },
-
-  rightIconMedium(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeMedium};
-      padding-left: ${t.inputIconGapMedium};
-    `;
-  },
-
-  leftIconLarge(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeLarge};
-      padding-right: ${t.inputIconGapLarge};
-    `;
-  },
-
-  rightIconLarge(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeLarge};
-      padding-left: ${t.inputIconGapLarge};
     `;
   },
 
