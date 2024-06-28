@@ -4,27 +4,28 @@ import invariant from 'invariant';
 import React, { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
 import warning from 'warning';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { InternalMaskedInput } from '../../internal/InternalMaskedInput';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { InputElement, InputElementProps } from './Input.typings';
-import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
+import { getStyles } from './Input.styles';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
@@ -196,6 +197,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private selectAllId: number | null = null;
   private theme!: Theme;
+  private emotion!: Emotion;
   private blinkTimeout: SafeTimer;
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
@@ -300,16 +302,23 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -401,8 +410,9 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const { blinking, focused } = this.state;
 
+    const styles = getStyles(this.emotion);
     const labelProps = {
-      className: cx(styles.root(this.theme), this.getSizeClassName(), {
+      className: this.emotion.cx(styles.root(this.theme), this.getSizeClassName(), {
         [styles.focus(this.theme)]: focused && !warning && !error,
         [styles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
         [styles.blink(this.theme)]: blinking,
@@ -423,7 +433,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps: InputElementProps & ClassAttributes<HTMLInputElement> = {
       ...rest,
-      className: cx(styles.input(this.theme), {
+      className: this.emotion.cx(styles.input(this.theme), {
         [styles.inputFocus(this.theme)]: focused,
         [styles.inputDisabled(this.theme)]: disabled,
       }),
@@ -482,7 +492,7 @@ export class Input extends React.Component<InputProps, InputState> {
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cx(styles.sideContainer(), styles.rightContainer())}>
+        <span className={this.emotion.cx(styles.sideContainer(), styles.rightContainer())}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -506,6 +516,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getIconSizeClassname(right = false) {
+    const styles = getStyles(this.emotion);
     switch (this.getProps().size) {
       case 'large':
         return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
@@ -531,10 +542,10 @@ export class Input extends React.Component<InputProps, InputState> {
     }
     const { disabled } = this.props;
     const iconNode = isFunction(icon) ? icon() : icon;
-
+    const styles = getStyles(this.emotion);
     return (
       <span
-        className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
+        className={this.emotion.cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
           [styles.iconFocus(this.theme)]: this.state.focused,
           [styles.iconDisabled(this.theme)]: disabled,
         })}
@@ -556,9 +567,10 @@ export class Input extends React.Component<InputProps, InputState> {
       !this.props.value &&
       !this.props.defaultValue
     ) {
+      const styles = getStyles(this.emotion);
       placeholder = (
         <div
-          className={cx(styles.placeholder(this.theme), {
+          className={this.emotion.cx(styles.placeholder(this.theme), {
             [styles.placeholderDisabled(this.theme)]: disabled,
             [styles.placeholderFocus(this.theme)]: focused,
           })}
@@ -573,20 +585,21 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
+    const styles = getStyles(this.emotion);
     switch (this.getProps().size) {
       case 'large':
-        return cx({
+        return this.emotion.cx({
           [styles.sizeLarge(this.theme)]: true,
           [styles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'medium':
-        return cx({
+        return this.emotion.cx({
           [styles.sizeMedium(this.theme)]: true,
           [styles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'small':
       default:
-        return cx({
+        return this.emotion.cx({
           [styles.sizeSmall(this.theme)]: true,
           [styles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
         });
@@ -681,9 +694,11 @@ export class Input extends React.Component<InputProps, InputState> {
     if (!prefix) {
       return null;
     }
-
+    const styles = getStyles(this.emotion);
     return (
-      <span className={cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>{prefix}</span>
+      <span className={this.emotion.cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>
+        {prefix}
+      </span>
     );
   };
 
@@ -693,9 +708,11 @@ export class Input extends React.Component<InputProps, InputState> {
     if (!suffix) {
       return null;
     }
-
+    const styles = getStyles(this.emotion);
     return (
-      <span className={cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>{suffix}</span>
+      <span className={this.emotion.cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>
+        {suffix}
+      </span>
     );
   };
 }

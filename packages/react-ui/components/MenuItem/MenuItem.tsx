@@ -3,20 +3,21 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './MenuItem.styles';
+import { getStyles } from './MenuItem.styles';
 
 /**
  * @deprecated use SizeProp
@@ -150,6 +151,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
@@ -165,23 +167,30 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {(flags) => {
           this.menuItemsAtAnyLevel = getFullReactUIFlagsContext(flags).menuItemsAtAnyLevel;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
                 return (
-                  <CommonWrapper
-                    rootNodeRef={this.setRootNode}
-                    {...getVisualStateDataAttributes({
-                      hover: this.isHover,
-                      selected: this.isSelected,
-                    })}
-                    {...this.props}
-                  >
-                    {this.renderMain}
-                  </CommonWrapper>
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = theme;
+                      return (
+                        <CommonWrapper
+                          rootNodeRef={this.setRootNode}
+                          {...getVisualStateDataAttributes({
+                            hover: this.isHover,
+                            selected: this.isSelected,
+                          })}
+                          {...this.props}
+                        >
+                          {this.renderMain}
+                        </CommonWrapper>
+                      );
+                    }}
+                  </ThemeContext.Consumer>
                 );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -253,6 +262,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private getRootSizeClassName() {
+    const styles = getStyles(this.emotion);
     switch (this.props.size) {
       case 'large':
         return styles.rootLarge(this.theme);
@@ -265,6 +275,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private getIconSizeClassName() {
+    const styles = getStyles(this.emotion);
     switch (this.props.size) {
       case 'large':
         return styles.iconLarge(this.theme);
@@ -277,6 +288,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private getWithIconSizeClassName() {
+    const styles = getStyles(this.emotion);
     switch (this.props.size) {
       case 'large':
         return styles.withIconLarge(this.theme);
@@ -308,12 +320,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = props;
 
+    const styles = getStyles(this.emotion);
     let iconElement = null;
     if (icon) {
       iconElement = (
         <div
           style={{ top: this.state.iconOffsetTop }}
-          className={cx({
+          className={this.emotion.cx({
             [styles.icon(this.theme)]: true,
             [this.getIconSizeClassName()]: true,
           })}
@@ -323,7 +336,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       );
     }
 
-    const className = cx({
+    const className = this.emotion.cx({
       [styles.root(this.theme)]: true,
       [this.getRootSizeClassName()]: true,
       [styles.rootMobile(this.theme)]: isMobile,
@@ -361,7 +374,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       >
         {iconElement}
         <span
-          className={cx({
+          className={this.emotion.cx({
             [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
           })}
           ref={this.contentRef}
@@ -372,7 +385,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {this.props.comment && (
           <div
             data-tid={MenuItemDataTids.comment}
-            className={cx({
+            className={this.emotion.cx({
               [styles.comment(this.theme)]: true,
               [styles.commentHover(this.theme)]: this.isHover,
             })}
