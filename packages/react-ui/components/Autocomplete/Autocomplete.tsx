@@ -324,7 +324,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         anchorElement={this.getAnchor()}
         disablePortal={disablePortal}
         pos={pos}
-        width={menuWidth ?? '100%'}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
         positions={[pos, ...POSITIONS]}
         margin={parseInt(this.theme.menuOffsetY) - 1}
       >

@@ -38,11 +38,7 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const NonPinnablePositions = [
-  'middle center',
-  'middle left',
-  'middle right',
-]
+export const NonPinnablePositions = ['middle center', 'middle left', 'middle right'];
 
 export const PinnablePopupPositions = [
   'top center',
@@ -57,12 +53,9 @@ export const PinnablePopupPositions = [
   'right middle',
   'right top',
   'right bottom',
-]
+];
 
-export const PopupPositions = [
-  ...PinnablePopupPositions,
-  ...NonPinnablePositions,
-] as const;
+export const PopupPositions = [...PinnablePopupPositions, ...NonPinnablePositions] as const;
 
 export const DefaultPosition = PopupPositions[0];
 
@@ -115,6 +108,7 @@ export interface PopupProps
   useWrapper?: boolean;
   ignoreHover?: boolean;
   width?: React.CSSProperties['width'];
+  minWidth?: React.CSSProperties['minWidth'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
    * (в том числе, когда он выходит за пределы экрана, но может быть проскролен в него).
@@ -517,7 +511,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private content = (children: React.ReactNode) => {
     const { backgroundColor } = this.props;
-    const width = this.getProps().width;
+    const { width, minWidth } = this.getProps();
 
     return (
       <div
@@ -527,7 +521,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       >
         <div
           className={styles.contentInner(this.theme)}
-          style={{ backgroundColor, width: this.calculateWidth(width) }}
+          style={{ backgroundColor, width: this.calculateWidth(width), minWidth: this.calculateWidth(minWidth) }}
           data-tid={PopupDataTids.contentInner}
         >
           {children}
@@ -615,7 +609,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
-      hasPin && !NonPinnablePositions.includes(positionName) && (
+      hasPin &&
+      !NonPinnablePositions.includes(positionName) && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
