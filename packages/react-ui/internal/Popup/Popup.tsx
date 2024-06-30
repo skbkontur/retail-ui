@@ -38,13 +38,16 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const PopupPositions = [
-  'top center',
-  'top left',
-  'top right',
+export const NonPinnablePositions = [
   'middle center',
   'middle left',
   'middle right',
+]
+
+export const PinnablePopupPositions = [
+  'top center',
+  'top left',
+  'top right',
   'bottom center',
   'bottom left',
   'bottom right',
@@ -54,11 +57,17 @@ export const PopupPositions = [
   'right middle',
   'right top',
   'right bottom',
+]
+
+export const PopupPositions = [
+  ...PinnablePopupPositions,
+  ...NonPinnablePositions,
 ] as const;
 
 export const DefaultPosition = PopupPositions[0];
 
 export type PopupPositionsType = (typeof PopupPositions)[number];
+export type PinnablePopupPositionsType = (typeof PinnablePopupPositions)[number];
 export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
 
 export const DUMMY_LOCATION: PopupLocation = {
@@ -598,11 +607,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderPin(positionName: string): React.ReactNode {
-    /**
-     * Box-shadow does not appear under the pin. Borders are used instead.
-     * In non-ie browsers drop-shadow filter is used. It is applying
-     * shadow to the pin too.
-     */
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
@@ -611,7 +615,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
-      hasPin && (
+      hasPin && !NonPinnablePositions.includes(positionName) && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
