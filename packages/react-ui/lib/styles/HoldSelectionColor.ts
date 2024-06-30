@@ -11,5 +11,6 @@ injectGlobal`
   input::selection,
   textarea::selection {
     color: white;
+    -webkit-text-fill-color: white;
   }
 `;

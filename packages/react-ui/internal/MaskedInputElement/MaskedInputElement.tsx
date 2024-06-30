@@ -1,197 +1,167 @@
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { IMaskInput, IMask } from 'react-imask';
+import { IMaskInputProps } from 'react-imask';
+import { globalObject, isBrowser } from '@skbkontur/global-object';
+import debounce from 'lodash.debounce';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { MaskCharLowLine } from '../MaskCharLowLine';
-import { cx } from '../../lib/theming/Emotion';
 import { InputElement, InputElementProps } from '../../components/Input';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInputElement.styles';
-import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './MaskedInputElement.helpers';
 
-export interface MaskedInputElementProps extends InputElementProps {
-  mask: string;
-  maskChar?: string | null;
-  formatChars?: { [key: string]: string };
-  alwaysShowMask?: boolean;
-  onUnexpectedInput: (value: string) => void;
-}
+export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
+  InputElementProps & {
+    maskChars: string[];
+    children: React.ReactElement;
+  };
 
 export const MaskedInputElementDataTids = {
   root: 'MaskedInput__root',
 } as const;
 
+const dictionary = new WeakMap<Element, () => void>();
+const paintText: ResizeObserverCallback = (entries) => {
+  entries.forEach((entry) => dictionary.get(entry.target)?.());
+};
+const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(debounce(paintText)) : null;
+
 export const MaskedInputElement = forwardRefAndName(
   'MaskedInputElement',
   function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
-    const [values, setValues] = useState<{ value: string; originValue: string }>(() => {
-      const value = getValue(props);
-      return { value, originValue: value };
-    });
-    const { value, originValue } = values;
-
-    const [emptyValue, setEmptyValue] = useState('');
-    const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const rootNodeRef = React.useRef<HTMLDivElement>(null);
+    const spanRef = useRef<HTMLSpanElement | null>(null);
+    const focused = useRef(false);
+    const [uncontrolledValue, setUncontrolledValue] = useState('');
+    const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
-    const expectedChangesRef = useRef(false);
-    const isFirstRender = useRef(true);
+
+    const { children, onInput, onFocus, onBlur, maskChars, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
       () => ({
         input: inputRef.current,
-        getRootNode: () => rootNodeRef.current,
+        getRootNode: () => inputRef.current,
       }),
       [],
     );
 
     useEffect(() => {
-      setEmptyValue(getEmptyValue(props.mask, props.maskChar, props.formatChars));
-    }, [props.mask, props.maskChar]);
+      if (spanRef.current) {
+        dictionary.set(spanRef.current, paintText);
+        resizeObserver?.observe(spanRef.current);
+      }
+      if (inputRef.current) {
+        dictionary.set(inputRef.current, paintText);
+        resizeObserver?.observe(inputRef.current);
+      }
+
+      return () => {
+        if (spanRef.current) {
+          dictionary.delete(spanRef.current);
+          resizeObserver?.unobserve(spanRef.current);
+        }
+        if (inputRef.current) {
+          dictionary.delete(inputRef.current);
+          resizeObserver?.unobserve(inputRef.current);
+        }
+      };
+    }, []);
 
     useEffect(() => {
-      if (isFirstRender.current) {
+      if (inputRef.current) {
+        inputStyle.current = getComputedStyle(inputRef.current);
+      }
+    });
+
+    const placeholderColor = !(props.value || props.defaultValue);
+
+    return (
+      <>
+        {React.cloneElement(children, {
+          ...inputProps,
+          onInput: handleInput,
+          onFocus: handleFocus,
+          onBlur: handleBlur,
+          inputRef,
+          className: cx(
+            props.className,
+            !props.disabled && styles.input(theme),
+            !props.disabled && placeholderColor && styles.inputPlaceholder(theme),
+          ),
+        })}
+        <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
+      </>
+    );
+
+    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+      setUncontrolledValue(e.target.value);
+
+      // iMask может изменить value после вызова onInput
+      setTimeout(paintText);
+
+      onInput?.(e);
+    }
+
+    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+      focused.current = true;
+      setTimeout(paintText);
+
+      onFocus?.(e);
+    }
+
+    function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+      focused.current = false;
+      setTimeout(paintText);
+
+      onBlur?.(e);
+    }
+
+    function paintText() {
+      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject) || props.disabled) {
         return;
       }
 
-      const value = props.value ? props.value.toString() : '';
-      setValues((values) => ({ ...values, value }));
-    }, [props.value]);
+      let shadow = spanRef.current.shadowRoot;
+      let styleEl = shadow?.getElementById('style');
+      let spanEl = shadow?.getElementById('span');
 
-    useEffect(() => {
-      isFirstRender.current = false;
-    }, []);
+      if (!(styleEl && spanEl)) {
+        shadow = spanRef.current.attachShadow({ mode: 'open' });
 
-    const {
-      mask,
-      maskChar,
-      formatChars,
-      alwaysShowMask,
-      maxLength,
-      onUnexpectedInput,
-      defaultValue,
-      style,
-      ...inputProps
-    } = props;
+        styleEl = globalObject.document.createElement('style');
+        styleEl.setAttribute('id', 'style');
 
-    const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
-    const [currentValue, left, right] = getCurrentValue({ value, originValue, emptyValue }, focused, maskChar);
+        spanEl = globalObject.document.createElement('span');
+        spanEl.setAttribute('id', 'span');
 
-    /* В rightHelper не DEFAULT_MASK_CHAR, а специальная логика для обработки подчркивания('_').
-     * Не менять на DEFAULT_MASK_CHAR
-     */
-    const rightHelper = right.split('').map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
-    const leftHelper = style?.textAlign !== 'right' && <span style={{ color: 'transparent' }}>{left}</span>;
-    const isMaskVisible = alwaysShowMask || focused;
-
-    return (
-      <span
-        data-tid={MaskedInputElementDataTids.root}
-        ref={rootNodeRef}
-        className={styles.container()}
-        x-ms-format-detection="none"
-      >
-        <IMaskInput
-          {...inputProps}
-          mask={mask}
-          definitions={getDefinitions(formatChars)}
-          eager
-          overwrite={'shift'}
-          onAccept={handleAccept}
-          onInput={handleInput}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          value={currentValue}
-          inputRef={inputRef}
-          style={{ ...style }}
-        />
-        {isMaskVisible && (
-          <span className={cx(styles.inputMask(theme), leftClass)}>
-            {leftHelper}
-            {rightHelper}
-          </span>
-        )}
-      </span>
-    );
-
-    function getValue(props: MaskedInputElementProps): string {
-      return (props.value ?? props.defaultValue ?? '').toString();
-    }
-
-    /** В imask вызывается только когда значение с маской меняется*/
-    function handleAccept(value: string) {
-      expectedChangesRef.current = true;
-      // Если разделить на 2 setState - между первым и вторым происходит рендер и иногда символы "съедаются"
-      setValues({ value, originValue: value });
-
-      setTimeout(() => {
-        /** При вводе с клавиатуры срабатывает handleAccept, за ним handleInput
-         * expectedChanges - нужен чтобы сообщить из handleAccept в handleInput, что значение с маской изменилось.
-         * Если маска не изменилась и сработал handleInput, вызываем handleUnexpectedInput. Ввели значение не по маске.
-         * setTimeout нужен чтобы сбросить expectedChanges, например, если изменилось значение в пропах.
-         * Маска изменится, вызовется handleAccept, но не handleInput
-         */
-        expectedChangesRef.current = false;
-      });
-    }
-
-    /** Отслеживаем неправильные нажатия,
-     * handleAccept не вызывается когда значение с маской не меняется, а handleInput вызывается
-     * Сначала вызывается handleAccept, затем handleInput
-     * */
-    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      const value = e.target.value;
-
-      if (!expectedChangesRef.current && value === originValue) {
-        handleUnexpectedInput();
+        shadow.appendChild(styleEl);
+        shadow.appendChild(spanEl);
       }
 
-      expectedChangesRef.current = false;
-    }
+      const style = inputStyle.current;
 
-    function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
-      setFocused(true);
+      const val =
+        focused.current || uncontrolledValue || props.value || props.defaultValue
+          ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
+          : '';
 
-      expectedChangesRef.current = false;
+      styleEl.textContent = `<style> * { font: ${style.font}; } </style>`;
+      spanEl.textContent = val;
 
-      if (props.onFocus) {
-        props.onFocus(event);
-      }
-    }
+      const inputRect = inputRef.current.getBoundingClientRect();
+      const filledRect = spanRef.current.getBoundingClientRect();
 
-    function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
-      if (value === getFocusPrefix(emptyValue, maskChar)) {
-        setValues({ value: '', originValue: '' });
-      }
+      const threshold = filledRect.width / (inputRect.width / 100);
+      const degree = style.fontStyle === 'italic' ? 100 : 90;
 
-      setFocused(false);
-
-      if (props.onBlur) {
-        props.onBlur(event);
-      }
-    }
-
-    function handleUnexpectedInput() {
-      if (props.onUnexpectedInput) {
-        props.onUnexpectedInput(value);
-      }
-    }
-
-    function getEmptyValue(
-      mask: MaskedInputElementProps['mask'],
-      maskChar: MaskedInputElementProps['maskChar'],
-      formatChars: MaskedInputElementProps['formatChars'],
-    ): string {
-      const maskPattern = IMask.createMask({
-        mask,
-        definitions: getDefinitions(formatChars),
-        lazy: false,
-        placeholderChar: getMaskChar(maskChar),
-      });
-      return maskPattern.appendTail('').inserted;
+      inputRef.current.style.backgroundImage = `
+      linear-gradient(
+          ${degree}deg,
+          ${theme.inputTextColor} ${threshold}%,
+          ${theme.placeholderColor} ${threshold}%
+      )`;
     }
   },
 );

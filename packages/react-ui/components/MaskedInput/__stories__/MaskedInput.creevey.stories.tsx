@@ -10,7 +10,7 @@ export default {
   title: 'MaskedInput/Functional tests',
   parameters: {
     creevey: {
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     },
   },
 } as Meta;
@@ -113,25 +113,42 @@ WithCustomUnmaskedValue.parameters = {
   },
 };
 
-export const SelectAllByProp: Story = () => (
-  <MaskedInput mask="+7 999 999-99-99" defaultValue="+798765" selectAllOnFocus />
-);
+export const SelectAllByProp: Story = () => {
+  const [value, setValue] = React.useState('12');
+  return (
+    <div>
+      <MaskedInput mask="9999" maskChar="_" value={value} onValueChange={setValue} selectAllOnFocus alwaysShowMask />
+    </div>
+  );
+};
 
 SelectAllByProp.parameters = {
   creevey: {
+    skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     tests: {
-      async 'Plain focused'() {
+      async PlainAndSelected() {
         const plain = await this.takeScreenshot();
-
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
           .perform();
-
-        const focused = await this.takeScreenshot();
-        await this.expect({ plain, focused }).to.matchImages();
+        const selectAllHalfFilledInput = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('1234')
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
+          .perform();
+        const selectAllFilledInput = await this.takeScreenshot();
+        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
       },
     },
   },
@@ -149,7 +166,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} defaultValue="12:34" />
+        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} value="12:34" />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all
@@ -230,7 +247,7 @@ const testRewriteInMiddle: CreeveyTests = {
   },
 };
 
-export const RewriteInMiddle: Story = () => <MaskedInput width="150" value={'34'} mask="9999" alwaysShowMask />;
+export const RewriteInMiddle: Story = () => <MaskedInput width="150" defaultValue={'34'} mask="9999" alwaysShowMask />;
 
 RewriteInMiddle.parameters = {
   creevey: {
