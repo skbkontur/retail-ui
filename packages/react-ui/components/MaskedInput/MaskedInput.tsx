@@ -107,15 +107,6 @@ export const MaskedInput = forwardRefAndName(
       }
     }, []);
 
-    // useEffect(() => {
-    //   inputRef.current &&
-    //     (inputRef.current.selectAll = () => {
-    //       setTimeout(() => {
-    //         inputRef.current?.setSelectionRange(0, 999);
-    //       });
-    //     });
-    // }, []);
-
     const imaskProps = getCompatibleIMaskProps();
 
     return (
@@ -183,8 +174,6 @@ export const MaskedInput = forwardRefAndName(
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
       const [value, , e] = args;
 
-      onAccept?.(...args);
-
       /**
        * Метод `onAccept` может вызываться при монтировании, если не задан проп `defaultValue`.
        * Но нативный `input` никогда не вызывает `onChange` при монтировании.
@@ -194,6 +183,8 @@ export const MaskedInput = forwardRefAndName(
        * Если его нет, значит `imask` вызывал `onAccept` по некой собственной логике.
        */
       e && onValueChange?.(value);
+
+      onAccept?.(...args);
     }
 
     /**

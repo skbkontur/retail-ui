@@ -159,6 +159,22 @@ describe('MaskedInput', () => {
     });
   });
 
+  describe('paste value works', () => {
+    it.each<[string, string, string]>([
+      ['9-9-9-9', '123', '1-2-3-'],
+      ['9-9-9-9', '12', '1-2-'],
+      ['9-9-9-9', '1-', '1-'],
+      ['9-9-9-9', '1-2-3', '1-2-3-'],
+    ])(`%s > %s > "%s"`, (mask, paste, expected) => {
+      render(<MaskedInput mask={mask} alwaysShowMask={null} />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      userEvent.paste(input, paste);
+
+      expect(input).toHaveValue(expected);
+    });
+  });
+
   describe('compare with Input', () => {
     const getTyped = (Comp: unknown, props: unknown) => {
       return [Comp, props] as typeof Comp extends typeof MaskedInput
@@ -220,16 +236,23 @@ describe('MaskedInput', () => {
         expect(valueChangeEvent).not.toHaveBeenCalled();
       });
 
-      it('onValueChange fires the same number of times as input event', () => {
-        const valueChangeEvent = jest.fn();
-        render(<Comp {...props} onValueChange={valueChangeEvent} />);
+      it.each([
+        ['onKeyPress', fireEvent.keyPress, { key: 'Enter', code: 'Enter', charCode: 13 }],
+        ['onKeyDown', fireEvent.keyDown, { key: '1' }],
+        ['onKeyUp', fireEvent.keyUp, { key: '1' }],
+        ['onFocus', fireEvent.focus, {}],
+        ['onBlur', fireEvent.blur, {}],
+        ['onInput', fireEvent.input, { key: '1' }],
+        ['onPaste', fireEvent.paste, 1],
+        // ['onChange', 1],     imask перехватывает onChange, поэтому его тестировать не надо
+      ])('event "%s" fires the same number of times as input event', (eventName, method, event) => {
+        const handler = jest.fn();
+        render(<Comp defaultValue="123" {...{ ...props, [eventName]: handler }} />);
         const input = screen.getByRole('textbox');
 
-        userEvent.type(input, '1');
-        userEvent.type(input, '2');
-        userEvent.type(input, '3');
+        method(input, event);
 
-        expect(valueChangeEvent).toHaveBeenCalledTimes(3);
+        expect(handler).toHaveBeenCalledTimes(1);
       });
     });
   });
