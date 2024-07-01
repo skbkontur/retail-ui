@@ -265,10 +265,11 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           opened
           pos={pos}
           hasShadow
+          minWidth="100%"
           anchorElement={anchorElement}
           positions={[pos, ...POSITIONS]}
           disablePortal={this.props.disablePortal}
-          margin={parseInt(this.theme.menuOffsetY)}
+          margin={parseInt(this.theme.menuOffsetY) - 1}
           ref={this.dropdownContainerRef}
         >
           {this.getComboBoxMenu()}

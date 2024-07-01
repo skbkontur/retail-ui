@@ -23,6 +23,7 @@ export const styles = memoizeStyle({
       border-radius: ${t.popupBorderRadius};
       flex-shrink: 0;
       line-height: normal;
+      max-width: 100%;
     `;
   },
 
