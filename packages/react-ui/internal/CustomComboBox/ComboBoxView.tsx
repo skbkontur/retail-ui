@@ -157,13 +157,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   public componentDidMount() {
+    this.updateAnchorElement();
+
     if (this.props.autoFocus && this.props.onFocus) {
       this.props.onFocus();
     }
   }
 
-  public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
-    const { input, props } = this;
+  updateAnchorElement() {
     const parent = this.getParent();
     const anchorElement = this.state.anchorElement;
 
@@ -172,6 +173,12 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         anchorElement: parent,
       });
     }
+  }
+
+  public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
+    const { input, props } = this;
+
+    this.updateAnchorElement();
 
     if (props.editing && !prevProps.editing && input) {
       input.focus();
