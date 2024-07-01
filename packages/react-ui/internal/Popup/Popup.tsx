@@ -418,7 +418,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <EmptyWrapper ref={ref}>
         {anchor}
         {location && (
-          <div ref={this.updateRelativeElement} className={styles.relativeParent()}>
+          <div ref={this.updateRelativeElement} className={styles.relativeParent(this.theme)}>
             {this.renderContent(location)}
           </div>
         )}
@@ -503,7 +503,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private calculateWidth = (width: PopupProps['width']) => {
     if (typeof width === 'string' && width.includes('%')) {
-      const anchorWidth = Math.floor(getDOMRect(this.anchorElement).width);
+      const anchorWidth = getDOMRect(this.anchorElement).width;
       return this.anchorElement ? (anchorWidth * parseFloat(width)) / 100 : 0;
     }
     return width;

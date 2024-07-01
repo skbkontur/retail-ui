@@ -498,12 +498,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         opened
         pos={pos}
         hasShadow
+        minWidth="100%"
         id={this.menuId}
         data-tid={SelectDataTids.menu}
         positions={[pos, ...POSITIONS]}
         anchorElement={this.popupGetParent()}
         disablePortal={this.props.disablePortal}
-        margin={parseInt(this.theme.menuOffsetY)}
+        margin={parseInt(this.theme.menuOffsetY) - 1}
         width={this.props.menuWidth}
         popupOffset={this.props.menuOffset}
       >

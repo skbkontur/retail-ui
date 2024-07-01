@@ -8,6 +8,7 @@ export const styles = memoizeStyle({
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
       display: flex;
+      width: max-content;
     `;
   },
 
@@ -23,7 +24,6 @@ export const styles = memoizeStyle({
       border-radius: ${t.popupBorderRadius};
       flex-shrink: 0;
       line-height: normal;
-      max-width: 100%;
     `;
   },
 
@@ -84,9 +84,13 @@ export const styles = memoizeStyle({
       transform: translate(0, 0);
     `;
   },
-  relativeParent() {
+  relativeParent(t: Theme) {
     return css`
       position: relative;
+
+      ${this.content(t)} {
+        max-width: 100%;
+      }
     `;
   },
 });
