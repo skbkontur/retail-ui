@@ -5,7 +5,6 @@ export const styles = memoizeStyle({
   popup(t: Theme) {
     return css`
       position: absolute;
-      min-width: 18px;
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
       display: flex;
