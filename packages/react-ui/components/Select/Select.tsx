@@ -27,12 +27,10 @@ import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
@@ -421,7 +419,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
-    const icon = isTheme2022(this.theme) ? <ArrowDownIcon size={this.props.size} /> : <ArrowChevronDownIcon />;
+    const icon = <ArrowDownIcon size={this.props.size} />;
 
     return (
       <Button {...buttonProps}>
