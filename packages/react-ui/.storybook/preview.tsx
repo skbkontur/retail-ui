@@ -9,7 +9,6 @@ import { ThemeContext } from '../lib/theming/ThemeContext';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
-
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
