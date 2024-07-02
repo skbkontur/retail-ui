@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.0...@skbkontur/react-ui@4.25.1) (2024-06-17)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
+# [4.25.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.24.0...@skbkontur/react-ui@4.25.0) (2024-06-17)
+
+
+### Features
+
+* update colors 2024 ([#3447](https://github.com/skbkontur/retail-ui/issues/3447)) ([85dd419](https://github.com/skbkontur/retail-ui/commit/85dd41988a9ceca49815560e38d3ed6f5c25db96))
+* **validations:** use `ThemeContext` ([#3446](https://github.com/skbkontur/retail-ui/issues/3446)) ([74fd90b](https://github.com/skbkontur/retail-ui/commit/74fd90b337968eed217a478bf913e6ce2f7fe962))
+
+
+
+
+
 # [4.24.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.23.0...@skbkontur/react-ui@4.24.0) (2024-06-05)
 
 
