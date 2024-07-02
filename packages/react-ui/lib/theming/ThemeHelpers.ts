@@ -58,11 +58,6 @@ export const markAsTheme2022: Marker = (theme) => {
   });
 };
 
-export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
-  // @ts-expect-error: internal value.
-  return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
-};
-
 export function findPropertyDescriptor(theme: Theme, propName: string) {
   // TODO: Rewrite for loop.
   // TODO: Enable `no-param-reassign` rule.
