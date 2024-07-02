@@ -82,7 +82,8 @@ export const CalendarWithCustomCellSize: Story = () => {
   return (
     <ThemeContext.Provider
       value={ThemeFactory.create({
-        calendarCellSize: '50px',
+        calendarCellHeight: '50px',
+        calendarCellWidth: '50px',
       })}
     >
       <Calendar value={'12.05.2022'} />;

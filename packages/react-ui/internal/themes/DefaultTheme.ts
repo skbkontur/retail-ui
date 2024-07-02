@@ -948,12 +948,9 @@ export class DefaultTheme {
   public static calendarCellBorderRadius = '9999px';
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
-  public static calendarCellSize = '32px'; // deprecated
-  public static get calendarCellHeight() {
-    return this.calendarCellSize;
-  }
+  public static calendarCellHeight = '32px';
   public static get calendarCellWidth() {
-    return this.calendarCellSize;
+    return this.calendarCellHeight;
   }
   public static calendarCellFontSize = '14px';
   public static get calendarCellLineHeight() {
