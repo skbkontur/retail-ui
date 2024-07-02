@@ -84,13 +84,9 @@ export const styles = memoizeStyle({
       transform: translate(0, 0);
     `;
   },
-  relativeParent(t: Theme) {
+  relativeParent() {
     return css`
       position: relative;
-
-      ${this.content(t)} {
-        max-width: 100%;
-      }
     `;
   },
 });

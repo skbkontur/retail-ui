@@ -492,27 +492,27 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const pos = this.getPos();
     const value = this.getValue();
+    const { menuWidth } = this.props;
 
     return (
       <Popup
         opened
         pos={pos}
         hasShadow
-        minWidth="100%"
         id={this.menuId}
         data-tid={SelectDataTids.menu}
         positions={[pos, ...POSITIONS]}
         anchorElement={this.popupGetParent()}
         disablePortal={this.props.disablePortal}
         margin={parseInt(this.theme.menuOffsetY) - 1}
-        width={this.props.menuWidth}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
         popupOffset={this.props.menuOffset}
       >
         <Menu
           hasMargin={false}
           hasShadow={false}
           ref={this.refMenu}
-          width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
           align={this.props.menuAlign}
