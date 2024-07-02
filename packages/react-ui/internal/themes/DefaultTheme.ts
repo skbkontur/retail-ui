@@ -1044,11 +1044,9 @@ export class DefaultTheme {
   public static get pagingForwardIconSize() {
     return this.pagingFontSize;
   }
-  public static pagingForwardIconMarginTop = '1px';
   public static pagingPageLinkBoxSizing = 'content-box';
   public static pagingPageLinkPaddingX = '0.625em';
   public static pagingPageLinkPaddingY = '0.3125em';
-  public static pagingPageLinkLegacyPaddingY = '0px';
   public static pagingPageLinkMinWidth = '0.75em';
   public static pagingPageForwardLinkMarginTop = '0.35em';
   public static pagingPageForwardLinkMarginLeft = '10px';
@@ -1072,9 +1070,6 @@ export class DefaultTheme {
   public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
-  }
-  public static get pagingForwardLinkDisabledColor() {
-    return this.linkDisabledColor;
   }
   public static get pagingDotsDisabledColor() {
     return this.textColorDisabled;
