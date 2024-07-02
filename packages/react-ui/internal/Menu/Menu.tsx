@@ -26,6 +26,7 @@ import { MenuContext } from './MenuContext';
 export interface MenuProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
   hasShadow?: boolean;
+  hasMargin?: boolean;
   /**
    * Максимальная высота применяется только для скролл контейнера
    *
@@ -72,6 +73,7 @@ type DefaultProps = Required<
     MenuProps,
     | 'align'
     | 'width'
+    | 'hasMargin'
     | 'maxHeight'
     | 'hasShadow'
     | 'preventWindowScroll'
@@ -90,6 +92,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     align: 'left',
     width: 'auto',
     maxHeight: 300,
+    hasMargin: true,
     hasShadow: true,
     preventWindowScroll: true,
     cyclicSelection: true,
@@ -203,7 +206,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
-    const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
+    const { hasMargin, hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
     const offsetY = isTheme2022(this.theme)
       ? {
@@ -219,6 +222,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
         data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
+          [styles.hasMargin(this.theme)]: hasMargin,
           [styles.mobileRoot(this.theme)]: isMobile,
           [styles.shadow(this.theme)]: hasShadow && !isMobile,
         })}

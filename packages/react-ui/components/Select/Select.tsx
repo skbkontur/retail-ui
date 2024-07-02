@@ -14,7 +14,6 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonUse } from '../Button';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -36,6 +35,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -53,6 +53,8 @@ export interface ButtonParams
   isPlaceholder: boolean;
   size: SizeProp;
 }
+
+const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
 
 const PASS_BUTTON_PROPS = {
   disabled: true,
@@ -85,18 +87,19 @@ type SelectItem<TValue, TItem> =
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
+  menuOffset?: number;
   /**
    * Отключает использование портала
    */
   disablePortal?: boolean;
   disabled?: boolean;
+  focusOnSelect?: boolean;
   /**
    * Состояние валидации при ошибке.
    */
@@ -129,6 +132,10 @@ export interface SelectProps<TValue, TItem>
   items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom' | 'middle';
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
   onValueChange?: (value: TValue) => void;
@@ -183,7 +190,18 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 type DefaultProps<TValue, TItem> = Required<
-  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
+  Pick<
+    SelectProps<TValue, TItem>,
+    | 'menuPos'
+    | 'menuAlign'
+    | 'focusOnSelect'
+    | 'renderValue'
+    | 'renderItem'
+    | 'areValuesEqual'
+    | 'filterItem'
+    | 'use'
+    | 'size'
+  >
 >;
 
 @responsiveLayout
@@ -202,6 +220,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
+    menuPos: 'bottom',
+    menuAlign: 'left',
+    focusOnSelect: true,
   };
 
   public static Item = Item;
@@ -285,7 +306,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    * @public
    */
   public focus = () => {
-    if (this.buttonElement && this.buttonElement.focus) {
+    if (this.props.focusOnSelect && this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
   };
@@ -308,6 +329,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
+    const dataTid = this.getProps()['data-tid'] ?? SelectDataTids.root;
     const button = (
       <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
         {this.getButton(buttonParams)}
@@ -323,7 +345,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const root = (
       <span
-        data-tid={SelectDataTids.root}
+        data-tid={dataTid}
         className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
         style={style}
       >
@@ -459,25 +481,38 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return arrowLeftPadding;
   }
 
+  private getPos = () => {
+    const { menuPos, menuAlign } = this.getProps();
+
+    return `${menuPos} ${menuAlign}` as PopupPositionsType;
+  };
+
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? this.getSearch() : null;
 
+    const pos = this.getPos();
     const value = this.getValue();
-    const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
+    const { menuWidth } = this.props;
 
     return (
-      <DropdownContainer
+      <Popup
+        opened
+        pos={pos}
+        hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        getParent={this.dropdownContainerGetParent}
-        align={this.props.menuAlign}
+        positions={[pos, ...POSITIONS]}
+        anchorElement={this.popupGetParent()}
         disablePortal={this.props.disablePortal}
-        hasFixedWidth={hasFixedWidth}
-        menuPos={this.props.menuPos}
+        margin={parseInt(this.theme.menuOffsetY) - 1}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
+        popupOffset={this.props.menuOffset}
       >
         <Menu
+          hasMargin={false}
+          hasShadow={false}
           ref={this.refMenu}
-          width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
           align={this.props.menuAlign}
@@ -485,7 +520,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           {search}
           {this.getMenuItems(value)}
         </Menu>
-      </DropdownContainer>
+      </Popup>
     );
   }
 
@@ -569,7 +604,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   };
 
-  private dropdownContainerGetParent = () => {
+  private popupGetParent = () => {
     return getRootNode(this);
   };
 

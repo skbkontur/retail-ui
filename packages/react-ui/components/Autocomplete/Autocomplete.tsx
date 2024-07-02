@@ -9,7 +9,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -22,6 +21,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -46,7 +46,6 @@ function renderItem(item: any) {
 
 export interface AutocompleteProps
   extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
     Pick<AriaAttributes, 'aria-label'>,
     Override<
       InputProps,
@@ -80,7 +79,12 @@ export interface AutocompleteProps
          */
         mobileMenuHeaderText?: string;
       }
-    > {}
+    > {
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
+}
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -88,6 +92,8 @@ export interface AutocompleteState {
   focused: boolean;
   isMobileOpened: boolean;
 }
+
+const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
 
 export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
@@ -101,7 +107,14 @@ export const AutocompleteIds = {
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
-    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'menuAlign' | 'preventWindowScroll'
+    | 'renderItem'
+    | 'size'
+    | 'disablePortal'
+    | 'hasShadow'
+    | 'menuMaxHeight'
+    | 'menuPos'
+    | 'menuAlign'
+    | 'preventWindowScroll'
   >
 >;
 
@@ -143,6 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public static defaultProps: DefaultProps = {
     renderItem,
     size: 'small',
+    menuPos: 'bottom',
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,
@@ -279,14 +293,21 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return null;
   }
 
+  private getPos = () => {
+    const { menuPos, menuAlign } = this.getProps();
+
+    return `${menuPos} ${menuAlign}` as PopupPositionsType;
+  };
+
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal, menuPos } =
-      this.getProps();
+    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, disablePortal } = this.getProps();
+    const pos = this.getPos();
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
-      hasShadow,
+      hasShadow: false,
+      hasMargin: false,
       width: menuWidth || (width && getDOMRect(this.rootSpan).width),
       preventWindowScroll,
     };
@@ -295,16 +316,21 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return (
-      <DropdownContainer
+      <Popup
+        opened
+        hasShadow={hasShadow}
         id={this.menuId}
         data-tid={AutocompleteDataTids.menu}
-        getParent={this.getAnchor}
-        align={menuAlign}
+        anchorElement={this.getAnchor()}
         disablePortal={disablePortal}
-        menuPos={menuPos}
+        pos={pos}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
+        positions={[pos, ...POSITIONS]}
+        margin={parseInt(this.theme.menuOffsetY) - 1}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>
-      </DropdownContainer>
+      </Popup>
     );
   }
 

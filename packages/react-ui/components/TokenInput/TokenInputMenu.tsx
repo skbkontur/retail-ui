@@ -22,6 +22,10 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
    */
   popupMenuId?: HTMLProps['id'];
   size?: TokenSize;
+  /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -90,6 +94,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       <Popup
         id={this.props.popupMenuId}
         data-tid={TokenInputDataTids.tokenInputMenu}
+        disablePortal={this.props.disablePortal}
         opened={!!opened}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}
@@ -106,6 +111,8 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         <ComboBoxMenu
           items={items}
           loading={loading}
+          hasMargin={false}
+          hasShadow={false}
           maxMenuHeight={maxMenuHeight}
           onValueChange={onValueChange}
           opened={opened}

@@ -7,7 +7,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
-import { PopupPositionsType, PopupPositions } from '../../../internal/Popup';
+import { PopupPositionsType, PinnablePopupPositions } from '../../../internal/Popup';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { Textarea } from '../../Textarea';
 import { Checkbox } from '../../Checkbox';
@@ -185,7 +185,7 @@ HoverOnChildOnly.parameters = { creevey: { skip: true } };
 
 export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ padding: '150px', width: '500px' }}>
-    {PopupPositions.reduce(
+    {PinnablePopupPositions.reduce(
       (child, position) => (
         <Tooltip useWrapper={false} render={() => position} pos={position}>
           {child}

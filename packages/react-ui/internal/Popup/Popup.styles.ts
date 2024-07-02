@@ -5,10 +5,10 @@ export const styles = memoizeStyle({
   popup(t: Theme) {
     return css`
       position: absolute;
-      min-width: 18px;
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
       display: flex;
+      width: max-content;
     `;
   },
 
@@ -36,13 +36,6 @@ export const styles = memoizeStyle({
 
   shadow(t: Theme) {
     return css`
-      filter: ${t.popupDropShadow};
-      -webkit-filter: ${t.popupDropShadow};
-    `;
-  },
-
-  shadowFallback(t: Theme) {
-    return css`
       box-shadow: ${t.popupBoxShadow};
     `;
   },
@@ -56,6 +49,9 @@ export const styles = memoizeStyle({
     return css`
       transform: translateY(10px);
     `;
+  },
+  'transition-enter-middle'() {
+    return css``;
   },
   'transition-enter-bottom'() {
     return css`
@@ -86,6 +82,11 @@ export const styles = memoizeStyle({
       opacity: 0.01;
       transition: opacity 0.15s ease-out;
       transform: translate(0, 0);
+    `;
+  },
+  relativeParent() {
+    return css`
+      position: relative;
     `;
   },
 });
