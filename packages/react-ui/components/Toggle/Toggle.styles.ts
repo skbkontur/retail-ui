@@ -168,26 +168,6 @@ export const styles = memoizeStyle({
           background: ${t.toggleCheckedBgHover};
         }
       }
-    `;
-  },
-  inputSmall(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
-    `;
-  },
-  inputMedium(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
-    `;
-  },
-  inputLarge(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
-    `;
-  },
-
-  input2022(t: Theme) {
-    return css`
       &:enabled {
         ~ .${globalClasses.container}, ~ .${globalClasses.handle} {
           transition: 0.2s ease-in;
@@ -259,6 +239,21 @@ export const styles = memoizeStyle({
       }
     `;
   },
+  inputSmall(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
+    `;
+  },
+  inputMedium(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
+    `;
+  },
+  inputLarge(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
+    `;
+  },
 
   container(t: Theme) {
     return css`
@@ -299,31 +294,6 @@ export const styles = memoizeStyle({
       box-shadow:
         0 0 0 1px ${t.toggleOutlineColorFocus},
         0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
-    `;
-  },
-
-  activeBackground() {
-    return css`
-      background: inherit;
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      top: 0;
-      transition: 0.2s ease-in;
-      width: 10px;
-    `;
-  },
-
-  disabledBackground(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabled};
-      width: 0;
-    `;
-  },
-
-  activeBackgroundLoading(t: Theme) {
-    return css`
-      background: ${t.toggleBgActive};
     `;
   },
 

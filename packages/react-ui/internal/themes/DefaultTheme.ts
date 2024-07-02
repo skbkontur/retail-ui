@@ -1578,7 +1578,6 @@ export class DefaultTheme {
   }
 
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
-  public static toggleBgActive = '#e5e5e5';
   public static get toggleShadowColorError() {
     return this.errorMain;
   }
