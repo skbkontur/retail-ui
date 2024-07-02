@@ -212,3 +212,14 @@ const renderExampleRow = (title, styles, index) => {
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
 ```
+
+
+Кнопка может быть узкой
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button narrow>
+  Создать отчет
+</Button>
+```
