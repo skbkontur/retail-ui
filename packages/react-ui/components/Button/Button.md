@@ -223,3 +223,19 @@ import { Button } from '@skbkontur/react-ui';
   Создать отчет
 </Button>
 ```
+
+
+У кнопки есть состояния валидации
+
+```jsx harmony
+import { Gapped, Button } from '@skbkontur/react-ui';
+
+<Gapped gap={5}>
+  <Button warning>
+    Warning
+  </Button>
+  <Button error>
+    Error
+  </Button>
+</Gapped>
+```
