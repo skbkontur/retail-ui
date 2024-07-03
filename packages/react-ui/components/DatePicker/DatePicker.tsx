@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Popup, PopupPositionsType } from '../../internal/Popup';
+import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
@@ -42,7 +42,16 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
+export const DatePickerPositions = [
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'top left',
+  'top center',
+  'top right',
+] as const;
+
+export type DatePickerPositionsType = (typeof DatePickerPositions)[number];
 
 export const MIN_WIDTH = 120;
 
@@ -61,11 +70,6 @@ export interface DatePickerProps
   error?: boolean;
   /** Отключает использование портала */
   disablePortal?: boolean;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom';
-  menuAlign?: 'left' | 'right';
   size?: SizeProp;
   value?: string | null;
   /**
@@ -91,6 +95,7 @@ export interface DatePickerProps
    * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
+  positions?: Readonly<DatePickerPositionsType[]>;
 }
 
 export interface DatePickerState {
@@ -107,7 +112,7 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps = Required<Pick<DatePickerProps, 'menuPos' | 'minDate' | 'maxDate' | 'menuAlign'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'positions'>>;
 
 @responsiveLayout
 @rootNode
@@ -134,10 +139,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
      * Максимальная дата в календаре.
      */
     maxDate: PropTypes.string.isRequired,
-
-    menuPos: PropTypes.oneOf(['top', 'bottom']),
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Минимальная дата в календаре.
@@ -175,10 +176,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   };
 
   public static defaultProps: DefaultProps = {
-    menuPos: 'top',
-    menuAlign: 'left',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
+    positions: DatePickerPositions,
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
@@ -286,15 +286,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     );
   }
 
-  private getPos = () => {
-    const { menuPos, menuAlign } = this.getProps();
-
-    return `${menuPos} ${menuAlign}` as PopupPositionsType;
-  };
-
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
     let picker = null;
-    const pos = this.getPos();
 
     const { minDate, maxDate } = this.getProps();
 
@@ -333,9 +326,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             <Popup
               opened
               hasShadow
-              pos={pos}
               disablePortal={this.props.disablePortal}
-              positions={[pos, ...POSITIONS]}
+              positions={this.props.positions}
               data-tid={DatePickerDataTids.root}
               anchorElement={this.getParent()}
               margin={parseInt(this.theme.datePickerMenuOffsetY)}
