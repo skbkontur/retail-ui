@@ -1,8 +1,6 @@
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme2022Internal } from '../../../internal/themes/Theme2022';
-import { applyMarkers, markAsTheme2022 } from '../ThemeHelpers';
-
-import { DEFAULT_THEME } from './DefaultTheme';
+import { DefaultThemeInternal } from '../../../internal/themes/DefaultTheme';
 
 const colorUpdateDark2024 = {
   green: '#1C8A3F',
@@ -74,7 +72,7 @@ const colorUpdateDark2024 = {
   fileUploaderDisabledIconColor: '#ADADAD',
 };
 
-export const THEME_2022 = applyMarkers(
-  ThemeFactory.create(colorUpdateDark2024, ThemeFactory.create(Theme2022Internal, DEFAULT_THEME)),
-  [markAsTheme2022],
+export const THEME_2022 = ThemeFactory.create(
+  colorUpdateDark2024,
+  ThemeFactory.create(Theme2022Internal, DefaultThemeInternal),
 );

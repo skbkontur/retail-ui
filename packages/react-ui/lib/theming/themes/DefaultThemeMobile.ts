@@ -1,10 +1,10 @@
 import { ThemeFactory } from '../ThemeFactory';
 
-import { DEFAULT_THEME } from './DefaultTheme';
+import { THEME_2022 } from './Theme2022';
 
 export const DEFAULT_THEME_MOBILE = ThemeFactory.create(
   {
     mobileMediaQuery: '(max-width: 576px)',
   },
-  DEFAULT_THEME,
+  THEME_2022,
 );
