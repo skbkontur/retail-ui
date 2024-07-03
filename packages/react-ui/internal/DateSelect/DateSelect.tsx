@@ -18,6 +18,7 @@ const defaultMinMonth = 0;
 const defaultMaxMonth = 11;
 const defaultMinYear = 1900;
 const defaultMaxYear = 2099;
+const selectPositions = ['middle left'] as const;
 const months = Array(defaultMaxMonth - defaultMinMonth + 1)
   .fill(null)
   .map((_, index) => defaultMinMonth + index);
@@ -150,8 +151,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         use="text"
         value={value}
         focusOnSelect={false}
-        menuAlign="left"
-        menuPos="middle"
+        positions={selectPositions}
         menuWidth={this.isYearType ? 67 + parseInt(this.theme.menuPaddingX) : undefined}
         className={styles.enabled(this.theme)}
         renderValue={this.getItem}
