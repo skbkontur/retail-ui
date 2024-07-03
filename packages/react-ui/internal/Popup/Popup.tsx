@@ -689,7 +689,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private reorderPropsPositionsWithPriorityPos() {
-    const positions = this.props.positions ? this.props.positions : PopupPositions;
+    const positions = this.props.positions ? this.props.positions : PinnablePopupPositions;
     let pos_ = '';
     if (this.props.pos) {
       pos_ = this.props.pos;
