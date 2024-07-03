@@ -17,7 +17,7 @@ import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
-import { ComboBoxView } from './ComboBoxView';
+import { ComboBoxView, ComboBoxViewPositionsType } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -30,11 +30,6 @@ export interface CustomComboBoxProps<T> extends Pick<AriaAttributes, 'aria-descr
    */
   error?: boolean;
   maxLength?: number;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom';
-  menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
   rightIcon?: InputIconType;
@@ -68,6 +63,7 @@ export interface CustomComboBoxProps<T> extends Pick<AriaAttributes, 'aria-descr
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  positions?: Readonly<ComboBoxViewPositionsType[]>;
 }
 
 export interface CustomComboBoxState<T> {
@@ -255,10 +251,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       error: this.props.error,
       items: this.state.items,
       loading: this.state.loading,
-      menuAlign: this.props.menuAlign,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
-      menuPos: this.props.menuPos,
+      positions: this.props.positions,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,

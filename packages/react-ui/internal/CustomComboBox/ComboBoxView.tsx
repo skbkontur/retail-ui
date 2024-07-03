@@ -20,7 +20,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
-import { Popup, PopupPositionsType } from '../Popup';
+import { Popup } from '../Popup';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -28,6 +28,17 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
+
+export const ComboBoxViewPositions = [
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'top left',
+  'top center',
+  'top right',
+] as const;
+
+export type ComboBoxViewPositionsType = (typeof ComboBoxViewPositions)[number];
 
 interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -42,11 +53,6 @@ interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' |
   error?: boolean;
   items?: Nullable<Array<ComboBoxExtendedItem<T>>>;
   loading?: boolean;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom';
-  menuAlign?: 'left' | 'right';
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
@@ -64,6 +70,7 @@ interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' |
   leftIcon?: InputIconType;
   rightIcon?: InputIconType;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  positions?: Readonly<ComboBoxViewPositionsType[]>;
 
   onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
@@ -94,8 +101,6 @@ interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' |
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxViewProps<T>,
-    | 'menuPos'
-    | 'menuAlign'
     | 'renderItem'
     | 'renderValue'
     | 'renderAddButton'
@@ -105,14 +110,13 @@ type DefaultProps<T> = Required<
     | 'onFocusOutside'
     | 'size'
     | 'width'
+    | 'positions'
   >
 >;
 
 export const ComboBoxViewIds = {
   menu: 'ComboBoxView__menu',
 };
-
-const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
 
 interface ComboBoxViewState {
   anchorElement: Nullable<Element>;
@@ -138,8 +142,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     },
     size: 'small',
     width: 250,
-    menuPos: 'bottom',
-    menuAlign: 'left',
+    positions: ComboBoxViewPositions,
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
@@ -254,14 +257,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     );
   };
 
-  private getPos = () => {
-    const { menuPos, menuAlign } = this.getProps();
-
-    return `${menuPos} ${menuAlign}` as PopupPositionsType;
-  };
-
   private renderMenu = () => {
-    const pos = this.getPos();
     const { opened } = this.props;
     const { anchorElement } = this.state;
 
@@ -270,11 +266,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       anchorElement && (
         <Popup
           opened
-          pos={pos}
           hasShadow
           minWidth="100%"
           anchorElement={anchorElement}
-          positions={[pos, ...POSITIONS]}
+          positions={this.props.positions}
           disablePortal={this.props.disablePortal}
           margin={parseInt(this.theme.menuOffsetY) - 1}
           ref={this.dropdownContainerRef}

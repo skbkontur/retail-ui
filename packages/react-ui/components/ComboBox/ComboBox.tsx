@@ -1,4 +1,5 @@
 import React, { AriaAttributes } from 'react';
+import { ComboBoxViewPositionsType } from 'react-ui/internal/CustomComboBox/ComboBoxView';
 
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
@@ -60,11 +61,7 @@ export interface ComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby
 
   maxLength?: number;
 
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom';
-  menuAlign?: 'left' | 'right';
+  positions?: Readonly<ComboBoxViewPositionsType[]>;
 
   onBlur?: () => void;
 
@@ -191,10 +188,7 @@ export interface ComboBoxItem {
 export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.ReactElement<T>;
 
 type DefaultProps<T> = Required<
-  Pick<
-    ComboBoxProps<T>,
-    'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'menuAlign' | 'searchOnFocus' | 'drawArrow'
-  >
+  Pick<ComboBoxProps<T>, 'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'searchOnFocus' | 'drawArrow'>
 >;
 
 @rootNode
@@ -207,7 +201,6 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,
     renderItem: (item: ComboBoxItem) => item.label,
-    menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
   };
