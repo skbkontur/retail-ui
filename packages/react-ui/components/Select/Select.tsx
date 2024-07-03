@@ -76,17 +76,9 @@ export const SelectIds = {
   menu: SelectDataTids.menu,
 } as const;
 
-export const SelectPositions = [
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'top left',
-  'top center',
-  'top right',
-  'middle left',
-] as const;
+const SelectPositions = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'];
 
-export type SelectPositionsType = (typeof SelectPositions)[number];
+export type SelectPositionsType = (typeof SelectPositions)[number] | 'middle left';
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
