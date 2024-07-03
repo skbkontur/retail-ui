@@ -35,7 +35,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
-import { Popup, PopupPositionsType } from '../../internal/Popup';
+import { Popup } from '../../internal/Popup';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -53,8 +53,6 @@ export interface ButtonParams
   isPlaceholder: boolean;
   size: SizeProp;
 }
-
-const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
 
 const PASS_BUTTON_PROPS = {
   disabled: true,
@@ -77,6 +75,18 @@ export const SelectDataTids = {
 export const SelectIds = {
   menu: SelectDataTids.menu,
 } as const;
+
+export const SelectPositions = [
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'top left',
+  'top center',
+  'top right',
+  'middle left',
+] as const;
+
+export type SelectPositionsType = (typeof SelectPositions)[number];
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
@@ -132,11 +142,6 @@ export interface SelectProps<TValue, TItem>
   items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom' | 'middle';
-  menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
   onValueChange?: (value: TValue) => void;
   onClose?: () => void;
@@ -177,6 +182,7 @@ export interface SelectProps<TValue, TItem>
    * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
+  positions?: Readonly<SelectPositionsType[]>;
 }
 
 export interface SelectState<TValue> {
@@ -192,15 +198,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 type DefaultProps<TValue, TItem> = Required<
   Pick<
     SelectProps<TValue, TItem>,
-    | 'menuPos'
-    | 'menuAlign'
-    | 'focusOnSelect'
-    | 'renderValue'
-    | 'renderItem'
-    | 'areValuesEqual'
-    | 'filterItem'
-    | 'use'
-    | 'size'
+    'focusOnSelect' | 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size' | 'positions'
   >
 >;
 
@@ -220,9 +218,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
-    menuPos: 'bottom',
-    menuAlign: 'left',
     focusOnSelect: true,
+    positions: SelectPositions,
   };
 
   public static Item = Item;
@@ -481,27 +478,19 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return arrowLeftPadding;
   }
 
-  private getPos = () => {
-    const { menuPos, menuAlign } = this.getProps();
-
-    return `${menuPos} ${menuAlign}` as PopupPositionsType;
-  };
-
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? this.getSearch() : null;
 
-    const pos = this.getPos();
     const value = this.getValue();
     const { menuWidth } = this.props;
 
     return (
       <Popup
         opened
-        pos={pos}
         hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        positions={[pos, ...POSITIONS]}
+        positions={this.props.positions}
         anchorElement={this.popupGetParent()}
         disablePortal={this.props.disablePortal}
         margin={parseInt(this.theme.menuOffsetY) - 1}
@@ -515,7 +504,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref={this.refMenu}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
-          align={this.props.menuAlign}
         >
           {search}
           {this.getMenuItems(value)}
