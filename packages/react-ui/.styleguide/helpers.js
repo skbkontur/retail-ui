@@ -22,7 +22,7 @@ const excludedComponents = [
   'SidePageContext',
 ];
 
-const sectionComponents = ['Modal', 'MiniModal', 'SidePage', 'Tabs'];
+const sectionComponents = ['Modal', 'MiniModal', 'SidePage', 'Tabs', 'Calendar'];
 
 const findComponentsInSection = (dirPath, name) => {
   // Looks for entries like `ParentCompChildComp.tsx`

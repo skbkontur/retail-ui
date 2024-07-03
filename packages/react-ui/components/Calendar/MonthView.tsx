@@ -4,11 +4,36 @@ import { DateSelect } from '../../internal/DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { cx } from '../../lib/theming/Emotion';
+import { useResponsiveLayout } from '../../components/ResponsiveLayout';
+import { Nullable } from '../..//typings/utility-types';
 
 import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 import { CalendarDataTids } from './Calendar';
+import { CalendarContext } from './CalendarContext';
+
+export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShape>) => {
+  let min = 0;
+  for (let i = 0; i < 12; ++i) {
+    if (minDate && CDS.isGreaterOrEqual({ date: 31, month: i, year }, minDate)) {
+      min = i;
+      break;
+    }
+  }
+  return min;
+};
+
+export const getMaxMonth = (year: number, maxDate: Nullable<CDS.CalendarDateShape>) => {
+  let max = 11;
+  for (let i = 11; i >= 0; --i) {
+    if (maxDate && CDS.isLessOrEqual({ date: 1, month: i, year }, maxDate)) {
+      max = i;
+      break;
+    }
+  }
+  return max;
+};
 
 interface MonthViewProps {
   children: React.ReactNode;
@@ -16,8 +41,6 @@ interface MonthViewProps {
   height: number;
   isFirstInYear?: boolean;
   isLastInYear?: boolean;
-  maxDate?: CDS.CalendarDateShape;
-  minDate?: CDS.CalendarDateShape;
   month: number;
   top: number;
   year: number;
@@ -29,14 +52,14 @@ interface MonthViewProps {
 
 export function MonthView(props: MonthViewProps) {
   const theme = useContext(ThemeContext);
+  const { minDate, maxDate } = useContext(CalendarContext);
+  const { isMobile } = useResponsiveLayout();
 
   const {
     children,
     height,
     isFirstInYear,
     isLastInYear,
-    maxDate,
-    minDate,
     month,
     top,
     year,
@@ -56,30 +79,13 @@ export function MonthView(props: MonthViewProps) {
   const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
   const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
 
-  const getMinMonth = (value: number) => {
-    let min = 0;
-    for (let i = 0; i < 12; ++i) {
-      if (minDate && CDS.isGreaterOrEqual({ date: 31, month: i, year: value }, minDate)) {
-        min = i;
-        break;
-      }
-    }
-    return min;
-  };
-
-  const getMaxMonth = (value: number) => {
-    let max = 11;
-    for (let i = 11; i >= 0; --i) {
-      if (maxDate && CDS.isLessOrEqual({ date: 1, month: i, year: value }, maxDate)) {
-        max = i;
-        break;
-      }
-    }
-    return max;
-  };
-
   return (
-    <div data-tid={CalendarDataTids.month} className={styles.month(theme)} style={{ top }} key={month + '-' + year}>
+    <div
+      data-tid={CalendarDataTids.month}
+      className={cx({ [styles.month(theme)]: true, [styles.monthMobile()]: isMobile })}
+      style={{ top }}
+      key={month + '-' + year}
+    >
       <div
         style={{ top: headerTop }}
         className={cx({
@@ -89,29 +95,33 @@ export function MonthView(props: MonthViewProps) {
       >
         <div style={{ borderBottomColor }} className={styles.monthTitle(theme)}>
           <div data-tid={CalendarDataTids.headerMonth} className={styles.headerMonth(theme)}>
-            <DateSelect
-              disabled={monthSelectDisabled}
-              width={85}
-              type="month"
-              value={month}
-              onValueChange={onMonthSelect}
-              ref={!monthSelectDisabled ? monthSelectRef : undefined}
-              minValue={getMinMonth(year)}
-              maxValue={getMaxMonth(year)}
-            />
+            {
+              <DateSelect
+                disabled={monthSelectDisabled}
+                width={isMobile ? '6em' : 85}
+                type="month"
+                value={month}
+                onValueChange={onMonthSelect}
+                ref={!monthSelectDisabled ? monthSelectRef : undefined}
+                minValue={getMinMonth(year, minDate)}
+                maxValue={getMaxMonth(year, maxDate)}
+              />
+            }
           </div>
           {isYearVisible && (
             <div data-tid={CalendarDataTids.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
-              <DateSelect
-                disabled={yearSelectDisabled}
-                width={50}
-                type="year"
-                value={year}
-                minValue={minDate ? minDate.year : undefined}
-                maxValue={maxDate ? maxDate.year : undefined}
-                onValueChange={onYearSelect}
-                ref={!yearSelectDisabled ? yearSelectRef : undefined}
-              />
+              {
+                <DateSelect
+                  disabled={yearSelectDisabled}
+                  width={isMobile ? '3.5em' : 50}
+                  type="year"
+                  value={year}
+                  minValue={minDate ? minDate.year : undefined}
+                  maxValue={maxDate ? maxDate.year : undefined}
+                  onValueChange={onYearSelect}
+                  ref={!yearSelectDisabled ? yearSelectRef : undefined}
+                />
+              }
             </div>
           )}
         </div>

@@ -37,9 +37,10 @@ export const stylesLayout = memoizeStyle({
       color: ${t.inputFocusedIconColor};
     `;
   },
-  iconDisabled() {
+  iconDisabled(t: Theme) {
     return css`
       cursor: default;
+      color: ${t.inputIconColorDisabled};
     `;
   },
   text(t: Theme) {
