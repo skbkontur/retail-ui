@@ -18,13 +18,23 @@ const defaultMinMonth = 0;
 const defaultMaxMonth = 11;
 const defaultMinYear = 1900;
 const defaultMaxYear = 2099;
-const selectPositions = ['middle left'] as const;
-const months = Array(defaultMaxMonth - defaultMinMonth + 1)
-  .fill(null)
-  .map((_, index) => defaultMinMonth + index);
-const years = Array(defaultMaxYear - defaultMinYear + 1)
-  .fill(null)
-  .map((_, index) => defaultMinYear + index);
+const months = range(defaultMinMonth, defaultMaxMonth);
+const years = range(defaultMinYear, defaultMaxYear);
+const selectPositions = [
+  'middle left',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'top left',
+  'top center',
+  'top right',
+] as const;
+
+function range(start: number, end: number) {
+  return Array(end - start + 1)
+    .fill(null)
+    .map((_, index) => start + index);
+}
 
 export interface DateSelectProps {
   disabled?: boolean | null;
@@ -150,7 +160,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         data-tid={DateSelectDataTids.caption}
         use="text"
         value={value}
-        focusOnSelect={false}
         positions={selectPositions}
         menuWidth={this.isYearType ? 67 + parseInt(this.theme.menuPaddingX) : undefined}
         className={styles.enabled(this.theme)}
