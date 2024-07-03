@@ -21,7 +21,7 @@ const PASS_PROPS = {
   error: true,
   disabled: true,
   disablePortal: true,
-  menuAlign: true,
+  positions: true,
   menuWidth: true,
   maxMenuHeight: true,
   use: true,
@@ -33,9 +33,19 @@ const PASS_PROPS = {
   onMouseEnter: true,
   onMouseLeave: true,
   onMouseOver: true,
-  menuPos: true,
   'aria-describedby': true,
 };
+
+export const DropdownPositions = [
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'top left',
+  'top center',
+  'top right',
+] as const;
+
+export type DropdownPositionsType = (typeof DropdownPositions)[number];
 
 export interface DropdownProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   /**
@@ -70,13 +80,9 @@ export interface DropdownProps extends Pick<AriaAttributes, 'aria-label' | 'aria
    */
   warning?: boolean;
   maxMenuHeight?: number;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom';
-  menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
   size?: SizeProp;
+  positions?: Readonly<DropdownPositionsType[]>;
 
   /**
    * Смотри Button.
@@ -142,8 +148,6 @@ export class Dropdown extends React.Component<DropdownProps> {
     icon: PropTypes.node,
 
     maxMenuHeight: PropTypes.number,
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     menuWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
