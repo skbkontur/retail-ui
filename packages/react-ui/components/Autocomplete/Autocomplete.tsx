@@ -21,7 +21,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
-import { Popup, PopupPositionsType } from '../../internal/Popup';
+import { Popup } from '../../internal/Popup';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -44,6 +44,17 @@ function renderItem(item: any) {
   return item;
 }
 
+export const AutocompletePositions = [
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'top left',
+  'top center',
+  'top right',
+] as const;
+
+export type AutocompletePositionsType = (typeof AutocompletePositions)[number];
+
 export interface AutocompleteProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-label'>,
@@ -58,8 +69,6 @@ export interface AutocompleteProps
         disablePortal?: boolean;
         /** Отрисовка тени у выпадающего меню */
         hasShadow?: boolean;
-        /** Выравнивание выпадающего меню */
-        menuAlign?: 'left' | 'right';
         /** Максимальная высота меню */
         menuMaxHeight?: number | string;
         /** Ширина меню */
@@ -78,13 +87,9 @@ export interface AutocompleteProps
          * Текст заголовка выпадающего меню в мобильной версии
          */
         mobileMenuHeaderText?: string;
+        positions?: Readonly<AutocompletePositionsType[]>;
       }
-    > {
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
-  menuPos?: 'top' | 'bottom';
-}
+    > {}
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -92,8 +97,6 @@ export interface AutocompleteState {
   focused: boolean;
   isMobileOpened: boolean;
 }
-
-const POSITIONS = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'] as const;
 
 export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
@@ -107,14 +110,7 @@ export const AutocompleteIds = {
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
-    | 'renderItem'
-    | 'size'
-    | 'disablePortal'
-    | 'hasShadow'
-    | 'menuMaxHeight'
-    | 'menuPos'
-    | 'menuAlign'
-    | 'preventWindowScroll'
+    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll' | 'positions'
   >
 >;
 
@@ -156,12 +152,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public static defaultProps: DefaultProps = {
     renderItem,
     size: 'small',
-    menuPos: 'bottom',
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,
-    menuAlign: 'left',
     preventWindowScroll: true,
+    positions: AutocompletePositions,
   };
 
   public state: AutocompleteState = {
@@ -237,11 +232,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       renderItem: _renderItem,
       disablePortal,
       hasShadow,
-      menuAlign,
       menuMaxHeight,
       preventWindowScroll,
       source,
-      menuPos,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
       'aria-label': ariaLabel,
@@ -293,16 +286,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return null;
   }
 
-  private getPos = () => {
-    const { menuPos, menuAlign } = this.getProps();
-
-    return `${menuPos} ${menuAlign}` as PopupPositionsType;
-  };
-
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
     const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, disablePortal } = this.getProps();
-    const pos = this.getPos();
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
@@ -323,10 +309,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         data-tid={AutocompleteDataTids.menu}
         anchorElement={this.getAnchor()}
         disablePortal={disablePortal}
-        pos={pos}
         width={menuWidth}
         minWidth={menuWidth === undefined ? '100%' : undefined}
-        positions={[pos, ...POSITIONS]}
+        positions={this.props.positions}
         margin={parseInt(this.theme.menuOffsetY) - 1}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>

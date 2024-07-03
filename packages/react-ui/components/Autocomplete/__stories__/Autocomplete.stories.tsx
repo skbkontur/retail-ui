@@ -31,8 +31,8 @@ export const WithDisabledPortal: Story = () => {
   return (
     <div>
       <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
-        <UncontrolledAutocomplete disablePortal source={source} menuPos={'top'} />
-        <UncontrolledAutocomplete disablePortal source={source} menuPos={'bottom'} />
+        <UncontrolledAutocomplete disablePortal source={source} positions={['top left']} />
+        <UncontrolledAutocomplete disablePortal source={source} positions={['bottom left']} />
       </Gapped>
     </div>
   );
@@ -210,13 +210,13 @@ MobileWithTitle.parameters = {
 };
 
 export const WithManualPosition: Story = () => {
-  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
+  const [position, setPosition] = React.useState<'top left' | 'bottom left'>('top left');
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <UncontrolledAutocomplete menuPos={menuPos} source={['One', 'Two', 'Three']} />
-      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
-        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
+      <UncontrolledAutocomplete positions={[position]} source={['One', 'Two', 'Three']} />
+      <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
+        change pos to {position === 'top left' ? 'bottom left' : 'top left'}
       </button>
     </div>
   );
@@ -252,8 +252,8 @@ export const MenuPos = () => {
   return (
     <div>
       <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
-        <UncontrolledAutocomplete source={source} menuPos={'top'} />
-        <UncontrolledAutocomplete source={source} menuPos={'bottom'} />
+        <UncontrolledAutocomplete source={source} positions={['top left']} />
+        <UncontrolledAutocomplete source={source} positions={['bottom left']} />
       </Gapped>
     </div>
   );
