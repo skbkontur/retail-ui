@@ -466,23 +466,6 @@ export class Input extends React.Component<InputProps, InputState> {
         )}
       </InputLayout>
     );
-
-    // return (
-    //   <label data-tid={InputDataTids.root} {...labelProps}>
-    //     <span className={styles.sideContainer()}>
-    //       {this.renderLeftIcon()}
-    //       {this.renderPrefix()}
-    //     </span>
-    //     <span className={styles.wrapper()}>
-    //       {input}
-    //       {this.renderPlaceholder()}
-    //     </span>
-    //     <span className={cx(styles.sideContainer(), styles.rightContainer())}>
-    //       {this.renderSuffix()}
-    //       {this.renderRightIcon()}
-    //     </span>
-    //   </label>
-    // );
   };
 
   private renderMaskedInput(inputProps: React.InputHTMLAttributes<HTMLInputElement>, mask: string) {
@@ -602,28 +585,4 @@ export class Input extends React.Component<InputProps, InputState> {
     this.resetFocus();
     this.props.onBlur?.(event);
   };
-
-  // private renderPrefix = () => {
-  //   const { prefix, disabled } = this.props;
-
-  //   if (!prefix) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <span className={cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>{prefix}</span>
-  //   );
-  // };
-
-  // private renderSuffix = () => {
-  //   const { suffix, disabled } = this.props;
-
-  //   if (!suffix) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <span className={cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>{suffix}</span>
-  //   );
-  // };
 }
