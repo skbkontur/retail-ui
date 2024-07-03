@@ -101,7 +101,6 @@ export interface SelectProps<TValue, TItem>
    */
   disablePortal?: boolean;
   disabled?: boolean;
-  focusOnSelect?: boolean;
   /**
    * Состояние валидации при ошибке.
    */
@@ -190,7 +189,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 type DefaultProps<TValue, TItem> = Required<
   Pick<
     SelectProps<TValue, TItem>,
-    'focusOnSelect' | 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size' | 'positions'
+    'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size' | 'positions'
   >
 >;
 
@@ -210,7 +209,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
-    focusOnSelect: true,
     positions: SelectPositions,
   };
 
@@ -295,7 +293,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    * @public
    */
   public focus = () => {
-    if (this.props.focusOnSelect && this.buttonElement && this.buttonElement.focus) {
+    if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
   };
