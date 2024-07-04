@@ -452,7 +452,7 @@ describe('DatePicker', () => {
               monthRoot.queryByTestId(CalendarDataTids.yearSelectMobile)
             );
           });
-          /* eslint-disable testing-library/no-wait-for-multiple-assertions */
+
           expect(currentMonth).toBeDefined();
           const monthRoot = within(currentMonth as HTMLElement);
           expect(
@@ -461,7 +461,7 @@ describe('DatePicker', () => {
           expect(
             within(monthRoot.getByTestId(CalendarDataTids.headerYear)).getByTestId(DateSelectDataTids.caption),
           ).toHaveTextContent(theYear.toString());
-          /* eslint-enable testing-library/no-wait-for-multiple-assertions */
+
           return currentMonth;
         },
         // Note: можно ли это сделать быстрее, если поиграться с таймингом в анимациях?
