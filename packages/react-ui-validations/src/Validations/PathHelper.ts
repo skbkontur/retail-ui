@@ -2,11 +2,15 @@ const classicFunctionRegEx =
   /^\s*function\s*\(\s*([A-Za-z0-9_$]+)\s*\)\s*\{\s*(?:(?:"use strict"|'use strict');?)?\s*return\s+\1\s*([.[].*?)?\s*;?\s*\}\s*$/;
 const arrowFunctionRegEx = /^\s*\(?\s*([A-Za-z0-9_$]+)\s*\)?\s*=>\s*\1\s*([.[].*?)?\s*$/;
 
+type OldNonNullable<T> = T extends null | undefined ? never : T; // необходим для имитации старой версии NonNullable (до v5.5.3 typescript)
+
 type NonNullableRecursive<T> = {
-  [K in keyof T]: T[K] extends Record<string, unknown> ? NonNullable<NonNullableRecursive<T[K]>> : NonNullable<T[K]>;
+  [K in keyof T]: T[K] extends Record<string, unknown>
+    ? OldNonNullable<NonNullableRecursive<T[K]>>
+    : OldNonNullable<T[K]>;
 };
 
-export type LambdaPath<T, TChild> = (x: NonNullable<NonNullableRecursive<T>>) => TChild;
+export type LambdaPath<T, TChild> = (x: OldNonNullable<NonNullableRecursive<T>>) => TChild;
 
 export function extractPath(lambda: string): string {
   const match = classicFunctionRegEx.exec(lambda) || arrowFunctionRegEx.exec(lambda);
