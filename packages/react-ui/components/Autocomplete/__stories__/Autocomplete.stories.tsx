@@ -216,7 +216,7 @@ export const WithManualPosition: Story = () => {
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
       <UncontrolledAutocomplete positions={[position]} source={['One', 'Two', 'Three']} />
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
-        change pos to {position === 'top left' ? 'bottom left' : 'top left'}
+        change pos to {position === 'top left' ? 'bottom' : 'top'}
       </button>
     </div>
   );

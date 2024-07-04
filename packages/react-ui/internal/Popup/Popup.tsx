@@ -7,7 +7,7 @@ import { globalObject } from '@skbkontur/global-object';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ZIndex } from '../ZIndex';
+import { Priority, ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
@@ -98,6 +98,7 @@ export interface PopupProps
   pinOffset?: number;
   pinSize?: number;
   popupOffset?: number;
+  priority?: Priority;
   positions?: Readonly<PopupPositionsType[]>;
   pos?: PopupPositionsType | ShortPopupPositionsType;
   /**
@@ -160,6 +161,7 @@ type DefaultProps = Required<
     | 'useWrapper'
     | 'ignoreHover'
     | 'width'
+    | 'priority'
   >
 >;
 
@@ -250,6 +252,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: false,
     disablePortal: false,
     width: 'auto',
+    priority: ZIndex.priorities.Popup,
   };
 
   private getProps = createPropsGetter(Popup.defaultProps);
@@ -561,7 +564,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             <ZIndex
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
-              priority={'Popup'}
+              priority={this.props.priority}
               className={cx({
                 [styles.popup(this.theme)]: true,
                 [styles.shadow(this.theme)]: hasShadow,

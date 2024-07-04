@@ -318,7 +318,7 @@ export const WithManualPosition: Story = () => {
         {isRelative ? 'With' : 'Without'} relative position
       </button>
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
-        change pos to {position === 'top left' ? 'bottom left' : 'top left'}
+        change pos to {position === 'top left' ? 'bottom' : 'top'}
       </button>
     </div>
   );

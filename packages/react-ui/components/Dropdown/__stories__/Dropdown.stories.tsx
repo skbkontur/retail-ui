@@ -107,7 +107,7 @@ export const WithManualPosition: Story = () => {
         <MenuItem>Menu item</MenuItem>
       </Dropdown>
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
-        change pos to {position === 'top left' ? 'bottom left' : 'top left'}
+        change pos to {position === 'top left' ? 'bottom' : 'top'}
       </button>
       <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
         {isPortalDisabled ? 'enable' : 'disable'} portal

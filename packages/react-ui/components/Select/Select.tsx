@@ -36,6 +36,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -482,6 +483,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         data-tid={SelectDataTids.menu}
         positions={this.props.positions}
         anchorElement={this.popupGetParent()}
+        priority={ZIndex.priorities.PopupMenu}
         disablePortal={this.props.disablePortal}
         margin={parseInt(this.theme.menuOffsetY) - 1}
         width={menuWidth}
