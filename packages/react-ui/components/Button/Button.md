@@ -228,7 +228,7 @@ import { Button } from '@skbkontur/react-ui';
 У кнопки есть состояния валидации.
 
 ```jsx harmony
-import { Gapped, Button } from '@skbkontur/react-ui';
+import { Button, Gapped } from '@skbkontur/react-ui';
 
 <Gapped gap={5}>
   <Button warning>
