@@ -101,6 +101,8 @@ kind('Select', () => {
 
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['MenuItem hover'] },
       },
     });
 
