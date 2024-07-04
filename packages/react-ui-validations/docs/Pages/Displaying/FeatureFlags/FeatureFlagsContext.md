@@ -3,7 +3,7 @@
 ## Доступные флаги
 
     export interface ValidationsFeatureFlags {
-      darkTheme?: boolean;
+      validationsDivWrapper?: boolean;
     }
 
 Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
@@ -12,17 +12,17 @@
 
     import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
-    <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
+    <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
 
 ## Использование
 
-### darkTheme
+### validationsDivWrapper
 
-Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
-`validationsTextColorError`.
-В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
+В ValidationContainer, ValidationWrapper и ValidationText span в корне заменён на div.
+Это позволяет
+В Validations 2.0 фича будет применена по умолчанию.
 
-    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
+    !!DemoWithCode!!FeatureFlagsExampleValidationsRemoveDivWrapper
 
 ## Объект со всеми флагами
 
