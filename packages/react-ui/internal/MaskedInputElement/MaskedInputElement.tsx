@@ -124,31 +124,25 @@ export const MaskedInputElement = forwardRefAndName(
       }
 
       let shadow = spanRef.current.shadowRoot;
-      let styleEl = shadow?.getElementById('style');
-      let spanEl = shadow?.getElementById('span');
+      let typedValueElement = shadow?.getElementById('span');
 
-      if (!(styleEl && spanEl)) {
+      if (!typedValueElement) {
         shadow = spanRef.current.attachShadow({ mode: 'open' });
 
-        styleEl = globalObject.document.createElement('style');
-        styleEl.setAttribute('id', 'style');
+        typedValueElement = globalObject.document.createElement('span');
+        typedValueElement.setAttribute('id', 'span');
 
-        spanEl = globalObject.document.createElement('span');
-        spanEl.setAttribute('id', 'span');
-
-        shadow.appendChild(styleEl);
-        shadow.appendChild(spanEl);
+        shadow.appendChild(typedValueElement);
       }
 
       const style = inputStyle.current;
 
-      const val =
+      const typedValue =
         focused.current || uncontrolledValue || props.value || props.defaultValue
           ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
           : '';
 
-      styleEl.textContent = `<style> * { font: ${style.font}; } </style>`;
-      spanEl.textContent = val;
+      typedValueElement.textContent = typedValue;
 
       const inputRect = inputRef.current.getBoundingClientRect();
       const filledRect = spanRef.current.getBoundingClientRect();
