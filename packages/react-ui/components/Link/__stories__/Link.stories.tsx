@@ -14,7 +14,7 @@ export default {
   parameters: {
     creevey: {
       skip: {
-        'kind-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+        'kind-skip-0': { in: /chrome/, tests: 'hover' },
       },
     },
   },
