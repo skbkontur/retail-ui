@@ -21,7 +21,7 @@ const PASS_PROPS = {
   error: true,
   disabled: true,
   disablePortal: true,
-  positions: true,
+  menuPositions: true,
   menuWidth: true,
   maxMenuHeight: true,
   use: true,
@@ -36,7 +36,7 @@ const PASS_PROPS = {
   'aria-describedby': true,
 };
 
-export const DropdownPositions = [
+export const DropdownMenuPositions = [
   'bottom left',
   'bottom center',
   'bottom right',
@@ -45,7 +45,7 @@ export const DropdownPositions = [
   'top right',
 ] as const;
 
-export type DropdownPositionsType = (typeof DropdownPositions)[number];
+export type DropdownMenuPositionsType = (typeof DropdownMenuPositions)[number];
 
 export interface DropdownProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   /**
@@ -82,7 +82,7 @@ export interface DropdownProps extends Pick<AriaAttributes, 'aria-label' | 'aria
   maxMenuHeight?: number;
   menuWidth?: number | string;
   size?: SizeProp;
-  positions?: Readonly<DropdownPositionsType[]>;
+  menuPositions?: Readonly<DropdownMenuPositionsType[]>;
 
   /**
    * Смотри Button.

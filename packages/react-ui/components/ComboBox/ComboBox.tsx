@@ -1,5 +1,5 @@
 import React, { AriaAttributes } from 'react';
-import { ComboBoxViewPositionsType } from 'react-ui/internal/CustomComboBox/ComboBoxView';
+import { ComboBoxViewMenuPositionsType } from 'react-ui/internal/CustomComboBox/ComboBoxView';
 
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
@@ -61,7 +61,7 @@ export interface ComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby
 
   maxLength?: number;
 
-  positions?: Readonly<ComboBoxViewPositionsType[]>;
+  menuPositions?: Readonly<ComboBoxViewMenuPositionsType[]>;
 
   onBlur?: () => void;
 

@@ -44,7 +44,7 @@ function renderItem(item: any) {
   return item;
 }
 
-export const AutocompletePositions = [
+export const AutocompleteMenuPositions = [
   'bottom left',
   'bottom center',
   'bottom right',
@@ -53,7 +53,7 @@ export const AutocompletePositions = [
   'top right',
 ] as const;
 
-export type AutocompletePositionsType = (typeof AutocompletePositions)[number];
+export type AutocompleteMenuPositionsType = (typeof AutocompleteMenuPositions)[number];
 
 export interface AutocompleteProps
   extends CommonProps,
@@ -87,7 +87,7 @@ export interface AutocompleteProps
          * Текст заголовка выпадающего меню в мобильной версии
          */
         mobileMenuHeaderText?: string;
-        positions?: Readonly<AutocompletePositionsType[]>;
+        menuPositions?: Readonly<AutocompleteMenuPositionsType[]>;
       }
     > {}
 
@@ -110,7 +110,7 @@ export const AutocompleteIds = {
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
-    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll' | 'positions'
+    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll' | 'menuPositions'
   >
 >;
 
@@ -156,7 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     hasShadow: true,
     menuMaxHeight: 300,
     preventWindowScroll: true,
-    positions: AutocompletePositions,
+    menuPositions: AutocompleteMenuPositions,
   };
 
   public state: AutocompleteState = {
@@ -311,7 +311,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         disablePortal={disablePortal}
         width={menuWidth}
         minWidth={menuWidth === undefined ? '100%' : undefined}
-        positions={this.props.positions}
+        positions={this.props.menuPositions}
         margin={parseInt(this.theme.menuOffsetY) - 1}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>

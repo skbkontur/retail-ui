@@ -31,8 +31,8 @@ export const WithDisabledPortal: Story = () => {
   return (
     <div>
       <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
-        <UncontrolledAutocomplete disablePortal source={source} positions={['top left']} />
-        <UncontrolledAutocomplete disablePortal source={source} positions={['bottom left']} />
+        <UncontrolledAutocomplete disablePortal source={source} menuPositions={['top left']} />
+        <UncontrolledAutocomplete disablePortal source={source} menuPositions={['bottom left']} />
       </Gapped>
     </div>
   );
@@ -214,7 +214,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <UncontrolledAutocomplete positions={[position]} source={['One', 'Two', 'Three']} />
+      <UncontrolledAutocomplete menuPositions={[position]} source={['One', 'Two', 'Three']} />
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
         change pos to {position === 'top left' ? 'bottom' : 'top'}
       </button>
@@ -252,8 +252,8 @@ export const MenuPos = () => {
   return (
     <div>
       <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
-        <UncontrolledAutocomplete source={source} positions={['top left']} />
-        <UncontrolledAutocomplete source={source} positions={['bottom left']} />
+        <UncontrolledAutocomplete source={source} menuPositions={['top left']} />
+        <UncontrolledAutocomplete source={source} menuPositions={['bottom left']} />
       </Gapped>
     </div>
   );

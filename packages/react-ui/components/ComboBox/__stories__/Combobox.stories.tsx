@@ -777,7 +777,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <SimpleCombobox disablePortal={isPortalDisabled} positions={[position]} />
+      <SimpleCombobox disablePortal={isPortalDisabled} menuPositions={[position]} />
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
         change pos to {position === 'top left' ? 'bottom' : 'top'}
       </button>

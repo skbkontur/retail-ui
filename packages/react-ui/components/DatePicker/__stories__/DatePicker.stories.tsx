@@ -313,7 +313,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '350px', paddingBottom: '300px' }}>
-      <DatePicker positions={[position]} value="02.07.2017" onValueChange={emptyHandler} />
+      <DatePicker menuPositions={[position]} value="02.07.2017" onValueChange={emptyHandler} />
       <button data-tid="relative" onClick={onClick}>
         {isRelative ? 'With' : 'Without'} relative position
       </button>

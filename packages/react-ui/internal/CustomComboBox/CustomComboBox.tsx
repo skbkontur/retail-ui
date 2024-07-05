@@ -17,7 +17,7 @@ import { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
-import { ComboBoxView, ComboBoxViewPositionsType } from './ComboBoxView';
+import { ComboBoxView, ComboBoxViewMenuPositionsType } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -63,7 +63,7 @@ export interface CustomComboBoxProps<T> extends Pick<AriaAttributes, 'aria-descr
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
-  positions?: Readonly<ComboBoxViewPositionsType[]>;
+  menuPositions?: Readonly<ComboBoxViewMenuPositionsType[]>;
 }
 
 export interface CustomComboBoxState<T> {
@@ -253,7 +253,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       loading: this.state.loading,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
-      positions: this.props.positions,
+      menuPositions: this.props.menuPositions,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,

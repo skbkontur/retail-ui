@@ -160,7 +160,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         data-tid={DateSelectDataTids.caption}
         use="text"
         value={value}
-        positions={selectPositions}
+        menuPositions={selectPositions}
         menuWidth={this.isYearType ? 67 + parseInt(this.theme.menuPaddingX) : undefined}
         className={styles.enabled(this.theme)}
         renderValue={this.getItem}

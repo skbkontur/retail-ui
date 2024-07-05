@@ -406,10 +406,10 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     'calc(100% + 40px)',
   ];
   const row: Array<Partial<SelectProps<any, any>>> = [
-    { positions: ['bottom right'] },
-    { positions: ['bottom right'], disablePortal: true },
-    { positions: ['bottom left'] },
-    { positions: ['bottom left'], disablePortal: true },
+    { menuPositions: ['bottom right'] },
+    { menuPositions: ['bottom right'], disablePortal: true },
+    { menuPositions: ['bottom left'] },
+    { menuPositions: ['bottom left'], disablePortal: true },
   ];
   const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
     <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
@@ -460,7 +460,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <Select disablePortal={isPortalDisabled} positions={[position]} items={['one', 'two', 'three']} />
+      <Select disablePortal={isPortalDisabled} menuPositions={[position]} items={['one', 'two', 'three']} />
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
         change pos to {position === 'top left' ? 'bottom' : 'top'}
       </button>

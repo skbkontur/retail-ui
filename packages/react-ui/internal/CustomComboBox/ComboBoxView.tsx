@@ -29,7 +29,7 @@ import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
-export const ComboBoxViewPositions = [
+export const ComboBoxViewMenuPositions = [
   'bottom left',
   'bottom center',
   'bottom right',
@@ -38,7 +38,7 @@ export const ComboBoxViewPositions = [
   'top right',
 ] as const;
 
-export type ComboBoxViewPositionsType = (typeof ComboBoxViewPositions)[number];
+export type ComboBoxViewMenuPositionsType = (typeof ComboBoxViewMenuPositions)[number];
 
 interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -70,7 +70,7 @@ interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' |
   leftIcon?: InputIconType;
   rightIcon?: InputIconType;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
-  positions?: Readonly<ComboBoxViewPositionsType[]>;
+  menuPositions?: Readonly<ComboBoxViewMenuPositionsType[]>;
 
   onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
@@ -110,7 +110,7 @@ type DefaultProps<T> = Required<
     | 'onFocusOutside'
     | 'size'
     | 'width'
-    | 'positions'
+    | 'menuPositions'
   >
 >;
 
@@ -142,7 +142,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     },
     size: 'small',
     width: 250,
-    positions: ComboBoxViewPositions,
+    menuPositions: ComboBoxViewMenuPositions,
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
@@ -269,7 +269,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           hasShadow
           minWidth="100%"
           anchorElement={anchorElement}
-          positions={this.props.positions}
+          positions={this.props.menuPositions}
           disablePortal={this.props.disablePortal}
           margin={parseInt(this.theme.menuOffsetY) - 1}
           ref={this.dropdownContainerRef}

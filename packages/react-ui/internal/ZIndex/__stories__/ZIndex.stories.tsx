@@ -836,7 +836,7 @@ export const ModalWithDropdown: Story = () => {
         <div style={{ height: '50px' }} />
         <Dropdown
           data-tid="dropdown_top"
-          positions={['top left']}
+          menuPositions={['top left']}
           caption={'Open'}
           size="medium"
           width="50%"
@@ -850,7 +850,7 @@ export const ModalWithDropdown: Story = () => {
         <div style={{ height: '400px' }} />
         <Dropdown
           data-tid="dropdown_bottom"
-          positions={['bottom left']}
+          menuPositions={['bottom left']}
           caption={'Open'}
           size="medium"
           width="50%"

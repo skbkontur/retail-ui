@@ -42,7 +42,7 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-export const DatePickerPositions = [
+export const DatePickerMenuPositions = [
   'bottom left',
   'bottom center',
   'bottom right',
@@ -51,7 +51,7 @@ export const DatePickerPositions = [
   'top right',
 ] as const;
 
-export type DatePickerPositionsType = (typeof DatePickerPositions)[number];
+export type DatePickerMenuPositionsType = (typeof DatePickerMenuPositions)[number];
 
 export const MIN_WIDTH = 120;
 
@@ -95,7 +95,7 @@ export interface DatePickerProps
    * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
-  positions?: Readonly<DatePickerPositionsType[]>;
+  menuPositions?: Readonly<DatePickerMenuPositionsType[]>;
 }
 
 export interface DatePickerState {
@@ -112,7 +112,7 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'positions'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'menuPositions'>>;
 
 @responsiveLayout
 @rootNode
@@ -178,7 +178,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   public static defaultProps: DefaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
-    positions: DatePickerPositions,
+    menuPositions: DatePickerMenuPositions,
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
@@ -327,7 +327,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
               opened
               hasShadow
               disablePortal={this.props.disablePortal}
-              positions={this.props.positions}
+              positions={this.props.menuPositions}
               data-tid={DatePickerDataTids.root}
               anchorElement={this.getParent()}
               margin={parseInt(this.theme.datePickerMenuOffsetY)}

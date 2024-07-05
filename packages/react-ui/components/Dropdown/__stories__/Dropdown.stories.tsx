@@ -103,7 +103,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '50px' }}>
-      <Dropdown disablePortal={isPortalDisabled} positions={[position]} caption="Открыть">
+      <Dropdown disablePortal={isPortalDisabled} menuPositions={[position]} caption="Открыть">
         <MenuItem>Menu item</MenuItem>
       </Dropdown>
       <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>

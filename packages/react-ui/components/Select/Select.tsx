@@ -77,9 +77,9 @@ export const SelectIds = {
   menu: SelectDataTids.menu,
 } as const;
 
-const SelectPositions = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'];
+const SelectMenuPositions = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'];
 
-export type SelectPositionsType = (typeof SelectPositions)[number] | 'middle left';
+export type SelectMenuPositionsType = (typeof SelectMenuPositions)[number] | 'middle left';
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
@@ -174,7 +174,7 @@ export interface SelectProps<TValue, TItem>
    * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
-  positions?: Readonly<SelectPositionsType[]>;
+  menuPositions?: Readonly<SelectMenuPositionsType[]>;
 }
 
 export interface SelectState<TValue> {
@@ -190,7 +190,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 type DefaultProps<TValue, TItem> = Required<
   Pick<
     SelectProps<TValue, TItem>,
-    'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size' | 'positions'
+    'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size' | 'menuPositions'
   >
 >;
 
@@ -210,7 +210,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
-    positions: SelectPositions,
+    menuPositions: SelectMenuPositions,
   };
 
   public static Item = Item;
@@ -481,7 +481,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        positions={this.props.positions}
+        positions={this.props.menuPositions}
         anchorElement={this.popupGetParent()}
         priority={ZIndex.priorities.PopupMenu}
         disablePortal={this.props.disablePortal}
