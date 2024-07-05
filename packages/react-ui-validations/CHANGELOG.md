@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.16.0...react-ui-validations@1.16.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **validations:** fix NonNullable type ([#3460](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3460)) ([666cc42](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/666cc4276309eef304f66d945d33d1423f231967))
+
+
+
+
+
 # [1.16.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.15.1...react-ui-validations@1.16.0) (2024-06-17)
 
 
