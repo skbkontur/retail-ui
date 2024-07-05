@@ -473,6 +473,30 @@ describe('DatePicker', () => {
       expect(currentMonth).toBeDefined();
     });
 
+    it('should scroll on month select', async () => {
+      const month = 11;
+      const year = 2011;
+      render(<MobilePicker initialDate={`01.01.${year}`} />);
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(CalendarDataTids.headerMonth).getElementsByTagName('button')[0]);
+      await userEvent.click(screen.getByText(month.toString()).parentElement as Element);
+
+      const currentMonth = await waitForMonth(month, year);
+      expect(currentMonth).toBeDefined();
+    });
+
+    it('should scroll on year select', async () => {
+      const month = 10;
+      const year = 2011;
+      render(<MobilePicker initialDate={`01.${month + 1}.2010`} />);
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+      await userEvent.click(screen.getByText(year.toString()).parentElement as Element);
+
+      const currentMonth = await waitForMonth(month, year);
+      expect(currentMonth).toBeDefined();
+    });
+
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
       render(<MobilePicker initialDate={initialDate} />);
