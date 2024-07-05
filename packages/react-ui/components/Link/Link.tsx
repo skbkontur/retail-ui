@@ -16,7 +16,6 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 
 import { styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
-import { isFirefox } from '../../lib/client';
 
 export interface LinkProps
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -176,7 +175,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const linkProps = {
       className: cx({
         [styles.root(this.theme)]: true,
-        [styles.rootFirefox(this.theme)]: isFirefox,
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.useDefault(this.theme)]: use === 'default',

@@ -48,12 +48,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  rootFirefox(t: Theme) {
-    return css`
-      text-underline-offset: ${`${parseInt(t.linkLineBorderBottomOffset) + 1}px`};
-    `;
-  },
-
   lineFocus(t: Theme) {
     return css`
       color: ${t.linkHoverColor};
