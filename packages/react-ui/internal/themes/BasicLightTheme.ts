@@ -94,6 +94,7 @@ export class BasicLightThemeInternal {
   //#region Link
   public static linkColor = '#1874cf';
   public static linkActiveColor = '#1260ae';
+  public static linkTextDecoration = 'underline';
   public static linkHoverTextDecoration = 'underline';
   public static linkSuccessColor = '#477916';
   public static linkSuccessHoverColor = '#477916';
@@ -122,6 +123,7 @@ export class BasicLightThemeInternal {
   public static linkButtonPaddingX = '10px';
 
   public static linkLineBorderBottomStyle = '';
+  public static linkLineBorderBottomOffset = '3px';
   public static get linkLineHoverBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
   }
