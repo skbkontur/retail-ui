@@ -122,8 +122,8 @@ describe('Paging', () => {
     render(<Paging pagesCount={lastPage} activePage={lastPage} onPageChange={onPageChange} />);
 
     const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
-    await userEvent.click(forwardButton);
 
+    await expect(userEvent.click(forwardButton)).rejects.toThrow();
     expect(onPageChange).not.toHaveBeenCalled();
   });
 
