@@ -234,6 +234,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       hasShadow,
       menuMaxHeight,
       preventWindowScroll,
+      menuPositions,
       source,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
