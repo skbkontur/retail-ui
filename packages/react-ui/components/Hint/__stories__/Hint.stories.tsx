@@ -116,6 +116,13 @@ export const With100WidthInput = () => (
 );
 With100WidthInput.storyName = 'with 100%-width input';
 
+export const HintWithoutPortal = () => (
+  <Hint opened manual disablePortal text="disablePortal prop">
+    <button>Opened</button>
+  </Hint>
+);
+HintWithoutPortal.storyName = 'hint without portal';
+
 export const HintWithoutAnimations = () => (
   <div>
     <Hint text="No disableAnimations prop">

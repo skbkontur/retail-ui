@@ -59,4 +59,10 @@ kind('Hint', () => {
       skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
     });
   });
+
+  story('HintWithoutPortal', () => {
+    test('opened', async function () {
+      await this.expect(await this.browser.takeScreenshot()).to.matchImage('open');
+    });
+  });
 });
