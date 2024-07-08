@@ -198,4 +198,10 @@ kind('DatePicker', () => {
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('MobilePicker on iphone opened');
     });
   });
+  story('DisablePortal', () => {
+    test('opened', async function () {
+      await delay(1000);
+      await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+    });
+  });
 });
