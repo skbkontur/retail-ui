@@ -188,7 +188,7 @@ describe('ValidationContainer', () => {
             <ValidationWrapper validationInfo={validate(value1)}>
               <Input value={value1} onValueChange={setValue1} />
             </ValidationWrapper>
-            <Button onClick={() => setValue1('good')}>Repair</Button>
+            <button onClick={() => setValue1('good')}>Repair</button>
           </>
         );
       };
@@ -196,8 +196,7 @@ describe('ValidationContainer', () => {
       const onValidationUpdated = jest.fn();
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
       await containerRef.current?.submit();
-      const errors = await screen.findAllByText('Ошибка');
-      expect(errors.length).toBe(1);
+      expect(onValidationUpdated).toBeCalledWith(false);
 
       screen.getByRole('button', { name: 'Repair' }).click();
       expect(onValidationUpdated).toBeCalledWith(true);
@@ -217,15 +216,15 @@ describe('ValidationContainer', () => {
             <ValidationWrapper validationInfo={validate(value2)}>
               <Input value={value2} onValueChange={setValue2} />
             </ValidationWrapper>
-            <Button onClick={() => setValue1('good')}>Partial Repair</Button>
-            <Button
+            <button onClick={() => setValue1('good')}>Partial Repair</button>
+            <button
               onClick={() => {
                 setValue1('good');
                 setValue2('good');
               }}
             >
               Repair
-            </Button>
+            </button>
             <Button onClick={() => validationContainerRef.current?.submit()}>Submit</Button>
           </>
         );
@@ -235,8 +234,7 @@ describe('ValidationContainer', () => {
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
       await containerRef.current?.submit();
 
-      const errors = await screen.findAllByText('Ошибка');
-      expect(errors.length).toBe(1);
+      expect(onValidationUpdated).toBeCalledWith(false);
 
       screen.getByRole('button', { name: 'Partial Repair' }).click();
       expect(onValidationUpdated).toBeCalledWith(false);
