@@ -15,6 +15,7 @@ import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 
 interface TestTooltipProps {
+  disablePortal?: boolean;
   pos?: PopupPositionsType;
   trigger?: TooltipTrigger;
   useWrapper?: boolean;
@@ -38,6 +39,7 @@ class TestTooltip extends React.Component<React.PropsWithChildren<TestTooltipPro
           render={() => <div>Hey there!</div>}
           trigger={trigger}
           useWrapper={this.props.useWrapper}
+          disablePortal={this.props.disablePortal}
           disableAnimations={this.props.disableAnimations}
         >
           {children}
@@ -56,6 +58,13 @@ export const SimpleTooltip = () => (
 );
 SimpleTooltip.storyName = 'simple tooltip';
 SimpleTooltip.parameters = { creevey: { skip: true } };
+
+export const DisablePortal = () => (
+  <TestTooltip disablePortal>
+    <Button>Hover me!</Button>
+  </TestTooltip>
+);
+DisablePortal.storyName = 'disable portal';
 
 export const StaticTooltip = () => (
   <TestTooltip trigger="opened">
