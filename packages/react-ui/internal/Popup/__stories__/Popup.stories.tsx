@@ -25,7 +25,6 @@ PositioningStory.parameters = { creevey: { skip: true } };
 
 export const DisablePortal = () => <AllCases disablePortal small={false} padding={'50px 100px'} />;
 DisablePortal.storyName = 'disablePortal';
-DisablePortal.parameters = { creevey: { skip: true } };
 
 export const DisableAnimations = () => (
   <div>
