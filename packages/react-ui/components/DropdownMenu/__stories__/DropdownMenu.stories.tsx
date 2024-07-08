@@ -44,6 +44,13 @@ export const SimpleExample: Story = () => (
 );
 SimpleExample.storyName = 'Simple example';
 
+export const DisablePortal: Story = () => (
+  <DropdownMenu disablePortal caption={<Button use="primary">Открыть меню</Button>}>
+    <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
+  </DropdownMenu>
+);
+DisablePortal.storyName = 'Disable portal';
+
 const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   return (
     <div
