@@ -128,4 +128,10 @@ kind('TooltipMenu', () => {
 
     textAlignmentTests();
   });
+
+  story('DisablePortal', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+
+    textAlignmentTests();
+  });
 });
