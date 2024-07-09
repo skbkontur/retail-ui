@@ -91,7 +91,8 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 
-  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06) !important';
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06)';
+  public static btnBacklessActiveBorderColor = 'rgba(0, 0, 0, 0.16)';
 
   public static btnTextBg = 'transparent';
   public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06)';

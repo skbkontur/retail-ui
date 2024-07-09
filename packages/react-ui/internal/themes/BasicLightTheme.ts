@@ -583,9 +583,10 @@ export class BasicLightThemeInternal {
   public static get btnDisabledTextColor() {
     return this.textColorDisabledContrast;
   }
-  public static btnBacklessBg = 'transparent !important';
-  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04) !important';
-  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.1) !important';
+  public static btnBacklessBg = 'transparent';
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04)';
+  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static btnBacklessActiveBorderColor = '';
   public static get btnBacklessBorderColor() {
     return this.btnDefaultBorderColor;
   }
