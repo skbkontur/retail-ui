@@ -18,6 +18,7 @@ export const styles = memoizeStyle({
       padding: ${t.btnPaddingYSmall} calc(5px + ${t.btnIconSizeSmall} + ${t.btnIconGapSmallRight}) ${t.btnPaddingYSmall}
         5px;
       border: ${t.btnBorderWidth} solid transparent;
+      display: block;
     `;
   },
 });
