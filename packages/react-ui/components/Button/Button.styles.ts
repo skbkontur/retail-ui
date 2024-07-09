@@ -825,6 +825,7 @@ export const styles = memoizeStyle({
   backlessDisabled(t: Theme) {
     return css`
       box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
+      background-color: transparent;
     `;
   },
 
@@ -950,9 +951,8 @@ export const activeStyles = memoizeStyle({
 
   backless(t: Theme) {
     return css`
-      &,
-      &:hover {
-        background: ${t.btnBacklessActiveBg};
+      & {
+        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, '', t.btnBorderWidth, '')}
       }
     `;
   },
