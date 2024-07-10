@@ -426,7 +426,7 @@ export const styles = memoizeStyle({
         t.btnDefaultBgEnd,
         t.btnDefaultTextColor,
         t.btnDefaultBorderColor,
-        t.btnDefaultBorderBottomColor,
+        t.btnDefaultTextDecorationColor,
         t.btnBorderWidth,
       )};
 
@@ -437,7 +437,7 @@ export const styles = memoizeStyle({
           t.btnDefaultHoverBgEnd,
           t.btnDefaultHoverTextColor,
           t.btnDefaultHoverBorderColor,
-          t.btnDefaultHoverBorderBottomColor,
+          t.btnDefaultHoverTextDecorationColor,
           t.btnBorderWidth,
         )};
       }
@@ -456,7 +456,7 @@ export const styles = memoizeStyle({
         t.btnPrimaryBgEnd,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorderColor,
-        t.btnPrimaryBorderBottomColor,
+        t.btnPrimaryTextDecorationColor,
         t.btnBorderWidth,
       )};
 
@@ -467,7 +467,7 @@ export const styles = memoizeStyle({
           t.btnPrimaryHoverBgEnd,
           t.btnPrimaryHoverTextColor,
           t.btnPrimaryHoverBorderColor,
-          t.btnPrimaryHoverBorderBottomColor,
+          t.btnPrimaryHoverTextDecorationColor,
           t.btnBorderWidth,
         )};
       }
@@ -486,7 +486,7 @@ export const styles = memoizeStyle({
         t.btnSuccessBgEnd,
         t.btnSuccessTextColor,
         t.btnSuccessBorderColor,
-        t.btnSuccessBorderBottomColor,
+        t.btnSuccessTextDecorationColor,
         t.btnBorderWidth,
       )};
 
@@ -497,7 +497,7 @@ export const styles = memoizeStyle({
           t.btnSuccessHoverBgEnd,
           t.btnSuccessHoverTextColor,
           t.btnSuccessHoverBorderColor,
-          t.btnSuccessHoverBorderBottomColor,
+          t.btnSuccessHoverTextDecorationColor,
           t.btnBorderWidth,
         )};
       }
@@ -516,7 +516,7 @@ export const styles = memoizeStyle({
         t.btnDangerBgEnd,
         t.btnDangerTextColor,
         t.btnDangerBorderColor,
-        t.btnDangerBorderBottomColor,
+        t.btnDangerTextDecorationColor,
         t.btnBorderWidth,
       )};
 
@@ -527,7 +527,7 @@ export const styles = memoizeStyle({
           t.btnDangerHoverBgEnd,
           t.btnDangerHoverTextColor,
           t.btnDangerHoverBorderColor,
-          t.btnDangerHoverBorderBottomColor,
+          t.btnDangerHoverTextDecorationColor,
           t.btnBorderWidth,
         )};
       }
@@ -546,7 +546,7 @@ export const styles = memoizeStyle({
         t.btnPayBgEnd,
         t.btnPayTextColor,
         t.btnPayBorderColor,
-        t.btnPayBorderBottomColor,
+        t.btnPayTextDecorationColor,
         t.btnBorderWidth,
       )};
 
@@ -557,7 +557,7 @@ export const styles = memoizeStyle({
           t.btnPayHoverBgEnd,
           t.btnPayHoverTextColor,
           t.btnPayHoverBorderColor,
-          t.btnPayHoverBorderBottomColor,
+          t.btnPayHoverTextDecorationColor,
           t.btnBorderWidth,
         )};
       }
