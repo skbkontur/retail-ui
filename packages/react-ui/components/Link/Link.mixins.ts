@@ -1,15 +1,3 @@
-export const linkMixin = (hoverTextDecoration: string) => {
-  return `
-    border-radius: 1px;
-    outline: none;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: ${hoverTextDecoration};
-    }
-  `;
-};
-
 export const linkDisabledMixin = () => {
   return `
     box-shadow: none;
@@ -29,12 +17,5 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
     &:active {
       color: ${activeColor};
     }
-  `;
-};
-
-export const linkUseLineHovered = (linkLineHoverBorderBottomStyle: string) => {
-  return `
-    animation: none !important;
-    border-bottom-style: ${linkLineHoverBorderBottomStyle};
   `;
 };

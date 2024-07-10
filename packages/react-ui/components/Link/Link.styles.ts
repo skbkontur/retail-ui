@@ -13,7 +13,7 @@ const line = keyframes`
 `;
 
 const oldLineText = function (t: Theme) {
-  const delay = parseFloat(t.linkLineBorderBottomOpacity) - 1;
+  const delay = parseFloat(t.linkTextUnderlineOpacity) - 1;
   return css`
     animation: ${line} 1s linear !important; // override creevey
     animation-play-state: paused !important;
@@ -27,21 +27,21 @@ export const styles = memoizeStyle({
     return css`
       border-radius: 1px;
       text-decoration: ${t.linkTextDecoration};
-      text-decoration-style: ${t.linkLineBorderBottomStyle};
-      text-underline-offset: ${t.linkLineBorderBottomOffset};
-      text-decoration-thickness: ${t.linkLineBorderBottomWidth};
+      text-decoration-style: ${t.linkTextDecorationStyle};
+      text-underline-offset: ${t.linkTextUnderlineOffset};
+      text-decoration-thickness: ${t.linkTextDecorationThickness};
       transition: text-decoration-color ${t.transitionDuration} ${t.transitionTimingFunction};
-      @supports (text-decoration-color: ${t.linkLineBorderBottomColor}) {
-        text-decoration-color: ${t.linkLineBorderBottomColor};
+      @supports (text-decoration-color: ${t.linkTextDecorationColor}) {
+        text-decoration-color: ${t.linkTextDecorationColor};
         &:hover {
           text-decoration-color: currentColor;
-          text-decoration-style: ${t.linkLineHoverBorderBottomStyle};
+          text-decoration-style: ${t.linkHoverTextDecorationStyle};
         }
       }
-      @supports not (text-decoration-color: ${t.linkLineBorderBottomColor}) {
+      @supports not (text-decoration-color: ${t.linkTextDecorationColor}) {
         ${oldLineText(t)};
         &:hover {
-          text-decoration-style: ${t.linkLineHoverBorderBottomStyle};
+          text-decoration-style: ${t.linkHoverTextDecorationStyle};
           animation: none !important;
         }
       }
