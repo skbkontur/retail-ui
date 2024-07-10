@@ -1,24 +1,17 @@
-import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { IMaskInputProps } from 'react-imask';
+import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { InputElement, InputElementProps } from '../../components/Input';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { cx } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { InputElement, InputElementProps } from '../../Input';
+import { forwardRefAndName } from '../../../lib/forwardRefAndName';
+import { cx } from '../../../lib/theming/Emotion';
 
-import { styles } from './MaskedInputElement.styles';
+import { styles } from './ColorableInputElement.styles';
 
-export type MaskedInputElementProps = IMaskInputProps<HTMLInputElement> &
-  InputElementProps & {
-    maskChars: string[];
-    children: React.ReactElement;
-  };
-
-export const MaskedInputElementDataTids = {
-  root: 'MaskedInput__root',
-} as const;
+export type ColorableInputElementProps = InputElementProps & {
+  children: React.ReactElement;
+};
 
 const dictionary = new WeakMap<Element, () => void>();
 const paintText: ResizeObserverCallback = (entries) => {
@@ -26,17 +19,16 @@ const paintText: ResizeObserverCallback = (entries) => {
 };
 const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(debounce(paintText)) : null;
 
-export const MaskedInputElement = forwardRefAndName(
-  'MaskedInputElement',
-  function MaskedInputElement(props: MaskedInputElementProps, ref: ForwardedRef<InputElement>) {
+export const ColorableInputElement = forwardRefAndName(
+  'ColorableInputElement',
+  function ColorableInputElement(props: ColorableInputElementProps, ref: ForwardedRef<InputElement>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const spanRef = useRef<HTMLSpanElement | null>(null);
     const focused = useRef(false);
-    const [uncontrolledValue, setUncontrolledValue] = useState('');
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
 
-    const { children, onInput, onFocus, onBlur, maskChars, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -48,20 +40,13 @@ export const MaskedInputElement = forwardRefAndName(
     );
 
     useEffect(() => {
-      if (spanRef.current) {
-        dictionary.set(spanRef.current, paintText);
-        resizeObserver?.observe(spanRef.current);
-      }
       if (inputRef.current) {
         dictionary.set(inputRef.current, paintText);
         resizeObserver?.observe(inputRef.current);
       }
+      setTimeout(paintText);
 
       return () => {
-        if (spanRef.current) {
-          dictionary.delete(spanRef.current);
-          resizeObserver?.unobserve(spanRef.current);
-        }
         if (inputRef.current) {
           dictionary.delete(inputRef.current);
           resizeObserver?.unobserve(inputRef.current);
@@ -91,13 +76,11 @@ export const MaskedInputElement = forwardRefAndName(
             !props.disabled && placeholderColor && styles.inputPlaceholder(theme),
           ),
         })}
-        <span style={{ visibility: 'hidden', position: 'absolute' }} ref={spanRef} />
+        <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />
       </>
     );
 
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      setUncontrolledValue(e.target.value);
-
       // iMask может изменить value после вызова onInput
       setTimeout(paintText);
 
@@ -137,12 +120,7 @@ export const MaskedInputElement = forwardRefAndName(
 
       const style = inputStyle.current;
 
-      const typedValue =
-        focused.current || uncontrolledValue || props.value || props.defaultValue
-          ? inputRef.current.value.split(new RegExp(props.maskChars.join('|')))[0] || ''
-          : '';
-
-      typedValueElement.textContent = typedValue;
+      typedValueElement.textContent = inputRef.current.getAttribute('data-typed-value') || '';
 
       const inputRect = inputRef.current.getBoundingClientRect();
       const filledRect = spanRef.current.getBoundingClientRect();

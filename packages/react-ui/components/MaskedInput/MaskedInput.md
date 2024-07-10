@@ -3,14 +3,51 @@
 Маска телефона
 
 ```jsx harmony
+import { Input } from '@skbkontur/react-ui';
+
 const [value, setValue] = React.useState('123');
 
-<MaskedInput
-  mask="+7 999-999-99-99"
-  alwaysShowMask
-  value={value}
-  onValueChange={setValue}
-/>
+const listeners = {
+  ...[
+    'onKeyPress',
+    'onKeyDown',
+    'onFocus',
+    'onBlur',
+    'onInput',
+    'onChange',
+    'onCut',
+  ].reduce((list, item) => ({ ...list, [item]: (e) => console.log(item, e) }), {})
+};
+
+listeners.onValueChange = (v) => {
+  console.log('onValue', v);
+  setValue(v);
+};
+
+<>
+  <MaskedInput
+    mask="9-9-9-9"
+    alwaysShowMask1
+    value1={value}
+    {...listeners}
+  />
+  <MaskedInput
+    mask="+7 999-999-99-99"
+    alwaysShowMask
+    value={value}
+    {...listeners}
+  />
+  <Input
+    mask="+7 999-999-99-99"
+    alwaysShowMask
+    value={value}
+    {...listeners}
+  />
+  <Input
+    value={value}
+    {...listeners}
+  />
+</>
 ```
 
 #### `maskChar`
@@ -53,9 +90,9 @@ const [value, setValue] = React.useState('');
 
 #### `alwaysShowMask`
 
-Показывает маску всегда. Placeholder в этом случае игнорируется.
-Логика немного отличается от старой реализации, из-за специфики iMask.
-Раньше маска обязательно появлялась при фокусе, но теперь чтобы маску было видно надо явно задать этот проп.
+Показывает маску всегда. Placeholder в этом случае игнорируется. Логика немного отличается от старой реализации, из-за
+специфики iMask. Раньше маска обязательно появлялась при фокусе, но теперь чтобы маску было видно надо явно задать этот
+проп.
 
 ```jsx harmony
 <MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask placeholder="Номер телефона" />
@@ -133,7 +170,8 @@ const [complete, setComplete] = React.useState(false);
 
 ##### `imaskProps.mask {}`
 
-Фиксированные части маски, которые попадут в `value` при `unmask = true`. Любой невалидный символ (например`пробел`) переведёт каретку за фиксированный символ.
+Фиксированные части маски, которые попадут в `value` при `unmask = true`. Любой невалидный символ (например`пробел`)
+переведёт каретку за фиксированный символ.
 
 ```jsx harmony
 const [value, setValue] = React.useState('');

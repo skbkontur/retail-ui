@@ -30,10 +30,5 @@ if (isBrowser($this)) {
       }
     `;
 
-  if ($this.document.fonts) {
-    $this.document.fonts.addEventListener('loading', injectFont);
-  } else {
-    // ie11
-    setTimeout(injectFont);
-  }
+  setTimeout(injectFont);
 }

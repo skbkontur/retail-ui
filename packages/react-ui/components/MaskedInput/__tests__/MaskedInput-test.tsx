@@ -17,16 +17,13 @@ describe('MaskedInput', () => {
     ['+9+9+', 'X', '+X+X+'],
   ])('mask "%s" with maskChar "%s" -> "%s"', (mask, maskChar, maskPlaceholder) => {
     it('without `alwaysShowMask`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={null} />);
+      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={false} />);
 
-      const input = screen.getByRole('textbox');
-      input.focus();
-
-      expect(input).toHaveValue('');
+      expect(screen.getByRole('textbox')).toHaveValue('');
     });
 
     it('with `alwaysShowMask`', () => {
-      render(<MaskedInput alwaysShowMask maskChar={maskChar} mask={mask} />);
+      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask />);
 
       expect(screen.getByRole('textbox')).toHaveValue(maskPlaceholder);
     });
@@ -117,7 +114,7 @@ describe('MaskedInput', () => {
       [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(5)}`, 1],
       [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, '12345', 1],
       [{ mask: '9-9-9-9', imaskProps: { eager: 'append' } }, `1234${'{backspace}'.repeat(8)}`, 1],
-    ])('%j > %s > %s times', (props, keys, expectedCount) => {
+    ])('%j > %s > %s times', ({ imaskProps, ...props }, keys, expectedCount) => {
       const handleUnexpectedInput = jest.fn();
       const Comp = () => {
         const [value, setValue] = useState('');
@@ -127,7 +124,7 @@ describe('MaskedInput', () => {
             value={value}
             onValueChange={setValue}
             onUnexpectedInput={handleUnexpectedInput}
-            alwaysShowMask={null}
+            imaskProps={{ ...imaskProps, lazy: true }}
           />
         );
       };
@@ -150,7 +147,7 @@ describe('MaskedInput', () => {
       ['9--9--9--9', '123{backspace}{backspace}', '1--'],
       ['9--9---9---9', '123{backspace}{backspace}', '1--'],
     ])(`%s > %s > "%s"`, (mask, keys, expected) => {
-      render(<MaskedInput mask={mask} alwaysShowMask={null} />);
+      render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       userEvent.type(input, keys);
@@ -166,7 +163,7 @@ describe('MaskedInput', () => {
       ['9-9-9-9', '1-', '1-'],
       ['9-9-9-9', '1-2-3', '1-2-3-'],
     ])(`%s > %s > "%s"`, (mask, paste, expected) => {
-      render(<MaskedInput mask={mask} alwaysShowMask={null} />);
+      render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       userEvent.paste(input, paste);

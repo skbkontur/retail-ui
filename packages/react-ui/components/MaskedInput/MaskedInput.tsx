@@ -1,38 +1,48 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { InputMask, MaskedPatternOptions, MaskedPattern } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
-import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
-import { MaskedInputElement, MaskedInputElementDataTids } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
+import { ColorableInputElement } from './ColorableInputElement';
+import { FixedIMaskInput } from './FixedIMaskInput';
 
 export interface MaskedProps {
   /** Паттерн маски */
   mask: string;
-  /** Символ маски */
+  /**
+   * Символ маски
+   *
+   * @see См. `imaskProps.placeholderChar`
+   * @default _
+   */
   maskChar?: Nullable<string>;
   /**
    * Словарь символов-регулярок для маски
+   *
+   * @see См. `imaskProps.definitions`
    * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
    */
   formatChars?: Record<string, string>;
   /**
-   * Показывать символы маски
+   * Всегда показывать символы маски
    *
-   * null - не показывать
-   * true - показывать всегда
-   * false - показывать по фокусу
+   * @see См. `imaskProps.lazy`
+   * @default false
    */
-  alwaysShowMask?: boolean | null;
+  alwaysShowMask?: boolean;
+  /**
+   * Ограничивать положение каретки, не позволяя выделять маску
+   *
+   * @default true
+   */
+  limitCaretLocation?: boolean;
   /**
    * Пропы для компонента `IMaskInput`
    *
@@ -42,11 +52,6 @@ export interface MaskedProps {
 }
 
 export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'password'>;
-
-export interface IMaskRefType {
-  maskRef: InputMask<MaskedPatternOptions>;
-  element: HTMLInputElement;
-}
 
 export interface MaskedInputProps
   extends MaskedProps,
@@ -66,6 +71,7 @@ export const MaskedInput = forwardRefAndName(
       maskChar,
       formatChars,
       alwaysShowMask,
+      limitCaretLocation = true,
       imaskProps: { onAccept, ...customIMaskProps } = {},
       placeholder,
       onValueChange,
@@ -73,11 +79,11 @@ export const MaskedInput = forwardRefAndName(
       onKeyDownCapture,
       onChange,
       element,
+      className,
       ...inputProps
     } = props;
 
     const inputRef = useRef<Input>(null);
-    const imaskRef = useRef<IMaskRefType>(null);
 
     const [focused, setFocused] = useState(false);
     const prevValue = useRef<string>(props.value || String(props.defaultValue) || '');
@@ -117,35 +123,19 @@ export const MaskedInput = forwardRefAndName(
         onFocus={handleFocus}
         onBlur={handleBlur}
         onInput={handleInput}
-        onMouseUp={handleSelect}
         onKeyDownCapture={handleKeyDownCapture}
-        className={cx(globalClasses.root, uiFontGlobalClasses.root)}
-        data-tid={MaskedInputElementDataTids.root}
+        className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
-          <MaskedInputElement maskChars={getMaskChars(imaskProps)}>
-            <IMaskInput ref={imaskRef} {...imaskProps} onAccept={handleAccept} />
-          </MaskedInputElement>
+          <ColorableInputElement>
+            {limitCaretLocation ? (
+              <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
+            ) : (
+              <IMaskInput {...imaskProps} onAccept={handleAccept} />
+            )}
+          </ColorableInputElement>
         }
       />
     );
-
-    function handleSelect(e: React.MouseEvent<HTMLInputElement>) {
-      if (
-        isInstanceOf(e.target, globalObject.HTMLInputElement) &&
-        e.target === inputRef.current?.input &&
-        e.target.closest('.react-ui-masked-input-root')
-      ) {
-        const nearest = imaskRef.current?.maskRef.masked.nearestInputPos(e.target.value.length, 'LEFT');
-        if (
-          typeof e.target.selectionStart === 'number' &&
-          typeof nearest === 'number' &&
-          e.target.selectionStart >= nearest
-        ) {
-          e.target.selectionStart = nearest;
-          e.target.selectionEnd = nearest;
-        }
-      }
-    }
 
     function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
       return {
@@ -154,21 +144,9 @@ export const MaskedInput = forwardRefAndName(
         definitions: getDefinitions(formatChars),
         eager: true,
         overwrite: 'shift',
-        lazy: alwaysShowMask === null ? true : !(alwaysShowMask || focused),
+        lazy: !(alwaysShowMask || focused),
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
-    }
-
-    function getMaskChars(imaskProps: IMaskInputProps<HTMLInputElement>): string[] {
-      const imaskPropsFix = imaskProps as MaskedPattern;
-      const maskChars = [imaskPropsFix.placeholderChar];
-      if (imaskPropsFix.blocks) {
-        (Object.values(imaskPropsFix.blocks) as Array<{ placeholderChar?: string }>).forEach(
-          ({ placeholderChar }) => placeholderChar && maskChars.push(placeholderChar),
-        );
-      }
-
-      return maskChars;
     }
 
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
