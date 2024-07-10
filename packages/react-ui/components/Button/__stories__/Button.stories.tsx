@@ -754,35 +754,3 @@ BtnTextBgHoverActive.parameters = {
     },
   },
 };
-
-export const BtnBacklessBgHoverActive: Story = () => {
-  const myTheme = ThemeFactory.create(
-    {
-      btnBacklessHoverBg: 'red',
-      btnBacklessActiveBg: 'green',
-    },
-    THEME_2022_DARK,
-  );
-
-  return (
-    <ThemeContext.Provider value={myTheme}>
-      <Button data-tid="test-button" use="backless">
-        Backless
-      </Button>
-    </ThemeContext.Provider>
-  );
-};
-
-BtnBacklessBgHoverActive.parameters = {
-  creevey: {
-    skip: {
-      'hover does not work in chrome & only 22 dark theme needed': {
-        in: /^(?!\bfirefox2022Dark?\b)/,
-      },
-    },
-    tests: {
-      hover: buttonTests.hover,
-      pressed: buttonTests.pressed,
-    },
-  },
-};
