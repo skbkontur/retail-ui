@@ -27,8 +27,8 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static linkGrayedHoverColor = '#292929';
   public static linkGrayedActiveColor = '#141414';
 
-  public static linkLineBorderBottomStyle = 'solid';
-  public static linkLineBorderBottomWidth = '1px';
+  public static linkTextDecorationStyle = 'solid';
+  public static linkTextDecorationThickness = '1px';
 
   public static linkDisabledColor = '#858585';
 
@@ -131,11 +131,11 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static btnWithIconPaddingLeftMedium = '10px';
   public static btnWithIconPaddingLeftLarge = '12px';
 
-  public static get btnLinkLineBorderBottomStyle() {
-    return this.linkLineBorderBottomStyle;
+  public static get btnLinkTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
   }
-  public static get btnLinkLineBorderBottomWidth() {
-    return this.linkLineBorderBottomWidth;
+  public static get btnLinkTextDecorationThickness() {
+    return this.linkTextDecorationThickness;
   }
   public static get btnLinkDisabledColor() {
     return this.linkDisabledColor;

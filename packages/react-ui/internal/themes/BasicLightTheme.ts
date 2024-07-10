@@ -122,15 +122,15 @@ export class BasicLightThemeInternal {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
-  public static linkLineBorderBottomStyle = '';
-  public static linkLineBorderBottomOffset = '3px';
-  public static get linkLineHoverBorderBottomStyle() {
-    return this.linkLineBorderBottomStyle;
+  public static linkTextDecorationStyle = '';
+  public static linkTextUnderlineOffset = '3px';
+  public static get linkHoverTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
   }
-  public static linkLineBorderBottomWidth = '0px';
-  public static linkLineBorderBottomOpacity = '0.5';
-  public static linkLineBorderBottomColor = `color-mix(in srgb, currentColor ${
-    parseFloat(this.linkLineBorderBottomOpacity) * 100
+  public static linkTextDecorationThickness = '0px';
+  public static linkTextUnderlineOpacity = '0.5';
+  public static linkTextDecorationColor = `color-mix(in srgb, currentColor ${
+    parseFloat(this.linkTextUnderlineOpacity) * 100
   }%, transparent)`;
 
   public static linkFocusOutlineColor = 'transparent';
@@ -548,16 +548,16 @@ export class BasicLightThemeInternal {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
+  public static get btnLinkTextDecorationColor() {
+    return this.linkTextDecorationColor;
   }
-  public static btnLinkLineBorderBottomStyle = '';
-  public static get btnLinkHoverLineBorderBottomStyle() {
-    return this.btnLinkLineBorderBottomStyle;
+  public static btnLinkTextDecorationStyle = '';
+  public static get btnLinkTextUnderlineOffset() {
+    return this.linkTextUnderlineOffset;
   }
-  public static btnLinkLineBorderBottomWidth = '0px';
-  public static get btnLinkLineBorderBottomOpacity() {
-    return this.linkLineBorderBottomOpacity;
+  public static btnLinkTextDecorationThickness = '0px';
+  public static get btnLinkTextUnderlineOpacity() {
+    return this.linkTextUnderlineOpacity;
   }
 
   public static get btnLinkIconMarginRight() {

@@ -77,7 +77,7 @@ export const FocusedStyledLink: Story = () => {
     <ThemeContext.Consumer>
       {(theme) => {
         return (
-          <ThemeContext.Provider value={ThemeFactory.create({ linkLineHoverBorderBottomStyle: 'dotted' }, theme)}>
+          <ThemeContext.Provider value={ThemeFactory.create({ linkHoverTextDecorationStyle: 'dotted' }, theme)}>
             <Link icon={<OkIcon />}>Simple Link</Link>
           </ThemeContext.Provider>
         );
