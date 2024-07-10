@@ -43,7 +43,7 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     }
   }
 
- return _icon ? (
+  return _icon ? (
     <span
       style={style}
       className={cx(

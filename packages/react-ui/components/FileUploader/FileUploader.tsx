@@ -266,9 +266,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   );
 
   const canDrop = isWindowDraggable && !disabled;
-  const uploadButtonWrapperClassNames = cx(
-    canDrop && jsStyles.windowDragOver(theme),
-  );
+  const uploadButtonWrapperClassNames = cx(canDrop && jsStyles.windowDragOver(theme));
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), sizeIconClass, disabled && jsStyles.iconDisabled(theme));
 
