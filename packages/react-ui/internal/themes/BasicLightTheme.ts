@@ -552,6 +552,9 @@ export class BasicLightThemeInternal {
     return this.linkTextDecorationColor;
   }
   public static btnLinkTextDecorationStyle = '';
+  public static get btnLinkHoverTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
+  }
   public static get btnLinkTextUnderlineOffset() {
     return this.linkTextUnderlineOffset;
   }
