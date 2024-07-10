@@ -6,7 +6,7 @@ export const getInnerLinkTheme = (theme: Theme): Theme => {
     {
       linkTextDecorationStyle: theme.btnLinkTextDecorationStyle,
       linkTextUnderlineOffset: theme.btnLinkTextUnderlineOffset,
-      linkHoverTextDecorationStyle: theme.btnLinkTextUnderlineOffset,
+      linkHoverTextDecorationStyle: theme.btnLinkHoverTextDecorationStyle,
       linkTextUnderlineOpacity: theme.btnLinkTextUnderlineOpacity,
       linkTextDecorationColor: theme.btnLinkTextDecorationColor,
       linkTextDecorationThickness: theme.btnLinkTextDecorationThickness,
