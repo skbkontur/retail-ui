@@ -1,5 +1,6 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 import { HTMLProps } from '../../typings/html';
 import { pick, isKonturIcon, isReactUIComponent } from '../../lib/utils';
@@ -252,6 +253,10 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
       keyListener.isTabPressed = true;
       this.focus();
     }
+    warning(
+      this.props.use !== 'link',
+      `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
+    );
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
