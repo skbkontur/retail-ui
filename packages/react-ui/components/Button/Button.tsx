@@ -235,7 +235,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
     // By default the type attribute is 'submit'. IE8 will fire a click event
     // on this button if somewhere on the page user presses Enter while some
     // input is focused. So we set type to 'button' by default.
-    type: BUTTON_DEFAULT_ELEMENT,
+    type: 'button',
   };
 
   private getProps = createPropsGetter(Button.defaultProps);
