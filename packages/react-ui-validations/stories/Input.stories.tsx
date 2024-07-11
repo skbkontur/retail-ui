@@ -152,7 +152,7 @@ export const ScrollInsideTheContainer = () => {
   );
 };
 
-// #6 Выбор первого контра для валидации
+// #6 Выбор первого контрола для валидации
 export const SelectFirstContrForValidation = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value1, setValue1] = useState<string>('');
@@ -199,6 +199,7 @@ export const SelectFirstContrForValidation = () => {
   );
 };
 
+// #7 Три невалидных поля по сабмиту
 export const ThreeInvalidInputOnSubmit = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value1, setValue1] = useState<string>('');
