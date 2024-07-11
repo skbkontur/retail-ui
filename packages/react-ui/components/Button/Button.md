@@ -157,7 +157,7 @@ const textDecorationStyles = {
 }
 
 const underlineOnHoverStyles = {
-  btnTextDecorationColor: 'transparent',
+  btnLinkTextDecorationColor: 'transparent',
 }
 
 const differentColorStyles = {
