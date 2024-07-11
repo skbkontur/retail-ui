@@ -1,5 +1,5 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { IMaskInput, IMaskInputProps } from 'react-imask';
+import { IMaskInputProps } from 'react-imask';
 
 import { Nullable } from '../../typings/utility-types';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
@@ -38,12 +38,6 @@ export interface MaskedProps {
    */
   alwaysShowMask?: boolean;
   /**
-   * Ограничивать положение каретки, не позволяя выделять маску
-   *
-   * @default true
-   */
-  limitCaretLocation?: boolean;
-  /**
    * Пропы для компонента `IMaskInput`
    *
    * @see https://imask.js.org/guide.html
@@ -71,9 +65,7 @@ export const MaskedInput = forwardRefAndName(
       maskChar,
       formatChars,
       alwaysShowMask,
-      limitCaretLocation = true,
       imaskProps: { onAccept, ...customIMaskProps } = {},
-      placeholder,
       onValueChange,
       onUnexpectedInput,
       onKeyDownCapture,
@@ -88,8 +80,6 @@ export const MaskedInput = forwardRefAndName(
     const [focused, setFocused] = useState(false);
     const prevValue = useRef<string>(props.value || String(props.defaultValue) || '');
     const prevSelectionStart = useRef<number | null>(null);
-
-    const showPlaceholder = !(alwaysShowMask || focused);
 
     useImperativeHandle(
       ref,
@@ -119,19 +109,14 @@ export const MaskedInput = forwardRefAndName(
       <Input
         ref={inputRef}
         {...inputProps}
-        placeholder={showPlaceholder ? placeholder : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onInput={handleInput}
         onKeyDownCapture={handleKeyDownCapture}
         className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
-          <ColorableInputElement>
-            {limitCaretLocation ? (
-              <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
-            ) : (
-              <IMaskInput {...imaskProps} onAccept={handleAccept} />
-            )}
+          <ColorableInputElement showOnFocus={!alwaysShowMask} active={!isShowPlaceholder()}>
+            <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
           </ColorableInputElement>
         }
       />
@@ -144,9 +129,21 @@ export const MaskedInput = forwardRefAndName(
         definitions: getDefinitions(formatChars),
         eager: true,
         overwrite: 'shift',
-        lazy: !(alwaysShowMask || focused),
+        lazy: isLazy(),
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
+    }
+
+    function isLazy() {
+      const showPlaceholder = isShowPlaceholder();
+      if (!showPlaceholder && props.disabled) {
+        return !(alwaysShowMask || focused);
+      }
+      return showPlaceholder;
+    }
+
+    function isShowPlaceholder() {
+      return !alwaysShowMask && props.placeholder && !(props.value || props.defaultValue) && !focused;
     }
 
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {

@@ -228,13 +228,15 @@ const [propsPreset, propsSetA, propsSetB]: [
   Array<Partial<MaskedInputProps>>,
   Array<Partial<MaskedInputProps>>,
 ] = [
-  { mask: '+7 999-999-99-99' },
+  { mask: '+7 999-999-99-99', placeholder: 'placeholder', disabled: false },
   [
+    { value: '' },
     { value: 'invalid' },
     { value: '12' },
     { value: '123' },
     { value: '1234' },
     { value: '+7 12' },
+    { defaultValue: '' },
     { defaultValue: 'invalid' },
     { defaultValue: '12' },
     { defaultValue: '123' },

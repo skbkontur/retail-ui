@@ -16,8 +16,8 @@ describe('MaskedInput', () => {
     ['+999+', 'X', '+XXX+'],
     ['+9+9+', 'X', '+X+X+'],
   ])('mask "%s" with maskChar "%s" -> "%s"', (mask, maskChar, maskPlaceholder) => {
-    it('without `alwaysShowMask`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={false} />);
+    it('without `imaskProps={{ lazy: true }}`', () => {
+      render(<MaskedInput maskChar={maskChar} mask={mask} imaskProps={{ lazy: true }} />);
 
       expect(screen.getByRole('textbox')).toHaveValue('');
     });
@@ -37,7 +37,7 @@ describe('MaskedInput', () => {
     ['99:aa', '11:22', '11:'],
   ])('mask "%s" pass value "%s" -> "%s"', (mask, value, expectedValue) => {
     it('when mounting', () => {
-      render(<MaskedInput value={value} maskChar="_" mask={mask} />);
+      render(<MaskedInput value={value} maskChar="_" mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(expectedValue);
     });
@@ -58,12 +58,12 @@ describe('MaskedInput', () => {
   });
 
   it.each([
-    ['99:99', '12:', '12:01', '12:'],
-    ['99:99', '12:', '', '12:'],
+    ['99:99', '12:', '12:01', '12:__'],
+    ['99:99', '12:', '', '12:__'],
     ['99:99', undefined, '12:01', '12:01'],
-    ['99:99', undefined, '12:xx', '12:'],
-    ['99:99', '', '12:', ''],
-    ['99:99', '0', '12:xx', '0'],
+    ['99:99', undefined, '12:xx', '12:__'],
+    ['99:99', '', '12:', '__:__'],
+    ['99:99', '0', '12:xx', '0_:__'],
   ])(
     `mask '%s' - pass value '%s' and defaultValue '%s' - state value '%s'`,
     (mask, inputValue, defaultValue, expected) => {
@@ -77,7 +77,7 @@ describe('MaskedInput', () => {
     render(<MaskedInput value={'123'} mask="XX:XX" formatChars={{ X: '[0-9]' }} />);
 
     const input = screen.getByRole('textbox');
-    expect(input).toHaveValue('12:3');
+    expect(input).toHaveValue('12:3_');
   });
 
   it('fixed symbols on focus', () => {
@@ -94,7 +94,7 @@ describe('MaskedInput', () => {
     ['+7 (', '+7 ('],
     ['+7 (9', '+7 (9'],
   ])(`focus and blur with value '%s'`, (value, expectedValue) => {
-    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
+    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} imaskProps={{ lazy: true }} />);
 
     const input = screen.getByRole('textbox');
     input.focus();

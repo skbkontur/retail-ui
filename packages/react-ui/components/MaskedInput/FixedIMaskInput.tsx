@@ -31,8 +31,9 @@ interface IMaskRefType {
 export const FixedIMaskInput = forwardRefAndName(
   'FixedIMaskInput',
   function FixedIMaskInput(props: FixedIMaskInputProps, ref: React.Ref<IMaskRefType | null>) {
-    const { inputRef, onKeyDown, onAccept, ...restProps } = props;
+    const { inputRef, ...restProps } = props;
     const imaskRef = useRef<IMaskRefType>(null);
+    const focused = useRef(false);
 
     useEffect(() => {
       if (imaskRef.current?.element) {
@@ -56,18 +57,21 @@ export const FixedIMaskInput = forwardRefAndName(
     useImperativeHandle(ref, () => imaskRef.current, []);
 
     return (
-      <IMaskInput ref={imaskRef} inputRef={inputRef} onKeyDown={handleKeyDown} onAccept={handleAccept} {...restProps} />
+      <IMaskInput
+        {...restProps}
+        ref={imaskRef}
+        inputRef={inputRef}
+        onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onMouseUp={handleMouseUp}
+        onAccept={handleAccept}
+      />
     );
-
-    function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
-      fillTypedValue();
-
-      onAccept?.(...args);
-    }
-
     function getTypedValue() {
+      const { _value = '', displayValue = '' } = imaskRef.current?.maskRef.masked || {};
       const end = getMaxCaretPosition();
-      const value = imaskRef.current?.element ? imaskRef.current.element.value : props.value || '';
+      const value = _value !== '' || focused.current === true ? displayValue : '';
 
       return value.slice(0, end);
     }
@@ -91,7 +95,15 @@ export const FixedIMaskInput = forwardRefAndName(
       return Infinity;
     }
 
-    function normalizeRange(calc: number | unknown) {
+    function normalizeSelection() {
+      const [start, end] = getSelection();
+      const max = getMaxCaretPosition();
+      if (end > max) {
+        setSelection(start, max);
+      }
+    }
+
+    function getNormalizedRange(calc: number | unknown) {
       return typeof calc === 'number' ? Math.min(getMaxCaretPosition(), Math.max(0, calc)) : 0;
     }
 
@@ -107,7 +119,11 @@ export const FixedIMaskInput = forwardRefAndName(
     }
 
     function setSelection(...[start, end, direction]: Parameters<HTMLInputElement['setSelectionRange']>) {
-      imaskRef.current?.element.setSelectionRange(normalizeRange(start), normalizeRange(end), direction || 'none');
+      imaskRef.current?.element.setSelectionRange(
+        getNormalizedRange(start),
+        getNormalizedRange(end),
+        direction || 'none',
+      );
     }
 
     function jumpCaret(prev: number, headDirection: HeadDirection) {
@@ -117,9 +133,9 @@ export const FixedIMaskInput = forwardRefAndName(
       imaskRef.current?.element.value.match(wordRegExp)?.reduce<number[]>((s, a) => {
         const pos = a.length + (s.slice(-1)[0] || 0);
         if (headDirection === 'right' && next === prev && next < pos) {
-          next = normalizeRange(pos);
+          next = getNormalizedRange(pos);
         } else if (headDirection === 'left' && prev > pos) {
-          next = normalizeRange(pos);
+          next = getNormalizedRange(pos);
         }
         return [...s, pos];
       }, []);
@@ -148,10 +164,37 @@ export const FixedIMaskInput = forwardRefAndName(
       if (isSelectionMode) {
         const start = Math.min(tail, head);
         const end = Math.max(tail, head);
-        return [normalizeRange(start), normalizeRange(end), end === head ? 'forward' : 'backward'];
+        return [getNormalizedRange(start), getNormalizedRange(end), end === head ? 'forward' : 'backward'];
       }
       tail = head;
-      return [normalizeRange(tail), normalizeRange(head), 'none'];
+      return [getNormalizedRange(tail), getNormalizedRange(head), 'none'];
+    }
+
+    function handleMouseUp(e: React.MouseEvent<HTMLInputElement>) {
+      normalizeSelection();
+
+      props.onMouseUp?.(e);
+    }
+
+    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+      focused.current = true;
+      fillTypedValue();
+      normalizeSelection();
+
+      props.onFocus?.(e);
+    }
+
+    function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+      focused.current = false;
+      fillTypedValue();
+
+      props.onBlur?.(e);
+    }
+
+    function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
+      fillTypedValue();
+
+      props.onAccept?.(...args);
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -161,13 +204,17 @@ export const FixedIMaskInput = forwardRefAndName(
         setSelection(0, nearest);
       } else if (isKeyArrow(e) || isKeyEnd(e) || isKeyHome(e)) {
         e.preventDefault();
-
         const [start, end, direction] = calcSelection(e);
-
         setSelection(start, end, direction);
+      } else {
+        const [start, end] = getSelection();
+        const max = getMaxCaretPosition();
+        if (end > max) {
+          setSelection(start, max);
+        }
       }
 
-      onKeyDown?.(e);
+      props.onKeyDown?.(e);
     }
   },
 );

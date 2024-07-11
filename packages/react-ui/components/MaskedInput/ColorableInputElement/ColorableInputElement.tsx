@@ -10,14 +10,21 @@ import { cx } from '../../../lib/theming/Emotion';
 import { styles } from './ColorableInputElement.styles';
 
 export type ColorableInputElementProps = InputElementProps & {
+  active?: boolean;
+  showOnFocus?: boolean;
   children: React.ReactElement;
 };
 
-const dictionary = new WeakMap<Element, () => void>();
+const dictionary = new Map<Element, () => void>();
 const paintText: ResizeObserverCallback = (entries) => {
   entries.forEach((entry) => dictionary.get(entry.target)?.());
 };
 const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(debounce(paintText)) : null;
+
+// Возможно придётся включить.
+// Иногда, на тяжёлых страницах, текст рендерится итеративно.
+// Из-за этого могут оставаться артефакты при покраске компонента, которые пропадут только после фокуса.
+// setInterval(() => window.requestAnimationFrame(() => dictionary.forEach((paint) => paint())), 10000);
 
 export const ColorableInputElement = forwardRefAndName(
   'ColorableInputElement',
@@ -28,7 +35,7 @@ export const ColorableInputElement = forwardRefAndName(
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
 
-    const { children, onInput, onFocus, onBlur, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, active = true, showOnFocus = false, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -44,7 +51,6 @@ export const ColorableInputElement = forwardRefAndName(
         dictionary.set(inputRef.current, paintText);
         resizeObserver?.observe(inputRef.current);
       }
-      setTimeout(paintText);
 
       return () => {
         if (inputRef.current) {
@@ -55,12 +61,15 @@ export const ColorableInputElement = forwardRefAndName(
     }, []);
 
     useEffect(() => {
+      // При деактивации быстро выключаем покраску
+      !active ? unPaintText() : setTimeout(paintText);
+    }, [showOnFocus, active]);
+
+    useEffect(() => {
       if (inputRef.current) {
         inputStyle.current = getComputedStyle(inputRef.current);
       }
     });
-
-    const placeholderColor = !(props.value || props.defaultValue);
 
     return (
       <>
@@ -70,11 +79,7 @@ export const ColorableInputElement = forwardRefAndName(
           onFocus: handleFocus,
           onBlur: handleBlur,
           inputRef,
-          className: cx(
-            props.className,
-            !props.disabled && styles.input(theme),
-            !props.disabled && placeholderColor && styles.inputPlaceholder(theme),
-          ),
+          className: cx(props.className, active && styles.input()),
         })}
         <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />
       </>
@@ -101,8 +106,12 @@ export const ColorableInputElement = forwardRefAndName(
       onBlur?.(e);
     }
 
+    function unPaintText() {
+      inputRef.current && (inputRef.current.style.backgroundImage = '');
+    }
+
     function paintText() {
-      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject) || props.disabled) {
+      if (!active || !spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
 
@@ -128,11 +137,21 @@ export const ColorableInputElement = forwardRefAndName(
       const threshold = filledRect.width / (inputRect.width / 100);
       const degree = style.fontStyle === 'italic' ? 100 : 90;
 
+      let typedValueColor = theme.inputTextColor;
+      let maskColor = theme.inputPlaceholderColor;
+      if (props.disabled) {
+        typedValueColor = theme.inputTextColorDisabled;
+        maskColor = theme.inputTextColorDisabled;
+      }
+      if (showOnFocus) {
+        maskColor = focused.current ? maskColor : 'transparent';
+      }
+
       inputRef.current.style.backgroundImage = `
       linear-gradient(
           ${degree}deg,
-          ${theme.inputTextColor} ${threshold}%,
-          ${theme.placeholderColor} ${threshold}%
+          ${typedValueColor} ${threshold}%,
+          ${maskColor} ${threshold}%
       )`;
     }
   },
