@@ -346,7 +346,7 @@ export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT>
 
     const sizeClass = this.getSizeClassName();
 
-    const Root = component as React.ElementType;
+    const Root = component;
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
