@@ -153,7 +153,7 @@ export const ScrollInsideTheContainer = () => {
 };
 
 // #6 Выбор первого контрола для валидации
-export const SelectFirstContrForValidation = () => {
+export const SelectFirstControlForValidation = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value1, setValue1] = useState<string>('');
   const [value2, setValue2] = useState<string>('');
