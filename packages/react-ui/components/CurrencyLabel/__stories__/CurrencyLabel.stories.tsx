@@ -2,11 +2,7 @@ import React from 'react';
 
 import { CurrencyLabel } from '../CurrencyLabel';
 
-export default {
-  title: 'Layout/CurrencyLabel',
-  component: CurrencyLabel,
-  tags: ['autodocs'],
-};
+export default { title: 'CurrencyLabel' };
 
 export const Simple = () => <CurrencyLabel value={12356.1} />;
 Simple.storyName = 'simple';

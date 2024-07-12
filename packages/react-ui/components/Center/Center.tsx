@@ -15,7 +15,11 @@ export interface CenterProps
     Override<
       React.HTMLAttributes<HTMLDivElement>,
       {
-        /** Задаёт выравнивание контента по горизонтали. */
+        /**
+         * Определяет, как контент будет выровнен по горизонтали.
+         *
+         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+         */
         align?: HorizontalAlign;
       }
     > {}

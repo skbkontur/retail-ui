@@ -6,7 +6,6 @@ const simpleTests = () => {
   test('open side-page', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
@@ -19,11 +18,11 @@ kind('SidePage', () => {
   story('SidePageOverAnotherSidePageStory', () => {
     test('open internal side-page', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Body"] button' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
@@ -31,15 +30,15 @@ kind('SidePage', () => {
 
     test('close internal side-page', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Body"] button' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
@@ -49,11 +48,11 @@ kind('SidePage', () => {
   story('StickySidePageHeaderWhenAnotherSidePageStory', () => {
     test('sticky header, open and close internal side-page', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Body"] button' }))
         .perform();
       await this.browser.executeScript(function () {
@@ -64,7 +63,7 @@ kind('SidePage', () => {
         }
       });
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage(
@@ -85,7 +84,6 @@ kind('SidePage', () => {
     test('scroll to bottom', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
@@ -104,7 +102,6 @@ kind('SidePage', () => {
     test('open side-page without header', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
@@ -114,14 +111,13 @@ kind('SidePage', () => {
     });
   });
 
-  story('SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag', ({ setStoryParameters }) => {
+  story('SidePageWithFocusLockWhenBackgroundBlocked', ({ setStoryParameters }) => {
     setStoryParameters({ skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } } });
 
     test('open side-page', async function () {
       const pressTab = async () => {
         await this.browser
           .actions({
-            async: undefined,
             bridge: true,
           })
           .sendKeys(this.keys.TAB)
@@ -130,7 +126,6 @@ kind('SidePage', () => {
       };
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
@@ -161,7 +156,6 @@ kind('SidePage', () => {
     test('Body content has been changed', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="toggle-body-content"]' }))
@@ -173,7 +167,6 @@ kind('SidePage', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
@@ -185,7 +178,6 @@ kind('SidePage', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
@@ -245,7 +237,6 @@ kind('SidePage', () => {
     test('with header, footer', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
@@ -260,7 +251,6 @@ kind('SidePage', () => {
     test('scroll to bottom with header, footer', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
@@ -279,7 +269,6 @@ kind('SidePage', () => {
     test('with panel', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
@@ -292,7 +281,7 @@ kind('SidePage', () => {
 
     test('scroll to bottom with panel', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
         .pause(1000)
         .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))

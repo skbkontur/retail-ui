@@ -30,7 +30,6 @@ export interface ScrollBarProps {
   className?: string;
   onScroll?: (axis: ScrollAxis, state: ScrollBarScrollState, prevState: ScrollBarScrollState) => void;
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
-  /** Отключает анимации. */
   disableAnimations?: boolean;
   isVisible: boolean;
 }

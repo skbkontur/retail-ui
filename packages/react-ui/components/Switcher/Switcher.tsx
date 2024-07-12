@@ -27,7 +27,9 @@ export const SwitcherDataTids = {
 } as const;
 
 export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, CommonProps {
-  /** Список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }` */
+  /**
+   * Список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }`
+   */
   items: SwitcherItems[];
 
   value?: string;
@@ -35,15 +37,16 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
   onValueChange?: (value: string) => void;
 
   caption?: string;
-  /** Задаёт состояние валидации при ошибке. */
+
   error?: boolean;
 
-  /** Задаёт размер контрола. */
+  /** Размер */
   size?: SizeProp;
 
   disabled?: boolean;
 
-  /** Функция для отрисовки элемента. Аргументы — `label`,
+  /**
+   * Функция для отрисовки элемента. Аргументы — `label`,
    * `value`, `buttonProps`, `renderDefault`, `ariaLabel`
    */
   renderItem?: (

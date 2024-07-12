@@ -6,14 +6,12 @@ const tabsSimpleTests = () => {
   test('move focus forward', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
       .perform();
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.ARROW_RIGHT)
@@ -25,7 +23,6 @@ const tabsSimpleTests = () => {
   test('move focus backward', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
@@ -33,7 +30,6 @@ const tabsSimpleTests = () => {
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.ARROW_LEFT)
@@ -41,7 +37,6 @@ const tabsSimpleTests = () => {
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.ARROW_UP)
@@ -51,14 +46,12 @@ const tabsSimpleTests = () => {
   test('reset focus after click', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
       .perform();
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.ARROW_RIGHT)
@@ -76,7 +69,6 @@ const tabsTests = () => {
   test('hovered', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -89,7 +81,6 @@ const tabsTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
@@ -100,7 +91,6 @@ const tabsTests = () => {
   test('mouseLeave', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
@@ -114,7 +104,6 @@ const tabsTests = () => {
   test('focused', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
@@ -129,7 +118,6 @@ const tabsTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
@@ -137,7 +125,6 @@ const tabsTests = () => {
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
@@ -149,7 +136,6 @@ const tabsTests = () => {
   test('enterPress', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
@@ -157,7 +143,6 @@ const tabsTests = () => {
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
@@ -165,7 +150,6 @@ const tabsTests = () => {
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.ENTER)

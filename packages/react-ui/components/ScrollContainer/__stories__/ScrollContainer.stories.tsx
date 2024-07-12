@@ -67,11 +67,7 @@ const DynamicContent: React.FC<
   );
 };
 
-export default {
-  title: 'Layout/ScrollContainer',
-  component: ScrollContainer,
-  tags: ['autodocs'],
-};
+export default { title: 'ScrollContainer' };
 
 export const WithLargeContentHeight = () => {
   return (

@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.24.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.23.0...@skbkontur/react-ui@4.24.0) (2024-06-05)
+
+
+### Features
+
+* **Calendar:** add public component Calendar.Day ([#3415](https://github.com/skbkontur/retail-ui/issues/3415)) ([f32c251](https://github.com/skbkontur/retail-ui/commit/f32c251426b057fbb5a704af23ce60fc0ce0b967))
+* **Calendar, DatePicker:** add renderDay and onMonthChange props ([#3257](https://github.com/skbkontur/retail-ui/issues/3257)) ([228a6f4](https://github.com/skbkontur/retail-ui/commit/228a6f44621115037013cf27235b4dda2ad3896d))
+* **DatePicker:** mobile version ([#3323](https://github.com/skbkontur/retail-ui/issues/3323)) ([2785f2b](https://github.com/skbkontur/retail-ui/commit/2785f2b7c05958e76acb0dc749d275b7b2263d79))
+
+
+
+
+
+# [4.23.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.6...@skbkontur/react-ui@4.23.0) (2024-05-28)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip:** unify positioning ([#3416](https://github.com/skbkontur/retail-ui/issues/3416)) ([be0c447](https://github.com/skbkontur/retail-ui/commit/be0c447d228b861e4967737b95bbdecde4e2281d))
+
+
+
+
+
+## [4.22.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.5...@skbkontur/react-ui@4.22.6) (2024-05-28)
+
+
+### Bug Fixes
+
+* **Autocomplete:** fix dropdown position when disablePortal ([#3426](https://github.com/skbkontur/retail-ui/issues/3426)) ([a991806](https://github.com/skbkontur/retail-ui/commit/a991806862eedbbc9dfb76dfa95cca94d24b6974))
+
+
+
+
+
+## [4.22.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.4...@skbkontur/react-ui@4.22.5) (2024-05-14)
+
+
+### Bug Fixes
+
+* **Autocomplete, ComboBox:** disable browser autofill ([#3419](https://github.com/skbkontur/retail-ui/issues/3419)) ([f805126](https://github.com/skbkontur/retail-ui/commit/f8051261304878b9cfffa744dc82a7296a7448b9))
+
+
+
+
+
+## [4.22.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.3...@skbkontur/react-ui@4.22.4) (2024-05-07)
+
+
+### Features
+
+* **Kebab,Link,Paging:** add visual state disabled ([#3418](https://github.com/skbkontur/retail-ui/issues/3418)) ([c47c213](https://github.com/skbkontur/retail-ui/commit/c47c213f3986b4c8a16e0f542fa2b530fc78b632))
+* boolean visual state attributes ([#3407](https://github.com/skbkontur/retail-ui/issues/3407)) ([132a177](https://github.com/skbkontur/retail-ui/commit/132a177782baa51cdca5d59d97d41780217ef73d))
+
+
+
+
+
+## [4.22.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.2...@skbkontur/react-ui@4.22.3) (2024-04-25)
+
+
+### Bug Fixes
+
+* Reset focus if disabled ([#3378](https://github.com/skbkontur/retail-ui/issues/3378)) ([ed728b6](https://github.com/skbkontur/retail-ui/commit/ed728b66e30735cfe01e5d2acec3b81efa3fcdb8))
+
+
+
+
 ## [4.22.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.22.1...@skbkontur/react-ui@4.22.2) (2024-04-19)
 
 **Note:** Version bump only for package @skbkontur/react-ui

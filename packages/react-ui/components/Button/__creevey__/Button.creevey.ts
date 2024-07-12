@@ -8,7 +8,6 @@ const buttonTests = () => {
   test('hover', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -21,7 +20,6 @@ const buttonTests = () => {
   test('pressed', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -32,7 +30,6 @@ const buttonTests = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .release()
@@ -42,7 +39,6 @@ const buttonTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
@@ -53,7 +49,6 @@ const buttonTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
@@ -103,20 +98,6 @@ kind('Button', () => {
     buttonTests();
   });
 
-  story('WithLinkFocusOutlineFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'hover does not work': {
-          in: /chrome/,
-          tests: ['hover', 'pressed', 'clicked'],
-        },
-        'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
-      },
-    });
-
-    buttonTests();
-  });
-
   story('IconAndTextHoverColor', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -129,7 +110,6 @@ kind('Button', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -154,7 +134,6 @@ kind('Button', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({

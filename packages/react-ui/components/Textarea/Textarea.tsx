@@ -11,18 +11,13 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isIE11, isSafari17 } from '../../lib/client';
+import { isIE11, isSafariWithTextareaBug } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -43,30 +38,47 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /** Задаёт состояние валидации при ошибке. */
+        /**
+         * Состояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Задаёт состояние валидации при предупреждении. */
+        /**
+         * Состояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
-        /** Задаёт размер контрола. */
+        /** Размер */
         size?: SizeProp;
-        /** Автоматический ресайз
-         * в зависимости от содержимого */
+        /**
+         * Автоматический ресайз
+         * в зависимости от содержимого
+         */
         autoResize?: boolean;
-        /** Число строк */
+        /**
+         * Число строк
+         */
         rows?: number;
-        /** Максимальное число строк при
-         * автоматическом ресайзе */
+        /**
+         * Максимальное число строк при
+         * автоматическом ресайзе
+         */
         maxRows?: string | number;
 
-        /** Стандартный ресайз. Попадает в `style` */
+        /**
+         * Стандартный ресайз
+         * Попадает в `style`
+         */
         resize?: React.CSSProperties['resize'];
 
-        /** Ширина */
+        /**
+         * Ширина
+         */
         width?: React.CSSProperties['width'];
 
-        /** Вызывается при изменении `value` */
+        /**
+         * Вызывается при изменении `value`
+         */
         onValueChange?: (value: string) => void;
 
         /** Выделение значения при фокусе */
@@ -75,11 +87,15 @@ export interface TextareaProps
         /** Показывать счетчик символов */
         showLengthCounter?: boolean;
 
-        /** Допустимое количество символов в поле. Отображается в счетчике. Если не указано, равно `maxLength` */
+        /** Допустимое количество символов в поле. Отображается в счетчике.
+         * Если не указано, равно `maxLength`
+         */
         lengthCounter?: number;
 
         /** Подсказка к счетчику символов.
+         *
          * По умолчанию - тултип с содержимым из пропа, если передан`ReactNode`.
+         *
          * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
          *
          * ```
@@ -93,7 +109,9 @@ export interface TextareaProps
          * */
         extraRow?: boolean;
 
-        /** Отключает анимации. Автоматически отключается когда в `extraRow` передан `false`. */
+        /** Отключать анимацию при авто-ресайзе.
+         * Автоматически отключается когда в `extraRow` передан `false`.
+         */
         disableAnimations?: boolean;
       }
     > {}
@@ -186,7 +204,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private getProps = createPropsGetter(Textarea.defaultProps);
-  private featureFlags!: ReactUIFeatureFlags;
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
@@ -278,34 +295,30 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public focus() {
     if (this.node) {
       this.node.focus();
     }
   }
 
-  /** @public
+  /**
+   * @public
    */
   public blur() {
     if (this.node) {
@@ -313,7 +326,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  /** @public
+  /**
+   * @public
    * @param {number} start
    * @param {number} end
    */
@@ -329,7 +343,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.node.setSelectionRange(start, end);
   };
 
-  /** @public
+  /**
+   * @public
    */
   public selectAll = () => {
     if (this.node) {
@@ -421,8 +436,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       />
     );
 
-    const Component =
-      this.featureFlags.textareaUseSafari17Workaround && isSafari17 ? TextareaWithSafari17Workaround : 'textarea';
+    const Component = isSafariWithTextareaBug ? TextareaWithSafari17Workaround : 'textarea';
 
     return (
       <RenderLayer

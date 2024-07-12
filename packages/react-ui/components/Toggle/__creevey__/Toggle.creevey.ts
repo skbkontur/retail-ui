@@ -17,7 +17,6 @@ kind('Toggle', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -32,7 +31,6 @@ kind('Toggle', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
@@ -46,7 +44,6 @@ kind('Toggle', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -79,7 +76,6 @@ kind('Toggle', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))

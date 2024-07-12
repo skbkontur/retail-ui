@@ -26,7 +26,6 @@ kind('ComboBox', () => {
     test('opened', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -37,14 +36,12 @@ kind('ComboBox', () => {
     test('hovered', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -59,14 +56,12 @@ kind('ComboBox', () => {
     test('selected', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -77,7 +72,6 @@ kind('ComboBox', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .press()
@@ -89,14 +83,12 @@ kind('ComboBox', () => {
     test('search result', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('Second')
@@ -108,14 +100,12 @@ kind('ComboBox', () => {
     test('selcted', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('Second')
@@ -128,14 +118,12 @@ kind('ComboBox', () => {
     test('opened again', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('Second')
@@ -144,7 +132,6 @@ kind('ComboBox', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
@@ -155,14 +142,12 @@ kind('ComboBox', () => {
     test('search result_0', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('Такого точно нету')
@@ -174,14 +159,12 @@ kind('ComboBox', () => {
     test('select', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ARROW_DOWN)
@@ -194,7 +177,6 @@ kind('ComboBox', () => {
     test('submit', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -211,7 +193,6 @@ kind('ComboBox', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -230,7 +211,6 @@ kind('ComboBox', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -240,7 +220,6 @@ kind('ComboBox', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
@@ -248,7 +227,6 @@ kind('ComboBox', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -286,7 +264,6 @@ kind('ComboBox', () => {
       });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -300,14 +277,12 @@ kind('ComboBox', () => {
       });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -325,14 +300,12 @@ kind('ComboBox', () => {
       });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -343,7 +316,6 @@ kind('ComboBox', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .press()
@@ -357,7 +329,6 @@ kind('ComboBox', () => {
     test('opened', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -383,7 +354,6 @@ kind('ComboBox', () => {
     test('with error', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
@@ -395,7 +365,6 @@ kind('ComboBox', () => {
     test('plain again', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
@@ -415,7 +384,6 @@ kind('ComboBox', () => {
     test('reset value', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="resetBtn"]' }))
@@ -426,7 +394,6 @@ kind('ComboBox', () => {
     test('set value', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="resetBtn"]' }))
@@ -444,7 +411,6 @@ kind('ComboBox', () => {
     test('after Enter on Item', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ENTER)
@@ -455,14 +421,12 @@ kind('ComboBox', () => {
     test('after tab to the next field', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ENTER)
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.TAB)
@@ -475,12 +439,12 @@ kind('ComboBox', () => {
     test('show and hide Tooltip', async function () {
       const body = await this.browser.findElement({ css: 'body' });
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid="InputLikeText__input"]' }))
         .perform();
       await delay(1000);
       const showTooltip = await body.takeScreenshot();
-      await this.browser.actions({ async: undefined, bridge: true }).click(body).pause(1000).perform();
+      await this.browser.actions({ bridge: true }).click(body).pause(1000).perform();
       const hideTooltip = await body.takeScreenshot();
       await this.expect({ showTooltip, hideTooltip }).to.matchImages();
     });
@@ -489,7 +453,7 @@ kind('ComboBox', () => {
   story('MobileSimple', () => {
     test('opened', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid="ComboBoxView__root"]' }))
         .perform();
       await delay(1000);
@@ -505,7 +469,6 @@ kind('ComboBox', () => {
     test('opened top with portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -517,7 +480,6 @@ kind('ComboBox', () => {
     test('opened bottom with portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
@@ -531,7 +493,6 @@ kind('ComboBox', () => {
     test('opened top without portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
@@ -545,7 +506,6 @@ kind('ComboBox', () => {
     test('opened bottom without portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
@@ -553,7 +513,6 @@ kind('ComboBox', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
@@ -561,7 +520,6 @@ kind('ComboBox', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
@@ -575,7 +533,6 @@ kind('ComboBox', () => {
     test('clicked all', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))

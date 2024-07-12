@@ -36,11 +36,6 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -97,13 +92,18 @@ export interface SelectProps<TValue, TItem>
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
-  /** Отключает использование портала */
+  /**
+   * Отключает использование портала
+   */
   disablePortal?: boolean;
   disabled?: boolean;
-  /** Задаёт состояние валидации при ошибке. */
+  /**
+   * Состояние валидации при ошибке.
+   */
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  /** Набор значений. Поддерживаются любые перечисляемые типы, в том числе
+  /**
+   * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
    * `Array`, `Map`, `Immutable.Map`.
    *
    * Элементы воспринимаются следующим образом: если элемент — это массив, то
@@ -124,7 +124,8 @@ export interface SelectProps<TValue, TItem>
    * Чтобы добавить стандартный отступ для статического элемента:
    * ```
    * <Select.Item>My Element</Select.Item>
-   * ``` */
+   * ```
+   */
   items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
@@ -138,25 +139,36 @@ export interface SelectProps<TValue, TItem>
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   onOpen?: () => void;
   placeholder?: React.ReactNode;
-  /** Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
-   * *item*. */
+  /**
+   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
+   * *item*.
+   */
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
-  /** Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*. */
+  /**
+   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+   */
   renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
-  /** Функция для сравнения `value` с элементом из `items` */
+  /**
+   * Функция для сравнения `value` с элементом из `items`
+   */
   areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
-  /** Показывать строку поиска в списке. */
+  /**
+   * Показывать строку поиска в списке.
+   */
   search?: boolean;
   value?: TValue;
   width?: number | string;
-  /** Задаёт состояние валидации при предупреждении. */
+  /**
+   * Состояние валидации при предупреждении.
+   */
   warning?: boolean;
   use?: ButtonUse;
-  /** Задаёт размер контрола. */
   size?: SizeProp;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
-  /** Текст заголовка выпадающего меню в мобильной версии */
+  /**
+   * Текст заголовка выпадающего меню в мобильной версии
+   */
   mobileMenuHeaderText?: string;
 }
 
@@ -217,7 +229,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -230,28 +241,23 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = ThemeFactory.create(
-                  {
-                    menuOffsetY: theme.selectMenuOffsetY,
-                  },
-                  theme,
-                );
-                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
-              }}
-            </ThemeContext.Consumer>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = ThemeFactory.create(
+            {
+              menuOffsetY: theme.selectMenuOffsetY,
+            },
+            theme,
           );
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public open = () => {
     if (!this.state.opened) {
       this.setState({ opened: true });
@@ -262,7 +268,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
   };
 
-  /** @public */
+  /**
+   * @public
+   */
   public close = () => {
     if (this.state.opened) {
       this.setState({ opened: false, searchPattern: '' });
@@ -273,7 +281,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
   };
 
-  /** @public */
+  /**
+   * @public
+   */
   public focus = () => {
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
@@ -618,10 +628,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private handleSearch = (value: string) => {
-    const menuItemsAtAnyLevel = this.featureFlags.menuItemsAtAnyLevel;
-
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(menuItemsAtAnyLevel ? 0 : 1);
+    this.menu?.highlightItem(0);
   };
 
   private select(value: TValue) {

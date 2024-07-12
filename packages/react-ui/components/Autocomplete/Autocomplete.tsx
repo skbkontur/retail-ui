@@ -6,6 +6,7 @@ import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
@@ -50,31 +51,33 @@ export interface AutocompleteProps
     Override<
       InputProps,
       {
-        /** Задает функцию отрисовки элемента меню */
+        /** Функция отрисовки элемента меню */
         renderItem?: (item: string) => React.ReactNode;
         /** Промис, резолвящий элементы меню */
         source?: string[] | ((patter: string) => Promise<string[]>);
         /** Отключает использование портала */
         disablePortal?: boolean;
-        /** Добавляет тень у выпадающего меню */
+        /** Отрисовка тени у выпадающего меню */
         hasShadow?: boolean;
-        /** Задает выравнивание выпадающего меню */
+        /** Выравнивание выпадающего меню */
         menuAlign?: 'left' | 'right';
-        /** Задает максимальную высоту меню */
+        /** Максимальная высота меню */
         menuMaxHeight?: number | string;
-        /** Задает ширину меню */
+        /** Ширина меню */
         menuWidth?: number | string;
-        /** Отключает скролл окна, когда меню открыто */
+        /** Отключить скролл окна, когда меню открыто */
         preventWindowScroll?: boolean;
-        /** Задает поведение при изменении `value` */
+        /** Вызывается при изменении `value` */
         onValueChange: (value: string) => void;
         /** onBlur */
         onBlur?: () => void;
-        /** Задаёт размер контрола. */
+        /** Размер инпута */
         size?: SizeProp;
-        /** Задает значение */
+        /** value */
         value: string;
-        /** Задает текст заголовка выпадающего меню в мобильной версии */
+        /**
+         * Текст заголовка выпадающего меню в мобильной версии
+         */
         mobileMenuHeaderText?: string;
       }
     > {}
@@ -169,14 +172,18 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private getProps = createPropsGetter(Autocomplete.defaultProps);
   private setRootNode!: TSetRootNode;
 
-  /** @public */
+  /**
+   * @public
+   */
   public focus() {
     if (this.input) {
       this.input.focus();
     }
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public blur() {
     this.handleBlur();
   }
@@ -220,6 +227,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
+      menuPos,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
       'aria-label': ariaLabel,
@@ -229,6 +237,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const inputProps = {
       ...rest,
       width: '100%',
+      autoComplete: 'off',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -239,7 +248,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
-          className={styles.root(this.theme)}
+          className={cx(styles.root(this.theme), {
+            [styles.noPortal()]: disablePortal,
+          })}
           style={{ width }}
           ref={this.refRootSpan}
         >
@@ -299,6 +310,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
+      autoComplete: 'off',
       autoFocus: true,
       width: '100%',
       onValueChange: this.handleValueChange,

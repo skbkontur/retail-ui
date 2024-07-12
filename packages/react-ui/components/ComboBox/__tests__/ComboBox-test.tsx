@@ -16,11 +16,10 @@ import { ComboBox } from '../ComboBox';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { delay, clickOutside } from '../../../lib/utils';
+import { clickOutside, delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { ComboBoxItem } from '..';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {
@@ -420,7 +419,7 @@ describe('ComboBox', () => {
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === 'true')).toBeFalsy();
+    expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toBeFalsy();
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -434,7 +433,6 @@ describe('ComboBox', () => {
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
     expect(menuItems.find((element) => element.hasAttribute('data-visual-state-hover'))).toHaveAttribute(
       'data-visual-state-hover',
-      'true',
     );
   });
 
@@ -464,88 +462,6 @@ describe('ComboBox', () => {
       rerender(<ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={getItems} />);
       expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent('');
     });
-  });
-
-  //TODO: Remove this test in 5.0, while removing comboBoxAllowValueChangeInEditingState feature flag, because it tests old behavior
-  describe('keep edited input text when value changes', () => {
-    const value = { value: 1, label: 'one' };
-
-    it('in default mode', async () => {
-      const { rerender } = render(<ComboBox value={value} getItems={() => Promise.resolve([value])} />);
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
-      clickOutside();
-
-      rerender(<ComboBox value={null} getItems={() => Promise.resolve([value])} />);
-      await userEvent.click(screen.getByRole('textbox'));
-      expect(screen.getByRole('textbox')).toHaveValue('two');
-    });
-
-    it('in autocomplete mode', async () => {
-      const { rerender } = render(
-        <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
-      );
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
-      clickOutside();
-
-      rerender(
-        <ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
-      );
-
-      await userEvent.click(screen.getByRole('textbox'));
-      expect(screen.getByRole('textbox')).toHaveValue('two');
-    });
-  });
-
-  it('does not do search on focus in autocomplete mode', async () => {
-    const value = { value: 1, label: 'one' };
-    const getItems = jest.fn();
-    render(<ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />);
-
-    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    await delay(0);
-
-    expect(getItems).toHaveBeenCalledTimes(0);
-    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
-  });
-
-  it('reset', async () => {
-    render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
-
-    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foo' } });
-
-    expect(screen.getByRole('textbox')).toHaveValue('foo');
-
-    clickOutside();
-    comboboxRef.current?.reset();
-
-    expect(screen.getByTestId(InputLikeTextDataTids.input)).toHaveTextContent('');
-  });
-
-  it('onValueChange if single item', async () => {
-    const getItems = (query: string) => {
-      return Promise.resolve(
-        testValues.filter((item) => {
-          return item.label.includes(query);
-        }),
-      );
-    };
-
-    const changeHandler = jest.fn();
-    render(<ComboBox onValueChange={changeHandler} getItems={getItems} />);
-
-    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: testValues[1].label } });
-
-    await delay(300);
-
-    clickOutside();
-    await delay(0);
-
-    expect(changeHandler).toHaveBeenCalledWith(testValues[1]);
   });
 
   describe('open/close methods', () => {
@@ -630,9 +546,7 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
-      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
-        // eslint-disable-next-line testing-library/no-node-access
         (document.activeElement as HTMLInputElement).selectionEnd,
       );
 
@@ -649,9 +563,7 @@ describe('ComboBox', () => {
       expect(screen.getByRole('textbox')).toHaveFocus();
 
       // input text is not selected
-      // eslint-disable-next-line testing-library/no-node-access
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(
-        // eslint-disable-next-line testing-library/no-node-access
         (document.activeElement as HTMLInputElement).selectionEnd,
       );
 
@@ -1228,7 +1140,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputDataTids.root));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
@@ -1266,6 +1178,12 @@ describe('ComboBox', () => {
     render(<ComboBox getItems={jest.fn()} disabled />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
+
+  it('should disable default browser autofill', async () => {
+    render(<ComboBox getItems={() => Promise.resolve([])} />);
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    expect(screen.getByRole('textbox')).toHaveAttribute('autocomplete', 'off');
   });
 
   describe('a11y', () => {
@@ -1348,7 +1266,7 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
+  describe('allow change value in editing state', () => {
     const initialValue = testValues[0];
     const expectedValue = testValues[1];
 
@@ -1364,7 +1282,7 @@ describe('ComboBox', () => {
       };
 
       return (
-        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+        <>
           <button onClick={handleValueChange}>Обновить</button>
           <ComboBox
             ref={comboboxRef}
@@ -1372,7 +1290,7 @@ describe('ComboBox', () => {
             getItems={getItems}
             onValueChange={(value) => setSelected(value)}
           />
-        </ReactUIFeatureFlagsContext.Provider>
+        </>
       );
     };
 

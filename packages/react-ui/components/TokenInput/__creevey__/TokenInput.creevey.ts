@@ -22,7 +22,6 @@ kind('TokenInput', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -33,7 +32,6 @@ kind('TokenInput', () => {
     test('withMenu', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -53,7 +51,6 @@ kind('TokenInput', () => {
     test('selectFirst', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -75,7 +72,6 @@ kind('TokenInput', () => {
     test('selectAndType', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
@@ -83,7 +79,6 @@ kind('TokenInput', () => {
       const selected = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('a')
@@ -95,7 +90,6 @@ kind('TokenInput', () => {
     test('editToken', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
@@ -103,7 +97,6 @@ kind('TokenInput', () => {
       const doubleClickOnToken = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
@@ -111,7 +104,6 @@ kind('TokenInput', () => {
       const clickOnMenuItem = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ENTER)
@@ -119,7 +111,6 @@ kind('TokenInput', () => {
       const enterOnActiveToken = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('EDITED')
@@ -127,7 +118,6 @@ kind('TokenInput', () => {
       const editToken = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ENTER)
@@ -156,7 +146,6 @@ kind('TokenInput', () => {
     test('addButton', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -179,7 +168,6 @@ kind('TokenInput', () => {
     test('token select', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -193,7 +181,6 @@ kind('TokenInput', () => {
       const withNotSelectedToken = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -209,7 +196,6 @@ kind('TokenInput', () => {
       const withAutoSelectedTokens = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -222,13 +208,11 @@ kind('TokenInput', () => {
       const clearedOnNullReturn = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .clear();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -255,7 +239,6 @@ kind('TokenInput', () => {
     test('token edit', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -271,7 +254,6 @@ kind('TokenInput', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
@@ -285,7 +267,6 @@ kind('TokenInput', () => {
       const withSameValue = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
@@ -299,7 +280,6 @@ kind('TokenInput', () => {
       const withNotEditedToken = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
@@ -318,7 +298,6 @@ kind('TokenInput', () => {
       const withRemovedToken = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
@@ -350,7 +329,6 @@ kind('TokenInput', () => {
     test('selectFirst', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -373,7 +351,6 @@ kind('TokenInput', () => {
     test('renderTotalCount', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -396,7 +373,6 @@ kind('TokenInput', () => {
     test('selected', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
@@ -406,7 +382,6 @@ kind('TokenInput', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
 

@@ -276,11 +276,7 @@ class DateInputLastEvent extends React.Component {
   }
 }
 
-export default {
-  title: 'Date/DateInput',
-  component: DateInput,
-  tags: ['autodocs'],
-} as Meta;
+export default { title: 'DateInput' } as Meta;
 
 export const Simple: Story = () => <DateInputSimple defaultValue="01.02.2017" />;
 Simple.storyName = 'simple';

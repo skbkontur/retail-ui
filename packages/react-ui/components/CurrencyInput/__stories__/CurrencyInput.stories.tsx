@@ -156,11 +156,7 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
   };
 }
 
-export default {
-  title: 'Input elements/CurrencyInput',
-  component: CurrencyInput,
-  tags: ['autodocs'],
-} as Meta;
+export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: true } };

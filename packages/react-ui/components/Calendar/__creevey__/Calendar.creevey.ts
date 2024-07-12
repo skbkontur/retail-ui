@@ -11,7 +11,6 @@ kind('Calendar', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Calendar"]' }))
@@ -29,7 +28,6 @@ kind('Calendar', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Calendar"]' }))
@@ -55,7 +53,6 @@ kind('Calendar', () => {
     test('scrolls to new date on date change', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="change-date-button"]' }))

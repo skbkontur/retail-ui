@@ -12,7 +12,6 @@ import { styles } from './MenuMessage.styles';
 export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
   as?: React.ElementType;
-  /** Задаёт размер контрола. */
   size?: SizeProp;
 }
 

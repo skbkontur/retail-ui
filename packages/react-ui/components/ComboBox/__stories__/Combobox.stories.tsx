@@ -20,11 +20,7 @@ import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
-export default {
-  title: 'Input elements/ComboBox',
-  component: ComboBox,
-  tags: ['autodocs'],
-} as Meta;
+export default { title: 'ComboBox' } as Meta;
 
 export const SimpleComboboxStory: Story = () => (
   <div style={{ paddingBottom: 230, paddingRight: 40 }}>

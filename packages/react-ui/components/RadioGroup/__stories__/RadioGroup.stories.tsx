@@ -48,11 +48,7 @@ class Component extends React.Component<RadioGroupProps<string>> {
   };
 }
 
-export default {
-  title: 'Choose/RadioGroup',
-  component: RadioGroup,
-  tags: ['autodocs'],
-};
+export default { title: 'RadioGroup' };
 
 export const Vertical: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;

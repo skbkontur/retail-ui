@@ -15,7 +15,9 @@ import { styles } from './Modal.styles';
 import { getModalBodyTheme } from './getModalBodyTheme';
 
 export interface ModalBodyProps extends CommonProps {
-  /** убирает отступы */
+  /**
+   * убирает отступы
+   */
   noPadding?: boolean;
 }
 

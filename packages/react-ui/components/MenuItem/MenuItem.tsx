@@ -11,8 +11,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './MenuItem.styles';
 
@@ -26,45 +25,79 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Omit<CommonProps, 'children'> {
-  /** @ignore */
+  /**
+   * @ignore
+   */
   _enableIconPadding?: boolean;
-  /** Добавляет описание для элемента меню. */
+  /**
+   * Добавляет описание для элемента меню.
+   */
   comment?: React.ReactNode;
-  /** Отключенное состояние. */
+  /**
+   * Отключенное состояние.
+   */
   disabled?: boolean;
-  /** Добавляет элементу меню иконку. */
+  /**
+   * Добавляет элементу меню иконку.
+   */
   icon?: React.ReactElement<any>;
-  /** Меняет цвет текста на синий. */
+  /**
+   * Меняет цвет текста на синий.
+   */
   link?: boolean;
-  /** Задаёт размер контрола. */
+  /**
+   * Размер
+   */
   size?: SizeProp;
-  /** @ignore */
+  /**
+   * @ignore
+   */
   loose?: boolean;
-  /** @ignore */
+  /**
+   * @ignore
+   */
   state?: MenuItemState;
-  /** HTML-событие `onclick`. */
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  /** HTML-событие `mouseenter`. */
+  /**
+   * HTML-событие `mouseenter`.
+   */
   onMouseEnter?: React.MouseEventHandler;
-  /** HTML-событие `mouseleave`. */
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: React.MouseEventHandler;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
-  /** HTML-атрибут `target`. */
+  /**
+   * HTML-атрибут `target`.
+   */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-  /** HTML-атрибут `title`. */
+  /**
+   * HTML-атрибут `title`.
+   */
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
-  /** HTML-атрибут `href`. */
+  /**
+   * HTML-атрибут `href`.
+   */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
-  /** HTML-атрибут `rel`.
+  /**
+   * HTML-атрибут `rel`.
    *
-   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer" */
+   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
+   */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
-  /** Заменяет корневой элемент, на компонент переданный в проп.
+  /**
+   * Заменяет корневой элемент, на компонент переданный в проп.
    *
-   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`. */
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
+   */
   component?: React.ComponentType<any>;
-  /** Запрещает выделение и выбор данного пункта меню
-   * */
+  /**
+   * Запрещает выделение и выбор данного пункта меню
+   *
+   */
   isNotSelectable?: boolean;
 
   isMobile?: boolean;
@@ -118,37 +151,29 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
   private contentRef = React.createRef<HTMLElement>();
-  private menuItemsAtAnyLevel?: boolean;
   static contextType = MenuContext;
 
   public context!: MenuContextType;
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.menuItemsAtAnyLevel = getFullReactUIFlagsContext(flags).menuItemsAtAnyLevel;
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <CommonWrapper
-                    rootNodeRef={this.setRootNode}
-                    {...getVisualStateDataAttributes({
-                      hover: this.isHover,
-                      selected: this.isSelected,
-                    })}
-                    {...this.props}
-                  >
-                    {this.renderMain(this.props)}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper
+              rootNodeRef={this.setRootNode}
+              {...getVisualStateDataAttributes({
+                hover: this.isHover,
+                selected: this.isSelected,
+              })}
+              {...this.props}
+            >
+              {this.renderMain(this.props)}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -156,16 +181,16 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.rootRef && isBrowser(globalObject)) {
       this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
-    if (this.contentRef.current && this.menuItemsAtAnyLevel && !this.props.isNotSelectable) {
+    if (this.contentRef.current && !this.props.isNotSelectable) {
       this.context.navigation?.add(this.contentRef.current, this);
     }
-    if (this.props.icon && this.menuItemsAtAnyLevel) {
+    if (this.props.icon) {
       this.context.setEnableIconPadding?.(true);
     }
   }
 
   public componentWillUnmount() {
-    if (this.contentRef.current && this.menuItemsAtAnyLevel) {
+    if (this.contentRef.current) {
       !this.props.isNotSelectable && this.context.navigation?.remove(this.contentRef.current);
       this.context.setEnableIconPadding?.(this.hasIconAmongItems());
     }
@@ -175,11 +200,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (prevProps.icon !== this.props.icon) {
       this.context.setEnableIconPadding?.(!!this.props.icon || this.hasIconAmongItems());
     }
-    if (
-      this.contentRef.current &&
-      this.menuItemsAtAnyLevel &&
-      prevProps.isNotSelectable !== this.props.isNotSelectable
-    ) {
+    if (this.contentRef.current && prevProps.isNotSelectable !== this.props.isNotSelectable) {
       if (this.props.isNotSelectable) {
         this.unhighlight();
         this.context.navigation?.remove(this.contentRef.current);
@@ -366,14 +387,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (!this.mouseEntered) {
       this.mouseEntered = true;
       this.props.onMouseEnter?.(e);
-      this.menuItemsAtAnyLevel && !this.props.isNotSelectable && this.context.navigation?.highlight(this);
+      !this.props.isNotSelectable && this.context.navigation?.highlight(this);
     }
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     this.mouseEntered = false;
     this.props.onMouseLeave?.(e);
-    this.menuItemsAtAnyLevel && !this.props.isNotSelectable && this.context.navigation?.unhighlight();
+    !this.props.isNotSelectable && this.context.navigation?.unhighlight();
   };
 
   private handleClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -381,9 +402,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       return;
     }
     this.props.onClick?.(e);
-    if (this.menuItemsAtAnyLevel) {
-      this.context.onItemClick?.(e);
-    }
+    this.context.onItemClick?.(e);
   };
 
   private setRootRef = (element: HTMLElement) => {

@@ -17,9 +17,13 @@ import { Action, ToastDataTids } from './Toast';
 import { ToastLocale, ToastLocaleHelper } from './locale';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
-  /** Toast content */
+  /**
+   * Toast content
+   */
   children?: string;
-  /** Adds action handling and close icon for toast */
+  /**
+   * Adds action handling and close icon for toast
+   */
   action?: Nullable<Action>;
   onClose?: () => void;
   onMouseEnter?: () => void;

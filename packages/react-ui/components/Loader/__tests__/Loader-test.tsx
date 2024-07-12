@@ -3,9 +3,6 @@ import { render, screen } from '@testing-library/react';
 
 import { Loader, LoaderDataTids } from '../Loader';
 import { delay } from '../../../lib/utils';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
-import { defaultLangCode } from '../../../lib/locale/constants';
-import { SpinnerLocaleHelper } from '../../Spinner/locale';
 
 const DELAY_BEFORE_SPINNER_SHOW = 1000;
 const MINIMAL_DELAY_BEFORE_SPINNER_HIDE = 1000;
@@ -218,20 +215,6 @@ describe('Loader', () => {
         expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
         expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
       });
-    });
-  });
-
-  describe('with spinnerRemoveDefaultCaption flag', () => {
-    it('should not render default caption', async () => {
-      render(
-        <ReactUIFeatureFlagsContext.Provider value={{ spinnerLoaderRemoveDefaultCaption: true }}>
-          <Loader active />
-        </ReactUIFeatureFlagsContext.Provider>,
-      );
-      await delay(DELAY_BEFORE_SPINNER_SHOW);
-      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading as string;
-
-      expect(screen.getByTestId(SpinnerSelector)).not.toHaveTextContent(expectedText);
     });
   });
 });

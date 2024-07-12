@@ -7,7 +7,6 @@ const textAlignmentTests = () => {
   test('opened', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))

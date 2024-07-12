@@ -12,12 +12,12 @@ import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -39,26 +39,36 @@ export interface ItemComponentProps {
 
 export interface PagingProps extends CommonProps {
   activePage: number;
-  /** Компонент обертки по умолчанию
-   * @default <span /> */
+  /**
+   * Компонент обертки по умолчанию
+   * @default <span />
+   */
   component?: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
-  /** Отключает навигационные подсказки.
+  /**
+   * Отключает навигационные подсказки.
    * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
-   * (либо элемент в фокусе, либо globalListeners === true) */
+   * (либо элемент в фокусе, либо globalListeners === true)
+   */
   withoutNavigationHint?: boolean;
   caption?: string;
-  /** Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
+  /**
+   * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
    * Если на странице используется несколько элементов
    * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
-   * на каждом из них. Такие случаи лучше обрабатывать отдельно. */
+   * на каждом из них. Такие случаи лучше обрабатывать отдельно.
+   */
   useGlobalListener?: boolean;
-  /** Определяет, нужно ли показывать `Paging` когда страница всего одна.
+  /**
+   * Определяет, нужно ли показывать `Paging` когда страница всего одна.
+   *
    * Этот проп будет удалён в 5-ой версии библиотеки,
    * так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
-   * @default false */
+   *
+   * @default false
+   */
   shouldBeVisibleWithLessThanTwoPages?: boolean;
 }
 
@@ -161,7 +171,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private renderMain() {
     const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...this.props}
+        {...getVisualStateDataAttributes({ disabled: this.props.disabled })}
+      >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
@@ -241,6 +255,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as const}
+        {...getVisualStateDataAttributes({ disabled })}
       >
         {this.props.caption || forward}
         {forwardIcon}
@@ -486,17 +501,25 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 }
 
 Paging.propTypes = {
-  /** Current active page */
+  /**
+   * Current active page
+   */
   activePage: number.isRequired,
 
-  /** React component that would be used for rendering items
+  /**
+   * React component that would be used for rendering items
    *
-   * Usefull for router integration */
+   * Usefull for router integration
+   */
   component: func,
 
-  /** Total page count */
+  /**
+   * Total page count
+   */
   pagesCount: number.isRequired,
 
-  /** Calls when page has been changed */
+  /**
+   * Calls when page has been changed
+   */
   onPageChange: func.isRequired,
 };

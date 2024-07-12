@@ -20,7 +20,6 @@ kind('PasswordInput', () => {
     test('With typed password', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[type="password"]' }))
@@ -32,7 +31,6 @@ kind('PasswordInput', () => {
     test('With visible password', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[type="password"]' }))

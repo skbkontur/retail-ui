@@ -6,7 +6,6 @@ const focusedLinkTest = () => {
   test('tab press', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
@@ -15,7 +14,6 @@ const focusedLinkTest = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -34,7 +32,6 @@ const linkTests = () => {
   test('hover', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -49,7 +46,6 @@ const focusedStyledLinkTest = () => {
   test('tab press', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -60,14 +56,12 @@ const focusedStyledLinkTest = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .move({
@@ -150,18 +144,6 @@ kind('Link', () => {
 
   story('FocusedStyledLink', ({ setStoryParameters }) => {
     setStoryParameters({ skip: { flacky: { in: /^(?!\b(firefox2022)\b)/ } } });
-
-    focusedStyledLinkTest();
-  });
-
-  story('WithLinkFocusOutlineFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'hover does not work': {
-          in: /chrome/,
-        },
-      },
-    });
 
     focusedStyledLinkTest();
   });

@@ -27,7 +27,6 @@ kind('Paging', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -40,7 +39,6 @@ kind('Paging', () => {
     test('change page by number', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
@@ -53,7 +51,6 @@ kind('Paging', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
@@ -66,7 +63,6 @@ kind('Paging', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
@@ -77,7 +73,6 @@ kind('Paging', () => {
     test('Move focus right', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
@@ -90,7 +85,6 @@ kind('Paging', () => {
     test('Move to page by Ender', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))

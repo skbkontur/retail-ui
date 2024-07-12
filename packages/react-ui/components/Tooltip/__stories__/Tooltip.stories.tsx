@@ -47,11 +47,7 @@ class TestTooltip extends React.Component<React.PropsWithChildren<TestTooltipPro
   }
 }
 
-export default {
-  title: 'Popup/Tooltip',
-  component: Tooltip,
-  tags: ['autodocs'],
-};
+export default { title: 'Tooltip' };
 
 export const SimpleTooltip = () => (
   <TestTooltip>

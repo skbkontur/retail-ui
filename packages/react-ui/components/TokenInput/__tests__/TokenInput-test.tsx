@@ -10,7 +10,6 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -301,64 +300,46 @@ describe('<TokenInput />', () => {
     expect(screen.getByText('bbb')).toBeInTheDocument();
   });
 
-  describe('with tokenInputRemoveWhitespaceFromDefaultDelimiters flag', () => {
-    const TokenInputWithFeatureFlagsContext = (props: { customDelimiters?: string[] }) => {
-      const [selectedItems, setSelectedItems] = useState(['']);
+  it('should not handle whitespace keydown separator', async () => {
+    render(<SimpleTokenInput />);
+    const tokenInput = screen.getByRole('textbox');
 
-      return (
-        <ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
-          <TokenInput
-            type={TokenInputType.Combined}
-            getItems={getItems}
-            selectedItems={selectedItems}
-            onValueChange={setSelectedItems}
-            delimiters={props.customDelimiters}
-          />
-        </ReactUIFeatureFlagsContext.Provider>
-      );
-    };
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa bbb ccc');
+    delay(1);
+    const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+    expect(tokenCount).toBe(1);
+  });
 
-    it('should not handle whitespace keydown separator', async () => {
-      render(<TokenInputWithFeatureFlagsContext />);
-      const tokenInput = screen.getByRole('textbox');
+  it('should handle comma keydown separator', async () => {
+    render(<SimpleTokenInput />);
+    const tokenInput = screen.getByRole('textbox');
 
-      tokenInput.click();
-      await userEvent.type(tokenInput, 'aaa bbb ccc');
-      delay(1);
-      const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
-      expect(tokenCount).toBe(1);
-    });
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa,bbb,ccc');
+    delay(1);
+    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
+  });
 
-    it('should handle comma keydown separator', async () => {
-      render(<TokenInputWithFeatureFlagsContext />);
-      const tokenInput = screen.getByRole('textbox');
+  it('should not handle default separators when custom separators', async () => {
+    render(<SimpleTokenInput customDelimiters={[';']} />);
+    const tokenInput = screen.getByRole('textbox');
 
-      tokenInput.click();
-      await userEvent.type(tokenInput, 'aaa,bbb,ccc');
-      delay(1);
-      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
-    });
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa,bbb ccc');
+    delay(1);
+    const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+    expect(tokenCount).toBe(1);
+  });
 
-    it('should not handle default separators when custom separators', async () => {
-      render(<TokenInputWithFeatureFlagsContext customDelimiters={[';']} />);
-      const tokenInput = screen.getByRole('textbox');
+  it('should handle custom separators', async () => {
+    render(<SimpleTokenInput customDelimiters={[';']} />);
+    const tokenInput = screen.getByRole('textbox');
 
-      tokenInput.click();
-      await userEvent.type(tokenInput, 'aaa,bbb ccc');
-      delay(1);
-      const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
-      expect(tokenCount).toBe(1);
-    });
-
-    it('should handle custom separators', async () => {
-      render(<TokenInputWithFeatureFlagsContext customDelimiters={[';']} />);
-      const tokenInput = screen.getByRole('textbox');
-
-      tokenInput.click();
-      await userEvent.type(tokenInput, 'aaa;bbb;ccc');
-      delay(1);
-      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
-    });
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa;bbb;ccc');
+    delay(1);
+    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
   });
 
   describe('a11y', () => {
@@ -398,10 +379,11 @@ describe('<TokenInput />', () => {
   });
 });
 
-function TokenInputWithState(props: { disabledToken: string }) {
+function TokenInputWithState(props: { disabledToken?: string; customDelimiters?: string[] }) {
   const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
   return (
     <TokenInput
+      delimiters={props.customDelimiters}
       type={TokenInputType.Combined}
       getItems={getItems}
       selectedItems={selectedItems}
@@ -414,6 +396,20 @@ function TokenInputWithState(props: { disabledToken: string }) {
     />
   );
 }
+
+const SimpleTokenInput = (props: { customDelimiters?: string[] }) => {
+  const [selectedItems, setSelectedItems] = useState(['']);
+
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      delimiters={props.customDelimiters}
+    />
+  );
+};
 
 function TokenInputWithSelectedItem() {
   const [selectedItems, setSelectedItems] = useState(['xxx']);

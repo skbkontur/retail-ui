@@ -61,7 +61,6 @@ kind('DateInput', () => {
       });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
@@ -79,7 +78,6 @@ kind('DateInput', () => {
       });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('12')
@@ -98,7 +96,6 @@ kind('DateInput', () => {
       });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.NUMPAD1)
@@ -136,7 +133,7 @@ kind('DateInput', () => {
       const DateInputPlaceholder = this.browser.findElement({
         css: '[data-tid~="DateFragmentsView__placeholder"]',
       });
-      await this.browser.actions({ async: undefined, bridge: true }).click(DateInputPlaceholder).perform();
+      await this.browser.actions({ bridge: true }).click(DateInputPlaceholder).perform();
       await delay(1000);
       const focused = await this.takeScreenshot();
       await this.expect([plain, focused]).to.matchImages();
@@ -150,7 +147,7 @@ kind('DateInput', () => {
       const DateInputPlaceholder = this.browser.findElement({
         css: '[data-tid~="DateFragmentsView__placeholder"]',
       });
-      await this.browser.actions({ async: undefined, bridge: true }).click(DateInputPlaceholder).perform();
+      await this.browser.actions({ bridge: true }).click(DateInputPlaceholder).perform();
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage();
     });

@@ -154,7 +154,6 @@ describe('properly renders opened/closed states', () => {
       if (found) {
         // NOTE: приходится кастовать к тайпингам Enzyme'а
         // (https://github.com/skbkontur/retail-ui/pull/1434/files#r289259497)
-        // eslint-disable-next-line testing-library/no-node-access
         const children = found.children(toFind as ComponentClass<any>);
         return children.length > 0 ? children : null;
       }
@@ -173,7 +172,6 @@ describe('properly renders opened/closed states', () => {
     expect(innerContainer).toBeDefined();
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
-    // eslint-disable-next-line testing-library/no-node-access
     expect(innerContainer?.children()).toHaveLength(0);
   });
 
@@ -195,7 +193,6 @@ describe('properly renders opened/closed states', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
-    // eslint-disable-next-line testing-library/no-node-access
     expect(innerContainer?.children()).toHaveLength(0);
   });
 });

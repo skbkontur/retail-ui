@@ -13,6 +13,7 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -27,23 +28,41 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Задаёт состояние валидации при ошибке. */
+        /**
+         *  Состояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Задаёт состояние валидации при предупреждении. */
+        /**
+         * Состояние валидации при предупреждении.
+         */
         warning?: boolean;
-        /** Задаёт размер контрола. */
+        /**
+         * Размер
+         */
         size?: SizeProp;
-        /** Состояние фокуса. */
+        /**
+         * Состояние фокуса.
+         */
         focused?: boolean;
-        /** Функция, вызываемая при изменении `value`. */
+        /**
+         * Функция, вызываемая при изменении `value`.
+         */
         onValueChange?: (value: T) => void;
-        /** HTML-событие `onmouseenter` */
+        /**
+         * HTML-событие `onmouseenter`
+         */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** HTML-событие `mouseleave` */
+        /**
+         * HTML-событие `mouseleave`
+         */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** HTML-событие `onmouseover` */
+        /**
+         * HTML-событие `onmouseover`
+         */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** HTML-атрибут `value`. */
+        /**
+         * HTML-атрибут `value`.
+         */
         value: T;
       }
     > {}
@@ -135,13 +154,17 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     );
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public focus() {
     keyListener.isTabPressed = true;
     this.inputEl.current?.focus();
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public blur() {
     this.inputEl.current?.blur();
   }
@@ -222,7 +245,9 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     return (
       <label data-tid={RadioDataTids.root} {...labelProps}>
-        <input {...inputProps} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} />
+        </FocusControlWrapper>
         <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>
@@ -281,8 +306,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByKeyboard: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByKeyboard: false });
   };
 }

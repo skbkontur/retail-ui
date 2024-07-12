@@ -4,7 +4,6 @@ const axios = require('axios');
 const { hybridStoriesProvider } = require('creevey');
 
 require('dotenv').config({ path: '../../.env' });
-const { hybridStoriesProvider } = require('creevey');
 
 /**
  * Debuggin instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157

@@ -31,11 +31,7 @@ class Component extends React.Component<SwitcherProps, ComponentState> {
   };
 }
 
-export default {
-  title: 'Choose/Switcher',
-  component: Switcher,
-  tags: ['autodocs'],
-};
+export default { title: 'Switcher' };
 
 export const Horizontal: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;

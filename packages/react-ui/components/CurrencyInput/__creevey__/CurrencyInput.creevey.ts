@@ -18,7 +18,6 @@ kind('CurrencyInput', () => {
     test('Focus', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(
@@ -33,7 +32,6 @@ kind('CurrencyInput', () => {
     test('Input value', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(
@@ -56,14 +54,12 @@ kind('CurrencyInput', () => {
     test('External focus and input', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="focus-input"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys('1')

@@ -39,66 +39,154 @@ export interface ButtonProps
     Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
   /** @ignore */
   _noPadding?: boolean;
+
   /** @ignore */
   _noRightPadding?: boolean;
-  /** Применяет к кнопке стили псевдокласса `:active`. */
+
+  /**
+   * Применяет к кнопке стили псевдокласса `:active`.
+   */
   active?: boolean;
-  /** Задаёт выравнивание тексту в кнопке. */
+
+  /**
+   * CSS-свойство `text-align`.
+   */
   align?: React.CSSProperties['textAlign'];
-  /** Превращает обычную кнопку в кнопку со стрелкой. */
+
+  /**
+   * Превращает обычную кнопку в кнопку со стрелкой.
+   */
   arrow?: boolean | 'left';
-  /** Даёт кнопке фокус после окончания загрузки страницы.*/
+
+  /**
+   * Даёт кнопке фокус после окончания загрузки страницы.
+   */
   autoFocus?: boolean;
-  /** Убирает обводку у кнопки. */
+
+  /**
+   * Убирает обводку у кнопки.
+   */
   borderless?: boolean;
-  /** @ignore */
+
+  /**
+   * @ignore
+   */
   checked?: boolean;
+
   children?: React.ReactNode;
+
   /** @ignore */
   corners?: React.CSSProperties;
-  /** Делает кнопку недоступной. */
+
+  /**
+   * Отключенное состояние кнопки.
+   */
   disabled?: boolean;
+
   /** @ignore */
   disableFocus?: boolean;
-  /** Задаёт состояние валидации при ошибке. */
+
+  /**
+   * Состояние валидации при ошибке.
+   */
   error?: boolean;
-  /** Добавляет иконку слева от текста кнопки. */
+
+  /**
+   * Иконка слева от текста кнопки.
+   */
   icon?: React.ReactElement;
-  /** Добавляет иконку справа от текста кнопки. */
+
+  /**
+   * Иконка справа от текста кнопки.
+   */
   rightIcon?: React.ReactElement;
-  /** Переводит кнопку в состояние загрузки. */
+
+  /**
+   * Переводит кнопку в состояние загрузки.
+   */
   loading?: boolean;
-  /** Сужает кнопку. */
+
+  /**
+   * Сужает кнопку.
+   */
   narrow?: boolean;
-  /** Задаёт HTML-событие `onblur`. */
+
+  /**
+   * HTML-событие `onblur`.
+   */
   onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-  /** Задаёт HTML-событие `onclick`. */
+
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  /** Задаёт HTML-событие `onfocus`. */
+
+  /**
+   * HTML-событие `onfocus`.
+   */
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-  /** Задаёт HTML-событие `keydown`. */
+
+  /**
+   * HTML-событие `keydown`.
+   */
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-  /** Задаёт HTML-событие `onmouseenter`. */
+
+  /**
+   * HTML-событие `onmouseenter`.
+   */
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-  /** Задаёт HTML-событие `mouseleave`. */
+
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-  /** Задаёт HTML-событие `onmouseover`. */
+
+  /**
+   * HTML-событие `onmouseover`.
+   */
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-  /** Задаёт размер контрола. */
+
+  /**
+   * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
   size?: SizeProp;
-  /** Задаёт HTML-атрибут `type`. */
+
+  /**
+   * HTML-атрибут `type`.
+   */
   type?: ButtonType;
-  /** Задаёт HTML-атрибут `title`. */
+
+  /**
+   * HTML-атрибут `title`.
+   */
   title?: string;
-  /** Задаёт стиль кнопки. */
+
+  /**
+   * Стиль кнопки.
+   *
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
+   */
   use?: ButtonUse;
+
   /** @ignore */
   visuallyFocused?: boolean;
-  /** Задаёт состояние валидации при предупреждении. */
+
+  /**
+   * Состояние валидации при предупреждении.
+   */
   warning?: boolean;
-  /** Задаёт ширину кнопки. */
+
+  /**
+   * CSS-свойство `width`.
+   */
   width?: number | string;
-  /** Задаёт объект с переменными темы. Он будет объединён с темой из контекста. */
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
   theme?: ThemeIn;
 }
 
@@ -150,12 +238,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return null;
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public focus() {
     this.node?.focus();
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public blur() {
     this.node?.blur();
   }

@@ -8,7 +8,6 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
@@ -21,14 +20,13 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .perform();
       await delay(1000);
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(
           this.browser.findElement({
             css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
@@ -43,14 +41,13 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
         .perform();
       await delay(1000);
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(
           this.browser.findElement({
             css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
@@ -76,7 +73,6 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
@@ -84,7 +80,6 @@ kind('DatePicker', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(
@@ -101,7 +96,6 @@ kind('DatePicker', () => {
       await delay(1000);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
@@ -109,7 +103,6 @@ kind('DatePicker', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(
@@ -127,7 +120,6 @@ kind('DatePicker', () => {
     test('opened', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
@@ -144,7 +136,6 @@ kind('DatePicker', () => {
     test('opened top without relative position', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
@@ -156,7 +147,6 @@ kind('DatePicker', () => {
     test('opened bottom without relative position', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
@@ -170,7 +160,6 @@ kind('DatePicker', () => {
     test('opened top with relative position', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
@@ -184,7 +173,6 @@ kind('DatePicker', () => {
     test('opened bottom with relative position', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
@@ -195,6 +183,19 @@ kind('DatePicker', () => {
         .perform();
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom');
+    });
+  });
+  story('MobilePicker', () => {
+    test('MobilePicker on iphone opened', async function () {
+      await delay(1000);
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .perform();
+      await delay(1000);
+      await this.expect(await this.browser.takeScreenshot()).to.matchImage('MobilePicker on iphone opened');
     });
   });
 });

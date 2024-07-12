@@ -15,6 +15,7 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -31,25 +32,43 @@ export interface CheckboxProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Контент `label` */
+        /**
+         * Контент `label`
+         */
         children?: React.ReactNode;
-        /** Задает состояние валидации при ошибке. */
+        /**
+         * Состояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Задаёт состояние валидации при предупреждении. */
+        /**
+         * Состояние валидации при предупреждении.
+         */
         warning?: boolean;
-        /** Задаёт размер контрола. */
+        /** Размер */
         size?: SizeProp;
-        /** HTML-событие `mouseenter`. */
+        /**
+         * HTML-событие `mouseenter`.
+         */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** HTML-событие `mouseleave`. */
+        /**
+         * HTML-событие `mouseleave`.
+         */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** HTML-событие `mouseover`. */
+        /**
+         * HTML-событие `mouseover`.
+         */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Функция, вызываемая при изменении `value`. */
+        /**
+         * Функция, вызываемая при изменении `value`.
+         */
         onValueChange?: (value: boolean) => void;
-        /** HTML-событие `onblur`. */
+        /**
+         * HTML-событие `onblur`.
+         */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /** [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.*/
+        /**
+         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+         */
         initialIndeterminate?: boolean;
       }
     > {}
@@ -187,21 +206,27 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     );
   }
 
-  /** Программная установка фокуса чекбоксу.
-   * @public */
+  /**
+   * Программная установка фокуса чекбоксу.
+   * @public
+   */
   public focus() {
     keyListener.isTabPressed = true;
     this.input.current?.focus();
   }
 
-  /** Программное снятие фокуса с чекбокса.
-   * @public */
+  /**
+   * Программное снятие фокуса с чекбокса.
+   * @public
+   */
   public blur() {
     this.input.current?.blur();
   }
 
-  /** Устанавливает чекбокс в HTML-состояние `indeterminate`.
-   * @public */
+  /**
+   * Устанавливает чекбокс в HTML-состояние `indeterminate`.
+   * @public
+   */
   public setIndeterminate = () => {
     this.setState({
       indeterminate: true,
@@ -211,8 +236,10 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
-  /** Снимает с чекбокса HTML-состояние `indeterminate`.
-   * @public */
+  /**
+   * Снимает с чекбокса HTML-состояние `indeterminate`.
+   * @public
+   */
   public resetIndeterminate = () => {
     this.setState({
       indeterminate: false,
@@ -321,7 +348,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        </FocusControlWrapper>
         {box}
         {caption}
       </label>
@@ -344,9 +373,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByTab: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByTab: false });
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

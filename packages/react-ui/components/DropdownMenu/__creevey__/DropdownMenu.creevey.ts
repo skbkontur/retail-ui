@@ -13,7 +13,6 @@ const outOfViewTests = (side: 'left' | 'right') => {
 
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
@@ -33,7 +32,6 @@ const outOfViewTests = (side: 'left' | 'right') => {
 
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
@@ -48,7 +46,6 @@ const textAlignmentTests = () => {
   test('opened', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -62,7 +59,6 @@ const navigateInNestedMenuItems = () => {
   test('navigate', async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -72,7 +68,6 @@ const navigateInNestedMenuItems = () => {
     const arrowDown = await this.browser.takeScreenshot();
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.ENTER)
@@ -93,14 +88,12 @@ kind('DropdownMenu', () => {
     test('clickAfterClickedOnCaption', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -112,7 +105,6 @@ kind('DropdownMenu', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -124,7 +116,6 @@ kind('DropdownMenu', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.TAB)
@@ -136,14 +127,12 @@ kind('DropdownMenu', () => {
     test('enterPress', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ENTER)
@@ -155,21 +144,18 @@ kind('DropdownMenu', () => {
     test('escapePress', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ENTER)
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .sendKeys(this.keys.ESCAPE)
@@ -190,7 +176,6 @@ kind('DropdownMenu', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -202,7 +187,6 @@ kind('DropdownMenu', () => {
     test('scrolled by 100', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -218,7 +202,6 @@ kind('DropdownMenu', () => {
     test('scrolled down to bottom', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
@@ -237,12 +220,12 @@ kind('DropdownMenu', () => {
 
     test('opened', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="DropdownMenu"]' }))
         .perform();
       await delay(200);
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
         .perform();
       await delay(1000);

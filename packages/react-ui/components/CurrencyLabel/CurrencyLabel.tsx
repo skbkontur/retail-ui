@@ -5,8 +5,10 @@ import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface CurrencyLabelProps extends CommonProps {
-  /** Минимальное количество отображаемых знаков после запятой
-   * @default 2 */
+  /**
+   * Минимальное количество отображаемых знаков после запятой
+   * @default 2
+   */
   fractionDigits?: number;
   value: number;
   currencySymbol?: React.ReactNode;

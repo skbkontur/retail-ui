@@ -12,7 +12,6 @@ const differentStatesTest = () => {
     const element = await this.browser.findElement({ css: '#input' });
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '#input input' }))
@@ -25,7 +24,6 @@ const differentStatesTest = () => {
     const element = await this.browser.findElement({ css: '#input' });
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '#input input' }))
@@ -39,7 +37,6 @@ const differentStatesTest = () => {
     const element = await this.browser.findElement({ css: '#input' });
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: '#input input' }))
@@ -56,7 +53,6 @@ const testMaskedInput = () => {
     const click = (css: string) => {
       return this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css }));
@@ -108,7 +104,6 @@ kind('Input', () => {
     test('Focused', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
@@ -128,7 +123,6 @@ kind('Input', () => {
     test('Selected', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
@@ -152,7 +146,6 @@ kind('Input', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
@@ -170,7 +163,6 @@ kind('Input', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
@@ -179,7 +171,6 @@ kind('Input', () => {
       const selectAllHalfFilledInput = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
@@ -203,7 +194,6 @@ kind('Input', () => {
     test('Focused', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
@@ -223,7 +213,6 @@ kind('Input', () => {
     test('Focused', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))

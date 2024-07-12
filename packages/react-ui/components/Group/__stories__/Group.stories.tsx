@@ -11,11 +11,7 @@ import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
-export default {
-  title: 'Layout/Group',
-  component: Group,
-  tags: ['autodocs'],
-};
+export default { title: 'Group' };
 
 export const SimpleGroupWithInputAndButton: Story = () => (
   <Group width="300px">

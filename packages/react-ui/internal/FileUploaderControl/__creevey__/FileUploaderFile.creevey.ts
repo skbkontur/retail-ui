@@ -13,7 +13,6 @@ kind('FileUploaderFile', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({

@@ -42,33 +42,54 @@ export interface DropdownProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps,
     Pick<DropdownContainerProps, 'menuPos'> {
-  /** Подпись на кнопке.*/
+  /**
+   * Подпись на кнопке.
+   */
   caption: React.ReactNode;
-  /** Иконка слева от текста кнопки*/
+  /**
+   * Иконка слева от текста кнопки
+   */
   icon?: React.ReactElement<any>;
   width?: React.CSSProperties['width'];
+
   /** @ignore */
   _renderButton?: (params: any) => JSX.Element;
-  /** Отключает использование портала*/
+
+  /**
+   * Отключает использование портала
+   */
   disablePortal?: boolean;
-  /** Визуально отключает Dropdown*/
+
+  /**
+   * Визуально отключает Dropdown
+   */
   disabled?: boolean;
-  /** Задаёт состояние валидации при ошибке. */
+
+  /**
+   * Состояние валидации при ошибке.
+   */
   error?: boolean;
-  /** Задаёт состояние валидации при предупреждении. */
+  /**
+   * Состояние валидации при предупреждении.
+   */
   warning?: boolean;
   maxMenuHeight?: number;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
-  /** Задаёт размер контрола. */
   size?: SizeProp;
 
-  /** Смотри Button.*/
+  /**
+   * Смотри Button.
+   */
   use?: ButtonUse;
 
-  /** Вызывается при закрытии меню.*/
+  /**
+   * Вызывается при закрытии меню.
+   */
   onClose?: () => void;
-  /** Вызывается при открытии меню.*/
+  /**
+   * Вызывается при открытии меню.
+   */
   onOpen?: () => void;
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -192,14 +213,18 @@ export class Dropdown extends React.Component<DropdownProps> {
     );
   };
 
-  /** @public */
+  /**
+   * @public
+   */
   public open() {
     if (this._select) {
       this._select.open();
     }
   }
 
-  /** @public */
+  /**
+   * @public
+   */
   public close() {
     if (this._select) {
       this._select.close();

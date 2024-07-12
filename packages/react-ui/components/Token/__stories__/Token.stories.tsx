@@ -23,9 +23,7 @@ const newToDeprecatedColorNamesMap: { [key: string]: string } = {
 };
 
 export default {
-  title: 'Input elements/Token Input/Token',
-  component: Token,
-  tags: ['autodocs'],
+  title: 'Token',
   decorators: [
     (Story: () => JSX.Element) => (
       <div className="token-test-container" style={{ margin: 40, padding: 4 }}>

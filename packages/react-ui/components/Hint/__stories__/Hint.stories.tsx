@@ -9,12 +9,9 @@ import { Textarea } from '../../Textarea';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 import { Button } from '../../Button';
 import { Tooltip } from '../../Tooltip';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
-  title: 'Popup/Hint',
-  component: Hint,
-  tags: ['autodocs'],
+  title: 'Hint',
   decorators: [
     (Story: () => JSX.Element) => (
       <div style={{ padding: '100px 300px' }}>
@@ -197,15 +194,6 @@ export const WithClassChildren = () => (
 );
 WithClassChildren.storyName = 'with class children';
 
-export const KebabHintRemovePinFeatureFlag = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-    <Hint text="Something will never be changed" manual opened>
-      <span className="hint-content">Ich Liebe dich</span>
-    </Hint>
-  </ReactUIFeatureFlagsContext.Provider>
-);
-KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
-
 export const HintNearScreenEdge = () => (
   <>
     <div>
@@ -283,80 +271,78 @@ export const HintNearScreenEdge = () => (
       </div>
     </div>
 
-    <ReactUIFeatureFlagsContext.Provider value={{ hintAddDynamicPositioning: true }}>
-      <div style={{ position: 'absolute', bottom: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
-        <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Hint>
-        <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Tooltip>
-      </div>
+    <div style={{ position: 'absolute', bottom: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
 
-      <div style={{ position: 'absolute', top: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
-        <Hint text={'Hey there!'} pos="top center" maxWidth={295} manual opened>
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Hint>
-        <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Tooltip>
-      </div>
+    <div style={{ position: 'absolute', top: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
+      <Hint text={'Hey there!'} pos="top center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="top center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
 
-      <div style={{ position: 'absolute', right: '0px', top: '100px', display: 'flex', flexDirection: 'column' }}>
-        <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Hint>
-        <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Tooltip>
-      </div>
+    <div style={{ position: 'absolute', right: '0px', top: '100px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
 
-      <div style={{ position: 'absolute', right: '-30px', top: '300px', display: 'flex', flexDirection: 'column' }}>
-        <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Hint>
-        <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Tooltip>
-      </div>
+    <div style={{ position: 'absolute', right: '-30px', top: '300px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
 
-      <div style={{ position: 'absolute', right: '-60px', top: '500px', display: 'flex', flexDirection: 'column' }}>
-        <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Hint>
-        <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Tooltip>
-      </div>
+    <div style={{ position: 'absolute', right: '-60px', top: '500px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+      <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Tooltip>
+    </div>
 
-      <div style={{ position: 'absolute', right: '-60px', bottom: '-30px', display: 'flex', flexDirection: 'column' }}>
-        <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
-          <Button use="success" size="medium" width={135} disabled>
-            Пригласить
-          </Button>
-        </Hint>
-      </div>
-    </ReactUIFeatureFlagsContext.Provider>
+    <div style={{ position: 'absolute', right: '-60px', bottom: '-30px', display: 'flex', flexDirection: 'column' }}>
+      <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
+        <Button use="success" size="medium" width={135} disabled>
+          Пригласить
+        </Button>
+      </Hint>
+    </div>
   </>
 );
 HintNearScreenEdge.storyName = 'hint near screen edge';

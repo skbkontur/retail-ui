@@ -49,7 +49,6 @@ interface ComboBoxViewProps<T>
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
-  /** Задаёт размер контрола. */
   size?: SizeProp;
   textValue?: string;
   totalCount?: number;
@@ -251,6 +250,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     const inputProps: InputProps = {
+      autoComplete: 'off',
       autoFocus: true,
       width: '100%',
       onFocus,
@@ -334,6 +334,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           ref={this.refInput}
           warning={warning}
           inputMode={inputMode}
+          autoComplete="off"
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
           aria-label={ariaLabel}

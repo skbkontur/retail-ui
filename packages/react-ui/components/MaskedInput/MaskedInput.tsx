@@ -10,8 +10,10 @@ export interface MaskedProps {
   mask: string;
   /** Символ маски */
   maskChar?: Nullable<string>;
-  /** Словарь символов-регулярок для маски
-   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' } */
+  /**
+   * Словарь символов-регулярок для маски
+   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
+   */
   formatChars?: Record<string, string>;
   /** Показывать символы маски */
   alwaysShowMask?: boolean;

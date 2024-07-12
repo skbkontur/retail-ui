@@ -8,9 +8,7 @@ import { MenuItem } from '../MenuItem';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Menu/MenuItem',
-  component: MenuItem,
-  tags: ['autodocs'],
+  title: 'MenuItem',
 } as Meta;
 
 export const MobileMenuItemWithIcon = () => {

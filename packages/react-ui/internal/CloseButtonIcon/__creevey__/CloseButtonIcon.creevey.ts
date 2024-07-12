@@ -4,7 +4,6 @@ const clickThenTAB = (clickDataTid: string) => {
   test(clickDataTid, async function () {
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .click(this.browser.findElement({ css: `[data-tid="${clickDataTid}"] input` }))
@@ -13,7 +12,6 @@ const clickThenTAB = (clickDataTid: string) => {
     const firstFocus = await this.takeScreenshot();
     await this.browser
       .actions({
-        async: undefined,
         bridge: true,
       })
       .sendKeys(this.keys.TAB)

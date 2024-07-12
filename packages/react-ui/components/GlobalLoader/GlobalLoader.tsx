@@ -9,27 +9,47 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
 export interface GlobalLoaderProps {
-  /** Время(ms) до появления лоадера */
+  /**
+   * Время(ms) до появления лоадера
+   */
   delayBeforeShow?: number;
-  /** Время(ms) до исчезновения лоадера */
+  /**
+   * Время(ms) до исчезновения лоадера
+   */
   delayBeforeHide?: number;
-  /** Ожидаемое время(ms) ответа сервера */
+  /**
+   * Ожидаемое время(ms) ответа сервера
+   */
   expectedResponseTime?: number;
-  /** Анимация лоадера в виде спиннера */
+  /**
+   * Анимация лоадера в виде спиннера
+   */
   rejected?: boolean;
-  /** Показывать лоадер */
+  /**
+   * Показывать лоадер
+   */
   active?: boolean;
-  /** Отключает анимации. */
+  /**
+   * Не показывать анимацию
+   */
   disableAnimations?: boolean;
-  /** Коллбек, вызывающийся после появления лоадера */
+  /**
+   * Коллбек, вызывающийся после появления лоадера
+   */
   onStart?(): void;
-  /** Коллбек, вызывающийся после исчезновения лоадера */
+  /**
+   * Коллбек, вызывающийся после исчезновения лоадера
+   */
   onDone?(): void;
-  /** Коллбек, вызывающийся после вызова `GlobalLoader.reject()`.
-   * Или после установки пропа `rejected = true` */
+  /**
+   * Коллбек, вызывающийся после вызова `GlobalLoader.reject()`.
+   * Или после установки пропа `rejected = true`
+   */
   onReject?(): void;
-  /** Коллбек, вызывающийся после вызова `GlobalLoader.accept()`.
-   * Или после установки пропа `rejected = false` */
+  /**
+   * Коллбек, вызывающийся после вызова `GlobalLoader.accept()`.
+   * Или после установки пропа `rejected = false`
+   */
   onAccept?(): void;
 }
 export interface GlobalLoaderState {
@@ -156,7 +176,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     );
   }
 
-  /** Запускает анимацию лоадера <br />
+  /**
+   * Запускает анимацию лоадера <br />
    * Равносильно установке пропа `active = true`
    *
    * @public
@@ -168,7 +189,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
   };
 
-  /** Показывает анимацию успешного завершения загрузки <br />
+  /**
+   * Показывает анимацию успешного завершения загрузки <br />
    * Равносильно установке пропа `active = false`
    *
    * @public
@@ -177,7 +199,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader.setDone();
   };
 
-  /** Переключает анимацию лоадера в состояние спиннера <br />
+  /**
+   * Переключает анимацию лоадера в состояние спиннера <br />
    * Равносильно установке пропа `rejected = true`
    *
    * @public
@@ -186,7 +209,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader.setReject(true);
   };
 
-  /** Возвращает лоадер из состояния спиннера в обычное и продолжает анимацию с того места, на котором она была прерван <br />
+  /**
+   * Возвращает лоадер из состояния спиннера в обычное и продолжает анимацию с того места, на котором она была прерван <br />
    * Равносильно установке пропа `rejected = false`
    *
    * @public

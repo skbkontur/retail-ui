@@ -10,9 +10,7 @@ import { TooltipMenu } from '../TooltipMenu';
 import { Button } from '../../Button';
 
 export default {
-  title: 'Menu/TooltipMenu',
-  component: TooltipMenu,
-  tags: ['autodocs'],
+  title: 'TooltipMenu',
   decorators: [
     (Story: () => JSX.Element) => (
       <div

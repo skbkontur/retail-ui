@@ -6,7 +6,6 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
-import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { cx } from '../../lib/theming/Emotion';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -17,6 +16,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
@@ -25,35 +25,91 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
+import { CalendarContext, CalendarContextProps } from './CalendarContext';
+import { CalendarDay, CalendarDayProps } from './CalendarDay';
 
 export interface CalendarProps extends CommonProps {
-  /** Вызывается при изменении `value`
-   * В аргументе хранится дата в формате `dd.mm.yyyy` */
+  /**
+   * Вызывается при изменении `value`
+   *
+   * В аргументе хранится дата в формате `dd.mm.yyyy`
+   */
   onValueChange?: (date: string) => void;
-  /** Задаёт текущую дату в формате `dd.mm.yyyy` */
+  /**
+   * Задаёт текущую дату
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
   value: Nullable<string>;
-  /** Задаёт максимальную возможную дату в формате `dd.mm.yyyy` */
+  /**
+   * Задаёт максимальную возможную дату
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
   maxDate?: string;
-  /** Задаёт минимальную возможную дату в формате `dd.mm.yyyy` */
+  /**
+   * Задаёт минимальную возможную дату
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
   minDate?: string;
-  /** Функция для определения праздничных дней
+  /**
+   * Задаёт начальную дату периода
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
+  periodStartDate?: string;
+  /**
+   * Задаёт конечную дату периода
+   *
+   * Дата задаётся в формате `dd.mm.yyyy`
+   */
+  periodEndDate?: string;
+  /**
+   * Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
    * @param {string} day - строка в формате `dd.mm.yyyy`
    * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
-   * @returns {boolean} `true` для выходного или `false` для рабочего дня */
+   *
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня
+   */
   isHoliday?: (day: string, isWeekend: boolean) => boolean;
-  /** Позволяет задать начальный месяц */
+  /**
+   * Позволяет задать начальный месяц
+   */
   initialMonth?: Range<1, 13>;
-  /** Позволяет задать начальный год */
+  /**
+   * Позволяет задать начальный год
+   */
   initialYear?: number;
+  /**
+   * Метод отрисовки дат в календаре
+   * @default (props: CalendarDayProps) => <CalendarDay {...props} />
+   * @param {CalendarDayProps} props
+   *
+   * @returns {ReactElement} Элемент, который отрисовывает контент числа месяца.
+   */
+  renderDay?: (props: CalendarDayProps) => React.ReactElement;
+
+  /**
+   * Вызывается при каждом изменении месяца
+   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+   * `month: number` - номер текущего отображаемого месяца от 1 до 12,
+   * `year: number` - отображаемый год,
+   */
+  onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
 }
 
 export interface CalendarState {
   scrollPosition: number;
   months: MonthViewModel[];
-  today: CalendarDateShape;
   scrollDirection: number;
   scrollTarget: number;
+}
+
+export interface CalendarMonthChangeInfo {
+  month: number;
+  year: number;
 }
 
 export const CalendarDataTids = {
@@ -61,7 +117,9 @@ export const CalendarDataTids = {
   month: 'MonthView__month',
   dayCell: 'DayCellView__root',
   headerMonth: 'MonthView__headerMonth',
+  monthSelectMobile: 'MonthView__monthSelectMobile',
   headerYear: 'MonthView__headerYear',
+  yearSelectMobile: 'MonthView__yearSelectMobile',
 } as const;
 
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
@@ -73,6 +131,8 @@ type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoli
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
   public static displayName = 'Calendar';
+
+  public static Day = CalendarDay;
 
   private static formatDate(date: number, month: number, year: number) {
     return new InternalDate().setComponents({ date, month, year }).toString({ withPad: true });
@@ -110,23 +170,35 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       maxDate: maxDateShape,
     });
 
-    const initialMonth = CalendarUtils.getMonthInNativeFormat(this.props.initialMonth) ?? initialDate.month;
+    const initialMonth = this.props.initialMonth
+      ? CalendarUtils.getMonthInNativeFormat(this.props.initialMonth)
+      : initialDate.month;
     const initialYear = this.props.initialYear ?? initialDate.year;
 
     this.state = {
       scrollPosition: 0,
       months: CalendarUtils.getMonths(initialMonth, initialYear),
-      today,
       scrollDirection: 1,
       scrollTarget: 0,
     };
   }
 
-  public componentDidUpdate(prevProps: Readonly<CalendarProps>): void {
-    const { value } = this.props;
+  public componentDidUpdate(prevProps: Readonly<CalendarProps>, prevState: Readonly<CalendarState>): void {
+    const { value, onMonthChange } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       const date = new InternalDate().parseValue(value).getComponentsLikeNumber();
       this.scrollToMonth(date.month - 1, date.year);
+    }
+
+    if (onMonthChange) {
+      const visibleMonthsModels = this.getVisibleMonths(this.state).map(this.getViewModel);
+      const prevFirstVisibleMonthModels = this.getVisibleMonths(prevState).map(this.getViewModel);
+      const currentMonth = visibleMonthsModels[0].month;
+      const prevCurrentMonth = prevFirstVisibleMonthModels[0].month;
+
+      if (currentMonth !== prevCurrentMonth) {
+        this.handleMonthChange(visibleMonthsModels);
+      }
     }
   }
 
@@ -147,8 +219,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     );
   }
 
-  /** Прокручивает календарь до переданной даты
-   * @public */
+  /**
+   * Прокручивает календарь до переданной даты
+   * @public
+   */
   public scrollToMonth = async (month: number, year: number) => {
     if (this.animation.inProgress()) {
       this.animation.finish();
@@ -255,20 +329,41 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   };
 
+  private handleMonthChange = (visibleMonths: MonthViewModel[]): void => {
+    const currentMonth = visibleMonths[0];
+    const changeInfo = {
+      month: CalendarUtils.getMonthInHumanFormat(currentMonth.month),
+      year: currentMonth.year,
+    };
+
+    this.props.onMonthChange?.(changeInfo);
+  };
+
+  private getViewModel = (item: [number, MonthViewModel]): MonthViewModel => item[1];
+
   private renderMain = () => {
-    const positions = this.getMonthPositions();
+    const monthsForRender = this.getVisibleMonths(this.state);
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
 
     const props = this.getProps();
+
+    const context: CalendarContextProps = {
+      value: this.getDateInNativeFormat(props.value),
+      minDate: this.getDateInNativeFormat(props.minDate),
+      maxDate: this.getDateInNativeFormat(props.maxDate),
+      isHoliday: props.isHoliday,
+      renderDay: props.renderDay,
+      today: CalendarUtils.getTodayDate(),
+      onDateClick: this.handleDateClick,
+    };
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
         <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
           <div style={wrapperStyle} className={styles.wrapper()}>
-            {this.state.months
-              .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-              .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
-              .map(this.renderMonth, this)}
+            <CalendarContext.Provider value={context}>
+              {monthsForRender.map(this.renderMonth, this)}
+            </CalendarContext.Provider>
           </div>
           <div className={styles.separator(this.theme)} />
         </div>
@@ -297,57 +392,42 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMonth([top, month]: [number, MonthViewModel]) {
-    const date = this.getDateInNativeFormat(this.props.value);
-    const minDate = this.getDateInNativeFormat(this.props.minDate);
-    const maxDate = this.getDateInNativeFormat(this.props.maxDate);
-
     return (
       <Month
         key={month.month + '-' + month.year}
         top={top}
         month={month}
-        maxDate={maxDate}
-        minDate={minDate}
-        today={this.state.today}
-        value={date}
-        onDateClick={this.handleDateChange}
         onMonthYearChange={this.handleMonthYearChange}
-        isHoliday={this.isHoliday}
       />
     );
   }
 
-  private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
-    const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
+  private handleDateClick = (dateShape: CalendarDateShape) => {
+    const value = InternalDateTransformer.dateToHumanString(dateShape);
 
-    return this.getProps().isHoliday(dateString, isWeekend);
-  };
-
-  private handleDateChange = (dateShape: CalendarDateShape) => {
-    const value = InternalDateTransformer.dateToInternalString({
-      date: dateShape.date,
-      month: dateShape.month + 1,
-      year: dateShape.year,
-    });
-
-    if (this.props.onValueChange) {
-      this.props.onValueChange(value);
-    }
+    this.props.onValueChange?.(value);
   };
 
   private getDateInNativeFormat(date: Nullable<string>) {
     return new InternalDate().parseValue(date).toNativeFormat();
   }
 
-  private getMonthPositions() {
-    const { scrollPosition, months } = this.state;
-
+  private getMonthPositions(months: MonthViewModel[], scrollPosition: number) {
     const positions = [scrollPosition - months[0].getHeight(this.theme)];
     for (let i = 1; i < months.length; i++) {
       const position = positions[i - 1] + months[i - 1].getHeight(this.theme);
       positions.push(position);
     }
     return positions;
+  }
+
+  private getVisibleMonths(state: Readonly<CalendarState>): Array<[number, MonthViewModel]> {
+    const { months, scrollPosition } = state;
+    const positions = this.getMonthPositions(months, scrollPosition);
+
+    return months
+      .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
+      .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme));
   }
 
   private handleMonthYearChange = (month: number, year: number) => {
@@ -416,12 +496,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;
 
-    const trasholdHeight = themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT + themeConfig(this.theme).DAY_SIZE;
+    const thresholdHeight = themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT + themeConfig(this.theme).DAY_HEIGHT;
 
-    if (scrollTarget < trasholdHeight) {
+    if (scrollTarget < thresholdHeight) {
       let targetPosition = 0;
       if (scrollDirection < 0) {
-        targetPosition = trasholdHeight;
+        targetPosition = thresholdHeight;
       }
 
       this.setState({ scrollTarget: targetPosition }, () => {

@@ -36,7 +36,6 @@ export interface ComboBoxMenuProps<T> {
   requestStatus?: ComboBoxRequestStatus;
   isMobile?: boolean;
   menuId?: string;
-  /** Задаёт размер контрола. */
   size?: SizeProp;
 }
 

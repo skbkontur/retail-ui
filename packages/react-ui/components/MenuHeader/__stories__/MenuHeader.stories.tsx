@@ -5,9 +5,7 @@ import { MenuHeader } from '../MenuHeader';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Menu/MenuHeader',
-  component: MenuHeader,
-  tags: ['autodocs'],
+  title: 'MenuHeader',
 } as Meta;
 
 export const Size = () => {

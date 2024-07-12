@@ -21,7 +21,6 @@ kind('RadioGroup', () => {
     test('hovered', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -34,7 +33,6 @@ kind('RadioGroup', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
@@ -47,14 +45,12 @@ kind('RadioGroup', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
@@ -65,7 +61,6 @@ kind('RadioGroup', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
@@ -77,7 +72,6 @@ kind('RadioGroup', () => {
     test('arrow_down', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))

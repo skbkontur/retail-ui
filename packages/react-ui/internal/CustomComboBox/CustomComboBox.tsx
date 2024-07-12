@@ -15,11 +15,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
-import {
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -54,7 +49,6 @@ export interface CustomComboBoxProps<T>
   onMouseLeave?: (e: React.MouseEvent) => void;
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
-  /** Задаёт размер контрола. */
   size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
@@ -123,7 +117,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
   private isMobileLayout!: boolean;
-  private featureFlags!: ReactUIFeatureFlags;
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
@@ -318,16 +311,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     };
 
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <CommonWrapper {...this.props}>
-              <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <CommonWrapper {...this.props}>
+        <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
+      </CommonWrapper>
     );
   }
 
@@ -347,7 +333,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
         type: 'DidUpdate',
         prevProps,
         prevState,
-        fixValueChange: this.featureFlags.comboBoxAllowValueChangeInEditingState,
       },
       false,
     );

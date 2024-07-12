@@ -11,7 +11,6 @@ kind('FxInput', () => {
       const element = await this.browser.findElement({ css: '[data-tid="container"]' });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '#toggle-width' }))

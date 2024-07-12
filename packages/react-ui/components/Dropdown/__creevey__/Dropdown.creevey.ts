@@ -23,7 +23,6 @@ kind('Dropdown', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
@@ -36,14 +35,12 @@ kind('Dropdown', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .move({
@@ -58,14 +55,12 @@ kind('Dropdown', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
@@ -81,7 +76,6 @@ kind('Dropdown', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
@@ -96,7 +90,7 @@ kind('Dropdown', () => {
 
     test('scrolled', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions()
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       const opened = await this.takeScreenshot();
@@ -113,7 +107,6 @@ kind('Dropdown', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
@@ -128,7 +121,6 @@ kind('Dropdown', () => {
     test('opened top with portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
@@ -140,7 +132,6 @@ kind('Dropdown', () => {
     test('opened bottom with portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
@@ -154,7 +145,6 @@ kind('Dropdown', () => {
     test('opened top without portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
@@ -168,7 +158,6 @@ kind('Dropdown', () => {
     test('opened bottom without portal', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
@@ -186,7 +175,6 @@ kind('Dropdown', () => {
     test('clicked all', async function () {
       await this.browser
         .actions({
-          async: undefined,
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
