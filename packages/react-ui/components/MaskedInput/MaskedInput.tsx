@@ -6,7 +6,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
-import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
+import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers';
 
 import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
@@ -38,6 +38,16 @@ export interface MaskedProps {
    */
   alwaysShowMask?: boolean;
   /**
+   * Обработчик неправильного ввода.
+   * Вторым агрументом будет передан метод вспыхивания акцентным цветом.
+   *
+   * Если обработчик не задан, то инпут вспыхивает по-умолчанию.
+   *
+   * @param value значение инпута.
+   * @param blink вспыхнуть акцентным цвтетом.
+   */
+  onUnexpectedInput?: (value: string, blink: () => void) => void;
+  /**
    * Пропы для компонента `IMaskInput`
    *
    * @see https://imask.js.org/guide.html
@@ -49,7 +59,7 @@ export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'pas
 
 export interface MaskedInputProps
   extends MaskedProps,
-    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask'> {
+    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput'> {
   type?: MaskInputType;
 }
 
@@ -68,7 +78,6 @@ export const MaskedInput = forwardRefAndName(
       imaskProps: { onAccept, ...customIMaskProps } = {},
       onValueChange,
       onUnexpectedInput,
-      onKeyDownCapture,
       onChange,
       element,
       className,
@@ -92,11 +101,9 @@ export const MaskedInput = forwardRefAndName(
     );
 
     useEffect(() => {
-      /**
-       * Для корректной работы `onUnexpectedInput` надо знать предыдущий `value`,
-       * но `imask` при монтировании не вызывает `onAccept`, если `value` невалиден или `laze=false`
-       * Поэтому актуальный `value` при монтировании надо получать вручную
-       */
+      // Для корректной работы onUnexpectedInput надо знать предыдущий value,
+      // но imask при монтировании не вызывает onAccept, если value невалиден или laze=false.
+      // Поэтому актуальный value при монтировании надо получать вручную
       if (inputRef.current?.input) {
         prevValue.current = inputRef.current.input.value;
         prevSelectionStart.current = inputRef.current.input.selectionStart;
@@ -112,7 +119,7 @@ export const MaskedInput = forwardRefAndName(
         onFocus={handleFocus}
         onBlur={handleBlur}
         onInput={handleInput}
-        onKeyDownCapture={handleKeyDownCapture}
+        onKeyDown={handleKeyDown}
         className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
           <ColorableInputElement showOnFocus={!alwaysShowMask} active={!isShowPlaceholder()}>
@@ -127,7 +134,8 @@ export const MaskedInput = forwardRefAndName(
         mask: mask.replace(/0/g, '{\\0}') as any,
         placeholderChar: getMaskChar(maskChar),
         definitions: getDefinitions(formatChars),
-        eager: true,
+        // FIXME: Должно быть eager=true, но в imask ломается удаление по delete
+        eager: 'append',
         overwrite: 'shift',
         lazy: isLazy(),
         ...customIMaskProps,
@@ -149,14 +157,13 @@ export const MaskedInput = forwardRefAndName(
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
       const [value, , e] = args;
 
-      /**
-       * Метод `onAccept` может вызываться при монтировании, если не задан проп `defaultValue`.
-       * Но нативный `input` никогда не вызывает `onChange` при монтировании.
-       * Наше событие `onValueChange` в `Input` вывается в тех же случаях, что и нативный `onChange`,
-       * поэтому чтобы сохранить консинстентность будем ориентироваться на наличие аргумента `e`.
-       * Он содержит нативное событие, вызвавшее изменение.
-       * Если его нет, значит `imask` вызывал `onAccept` по некой собственной логике.
-       */
+      console.log('handleAccept', !!e);
+
+      // Метод onAccept может вызываться при монтировании, если не задан проп defaultValue.
+      // Но нативный input никогда не вызывает onChange при монтировании.
+      // Наше событие onValueChange в Input вывается в тех же случаях, что и нативный onChange,
+      // поэтому чтобы сохранить консинстентность будем ориентироваться на наличие аргумента e.
+      // Он содержит нативное событие, вызвавшее изменение.
       e && onValueChange?.(value);
 
       onAccept?.(...args);
@@ -168,11 +175,15 @@ export const MaskedInput = forwardRefAndName(
      * Сначала вызывается handleAccept, затем handleInput
      */
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      if (prevValue.current === e.target.value && prevSelectionStart.current === e.target.selectionStart) {
-        handleUnexpectedInput(e.target.value);
-      }
+      const { value, selectionStart } = e.currentTarget;
 
-      prevValue.current = e.target.value;
+      // При вводе неожиданных символов или удалении каретка может перепрыгивать фиксированные символы.
+      // Такие случаи не расцениваем как неожиданный ввод, т.к. пользователь может намеренно их вводить.
+      if (prevValue.current === value && selectionStart === prevSelectionStart.current) {
+        handleUnexpectedInput(value);
+      }
+      prevValue.current = value;
+      prevSelectionStart.current = selectionStart;
 
       props.onInput?.(e);
     }
@@ -181,17 +192,14 @@ export const MaskedInput = forwardRefAndName(
       setFocused(true);
       props.onFocus?.(e);
 
-      // если `value` из пропов отличается от `value`, которое получит `input` после обработки,
-      // то `imask` будет ставить курсор за последним валидным символом.
+      // Если value из пропов отличается от value, которое получит input после обработки,
+      // то imask будет ставить каретку за последним валидным символом.
       props.selectAllOnFocus && inputRef.current?.delaySelectAll();
     }
 
-    function handleUnexpectedInput(value = '') {
-      if (onUnexpectedInput) {
-        onUnexpectedInput(value);
-      } else if (inputRef.current) {
-        inputRef.current.blink();
-      }
+    function handleUnexpectedInput(value: string) {
+      const blink = inputRef.current?.blink.bind(inputRef.current) || (() => undefined);
+      onUnexpectedInput ? onUnexpectedInput(value, blink) : blink();
     }
 
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
@@ -199,17 +207,21 @@ export const MaskedInput = forwardRefAndName(
       props.onBlur?.(e);
     }
 
-    function handleKeyDownCapture(e: React.KeyboardEvent<HTMLInputElement>) {
-      const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+      const { value, selectionStart } = e.currentTarget;
 
-      prevSelectionStart.current = e.currentTarget.selectionStart;
+      prevSelectionStart.current = selectionStart;
 
-      if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
-        handleUnexpectedInput(e.currentTarget.value);
+      if (
+        (isKeyBackspace(e) && prevSelectionStart.current === 0) ||
+        (isKeyDelete(e) && prevSelectionStart.current === value.length)
+      ) {
+        // Случаи, когда нажатие клавиш не тригерит `onInput`
+        handleUnexpectedInput(value);
         prevValue.current = e.currentTarget.value;
       }
 
-      onKeyDownCapture?.(e);
+      props.onKeyDown?.(e);
     }
   },
 );

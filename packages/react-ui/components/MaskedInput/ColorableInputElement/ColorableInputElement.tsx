@@ -24,7 +24,7 @@ const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObse
 // Возможно придётся включить.
 // Иногда, на тяжёлых страницах, текст рендерится итеративно.
 // Из-за этого могут оставаться артефакты при покраске компонента, которые пропадут только после фокуса.
-// setInterval(() => window.requestAnimationFrame(() => dictionary.forEach((paint) => paint())), 10000);
+// setInterval(() => window.requestAnimationFrame(() => dictionary.forEach((paint) => paint())), 1000);
 
 export const ColorableInputElement = forwardRefAndName(
   'ColorableInputElement',
@@ -63,7 +63,7 @@ export const ColorableInputElement = forwardRefAndName(
     useEffect(() => {
       // При деактивации быстро выключаем покраску
       !active ? unPaintText() : setTimeout(paintText);
-    }, [showOnFocus, active]);
+    }, [showOnFocus, active, props.value, props.defaultValue]);
 
     useEffect(() => {
       if (inputRef.current) {

@@ -16,6 +16,7 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag } from '../../lib/events/MouseDrag';
+import { isSafari } from '../../lib/client';
 
 export type FixedIMaskInputProps = IMaskInputProps<HTMLInputElement>;
 
@@ -179,7 +180,12 @@ export const FixedIMaskInput = forwardRefAndName(
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
       focused.current = true;
       fillTypedValue();
-      normalizeSelection();
+
+      if (isSafari) {
+        setTimeout(normalizeSelection);
+      } else {
+        normalizeSelection();
+      }
 
       props.onFocus?.(e);
     }
@@ -206,12 +212,6 @@ export const FixedIMaskInput = forwardRefAndName(
         e.preventDefault();
         const [start, end, direction] = calcSelection(e);
         setSelection(start, end, direction);
-      } else {
-        const [start, end] = getSelection();
-        const max = getMaxCaretPosition();
-        if (end > max) {
-          setSelection(start, max);
-        }
       }
 
       props.onKeyDown?.(e);

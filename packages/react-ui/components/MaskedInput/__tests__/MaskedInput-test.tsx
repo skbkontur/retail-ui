@@ -107,13 +107,12 @@ describe('MaskedInput', () => {
     it.each<[MaskedInputProps, string, number]>([
       [{ mask: '9-9-9-9' }, '123', 0],
       [{ mask: '9-9-9-9' }, '12345', 1],
-      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(5)}`, 1],
+      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 1],
       [{ mask: '9-9-9-9' }, 'a', 1],
       [{ mask: '9-9-9-9' }, '{backspace}', 1],
       [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, '12345', 1],
-      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(5)}`, 1],
+      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(8)}`, 1],
       [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, '12345', 1],
-      [{ mask: '9-9-9-9', imaskProps: { eager: 'append' } }, `1234${'{backspace}'.repeat(8)}`, 1],
     ])('%j > %s > %s times', ({ imaskProps, ...props }, keys, expectedCount) => {
       const handleUnexpectedInput = jest.fn();
       const Comp = () => {
@@ -140,12 +139,12 @@ describe('MaskedInput', () => {
   describe('fixed symbols on typing', () => {
     it.each<[string, string, string]>([
       ['9-9-9-9', '123', '1-2-3-'],
-      ['9-9-9-9', '123{backspace}', '1-2-'],
+      ['9-9-9-9', '123{backspace}', '1-2-3'],
       ['9-9-9--9', '123', '1-2-3--'],
-      ['9-9-9--9', '123{backspace}', '1-2-'],
-      ['9-9--9--9', '123{backspace}{backspace}', '1-'],
-      ['9--9--9--9', '123{backspace}{backspace}', '1--'],
-      ['9--9---9---9', '123{backspace}{backspace}', '1--'],
+      ['9-9-9--9', '123{backspace}', '1-2-3'],
+      ['9-9--9--9', '123{backspace}{backspace}', '1-2--'],
+      ['9--9--9--9', '123{backspace}{backspace}', '1--2--'],
+      ['9--9---9---9', '123{backspace}{backspace}', '1--2---'],
     ])(`%s > %s > "%s"`, (mask, keys, expected) => {
       render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
