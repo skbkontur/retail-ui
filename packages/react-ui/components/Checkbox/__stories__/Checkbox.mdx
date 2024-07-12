@@ -113,24 +113,24 @@ export const CheckboxIndeterminateSwitcher = () => {
   let checkboxInstance = React.useRef(null);
 
   return (
-      <Gapped vertical>
-        <Checkbox
-          initialIndeterminate
-          checked={checked}
-          onValueChange={setChecked}
-          ref={el => checkboxInstance = el}
-        >
-          Неопределённый чекбокс
-        </Checkbox>
-        <Gapped>
-          <Button onClick={() => checkboxInstance.setIndeterminate()}>
-            Перевести в неопределённое состояние
-          </Button>
-          <Button onClick={() => checkboxInstance.resetIndeterminate()}>
-            Сбросить неопределённое состояние
-          </Button>
-        </Gapped>
+    <Gapped vertical>
+      <Checkbox
+        initialIndeterminate
+        checked={checked}
+        onValueChange={setChecked}
+        ref={el => checkboxInstance = el}
+      >
+        Неопределённый чекбокс
+      </Checkbox>
+      <Gapped>
+        <Button onClick={() => checkboxInstance.setIndeterminate()}>
+          Перевести в неопределённое состояние
+        </Button>
+        <Button onClick={() => checkboxInstance.resetIndeterminate()}>
+          Сбросить неопределённое состояние
+        </Button>
       </Gapped>
+    </Gapped>
   )
 }
 
@@ -157,38 +157,38 @@ export const CheckboxIndeterminateExample = () => {
     }
   }, [JSON.stringify(checkedSiblings)]);
 
- return (
+  return (
    <>
-    <Checkbox checked={checkedSiblings.length === siblingCheckboxes.length} ref={(el) => (parentCheckboxRef = el)}>
-      Родитель
-    </Checkbox>
-    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
-      {siblingCheckboxes.map((id) => {
-        return (
-          <Checkbox
-            key={id}
-            checked={checkedSiblings.includes(id)}
-            onValueChange={() => {
-              const siblingIndex = checkedSiblings.indexOf(id);
+     <Checkbox checked={checkedSiblings.length === siblingCheckboxes.length} ref={(el) => (parentCheckboxRef = el)}>
+       Родитель
+     </Checkbox>
+     <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
+       {siblingCheckboxes.map((id) => {
+         return (
+           <Checkbox
+             key={id}
+             checked={checkedSiblings.includes(id)}
+             onValueChange={() => {
+               const siblingIndex = checkedSiblings.indexOf(id);
 
-              if (siblingIndex === -1) {
-                setCheckedSiblings((prev) => [...prev, id]);
-              } else {
-                setCheckedSiblings((prev) =>
-                  prev.filter((siblingId) => {
-                    return siblingId !== id;
-                  }),
-                );
-              }
-            }}
-          >
-            Ребёнок ({id})
-          </Checkbox>
-        );
-      })}
-    </div>
-  </>
- )
+               if (siblingIndex === -1) {
+                 setCheckedSiblings((prev) => [...prev, id]);
+               } else {
+                 setCheckedSiblings((prev) =>
+                   prev.filter((siblingId) => {
+                     return siblingId !== id;
+                   }),
+                 );
+               }
+             }}
+           >
+             Ребёнок ({id})
+           </Checkbox>
+         );
+       })}
+     </div>
+   </>
+  )
 }
 
 <Canvas>
