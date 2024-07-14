@@ -381,7 +381,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           anchorElement={anchorElement}
           hasPin
           hasShadow
-          maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
           disablePortal={this.props.disablePortal}

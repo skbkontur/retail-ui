@@ -93,7 +93,6 @@ export interface PopupProps
   hasShadow?: boolean;
   disableAnimations?: boolean;
   margin?: number;
-  maxWidth?: number | string;
   opened: boolean;
   pinOffset?: number;
   pinSize?: number;
@@ -535,14 +534,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent(location: PopupLocation) {
-    const { maxWidth, opened } = this.props;
+    const { opened } = this.props;
     const { hasShadow, disableAnimations, ignoreHover } = this.getProps();
     const children = this.renderChildren();
 
     const relativeShift = this.getRelativeShift();
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = {
-      maxWidth,
       top: location.coordinates.top + relativeShift.top,
       left: location.coordinates.left + relativeShift.left,
     };
