@@ -149,7 +149,7 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    const i = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
+    const child = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
       'data-tid': dataTid,
     });
 
@@ -158,9 +158,9 @@ export class ValidationWrapperInternal extends React.Component<
         {(flags) => {
           this.featureFlags = getFullValidationsFlagsContext(flags);
           return this.featureFlags.validationsDivWrapper ? (
-            <div style={{ display: 'inline' }}>{i}</div>
+            <div style={{ display: 'inline' }}>{child}</div>
           ) : (
-            <span>{i}</span>
+            <span>{child}</span>
           );
         }}
       </ValidationsFeatureFlagsContext.Consumer>
