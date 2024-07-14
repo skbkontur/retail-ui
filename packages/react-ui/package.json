@@ -112,7 +112,7 @@
     "@types/react-transition-group": "^4.4.4",
     "@types/shallowequal": "^1.1.1",
     "@types/warning": "^3.0.0",
-    "@types/webpack-env": "^1.18.5",
+    "@types/webpack-env": "^1.16.0",
     "axios": "^1.7.2",
     "babel-jest": "29.7.0",
     "babel-loader": "^9.1.3",
