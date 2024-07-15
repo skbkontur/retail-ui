@@ -4,9 +4,9 @@ import warning from 'warning';
 import { Nullable } from '../typings/Types';
 
 import {
+  getFullValidationsFlagsContext,
   ValidationsFeatureFlags,
   ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
 } from './utils/featureFlagsContext';
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
@@ -149,18 +149,22 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    const child = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
-      'data-tid': dataTid,
-    });
-
     return (
       <ValidationsFeatureFlagsContext.Consumer>
         {(flags) => {
+          const errorMessage = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
+            'data-tid': clonedChild.props.dataTid,
+          });
           this.featureFlags = getFullValidationsFlagsContext(flags);
-          return this.featureFlags.validationsDivWrapper ? (
-            <div style={{ display: 'inline' }}>{child}</div>
-          ) : (
-            <span>{child}</span>
+          return React.cloneElement(
+            this.featureFlags.validationsDivWrapper ? (
+              <div style={{ display: 'inline' }}>{errorMessage}</div>
+            ) : (
+              <span>{errorMessage}</span>
+            ),
+            {
+              'data-tid': dataTid,
+            },
           );
         }}
       </ValidationsFeatureFlagsContext.Consumer>
