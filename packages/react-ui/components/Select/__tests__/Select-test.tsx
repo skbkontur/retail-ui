@@ -304,6 +304,12 @@ describe('Select', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
     });
+
+    it('sets value disabled `_renderButton` is passed', () => {
+      render(<Select disabled _renderButton={(params) => <button {...params}>test</button>} />);
+
+      expect(screen.getByRole('button')).toBeDisabled();
+    });
   });
 
   describe('Locale', () => {
