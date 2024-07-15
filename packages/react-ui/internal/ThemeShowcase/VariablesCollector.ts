@@ -38,7 +38,7 @@ if (IS_PROXY_SUPPORTED) {
   baseThemes.push(DEFAULT_THEME);
   baseThemes.push(DARK_THEME);
 
-  const componentsContext = require.context('../../../', true, /\.styles.ts$/);
+  const componentsContext: __WebpackModuleApi.RequireContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach((fileName) => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
