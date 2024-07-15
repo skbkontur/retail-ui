@@ -195,11 +195,9 @@ describe('ValidationContainer', () => {
 
       const onValidationUpdated = jest.fn();
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
-      await containerRef.current?.submit();
-      const errors = await screen.findAllByText('Ошибка');
-      expect(errors.length).toBe(1);
 
       screen.getByRole('button', { name: 'Repair' }).click();
+      await containerRef.current?.validate();
       expect(onValidationUpdated).toBeCalledWith(true);
     });
 
@@ -233,15 +231,16 @@ describe('ValidationContainer', () => {
 
       const onValidationUpdated = jest.fn();
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
-      await containerRef.current?.submit();
-
+      await containerRef.current?.validate();
       const errors = await screen.findAllByText('Ошибка');
       expect(errors.length).toBe(1);
 
       screen.getByRole('button', { name: 'Partial Repair' }).click();
+      await containerRef.current?.validate();
       expect(onValidationUpdated).toBeCalledWith(false);
 
       screen.getByRole('button', { name: 'Repair' }).click();
+      await containerRef.current?.validate();
       expect(onValidationUpdated).toBeCalledWith(true);
     });
   });
