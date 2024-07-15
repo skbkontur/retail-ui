@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef } from 'react';
+import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
@@ -7,10 +7,9 @@ import { InputElement, InputElementProps } from '../../Input';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import { cx } from '../../../lib/theming/Emotion';
 
-import { styles } from './ColorableInputElement.styles';
+import { globalClasses } from './ColorableInputElement.styles';
 
 export type ColorableInputElementProps = InputElementProps & {
-  active?: boolean;
   showOnFocus?: boolean;
   children: React.ReactElement;
 };
@@ -34,8 +33,10 @@ export const ColorableInputElement = forwardRefAndName(
     const focused = useRef(false);
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
+    const debouncedPaintText = useCallback(debounce(paintText), []);
+    const [active, setActive] = useState(true);
 
-    const { children, onInput, onFocus, onBlur, active = true, showOnFocus = false, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, showOnFocus = false, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -47,8 +48,10 @@ export const ColorableInputElement = forwardRefAndName(
     );
 
     useEffect(() => {
+      updateActive();
+
       if (inputRef.current) {
-        dictionary.set(inputRef.current, paintText);
+        dictionary.set(inputRef.current, debouncedPaintText);
         resizeObserver?.observe(inputRef.current);
       }
 
@@ -60,10 +63,7 @@ export const ColorableInputElement = forwardRefAndName(
       };
     }, []);
 
-    useEffect(() => {
-      // При деактивации быстро выключаем покраску
-      !active ? unPaintText() : setTimeout(paintText);
-    }, [showOnFocus, active, props.value, props.defaultValue]);
+    useEffect(activation, [showOnFocus, active, props.value, props.defaultValue, focused.current]);
 
     useEffect(() => {
       if (inputRef.current) {
@@ -79,41 +79,59 @@ export const ColorableInputElement = forwardRefAndName(
           onFocus: handleFocus,
           onBlur: handleBlur,
           inputRef,
-          className: cx(props.className, active && styles.input()),
+          className: cx(props.className, active && globalClasses.input),
         })}
-        <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />
+        {active && <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />}
       </>
     );
 
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      // iMask может изменить value после вызова onInput
-      setTimeout(paintText);
+      const isActive = !inputRef.current?.parentElement?.querySelector(':placeholder-shown');
+      setActive(isActive);
+
+      activation();
 
       onInput?.(e);
     }
 
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+      setTimeout(updateActive);
+
       focused.current = true;
-      setTimeout(paintText);
 
       onFocus?.(e);
     }
 
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+      updateActive();
+
       focused.current = false;
-      setTimeout(paintText);
 
       onBlur?.(e);
     }
 
-    function unPaintText() {
-      inputRef.current && (inputRef.current.style.backgroundImage = '');
+    function updateActive() {
+      setTimeout(() => {
+        setActive(!inputRef.current?.parentElement?.querySelector(':placeholder-shown'));
+      });
+    }
+
+    function activation() {
+      if (active) {
+        debouncedPaintText();
+      } else {
+        debouncedPaintText.cancel();
+        inputRef.current && (inputRef.current.style.backgroundImage = '');
+        inputRef.current?.classList.remove(globalClasses.input);
+      }
     }
 
     function paintText() {
-      if (!active || !spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
+      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
+
+      inputRef.current?.classList.add(globalClasses.input);
 
       let shadow = spanRef.current.shadowRoot;
       let typedValueElement = shadow?.getElementById('span');

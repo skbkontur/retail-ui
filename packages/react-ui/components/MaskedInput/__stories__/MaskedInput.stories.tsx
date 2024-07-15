@@ -228,7 +228,7 @@ const [propsPreset, propsSetA, propsSetB]: [
   Array<Partial<MaskedInputProps>>,
   Array<Partial<MaskedInputProps>>,
 ] = [
-  { mask: '+7 999-999-99-99', placeholder: 'placeholder', disabled: false },
+  { mask: '+7 999-999-99-99', placeholder: 'placeholder' },
   [
     { value: '' },
     { value: 'invalid' },
@@ -256,7 +256,7 @@ const testPropsSets: MaskedInputProps[] = [];
 
 propsSetA.forEach((_props1) => {
   propsSetB.forEach((_props2) => {
-    testPropsSets.push(Object.assign({}, propsPreset, _props1, _props2));
+    testPropsSets.push(Object.assign({ id: testPropsSets.length }, propsPreset, _props1, _props2));
   });
 });
 

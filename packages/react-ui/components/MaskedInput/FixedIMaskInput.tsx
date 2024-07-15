@@ -16,7 +16,6 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag } from '../../lib/events/MouseDrag';
-import { isSafari } from '../../lib/client';
 
 export type FixedIMaskInputProps = IMaskInputProps<HTMLInputElement>;
 
@@ -69,6 +68,7 @@ export const FixedIMaskInput = forwardRefAndName(
         onAccept={handleAccept}
       />
     );
+
     function getTypedValue() {
       const { _value = '', displayValue = '' } = imaskRef.current?.maskRef.masked || {};
       const end = getMaxCaretPosition();
@@ -181,11 +181,7 @@ export const FixedIMaskInput = forwardRefAndName(
       focused.current = true;
       fillTypedValue();
 
-      if (isSafari) {
-        setTimeout(normalizeSelection);
-      } else {
-        normalizeSelection();
-      }
+      setTimeout(normalizeSelection);
 
       props.onFocus?.(e);
     }

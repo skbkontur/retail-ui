@@ -122,7 +122,8 @@ export const MaskedInput = forwardRefAndName(
         onKeyDown={handleKeyDown}
         className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
-          <ColorableInputElement showOnFocus={!alwaysShowMask} active={!isShowPlaceholder()}>
+          <ColorableInputElement showOnFocus={!alwaysShowMask}>
+            {/*<ColorableInputElement showOnFocus={!alwaysShowMask} active={!showPlaceholder}>*/}
             <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
           </ColorableInputElement>
         }
@@ -137,27 +138,13 @@ export const MaskedInput = forwardRefAndName(
         // FIXME: Должно быть eager=true, но в imask ломается удаление по delete
         eager: 'append',
         overwrite: 'shift',
-        lazy: isLazy(),
+        lazy: !alwaysShowMask && (props.disabled || !focused),
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
     }
 
-    function isLazy() {
-      const showPlaceholder = isShowPlaceholder();
-      if (!showPlaceholder && props.disabled) {
-        return !(alwaysShowMask || focused);
-      }
-      return showPlaceholder;
-    }
-
-    function isShowPlaceholder() {
-      return !alwaysShowMask && props.placeholder && !(props.value || props.defaultValue) && !focused;
-    }
-
     function handleAccept(...args: Parameters<Required<IMaskInputProps<HTMLInputElement>>['onAccept']>) {
       const [value, , e] = args;
-
-      console.log('handleAccept', !!e);
 
       // Метод onAccept может вызываться при монтировании, если не задан проп defaultValue.
       // Но нативный input никогда не вызывает onChange при монтировании.
@@ -165,6 +152,7 @@ export const MaskedInput = forwardRefAndName(
       // поэтому чтобы сохранить консинстентность будем ориентироваться на наличие аргумента e.
       // Он содержит нативное событие, вызвавшее изменение.
       e && onValueChange?.(value);
+      !e && (prevValue.current = value);
 
       onAccept?.(...args);
     }

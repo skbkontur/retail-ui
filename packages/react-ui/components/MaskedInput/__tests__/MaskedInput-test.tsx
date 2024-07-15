@@ -58,12 +58,12 @@ describe('MaskedInput', () => {
   });
 
   it.each([
-    ['99:99', '12:', '12:01', '12:__'],
-    ['99:99', '12:', '', '12:__'],
+    ['99:99', '12:', '12:01', '12:'],
+    ['99:99', '12:', '', '12:'],
     ['99:99', undefined, '12:01', '12:01'],
-    ['99:99', undefined, '12:xx', '12:__'],
-    ['99:99', '', '12:', '__:__'],
-    ['99:99', '0', '12:xx', '0_:__'],
+    ['99:99', undefined, '12:xx', '12:'],
+    ['99:99', '', '12:', ''],
+    ['99:99', '0', '12:xx', '0'],
   ])(
     `mask '%s' - pass value '%s' and defaultValue '%s' - state value '%s'`,
     (mask, inputValue, defaultValue, expected) => {
@@ -77,7 +77,7 @@ describe('MaskedInput', () => {
     render(<MaskedInput value={'123'} mask="XX:XX" formatChars={{ X: '[0-9]' }} />);
 
     const input = screen.getByRole('textbox');
-    expect(input).toHaveValue('12:3_');
+    expect(input).toHaveValue('12:3');
   });
 
   it('fixed symbols on focus', () => {

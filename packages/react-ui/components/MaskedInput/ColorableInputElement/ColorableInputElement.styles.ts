@@ -1,14 +1,18 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import { injectGlobal, prefix } from '../../../lib/theming/Emotion';
 
-export const styles = memoizeStyle({
-  input() {
-    return css`
-      display: inline-block;
-      background-color: transparent;
-      background-size: 100%;
-      background-repeat: repeat;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    `;
-  },
+export const globalClasses = prefix('colorable')({
+  input: 'input',
 });
+
+injectGlobal`
+  input.${globalClasses.input} {
+    display: inline-block;
+    background-color: transparent;
+    background-size: 100%;
+    background-repeat: repeat;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    transition: background-color 1s;
+  }
+`;
