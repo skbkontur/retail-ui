@@ -77,6 +77,7 @@ export class TaskWithDelayAndMinimalDuration {
   };
 
   public clearTask = () => {
+    this.isTaskActive = false;
     this.clearTimeoutBeforeTaskStart();
     this.clearTimeoutBeforeTaskStop();
   };
