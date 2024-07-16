@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.1...@skbkontur/react-ui@4.25.2) (2024-07-16)
+
+
+### Bug Fixes
+
+* **Loader:** fix Loader in 18 react ([#3467](https://github.com/skbkontur/retail-ui/issues/3467)) ([5c0fcce](https://github.com/skbkontur/retail-ui/commit/5c0fccefea1de468a9a796456f6a8a9163587a51))
+* **Select:** pass disabled to _renderButton ([#3468](https://github.com/skbkontur/retail-ui/issues/3468)) ([bc4cac9](https://github.com/skbkontur/retail-ui/commit/bc4cac9444667bc10f499fec417cd67cc1081075))
+* **validations:** program validation on multiple fields ([#3454](https://github.com/skbkontur/retail-ui/issues/3454)) ([8317e0b](https://github.com/skbkontur/retail-ui/commit/8317e0baac36346a15cfff7477f4b482430a007d))
+
+
+
+
+
 ## [4.25.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.0...@skbkontur/react-ui@4.25.1) (2024-06-17)
 
 **Note:** Version bump only for package @skbkontur/react-ui
