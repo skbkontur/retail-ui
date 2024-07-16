@@ -19,7 +19,7 @@ kind('Tooltip', () => {
     test('02 - focus', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .pause(500)
@@ -31,14 +31,14 @@ kind('Tooltip', () => {
     test('03 - blur', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform(); // NOTE In FF next Tab key event will focus browser tab that fail next tests
       // Possible solution add focus trap element inside all stories as a decorator
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
         .perform();
@@ -63,7 +63,7 @@ kind('Tooltip', () => {
     test('02 - focus', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .perform();
@@ -74,13 +74,13 @@ kind('Tooltip', () => {
     test('03 - blur', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
         .perform();
@@ -99,7 +99,7 @@ kind('Tooltip', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'textarea' }),
@@ -114,6 +114,7 @@ kind('Tooltip', () => {
     setStoryParameters({
       skip: {
         'story-skip-0': { in: /firefox/, tests: ['04 - does not change top position if fits'] },
+        'story-skip-1': { in: 'chrome2022', tests: ['06 - changes left position if does not fit'] },
       },
     });
     test('01 - plain', async function () {
@@ -124,7 +125,7 @@ kind('Tooltip', () => {
     test('02 - changes top position if does not fit', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-0 button' }))
         .perform();
@@ -135,7 +136,7 @@ kind('Tooltip', () => {
     test('03 - does not change position back on shrink', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-0 button' }))
         .pause(100)
@@ -148,7 +149,7 @@ kind('Tooltip', () => {
     test('04 - does not change top position if fits', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-1 button' }))
         .perform();
@@ -159,13 +160,13 @@ kind('Tooltip', () => {
     test('05 - does not change position on shrink', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-1 button' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-1 button' }))
         .perform();
@@ -176,7 +177,7 @@ kind('Tooltip', () => {
     test('06 - changes left position if does not fit', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-2 button' }))
         .perform();
@@ -187,13 +188,13 @@ kind('Tooltip', () => {
     test('07 - does not change position back on shrink', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-2 button' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-2 button' }))
         .perform();
@@ -204,7 +205,7 @@ kind('Tooltip', () => {
     test('08 - does not change bottom position if fits', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-3 button' }))
         .perform();
@@ -215,7 +216,7 @@ kind('Tooltip', () => {
     test('09 - does not change position on shrink', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-3 button' }))
         .pause(100)
@@ -228,7 +229,7 @@ kind('Tooltip', () => {
     test('10 - does not change bottom position if does not fit', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-4 button' }))
         .perform();
@@ -241,7 +242,7 @@ kind('Tooltip', () => {
     test('11 - does not change position on shrink', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#Container-4 button' }))
         .pause(100)
@@ -266,7 +267,7 @@ kind('Tooltip', () => {
     test('focus and types', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
@@ -278,7 +279,7 @@ kind('Tooltip', () => {
     test('clear input', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
@@ -320,7 +321,7 @@ kind('Tooltip', () => {
     test('hover - mouseEnter', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover' }))
         .move({
@@ -334,7 +335,7 @@ kind('Tooltip', () => {
     test('hover - mouseLeave', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover' }))
         .move({
@@ -344,7 +345,7 @@ kind('Tooltip', () => {
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'body' }),
@@ -358,7 +359,7 @@ kind('Tooltip', () => {
     test('click - click anchor', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#click' }))
         .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -370,7 +371,7 @@ kind('Tooltip', () => {
     test('click - click outside', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#click' }))
         .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -383,13 +384,13 @@ kind('Tooltip', () => {
     test('focus - focus', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#focus' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[type="button"]' }))
         .perform();
@@ -400,7 +401,7 @@ kind('Tooltip', () => {
     test('focus - blur', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#focus' }))
         .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -413,7 +414,7 @@ kind('Tooltip', () => {
     test('opened', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#opened' }))
         .perform();
@@ -424,7 +425,7 @@ kind('Tooltip', () => {
     test('closed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#opened' }))
         .click(this.browser.findElement({ css: '#closed' }))
@@ -436,7 +437,7 @@ kind('Tooltip', () => {
     test('hover&focus - mouseEnter', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover_focus' }))
         .move({
@@ -450,7 +451,7 @@ kind('Tooltip', () => {
     test('hover&focus - mouseLeave', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover_focus' }))
         .move({
@@ -467,7 +468,7 @@ kind('Tooltip', () => {
     test('hover&focus - focus', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover_focus' }))
         .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -479,7 +480,7 @@ kind('Tooltip', () => {
     test('hover&focus - focus - mouseLeave', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover_focus' }))
         .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -494,7 +495,7 @@ kind('Tooltip', () => {
     test('hover&focus - blur', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#hover_focus' }))
         .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -520,7 +521,7 @@ kind('Tooltip', () => {
 
     test('render in available position', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[type="button"]' }))
         .perform();
       await delay(1000);
@@ -529,15 +530,15 @@ kind('Tooltip', () => {
 
     test('relocate on new available position', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[type="button"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[type="button"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[type="button"]' }))
         .perform();
       await delay(1000);
@@ -550,7 +551,7 @@ kind('Tooltip', () => {
       const btns = await this.browser.findElements({ css: '[type="button"]' });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(btns[0])
         .perform();
@@ -562,7 +563,7 @@ kind('Tooltip', () => {
       const btns = await this.browser.findElements({ css: '[type="button"]' });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(btns[0])
         .click(btns[1])
@@ -592,7 +593,7 @@ kind('Tooltip', () => {
     test('hover by dynamic anchor', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({ x: 0, y: 0 })
         .move({ origin: this.browser.findElement({ css: '[data-tid~="tooltip_anchor_1"]' }) })

@@ -241,6 +241,11 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static fileUploaderDisabledLinkColor = 'rgba(255, 255, 255, 0.32)';
   public static fileUploaderDisabledIconColor = 'rgba(255, 255, 255, 0.32)';
   //#endregion
+
+  //#region react-ui-validations
+  public static validationsTextColorError = '#ff887b';
+  public static validationsTextColorWarning = '#fdd481';
+  //#endregion
 }
 
 export const DarkThemeInternal = Object.setPrototypeOf(

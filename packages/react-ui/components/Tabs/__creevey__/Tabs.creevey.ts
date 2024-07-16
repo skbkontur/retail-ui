@@ -6,13 +6,13 @@ const tabsSimpleTests = () => {
   test('move focus forward', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
       .perform();
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.ARROW_RIGHT)
       .pause(500)
@@ -23,21 +23,21 @@ const tabsSimpleTests = () => {
   test('move focus backward', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
       .perform();
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.ARROW_LEFT)
       .perform();
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.ARROW_UP)
       .perform();
@@ -46,13 +46,13 @@ const tabsSimpleTests = () => {
   test('reset focus after click', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
       .perform();
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.ARROW_RIGHT)
       .pause(500)
@@ -69,7 +69,7 @@ const tabsTests = () => {
   test('hovered', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }),
@@ -81,7 +81,7 @@ const tabsTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
       .perform();
@@ -91,7 +91,7 @@ const tabsTests = () => {
   test('mouseLeave', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
       .move({
@@ -104,7 +104,7 @@ const tabsTests = () => {
   test('focused', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
       .move({
@@ -118,14 +118,14 @@ const tabsTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
       .perform();
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
@@ -136,21 +136,21 @@ const tabsTests = () => {
   test('enterPress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
       .perform();
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .perform();
     await delay(1000);
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.ENTER)
       .perform();

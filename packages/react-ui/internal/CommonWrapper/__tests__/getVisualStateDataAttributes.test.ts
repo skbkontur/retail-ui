@@ -1,4 +1,4 @@
-import { getVisualStateDataAttributes } from '../getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../utils/getVisualStateDataAttributes';
 
 describe('getVisualStateDataAttributes', () => {
   it('empty object', () => {
@@ -10,10 +10,11 @@ describe('getVisualStateDataAttributes', () => {
       getVisualStateDataAttributes({
         attributeNull: null,
         attributeUndefined: undefined,
-        attributeBoolean: true,
+        attributeBooleanFalse: false,
+        attributeBooleanTrue: true,
       }),
     ).toStrictEqual({
-      'data-visual-state-attribute-boolean': 'true',
+      'data-visual-state-attribute-boolean-true': '',
     });
   });
 });

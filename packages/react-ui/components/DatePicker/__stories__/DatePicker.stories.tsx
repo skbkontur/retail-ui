@@ -1,6 +1,8 @@
 import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -11,6 +13,7 @@ import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { emptyHandler } from '../../../lib/utils';
 import { SizeProp } from '../../../lib/types/props';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
@@ -137,6 +140,28 @@ export const WithMobileNativeDatePicker = () => {
 };
 WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
 WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
+
+export const MobilePicker: Story = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider value={ThemeFactory.create(theme, THEME_2022)}>
+            <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+MobilePicker.storyName = 'MobilePicker';
+MobilePicker.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />

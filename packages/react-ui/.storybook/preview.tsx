@@ -14,22 +14,6 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
-// import { addons } from '@storybook/addons';
-// import { LIVE_EXAMPLES_ADDON_ID } from 'storybook-addon-live-examples';
-// import { Button } from '../components/Button';
-// addons.setConfig({
-//   [LIVE_EXAMPLES_ADDON_ID]: {
-//     // internationalization (optional)
-//     copyText: ['Copy', 'Copied'],
-//     expandText: ['Show code', 'Hide code'],
-//     shareText: ['Share', 'Shared'],
-//     // scope (globally accessible components & functions) (optional)
-//     scope: {
-//       Button,
-//       someFunction: () => 42
-//     },
-//   },
-// });
 
 const customViewports = {
   iphone: {

@@ -23,3 +23,10 @@ export const isMobile =
 export const isIOS = /(ip[ao]d|iphone)/gi.test(userAgent);
 
 export const isSafari17 = isSafari && userAgent.includes('version/17');
+
+const is17_0v = userAgent.includes('version/17.0');
+const is17_1v = userAgent.includes('version/17.1');
+const is17_2v = userAgent.includes('version/17.2');
+const is17_3v = userAgent.includes('version/17.3');
+
+export const isSafariWithTextareaBug = isSafari && (is17_0v || is17_1v || is17_2v || is17_3v);

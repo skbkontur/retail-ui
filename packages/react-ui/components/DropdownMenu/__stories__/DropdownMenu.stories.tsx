@@ -15,6 +15,7 @@ import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { OkIcon } from '../../../internal/icons/16px';
+import { OkIcon } from '../../../internal/icons/16px';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
@@ -329,17 +330,15 @@ export const WithNestedMenuItems = () => {
     setCaption('selected');
   };
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
-      <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
-        <>
-          <div>
-            <MenuItem>Раз</MenuItem>
-            <MenuItem onClick={onClick}>Два</MenuItem>
-          </div>
-          <MenuItem>Три</MenuItem>
-        </>
-      </DropdownMenu>
-    </ReactUIFeatureFlagsContext.Provider>
+    <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
+      <>
+        <div>
+          <MenuItem>Раз</MenuItem>
+          <MenuItem onClick={onClick}>Два</MenuItem>
+        </div>
+        <MenuItem>Три</MenuItem>
+      </>
+    </DropdownMenu>
   );
 };
 WithNestedMenuItems.storyName = 'With nested menu items';

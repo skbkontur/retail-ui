@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.14.4",
+  "version": "1.15.1",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -29,7 +29,7 @@
     "fix:prettier": "yarn prettier --write .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\"",
+    "test:pack": "tsc -p check-dts.tsconfig.json && jest --testMatch ** --testPathPattern=\\\"scripts/check-pack-files.js\\\"",
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ && creevey -c .creevey/config.js",
     "creevey:update": "creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui"
@@ -58,11 +58,11 @@
     "warning": "^4.0.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/plugin-proposal-decorators": "7.24.1",
-    "@babel/plugin-transform-runtime": "^7.24.3",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/preset-react": "^7.24.1",
+    "@babel/core": "^7.24.6",
+    "@babel/plugin-proposal-decorators": "7.24.6",
+    "@babel/plugin-transform-runtime": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-react": "^7.24.6",
     "@hot-loader/react-dom": "^17.0.2",
     "@rollup/plugin-commonjs": "25.0.8",
     "@rollup/plugin-node-resolve": "15.2.3",
