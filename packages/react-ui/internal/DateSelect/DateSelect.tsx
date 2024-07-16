@@ -152,6 +152,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private renderMain() {
     const { value, disabled, onValueChange } = this.getProps();
+    const theme = {
+      btnBorderRadiusSmall: this.theme.menuItemBorderRadius,
+    };
 
     return disabled ? (
       <span className={styles.disabled(this.theme)}>{this.getItem(value)}</span>
@@ -160,8 +163,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         data-tid={DateSelectDataTids.caption}
         use="text"
         value={value}
+        theme={theme}
         menuPositions={selectPositions}
-        menuWidth={this.isYearType ? 67 + parseInt(this.theme.menuPaddingX) : undefined}
+        menuWidth={this.isYearType ? `calc(100% + ${parseInt(this.theme.menuPaddingX) * 2}px)` : undefined}
         className={styles.enabled(this.theme)}
         renderValue={this.getItem}
         items={this.getItems()}

@@ -24,7 +24,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobilePopup } from '../../internal/MobilePopup';
@@ -161,6 +161,7 @@ export interface SelectProps<TValue, TItem>
    */
   search?: boolean;
   value?: TValue;
+  theme?: ThemeIn | Theme;
   width?: number | string;
   /**
    * Состояние валидации при предупреждении.
