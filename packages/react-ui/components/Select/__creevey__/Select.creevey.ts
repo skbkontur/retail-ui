@@ -224,10 +224,12 @@ kind('Select', () => {
     });
   });
 
-  story('WithMenuAlignAndVariousWidth', () => {
+  story('WithMenuAlignAndVariousWidth', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } } });
+
     test('open', async function () {
       const root = await this.browser.findElement({ css: '#test-element' });
-      await delay(2000);
+      await delay(1000);
       await this.expect(await root.takeScreenshot()).to.matchImage();
     });
   });

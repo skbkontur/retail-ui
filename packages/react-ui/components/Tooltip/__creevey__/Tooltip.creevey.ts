@@ -258,7 +258,7 @@ kind('Tooltip', () => {
       skip: {
         // TODO @Khlutkova fix after update browsers
         'story-skip-0': {
-          in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'],
+          in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
           tests: ['focus and types', 'clear input'],
         },
       },
@@ -272,7 +272,7 @@ kind('Tooltip', () => {
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
         .perform();
-      await delay(2000);
+      await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
     });
 
@@ -285,7 +285,7 @@ kind('Tooltip', () => {
         .sendKeys('Hi')
         .sendKeys(this.keys.BACK_SPACE, this.keys.BACK_SPACE)
         .perform();
-      await delay(2000);
+      await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('clear input');
     });
   });

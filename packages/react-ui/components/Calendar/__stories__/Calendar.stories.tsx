@@ -186,6 +186,8 @@ export const CalendarWithPeriod = () => {
   );
 };
 
+CalendarWithPeriod.displayName = 'Calendar with period';
+
 CalendarWithPeriod.parameters = {
   creevey: {
     skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },

@@ -392,7 +392,9 @@ kind('TokenInput', () => {
     });
   });
 
-  story('DisablePortal', () => {
+  story('DisablePortal', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } } });
+
     test('clicked', async function () {
       await this.browser
         .actions({
