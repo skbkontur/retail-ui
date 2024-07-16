@@ -272,7 +272,7 @@ kind('Tooltip', () => {
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
         .perform();
-      await delay(1000);
+      await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
     });
 
@@ -285,7 +285,7 @@ kind('Tooltip', () => {
         .sendKeys('Hi')
         .sendKeys(this.keys.BACK_SPACE, this.keys.BACK_SPACE)
         .perform();
-      await delay(1000);
+      await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('clear input');
     });
   });

@@ -227,7 +227,7 @@ kind('Select', () => {
   story('WithMenuAlignAndVariousWidth', () => {
     test('open', async function () {
       const root = await this.browser.findElement({ css: '#test-element' });
-      await delay(1000);
+      await delay(2000);
       await this.expect(await root.takeScreenshot()).to.matchImage();
     });
   });

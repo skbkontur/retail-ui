@@ -47,7 +47,7 @@ kind('Dropdown', () => {
           origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
         })
         .perform();
-      await delay(1000);
+      await delay(2000);
       await this.expect(await element.takeScreenshot()).to.matchImage('MenuItem hover');
     });
 
