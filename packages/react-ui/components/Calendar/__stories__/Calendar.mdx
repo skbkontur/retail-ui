@@ -1,6 +1,6 @@
 import * as CalendarStories from './Calendar.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Calendar} from '../Calendar';
+import { Calendar } from '../Calendar';
 import { Checkbox } from '@skbkontur/react-ui';
 import * as DatePickerHelpers from '../../DatePicker/DatePickerHelpers';
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
@@ -12,9 +12,11 @@ import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui/lib/theming/Them
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -22,12 +24,9 @@ import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui/lib/theming/Them
 ### Календарь с заданной датой
 
 ```jsx harmony
-const [date, setDate] = React.useState("01.11.2021");
+const [date, setDate] = React.useState('01.11.2021');
 
-<Calendar
-  value={date}
-  onValueChange={setDate}
-/>
+<Calendar value={date} onValueChange={setDate} />;
 ```
 
 ### Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear`
@@ -35,23 +34,18 @@ const [date, setDate] = React.useState("01.11.2021");
 ```jsx harmony
 import { Checkbox } from '@skbkontur/react-ui';
 
-const [date, setDate] = React.useState("11.12.2021");
+const [date, setDate] = React.useState('11.12.2021');
 const initialMonth = 7;
 const initialYear = 2000;
 
 <div style={{ display: 'flex' }}>
-  <Calendar
-    value={date}
-    onValueChange={setDate}
-    initialMonth={initialMonth}
-    initialYear={initialYear}
-  />
+  <Calendar value={date} onValueChange={setDate} initialMonth={initialMonth} initialYear={initialYear} />
   <div style={{ fontSize: '16px' }}>
     <p>Выбранная дата: {date}</p>
     <p>Начальный месяц: {initialMonth}</p>
     <p>Начальный год: {initialYear}</p>
   </div>
-</div>
+</div>;
 ```
 
 ### `isHoliday`
@@ -101,25 +95,21 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
-
 ### Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
+
 - Базовая высота календаря - `330px`
 - Максимальная высота календаря - `450px`
+
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
-const [date, setDate] = React.useState("01.11.2021");
+const [date, setDate] = React.useState('01.11.2021');
 const theme = React.useContext(ThemeContext);
 
-<ThemeContext.Provider
-  value={ThemeFactory.create({ calendarWrapperHeight: '450px' }, theme)}
-  >
-  <Calendar
-    value={date}
-    onValueChange={setDate}
-  />
-</ThemeContext.Provider>
+<ThemeContext.Provider value={ThemeFactory.create({ calendarWrapperHeight: '450px' }, theme)}>
+  <Calendar value={date} onValueChange={setDate} />
+</ThemeContext.Provider>;
 ```
 
 ### Локали по умолчанию

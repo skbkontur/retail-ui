@@ -452,7 +452,6 @@ describe('DatePicker', () => {
               monthRoot.queryByTestId(CalendarDataTids.yearSelectMobile)
             );
           });
-          /* eslint-disable testing-library/no-wait-for-multiple-assertions */
           expect(currentMonth).toBeDefined();
           const monthRoot = within(currentMonth as HTMLElement);
           expect(

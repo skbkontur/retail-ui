@@ -1,9 +1,19 @@
 import * as DatePickerStories from './DatePicker.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {DatePicker} from '../DatePicker';
+import { DatePicker } from '../DatePicker';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import * as DatePickerHelpers from '../DatePickerHelpers';
-import { Button, Group, DateOrder, DateSeparator, Gapped, Tooltip, LocaleContext, Select, LangCodes } from '@skbkontur/react-ui';
+import {
+  Button,
+  Group,
+  DateOrder,
+  DateSeparator,
+  Gapped,
+  Tooltip,
+  LocaleContext,
+  Select,
+  LangCodes,
+} from '@skbkontur/react-ui';
 
 <Meta of={DatePickerStories} />
 
@@ -12,9 +22,11 @@ import { Button, Group, DateOrder, DateSeparator, Gapped, Tooltip, LocaleContext
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -26,6 +38,7 @@ import { Button, Group, DateOrder, DateSeparator, Gapped, Tooltip, LocaleContext
 ### Валидация
 
 Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
+
 ```jsx harmony
 import { Gapped, Tooltip } from '@skbkontur/react-ui';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
@@ -80,11 +93,7 @@ import { Button, Group } from '@skbkontur/react-ui';
 
 const [value, setValue] = React.useState('24.08.2022');
 <Group>
-  <DatePicker
-    value={value}
-    onValueChange={setValue}
-    enableTodayLink
-  />
+  <DatePicker value={value} onValueChange={setValue} enableTodayLink />
   <Button onClick={() => setValue(null)}>Null</Button>
   <Button onClick={() => setValue(undefined)}>Undefined</Button>
   <Button onClick={() => setValue('')}>Пустая строка</Button>
@@ -140,11 +149,13 @@ const isHoliday = (day, isWeekend) => {
 Docs: https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
 
 Request:
+
 ```md
 https://data.gov.ru/api/json/dataset/7708660670-proizvcalendar/version/20151123T183036/content?search=2021&access_token=31de6d0b90f51a7aa3ee2d518d50f4e9
 ```
 
 Response:
+
 ```json
 [
   {
@@ -203,15 +214,15 @@ let holidays = [];
 
 if (response.length !== 0) {
   result = Object.values(
-    response.length > 1 ? response.find(data => data['Год/Месяц'] === year.toString()) || response[0] : response[0],
+    response.length > 1 ? response.find((data) => data['Год/Месяц'] === year.toString()) || response[0] : response[0],
   ).slice(1, 13);
 }
 
 result.forEach((month, index) => {
   month
     .split(',')
-    .filter(item => /^\d*$/.test(item))
-    .forEach(day => {
+    .filter((item) => /^\d*$/.test(item))
+    .forEach((day) => {
       holidays.push(`${day.padStart(2, 0)}.${(index + 1).toString().padStart(2, 0)}.${year}`);
     });
 });
@@ -245,7 +256,7 @@ class DatePickerFormatting extends React.Component {
           <Select
             value={this.state.order}
             items={Object.keys(DateOrder)}
-            onValueChange={order => this.setState({ order })}
+            onValueChange={(order) => this.setState({ order })}
           />
         </div>
         <div>
@@ -255,7 +266,7 @@ class DatePickerFormatting extends React.Component {
           <Select
             value={this.state.separator}
             items={Object.keys(DateSeparator)}
-            onValueChange={separator => this.setState({ separator })}
+            onValueChange={(separator) => this.setState({ separator })}
           />
         </div>
         <LocaleContext.Provider
@@ -269,7 +280,7 @@ class DatePickerFormatting extends React.Component {
             },
           }}
         >
-          <DatePicker onValueChange={value => this.setState({ value })} value={this.state.value} />
+          <DatePicker onValueChange={(value) => this.setState({ value })} value={this.state.value} />
         </LocaleContext.Provider>
       </Gapped>
     );
@@ -280,68 +291,68 @@ class DatePickerFormatting extends React.Component {
 
 ### Локали по умолчанию
 
-[//]: # (```typescript static)
-[//]: # (import {DateOrder, DateSeparator} from "@skbkontur/react-ui";)
-[//]: # ()
-[//]: # (interface DatePickerLocale {)
-[//]: # (  today?: string;)
-[//]: # (  months?: string[];)
-[//]: # (  order?: DateOrder;)
-[//]: # (  separator?: DateSeparator;)
-[//]: # (  todayAriaLabel?: string)
-[//]: # (  selectMonthAriaLabel?: string;)
-[//]: # (  selectYearAriaLabel?: string;)
-[//]: # (  selectChosenAriaLabel?: string;)
-[//]: # (  dayCellChooseDateAriaLabel?: string;)
-[//]: # (})
-[//]: # ()
-[//]: # (const ru_RU = {)
-[//]: # (  today: 'Сегодня',)
-[//]: # (  months: [)
-[//]: # (    'Январь',)
-[//]: # (    'Февраль',)
-[//]: # (    'Март',)
-[//]: # (    'Апрель',)
-[//]: # (    'Май',)
-[//]: # (    'Июнь',)
-[//]: # (    'Июль',)
-[//]: # (    'Август',)
-[//]: # (    'Сентябрь',)
-[//]: # (    'Октябрь',)
-[//]: # (    'Ноябрь',)
-[//]: # (    'Декабрь',)
-[//]: # (  ],)
-[//]: # (  order: DateOrder.DMY,)
-[//]: # (  separator: DateSeparator.Dot,)
-[//]: # (  todayAriaLabel: 'Перейти к сегодняшней дате',)
-[//]: # (  selectMonthAriaLabel: 'месяц',)
-[//]: # (  selectYearAriaLabel: 'год',)
-[//]: # (  selectChosenAriaLabel: 'Выбранный',)
-[//]: # (  dayCellChooseDateAriaLabel: 'Выбрать дату',)
-[//]: # (};)
-[//]: # ()
-[//]: # (const en_GB = {)
-[//]: # (  today: 'Today',)
-[//]: # (  months: [)
-[//]: # (    'January',)
-[//]: # (    'February',)
-[//]: # (    'March',)
-[//]: # (    'April',)
-[//]: # (    'May',)
-[//]: # (    'June',)
-[//]: # (    'July',)
-[//]: # (    'August',)
-[//]: # (    'September',)
-[//]: # (    'October',)
-[//]: # (    'November',)
-[//]: # (    'December',)
-[//]: # (  ],)
-[//]: # (  order: DateOrder.MDY,)
-[//]: # (  separator: DateSeparator.Slash,)
+[//]: # '```typescript static'
+[//]: # 'import {DateOrder, DateSeparator} from "@skbkontur/react-ui";'
+[//]: #
+[//]: # 'interface DatePickerLocale {'
+[//]: # '  today?: string;'
+[//]: # '  months?: string[];'
+[//]: # '  order?: DateOrder;'
+[//]: # '  separator?: DateSeparator;'
+[//]: # '  todayAriaLabel?: string'
+[//]: # '  selectMonthAriaLabel?: string;'
+[//]: # '  selectYearAriaLabel?: string;'
+[//]: # '  selectChosenAriaLabel?: string;'
+[//]: # '  dayCellChooseDateAriaLabel?: string;'
+[//]: # '}'
+[//]: #
+[//]: # 'const ru_RU = {'
+[//]: # "  today: 'Сегодня',"
+[//]: # '  months: ['
+[//]: # "    'Январь',"
+[//]: # "    'Февраль',"
+[//]: # "    'Март',"
+[//]: # "    'Апрель',"
+[//]: # "    'Май',"
+[//]: # "    'Июнь',"
+[//]: # "    'Июль',"
+[//]: # "    'Август',"
+[//]: # "    'Сентябрь',"
+[//]: # "    'Октябрь',"
+[//]: # "    'Ноябрь',"
+[//]: # "    'Декабрь',"
+[//]: # '  ],'
+[//]: # '  order: DateOrder.DMY,'
+[//]: # '  separator: DateSeparator.Dot,'
+[//]: # "  todayAriaLabel: 'Перейти к сегодняшней дате',"
+[//]: # "  selectMonthAriaLabel: 'месяц',"
+[//]: # "  selectYearAriaLabel: 'год',"
+[//]: # "  selectChosenAriaLabel: 'Выбранный',"
+[//]: # "  dayCellChooseDateAriaLabel: 'Выбрать дату',"
+[//]: # '};'
+[//]: #
+[//]: # 'const en_GB = {'
+[//]: # "  today: 'Today',"
+[//]: # '  months: ['
+[//]: # "    'January',"
+[//]: # "    'February',"
+[//]: # "    'March',"
+[//]: # "    'April',"
+[//]: # "    'May',"
+[//]: # "    'June',"
+[//]: # "    'July',"
+[//]: # "    'August',"
+[//]: # "    'September',"
+[//]: # "    'October',"
+[//]: # "    'November',"
+[//]: # "    'December',"
+[//]: # '  ],'
+[//]: # '  order: DateOrder.MDY,'
+[//]: # '  separator: DateSeparator.Slash,'
 [//]: # (  todayAriaLabel: "Go to today's date",)
-[//]: # (  selectMonthAriaLabel: 'month',)
-[//]: # (  selectYearAriaLabel: 'year',)
-[//]: # (  selectChosenAriaLabel: 'Chosen',)
-[//]: # (  dayCellChooseDateAriaLabel: 'Choose date',)
-[//]: # (};)
-[//]: # (```)
+[//]: # "  selectMonthAriaLabel: 'month',"
+[//]: # "  selectYearAriaLabel: 'year',"
+[//]: # "  selectChosenAriaLabel: 'Chosen',"
+[//]: # "  dayCellChooseDateAriaLabel: 'Choose date',"
+[//]: # '};'
+[//]: # '```'

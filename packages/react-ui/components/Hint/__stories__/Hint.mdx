@@ -1,6 +1,6 @@
 import * as HintStories from './Hint.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Hint} from '../Hint';
+import { Hint } from '../Hint';
 import { Button, Gapped } from '@skbkontur/react-ui';
 
 <Meta of={HintStories} />
@@ -10,9 +10,11 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -40,15 +42,15 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 ### Пример подсказки, всегда всплывающей слева.
 
 ```jsx harmony
-<Hint pos={"left"} text="Подсказка слева">Всегда всплывает слева</Hint>
+<Hint pos={'left'} text="Подсказка слева">
+  Всегда всплывает слева
+</Hint>
 ```
 
 ### Пример всплывающей подсказки с ограниченной шириной.
+
 ```jsx harmony
-<Hint
-  maxWidth="150px"
-  text="Очень много текста, рассказывающего про этот очень непонятный элемент"
-  >
+<Hint maxWidth="150px" text="Очень много текста, рассказывающего про этот очень непонятный элемент">
   Очень непонятный элемент
 </Hint>
 ```
@@ -61,17 +63,19 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 const [isOpen, setIsOpen] = React.useState(false);
 
 <Gapped>
-  <Hint opened={isOpen} manual text="Подсказка">Управляемая удалённо</Hint>
-  <Button onClick={() => setIsOpen(!isOpen)}>
-    {isOpen ? "Закрыть подсказку" : "Открыть подсказку"}
-  </Button>
-</Gapped>
+  <Hint opened={isOpen} manual text="Подсказка">
+    Управляемая удалённо
+  </Hint>
+  <Button onClick={() => setIsOpen(!isOpen)}>{isOpen ? 'Закрыть подсказку' : 'Открыть подсказку'}</Button>
+</Gapped>;
 ```
 
 ### Пример подсказки, всплывающей без анимации.
 
 ```jsx harmony
-<Hint disableAnimations text={"Нет анимации :("}>Есть анимация?</Hint>
+<Hint disableAnimations text={'Нет анимации :('}>
+  Есть анимация?
+</Hint>
 ```
 
 ### Использование встроеной и кастомной обёртки
@@ -88,17 +92,22 @@ const [isOpen, setIsOpen] = React.useState(false);
 ```
 
 ### Собственная обертка
+
 Т.к. встроённая обёртка это `<span>` без стилей, то она может работать некорректно в определённых ситуациях.
 В таких случаях стоит использовать собственную обётку:
 
 ```jsx harmony
 <>
   <Hint useWrapper text="Подсказа">
-    <button disabled style={{ height: 40 }}>useWrapper prop</button>
+    <button disabled style={{ height: 40 }}>
+      useWrapper prop
+    </button>
   </Hint>
   <Hint text="Подсказа">
     <span style={{ display: 'inline-block' }}>
-      <button disabled style={{ height: 40 }}>custom wrapper</button>
+      <button disabled style={{ height: 40 }}>
+        custom wrapper
+      </button>
     </span>
   </Hint>
 </>

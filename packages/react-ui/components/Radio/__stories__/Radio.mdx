@@ -1,6 +1,6 @@
 import * as RadioStories from './Radio.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Radio} from '../Radio';
+import { Radio } from '../Radio';
 import { Gapped, RadioGroup } from '@skbkontur/react-ui';
 
 <Meta of={RadioStories} />
@@ -10,9 +10,11 @@ import { Gapped, RadioGroup } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -26,9 +28,7 @@ const [chosen, setChosen] = React.useState(null);
 
 <RadioGroup onValueChange={(value) => setChosen(value)}>
   <Gapped gap={3} vertical>
-    <Radio value={1}>
-      Обычная радио-кнопка
-    </Radio>
+    <Radio value={1}>Обычная радио-кнопка</Radio>
     <Radio value={2} disabled>
       Отключенная радио-кнопка
     </Radio>
@@ -45,7 +45,7 @@ const [chosen, setChosen] = React.useState(null);
       Радио-кнопка в состоянии <b>warning</b>
     </Radio>
   </Gapped>
-</RadioGroup>
+</RadioGroup>;
 ```
 
 ### Радио-кнопки могут иметь сразу несколько состояний.
@@ -62,14 +62,14 @@ const [chosen, setChosen] = React.useState(null);
 import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
-  <Radio size="small" value="value" >
+  <Radio size="small" value="value">
     Маленький
   </Radio>
-  <Radio size="medium" value="value" >
+  <Radio size="medium" value="value">
     Средний
   </Radio>
-  <Radio size="large" value="value" >
+  <Radio size="large" value="value">
     Большой
   </Radio>
-</Gapped>
+</Gapped>;
 ```

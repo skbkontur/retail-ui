@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { Meta } from '../../../typings/stories';
 import { MenuSeparator } from '../MenuSeparator';
-import React from 'react';
 
 export default {
   title: 'Menu/MenuSeparator',

@@ -1,6 +1,6 @@
 import * as GlobalLoaderStories from './GlobalLoader.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {GlobalLoader} from '../GlobalLoader';
+import { GlobalLoader } from '../GlobalLoader';
 import { Button, Toggle, Gapped, ThemeContext, ThemeFactory, Modal } from '@skbkontur/react-ui';
 
 <Meta of={GlobalLoaderStories} />
@@ -17,26 +17,38 @@ import { Button, Toggle, Gapped, ThemeContext, ThemeFactory, Modal } from '@skbk
 Предполагается монтирование компонента в единственном месте. И управление им через статические методы, либо через пропы.
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
 
 ### Все статические методы:
+
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
 
 <Gapped>
-  <Button onClick={GlobalLoader.start} use="primary">start</Button>
-  <Button onClick={GlobalLoader.done} use="success">done</Button>
-  <Button onClick={GlobalLoader.reject} use="danger">reject</Button>
-  <Button onClick={GlobalLoader.accept} use="pay">accept</Button>
-</Gapped>
+  <Button onClick={GlobalLoader.start} use="primary">
+    start
+  </Button>
+  <Button onClick={GlobalLoader.done} use="success">
+    done
+  </Button>
+  <Button onClick={GlobalLoader.reject} use="danger">
+    reject
+  </Button>
+  <Button onClick={GlobalLoader.accept} use="pay">
+    accept
+  </Button>
+</Gapped>;
 ```
 
 ### Монтирование и кастомизация:
+
 ```jsx harmony
 import { Button, Toggle, Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import { GlobalLoader } from './GlobalLoader';
@@ -55,7 +67,7 @@ const reset = () => {
   } else {
     setManually(true);
   }
-}
+};
 
 <Gapped vertical>
   <Toggle checked={manually} onValueChange={reset}>
@@ -69,19 +81,22 @@ const reset = () => {
   </Toggle>
 
   <ThemeContext.Provider value={myTheme}>
-    <GlobalLoader expectedResponseTime={2000} delayBeforeShow={1000} active={active} rejected={error}
+    <GlobalLoader
+      expectedResponseTime={2000}
+      delayBeforeShow={1000}
+      active={active}
+      rejected={error}
       onStart={() => console.log('start')}
       onDone={() => console.log('done')}
       onReject={() => console.log('reject')}
       onAccept={() => console.log('accept')}
     />
   </ThemeContext.Provider>
-
-</Gapped>
+</Gapped>;
 ```
 
-
 ### Статические методы в модалке:
+
 ```jsx harmony
 import { Button, Gapped, Modal } from '@skbkontur/react-ui';
 
@@ -93,8 +108,12 @@ function renderModal() {
       <Modal.Header>Заголовок</Modal.Header>
       <Modal.Body>
         <Gapped>
-          <Button onClick={GlobalLoader.start} use="primary">start</Button>
-          <Button onClick={GlobalLoader.done} use="success">done</Button>
+          <Button onClick={GlobalLoader.start} use="primary">
+            start
+          </Button>
+          <Button onClick={GlobalLoader.done} use="success">
+            done
+          </Button>
         </Gapped>
       </Modal.Body>
     </Modal>

@@ -1,7 +1,8 @@
+import React from 'react';
+
 import { Meta } from '../../../typings/stories';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { MenuSeparator } from '../../MenuSeparator';
-import React from 'react';
 
 export default {
   title: 'Layout/ResponsiveLayout',

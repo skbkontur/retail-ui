@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { isNullable } from '../../../lib/utils';
-import { Meta, Story } from '../../../typings/stories';
+import { /*Meta,*/ Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
@@ -156,10 +156,10 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
   };
 }
 
-export default {
-  title: 'Input elements/CurrencyInput',
-  component: CurrencyInput
-} as Meta;
+// export default {
+//   title: 'Input elements/CurrencyInput',
+//   component: CurrencyInput
+// } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: true } };

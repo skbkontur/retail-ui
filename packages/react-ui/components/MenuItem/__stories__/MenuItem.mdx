@@ -1,6 +1,6 @@
 import * as MenuItemStories from './MenuItem.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {MenuItem} from '../MenuItem';
+import { MenuItem } from '../MenuItem';
 import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
@@ -14,9 +14,11 @@ import { Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -26,13 +28,11 @@ import { Gapped } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню с базовыми элементами меню</Button>}
-  >
+<DropdownMenu caption={<Button use="primary">Открыть меню с базовыми элементами меню</Button>}>
   <MenuItem>Базовый элемент меню</MenuItem>
   <MenuItem>Ещё один базовый элемент меню</MenuItem>
   <MenuItem>И ещё один</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### Меню с заблокированными и базовыми элементами меню.
@@ -40,15 +40,13 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню с базовыми и заблокированными элементами</Button>}
-  >
+<DropdownMenu caption={<Button use="primary">Открыть меню с базовыми и заблокированными элементами</Button>}>
   <MenuItem>Это базовый элемент меню</MenuItem>
   <MenuItem disabled>А это заблокированный</MenuItem>
   <MenuItem>А это снова базовый</MenuItem>
   <MenuItem disabled>И снова заблокированный</MenuItem>
   <MenuItem disabled>И вот ещё один заблокированный</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
@@ -56,15 +54,13 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню с базовыми и отключёнными элементами</Button>}
-  >
+<DropdownMenu caption={<Button use="primary">Открыть меню с базовыми и отключёнными элементами</Button>}>
   <MenuItem>Это базовый элемент меню</MenuItem>
   <MenuItem isNotSelectable>А это отключённый</MenuItem>
   <MenuItem>А это снова базовый</MenuItem>
   <MenuItem isNotSelectable>И снова отключённый</MenuItem>
   <MenuItem isNotSelectable>И вот ещё один отключённый</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### Меню с элементами меню содержащими описание.
@@ -72,15 +68,13 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню с причастными к Pied Piper</Button>}
-  >
+<DropdownMenu caption={<Button use="primary">Открыть меню с причастными к Pied Piper</Button>}>
   <MenuItem comment="Системный инженер">Bertram Gilfoyle</MenuItem>
   <MenuItem comment="Hooli CEO">Gavin Belson</MenuItem>
   <MenuItem comment="Java-разработчик">Dinesh Chugtai</MenuItem>
   <MenuItem comment="Основатель Pied Piper">Richard Hendricks</MenuItem>
   <MenuItem comment="Владелец инкубатора">Erlich Bachman</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### Меню с элементами меню содержащими иконки.
@@ -91,24 +85,15 @@ import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 
-
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню с иконками</Button>}
-  >
+<DropdownMenu caption={<Button use="primary">Открыть меню с иконками</Button>}>
   <MenuItem icon={<OkIcon />}>Базовый элемент меню c иконкой</MenuItem>
-  <MenuItem
-    disabled
-    icon={<ThumbDownIcon />}
-    >
+  <MenuItem disabled icon={<ThumbDownIcon />}>
     Отключённый элемент меню с иконкой
   </MenuItem>
-  <MenuItem
-    icon={<DeviceSmartphoneIcon />}
-    comment="А слева вы можете видеть икону 21-го века"
-    >
-     Элемент меню с описанием и иконкой
+  <MenuItem icon={<DeviceSmartphoneIcon />} comment="А слева вы можете видеть икону 21-го века">
+    Элемент меню с описанием и иконкой
   </MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### Меню с элементами меню обёрнутыми в контрол ссылки.
@@ -116,33 +101,24 @@ import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu, Link } from '@skbkontur/react-ui';
 
-const LinkMenuItem = ({link, title}) => {
-  return <MenuItem
-    href={link}
-    component={({ href, ...rest }) => {
-      return <Link target="_blank" rel="noopener noreferrer" href={href} {...rest} />
-    }}
+const LinkMenuItem = ({ link, title }) => {
+  return (
+    <MenuItem
+      href={link}
+      component={({ href, ...rest }) => {
+        return <Link target="_blank" rel="noopener noreferrer" href={href} {...rest} />;
+      }}
     >
-    {title}
-  </MenuItem>
-}
+      {title}
+    </MenuItem>
+  );
+};
 
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню с ссылками</Button>}
-  >
-  <LinkMenuItem
-    link="http://tech.skbkontur.ru/react-ui/"
-    title="Начало документации"
-    />
-  <LinkMenuItem
-    link="https://guides.kontur.ru/"
-    title="Контур Гайды"
-    />
-  <LinkMenuItem
-    link="https://github.com/skbkontur/retail-ui/graphs/contributors"
-    title="Список прекрасных людей"
-    />
-</DropdownMenu>
+<DropdownMenu caption={<Button use="primary">Открыть меню с ссылками</Button>}>
+  <LinkMenuItem link="http://tech.skbkontur.ru/react-ui/" title="Начало документации" />
+  <LinkMenuItem link="https://guides.kontur.ru/" title="Контур Гайды" />
+  <LinkMenuItem link="https://github.com/skbkontur/retail-ui/graphs/contributors" title="Список прекрасных людей" />
+</DropdownMenu>;
 ```
 
 ### У MenuItem есть 3 стандартных размера.
@@ -154,5 +130,5 @@ import { Gapped } from '@skbkontur/react-ui';
   <MenuItem size={'small'}>Маленький</MenuItem>
   <MenuItem size={'medium'}>Средний</MenuItem>
   <MenuItem size={'large'}>Большой</MenuItem>
-</Gapped>
+</Gapped>;
 ```

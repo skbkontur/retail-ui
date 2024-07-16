@@ -47,8 +47,8 @@ class Component extends React.Component<ComponentProps> {
 }
 
 export default {
-    title: 'Input elements/PasswordInput',
-    component: PasswordInput,
+  title: 'Input elements/PasswordInput',
+  component: PasswordInput,
 };
 
 export const Plain: Story = () => <Component />;

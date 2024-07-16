@@ -1,6 +1,6 @@
 import * as ScrollContainerStories from './ScrollContainer.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {ScrollContainer} from '../ScrollContainer';
+import { ScrollContainer } from '../ScrollContainer';
 
 <Meta of={ScrollContainerStories} />
 
@@ -9,9 +9,11 @@ import {ScrollContainer} from '../ScrollContainer';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -179,13 +181,13 @@ const offsetY = {
 
 <div style={containerStyle}>
   <ScrollContainer offsetY={offsetY}>
-    {Array(30).fill(null).map((_,i) => (
-      <div key={i}>
-        {i}
-      </div>
-    ))}
+    {Array(30)
+      .fill(null)
+      .map((_, i) => (
+        <div key={i}>{i}</div>
+      ))}
   </ScrollContainer>
-</div>
+</div>;
 ```
 
 ### Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms)
@@ -202,13 +204,13 @@ var divStyle = {
 };
 <div style={divStyle}>
   <ScrollContainer showScrollBar={'scroll'}>
-    {Array(30).fill(null).map((_,i) => (
-      <div key={i}>
-        {i}
-      </div>
-    ))}
+    {Array(30)
+      .fill(null)
+      .map((_, i) => (
+        <div key={i}>{i}</div>
+      ))}
   </ScrollContainer>
-</div>
+</div>;
 ```
 
 ### Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером
@@ -224,16 +226,15 @@ var divStyle = {
   width: 200,
 };
 
-
 <span>
   <div style={divStyle}>
     <ScrollContainer showScrollBar={'hover'}>
-      {Array(30).fill(null).map((_,i) => (
-        <div key={i}>
-          {i}
-        </div>
-      ))}
+      {Array(30)
+        .fill(null)
+        .map((_, i) => (
+          <div key={i}>{i}</div>
+        ))}
     </ScrollContainer>
   </div>
-</span>
+</span>;
 ```

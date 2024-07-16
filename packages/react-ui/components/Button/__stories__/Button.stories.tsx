@@ -19,16 +19,14 @@ export default {
   title: 'Action/Button',
   component: Button,
   argTypes: {
-    size: {control: "radio"}
-  }
+    size: { control: 'radio' },
+  },
 } as Meta;
 
 type ButtonState = Partial<ButtonProps>;
 
 export const Default: Story = () => (
-  <Button data-tid="test-button">
-    Здесь рисуется первая история из файла .stories.tsx
-  </Button>
+  <Button data-tid="test-button">Здесь рисуется первая история из файла .stories.tsx</Button>
 );
 
 const useStates: ButtonState[] = [

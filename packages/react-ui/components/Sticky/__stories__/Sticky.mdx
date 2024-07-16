@@ -1,6 +1,6 @@
 import * as StickyStories from './Sticky.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Sticky} from '../Sticky';
+import { Sticky } from '../Sticky';
 
 <Meta of={StickyStories} />
 
@@ -9,9 +9,11 @@ import {Sticky} from '../Sticky';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -26,7 +28,7 @@ let stop = null;
 
 <div>
   <Sticky side="top" getStop={() => stop}>
-    {fixed => (
+    {(fixed) => (
       <div style={style}>
         Small loan of a million dollars
         {fixed ? ' fixed' : <div>not fixed</div>}
@@ -35,7 +37,7 @@ let stop = null;
   </Sticky>
   Great
   <div style={{ height: 1000 }} />
-  <div ref={el => (stop = el)} style={{ borderTop: '1px solid' }} />
+  <div ref={(el) => (stop = el)} style={{ borderTop: '1px solid' }} />
   <div style={{ height: 1000 }} />
   <Sticky side="bottom" getStop={() => stop} offset={20}>
     <div style={style}>Make America Great Again</div>

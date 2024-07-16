@@ -1,6 +1,6 @@
 import * as FileUploaderStories from './FileUploader.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {FileUploader} from '../FileUploader';
+import { FileUploader } from '../FileUploader';
 
 <Meta of={FileUploaderStories} />
 
@@ -13,46 +13,53 @@ import {FileUploader} from '../FileUploader';
 Или же можно использовать в асинхронном режиме.
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
 
 ### Синхронный контрол
+
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
-<FileUploader  />
+<FileUploader />;
 ```
 
 ### Асинхронный контрол
+
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
 const request = () => Promise.resolve();
 
-<FileUploader request={request} />
+<FileUploader request={request} />;
 ```
 
 ### Multiple контрол
+
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
 const request = () => Promise.reject();
 
-<FileUploader request={request} multiple />
+<FileUploader request={request} multiple />;
 ```
 
 ### Использование `accept`
+
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
-<FileUploader multiple accept="image/*" />
+<FileUploader multiple accept="image/*" />;
 ```
 
 ### Валидация файла в списке
+
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
@@ -65,6 +72,7 @@ import { FileUploader } from '@skbkontur/react-ui';
 ```
 
 ### Валидация контрола
+
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 

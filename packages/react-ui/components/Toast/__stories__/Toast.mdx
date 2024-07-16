@@ -1,6 +1,6 @@
 import * as ToastStories from './Toast.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Toast} from '../Toast';
+import { Toast } from '../Toast';
 import { Button } from '@skbkontur/react-ui';
 
 <Meta of={ToastStories} />
@@ -10,9 +10,11 @@ import { Button } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -38,17 +40,20 @@ function showComplexNotification() {
 import { Button, Toast } from '@skbkontur/react-ui';
 
 function showComplexNotification() {
-  Toast.push('Successfully saved', {
-    label: 'Cancel',
-    handler: () => Toast.push('Canceled'),
-  }, 15000);
+  Toast.push(
+    'Successfully saved',
+    {
+      label: 'Cancel',
+      handler: () => Toast.push('Canceled'),
+    },
+    15000,
+  );
 }
 
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
 ### C кастомным showTime без action
-
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -74,7 +79,7 @@ class Toaster extends React.Component {
     return (
       <div>
         <Toast
-          ref={el => {
+          ref={(el) => {
             this.notifier = el;
           }}
         />

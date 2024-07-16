@@ -1,6 +1,6 @@
 import * as TabsStories from './Tabs.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Tabs} from '../Tabs';
+import { Tabs } from '../Tabs';
 
 <Meta of={TabsStories} />
 
@@ -9,14 +9,17 @@ import {Tabs} from '../Tabs';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
 
 ### Базовый пример использования компонента.
+
 ```jsx harmony
 const [active, setActive] = React.useState('fuji');
 
@@ -28,6 +31,7 @@ const [active, setActive] = React.useState('fuji');
 ```
 
 ### Компонент может отображать табы двумя способами: горизонтально (по умолчанию) и вертикально.
+
 ```jsx harmony
 const [active, setActive] = React.useState('fuji');
 
@@ -39,12 +43,13 @@ const [active, setActive] = React.useState('fuji');
 ```
 
 ### У табов есть 3 стандартных размера
+
 ```jsx harmony
 const [active, setActive] = React.useState('fuji');
-const renderCaption = (caption) => <span style={{display: "inline-block", width: 60}}>{caption}</span>;
+const renderCaption = (caption) => <span style={{ display: 'inline-block', width: 60 }}>{caption}</span>;
 <div>
   <div>
-    {renderCaption("small")}
+    {renderCaption('small')}
     <Tabs value={active} onValueChange={setActive} size="small">
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
       <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
@@ -52,7 +57,7 @@ const renderCaption = (caption) => <span style={{display: "inline-block", width:
     </Tabs>
   </div>
   <div>
-    {renderCaption("medium")}
+    {renderCaption('medium')}
     <Tabs value={active} onValueChange={setActive} size="medium">
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
       <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
@@ -60,7 +65,7 @@ const renderCaption = (caption) => <span style={{display: "inline-block", width:
     </Tabs>
   </div>
   <div>
-    {renderCaption("large")}
+    {renderCaption('large')}
     <Tabs value={active} onValueChange={setActive} size="large">
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
       <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>

@@ -49,8 +49,8 @@ class Component extends React.Component<RadioGroupProps<string>> {
 }
 
 export default {
-    title: 'Choose/RadioGroup',
-    component: RadioGroup,
+  title: 'Choose/RadioGroup',
+  component: RadioGroup,
 };
 
 export const Vertical: Story = () => {

@@ -1,6 +1,6 @@
 import * as DateInputStories from './DateInput.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {DateInput} from '../DateInput';
+import { DateInput } from '../DateInput';
 import { Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } from '@skbkontur/react-ui';
 
 <Meta of={DateInputStories} />
@@ -10,9 +10,11 @@ import { Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } fr
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -23,7 +25,7 @@ import { Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } fr
 
 ```jsx harmony
 const [value, setValue] = React.useState();
-<DateInput value={value} onValueChange={setValue} />
+<DateInput value={value} onValueChange={setValue} />;
 ```
 
 ```jsx harmony
@@ -53,11 +55,11 @@ class DateInputFormatting2 extends React.Component {
             value={this.state.langCode}
             placeholder="Выбрать язык"
             items={Object.values(LangCodes)}
-            onValueChange={langCode => this.setState({ langCode })}
+            onValueChange={(langCode) => this.setState({ langCode })}
           />
         </div>
         <LocaleContext.Provider value={{ langCode: this.state.langCode }}>
-          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
+          <DateInput onValueChange={(value) => this.setState({ value })} value={this.state.value} />
         </LocaleContext.Provider>
       </Gapped>
     );
@@ -67,6 +69,7 @@ class DateInputFormatting2 extends React.Component {
 ```
 
 ### Ручное форматирование даты
+
 ```jsx harmony
 import { DateOrder, DateSeparator, Gapped, LocaleContext, Select } from '@skbkontur/react-ui';
 
@@ -88,7 +91,7 @@ class DateInputFormatting extends React.Component {
           <Select
             value={this.state.order}
             items={Object.keys(DateOrder)}
-            onValueChange={order => this.setState({ order })}
+            onValueChange={(order) => this.setState({ order })}
           />
         </div>
         <div>
@@ -98,18 +101,20 @@ class DateInputFormatting extends React.Component {
           <Select
             value={this.state.separator}
             items={Object.keys(DateSeparator)}
-            onValueChange={separator => this.setState({ separator })}
+            onValueChange={(separator) => this.setState({ separator })}
           />
         </div>
-        <LocaleContext.Provider value={{
-          locale:{
-            DatePicker: {
-              separator: DateSeparator[this.state.separator],
-              order: this.state.order,
+        <LocaleContext.Provider
+          value={{
+            locale: {
+              DatePicker: {
+                separator: DateSeparator[this.state.separator],
+                order: this.state.order,
+              },
             },
-          }}}
+          }}
         >
-          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
+          <DateInput onValueChange={(value) => this.setState({ value })} value={this.state.value} />
         </LocaleContext.Provider>
       </Gapped>
     );

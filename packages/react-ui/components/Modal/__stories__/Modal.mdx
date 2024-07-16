@@ -1,6 +1,6 @@
 import * as ModalStories from './Modal.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Modal} from '../Modal';
+import { Modal } from '../Modal';
 import { Button, Toggle } from '@skbkontur/react-ui';
 
 <Meta of={ModalStories} />
@@ -10,9 +10,11 @@ import { Button, Toggle } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -31,8 +33,7 @@ function renderModal() {
         <p>Use rxjs operators with react hooks</p>
 
         <div>
-          <Toggle checked={panel} onValueChange={setPanel} /> Panel{' '}
-          {panel ? 'enabled' : 'disabled'}
+          <Toggle checked={panel} onValueChange={setPanel} /> Panel {panel ? 'enabled' : 'disabled'}
         </div>
       </Modal.Body>
       <Modal.Footer panel={panel}>
@@ -64,10 +65,10 @@ interface ModalLocale {
 }
 
 const ru_RU = {
-  closeButtonAriaLabel: 'Закрыть модальное окно'
-}
+  closeButtonAriaLabel: 'Закрыть модальное окно',
+};
 
 const en_GB = {
-  closeButtonAriaLabel: 'Close modal window'
-}
+  closeButtonAriaLabel: 'Close modal window',
+};
 ```

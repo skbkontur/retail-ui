@@ -1,6 +1,6 @@
 import * as MenuFooterStories from './MenuFooter.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {MenuFooter} from '../MenuFooter';
+import { MenuFooter } from '../MenuFooter';
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 import { Gapped } from '@skbkontur/react-ui';
 
@@ -11,9 +11,11 @@ import { Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -23,15 +25,12 @@ import { Gapped } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  menuMaxHeight="10rem"
-  caption={<Button use="primary">Сотрудники компании</Button>}
-  >
+<DropdownMenu menuMaxHeight="10rem" caption={<Button use="primary">Сотрудники компании</Button>}>
   <MenuItem>Вася</MenuItem>
   <MenuItem>Петя</MenuItem>
   <MenuItem>Маша</MenuItem>
   <MenuFooter>Всего 3 человека</MenuFooter>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### У MenuFooter есть 3 стандартных размера.
@@ -43,5 +42,5 @@ import { Gapped } from '@skbkontur/react-ui';
   <MenuFooter size={'small'}>Маленький</MenuFooter>
   <MenuFooter size={'medium'}>Средний</MenuFooter>
   <MenuFooter size={'large'}>Большой</MenuFooter>
-</Gapped>
+</Gapped>;
 ```

@@ -1,6 +1,6 @@
 import * as TextareaStories from './Textarea.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Textarea} from '../Textarea';
+import { Textarea } from '../Textarea';
 import { Group, Button, Gapped } from '@skbkontur/react-ui';
 
 <Meta of={TextareaStories} />
@@ -10,9 +10,11 @@ import { Group, Button, Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -36,15 +38,11 @@ import { Group, Button } from '@skbkontur/react-ui';
 const [value, setValue] = React.useState('Значение');
 
 <Group>
-  <Textarea
-    value={value}
-    onValueChange={setValue}
-    autoResize
-    rows={1}
-    placeholder="Плейсхолдер"
-  />
-  <Button style={{ height: '52px' }} onClick={() => setValue('')}>Очистить значение</Button>
-</Group>
+  <Textarea value={value} onValueChange={setValue} autoResize rows={1} placeholder="Плейсхолдер" />
+  <Button style={{ height: '52px' }} onClick={() => setValue('')}>
+    Очистить значение
+  </Button>
+</Group>;
 ```
 
 ### Счетчик введенных символов
@@ -71,5 +69,5 @@ import { Gapped } from '@skbkontur/react-ui';
   <Textarea size={'small'} value={'Маленький'} autoResize rows={1} />
   <Textarea size={'medium'} value={'Средний'} autoResize rows={1} />
   <Textarea size={'large'} value={'Большой'} autoResize rows={1} />
-</Gapped>
+</Gapped>;
 ```

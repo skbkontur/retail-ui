@@ -12,8 +12,8 @@ import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { useMemoObject } from '../../../hooks/useMemoObject';
 
 export default {
-    title: 'Date/Calendar',
-    component: Calendar,
+  title: 'Date/Calendar',
+  component: Calendar,
 };
 
 export const CalendarWithBottomSeparator: Story = () => {

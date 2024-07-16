@@ -1,6 +1,6 @@
 import * as PagingStories from './Paging.stories.tsx';
 import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Paging} from '../Paging';
+import { Paging } from '../Paging';
 
 <Meta of={PagingStories} />
 
@@ -9,9 +9,11 @@ import {Paging} from '../Paging';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -49,12 +51,7 @@ class Paginator3000 extends React.Component {
 ```jsx
 const [activePage, setActivePage] = React.useState(3);
 
-<Paging
-  disabled
-  onPageChange={(activePage) => setActivePage(activePage)}
-  activePage={activePage}
-  pagesCount={8}
-/>
+<Paging disabled onPageChange={(activePage) => setActivePage(activePage)} activePage={activePage} pagesCount={8} />;
 ```
 
 ### Локали по умолчанию

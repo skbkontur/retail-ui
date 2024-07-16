@@ -611,8 +611,8 @@ class WithLongTitle extends React.Component {
 }
 
 export default {
-    title: 'Overlays/SidePage',
-    component: SidePage,
+  title: 'Overlays/SidePage',
+  component: SidePage,
 };
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
