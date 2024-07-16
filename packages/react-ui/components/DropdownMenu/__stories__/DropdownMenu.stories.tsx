@@ -15,8 +15,6 @@ import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { OkIcon } from '../../../internal/icons/16px';
-import { OkIcon } from '../../../internal/icons/16px';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 export default {
   title: 'Menu/DropdownMenu',
