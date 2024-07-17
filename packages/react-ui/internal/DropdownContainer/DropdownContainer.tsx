@@ -52,7 +52,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
   public static defaultProps: DefaultProps = {
     align: 'left',
-    disablePortal: false,
+    disablePortal: true,
     offsetX: 0,
     offsetY: -1,
   };
