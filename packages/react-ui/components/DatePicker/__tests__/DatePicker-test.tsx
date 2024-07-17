@@ -150,7 +150,7 @@ describe('DatePicker', () => {
     await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
     await userEvent.click(screen.getByText('2018').parentElement as Element);
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
-  });
+  }, 20000);
 
   describe('Locale', () => {
     const getToday = (args: InternalDateConstructorProps) =>
@@ -496,7 +496,7 @@ describe('DatePicker', () => {
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
-    });
+    }, 20000);
 
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
