@@ -19,6 +19,7 @@ import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
 import { ButtonDataTids } from '../../../components/Button';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
+import { MenuDataTids } from '../../../internal/Menu';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -479,7 +480,7 @@ describe('DatePicker', () => {
       render(<MobilePicker initialDate={`01.01.${year}`} />);
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
       await userEvent.click(screen.getByTestId(CalendarDataTids.headerMonth).getElementsByTagName('button')[0]);
-      await userEvent.click(screen.getByText(month.toString()).parentElement as Element);
+      await userEvent.click(screen.getByTestId(MenuDataTids.root).getElementsByTagName('button')[month]);
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
