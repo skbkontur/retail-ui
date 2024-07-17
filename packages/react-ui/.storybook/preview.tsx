@@ -14,6 +14,7 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
+import {LocaleDecorator, toolbarItems} from "./decorators/Locale/LocaleDecorator";
 // import { addons } from '@storybook/addons';
 // import { LIVE_EXAMPLES_ADDON_ID } from 'storybook-addon-live-examples';
 // import { Button } from '../components/Button';
@@ -57,7 +58,7 @@ const themes = {
   FLAT_THEME_8PX_OLD,
   DEFAULT_THEME_MOBILE,
   THEME_2022,
-  THEME_2022_DARK,
+  THEME_2022_DARK
 };
 
 setFilter((fiber) => {
@@ -80,7 +81,7 @@ const preview: Preview = {
       toc: {
         title: 'Содержание',
         headingSelector: 'h1, h2, h3', // может еще что-то включить
-      }
+      },
     },
   },
 };
@@ -137,6 +138,7 @@ export const decorators: Meta['decorators'] = [
       </ThemeContext.Consumer>
     );
   },
+  LocaleDecorator,
 ];
 
 export const parameters: Meta['parameters'] = {
@@ -168,6 +170,17 @@ export const globalTypes = {
       icon: 'paintbrush',
       items: Object.keys(themes),
       showName: true,
+    },
+  },
+  locale: {
+    name: 'Locale',
+    description: 'React UI Locale',
+    defaultValue: 'ru',
+    toolbar: {
+      icon: 'globe',
+      items: Object.keys(toolbarItems),
+      showName: true,
+      // dynamicTitle: true,
     },
   },
 };
