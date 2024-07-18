@@ -2,6 +2,7 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import warning from 'warning';
 
+import { ButtonLinkAllowedValues } from '../../typings/button-link';
 import { HTMLProps } from '../../typings/html';
 import { pick, isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
@@ -197,7 +198,7 @@ interface ButtonInnerProps
 
 export const BUTTON_DEFAULT_ELEMENT = 'button';
 
-export type ButtonProps<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
+export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
   ButtonInnerProps,
   C
 >;
@@ -221,7 +222,7 @@ const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children
 );
 
 @rootNode
-export class Button<C extends React.ElementType = typeof BUTTON_DEFAULT_ELEMENT> extends React.Component<
+export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_ELEMENT> extends React.Component<
   ButtonProps<C>,
   ButtonState
 > {

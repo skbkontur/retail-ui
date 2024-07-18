@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
+import { ButtonLinkAllowedValues } from '../../typings/button-link';
 import { resetButton } from '../../lib/styles/Mixins';
 import { PolymorphicPropsWithoutRef } from '../../typings/react-ref';
 import { keyListener } from '../../lib/events/keyListener';
@@ -59,7 +60,7 @@ interface LinkInnerProps
   /**
    * HTML-событие `onclick`.
    */
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Обычный объект с переменными темы.
@@ -87,7 +88,7 @@ interface LinkInnerProps
 
 const LINK_DEFAULT_ELEMENT = 'a';
 
-export type LinkProps<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
+export type LinkProps<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
   LinkInnerProps,
   C
 >;
@@ -100,7 +101,7 @@ export const LinkDataTids = {
 } as const;
 
 type DefaultProps = Required<Pick<LinkProps, 'use' | 'as'>>;
-type DefaultizedLinkProps<T extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> = DefaultizedProps<
+type DefaultizedLinkProps<T extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMENT> = DefaultizedProps<
   LinkProps<T>,
   DefaultProps
 >;
@@ -109,7 +110,7 @@ type DefaultizedLinkProps<T extends React.ElementType = typeof LINK_DEFAULT_ELEM
  * Элемент ссылки из HTML.
  */
 @rootNode
-export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> extends React.Component<
+export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMENT> extends React.Component<
   LinkProps<C>,
   LinkState
 > {
@@ -194,7 +195,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
-    const Root = (component || as) as React.ElementType;
+    const Root = component || as;
 
     let arrow = null;
     if (_button) {
@@ -297,7 +298,7 @@ export class Link<C extends React.ElementType = typeof LINK_DEFAULT_ELEMENT> ext
     this.setState({ focusedByTab: false });
   };
 
-  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  private handleClick = (event: React.MouseEvent<HTMLElement>) => {
     const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
     // we have to check for 'to' prop in case Root is react-router link
     const to = Object.prototype.hasOwnProperty.call(this.props, 'to');
