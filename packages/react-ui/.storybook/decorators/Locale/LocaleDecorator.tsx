@@ -8,10 +8,20 @@ export const toolbarItems: { [key: string]: LangCodes } = {
   en: LangCodes.en_GB,
 };
 
+const supportedLocaleControls = ['Loader', 'Spinner', 'Calendar', 'DateInput', 'DatePicker','Autocomplete', 'Paging', 'FileUploader'];
+const hideLocaleBtnInUnsupportedControls = (activeControl: string) => {
+  const localeBtn = window.parent.document.querySelector('button[title="React UI Locale"]');
+  const localeBtnWrapper = localeBtn?.closest('div');
+  if (localeBtnWrapper) {
+    localeBtnWrapper.style.display = supportedLocaleControls.includes(activeControl) ? 'inline-block' : 'none';
+  }
+}
+
 export const LocaleDecorator: Decorator = (Story, context) => {
-  console.log(context, context.globals)
   const { locale } = context.globals;
+  const activeControl = context.title.split('/')[1];
   const storybookLocale = toolbarItems[locale] || defaultLangCode;
+  hideLocaleBtnInUnsupportedControls(activeControl);
 
     return (
       <LocaleContext.Provider value={{ langCode: storybookLocale }}>
