@@ -146,11 +146,17 @@ describe('DatePicker', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
-    await userEvent.click(screen.getByText('2018').parentElement as Element);
+    await act(async () => {
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByText('2018').parentElement as Element);
+    });
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
-  }, 30000);
+  });
 
   describe('Locale', () => {
     const getToday = (args: InternalDateConstructorProps) =>
@@ -478,9 +484,14 @@ describe('DatePicker', () => {
       const month = 11;
       const year = 2011;
       render(<MobilePicker initialDate={`01.01.${year}`} />);
+
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-      await userEvent.click(screen.getByTestId(CalendarDataTids.headerMonth).getElementsByTagName('button')[0]);
-      await userEvent.click(screen.getByTestId(MenuDataTids.root).getElementsByTagName('button')[month]);
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(CalendarDataTids.headerMonth).getElementsByTagName('button')[0]);
+      });
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(MenuDataTids.root).getElementsByTagName('button')[month]);
+      });
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
@@ -490,13 +501,18 @@ describe('DatePicker', () => {
       const month = 10;
       const year = 2011;
       render(<MobilePicker initialDate={`01.${month + 1}.2010`} />);
+
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-      await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
-      await userEvent.click(screen.getByText(year.toString()).parentElement as Element);
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+      });
+      await act(async () => {
+        await userEvent.click(screen.getByText(year.toString()).parentElement as Element);
+      });
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
-    }, 30000);
+    });
 
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
