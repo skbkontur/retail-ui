@@ -38,13 +38,6 @@ export const SimpleExample: Story = () => (
 );
 SimpleExample.storyName = 'Simple example';
 
-export const DisablePortal: Story = () => (
-  <TooltipMenu disablePortal caption={<Button use="primary">Открыть меню</Button>}>
-    <MenuItem>Раз</MenuItem>
-  </TooltipMenu>
-);
-DisablePortal.storyName = 'Disable portal';
-
 export const MobileExampleHorizontalPaddings: Story = () => (
   <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
     <MenuHeader>Заголовок меню</MenuHeader>
