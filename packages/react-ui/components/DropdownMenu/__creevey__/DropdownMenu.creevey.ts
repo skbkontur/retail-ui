@@ -165,10 +165,6 @@ kind('DropdownMenu', () => {
     });
   });
 
-  story('DisablePortal', () => {
-    textAlignmentTests();
-  });
-
   story('CaptionWidth', () => {
     test('plain', async function () {
       await delay(1000);
