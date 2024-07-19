@@ -119,6 +119,7 @@ export interface PopupProps
    */
   tryPreserveFirstRenderedPosition?: boolean;
   withoutMobile?: boolean;
+  /** @ignore */
   disablePortal?: boolean;
   mobileOnCloseRequest?: () => void;
   /**
@@ -273,7 +274,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
-  private relativeParent: Nullable<HTMLDivElement> = null;
+  private absoluteParent: Nullable<HTMLDivElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -421,7 +422,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <EmptyWrapper ref={ref}>
         {anchor}
         {location && (
-          <div ref={this.updateRelativeElement} className={styles.relativeParent()}>
+          <div ref={this.updateAbsoluteElement} className={styles.absoluteParent()}>
             {this.renderContent(location)}
           </div>
         )}
@@ -440,8 +441,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private updateRelativeElement = (instance: HTMLDivElement) => {
-    this.relativeParent = instance;
+  private updateAbsoluteElement = (instance: HTMLDivElement) => {
+    this.absoluteParent = instance;
   };
 
   private addEventListeners(element: Nullable<Element>) {
@@ -776,16 +777,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getRelativeShift = () => {
-    const { relativeParent } = this;
+    const { absoluteParent } = this;
 
-    if (!this.props.disablePortal || !relativeParent) {
+    if (!this.props.disablePortal || !absoluteParent) {
       return {
         top: 0,
         left: 0,
       };
     }
 
-    const rect = PopupHelper.getElementAbsoluteRect(relativeParent);
+    const rect = PopupHelper.getElementAbsoluteRect(absoluteParent);
 
     return {
       top: -rect.top,

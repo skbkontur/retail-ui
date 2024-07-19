@@ -85,9 +85,9 @@ export const styles = memoizeStyle({
       transform: translate(0, 0);
     `;
   },
-  relativeParent() {
+  absoluteParent() {
     return css`
-      position: relative;
+      position: absolute;
       text-align: initial;
     `;
   },
