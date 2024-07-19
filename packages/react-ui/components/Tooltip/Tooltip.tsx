@@ -133,11 +133,6 @@ export interface TooltipProps extends CommonProps {
   disableAnimations?: boolean;
 
   /**
-   * Отключает использование портала
-   */
-  disablePortal?: boolean;
-
-  /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
@@ -384,7 +379,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
-          disablePortal={this.props.disablePortal}
           positions={this.getPositions()}
           pos={this.props.pos}
           ignoreHover={trigger === 'hoverAnchor'}

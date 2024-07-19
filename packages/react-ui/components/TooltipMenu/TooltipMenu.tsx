@@ -52,10 +52,6 @@ export interface TooltipMenuProps
    * Не показывать анимацию
    */
   disableAnimations?: boolean;
-  /**
-   * Отключает использование портала
-   */
-  disablePortal?: boolean;
 }
 
 export const TooltipMenuDataTids = {
@@ -143,7 +139,6 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
           onClose={this.props.onClose}
           popupHasPin
           disableAnimations={disableAnimations}
-          disablePortal={this.props.disablePortal}
         >
           {this.props.children}
         </PopupMenu>
