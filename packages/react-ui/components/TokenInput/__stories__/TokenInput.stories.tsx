@@ -220,11 +220,6 @@ export const EmptyCombined: Story = () => {
 };
 EmptyCombined.storyName = 'empty combined';
 
-export const DisablePortal: Story = () => {
-  return <Wrapper disablePortal type={TokenInputType.Combined} getItems={getItems} />;
-};
-DisablePortal.storyName = 'disable portal';
-
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
 };

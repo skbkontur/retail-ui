@@ -391,19 +391,4 @@ kind('TokenInput', () => {
       await this.expect(await this.takeScreenshot()).to.matchImage();
     });
   });
-
-  story('DisablePortal', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } } });
-
-    test('clicked', async function () {
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-        .perform();
-      await delay(1000);
-      await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-    });
-  });
 });

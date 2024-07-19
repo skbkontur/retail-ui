@@ -156,10 +156,6 @@ export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-described
    */
   warning?: boolean;
   disabled?: boolean;
-  /**
-   * Отключает использование портала
-   */
-  disablePortal?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
   /**
@@ -534,7 +530,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 menuAlign={menuAlign}
                 renderTotalCount={renderTotalCount}
                 totalCount={totalCount}
-                disablePortal={this.props.disablePortal}
               />
             )}
             {this.renderTokensEnd()}
