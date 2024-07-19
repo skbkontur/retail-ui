@@ -124,10 +124,6 @@ kind('Kebab', () => {
     kebabTests();
   });
 
-  story('DisablePortal', () => {
-    textAlignmentTests();
-  });
-
   story('MobileExampleWithHorizontalPadding', ({ setStoryParameters }) => {
     setStoryParameters({ captureElement: null });
 

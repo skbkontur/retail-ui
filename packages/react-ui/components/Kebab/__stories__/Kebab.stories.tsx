@@ -41,9 +41,6 @@ Medium.storyName = '18px';
 export const Large: Story = () => <SomethingWithKebab size="large" />;
 Large.storyName = '20px';
 
-export const DisablePortal: Story = () => <SomethingWithKebab disablePortal size="medium" />;
-DisablePortal.storyName = 'disable portal';
-
 export const KebabWithCustomIcon: Story = () => {
   return (
     <>
@@ -70,7 +67,6 @@ KebabWithoutAnimations.parameters = { creevey: { skip: true } };
 
 interface SomethingWithKebabProps {
   items?: KebabItem[];
-  disablePortal?: boolean;
   disableAnimations?: boolean;
   size: KebabProps['size'];
   disabled?: boolean;
@@ -97,7 +93,6 @@ class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
           onClose={action('close')}
           disabled={this.props.disabled}
           menuMaxHeight={this.props.menuMaxHeight}
-          disablePortal={this.props.disablePortal}
           disableAnimations={this.props.disableAnimations}
           icon={this.props.icon}
         >
