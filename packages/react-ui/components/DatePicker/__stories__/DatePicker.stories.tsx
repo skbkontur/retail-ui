@@ -168,13 +168,6 @@ export const WithAutoFocus = () => (
 WithAutoFocus.storyName = 'with autoFocus';
 WithAutoFocus.parameters = { creevey: { skip: true } };
 
-export const DisablePortal = () => (
-  <div style={{ width: '500px', height: '500px' }}>
-    <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus disablePortal />
-  </div>
-);
-DisablePortal.storyName = 'disable portal';
-
 export const DatePickerWithErrorStory = () => <DatePickerWithError />;
 DatePickerWithErrorStory.storyName = 'DatePickerWithError';
 DatePickerWithErrorStory.parameters = { creevey: { skip: true } };

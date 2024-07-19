@@ -68,8 +68,6 @@ export interface DatePickerProps
    * Состояние валидации при ошибке.
    */
   error?: boolean;
-  /** Отключает использование портала */
-  disablePortal?: boolean;
   size?: SizeProp;
   value?: string | null;
   /**
@@ -132,8 +130,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     enableTodayLink: PropTypes.bool,
 
     error: PropTypes.bool,
-
-    disablePortal: PropTypes.bool,
 
     /**
      * Максимальная дата в календаре.
@@ -326,7 +322,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             <Popup
               opened
               hasShadow
-              disablePortal={this.props.disablePortal}
               positions={this.props.menuPositions}
               data-tid={DatePickerDataTids.root}
               anchorElement={this.getParent()}
