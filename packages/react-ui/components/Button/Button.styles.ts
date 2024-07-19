@@ -21,7 +21,7 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
-  link: 'link',
+  customComponent: 'custom-component',
   disabled: 'disabled',
 });
 
@@ -67,15 +67,15 @@ export const styles = memoizeStyle({
       }
 
       &:hover:enabled svg,
-      &.${globalClasses.link}:hover svg {
+      &.${globalClasses.customComponent}:hover svg {
         color: ${t.btnIconHoverColor};
       }
       &:disabled svg,
-      &.${globalClasses.link}.${globalClasses.disabled} svg {
+      &.${globalClasses.customComponent}.${globalClasses.disabled} svg {
         color: ${t.btnIconDisabledColor};
       }
       &:enabled svg,
-      &.${globalClasses.link} svg {
+      &.${globalClasses.customComponent} svg {
         color: ${t.btnIconColor};
       }
     `;
@@ -530,7 +530,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
@@ -543,7 +543,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.default(t)};
       }
     `;
@@ -562,7 +562,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
@@ -575,7 +575,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.primary(t)}
       }
     `;
@@ -594,7 +594,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
@@ -607,7 +607,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.success(t)}
       }
     `;
@@ -626,7 +626,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
@@ -639,7 +639,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.danger(t)}
       }
     `;
@@ -658,7 +658,7 @@ export const styles = memoizeStyle({
       )};
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
@@ -671,7 +671,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.pay(t)}
       }
     `;
@@ -691,7 +691,7 @@ export const styles = memoizeStyle({
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnTextHoverBg,
           '',
@@ -704,7 +704,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.text(t)}
       }
     `;
@@ -726,7 +726,7 @@ export const styles = memoizeStyle({
       background: transparent;
 
       &:hover:enabled,
-      &.${globalClasses.link}:hover {
+      &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
           '',
@@ -739,7 +739,7 @@ export const styles = memoizeStyle({
       }
 
       &:active:enabled,
-      &.${globalClasses.link}:active {
+      &.${globalClasses.customComponent}:active {
         ${activeStyles.backless(t)}
       }
     `;

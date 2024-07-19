@@ -376,7 +376,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
         rootClassNameWithArrow,
-        Root === 'a' && globalClasses.link,
+        Root !== 'button' && globalClasses.customComponent,
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
@@ -386,7 +386,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
               borderless && styles.borderless2022(),
               use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
               use === 'text' && styles.textDisabled2022(),
-              Root === 'a' && globalClasses.disabled,
+              Root !== 'button' && globalClasses.disabled,
             ]
           : [
               active && !checked && activeStyles[use](this.theme),
@@ -404,12 +404,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
         [styles.disableTextSelect()]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [globalClasses.link]: Root === 'a',
+        [globalClasses.customComponent]: Root !== 'button',
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
         [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: trueDisabled,
-        [globalClasses.disabled]: trueDisabled && Root === 'a',
+        [globalClasses.disabled]: trueDisabled && Root !== 'button',
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
         [styles.narrow()]: narrow,
