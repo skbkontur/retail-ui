@@ -25,7 +25,7 @@ import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
-import { getTodayDate } from '../Calendar/CalendarUtils';
+import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
@@ -429,7 +429,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     this.handleSelect(today);
 
     if (this.calendar) {
-      const { month, year } = this.state.today;
+      const { month: monthNative, year } = this.state.today;
+      const month = getMonthInHumanFormat(monthNative);
       this.calendar.scrollToMonth(month, year);
     }
   };
