@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
@@ -92,6 +92,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
 
   private theme!: Theme;
   private readonly locale!: DatePickerLocale;
+  private readonly selectRef = createRef<Select<number, number>>();
 
   public render() {
     return (
@@ -177,6 +178,10 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
     );
   }
 
+  public close() {
+    this.selectRef.current?.close();
+  }
+
   private renderMain() {
     const { value, disabled, onValueChange } = this.getProps();
     const theme = {
@@ -188,6 +193,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
         data-tid={DateSelectDataTids.caption}
         use="text"
         value={value}
+        ref={this.selectRef}
         theme={theme}
         disabled={disabled}
         _renderButton={this.renderButton}
