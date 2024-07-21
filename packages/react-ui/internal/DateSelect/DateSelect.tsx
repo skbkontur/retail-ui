@@ -2,17 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { isNonNullable } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
-import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { ArrowTriangleUpDownIcon } from '../icons/16px';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Select } from '../../components/Select';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ButtonParams, Select } from '../../components/Select';
 import { MenuItem } from '../../components/MenuItem';
+import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 
-import { styles } from './DateSelect.styles';
+import { globalClasses, styles } from './DateSelect.styles';
 
 const defaultMinMonth = 0;
 const defaultMaxMonth = 11;
@@ -37,24 +40,13 @@ function range(start: number, end: number) {
 }
 
 export interface DateSelectProps {
-  disabled?: boolean | null;
+  disabled?: boolean;
   onValueChange: (value: number) => void;
   type?: 'month' | 'year';
   value: number;
   width?: number | string;
   minValue?: number;
   maxValue?: number;
-}
-
-export interface DateSelectState {
-  botCapped: boolean;
-  current: Nullable<number>;
-  height: number;
-  opened: boolean;
-  pos: number;
-  top: number;
-  topCapped: boolean;
-  nodeTop: number;
 }
 
 export const DateSelectDataTids = {
@@ -67,7 +59,7 @@ type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
 
 @responsiveLayout
 @locale('Calendar', DatePickerLocaleHelper)
-export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
+export class DateSelect extends React.PureComponent<DateSelectProps> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
   public static displayName = 'DateSelect';
 
@@ -98,46 +90,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     return this.getProps().type === 'year';
   }
 
-  public state = {
-    botCapped: false,
-    current: 0,
-    height: 0,
-    opened: false,
-    pos: 0,
-    top: 0,
-    topCapped: false,
-    nodeTop: Infinity,
-  };
-
   private theme!: Theme;
   private readonly locale!: DatePickerLocale;
-  private select: Select<number, number> | null = null;
-
-  /**
-   * @public
-   */
-  public open = () => {
-    if (this.props.disabled) {
-      return;
-    }
-
-    const { select } = this;
-
-    if (select !== null) {
-      select.close();
-    }
-  };
-
-  /**
-   * @public
-   */
-  public close = () => {
-    const { select } = this;
-
-    if (select !== null) {
-      select.close();
-    }
-  };
 
   public render() {
     return (
@@ -150,28 +104,98 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     );
   }
 
+  private menuId = DateSelectDataTids.menu + getRandomID();
+
+  private renderButton = (params: ButtonParams) => {
+    if (isTheme2022(this.theme)) {
+      return this.renderButton2022(params);
+    }
+
+    const { value, disabled } = this.props;
+    const width = this.getProps().width;
+    const isInteractiveElement = !disabled;
+    const Tag = isInteractiveElement ? 'button' : 'span';
+    const rootProps = {
+      className: cx({
+        [styles.root(this.theme)]: true,
+        [styles.disabled()]: Boolean(disabled),
+      }),
+      style: { width },
+      onClick: disabled ? undefined : params.onClick,
+      'aria-expanded': isInteractiveElement ? params.opened : undefined,
+      'aria-controls': !disabled ? this.menuId : undefined,
+      'aria-label': isInteractiveElement
+        ? `${this.locale.selectChosenAriaLabel} ${
+            this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
+          } ${this.getItem(value)}`
+        : undefined,
+    };
+
+    return (
+      <Tag {...rootProps}>
+        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
+          {this.getItem(value)}
+          <div
+            className={cx({
+              [styles.arrow(this.theme)]: true,
+              [styles.arrowDisabled()]: Boolean(disabled),
+            })}
+          >
+            <ArrowTriangleUpDownIcon size={12} />
+          </div>
+        </div>
+      </Tag>
+    );
+  };
+
+  private renderButton2022(params: ButtonParams) {
+    const { value, disabled } = this.props;
+    const width = this.getProps().width;
+    const isInteractiveElement = !disabled;
+    const Tag = isInteractiveElement ? 'button' : 'span';
+    const rootProps = {
+      className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
+      style: { width },
+      onClick: disabled ? undefined : params.onClick,
+      'aria-expanded': isInteractiveElement ? params.opened : undefined,
+      'aria-label': isInteractiveElement
+        ? `${this.locale.selectChosenAriaLabel} ${
+            this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
+          } ${this.getItem(value)}`
+        : undefined,
+    };
+
+    return (
+      <Tag {...rootProps}>
+        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
+          {this.getItem(value)}
+        </div>
+        {isInteractiveElement && (
+          <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
+        )}
+      </Tag>
+    );
+  }
+
   private renderMain() {
     const { value, disabled, onValueChange } = this.getProps();
     const theme = {
       btnBorderRadiusSmall: this.theme.menuItemBorderRadius,
     };
 
-    return disabled ? (
-      <span className={styles.disabled(this.theme)}>{this.getItem(value)}</span>
-    ) : (
+    return (
       <Select
         data-tid={DateSelectDataTids.caption}
         use="text"
         value={value}
         theme={theme}
+        disabled={disabled}
+        _renderButton={this.renderButton}
         menuPositions={selectPositions}
-        menuWidth={this.isYearType ? `calc(100% + ${parseInt(this.theme.menuPaddingX) * 2}px)` : undefined}
-        className={styles.enabled(this.theme)}
         renderValue={this.getItem}
         items={this.getItems()}
-        menuOffset={parseInt(this.theme.menuPaddingX)}
+        menuOffset={parseInt(this.theme.menuPaddingX) + parseInt(this.theme.menuItemPaddingX)}
         onValueChange={onValueChange}
-        ref={this.selectRef}
         aria-label={`${this.locale.selectChosenAriaLabel} ${
           this.isYearType ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
         } ${this.getItem(value)}`}
@@ -218,10 +242,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         </MenuItem>
       );
     });
-  };
-
-  private selectRef = (select: Select<number, number> | null) => {
-    this.select = select;
   };
 
   private getItem = (value: number) => {

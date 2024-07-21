@@ -6,19 +6,73 @@ export const globalClasses = prefix('select')({
 });
 
 export const styles = memoizeStyle({
-  enabled(t: Theme) {
+  root(t: Theme) {
     return css`
-      * {
-        font-weight: ${t.dateSelectFontWeight};
+      color: ${t.dateSelectTextColorDefault};
+      cursor: pointer;
+      display: inline-block;
+      font: inherit;
+      font-size: ${t.dateSelectFontSize};
+      padding: 0px;
+      padding-right: 2px;
+      position: relative;
+      text-align: left;
+      touch-action: none;
+      border: none;
+      line-height: ${t.dateSelectLineHeight};
+      background-color: transparent;
+      box-sizing: content-box;
+
+      &:hover {
+        color: ${t.dateSelectLinkColor};
+      }
+
+      & .${globalClasses.arrow} {
+        transition: fill ${t.transitionDuration} ${t.transitionTimingFunction};
+      }
+
+      &:hover .${globalClasses.arrow} {
+        fill: ${t.dateSelectTextColorDefault} !important;
       }
     `;
   },
-  disabled(t: Theme) {
+
+  root2022() {
     return css`
-      padding: ${t.btnPaddingYSmall} calc(5px + ${t.btnIconSizeSmall} + ${t.btnIconGapSmallRight}) ${t.btnPaddingYSmall}
-        5px;
-      border: ${t.btnBorderWidth} solid transparent;
-      display: block;
+      display: inline-flex;
+      justify-content: space-between;
+    `;
+  },
+
+  disabled() {
+    return css`
+      color: inherit !important; // override root:hover style
+      cursor: default;
+    `;
+  },
+
+  caption() {
+    return css`
+      position: relative;
+    `;
+  },
+
+  arrow(t: Theme) {
+    return css`
+      color: ${t.dateSelectTextColorDisabled};
+      float: right;
+      line-height: ${t.dateSelectLineHeight};
+      opacity: 1;
+      position: absolute;
+      right: 4px;
+      top: 0;
+      transform: scaleX(0.7);
+      transition: opacity 0.2s ease-out;
+    `;
+  },
+  arrowDisabled() {
+    return css`
+      opacity: 0;
     `;
   },
 });

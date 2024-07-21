@@ -97,6 +97,7 @@ export function MonthView(props: MonthViewProps) {
           <div data-tid={CalendarDataTids.headerMonth} className={styles.headerMonth(theme)}>
             <DateSelect
               disabled={monthSelectDisabled}
+              width={isMobile ? '6em' : 85}
               type="month"
               value={month}
               onValueChange={onMonthSelect}
@@ -109,6 +110,7 @@ export function MonthView(props: MonthViewProps) {
             <div data-tid={CalendarDataTids.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
               <DateSelect
                 disabled={yearSelectDisabled}
+                width={isMobile ? '3.5em' : 50}
                 type="year"
                 value={year}
                 minValue={minDate ? minDate.year : undefined}
