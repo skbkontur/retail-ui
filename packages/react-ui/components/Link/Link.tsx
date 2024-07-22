@@ -201,7 +201,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     const nonInteractive = disabled || loading;
 
     const linkOnlyProps = {
-      href,
+      href: href || '',
       rel: this.getRel({ href, rel }),
     };
 
