@@ -1,9 +1,8 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import warning from 'warning';
 
 import { ButtonLinkAllowedValues } from '../../typings/button-link';
-import { HTMLProps } from '../../typings/html';
 import { pick, isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
@@ -32,14 +31,7 @@ export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-interface ButtonInnerProps
-  extends CommonProps,
-    Pick<
-      AriaAttributes,
-      'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked' | 'aria-expanded'
-    >,
-    Pick<HTMLAttributes<unknown>, 'role'>,
-    Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
+interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -113,41 +105,6 @@ interface ButtonInnerProps
    * Сужает кнопку.
    */
   narrow?: boolean;
-
-  /**
-   * HTML-событие `onblur`.
-   */
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onclick`.
-   */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onfocus`.
-   */
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `keydown`.
-   */
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onmouseenter`.
-   */
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `mouseleave`.
-   */
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onmouseover`.
-   */
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
   /**
    * Задаёт размер кнопки.
