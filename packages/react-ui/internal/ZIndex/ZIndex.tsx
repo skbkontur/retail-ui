@@ -4,11 +4,11 @@ import { globalObject, isBrowser } from '@skbkontur/global-object';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-
-import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { LoaderDataTids } from '../../components/Loader';
 import { PORTAL_ANCHOR_ATTR, PORTAL_TAG_ATTR } from '../RenderContainer';
+
+import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
 const DEFAULT_ZINDEX_CONTEXT = { parentLayerZIndex: 0, maxZIndex: Infinity };
 
