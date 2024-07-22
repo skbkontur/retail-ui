@@ -168,8 +168,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     const {
       disabled,
       href,
-      hrefLang,
-      target,
       icon,
       rightIcon,
       use,
@@ -203,13 +201,9 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     const nonInteractive = disabled || loading;
 
     const linkOnlyProps = {
-      href: href || '',
-      hrefLang,
+      href,
       rel: this.getRel({ href, rel }),
-      target,
     };
-
-    const buttonOnlyProps = { disabled: nonInteractive, type };
 
     const outlineNode = (
       <div
@@ -239,7 +233,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       onBlur: this.handleBlur,
       tabIndex: this.getTabIndex({ nonInteractive, tabIndex }),
       ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
-      ...(Root === 'button' ? buttonOnlyProps : {}),
     };
 
     let child = this.props.children;
