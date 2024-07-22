@@ -139,6 +139,20 @@ describe('Calendar', () => {
     expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
   });
 
+  it('scrollToMonth method scrolls to correct month', async () => {
+    const month = 5;
+    const year = 2024;
+
+    const refCalendar = React.createRef<Calendar>();
+    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+
+    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} onMonthChange={onMonthChange} ref={refCalendar} />);
+
+    refCalendar.current?.scrollToMonth(month, year);
+
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month, year }), { timeout: 5000 });
+  });
+
   describe('a11y', () => {
     it('month selector has correct aria-label attribute (ru)', () => {
       const date = '1.2.2021';
