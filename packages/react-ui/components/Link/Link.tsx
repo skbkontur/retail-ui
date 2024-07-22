@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { ButtonLinkAllowedValues } from '../../typings/button-link';
@@ -21,10 +21,7 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
-interface LinkInnerProps
-  extends Pick<AriaAttributes, 'aria-label'>,
-    CommonProps,
-    Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'onBlur' | 'onFocus'> {
+interface LinkInnerProps extends CommonProps {
   /**
    * Отключенное состояние.
    */
@@ -57,11 +54,6 @@ interface LinkInnerProps
    * Переводит ссылку в состояние загрузки.
    */
   loading?: boolean;
-  /**
-   * HTML-событие `onclick`.
-   */
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-
   /**
    * Обычный объект с переменными темы.
    * Он будет объединён с темой из контекста.
@@ -298,7 +290,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     this.setState({ focusedByTab: false });
   };
 
-  private handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
     // we have to check for 'to' prop in case Root is react-router link
     const to = Object.prototype.hasOwnProperty.call(this.props, 'to');
