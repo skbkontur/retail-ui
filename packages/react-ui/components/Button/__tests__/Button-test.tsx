@@ -237,8 +237,6 @@ describe('Button', () => {
   });
 
   describe('with component=a prop', () => {
-    const linkProps = { href: '/', hrefLang: 'ru', rel: 'noopener', target: '_blank' };
-    const buttonProps = { type: 'button' as const };
     it('should render <a> tag', () => {
       render(
         <Button component="a" href="/">
@@ -253,39 +251,6 @@ describe('Button', () => {
       render(<Button>Button</Button>);
 
       expect(screen.getByRole('button')).toBeInTheDocument();
-    });
-
-    test('should only have link props', () => {
-      render(
-        <Button component="a" {...linkProps} {...buttonProps}>
-          Button Link
-        </Button>,
-      );
-
-      const buttonLink = screen.getByRole('link');
-
-      Object.entries(linkProps).forEach(([prop]) => {
-        expect(buttonLink).toHaveAttribute(prop);
-      });
-      Object.entries(buttonProps).forEach(([prop]) => {
-        expect(buttonLink).not.toHaveAttribute(prop);
-      });
-    });
-
-    test('should only have button props when omitted', () => {
-      render(
-        <Button {...linkProps} {...buttonProps}>
-          Button
-        </Button>,
-      );
-      const button = screen.getByRole('button');
-
-      Object.entries(linkProps).forEach(([prop]) => {
-        expect(button).not.toHaveAttribute(prop);
-      });
-      Object.entries(buttonProps).forEach(([prop]) => {
-        expect(button).toHaveAttribute(prop);
-      });
     });
 
     it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {

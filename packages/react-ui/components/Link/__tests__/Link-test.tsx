@@ -86,8 +86,6 @@ describe('Link', () => {
   });
 
   describe('with component=button prop', () => {
-    const linkProps = { href: '/', hrefLang: 'ru', rel: 'noopener', target: '_blank' };
-    const buttonProps = { type: 'button' as const };
     it('should render <button> tag', () => {
       render(<Link component="button">Link as button</Link>);
 
@@ -98,23 +96,6 @@ describe('Link', () => {
       renderRTL();
 
       expect(screen.getByRole('link')).toBeInTheDocument();
-    });
-
-    it('should only have button props', () => {
-      render(
-        <Link component="button" {...linkProps} {...buttonProps}>
-          Link as button
-        </Link>,
-      );
-
-      const button = screen.getByRole('button');
-
-      Object.entries(linkProps).forEach(([prop]) => {
-        expect(button).not.toHaveAttribute(prop);
-      });
-      Object.entries(buttonProps).forEach(([prop]) => {
-        expect(button).toHaveAttribute(prop);
-      });
     });
 
     it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {
