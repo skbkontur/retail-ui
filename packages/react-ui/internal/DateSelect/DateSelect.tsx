@@ -190,7 +190,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
 
     return (
       <Select
-        data-tid={DateSelectDataTids.caption}
         use="text"
         value={value}
         ref={this.selectRef}

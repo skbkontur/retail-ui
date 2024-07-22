@@ -21,7 +21,7 @@ describe('Calendar', () => {
   it('should pass max and min date to year select', async () => {
     render(<Calendar value="02.06.2017" onValueChange={jest.fn()} minDate="21.02.2017" maxDate="15.07.2020" />);
 
-    await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1].getElementsByTagName('button')[0]);
+    await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015').parentElement).toHaveAttribute('data-prop-disabled', 'true');
     expect(screen.getByText('2018').parentElement).toHaveAttribute('data-prop-disabled', 'false');
   });

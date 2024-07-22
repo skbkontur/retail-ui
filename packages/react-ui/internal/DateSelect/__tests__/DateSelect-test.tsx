@@ -19,7 +19,7 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    await userEvent.click(screen.getByTestId('DateSelect__caption').getElementsByTagName('button')[0]);
+    await userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths.forEach((month) => {
       expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
@@ -36,7 +36,7 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    await userEvent.click(screen.getByTestId('DateSelect__caption').getElementsByTagName('button')[0]);
+    await userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths?.forEach((month) => {
       expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
