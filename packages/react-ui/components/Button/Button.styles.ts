@@ -66,15 +66,12 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:hover:enabled svg,
       &.${globalClasses.customComponent}:hover svg {
         color: ${t.btnIconHoverColor};
       }
-      &:disabled svg,
       &.${globalClasses.customComponent}.${globalClasses.disabled} svg {
         color: ${t.btnIconDisabledColor};
       }
-      &:enabled svg,
       &.${globalClasses.customComponent} svg {
         color: ${t.btnIconColor};
       }
@@ -529,7 +526,6 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnDefaultHoverBg,
@@ -542,7 +538,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.default(t)};
       }
@@ -561,7 +556,6 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnPrimaryHoverBg,
@@ -574,7 +568,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.primary(t)}
       }
@@ -593,7 +586,6 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnSuccessHoverBg,
@@ -606,7 +598,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.success(t)}
       }
@@ -625,7 +616,6 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnDangerHoverBg,
@@ -638,7 +628,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.danger(t)}
       }
@@ -657,7 +646,6 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnPayHoverBg,
@@ -670,7 +658,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.pay(t)}
       }
@@ -690,7 +677,6 @@ export const styles = memoizeStyle({
 
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnTextHoverBg,
@@ -703,7 +689,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.text(t)}
       }
@@ -725,7 +710,6 @@ export const styles = memoizeStyle({
       color: ${t.btnDefaultTextColor};
       background: transparent;
 
-      &:hover:enabled,
       &.${globalClasses.customComponent}:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
@@ -738,7 +722,6 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled,
       &.${globalClasses.customComponent}:active {
         ${activeStyles.backless(t)}
       }
