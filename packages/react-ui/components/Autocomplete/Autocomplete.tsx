@@ -75,9 +75,7 @@ export interface AutocompleteProps
         size?: SizeProp;
         /** value */
         value: string;
-        /**
-         * Текст заголовка выпадающего меню в мобильной версии
-         */
+        /** Текст заголовка выпадающего меню в мобильной версии */
         mobileMenuHeaderText?: string;
       }
     > {}
