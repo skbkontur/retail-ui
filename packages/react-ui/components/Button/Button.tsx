@@ -3,7 +3,7 @@ import { globalObject } from '@skbkontur/global-object';
 import warning from 'warning';
 
 import { ButtonLinkAllowedValues } from '../../typings/button-link';
-import { pick, isKonturIcon, isReactUIComponent } from '../../lib/utils';
+import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -305,7 +305,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       role,
       ...rest
     } = this.props;
-    const { use, type, size } = this.getProps();
+    const { use, size } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
 
@@ -375,12 +375,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       });
     }
 
-    const buttonOnlyProps = {
-      type,
-    };
-
-    const linkOnlyProps = pick(rest, ['href', 'hrefLang', 'rel', 'target']);
-
     const rootProps = {
       role,
       'aria-describedby': ariaDescribedby,
@@ -407,8 +401,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       onClickCapture,
       tabIndex: this.getTabIndex({ disableFocus, disabled: trueDisabled, tabIndex }),
       title: this.props.title,
-      ...(Root === BUTTON_DEFAULT_ELEMENT ? buttonOnlyProps : {}),
-      ...(Root === 'a' ? linkOnlyProps : {}),
     };
 
     const wrapProps = {
@@ -516,7 +508,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
-          <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+          <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} {...rest}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}
