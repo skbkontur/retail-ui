@@ -350,7 +350,6 @@ function foo() {}
    Стоит избегать общих слов, таких как "change". Вместо этого опишите в чем конкретно произошло изменение.
 
    Примеры:
-   - validationsDivWrapper - Поменять обертку span на div c 'display: inline' чтобы соответствовать w3c стандарту в ValidationContainer, ValidationWrapper и ValidationText
    - tokenInputRemoveWhitespaceFromDefaultDelimiters - В TokenInput изменили разделитель по умолчанию
 
 2) Добавьте флаг в ReactUIFeatureFlags в файл ReactUIFeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md

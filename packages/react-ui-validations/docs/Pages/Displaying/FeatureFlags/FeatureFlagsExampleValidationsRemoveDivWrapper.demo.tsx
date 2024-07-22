@@ -1,12 +1,7 @@
 import React from 'react';
 import { Button, Checkbox } from '@skbkontur/react-ui';
 
-import {
-  ValidationContainer,
-  ValidationInfo,
-  ValidationWrapper,
-  ValidationsFeatureFlagsContext,
-} from '../../../../src';
+import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 
 interface CheckboxState {
@@ -31,21 +26,17 @@ export default class FeatureFlagsExampleValidationsWrapperAndContainerDivWrapper
 
   render() {
     return (
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validateSex()}>
-            <Checkbox
-              checked={this.state.checked ? this.state.checked : false}
-              onValueChange={(v) => this.setState({ checked: v })}
-            >
-              Checkbox
-            </Checkbox>
-          </ValidationWrapper>
-          <Button onClick={() => this.container && this.container.validate()}>
-            Check
-          </Button>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
+      <ValidationContainer ref={this.refContainer}>
+        <ValidationWrapper validationInfo={this.validateSex()}>
+          <Checkbox
+            checked={this.state.checked}
+            onValueChange={(v) => this.setState({ checked: v })}
+          >
+            Checkbox
+          </Checkbox>
+        </ValidationWrapper>
+        <Button onClick={() => this.container && this.container.validate()}>Check</Button>
+      </ValidationContainer>
     );
   }
 }

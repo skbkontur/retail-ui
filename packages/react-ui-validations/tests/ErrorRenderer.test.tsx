@@ -37,35 +37,4 @@ describe('ErrorRenderer', () => {
 
     expect(screen.getByTestId(dataTid)).toBeInTheDocument();
   });
-
-  /*
-  // закомментировала тесты, так как мы не можем сейчас проверять, что ошибка не рендерится, так как сейчас,
-   когда она отсутствует, то место, где она должна была быть, не оборачивается в элемент с тултипом, по которому должен здесь идти поиск.
-
-  it('should not render text error message when validationInfo is not provided', () => {
-    const dataTid = 'data-tid';
-    render(
-      <ValidationWrapper data-tid={dataTid} validationInfo={null} renderMessage={text('right')}>
-        <Input />
-      </ValidationWrapper>,
-    );
-
-    userEvent.click(screen.getByRole('textbox'));
-
-    expect(screen.getByTestId(dataTid)).toBeEmptyDOMElement();
-  });
-
-  it('should not render tooltip error message when validationInfo is not provided', () => {
-    const dataTid = 'data-tid';
-    render(
-      <ValidationWrapper data-tid={dataTid} validationInfo={null} renderMessage={tooltip('left bottom')}>
-        <Input />
-      </ValidationWrapper>,
-    );
-
-    userEvent.click(screen.getByRole('textbox'));
-
-    expect(screen.queryByTestId(dataTid)).not.toBeInTheDocument();
-  });
-  */
 });

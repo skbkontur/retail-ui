@@ -5,15 +5,7 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
 
-import {
-  text,
-  tooltip,
-  ValidationBehaviour,
-  ValidationContainer,
-  ValidationInfo,
-  ValidationsFeatureFlagsContext,
-  ValidationWrapper,
-} from '../src';
+import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 export default {
@@ -179,23 +171,21 @@ export const Example_6 = () => {
 
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
-        <ValidationContainer ref={refContainer}>
-          <div style={{ padding: 50, height: 200, position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 100 }}>
-              <ValidationWrapper validationInfo={validateValue1()}>
-                <Input value={value1} onValueChange={setValue1} />
-              </ValidationWrapper>
-            </div>
-            <div style={{ position: 'absolute', top: 20 }}>
-              <ValidationWrapper validationInfo={validateValue2()}>
-                <Input value={value2} onValueChange={setValue2} />
-              </ValidationWrapper>
-            </div>
+      <ValidationContainer ref={refContainer}>
+        <div style={{ padding: 50, height: 200, position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 100 }}>
+            <ValidationWrapper validationInfo={validateValue1()}>
+              <Input value={value1} onValueChange={setValue1} />
+            </ValidationWrapper>
           </div>
-          <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
+          <div style={{ position: 'absolute', top: 20 }}>
+            <ValidationWrapper validationInfo={validateValue2()}>
+              <Input value={value2} onValueChange={setValue2} />
+            </ValidationWrapper>
+          </div>
+        </div>
+        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
+      </ValidationContainer>
     </div>
   );
 };
@@ -385,21 +375,19 @@ export const Example_11 = () => {
         refContainer.current?.submit();
       }}
     >
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
-        <ValidationContainer ref={refContainer}>
-          <ValidationWrapper
-            renderMessage={tooltip('left middle')}
-            validationInfo={{ message: 'Ошибка!', type: 'submit' }}
-          >
-            <Input width="100%" placeholder={'Валидация'} />
-          </ValidationWrapper>
-          <br />
-          <br />
-          <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
-            <Input width="100%" placeholder={'Валидация'} />
-          </ValidationWrapper>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper
+          renderMessage={tooltip('left middle')}
+          validationInfo={{ message: 'Ошибка!', type: 'submit' }}
+        >
+          <Input width="100%" placeholder={'Валидация'} />
+        </ValidationWrapper>
+        <br />
+        <br />
+        <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
+          <Input width="100%" placeholder={'Валидация'} />
+        </ValidationWrapper>
+      </ValidationContainer>
       <br />
       <br />
       <br />

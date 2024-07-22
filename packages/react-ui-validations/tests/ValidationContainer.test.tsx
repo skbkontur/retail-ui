@@ -12,14 +12,7 @@ import {
   TokenInputType,
 } from '@skbkontur/react-ui';
 
-import {
-  FocusMode,
-  ValidationContainer,
-  ValidationContainerProps,
-  ValidationInfo,
-  ValidationsFeatureFlagsContext,
-  ValidationWrapper,
-} from '../src';
+import { FocusMode, ValidationContainer, ValidationContainerProps, ValidationInfo, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
 
 describe('ValidationContainer', () => {
@@ -28,18 +21,6 @@ describe('ValidationContainer', () => {
       <ValidationContainer data-tid="passed-container">
         <div />
       </ValidationContainer>,
-    );
-
-    expect(screen.getByTestId('passed-container')).toBeInTheDocument();
-  });
-
-  it('renders passed data-tid on container when validationsDivWrapper enabled', () => {
-    render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
-        <ValidationContainer data-tid="passed-container">
-          <div />
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>,
     );
 
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
