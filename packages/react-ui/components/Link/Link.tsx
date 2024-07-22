@@ -180,7 +180,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       focused = false,
       error,
       warning,
-      type,
       tabIndex,
       ...rest
     } = props;
