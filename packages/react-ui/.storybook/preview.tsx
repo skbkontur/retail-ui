@@ -14,7 +14,7 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
-import {LocaleDecorator, toolbarItems} from "./decorators/Locale/LocaleDecorator";
+import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
 // import { addons } from '@storybook/addons';
 // import { LIVE_EXAMPLES_ADDON_ID } from 'storybook-addon-live-examples';
 // import { Button } from '../components/Button';
@@ -58,7 +58,7 @@ const themes = {
   FLAT_THEME_8PX_OLD,
   DEFAULT_THEME_MOBILE,
   THEME_2022,
-  THEME_2022_DARK
+  THEME_2022_DARK,
 };
 
 setFilter((fiber) => {
@@ -180,7 +180,7 @@ export const globalTypes = {
       icon: 'globe',
       items: Object.keys(toolbarItems),
       showName: true,
-      // dynamicTitle: true,
+      dynamicTitle: true,
     },
   },
 };
