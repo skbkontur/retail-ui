@@ -136,38 +136,6 @@ export const styles = memoizeStyle({
       position: absolute;
       opacity: 0;
 
-      &:focus {
-        outline: none;
-      }
-      &:checked ~ .${globalClasses.container} {
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
-        background: ${t.toggleBgChecked};
-        transition: background 0s 0.2s;
-      }
-      &:checked ~ .${globalClasses.containerDisabled} {
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColorDisabledChecked};
-        background: ${t.toggleBgDisabledChecked};
-        transition: background 0s 0.2s;
-      }
-      &:checked ~ .${globalClasses.containerLoading} {
-        background: ${t.toggleBorderColor};
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-      }
-      &:checked ~ .${globalClasses.container} .${globalClasses.background} {
-        width: 70%;
-        background: ${t.toggleBgChecked};
-      }
-      &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
-        width: 70%;
-        background: ${t.toggleBgDisabledChecked};
-        box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
-      }
-      &:checked ~ .${globalClasses.handle} {
-        background: ${t.toggleCheckedBg};
-        &:hover {
-          background: ${t.toggleCheckedBgHover};
-        }
-      }
       &:enabled {
         ~ .${globalClasses.container}, ~ .${globalClasses.handle} {
           transition: 0.2s ease-in;
