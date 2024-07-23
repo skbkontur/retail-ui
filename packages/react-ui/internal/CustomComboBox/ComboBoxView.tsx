@@ -29,14 +29,7 @@ import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
-export const ComboBoxViewMenuPositions = [
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'top left',
-  'top center',
-  'top right',
-] as const;
+export const ComboBoxViewMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'] as const;
 
 export type ComboBoxViewMenuPositionsType = (typeof ComboBoxViewMenuPositions)[number];
 

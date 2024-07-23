@@ -44,14 +44,7 @@ function renderItem(item: any) {
   return item;
 }
 
-export const AutocompleteMenuPositions = [
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'top left',
-  'top center',
-  'top right',
-] as const;
+export const AutocompleteMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'] as const;
 
 export type AutocompleteMenuPositionsType = (typeof AutocompleteMenuPositions)[number];
 

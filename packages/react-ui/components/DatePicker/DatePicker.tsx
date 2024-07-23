@@ -42,14 +42,7 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-export const DatePickerMenuPositions = [
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'top left',
-  'top center',
-  'top right',
-] as const;
+export const DatePickerMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'] as const;
 
 export type DatePickerMenuPositionsType = (typeof DatePickerMenuPositions)[number];
 
