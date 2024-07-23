@@ -2,7 +2,6 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import {
-  activeHandleSizeMixin,
   buttonSizeMixin,
   captionSizeMixin,
   containerSizeMixin,
@@ -55,37 +54,6 @@ export const styles = memoizeStyle({
   rootLarge(t: Theme) {
     return css`
       ${toggleSizeMixin(t.toggleFontSizeLarge, t.toggleHeightLarge, t.toggleWidthLarge)};
-    `;
-  },
-
-  activeHandleSmall(t: Theme) {
-    return css`
-      ${activeHandleSizeMixin(
-        t.toggleHandleSizeSmall,
-        t.toggleBorderWidth,
-        t.toggleHandleActiveWidthIncrement,
-        t.toggleWidthSmall,
-      )};
-    `;
-  },
-  activeHandleMedium(t: Theme) {
-    return css`
-      ${activeHandleSizeMixin(
-        t.toggleHandleSizeMedium,
-        t.toggleBorderWidth,
-        t.toggleHandleActiveWidthIncrement,
-        t.toggleWidthMedium,
-      )};
-    `;
-  },
-  activeHandleLarge(t: Theme) {
-    return css`
-      ${activeHandleSizeMixin(
-        t.toggleHandleSizeLarge,
-        t.toggleBorderWidth,
-        t.toggleHandleActiveWidthIncrement,
-        t.toggleWidthLarge,
-      )};
     `;
   },
 
