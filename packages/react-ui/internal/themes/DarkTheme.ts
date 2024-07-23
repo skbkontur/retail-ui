@@ -171,7 +171,6 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region DatePicker
   public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.08)';
-  public static pickerTodayWrapperBorderTop = '1px solid rgba(255, 255, 255, 0.08)';
   //#endregion
   //#region DateInput
   public static dateInputComponentSelectedBgColor = '#1c7edf';
