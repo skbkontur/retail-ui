@@ -635,37 +635,6 @@ export const styles = memoizeStyle({
   checked(t: Theme) {
     const checkedStyles = `
       background-image: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor};
-      background-color: ${t.btnCheckedBg};
-      color: ${t.btnCheckedTextColor};
-
-      .${globalClasses.innerShadow} {
-        box-shadow: ${t.btnCheckedShadow};
-      }
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${t.btnArrowBgImageChecked};
-        }
-      }
-    `;
-
-    return css`
-      ${checkedStyles}
-
-      &:hover:enabled,
-      &:active:enabled,
-      &:hover:active:enabled {
-        ${checkedStyles}
-      }
-    `;
-  },
-
-  checked2022(t: Theme) {
-    const checkedStyles = `
-      background-image: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
       background-color: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
