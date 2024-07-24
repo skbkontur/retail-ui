@@ -6,8 +6,6 @@ import { Meta } from '@storybook/react';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
@@ -33,11 +31,9 @@ const customViewports = {
 };
 
 const themes = {
-  DEFAULT_THEME,
-  DARK_THEME,
-  DEFAULT_THEME_MOBILE,
   THEME_2022,
   THEME_2022_DARK,
+  DEFAULT_THEME_MOBILE,
 };
 
 setFilter((fiber) => {
@@ -57,15 +53,14 @@ const MOBILE_REGEXP = /Mobile.*/i;
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
-    const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
-
-    if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
+    const storybookTheme = themes[context.globals.theme] || THEME_2022;
+    if ([THEME_2022_DARK].includes(storybookTheme)) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
 
-    if (storybookTheme !== DEFAULT_THEME) {
+    if (storybookTheme !== THEME_2022) {
       return (
         <ThemeContext.Consumer>
           {(theme) => {
