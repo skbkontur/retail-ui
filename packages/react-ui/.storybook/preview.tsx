@@ -15,7 +15,7 @@ import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import FeatureFlagsDecorator from "./decorators/Features/FeatureFlagsDecorator";
-import { featureFlagsConfig } from "./featureFlags/featureFlags";
+import { featureFlagsConfig } from "./featureFlagsConfig/featureFlagsConfig";
 // import { addons } from '@storybook/addons';
 // import { LIVE_EXAMPLES_ADDON_ID } from 'storybook-addon-live-examples';
 // import { Button } from '../components/Button';
