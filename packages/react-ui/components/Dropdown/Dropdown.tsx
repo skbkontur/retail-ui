@@ -36,14 +36,7 @@ const PASS_PROPS = {
   'aria-describedby': true,
 };
 
-export const DropdownMenuPositions = [
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'top left',
-  'top center',
-  'top right',
-] as const;
+export const DropdownMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'] as const;
 
 export type DropdownMenuPositionsType = (typeof DropdownMenuPositions)[number];
 

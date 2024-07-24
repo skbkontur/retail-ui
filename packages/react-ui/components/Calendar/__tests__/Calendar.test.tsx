@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
@@ -91,16 +91,20 @@ describe('Calendar', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
-      }),
-    );
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
-      }),
-    );
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
+        }),
+      );
+    });
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
+        }),
+      );
+    });
 
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 5000 });
   });

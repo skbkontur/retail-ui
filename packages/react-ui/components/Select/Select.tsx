@@ -77,7 +77,7 @@ export const SelectIds = {
   menu: SelectDataTids.menu,
 } as const;
 
-const SelectMenuPositions = ['bottom left', 'bottom center', 'bottom right', 'top left', 'top center', 'top right'];
+const SelectMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'];
 
 export type SelectMenuPositionsType = (typeof SelectMenuPositions)[number] | 'middle left';
 
