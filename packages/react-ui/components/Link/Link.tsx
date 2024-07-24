@@ -201,7 +201,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
 
     const linkOnlyProps = {
       href: href || '',
-      rel: this.getRel({ href, rel }),
     };
 
     const outlineNode = (
@@ -231,6 +230,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       tabIndex: this.getTabIndex({ nonInteractive, tabIndex }),
+      rel: this.getRel({ href, rel }),
       ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
     };
 
