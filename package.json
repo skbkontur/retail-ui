@@ -26,8 +26,7 @@
     "release:next:prerelease": "env-cmd lerna version prerelease --preid next --no-changelog --ignore-changes='!packages/react-ui/**'",
     "release:next:preminor": "env-cmd lerna version preminor --preid next --no-changelog  --ignore-changes='!packages/react-ui/**'",
     "prepare": "husky install",
-    "preinstall": "node scripts/update-package-registry",
-    "postinstall": "node scripts/update-package-registry back"
+    "deps": "node scripts/deps"
   },
   "config": {
     "commitizen": {
