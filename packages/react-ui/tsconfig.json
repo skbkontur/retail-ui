@@ -4,6 +4,9 @@
     "types": ["jest", "@testing-library/jest-dom"],
     "isolatedModules": true,
     "importHelpers": false,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "typeRoots": ["./node_modules/@types", "./typings"],
   }
 }
+
+//"typeRoots": ["./node_modules/@types", "./typings"]
