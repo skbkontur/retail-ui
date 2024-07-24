@@ -13,7 +13,7 @@ function getLiteralValue(attribute: null | JSXAttribute) {
   }
 
   if (value.type === 'Literal') {
-    return value.value;
+    return typeof value.value === 'string' ? value.value : null;
   }
 
   return null;
@@ -28,6 +28,18 @@ export default function (file: FileInfo, api: API) {
     modifyComponent,
   );
 
+  function getMenuPositions(menuPos: null | string, menuAlign: null | string) {
+    if (menuAlign === null) {
+      return menuPos === null ? ['top left', 'bottom left'] : [`${menuPos} left`]
+    }
+
+    if (menuPos === null) {
+      return [`top ${menuAlign}`, `bottom ${menuAlign}`]
+    }
+
+    return [`${menuPos} ${menuAlign}`]
+  }
+
   function getMenuPositionsAttribute(menuPos: null | JSXAttribute, menuAlign: null | JSXAttribute) {
     const attribute = menuPos ?? menuAlign;
     const value = attribute?.value;
@@ -37,13 +49,13 @@ export default function (file: FileInfo, api: API) {
     }
 
     const newValue = j.jsxExpressionContainer(value);
-    const verticalPosition = getLiteralValue(menuPos) ?? 'bottom';
-    const horizontalPosition = getLiteralValue(menuAlign) ?? 'left';
-    const menuPosition = `${verticalPosition} ${horizontalPosition}`;
+    const verticalPosition = getLiteralValue(menuPos);
+    const horizontalPosition = getLiteralValue(menuAlign);
+    const menuPositions = getMenuPositions(verticalPosition, horizontalPosition)
 
     attribute.value = newValue;
     attribute.name.name = 'menuPositions';
-    newValue.expression = j.arrayExpression([j.literal(menuPosition)]);
+    newValue.expression = j.arrayExpression(menuPositions.map(j.literal));
 
     return attribute;
   }

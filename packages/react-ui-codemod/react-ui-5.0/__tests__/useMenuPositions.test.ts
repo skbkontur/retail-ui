@@ -24,6 +24,7 @@ defineInlineTest(
       <div>
         <${name} menuPos="top" menuAlign="left" />
         <${name} menuAlign="left" />
+        <${name} menuAlign="right" />
         <${name} menuPos="top" />
       </div>
     `,
@@ -36,7 +37,8 @@ defineInlineTest(
         (name) => `
       <div>
         <${name} menuPositions={["top left"]} />
-        <${name} menuPositions={["bottom left"]} />
+        <${name} menuPositions={["top left", "bottom left"]} />
+        <${name} menuPositions={["top right", "bottom right"]} />
         <${name} menuPositions={["top left"]} />
       </div>
     `,
