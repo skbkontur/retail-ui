@@ -282,14 +282,26 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     this.setState({ focusedByTab: false });
   };
 
-  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { onClick, disabled, loading, href } = this.props as LinkProps<'a'>;
-    // we have to check for 'to' prop in case Root is react-router link
-    const to = Object.prototype.hasOwnProperty.call(this.props, 'to');
-    const destination = href || to;
+  private hasLocationProps = () => {
+    // we have to check for 'href' and 'to' props in case Root is anchor or react-router link
+    return Boolean(
+      Object.prototype.hasOwnProperty.call(this.props, 'href') ||
+        Object.prototype.hasOwnProperty.call(this.props, 'to'),
+    );
+  };
 
-    if (!destination) {
-      event.preventDefault();
+  private isRootElementAnchor = () => {
+    const { component, as } = this.props;
+    const Root = component || as;
+    return Root === 'a';
+  };
+
+  private handleClick = (event: React.MouseEvent) => {
+    const { onClick, disabled, loading } = this.props;
+
+    const location = this.hasLocationProps();
+    if (!location) {
+      this.isRootElementAnchor() && event.preventDefault();
     }
     if (onClick && !disabled && !loading) {
       onClick(event);
