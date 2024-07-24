@@ -1,4 +1,4 @@
-import { AddonConfig } from 'storybook-addon-multiselect';
+import { AddonConfig } from '../../typings/storybookAddonMultiple';
 
 const featureFlags = [
   {

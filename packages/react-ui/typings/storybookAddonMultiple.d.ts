@@ -1,7 +1,6 @@
-declare module 'storybook-addon-multiselect' {
-
-  import { ReactNode } from 'react'
-  import { API } from '@storybook/manager-api'
+// нужно для типизации конфига при использовании аддона storybook-addon-multiselect, при импорте библиотеки появляется ошибка ts.
+import { ReactNode } from 'react'
+import { API } from '@storybook/manager-api'
 
   export type AddonConfig = AddonDisabled | Addon
 
@@ -58,6 +57,3 @@ declare module 'storybook-addon-multiselect' {
     right?: ReactNode
     icon?: ReactNode
   }
-
-  export type GenericValue = { [key: string]: string | string[] | undefined }
-}
