@@ -118,11 +118,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
     disabled: PropTypes.bool,
 
-    /**
-     * Включает кнопку сегодня в календаре
-     */
-    enableTodayLink: PropTypes.bool,
-
     error: PropTypes.bool,
 
     /**
