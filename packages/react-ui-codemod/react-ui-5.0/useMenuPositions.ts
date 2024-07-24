@@ -30,14 +30,14 @@ export default function (file: FileInfo, api: API) {
 
   function getMenuPositions(menuPos: null | string, menuAlign: null | string) {
     if (menuAlign === null) {
-      return menuPos === null ? ['top left', 'bottom left'] : [`${menuPos} left`]
+      return menuPos === null ? ['top left', 'bottom left'] : [`${menuPos} left`];
     }
 
     if (menuPos === null) {
-      return [`top ${menuAlign}`, `bottom ${menuAlign}`]
+      return [`top ${menuAlign}`, `bottom ${menuAlign}`];
     }
 
-    return [`${menuPos} ${menuAlign}`]
+    return [`${menuPos} ${menuAlign}`];
   }
 
   function getMenuPositionsAttribute(menuPos: null | JSXAttribute, menuAlign: null | JSXAttribute) {
@@ -51,7 +51,7 @@ export default function (file: FileInfo, api: API) {
     const newValue = j.jsxExpressionContainer(value);
     const verticalPosition = getLiteralValue(menuPos);
     const horizontalPosition = getLiteralValue(menuAlign);
-    const menuPositions = getMenuPositions(verticalPosition, horizontalPosition)
+    const menuPositions = getMenuPositions(verticalPosition, horizontalPosition);
 
     attribute.value = newValue;
     attribute.name.name = 'menuPositions';
