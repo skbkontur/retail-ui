@@ -32,7 +32,9 @@
     "test:pack": "tsc -p check-dts.tsconfig.json && jest --testMatch ** --testPathPattern=\\\"scripts/check-pack-files.js\\\"",
     "creevey": "wait-on -t 300000 http-get://localhost:8081/ && creevey -c .creevey/config.js",
     "creevey:update": "creevey -c .creevey/config.js --update",
-    "creevey:ui": "yarn creevey --ui"
+    "creevey:ui": "yarn creevey --ui",
+    "cspell-lint": "cspell ** --cache --show-suggestions --no-progress",
+    "cspell-sort": "cross-env LC_ALL=C sort -f -u cspell_custom_words.txt -o cspell_custom_words.txt"
   },
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -63,6 +65,7 @@
     "@babel/plugin-transform-runtime": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
+    "@cspell/dict-ru_ru": "^2.2.1",
     "@hot-loader/react-dom": "^17.0.1",
     "@rollup/plugin-commonjs": "21.0.1",
     "@rollup/plugin-node-resolve": "13.1.1",
@@ -88,6 +91,7 @@
     "core-js": "^3.9.1",
     "creevey": "0.8.2-fix-wait.2",
     "cross-env": "^7.0.3",
+    "cspell": "^8.8.1",
     "css-loader": "^5.2.7",
     "dts-bundle": "^0.7.3",
     "file-loader": "^6.2.0",
