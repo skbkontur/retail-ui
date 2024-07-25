@@ -203,7 +203,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
   };
 
   private theme!: Theme;
-  private node: HTMLButtonElement | null = null;
+  private node: HTMLElement | null = null;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -565,7 +565,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
     }
   }
 
-  private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+  private handleFocus = (e: React.FocusEvent) => {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -578,14 +578,14 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
     }
   };
 
-  private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+  private handleBlur = (e: React.FocusEvent) => {
     this.setState({ focusedByTab: false });
     if (!this.props.disabled && !this.props.disableFocus) {
       this.props.onBlur?.(e);
     }
   };
 
-  private _ref = (node: HTMLButtonElement | null) => {
+  private _ref = (node: HTMLElement | null) => {
     this.node = node;
   };
 }
