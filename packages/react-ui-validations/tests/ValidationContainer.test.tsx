@@ -33,9 +33,9 @@ describe('ValidationContainer', () => {
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
   });
 
-  it('renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
+  it('renders passed data-tid on container when validationsDivWrapper enabled', () => {
     render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
         <ValidationContainer data-tid="passed-container">
           <div />
         </ValidationContainer>
@@ -45,9 +45,9 @@ describe('ValidationContainer', () => {
     expect(screen.getByTestId('passed-container')).toBeInTheDocument();
   });
 
-  it('not renders passed data-tid on container when validationsRemoveExtraSpans enabled', () => {
+  it('renders passed data-tid on container when validationsDivWrapper enabled', () => {
     render(
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationsDivWrapper: true }}>
         <ValidationContainer data-tid="passed-container">
           <div />
           <div />
@@ -55,7 +55,7 @@ describe('ValidationContainer', () => {
       </ValidationsFeatureFlagsContext.Provider>,
     );
 
-    expect(screen.queryByTestId('passed-container')).toBeNull();
+    expect(screen.queryByTestId('passed-container')).toBeInTheDocument();
   });
 
   it('renders passed children', () => {
@@ -188,7 +188,7 @@ describe('ValidationContainer', () => {
             <ValidationWrapper validationInfo={validate(value1)}>
               <Input value={value1} onValueChange={setValue1} />
             </ValidationWrapper>
-            <button onClick={() => setValue1('good')}>Repair</button>
+            <Button onClick={() => setValue1('good')}>Repair</Button>
           </>
         );
       };
@@ -196,7 +196,8 @@ describe('ValidationContainer', () => {
       const onValidationUpdated = jest.fn();
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
       await containerRef.current?.submit();
-      expect(onValidationUpdated).toBeCalledWith(false);
+      const errors = await screen.findAllByText('Ошибка');
+      expect(errors.length).toBe(1);
 
       screen.getByRole('button', { name: 'Repair' }).click();
       expect(onValidationUpdated).toBeCalledWith(true);
@@ -216,15 +217,15 @@ describe('ValidationContainer', () => {
             <ValidationWrapper validationInfo={validate(value2)}>
               <Input value={value2} onValueChange={setValue2} />
             </ValidationWrapper>
-            <button onClick={() => setValue1('good')}>Partial Repair</button>
-            <button
+            <Button onClick={() => setValue1('good')}>Partial Repair</Button>
+            <Button
               onClick={() => {
                 setValue1('good');
                 setValue2('good');
               }}
             >
               Repair
-            </button>
+            </Button>
             <Button onClick={() => validationContainerRef.current?.submit()}>Submit</Button>
           </>
         );
@@ -234,7 +235,8 @@ describe('ValidationContainer', () => {
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
       await containerRef.current?.submit();
 
-      expect(onValidationUpdated).toBeCalledWith(false);
+      const errors = await screen.findAllByText('Ошибка');
+      expect(errors.length).toBe(1);
 
       screen.getByRole('button', { name: 'Partial Repair' }).click();
       expect(onValidationUpdated).toBeCalledWith(false);
