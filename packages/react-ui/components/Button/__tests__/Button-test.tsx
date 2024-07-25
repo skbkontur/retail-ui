@@ -19,7 +19,7 @@ describe('Button', () => {
     });
   });
 
-  it('handels click event', async () => {
+  it('handles click event', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
@@ -28,7 +28,7 @@ describe('Button', () => {
     expect(onClick.mock.calls).toHaveLength(1);
   });
 
-  it('handels onBlur event', () => {
+  it('handles onBlur event', () => {
     const onBlur = jest.fn();
     render(<Button onBlur={onBlur} />);
 
@@ -38,7 +38,7 @@ describe('Button', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', () => {
+  it('handles onFocus event', () => {
     const onFocus = jest.fn();
     render(<Button onFocus={onFocus} />);
 
@@ -47,7 +47,7 @@ describe('Button', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', () => {
+  it('handles onKeyDown event', () => {
     const onKeyDown = jest.fn();
     render(<Button onKeyDown={onKeyDown} />);
 
@@ -56,7 +56,7 @@ describe('Button', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseEnter event', () => {
+  it('handles onMouseEnter event', () => {
     const onMouseEnter = jest.fn();
     render(<Button onMouseEnter={onMouseEnter} />);
 
@@ -65,7 +65,7 @@ describe('Button', () => {
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseOver event', () => {
+  it('handles onMouseOver event', () => {
     const onMouseOver = jest.fn();
     render(<Button onMouseOver={onMouseOver} />);
 
@@ -73,7 +73,7 @@ describe('Button', () => {
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', () => {
+  it('handles onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
     render(<Button onMouseLeave={onMouseLeave} />);
 
@@ -207,6 +207,23 @@ describe('Button', () => {
     );
 
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
+  });
+
+  it(`className prop shouldn't override value on root`, () => {
+    const props = { className: '' };
+    render(<Button {...props}>Button</Button>);
+
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveClass('', { exact: true });
+  });
+
+  it(`data-tid prop shouldn't override value on root`, () => {
+    const props = { 'data-tid': 'foo' };
+
+    render(<Button {...props}>Button</Button>);
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('data-tid', ButtonDataTids.root);
   });
 
   describe('with use=link prop', () => {
