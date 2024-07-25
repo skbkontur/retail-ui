@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('CurrencyInput', () => {
+kind('Input elements/CurrencyInput', () => {
   story('SampleStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

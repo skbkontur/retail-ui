@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('FxInput', () => {
+kind('Input elements/FxInput', () => {
   story('WithWidthStory', () => {
     test('inside auto container', async function () {
       const element = await this.browser.findElement({ css: '[data-tid="container"]' });

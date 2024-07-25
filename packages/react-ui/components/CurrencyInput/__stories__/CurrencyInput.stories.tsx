@@ -158,10 +158,6 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
   };
 }
 
-// export default {
-//   title: 'Input elements/CurrencyInput',
-//   component: CurrencyInput,
-// } as Meta;
 export default {
   title: 'Input elements/CurrencyInput',
   component: MenuItem,

@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Switcher', () => {
+kind('Choose/Switcher', () => {
   story('Horizontal', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

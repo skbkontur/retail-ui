@@ -68,7 +68,7 @@ const testMaskedInput = () => {
   });
 };
 
-kind('Input', () => {
+kind('Input elements/Input', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },

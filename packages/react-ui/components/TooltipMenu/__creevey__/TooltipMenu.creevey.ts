@@ -16,7 +16,7 @@ const textAlignmentTests = () => {
   });
 };
 
-kind('TooltipMenu', () => {
+kind('Menu/TooltipMenu', () => {
   story('SimpleExample', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

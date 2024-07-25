@@ -21,6 +21,13 @@ export default {
   argTypes: {
     size: { control: 'radio' },
   },
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
 } as Meta;
 
 type ButtonState = Partial<ButtonProps>;

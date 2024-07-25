@@ -2,13 +2,19 @@ import React from 'react';
 
 import { Meta } from '../../../typings/stories';
 import { ResponsiveLayout } from '../ResponsiveLayout';
-import { MenuSeparator } from '../../MenuSeparator';
 
 export default {
   title: 'Layout/ResponsiveLayout',
   component: ResponsiveLayout,
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
 } as Meta;
 
-export const DefaultResponsiveLayout = () => {
-  return <MenuSeparator />;
+export const Default = () => {
+  return <div />;
 };

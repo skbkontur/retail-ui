@@ -58,7 +58,7 @@ const buttonTests = () => {
   });
 };
 
-kind('Button', () => {
+kind('Action/Button', () => {
   story('PlaygroundDefault', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

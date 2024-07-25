@@ -78,7 +78,7 @@ const navigateInNestedMenuItems = () => {
   });
 };
 
-kind('DropdownMenu', () => {
+kind('Menu/DropdownMenu', () => {
   story('SimpleExample', () => {
     test('plain', async function () {
       await delay(1000);

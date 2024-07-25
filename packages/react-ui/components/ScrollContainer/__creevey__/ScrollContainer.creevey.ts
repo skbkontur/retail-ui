@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('ScrollContainer', () => {
+kind('Layout/ScrollContainer', () => {
   story('WithDynamicContent', ({ setStoryParameters }) => {
     setStoryParameters({ captureElement: '#test-container' });
 

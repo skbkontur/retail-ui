@@ -14,7 +14,7 @@ const simpleTests = () => {
   });
 };
 
-kind('SidePage', () => {
+kind('Overlays/SidePage', () => {
   story('SidePageOverAnotherSidePageStory', () => {
     test('open internal side-page', async function () {
       await this.browser

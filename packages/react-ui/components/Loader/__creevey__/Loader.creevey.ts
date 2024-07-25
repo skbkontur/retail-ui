@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Loader', () => {
+kind('Action/Loader', () => {
   story('ActiveLoader', () => {
     test('covers children', async function () {
       const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });

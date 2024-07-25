@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Dropdown', () => {
+kind('Menu/Dropdown', () => {
   story('SimpleDropdown', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
