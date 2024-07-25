@@ -45,8 +45,8 @@ kind('Overlays/SidePage', () => {
     });
   });
 
-  story('StickySidePageHeaderWhenAnotherSidePageStory', () => {
-    test('sticky header, open and close internal side-page', async function () {
+  story('StickyHeaderWhenAnotherSidePageStory', () => {
+    test('sticky header, open and close internal sidepage', async function () {
       await this.browser
         .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
@@ -67,7 +67,7 @@ kind('Overlays/SidePage', () => {
         .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-        'sticky header, open and close internal side-page',
+        'sticky header, open and close internal sidepage',
       );
     });
   });
