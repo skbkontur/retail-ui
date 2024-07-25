@@ -296,6 +296,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       children,
       tabIndex,
       component = BUTTON_DEFAULT_ELEMENT,
+      className,
       'aria-describedby': ariaDescribedby,
       'aria-haspopup': ariaHasPopup,
       'aria-controls': ariaControls,
