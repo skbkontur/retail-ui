@@ -180,7 +180,7 @@ class SidePageWithScrollableContent extends React.Component {
   public render() {
     return (
       <div style={{ width: '300px' }}>
-        <Sample total={1} current={1} ignoreBackgroundClick withContent />
+        <Sample total={1} current={1} ignoreBackgroundClick withContent blockBackground />
         {textSample}
         {textSample}
       </div>
