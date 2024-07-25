@@ -259,4 +259,23 @@ describe('Validator', () => {
     expect(itemRule).toHaveBeenNthCalledWith(2, 'yyy', 1, ['xxx', 'yyy', 'zzz']);
     expect(itemRule).toHaveBeenNthCalledWith(3, 'zzz', 2, ['xxx', 'yyy', 'zzz']);
   });
+
+  it('should not appear compile error', () => {
+    interface TypeWithOptionalProps {
+      innerOptionalField?: string;
+    }
+
+    const validator = createValidator<{ optionalField?: TypeWithOptionalProps }>((b) => {
+      b.prop(
+        (x) => x.optionalField,
+        (optionalFieldBuilder) => {
+          optionalFieldBuilder.prop(
+            (optionalField) => optionalField.innerOptionalField,
+            (prop) => prop.invalid((v) => !v, '123', 'lostfocus'),
+          );
+        },
+      );
+    });
+    expect(validator).not.toBe(null);
+  });
 });

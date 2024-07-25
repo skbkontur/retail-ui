@@ -60,15 +60,15 @@ import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 
 ```jsx harmony
 <div
-    style={{
-      display: "flex",
-      alignItems: "end",
-      gap: '10px',
-    }}
-  >
-    <Button size="small">Маленькая</Button>
-    <Button size="medium">Средняя</Button>
-    <Button size="large">Большая</Button>
+  style={{
+    display: "flex",
+    alignItems: "end",
+    gap: '10px',
+  }}
+>
+  <Button size="small">Маленькая</Button>
+  <Button size="medium">Средняя</Button>
+  <Button size="large">Большая</Button>
 </div>
 ```
 
@@ -133,7 +133,7 @@ const handleClick = () => {
 
 ```
 
-Пример кнопки с пропом `theme`
+Пример кнопки с пропом `theme`.
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
@@ -146,7 +146,7 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 ```
 
 
-Пример кастомизации кнопки-ссылки
+Пример кастомизации кнопки-ссылки.
 
 ```jsx harmony
 import { Toast } from "@skbkontur/react-ui";
@@ -221,4 +221,31 @@ const renderExampleRow = (title, styles, index) => {
 import { Button } from '@skbkontur/react-ui';
 
 <Button component='a' href='/'>Ссылка, но выглядит как кнопка</Button>
+```
+
+
+Кнопка может быть узкой.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button narrow>
+  Создать отчет
+</Button>
+```
+
+
+У кнопки есть состояния валидации.
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+<Gapped gap={5}>
+  <Button warning>
+    Warning
+  </Button>
+  <Button error>
+    Error
+  </Button>
+</Gapped>
 ```
