@@ -84,4 +84,40 @@ describe('Link', () => {
       expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
+
+  describe('with component=button prop', () => {
+    it('should render <button> tag', () => {
+      render(<Link component="button">Link as button</Link>);
+
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
+
+    it('should render <a> tag when omitted', () => {
+      renderRTL();
+
+      expect(screen.getByRole('link')).toBeInTheDocument();
+    });
+
+    it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {
+      render(
+        <Link component="button" {...prop}>
+          Button Link
+        </Link>,
+      );
+
+      userEvent.tab();
+      expect(screen.getByRole('button')).not.toHaveFocus();
+    });
+
+    it(`should have correct tabIndex`, () => {
+      render(
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+        <Link component="button" tabIndex={1}>
+          Button Link
+        </Link>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('tabindex', '1');
+    });
+  });
 });

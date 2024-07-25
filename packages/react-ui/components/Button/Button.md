@@ -213,6 +213,16 @@ const renderExampleRow = (title, styles, index) => {
 </table>
 ```
 
+Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`.
+
+Кнопка принимает все пропы переданного в `component` компонента.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button component='a' href='/'>Ссылка, но выглядит как кнопка</Button>
+```
+
 
 Кнопка может быть узкой.
 
