@@ -296,7 +296,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       children,
       tabIndex,
       component = BUTTON_DEFAULT_ELEMENT,
-      className,
+      className, //exclude from rest to prevent class override
+      'data-tid': dataTid, //exclude from rest to prevent data-tid override on root
+      use: useProp,
+      size: sizeProp,
       'aria-describedby': ariaDescribedby,
       'aria-haspopup': ariaHasPopup,
       'aria-controls': ariaControls,
