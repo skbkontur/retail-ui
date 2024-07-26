@@ -11,7 +11,7 @@ import { Calendar } from '../Calendar';
 import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { getTodayDate } from '../Calendar/CalendarUtils';
+import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
 import { Button } from '../Button';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 
@@ -136,7 +136,8 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     }
 
     if (this.calendar) {
-      const { month, year } = this.state.today;
+      const { month: monthNative, year } = this.state.today;
+      const month = getMonthInHumanFormat(monthNative);
       this.calendar.scrollToMonth(month, year);
     }
   };

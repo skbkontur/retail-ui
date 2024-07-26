@@ -272,5 +272,5 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     return null;
   }
 
-  return result.toSource();
+  return result.toSource({ lineTerminator: '\n' });
 }
