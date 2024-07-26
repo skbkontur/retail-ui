@@ -354,8 +354,6 @@ export class DefaultTheme {
   //#endregion
   //#region Button
   public static btnBackgroundClip = 'padding-box';
-  public static btnArrowBgImageActive = 'none';
-  public static btnArrowBgImageChecked = 'none';
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
   public static btnBorderColorTransition = '';

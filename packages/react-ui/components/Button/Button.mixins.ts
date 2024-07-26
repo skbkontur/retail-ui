@@ -44,10 +44,6 @@ export const buttonUseMixin = (
     color: ${color};
     box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
 
-    .${globalClasses.arrowHelper} {
-      box-shadow: ${borderWidth} 0 0 0 ${borderColor};
-    }
-
     :enabled:hover,
     :enabled {
       .${globalClasses.arrow} svg {
@@ -72,10 +68,6 @@ export const buttonHoverMixin = (
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
     color: ${color};
-
-    .${globalClasses.arrowHelper} {
-      box-shadow: ${borderWidth} 0 0 ${borderColor};
-    }
   `;
 };
 
@@ -85,7 +77,6 @@ export const buttonActiveMixin = (
   borderColor: string,
   borderTopColor: string,
   borderWidth: string,
-  arrowBgImage: string,
 ) => {
   return css`
     &,
@@ -96,14 +87,6 @@ export const buttonActiveMixin = (
 
       .${globalClasses.innerShadow} {
         box-shadow: ${btnShadow};
-      }
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${borderWidth} 0 0 ${borderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${arrowBgImage};
-        }
       }
     }
   `;

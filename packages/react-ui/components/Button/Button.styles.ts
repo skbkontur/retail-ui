@@ -12,9 +12,6 @@ import {
 
 export const globalClasses = prefix('button')({
   root: 'root',
-  arrowHelper: 'arrow-helper',
-  arrowHelperTop: 'arrow-helper-top',
-  arrowHelperBottom: 'arrow-helper-bottom',
   arrow: 'arrow',
   caption: 'caption',
   text: 'text',
@@ -365,10 +362,6 @@ export const styles = memoizeStyle({
       background-image: none;
       background-color: ${t.btnDisabledBg};
       color: ${t.btnDisabledTextColor};
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
-      }
     `;
   },
 
@@ -574,9 +567,6 @@ export const styles = memoizeStyle({
       &:enabled,
       &:hover:enabled {
         box-shadow: none;
-        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none !important;
-        }
       }
 
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
@@ -643,14 +633,6 @@ export const styles = memoizeStyle({
         box-shadow: ${t.btnCheckedShadow};
       }
 
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${t.btnArrowBgImageChecked};
-        }
-      }
-
       :enabled svg {
         color: ${t.btnCheckedTextColor} !important;
       }
@@ -692,13 +674,6 @@ export const styles = memoizeStyle({
         box-shadow: ${t.btnCheckedDisabledShadow};
       }
 
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnCheckedDisabledBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: none;
-        }
-      }
       svg {
         color: ${t.btnCheckedDisabledColor} !important;
       }
@@ -835,7 +810,6 @@ export const activeStyles = memoizeStyle({
           t.btnDefaultActiveBorderColor,
           t.btnDefaultActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -850,7 +824,6 @@ export const activeStyles = memoizeStyle({
           t.btnPrimaryActiveBorderColor,
           t.btnPrimaryActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -865,7 +838,6 @@ export const activeStyles = memoizeStyle({
           t.btnSuccessActiveBorderColor,
           t.btnSuccessActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -880,7 +852,6 @@ export const activeStyles = memoizeStyle({
           t.btnDangerActiveBorderColor,
           t.btnDangerActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -895,7 +866,6 @@ export const activeStyles = memoizeStyle({
           t.btnPayActiveBorderColor,
           t.btnPayActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -912,7 +882,7 @@ export const activeStyles = memoizeStyle({
   text(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, '', t.btnBorderWidth, t.btnArrowBgImageActive)};
+        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, '', t.btnBorderWidth)};
       }
     `;
   },
