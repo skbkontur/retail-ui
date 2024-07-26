@@ -98,16 +98,16 @@ export const WithCustomSelectTheme: Story = () => {
 WithCustomSelectTheme.storyName = 'with custom select theme';
 
 export const WithManualPosition: Story = () => {
-  const [position, setPosition] = React.useState<'top left' | 'bottom left'>('top left');
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
   const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);
 
   return (
     <div style={{ marginTop: '50px' }}>
-      <Dropdown disablePortal={isPortalDisabled} menuPositions={[position]} caption="Открыть">
+      <Dropdown disablePortal={isPortalDisabled} menuPos={menuPos} caption="Открыть">
         <MenuItem>Menu item</MenuItem>
       </Dropdown>
-      <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
-        change pos to {position === 'top left' ? 'bottom' : 'top'}
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
       </button>
       <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
         {isPortalDisabled ? 'enable' : 'disable'} portal
