@@ -487,12 +487,6 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static dateSelectTextColorInvert = '';
   //#endregion
 
-  //#region InternalMenu
-  public static get internalMenuPaddingY() {
-    return this.menuScrollContainerContentWrapperPaddingY;
-  } // deprecated, use menuLegacyPaddingY
-  //#endregion
-
   //#region Menu
   public static get menuLegacyPaddingY() {
     return this.menuScrollContainerContentWrapperPaddingY;
