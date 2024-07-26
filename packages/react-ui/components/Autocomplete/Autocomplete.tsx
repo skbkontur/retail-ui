@@ -22,6 +22,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
+import { getMenuPositions } from '../../lib/getMenuPositions';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -44,10 +45,6 @@ function renderItem(item: any) {
   return item;
 }
 
-export const AutocompleteMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'] as const;
-
-export type AutocompleteMenuPositionsType = (typeof AutocompleteMenuPositions)[number];
-
 export interface AutocompleteProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-label'>,
@@ -62,6 +59,8 @@ export interface AutocompleteProps
         disablePortal?: boolean;
         /** Отрисовка тени у выпадающего меню */
         hasShadow?: boolean;
+        /** Выравнивание выпадающего меню */
+        menuAlign?: 'left' | 'right';
         /** Максимальная высота меню */
         menuMaxHeight?: number | string;
         /** Ширина меню */
@@ -80,9 +79,13 @@ export interface AutocompleteProps
          * Текст заголовка выпадающего меню в мобильной версии
          */
         mobileMenuHeaderText?: string;
-        menuPositions?: Readonly<AutocompleteMenuPositionsType[]>;
       }
-    > {}
+    > {
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
+}
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -103,7 +106,14 @@ export const AutocompleteIds = {
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
-    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll' | 'menuPositions'
+    | 'renderItem'
+    | 'size'
+    | 'disablePortal'
+    | 'hasShadow'
+    | 'menuMaxHeight'
+    | 'menuPos'
+    | 'menuAlign'
+    | 'preventWindowScroll'
   >
 >;
 
@@ -145,11 +155,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public static defaultProps: DefaultProps = {
     renderItem,
     size: 'small',
+    menuPos: 'bottom',
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,
+    menuAlign: 'left',
     preventWindowScroll: true,
-    menuPositions: AutocompleteMenuPositions,
   };
 
   public state: AutocompleteState = {
@@ -225,10 +236,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       renderItem: _renderItem,
       disablePortal,
       hasShadow,
+      menuAlign,
       menuMaxHeight,
       preventWindowScroll,
-      menuPositions,
       source,
+      menuPos,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
       'aria-label': ariaLabel,
@@ -282,7 +294,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, disablePortal } = this.getProps();
+    const { menuPos, menuAlign, menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, disablePortal } =
+      this.getProps();
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
@@ -305,7 +318,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         disablePortal={disablePortal}
         width={menuWidth}
         minWidth={menuWidth === undefined ? '100%' : undefined}
-        positions={this.props.menuPositions}
+        positions={getMenuPositions(menuPos, menuAlign)}
         margin={parseInt(this.theme.menuOffsetY) - 1}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>
