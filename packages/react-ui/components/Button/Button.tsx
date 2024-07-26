@@ -331,7 +331,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
             checked && styles.checkedDisabled(this.theme),
             borderless && styles.borderless(),
-            use === 'backless' && !checked && styles.backlessDisabled(this.theme),
+            use === 'backless' && styles.backlessDisabled(this.theme),
             use === 'text' && styles.textDisabled(),
           ]
         : [
