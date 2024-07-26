@@ -74,22 +74,4 @@ export const styles = memoizeStyle({
       }
     `;
   },
-
-  close(t: Theme) {
-    return css`
-      box-sizing: content-box !important; // fix "reset.css" problem
-      color: ${t.toastCloseColor};
-      cursor: pointer;
-      display: inline-block;
-      height: ${t.toastCloseSize};
-      line-height: 0;
-      padding: ${t.toastClosePadding};
-      text-align: center;
-      width: ${t.toastCloseSize};
-
-      &:hover {
-        color: ${t.toastCloseHoverColor};
-      }
-    `;
-  },
 });
