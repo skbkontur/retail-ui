@@ -406,10 +406,10 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     'calc(100% + 40px)',
   ];
   const row: Array<Partial<SelectProps<any, any>>> = [
-    { menuPositions: ['bottom right'] },
-    { menuPositions: ['bottom right'], disablePortal: true },
-    { menuPositions: ['bottom left'] },
-    { menuPositions: ['bottom left'], disablePortal: true },
+    { menuAlign: 'right' },
+    { menuAlign: 'right', disablePortal: true },
+    { menuAlign: 'left' },
+    { menuAlign: 'left', disablePortal: true },
   ];
   const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
     <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
@@ -455,14 +455,14 @@ export default {
 } as Meta;
 
 export const WithManualPosition: Story = () => {
-  const [position, setPosition] = React.useState<'top left' | 'bottom left'>('top left');
+  const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
   const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
-      <Select disablePortal={isPortalDisabled} menuPositions={[position]} items={['one', 'two', 'three']} />
-      <button data-tid="pos" onClick={() => setPosition(position === 'top left' ? 'bottom left' : 'top left')}>
-        change pos to {position === 'top left' ? 'bottom' : 'top'}
+      <Select disablePortal={isPortalDisabled} menuPos={menuPos} items={['one', 'two', 'three']} />
+      <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
+        change pos to {menuPos === 'top' ? 'bottom' : 'top'}
       </button>
       <button data-tid="portal" onClick={() => setIsPortalDisabled(!isPortalDisabled)}>
         {isPortalDisabled ? 'enable' : 'disable'} portal

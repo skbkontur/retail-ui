@@ -37,6 +37,7 @@ import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
 import { ZIndex } from '../../internal/ZIndex';
+import { getMenuPositions } from '../../lib/getMenuPositions';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -76,10 +77,6 @@ export const SelectDataTids = {
 export const SelectIds = {
   menu: SelectDataTids.menu,
 } as const;
-
-const SelectMenuPositions = ['bottom left', 'bottom right', 'top left', 'top right'];
-
-export type SelectMenuPositionsType = (typeof SelectMenuPositions)[number] | 'middle left';
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
@@ -134,6 +131,11 @@ export interface SelectProps<TValue, TItem>
   items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom' | 'middle';
+  menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
   onValueChange?: (value: TValue) => void;
   onClose?: () => void;
@@ -175,7 +177,6 @@ export interface SelectProps<TValue, TItem>
    * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
-  menuPositions?: Readonly<SelectMenuPositionsType[]>;
 }
 
 export interface SelectState<TValue> {
@@ -191,7 +192,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 type DefaultProps<TValue, TItem> = Required<
   Pick<
     SelectProps<TValue, TItem>,
-    'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size' | 'menuPositions'
+    'menuPos' | 'menuAlign' | 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'
   >
 >;
 
@@ -211,7 +212,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
-    menuPositions: SelectMenuPositions,
+    menuPos: 'bottom',
+    menuAlign: 'left',
   };
 
   public static Item = Item;
@@ -474,7 +476,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
-    const { menuWidth } = this.props;
+    const { menuWidth, menuPos, menuAlign } = this.getProps();
 
     return (
       <Popup
@@ -482,7 +484,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        positions={this.props.menuPositions}
+        positions={getMenuPositions(menuPos, menuAlign)}
         anchorElement={this.popupGetParent()}
         priority={ZIndex.priorities.PopupMenu}
         disablePortal={this.props.disablePortal}
@@ -497,6 +499,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref={this.refMenu}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
+          align={menuAlign}
         >
           {search}
           {this.getMenuItems(value)}
