@@ -106,14 +106,7 @@ export const AutocompleteIds = {
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
-    | 'renderItem'
-    | 'size'
-    | 'disablePortal'
-    | 'hasShadow'
-    | 'menuMaxHeight'
-    | 'menuPos'
-    | 'menuAlign'
-    | 'preventWindowScroll'
+    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll'
   >
 >;
 
@@ -155,11 +148,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public static defaultProps: DefaultProps = {
     renderItem,
     size: 'small',
-    menuPos: 'bottom',
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,
-    menuAlign: 'left',
     preventWindowScroll: true,
   };
 

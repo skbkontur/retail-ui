@@ -95,8 +95,6 @@ interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' |
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxViewProps<T>,
-    | 'menuPos'
-    | 'menuAlign'
     | 'renderItem'
     | 'renderValue'
     | 'renderAddButton'
@@ -137,8 +135,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     },
     size: 'small',
     width: 250,
-    menuPos: 'bottom',
-    menuAlign: 'left',
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);

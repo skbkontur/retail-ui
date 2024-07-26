@@ -190,10 +190,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 type DefaultProps<TValue, TItem> = Required<
-  Pick<
-    SelectProps<TValue, TItem>,
-    'menuPos' | 'menuAlign' | 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'
-  >
+  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
 >;
 
 @responsiveLayout
@@ -212,8 +209,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     filterItem,
     use: 'default',
     size: 'small',
-    menuPos: 'bottom',
-    menuAlign: 'left',
   };
 
   public static Item = Item;

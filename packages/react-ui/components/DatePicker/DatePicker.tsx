@@ -104,7 +104,7 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps = Required<Pick<DatePickerProps, 'menuPos' | 'minDate' | 'maxDate' | 'menuAlign'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
 @responsiveLayout
 @rootNode
@@ -170,8 +170,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   };
 
   public static defaultProps: DefaultProps = {
-    menuPos: 'top',
-    menuAlign: 'left',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
   };
