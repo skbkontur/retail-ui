@@ -2469,10 +2469,6 @@ export class DefaultTheme {
   }
   //#endregion
 
-  //#region InternalMenu
-  public static internalMenuPaddingY = '5px'; // deprecated,  use menuLegacyPaddingY
-  //#endregion
-
   //#region Autocomplete
   public static autocompleteMenuOffsetY = '2px';
   //#endregion
