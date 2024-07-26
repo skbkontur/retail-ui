@@ -23,15 +23,6 @@ const defaultMinYear = 1900;
 const defaultMaxYear = 2099;
 const months = range(defaultMinMonth, defaultMaxMonth);
 const years = range(defaultMinYear, defaultMaxYear);
-const selectPositions = [
-  'middle left',
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'top left',
-  'top center',
-  'top right',
-] as const;
 
 function range(start: number, end: number) {
   return Array(end - start + 1)
@@ -196,7 +187,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
         theme={theme}
         disabled={disabled}
         _renderButton={this.renderButton}
-        menuPositions={selectPositions}
+        menuPos="middle"
         renderValue={this.getItem}
         items={this.getItems()}
         menuOffset={parseInt(this.theme.menuPaddingX) + parseInt(this.theme.menuItemPaddingX)}
