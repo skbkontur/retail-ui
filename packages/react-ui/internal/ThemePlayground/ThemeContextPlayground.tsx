@@ -3,8 +3,6 @@ import React, { ReactNode } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
@@ -29,14 +27,10 @@ interface PlaygroundState {
   currentThemeType: ThemeType;
 }
 interface Themes {
-  default: Theme;
-  dark: Theme;
   theme2022: Theme;
   theme2022Dark: Theme;
 }
 interface ThemesErrors {
-  default: ThemeErrorsType;
-  dark: ThemeErrorsType;
   theme2022: ThemeErrorsType;
   theme2022Dark: ThemeErrorsType;
 }
@@ -54,12 +48,10 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
     return editingThemeItem.value;
   }
 
-  return 'default';
+  return 'theme2022';
 };
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
-    { value: ThemeType.Default, label: 'Дефолтная' },
-    { value: ThemeType.Dark, label: 'Темная' },
     { value: ThemeType.Theme2022, label: 'Новая 2022' },
     { value: ThemeType.Theme2022Dark, label: 'Новая 2022 Тёмная' },
   ];
@@ -67,18 +59,14 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   constructor(props: PlaygroundProps) {
     super(props);
     this.state = {
-      currentTheme: DEFAULT_THEME,
-      currentThemeType: ThemeType.Default,
+      currentTheme: THEME_2022,
+      currentThemeType: ThemeType.Theme2022,
       editorOpened: false,
       themes: {
-        default: DEFAULT_THEME,
-        dark: DARK_THEME,
         theme2022: THEME_2022,
         theme2022Dark: THEME_2022_DARK,
       },
       themesErrors: {
-        default: {},
-        dark: {},
         theme2022: {},
         theme2022Dark: {},
       },
@@ -121,7 +109,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
             </Gapped>
           </div>
           <div style={{ fontSize: 14, marginTop: 8 }}>
-            <Link onClick={this.handelGetTheme}>Вывести тему в консоль</Link>
+            <Link onClick={this.handleGetTheme}>Вывести тему в консоль</Link>
           </div>
         </SidePage.Header>
         <SidePage.Body>
@@ -138,12 +126,12 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     );
   };
 
-  private handelGetTheme = () => {
+  private handleGetTheme = () => {
     const currentTheme = this.state.currentTheme;
     const themeObject: Writeable<ThemeIn> = {};
     ThemeFactory.getKeys(currentTheme).forEach((key) => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
-      if (descriptor && !descriptor.get && DEFAULT_THEME[key] && currentTheme[key] !== DEFAULT_THEME[key]) {
+      if (descriptor && !descriptor.get && THEME_2022[key] && currentTheme[key] !== THEME_2022[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
       }
     });
