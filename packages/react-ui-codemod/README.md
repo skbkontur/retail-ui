@@ -27,14 +27,6 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Список кодмодов
 
-### react-ui-5.0/useMenuPositions
-
-Для компонентов `Autocomplete`, `ComboBox`, `DatePicker`, `Dropdown`, `Select`, `ComboBoxView`, `CustomComboBox` заменяет пропы `menuPos` и `menuAlign` на проп `menuPositions`.
-
-```
-npx react-ui-codemod react-ui-5.0/useMenuPositions FILES_PATH
-```
-
 ### react-ui-4.0/transformLabelToCaption
 
 Для компонента `Switcher` переименовывает проп `label` на `caption`. Подробнее здесь [2121#discussion_r488456100](https://github.com/skbkontur/retail-ui/pull/2121#discussion_r488456100).
