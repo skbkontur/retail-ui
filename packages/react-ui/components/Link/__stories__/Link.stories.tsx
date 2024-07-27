@@ -14,7 +14,7 @@ export default {
   parameters: {
     creevey: {
       skip: {
-        'kind-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+        'kind-skip-0': { in: /chrome/, tests: 'hover' },
       },
     },
   },
@@ -84,7 +84,7 @@ export const FocusedStyledLink: Story = () => {
     <ThemeContext.Consumer>
       {(theme) => {
         return (
-          <ThemeContext.Provider value={ThemeFactory.create({ linkLineHoverBorderBottomStyle: 'dotted' }, theme)}>
+          <ThemeContext.Provider value={ThemeFactory.create({ linkHoverTextDecorationStyle: 'dotted' }, theme)}>
             <Link icon={<OkIcon />}>Simple Link</Link>
           </ThemeContext.Provider>
         );

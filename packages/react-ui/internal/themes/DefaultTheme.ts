@@ -95,6 +95,7 @@ export class DefaultTheme {
   //#region Link
   public static linkColor = '#1874cf';
   public static linkActiveColor = '#1260ae';
+  public static linkTextDecoration = 'underline';
   public static linkHoverTextDecoration = 'underline';
   public static linkSuccessColor = '#477916';
   public static linkSuccessHoverColor = '#477916';
@@ -122,14 +123,15 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
-  public static linkLineBorderBottomStyle = '';
-  public static get linkLineHoverBorderBottomStyle() {
-    return this.linkLineBorderBottomStyle;
+  public static linkTextDecorationStyle = '';
+  public static linkTextUnderlineOffset = '3px';
+  public static get linkHoverTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
   }
-  public static linkLineBorderBottomWidth = '0px';
-  public static linkLineBorderBottomOpacity = '0.5';
-  public static linkLineBorderBottomColor = `color-mix(in srgb, currentColor ${
-    parseFloat(this.linkLineBorderBottomOpacity) * 100
+  public static linkTextDecorationThickness = '0px';
+  public static linkTextUnderlineOpacity = '0.5';
+  public static linkTextDecorationColor = `color-mix(in srgb, currentColor ${
+    parseFloat(this.linkTextUnderlineOpacity) * 100
   }%, transparent)`;
 
   public static linkFocusOutlineColor = 'transparent';
@@ -407,20 +409,20 @@ export class DefaultTheme {
   public static btnDefaultHoverBgEnd = 'none';
   public static btnDefaultActiveBg = '#ebebeb';
   public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static btnDefaultHoverBorderBottomColor = '';
+  public static btnDefaultHoverTextDecorationColor = '';
   public static btnDefaultHoverTextColor = '';
   public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnDefaultActiveBorderTopColor = '';
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static btnDefaultBorderBottomColor = '';
+  public static btnDefaultTextDecorationColor = '';
   public static btnDefaultActiveShadow = 'none';
   public static btnSuccessBg = '#538a1b';
   public static btnSuccessHoverBg = '#477916';
   public static btnSuccessHoverBorderColor = '#477916';
-  public static btnSuccessHoverBorderBottomColor = '';
+  public static btnSuccessHoverTextDecorationColor = '';
   public static btnSuccessHoverTextColor = '';
   public static btnSuccessBorderColor = '#538a1b';
-  public static btnSuccessBorderBottomColor = '';
+  public static btnSuccessTextDecorationColor = '';
   public static btnSuccessBgStart = 'none';
   public static btnSuccessBgEnd = 'none';
   public static btnSuccessTextColor = '#fff';
@@ -433,10 +435,10 @@ export class DefaultTheme {
   public static btnPrimaryBg = '#1c7edf';
   public static btnPrimaryHoverBg = '#1874cf';
   public static btnPrimaryHoverBorderColor = '#1874cf';
-  public static btnPrimaryHoverBorderBottomColor = '';
+  public static btnPrimaryHoverTextDecorationColor = '';
   public static btnPrimaryHoverTextColor = '';
   public static btnPrimaryBorderColor = '#1c7edf';
-  public static btnPrimaryBorderBottomColor = '';
+  public static btnPrimaryTextDecorationColor = '';
   public static btnPrimaryBgStart = 'none';
   public static btnPrimaryBgEnd = 'none';
   public static btnPrimaryTextColor = '#fff';
@@ -449,10 +451,10 @@ export class DefaultTheme {
   public static btnDangerBg = '#dd473b';
   public static btnDangerHoverBg = '#cb3d35';
   public static btnDangerHoverBorderColor = '#cb3d35';
-  public static btnDangerHoverBorderBottomColor = '';
+  public static btnDangerHoverTextDecorationColor = '';
   public static btnDangerHoverTextColor = '';
   public static btnDangerBorderColor = '#dd473b';
-  public static btnDangerBorderBottomColor = '';
+  public static btnDangerTextDecorationColor = '';
   public static btnDangerBgStart = 'none';
   public static btnDangerBgEnd = 'none';
   public static btnDangerTextColor = '#fff';
@@ -465,10 +467,10 @@ export class DefaultTheme {
   public static btnPayBg = '#fcb73e';
   public static btnPayHoverBg = '#fda70c';
   public static btnPayHoverBorderColor = '#fda70c';
-  public static btnPayHoverBorderBottomColor = '';
+  public static btnPayHoverTextDecorationColor = '';
   public static btnPayHoverTextColor = '';
   public static btnPayBorderColor = '#fcb73e';
-  public static btnPayBorderBottomColor = '';
+  public static btnPayTextDecorationColor = '';
   public static btnPayBgStart = 'none';
   public static btnPayBgEnd = 'none';
   public static get btnPayTextColor() {
@@ -547,16 +549,19 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
+  public static get btnLinkTextDecorationColor() {
+    return this.linkTextDecorationColor;
   }
-  public static btnLinkLineBorderBottomStyle = '';
-  public static get btnLinkHoverLineBorderBottomStyle() {
-    return this.btnLinkLineBorderBottomStyle;
+  public static btnLinkTextDecorationStyle = '';
+  public static get btnLinkHoverTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
   }
-  public static btnLinkLineBorderBottomWidth = '0px';
-  public static get btnLinkLineBorderBottomOpacity() {
-    return this.linkLineBorderBottomOpacity;
+  public static get btnLinkTextUnderlineOffset() {
+    return this.linkTextUnderlineOffset;
+  }
+  public static btnLinkTextDecorationThickness = '0px';
+  public static get btnLinkTextUnderlineOpacity() {
+    return this.linkTextUnderlineOpacity;
   }
 
   public static get btnLinkIconMarginRight() {
