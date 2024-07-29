@@ -71,6 +71,8 @@ kind('Navigation/Paging', () => {
     });
 
     test('Move focus right', async function () {
+      // NOTE Firefox bug if click send right after click from previous test it results as double click
+      await delay(500);
       await this.browser
         .actions({
           bridge: true,
