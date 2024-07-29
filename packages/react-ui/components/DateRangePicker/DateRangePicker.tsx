@@ -2,146 +2,143 @@ import React, { useRef, useState } from 'react';
 import { css } from '@emotion/css';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
-import { cx } from '../../lib/theming/Emotion';
+// import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import {
-  CommonProps,
-  CommonWrapper,
-} from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
-import { Calendar, CalendarDateShape, CalendarDay, CalendarDayProps, CalendarProps } from '../Calendar';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
-import { DateInput } from '../DateInput';
+import { Calendar, CalendarDay, CalendarDayProps } from '../Calendar';
+import { DropdownContainer } from '../../internal/DropdownContainer';
+import { DateInputProps } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
-import { SizeProp } from '../../lib/types/props';
+import { DatePickerProps } from '../DatePicker';
+import { styles } from '../DatePicker/DatePicker.styles';
+import { MobilePicker } from '../DatePicker/MobilePicker';
 
-import { styles } from './DateRangePicker.styles';
+import { DateRangePickerSeparator } from './DateRangePickerSeparator';
+import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
+import { DateRangePickerField } from './DateRangePickerField';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
+  from: 'DateRangePicker__from',
+  to: 'DateRangePicker__to',
+  dropdown: 'DateRangePicker__dropdown',
+  calendar: 'DateRangePicker__calendar',
 } as const;
 
 export interface DateRangePickerProps
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-  Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
-  CommonProps {
-  autoFocus?: boolean;
-  disabled?: boolean;
-  /**
-   * Отвечает за отображение кнопки "Сегодня".
-   */
-  enableTodayLink?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
-  error?: boolean;
-  menuAlign?: 'left' | 'right';
-  size?: SizeProp;
-  value?: string | null;
-  /**
-   * Состояние валидации при предупреждении.
-   */
-  warning?: boolean;
-  width?: number | string;
-  onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
-  onValueChange: (value: string) => void;
-  onFocus?: () => void;
-  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
-  onMouseEnter?: (e: React.MouseEvent<any>) => void;
-  onMouseLeave?: (e: React.MouseEvent<any>) => void;
-  onMouseOver?: (e: React.MouseEvent<any>) => void;
-  /**
-   * Использовать на мобильных устройствах нативный календарь для выбора дат.
-   *
-   * - На iOS нативный календарь не умеет работать с minDate и maxDate
-   */
-  useMobileNativeDatePicker?: boolean;
+  extends Pick<
+    DatePickerProps,
+    | 'value'
+    | 'minDate'
+    | 'maxDate'
+    | 'size'
+    | 'isHoliday'
+    // TODO | 'renderDay'
+    | 'menuPos'
+    | 'useMobileNativeDatePicker'
+
+    | 'autoFocus'
+    | 'disabled'
+    | 'error'
+    | 'warning'
+
+    | 'onBlur'
+    | 'onFocus'
+    | 'onKeyDown'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+    | 'onMouseOver'
+  > {
+  from?: string;
+  to?: string;
+  onValueChange: (from: string | null, to: string | null) => void;
+  onFromValueChange?: (value: string) => void;
+  onToValueChange?: (value: string) => void;
 }
 
-export interface DateRangePickerState {
-  opened: boolean;
-  canUseMobileNativeDatePicker: boolean;
-  today: CalendarDateShape;
-}
-
-function DateRangePicker(props: DateRangePickerProps) {
+export const DateRangePicker: React.FC<DateRangePickerProps> & {
+  From: React.FC<DateInputProps>,
+  To: React.FC<DateInputProps>
+  Separator: React.FC,
+} = (props) => {
   const { minDate, maxDate } = props;
-  const start = useRef<any>(null);
-  const end = useRef<any>(null);
+  // const start = useRef(null);
+  // const end = useRef(null);
 
   const [periodStart, setPeriodStart] = useState<string | null>(null);
   const [periodEnd, setPeriodEnd] = useState<string | null>(null);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-
   const [currentFocus, setCurrentFocus] = useState<any>(null);
 
   const dropdownContainer = useRef(null);
-  const calendarRef = useRef<any>(null);
+  const calendarRef = useRef(null);
 
-  const updatePeriod = (value: string) => {
-    if (!periodStart && !periodEnd) {
+  function updatePeriod(value: string) {
+    const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
         setPeriodStart(value);
         setCurrentFocus('end');
-        end.current.focus();
       } else {
         setPeriodEnd(value);
         setCurrentFocus('start');
-        start.current.focus();
       }
-      return;
-    }
+    };
 
-    if (periodStart && !periodEnd) {
-      if (isGreaterOrEqual(periodStart, value)) {
+    const handleSinglePeriod = (value: string) => {
+      if (isGreaterOrEqual(periodStart || '', value)) {
         setPeriodStart(value);
         setPeriodEnd(periodStart);
-        setShowCalendar(false);
-        setHoveredDay(null);
       } else {
         setPeriodEnd(value);
-        setShowCalendar(false);
-        setHoveredDay(null);
       }
-      return;
-    }
+      resetPeriod();
+    };
 
-    // Всё заполнено
-    if (!periodStart || !periodEnd) {
-      return;
-    }
+    const handleFullPeriod = (value: string) => {
+      if (currentFocus === 'start') {
+        updateStartPeriod(value);
+      } else {
+        updateEndPeriod(value);
+      }
+    };
 
-    if (currentFocus === 'start') {
-      if (isLessOrEqual(value, periodEnd)) {
+    const updateStartPeriod = (value: string) => {
+      if (isLessOrEqual(value, periodEnd || '')) {
         setPeriodStart(value);
-        setShowCalendar(false);
-        setHoveredDay(null);
+        resetPeriod();
       } else {
         setPeriodStart(value);
         setPeriodEnd(null);
         setCurrentFocus('end');
-        end.current.focus();
       }
-    } else if (currentFocus === 'end') {
-      if (isGreaterOrEqual(value, periodStart)) {
+    };
+
+    const updateEndPeriod = (value: string) => {
+      if (isGreaterOrEqual(value, periodStart || '')) {
         setPeriodEnd(value);
-        setShowCalendar(false);
-        setHoveredDay(null);
+        resetPeriod();
       } else {
         setPeriodStart(value);
         setPeriodEnd(null);
         setCurrentFocus('end');
-        end.current.focus();
       }
+    };
+
+    const resetPeriod = () => {
+      setShowCalendar(false);
+      setHoveredDay(null);
+    };
+
+    if (!periodStart && !periodEnd) {
+      handleInitialPeriod(value);
+    } else if (periodStart && !periodEnd) {
+      handleSinglePeriod(value);
+    } else {
+      handleFullPeriod(value);
     }
-  };
+  }
 
   const renderDay = (props: CalendarDayProps) => {
     const isDayInHoveredPeriod =
@@ -158,15 +155,10 @@ function DateRangePicker(props: DateRangePickerProps) {
     const isLastDay = props.date === periodEnd;
 
     return (
-      /* borderRadius */
       <CalendarDay
         {...props}
-        onMouseOver={() => {
-          setHoveredDay(props.date);
-        }}
-        onMouseOut={() => {
-          setHoveredDay(null);
-        }}
+        onMouseOver={() => { setHoveredDay(props.date); }}
+        onMouseOut={() => { setHoveredDay(null); }}
         className={css`position: relative;
         z-index: 1;
 
@@ -181,7 +173,6 @@ function DateRangePicker(props: DateRangePickerProps) {
         }
 
         ${periodStart && 'border-radius: 0;'}
-
 
         &:before {
           content: '';
@@ -222,9 +213,8 @@ function DateRangePicker(props: DateRangePickerProps) {
           }
           `
           }
-        
 
-          ${((isFirstDay && !hoveredDay) ||
+        ${((isFirstDay && !hoveredDay) ||
             (isFirstDay &&
               hoveredDay &&
               isGreaterOrEqual(hoveredDay, periodStart)) ||
@@ -233,8 +223,8 @@ function DateRangePicker(props: DateRangePickerProps) {
               isLessOrEqual(props.date, periodStart))) &&
           `border-radius: 50% 0 0 50%;`
           }
-          
-          ${((isLastDay && !hoveredDay) ||
+
+        ${((isLastDay && !hoveredDay) ||
             (isLastDay &&
               hoveredDay &&
               isLessOrEqual(hoveredDay, periodEnd)) ||
@@ -251,7 +241,7 @@ function DateRangePicker(props: DateRangePickerProps) {
             `
           }
 
-          ${
+        ${
           /* Если ховер в противоположную сторону */
           !isDayInPeriod &&
           !isDayInHoveredPeriod &&
@@ -260,7 +250,7 @@ function DateRangePicker(props: DateRangePickerProps) {
             `
           }
 
-          ${(isFirstDay || isLastDay) &&
+        ${(isFirstDay || isLastDay) &&
           `
           position:relative;
           z-index: 1;
@@ -283,7 +273,7 @@ function DateRangePicker(props: DateRangePickerProps) {
           }
           
           /* Выход за промежутки диапазона */
-          ${hoveredDay &&
+        ${hoveredDay &&
           ((currentFocus === 'start' &&
             isFirstDay &&
             isLess(hoveredDay, periodStart)) ||
@@ -303,125 +293,126 @@ function DateRangePicker(props: DateRangePickerProps) {
             background: rgba(240,240,240);
           }`
           }
-          
-            ${isFirstDay && '&:after { border-radius: 0 50% 50% 0; }'}
-            ${isLastDay && '&:after { border-radius: 50% 0 0 50%; }'}
-            `}
+
+        ${isFirstDay && '&:after { border-radius: 0 50% 50% 0; }'}
+        ${isLastDay && '&:after { border-radius: 50% 0 0 50%; }'}
+      `}
       />
     );
+  };
+
+  const dateRangePickerContextProps: DateRangePickerContextProps = {
+    from: props.from,
+    to: props.to,
+    minDate: props.minDate,
+    maxDate: props.maxDate,
+    size: props.size,
+    onValueChange: props.onValueChange,
+    onFromValueChange: props.onFromValueChange,
+    onToValueChange: props.onToValueChange,
+
+    periodStart: periodStart || "",
+    periodEnd: periodEnd || "",
+    hoveredDay,
+    showCalendar,
+    currentFocus,
+
+    setPeriodStart,
+    setPeriodEnd,
+    setHoveredDay,
+    setShowCalendar,
+    setCurrentFocus,
+
+    calendarRef
   };
 
   return (
     <CommonWrapper {...props}>
       <ResponsiveLayout>
-        {({ isMobile }) => {
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                return (
-                  <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-                    <CommonWrapper {...props}>
-                      <div
-                        data-tid={DateRangePickerDataTids.root}
-                        className={cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
-                      >
-                        <ThemeContext.Provider
-                          value={ThemeFactory.create(
-                            { calendarWrapperHeight: '450px' },
-                            THEME_2022
-                          )}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <div>
-                              <DateInput
-                                value={periodStart ? periodStart : ""}
-                                onValueChange={setPeriodStart}
-                                ref={start}
-                                withIcon
-                                width="100%"
-                                size={props.size}
-                                minDate={minDate}
-                                onFocus={() => {
-                                  setCurrentFocus('start');
-                                  setShowCalendar(true);
-                                  if (periodStart) {
-                                    const [, month, year] = periodStart.split('.').map(Number);
-                                    // Баг scrollToMonth дает неправильный год
-                                    if (month && calendarRef) {
-                                      calendarRef?.current?.scrollToMonth(month - 1, year);
-                                    }
-                                  }
-                                }}
-                              />
-                            </div>
-                            <span>&nbsp;—&nbsp;</span>
-                            <div>
-                              <DateInput
-                                value={periodEnd ? periodEnd : ""}
-                                onValueChange={setPeriodEnd}
-                                withIcon
-                                size={props.size}
-                                width="100%"
-                                minDate={maxDate}
-                                ref={end}
-                                onFocus={() => {
-                                  setCurrentFocus('end');
-                                  setShowCalendar(true);
-                                  if (periodEnd) {
-                                    const [, month, year] = periodEnd?.split('.').map(Number);
-                                    if (month && calendarRef) {
-                                      calendarRef?.current?.scrollToMonth(month - 1, year);
-                                    }
-                                  }
-                                }}
-                              />
-                            </div>
-                          </div>
+        {({ isMobile }) => (
+          <ThemeContext.Consumer>
+            {(theme) => {
+              return (
+                <ThemeContext.Provider value={ThemeFactory.create({
+                  calendarBottomSeparatorBorder: 'none',
+                  calendarWrapperHeight: '450px'
+                }, theme)}>
+                  <CommonWrapper {...props}>
+                    <div
+                      className={styles.root()}
+                      data-tid={DateRangePickerDataTids.root}
+                    >
+                      <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
+                        {
+                          isMobile ?
+                            <MobilePicker
+                              value={props.value}
+                              minDate={props.minDate}
+                              maxDate={props.maxDate}
+                              onValueChange={() => { console.log('todo') }}
+                              isHoliday={props.isHoliday}
+                            />
+                            :
+                            <>
+                              {props.children
+                                ? props.children
+                                : <>
+                                  <DateRangePickerFrom />
+                                  <DateRangePickerSeparator />
+                                  <DateRangePickerTo />
+                                </>}
 
-                          <div ref={dropdownContainer} />
-                          {showCalendar && (
-                            <DropdownContainer
-                              menuPos={props.menuPos}
-                              data-tid={DateRangePickerDataTids.root}
-                              offsetY={parseInt(theme.datePickerMenuOffsetY)}
-                              align={props.menuAlign}
-                              getParent={() => dropdownContainer.current}
-                            >
-                              <div className={styles.calendarWrapper(theme)}>
-                                <Calendar
-                                  value={null}
-                                  minDate={minDate}
-                                  maxDate={maxDate}
-                                  renderDay={renderDay}
-                                  onValueChange={(value) => updatePeriod(value)}
-                                  ref={calendarRef}
-                                />
-                              </div>
-                            </DropdownContainer>
-                          )}
-                        </ThemeContext.Provider>
-                      </div>
-                    </CommonWrapper>
-                  </ThemeContext.Provider>
-                );
-              }}
-            </ThemeContext.Consumer>
-
-          );
-        }}
+                              <div
+                                ref={dropdownContainer}
+                                data-tid={DateRangePickerDataTids.dropdown}
+                              />
+                              {showCalendar && (
+                                <DropdownContainer
+                                  menuPos={props.menuPos}
+                                  data-tid={DateRangePickerDataTids.root}
+                                  offsetY={parseInt(theme.datePickerMenuOffsetY)}
+                                  getParent={() => dropdownContainer.current}
+                                >
+                                  <div className={styles.calendarWrapper(theme)}>
+                                    <Calendar
+                                      value={null}
+                                      minDate={minDate}
+                                      maxDate={maxDate}
+                                      renderDay={renderDay}
+                                      onValueChange={(value) => updatePeriod(value)}
+                                      ref={calendarRef}
+                                      data-tid={DateRangePickerDataTids.calendar}
+                                    />
+                                  </div>
+                                </DropdownContainer>
+                              )}
+                            </>
+                        }
+                      </DateRangePickerContext.Provider>
+                    </div>
+                  </CommonWrapper>
+                </ThemeContext.Provider>
+              );
+            }}
+          </ThemeContext.Consumer>
+        )
+        }
       </ResponsiveLayout>
     </CommonWrapper>
   );
 }
 
-// TODO validate()
-function validate() {
-  return [];
-}
+const DateRangePickerFrom: React.FC<DateInputProps> = (props) => (
+  <DateRangePickerField {...props} type="start" />
+);
 
+const DateRangePickerTo: React.FC<DateInputProps> = (props) => (
+  <DateRangePickerField {...props} type="end" />
+);
 
 DateRangePicker.__KONTUR_REACT_UI__ = 'DateRangePicker';
 DateRangePicker.displayName = 'DateRangePicker';
-DateRangePicker.validate = validate;
 
-export { DateRangePicker };
+DateRangePicker.From = DateRangePickerFrom;
+DateRangePicker.To = DateRangePickerTo;
+DateRangePicker.Separator = DateRangePickerSeparator;
