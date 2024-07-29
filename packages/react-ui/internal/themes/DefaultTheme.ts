@@ -1111,14 +1111,9 @@ export class DefaultTheme {
   public static toastCloseSize = '8px';
   //#endregion
   //#region Dropdown
-  public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
   public static dropdownMenuBorderColorTransition = '';
   public static get dropdownMenuHoverBorderColor() {
     return this.btnDefaultHoverBorderColor;
-  }
-  public static get dropdownMenuHoverBg() {
-    //deprecated
-    return this.bgActive;
   }
   public static get dropdownMenuOffsetY() {
     return this.menuOffsetY;
@@ -1217,11 +1212,9 @@ export class DefaultTheme {
   public static get menuItemTextColor() {
     return this.textColorDefault;
   }
-  public static get menuItemSelectedBg() {
-    return this.dropdownMenuSelectedBg;
-  }
+  public static menuItemSelectedBg = '#f1f1f1';
   public static get menuItemHoverBg() {
-    return this.dropdownMenuHoverBg;
+    return this.bgActive;
   }
 
   public static menuItemIconWidthSmall = '16px';
