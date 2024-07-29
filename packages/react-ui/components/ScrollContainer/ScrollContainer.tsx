@@ -81,6 +81,7 @@ export interface ScrollContainerProps extends CommonProps {
    * Отключить анимации
    */
   disableAnimations?: boolean;
+  scrollRef?: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export const ScrollContainerDataTids = {
@@ -202,7 +203,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           {scrollbarX}
           <div
             style={innerStyle}
-            ref={this.refInner}
+            ref={(el) => {
+              this.refInner(el);
+              if (this.props.scrollRef) {
+                this.props.scrollRef.current = el;
+              }
+            }}
             className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
             data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
