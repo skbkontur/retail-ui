@@ -728,7 +728,6 @@ export class DefaultTheme {
   public static get tooltipBorderRadius() {
     return this.popupBorderRadius;
   }
-  public static tooltipPinOffset = '0px'; // deprecated
   public static tooltipPinOffsetX = '16px';
   public static tooltipPinOffsetY = '18px';
   public static tooltipMargin = '10px';
@@ -743,8 +742,11 @@ export class DefaultTheme {
   }
   //#endregion
   //#region TooltipMenu
-  public static get tooltipMenuPinOffset() {
-    return this.popupPinOffset;
+  public static get tooltipMenuPinOffsetX() {
+    return this.tooltipPinOffsetX;
+  }
+  public static get tooltipMenuPinOffsetY() {
+    return this.tooltipPinOffsetY;
   }
   public static get tooltipMenuMargin() {
     return this.popupMargin;
@@ -1627,7 +1629,6 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgSecondary;
   }
-  public static popupPinOffset = '0px'; // deprecated
   public static popupPinOffsetX = '16px';
   public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
