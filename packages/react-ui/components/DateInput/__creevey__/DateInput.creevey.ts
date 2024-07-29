@@ -59,11 +59,13 @@ kind('Date/DateInput', () => {
           input.focus();
         }
       });
+      const body = await this.browser.findElement({ css: 'body' });
+      await delay(1000);
       await this.browser
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement({ css: 'body' }))
+        .click(body)
         .pause(500)
         .perform();
       await delay(2000);
