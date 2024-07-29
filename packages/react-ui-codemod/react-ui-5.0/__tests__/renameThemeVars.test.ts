@@ -1,0 +1,43 @@
+const { defineInlineTest } = require('jscodeshift/dist/testUtils');
+
+const transform = require('../renameThemeVars');
+
+jest.autoMockOff();
+
+defineInlineTest(
+  transform,
+  {},
+  `
+  const THEME = ThemeFactory.create({
+    pagingForwardIconMarginTop: '5px',
+    calendarCellSize: '10px',
+    tokenMarginY: '20px',
+    tokenInputLineHeight: '5px',
+    btnIconGapSmall: '5px',
+    menuItemIconWidth: '5px',
+    toggleFontSize: '5px',
+    checkboxFontSize: '5px',
+    textareaFontSize: '5px',
+    radioSize: '5px',
+    tabFontSize: '5px',
+    pagingForwardLinkDisabledColor: '#ADADAD',
+  }, DEFAULT_THEME);
+`,
+`
+  const THEME = ThemeFactory.create({
+    pagingForwardIconMarginTop: '5px',
+    calendarCellHeight: '10px',
+    tokenMarginYSmall: '20px',
+    tokenInputLineHeightSmall: '5px',
+    btnIconGapSmallLeft: '5px',
+    menuItemIconWidthSmall: '5px',
+    toggleFontSizeSmall: '5px',
+    checkboxFontSizeSmall: '5px',
+    textareaFontSizeSmall: '5px',
+    radioSizeSmall: '5px',
+    tabFontSizeLarge: '5px',
+    linkDisabledColor: '#ADADAD',
+  }, DEFAULT_THEME);
+`,
+  `rename theme variables`,
+);
