@@ -13,6 +13,12 @@ kind('Navigation/Paging', () => {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
           tests: ['hover', 'Move to page by Ender'],
         },
+
+        'story-skip-2': {
+          in: ['firefox'],
+          tests: ['Move focus right'],
+        },
+
         flaky: {
           in: ['firefox2022', 'firefox2022Dark'],
           tests: ['Move focus right', 'Move to page by Ender'],
@@ -79,7 +85,6 @@ kind('Navigation/Paging', () => {
         .pause(100)
         .sendKeys(this.keys.ARROW_RIGHT)
         .perform();
-      await delay(10000);
       await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
     });
 

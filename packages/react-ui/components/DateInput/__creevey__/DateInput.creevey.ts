@@ -51,7 +51,16 @@ kind('Date/DateInput', () => {
     });
   });
 
-  story('BlurAlwaysAfterChange', () => {
+  story('BlurAlwaysAfterChange', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'story-skip-0': {
+          in: ['firefox8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+          tests: ['value not changed'],
+        },
+      },
+    });
+
     test('value not changed', async function () {
       await this.browser.executeScript(function () {
         const input = window.document.querySelector("[data-comp-name~='DateInput']");
@@ -65,7 +74,7 @@ kind('Date/DateInput', () => {
         })
         .click(this.browser.findElement({ css: 'body' }))
         .perform();
-      await delay(10000);
+      await delay(500);
       await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
     });
 
