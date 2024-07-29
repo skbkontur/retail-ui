@@ -755,12 +755,6 @@ export class DefaultTheme {
 
   //#endregion
   //#region Kebab
-  public static get kebabPinOffset() {
-    return this.popupPinOffset;
-  }
-  public static get kebabPinSize() {
-    return this.popupPinSize;
-  }
   public static kebabMargin = '4px';
   public static kebabBackground = 'transparent';
   public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
@@ -1089,7 +1083,6 @@ export class DefaultTheme {
   public static hintBgColor = 'rgba(51, 51, 51, 0.8)';
   public static hintBorder = 'none';
   public static hintBorderRadius = '2px';
-  public static hintPinOffset = '8px';
   public static hintMargin = '8px';
   //#endregion
   //#region Toast
