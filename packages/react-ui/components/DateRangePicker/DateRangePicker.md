@@ -16,6 +16,7 @@ const maxDate = "18.08.2024";
   to={toValue}
   minDate={minDate}
   maxDate={maxDate}
+  onValueChange={console.log}
   onFromValueChange={setFromValue}
   onToValueChange={setToValue}
 />
@@ -54,37 +55,33 @@ import { Gapped } from '@skbkontur/react-ui';
 
 ## Произвольная настройка полей
 
-Для более гибкой кастомизации каждого из полей доступны дочерние элементы `<DateRangePicker.From>` и `<DateRangePicker.To>`. Настройки наследуются от компонента [DateInput](#/Components/DateInput).
+Для более гибкой кастомизации каждого из полей доступны дочерние элементы:
+- `<DateRangePicker.From />` — поле «от», настройки как у [DateInput](#/Components/DateInput)
+- `<DateRangePicker.To />` — поле «до», настройки как у [DateInput](#/Components/DateInput)
+- `<DateRangePicker.Separator />` — разделитель
 
 <br />
 
 ### Поля без тире
 
 ```jsx harmony
-import { DateInput } from '@skbkontur/react-ui';
-
-<>
-    <DateInput withIcon style={{ borderRadius: 0 }} />
-    <DateInput withIcon style={{ marginLeft: -1, borderRadius: 0 }}  />
-
-{/*TODO: <DateRangePicker>
-  <DateRangePicker.From /> — <DateRangePicker.To />
-</DateRangePicker>*/}
-</>
+<DateRangePicker>
+  <DateRangePicker.From style={{ borderRadius: 0 }} />
+  <DateRangePicker.To style={{ marginLeft: -1, borderRadius: 0 }} />
+</DateRangePicker>
 ```
 
 ### Вертикальное расположение
 
 ```jsx harmony
-import { Gapped, DateInput } from '@skbkontur/react-ui';
+import { Gapped } from '@skbkontur/react-ui';
 
-<Gapped gap={0} vertical>
-    <DateInput withIcon style={{ borderRadius: 0 }} />
-    <DateInput withIcon style={{ marginTop: -1, borderRadius: 0 }} />
-{/*TODO: <DateRangePicker>
-  <DateRangePicker.From /> — <DateRangePicker.To />
-</DateRangePicker>*/}
-</Gapped>
+<DateRangePicker>
+    <Gapped gap={4} vertical>
+      <DateRangePicker.From />
+      <DateRangePicker.To />
+    </Gapped>
+</DateRangePicker>
 ```
 
 
@@ -93,38 +90,26 @@ import { Gapped, DateInput } from '@skbkontur/react-ui';
 Для полей достпен параметр `optional`, чтобы указывать поля открытыми.
 
 ```jsx harmony
-import { Gapped, Checkbox } from '@skbkontur/react-ui';
+import { Checkbox } from '@skbkontur/react-ui';
 
-<>
-  <DateRangePicker>
-    <Gapped>
+<DateRangePicker>
+  <div style={{ display: 'flex' }}>
+    <div>
+      <DateRangePicker.From optional />
+      <DateRangePicker.Separator />
       <div>
-        <DateRangePicker.From optional />
-        <Checkbox>
-          Любая дата
-        </Checkbox>
+        <Checkbox>Любая дата</Checkbox>
       </div>
-      —
+    </div>
+    
+    <div>
+      <DateRangePicker.To optional />
       <div>
-        <DateRangePicker.To optional />
-        <Checkbox>
-          Любая дата
-        </Checkbox>
+        <Checkbox>Любая дата</Checkbox>
       </div>
-    </Gapped>
-  </DateRangePicker>
-
-  {/* TODO сделать внутри DateRangePicker, убрать Gapped */}
-  <Gapped gap={24}>
-    <Checkbox>
-      Любая дата
-    </Checkbox>
-
-    <Checkbox>
-      Любая дата
-    </Checkbox>
-  </Gapped>
-</>
+    </div>
+  </div>
+</DateRangePicker>
 ```
 
 
@@ -180,7 +165,7 @@ class DateInputFormatting extends React.Component {
             },
           }}}
         >
-          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
+          <DateRangePicker onValueChange={value => this.setState({ value })} from={this.state.value} />
         </LocaleContext.Provider>
       </Gapped>
     );
@@ -193,59 +178,6 @@ class DateInputFormatting extends React.Component {
 <!--
 TODO: раздел валидации
 -->
-
-<br />
-
-## Валидации
-
-Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
-
-```jsx harmony
-import { DatePicker, Gapped, Tooltip } from '@skbkontur/react-ui';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
-
-const [value, setValue] = React.useState();
-const [error, setError] = React.useState(false);
-const [tooltip, setTooltip] = React.useState(false);
-
-const minDate = '22.12.2012';
-const maxDate = '02.05.2018';
-
-const unvalidate = () => {
-  setError(false);
-  setTooltip(false);
-};
-
-const validate = () => {
-  const errorNew = !!value && !DatePicker.validate(value, { minDate: minDate, maxDate: maxDate });
-  setError(errorNew);
-  setTooltip(errorNew);
-};
-
-let removeTooltip = () => setTooltip(false);
-
-<Gapped gap={10} vertical>
-  <ViewDateInputValidateChecks value={value} minDate={minDate} maxDate={maxDate} />
-  <pre>
-    minDate = {minDate}
-    <br />
-    maxDate = {maxDate}
-  </pre>
-
-  <Tooltip trigger={tooltip ? 'opened' : 'closed'} render={() => 'Невалидная дата'} onCloseClick={removeTooltip}>
-    <DatePicker
-      error={error}
-      value={value}
-      onValueChange={setValue}
-      onFocus={unvalidate}
-      onBlur={validate}
-      minDate={minDate}
-      maxDate={maxDate}
-      enableTodayLink
-    />
-  </Tooltip>
-</Gapped>;
-```
 
 <br />
 
