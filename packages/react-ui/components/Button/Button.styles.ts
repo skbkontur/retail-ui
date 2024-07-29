@@ -172,24 +172,13 @@ export const styles = memoizeStyle({
     return css`
       border-radius: ${t.btnBorderRadiusSmall};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeSmall,
-        t.btnLineHeightSmall,
-        t.btnPaddingXSmall,
-        t.btnPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixin(t.btnFontSizeSmall, t.btnLineHeightSmall, t.btnPaddingXSmall, t.btnPaddingYSmall)};
     `;
   },
 
   sizeSmallIE11(t: Theme) {
     return css`
-      ${buttonSizeMixinIE11(
-        t.btnFontSizeSmall,
-        t.btnPaddingXSmall,
-        t.btnPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixinIE11(t.btnPaddingXSmall, t.btnPaddingYSmall)};
     `;
   },
 
@@ -197,24 +186,13 @@ export const styles = memoizeStyle({
     return css`
       border-radius: ${t.btnBorderRadiusMedium};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeMedium,
-        t.btnLineHeightMedium,
-        t.btnPaddingXMedium,
-        t.btnPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixin(t.btnFontSizeMedium, t.btnLineHeightMedium, t.btnPaddingXMedium, t.btnPaddingYMedium)};
     `;
   },
 
   sizeMediumIE11(t: Theme) {
     return css`
-      ${buttonSizeMixinIE11(
-        t.btnFontSizeMedium,
-        t.btnPaddingXMedium,
-        t.btnPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixinIE11(t.btnPaddingXMedium, t.btnPaddingYMedium)};
     `;
   },
 
@@ -222,24 +200,13 @@ export const styles = memoizeStyle({
     return css`
       border-radius: ${t.btnBorderRadiusLarge};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeLarge,
-        t.btnLineHeightLarge,
-        t.btnPaddingXLarge,
-        t.btnPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixin(t.btnFontSizeLarge, t.btnLineHeightLarge, t.btnPaddingXLarge, t.btnPaddingYLarge)};
     `;
   },
 
   sizeLargeIE11(t: Theme) {
     return css`
-      ${buttonSizeMixinIE11(
-        t.btnFontSizeLarge,
-        t.btnPaddingXLarge,
-        t.btnPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixinIE11(t.btnPaddingXLarge, t.btnPaddingYLarge)};
     `;
   },
 

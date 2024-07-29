@@ -1,31 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
-import { shift } from '../../lib/styles/DimensionFunctions';
 
 import { globalClasses } from './Button.styles';
 
-const getBtnPadding = (
-  fontSize: string,
-  paddingY: string,
-  paddingX: string,
-  fontFamilyCompensation: string,
-  additionalOffset = 0,
-): string => {
-  let paddingTop = paddingY;
-  let paddingBottom = paddingY;
-  const offset = parseInt(fontFamilyCompensation) || 0;
-
-  const shiftUp = (top: string, bottom: string, offset: number) => {
-    return [shift(top, `${-offset}`), shift(bottom, `${offset}`)];
-  };
-
-  if (fontSize === '16px' && offset) {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, offset);
-  }
-  if (additionalOffset && offset) {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, additionalOffset);
-  }
-
-  return `${paddingTop} ${paddingX} ${paddingBottom}`;
+const getBtnPadding = (paddingY: string, paddingX: string): string => {
+  return `${paddingY} ${paddingX} ${paddingY}`;
 };
 
 export const buttonUseMixin = (
@@ -92,29 +70,18 @@ export const buttonActiveMixin = (
   `;
 };
 
-export const buttonSizeMixin = (
-  fontSize: string,
-  lineHeight: string,
-  paddingX: string,
-  paddingY: string,
-  fontFamilyCompensation: string,
-) => {
+export const buttonSizeMixin = (fontSize: string, lineHeight: string, paddingX: string, paddingY: string) => {
   return css`
     font-size: ${fontSize};
     box-sizing: border-box;
-    padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
+    padding: ${getBtnPadding(paddingY, paddingX)};
     line-height: ${lineHeight};
   `;
 };
 
-export const buttonSizeMixinIE11 = (
-  fontSize: string,
-  paddingX: string,
-  paddingY: string,
-  fontFamilyCompensation: string,
-) => {
+export const buttonSizeMixinIE11 = (paddingX: string, paddingY: string) => {
   return css`
-    padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
+    padding: ${getBtnPadding(paddingY, paddingX)};
     line-height: normal;
   `;
 };
