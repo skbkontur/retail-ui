@@ -64,6 +64,7 @@ kind('Date/DateInput', () => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
+        .pause(500)
         .perform();
       await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
