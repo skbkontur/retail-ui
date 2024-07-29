@@ -14,13 +14,8 @@ kind('Navigation/Paging', () => {
           tests: ['hover', 'Move to page by Ender'],
         },
 
-        'story-skip-2': {
-          in: ['firefox'],
-          tests: ['Move focus right'],
-        },
-
         flaky: {
-          in: ['firefox2022', 'firefox2022Dark'],
+          in: ['firefox', 'firefox2022', 'firefox2022Dark'],
           tests: ['Move focus right', 'Move to page by Ender'],
         },
       },

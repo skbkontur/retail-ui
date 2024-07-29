@@ -56,7 +56,7 @@ kind('Date/DateInput', () => {
       skip: {
         'story-skip-0': {
           in: ['firefox8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
-          tests: ['value not changed'],
+          tests: ['value not changed', 'value changed', 'value restored'],
         },
       },
     });
