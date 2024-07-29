@@ -71,17 +71,15 @@ kind('Navigation/Paging', () => {
     });
 
     test('Move focus right', async function () {
-      // NOTE Firefox bug if click send right after click from previous test it results as double click
-      await delay(500);
       await this.browser
         .actions({
           bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-        .pause(200)
+        .pause(100)
         .sendKeys(this.keys.ARROW_RIGHT)
         .perform();
-      await delay(1000);
+      await delay(10000);
       await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
     });
 

@@ -59,16 +59,13 @@ kind('Date/DateInput', () => {
           input.focus();
         }
       });
-      const body = await this.browser.findElement({ css: 'body' });
-      await delay(1000);
       await this.browser
         .actions({
           bridge: true,
         })
-        .click(body)
-        .pause(500)
+        .click(this.browser.findElement({ css: 'body' }))
         .perform();
-      await delay(2000);
+      await delay(10000);
       await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
     });
 
