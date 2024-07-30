@@ -1279,7 +1279,7 @@ function Upper({ withRoot = false }) {
         />
       </div>
 
-      <ZIndex priority="Modal">
+      <ZIndex priority={9001}>
         <MayBeRoot>
           <Tooltip render={() => 'Tooltip'} pos="top center" trigger="opened" allowedPositions={['top center']}>
             {title}
