@@ -95,7 +95,6 @@ const preview: Preview = {
       } else {
         document.body.classList.remove('dark');
       }
-
       if (storybookTheme !== DEFAULT_THEME) {
         return (
           <ThemeContext.Consumer>
@@ -109,7 +108,6 @@ const preview: Preview = {
           </ThemeContext.Consumer>
         );
       }
-
       return <Story />;
     },
     (Story) => (
@@ -136,51 +134,11 @@ const preview: Preview = {
           }}
         </ThemeContext.Consumer>
       );
-    }
-
-    return <Story />;
-  },
-  (Story) => (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      <Story />
-    </div>
-  ),
-  (Story) => {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  mobileMediaQuery: '(max-width: 576px)',
-                },
-                theme,
-              )}
-            >
-              <Story />
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  },
-  LocaleDecorator,
-];
-
-export const parameters: Meta['parameters'] = {
-  creevey: {
-    captureElement: '#test-element',
-    skip: {
-      'not flat stories in flat browsers': {
-        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
-      },
-      'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
-      'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
     },
+    LocaleDecorator,
   ],
 };
+
 export default preview;
 
 export const globalTypes = {
