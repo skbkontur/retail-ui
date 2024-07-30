@@ -20,7 +20,7 @@ export default {
 } as Meta;
 
 export const WithItems = () => (
-  <Menu>
+  <Menu hasShadow hasMargin>
     <MenuItem>MenuItem1</MenuItem>
     <MenuItem>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
@@ -29,7 +29,7 @@ export const WithItems = () => (
 WithItems.storyName = 'with Items';
 
 export const WithItemsWithIcons = () => (
-  <Menu>
+  <Menu> hasShadow hasMargin
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
     <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
@@ -38,7 +38,7 @@ export const WithItemsWithIcons = () => (
 );
 
 export const WithItemsWithIconsWithoutTextAlignment = () => (
-  <Menu preventIconsOffset>
+  <Menu hasShadow hasMargin preventIconsOffset>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
     <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
@@ -47,7 +47,7 @@ export const WithItemsWithIconsWithoutTextAlignment = () => (
 );
 
 export const WithHeader = () => (
-  <Menu>
+  <Menu hasShadow hasMargin>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuItem>MenuItem2</MenuItem>
@@ -57,7 +57,7 @@ export const WithHeader = () => (
 WithHeader.storyName = 'with Header';
 
 export const WithSeparator = () => (
-  <Menu>
+  <Menu hasShadow hasMargin>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuSeparator />
@@ -67,7 +67,7 @@ export const WithSeparator = () => (
 WithSeparator.storyName = 'with Separator';
 
 export const WithCustomChild = () => (
-  <Menu>
+  <Menu hasShadow hasMargin>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuSeparator />
@@ -81,7 +81,7 @@ WithCustomChild.storyName = 'with Custom Child';
 
 export const WithMaxHeight: Story = () => (
   <MoveControls>
-    <Menu maxHeight={100}>
+    <Menu hasShadow hasMargin maxHeight={100}>
       <MenuHeader>MenuHeader</MenuHeader>
       <MenuItem>MenuItem1</MenuItem>
       <MenuSeparator />
@@ -94,7 +94,7 @@ export const WithMaxHeight: Story = () => (
 WithMaxHeight.storyName = 'with maxHeight';
 
 export const WithWidth = () => (
-  <Menu width={300}>
+  <Menu hasShadow hasMargin width={300}>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuSeparator />
@@ -105,7 +105,7 @@ export const WithWidth = () => (
 WithWidth.storyName = 'with width';
 
 export const WithLongItems = () => (
-  <Menu>
+  <Menu hasShadow hasMargin>
     <MenuHeader>MenuHeaderMenuHeaderMenuHeaderMenuHeader</MenuHeader>
     <MenuItem>MenuItem1 MenuItem1 MenuItem1 MenuItem1 MenuItem1</MenuItem>
     <MenuSeparator />
@@ -116,7 +116,7 @@ export const WithLongItems = () => (
 WithLongItems.storyName = 'with long Items';
 
 export const WithoutShadow = () => (
-  <Menu hasShadow={false}>
+  <Menu hasMargin>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuSeparator />
@@ -127,7 +127,7 @@ export const WithoutShadow = () => (
 WithoutShadow.storyName = 'without Shadow';
 
 export const WithDisabledMenuItem: Story = () => (
-  <Menu hasShadow={false}>
+  <Menu hasMargin>
     <MenuItem disabled>MenuItem1</MenuItem>
     <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
   </Menu>

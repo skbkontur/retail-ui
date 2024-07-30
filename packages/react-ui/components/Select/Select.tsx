@@ -489,8 +489,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         popupOffset={this.props.menuOffset}
       >
         <Menu
-          hasMargin={false}
-          hasShadow={false}
           ref={this.refMenu}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
@@ -522,7 +520,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         onCloseRequest={this.close}
         opened={this.state.opened}
       >
-        <Menu hasShadow={false} onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
+        <Menu onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
           {this.getMenuItems(value)}
         </Menu>
       </MobilePopup>

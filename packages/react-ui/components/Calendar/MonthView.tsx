@@ -76,8 +76,8 @@ export function MonthView(props: MonthViewProps) {
   const borderBottomColor = ColorFunctions.fade(theme.calendarMonthTitleBorderBottomColor, alpha);
   const isYearVisible = isFirstInYear || isHeaderSticky;
   const yearTop = isHeaderSticky && !isLastInYear ? -headerTop - top : 0;
-  const monthSelectDisabled = top > 52 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
-  const yearSelectDisabled = top > 52 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
+  const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
+  const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
 
   return (
     <div

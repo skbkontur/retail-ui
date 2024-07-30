@@ -226,8 +226,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
       <ComboBoxMenu
-        hasMargin={false}
-        hasShadow={false}
         menuId={this.menuId}
         items={items}
         loading={loading}

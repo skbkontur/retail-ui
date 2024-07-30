@@ -73,9 +73,7 @@ type DefaultProps = Required<
     MenuProps,
     | 'align'
     | 'width'
-    | 'hasMargin'
     | 'maxHeight'
-    | 'hasShadow'
     | 'preventWindowScroll'
     | 'cyclicSelection'
     | 'initialSelectedItemIndex'
@@ -92,8 +90,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     align: 'left',
     width: 'auto',
     maxHeight: 300,
-    hasMargin: true,
-    hasShadow: true,
     preventWindowScroll: true,
     cyclicSelection: true,
     initialSelectedItemIndex: -1,

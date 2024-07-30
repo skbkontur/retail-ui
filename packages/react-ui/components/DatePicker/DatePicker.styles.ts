@@ -14,6 +14,7 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.pickerBg};
       box-shadow: ${t.pickerShadow};
+      // display: inline-block;
       display: flex;
       flex-flow: column nowrap;
       font-size: 0;

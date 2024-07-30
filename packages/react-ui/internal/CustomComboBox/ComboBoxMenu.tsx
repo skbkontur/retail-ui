@@ -110,8 +110,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         <Menu
           maxHeight={maxHeight}
           ref={refMenu}
-          hasShadow={this.props.hasShadow}
-          hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
           data-tid={ComboBoxMenuDataTids.loading}
@@ -128,8 +126,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         <Menu
           ref={refMenu}
           maxHeight={maxHeight}
-          hasShadow={this.props.hasShadow}
-          hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
           data-tid={ComboBoxMenuDataTids.failed}
@@ -150,8 +146,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         return (
           <Menu
             id={this.props.menuId}
-            hasShadow={this.props.hasShadow}
-            hasMargin={this.props.hasMargin}
             maxHeight={maxHeight}
             ref={refMenu}
             disableScrollContainer={isMobile}
@@ -165,8 +159,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         return (
           <Menu
             id={this.props.menuId}
-            hasShadow={this.props.hasShadow}
-            hasMargin={this.props.hasMargin}
             maxHeight={maxHeight}
             ref={refMenu}
             disableScrollContainer={isMobile}
@@ -201,8 +193,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         data-tid={ComboBoxMenuDataTids.items}
         ref={refMenu}
         maxHeight={maxHeight}
-        hasShadow={this.props.hasShadow}
-        hasMargin={this.props.hasMargin}
         disableScrollContainer={isMobile}
       >
         {renderedItems}

@@ -290,8 +290,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
-      hasShadow: false,
-      hasMargin: false,
       width: menuWidth || (width && getDOMRect(this.rootSpan).width),
       preventWindowScroll,
     };

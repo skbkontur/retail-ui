@@ -191,7 +191,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
                 <Menu
-                  hasShadow={false}
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
