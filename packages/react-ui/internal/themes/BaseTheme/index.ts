@@ -1,5 +1,5 @@
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { exposeGetters } from '../../lib/theming/ThemeHelpers';
+import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
+import { exposeGetters } from '../../../lib/theming/ThemeHelpers';
 
 export class BaseThemeInternal {
   //#region Common variables
