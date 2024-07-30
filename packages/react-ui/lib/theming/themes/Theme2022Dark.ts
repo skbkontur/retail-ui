@@ -2,7 +2,7 @@ import { ThemeFactory } from '../ThemeFactory';
 import { Theme2022DarkInternal } from '../../../internal/themes/Theme2022Dark';
 import { DarkThemeInternal } from '../../../internal/themes/DarkTheme';
 import { Theme2022Internal } from '../../../internal/themes/Theme2022';
-import { applyMarkers, markAsDarkTheme } from '../ThemeHelpers';
+import { applyMarkers, markAsDarkTheme, markAsTheme2022 } from '../ThemeHelpers';
 
 const colorUpdate2024 = {
   green: '#23A14A',
@@ -54,5 +54,5 @@ export const THEME_2022_DARK = applyMarkers(
     colorUpdate2024,
     ThemeFactory.create(Theme2022DarkInternal, ThemeFactory.create(Theme2022Internal, DarkThemeInternal)),
   ),
-  [markAsDarkTheme],
+  [markAsTheme2022, markAsDarkTheme],
 );
