@@ -5,7 +5,7 @@ import { ThemeContext } from '../ThemeContext';
 import { applyMarkers, exposeGetters, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
-import { DefaultTheme, DefaultThemeInternal } from '../../../internal/themes/DefaultTheme';
+import { BaseThemeInternal, BaseTheme } from '../../../internal/themes/DefaultTheme';
 import { AnyObject } from '../../utils';
 
 const TEST_MARKERS = {
@@ -36,7 +36,7 @@ const getConsumedTheme = () => {
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
 const BaseThemeInternal = Object.setPrototypeOf(
   exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }),
-  DefaultThemeInternal,
+  BaseTheme,
 );
 
 // test marker
@@ -63,7 +63,7 @@ describe('Theming', () => {
         const theme = ThemeFactory.create(myTheme);
 
         expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.black).toEqual(DefaultThemeInternal.black);
+        expect(theme.black).toEqual(BaseTheme.black);
       });
       test('with args [theme, baseTheme]', () => {
         const theme = ThemeFactory.create(myTheme, BaseThemeInternal);
@@ -76,14 +76,14 @@ describe('Theming', () => {
       test('markers should be overridden', () => {
         const theme = applyMarkers(ThemeFactory.create(myTheme, BaseThemeInternal), [markAsTest]);
 
-        ThemeFactory.overrideDefaultTheme(theme);
+        ThemeFactory.overrideBaseTheme(theme);
 
         const consumedTheme = getConsumedTheme();
 
         expect(isTestTheme(consumedTheme)).toBeTruthy();
       });
       test('variables should be overridden', () => {
-        ThemeFactory.overrideDefaultTheme(ThemeFactory.create(myTheme));
+        ThemeFactory.overrideBaseTheme(ThemeFactory.create(myTheme));
 
         const consumedTheme = getConsumedTheme();
 
@@ -93,7 +93,7 @@ describe('Theming', () => {
     });
     test('getKeys()', () => {
       const keys_1 = ThemeFactory.getKeys(BaseThemeInternal);
-      const keys_2 = ThemeFactory.getKeys(DefaultTheme);
+      const keys_2 = ThemeFactory.getKeys(BaseThemeInternal);
 
       expect(keys_1).toEqual(keys_2);
     });

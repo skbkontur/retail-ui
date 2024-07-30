@@ -1,7 +1,7 @@
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-export class DefaultTheme {
+export class BaseThemeInternal {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
@@ -2490,4 +2490,4 @@ export class DefaultTheme {
   //#endregion
 }
 
-export const DefaultThemeInternal = exposeGetters(DefaultTheme);
+export const BaseTheme = exposeGetters(BaseThemeInternal);

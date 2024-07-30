@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { DefaultThemeInternal } from './DefaultTheme';
+import { BaseTheme } from './DefaultTheme';
 
-export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
+export class DarkTheme extends (class {} as typeof BaseTheme) {
   //#region Common variables
   public static grayXLight = '#313131';
   public static gray = 'rgba(255, 255, 255, 0.48)';
@@ -244,7 +244,4 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const DarkThemeInternal = Object.setPrototypeOf(
-  exposeGetters(DarkTheme),
-  DefaultThemeInternal,
-) as typeof DarkTheme;
+export const DarkThemeInternal = Object.setPrototypeOf(exposeGetters(DarkTheme), BaseTheme) as typeof DarkTheme;

@@ -1,4 +1,4 @@
-import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { BaseTheme } from '../../internal/themes/DefaultTheme';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
@@ -7,21 +7,21 @@ import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 export class ThemeFactory {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
   public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
-    const base = baseTheme || DefaultThemeInternal;
+    const base = baseTheme || BaseTheme;
     return this.constructTheme(base, theme);
   }
 
-  public static overrideDefaultTheme(theme: Theme) {
+  public static overrideBaseTheme(theme: Theme) {
     // copying theme variables
-    ThemeFactory.getKeys(DefaultThemeInternal).forEach((variableName) => {
+    ThemeFactory.getKeys(BaseTheme).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
-      Object.defineProperty(DefaultThemeInternal, variableName, descriptor);
+      Object.defineProperty(BaseTheme, variableName, descriptor);
     });
 
     // copying theme markers
     Object.values(REACT_UI_THEME_MARKERS).forEach((marker) => {
       const descriptor = findPropertyDescriptor(theme, marker.key);
-      Object.defineProperty(DefaultThemeInternal, marker.key, descriptor);
+      Object.defineProperty(BaseTheme, marker.key, descriptor);
     });
   }
 

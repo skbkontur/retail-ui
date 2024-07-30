@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { DefaultThemeInternal } from './DefaultTheme';
+import { BaseTheme } from './DefaultTheme';
 
-export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
+export class Theme2022 extends (class {} as typeof BaseTheme) {
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
@@ -570,7 +570,4 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const Theme2022Internal = Object.setPrototypeOf(
-  exposeGetters(Theme2022),
-  DefaultThemeInternal,
-) as typeof Theme2022;
+export const Theme2022Internal = Object.setPrototypeOf(exposeGetters(Theme2022), BaseTheme) as typeof Theme2022;
