@@ -1,6 +1,6 @@
 import * as TooltipStories from './Tooltip.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Tooltip} from '../Tooltip';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Tooltip } from '../Tooltip';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
@@ -13,9 +13,11 @@ import { Input, RadioGroup, Radio, Button, Center, Gapped, Select } from '@skbko
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -149,7 +151,7 @@ class UseManualTooltip extends React.Component {
           render={() => 'Manual tooltip'}
           pos="bottom center"
           trigger="manual"
-          ref={element => {
+          ref={(element) => {
             this.tooltip = element;
           }}
         >
@@ -248,7 +250,7 @@ const blockStyle = {
   width: S - 5,
   boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
   background: 'gray',
-  border: '1px solid'
+  border: '1px solid',
 };
 const containerStyle = {
   width: S * 9,
@@ -300,7 +302,7 @@ class AnchorTooltipExample extends React.Component {
             <div key={i} style={{ top, left, display: 'inline-block', position: 'absolute' }}>
               <div
                 style={blockStyle}
-                onMouseEnter={event => this.setState({ anchor: event.target })}
+                onMouseEnter={(event) => this.setState({ anchor: event.target })}
                 onMouseLeave={() => this.setState({ anchor: null })}
               />
             </div>
@@ -322,15 +324,13 @@ import { Input, Gapped, Tooltip } from '@skbkontur/react-ui';
 
 const [delay, setDelay] = React.useState(100);
 
-const render = () => (
-  <div>
-    {`Showed with ${delay}ms delay`}
-  </div>
-);
+const render = () => <div>{`Showed with ${delay}ms delay`}</div>;
 
 <div>
   <Gapped vertical>
-    <Gapped>Show delay: <Input value={delay} onValueChange={setDelay} /></Gapped>
+    <Gapped>
+      Show delay: <Input value={delay} onValueChange={setDelay} />
+    </Gapped>
     <Tooltip render={render} delayBeforeShow={delay} pos="right top">
       <HelpDotIcon />
     </Tooltip>

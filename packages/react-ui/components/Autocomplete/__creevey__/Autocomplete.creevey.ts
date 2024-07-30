@@ -10,7 +10,7 @@ const commonTests = () => {
     const autocompleteElement = this.browser.findElement({
       css: '[data-comp-name~="Autocomplete"]',
     });
-    await this.browser.actions({ async: undefined, bridge: true }).click(autocompleteElement).sendKeys('o').perform();
+    await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
     await delay(1000);
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   });
@@ -20,7 +20,7 @@ const mobileHintsTests = () => {
   test('noInputValue', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: 'input' }))
       .perform();
@@ -31,7 +31,7 @@ const mobileHintsTests = () => {
   test('nothingWasFound', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: 'input' }))
       .sendKeys('abc')
@@ -43,7 +43,7 @@ const mobileHintsTests = () => {
   test('updateValue', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: 'input' }))
       .sendKeys('one')
@@ -51,7 +51,7 @@ const mobileHintsTests = () => {
     await delay(200);
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .click(this.browser.findElement({ css: 'input' }))
@@ -69,7 +69,7 @@ const sizeTests = () => {
     const autocompleteElements = await this.browser.findElements({
       css: '[data-comp-name~="Autocomplete"]',
     });
-    await this.browser.actions({ async: undefined, bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
     await delay(1000);
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   });
@@ -81,7 +81,7 @@ const sizeTests = () => {
     const autocompleteElements = await this.browser.findElements({
       css: '[data-comp-name~="Autocomplete"]',
     });
-    await this.browser.actions({ async: undefined, bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
     await delay(1000);
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   });
@@ -93,13 +93,34 @@ const sizeTests = () => {
     const autocompleteElements = await this.browser.findElements({
       css: '[data-comp-name~="Autocomplete"]',
     });
-    await this.browser.actions({ async: undefined, bridge: true }).click(autocompleteElements[2]).sendKeys('o').perform();
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[2]).sendKeys('o').perform();
     await delay(1000);
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   });
 };
 
-kind('Autocomplete', () => {
+const menuPosTests = () => {
+  test('focus and type text menu top', async function () {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  });
+  test('focus and type text menu bottom', async function () {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  });
+};
+
+kind('Input elements/Autocomplete', () => {
   story('Simple', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -109,7 +130,7 @@ kind('Autocomplete', () => {
       const autocompleteElement = this.browser.findElement({
         css: '[data-comp-name~="Autocomplete"]',
       });
-      await this.browser.actions({ async: undefined, bridge: true }).click(autocompleteElement).perform();
+      await this.browser.actions({ bridge: true }).click(autocompleteElement).perform();
       await delay(1000);
       await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
     });
@@ -153,7 +174,7 @@ kind('Autocomplete', () => {
     test('opened', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .perform();
@@ -174,7 +195,7 @@ kind('Autocomplete', () => {
       const autocompleteElement = this.browser.findElement({
         css: '[data-comp-name~="Autocomplete"]',
       });
-      await this.browser.actions({ async: undefined, bridge: true }).click(autocompleteElement).sendKeys('o').perform();
+      await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
       await delay(1000);
       await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
     });
@@ -187,7 +208,7 @@ kind('Autocomplete', () => {
         css: '[data-comp-name~="Autocomplete"]',
       });
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
         .click(autocompleteElement)
         .sendKeys('o')
@@ -199,5 +220,14 @@ kind('Autocomplete', () => {
 
   story('Size', () => {
     sizeTests();
+  });
+
+  story('WithDisabledPortal', () => {
+    commonTests();
+    menuPosTests();
+  });
+
+  story('MenuPos', () => {
+    menuPosTests();
   });
 });

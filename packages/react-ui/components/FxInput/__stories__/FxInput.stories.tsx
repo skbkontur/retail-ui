@@ -11,7 +11,7 @@ import { SizeProp } from '../../../lib/types/props';
 
 export default {
   title: 'Input elements/FxInput',
-  component: FxInput
+  component: FxInput,
 } as Meta;
 
 export const TypeText = () => <TestFxInput />;

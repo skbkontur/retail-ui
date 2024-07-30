@@ -1,6 +1,6 @@
 import * as SingleToastStories from './SingleToast.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {SingleToast} from '../SingleToast';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { SingleToast } from '../SingleToast';
 import { Button, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
 <Meta of={SingleToastStories} />
@@ -10,9 +10,11 @@ import { Button, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -26,29 +28,26 @@ import { Button, SingleToast } from '@skbkontur/react-ui';
 
 <div>
   <SingleToast />
-  <Button onClick={() => SingleToast.push('Статический тост')}>
-    Показать статический тост
-  </Button>
-</div>
+  <Button onClick={() => SingleToast.push('Статический тост')}>Показать статический тост</Button>
+</div>;
 ```
 
 ### `<SingleToast>` можно кастомизировать с помощью переменных темы для `toast`.
+
 ```jsx harmony
 import { Button, SingleToast, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
-const rand = () => "Пример жёлтого тоста № " + Math.round(Math.random() * 100).toString();
+const rand = () => 'Пример жёлтого тоста № ' + Math.round(Math.random() * 100).toString();
 
 const pushToast = () => {
   SingleToast.push(rand(), {
-    label: "Cancel",
-    handler: () => SingleToast.push("Canceled")
+    label: 'Cancel',
+    handler: () => SingleToast.push('Canceled'),
   });
 };
 
 <div>
   <SingleToast theme={{ toastBg: '#f1c40f' }} />
-  <Button onClick={pushToast}>
-    Показать тост с жёлтым фоном
-  </Button>
-</div>
+  <Button onClick={pushToast}>Показать тост с жёлтым фоном</Button>
+</div>;
 ```

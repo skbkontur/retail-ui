@@ -8,7 +8,7 @@ const buttonTests = () => {
   test('hover', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
@@ -20,7 +20,7 @@ const buttonTests = () => {
   test('pressed', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .move({
         origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
@@ -30,7 +30,7 @@ const buttonTests = () => {
     await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .release()
       .perform();
@@ -39,7 +39,7 @@ const buttonTests = () => {
   test('clicked', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: '[data-tid~="test-button"]' }))
       .perform();
@@ -49,7 +49,7 @@ const buttonTests = () => {
   test('tabPress', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .sendKeys(this.keys.TAB)
       .pause(500)
@@ -58,7 +58,7 @@ const buttonTests = () => {
   });
 };
 
-kind('Button', () => {
+kind('Action/Button', () => {
   story('PlaygroundDefault', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -98,20 +98,6 @@ kind('Button', () => {
     buttonTests();
   });
 
-  story('WithLinkFocusOutlineFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'hover does not work': {
-          in: /chrome/,
-          tests: ['hover', 'pressed', 'clicked'],
-        },
-        'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
-      },
-    });
-
-    buttonTests();
-  });
-
   story('IconAndTextHoverColor', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -124,7 +110,7 @@ kind('Button', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({
@@ -148,7 +134,7 @@ kind('Button', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({

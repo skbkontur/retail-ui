@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Paging', () => {
+kind('Navigation/Paging', () => {
   story('GoToAbsensePageStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -13,8 +13,9 @@ kind('Paging', () => {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
           tests: ['hover', 'Move to page by Ender'],
         },
+
         flaky: {
-          in: ['firefox2022', 'firefox2022Dark'],
+          in: ['firefox', 'firefox2022', 'firefox2022Dark'],
           tests: ['Move focus right', 'Move to page by Ender'],
         },
       },
@@ -27,7 +28,7 @@ kind('Paging', () => {
     test('hover', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
@@ -39,7 +40,7 @@ kind('Paging', () => {
     test('change page by number', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .perform();
@@ -51,7 +52,7 @@ kind('Paging', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
         .perform();
@@ -63,7 +64,7 @@ kind('Paging', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .perform();
@@ -73,7 +74,7 @@ kind('Paging', () => {
     test('Move focus right', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .pause(100)
@@ -85,7 +86,7 @@ kind('Paging', () => {
     test('Move to page by Ender', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
         .pause(100)

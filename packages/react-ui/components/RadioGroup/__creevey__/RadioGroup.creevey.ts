@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('RadioGroup', () => {
+kind('Choose/RadioGroup', () => {
   story('Vertical', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '#RadioGroup-wrap',
@@ -21,7 +21,7 @@ kind('RadioGroup', () => {
     test('hovered', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }),
@@ -33,7 +33,7 @@ kind('RadioGroup', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
         .perform();
@@ -45,13 +45,13 @@ kind('RadioGroup', () => {
       await delay(500);
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
         .perform();
@@ -61,7 +61,7 @@ kind('RadioGroup', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
         .sendKeys(this.keys.TAB)
@@ -72,7 +72,7 @@ kind('RadioGroup', () => {
     test('arrow_down', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
         .sendKeys(this.keys.TAB)

@@ -10,7 +10,6 @@ import { Modal } from '../../Modal';
 import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 const textSample = (
   <p>
@@ -230,7 +229,7 @@ class SidePageOverAnotherSidePage extends React.Component {
   }
 }
 
-class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
+class StickyHeaderWhenAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
   }
@@ -612,8 +611,8 @@ class WithLongTitle extends React.Component {
 }
 
 export default {
-    title: 'Overlays/SidePage',
-    component: SidePage,
+  title: 'Overlays/SidePage',
+  component: SidePage,
 };
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
@@ -627,8 +626,8 @@ WithInputInHeader.parameters = { creevey: { skip: true } };
 export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 
-export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
-StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
+export const StickyHeaderWhenAnotherSidePageStory: Story = () => <StickyHeaderWhenAnotherSidePage />;
+StickyHeaderWhenAnotherSidePageStory.storyName = 'Sticky Header when another SidePage';
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
 SidePageWithConfiguration.storyName = 'SidePage with configuration';
@@ -667,15 +666,10 @@ BodyWithoutFooter.storyName = 'Body without Footer';
 export const BodyWithoutHeader: Story = () => <Sample withoutHeader withContent withLongBody />;
 BodyWithoutHeader.storyName = 'Body without Header';
 
-export const SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag: Story = () => {
-  return (
-    <ReactUIFeatureFlagsContext.Provider value={{ sidePageEnableFocusLockWhenBackgroundBlocked: true }}>
-      <Sample total={1} current={1} blockBackground />
-    </ReactUIFeatureFlagsContext.Provider>
-  );
+export const SidePageWithFocusLockWhenBackgroundBlocked: Story = () => {
+  return <Sample total={1} current={1} blockBackground />;
 };
-SidePageWithFocusLockWhenBackgroundBlockedFeatureFlag.storyName =
-  'SidePage with sidePageEnableFocusLockWhenBackgroundBlocked feature flag';
+SidePageWithFocusLockWhenBackgroundBlocked.storyName = 'SidePage with FocusLock when background blocked';
 
 export const SidePageWithVariableContent = () => <WithVariableContent />;
 SidePageWithVariableContent.storyName = 'SidePage with variable content';

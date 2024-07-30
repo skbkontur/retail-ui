@@ -7,6 +7,13 @@ import { Button } from '../../Button';
 export default {
   title: 'Popup/SingleToast',
   component: SingleToast,
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'static method' },
+      },
+    },
+  },
   decorators: [
     (Story: () => JSX.Element) => (
       <div

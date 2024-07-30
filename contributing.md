@@ -350,7 +350,6 @@ function foo() {}
 
    Примеры:
    - validationsRemoveExtraSpans - Избавиться от обертки span в ValidationContainer, ValidationWrapper и ValidationText
-   - tokenInputRemoveWhitespaceFromDefaultDelimiters - В TokenInput изменили разделитель по умолчанию
 
 2) Добавьте флаг в ReactUIFeatureFlags в файл ReactUIFeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md
 

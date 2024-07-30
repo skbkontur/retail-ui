@@ -32,24 +32,12 @@ const ALL_USED_VARIABLES_SET = new Set<keyof Theme>();
 
 export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
-interface RequireContextX {
-  keys(): string[];
-  (id: string): any;
-  <T>(id: string): T;
-  resolve(id: string): string;
-  /** The module id of the context module. This may be useful for module.hot.accept. */
-  id: string;
-}
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
   baseThemes.push(DEFAULT_THEME);
   baseThemes.push(DARK_THEME);
-  const componentsContext = (
-    require as unknown as { context: (a: string, b: boolean, f: RegExp) => RequireContextX }
-  ).context('../../../', true, /\.styles.ts$/);
-  componentsContext.keys().forEach((fileName: string) => {
-  // const componentsContext: __WebpackModuleApi.RequireContext = require.context('../../../', true, /\.styles.ts$/);
-  // componentsContext.keys().forEach((fileName) => {
+  const componentsContext = require.context('../../../', true, /\.styles.ts$/);
+  componentsContext.keys().forEach((fileName) => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
     const componentDescription: ComponentDescriptionType = {};

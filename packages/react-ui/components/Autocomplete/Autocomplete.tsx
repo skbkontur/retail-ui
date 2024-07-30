@@ -6,6 +6,7 @@ import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
@@ -74,9 +75,7 @@ export interface AutocompleteProps
         size?: SizeProp;
         /** value */
         value: string;
-        /**
-         * Текст заголовка выпадающего меню в мобильной версии
-         */
+        /** Текст заголовка выпадающего меню в мобильной версии */
         mobileMenuHeaderText?: string;
       }
     > {}
@@ -226,6 +225,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
+      menuPos,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
       'aria-label': ariaLabel,
@@ -235,6 +235,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const inputProps = {
       ...rest,
       width: '100%',
+      autoComplete: 'off',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -245,7 +246,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
-          className={styles.root(this.theme)}
+          className={cx(styles.root(this.theme), {
+            [styles.noPortal()]: disablePortal,
+          })}
           style={{ width }}
           ref={this.refRootSpan}
         >
@@ -305,6 +308,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
+      autoComplete: 'off',
       autoFocus: true,
       width: '100%',
       onValueChange: this.handleValueChange,

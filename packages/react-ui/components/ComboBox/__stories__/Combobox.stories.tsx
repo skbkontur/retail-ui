@@ -22,7 +22,7 @@ const { getCities } = require('../__mocks__/getCities.js');
 
 export default {
   title: 'Input elements/ComboBox',
-  component: ComboBox
+  component: ComboBox,
 } as Meta;
 
 export const SimpleComboboxStory: Story = () => (

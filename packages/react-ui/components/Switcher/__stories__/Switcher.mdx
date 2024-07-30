@@ -1,7 +1,7 @@
 import * as SwitcherStories from './Switcher.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Switcher} from '../Switcher';
-import {Hint, Tooltip} from '@skbkontur/react-ui';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Switcher } from '../Switcher';
+import { Hint, Tooltip } from '@skbkontur/react-ui';
 
 <Meta of={SwitcherStories} />
 
@@ -10,9 +10,11 @@ import {Hint, Tooltip} from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -20,12 +22,7 @@ import {Hint, Tooltip} from '@skbkontur/react-ui';
 ```jsx harmony
 const [value, setValue] = React.useState();
 
-<Switcher
-  caption="Switch the switcher"
-  items={['One', 'Two', 'Three']}
-  value={value}
-  onValueChange={setValue}
-/>;
+<Switcher caption="Switch the switcher" items={['One', 'Two', 'Three']} value={value} onValueChange={setValue} />;
 ```
 
 ### Случай, когда `items` принимает объект типа `{ label: string, value: string }`:
@@ -44,15 +41,10 @@ const items = [
   {
     label: 'Three',
     value: '333',
-  }
+  },
 ];
 
-<Switcher
-  caption="Switch the switcher"
-  items={items}
-  value={value}
-  onValueChange={setValue}
-/>;
+<Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} />;
 ```
 
 ### Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку:
@@ -64,47 +56,46 @@ const items = [
     label: 'One',
     value: '111',
     buttonProps: {
-      'data-tid': "1-1-1",
+      'data-tid': '1-1-1',
       disabled: true,
-    }
+    },
   },
   {
     label: 'Three',
     value: '333',
     buttonProps: {
-      'data-tid': "1-1-1",
-      use: "primary",
-    }
+      'data-tid': '1-1-1',
+      use: 'primary',
+    },
   },
   {
     label: 'Two',
     value: '222',
     buttonProps: {
-      'data-tid': "1-1-1",
+      'data-tid': '1-1-1',
       arrow: true,
-    }
-  }
+    },
+  },
 ];
 
-<Switcher
-  caption="Switch the switcher"
-  items={items}
-  value={value}
-  onValueChange={setValue}
-/>;
+<Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} />;
 ```
 
 ### Пример с методом `renderItem` для кастомизации `items`:
 
 ```jsx harmony
-import {Hint, Tooltip} from '@skbkontur/react-ui';
+import { Hint, Tooltip } from '@skbkontur/react-ui';
 
 const [value, setValue] = React.useState();
 const items = ['One', 'Two', 'Three'];
 
 const renderItem = (label, value, buttonProps, renderDefault) => {
   if (value === 'One') {
-    return <Hint pos="bottom" text="Подсказка" opened manual>{renderDefault()}</Hint>;
+    return (
+      <Hint pos="bottom" text="Подсказка" opened manual>
+        {renderDefault()}
+      </Hint>
+    );
   }
   if (value === 'Three') {
     return (
@@ -114,13 +105,7 @@ const renderItem = (label, value, buttonProps, renderDefault) => {
     );
   }
   return renderDefault();
-}
+};
 
-<Switcher
-  caption="Switch the switcher"
-  items={items}
-  value={value}
-  onValueChange={setValue}
-  renderItem={renderItem}
-/>;
+<Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} renderItem={renderItem} />;
 ```

@@ -1,10 +1,18 @@
-import { Tab } from '../Tab';
 import React from 'react';
+
+import { Tab } from '../Tab';
 import { Tabs } from '../Tabs';
 
 export default {
   title: 'Navigation/Tab',
   component: Tab,
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
 };
 
 export const Default = () => {

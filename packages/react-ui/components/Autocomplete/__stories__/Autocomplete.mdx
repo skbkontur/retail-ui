@@ -1,6 +1,6 @@
 import * as AutocompleteStories from './Autocomplete.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Autocomplete} from '../Autocomplete';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Autocomplete } from '../Autocomplete';
 import { Button, Group, Gapped } from '@skbkontur/react-ui';
 
 <Meta of={AutocompleteStories} />
@@ -10,9 +10,11 @@ import { Button, Group, Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -26,6 +28,7 @@ const [value, setValue] = React.useState('Kappa');
 ```
 
 ### Очистить значение в `Autocomplete` можно только с помощью пустой строки
+
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
 
@@ -36,10 +39,11 @@ const [value, setValue] = React.useState('Kappa');
 <Group>
   <Autocomplete source={items} value={value} onValueChange={setValue} />
   <Button onClick={() => setValue('')}>Очистить</Button>
-</Group>
+</Group>;
 ```
 
 ### У Autocomplete есть 3 стандартных размера.
+
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 
@@ -53,5 +57,5 @@ const [valueLarge, setValueLarge] = React.useState('Большой');
   <Autocomplete source={items} value={valueSmall} onValueChange={setValueSmall} size={'small'} />
   <Autocomplete source={items} value={valueMedium} onValueChange={setValueMedium} size={'medium'} />
   <Autocomplete source={items} value={valueLarge} onValueChange={setValueLarge} size={'large'} />
-</Gapped>
+</Gapped>;
 ```

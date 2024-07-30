@@ -1,7 +1,16 @@
 import * as DropdownMenuStories from './DropdownMenu.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {DropdownMenu} from '../DropdownMenu';
-import { Button, Gapped, Checkbox, ThemeContext, ThemeFactory, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { DropdownMenu } from '../DropdownMenu';
+import {
+  Button,
+  Gapped,
+  Checkbox,
+  ThemeContext,
+  ThemeFactory,
+  MenuHeader,
+  MenuItem,
+  MenuSeparator,
+} from '@skbkontur/react-ui';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 
@@ -12,9 +21,11 @@ import MenuIcon from '@skbkontur/react-icons/Menu';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -42,16 +53,18 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
-<DropdownMenu caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
+<DropdownMenu
+  caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
     return (
       <>
-        <p>Сейчас меню { opened ? 'окрыто' : 'закрыто' }</p>
+        <p>Сейчас меню {opened ? 'окрыто' : 'закрыто'}</p>
         <Button onClick={toggleMenu}>Переключить меню</Button>
         <Button onClick={openMenu}>Открыть меню</Button>
         <Button onClick={closeMenu}>Закрыть меню</Button>
       </>
-    )
-  }}>
+    );
+  }}
+>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
   <MenuItem>Раз</MenuItem>
@@ -105,7 +118,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
-<DropdownMenu positions={["left middle"]} caption={<Button use="primary">Открыть меню</Button>}>
+<DropdownMenu positions={['left middle']} caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
   <MenuItem>Раз</MenuItem>
@@ -127,7 +140,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
   header={<p>Это шапка в виде обычного текста</p>}
   footer={<Button>А это подвал в виде кнопки</Button>}
   caption={<Button use="primary">Открыть меню</Button>}
-  >
+>
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>
@@ -159,7 +172,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
   <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
   <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### Меню с отключенной анимацией.
@@ -167,10 +180,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  disableAnimations
-  caption={<Button use="primary">Открыть меню без анимации</Button>}
-  >
+<DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню без анимации</Button>}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
   <MenuItem>Раз</MenuItem>
@@ -237,13 +247,13 @@ const renderCaption = ({ openMenu, closeMenu }) => {
   >
     Закрыть
   </MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### Условный рендер элементов меню (с сохранением поведения [MenuItem](#/Components/MenuItem)).
 
 ```jsx harmony
-import {Button, MenuItem, Gapped, MenuSeparator} from '@skbkontur/react-ui';
+import { Button, MenuItem, Gapped, MenuSeparator } from '@skbkontur/react-ui';
 
 const [showItems, setShowItems] = React.useState(false);
 
@@ -254,11 +264,8 @@ const hiddenItems = [
   <MenuItem>Я с вами</MenuItem>,
 ];
 
-
 <Gapped>
-  <Button onClick={() => setShowItems(!showItems)}>
-    {showItems ? 'Спрятать' : 'Показать'} элементы
-  </Button>
+  <Button onClick={() => setShowItems(!showItems)}>{showItems ? 'Спрятать' : 'Показать'} элементы</Button>
 
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
     <MenuItem>Меня видно всегда</MenuItem>
@@ -266,5 +273,5 @@ const hiddenItems = [
     <MenuItem>Ага, и меня!</MenuItem>
     {showItems && hiddenItems}
   </DropdownMenu>
-</Gapped>
+</Gapped>;
 ```
