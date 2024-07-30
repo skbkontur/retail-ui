@@ -34,10 +34,7 @@ const getConsumedTheme = () => {
 
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
-const BaseThemeInternal = Object.setPrototypeOf(
-  exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }),
-  BaseTheme,
-);
+const TestTheme = Object.setPrototypeOf(exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }), BaseTheme);
 
 // test marker
 const markAsTest: Marker = (theme) => {
@@ -54,7 +51,7 @@ const isTestTheme = (theme: AnyObject): boolean => {
   return theme[TEST_MARKERS.test.key] === TEST_MARKERS.test.value;
 };
 
-markAsTest(BaseThemeInternal);
+markAsTest(TestTheme);
 
 describe('Theming', () => {
   describe('ThemeFactory', () => {
@@ -66,15 +63,15 @@ describe('Theming', () => {
         expect(theme.black).toEqual(BaseTheme.black);
       });
       test('with args [theme, baseTheme]', () => {
-        const theme = ThemeFactory.create(myTheme, BaseThemeInternal);
+        const theme = ThemeFactory.create(myTheme, TestTheme);
 
         expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.bgSecondary).toEqual(BaseThemeInternal.bgSecondary);
+        expect(theme.bgSecondary).toEqual(TestTheme.bgSecondary);
       });
     });
     describe('overrideDefaultTheme()', () => {
       test('markers should be overridden', () => {
-        const theme = applyMarkers(ThemeFactory.create(myTheme, BaseThemeInternal), [markAsTest]);
+        const theme = applyMarkers(ThemeFactory.create(myTheme, TestTheme), [markAsTest]);
 
         ThemeFactory.overrideBaseTheme(theme);
 
@@ -92,7 +89,7 @@ describe('Theming', () => {
       });
     });
     test('getKeys()', () => {
-      const keys_1 = ThemeFactory.getKeys(BaseThemeInternal);
+      const keys_1 = ThemeFactory.getKeys(TestTheme);
       const keys_2 = ThemeFactory.getKeys(BaseThemeInternal);
 
       expect(keys_1).toEqual(keys_2);
