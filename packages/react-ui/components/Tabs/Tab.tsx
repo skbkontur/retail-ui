@@ -1,23 +1,24 @@
 import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { keyListener } from '../../lib/events/keyListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { TabsContext, TabsContextDefaultValue, TabsContextType } from './TabsContext';
-import { globalClasses, horizontalStyles, styles, verticalStyles } from './Tab.styles';
+import { getHorizontalStyles, getStyles, getVerticalStyles, globalClasses } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -119,6 +120,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
   private setRootNode!: TSetRootNode;
 
@@ -149,12 +151,19 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -191,8 +200,8 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       isActive = this.context.activeTab === this.getId();
       isVertical = this.context.vertical;
     }
-    const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
-
+    const orientationStyles = isVertical ? getVerticalStyles(this.emotion) : getHorizontalStyles(this.emotion);
+    const styles = getStyles(this.emotion);
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
@@ -201,7 +210,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       >
         <Component
           data-tid={TabDataTids.root}
-          className={cx({
+          className={this.emotion.cx({
             [styles.rootSmall(this.theme)]: this.context.size === 'small',
             [styles.rootMedium(this.theme)]: this.context.size === 'medium',
             [styles.rootLarge(this.theme)]: this.context.size === 'large',
@@ -230,7 +239,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
           {this.state.focusedByKeyboard && (
             <div
-              className={cx(globalClasses.focus, {
+              className={this.emotion.cx(globalClasses.focus, {
                 [styles.focusSmall(this.theme)]: this.context.size === 'small',
                 [styles.focusMedium(this.theme)]: this.context.size === 'medium',
                 [styles.focusLarge(this.theme)]: this.context.size === 'large',

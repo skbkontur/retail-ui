@@ -1,42 +1,45 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
-      display: inline-flex;
-      line-height: normal;
-    `;
-  },
+import { memoizeStyle } from '../../lib/theming/Emotion';
 
-  fixed() {
-    return css`
-      flex-shrink: 0;
-      display: inline-block;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
+        display: inline-flex;
+        line-height: normal;
+      `;
+    },
 
-  stretch() {
-    return css`
-      flex-grow: 1;
-      flex-shrink: 1;
-    `;
-  },
+    fixed() {
+      return emotion.css`
+        flex-shrink: 0;
+        display: inline-block;
+      `;
+    },
 
-  stretchFallback() {
-    return css`
-      flex-basis: 100%;
-    `;
-  },
+    stretch() {
+      return emotion.css`
+        flex-grow: 1;
+        flex-shrink: 1;
+      `;
+    },
 
-  item() {
-    return css`
-      margin-left: -1px;
-    `;
-  },
+    stretchFallback() {
+      return emotion.css`
+        flex-basis: 100%;
+      `;
+    },
 
-  itemFirst() {
-    return css`
-      margin-left: 0;
-    `;
-  },
-});
+    item() {
+      return emotion.css`
+        margin-left: -1px;
+      `;
+    },
+
+    itemFirst() {
+      return emotion.css`
+        margin-left: 0;
+      `;
+    },
+  });

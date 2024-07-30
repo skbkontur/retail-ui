@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Spinner } from '../Spinner';
 import { IconSizeAliases } from '../../internal/icons2022/iconConstants';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { useEmotion } from '../../lib/theming/Emotion';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { ButtonDataTids } from './Button';
-import { styles } from './Button.styles';
+import { getStyles } from './Button.styles';
 
 interface LoadingButtonIconProps {
   size: IconSizeAliases;
@@ -15,7 +16,9 @@ interface LoadingButtonIconProps {
 }
 
 export const LoadingButtonIcon = ({ size, isCentered = true }: LoadingButtonIconProps) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
 
   return (
     <div data-tid={ButtonDataTids.spinner} className={isCentered ? styles.loading() : undefined}>

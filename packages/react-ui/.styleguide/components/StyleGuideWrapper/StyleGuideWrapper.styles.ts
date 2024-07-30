@@ -1,9 +1,11 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import { memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
       font-weight: 400;
       font-size: 14px;
       padding-left: 300px;
@@ -41,15 +43,15 @@ export const styles = memoizeStyle({
         }
       }
     `;
-  },
-  darkRoot(t: Theme) {
-    return css`
+    },
+    darkRoot(t: Theme) {
+      return emotion.css`
       background: ${t.bgDefault};
       color: ${t.textColorDefault};
     `;
-  },
-  wrapper() {
-    return css`
+    },
+    wrapper() {
+      return emotion.css`
       padding: 30px 40px;
       margin: 0 auto;
       max-width: 1000px;
@@ -59,12 +61,12 @@ export const styles = memoizeStyle({
         padding: 16px;
       }
     `;
-  },
-  content() {
-    return css``;
-  },
-  darkContent(t: Theme) {
-    return css`
+    },
+    content() {
+      return emotion.css``;
+    },
+    darkContent(t: Theme) {
+      return emotion.css`
       h1,
       h2,
       h3,
@@ -126,14 +128,14 @@ export const styles = memoizeStyle({
         border: 1px solid #444;
       }
     `;
-  },
-  header() {
-    return css`
+    },
+    header() {
+      return emotion.css`
       padding: 40px 40px 0 !important;
     `;
-  },
-  sidebar() {
-    return css`
+    },
+    sidebar() {
+      return emotion.css`
       width: 300px;
       background: #41464e;
       font-size: 16px;
@@ -165,9 +167,9 @@ export const styles = memoizeStyle({
         font-weight: normal;
       }
     `;
-  },
-  footer() {
-    return css`
+    },
+    footer() {
+      return emotion.css`
       position: fixed;
       top: 0;
       right: 0;
@@ -175,9 +177,9 @@ export const styles = memoizeStyle({
       height: 149px;
       z-index: 999;
     `;
-  },
-  footerLink() {
-    return css`
+    },
+    footerLink() {
+      return emotion.css`
       position: relative;
       right: -37px;
       top: -22px;
@@ -194,5 +196,5 @@ export const styles = memoizeStyle({
       transform: rotate(45deg);
       cursor: pointer;
     `;
-  },
-});
+    },
+  });

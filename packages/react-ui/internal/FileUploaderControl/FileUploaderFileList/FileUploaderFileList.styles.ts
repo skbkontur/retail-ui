@@ -1,14 +1,17 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 
-const styles = {
-  file() {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    file() {
+      return emotion.css`
       width: 100%;
     `;
-  },
-  fileWrapper(t: Theme) {
-    return css`
+    },
+    fileWrapper(t: Theme) {
+      return emotion.css`
       width: 100%;
       height: 32px;
       display: flex;
@@ -16,25 +19,23 @@ const styles = {
       box-sizing: border-box;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
     `;
-  },
+    },
 
-  fileWrapperSmall(t: Theme) {
-    return css`
+    fileWrapperSmall(t: Theme) {
+      return emotion.css`
       padding: ${t.fileUploaderPaddingYSmall} ${t.fileUploaderPaddingXSmall};
     `;
-  },
+    },
 
-  fileWrapperMedium(t: Theme) {
-    return css`
+    fileWrapperMedium(t: Theme) {
+      return emotion.css`
       padding: ${t.fileUploaderPaddingYMedium} ${t.fileUploaderPaddingXMedium};
     `;
-  },
+    },
 
-  fileWrapperLarge(t: Theme) {
-    return css`
+    fileWrapperLarge(t: Theme) {
+      return emotion.css`
       padding: ${t.fileUploaderPaddingYLarge} ${t.fileUploaderPaddingXLarge};
     `;
-  },
-};
-
-export const jsStyles = memoizeStyle(styles);
+    },
+  });

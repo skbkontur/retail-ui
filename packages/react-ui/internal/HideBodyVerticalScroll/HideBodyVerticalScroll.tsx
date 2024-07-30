@@ -1,12 +1,18 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-import { css } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 
 let disposeDocumentStyle: (() => void) | null = null;
 
-export class HideBodyVerticalScroll extends React.Component {
+export const HideBodyVerticalScroll = () => {
+  const emotion = useEmotion();
+  return <HideBodyVerticalScrollELement emotion={emotion} />;
+};
+
+class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }> {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
   public static displayName = 'HideBodyVerticalScroll';
 
@@ -58,9 +64,17 @@ export class HideBodyVerticalScroll extends React.Component {
     const scrollbarConst = globalObject.getComputedStyle(documentElement).overflowY === 'scroll';
     const scrollWidth = clientHeight < scrollHeight || scrollbarConst ? getScrollWidth() : 0;
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
-    const className = generateDocumentStyle(documentMargin + scrollWidth);
+    const className = this.generateDocumentStyle(documentMargin + scrollWidth);
 
     disposeDocumentStyle = this.attachStyle(documentElement, className);
+  };
+
+  private generateDocumentStyle = (documentMargin: number) => {
+    return this.props.emotion.css`
+    overflow: hidden !important;
+    margin-right: ${documentMargin}px !important;
+    height: 100%;
+  `;
   };
 
   private attachStyle = (element: HTMLElement, className: string) => {
@@ -96,12 +110,4 @@ class VerticalScrollCounter {
   public static get = (): number => {
     return globalObject.RetailUIVerticalScrollCounter || 0;
   };
-}
-
-function generateDocumentStyle(documentMargin: number) {
-  return css`
-    overflow: hidden !important;
-    margin-right: ${documentMargin}px !important;
-    height: 100%;
-  `;
 }

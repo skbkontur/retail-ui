@@ -1,23 +1,24 @@
 import React from 'react';
 import warning from 'warning';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { locale } from '../../lib/locale/decorators';
 import { Calendar } from '../Calendar';
 import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { getTodayDate } from '../Calendar/CalendarUtils';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './DatePicker.styles';
+import { getStyles } from './DatePicker.styles';
 import { DatePickerDataTids } from './DatePicker';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
@@ -41,6 +42,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   public static displayName = 'Picker';
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
@@ -57,17 +59,24 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
           return (
-            <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+
+                return (
+                  <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -84,6 +93,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   };
 
   private renderMain() {
+    const styles = getStyles(this.emotion);
     return (
       <div
         data-tid={DatePickerDataTids.pickerRoot}
@@ -131,11 +141,12 @@ export class Picker extends React.Component<PickerProps, PickerState> {
         </div>
       );
     }
+    const styles = getStyles(this.emotion);
 
     return (
       <button
         data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
+        className={this.emotion.cx({
           [styles.todayLinkWrapper(this.theme)]: true,
         })}
         onClick={this.handleSelectToday(today)}

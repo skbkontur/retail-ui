@@ -1,10 +1,11 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isFunction, isRefableElement } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
 import { extractCommonProps } from './utils/extractCommonProps';
@@ -22,8 +23,20 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
+  private emotion!: Emotion;
 
   render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  renderMain() {
     const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
 
@@ -35,7 +48,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
 
       isRefableElement(child) && (childProps.ref = this.ref);
 
-      const classNames: string = cx(child.props.className, className);
+      const classNames: string = this.emotion.cx(child.props.className, className);
       classNames && (childProps.className = classNames);
 
       const styles: React.CSSProperties = { ...child.props.style, ...style };

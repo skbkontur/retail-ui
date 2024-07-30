@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
 import { Button, ButtonProps } from './Button';
-import { globalClasses, styles } from './Button.styles';
+import { getStyles, globalClasses } from './Button.styles';
 
 type ButtonArrowProps = Pick<ButtonProps, 'size' | 'arrow' | 'checked' | 'disabled' | 'error' | 'use' | 'warning'> & {
   isFocused: boolean;
@@ -23,11 +24,13 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
   warning,
   isFocused,
 }) => {
-  const theme = useContext(ThemeContext);
+  const emotion = useEmotion();
+  const theme = useTheme();
   const _isTheme2022 = isTheme2022(theme);
+  const styles = getStyles(emotion);
 
   const getArrowIconRootClassName = () => {
-    return cx(styles.arrowIconRoot(), globalClasses.arrow, {
+    return emotion.cx(styles.arrowIconRoot(), globalClasses.arrow, {
       [styles.arrowIconRootSmall(theme)]: size === 'small',
       [styles.arrowIconRootMedium(theme)]: size === 'medium',
       [styles.arrowIconRootLarge(theme)]: size === 'large',
@@ -52,7 +55,7 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
   } else {
     arrowNode = (
       <div
-        className={cx({
+        className={emotion.cx({
           [styles.arrow()]: true,
           [styles.arrowWarning(theme)]: !checked && warning && !disabled,
           [styles.arrowError(theme)]: !checked && error && !disabled,
@@ -60,8 +63,8 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
           [styles.arrowLeft()]: arrow === 'left',
         })}
       >
-        <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperTop)} />
-        <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
+        <div className={emotion.cx(globalClasses.arrowHelper, globalClasses.arrowHelperTop)} />
+        <div className={emotion.cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
       </div>
     );
   }
@@ -69,7 +72,13 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
   return arrowNode;
 };
 
-export function useButtonArrow(props: ButtonArrowProps, theme: Theme): [string, string, React.ReactNode] {
+export function useButtonArrow(
+  props: ButtonArrowProps,
+  theme: Theme,
+  emotion: Emotion,
+): [string, string, React.ReactNode] {
+  const styles = getStyles(emotion);
+
   const { arrow, size, use } = props;
   const _isTheme2022 = isTheme2022(theme);
   const canRender = use !== 'link' && (arrow === true || arrow === 'left');
@@ -77,7 +86,7 @@ export function useButtonArrow(props: ButtonArrowProps, theme: Theme): [string, 
   const rootClassName =
     !_isTheme2022 && canRender
       ? ''
-      : cx(
+      : emotion.cx(
           arrow === true && size === 'small' && styles.withArrowIconRightSmall(theme),
           arrow === true && size === 'medium' && styles.withArrowIconRightMedium(theme),
           arrow === true && size === 'large' && styles.withArrowIconRightLarge(theme),
@@ -89,7 +98,7 @@ export function useButtonArrow(props: ButtonArrowProps, theme: Theme): [string, 
   const wrapClassName =
     _isTheme2022 && canRender
       ? ''
-      : cx({
+      : emotion.cx({
           [styles.wrapArrow()]: arrow === true,
           [styles.wrapArrowLeft()]: arrow === 'left',
         });
