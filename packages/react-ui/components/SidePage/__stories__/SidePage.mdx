@@ -1,6 +1,6 @@
 import * as SidePageStories from './SidePage.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {SidePage} from '../SidePage';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { SidePage } from '../SidePage';
 import { Button } from '@skbkontur/react-ui';
 
 <Meta of={SidePageStories} />
@@ -10,9 +10,11 @@ import { Button } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -74,10 +76,10 @@ interface SidePageLocale {
 }
 
 const ru_RU = {
-  closeButtonAriaLabel: 'Закрыть модальное окно'
-}
+  closeButtonAriaLabel: 'Закрыть модальное окно',
+};
 
 const en_GB = {
-  closeButtonAriaLabel: 'Close modal window'
-}
+  closeButtonAriaLabel: 'Close modal window',
+};
 ```

@@ -1,6 +1,6 @@
 import * as TokenStories from './Token.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Token} from '../Token';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Token } from '../Token';
 import { Gapped } from '@skbkontur/react-ui';
 
 <Meta of={TokenStories} />
@@ -10,9 +10,11 @@ import { Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -134,14 +136,8 @@ import { Gapped, Token } from '@skbkontur/react-ui';
 
 ```jsx harmony
 <Gapped vertical>
-  <Token size="small">
-    Маленький
-  </Token>
-  <Token size="medium">
-    Средний
-  </Token>
-  <Token size="large">
-    Большой
-  </Token>
+  <Token size="small">Маленький</Token>
+  <Token size="medium">Средний</Token>
+  <Token size="large">Большой</Token>
 </Gapped>
 ```

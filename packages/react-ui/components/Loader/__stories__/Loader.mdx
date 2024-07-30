@@ -1,6 +1,6 @@
 import * as LoaderStories from './Loader.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Loader} from '../Loader';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Loader } from '../Loader';
 import { Button } from '@skbkontur/react-ui';
 
 <Meta of={LoaderStories} />
@@ -10,9 +10,11 @@ import { Button } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -27,8 +29,8 @@ const [isActive, setIsActive] = React.useState(true);
   <Loader type="big" active={isActive}>
     <h1>Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."</h1>
     <p>
-      No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus! Leela,
-      Bender, we're going grave robbing.
+      No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus!
+      Leela, Bender, we're going grave robbing.
     </p>
     <p>
       Are you crazy? I can't swallow that. Large bet on myself in round one. Hey, whatcha watching?
@@ -47,5 +49,5 @@ const [isActive, setIsActive] = React.useState(true);
       <li>Hey, guess what you're accessories to.</li>
     </ol>
   </Loader>
-</>
+</>;
 ```

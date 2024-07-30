@@ -5,7 +5,7 @@ const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 const config: StorybookConfig = {
   stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx', '../components/**/*.mdx'],
   docs: {
-    docsMode: isDocsEnv ? true : false,
+    docsMode: isDocsEnv,
   },
   addons: [
     'creevey',

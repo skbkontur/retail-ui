@@ -5,13 +5,13 @@ import { delay } from '../../../lib/utils';
 const kindTests = () => {
   test('toastShown', async function () {
     const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
-    await this.browser.actions({ async: undefined, bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
+    await this.browser.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
     await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage();
   });
 };
 
-kind('Toast', () => {
+kind('Popup/Toast', () => {
   story('SimpleNotification', () => {
     kindTests();
   });

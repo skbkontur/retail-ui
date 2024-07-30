@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('PasswordInput', () => {
+kind('Input elements/PasswordInput', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -20,7 +20,7 @@ kind('PasswordInput', () => {
     test('With typed password', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[type="password"]' }))
         .sendKeys('Test...')
@@ -31,7 +31,7 @@ kind('PasswordInput', () => {
     test('With visible password', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[type="password"]' }))
         .sendKeys('Test...')

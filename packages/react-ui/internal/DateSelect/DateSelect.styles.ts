@@ -188,4 +188,18 @@ export const styles = memoizeStyle({
       }
     `;
   },
+
+  nativeSelect() {
+    return css`
+      position: absolute;
+      top: -12px;
+      right: 0;
+      bottom: -8px;
+      left: 0;
+      cursor: pointer;
+      appearance: none;
+      opacity: 0;
+      border: none;
+    `;
+  },
 });

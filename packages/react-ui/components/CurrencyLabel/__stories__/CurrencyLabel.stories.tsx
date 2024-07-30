@@ -4,7 +4,7 @@ import { CurrencyLabel } from '../CurrencyLabel';
 
 export default {
   title: 'Layout/CurrencyLabel',
-  component: CurrencyLabel
+  component: CurrencyLabel,
 };
 
 export const Simple = () => <CurrencyLabel value={12356.1} />;

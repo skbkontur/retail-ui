@@ -16,7 +16,7 @@ kind('Menu', () => {
     test('moved up from top to the last Item', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#move-up' }))
         .perform();
@@ -26,7 +26,7 @@ kind('Menu', () => {
     test('moved up from bottom to the first Item', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#move-up' }))
         .click(this.browser.findElement({ css: '#move-up' }))
@@ -38,7 +38,7 @@ kind('Menu', () => {
     test('moved down from top to the last Item', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#move-up' }))
         .click(this.browser.findElement({ css: '#move-up' }))
@@ -52,7 +52,7 @@ kind('Menu', () => {
     test('moved down from bottom to the first Item', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '#move-up' }))
         .click(this.browser.findElement({ css: '#move-up' }))
@@ -76,7 +76,7 @@ kind('Menu', () => {
     test('mouseenter', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
         .perform();

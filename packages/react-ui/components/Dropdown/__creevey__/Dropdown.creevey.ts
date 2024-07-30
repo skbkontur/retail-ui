@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Dropdown', () => {
+kind('Menu/Dropdown', () => {
   story('SimpleDropdown', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -23,7 +23,7 @@ kind('Dropdown', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
@@ -35,13 +35,13 @@ kind('Dropdown', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
@@ -55,13 +55,13 @@ kind('Dropdown', () => {
       const element = await this.browser.findElement({ css: '.dropdown-test-container' });
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
         .perform();
@@ -76,7 +76,7 @@ kind('Dropdown', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
@@ -90,7 +90,7 @@ kind('Dropdown', () => {
 
     test('scrolled', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions()
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
       const opened = await this.takeScreenshot();
@@ -107,7 +107,7 @@ kind('Dropdown', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
@@ -121,7 +121,7 @@ kind('Dropdown', () => {
     test('opened top with portal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
         .perform();
@@ -132,7 +132,7 @@ kind('Dropdown', () => {
     test('opened bottom with portal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
@@ -145,7 +145,7 @@ kind('Dropdown', () => {
     test('opened top without portal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
@@ -158,7 +158,7 @@ kind('Dropdown', () => {
     test('opened bottom without portal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
@@ -175,7 +175,7 @@ kind('Dropdown', () => {
     test('clicked all', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="open-all"]' }))
         .pause(500)

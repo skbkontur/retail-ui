@@ -1008,11 +1008,19 @@ export class DefaultTheme {
   public static calendarCellActiveHoverColor = 'white';
   public static calendarCellWeekendColor = '#cb3d35';
   public static calendarCellTodayBorder = '1px solid rgba(0, 0, 0, 0.32)';
+  public static calendarCellBorderRadius = '9999px';
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
-  public static calendarCellSize = '32px';
+  public static calendarCellSize = '32px'; // deprecated
+  public static get calendarCellHeight() {
+    return this.calendarCellSize;
+  }
+  public static get calendarCellWidth() {
+    return this.calendarCellSize;
+  }
+  public static calendarCellFontSize = '14px';
   public static get calendarCellLineHeight() {
-    return `calc(${this.calendarCellSize} - 2px)`;
+    return `${parseInt(this.calendarCellHeight) - 2}px`;
   }
   public static get calendarMonthHeaderStickedBgColor() {
     return this.bgSecondary;
@@ -1030,6 +1038,7 @@ export class DefaultTheme {
   public static calendarWrapperHeight = ' 330px';
   public static calendarMonthMarginBottom = '6px';
   public static calendarMaxMonthsToAppendOnScroll = '5';
+  public static calendarGridRowSpacing = '0px';
   //#endregion
   //#region DatePicker
   public static dateSelectLineHeight = '20px';
@@ -1069,6 +1078,16 @@ export class DefaultTheme {
   public static pickerTodayWrapperPaddingTop = '6px';
   public static pickerTodayWrapperPaddingBottom = '6px';
   public static pickerBorderRadius = '';
+
+  public static mobileCalendarPaddingX = '16px';
+  public static mobileCalendarCellWidth = '40px';
+  public static mobileCalendarCellHeight = '40px';
+  public static mobileCalendarCellBorderRadius = '20px';
+  public static mobileCalendarCellFontSize = '16px';
+  public static mobileCalendarGridRowSpacing = '8px';
+  public static mobileDateSelectFontSize = '16px';
+  public static mobileDateSelectLineHeight = '20px';
+  public static mobileCalendarWrapperHeight = '304px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
@@ -2592,6 +2611,7 @@ export class DefaultTheme {
   public static mobilePopupTopPadding = '80px';
   public static mobilePopupContainerBottomPadding = '8px';
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
+  public static mobilePopupFooterPadding = '16px 16px 16px 16px';
   public static mobilePopupContainerBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize() {
     return this.fontSizeMobile;
@@ -2772,6 +2792,11 @@ export class DefaultTheme {
   public static miniModalFooterPaddingMobile = '24px 16px 16px';
   public static miniModalHeaderPaddingMobile = '32px 16px 0';
   public static miniModalBodyPaddingMobile = '16px 16px 0';
+  //#endregion
+
+  //#region react-ui-validations
+  public static validationsTextColorError = '#cb3d35';
+  public static validationsTextColorWarning = '#ef8b17';
   //#endregion
 }
 

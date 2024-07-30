@@ -348,6 +348,12 @@ describe('<Autocomplete />', () => {
     expect(menuItems).toHaveTextContent('1');
   });
 
+  it('should disable default browser autofill', () => {
+    const props = { value: '', source: [], onValueChange: () => '' };
+    render(<Autocomplete {...props} />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('autocomplete', 'off');
+  });
+
   describe('a11y', () => {
     it('should connect dropdown with input through aria-controls', async () => {
       const Comp = () => {

@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Radio', () => {
+kind('Choose/Radio', () => {
   story('Highlighted', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -15,7 +15,7 @@ kind('Radio', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'body' }))
         .sendKeys(this.keys.TAB)

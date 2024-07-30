@@ -4,8 +4,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
 module.exports = async ({ config }) => {
-  //const { patchWebpackConfig } = require('storybook-addon-live-examples/dist/cjs/utils');
-
   config.devtool = 'eval-source-map';
 
   if (isTestEnv) {
@@ -68,6 +66,6 @@ module.exports = async ({ config }) => {
 
   // NOTE Need to allow write tests inside stories for Creevey
   config.node = { __filename: true };
-  //patchWebpackConfig(config);
+
   return config;
 };

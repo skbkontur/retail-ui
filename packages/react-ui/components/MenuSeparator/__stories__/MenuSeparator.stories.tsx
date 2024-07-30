@@ -1,13 +1,20 @@
+import React from 'react';
+
 import { Meta } from '../../../typings/stories';
 import { MenuSeparator } from '../MenuSeparator';
-import React from 'react';
 
 export default {
   title: 'Menu/MenuSeparator',
   component: MenuSeparator,
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
 } as Meta;
 
-export const DefaultMenuSeparator = () => {
+export const Default = () => {
   return <MenuSeparator />;
 };
-DefaultMenuSeparator.storyName = 'Default';

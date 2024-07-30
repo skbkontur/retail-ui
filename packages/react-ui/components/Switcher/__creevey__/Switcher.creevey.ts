@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Switcher', () => {
+kind('Choose/Switcher', () => {
   story('Horizontal', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -15,7 +15,7 @@ kind('Switcher', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
         .perform();

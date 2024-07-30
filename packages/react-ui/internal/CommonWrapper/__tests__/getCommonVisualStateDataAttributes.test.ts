@@ -1,4 +1,4 @@
-import { getCommonVisualStateDataAttributes } from '../getCommonVisualStateDataAttributes';
+import { getCommonVisualStateDataAttributes } from '../utils/getCommonVisualStateDataAttributes';
 
 describe('getCommonVisualStateDataAttributes', () => {
   it('empty object', () => {
@@ -9,8 +9,7 @@ describe('getCommonVisualStateDataAttributes', () => {
     expect(
       getCommonVisualStateDataAttributes({ skip: true, error: true, warning: false, disabled: true }),
     ).toStrictEqual({
-      'data-visual-state-error': 'true',
-      'data-visual-state-warning': 'false',
+      'data-visual-state-error': '',
     });
   });
 });
