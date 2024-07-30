@@ -5,7 +5,7 @@ import { ThemeContext } from '../ThemeContext';
 import { applyMarkers, exposeGetters, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
-import { BaseThemeInternal, BaseTheme } from '../../../internal/themes/DefaultTheme';
+import { BaseThemeInternal, BaseTheme } from '../../../internal/themes/BaseTheme';
 import { AnyObject } from '../../utils';
 
 const TEST_MARKERS = {

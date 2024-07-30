@@ -1,6 +1,6 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { BaseTheme } from './DefaultTheme';
+import { BaseTheme } from './BaseTheme';
 
 export class Theme2022 extends (class {} as typeof BaseTheme) {
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';

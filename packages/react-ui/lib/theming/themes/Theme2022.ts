@@ -1,6 +1,6 @@
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme2022Internal } from '../../../internal/themes/Theme2022';
-import { BaseTheme } from '../../../internal/themes/DefaultTheme';
+import { BaseTheme } from '../../../internal/themes/BaseTheme';
 
 const colorUpdateDark2024 = {
   green: '#1C8A3F',

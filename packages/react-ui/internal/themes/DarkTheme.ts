@@ -1,6 +1,6 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { BaseTheme } from './DefaultTheme';
+import { BaseTheme } from './BaseTheme';
 
 export class DarkTheme extends (class {} as typeof BaseTheme) {
   //#region Common variables
