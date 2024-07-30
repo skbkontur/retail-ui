@@ -5,7 +5,7 @@ const testMaskedInput = () => {
     const click = (css: string) => {
       return this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css }));
     };
@@ -25,7 +25,7 @@ const testIdleFocusBlur = () => {
     const click = (css: string) => {
       return this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css }));
     };
@@ -43,7 +43,7 @@ const testRewriteInMiddle = () => {
     const idle = await this.takeScreenshot();
     const input = await this.browser.findElement({ css: 'input' });
     this.browser
-      .actions({ async: undefined, bridge: true })
+      .actions({ bridge: true })
       .click(input)
       .keyDown(this.keys.ARROW_LEFT)
       .keyDown(this.keys.ARROW_LEFT)
@@ -51,7 +51,7 @@ const testRewriteInMiddle = () => {
       .perform();
     const shift = await this.takeScreenshot();
     this.browser
-      .actions({ async: undefined, bridge: true })
+      .actions({ bridge: true })
       .click(input)
       .keyDown(this.keys.ARROW_LEFT)
       .keyDown(this.keys.ARROW_LEFT)
@@ -62,7 +62,7 @@ const testRewriteInMiddle = () => {
   });
 };
 
-kind('MaskedInput', () => {
+kind('Input elements/MaskedInput', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
@@ -99,7 +99,7 @@ kind('MaskedInput', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
@@ -116,7 +116,7 @@ kind('MaskedInput', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
         .perform();
@@ -133,7 +133,7 @@ kind('MaskedInput', () => {
       const plain = await this.takeScreenshot();
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('text')

@@ -1,6 +1,6 @@
 import * as InputStories from './Input.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Input} from '../Input';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Input } from '../Input';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import { Button, Group, Gapped, Tooltip } from '@skbkontur/react-ui';
 
@@ -11,9 +11,11 @@ import { Button, Group, Gapped, Tooltip } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -34,7 +36,7 @@ const [value, setValue] = React.useState('Значение');
 <Group>
   <Input value={value} onValueChange={setValue} />
   <Button onClick={() => setValue('')}>Очистить</Button>
-</Group>
+</Group>;
 ```
 
 ### Пример с префиксом:
@@ -42,11 +44,7 @@ const [value, setValue] = React.useState('Значение');
 ```jsx harmony
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-<Input
-  width={400}
-  prefix="https://kontur.ru/search?query="
-  rightIcon={<SearchIcon />}
-/>;
+<Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />;
 ```
 
 ### Примеры разных значений `type`:
@@ -94,5 +92,5 @@ import { Gapped, Input, Tooltip } from '@skbkontur/react-ui';
     <Input type="email" />
     <span>type = "email"</span>
   </Gapped>
-</Gapped>
+</Gapped>;
 ```

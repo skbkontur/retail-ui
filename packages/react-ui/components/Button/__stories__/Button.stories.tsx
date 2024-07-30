@@ -13,23 +13,27 @@ import {
 import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
 
 export default {
   title: 'Action/Button',
   component: Button,
   argTypes: {
-    size: {control: "radio"}
-  }
+    size: { control: 'radio' },
+  },
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
 } as Meta;
 
 type ButtonState = Partial<ButtonProps>;
 
 export const Default: Story = () => (
-  <Button data-tid="test-button">
-    Здесь рисуется первая история из файла .stories.tsx
-  </Button>
+  <Button data-tid="test-button">Здесь рисуется первая история из файла .stories.tsx</Button>
 );
 
 const useStates: ButtonState[] = [
@@ -520,14 +524,6 @@ const unusedDifferentStates: ButtonState[] = [
   { warning: false },
   { width: '' },
 ];
-
-export const WithLinkFocusOutlineFeatureFlag = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
-    <Button use="link" data-tid="test-button">
-      Link
-    </Button>
-  </ReactUIFeatureFlagsContext.Provider>
-);
 
 export const IconColor: Story = () => {
   return (

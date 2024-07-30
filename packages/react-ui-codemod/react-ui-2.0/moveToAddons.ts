@@ -64,5 +64,5 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     modified = deduplicateExports(api, result, FINAL_SOURCE) || modified;
   }
 
-  return modified ? result.toSource() : null;
+  return modified ? result.toSource({ lineTerminator: '\n' }) : null;
 }

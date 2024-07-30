@@ -1,6 +1,6 @@
 import * as MenuHeaderStories from './MenuHeader.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {MenuHeader} from '../MenuHeader';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { MenuHeader } from '../MenuHeader';
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 import { Gapped } from '@skbkontur/react-ui';
 
@@ -11,9 +11,11 @@ import { Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -23,10 +25,7 @@ import { Gapped } from '@skbkontur/react-ui';
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-<DropdownMenu
-  menuMaxHeight="10rem"
-  caption={<Button use="primary">Сотрудники компании</Button>}
-  >
+<DropdownMenu menuMaxHeight="10rem" caption={<Button use="primary">Сотрудники компании</Button>}>
   <MenuHeader>Разработчики</MenuHeader>
   <MenuItem>Вася</MenuItem>
   <MenuItem>Петя</MenuItem>
@@ -39,7 +38,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
   <MenuItem>Валя</MenuItem>
   <MenuItem>Аля</MenuItem>
   <MenuItem>Артём</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```
 
 ### У MenuHeader есть 3 стандартных размера.
@@ -51,5 +50,5 @@ import { Gapped } from '@skbkontur/react-ui';
   <MenuHeader size={'small'}>Маленький</MenuHeader>
   <MenuHeader size={'medium'}>Средний</MenuHeader>
   <MenuHeader size={'large'}>Большой</MenuHeader>
-</Gapped>
+</Gapped>;
 ```

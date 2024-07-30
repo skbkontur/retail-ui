@@ -185,6 +185,7 @@ const webpackConfig = {
               modules: {
                 mode: 'global',
                 localIdentName: '[name]-[local]-[hash:base64:4]',
+                namedExport: false,
               },
             },
           },

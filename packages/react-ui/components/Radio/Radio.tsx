@@ -13,6 +13,7 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -244,7 +245,9 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     return (
       <label data-tid={RadioDataTids.root} {...labelProps}>
-        <input {...inputProps} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} />
+        </FocusControlWrapper>
         <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>
@@ -303,8 +306,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByKeyboard: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByKeyboard: false });
   };
 }

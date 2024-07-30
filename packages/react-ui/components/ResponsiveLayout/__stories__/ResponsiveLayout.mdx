@@ -1,6 +1,6 @@
 import * as ResponsiveLayoutStories from './ResponsiveLayout.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {ResponsiveLayout} from '../ResponsiveLayout';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { ResponsiveLayout } from '../ResponsiveLayout';
 
 <Meta of={ResponsiveLayoutStories} />
 
@@ -9,9 +9,11 @@ import {ResponsiveLayout} from '../ResponsiveLayout';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -59,11 +61,15 @@ class SomeComponent {
 ```
 
 ### В компонент можно передать проп `customMediaQueries: MediaQueriesType`, который позволяет кастомизировать возвращаемые флаги:
+
 ```ts static
 type MediaQueriesType = Record<string, string>;
 ```
+
 ### 1. Без кастомизации есть только флаг isMobile
+
 ### 2. Поля из `customMediaQueries` дополняют список возвращаемых флагов в `ResponsiveLayoutFlags`
+
 ### 3. При добавлении кастомного флага isMobile, значение дефолтного флага перезаписывается в пользу кастомного
 
 ```jsx static

@@ -1,9 +1,9 @@
 import * as LinkStories from './Link.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Link} from '../Link';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Link } from '../Link';
 import { Gapped, Button, Toast } from '@skbkontur/react-ui';
 import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
-import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
+import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
 
 <Meta of={LinkStories} />
 
@@ -12,9 +12,11 @@ import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -47,9 +49,11 @@ import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 
 <Gapped gap={20}>
   <Link icon={<CheckAIcon16Light />}>Ссылка с иконкой слева</Link>
-  <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>Ссылка с двумя иконками</Link>
+  <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+    Ссылка с двумя иконками
+  </Link>
   <Link rightIcon={<CheckAIcon16Light />}>Ссылка с иконкой справа</Link>
-</Gapped>
+</Gapped>;
 ```
 
 ### Пример ссылок ведущих на внешние ресурсы.
@@ -63,15 +67,16 @@ import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped>
   <Link href="https://www.youtube.com/">
-    Откроется <span style={{ color: "#e3071c" }}>в этой</span> вкладке
+    Откроется <span style={{ color: '#e3071c' }}>в этой</span> вкладке
   </Link>
   <Link target="_blank" href="https://www.youtube.com/">
-    Откроется <span style={{ color: "#3f9726" }}>в новой</span> вкладке
+    Откроется <span style={{ color: '#3f9726' }}>в новой</span> вкладке
   </Link>
-</Gapped>
+</Gapped>;
 ```
 
 ### Ссылка в состоянии загрузки.
+
 **Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая.
 
 ```jsx harmony
@@ -81,14 +86,20 @@ import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 const [isLoading, setIsLoading] = React.useState(false);
 
 <Gapped vertical gap={15}>
-  <Button onClick={() => setIsLoading(!isLoading)}>{isLoading ? "Прекратить загрузку!" : "Начать загрузку!"}</Button>
+  <Button onClick={() => setIsLoading(!isLoading)}>{isLoading ? 'Прекратить загрузку!' : 'Начать загрузку!'}</Button>
   <Gapped gap={20}>
-    <Link loading={isLoading} icon={<CheckAIcon16Light />}>С иконкой слева</Link>
-    <Link loading={isLoading} icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>С двумя иконками</Link>
-    <Link loading={isLoading} rightIcon={<CheckAIcon16Light />}>С иконкой справа</Link>
+    <Link loading={isLoading} icon={<CheckAIcon16Light />}>
+      С иконкой слева
+    </Link>
+    <Link loading={isLoading} icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+      С двумя иконками
+    </Link>
+    <Link loading={isLoading} rightIcon={<CheckAIcon16Light />}>
+      С иконкой справа
+    </Link>
     <Link loading={isLoading}>Без иконки</Link>
   </Gapped>
-</Gapped>
+</Gapped>;
 ```
 
 ### Ссылка может иметь кастомное действие при нажатии.
@@ -96,7 +107,7 @@ const [isLoading, setIsLoading] = React.useState(false);
 ```jsx harmony
 import { Toast } from '@skbkontur/react-ui';
 
-<Link onClick={() => Toast.push("Ты нажал на ссылку!")}>Ссылка с кастомным действием</Link>
+<Link onClick={() => Toast.push('Ты нажал на ссылку!')}>Ссылка с кастомным действием</Link>;
 ```
 
 ### Пример ссылки с пропом `theme`
@@ -105,41 +116,42 @@ import { Toast } from '@skbkontur/react-ui';
 import { Link, Gapped } from '@skbkontur/react-ui';
 
 <Gapped>
-  <Link theme={{linkColor: '#C00000'}}>Ok</Link>
+  <Link theme={{ linkColor: '#C00000' }}>Ok</Link>
   <Link>Ok</Link>
-</Gapped>
+</Gapped>;
 ```
-
 
 ### Пример кастомизации ссылки
 
 ```jsx harmony
-import { Toast, Button } from "@skbkontur/react-ui";
-import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
+import { Toast, Button } from '@skbkontur/react-ui';
+import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
 
 const textDecorationStyles = {
   linkLineBorderBottomWidth: '0',
-  linkHoverTextDecoration: 'underline'
-}
+  linkHoverTextDecoration: 'underline',
+};
 
 const underlineOnHoverStyles = {
   linkLineBorderBottomColor: 'transparent',
-}
+};
 
 const differentColorStyles = {
   linkColor: 'blue',
   linkHoverColor: 'blue',
   linkActiveColor: 'blue',
-}
+};
 
 const stringify = (styles) => {
-    return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
-}
+  return `${Object.entries(styles)
+    .map(([key, value]) => `${key}: "${value}"`)
+    .join(', ')}`;
+};
 
 const copyStyles = (styles) => {
   navigator.clipboard.writeText(stringify(styles));
   Toast.push('Copied');
-}
+};
 
 const tableStyle = {
   borderCollapse: 'collapse',
@@ -152,22 +164,24 @@ const tdStyle = {
 };
 
 const renderExampleRow = (title, styles, index) => {
-    return (
-        <tr>
-          <td style={tdStyle}>{title}</td>
-          <td style={tdStyle}><Link theme={styles}>Link</Link></td>
-          <td style={tdStyle}>
-            <div style={{display: 'flex'}}>
-              <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-              <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
-            </div>
-          </td>
-        </tr>
-    )
-}
+  return (
+    <tr>
+      <td style={tdStyle}>{title}</td>
+      <td style={tdStyle}>
+        <Link theme={styles}>Link</Link>
+      </td>
+      <td style={tdStyle}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '80%', whiteSpace: 'pre-line' }}>{stringify(styles).replace(/, /g, '\n')}</div>
+          <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)} />
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 <table style={tableStyle}>
-  <tr style={{textAlign: 'left'}}>
+  <tr style={{ textAlign: 'left' }}>
     <th style={tdStyle}></th>
     <th style={tdStyle}>Пример</th>
     <th style={tdStyle}>Переменные темы</th>
@@ -175,6 +189,5 @@ const renderExampleRow = (title, styles, index) => {
   {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
   {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
-</table>
+</table>;
 ```
-

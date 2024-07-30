@@ -26,6 +26,20 @@ export default {
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';
 
+export const WithDisabledPortal: Story = () => {
+  const source = ['One', 'Two', 'Three'];
+
+  return (
+    <div>
+      <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
+        <UncontrolledAutocomplete disablePortal source={source} menuPos={'top'} />
+        <UncontrolledAutocomplete disablePortal source={source} menuPos={'bottom'} />
+      </Gapped>
+    </div>
+  );
+};
+WithDisabledPortal.storyName = 'with disabled portal';
+
 export const WithRenderItem = () => (
   <UncontrolledAutocomplete
     source={['One', 'Two', 'Three']}
@@ -232,3 +246,17 @@ export const Size = () => {
   );
 };
 Size.storyName = 'size';
+
+export const MenuPos = () => {
+  const source = ['One', 'Two', 'Three'];
+
+  return (
+    <div>
+      <Gapped style={{ height: '300px', width: '1000px', margin: '200px' }}>
+        <UncontrolledAutocomplete source={source} menuPos={'top'} />
+        <UncontrolledAutocomplete source={source} menuPos={'bottom'} />
+      </Gapped>
+    </div>
+  );
+};
+MenuPos.storyName = 'menuPos';

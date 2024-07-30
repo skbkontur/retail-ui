@@ -1,6 +1,6 @@
 import * as SpinnerStories from './Spinner.stories.tsx';
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
-import {Spinner} from '../Spinner';
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Spinner } from '../Spinner';
 import { Gapped } from '@skbkontur/react-ui';
 
 <Meta of={SpinnerStories} />
@@ -10,9 +10,11 @@ import { Gapped } from '@skbkontur/react-ui';
 [Компонент в Контур.Гайдах](https)
 
 ## Базовый пример
+
 <Primary />
 
 ## Пропы
+
 <Controls />
 
 ## Примеры использования
@@ -33,7 +35,7 @@ const reactNodeCaption = (
   <Spinner type="mini" caption="mini" />
   <Spinner type="mini" dimmed caption="mini dimmed" />
   <Spinner type="big" caption={reactNodeCaption} />
-  <Spinner type="big" caption="custom" width={8} color={'#538A1B'}/>
+  <Spinner type="big" caption="custom" width={8} color={'#538A1B'} />
 </Gapped>;
 ```
 

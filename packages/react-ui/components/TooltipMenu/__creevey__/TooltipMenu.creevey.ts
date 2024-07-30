@@ -7,7 +7,7 @@ const textAlignmentTests = () => {
   test('opened', async function () {
     await this.browser
       .actions({
-        async: undefined, bridge: true,
+        bridge: true,
       })
       .click(this.browser.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
       .perform();
@@ -16,7 +16,7 @@ const textAlignmentTests = () => {
   });
 };
 
-kind('TooltipMenu', () => {
+kind('Menu/TooltipMenu', () => {
   story('SimpleExample', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -37,7 +37,7 @@ kind('TooltipMenu', () => {
     test('clickAfterClickedOnCaption', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
@@ -48,7 +48,7 @@ kind('TooltipMenu', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
         .perform();
@@ -58,7 +58,7 @@ kind('TooltipMenu', () => {
     test('clickedOutside', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
         .click(this.browser.findElement({ css: 'body' }))
@@ -69,7 +69,7 @@ kind('TooltipMenu', () => {
     test('tabPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .perform();
@@ -79,7 +79,7 @@ kind('TooltipMenu', () => {
     test('enterPress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .sendKeys(this.keys.ENTER)
@@ -90,7 +90,7 @@ kind('TooltipMenu', () => {
     test('escapePress', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .sendKeys(this.keys.TAB)
         .sendKeys(this.keys.ENTER)
@@ -105,12 +105,12 @@ kind('TooltipMenu', () => {
 
     test('opened', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '#test-element' }))
         .perform();
       await delay(200);
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
         .perform();
       await delay(1000);

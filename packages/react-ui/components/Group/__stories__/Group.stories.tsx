@@ -12,8 +12,8 @@ import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default {
-    title: 'Layout/Group',
-    component: Group
+  title: 'Layout/Group',
+  component: Group,
 };
 
 export const SimpleGroupWithInputAndButton: Story = () => (

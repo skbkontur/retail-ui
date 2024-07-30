@@ -6,7 +6,7 @@ import { Meta } from '../../../typings/stories';
 export default {
   title: 'Layout/Center',
   component: Center,
-  parameters: { creevey: { skip: true } }
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Simple = () => (

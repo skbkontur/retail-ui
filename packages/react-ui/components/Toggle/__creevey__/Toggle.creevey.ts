@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Toggle', () => {
+kind('Choose/Toggle', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -17,7 +17,7 @@ kind('Toggle', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'label' }),
@@ -31,7 +31,7 @@ kind('Toggle', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
@@ -44,7 +44,7 @@ kind('Toggle', () => {
     test('pressed', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .move({
           origin: this.browser.findElement({ css: 'label' }),
@@ -76,7 +76,7 @@ kind('Toggle', () => {
     test('clicked', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'label' }))
         .perform();
