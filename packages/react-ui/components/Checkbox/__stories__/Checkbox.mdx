@@ -1,10 +1,10 @@
 import * as CheckboxStories from './Checkbox.stories.tsx';
 import { Meta, Primary, Controls } from '@storybook/blocks';
-import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
 
 <Meta of={CheckboxStories} />
 
 # Checkbox
+
 Чекбокс используется для управления параметром с двумя состояниями.
 
 [Компонент в Контур.Гайдах](https://guides.kontur.ru/components/selection-elements/checkbox/)
@@ -38,7 +38,7 @@ const CheckboxWithState = ({ children, ...props }) => {
   const [checked, setChecked] = React.useState(false);
 
   return (
-    <Checkbox checked={checked} onValueChange={setChecked} {...props} style={{alignItems: 'center'}}>
+    <Checkbox checked={checked} onValueChange={setChecked} {...props} style={{ alignItems: 'center' }}>
       {children}
     </Checkbox>
   );
@@ -52,6 +52,7 @@ const CheckboxWithState = ({ children, ...props }) => {
 ```
 
 ### Размер
+
 У чекбокса есть 3 стандартных размера.
 
 ```jsx harmony
@@ -71,6 +72,7 @@ import { Gapped } from '@skbkontur/react-ui';
 ```
 
 ### Фокусировка
+
 Пример использования методов чекбокса `focus()` и `blur()`.
 
 ```jsx harmony
@@ -104,6 +106,7 @@ let checkboxInstance = React.useRef(null);
 ```
 
 ### Неопределенное состояние
+
 Чекбокс может находится в неопределённом состоянии.
 Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
 Это состояние влияет только на внешний вид и не влияет на состояние `checked`.

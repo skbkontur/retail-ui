@@ -105,7 +105,7 @@ export const Default: Story = () => {
       Обычный чекбокс
     </Checkbox>
   );
-}
+};
 
 export const Plain: Story = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
 Plain.storyName = 'plain';
