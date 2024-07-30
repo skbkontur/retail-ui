@@ -11,7 +11,7 @@ const kindTests = () => {
   });
 };
 
-kind('Toast', () => {
+kind('Popup/Toast', () => {
   story('SimpleNotification', () => {
     kindTests();
   });

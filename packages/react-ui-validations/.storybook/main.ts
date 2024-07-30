@@ -6,6 +6,7 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
+      fastRefresh: true,
       strictMode: true,
     },
   },

@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Group', () => {
+kind('Layout/Group', () => {
   story('SimpleGroupWithInputAndButton', () => {
     test('plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('plain');

@@ -447,7 +447,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     }
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-onchange
       <select
         id={id}
         data-tid={type === 'month' ? CalendarDataTids.monthSelectMobile : CalendarDataTids.yearSelectMobile}

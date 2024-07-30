@@ -8,7 +8,8 @@ import { AutocompleteProps } from '..';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {
-  title: 'Autocomplete',
+  title: 'Input elements/Autocomplete',
+  component: Autocomplete,
   decorators: [
     (Story) => (
       <div

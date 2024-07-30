@@ -229,7 +229,7 @@ class SidePageOverAnotherSidePage extends React.Component {
   }
 }
 
-class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
+class StickyHeaderWhenAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
   }
@@ -610,7 +610,10 @@ class WithLongTitle extends React.Component {
   }
 }
 
-export default { title: 'SidePage' };
+export default {
+  title: 'Overlays/SidePage',
+  component: SidePage,
+};
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
@@ -623,8 +626,8 @@ WithInputInHeader.parameters = { creevey: { skip: true } };
 export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 
-export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
-StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
+export const StickyHeaderWhenAnotherSidePageStory: Story = () => <StickyHeaderWhenAnotherSidePage />;
+StickyHeaderWhenAnotherSidePageStory.storyName = 'Sticky Header when another SidePage';
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
 SidePageWithConfiguration.storyName = 'SidePage with configuration';

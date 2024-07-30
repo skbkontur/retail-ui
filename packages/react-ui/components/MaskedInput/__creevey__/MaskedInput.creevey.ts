@@ -62,7 +62,7 @@ const testRewriteInMiddle = () => {
   });
 };
 
-kind('MaskedInput', () => {
+kind('Input elements/MaskedInput', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },

@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('RadioGroup', () => {
+kind('Choose/RadioGroup', () => {
   story('Vertical', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '#RadioGroup-wrap',

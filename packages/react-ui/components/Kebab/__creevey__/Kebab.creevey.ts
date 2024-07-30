@@ -75,7 +75,7 @@ const kebabTests = () => {
   });
 };
 
-kind('Kebab', () => {
+kind('Menu/Kebab', () => {
   story('Small', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

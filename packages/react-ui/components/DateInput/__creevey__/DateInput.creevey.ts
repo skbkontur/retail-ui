@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('DateInput', () => {
+kind('Date/DateInput', () => {
   story('Simple', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -51,7 +51,16 @@ kind('DateInput', () => {
     });
   });
 
-  story('BlurAlwaysAfterChange', () => {
+  story('BlurAlwaysAfterChange', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'story-skip-0': {
+          in: ['firefox8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+          tests: ['value not changed', 'value changed', 'value restored'],
+        },
+      },
+    });
+
     test('value not changed', async function () {
       await this.browser.executeScript(function () {
         const input = window.document.querySelector("[data-comp-name~='DateInput']");

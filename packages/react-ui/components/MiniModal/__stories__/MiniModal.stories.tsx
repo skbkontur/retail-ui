@@ -11,7 +11,8 @@ import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
-  title: 'MiniModal',
+  title: 'Overlays/MiniModal',
+  component: MiniModal,
   parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
 } as Meta;
 

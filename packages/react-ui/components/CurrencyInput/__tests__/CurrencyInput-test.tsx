@@ -316,7 +316,7 @@ describe('CurrencyInput', () => {
 
       //should be selected from 1 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(1);
-      expect(input.selectionEnd).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(4);
     });
 
     it('should handle selection right extension key down correctly', async () => {

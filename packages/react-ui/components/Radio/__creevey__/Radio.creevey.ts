@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Radio', () => {
+kind('Choose/Radio', () => {
   story('Highlighted', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

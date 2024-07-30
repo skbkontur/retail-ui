@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Paging', () => {
+kind('Navigation/Paging', () => {
   story('GoToAbsensePageStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -13,8 +13,9 @@ kind('Paging', () => {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
           tests: ['hover', 'Move to page by Ender'],
         },
+
         flaky: {
-          in: ['firefox2022', 'firefox2022Dark'],
+          in: ['firefox', 'firefox2022', 'firefox2022Dark'],
           tests: ['Move focus right', 'Move to page by Ender'],
         },
       },

@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["jest", "@testing-library/jest-dom", "webpack-env"],
     "isolatedModules": true,
     "importHelpers": false,
     "useUnknownInCatchVariables": false

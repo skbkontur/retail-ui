@@ -5,7 +5,8 @@ import { MenuHeader } from '../MenuHeader';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'MenuHeader',
+  title: 'Menu/MenuHeader',
+  component: MenuHeader,
 } as Meta;
 
 export const Size = () => {

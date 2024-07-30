@@ -10,16 +10,31 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { Story } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
 
 export default {
-  title: 'Button',
-};
+  title: 'Action/Button',
+  component: Button,
+  argTypes: {
+    size: { control: 'radio' },
+  },
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
+} as Meta;
 
 type ButtonState = Partial<ButtonProps>;
+
+export const Default: Story = () => (
+  <Button data-tid="test-button">Здесь рисуется первая история из файла .stories.tsx</Button>
+);
 
 const useStates: ButtonState[] = [
   { use: 'default' },

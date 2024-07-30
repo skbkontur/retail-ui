@@ -120,7 +120,7 @@ const menuPosTests = () => {
   });
 };
 
-kind('Autocomplete', () => {
+kind('Input elements/Autocomplete', () => {
   story('Simple', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');

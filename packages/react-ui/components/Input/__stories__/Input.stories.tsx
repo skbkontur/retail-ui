@@ -9,7 +9,8 @@ import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Input',
+  title: 'Input elements/Input',
+  component: Input,
 } as Meta;
 
 type InputState = Partial<InputProps>;

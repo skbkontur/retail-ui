@@ -1,14 +1,16 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
+import { Meta } from '@storybook/react';
 
 import { isNullable } from '../../../lib/utils';
-import { Meta, Story } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Toggle } from '../../Toggle';
 import { Nullable } from '../../../typings/utility-types';
+import { MenuItem } from '../../MenuItem';
 
 interface CurrencyInputDemoProps {
   borderless?: boolean;
@@ -156,7 +158,10 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
   };
 }
 
-export default { title: 'CurrencyInput' } as Meta;
+export default {
+  title: 'Input elements/CurrencyInput',
+  component: MenuItem,
+} as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: true } };
