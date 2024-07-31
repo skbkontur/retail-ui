@@ -14,8 +14,8 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
-import FeatureFlagsDecorator from "./decorators/Features/FeatureFlagsDecorator";
-import { featureFlagsConfig } from "./featureFlagsConfig/featureFlagsConfig";
+import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
+import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 
 const customViewports = {
   iphone: {
@@ -138,51 +138,11 @@ const preview: Preview = {
           }}
         </ThemeContext.Consumer>
       );
-    }
-
-    return <Story />;
-  },
-  (Story) => (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      <Story />
-    </div>
-  ),
-  (Story) => {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  mobileMediaQuery: '(max-width: 576px)',
-                },
-                theme,
-              )}
-            >
-              <Story />
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  },
-  FeatureFlagsDecorator,
-];
-
-export const parameters: Meta['parameters'] = {
-  creevey: {
-    captureElement: '#test-element',
-    skip: {
-      'not flat stories in flat browsers': {
-        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
-      },
-      'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
-      'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
     },
+    FeatureFlagsDecorator,
   ],
 };
+
 export default preview;
 
 export const globalTypes = {

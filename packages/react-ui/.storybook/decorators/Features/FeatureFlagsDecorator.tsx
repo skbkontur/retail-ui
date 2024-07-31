@@ -1,10 +1,10 @@
-import type { Decorator } from '@storybook/react';
 import React from 'react';
+import type { Decorator } from '@storybook/react';
+
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 const createFeatureFlagsWithBoolean = (featureFlags: string[]) =>
   featureFlags.reduce((acc, featureFlag) => {
-    acc = { ...acc, [featureFlag]: true };
-    return acc;
+    return { ...acc, [featureFlag]: true };
   }, {});
 
 const FeatureFlagsDecorator: Decorator = (Story, context) => {

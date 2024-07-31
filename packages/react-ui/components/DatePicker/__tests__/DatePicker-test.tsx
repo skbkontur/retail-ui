@@ -460,7 +460,6 @@ describe('DatePicker', () => {
           expect(
             within(monthRoot.getByTestId(CalendarDataTids.headerYear)).getByTestId(DateSelectDataTids.caption),
           ).toHaveTextContent(theYear.toString());
-          /* eslint-enable testing-library/no-wait-for-multiple-assertions */
           return currentMonth;
         },
         // Note: можно ли это сделать быстрее, если поиграться с таймингом в анимациях?
