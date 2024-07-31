@@ -14,6 +14,7 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
+
 import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
 
 const customViewports = {
