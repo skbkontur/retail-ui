@@ -141,7 +141,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: theme.hintPinOffset,
                   popupMargin: theme.hintMargin,
                   popupBorder: theme.hintBorder,
                   popupBorderRadius: theme.hintBorderRadius,

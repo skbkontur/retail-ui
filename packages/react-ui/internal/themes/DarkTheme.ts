@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { DefaultThemeInternal } from './DefaultTheme';
+import { BaseTheme } from './BaseTheme';
 
-export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
+export class DarkTheme extends (class {} as typeof BaseTheme) {
   //#region Common variables
   public static grayXLight = '#313131';
   public static gray = 'rgba(255, 255, 255, 0.48)';
@@ -181,9 +181,6 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Loader
   public static loaderBg = 'rgba(51, 51, 51, 0.8)';
   //#endregion
-  //#region Dropdown
-  public static dropdownMenuSelectedBg = 'rgba(255, 255, 255, 0.08)'; //deprecated
-  //#endregion
   //#region TextArea
   public static textareaBg = '#1f1f1f';
   public static get textareaBorderTopColor() {
@@ -247,7 +244,4 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const DarkThemeInternal = Object.setPrototypeOf(
-  exposeGetters(DarkTheme),
-  DefaultThemeInternal,
-) as typeof DarkTheme;
+export const DarkThemeInternal = Object.setPrototypeOf(exposeGetters(DarkTheme), BaseTheme) as typeof DarkTheme;

@@ -127,5 +127,11 @@ describe('Token', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', TokenLocalesRu.removeButtonAriaLabel + ' ');
     });
+
+    it('should have visual state disabled attribute', () => {
+      render(<Token disabled />);
+
+      expect(screen.getByTestId(TokenDataTids.root)).toHaveAttribute('data-visual-state-disabled');
+    });
   });
 });

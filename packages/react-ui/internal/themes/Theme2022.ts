@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { DefaultThemeInternal } from './DefaultTheme';
+import { BaseTheme } from './BaseTheme';
 
-export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
+export class Theme2022 extends (class {} as typeof BaseTheme) {
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
@@ -545,6 +545,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFontWeight = 'bold';
   public static sidePageBackingBg = '#000';
   public static sidePageBackingBgOpacity = '0.16';
+
+  public static sidePageCloseIconSize = '20px';
+  public static sidePageCloseButtonClickArea = '6px';
+  public static sidePageCloseButtonPadding = '32px';
+  public static sidePageHeaderStickyOffset = '9px';
+  public static mobileSidePageCloseButtonRightPadding = '12px';
+  public static sidePageCloseButtonWrapperOffsetTop = '4px';
   //#endregion
 
   //#region Tabs
@@ -564,7 +571,4 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const Theme2022Internal = Object.setPrototypeOf(
-  exposeGetters(Theme2022),
-  DefaultThemeInternal,
-) as typeof Theme2022;
+export const Theme2022Internal = Object.setPrototypeOf(exposeGetters(Theme2022), BaseTheme) as typeof Theme2022;

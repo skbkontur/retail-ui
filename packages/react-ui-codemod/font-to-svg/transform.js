@@ -243,11 +243,11 @@ module.exports = function(file, api) {
       );
   }
 
-  if (iconNames.size === 0) return root.toSource();
+  if (iconNames.size === 0) return root.toSource({ lineTerminator: '\n' });
 
   if (!preserveIconImport) {
     if (!iconImportsInserted) imports.at(-1).insertAfter(iconImports);
   }
 
-  return root.toSource();
+  return root.toSource({ lineTerminator: '\n' });
 };

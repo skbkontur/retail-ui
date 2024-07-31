@@ -22,6 +22,10 @@ export const REACT_UI_THEME_MARKERS = {
     key: '__IS_REACT_UI_DARK_THEME__',
     value: true,
   },
+  theme2022: {
+    key: '__IS_REACT_UI_THEME_2022__',
+    value: true,
+  },
 };
 
 // backward compatible
@@ -41,6 +45,22 @@ export const markAsDarkTheme: Marker = (theme) => {
       configurable: false,
     },
   });
+};
+
+export const markAsTheme2022: Marker = (theme) => {
+  return Object.create(theme, {
+    [REACT_UI_THEME_MARKERS.theme2022.key]: {
+      value: REACT_UI_THEME_MARKERS.theme2022.value,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    },
+  });
+};
+
+export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
+  // @ts-expect-error: internal value.
+  return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {

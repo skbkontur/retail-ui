@@ -1,16 +1,16 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const getVerticalPaddingsWithCompensation = (theme: Theme) => {
-  const { toastPaddingY, fontFamilyCompensationBaseline } = theme;
+const getVerticalPaddings = (theme: Theme) => {
+  const { toastPaddingY } = theme;
   const paddingY = parseInt(toastPaddingY);
-  const compensation = parseInt(fontFamilyCompensationBaseline);
-  return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
+
+  return [`${paddingY}px`, `${paddingY}px`];
 };
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
       background: ${t.toastBg};
       border-radius: ${t.toastBorderRadius};
@@ -39,7 +39,7 @@ export const styles = memoizeStyle({
   },
 
   closeWrapper(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
       display: flex;
       margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} -${t.toastClosePadding};
@@ -47,7 +47,7 @@ export const styles = memoizeStyle({
   },
 
   link(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
     const padding = `${paddingTop} ${paddingBottom}`;
 
