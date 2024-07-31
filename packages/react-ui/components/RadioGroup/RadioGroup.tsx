@@ -11,6 +11,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -154,7 +155,15 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public renderMain() {
-    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur, 'aria-describedby': ariaDescribedby } = this.props;
+    const {
+      width,
+      onMouseLeave,
+      onMouseOver,
+      onMouseEnter,
+      onBlur,
+      'aria-describedby': ariaDescribedby,
+      disabled,
+    } = this.props;
     const style = {
       width: width ?? 'auto',
     };
@@ -165,7 +174,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
         <FocusTrap onBlur={onBlur}>
           <span
             data-tid={RadioGroupDataTids.root}
