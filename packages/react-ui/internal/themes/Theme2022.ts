@@ -551,6 +551,13 @@ export class Theme2022 extends (class {} as typeof BaseTheme) {
   public static sidePageHeaderFontWeight = 'bold';
   public static sidePageBackingBg = '#000';
   public static sidePageBackingBgOpacity = '0.16';
+
+  public static sidePageCloseIconSize = '20px';
+  public static sidePageCloseButtonClickArea = '6px';
+  public static sidePageCloseButtonPadding = '32px';
+  public static sidePageHeaderStickyOffset = '9px';
+  public static mobileSidePageCloseButtonRightPadding = '12px';
+  public static sidePageCloseButtonWrapperOffsetTop = '4px';
   //#endregion
 
   //#region Tabs

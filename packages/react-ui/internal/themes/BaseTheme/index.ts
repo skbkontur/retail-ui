@@ -906,7 +906,9 @@ export class BaseThemeInternal {
   public static mobileSidePageHeaderLineHeight = '32px';
   public static mobileSidePageHeaderPaddingBottom = '16px';
   public static mobileSidePageHeaderPaddingTop = '16px';
+  public static mobileSidePageCloseButtonRightPadding = '';
   public static sidePageHeaderFontWeight = '';
+  public static sidePageCloseButtonWrapperOffsetTop = '';
   //#endregion
   //#region DateInput
   public static get dateInputIconColor() {
