@@ -6,7 +6,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { LoaderDataTids } from '../../components/Loader';
-import { PORTAL_ANCHOR_ATTR, PORTAL_TAG_ATTR } from '../RenderContainer';
+import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -184,11 +184,11 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   private tryGetContextByDOM = (element: HTMLDivElement) => {
     if (DEFAULT_ZINDEX_CONTEXT === this.zIndexContext && this.state.savedZIndexContext === null) {
       let savedZIndexContext = DEFAULT_ZINDEX_CONTEXT;
-      const portal = element.parentElement?.closest(`[${PORTAL_TAG_ATTR}]`);
+      const portal = element.parentElement?.closest(`[${PORTAL_OUTLET_ATTR}]`);
 
       if (isInstanceOf(portal, globalObject.HTMLElement)) {
-        const portalID = portal.getAttribute(PORTAL_TAG_ATTR);
-        const noscript = document.querySelector(`noscript[${PORTAL_ANCHOR_ATTR}="${portalID}"]`);
+        const portalID = portal.getAttribute(PORTAL_OUTLET_ATTR);
+        const noscript = document.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
         const parent = noscript?.parentElement?.closest('[style*=z-index]');
 
         if (isInstanceOf(parent, globalObject.HTMLElement)) {
