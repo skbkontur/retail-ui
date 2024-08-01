@@ -114,8 +114,7 @@ export const WithClassChildren = () => (
 Реакт позволяет создавать несколько рутов. Они могут находится как в независимых ветках, так и быть вложенными.
 
 Даже если один рут находится внутри другого контекст между ними не прокидывается. Это вызывает проблемы в работе
-различных выпадашек, типа `Tooltip`, `Select`, `Modal` и других. Начиная с версии `4.26.0` основные сценарии
-исправленны.
+различных выпадашек, типа `Tooltip`, `Select`, `Modal` и других. Начиная с версии `4.26.0` основные сценарии исправлены.
 
 Однако, при удалении html-элемента, в котором был реакт-рут, необходимо явно размонтировать этот рут перед удалением:
 
@@ -133,7 +132,6 @@ React.useLayoutEffect(
 ```
 
 ---
-
 
 Когда реакт-руты находятся в независимых ветках, выпадашки не могут автоматически определить своё положение.
 
@@ -154,11 +152,16 @@ import { ZIndex } from '@skbkontur/react-ui/internal/ZIndex';
 
 ---
 
-В пример ниже несколько Тултипов открываются друг в друге. Каждый вложенный получает `z-index` на основе родительского.
+Также стоит учитывать, что текущий механизм не умеет отслеживать изменения контекста. Предполагается, что вложенный
+реакт-рут будет либо внутри `Modal`, либо внутри `SidePage`.
 
-Эта информация передётся через контекст, поэтому Тултип в том же руте но смонтированный рядом получит "дефолтный" `z-index`.
+---
 
-Но если обёрнуть его в компонент `ZIndex`, то контекст можно задать вручную.
+В примере ниже несколько Тултипов открываются друг в друге. Каждый вложенный получает `z-index` на основе родительского.
+
+Даже Тултип отрендеренный во вложенном `root 2` правильно вписывается в цепочку z-индексов.
+
+Тултип в независимом `root 3` обёрнут в `<ZIndex priority={9001}>`, поэтому всегда будет выше других всплывашек.
 
 ```jsx harmony
 import ReactDOM from 'react-dom';
@@ -215,31 +218,33 @@ function MyTooltip({ pos, color = '#fff', ...props }) {
     render={() => (
       <MyTooltip
         render={() => (
-          <MyTooltip
-            render={() => 'root 1'}
-            pos="right middle"
-          >
-            root 1
-          </MyTooltip>
+          <Root>
+            <MyTooltip
+              render={() => 'root 2'}
+              pos="right middle"
+            >
+              root 2
+            </MyTooltip>
+          </Root>
         )}
         pos="right middle"
       >
-        root 1
+        root 1.1
       </MyTooltip>
     )}
     pos="top left"
   >
-    root 1
+    root 1.1
   </MyTooltip>
   <div style={{ width: 80 }} />
-  <MyTooltip render={() => 'root 1'} pos="top center" color="gray">
-    root 1
+  <MyTooltip render={() => 'root 1.2'} pos="top center" color="gray">
+    root 1.2
   </MyTooltip>
-  <div style={{ width: 20 }} />
+  <div style={{ width: 30 }} />
   <ZIndex priority={9001}>
     <Root>
-      <MyTooltip render={() => 'root 2'} pos="top center">
-        root 2
+      <MyTooltip render={() => 'root 3'} pos="top center">
+        root 3
       </MyTooltip>
     </Root>
   </ZIndex>
