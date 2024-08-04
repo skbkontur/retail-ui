@@ -23,7 +23,6 @@ export interface ComboBoxMenuProps<T> {
   items?: Nullable<Array<ComboBoxExtendedItem<T>>>;
   totalCount?: number;
   loading?: boolean;
-  hasShadow?: boolean;
   hasMargin?: boolean;
   maxMenuHeight?: number | string;
   refMenu?: (menu: Nullable<Menu>) => void;
@@ -110,7 +109,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         <Menu
           maxHeight={maxHeight}
           ref={refMenu}
-          hasShadow={this.props.hasShadow}
           hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
@@ -128,7 +126,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         <Menu
           ref={refMenu}
           maxHeight={maxHeight}
-          hasShadow={this.props.hasShadow}
           hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
@@ -150,7 +147,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         return (
           <Menu
             id={this.props.menuId}
-            hasShadow={this.props.hasShadow}
             hasMargin={this.props.hasMargin}
             maxHeight={maxHeight}
             ref={refMenu}
@@ -165,7 +161,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         return (
           <Menu
             id={this.props.menuId}
-            hasShadow={this.props.hasShadow}
             hasMargin={this.props.hasMargin}
             maxHeight={maxHeight}
             ref={refMenu}
@@ -201,7 +196,6 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         data-tid={ComboBoxMenuDataTids.items}
         ref={refMenu}
         maxHeight={maxHeight}
-        hasShadow={this.props.hasShadow}
         hasMargin={this.props.hasMargin}
         disableScrollContainer={isMobile}
       >

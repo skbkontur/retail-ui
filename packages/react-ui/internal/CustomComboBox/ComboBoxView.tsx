@@ -227,7 +227,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     return (
       <ComboBoxMenu
         hasMargin={false}
-        hasShadow={false}
         menuId={this.menuId}
         items={items}
         loading={loading}
