@@ -23,6 +23,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -304,6 +305,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         opened
         hasShadow={hasShadow}
         id={this.menuId}
+        priority={ZIndex.priorities.PopupMenu}
         data-tid={AutocompleteDataTids.menu}
         anchorElement={this.getAnchor()}
         disablePortal={disablePortal}

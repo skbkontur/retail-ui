@@ -22,6 +22,7 @@ import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ZIndex } from '../ZIndex';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -260,6 +261,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           hasShadow
           minWidth="100%"
           anchorElement={anchorElement}
+          priority={ZIndex.priorities.PopupMenu}
           positions={getMenuPositions(menuPos, menuAlign)}
           disablePortal={this.props.disablePortal}
           margin={parseInt(this.theme.menuOffsetY) - 1}

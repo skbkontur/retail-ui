@@ -29,6 +29,7 @@ import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
@@ -319,6 +320,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             <Popup
               opened
               hasShadow
+              priority={ZIndex.priorities.PopupMenu}
               positions={getMenuPositions(menuPos, menuAlign)}
               data-tid={DatePickerDataTids.root}
               anchorElement={this.getParent()}
