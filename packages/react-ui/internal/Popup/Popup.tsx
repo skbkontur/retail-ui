@@ -38,9 +38,9 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const NonPinnablePositions = ['middle center', 'middle left', 'middle right'];
+export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'];
 
-export const PinnablePopupPositions = [
+export const PopupPinnablePositions = [
   'top center',
   'top left',
   'top right',
@@ -55,12 +55,12 @@ export const PinnablePopupPositions = [
   'right bottom',
 ];
 
-export const PopupPositions = [...PinnablePopupPositions, ...NonPinnablePositions] as const;
+export const PopupPositions = [...PopupPinnablePositions, ...PopupNonPinnablePositions] as const;
 
 export const DefaultPosition = PopupPositions[0];
 
 export type PopupPositionsType = (typeof PopupPositions)[number];
-export type PinnablePopupPositionsType = (typeof PinnablePopupPositions)[number];
+export type PopupPinnablePositionsType = (typeof PopupPinnablePositions)[number];
 export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
 
 export const DUMMY_LOCATION: PopupLocation = {
@@ -615,7 +615,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       hasPin &&
-      !NonPinnablePositions.includes(positionName) && (
+      !PopupNonPinnablePositions.includes(positionName) && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
@@ -693,7 +693,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private reorderPropsPositionsWithPriorityPos() {
-    const positions = this.props.positions ? this.props.positions : PinnablePopupPositions;
+    const positions = this.props.positions ? this.props.positions : PopupPinnablePositions;
     let pos_ = '';
     if (this.props.pos) {
       pos_ = this.props.pos;

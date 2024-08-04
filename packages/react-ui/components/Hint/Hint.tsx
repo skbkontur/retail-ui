@@ -4,7 +4,7 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { DUMMY_LOCATION, Popup, PinnablePopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup, PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -50,7 +50,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?: ShortPopupPositionsType | PinnablePopupPositionsType;
+  pos?: ShortPopupPositionsType | PopupPinnablePositionsType;
   /**
    * Текст подсказки.
    */
@@ -59,7 +59,7 @@ export interface HintProps extends CommonProps {
    * Список позиций, которые хинт будет занимать. Если положение хинт в определенной позиции будет выходить
    * за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`.
    */
-  allowedPositions?: PinnablePopupPositionsType[];
+  allowedPositions?: PopupPinnablePositionsType[];
   /**
    * Отключает анимацию.
    */
@@ -74,7 +74,7 @@ export interface HintProps extends CommonProps {
 
 export interface HintState {
   opened: boolean;
-  position: PinnablePopupPositionsType;
+  position: PopupPinnablePositionsType;
 }
 
 type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
@@ -208,7 +208,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PinnablePopupPositionsType[] | undefined => {
+  private getPositions = (): PopupPinnablePositionsType[] | undefined => {
     return this.props.allowedPositions;
   };
 
