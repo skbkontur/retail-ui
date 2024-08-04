@@ -51,9 +51,3 @@ export const WithItemsWithIconsWithoutTextAlignment: Story = () => (
     <MenuItem>MenuItem3</MenuItem>
   </PopupMenu>
 );
-
-export const DisablePortal: Story = () => (
-  <PopupMenu disablePortal caption={<Button>Click me</Button>}>
-    <MenuItem>MenuItem1</MenuItem>
-  </PopupMenu>
-);

@@ -63,10 +63,6 @@ export interface PopupMenuProps
   popupMargin?: number;
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
-  /**
-   * Отключает использование портала
-   */
-  disablePortal?: boolean;
   disableAnimations?: boolean;
   /** Действие при открытии меню */
   onOpen?: () => void;
@@ -185,7 +181,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 pinOffset={this.props.popupPinOffset}
                 positions={this.getPositions()}
                 disableAnimations={disableAnimations}
-                disablePortal={this.props.disablePortal}
                 onOpen={this.handleOpen}
                 mobileOnCloseRequest={this.hideMenu}
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
