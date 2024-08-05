@@ -40,7 +40,7 @@ export class ComponentCombinator<
     const pages = [];
     let row = 0;
     const sizes = combinations.map((c) => c.length);
-    const flatCombinations = ([] as typeof combinations[0]).concat(...combinations);
+    const flatCombinations = ([] as (typeof combinations)[0]).concat(...combinations);
 
     for (let j = 0; j < sizes.length - 1; j++) {
       pages.push({

@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { render } from '@testing-library/react';
 

@@ -5,7 +5,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { jsStyles } from './MobilePopupFooter.styles';
 
-export class MobilePopupFooter extends React.Component {
+export class MobilePopupFooter extends React.Component<React.PropsWithChildren> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuFooter';
 
   private theme!: Theme;

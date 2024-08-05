@@ -121,6 +121,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
   componentDidMount() {
     currentGlobalLoader?.kill();
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     currentGlobalLoader = this;
     const { active, rejected } = this.getProps();
     if (active) {

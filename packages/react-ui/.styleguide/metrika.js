@@ -5,7 +5,7 @@
       catchUnloadEvent: !0,
       disableCatchClickOnLinks: !1,
     });
-    typeof infra_frontQueue != 'undefined' && n.infra_frontTracker.assignQueue(infra_frontQueue);
+    typeof infra_frontQueue !== 'undefined' && n.infra_frontTracker.assignQueue(infra_frontQueue);
     n.infra_frontTracker.assignQueue(t);
   }
   var t = [],
@@ -22,25 +22,27 @@
       document.head.appendChild(i));
   n.infra_frontTracker ||
     (n.infra_frontTracker = {
-      assignQueue: function (n) {
-        for (var i = 0; i < n.length; i++) t.push(n[i]);
+      assignQueue(n) {
+        for (var i = 0; i < n.length; i++) {
+          t.push(n[i]);
+        }
       },
-      push: function (n) {
+      push(n) {
         t.push(n);
       },
-      trackEvent: function (n, i, r, u) {
+      trackEvent(n, i, r, u) {
         t.push(['trackEvent', n, i, r, u]);
       },
-      trackPageVisit: function (n) {
+      trackPageVisit(n) {
         t.push(['trackPageVisit', n]);
       },
-      trackElement: function (n, i, r) {
+      trackElement(n, i, r) {
         t.push(['trackElement', n, i, r]);
       },
-      enableDevMode: function () {
+      enableDevMode() {
         t.push(['enableDevMode']);
       },
-      enableHTMLTracking: function () {
+      enableHTMLTracking() {
         t.push(['enableHTMLTracking']);
       },
     });

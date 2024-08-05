@@ -6,24 +6,20 @@ import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { isNonNullable, isNullable } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
-import { MenuItem, MenuItemDataTids, MenuItemProps } from '../../components/MenuItem';
+import { MenuItem, MenuItemDataTids } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Menu.styles';
-import { isActiveElement } from './isActiveElement';
 import { MenuNavigation } from './MenuNavigation';
 import { MenuContext } from './MenuContext';
 
@@ -112,14 +108,12 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private isMobileLayout!: boolean;
-  private highlighted: Nullable<MenuItem>;
   private unmounted = false;
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private contentRef = React.createRef<HTMLDivElement>();
   private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef, MenuItemDataTids.content);
-  private menuItemsAtAnyLevel?: boolean;
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -128,6 +122,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   public componentDidMount() {
     this.setInitialSelection();
     this.calculateMaxHeight();
+    this.unmounted = false;
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
@@ -155,19 +150,12 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.menuItemsAtAnyLevel = getFullReactUIFlagsContext(flags).menuItemsAtAnyLevel;
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -189,40 +177,26 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    if (this.menuItemsAtAnyLevel) {
-      this.menuNavigation.highlightedItem?.navigate();
-      return this.menuNavigation.select(event);
-    }
-    return this.select(this.state.highlightedIndex, true, event);
+    this.menuNavigation.highlightedItem?.navigate();
+    return this.menuNavigation.select(event);
   }
 
   /**
    * @public
    */
   public reset() {
-    if (this.menuItemsAtAnyLevel) {
-      this.menuNavigation.reset();
-    } else {
-      this.setState({ highlightedIndex: -1 });
-    }
+    this.menuNavigation.reset();
   }
 
   /**
    * @public
    */
   public hasHighlightedItem() {
-    if (this.menuItemsAtAnyLevel) {
-      return !!this.menuNavigation.highlightedItem;
-    }
-    return this.state.highlightedIndex !== -1;
+    return !!this.menuNavigation.highlightedItem;
   }
 
   public highlightItem(index: number) {
-    if (this.menuItemsAtAnyLevel) {
-      this.menuNavigation.highlightByIndex(index);
-    } else {
-      this.highlight(index);
-    }
+    this.menuNavigation.highlightByIndex(index);
   }
 
   private renderMain() {
@@ -278,7 +252,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
                 setEnableIconPadding: this.setEnableIconPadding,
               }}
             >
-              {this.getChildList()}
+              {this.props.children}
             </MenuContext.Provider>
           </div>
         </ScrollContainer>
@@ -327,40 +301,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
         <MenuSeparator />
       </ThemeContext.Provider>
     );
-  };
-
-  private getChildList = () => {
-    if (this.menuItemsAtAnyLevel) {
-      return this.props.children;
-    }
-    const enableIconPadding = isIconPaddingEnabled(this.props.children, this.props.preventIconsOffset);
-
-    return React.Children.map(this.props.children, (child, index) => {
-      if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
-        return child;
-      }
-
-      const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
-
-      if (isActiveElement(modifiedChild)) {
-        const highlight = this.state.highlightedIndex === index;
-
-        let ref = modifiedChild.ref;
-        if (highlight && typeof modifiedChild.ref !== 'string') {
-          ref = this.refHighlighted.bind(this, modifiedChild.ref);
-        }
-
-        return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
-          ref,
-          state: highlight ? 'hover' : modifiedChild.props.state,
-          onClick: this.select.bind(this, index, false),
-          onMouseEnter: this.highlight.bind(this, index),
-          onMouseLeave: this.unhighlight,
-        });
-      }
-
-      return modifiedChild;
-    });
   };
 
   private setInitialSelection = () => {
@@ -414,19 +354,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     this.scrollContainer = scrollContainer;
   };
 
-  private refHighlighted(
-    originalRef: ((menuItem: MenuItem | null) => any) | React.RefObject<MenuItem> | null | undefined,
-    menuItem: MenuItem | null,
-  ) {
-    this.highlighted = menuItem;
-
-    if (typeof originalRef === 'function') {
-      originalRef(menuItem);
-    }
-  }
-
   private scrollToSelected = () => {
-    const highlightedItem = this.menuItemsAtAnyLevel ? this.menuNavigation.highlightedItem : this.highlighted;
+    const highlightedItem = this.menuNavigation.highlightedItem;
     if (this.scrollContainer && highlightedItem) {
       const rootNode = getRootNode(highlightedItem);
       // TODO: Remove this check once IF-647 is resolved
@@ -461,81 +390,13 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
   };
 
-  private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const item = childrenToArray(this.props.children)[index];
-    if (isActiveElement(item) && isBrowser(globalObject)) {
-      if (shouldHandleHref && item.props.href) {
-        if (item.props.target) {
-          globalObject.open(item.props.href, item.props.target);
-        } else {
-          globalObject.location.href = item.props.href;
-        }
-      }
-      if (item.props.onClick) {
-        item.props.onClick(event);
-      }
-      if (this.props.onItemClick) {
-        this.props.onItemClick(event);
-      }
-      return true;
-    }
-    return false;
-  }
-
-  private highlight = (index: number) => {
-    this.setState({ highlightedIndex: index });
-  };
-
-  private unhighlight = () => {
-    this.setState({ highlightedIndex: -1 });
-  };
-
   private move(step: number) {
     if (this.unmounted) {
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
     }
-    if (this.menuItemsAtAnyLevel) {
-      const nextIndex = this.menuNavigation.move(step, this.getProps().cyclicSelection);
-      this.scroll(nextIndex);
-    } else {
-      const children = childrenToArray(this.props.children);
-      const activeElements = children.filter(isActiveElement);
-      if (!activeElements.length) {
-        return;
-      }
-      let index = this.state.highlightedIndex;
-      do {
-        index += step;
-
-        if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
-          return;
-        }
-
-        if (index < 0) {
-          index = children.length - 1;
-        } else if (index > children.length) {
-          index = 0;
-        }
-
-        const child = children[index];
-        if (isActiveElement(child)) {
-          this.setState({ highlightedIndex: index }, () => {
-            switch (activeElements.indexOf(child)) {
-              case 0:
-                this.scrollToTop();
-                break;
-              case activeElements.length - 1:
-                this.scrollToBottom();
-                break;
-              default:
-                this.scrollToSelected();
-            }
-          });
-          return;
-        }
-      } while (index !== this.state.highlightedIndex);
-    }
+    const nextIndex = this.menuNavigation.move(step, this.getProps().cyclicSelection);
+    this.scroll(nextIndex);
   }
 
   private isEmpty() {
@@ -553,17 +414,15 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
 
     if (isKeyArrowUp(event)) {
+      console.log('here');
       event.preventDefault();
       this.up();
     } else if (isKeyArrowDown(event)) {
+      console.log('there');
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
-      if (this.menuItemsAtAnyLevel) {
-        this.menuNavigation.select(event);
-      } else if (this.highlighted && this.highlighted.props.onClick) {
-        this.highlighted.props.onClick(event);
-      }
+      this.menuNavigation.select(event);
     }
   };
 

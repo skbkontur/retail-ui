@@ -23,7 +23,7 @@ import { styles } from './Loader.styles';
 
 const types = ['mini', 'normal', 'big'] as const;
 
-export type LoaderType = typeof types[number];
+export type LoaderType = (typeof types)[number];
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;

@@ -360,7 +360,9 @@ export const styles = memoizeStyle({
 
   transitionActive() {
     return css`
-      transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition:
+        transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1 !important;
       transform: translate(0, 0) !important;
     `;

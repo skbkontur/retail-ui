@@ -14,6 +14,6 @@ export default function (file: FileInfo, api: API) {
     });
 
   if (modified) {
-    return result.toSource();
+    return result.toSource({ lineTerminator: '\n' });
   }
 }

@@ -6,6 +6,10 @@ import { css } from '../../lib/theming/Emotion';
 
 let disposeDocumentStyle: (() => void) | null = null;
 
+interface GlobalWithRetailUIVerticalScrollCounter {
+  RetailUIVerticalScrollCounter?: number;
+}
+
 export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
   public static displayName = 'HideBodyVerticalScroll';
@@ -84,17 +88,20 @@ export class HideBodyVerticalScroll extends React.Component {
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const counter = globalObject.RetailUIVerticalScrollCounter || 0;
-    return (globalObject.RetailUIVerticalScrollCounter = counter + 1);
+    const globalWithRetailUIVerticalScrollCounter = globalObject as GlobalWithRetailUIVerticalScrollCounter;
+    const counter = globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter || 0;
+    return (globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
-    const counter = globalObject.RetailUIVerticalScrollCounter || 0;
-    return (globalObject.RetailUIVerticalScrollCounter = counter - 1);
+    const globalWithRetailUIVerticalScrollCounter = globalObject as GlobalWithRetailUIVerticalScrollCounter;
+    const counter = globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter || 0;
+    return (globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
-    return globalObject.RetailUIVerticalScrollCounter || 0;
+    const globalWithRetailUIVerticalScrollCounter = globalObject as GlobalWithRetailUIVerticalScrollCounter;
+    return globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter || 0;
   };
 }
 

@@ -43,7 +43,7 @@ describe('MenuItem', () => {
   });
 
   it('calls children function', () => {
-    render(<MenuItem state="hover">{(state) => state}</MenuItem>);
+    render(<MenuItem state="hover">{(state) => state?.toString()}</MenuItem>);
     expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent('hover');
   });
 
@@ -100,7 +100,7 @@ describe('MenuItem', () => {
   });
 
   describe('onMouseEnter', () => {
-    it('calls once', () => {
+    it('calls once', async () => {
       const onMouseEnter = jest.fn();
       render(
         <MenuItem onMouseEnter={onMouseEnter}>
@@ -108,20 +108,20 @@ describe('MenuItem', () => {
         </MenuItem>,
       );
 
-      userEvent.hover(screen.getByRole('button'));
-      userEvent.hover(screen.getByText('MenuItem'));
-      userEvent.hover(screen.getByRole('button'));
+      await userEvent.hover(screen.getByRole('button'));
+      await userEvent.hover(screen.getByText('MenuItem'));
+      await userEvent.hover(screen.getByRole('button'));
 
       expect(onMouseEnter).toHaveBeenCalledTimes(1);
     });
 
-    it('calls again after onMouseLeave', () => {
+    it('calls again after onMouseLeave', async () => {
       const onMouseEnter = jest.fn();
       render(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
 
-      userEvent.hover(screen.getByRole('button'));
-      userEvent.unhover(screen.getByRole('button'));
-      userEvent.hover(screen.getByRole('button'));
+      await userEvent.hover(screen.getByRole('button'));
+      await userEvent.unhover(screen.getByRole('button'));
+      await userEvent.hover(screen.getByRole('button'));
 
       expect(onMouseEnter.mock.calls).toHaveLength(2);
     });

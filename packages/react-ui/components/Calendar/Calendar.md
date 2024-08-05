@@ -197,3 +197,39 @@ const en_GB = {
   dayCellChooseDateAriaLabel: 'Выбрать дату',
 };
 ```
+
+
+### Скролл к месяцу
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+const initialValue = "02.09.2023";
+const [value, setValue] = React.useState(initialValue);
+const calendarRef = React.useRef(null);
+
+<>
+  <Gapped gap={8} verticalAlign="top">
+    <Calendar
+      value={value}
+      ref={calendarRef}
+      onValueChange={setValue}
+    />
+    
+    <Gapped vertical gap={8}>
+      <Button onClick={() => calendarRef.current.scrollToMonth(1, 2023)}>
+        I квартал
+      </Button>
+      <Button onClick={() => calendarRef.current.scrollToMonth(4, 2023)}>
+        II квартал
+      </Button>
+      <Button onClick={() => calendarRef.current.scrollToMonth(7, 2023)}>
+        III квартал
+      </Button>
+      <Button onClick={() => calendarRef.current.scrollToMonth(10, 2023)}>
+        IV квартал
+      </Button>
+    </Gapped>
+  </Gapped>
+</>;
+```

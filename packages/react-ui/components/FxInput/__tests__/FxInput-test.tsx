@@ -25,7 +25,7 @@ describe('FxInput', () => {
     expect(document.body).toHaveFocus();
   });
 
-  it.each(['', undefined])('should clear the value when %s passed', (testValue) => {
+  it.each(['', undefined])('should clear the value when %s passed', async (testValue) => {
     const Comp = () => {
       const [value, setValue] = useState<string | undefined>('12345');
 
@@ -42,10 +42,10 @@ describe('FxInput', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12345');
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveValue('');
 
-    userEvent.type(input, '123');
+    await userEvent.type(input, '123');
     expect(input).toHaveValue('123');
   });
 

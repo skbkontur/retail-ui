@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Textarea, TextareaDataTids } from '../Textarea';
@@ -12,13 +12,14 @@ describe('Textarea', () => {
     expect(input).toBeInTheDocument();
   });
 
-  it('setSelectionRange method works', () => {
+  it('setSelectionRange method works', async () => {
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} value="Method works" />);
-    textareaRef.current?.setSelectionRange(3, 5);
+    act(() => {
+      textareaRef.current?.setSelectionRange(3, 5);
+    });
 
-    userEvent.click(screen.getByRole('textbox'));
-
+    fireEvent.click(screen.getByRole('textbox'));
     expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(3);
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(5);
@@ -29,17 +30,19 @@ describe('Textarea', () => {
 
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} value={value} />);
-    textareaRef.current?.selectAll();
+    act(() => {
+      textareaRef.current?.selectAll();
+    });
 
     expect(document.activeElement).toBeInstanceOf(HTMLTextAreaElement);
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
   });
 
-  it('selectAllOnFocus prop works', () => {
+  it('selectAllOnFocus prop works', async () => {
     const value = 'Prop works';
     render(<Textarea value={value} selectAllOnFocus />);
-    userEvent.tab();
+    await userEvent.tab();
 
     expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(value.length);
@@ -48,20 +51,24 @@ describe('Textarea', () => {
   it('focus method works', () => {
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} />);
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('blur method works', () => {
     const textareaRef = React.createRef<Textarea>();
     render(<Textarea ref={textareaRef} />);
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
     textareaRef.current?.blur();
     expect(screen.getByRole('textbox')).not.toHaveFocus();
   });
 
-  it('should clear the value when an empty string passed', () => {
+  it('should clear the value when an empty string passed', async () => {
     const Comp = () => {
       const [value, setValue] = useState('');
 
@@ -78,50 +85,51 @@ describe('Textarea', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'abc');
+    await userEvent.type(input, 'abc');
     expect(input).toHaveValue('abc');
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'a');
+    await userEvent.type(input, 'a');
     expect(input).toHaveValue('a');
   });
 
-  it('handels onPaste event', () => {
+  it('handels onPaste event', async () => {
     const onPaste = jest.fn();
     render(<Textarea onPaste={onPaste} />);
     const text = 'It handels onPaste event';
     const element = screen.getByRole('textbox');
-    userEvent.paste(element, text);
+    await userEvent.click(element);
+    await userEvent.paste(text);
     expect(element).toHaveValue(text);
     expect(onPaste).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', () => {
+  it('handels onFocus event', async () => {
     const onFocus = jest.fn();
     render(<Textarea onFocus={onFocus} />);
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onCut event', () => {
+  it('handels onCut event', async () => {
     const onCut = jest.fn();
     render(<Textarea onCut={onCut} value={'It handels onCut event'} selectAllOnFocus />);
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
     fireEvent.cut(screen.getByRole('textbox'));
 
     expect(onCut).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', () => {
+  it('handels onKeyDown event', async () => {
     const onKeyDown = jest.fn();
     render(<Textarea onKeyDown={onKeyDown} />);
 
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
@@ -147,7 +155,7 @@ describe('Textarea', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('blocks pressing enter when maxLength reached', () => {
+  it('blocks pressing enter when maxLength reached', async () => {
     const Comp = () => {
       const [value, setValue] = useState('');
 
@@ -158,23 +166,24 @@ describe('Textarea', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'Value: one');
+    await userEvent.type(input, 'Value: one');
     expect(input).toHaveValue('Value: one');
 
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(screen.getByRole('textbox')).toHaveValue('Value: one');
   });
 
-  it('renders TextareaHelper with text content', () => {
+  it('renders TextareaHelper with text content', async () => {
     render(<Textarea counterHelp="Hello" lengthCounter={10} showLengthCounter />);
-
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
 
     const helpIcon = screen.getByTestId(TextareaDataTids.helpIcon);
     expect(helpIcon).toBeInTheDocument();
 
-    userEvent.click(helpIcon);
+    await userEvent.click(helpIcon);
     const helperTooltip = screen.getByText('Hello');
     expect(helperTooltip).toBeInTheDocument();
   });
@@ -182,7 +191,9 @@ describe('Textarea', () => {
   it('renders TextareaHelper with react element content', () => {
     render(<Textarea counterHelp={() => <span>Help me</span>} lengthCounter={10} showLengthCounter />);
 
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByText('Help me')).toBeInTheDocument();
   });
 

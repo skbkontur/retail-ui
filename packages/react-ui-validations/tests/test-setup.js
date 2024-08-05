@@ -1,9 +1,7 @@
-import { configure } from '@testing-library/dom';
+import { configure } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-configure({
-  testIdAttribute: 'data-tid',
-});
+configure({ testIdAttribute: 'data-tid' });
 
 jest.mock('../src/smoothScrollIntoView', () => {
   const originalModule = jest.requireActual('../src/smoothScrollIntoView');

@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { Nullable } from '../typings/Types';
 import { ThemeValidations } from '../typings/theme-context';
 
-import { getFullValidationsFlagsContext, ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 import { TextPosition, Validation } from './ValidationWrapperInternal';
 import { getValidationTextColor } from './utils/getValidationTextColor';
 import { ThemeContext } from './ReactUiDetection';
@@ -17,8 +16,7 @@ export interface ValidationTextProps {
 
 export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
   const theme = useContext<ThemeValidations>(ThemeContext);
-  const featureFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
-  const color = getValidationTextColor(featureFlags, theme, validation?.level);
+  const color = getValidationTextColor(theme, validation?.level);
 
   if (pos === 'right') {
     const childrenAndValidationText = (
@@ -30,11 +28,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
       </>
     );
 
-    return featureFlags.validationsRemoveExtraSpans ? (
-      childrenAndValidationText
-    ) : (
-      <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>
-    );
+    return <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>;
   }
 
   const validationText = (
@@ -54,12 +48,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 
-  return featureFlags.validationsRemoveExtraSpans ? (
-    <>
-      {children}
-      <span style={{ position: 'absolute', display: 'block' }}>{validationText}</span>
-    </>
-  ) : (
+  return (
     <span style={{ position: 'relative', display: 'inline-block' }}>
       {children}
       <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>{validationText}</span>
