@@ -123,7 +123,6 @@ export const MaskedInput = forwardRefAndName(
         className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
           <ColorableInputElement showOnFocus={!alwaysShowMask}>
-            {/*<ColorableInputElement showOnFocus={!alwaysShowMask} active={!showPlaceholder}>*/}
             <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
           </ColorableInputElement>
         }

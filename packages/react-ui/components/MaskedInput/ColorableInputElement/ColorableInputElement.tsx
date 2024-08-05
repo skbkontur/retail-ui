@@ -36,7 +36,7 @@ export const ColorableInputElement = forwardRefAndName(
     const debouncedPaintText = useCallback(debounce(paintText), []);
     const [active, setActive] = useState(true);
 
-    const { children, onInput, onFocus, onBlur, showOnFocus = false, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -63,7 +63,10 @@ export const ColorableInputElement = forwardRefAndName(
       };
     }, []);
 
-    useEffect(activation, [showOnFocus, active, props.value, props.defaultValue, focused.current]);
+    useEffect(() => {
+      activation(props);
+      updateActive();
+    }, [active, props.showOnFocus, props.value, props.defaultValue, props.disabled, focused.current]);
 
     useEffect(() => {
       if (inputRef.current) {
@@ -89,7 +92,7 @@ export const ColorableInputElement = forwardRefAndName(
       const isActive = !inputRef.current?.parentElement?.querySelector(':placeholder-shown');
       setActive(isActive);
 
-      activation();
+      activation(props);
 
       onInput?.(e);
     }
@@ -116,9 +119,9 @@ export const ColorableInputElement = forwardRefAndName(
       });
     }
 
-    function activation() {
+    function activation(props: ColorableInputElementProps) {
       if (active) {
-        debouncedPaintText();
+        debouncedPaintText(props);
       } else {
         debouncedPaintText.cancel();
         inputRef.current && (inputRef.current.style.backgroundImage = '');
@@ -126,7 +129,7 @@ export const ColorableInputElement = forwardRefAndName(
       }
     }
 
-    function paintText() {
+    function paintText(props: Partial<ColorableInputElementProps> = {}) {
       if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
@@ -161,7 +164,7 @@ export const ColorableInputElement = forwardRefAndName(
         typedValueColor = theme.inputTextColorDisabled;
         maskColor = theme.inputTextColorDisabled;
       }
-      if (showOnFocus) {
+      if (props.showOnFocus) {
         maskColor = focused.current ? maskColor : 'transparent';
       }
 
