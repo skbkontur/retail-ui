@@ -409,30 +409,9 @@ export const TooltipTopLeft: Story = () => {
     <ValidationContainer>
       <div style={{ paddingTop: 60 }}>
         <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top left')}>
-          <Input value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
+          <Input data-tid="test-input" value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
         </ValidationWrapper>
       </div>
     </ValidationContainer>
   );
-};
-
-TooltipTopLeft.parameters = {
-  creevey: {
-    tests: {
-      async invalidTooltip() {
-        const input = await this.browser.findElement({ css: '.react-ui-1xb4xgu' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(input)
-          .sendKeys('test')
-          .click(this.browser.findElement({ css: 'body' }))
-          .click(input)
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
 };
