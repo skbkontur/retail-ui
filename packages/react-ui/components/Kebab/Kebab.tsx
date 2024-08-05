@@ -12,14 +12,12 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupPositionsType } from '../../internal/Popup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
@@ -116,9 +114,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: theme.kebabPinOffset,
                   popupMargin: theme.kebabMargin,
-                  popupPinSize: theme.kebabPinSize,
                   menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
                 },
                 theme,
@@ -135,11 +131,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderMain() {
     const { disabled } = this.props;
     const { positions, disableAnimations, onOpen, onClose } = this.getProps();
-    const hasPin = !isTheme2022(this.theme);
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
         <PopupMenu
-          popupHasPin={hasPin}
+          popupHasPin={false}
           preventIconsOffset={this.props.preventIconsOffset}
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
@@ -185,14 +180,13 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           size === 'small' && styles.kebabSmall(this.theme),
           size === 'medium' && styles.kebabMedium(this.theme),
           size === 'large' && styles.kebabLarge(this.theme),
-          isTheme2022(this.theme) && styles.kebab2022(),
           captionProps.opened && styles.opened(this.theme),
           disabled && styles.disabled(),
           this.state.focusedByTab && styles.focused(this.theme),
         )}
         aria-describedby={this.props['aria-describedby']}
       >
-        {isTheme2022(this.theme) ? this.renderIcon2022() : this.renderIcon()}
+        {this.renderIcon()}
       </span>
     );
   };
@@ -232,22 +226,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    const { size, icon = <MenuKebabIcon /> } = this.getProps();
-    return (
-      <div
-        className={cx({
-          [styles.icon(this.theme)]: true,
-          [styles.iconsmall(this.theme)]: size === 'small',
-          [styles.iconmedium(this.theme)]: size === 'medium',
-          [styles.iconlarge(this.theme)]: size === 'large',
-        })}
-      >
-        {icon}
-      </div>
-    );
-  }
-
-  private renderIcon2022() {
     const { size, icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon as ReactElement)) {

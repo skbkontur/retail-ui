@@ -9,13 +9,11 @@ import { MenuItemState } from '../../components/MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
@@ -397,23 +395,11 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const { loading, items, drawArrow, rightIcon, size } = this.props;
 
     if (loading && items && !!items.length) {
-      if (isTheme2022(this.theme)) {
-        return <LoadingIcon size={size} />;
-      }
-      return this.renderSpinner();
+      return <LoadingIcon size={size} />;
     }
 
     if (rightIcon || drawArrow) {
-      if (isTheme2022(this.theme)) {
-        return rightIcon || <ArrowDownIcon size={size} />;
-      }
-      let icon;
-      if (rightIcon) {
-        icon = typeof rightIcon === 'function' ? rightIcon() : rightIcon;
-      } else {
-        icon = <ArrowChevronDownIcon />;
-      }
-      return <span className={styles.rightIconWrapper()}>{icon}</span>;
+      return rightIcon || <ArrowDownIcon size={size} />;
     }
 
     return null;

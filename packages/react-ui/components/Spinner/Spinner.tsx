@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
+import { SpinnerIcon } from '../../internal/SpinnerIcon/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';

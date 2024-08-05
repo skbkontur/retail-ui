@@ -4,12 +4,10 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
 import { SizeProp } from '../../lib/types/props';
 
@@ -57,11 +55,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       color: theme.textareaCounterHelpIconColor,
       'data-tid': TextareaDataTids.helpIcon,
     };
-    const helpIcon = isTheme2022(theme) ? (
-      <QuestionCircleIcon16Solid {...helpIconProps} />
-    ) : (
-      <HelpDotIcon {...helpIconProps} />
-    );
+    const helpIcon = <QuestionCircleIcon16Solid {...helpIconProps} />;
     const counterHelp = isFunction(help) ? (
       help()
     ) : (

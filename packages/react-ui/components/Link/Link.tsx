@@ -12,7 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { isDarkTheme } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
@@ -157,7 +157,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
       focused = false,
       ...rest
     } = props;
-    const _isTheme2022 = isTheme2022(this.theme);
 
     let arrow = null;
     if (_button) {
@@ -185,7 +184,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
-        this.getLinkClassName(isFocused, Boolean(disabled || loading), _isTheme2022),
+        this.getLinkClassName(isFocused, Boolean(disabled || loading)),
       ),
       href,
       rel,
@@ -195,26 +194,23 @@ export class Link extends React.Component<LinkProps, LinkState> {
       tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
 
-    let child = this.props.children;
-    if (_isTheme2022) {
-      // lineTextWrapper нужен для реализации transition у подчеркивания
-      child = (
+    // lineTextWrapper нужен для реализации transition у подчеркивания
+    const child = (
+      <span
+        className={cx(globalClasses.textWrapper, styles.lineTextWrapper(this.theme), {
+          [styles.lineTextWrapperFocused(this.theme)]: isFocused,
+        })}
+      >
         <span
-          className={cx(globalClasses.textWrapper, styles.lineTextWrapper(this.theme), {
-            [styles.lineTextWrapperFocused(this.theme)]: isFocused,
+          className={cx(globalClasses.text, {
+            [styles.lineText(this.theme)]: !isIE11,
+            [styles.lineTextIE11(this.theme)]: isIE11,
           })}
         >
-          <span
-            className={cx(globalClasses.text, {
-              [styles.lineText(this.theme)]: !isIE11,
-              [styles.lineTextIE11(this.theme)]: isIE11,
-            })}
-          >
-            {this.props.children}
-          </span>
+          {this.props.children}
         </span>
-      );
-    }
+      </span>
+    );
 
     return (
       <Component data-tid={LinkDataTids.root} {...rest} {...linkProps} {...getVisualStateDataAttributes({ disabled })}>
@@ -253,7 +249,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private getLinkClassName(focused: boolean, disabled: boolean, _isTheme2022: boolean): string {
+  private getLinkClassName(focused: boolean, disabled: boolean): string {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
@@ -268,12 +264,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
-          disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
+          disabled && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),
           isFocused && use === 'default' && styles.lineFocus(this.theme),
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
-          isFocused && _isTheme2022 && styles.focus2022(this.theme),
+          isFocused && styles.focus2022(this.theme),
         );
   }
 }

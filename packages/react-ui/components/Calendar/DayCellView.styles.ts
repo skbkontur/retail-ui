@@ -53,13 +53,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  today(t: Theme) {
-    return css`
-      border: ${t.calendarCellTodayBorder};
-    `;
-  },
-
-  todayCaption2022(t: Theme) {
+  todayCaption(t: Theme) {
     return css`
       padding-bottom: 2px;
       border-bottom: ${t.calendarCellTodayBorder};

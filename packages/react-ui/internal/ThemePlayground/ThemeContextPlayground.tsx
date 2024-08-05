@@ -3,10 +3,6 @@ import React, { ReactNode } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { FLAT_THEME_8PX_OLD } from '../../lib/theming/themes/FlatTheme8pxOld';
-import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
-import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
@@ -14,11 +10,8 @@ import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
-// TODO: revert in 5.0
-// import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
-// import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
-import { THEME_2022_DARK_UPDATE_2024 } from '../../lib/theming/themes/Theme2022DarkUpdate2024';
-import { THEME_2022_UPDATE_2024 } from '../../lib/theming/themes/Theme2022Update2024';
+import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
+import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
 
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
@@ -34,18 +27,10 @@ interface PlaygroundState {
   currentThemeType: ThemeType;
 }
 interface Themes {
-  default: Theme;
-  dark: Theme;
-  defaultOld: Theme;
-  flatOld: Theme;
   theme2022: Theme;
   theme2022Dark: Theme;
 }
 interface ThemesErrors {
-  default: ThemeErrorsType;
-  dark: ThemeErrorsType;
-  defaultOld: ThemeErrorsType;
-  flatOld: ThemeErrorsType;
   theme2022: ThemeErrorsType;
   theme2022Dark: ThemeErrorsType;
 }
@@ -63,14 +48,10 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
     return editingThemeItem.value;
   }
 
-  return 'default';
+  return 'theme2022';
 };
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
-    { value: ThemeType.Default, label: 'Дефолтная' },
-    { value: ThemeType.Dark, label: 'Темная' },
-    { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
-    { value: ThemeType.FlatOld, label: 'Старая плоская' },
     { value: ThemeType.Theme2022, label: 'Новая 2022' },
     { value: ThemeType.Theme2022Dark, label: 'Новая 2022 Тёмная' },
   ];
@@ -78,22 +59,14 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   constructor(props: PlaygroundProps) {
     super(props);
     this.state = {
-      currentTheme: DEFAULT_THEME,
-      currentThemeType: ThemeType.Default,
+      currentTheme: THEME_2022,
+      currentThemeType: ThemeType.Theme2022,
       editorOpened: false,
       themes: {
-        default: DEFAULT_THEME,
-        defaultOld: DEFAULT_THEME_8PX_OLD,
-        dark: DARK_THEME,
-        flatOld: FLAT_THEME_8PX_OLD,
-        theme2022: THEME_2022_UPDATE_2024,
-        theme2022Dark: THEME_2022_DARK_UPDATE_2024,
+        theme2022: THEME_2022,
+        theme2022Dark: THEME_2022_DARK,
       },
       themesErrors: {
-        default: {},
-        defaultOld: {},
-        dark: {},
-        flatOld: {},
         theme2022: {},
         theme2022Dark: {},
       },
@@ -136,7 +109,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
             </Gapped>
           </div>
           <div style={{ fontSize: 14, marginTop: 8 }}>
-            <Link onClick={this.handelGetTheme}>Вывести тему в консоль</Link>
+            <Link onClick={this.handleGetTheme}>Вывести тему в консоль</Link>
           </div>
         </SidePage.Header>
         <SidePage.Body>
@@ -153,12 +126,12 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     );
   };
 
-  private handelGetTheme = () => {
+  private handleGetTheme = () => {
     const currentTheme = this.state.currentTheme;
     const themeObject: Writeable<ThemeIn> = {};
     ThemeFactory.getKeys(currentTheme).forEach((key) => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
-      if (descriptor && !descriptor.get && DEFAULT_THEME[key] && currentTheme[key] !== DEFAULT_THEME[key]) {
+      if (descriptor && !descriptor.get && THEME_2022[key] && currentTheme[key] !== THEME_2022[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
       }
     });

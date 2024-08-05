@@ -4,7 +4,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { isKonturIcon } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 
 import { ButtonProps } from './Button';
@@ -27,7 +26,7 @@ export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
 
 const useIcon = (icon: any, size: SizeProp) => {
   const theme = useContext(ThemeContext);
-  if (icon && isTheme2022(theme) && isKonturIcon(icon)) {
+  if (icon && isKonturIcon(icon)) {
     const sizes = getButtonIconSizes(theme);
     return React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
   }
@@ -68,19 +67,17 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
     }
   };
 
-  const style: React.CSSProperties = isTheme2022(theme)
-    ? {
-        display: 'inline-flex',
-        alignItems: 'center',
-      }
-    : {};
+  const style: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+  };
 
   const _icon = useIcon(icon, size);
 
   return (
     <span
       style={style}
-      className={cx(styles.icon(theme), getSizeIconClassName(), {
+      className={cx(styles.icon(), getSizeIconClassName(), {
         [styles.iconNoMargin()]: !hasChildren,
         [styles.iconLeftLink(theme)]: isLink && position === 'left',
         [styles.iconRightLink(theme)]: isLink && position === 'right',

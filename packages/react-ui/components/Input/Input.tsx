@@ -15,8 +15,6 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
@@ -446,46 +444,27 @@ export class Input extends React.Component<InputProps, InputState> {
       <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>{this.getInput(inputProps)}</FocusControlWrapper>
     );
 
-    if (isTheme2022(this.theme)) {
-      return (
-        <InputLayout
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
-          prefix={prefix}
-          suffix={suffix}
-          labelProps={labelProps}
-          context={{ disabled: Boolean(disabled), focused, size }}
-        >
-          {input}
-          {this.state.needsPolyfillPlaceholder && (
-            <PolyfillPlaceholder
-              isMaskVisible={this.isMaskVisible}
-              value={value}
-              defaultValue={this.props.defaultValue}
-              align={align}
-            >
-              {placeholder}
-            </PolyfillPlaceholder>
-          )}
-        </InputLayout>
-      );
-    }
-
     return (
-      <label data-tid={InputDataTids.root} {...labelProps}>
-        <span className={styles.sideContainer()}>
-          {this.renderLeftIcon()}
-          {this.renderPrefix()}
-        </span>
-        <span className={styles.wrapper()}>
-          {input}
-          {this.renderPlaceholder()}
-        </span>
-        <span className={cx(styles.sideContainer(), styles.rightContainer())}>
-          {this.renderSuffix()}
-          {this.renderRightIcon()}
-        </span>
-      </label>
+      <InputLayout
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+        prefix={prefix}
+        suffix={suffix}
+        labelProps={labelProps}
+        context={{ disabled: Boolean(disabled), focused, size }}
+      >
+        {input}
+        {this.state.needsPolyfillPlaceholder && (
+          <PolyfillPlaceholder
+            isMaskVisible={this.isMaskVisible}
+            value={value}
+            defaultValue={this.props.defaultValue}
+            align={align}
+          >
+            {placeholder}
+          </PolyfillPlaceholder>
+        )}
+      </InputLayout>
     );
   };
 
@@ -502,73 +481,6 @@ export class Input extends React.Component<InputProps, InputState> {
         onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
-  }
-
-  private getIconSizeClassname(right = false) {
-    switch (this.getProps().size) {
-      case 'large':
-        return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
-      case 'medium':
-        return right ? styles.rightIconMedium(this.theme) : styles.leftIconMedium(this.theme);
-      case 'small':
-      default:
-        return right ? styles.rightIconSmall(this.theme) : styles.leftIconSmall(this.theme);
-    }
-  }
-
-  private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname());
-  }
-
-  private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(true));
-  }
-
-  private renderIcon(icon: InputIconType, sizeClassName: string) {
-    if (!icon) {
-      return null;
-    }
-    const { disabled } = this.props;
-    const iconNode = isFunction(icon) ? icon() : icon;
-
-    return (
-      <span
-        className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
-          [styles.iconFocus(this.theme)]: this.state.focused,
-          [styles.iconDisabled(this.theme)]: disabled,
-        })}
-      >
-        {iconNode}
-      </span>
-    );
-  }
-
-  private renderPlaceholder() {
-    const { disabled } = this.props;
-    const { focused } = this.state;
-    let placeholder = null;
-
-    if (
-      this.state.needsPolyfillPlaceholder &&
-      this.props.placeholder &&
-      !this.isMaskVisible &&
-      !this.props.value &&
-      !this.props.defaultValue
-    ) {
-      placeholder = (
-        <div
-          className={cx(styles.placeholder(this.theme), {
-            [styles.placeholderDisabled(this.theme)]: disabled,
-            [styles.placeholderFocus(this.theme)]: focused,
-          })}
-          style={{ textAlign: this.props.align || 'inherit' }}
-        >
-          {this.props.placeholder}
-        </div>
-      );
-    }
-
-    return placeholder;
   }
 
   private getSizeClassName() {
@@ -672,29 +584,5 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     this.resetFocus();
     this.props.onBlur?.(event);
-  };
-
-  private renderPrefix = () => {
-    const { prefix, disabled } = this.props;
-
-    if (!prefix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>{prefix}</span>
-    );
-  };
-
-  private renderSuffix = () => {
-    const { suffix, disabled } = this.props;
-
-    if (!suffix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>{suffix}</span>
-    );
   };
 }

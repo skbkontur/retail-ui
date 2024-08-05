@@ -14,12 +14,10 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
@@ -199,63 +197,18 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private menuId = DateSelectDataTids.menu + getRandomID();
 
   private renderMain() {
-    if (isTheme2022(this.theme)) {
-      return this.renderMain2022();
-    }
     const isMobile = this.isMobileLayout;
     const { disabled } = this.props;
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
     const Tag = isInteractiveElement ? 'button' : 'span';
     const rootProps = {
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [styles.disabled()]: Boolean(disabled),
-      }),
+      className: cx(styles.root(this.theme), disabled && styles.disabled()),
       style: { width },
       ref: this.refRoot,
       onClick: this.open,
       'aria-expanded': isInteractiveElement ? this.state.opened : undefined,
       'aria-controls': !disabled ? this.menuId : undefined,
-      'aria-label': isInteractiveElement
-        ? `${this.locale.selectChosenAriaLabel} ${
-            this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
-          } ${this.getItem(0)}`
-        : undefined,
-    };
-
-    return (
-      <Tag {...rootProps}>
-        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
-          {this.getItem(0)}
-          <div
-            className={cx({
-              [styles.arrow(this.theme)]: true,
-              [styles.arrowDisabled()]: Boolean(disabled),
-            })}
-          >
-            <ArrowTriangleUpDownIcon size={12} />
-          </div>
-        </div>
-        {isMobile
-          ? !disabled && this.renderMobileMenu(this.props, this.menuId)
-          : this.state.opened && this.renderMenu(this.menuId)}
-      </Tag>
-    );
-  }
-
-  private renderMain2022() {
-    const isMobile = this.isMobileLayout;
-    const { disabled } = this.props;
-    const width = this.getProps().width;
-    const isInteractiveElement = !disabled;
-    const Tag = isInteractiveElement ? 'button' : 'span';
-    const rootProps = {
-      className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
-      style: { width },
-      ref: this.refRoot,
-      onClick: this.open,
-      'aria-expanded': isInteractiveElement ? this.state.opened : undefined,
       'aria-label': isInteractiveElement
         ? `${this.locale.selectChosenAriaLabel} ${
             this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
@@ -381,8 +334,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       dropdownOffset -= nodeTop + top - overflowOffsetDelta;
     }
 
-    const iconUp = isTheme2022(this.theme) ? <ArrowCUpIcon16Regular color="#ADADAD" /> : <ArrowChevronUpIcon />;
-    const iconDown = isTheme2022(this.theme) ? <ArrowCDownIcon16Regular color="#ADADAD" /> : <ArrowChevronDownIcon />;
+    const iconUp = <ArrowCUpIcon16Regular color="#ADADAD" />;
+    const iconDown = <ArrowCDownIcon16Regular color="#ADADAD" />;
 
     return (
       <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active>
@@ -447,7 +400,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     }
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-onchange
       <select
         id={id}
         data-tid={type === 'month' ? CalendarDataTids.monthSelectMobile : CalendarDataTids.yearSelectMobile}

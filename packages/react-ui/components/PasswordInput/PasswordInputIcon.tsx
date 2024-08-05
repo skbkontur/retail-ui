@@ -1,20 +1,15 @@
 import React from 'react';
 
-import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
-
 import { PasswordInputProps, PasswordInputState } from './PasswordInput';
 import { ClosedIcon } from './ClosedIcon';
 import { OpenedIcon } from './OpenedIcon';
 
-export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'> &
-  Pick<PasswordInputProps, 'size'> & {
-    isTheme2022: boolean;
-  };
+export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'> & Pick<PasswordInputProps, 'size'>;
 
-export const PasswordInputIcon = ({ visible, size, isTheme2022 = false }: PasswordInputIconProps) => {
+export const PasswordInputIcon = ({ visible, size }: PasswordInputIconProps) => {
   if (visible) {
-    return isTheme2022 ? <ClosedIcon size={size} /> : <EyeClosedIcon size={14} />;
+    return <ClosedIcon size={size} />;
   }
 
-  return isTheme2022 ? <OpenedIcon size={size} /> : <EyeOpenedIcon size={14} />;
+  return <OpenedIcon size={size} />;
 };

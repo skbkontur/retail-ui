@@ -48,28 +48,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  forwardLinkFocused() {
-    return css`
-      text-decoration: underline;
-    `;
-  },
-
-  forwardIcon(t: Theme) {
-    return css`
-      vertical-align: -2px;
-      position: absolute;
-      margin-top: ${t.pagingForwardIconMarginTop};
-      right: 0;
-    `;
-  },
-
-  forwardLinkDisabled(t: Theme) {
-    return css`
-      color: ${t.pagingForwardLinkDisabledColor};
-      cursor: default;
-    `;
-  },
-
   pageLinkWrapper() {
     return css`
       display: inline-flex;

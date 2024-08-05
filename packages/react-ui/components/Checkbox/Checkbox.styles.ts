@@ -239,14 +239,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconFixPosition() {
-    return css`
-      svg {
-        margin: -12.5% 0 0 0;
-      }
-    `;
-  },
-
   iconUnchecked() {
     return css`
       color: transparent;

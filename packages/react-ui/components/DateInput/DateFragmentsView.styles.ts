@@ -9,17 +9,6 @@ export const styles = memoizeStyle({
   },
 
   selected(t: Theme) {
-    return css`
-      & ::selection {
-        background: ${t.dateInputComponentSelectedBgColor};
-      }
-      & ::-moz-selection {
-        background: ${t.dateInputComponentSelectedBgColor};
-      }
-    `;
-  },
-
-  selectedFor22Themes(t: Theme) {
     const getSelection = (background: string, color: string) =>
       (background || color) &&
       `& ::selection {

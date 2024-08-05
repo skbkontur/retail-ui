@@ -10,7 +10,8 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.dateSelectTextColorDefault};
       cursor: pointer;
-      display: inline-block;
+      display: inline-flex;
+      justify-content: space-between;
       font: inherit;
       font-size: ${t.dateSelectFontSize};
       padding: 0px;
@@ -37,13 +38,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  root2022() {
-    return css`
-      display: inline-flex;
-      justify-content: space-between;
-    `;
-  },
-
   disabled() {
     return css`
       color: inherit !important; // override root:hover style
@@ -54,25 +48,6 @@ export const styles = memoizeStyle({
   caption() {
     return css`
       position: relative;
-    `;
-  },
-
-  arrow(t: Theme) {
-    return css`
-      color: ${t.dateSelectTextColorDisabled};
-      float: right;
-      line-height: ${t.dateSelectLineHeight};
-      opacity: 1;
-      position: absolute;
-      right: 4px;
-      top: 0;
-      transform: scaleX(0.7);
-      transition: opacity 0.2s ease-out;
-    `;
-  },
-  arrowDisabled() {
-    return css`
-      opacity: 0;
     `;
   },
 
