@@ -1,9 +1,9 @@
-import { kind, story, test } from 'creevey';
+import { story, kind, test } from 'creevey';
 
 kind('Input', () => {
   story('TooltipTopLeft', () => {
     test('invalidTooltip', async function () {
-      const input = await this.browser.findElement({ css: 'input' });
+      const input = await this.browser.findElement({ css: '.react-ui-1xb4xgu' });
       await this.browser
         .actions({
           bridge: true,
