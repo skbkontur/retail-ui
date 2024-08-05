@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import {
   Button,
   ComboBox,
@@ -166,7 +166,7 @@ describe('ValidationContainer', () => {
       await containerRef.current?.submit();
       expect(onValidationUpdated).toBeCalledWith(false);
 
-      screen.getByRole('button', { name: 'Repair' }).click();
+      act(() => screen.getByRole('button', { name: 'Repair' }).click());
       expect(onValidationUpdated).toBeCalledWith(true);
     });
 
@@ -204,10 +204,10 @@ describe('ValidationContainer', () => {
 
       expect(onValidationUpdated).toBeCalledWith(false);
 
-      screen.getByRole('button', { name: 'Partial Repair' }).click();
+      act(() => screen.getByRole('button', { name: 'Partial Repair' }).click());
       expect(onValidationUpdated).toBeCalledWith(false);
 
-      screen.getByRole('button', { name: 'Repair' }).click();
+      act(() => screen.getByRole('button', { name: 'Repair' }).click());
       expect(onValidationUpdated).toBeCalledWith(true);
     });
   });
