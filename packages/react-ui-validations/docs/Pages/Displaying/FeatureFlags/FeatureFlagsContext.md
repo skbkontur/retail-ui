@@ -3,7 +3,6 @@
 ## Доступные флаги
 
     export interface ValidationsFeatureFlags {
-      darkTheme?: boolean;
     }
 
 Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
@@ -12,17 +11,11 @@
 
     import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
-    <ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
+    <ValidationsFeatureFlagsContext.Provider value={{ featureFlagName: true }}>{/* ... */}</ValidationsFeatureFlagsContext.Provider>;
 
 ## Использование
 
-### darkTheme
-
-Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
-`validationsTextColorError`.
-В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
-
-    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
+При появлении фиче-флагов их применение будет показано здесь.
 
 ## Объект со всеми флагами
 

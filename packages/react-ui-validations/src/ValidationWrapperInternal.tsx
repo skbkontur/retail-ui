@@ -141,8 +141,10 @@ export class ValidationWrapperInternal extends React.Component<
         },
       });
     }
-
-    return React.cloneElement(this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation), {
+    const errorMessage = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
+      'data-tid': clonedChild.props.dataTid,
+    });
+    return React.cloneElement(<div style={{ display: 'inline' }}>{errorMessage}</div>, {
       'data-tid': dataTid,
     });
   }
