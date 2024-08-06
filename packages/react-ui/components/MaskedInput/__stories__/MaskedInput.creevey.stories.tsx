@@ -10,12 +10,12 @@ export default {
   title: 'MaskedInput/Functional tests',
   parameters: {
     creevey: {
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     },
   },
 } as Meta;
 
-const testMaskedInput: CreeveyTests = {
+const testIdleFocusEditBlur: CreeveyTests = {
   async 'idle, focus, edit, blur'() {
     const click = (css: string) => {
       return this.browser
@@ -40,12 +40,35 @@ const testMaskedInput: CreeveyTests = {
   },
 };
 
-export const Default: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
-);
-Default.parameters = {
-  creevey: {
-    tests: testMaskedInput,
+const testIdleFocusAppendRemoveBlur: CreeveyTests = {
+  async 'idle, focus, edit, blur'() {
+    const click = (css: string) => {
+      return this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css }));
+    };
+
+    const idle = await this.takeScreenshot();
+
+    await click('input').pause(500).perform();
+    const focused = await this.takeScreenshot();
+
+    await click('input').sendKeys('953').perform();
+    const appended = await this.takeScreenshot();
+
+    await click('input')
+      .sendKeys(this.keys.BACK_SPACE)
+      .sendKeys(this.keys.BACK_SPACE)
+      .sendKeys(this.keys.BACK_SPACE)
+      .perform();
+    const restored = await this.takeScreenshot();
+
+    await click('body').perform();
+    const blured = await this.takeScreenshot();
+
+    await this.expect({ idle, focused, appended, restored, blured }).to.matchImages();
   },
 };
 
@@ -68,6 +91,42 @@ const testIdleFocusBlur: CreeveyTests = {
     const blured = await this.takeScreenshot();
 
     await this.expect({ idle, focused, blured }).to.matchImages();
+  },
+};
+
+export const Default: Story = () => (
+  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
+);
+Default.parameters = {
+  creevey: {
+    tests: testIdleFocusEditBlur,
+  },
+};
+
+export const IdleFocusEditBlurWithPlaceholder: Story = () => (
+  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="Телефон" />
+);
+IdleFocusEditBlurWithPlaceholder.parameters = {
+  creevey: {
+    tests: testIdleFocusEditBlur,
+  },
+};
+
+export const IdleFocusBlurWithPlaceholder: Story = () => (
+  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="Телефон" />
+);
+IdleFocusBlurWithPlaceholder.parameters = {
+  creevey: {
+    tests: testIdleFocusBlur,
+  },
+};
+
+export const IdleFocusAppendRemoveBlurWithPlaceholder: Story = () => (
+  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="Телефон" />
+);
+IdleFocusAppendRemoveBlurWithPlaceholder.parameters = {
+  creevey: {
+    tests: testIdleFocusAppendRemoveBlur,
   },
 };
 
@@ -109,29 +168,46 @@ export const WithCustomUnmaskedValue: Story = () => {
 
 WithCustomUnmaskedValue.parameters = {
   creevey: {
-    tests: testMaskedInput,
+    tests: testIdleFocusEditBlur,
   },
 };
 
-export const SelectAllByProp: Story = () => (
-  <MaskedInput mask="+7 999 999-99-99" defaultValue="+798765" selectAllOnFocus />
-);
+export const SelectAllByProp: Story = () => {
+  const [value, setValue] = React.useState('12');
+  return (
+    <div>
+      <MaskedInput mask="9999" maskChar="_" value={value} onValueChange={setValue} selectAllOnFocus alwaysShowMask />
+    </div>
+  );
+};
 
 SelectAllByProp.parameters = {
   creevey: {
+    skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     tests: {
-      async 'Plain focused'() {
+      async PlainAndSelected() {
         const plain = await this.takeScreenshot();
-
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
           .perform();
-
-        const focused = await this.takeScreenshot();
-        await this.expect({ plain, focused }).to.matchImages();
+        const selectAllHalfFilledInput = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('1234')
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
+          .perform();
+        const selectAllFilledInput = await this.takeScreenshot();
+        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
       },
     },
   },
@@ -149,7 +225,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} defaultValue="12:34" />
+        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} value="12:34" />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all
@@ -230,7 +306,7 @@ const testRewriteInMiddle: CreeveyTests = {
   },
 };
 
-export const RewriteInMiddle: Story = () => <MaskedInput width="150" value={'34'} mask="9999" alwaysShowMask />;
+export const RewriteInMiddle: Story = () => <MaskedInput width="150" defaultValue={'34'} mask="9999" alwaysShowMask />;
 
 RewriteInMiddle.parameters = {
   creevey: {

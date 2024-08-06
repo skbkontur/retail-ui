@@ -1,14 +1,20 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
+import { Input, InputProps } from '../../Input';
 
 export default {
   title: 'MaskedInput',
+  parameters: {
+    creevey: {
+      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+    },
+  },
 } as Meta;
 
 type InputState = Partial<MaskedInputProps>;
@@ -100,12 +106,14 @@ export const Validations: Story = () => (
 );
 
 const validationsStates: InputState[] = [
-  {},
-  { borderless: true },
-  { disabled: true },
-  { alwaysShowMask: true, disabled: true },
   { warning: true },
+  { value: '12', warning: true },
+  { alwaysShowMask: true, warning: true },
+  { value: '12', alwaysShowMask: true, warning: true },
   { error: true },
+  { value: '12', error: true },
+  { alwaysShowMask: true, error: true },
+  { value: '12', alwaysShowMask: true, error: true },
 ];
 
 export const Positions: Story = () => (
@@ -126,3 +134,161 @@ const positionsStates: InputState[] = [
   { value: 'WWWW WWWW WWW' },
   { value: 'W1W1 W1W1 W1' },
 ];
+
+export const Disabled: Story = () => (
+  <ComponentTable
+    Component={MaskedInput}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={disabledStates.map((x) => ({ props: x }))}
+    presetProps={{ mask: '99:99', disabled: true }}
+  />
+);
+
+const disabledStates: InputState[] = [
+  {},
+  { alwaysShowMask: true },
+  { value: '12' },
+  { value: '12', alwaysShowMask: true },
+  { placeholder: 'Placeholder' },
+];
+
+export const AllLabGrotesqueStyles: Story = () => {
+  const fontStyles = [
+    {
+      fontStyle: 'normal',
+      fontWeight: 100,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 300,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 500,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 700,
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 900,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 100,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 300,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 500,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 700,
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 900,
+    },
+  ];
+
+  return (
+    <ComponentTable
+      Component={MaskedInput}
+      cols={sizeStates.map((x) => ({ props: x }))}
+      rows={fontStyles.map((x) => ({ props: { style: x } }))}
+      presetProps={{ mask: '+7 999-999-99-99', defaultValue: '123', alwaysShowMask: true }}
+    />
+  );
+};
+
+AllLabGrotesqueStyles.parameters = {
+  creevey: {
+    skip: true,
+  },
+};
+
+const [propsPreset, propsSetA, propsSetB]: [
+  MaskedInputProps,
+  Array<Partial<MaskedInputProps>>,
+  Array<Partial<MaskedInputProps>>,
+] = [
+  { mask: '+7 999-999-99-99', placeholder: 'placeholder' },
+  [
+    { value: '' },
+    { value: 'invalid' },
+    { value: '12' },
+    { value: '123' },
+    { value: '1234' },
+    { value: '+7 12' },
+    { defaultValue: '' },
+    { defaultValue: 'invalid' },
+    { defaultValue: '12' },
+    { defaultValue: '123' },
+    { defaultValue: '1234' },
+    { defaultValue: '+7 12' },
+  ],
+  [
+    {},
+    { alwaysShowMask: true },
+    { imaskProps: { unmask: true } },
+    { imaskProps: { eager: 'remove' } },
+    { alwaysShowMask: true, imaskProps: { unmask: true } },
+  ],
+];
+
+const testPropsSets: MaskedInputProps[] = [];
+
+propsSetA.forEach((_props1) => {
+  propsSetB.forEach((_props2) => {
+    testPropsSets.push(Object.assign({ id: testPropsSets.length }, propsPreset, _props1, _props2));
+  });
+});
+
+export const CompareWithInput: Story = () => {
+  const Comp = ({ comp, ...props }: { comp: 'MaskedInput' | 'Input-mask' | 'Input' } & MaskedInputProps) => {
+    const [value, setValue] = useState(props.value);
+
+    if (comp === 'MaskedInput') {
+      return <MaskedInput {...({ ...props, value } as MaskedInputProps)} onValueChange={setValue} />;
+    }
+    if (comp === 'Input-mask') {
+      return <Input {...({ ...props, value } as InputProps)} onValueChange={setValue} />;
+    }
+    return <Input {...({ ...props, value, mask: undefined } as InputProps)} onValueChange={setValue} />;
+  };
+
+  return (
+    <ComponentTable<any, any, any>
+      Component={Comp}
+      cols={[{ comp: 'MaskedInput' }, { comp: 'Input-mask' }, { comp: 'Input' }].map((x) => ({ props: x }))}
+      rows={testPropsSets.map((x) => ({ props: x }))}
+    />
+  );
+};
+
+CompareWithInput.parameters = {
+  creevey: {
+    skip: true,
+  },
+};

@@ -45,6 +45,7 @@ export * from './components/TokenInput';
 export * from './components/Tooltip';
 export * from './components/TooltipMenu';
 export * from './components/ResponsiveLayout';
+export * from './components/MaskedInput';
 export * from './lib/featureFlagsContext';
 export * from './lib/locale';
 export * from './lib/theming/ThemeContext';
