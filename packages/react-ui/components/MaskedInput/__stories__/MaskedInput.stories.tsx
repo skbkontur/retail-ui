@@ -10,6 +10,11 @@ import { Input, InputProps } from '../../Input';
 
 export default {
   title: 'MaskedInput',
+  parameters: {
+    creevey: {
+      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+    },
+  },
 } as Meta;
 
 type InputState = Partial<MaskedInputProps>;

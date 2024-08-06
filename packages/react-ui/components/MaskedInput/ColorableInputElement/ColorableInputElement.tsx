@@ -129,7 +129,7 @@ export const ColorableInputElement = forwardRefAndName(
       }
     }
 
-    function paintText(props: Partial<ColorableInputElementProps> = {}) {
+    function paintText(_props: Partial<ColorableInputElementProps> = props) {
       if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
@@ -160,11 +160,11 @@ export const ColorableInputElement = forwardRefAndName(
 
       let typedValueColor = theme.inputTextColor;
       let maskColor = theme.inputPlaceholderColor;
-      if (props.disabled) {
+      if (_props.disabled) {
         typedValueColor = theme.inputTextColorDisabled;
         maskColor = theme.inputTextColorDisabled;
       }
-      if (props.showOnFocus) {
+      if (_props.showOnFocus) {
         maskColor = focused.current ? maskColor : 'transparent';
       }
 
