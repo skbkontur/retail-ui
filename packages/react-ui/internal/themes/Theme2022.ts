@@ -343,7 +343,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static toastLinkTextDecorationHover = '';
   public static toastBorderRadius = '8px';
   public static toastCloseSize = '16px';
-  public static toastClosePadding = '14px';
   //#endregion
 
   //#region Tooltip

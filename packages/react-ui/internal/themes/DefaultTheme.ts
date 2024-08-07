@@ -1193,6 +1193,7 @@ export class DefaultTheme {
   public static toastLinkTextDecorationHover = 'underline';
   public static toastLinkBgHover = '';
   public static toastLinkBgActive = '';
+  public static toastLinkPadding = '12px';
   public static toastClosePadding = '16px';
   public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
   public static toastCloseHoverColor = 'white';
