@@ -1,43 +1,10 @@
 import { AddonConfig } from '../../typings/storybookAddonMultiple';
+import { reactUIFeatureFlagsDefault } from '../../lib/featureFlagsContext';
 
-const featureFlags = [
-  {
-    value: 'tokenInputRemoveWhitespaceFromDefaultDelimiters',
-    title: 'tokenInputRemoveWhitespaceFromDefaultDelimiters',
-  },
-  {
-    value: 'kebabHintRemovePin',
-    title: 'kebabHintRemovePin',
-  },
-  {
-    value: 'sidePageEnableFocusLockWhenBackgroundBlocked',
-    title: 'sidePageEnableFocusLockWhenBackgroundBlocked',
-  },
-  {
-    value: 'spinnerLoaderRemoveDefaultCaption',
-    title: 'spinnerLoaderRemoveDefaultCaption',
-  },
-  {
-    value: 'menuItemsAtAnyLevel',
-    title: 'menuItemsAtAnyLevel',
-  },
-  {
-    value: 'textareaUseSafari17Workaround',
-    title: 'textareaUseSafari17Workaround',
-  },
-  {
-    value: 'linkFocusOutline',
-    title: 'linkFocusOutline',
-  },
-  {
-    value: 'comboBoxAllowValueChangeInEditingState',
-    title: 'comboBoxAllowValueChangeInEditingState',
-  },
-  {
-    value: 'hintAddDynamicPositioning',
-    title: 'hintAddDynamicPositioning',
-  },
-];
+const featureFlags = Object.keys(reactUIFeatureFlagsDefault).map((featureFlag) => ({
+  value: featureFlag,
+  title: featureFlag,
+}));
 
 export const featureFlagsConfig: AddonConfig = {
   featureFlags: {
