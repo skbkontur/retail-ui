@@ -11,12 +11,14 @@ import { MenuItem, MenuItemState } from '../../MenuItem';
 import { MenuSeparator } from '../../MenuSeparator';
 import { Nullable } from '../../../typings/utility-types';
 import { Toggle } from '../../Toggle';
-import { Button } from '../../Button';
+import { Button, ButtonDataTids } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay, mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
+import { CustomComboBoxDataTids } from '../../../internal/CustomComboBox';
 
 // eslint-disable-next-line jest/no-mocks-import
 const { getCities } = require('../__mocks__/getCities.js');
@@ -1233,7 +1235,7 @@ MobileSimple.parameters = {
       async opened() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="ComboBoxView__root"]' }))
+          .click(this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
           .perform();
         await delay(1000);
 
@@ -1460,6 +1462,60 @@ Size.parameters = {
         });
         await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('ClickedAll');
+      },
+    },
+  },
+};
+
+export const WithFeatureFlagsValueChange: Story = () => {
+  const [value, setValue] = React.useState({ value: '', label: '' });
+
+  const handleValueChange = () => {
+    setValue({ value: `Обновленное значение`, label: `Обновленное значение` });
+  };
+
+  return (
+    <div>
+      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+        <Button onClick={handleValueChange}>Обновить</Button>
+        <ComboBox
+          value={value}
+          searchOnFocus={false}
+          getItems={() => Promise.resolve([])}
+          onValueChange={(value) => setValue(value)}
+          onInputValueChange={(value) => {
+            setValue({ value, label: value });
+          }}
+        />
+      </ReactUIFeatureFlagsContext.Provider>
+    </div>
+  );
+};
+
+WithFeatureFlagsValueChange.storyName = 'with featureFlags value change';
+WithFeatureFlagsValueChange.parameters = {
+  creevey: {
+    tests: {
+      async 'Update value'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
+          .sendKeys('Тест...')
+          .pause(500)
+          .perform();
+        const withTypedText = await this.browser.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid~="${ButtonDataTids.root}"]` }))
+          .pause(500)
+          .perform();
+        const updatedValue = await this.browser.takeScreenshot();
+        await this.expect({ withTypedText, updatedValue }).to.matchImages();
       },
     },
   },
