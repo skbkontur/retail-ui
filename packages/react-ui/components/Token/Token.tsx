@@ -12,6 +12,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { SizeProp } from '../../lib/types/props';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles, colorStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
@@ -154,7 +155,7 @@ export class Token extends React.Component<TokenProps> {
     );
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
         <TokenView
           className={classNames}
           size={size}

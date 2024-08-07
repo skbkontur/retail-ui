@@ -50,7 +50,7 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
         stylesLayout.aside(),
         stylesLayout.icon(theme),
         focused && stylesLayout.iconFocus(theme),
-        disabled && stylesLayout.iconDisabled(),
+        disabled && stylesLayout.iconDisabled(theme),
       )}
     >
       {_icon}

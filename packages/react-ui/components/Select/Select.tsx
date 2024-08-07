@@ -363,6 +363,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: this.toggle,
       onKeyDown: this.handleKey,
       size: this.getProps().size,
+      disabled: this.getProps().disabled,
     };
 
     return buttonParams;
