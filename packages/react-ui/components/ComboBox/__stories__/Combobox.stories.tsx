@@ -1235,7 +1235,7 @@ MobileSimple.parameters = {
       async opened() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="ComboBoxView__root"]' }))
+          .click(this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
           .perform();
         await delay(1000);
 
@@ -1474,12 +1474,6 @@ export const WithFeatureFlagsValueChange: Story = () => {
     setValue({ value: `Обновленное значение`, label: `Обновленное значение` });
   };
 
-  const getItems = () =>
-    Promise.resolve([
-      { value: 'Первый', label: 'Первый' },
-      { value: 'Второй', label: 'Второй' },
-    ]);
-
   return (
     <div>
       <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
@@ -1487,7 +1481,7 @@ export const WithFeatureFlagsValueChange: Story = () => {
         <ComboBox
           value={value}
           searchOnFocus={false}
-          getItems={getItems}
+          getItems={() => Promise.resolve([])}
           onValueChange={(value) => setValue(value)}
           onInputValueChange={(value) => {
             setValue({ value, label: value });
@@ -1503,12 +1497,11 @@ WithFeatureFlagsValueChange.parameters = {
   creevey: {
     tests: {
       async 'Update value'() {
-        const element = await this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` });
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(element)
+          .click(this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
           .sendKeys('Тест...')
           .pause(500)
           .perform();
