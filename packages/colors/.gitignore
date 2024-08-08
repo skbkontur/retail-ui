@@ -1,5 +1,4 @@
 **/*.js.map
 **/*.d.ts
-colors.css
-colors.less
+colors.*
 

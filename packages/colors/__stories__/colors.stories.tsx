@@ -23,19 +23,16 @@ const styles: { [key in stylesKeys]: Partial<CSSProperties> } = {
     width: '20%',
     alignItems: 'center',
     margin: '10px',
+    display: 'flex',
   },
   [stylesKeys.colorTile]: {
-    width: '100%',
+    width: '30px',
     height: '30px',
     marginRight: '10px',
-    border: '1px #000 solid',
+    borderRadius: '8px',
   },
   [stylesKeys.wordBreak]: {
     wordBreak: 'break-word',
-  },
-  [stylesKeys.title]: {
-    display: 'flex',
-    justifyContent: 'space-between',
   },
 };
 
