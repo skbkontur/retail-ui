@@ -2,7 +2,6 @@
 
 NPM-пакет для доступа к цветам из общей Figma-библиотеки [Kontur.Colors](https://www.figma.com/file/XuiIin3JAOEcHHPihtthOJ/%E2%9A%A1%EF%B8%8F-Kontur-Colors?node-id=0%3A1&t=pL38Ju5ZOo3VC6vt-0)
 
-
 ## Установка
 
 ```bash
@@ -11,9 +10,9 @@ npm i @skbkontur/colors
 
 ## Использование
 
-- JS/TS токены содержатся в объекте `KonturColors`
-- В Less виде препроцессорных `@переменных`
-- В CSS в виде глобальных `--css-переменных` в `:root { ... }`
+- JS/TS токены содержатся в объекте `KonturColors.colorName`
+- В CSS в виде глобальных переменных`--kontur-color-name` в `:root { ... }`
+- В препроцессорах Less `@color-name` и SCSS `$color-name`
 
 #### JS/TS
 
@@ -29,8 +28,8 @@ const text = `<div style="color: ${KonturColors.blueDark90}">Цвет blueDark90
 import { KonturColors } from '@skbkontur/colors';
 
 const Component = () => {
-    return <div style={{ color: KonturColors.blueDark90 }}>Цвет blueDark90</div>
-}
+  return <div style={{ color: KonturColors.blueDark90 }}>Цвет blueDark90</div>;
+};
 ```
 
 #### CSS
@@ -39,7 +38,17 @@ const Component = () => {
 @import '@skbkontur/colors/colors.css';
 
 .class {
-    color: var(--blueDark90);
+  color: var(--blue-dark-90);
+}
+```
+
+#### SCSS
+
+```scss
+@import '@skbkontur/colors/colors.scss';
+
+.class {
+  color: $blue-dark-90;
 }
 ```
 
@@ -49,15 +58,24 @@ const Component = () => {
 @import '@skbkontur/colors/colors.less';
 
 .class {
-    color: @blueDark90;
+  color: @blue-dark-90;
 }
 ```
 
 ## Палитра
 
-```jsx
+```jsx harmony
 import { KonturColors } from '@skbkontur/colors';
-import { Toast } from '@skbkontur/react-ui';
+import {
+  Toast,
+  DropdownMenu,
+  MenuHeader,
+  MenuItem,
+  ThemeContext,
+  ThemeFactory,
+  THEME_2022_UPDATE_2024,
+} from '@skbkontur/react-ui';
+
 import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 
 const styles = {
@@ -81,14 +99,14 @@ const styles = {
     cursor: pointer;
     padding: 8px;
     border-radius: 8px;
-    transition: .1s ease;
+    transition: 0.1s ease;
 
     &:hover {
-      background: rgba(0,0,0,.06);
+      background: rgba(0, 0, 0, 0.06);
     }
 
     &:active {
-      background: rgba(0,0,0,.1);
+      background: rgba(0, 0, 0, 0.1);
     }
   `,
   colorTile: css`
@@ -118,47 +136,71 @@ const styles = {
     display: block;
     fontSize: 12px;
     color: #8b8b8b;
-  }`
+  }`,
 };
 
-const colorGroups = Object.entries(KonturColors)
-  .reduce((acc, [colorKey, colorValue]) => {
-    const firstWord =
-      ['greenMint', 'blueDark'].find((color) => colorKey.match(color)) || colorKey.match(/^[a-z]+/)[0];
+const colorGroups = Object.entries(KonturColors).reduce((acc, [colorKey, colorValue]) => {
+  const firstWord = ['greenMint', 'blueDark'].find((color) => colorKey.match(color)) || colorKey.match(/^[a-z]+/)[0];
 
-    acc[firstWord] = { ...acc[firstWord], [colorKey]: colorValue };
+  acc[firstWord] = { ...acc[firstWord], [colorKey]: colorValue };
 
-    return acc;
-  }, {});
+  return acc;
+}, {});
+
+const getColors = (color) => {
+  const colorDashCase = color
+    .replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())
+    .replace(/\d/, (m) => `-${m}`)
+    .replace('f-f-f', 'fff');
+
+  return {
+    'JavaScript / TypeScript': `KonturColors.${color}`,
+    CSS: `var(--kontur-${colorDashCase})`,
+    SCSS: `$${colorDashCase}`,
+    Less: `@${colorDashCase}`,
+  };
+};
+
+const copyColor = (color) => {
+  navigator.clipboard.writeText(color);
+  Toast.push('Цвет скопирован', null, 1000);
+};
 
 <div className={styles.colors}>
-  {Object.entries(colorGroups).map(([group, colors]) => {
-    return (
-      <div className={styles.colorGroup}>
-        <div className={styles.groupTitle}>{group}</div>
-
-        {Object.keys(colors).map((colorName) => {
-          const colorValue = KonturColors[colorName];
-          return (
-            <button
-              className={styles.colorBlock}
-              onClick={() => {
-                navigator.clipboard.writeText(colorName)
-                Toast.push('Цвет скопирован', null, 1000);
-              }}
-            >
-              <span className={styles.colorTile} style={{ backgroundColor: colorValue }} />
-              <span>
-                <span className={styles.colorName}>{colorName}</span>
-                <span className={styles.colorValue}>{colorValue}</span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    )
-  })}
-</div>
+  <ThemeContext.Provider value={THEME_2022_UPDATE_2024}>
+    {Object.entries(colorGroups).map(([group, colors]) => {
+      return (
+        <div className={styles.colorGroup}>
+          <div className={styles.groupTitle}>{group}</div>
+          {Object.keys(colors).map((colorName) => {
+            const colorValue = KonturColors[colorName];
+            const colorTile = (
+              <div className={styles.colorBlock}>
+                <span className={styles.colorTile} style={{ backgroundColor: colorValue }} />
+                <span>
+                  <span className={styles.colorName}>{colorName}</span>
+                  <span className={styles.colorValue}>{colorValue}</span>
+                </span>
+              </div>
+            );
+            return (
+              <div>
+                <DropdownMenu caption={colorTile} width="300">
+                  <MenuHeader>Скопировать переменную</MenuHeader>
+                  {Object.entries(getColors(colorName)).map(([lang, color]) => (
+                    <MenuItem onClick={() => copyColor(color)} comment={lang}>
+                      <div style={{ minWidth: 270 }}>{color}</div>
+                    </MenuItem>
+                  ))}
+                </DropdownMenu>
+              </div>
+            );
+          })}
+        </div>
+      );
+    })}
+  </ThemeContext.Provider>
+</div>;
 ```
 
 ## Разработка
