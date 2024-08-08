@@ -10,14 +10,19 @@ export const toolbarItems: { [key: string]: LangCodes } = {
 };
 
 const supportedLocaleControls = [
-  'Loader',
-  'Spinner',
+  'Autocomplete',
   'Calendar',
   'DateInput',
   'DatePicker',
-  'Autocomplete',
-  'Paging',
   'FileUploader',
+  'Modal',
+  'Paging',
+  'PasswordInput',
+  'Select',
+  'SidePage',
+  'Toast',
+  'Token',
+  'TokenInput',
 ];
 const hideLocaleBtnInUnsupportedControls = (activeControl: string) => {
   const localeBtn = window.parent.document.querySelector('button[title="React UI Locale"]');
