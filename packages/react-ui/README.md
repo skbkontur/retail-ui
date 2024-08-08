@@ -111,12 +111,13 @@ export const WithClassChildren = () => (
 
 ### Выпадашки и несколько react-рутов
 
-Реакт позволяет создавать несколько рутов. Они могут находится как в независимых ветках, так и быть вложенными.
+Реакт позволяет создавать рут внутри рута. Но контекст между ними не прокидывается. Это вызывает проблемы в работе
+различных выпадашек, типа `Tooltip`, `Select`, `Modal` и других.
 
-Даже если один рут находится внутри другого контекст между ними не прокидывается. Это вызывает проблемы в работе
-различных выпадашек, типа `Tooltip`, `Select`, `Modal` и других. Начиная с версии `4.26.0` основные сценарии исправлены.
+В версии `4.26.0` появился мехнизм, который решает большинство этих проблем. Если вложенный реакт-рут является виджетом,
+то будет достаточно обновить библиотеку только в нём.
 
-Однако, при удалении html-элемента, в котором был реакт-рут, необходимо явно размонтировать этот рут перед удалением:
+Однако, при удалении html-элемента, который был реакт-рутом, его необходимо предварительно явно размонтировать:
 
 ```tsx static
 React.useLayoutEffect(
@@ -129,126 +130,6 @@ React.useLayoutEffect(
   },
   [],
 );
-```
-
----
-
-Когда реакт-руты находятся в независимых ветках, выпадашки не могут автоматически определить своё положение.
-
-Для этого необходимо использовать внутренний компонент `ZIndex`:
-
-```tsx static
-import { ZIndex } from '@skbkontur/react-ui/internal/ZIndex';
-
-<ZIndex priority={9001}>
-  <div id="root-2" />
-</ZIndex>
-```
-
-Приоритет `9001` сделает все выпадашки внутри `root-2` выше выпадашек из других рутов. За исключением компонента `Toast`
-— он будет всё ещё выше всех.
-
-Если требуется перекрыть и его, то в приоритет надо передать `10001`.
-
----
-
-Также стоит учитывать, что текущий механизм не умеет отслеживать изменения контекста. Предполагается, что вложенный
-реакт-рут будет либо внутри `Modal`, либо внутри `SidePage`.
-
----
-
-В примере ниже несколько Тултипов открываются друг в друге. Каждый вложенный получает `z-index` на основе родительского.
-
-Даже Тултип отрендеренный во вложенном `root 2` правильно вписывается в цепочку z-индексов.
-
-Тултип в независимом `root 3` обёрнут в `<ZIndex priority={9001}>`, поэтому всегда будет выше других всплывашек.
-
-```jsx harmony
-import ReactDOM from 'react-dom';
-import { Tooltip, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
-
-import { ZIndex } from '@skbkontur/react-ui/internal/ZIndex';
-
-function Root({ children }) {
-  const rootRef = React.useRef(null);
-  const theme = React.useContext(ThemeContext);
-
-  React.useEffect(() => {
-    if (rootRef.current) {
-      const App = () => children;
-      children &&
-      ReactDOM.render(
-        <ThemeContext.Provider value={theme}>
-          <App />
-        </ThemeContext.Provider>,
-        rootRef.current,
-      );
-    }
-  }, []);
-
-  React.useLayoutEffect(
-    () => () => {
-      rootRef.current && ReactDOM.unmountComponentAtNode(rootRef.current);
-    },
-    [],
-  );
-
-  return <div ref={rootRef} style={{ display: 'inline-block' }} />;
-}
-
-function MyTooltip({ pos, color = '#fff', ...props }) {
-  const theme = React.useContext(ThemeContext);
-  const myTheme = ThemeFactory.create({ tooltipBg: color }, theme);
-
-  return (
-    <ThemeContext.Provider value={myTheme}>
-      <Tooltip
-        pos={pos}
-        allowedPositions={[pos]}
-        trigger="opened"
-        disableAnimations
-        {...props}
-      />
-    </ThemeContext.Provider>
-  );
-}
-
-<div style={{ display: 'flex', paddingTop: 60 }}>
-  <MyTooltip
-    render={() => (
-      <MyTooltip
-        render={() => (
-          <Root>
-            <MyTooltip
-              render={() => 'root 2'}
-              pos="right middle"
-            >
-              root 2
-            </MyTooltip>
-          </Root>
-        )}
-        pos="right middle"
-      >
-        root 1.1
-      </MyTooltip>
-    )}
-    pos="top left"
-  >
-    root 1.1
-  </MyTooltip>
-  <div style={{ width: 80 }} />
-  <MyTooltip render={() => 'root 1.2'} pos="top center" color="gray">
-    root 1.2
-  </MyTooltip>
-  <div style={{ width: 30 }} />
-  <ZIndex priority={9001}>
-    <Root>
-      <MyTooltip render={() => 'root 3'} pos="top center">
-        root 3
-      </MyTooltip>
-    </Root>
-  </ZIndex>
-</div>
 ```
 
 ### Отключение анимаций во время тестирования
