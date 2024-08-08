@@ -165,7 +165,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   /** common part **/
   const handleChange = useCallback(
     (newFiles: FileList | null) => {
-      if (!newFiles) {
+      if (!newFiles || !newFiles.length) {
         return;
       }
 
@@ -255,6 +255,16 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     }
   };
 
+  const handleRemoveFile = useCallback((fileId: string) => {
+    const dataTransfer = new DataTransfer();
+    files
+      .filter((f) => f.id !== fileId)
+      .forEach((file) => {
+        dataTransfer.items.add(file.originalFile);
+      });
+    inputRef.current && (inputRef.current.files = dataTransfer.files);
+  }, []);
+
   const [hovered, setHovered] = useState(false);
 
   const uploadButtonClassNames = cx(
@@ -308,7 +318,9 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
         style={useMemoObject({ width })}
         ref={rootNodeRef}
       >
-        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} size={size} />}
+        {!hideFiles && !isSingleMode && !!files.length && (
+          <FileUploaderFileList renderFile={renderFile} size={size} onRemove={handleRemoveFile} />
+        )}
         <div className={uploadButtonWrapperClassNames}>
           <label
             onMouseEnter={() => setHovered(true)}
@@ -334,7 +346,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
               >
                 {hasOneFileForSingle ? (
                   <div ref={fileDivRef} className={jsStyles.singleFile()}>
-                    {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
+                    {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} onRemove={handleRemoveFile} />)}
                   </div>
                 ) : (
                   <>
@@ -358,8 +370,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
                 onChange={handleInputChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-                // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-                value={''}
               />
             </FocusControlWrapper>
           </label>

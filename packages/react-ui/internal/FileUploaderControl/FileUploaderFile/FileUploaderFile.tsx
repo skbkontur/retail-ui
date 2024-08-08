@@ -28,6 +28,7 @@ interface FileUploaderFileProps {
   size: SizeProp;
   /** Состояние ошибки контрола файла */
   error?: boolean;
+  onRemove(id: string): void;
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
@@ -69,7 +70,7 @@ export const FileUploaderFileDataTids = {
 export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFileProps>(
   'FileUploaderFile',
   (props, ref) => {
-    const { file, showSize, error, multiple, size } = props;
+    const { file, showSize, error, multiple, size, onRemove } = props;
     const { id, originalFile, status, validationResult } = file;
     const { name, size: fileSize } = originalFile;
 
@@ -101,7 +102,8 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
 
     const removeUploadFile = useCallback(() => {
       removeFile(id);
-    }, [removeFile, id]);
+      onRemove(id);
+    }, [removeFile, id, onRemove]);
 
     const handleRemove = useCallback(
       (event: React.MouseEvent<HTMLElement>) => {
