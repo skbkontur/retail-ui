@@ -27,6 +27,21 @@ const request = () => Promise.reject();
 <FileUploader request={request} multiple />
 ```
 
+Файлы по умолчанию
+```jsx harmony
+import { FileUploader } from '@skbkontur/react-ui';
+
+function createFile(filename, content) {
+  return new File(['content'], filename, {
+    type: 'text/plain',
+    lastModified: new Date(2024, 8, 31).getDate(),
+  });
+};
+
+const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+<FileUploader multiple initialFiles={initialFiles} />
+```
+
 Использование `accept`
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';

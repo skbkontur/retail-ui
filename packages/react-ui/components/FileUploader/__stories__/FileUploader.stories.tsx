@@ -26,6 +26,13 @@ const errorRequest = () =>
     }, 2000);
   });
 
+function createFile(filename: string, content = 'content'): File {
+  return new File([content], filename, {
+    type: 'text/plain',
+    lastModified: new Date(2024, 8, 31).getDate(),
+  });
+}
+
 /** async control stories **/
 export const SingleAsyncFileUploader = () => <FileUploader request={successRequest} />;
 export const MultipleAsyncFileUploader = () => <FileUploader multiple request={successRequest} />;
@@ -129,3 +136,11 @@ export const DifferentSizes = () => (
 
 export const MultipleFileUploaderWithHideFiles = () => <FileUploader multiple request={successRequest} hideFiles />;
 MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: true } };
+
+export const FileUploaderWithSinglePrefilledFile = () => (
+  <FileUploader multiple={false} initialFiles={[createFile('test1.txt')]} />
+);
+
+export const FileUploaderWithMultiplePrefilledFiles = () => (
+  <FileUploader multiple initialFiles={[createFile('test1.txt'), createFile('test2.txt')]} />
+);

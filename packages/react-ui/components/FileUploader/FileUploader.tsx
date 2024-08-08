@@ -40,6 +40,8 @@ type FileUploaderOverriddenProps = 'size';
 interface _FileUploaderProps
   extends CommonProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
+  /** Начальное состояние загруженных файлов */
+  initialFiles?: File[];
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
@@ -97,6 +99,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   const _isTheme2022 = isTheme2022(theme);
 
   const {
+    initialFiles,
     disabled,
     error,
     warning,
@@ -300,6 +303,16 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   useEffect(() => {
     setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);
   }, [isMinLengthReached, hasOneFileForSingle]);
+
+  useEffect(() => {
+    if (!files || !files.length || !inputRef.current) {
+      return;
+    }
+
+    const dataTransfer = new DataTransfer();
+    files.forEach((file) => dataTransfer.items.add(file.originalFile));
+    inputRef.current.files = dataTransfer.files;
+  }, []);
 
   const rootNodeRef = useRef(null);
 
