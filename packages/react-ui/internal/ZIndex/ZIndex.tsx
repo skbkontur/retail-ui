@@ -5,7 +5,7 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
+import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName, componentPriorities } from './ZIndexStorage';
 
 const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
 
@@ -46,6 +46,7 @@ interface ZIndexState {
 
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
+  public static priorities = componentPriorities;
   public static __KONTUR_REACT_UI__ = 'ZIndex';
   public static displayName = 'ZIndex';
 

@@ -116,7 +116,7 @@ export const WithLongItems = () => (
 WithLongItems.storyName = 'with long Items';
 
 export const WithoutShadow = () => (
-  <Menu hasShadow={false}>
+  <Menu>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuSeparator />
@@ -127,7 +127,7 @@ export const WithoutShadow = () => (
 WithoutShadow.storyName = 'without Shadow';
 
 export const WithDisabledMenuItem: Story = () => (
-  <Menu hasShadow={false}>
+  <Menu>
     <MenuItem disabled>MenuItem1</MenuItem>
     <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
   </Menu>

@@ -9,7 +9,10 @@ kind('Dropdown', () => {
         'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'MenuItem hover' },
 
         // TODO @Khlutkova fix after update browsers
-        'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+        'story-skip-1': {
+          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022Dark'],
+          tests: ['MenuItem hover'],
+        },
       },
     });
 

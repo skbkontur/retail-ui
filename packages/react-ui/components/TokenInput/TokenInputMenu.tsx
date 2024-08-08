@@ -106,6 +106,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         <ComboBoxMenu
           items={items}
           loading={loading}
+          hasMargin={false}
           maxMenuHeight={maxMenuHeight}
           onValueChange={onValueChange}
           opened={opened}

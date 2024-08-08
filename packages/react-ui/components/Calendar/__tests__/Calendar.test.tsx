@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
 import { componentsLocales as DateSelectLocalesEn } from '../../../internal/DateSelect/locale/locales/en';
-import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { Calendar } from '../Calendar';
+import { SelectDataTids } from '../../Select';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { CalendarDataTids } from '..';
 import { CalendarLocaleHelper } from '../locale';
@@ -22,9 +22,8 @@ describe('Calendar', () => {
     render(<Calendar value="02.06.2017" onValueChange={jest.fn()} minDate="21.02.2017" maxDate="15.07.2020" />);
 
     await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
-    expect(screen.getByText('2015')).toHaveAttribute('data-prop-disabled', 'true');
-    expect(screen.getByText('2018')).toHaveAttribute('data-prop-disabled', 'false');
-    expect(screen.queryByText('2021')).not.toBeInTheDocument();
+    expect(screen.getByText('2015').parentElement).toHaveAttribute('data-prop-disabled', 'true');
+    expect(screen.getByText('2018').parentElement).toHaveAttribute('data-prop-disabled', 'false');
   });
 
   it('should set date with higher min date is set', () => {
@@ -92,16 +91,20 @@ describe('Calendar', () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
-      }),
-    );
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
-      }),
-    );
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
+        }),
+      );
+    });
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
+        }),
+      );
+    });
 
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 5000 });
   });
@@ -281,11 +284,11 @@ describe('Calendar', () => {
       const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
       await userEvent.click(monthButton);
 
-      expect(monthButton).toHaveAttribute('aria-controls', expect.stringContaining(DateSelectDataTids.menu));
+      expect(monthButton).toHaveAttribute('aria-controls', expect.stringContaining(SelectDataTids.menu));
       await waitFor(() => {
-        expect(screen.getByTestId(DateSelectDataTids.menu)).toHaveAttribute(
+        expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute(
           'id',
-          expect.stringContaining(DateSelectDataTids.menu),
+          expect.stringContaining(SelectDataTids.menu),
         );
       });
     });
@@ -296,11 +299,11 @@ describe('Calendar', () => {
       const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
       await userEvent.click(yearButton);
 
-      expect(yearButton).toHaveAttribute('aria-controls', expect.stringContaining(DateSelectDataTids.menu));
+      expect(yearButton).toHaveAttribute('aria-controls', expect.stringContaining(SelectDataTids.menu));
       await waitFor(() => {
-        expect(screen.getByTestId(DateSelectDataTids.menu)).toHaveAttribute(
+        expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute(
           'id',
-          expect.stringContaining(DateSelectDataTids.menu),
+          expect.stringContaining(SelectDataTids.menu),
         );
       });
     });

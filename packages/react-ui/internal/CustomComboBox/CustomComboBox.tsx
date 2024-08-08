@@ -12,7 +12,6 @@ import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 
@@ -20,10 +19,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
-    CommonProps {
+export interface CustomComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -34,6 +30,10 @@ export interface CustomComboBoxProps<T>
    */
   error?: boolean;
   maxLength?: number;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
@@ -255,7 +255,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       error: this.props.error,
       items: this.state.items,
       loading: this.state.loading,
-      menuAlign: this.props.menuAlign,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
       menuPos: this.props.menuPos,
