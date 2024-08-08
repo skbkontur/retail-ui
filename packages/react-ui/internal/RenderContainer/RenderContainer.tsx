@@ -9,6 +9,9 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
 
+export const PORTAL_INLET_ATTR = 'data-render-container-id';
+export const PORTAL_OUTLET_ATTR = 'data-rendered-container-id';
+
 export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
   public static displayName = 'RenderContainer';
@@ -44,7 +47,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     const domContainer = globalObject.document?.createElement('div');
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
-      domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
+      domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
       this.domContainer = domContainer;
     }
   }
