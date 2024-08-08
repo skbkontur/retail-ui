@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.5.1...@skbkontur/colors@0.5.2) (2024-08-08)
+
+**Note:** Version bump only for package @skbkontur/colors
+
+
+
+
+
 ## [0.5.1](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.5.0...@skbkontur/colors@0.5.1) (2024-08-08)
 
 **Note:** Version bump only for package @skbkontur/colors
