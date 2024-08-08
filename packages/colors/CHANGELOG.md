@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.5.1...@skbkontur/colors@1.0.0) (2024-08-08)
+
+
+### Features
+
+* **colors:** add scss and change naming ([ef3345f](https://git.skbkontur.ru/ui/ui-parking/commits/ef3345f5f54be830f284c9a2a53991e117b8ba0b))
+* **colors:** add scss and change naming ([78b32b7](https://git.skbkontur.ru/ui/ui-parking/commits/78b32b7a22d260baf166195e7eb1adeea5b2c9f7))
+
+
+### BREAKING CHANGES
+
+* **colors:** change naming from camelCase to dash-case
+* **colors:** change naming from camelCase to dash-case
+
+
+
+
+
 ## [0.5.1](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.5.0...@skbkontur/colors@0.5.1) (2024-08-08)
 
 **Note:** Version bump only for package @skbkontur/colors
