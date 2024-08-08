@@ -49,14 +49,18 @@ export const SimpleGroupWithCustomInputsWidth = () => (
 );
 SimpleGroupWithCustomInputsWidth.storyName = 'Simple Group with custom Inputs width';
 
-export const GroupWithInputAndMultipleButtons = () => (
-  <Group>
-    <Button>Clear</Button>
-    <Input placeholder="Search" width="100%" />
-    <Button icon={<SearchIcon />} />
-    <Button>Cancel</Button>
-  </Group>
-);
+export const GroupWithInputAndMultipleButtons = () => {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <Group>
+      <Button onClick={() => setValue('')}>Clear</Button>
+      <Input value={value} onValueChange={setValue} placeholder="Search" width="100%" />
+      <Button icon={<SearchIcon />} />
+      <Button>Cancel</Button>
+    </Group>
+  );
+};
 GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
 GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
