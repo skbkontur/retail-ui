@@ -221,7 +221,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
   }
 
-  public componentDidUpdate(prevProps: TooltipProps) {
+  public componentDidUpdate() {
     const { trigger } = this.getProps();
     if (trigger === 'closed' && this.state.opened) {
       this.close();
