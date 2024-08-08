@@ -1,8 +1,14 @@
 import React from 'react';
 
-export interface ReactUIFeatureFlags {}
+export interface ReactUIFeatureFlags {
+  spinnerLoaderRemoveDefaultCaption?: boolean;
+  linkFocusOutline?: boolean;
+}
 
-export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {};
+export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
+  spinnerLoaderRemoveDefaultCaption: false,
+  linkFocusOutline: false,
+};
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
 

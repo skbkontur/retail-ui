@@ -16,6 +16,8 @@ import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 
 import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
+import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
+import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 
 const customViewports = {
   iphone: {
@@ -86,6 +88,7 @@ const preview: Preview = {
     viewport: {
       viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
     },
+    multiselect: featureFlagsConfig,
   },
   decorators: [
     (Story, context) => {
@@ -137,6 +140,7 @@ const preview: Preview = {
       );
     },
     LocaleDecorator,
+    FeatureFlagsDecorator,
   ],
 };
 
