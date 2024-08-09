@@ -1,8 +1,5 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
-import propTypes from 'prop-types';
-import { globalObject } from '@skbkontur/global-object';
 
-import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -96,11 +93,3 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     );
   },
 );
-
-TextareaCounter.propTypes = {
-  length: propTypes.number.isRequired,
-  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  help: propTypes.oneOfType([propTypes.node, propTypes.func]),
-  onCloseHelp: propTypes.func.isRequired,
-  textarea: safePropTypesInstanceOf(globalObject.HTMLTextAreaElement).isRequired,
-};

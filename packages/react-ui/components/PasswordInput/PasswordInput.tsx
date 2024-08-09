@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { locale } from '../../lib/locale/decorators';
@@ -33,7 +32,10 @@ export interface PasswordInputState {
 
 export const PasswordInputDataTids = {
   root: 'PasswordInput',
+
+  /** Включает CapsLock детектор. */
   capsLockDetector: 'PasswordInputCapsLockDetector',
+
   eyeIcon: 'PasswordInputEyeIcon',
 } as const;
 
@@ -47,13 +49,6 @@ type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
 export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
   public static displayName = 'PasswordInput';
-
-  public static propTypes = {
-    /**
-     * Включает CapsLock детектор
-     */
-    detectCapsLock: PropTypes.bool,
-  };
 
   public static defaultProps: DefaultProps = {
     size: 'small',

@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
@@ -72,32 +71,6 @@ type DefaultProps = Required<
 export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
   public static displayName = 'CurrencyInput';
-
-  public static propTypes = {
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-    autoFocus: PropTypes.bool,
-    borderless: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    fractionDigits: PropTypes.number,
-    hideTrailingZeros: PropTypes.bool,
-    leftIcon: PropTypes.element,
-    placeholder: PropTypes.string,
-    signed: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: (props: CurrencyInputProps) => {
-      warning(isValidNumber(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
-    },
-    warning: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onBlur: PropTypes.func,
-    onValueChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onSubmit: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps = {
     align: 'right',

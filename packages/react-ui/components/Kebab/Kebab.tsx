@@ -1,5 +1,4 @@
 import React, { AriaAttributes, ReactElement } from 'react';
-import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -31,6 +30,9 @@ export interface KebabProps
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   disabled?: boolean;
+  /**
+   * Размер кебаба small 14px | large 20px
+   */
   size?: SizeProp;
   /**
    * Список позиций доступных для расположения выпадашки.
@@ -71,8 +73,6 @@ type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions'
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
   public static displayName = 'Kebab';
-
-  public static propTypes = {};
 
   public static defaultProps: DefaultProps = {
     onOpen: () => undefined,
@@ -266,24 +266,3 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     return icon;
   }
 }
-
-Kebab.propTypes = {
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  menuMaxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  /**
-   * Размер кебаба small 14px | large 20px
-   */
-  size: PropTypes.string,
-
-  /**
-   * Коллбек, вызывающийся перед закрытием кебаба
-   */
-  onClose: PropTypes.func,
-
-  /**
-   * Коллбек, вызывающийся перед открытием кебаба
-   */
-  onOpen: PropTypes.func,
-};

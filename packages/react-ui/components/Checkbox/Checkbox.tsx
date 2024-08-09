@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
@@ -131,18 +130,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         return this.theme.checkboxBoxSizeSmall;
     }
   }
-
-  public static propTypes = {
-    checked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-    onValueChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-  };
 
   public state = {
     focusedByTab: false,

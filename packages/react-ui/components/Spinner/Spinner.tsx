@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -16,30 +15,19 @@ const types = ['big', 'mini', 'normal'] as const;
 export type SpinnerType = (typeof types)[number];
 
 export interface SpinnerProps extends CommonProps {
-  /**
-   * Подпись под спиннером
-   */
+  /** Подпись под спиннером. 'Загрузка' - значение по-умолчанию. */
   caption?: React.ReactNode;
-  /**
-   * Переводит спиннер в "затемнённый режим"
-   *
-   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`
-   */
+  /** Переводит спиннер в "затемнённый режим".
+   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`. */
   dimmed?: boolean;
-  /**
-   * Размер спиннера и текста
-   *
-   * @default normal
-   */
+  /** Размер спиннера и текста.
+   * @default normal */
   type?: SpinnerType;
   inline?: boolean;
   /**
-   * Толщина спиннера
-   */
+   * Толщина спиннера. */
   width?: number;
-  /**
-   * Цвет спиннера
-   */
+  /** Цвет спиннера. */
   color?: React.CSSProperties['color'];
 }
 
@@ -57,26 +45,6 @@ type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
   public static displayName = 'Spinner';
-
-  public static propTypes = {
-    /**
-     * Текст рядом с мини-лоадером.
-     *
-     * 'Загрузка' - значение по-умолчанию
-     */
-    caption: PropTypes.node,
-
-    dimmed: PropTypes.bool,
-
-    /**
-     * Тип спиннера: mini, normal, big
-     *
-     * Значение по-умолчанию - normal
-     *
-     * Spinner.types - все доступные типы
-     */
-    type: PropTypes.oneOf(types),
-  };
 
   public static defaultProps: DefaultProps = {
     type: 'normal',

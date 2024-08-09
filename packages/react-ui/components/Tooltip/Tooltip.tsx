@@ -181,20 +181,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public static __KONTUR_REACT_UI__ = 'Tooltip';
   public static displayName = 'Tooltip';
 
-  public static propTypes = {
-    children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
-      const children = props[propName];
-      warning(
-        children || props.anchorElement,
-        `[${componentName}]: you must provide either 'children' or 'anchorElement' prop for ${componentName} to work properly`,
-      );
-      warning(
-        !(Array.isArray(children) && props.useWrapper === false),
-        `[${componentName}]: you provided multiple children, but useWrapper={false} - forcing wrapper <span/> for positioning to work correctly`,
-      );
-    },
-  };
-
   public static defaultProps: DefaultProps = {
     trigger: 'hover',
     disableAnimations: isTestEnv,

@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 
@@ -28,14 +27,6 @@ const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
     );
   },
 );
-
-SvgIcon.propTypes = {
-  color: propTypes.string,
-  size: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  style: propTypes.object,
-  children: propTypes.node,
-};
-
 export const ArrowChevronDownIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
   'ArrowChevronDownIcon',
   (props, ref) => {

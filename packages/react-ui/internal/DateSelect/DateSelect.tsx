@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { globalObject, isBrowser, SafeTimer } from '@skbkontur/global-object';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
@@ -82,22 +81,6 @@ type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
   public static displayName = 'DateSelect';
-
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    type: PropTypes.string,
-
-    value: PropTypes.number.isRequired,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onValueChange: PropTypes.func,
-
-    minValue: PropTypes.number,
-
-    maxValue: PropTypes.number,
-  };
 
   public static defaultProps: DefaultProps = {
     type: 'year',
