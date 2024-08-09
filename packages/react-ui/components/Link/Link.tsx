@@ -1,5 +1,4 @@
 import React, { AriaAttributes } from 'react';
-import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Override } from '../../typings/utility-types';
@@ -101,16 +100,6 @@ type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
   public static displayName = 'Link';
-
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.node,
-
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
-  };
 
   public static defaultProps: DefaultProps = {
     href: '',

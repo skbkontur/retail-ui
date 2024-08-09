@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createRoot } from 'react-dom/client';
 import PlaygroundError from 'react-styleguidist/lib/client/rsg-components/PlaygroundError';
 import ReactExample from 'react-styleguidist/lib/client/rsg-components/ReactExample';
@@ -33,10 +32,6 @@ const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewPro
  */
 const Preview = withContext(
   class extends React.Component<PreviewProps, PreviewState> {
-    public static propTypes = {
-      code: PropTypes.string.isRequired,
-      evalInContext: PropTypes.func.isRequired,
-    };
     public static contextType = Context;
 
     private mountNode: Element | null = null;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { func, number } from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -38,6 +37,7 @@ export interface ItemComponentProps {
 }
 
 export interface PagingProps extends CommonProps {
+  /** Текущая активная страница. */
   activePage: number;
   /**
    * Компонент обертки по умолчанию
@@ -45,6 +45,7 @@ export interface PagingProps extends CommonProps {
    */
   component?: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
+  /** Общее число страниц. */
   pagesCount: number;
   disabled?: boolean;
   /**
@@ -107,7 +108,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private getProps = createPropsGetter(Paging.defaultProps);
 
-  public static propTypes = {};
   private setRootNode!: TSetRootNode;
 
   public static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
@@ -499,27 +499,3 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     this.container = element;
   };
 }
-
-Paging.propTypes = {
-  /**
-   * Current active page
-   */
-  activePage: number.isRequired,
-
-  /**
-   * React component that would be used for rendering items
-   *
-   * Usefull for router integration
-   */
-  component: func,
-
-  /**
-   * Total page count
-   */
-  pagesCount: number.isRequired,
-
-  /**
-   * Calls when page has been changed
-   */
-  onPageChange: func.isRequired,
-};

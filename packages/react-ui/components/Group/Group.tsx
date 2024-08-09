@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { isButton } from '../Button';
@@ -92,10 +91,6 @@ export class Group extends React.Component<GroupProps> {
 
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
-
-  public static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  };
 
   public render() {
     return (
