@@ -3,8 +3,25 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 import { Theme2022Internal } from './Theme2022';
 
 export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
+  //#region Common Variables
   public static borderColorFocus = '#EBEBEB';
   public static outlineColorFocus = '#EBEBEB';
+  public static borderColorError = '#FE6C6C';
+
+  public static green = '#23A14A';
+  public static greenDark = '#1C8A3F';
+
+  public static red = '#ED3F3F';
+  public static redDark = '#DD3333';
+
+  public static get errorMain() {
+    return this.red;
+  }
+
+  public static errorSecondary = '#AB0D0D';
+  public static textColorDisabled = 'rgba(255, 255, 255, 0.32)';
+
+  //#endregion Common Variables
 
   //#region Button
   public static btnFocusShadowWidth = '2px';
@@ -23,14 +40,20 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnPrimaryActiveBg = '#C2C2C2';
   public static btnPrimaryTextColor = 'rgba(0, 0, 0, 0.865)';
 
-  public static btnSuccessBg = '#5F9C20';
-  public static btnSuccessHoverBg = '#6CAD26';
-  public static btnSuccessActiveBg = '#477916';
+  public static get btnSuccessBg() {
+    return this.green;
+  }
   public static get btnSuccessBorderColor() {
     return this.btnSuccessBg;
   }
+
+  public static btnSuccessHoverBg = '#26AD50';
   public static get btnSuccessHoverBorderColor() {
     return this.btnSuccessHoverBg;
+  }
+
+  public static get btnSuccessActiveBg() {
+    return this.greenDark;
   }
   public static get btnSuccessActiveBorderColor() {
     return this.btnSuccessActiveBg;
@@ -49,15 +72,19 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.btnPayActiveBg;
   }
 
-  public static btnDangerBg = '#EE5042';
-  public static btnDangerHoverBg = '#FF5A49';
-  public static btnDangerActiveBg = '#CB3D35';
+  public static get btnDangerBg() {
+    return this.errorMain;
+  }
   public static get btnDangerBorderColor() {
     return this.btnDangerBg;
   }
+
+  public static btnDangerHoverBg = '#FE4C4C';
   public static get btnDangerHoverBorderColor() {
     return this.btnDangerHoverBg;
   }
+
+  public static btnDangerActiveBg = '#CC2626';
   public static get btnDangerActiveBorderColor() {
     return this.btnDangerActiveBg;
   }
@@ -77,21 +104,30 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static btnTextBorderColor = 'transparent';
 
   public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
-  public static btnErrorSecondary = 'rgba(169, 42, 39, 1)';
-
+  public static get btnErrorSecondary() {
+    return this.errorSecondary;
+  }
   public static btnDisabledBg = 'rgba(255, 255, 255, 0.04)';
-  public static btnDisabledTextColor = 'rgba(255, 255, 255, 0.32)';
+  public static get btnDisabledTextColor() {
+    return this.textColorDisabled;
+  }
   public static btnDisabledBorderColor = 'transparent';
 
   public static btnCheckedBg = '#EBEBEB';
   public static btnCheckedTextColor = 'rgba(0, 0, 0, 0.865)';
   public static btnCheckedDisabledBg = 'rgba(255, 255, 255, 0.32) !important';
   public static btnCheckedDisabledColor = 'rgba(0, 0, 0, 0.48)';
-  //#endregion
+  //#endregion Button
 
   //#region Select
   public static selectMenuArrowColor = 'rgba(255, 255, 255, 0.54)';
-  //#endregion
+  public static get selectPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get selectMenuArrowColorDisabled() {
+    return this.textColorDisabled;
+  }
+  //#endregion Select
 
   //#region Link
   public static linkColor = 'rgba(255, 255, 255, 0.87)';
@@ -99,13 +135,17 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkActiveColor = '#c2c2c2';
   public static linkHoverTextDecoration = 'none';
 
-  public static linkSuccessColor = '#78BF2B';
-  public static linkSuccessHoverColor = '#B9E96E';
-  public static linkSuccessActiveColor = '#5F9C20';
+  public static linkSuccessColor = '#46CD68';
+  public static linkSuccessHoverColor = '#67D881';
+  public static get linkSuccessActiveColor() {
+    return this.green;
+  }
 
-  public static linkDangerColor = '#FF887B';
-  public static linkDangerHoverColor = '#FF9D92';
-  public static linkDangerActiveColor = '#EE5042';
+  public static linkDangerColor = '#FE6C6C';
+  public static linkDangerHoverColor = '#FE8C8C';
+  public static get linkDangerActiveColor() {
+    return this.errorMain;
+  }
 
   public static linkGrayedColor = 'rgba(255, 255, 255, 0.54)';
   public static linkGrayedHoverColor = '#FFFFFF';
@@ -128,10 +168,20 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   }
 
   public static inputBorderColorWarning = 'rgba(252, 183, 62, 1)';
-  public static inputBorderColorError = 'rgba(238, 80, 66, 1)';
+  public static get inputBorderColorError() {
+    return this.borderColorError;
+  }
   public static inputOutlineWidth = '1px';
 
-  public static inputTextColorDisabled = 'rgba(255, 255, 255, 0.32)';
+  public static get inputTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get inputIconColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get inputPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
   public static inputDisabledBg = 'rgba(255, 255, 255, 0.04)';
   public static inputDisabledBorderColor = 'rgba(255, 255, 255, 0.04)';
   //#endregion Input
@@ -156,6 +206,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static get textareaTextColorDisabled() {
     return this.inputTextColorDisabled;
   }
+  public static get textareaPlaceholderColorDisabled() {
+    return this.textColorDisabled;
+  }
   //#endregion Textarea
 
   //#region Menu
@@ -172,12 +225,17 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   public static menuSeparatorBorderColor = 'rgba(255, 255, 255, 0.1)';
 
-  public static menuItemDisabledColor = 'rgba(255, 255, 255, 0.32)';
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
   //#endregion Menu
 
   //#region Token
   public static tokenShadowDisabled = '';
   public static tokenBorderColorDisabled = 'transparent';
+  public static get tokenTextColorDisabled() {
+    return this.textColorDisabled;
+  }
 
   public static tokenDefaultIdleColor = 'rgba(255, 255, 255, 0.865)';
   public static tokenDefaultIdleBg = 'rgba(255, 255, 255, 0.1)';
@@ -201,6 +259,19 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static fileUploaderDragOverShadow = '0px 0px 0px 4px #EBEBEB';
   public static get fileUploaderBorderColorFocus() {
     return this.btnBorderColorFocus;
+  }
+
+  public static get fileUploaderBorderColorError() {
+    return this.borderColorError;
+  }
+  public static get fileUploaderDisabledTextColor() {
+    return this.textColorDisabled;
+  }
+  public static get fileUploaderDisabledLinkColor() {
+    return this.textColorDisabled;
+  }
+  public static get fileUploaderDisabledIconColor() {
+    return this.textColorDisabled;
   }
   //#endregion FileUploader
 
@@ -226,7 +297,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static checkboxOutlineColorFocus = 'rgba(0, 0, 0, 0.87)';
   public static checkboxBgDisabled = 'rgba(255, 255, 255, 0.04)';
   public static checkboxShadowDisabled = 'none';
-  //#endregion
+  //#endregion Checkbox
 
   //#region Toggle
   public static toggleBaseBg = 'none';
@@ -271,7 +342,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toggleHandleBgDisabledChecked = 'rgba(0, 0, 0, 0.16)';
   public static toggleHandleBoxShadowDisabledChecked = 'none';
 
-  //#endregion
+  //#endregion Toggle
 
   //#region Modal
   public static modalBg = '#222';
@@ -281,7 +352,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.1)';
   public static modalBackBg = '#000';
   public static modalBackOpacity = '0.7';
-  //#endregion
+  //#endregion Modal
 
   //#region SideMenu
   public static sidePageBgDefault = '#222';
@@ -291,7 +362,7 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
 
   //#region Tab, Tabs
   public static tabColorHover = 'rgba(255, 255, 255, 0.16)';
-  //#endregion
+  //#endregion SideMenu
 
   //#region Toast
   public static toastColor = 'rgba(44, 44, 44, 1.0)';
@@ -301,16 +372,16 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static toastLinkBgActive = 'rgba(0, 0, 0, 0.16)';
   public static toastCloseColor = 'rgba(0, 0, 0, 0.32)';
   public static toastCloseHoverColor = 'rgba(0, 0, 0, 0.87)';
-  //#endregion
+  //#endregion Toast
 
   //#region Hint
   public static hintColor = 'rgba(44, 44, 44, 1.0)';
   public static hintBgColor = 'rgba(255, 255, 255, 0.8)';
-  //#endregion
+  //#endregion Hint
 
   //#region Tooltip
   public static tooltipBg = '#333333';
-  //#endregion
+  //#endregion Tooltip
 
   //#region Paging
   public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
@@ -319,32 +390,38 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static get pagingForwardLinkDisabledColor() {
     return this.linkDisabledColor;
   }
-  //#endregion
+  //#endregion Paging
 
   //#region GlobalLoader
   public static globalLoaderColor = 'rgba(238, 80, 66, 1)';
-  //#endregion
+  //#endregion GlobalLoader
 
   //#region DateInput
   public static dateInputComponentSelectedBgColor = '';
   public static dateInputComponentSelectedTextColor = '';
-  //#endregion
+  //#endregion DateInput
 
   //#region Calendar
   public static calendarCellHoverBgColor = 'rgba(255, 255, 255, 0.06)';
   public static calendarCellHoverColor = 'rgba(255, 255, 255, 0.87)';
   public static calendarCellSelectedBgColor = 'rgba(255, 255, 255, 0.1)';
   public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
-  //#endregion
+
+  public static calendarCellWeekendColor = '#ED3F3F';
+  //#endregion Calendar
 
   //#region DateSelect
   public static dateSelectMenuItemBgActive = 'rgba(255, 255, 255, 0.06)';
   public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.1)';
-  //#endregion
+  //#endregion DateSelect
 
   //#region CloseIcon, CloseButtonIcon
   public static closeBtnIconColor = 'rgba(255, 255, 255, 0.32)';
-  //#endregion
+  //#endregion CloseIcon, CloseButtonIcon
+
+  //#region react-ui-validations
+  public static validationsTextColorError = '#ED3F3F';
+  //#endregion react-ui-validations
 }
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
