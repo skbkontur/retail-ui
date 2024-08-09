@@ -56,10 +56,7 @@ const removeFile = async (filename?: string) => {
 const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File;
 
 function createFile(filename: string, content = 'content'): File {
-  return new File([content], filename, {
-    type: 'text/plain',
-    lastModified: new Date(2024, 8, 31).getDate(),
-  });
+  return new File([content], filename, { type: 'text/plain' });
 }
 
 describe('FileUploader', () => {

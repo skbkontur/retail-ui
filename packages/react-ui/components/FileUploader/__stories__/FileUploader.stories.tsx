@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { cloneElement, useRef } from 'react';
 
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -27,10 +27,7 @@ const errorRequest = () =>
   });
 
 function createFile(filename: string, content = 'content'): File {
-  return new File([content], filename, {
-    type: 'text/plain',
-    lastModified: new Date(2024, 8, 31).getDate(),
-  });
+  return new File([content], filename);
 }
 
 /** async control stories **/
@@ -143,4 +140,12 @@ export const FileUploaderWithSinglePrefilledFile = () => (
 
 export const FileUploaderWithMultiplePrefilledFiles = () => (
   <FileUploader multiple initialFiles={[createFile('test1.txt'), createFile('test2.txt')]} />
+);
+
+export const FileUploaderWithMultiplePrefilledFilesCustomRender = () => (
+  <FileUploader
+    multiple
+    initialFiles={[createFile('test1.txt'), createFile('test2.txt')]}
+    renderFile={(file, fileNode) => cloneElement(fileNode, { showSize: false })}
+  />
 );

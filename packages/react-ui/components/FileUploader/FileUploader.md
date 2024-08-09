@@ -32,14 +32,28 @@ const request = () => Promise.reject();
 import { FileUploader } from '@skbkontur/react-ui';
 
 function createFile(filename, content) {
-  return new File(['content'], filename, {
-    type: 'text/plain',
-    lastModified: new Date(2024, 8, 31).getDate(),
-  });
+  return new File(['content'], filename, { type: 'text/plain' });
 };
 
 const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
 <FileUploader multiple initialFiles={initialFiles} />
+```
+
+Файлы по умолчанию с кастомизацией рендеринга
+```jsx harmony
+import { cloneElement } from 'react';
+import { FileUploader } from '@skbkontur/react-ui';
+
+function createFile(filename, content) {
+  return new File(['content'], filename, { type: 'text/plain' });
+};
+
+const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+<FileUploader
+  multiple
+  initialFiles={initialFiles}
+  renderFile={(file, fileNode) => cloneElement(fileNode, { showSize: false })}
+/>
 ```
 
 Использование `accept`
