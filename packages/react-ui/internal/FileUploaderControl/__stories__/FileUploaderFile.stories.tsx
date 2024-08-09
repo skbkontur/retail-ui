@@ -1,4 +1,5 @@
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 
 import { Story } from '../../../typings/stories';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
@@ -34,6 +35,7 @@ export const FileUploaderFileWithValidationError: Story = () => {
           validationResult: { isValid: false, message: 'Валидация не прошла' },
         }}
         size="small"
+        onRemove={action('onRemove')}
       />
     </div>
   );
