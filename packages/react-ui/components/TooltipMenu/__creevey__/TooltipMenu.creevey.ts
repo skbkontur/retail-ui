@@ -17,19 +17,7 @@ const textAlignmentTests = () => {
 };
 
 kind('TooltipMenu', () => {
-  story('SimpleExample', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['clickAfterClickedOnCaption', 'clicked'],
-        },
-
-        'story-skip-1': { in: /(?!\b(firefox)\b)/, tests: ['tabPress'] },
-      },
-    });
-
+  story('SimpleExample', () => {
     test('plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('plain');
     });

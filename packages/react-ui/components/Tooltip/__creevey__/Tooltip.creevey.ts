@@ -3,14 +3,7 @@ import { story, kind, test } from 'creevey';
 import { delay } from '../../../lib/utils';
 
 kind('Tooltip', () => {
-  story('FocusTooltip', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
-      },
-    });
-
+  story('FocusTooltip', () => {
     test('01 - plain', async function () {
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
@@ -47,14 +40,7 @@ kind('Tooltip', () => {
     });
   });
 
-  story('FocusTooltipNativeInput', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
-      },
-    });
-
+  story('FocusTooltipNativeInput', () => {
     test('01 - plain', async function () {
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
@@ -107,7 +93,6 @@ kind('Tooltip', () => {
   story('TooltipWithExternalDynamicContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: /firefox/, tests: ['04 - does not change top position if fits'] },
         'story-skip-1': { in: 'chrome2022', tests: ['06 - changes left position if does not fit'] },
       },
     });
@@ -247,17 +232,7 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipWithInputAndSwitchableContent', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': {
-          in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'],
-          tests: ['focus and types', 'clear input'],
-        },
-      },
-    });
-
+  story('TooltipWithInputAndSwitchableContent', () => {
     test('focus and types', async function () {
       await this.browser
         .actions({
@@ -287,19 +262,6 @@ kind('Tooltip', () => {
   story('DynamicTriggersStory', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '[data-comp-name~="TestTooltip"]',
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: [
-            'hover - mouseEnter',
-            'click - click anchor',
-            'focus - focus',
-            'hover&focus - mouseEnter',
-            'hover&focus - focus',
-          ],
-        },
-      },
     });
 
     test('without trigger', async function () {
@@ -497,17 +459,7 @@ kind('Tooltip', () => {
     });
   });
 
-  story('RenderInFirstAvailablePosition', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['render in available position', 'relocate on new available position'],
-        },
-      },
-    });
-
+  story('RenderInFirstAvailablePosition', () => {
     test('render in available position', async function () {
       await this.browser
         .actions({ bridge: true })
@@ -565,12 +517,7 @@ kind('Tooltip', () => {
   story('TooltipWithAnchor', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hover by dynamic anchor'],
-        },
-        'story-skip-2': {
+        'themes do not affect logic': {
           in: /firefox/,
           tests: ['hover by dynamic anchor'],
         },

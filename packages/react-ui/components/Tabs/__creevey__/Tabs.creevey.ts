@@ -160,26 +160,15 @@ const tabsTests = () => {
 };
 
 kind('Tabs', () => {
-  story('WithDisabledTab', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
-        },
-      },
-    });
-
+  story('WithDisabledTab', () => {
     tabsTests();
   });
   story('Simple', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered'],
         },
       },
     });
@@ -190,10 +179,9 @@ kind('Tabs', () => {
   story('SimpleMedium', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered'],
         },
       },
     });
@@ -204,10 +192,9 @@ kind('Tabs', () => {
   story('SimpleSmall', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered'],
         },
       },
     });
@@ -218,10 +205,9 @@ kind('Tabs', () => {
   story('Vertical', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered', 'enterPress'],
         },
       },
     });
@@ -230,10 +216,9 @@ kind('Tabs', () => {
   story('VerticalMedium', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered', 'enterPress'],
         },
       },
     });
@@ -242,10 +227,9 @@ kind('Tabs', () => {
   story('VerticalSmall', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered', 'enterPress'],
         },
       },
     });

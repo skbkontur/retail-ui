@@ -6,9 +6,8 @@ kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
       },
@@ -233,9 +232,8 @@ kind('ComboBox', () => {
   story('OpenToTop', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
       },

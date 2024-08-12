@@ -79,9 +79,8 @@ kind('Kebab', () => {
   story('Small', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'clickedOnButton2ndTime'],
         },
       },
@@ -93,9 +92,8 @@ kind('Kebab', () => {
   story('Medium', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'clickedOnButton2ndTime'],
         },
       },
@@ -107,9 +105,8 @@ kind('Kebab', () => {
   story('Large', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'clickedOnButton2ndTime'],
         },
       },
