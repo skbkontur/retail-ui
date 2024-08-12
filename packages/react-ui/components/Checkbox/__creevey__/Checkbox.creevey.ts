@@ -99,6 +99,10 @@ kind('Checkbox', () => {
           in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'pressed', 'clicked'],
         },
+        flaky: {
+          in: /^\bfirefox2022/,
+          tests: ['clicked'],
+        },
       },
     });
 

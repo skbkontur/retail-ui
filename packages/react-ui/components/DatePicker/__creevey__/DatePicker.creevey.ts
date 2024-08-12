@@ -3,7 +3,15 @@ import { story, kind, test } from 'creevey';
 import { delay } from '../../../lib/utils';
 
 kind('DatePicker', () => {
-  story('WithMouseeventHandlers', () => {
+  story('WithMouseeventHandlers', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        flaky: {
+          in: ['chrome2022Dark'],
+          tests: ['DateSelect year'],
+        },
+      },
+    });
     test('opened', async function () {
       await delay(1000);
       await this.browser

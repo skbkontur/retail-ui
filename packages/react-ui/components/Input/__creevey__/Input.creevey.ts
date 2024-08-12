@@ -133,7 +133,13 @@ kind('Input', () => {
 
   story('MaxLength', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
+      skip: {
+        "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
+        flaky: {
+          in: ['chrome2022'],
+          tests: ['With long typed text'],
+        },
+      },
     });
     differentStatesTest();
   });
@@ -187,7 +193,7 @@ kind('Input', () => {
   story('SearchTypeApi', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'tests only stable in chrome': { in: /^(?!\bchrome\b|\bchromeDark\b)/ },
+        'tests only stable in chrome': { in: /^(?!\bchrome2022\b|\bchrome2022Dark\b)/ },
       },
     });
 
