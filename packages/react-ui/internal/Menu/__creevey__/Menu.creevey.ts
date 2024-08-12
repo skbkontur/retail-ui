@@ -84,7 +84,7 @@ kind('Menu', () => {
   });
   story('WithItemsWithIconsWithoutTextAlignment', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
 });

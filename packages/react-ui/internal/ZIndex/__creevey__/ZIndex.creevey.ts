@@ -179,7 +179,7 @@ kind('ZIndex', () => {
   });
 
   story('ModalWithDropdown', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('dropdown overlaps static header', async function () {
       await this.browser
