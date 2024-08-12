@@ -23,7 +23,7 @@ describe('MaskedInput', () => {
     });
 
     it('with `alwaysShowMask`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask />);
+      render(<MaskedInput maskChar={maskChar} mask={mask} showMask="always" />);
 
       expect(screen.getByRole('textbox')).toHaveValue(maskPlaceholder);
     });
@@ -81,7 +81,7 @@ describe('MaskedInput', () => {
   });
 
   it('fixed symbols on focus', () => {
-    render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" alwaysShowMask />);
+    render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" showMask="always" />);
 
     const input = screen.getByRole('textbox');
     input.focus();

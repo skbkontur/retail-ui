@@ -31,12 +31,12 @@ export interface MaskedProps {
    */
   formatChars?: Record<string, string>;
   /**
-   * Всегда показывать символы маски
+   * Показывать символы маски
    *
    * @see См. `imaskProps.lazy`
-   * @default false
+   * @default 'focus'
    */
-  alwaysShowMask?: boolean;
+  showMask?: 'always' | 'focus' | 'never';
   /**
    * Обработчик неправильного ввода.
    * Вторым агрументом будет передан метод вспыхивания акцентным цветом.
@@ -74,7 +74,7 @@ export const MaskedInput = forwardRefAndName(
       mask,
       maskChar,
       formatChars,
-      alwaysShowMask,
+      showMask = 'focus',
       imaskProps: { onAccept, ...customIMaskProps } = {},
       onValueChange,
       onUnexpectedInput,
@@ -122,7 +122,7 @@ export const MaskedInput = forwardRefAndName(
         onKeyDown={handleKeyDown}
         className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
-          <ColorableInputElement showOnFocus={!alwaysShowMask}>
+          <ColorableInputElement showOnFocus={false}>
             <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
           </ColorableInputElement>
         }
@@ -130,6 +130,8 @@ export const MaskedInput = forwardRefAndName(
     );
 
     function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
+      const showMaskPlaceholder = showMask === 'always' || (showMask === 'focus' && focused);
+
       return {
         mask: mask.replace(/0/g, '{\\0}') as any,
         placeholderChar: getMaskChar(maskChar),
@@ -137,7 +139,7 @@ export const MaskedInput = forwardRefAndName(
         // FIXME: Должно быть eager=true, но в imask ломается удаление по delete
         eager: 'append',
         overwrite: 'shift',
-        lazy: !alwaysShowMask && (props.disabled || !focused),
+        lazy: !showMaskPlaceholder,
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
     }

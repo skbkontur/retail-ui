@@ -14,12 +14,6 @@ export type ColorableInputElementProps = InputElementProps & {
   children: React.ReactElement;
 };
 
-const dictionary = new Map<Element, () => void>();
-const paintText: ResizeObserverCallback = (entries) => {
-  entries.forEach((entry) => dictionary.get(entry.target)?.());
-};
-const resizeObserver = globalObject.ResizeObserver ? new globalObject.ResizeObserver(debounce(paintText)) : null;
-
 // Возможно придётся включить.
 // Иногда, на тяжёлых страницах, текст рендерится итеративно.
 // Из-за этого могут оставаться артефакты при покраске компонента, которые пропадут только после фокуса.
@@ -36,7 +30,7 @@ export const ColorableInputElement = forwardRefAndName(
     const debouncedPaintText = useCallback(debounce(paintText), []);
     const [active, setActive] = useState(true);
 
-    const { children, onInput, onFocus, onBlur, ...inputProps } = props;
+    const { children, onInput, onFocus, onBlur, showOnFocus, ...inputProps } = props;
 
     useImperativeHandle(
       ref,
@@ -47,26 +41,12 @@ export const ColorableInputElement = forwardRefAndName(
       [],
     );
 
-    useEffect(() => {
-      updateActive();
-
-      if (inputRef.current) {
-        dictionary.set(inputRef.current, debouncedPaintText);
-        resizeObserver?.observe(inputRef.current);
-      }
-
-      return () => {
-        if (inputRef.current) {
-          dictionary.delete(inputRef.current);
-          resizeObserver?.unobserve(inputRef.current);
-        }
-      };
-    }, []);
+    useEffect(updateActive, []);
 
     useEffect(() => {
       activation(props);
       updateActive();
-    }, [active, props.showOnFocus, props.value, props.defaultValue, props.disabled, focused.current]);
+    }, [active, showOnFocus, props.value, props.defaultValue, props.disabled, focused.current]);
 
     useEffect(() => {
       if (inputRef.current) {

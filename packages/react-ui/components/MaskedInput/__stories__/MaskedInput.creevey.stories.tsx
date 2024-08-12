@@ -3,17 +3,23 @@
 import React, { useState } from 'react';
 
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
-import { MaskedInput } from '../MaskedInput';
+import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input } from '../../Input';
 
 export default {
   title: 'MaskedInput/Functional tests',
   parameters: {
     creevey: {
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } },
     },
   },
 } as Meta;
+
+const DEFAULT_PROPS: MaskedInputProps = {
+  mask: '+7 999 999-99-99',
+  width: 150,
+  maskChar: '_',
+};
 
 const testIdleFocusEditBlur: CreeveyTests = {
   async 'idle, focus, edit, blur'() {
@@ -94,55 +100,52 @@ const testIdleFocusBlur: CreeveyTests = {
   },
 };
 
-export const Default: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
-);
+export const Default: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} value={value} onValueChange={setValue} />;
+};
 Default.parameters = {
   creevey: {
     tests: testIdleFocusEditBlur,
   },
 };
 
-export const IdleFocusEditBlurWithPlaceholder: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="Телефон" />
-);
+export const IdleFocusEditBlurWithPlaceholder: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} placeholder="Телефон" value={value} onValueChange={setValue} />;
+};
 IdleFocusEditBlurWithPlaceholder.parameters = {
   creevey: {
     tests: testIdleFocusEditBlur,
   },
 };
 
-export const IdleFocusBlurWithPlaceholder: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="Телефон" />
-);
+export const IdleFocusBlurWithPlaceholder: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} placeholder="Телефон" value={value} onValueChange={setValue} />;
+};
 IdleFocusBlurWithPlaceholder.parameters = {
   creevey: {
     tests: testIdleFocusBlur,
   },
 };
 
-export const IdleFocusAppendRemoveBlurWithPlaceholder: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="Телефон" />
-);
+export const IdleFocusAppendRemoveBlurWithPlaceholder: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} placeholder="Телефон" value={value} onValueChange={setValue} />;
+};
 IdleFocusAppendRemoveBlurWithPlaceholder.parameters = {
   creevey: {
     tests: testIdleFocusAppendRemoveBlur,
   },
 };
 
-export const IdleFocusBlur: Story = () => (
-  <MaskedInput width="150" mask="999 999-99-99" maskChar={'_'} placeholder="Номер" />
-);
-
-IdleFocusBlur.parameters = {
-  creevey: {
-    tests: testIdleFocusBlur,
-  },
+export const IdleFocusBlurWithPrefix: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return (
+    <MaskedInput {...DEFAULT_PROPS} mask="999 999-99-99" prefix="+7&nbsp;" value={value} onValueChange={setValue} />
+  );
 };
-
-export const IdleFocusBlurWithPrefix: Story = () => (
-  <MaskedInput width="150" mask="+7 999 999 999" maskChar={'_'} placeholder="Номер" />
-);
 
 IdleFocusBlurWithPrefix.parameters = {
   creevey: {
@@ -151,18 +154,19 @@ IdleFocusBlurWithPrefix.parameters = {
 };
 
 export const WithCustomUnmaskedValue: Story = () => {
-  const [value, setValue] = useState('+795');
+  const [value, setValue] = useState('795');
 
   return (
-    <MaskedInput
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-      value={value}
-      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
-    />
+    <>
+      <span>unmask value: {value}</span>
+      <br />
+      <MaskedInput
+        {...DEFAULT_PROPS}
+        showMask="always"
+        value={value}
+        onValueChange={(value) => setValue(value.replace(/\D/g, ''))}
+      />
+    </>
   );
 };
 
@@ -172,21 +176,62 @@ WithCustomUnmaskedValue.parameters = {
   },
 };
 
+export const IdleFocusBlurAndUncontrolled: Story = () => <MaskedInput {...DEFAULT_PROPS} />;
+IdleFocusBlurAndUncontrolled.parameters = {
+  creevey: {
+    tests: testIdleFocusEditBlur,
+  },
+};
+
+export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
+  <>
+    <h3>Известная проблема</h3>
+    <span>
+      При появлении маски по фокусу ломается неконтролируемый ввод, если <code>defaultValue</code> содержит любую
+      фиксированную часть маски.
+    </span>
+    <br />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" />
+    <br />
+    <br />
+    <span>
+      Когда <code>defaultValue</code> не содержит фиксированных частей, то всё норм.
+    </span>
+    <br />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="123" />
+    <br />
+    <br />
+    <span>Самый простой способ обойти проблему - всегда показывать маску.</span>
+    <br />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" showMask="always" />
+  </>
+);
+IdleFocusBlurAndUncontrolledWithDefaultValue.parameters = {
+  creevey: {
+    skip: true,
+  },
+};
+
 export const SelectAllByProp: Story = () => {
   const [value, setValue] = React.useState('12');
   return (
     <div>
-      <MaskedInput mask="9999" maskChar="_" value={value} onValueChange={setValue} selectAllOnFocus alwaysShowMask />
+      <MaskedInput
+        {...DEFAULT_PROPS}
+        mask="9999"
+        value={value}
+        onValueChange={setValue}
+        selectAllOnFocus
+        showMask="always"
+      />
     </div>
   );
 };
-
 SelectAllByProp.parameters = {
   creevey: {
-    skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
     tests: {
-      async PlainAndSelected() {
-        const plain = await this.takeScreenshot();
+      async 'idle, select_half, select_all'() {
+        const idle = await this.takeScreenshot();
         await this.browser
           .actions({
             bridge: true,
@@ -194,7 +239,7 @@ SelectAllByProp.parameters = {
           .click(this.browser.findElement({ css: 'input' }))
           .pause(500)
           .perform();
-        const selectAllHalfFilledInput = await this.takeScreenshot();
+        const select_half = await this.takeScreenshot();
         await this.browser
           .actions({
             bridge: true,
@@ -206,13 +251,12 @@ SelectAllByProp.parameters = {
           .click(this.browser.findElement({ css: 'input' }))
           .pause(500)
           .perform();
-        const selectAllFilledInput = await this.takeScreenshot();
-        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
+        const select_all = await this.takeScreenshot();
+        await this.expect({ idle, select_half, select_all }).to.matchImages();
       },
     },
   },
 };
-
 export const SelectAllByButton: Story = () => {
   let input: Input | null = null;
 
@@ -225,7 +269,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput ref={(element) => (input = element)} mask={'99:99'} value="12:34" />
+        <MaskedInput {...DEFAULT_PROPS} value="+7 123 654" ref={(element) => (input = element)} showMask="always" />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all
@@ -233,12 +277,11 @@ export const SelectAllByButton: Story = () => {
     </div>
   );
 };
-SelectAllByButton.storyName = 'Select all by button';
 
 SelectAllByButton.parameters = {
   creevey: {
     tests: {
-      async 'Plain, selected'() {
+      async 'idle, select'() {
         const plain = await this.takeScreenshot();
         await this.browser
           .actions({
@@ -246,34 +289,8 @@ SelectAllByButton.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
           .perform();
-        const selected = await this.takeScreenshot();
-
-        await this.expect({ plain, selected }).to.matchImages();
-      },
-    },
-  },
-};
-
-export const UncontrolledInputWithPlaceholder: Story = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_value, setValue] = React.useState<string>();
-  return <MaskedInput mask={'aaaa aaaa'} placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
-};
-UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
-UncontrolledInputWithPlaceholder.parameters = {
-  creevey: {
-    tests: {
-      async PlainAndTyped() {
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('text')
-          .perform();
-        const typed = await this.takeScreenshot();
-        await this.expect({ plain, typed }).to.matchImages();
+        const select_all = await this.takeScreenshot();
+        await this.expect({ plain, select_all }).to.matchImages();
       },
     },
   },
@@ -306,7 +323,11 @@ const testRewriteInMiddle: CreeveyTests = {
   },
 };
 
-export const RewriteInMiddle: Story = () => <MaskedInput width="150" defaultValue={'34'} mask="9999" alwaysShowMask />;
+export const RewriteInMiddle: Story = () => {
+  const [value, setValue] = React.useState('12');
+
+  return <MaskedInput {...DEFAULT_PROPS} mask="9999" showMask="always" value={value} onValueChange={setValue} />;
+};
 
 RewriteInMiddle.parameters = {
   creevey: {

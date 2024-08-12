@@ -1,65 +1,46 @@
 #### `mask`
 
-Маска телефона
+Паттерн ввода.
 
 ```jsx harmony
-import { Input } from '@skbkontur/react-ui';
-
-const [value, setValue] = React.useState('123');
-
-const listeners = {
-  ...[
-    'onKeyPress',
-    'onKeyDown',
-    'onFocus',
-    'onBlur',
-    'onInput',
-    'onChange',
-    'onCut',
-  ].reduce((list, item) => ({ ...list, [item]: (e) => console.log(item, e) }), {})
-};
-
-listeners.onValueChange = (v) => {
-  console.log('onValue', v);
-  setValue(v);
-};
 
 <>
-  <MaskedInput
-    mask="9-9-9-9"
-    alwaysShowMask1
-    value1={value}
-    {...listeners}
-  />
-  <MaskedInput
-    mask="+7 999-999-99-99"
-    alwaysShowMask
-    value={value}
-    {...listeners}
-  />
-  <Input
-    mask="+7 999-999-99-99"
-    alwaysShowMask
-    value={value}
-    {...listeners}
-  />
-  <Input
-    value={value}
-    {...listeners}
-  />
+  <MaskedInput mask="+7 (999) 999-99-99" placeholder="Номер телефона" />
+</>
+```
+
+#### `showMask`
+
+Способ отображения маски.
+
+```jsx harmony
+<>
+  <code>always</code>
+  <br/>
+  <MaskedInput mask="+7 (999) 999-99-99" showMask="always" placeholder="Номер телефона" />
+  <br/>
+  <br/>
+  <code>focus</code>
+  <br/>
+  <MaskedInput mask="+7 (999) 999-99-99" showMask="focus" placeholder="Номер телефона" />
+  <br/>
+  <br/>
+  <code>never</code>
+  <br/>
+  <MaskedInput mask="+7 (999) 999-99-99" showMask="never" placeholder="Номер телефона" />
 </>
 ```
 
 #### `maskChar`
 
-может изменить символ значения с маской
+Символом маски может быть любой символ.
 
 ```jsx harmony
 <MaskedInput
   mask="9999 9999 9999 9999"
   maskChar="X"
   placeholder="Номер карты"
-  alwaysShowMask
+  showMask="always"
 />
 ```
 
@@ -74,7 +55,7 @@ const [value, setValue] = React.useState('');
 
 <MaskedInput
   mask="Hh:Mm:Ss"
-  alwaysShowMask
+  showMask="always"
   formatChars={{
     H: '[0-2]',
     h: value.startsWith('2') ? '[0-3]' : '[0-9]',
@@ -86,16 +67,6 @@ const [value, setValue] = React.useState('');
   value={value}
   onValueChange={setValue}
 />
-```
-
-#### `alwaysShowMask`
-
-Показывает маску всегда. Placeholder в этом случае игнорируется. Логика немного отличается от старой реализации, из-за
-специфики iMask. Раньше маска обязательно появлялась при фокусе, но теперь чтобы маску было видно надо явно задать этот
-проп.
-
-```jsx harmony
-<MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask placeholder="Номер телефона" />
 ```
 
 #### `imaskProps`*
@@ -113,12 +84,12 @@ const [value, setValue] = React.useState('');
 Конвертация пропов выглядит примерно так:
 
 ```typescript static
-mask: mask.replace(/0/g, '{\\0}'),
+mask:            mask.replace(/0/g, '{\\0}'),
 placeholderChar: props.maskChar || '_',
-definitions: props.formatChars || { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ },
-eager: true,
-overwrite: 'shift',
-lazy: !alwaysShowMask,
+definitions:     props.formatChars || { '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ },
+eager:           'append',
+overwrite:       'shift',
+lazy:            !(showMask === 'always' || (showMask === 'focus' && focused)),
 ...props.imaskProps,
 ```
 
@@ -139,7 +110,7 @@ const [value, setValue] = React.useState('');
     imaskProps={{
       unmask: true
     }}
-    alwaysShowMask
+    showMask="always"
     value={value}
     onValueChange={setValue}
   />
@@ -148,7 +119,7 @@ const [value, setValue] = React.useState('');
 
 ##### `imaskProps.mask []`
 
-Опциональные части маски
+Опциональные части маски.
 
 ```jsx harmony
 const [value, setValue] = React.useState('');
@@ -157,7 +128,7 @@ const [complete, setComplete] = React.useState(false);
 
 <MaskedInput
   mask="99-999999[99]-99"
-  alwaysShowMask
+  showMask="always"
   rightIcon={complete ? '✅' : '⬜'}
   imaskProps={{
     onAccept: (v, imask) => {
@@ -177,13 +148,12 @@ const [complete, setComplete] = React.useState(false);
 const [value, setValue] = React.useState('');
 const [complete, setComplete] = React.useState(false);
 
-
 <>
   <span>unmask value: {value}</span>
   <br />
   <MaskedInput
     mask="aa[aaaaaaaaaaaaaaaaa]{@}aa[aaaaaaaaaaaaaaaaa]{\.}aa[aaaa]"
-    alwaysShowMask
+    showMask="always"
     rightIcon={complete ? '✅' : '⬜'}
     imaskProps={{
       unmask: true,
@@ -218,6 +188,6 @@ const block = {
       SS: { ...block, to: 59, },
     }
   }}
-  alwaysShowMask
+  showMask="always"
 />
 ```

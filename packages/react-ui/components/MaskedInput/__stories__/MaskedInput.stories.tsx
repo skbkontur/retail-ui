@@ -1,9 +1,9 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
+import { SearchLoupeIcon16Regular } from '../../../internal/icons2022/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input, InputProps } from '../../Input';
@@ -36,16 +36,16 @@ const maskStates: InputState[] = [
   { defaultValue: '956789010A' },
   { mask: '****', value: 'overflow' },
   { placeholder: 'mask with placeholder' },
-  { alwaysShowMask: true },
-  { alwaysShowMask: true, maskChar: null },
-  { alwaysShowMask: true, maskChar: 'X' },
-  { alwaysShowMask: true, defaultValue: '95678901' },
-  { alwaysShowMask: true, defaultValue: '956789010A' },
-  { alwaysShowMask: true, placeholder: 'mask with placeholder' },
-  { alwaysShowMask: true, type: 'email', mask: '*** ***', defaultValue: 'Value' },
-  { alwaysShowMask: true, type: 'tel', mask: '*** ***', defaultValue: 'Value' },
-  { alwaysShowMask: true, type: 'url', mask: '*** ***', defaultValue: 'Value' },
-  { alwaysShowMask: true, type: 'search', mask: '*** ***', defaultValue: 'Value' },
+  { showMask: 'always' },
+  { showMask: 'always', maskChar: null },
+  { showMask: 'always', maskChar: 'X' },
+  { showMask: 'always', defaultValue: '95678901' },
+  { showMask: 'always', defaultValue: '956789010A' },
+  { showMask: 'always', placeholder: 'mask with placeholder' },
+  { showMask: 'always', type: 'email', mask: '*** ***', defaultValue: 'Value' },
+  { showMask: 'always', type: 'tel', mask: '*** ***', defaultValue: 'Value' },
+  { showMask: 'always', type: 'url', mask: '*** ***', defaultValue: 'Value' },
+  { showMask: 'always', type: 'search', mask: '*** ***', defaultValue: 'Value' },
 ];
 
 export const PrefixOrSuffix: Story = () => (
@@ -58,12 +58,12 @@ export const PrefixOrSuffix: Story = () => (
 );
 const inputPrefixOrSuffixStates: InputState[] = [
   {},
-  { rightIcon: <SearchIcon /> },
-  { rightIcon: <SearchIcon />, value: '+79876543210' },
-  { leftIcon: <SearchIcon /> },
-  { leftIcon: <SearchIcon />, value: '+79876543210' },
-  { rightIcon: <SearchIcon />, placeholder: 'Placeholder' },
-  { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
+  { rightIcon: <SearchLoupeIcon16Regular /> },
+  { rightIcon: <SearchLoupeIcon16Regular />, value: '+79876543210' },
+  { leftIcon: <SearchLoupeIcon16Regular /> },
+  { leftIcon: <SearchLoupeIcon16Regular />, value: '+79876543210' },
+  { rightIcon: <SearchLoupeIcon16Regular />, placeholder: 'Placeholder' },
+  { leftIcon: <SearchLoupeIcon16Regular />, placeholder: 'Placeholder' },
   { prefix: 'prefix:' },
   { prefix: 'prefix:', value: '+79876543210' },
   { suffix: '/suffix' },
@@ -80,19 +80,19 @@ export const PrefixesAndSuffixes: Story = () => (
 );
 const prefixesAndSuffixesStates: InputState[] = [
   {
-    rightIcon: <SearchIcon />,
-    leftIcon: <SearchIcon />,
+    rightIcon: <SearchLoupeIcon16Regular />,
+    leftIcon: <SearchLoupeIcon16Regular />,
     prefix: 'prefix:',
     suffix: '/suffix',
     placeholder: 'Placeholder',
   },
   {
-    rightIcon: <SearchIcon />,
-    leftIcon: <SearchIcon />,
+    rightIcon: <SearchLoupeIcon16Regular />,
+    leftIcon: <SearchLoupeIcon16Regular />,
     prefix: 'prefix:',
     suffix: '/suffix',
     value: '+7987654321',
-    alwaysShowMask: true,
+    showMask: 'always',
   },
 ];
 
@@ -108,12 +108,12 @@ export const Validations: Story = () => (
 const validationsStates: InputState[] = [
   { warning: true },
   { value: '12', warning: true },
-  { alwaysShowMask: true, warning: true },
-  { value: '12', alwaysShowMask: true, warning: true },
+  { showMask: 'always', warning: true },
+  { value: '12', showMask: 'always', warning: true },
   { error: true },
   { value: '12', error: true },
-  { alwaysShowMask: true, error: true },
-  { value: '12', alwaysShowMask: true, error: true },
+  { showMask: 'always', error: true },
+  { value: '12', showMask: 'always', error: true },
 ];
 
 export const Positions: Story = () => (
@@ -121,7 +121,7 @@ export const Positions: Story = () => (
     Component={MaskedInput}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={positionsStates.map((x) => ({ props: x }))}
-    presetProps={{ alwaysShowMask: true, mask: '**** **** ****' }}
+    presetProps={{ showMask: 'always', mask: '**** **** ****' }}
   />
 );
 
@@ -146,9 +146,9 @@ export const Disabled: Story = () => (
 
 const disabledStates: InputState[] = [
   {},
-  { alwaysShowMask: true },
+  { showMask: 'always' },
   { value: '12' },
-  { value: '12', alwaysShowMask: true },
+  { value: '12', showMask: 'always' },
   { placeholder: 'Placeholder' },
 ];
 
@@ -217,7 +217,7 @@ export const AllLabGrotesqueStyles: Story = () => {
       Component={MaskedInput}
       cols={sizeStates.map((x) => ({ props: x }))}
       rows={fontStyles.map((x) => ({ props: { style: x } }))}
-      presetProps={{ mask: '+7 999-999-99-99', defaultValue: '123', alwaysShowMask: true }}
+      presetProps={{ mask: '+7 999-999-99-99', defaultValue: '123', showMask: 'always' }}
     />
   );
 };
@@ -250,10 +250,10 @@ const [propsPreset, propsSetA, propsSetB]: [
   ],
   [
     {},
-    { alwaysShowMask: true },
+    { showMask: 'always' },
     { imaskProps: { unmask: true } },
     { imaskProps: { eager: 'remove' } },
-    { alwaysShowMask: true, imaskProps: { unmask: true } },
+    { showMask: 'always', imaskProps: { unmask: true } },
   ],
 ];
 
