@@ -18,7 +18,7 @@ kind('Switcher', () => {
   });
   story('WithCustomRenderItems', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
 });

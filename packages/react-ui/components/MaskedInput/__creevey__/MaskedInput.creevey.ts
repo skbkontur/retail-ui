@@ -65,35 +65,35 @@ const testRewriteInMiddle = () => {
 kind('MaskedInput', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     testMaskedInput();
   });
 
   story('IdleFocusBlur', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     testIdleFocusBlur();
   });
 
   story('IdleFocusBlurWithPrefix', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     testIdleFocusBlur();
   });
 
   story('WithCustomUnmaskedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } },
     });
     testMaskedInput();
   });
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('Plain focused', async function () {
       const plain = await this.takeScreenshot();
@@ -110,7 +110,7 @@ kind('MaskedInput', () => {
 
   story('SelectAllByButton', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('Plain, selected', async function () {
       const plain = await this.takeScreenshot();
@@ -127,7 +127,7 @@ kind('MaskedInput', () => {
 
   story('UncontrolledInputWithPlaceholder', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('PlainAndTyped', async function () {
       const plain = await this.takeScreenshot();
@@ -145,7 +145,7 @@ kind('MaskedInput', () => {
 
   story('RewriteInMiddle', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } },
     });
     testRewriteInMiddle();
   });

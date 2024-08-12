@@ -71,14 +71,14 @@ const testMaskedInput = () => {
 kind('Input', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     differentStatesTest();
   });
 
   story('WithMask', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     testMaskedInput();
   });
@@ -86,7 +86,7 @@ kind('Input', () => {
   story('WithMaskAndCustomUnmaskedValue', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        "themes don't affect logic": { in: /^(?!\bchrome\b)/ },
+        "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
       },
     });
 
@@ -95,7 +95,7 @@ kind('Input', () => {
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('Plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
@@ -114,7 +114,7 @@ kind('Input', () => {
 
   story('SelectAllByButton', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('Plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
@@ -133,14 +133,14 @@ kind('Input', () => {
 
   story('MaxLength', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     differentStatesTest();
   });
 
   story('UncontrolledInputWithPlaceholder', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('PlainAndTyped', async function () {
       const plain = await this.takeScreenshot();
@@ -157,7 +157,7 @@ kind('Input', () => {
   });
 
   story('WithMaskAndSelectAllProp', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
 
     test('PlainAndSelected', async function () {
       const plain = await this.takeScreenshot();
@@ -222,12 +222,12 @@ kind('Input', () => {
   });
   story('Type', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },
+      skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
     });
   });
   story('TypeApi', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },
+      skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
     });
   });
 });
