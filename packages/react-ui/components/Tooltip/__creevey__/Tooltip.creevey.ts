@@ -89,13 +89,7 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark', 'firefox8px'] },
-      },
-    });
-
+  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', () => {
     test('hover', async function () {
       await this.browser
         .actions({
@@ -294,11 +288,6 @@ kind('Tooltip', () => {
     setStoryParameters({
       captureElement: '[data-comp-name~="TestTooltip"]',
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Dark'],
-          tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'],
-        },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
@@ -576,8 +565,6 @@ kind('Tooltip', () => {
   story('TooltipWithAnchor', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],

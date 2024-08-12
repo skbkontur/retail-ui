@@ -6,11 +6,6 @@ kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark', 'ie112022', 'ie112022Dark'],
-          tests: ['hovered', 'selected_2', 'select_1'],
-        },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
@@ -238,11 +233,6 @@ kind('ComboBox', () => {
   story('OpenToTop', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hovered',
-        },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],

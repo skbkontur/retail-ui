@@ -62,10 +62,6 @@ kind('Button', () => {
   story('PlaygroundDefault', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hover',
-        },
         'story-skip-1': {
           in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
           tests: ['hover', 'pressed', 'clicked'],
@@ -80,10 +76,6 @@ kind('Button', () => {
   story('PlaygroundDisabled', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hover',
-        },
         'focus goes out of page and breaks other tests': {
           in: /firefox/,
           tests: 'tabPress',

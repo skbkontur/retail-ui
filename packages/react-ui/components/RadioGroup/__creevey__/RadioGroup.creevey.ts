@@ -7,8 +7,6 @@ kind('RadioGroup', () => {
     setStoryParameters({
       captureElement: '#RadioGroup-wrap',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
       },

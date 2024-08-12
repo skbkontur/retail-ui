@@ -67,8 +67,6 @@ kind('Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
 
@@ -99,8 +97,6 @@ kind('Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
 
@@ -115,8 +111,6 @@ kind('Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
 
@@ -131,8 +125,6 @@ kind('Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
         // TODO @Khlutkova fix after update browsers
         'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
 
