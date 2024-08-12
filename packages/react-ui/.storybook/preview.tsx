@@ -107,10 +107,6 @@ export const parameters: Meta['parameters'] = {
   creevey: {
     captureElement: '#test-element',
     skip: {
-      'not flat stories in flat browsers': {
-        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
-      },
       'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
       'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
     },
@@ -127,7 +123,7 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'DEFAULT_THEME',
+    defaultValue: 'THEME_2022',
     toolbar: {
       icon: 'paintbrush',
       items: Object.keys(themes),
