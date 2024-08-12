@@ -206,7 +206,7 @@ kind('Input', () => {
   story('InputTypeApi', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b|\bchromeDark\b|\bfirefoxDark\b)/ },
+        "themes don't affect logic": { in: /^(?!\b(chrome|firefox)(2022).*\b)/ },
       },
     });
 
