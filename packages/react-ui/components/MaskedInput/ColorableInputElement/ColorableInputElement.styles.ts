@@ -12,7 +12,5 @@ injectGlobal`
     background-repeat: repeat;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    transition: background-color 1s;
   }
 `;
