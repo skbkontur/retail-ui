@@ -438,10 +438,9 @@ class LoaderInSidePage extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -476,10 +475,9 @@ class SidePageAndSelect extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}

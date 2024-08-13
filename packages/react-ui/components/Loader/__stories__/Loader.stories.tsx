@@ -37,7 +37,7 @@ class ContentComponent extends React.Component<React.PropsWithChildren<ContentCo
           return (
             <div
               style={
-                theme.prototype.constructor.name === 'DarkTheme'
+                theme.prototype.constructor.name.includes('Dark')
                   ? { ...darkWrapperStyle, ...additionalStyle }
                   : { ...wrapperStyle, ...additionalStyle }
               }
@@ -232,7 +232,7 @@ export const WrapperWithCustomHeightAndInactiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />
@@ -252,7 +252,7 @@ export const WrapperWithCustomHeightAndActiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />

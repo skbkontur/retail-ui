@@ -68,7 +68,7 @@ export const WithWidth = () => (
       return (
         <div
           style={{
-            background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#eee',
+            background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#eee',
             padding: '30px 10px 10px',
             position: 'relative',
           }}
