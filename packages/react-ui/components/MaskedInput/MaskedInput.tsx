@@ -197,18 +197,17 @@ export const MaskedInput = forwardRefAndName(
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-      const { value, selectionStart } = e.currentTarget;
-
-      prevSelectionStart.current = selectionStart;
+      const { value, selectionStart, selectionEnd } = e.currentTarget;
 
       if (
-        (isKeyBackspace(e) && prevSelectionStart.current === 0) ||
+        (isKeyBackspace(e) && selectionStart === 0 && selectionEnd === 0) ||
         (isKeyDelete(e) && prevSelectionStart.current === value.length)
       ) {
         // Случаи, когда нажатие клавиш не тригерит `onInput`
         handleUnexpectedInput(value);
         prevValue.current = e.currentTarget.value;
       }
+      prevSelectionStart.current = selectionStart;
 
       props.onKeyDown?.(e);
     }
