@@ -6,7 +6,7 @@ import { Meta } from '@storybook/react';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
+import { MOBILE_THEME } from '../lib/theming/themes/MobileTheme';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
@@ -33,7 +33,7 @@ const customViewports = {
 const themes = {
   THEME_2022,
   THEME_2022_DARK,
-  DEFAULT_THEME_MOBILE,
+  MOBILE_THEME,
 };
 
 setFilter((fiber) => {

@@ -96,7 +96,7 @@ const config = {
       viewport: { width: 400, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME_MOBILE',
+        theme: 'MOBILE_THEME',
       },
       name: 'infrafront/chromeMobile',
       browserVersion: '100.0',
