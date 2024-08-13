@@ -1,12 +1,16 @@
 #### `mask`
 
-Паттерн ввода.
+Паттерн ввода. Пример с номером телефона.
 
 ```jsx harmony
+const [value, setValue] = React.useState('');
 
-<>
-  <MaskedInput mask="+7 (999) 999-99-99" placeholder="Номер телефона" />
-</>
+<MaskedInput
+  mask="+7 (999) 999-99-99"
+  placeholder="Номер телефона"
+  value={value}
+  onValueChange={setValue}
+/>
 ```
 
 #### `showMask`
@@ -16,17 +20,17 @@
 ```jsx harmony
 <>
   <code>always</code>
-  <br/>
+  <br />
   <MaskedInput mask="+7 (999) 999-99-99" showMask="always" placeholder="Номер телефона" />
-  <br/>
-  <br/>
+  <br />
+  <br />
   <code>focus</code>
-  <br/>
+  <br />
   <MaskedInput mask="+7 (999) 999-99-99" showMask="focus" placeholder="Номер телефона" />
-  <br/>
-  <br/>
+  <br />
+  <br />
   <code>never</code>
-  <br/>
+  <br />
   <MaskedInput mask="+7 (999) 999-99-99" showMask="never" placeholder="Номер телефона" />
 </>
 ```
@@ -95,7 +99,7 @@ lazy:            !(showMask === 'always' || (showMask === 'focus' && focused)),
 
 ---
 
-##### `imaskProps.unmask`
+#### `imaskProps.unmask`
 
 Можно сразу получать value без фиксированных символов маски
 
@@ -117,34 +121,37 @@ const [value, setValue] = React.useState('');
 </>
 ```
 
-##### `imaskProps.mask []`
+#### `imaskProps.mask []`
 
 Опциональные части маски.
 
 ```jsx harmony
+import { Checkbox } from '@skbkontur/react-ui';
+
 const [value, setValue] = React.useState('');
 const [complete, setComplete] = React.useState(false);
 
 
 <MaskedInput
   mask="99-999999[99]-99"
-  showMask="always"
-  rightIcon={complete ? '✅' : '⬜'}
+  showMask="never"
+  placeholder="ИНН"
+  rightIcon={<Checkbox checked={complete} style={{ pointerEvents: 'none' }} />}
+  onValueChange={setValue}
   imaskProps={{
-    onAccept: (v, imask) => {
-      setValue(v);
-      setComplete(imask.masked.isComplete);
-    }
+    onAccept: (_, imask) => setComplete(imask.masked.isComplete)
   }}
 />
 ```
 
-##### `imaskProps.mask {}`
+#### `imaskProps.mask {}`
 
 Фиксированные части маски, которые попадут в `value` при `unmask = true`. Любой невалидный символ (например`пробел`)
-переведёт каретку за фиксированный символ.
+перекинет каретку за фиксированный символ.
 
 ```jsx harmony
+import { Checkbox } from '@skbkontur/react-ui';
+
 const [value, setValue] = React.useState('');
 const [complete, setComplete] = React.useState(false);
 
@@ -154,21 +161,19 @@ const [complete, setComplete] = React.useState(false);
   <MaskedInput
     mask="aa[aaaaaaaaaaaaaaaaa]{@}aa[aaaaaaaaaaaaaaaaa]{\.}aa[aaaa]"
     showMask="always"
-    rightIcon={complete ? '✅' : '⬜'}
+    rightIcon={<Checkbox checked={complete} style={{ pointerEvents: 'none' }} />}
+    onValueChange={setValue}
     imaskProps={{
       unmask: true,
-      onAccept: (v, imask) => {
-        setValue(v);
-        setComplete(imask.masked.isComplete);
-      }
+      onAccept: (_, imask) => setComplete(imask.masked.isComplete)
     }}
   />
 </>
 ```
 
-##### `imaskProps.blocks`
+#### `imaskProps.blocks`
 
-Пример маски времени. Нажмите цифру `6`, чтобы сработало автозаполнение.
+Пример маски времени с автозаполнением.
 
 ```jsx harmony
 import IMask from 'imask';
