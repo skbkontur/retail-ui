@@ -1,7 +1,7 @@
-import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
-import { exposeGetters } from '../../../lib/theming/ThemeHelpers';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-export class BaseThemeInternal {
+export class BasicLightThemeInternal {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
@@ -2492,4 +2492,4 @@ export class BaseThemeInternal {
   //#endregion
 }
 
-export const BaseTheme = exposeGetters(BaseThemeInternal);
+export const BasicLightTheme = exposeGetters(BasicLightThemeInternal);

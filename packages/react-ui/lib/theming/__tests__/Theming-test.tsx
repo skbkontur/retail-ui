@@ -5,7 +5,7 @@ import { ThemeContext } from '../ThemeContext';
 import { applyMarkers, exposeGetters, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
-import { BaseThemeInternal, BaseTheme } from '../../../internal/themes/BaseTheme';
+import { BasicLightThemeInternal, BasicLightTheme } from '../../../internal/themes/BasicLightTheme';
 import { AnyObject } from '../../utils';
 
 const TEST_MARKERS = {
@@ -34,7 +34,10 @@ const getConsumedTheme = () => {
 
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
-const TestTheme = Object.setPrototypeOf(exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }), BaseTheme);
+const TestTheme = Object.setPrototypeOf(
+  exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }),
+  BasicLightTheme,
+);
 
 // test marker
 const markAsTest: Marker = (theme) => {
@@ -60,7 +63,7 @@ describe('Theming', () => {
         const theme = ThemeFactory.create(myTheme);
 
         expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.black).toEqual(BaseTheme.black);
+        expect(theme.black).toEqual(BasicLightTheme.black);
       });
       test('with args [theme, baseTheme]', () => {
         const theme = ThemeFactory.create(myTheme, TestTheme);
@@ -90,7 +93,7 @@ describe('Theming', () => {
     });
     test('getKeys()', () => {
       const keys_1 = ThemeFactory.getKeys(TestTheme);
-      const keys_2 = ThemeFactory.getKeys(BaseThemeInternal);
+      const keys_2 = ThemeFactory.getKeys(BasicLightThemeInternal);
 
       expect(keys_1).toEqual(keys_2);
     });

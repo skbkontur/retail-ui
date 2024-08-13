@@ -1,4 +1,4 @@
-import { BaseTheme } from '../../internal/themes/BaseTheme';
+import { BasicLightTheme } from '../../internal/themes/BasicLightTheme';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
@@ -7,21 +7,21 @@ import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 export class ThemeFactory {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
   public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
-    const base = baseTheme || BaseTheme;
+    const base = baseTheme || BasicLightTheme;
     return this.constructTheme(base, theme);
   }
 
   public static overrideBaseTheme(theme: Theme) {
     // copying theme variables
-    ThemeFactory.getKeys(BaseTheme).forEach((variableName) => {
+    ThemeFactory.getKeys(BasicLightTheme).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
-      Object.defineProperty(BaseTheme, variableName, descriptor);
+      Object.defineProperty(BasicLightTheme, variableName, descriptor);
     });
 
     // copying theme markers
     Object.values(REACT_UI_THEME_MARKERS).forEach((marker) => {
       const descriptor = findPropertyDescriptor(theme, marker.key);
-      Object.defineProperty(BaseTheme, marker.key, descriptor);
+      Object.defineProperty(BasicLightTheme, marker.key, descriptor);
     });
   }
 

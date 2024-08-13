@@ -1,6 +1,6 @@
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme2022Internal } from '../../../internal/themes/Theme2022';
-import { BaseTheme } from '../../../internal/themes/BaseTheme';
+import { BasicLightTheme } from '../../../internal/themes/BasicLightTheme';
 import { applyMarkers, markAsTheme2022 } from '../ThemeHelpers';
 
 const colorUpdateDark2024 = {
@@ -74,6 +74,6 @@ const colorUpdateDark2024 = {
 };
 
 export const THEME_2022 = applyMarkers(
-  ThemeFactory.create(colorUpdateDark2024, ThemeFactory.create(Theme2022Internal, BaseTheme)),
+  ThemeFactory.create(colorUpdateDark2024, ThemeFactory.create(Theme2022Internal, BasicLightTheme)),
   [markAsTheme2022],
 );
