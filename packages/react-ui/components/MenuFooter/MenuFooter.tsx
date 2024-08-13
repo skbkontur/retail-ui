@@ -13,9 +13,13 @@ import { styles } from './MenuFooter.styles';
 export type MenuFooterSize = SizeProp;
 
 export interface MenuFooterProps extends CommonProps {
+  /** Добавляет отступ иконке. */
   _enableIconPadding?: boolean;
+
+  /** @ignore */
   children: ReactNode;
-  /** Размер */
+
+  /** Задает размер. */
   size?: SizeProp;
 }
 

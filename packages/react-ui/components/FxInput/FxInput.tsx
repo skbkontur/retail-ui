@@ -23,21 +23,28 @@ export interface FxInputProps
     Override<
       CurrencyInputProps,
       {
-        /** Авто-режим */
+        /** Устанавливает авто-режим. */
         auto?: boolean;
-        /** Тип инпута */
+
+        /** Задает тип инпута */
         type?: 'currency' | InputProps['type'];
-        /** onRestore */
+
+        /** Задает функцию, которая вызывается при нажатии на кнопку Restore. */
         onRestore?: () => void;
-        /** onValueChange */
+
+        /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
-        /** Значение */
+
+        /** Задает значение инпута. */
         value?: React.ReactText;
-        /** ref Input'а */
+
+        /** Задает ref инпута. */
         refInput?: (element: CurrencyInput | Input | null) => void;
-        /** Убрать лишние нули после запятой */
+
+        /** Убирает лишние нули после запятой. */
         hideTrailingZeros?: boolean;
-        /** Позвоялет задать атрибут aria-label кнопке восстановления (restore button) */
+
+        /** Задает атрибут aria-label кнопке восстановления (restore button). */
         buttonAriaLabel?: AriaAttributes['aria-label'];
       }
     > {}

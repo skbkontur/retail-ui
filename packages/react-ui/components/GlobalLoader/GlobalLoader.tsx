@@ -9,47 +9,34 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
 export interface GlobalLoaderProps {
-  /**
-   * Время(ms) до появления лоадера
-   */
+  /** Устанавливает задержку в миллисекундах до появления лоадера. */
   delayBeforeShow?: number;
-  /**
-   * Время(ms) до исчезновения лоадера
-   */
+
+  /** Устанавливает задержку в миллисекундах до исчезновения лоадера. */
   delayBeforeHide?: number;
-  /**
-   * Ожидаемое время(ms) ответа сервера
-   */
+
+  /** Устанавливает ожидаемое время(ms) ответа сервера. */
   expectedResponseTime?: number;
-  /**
-   * Анимация лоадера в виде спиннера
-   */
+
+  /** Определяет, нужно ли показывать анимацию лоадера в виде спиннера. */
   rejected?: boolean;
-  /**
-   * Показывать лоадер
-   */
+
+  /** Определяет, показывать ли лоадер. */
   active?: boolean;
-  /**
-   * Не показывать анимацию
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
-  /**
-   * Коллбек, вызывающийся после появления лоадера
-   */
+
+  /** Задает коллбек, вызывающийся после появления лоадера. */
   onStart?(): void;
-  /**
-   * Коллбек, вызывающийся после исчезновения лоадера
-   */
+
+  /** Задает коллбек, вызывающийся после исчезновения лоадера. */
   onDone?(): void;
-  /**
-   * Коллбек, вызывающийся после вызова `GlobalLoader.reject()`.
-   * Или после установки пропа `rejected = true`
-   */
+
+  /** Задает коллбек, вызывающийся после вызова GlobalLoader.reject(). Или после установки пропа rejected = true. */
   onReject?(): void;
-  /**
-   * Коллбек, вызывающийся после вызова `GlobalLoader.accept()`.
-   * Или после установки пропа `rejected = false`
-   */
+
+  /** Задает коллбек, вызывающийся после вызова GlobalLoader.accept() или установки пропа rejected = false. */
   onAccept?(): void;
 }
 export interface GlobalLoaderState {

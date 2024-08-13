@@ -14,24 +14,17 @@ import { ModalContext } from './ModalContext';
 import { ModalSeparator } from './ModalSeparator';
 
 export interface ModalFooterProps extends CommonProps {
-  /**
-   * Включает серый цвет в футере
-   */
+  /** Включает серый цвет в футере. */
   panel?: boolean;
-  /**
-   * Закрепляет футер снизу модального окна
-   *
-   * На десктопе по умолчанию равен `true`
-   * На мобильных по умолчанию равен `false`
-   */
+
+  /** Закрепляет футер снизу модального окна.
+   * @default На десктопе - `true`, на мобильных - `false`. */
   sticky?: boolean;
-  /**
-   * Контент футера
-   */
+
+  /** Задает контент футера. */
   children?: ReactNode;
-  /**
-   * Задаёт отступ между элементами футера
-   */
+
+  /** Задает расстояние между элементами футера в пикселях. */
   gap?: GappedProps['gap'];
 }
 

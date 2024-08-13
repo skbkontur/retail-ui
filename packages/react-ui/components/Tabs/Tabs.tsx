@@ -24,42 +24,26 @@ interface TabType<T extends ValueBaseType> {
 }
 
 export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
-  /**
-   * Позволяет задать кастомный класс подчёркиванию таба.
-   */
+  /** Задает кастомный класс подчёркиванию таба. */
   indicatorClassName?: string;
 
-  /**
-   * Задаёт размер контрола.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+  /** Задает размер контрола. */
   size?: SizeProp;
 
-  /**
-   * Задаёт текущий активный `<Tab />`. Принимает `id` таба.
-   */
+  /** Задает текущий активный `<Tab />`. Принимает `id` таба. */
   value: T;
 
-  /**
-   * Функция, позволяющая изменить текущий активный `<Tab />`.
-   */
+  /** Задает функцию, изменяющую текущий активный `<Tab />`. */
   onValueChange?: (value: T) => void;
 
-  /**
-   * Переводит компонент в режим вертикального отображения.
-   * @default false
-   */
+  /** Задает расположение элементов по вертикали.
+   * @default false */
   vertical?: boolean;
 
-  /**
-   * `CSS`-свойство `width`.
-   */
+  /** Задает ширину компонента Tabs. */
   width?: number | string;
 
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его.
-   */
+  /** @ignore */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 

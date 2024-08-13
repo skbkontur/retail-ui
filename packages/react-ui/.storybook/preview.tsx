@@ -15,6 +15,7 @@ import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 
+import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 
@@ -66,7 +67,7 @@ const preview: Preview = {
     docs: {
       toc: {
         title: 'Содержание',
-        headingSelector: 'h1, h2, h3', // может еще что-то включить
+        headingSelector: 'h2, h3, h4', // может еще что-то включить
       },
     },
     creevey: {
@@ -98,7 +99,6 @@ const preview: Preview = {
       } else {
         document.body.classList.remove('dark');
       }
-
       if (storybookTheme !== DEFAULT_THEME) {
         return (
           <ThemeContext.Consumer>
@@ -112,7 +112,6 @@ const preview: Preview = {
           </ThemeContext.Consumer>
         );
       }
-
       return <Story />;
     },
     (Story) => (
@@ -140,6 +139,7 @@ const preview: Preview = {
         </ThemeContext.Consumer>
       );
     },
+    LocaleDecorator,
     FeatureFlagsDecorator,
   ],
 };
@@ -155,6 +155,17 @@ export const globalTypes = {
       icon: 'paintbrush',
       items: Object.keys(themes),
       showName: true,
+    },
+  },
+  locale: {
+    name: 'Locale',
+    description: 'React UI Locale',
+    defaultValue: 'ru',
+    toolbar: {
+      icon: 'globe',
+      items: Object.keys(toolbarItems),
+      showName: true,
+      dynamicTitle: true,
     },
   },
 };

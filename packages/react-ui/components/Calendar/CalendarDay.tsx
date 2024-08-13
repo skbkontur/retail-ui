@@ -14,10 +14,19 @@ import { styles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
 
 export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement> {
+  /** Устанавливает, является ли день текущим. */
   isToday?: boolean;
+
+  /** Устанавливает, является ли день выбранным. */
   isSelected?: boolean;
+
+  /** Устанавливает, является ли день недоступным. */
   isDisabled?: boolean;
+
+  /** Устанавливает, является ли день выходным. */
   isWeekend?: boolean;
+
+  /** Задает день. */
   date: string;
 }
 

@@ -8,6 +8,7 @@ import { OpenedIcon } from './OpenedIcon';
 
 export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'> &
   Pick<PasswordInputProps, 'size'> & {
+    /** Определяет, включена ли тема 2022. */
     isTheme2022: boolean;
   };
 

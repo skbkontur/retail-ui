@@ -25,12 +25,25 @@ export interface ScrollBarState {
 }
 
 export interface ScrollBarProps {
+  /** Инвертирует цвет скроллбара. */
   invert: boolean;
+
+  /** Задает ось скроллбара. */
   axis: ScrollAxis;
+
+  /** Задает HTML-атрибут class. */
   className?: string;
+
+  /** Задает функцию, которая вызывается при скролле. */
   onScroll?: (axis: ScrollAxis, state: ScrollBarScrollState, prevState: ScrollBarScrollState) => void;
+
+  /** Задает отступ от края экрана. */
   offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
+
+  /** Определяет, виден ли скроллбар. */
   isVisible: boolean;
 }
 

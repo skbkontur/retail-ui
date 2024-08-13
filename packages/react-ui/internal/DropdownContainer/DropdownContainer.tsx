@@ -32,9 +32,7 @@ export interface DropdownContainerProps
   offsetY?: number;
   offsetX?: number;
   hasFixedWidth?: boolean;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
+  /** Позволяет вручную задать текущую позицию выпадающего окна. */
   menuPos?: 'top' | 'bottom';
 }
 

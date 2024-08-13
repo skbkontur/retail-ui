@@ -25,60 +25,45 @@ export interface LinkProps
     Override<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
       {
-        /**
-         * Отключенное состояние.
-         */
+        /** Делает компонент недоступным. */
         disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
+
+        /** Задает HTML-атрибут `href` - адрес, на который следует перейти. */
         href?: string;
-        /**
-         * Добавляет ссылке иконку слева.
-         */
+
+        /** Добавляет иконку слева. */
         icon?: React.ReactElement;
-        /**
-         * Добавляет ссылке иконку справа.
-         */
+
+        /** Добавляет иконку справа. */
         rightIcon?: React.ReactElement;
-        /**
-         * Тема ссылки.
-         */
+
+        /** Задает тему ссылки. */
         use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
+
+        /** @ignore */
         _button?: boolean;
-        /**
-         * @ignore
-         */
+
+        /** @ignore */
         _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
+
+        /** Задает HTML-атрибут `tabindex`. */
         tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
+
+        /** Переводит кнопку в состояние загрузки. */
         loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
+
+        /** Задает функцию, которая вызывается при клике. */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 
-        /**
-         * Обычный объект с переменными темы.
-         * Он будет объединён с темой из контекста.
-         */
+        /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
         theme?: ThemeIn;
-        /**
-         * Компонент, используемый в качестве корневого узла.
-         * @ignore
-         */
+
+        /** Устанавливает компонент, используемый в качестве корневого узла.
+         * @ignore */
         as?: React.ElementType | keyof React.ReactHTML;
-        /**
-         * @ignore
-         */
+
+        /** Задает состояние фокуса.
+         * @ignore */
         focused?: boolean;
       }
     > {}

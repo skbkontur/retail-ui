@@ -1,12 +1,13 @@
 import * as CheckboxStories from './Checkbox.stories.tsx';
 import { Meta, Primary, Controls } from '@storybook/blocks';
-import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
 
 <Meta of={CheckboxStories} />
 
 # Checkbox
 
-[Компонент в Контур.Гайдах](https)
+Чекбокс используется для управления параметром с двумя состояниями.
+
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/selection-elements/checkbox/)
 
 ## Базовый пример
 
@@ -28,7 +29,7 @@ const [checked, setChecked] = React.useState(false);
 </Checkbox>;
 ```
 
-### У чекбокса есть несколько состояний.
+### Состояния чекбокса
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -37,7 +38,7 @@ const CheckboxWithState = ({ children, ...props }) => {
   const [checked, setChecked] = React.useState(false);
 
   return (
-    <Checkbox checked={checked} onValueChange={setChecked} {...props}>
+    <Checkbox checked={checked} onValueChange={setChecked} {...props} style={{ alignItems: 'center' }}>
       {children}
     </Checkbox>
   );
@@ -50,7 +51,9 @@ const CheckboxWithState = ({ children, ...props }) => {
 </Gapped>;
 ```
 
-### У чекбокса есть 3 стандартных размера.
+### Размер
+
+У чекбокса есть 3 стандартных размера.
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -68,7 +71,9 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-### Пример использования методов чекбокса `focus()` и `blur()`.
+### Фокусировка
+
+Пример использования методов чекбокса `focus()` и `blur()`.
 
 ```jsx harmony
 import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
@@ -100,8 +105,9 @@ let checkboxInstance = React.useRef(null);
 </Gapped>;
 ```
 
-### Чекбокс может находится в неопределённом состоянии.
+### Неопределенное состояние
 
+Чекбокс может находится в неопределённом состоянии.
 Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
 Это состояние влияет только на внешний вид и не влияет на состояние `checked`.
 
