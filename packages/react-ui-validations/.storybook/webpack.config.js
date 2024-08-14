@@ -9,7 +9,12 @@ module.exports = async ({ config }) => {
 
   config.entry.unshift('core-js/stable');
 
+  const filteredStorybooksWebpackRules = (config.module.rules || [])
+    .slice(2)
+    .filter((r) => r.test && r.test.test('.mdx'));
+
   config.module.rules = [
+    ...filteredStorybooksWebpackRules,
     {
       test: /\.(ts|tsx)$/,
       exclude: /node_modules/,
