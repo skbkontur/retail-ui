@@ -1,0 +1,14 @@
+import { Canvas, Meta } from '@storybook/blocks';
+import { Required } from '../Checkbox.stories';
+
+<Meta title="FeatureFlags validations" />
+
+# Feature flags validations
+
+Включение и отключение отдельных фич через ValidationsFeatureFlagsContext
+
+## Тестовый фиче-флаг
+
+При включении тестового фиче-флага должен появиться текст
+
+<Canvas of={Required} />
