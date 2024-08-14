@@ -29,44 +29,54 @@ import { ForwardIcon } from './ForwardIcon';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 export interface ItemComponentProps {
+  /** Определяет, является ли страница текущей. */
   active: boolean;
+
+  /** @ignore */
   children?: React.ReactNode;
+
+  /** Задает HTML-атрибут class. */
   className: string;
+
+  /** Задает функцию, которая вызывается при клике на элемент. */
   onClick: () => void;
+
+  /** Задает номер текущей страницы. */
   pageNumber: number | 'forward';
+
+  /** Задает HTML-атрибут `tabindex`. */
   tabIndex: number;
 }
 
 export interface PagingProps extends CommonProps {
   activePage: number;
-  /**
-   * Компонент обертки по умолчанию
-   * @default <span />
-   */
+  /** Компонент обертки по умолчанию.
+   * @default <span /> */
   component?: React.ComponentType<ItemComponentProps>;
+
+  /** Задает функцию, которая вызывается при переключении страницы. */
   onPageChange: (pageNumber: number) => void;
+
+  /** Задает общее количество страниц. */
   pagesCount: number;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Отключает навигационные подсказки.
-   * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
-   * (либо элемент в фокусе, либо globalListeners === true)
-   */
+
+  /** Отключает навигационные подсказки.
+   * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры (либо элемент в фокусе, либо globalListeners === true). */
   withoutNavigationHint?: boolean;
+
+  /** Задает подпить у пейджинга. */
   caption?: string;
-  /**
-   * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
-   * Если на странице используется несколько элементов
-   * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
-   * на каждом из них. Такие случаи лучше обрабатывать отдельно.
-   */
+
+  /** Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
+   * Если на странице используется несколько элементов **Paging** с useGlobalListener === true,
+   * то обработчик keyDown будет вызываться на каждом из них. Такие случаи лучше обрабатывать отдельно. */
   useGlobalListener?: boolean;
-  /**
-   * Определяет, нужно ли показывать `Paging` когда страница всего одна.
-   *
-   * Этот проп будет удалён в 5-ой версии библиотеки,
-   * так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
-   *
+
+  /** Определяет, нужно ли показывать `Paging` когда страница всего одна.
+   * Этот проп будет удалён в 5-ой версии библиотеки, так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
    * @default false
    */
   shouldBeVisibleWithLessThanTwoPages?: boolean;

@@ -16,30 +16,25 @@ const types = ['big', 'mini', 'normal'] as const;
 export type SpinnerType = (typeof types)[number];
 
 export interface SpinnerProps extends CommonProps {
-  /**
-   * Подпись под спиннером
-   */
+  /** Задает подпись под спиннером.
+   * @default "Загрузка" */
   caption?: React.ReactNode;
-  /**
-   * Переводит спиннер в "затемнённый режим"
-   *
-   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`
-   */
+
+  /** Переводит спиннер в "затемнённый режим".
+   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`. */
   dimmed?: boolean;
-  /**
-   * Размер спиннера и текста
-   *
-   * @default normal
-   */
+
+  /** Задает размер спиннера и текста.
+   * @default normal. */
   type?: SpinnerType;
+
+  /** Уменьшает спиннер для вставки в инлайн элемент. При type = "big"|"normal" размер спиннера уменьшается. */
   inline?: boolean;
-  /**
-   * Толщина спиннера
-   */
+
+  /** Задает толщину спиннера. */
   width?: number;
-  /**
-   * Цвет спиннера
-   */
+
+  /** Задает цвет спиннера. Не работает с пропом dimmed. */
   color?: React.CSSProperties['color'];
 }
 

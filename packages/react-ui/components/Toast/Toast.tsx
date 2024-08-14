@@ -29,12 +29,13 @@ export interface ToastState {
 }
 
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
+  /** Задает функцию, которая вызывается при возникновении тоста. */
   onPush?: (notification: string, action?: Action) => void;
+
+  /** Задает функцию, которая вызывается при закрытии тоста. */
   onClose?: (notification: string, action?: Action) => void;
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+
+  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
 

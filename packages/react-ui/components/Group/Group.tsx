@@ -14,6 +14,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { styles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
+  /** Задает длину компонента Group. */
   width?: React.CSSProperties['width'];
 }
 

@@ -45,44 +45,60 @@ const INPUT_PASS_PROPS = {
 export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
-    CommonProps {
+  extends CommonProps,
+    Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'> {
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Отвечает за отображение кнопки "Сегодня".
-   */
+
+  /** Отображает кнопку "Сегодня" в календаре. */
   enableTodayLink?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
+
+  /** Задает выравнивание меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает размер контрола. */
   size?: SizeProp;
+
+  /** Задает значение автокомплита. */
   value?: string | null;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задает ширину автокомплита. */
   width?: number | string;
+
+  /** Задает функцию, которая вызывается при потере датапикером фокуса. */
   onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+
+  /** Задает функцию, вызывающуюся при изменении value.
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange: (value: string) => void;
+
+  /** Задает функцию, которая вызывается при получении датапикером фокуса. */
   onFocus?: () => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (e: React.MouseEvent<any>) => void;
-  /**
-   * Использовать на мобильных устройствах нативный календарь для выбора дат.
-   *
-   * - На iOS нативный календарь не умеет работать с minDate и maxDate
-   */
+
+  /** Позволяет использовать на мобильных устройствах нативный календарь для выбора дат.
+   * На iOS нативный календарь не умеет работать с minDate и maxDate. */
   useMobileNativeDatePicker?: boolean;
 }
 
