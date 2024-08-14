@@ -1063,6 +1063,9 @@ export class BasicLightThemeInternal {
   public static get pagingForwardLinkColor() {
     return this.linkColor;
   }
+  public static get pagingForwardLinkDisabledColor() {
+    return this.linkDisabledColor;
+  }
   public static get pagingDotsDisabledColor() {
     return this.textColorDisabled;
   }

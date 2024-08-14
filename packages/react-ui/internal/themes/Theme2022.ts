@@ -531,6 +531,9 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static pagingDotsColor = '#ADADAD';
   public static pagingDotsDisabledColor = '#ADADAD';
   public static pagingForwardLinkColor = '#222222';
+  public static get pagingForwardLinkDisabledColor() {
+    return this.linkDisabledColor;
+  }
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
   //#endregion

@@ -48,6 +48,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  forwardLinkDisabled(t: Theme) {
+    return css`
+      color: ${t.pagingForwardLinkDisabledColor};
+      pointer-events: none;
+    `;
+  },
+
   pageLinkWrapper() {
     return css`
       display: inline-flex;
@@ -60,7 +67,7 @@ export const styles = memoizeStyle({
 
   pageLink(t: Theme) {
     return css`
-      box-sizing: content-box;
+      box-sizing: ${t.pagingPageLinkBoxSizing};
       border-radius: ${t.pagingPageLinkBorderRadius};
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
@@ -70,7 +77,6 @@ export const styles = memoizeStyle({
       min-width: ${t.pagingPageLinkMinWidth};
       padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
       text-decoration: none;
-      box-sizing: ${t.pagingPageLinkBoxSizing};
 
       &:hover {
         background: ${t.pagingPageLinkHoverBg};

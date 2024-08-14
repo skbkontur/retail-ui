@@ -225,7 +225,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       styles.pageLink(this.theme),
       styles.forwardLink(this.theme),
       focused && styles.pageLinkFocused(this.theme),
-      (disabled || this.props.disabled) && styles.pageLinkDisabled(this.theme),
+      (disabled || this.props.disabled) && styles.forwardLinkDisabled(this.theme),
     );
     const Component = this.getProps().component;
     const { forward } = this.locale;
