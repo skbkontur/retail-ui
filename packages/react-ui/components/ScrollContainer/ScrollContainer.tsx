@@ -81,7 +81,7 @@ export interface ScrollContainerProps extends CommonProps {
    * Отключить анимации
    */
   disableAnimations?: boolean;
-  scrollRef?: React.MutableRefObject<HTMLDivElement | null>;
+  scrollRef?: React.ForwardedRef<HTMLDivElement | null>;
 }
 
 export const ScrollContainerDataTids = {
@@ -205,7 +205,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
             style={innerStyle}
             ref={(el) => {
               this.refInner(el);
-              if (this.props.scrollRef) {
+              if (typeof this.props.scrollRef === 'function') {
+                this.props.scrollRef(el);
+              } else if (this.props.scrollRef) {
                 this.props.scrollRef.current = el;
               }
             }}
