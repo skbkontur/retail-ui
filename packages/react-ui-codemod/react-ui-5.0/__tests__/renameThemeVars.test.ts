@@ -20,7 +20,6 @@ defineInlineTest(
     textareaFontSize: '5px',
     radioSize: '5px',
     tabFontSize: '5px',
-    pagingForwardLinkDisabledColor: '#ADADAD',
   }, DEFAULT_THEME);
 `,
 `
@@ -36,7 +35,6 @@ defineInlineTest(
     textareaFontSizeSmall: '5px',
     radioSizeSmall: '5px',
     tabFontSizeLarge: '5px',
-    linkDisabledColor: '#ADADAD',
   }, DEFAULT_THEME);
 `,
   `rename theme variables`,

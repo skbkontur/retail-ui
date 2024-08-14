@@ -53,7 +53,6 @@ const RENAMED_VARS: Record<string, string> = {
   tabPaddingX: 'tabPaddingXLarge',
   tabsMarginX: 'tabPaddingXLarge',
   tabPaddingY: 'tabPaddingYLarge',
-  pagingForwardLinkDisabledColor: 'linkDisabledColor',
   dropdownMenuSelectedBg: 'menuItemSelectedBg',
   dropdownMenuHoverBg: 'menuItemHoverBg'
 };
