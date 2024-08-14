@@ -1,10 +1,12 @@
 import React from 'react';
 
-export type FeatureFlags = '';
+export type FeatureFlags = 'testFeature';
 
 export type ValidationsFeatureFlags = Partial<Record<FeatureFlags, boolean>>;
 
-export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {};
+export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
+  testFeature: false,
+};
 
 export const ValidationsFeatureFlagsContext =
   React.createContext<ValidationsFeatureFlags>(validationsFeatureFlagsDefault);

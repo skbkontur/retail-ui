@@ -4,6 +4,11 @@ import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 import { FocusMode } from './FocusMode';
+import {
+  getFullValidationsFlagsContext,
+  ValidationsFeatureFlags,
+  ValidationsFeatureFlagsContext,
+} from './utils/featureFlagsContext';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -157,8 +162,27 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
+  private featureFlags!: ValidationsFeatureFlags;
+
   private children = () => {
-    return <span>{this.props.children}</span>;
+    //
+    // Для теста фиче-флагов, удалить после ревью
+    //
+    return (
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullValidationsFlagsContext(flags);
+          if (this.featureFlags.testFeature) {
+            return <p style={{ color: 'green' }}>Фиче-флаг включен</p>;
+          }
+          return <span>{this.props.children}</span>;
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
+    );
+    // Конец теста фиче-флагов.
+    // Удалить все(импорты тоже), что внутри. Оставить только строку снизу со span.
+
+    // return <span>{this.props.children}</span>;
   };
 
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {

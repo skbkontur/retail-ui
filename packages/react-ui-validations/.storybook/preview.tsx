@@ -3,6 +3,9 @@ import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { withCreevey } from 'creevey/addon';
 import React from 'react';
 
+import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
+import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
+
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
   const isControlComponent = !!findAmongParents(
@@ -22,6 +25,7 @@ export const decorators = [
       <Story />
     </div>
   ),
+  FeatureFlagsDecorator,
   withCreevey(),
 ];
 
@@ -29,4 +33,10 @@ export const parameters = {
   creevey: {
     captureElement: '#test-element',
   },
+  options: {
+    storySort: {
+      order: ['FeatureFlags validations'],
+    },
+  },
+  multiselect: featureFlagsConfig,
 };
