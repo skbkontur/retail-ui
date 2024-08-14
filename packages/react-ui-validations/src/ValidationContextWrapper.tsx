@@ -162,28 +162,19 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
+  // удалить private featureFlags - используется для тестовой фичи
+  // для private children и render ниже в коментах версия, которая была до использования тестового фиче-флага
   private featureFlags!: ValidationsFeatureFlags;
+  private children = (flags: ValidationsFeatureFlags) => {
+    if (flags.testFeature) {
+      return <span style={{ color: 'green' }}>Фиче-флаг включен</span>;
+    }
 
-  private children = () => {
-    //
-    // Для теста фиче-флагов, удалить после ревью
-    //
-    return (
-      <ValidationsFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullValidationsFlagsContext(flags);
-          if (this.featureFlags.testFeature) {
-            return <p style={{ color: 'green' }}>Фиче-флаг включен</p>;
-          }
-          return <span>{this.props.children}</span>;
-        }}
-      </ValidationsFeatureFlagsContext.Consumer>
-    );
-    // Конец теста фиче-флагов.
-    // Удалить все(импорты тоже), что внутри. Оставить только строку снизу со span.
-
-    // return <span>{this.props.children}</span>;
+    return <span>{this.props.children}</span>;
   };
+  // private children = () => {
+  //   // return <span>{this.props.children}</span>;
+  // };
 
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {
     if (React.isValidElement(children)) {
@@ -196,6 +187,20 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   };
 
   public render() {
-    return <ValidationContext.Provider value={this}>{this.renderChildren(this.children())}</ValidationContext.Provider>;
+    return (
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullValidationsFlagsContext(flags);
+          return (
+            <ValidationContext.Provider value={this}>
+              {this.renderChildren(this.children(this.featureFlags))}
+            </ValidationContext.Provider>
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
+    );
   }
+  // public render() {
+  //   return <ValidationContext.Provider value={this}>{this.renderChildren(this.children())}</ValidationContext.Provider>;
+  // }
 }
