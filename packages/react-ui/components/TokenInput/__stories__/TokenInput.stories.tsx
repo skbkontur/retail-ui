@@ -184,6 +184,32 @@ export default {
   ],
 } as Meta;
 
+export const EmptyCombined: Story = () => {
+  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
+};
+EmptyCombined.storyName = 'empty combined';
+
+EmptyCombined.parameters = {
+  creevey: {
+    skip: {
+      'flaky tests': { in: ['firefox2022', 'firefox2022Dark'] },
+    },
+    tests: {
+      async selectFirst() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('a')
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
+
 export const Validations = () => {
   return (
     <Gapped vertical gap={10}>
@@ -251,32 +277,6 @@ export const EmptyWithoutReference = () => {
 };
 EmptyWithoutReference.storyName = 'empty without reference';
 EmptyWithoutReference.parameters = { creevey: { skip: true } };
-
-export const EmptyCombined: Story = () => {
-  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
-};
-EmptyCombined.storyName = 'empty combined';
-
-EmptyCombined.parameters = {
-  creevey: {
-    skip: {
-      'flaky tests': { in: ['firefox2022', 'firefox2022Dark'] },
-    },
-    tests: {
-      async selectFirst() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('a')
-          .perform();
-        await delay(1000);
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
 
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
