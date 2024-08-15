@@ -53,6 +53,13 @@ export interface MaskedProps {
    * @see https://imask.js.org/guide.html
    */
   imaskProps?: IMaskInputProps<HTMLInputElement>;
+  /**
+   * Раскрашивать символы маски
+   *
+   * @default true
+   * @ignore
+   */
+  colored?: boolean;
 }
 
 export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'password'>;
@@ -75,6 +82,7 @@ export const MaskedInput = forwardRefAndName(
       maskChar,
       formatChars,
       showMask = 'focus',
+      colored = true,
       imaskProps: { onAccept, ...customIMaskProps } = {},
       onValueChange,
       onUnexpectedInput,
@@ -122,9 +130,13 @@ export const MaskedInput = forwardRefAndName(
         onKeyDown={handleKeyDown}
         className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
-          <ColorableInputElement showOnFocus={false}>
+          colored ? (
+            <ColorableInputElement showOnFocus={false}>
+              <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
+            </ColorableInputElement>
+          ) : (
             <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
-          </ColorableInputElement>
+          )
         }
       />
     );
