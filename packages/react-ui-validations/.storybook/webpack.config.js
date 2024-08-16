@@ -9,6 +9,7 @@ module.exports = async ({ config }) => {
 
   config.entry.unshift('core-js/stable');
 
+  // storybook's rule for css doesn't handle .mdx
   const filteredStorybooksWebpackRules = (config.module.rules || [])
     .slice(2)
     .filter((r) => r.test && r.test.test('.mdx'));
