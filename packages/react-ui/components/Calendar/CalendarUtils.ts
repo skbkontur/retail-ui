@@ -75,11 +75,9 @@ export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map((x) => MonthViewModel.create(month + x, year));
 };
 
-export const getMonthInNativeFormat = (initialMonth: number | undefined) => {
-  if (initialMonth) {
-    return initialMonth - 1;
-  }
-};
+export const getMonthInNativeFormat = (month: number) => month - 1;
+
+export const getMonthInHumanFormat = (month: number) => month + 1;
 
 export const getInitialDate = ({
   today,

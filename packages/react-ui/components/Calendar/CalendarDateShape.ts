@@ -7,7 +7,7 @@ export interface CalendarDateShape {
 }
 
 export const isEqual = (a: Nullable<CalendarDateShape>, b: Nullable<CalendarDateShape>) =>
-  (!a && !b) || (a && b && a.year === b.year && a.month === b.month && a.date === b.date);
+  Boolean((!a && !b) || (a && b && a.year === b.year && a.month === b.month && a.date === b.date));
 
 export const comparator = (a: CalendarDateShape, b: CalendarDateShape) => {
   if (a.year < b.year) {
@@ -49,4 +49,14 @@ export const isBetween = (
     return false;
   }
   return true;
+};
+
+export const fromString = (dateString: string): CalendarDateShape => {
+  const [date, month, year] = dateString.split('.').map(Number);
+  return create(date, month, year);
+};
+
+export const toString = ({ date, month, year }: CalendarDateShape): string => {
+  const [d, m, y] = [date, month, year].map((x) => x.toString());
+  return `${d.padStart(2, '0')}.${m.padStart(2, '0')}.${y.padStart(4, '0')}`;
 };

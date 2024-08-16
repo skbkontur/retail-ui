@@ -52,7 +52,7 @@ export interface ButtonProps
   /** Превращает обычную кнопку в кнопку со стрелкой. */
   arrow?: boolean | 'left';
 
-  /** Даёт кнопке фокус после окончания загрузки страницы.*/
+  /** Устанавливает фокус на контроле после окончания загрузки страницы.*/
   autoFocus?: boolean;
 
   /** Убирает обводку у кнопки. */
@@ -61,18 +61,19 @@ export interface ButtonProps
   /** @ignore */
   checked?: boolean;
 
+  /** @ignore */
   children?: React.ReactNode;
 
   /** @ignore */
   corners?: React.CSSProperties;
 
-  /** Делает кнопку недоступной. */
+  /** Делает компонент недоступным. */
   disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
 
-  /** Задаёт состояние валидации при ошибке. */
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
@@ -123,7 +124,7 @@ export interface ButtonProps
   /** @ignore */
   visuallyFocused?: boolean;
 
-  /** Задаёт состояние валидации при предупреждении. */
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
 
   /** Задаёт ширину кнопки. */

@@ -17,6 +17,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -37,47 +38,50 @@ export const DateInputDataTids = {
 } as const;
 
 export interface DateInputProps extends CommonProps {
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
+
+  /** Устанавливает значение датаинпута. */
   value?: string;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Минимальная дата.
-   * @default '01.01.1900'
-   */
+
+  /** Задает минимальную возможную дату в формате `dd.mm.yyyy`. */
   minDate?: string;
-  /**
-   * Максимальная дата
-   * @default '31.12.2099'
-   */
+
+  /** Задает максимальную возможную дату в формате `dd.mm.yyyy` */
   maxDate?: string;
-  /**
-   * Ширина поля
-   * @default 125
-   */
+
+  /** Задает ширину поля. */
   width?: string | number;
+
+  /** Добавляет иконку календаря. */
   withIcon?: boolean;
-  /**
-   * Размер поля
-   * @default 'small'
-   */
+
+  /** Задает размер поля. */
   size?: SizeProp;
+
+  /** Задает функцию, которая вызывается при потере датаинпутом фокуса. */
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при клике на датаинпут. */
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при получении датаинпутом фокуса. */
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+
+  /** Задает функцию, которая вызывается при изменении value.
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange?: (value: string) => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
@@ -208,37 +212,39 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <InputLikeText
-          width={width}
-          ref={this.inputLikeTextRef}
-          size={size}
-          disabled={this.props.disabled}
-          error={this.props.error}
-          warning={this.props.warning}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onClick={this.props.onClick}
-          onKeyDown={this.handleKeyDown}
-          onMouseDownCapture={this.handleMouseDownCapture}
-          onPaste={this.handlePaste}
-          rightIcon={this.renderIcon()}
-          onDoubleClickCapture={this.handleDoubleClick}
-          onMouseDragStart={this.handleMouseDragStart}
-          onMouseDragEnd={this.handleMouseDragEnd}
-          value={this.iDateMediator.getInternalString()}
-          inputMode={'numeric'}
-          takeContentWidth
-        >
-          <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
-            <DateFragmentsView
-              ref={this.dateFragmentsViewRef}
-              fragments={this.iDateMediator.getFragments()}
-              onSelectDateComponent={this.handleSelectDateComponent}
-              selected={selected}
-              inputMode={inputMode}
-            />
-          </span>
-        </InputLikeText>
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <InputLikeText
+            width={width}
+            ref={this.inputLikeTextRef}
+            size={size}
+            disabled={this.props.disabled}
+            error={this.props.error}
+            warning={this.props.warning}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            onClick={this.props.onClick}
+            onKeyDown={this.handleKeyDown}
+            onMouseDownCapture={this.handleMouseDownCapture}
+            onPaste={this.handlePaste}
+            rightIcon={this.renderIcon()}
+            onDoubleClickCapture={this.handleDoubleClick}
+            onMouseDragStart={this.handleMouseDragStart}
+            onMouseDragEnd={this.handleMouseDragEnd}
+            value={this.iDateMediator.getInternalString()}
+            inputMode={'numeric'}
+            takeContentWidth
+          >
+            <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+              <DateFragmentsView
+                ref={this.dateFragmentsViewRef}
+                fragments={this.iDateMediator.getFragments()}
+                onSelectDateComponent={this.handleSelectDateComponent}
+                selected={selected}
+                inputMode={inputMode}
+              />
+            </span>
+          </InputLikeText>
+        </FocusControlWrapper>
       </CommonWrapper>
     );
   }
@@ -277,11 +283,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
+  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    const restored = this.iDateMediator.restore();
-    this.updateValue({ focused: false, selected: null, inputMode: false });
+    this.resetFocus();
 
     if (this.props.onBlur) {
+      const restored = this.iDateMediator.restore();
       if (restored) {
         e.persist();
         this.blurEvent = e;

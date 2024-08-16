@@ -5,8 +5,13 @@ import { CurrencyHelper } from './CurrencyHelper';
 import { CursorHelper } from './CursorHelper';
 
 export interface DecimalOptions {
+  /** Задает допустимое количество цифр целой части. Если передан 0, или fractionDigits=15, то и в целой части допускается только 0. */
   integerDigits?: Nullable<number>;
+
+  /** Устанавливает минимальное количество отображаемых знаков после запятой. */
   fractionDigits?: Nullable<number>;
+
+  /** Определяет, является ли число беззнаковым. */
   unsigned?: boolean;
 }
 

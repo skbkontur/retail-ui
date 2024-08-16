@@ -6,16 +6,17 @@ import { MaskedInputElement } from '../../internal/MaskedInputElement';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 export interface MaskedProps {
-  /** Паттерн маски */
+  /** Задает паттерн маски */
   mask: string;
-  /** Символ маски */
+
+  /** Устанавливает символ маски */
   maskChar?: Nullable<string>;
-  /**
-   * Словарь символов-регулярок для маски
-   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-   */
+
+  /** Задает словарь символов-регулярок для задания маски.
+   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' } */
   formatChars?: Record<string, string>;
-  /** Показывать символы маски */
+
+  /** Включает показ символов маски. */
   alwaysShowMask?: boolean;
 }
 

@@ -21,7 +21,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -30,29 +30,28 @@ export interface KebabProps
   extends Pick<AriaAttributes, 'aria-label'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
+  /** Делает компонент недоступным. */
   disabled?: boolean;
+
+  /** Задает размер контрола. */
   size?: SizeProp;
-  /**
-   * Список позиций доступных для расположения выпадашки.
-   *
+
+  /** Определяет список позиций, доступных для расположения выпадашки относительно `kebab`.
    * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
-   *
-   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
-   * @default ['bottom left', 'bottom right', 'top left', 'top right']
-   */
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']. */
   positions?: PopupPositionsType[];
+  positions2?: string;
+
+  /** Задает максимальную высоту меню. */
   menuMaxHeight?: number | string;
-  /**
-   * Не показывать анимацию
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
-  /**
-   * Кастомная иконка
-   */
+
+  /** Добавляет иконку слева. */
   icon?: React.ReactNode;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
+
+  /** @ignore */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
@@ -135,31 +134,25 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderMain() {
     const { disabled } = this.props;
     const { positions, disableAnimations, onOpen, onClose } = this.getProps();
+    const hasPin = !isTheme2022(this.theme);
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          const hasPin = !getFullReactUIFlagsContext(flags).kebabHintRemovePin || !isTheme2022(this.theme);
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <PopupMenu
-                popupHasPin={hasPin}
-                preventIconsOffset={this.props.preventIconsOffset}
-                positions={positions}
-                onChangeMenuState={this.handleChangeMenuState}
-                caption={this.renderCaption}
-                disableAnimations={disableAnimations}
-                menuMaxHeight={this.props.menuMaxHeight}
-                onOpen={onOpen}
-                onClose={onClose}
-                popupMenuId={this.props.popupMenuId}
-                aria-label={this.props['aria-label']}
-              >
-                {!disabled && this.props.children}
-              </PopupMenu>
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
+        <PopupMenu
+          popupHasPin={hasPin}
+          preventIconsOffset={this.props.preventIconsOffset}
+          positions={positions}
+          onChangeMenuState={this.handleChangeMenuState}
+          caption={this.renderCaption}
+          disableAnimations={disableAnimations}
+          menuMaxHeight={this.props.menuMaxHeight}
+          onOpen={onOpen}
+          onClose={onClose}
+          popupMenuId={this.props.popupMenuId}
+          aria-label={this.props['aria-label']}
+        >
+          {!disabled && this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 

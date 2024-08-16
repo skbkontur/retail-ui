@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Group', () => {
+kind('Layout/Group', () => {
   story('SimpleGroupWithInputAndButton', () => {
     test('plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -9,7 +9,7 @@ kind('Group', () => {
     test('focused input', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: 'input' }))
         .perform();

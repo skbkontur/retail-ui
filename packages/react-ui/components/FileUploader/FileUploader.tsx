@@ -23,6 +23,7 @@ import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/us
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -39,39 +40,35 @@ type FileUploaderOverriddenProps = 'size';
 interface _FileUploaderProps
   extends CommonProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
-  /** Состояние ошибки всего контрола */
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /** Состояние предупреждения всего контрола */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
-  /** Свойство ширины. */
+
+  /** Задает длину компонента. */
   width?: React.CSSProperties['width'];
-  /**
-   * Задаёт размер контрола.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+
+  /** Задаёт размер контрола. */
   size?: SizeProp;
-  /** Свойство, скрывающее отображение файлов.  */
+
+  /** Скрывает отображение файлов. */
   hideFiles?: boolean;
 
-  /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
+  /** Задает функцию, через которую отправляются файлы. Используется для отслеживания статуса загрузки файла.
+   * @param {FileUploaderAttachedFile} file - файл, статус загрузки которого необходимо отследить. */
   request?: (file: FileUploaderAttachedFile) => Promise<void>;
-  /** Срабатывает при удачной попытке отправки через request */
+
+  /** Задает функцию, которая вызывается при удачной попытке отправки через request. */
   onRequestSuccess?: (fileId: string) => void;
-  /** Срабатывает при неудачной попытке отправки через request */
+
+  /** Задает функцию, которая вызывается при неудачной попытке отправки через request. */
   onRequestError?: (fileId: string) => void;
 
-  /**
-   * Функция валидации каждого файла.
-   * Срабатывает после выбора файлов и перед попыткой отправить в request.
-   * Чтобы вывести валидацию ошибки, промис должен вернуть строку.
-   * */
+  /** Определяет функцию валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. Чтобы вывести валидацию ошибки, промис должен вернуть строку. * */
   validateBeforeUpload?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
 
-  /**
-   * Функция, позволяющая кастомизировать файлы.
-   * Через нее можно вешать кастомные валидации на каждый файл.
-   * */
+  /** Задает функцию, которая позволяет кастомизировать файлы. Через нее можно вешать кастомные валидации на каждый файл. */
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
@@ -343,22 +340,24 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
                 )}
               </div>
             </div>
-            <input
-              {...inputProps}
-              data-tid={FileUploaderDataTids.input}
-              ref={inputRef}
-              tabIndex={disabled ? -1 : 0}
-              type="file"
-              disabled={disabled}
-              multiple={multiple}
-              className={jsStyles.visuallyHidden()}
-              onClick={stopPropagation}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-              value={''}
-            />
+            <FocusControlWrapper onBlurWhenDisabled={() => setFocusedByTab(false)}>
+              <input
+                {...inputProps}
+                data-tid={FileUploaderDataTids.input}
+                ref={inputRef}
+                tabIndex={disabled ? -1 : 0}
+                type="file"
+                disabled={disabled}
+                multiple={multiple}
+                className={jsStyles.visuallyHidden()}
+                onClick={stopPropagation}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+                value={''}
+              />
+            </FocusControlWrapper>
           </label>
         </div>
       </div>

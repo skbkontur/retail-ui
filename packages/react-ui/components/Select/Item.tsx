@@ -3,7 +3,10 @@ import React from 'react';
 import { MenuItem } from '../MenuItem';
 
 interface ItemProps {
+  /** @ignore */
   children?: React.ReactNode;
+
+  /** Запрещает выделение и выбор данного пункта. */
   isNotSelectable?: boolean;
 }
 export class Item extends React.Component<ItemProps> {

@@ -5,7 +5,7 @@ const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 const config: StorybookConfig = {
   stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx', '../components/**/*.mdx'],
   docs: {
-    docsMode: isDocsEnv ? true : false,
+    docsMode: isDocsEnv,
   },
   addons: [
     'creevey',
@@ -19,6 +19,7 @@ const config: StorybookConfig = {
         docsMode: true,
       },
     },
+    'storybook-addon-multiselect',
   ],
   framework: {
     name: '@storybook/react-webpack5',
@@ -26,6 +27,13 @@ const config: StorybookConfig = {
       legacyRootApi: true,
       fastRefresh: true,
       strictMode: true,
+    },
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter: (prop) => prop.description !== null && prop.description !== '',
     },
   },
 };

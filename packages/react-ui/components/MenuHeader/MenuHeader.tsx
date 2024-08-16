@@ -14,9 +14,13 @@ import { styles } from './MenuHeader.styles';
 export type MenuHeaderSize = SizeProp;
 
 export interface MenuHeaderProps extends CommonProps {
+  /** Добавляет отступ иконке. */
   _enableIconPadding?: boolean;
+
+  /** @ignore */
   children: ReactNode;
-  /** Размер */
+
+  /** Задает размер. */
   size?: SizeProp;
 }
 

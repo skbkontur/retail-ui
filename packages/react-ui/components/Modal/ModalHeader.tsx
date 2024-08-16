@@ -12,7 +12,10 @@ import { ModalContext } from './ModalContext';
 import { ModalSeparator } from './ModalSeparator';
 
 export interface ModalHeaderProps extends CommonProps {
+  /** Закрепляет хедер сверху модального окна. */
   sticky?: boolean;
+
+  /** @ignore */
   children?: ReactNode;
 }
 

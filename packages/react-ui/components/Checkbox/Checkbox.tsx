@@ -15,6 +15,7 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -31,43 +32,38 @@ export interface CheckboxProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Контент `label`
-         */
+        /** @ignore */
         children?: React.ReactNode;
-        /**
-         * Состояние валидации при ошибке.
-         */
+
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /** Размер */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /**
-         * HTML-событие `mouseenter`.
-         */
+
+        /** Задает HTML-событие `onmouseenter`.
+         * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`.
-         */
+
+        /** Задает HTML-событие `onmouseleave`.
+         * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseover`.
-         */
+
+        /** Задает HTML-событие `onmouseover`.
+         * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+
+        /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange?: (value: boolean) => void;
-        /**
-         * HTML-событие `onblur`.
-         */
+
+        /** Задает HTML-событие `onblur`.
+         * @ignore */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
-         */
+
+        /** Устанавливает начальное [неопределенное состояние чекбокса](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate). */
         initialIndeterminate?: boolean;
       }
     > {}
@@ -347,7 +343,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        </FocusControlWrapper>
         {box}
         {caption}
       </label>
@@ -370,9 +368,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByTab: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByTab: false });
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

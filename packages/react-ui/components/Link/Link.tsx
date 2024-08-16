@@ -14,7 +14,7 @@ import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
-import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { globalClasses, styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
@@ -25,60 +25,45 @@ export interface LinkProps
     Override<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
       {
-        /**
-         * Отключенное состояние.
-         */
+        /** Делает компонент недоступным. */
         disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
+
+        /** Задает HTML-атрибут `href` - адрес, на который следует перейти. */
         href?: string;
-        /**
-         * Добавляет ссылке иконку слева.
-         */
+
+        /** Добавляет иконку слева. */
         icon?: React.ReactElement;
-        /**
-         * Добавляет ссылке иконку справа.
-         */
+
+        /** Добавляет иконку справа. */
         rightIcon?: React.ReactElement;
-        /**
-         * Тема ссылки.
-         */
+
+        /** Задает тему ссылки. */
         use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
+
+        /** @ignore */
         _button?: boolean;
-        /**
-         * @ignore
-         */
+
+        /** @ignore */
         _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
+
+        /** Задает HTML-атрибут `tabindex`. */
         tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
+
+        /** Переводит кнопку в состояние загрузки. */
         loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
+
+        /** Задает функцию, которая вызывается при клике. */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 
-        /**
-         * Обычный объект с переменными темы.
-         * Он будет объединён с темой из контекста.
-         */
+        /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
         theme?: ThemeIn;
-        /**
-         * Компонент, используемый в качестве корневого узла.
-         * @ignore
-         */
+
+        /** Устанавливает компонент, используемый в качестве корневого узла.
+         * @ignore */
         as?: React.ElementType | keyof React.ReactHTML;
-        /**
-         * @ignore
-         */
+
+        /** Задает состояние фокуса.
+         * @ignore */
         focused?: boolean;
       }
     > {}
@@ -126,27 +111,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
-  private linkFocusOutline?: boolean;
 
   public render(): JSX.Element {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.linkFocusOutline = getFullReactUIFlagsContext(flags).linkFocusOutline;
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -225,7 +202,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
+      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps} {...getVisualStateDataAttributes({ disabled })}>
         {leftIconElement}
         {child}
         {rightIconElement}
@@ -281,7 +258,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
           isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
           isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
           isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
-          isFocused && _isTheme2022 && this.linkFocusOutline && styles.focus2022(this.theme),
+          isFocused && _isTheme2022 && styles.focus2022(this.theme),
         );
   }
 }

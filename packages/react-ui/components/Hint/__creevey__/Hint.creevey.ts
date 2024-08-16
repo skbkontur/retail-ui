@@ -2,13 +2,11 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Hint', () => {
+kind('Popup/Hint', () => {
   story('SetManualAndOpenedPropOnClick', () => {
     test('click on hint', async function () {
       await this.browser
-        .actions({
-          async: undefined, bridge: true,
-        })
+        .actions()
         .click(this.browser.findElement({ css: '#main' }))
         .perform();
       await delay(1000);
@@ -41,9 +39,7 @@ kind('Hint', () => {
 
     test('hover', async function () {
       await this.browser
-        .actions({
-          async: undefined, bridge: true,
-        })
+        .actions()
         .move({
           origin: this.browser.findElement({ css: '[data-tid="icon"]' }),
         })
@@ -55,11 +51,6 @@ kind('Hint', () => {
   story('top bottom center', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { "themes don't affect logic": { in: /^(?!\bchrome\b)/ } },
-    });
-  });
-  story('KebabHintRemovePinFeatureFlag', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { 'only for 22 theme': { in: /^(?!\b.*2022.*\b)/ } },
     });
   });
   story('HintNearScreenEdge', ({ setStoryParameters }) => {

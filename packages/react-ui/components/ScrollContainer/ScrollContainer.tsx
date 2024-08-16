@@ -32,54 +32,58 @@ type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
 type OffsetCSSPropsX = 'right' | 'bottom' | 'left';
 
 export interface ScrollContainerProps extends CommonProps {
-  /**
-   * Инвертировать цвет скроллбара
-   * @default false
-   */
+  /** Инвертирует цвет скроллбара.
+   * @default false */
   invert?: boolean;
+
+  /** Задает максимальную высоту. */
   maxHeight?: React.CSSProperties['maxHeight'];
+
+  /** Задает максимальную ширину. */
   maxWidth?: React.CSSProperties['maxWidth'];
-  /**
-   * @default false
-   */
+
+  /** Отключает скролл окна, когда меню открыто.
+   * @default false */
   preventWindowScroll?: boolean;
-  /**
-   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
-   * @default 'auto'
-   */
+
+  /** Задает поведение скролла. (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+   * @default 'auto' */
   scrollBehaviour?: ScrollBehaviour;
+
+  /** Задает функцию, которая вызывается при скроле по горизонтали. */
   onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
+
+  /** Задает функцию, которая вызывается при скроле по вертикали. */
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
-  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
+
+  /** Задает функцию, которая вызывается при скроле.
+   * @deprecated use onScroll */
+  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void;
+
+  /** Задает функцию, которая вызывается при скроле. */
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
-  /**
-   * Отключение кастомного скролла
-   */
+
+  /** Отключает кастомный скролл. */
   disabled?: boolean;
-  /**
-   * Смещение вертикального скроллбара
-   */
+
+  /** Задает смещение вертикального скроллбара. */
   offsetY?: Partial<Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>>;
-  /**
-   * Смещение горизонтального скроллбара
-   */
+
+  /** Задает смещение горизонтального скроллбара. */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
-  /**
-   * Скрывать скроллбар при отсутствии активности пользователя
-   * @deprecated use showScrollBar
-   */
+
+  /** Скрывает скроллбар при отсутствии активности пользователя.
+   * @deprecated use showScrollBar */
   hideScrollBar?: boolean;
-  /**
-   * Показывать скроллбар
-   */
+
+  /** Определяет, нужно ли показывать скроллбар. */
   showScrollBar?: 'always' | 'scroll' | 'hover' | 'never';
-  /**
-   * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`
-   */
+
+  /** Устанавливает задержку в миллисекундах перед скрытием скроллбара.
+   * Работает только при hideScrollBar = true или showScrollBar = 'scroll' | 'hover'. */
   hideScrollBarDelay?: number;
-  /**
-   * Отключить анимации
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
 }
 

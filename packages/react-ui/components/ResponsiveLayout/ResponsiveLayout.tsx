@@ -7,8 +7,13 @@ import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
 interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
+  /** Задает функцию, которая вызывается при изменении лейаута. */
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
+
+  /** @ignore */
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
+
+  /** Позволяет кастомизировать возвращаемые флаги. */
   customMediaQueries?: T;
 }
 

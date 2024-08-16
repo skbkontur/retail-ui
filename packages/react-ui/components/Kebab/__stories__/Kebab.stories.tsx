@@ -2,7 +2,6 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Meta, Story } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
@@ -42,15 +41,6 @@ Medium.storyName = '18px';
 
 export const Large: Story = () => <SomethingWithKebab size="large" />;
 Large.storyName = '20px';
-
-export const KebabHintRemovePinFeatureFlag: Story = () => {
-  return (
-    <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-      <SomethingWithKebab size="large" />
-    </ReactUIFeatureFlagsContext.Provider>
-  );
-};
-KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
 
 export const KebabWithCustomIcon: Story = () => {
   return (

@@ -42,57 +42,58 @@ export interface DropdownProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps,
     Pick<DropdownContainerProps, 'menuPos'> {
-  /**
-   * Подпись на кнопке.
-   */
+  /** Задает подпись на кнопке. */
   caption: React.ReactNode;
-  /**
-   * Иконка слева от текста кнопки
-   */
+
+  /** Добавляет иконку слева от текста кнопки. */
   icon?: React.ReactElement<any>;
+
+  /** Задает ширину выпадающего меню. */
   width?: React.CSSProperties['width'];
 
   /** @ignore */
   _renderButton?: (params: any) => JSX.Element;
 
-  /**
-   * Отключает использование портала
-   */
+  /** Отключает использование портала. */
   disablePortal?: boolean;
 
-  /**
-   * Визуально отключает Dropdown
-   */
+  /** Делает компонент недоступным.*/
   disabled?: boolean;
 
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задает максимальную высоту меню. */
   maxMenuHeight?: number;
+
+  /** Задает выравнивание выпадающего меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает длину меню. */
   menuWidth?: number | string;
+
+  /** Задает размер контрола. */
   size?: SizeProp;
 
-  /**
-   * Смотри Button.
-   */
+  /** Задаёт стиль кнопки. */
   use?: ButtonUse;
 
-  /**
-   * Вызывается при закрытии меню.
-   */
+  /** Задает функцию, которая вызывается при закрытии меню. */
   onClose?: () => void;
-  /**
-   * Вызывается при открытии меню.
-   */
+
+  /** Задает функцию, которая вызывается при открытии меню. */
   onOpen?: () => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
@@ -102,10 +103,7 @@ export const DropdownDataTids = {
   root: 'Dropdown__root',
 } as const;
 
-/**
- * Выпадающее меню.
- *
- */
+/** Выпадающее меню. */
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';

@@ -19,11 +19,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { SidePageBody } from './SidePageBody';
@@ -37,57 +32,35 @@ export interface SidePageProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<AriaAttributes, 'aria-label'> {
-  /**
-   * Добавить блокирующий фон, когда сайдпейдж открыт
-   */
+  /** Добавляет блокирующий фон, когда сайдпейдж открыт. */
   blockBackground?: boolean;
 
-  /**
-   * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
-   */
+  /** Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа. */
   disableClose?: boolean;
 
-  /**
-   * Не закрывать сайдпейдж при клике на фон.
-   */
+  /** Оставляет окно открытым при клике на фон. */
   ignoreBackgroundClick?: boolean;
 
-  /**
-   * Задать ширину сайдпейджа
-   */
+  /** Задает ширину сайдпейджа. */
   width?: number | string;
 
-  /**
-   * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
-   * Escape или на крестик).
-   */
+  /** Задает функцию, которая вызывается при запросе закрытия сайдпейджа пользователем (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
 
-  /**
-   * Вызывается, когда анимация открытия сайдпейджа полностью прошла
-   */
+  /** Задает функцию, которая вызывается при завершении анимации открытия сайдпейджа. */
   onOpened?: () => void;
 
-  /**
-   * Показывать сайдпэйдж слева
-   *
-   */
+  /** Отображает сайдпэйдж слева. */
   fromLeft?: boolean;
 
-  /**
-   * Отключить анимации
-   *
-   */
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
 
-  /**
-   * Работает только при заблокированном фоне: `blockBackground = true`
-   */
+  /** Отключает фокус-лок внутри сайдпейджа.
+   * Работает только при заблокированном фоне: `blockBackground = true`.*/
   disableFocusLock?: boolean;
 
-  /**
-   * задает отступ от края экрана
-   */
+  /** Задает отступ от края экрана. */
   offset?: number | string;
 }
 
@@ -169,23 +142,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getProps = createPropsGetter(SidePage.defaultProps);
 
-  private featureFlags!: ReactUIFeatureFlags;
-
   public render(): JSX.Element {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -235,7 +199,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (disableFocusLock !== undefined) {
       return disableFocusLock;
     }
-    return !this.featureFlags.sidePageEnableFocusLockWhenBackgroundBlocked;
+    return false;
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {

@@ -30,12 +30,12 @@ const topMiddleBottomModalTests = () => {
   });
 };
 
-kind('Modal', () => {
+kind('Overlays/Modal', () => {
   story('ModalWithFooterPanelStory', () => {
     test('open modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-comp-name~="Button"]:nth-of-type(1)' }))
         .perform();
@@ -48,7 +48,7 @@ kind('Modal', () => {
     test('open modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -61,7 +61,7 @@ kind('Modal', () => {
     test('open first modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-first-modal"]' }))
         .perform();
@@ -72,12 +72,12 @@ kind('Modal', () => {
     test('open second modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-first-modal"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="open-second-modal"]' }))
         .perform();
       await delay(100);
@@ -89,7 +89,7 @@ kind('Modal', () => {
     test('open modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -102,7 +102,7 @@ kind('Modal', () => {
     test('open modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -120,7 +120,7 @@ kind('Modal', () => {
     test('open modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -131,12 +131,12 @@ kind('Modal', () => {
     test('toggle content height', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '#modal-inner [data-comp-name~="Toggle"]' }))
         .pause(500)
         .perform();
@@ -152,7 +152,7 @@ kind('Modal', () => {
     test('open modal', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -163,12 +163,12 @@ kind('Modal', () => {
     test('close by click on the cross', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid="modal-close"]' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('close by click on the cross');
@@ -177,12 +177,12 @@ kind('Modal', () => {
     test("doesn't close by click on the content", async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid="modal-content-button"]' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage("doesn't close by click on the content");
@@ -191,12 +191,12 @@ kind('Modal', () => {
     test('closes by click on the background', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid="modal-container"]' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('closes by click on the background');
@@ -217,7 +217,7 @@ kind('Modal', () => {
     test('top', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -228,7 +228,7 @@ kind('Modal', () => {
     test('middle', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();
@@ -246,7 +246,7 @@ kind('Modal', () => {
     test('bottom', async function () {
       await this.browser
         .actions({
-          async: undefined, bridge: true,
+          bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
         .perform();

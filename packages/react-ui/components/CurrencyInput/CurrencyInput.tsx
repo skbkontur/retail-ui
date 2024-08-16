@@ -9,9 +9,10 @@ import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -25,22 +26,25 @@ export interface CurrencyInputProps
     Override<
       InputProps,
       {
-        /** Значение */
+        /** Задает значение инпута. */
         value?: Nullable<number>;
-        /** Убрать лишние нули после запятой */
+
+        /** Убирает лишние нули после запятой. */
         hideTrailingZeros?: boolean;
-        /** Кол-во цифр после запятой */
+
+        /** Устанавливает минимальное количество отображаемых знаков после запятой. */
         fractionDigits?: Nullable<number>;
-        /** Отрицательные значения */
+
+        /** Разрешает отрицательные значения. */
         signed?: boolean;
-        /**
-         * Допустимое кол-во цифр целой части.
-         * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
-         */
+
+        /** Задает допустимое количество цифр целой части. Если передан **0**, или fractionDigits=15, то и в целой части допускается только **0**. */
         integerDigits?: Nullable<number>;
-        /** Вызывается при изменении `value` */
+
+        /** Задает функцию, которая вызывается при изменении `value`. */
         onValueChange: (value: Nullable<number>) => void;
-        /** onSubmit */
+
+        /** Задает функцию, которая вызывается при отправке формы. */
         onSubmit?: () => void;
       }
     > {}
@@ -164,26 +168,28 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
 
     return (
-      <Input
-        data-tid={CurrencyInputDataTids.root}
-        {...rest}
-        align={this.getProps().align}
-        value={this.state.formatted}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onMouseUp={this.handleMouseUp}
-        onKeyDown={this.handleKeyDown}
-        onValueChange={this.handleValueChange}
-        onPaste={this.handlePaste}
-        onCopy={this.handleCopy}
-        onCut={this.handleCut}
-        aria-label={this.props['aria-label']}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
-        ref={this.refInput}
-        placeholder={this.state.focused ? '' : getPlaceholder(props)}
-      />
+      <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+        <Input
+          data-tid={CurrencyInputDataTids.root}
+          {...rest}
+          align={this.getProps().align}
+          value={this.state.formatted}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          onMouseUp={this.handleMouseUp}
+          onKeyDown={this.handleKeyDown}
+          onValueChange={this.handleValueChange}
+          onPaste={this.handlePaste}
+          onCopy={this.handleCopy}
+          onCut={this.handleCut}
+          aria-label={this.props['aria-label']}
+          onMouseEnter={this.props.onMouseEnter}
+          onMouseLeave={this.props.onMouseLeave}
+          onMouseOver={this.props.onMouseOver}
+          ref={this.refInput}
+          placeholder={this.state.focused ? '' : getPlaceholder(props)}
+        />
+      </FocusControlWrapper>
     );
   };
 
@@ -452,17 +458,18 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     }
   };
 
-  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  private resetFocus = () => {
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
       ...this.getState(value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
       focused: false,
     });
+  };
 
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private refInput = (element: Nullable<Input>) => {

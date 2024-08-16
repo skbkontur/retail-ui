@@ -6,6 +6,7 @@ import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
@@ -50,33 +51,43 @@ export interface AutocompleteProps
     Override<
       InputProps,
       {
-        /** Функция отрисовки элемента меню */
+        /** Задает функцию, которая отрисовывает элементы меню. */
         renderItem?: (item: string) => React.ReactNode;
-        /** Промис, резолвящий элементы меню */
+
+        /** Задает промис, который резолвит элементы меню. */
         source?: string[] | ((patter: string) => Promise<string[]>);
-        /** Отключает использование портала */
+
+        /** Отключает использование портала. */
         disablePortal?: boolean;
-        /** Отрисовка тени у выпадающего меню */
+
+        /** Определяет, нужно ли показывать тень у выпадающего меню. */
         hasShadow?: boolean;
-        /** Выравнивание выпадающего меню */
+
+        /** Задает выравнивание выпадающего меню. */
         menuAlign?: 'left' | 'right';
-        /** Максимальная высота меню */
+
+        /** Задает максимальную высоту выпадающего меню. */
         menuMaxHeight?: number | string;
-        /** Ширина меню */
+
+        /** Задает ширину выпадающего меню. */
         menuWidth?: number | string;
-        /** Отключить скролл окна, когда меню открыто */
+
+        /** Отключает скролл окна, когда меню открыто. */
         preventWindowScroll?: boolean;
-        /** Вызывается при изменении `value` */
+
+        /** Задает функцию, которая вызывается при изменении value. */
         onValueChange: (value: string) => void;
-        /** onBlur */
+
+        /** Задает функцию, которая вызывается при потере автокомплитом фокуса. */
         onBlur?: () => void;
-        /** Размер инпута */
+
+        /** Задаёт размер инпута. */
         size?: SizeProp;
-        /** value */
+
+        /** Задает значение автокомплита. */
         value: string;
-        /**
-         * Текст заголовка выпадающего меню в мобильной версии
-         */
+
+        /** Задает текст заголовка выпадающего меню в мобильной версии. */
         mobileMenuHeaderText?: string;
       }
     > {}
@@ -226,6 +237,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
+      menuPos,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
       'aria-label': ariaLabel,
@@ -235,6 +247,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const inputProps = {
       ...rest,
       width: '100%',
+      autoComplete: 'off',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -245,7 +258,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
-          className={styles.root(this.theme)}
+          className={cx(styles.root(this.theme), {
+            [styles.noPortal()]: disablePortal,
+          })}
           style={{ width }}
           ref={this.refRootSpan}
         >
@@ -305,6 +320,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
+      autoComplete: 'off',
       autoFocus: true,
       width: '100%',
       onValueChange: this.handleValueChange,

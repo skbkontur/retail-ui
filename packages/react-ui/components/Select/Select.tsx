@@ -36,11 +36,6 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -50,12 +45,25 @@ import { getSelectTheme } from './selectTheme';
 
 export interface ButtonParams
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'> {
+  /** Делает компонент недоступным. */
   disabled?: boolean;
+
+  /** Задает лейбл. */
   label: React.ReactNode;
+
+  /** Задает функцию, которая вызывается при клике на селект. */
   onClick: () => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
+
+  /** Определяет, открыто ли выпадающее меню. */
   opened: boolean;
+
+  /** Определяет, есть ли Placeholder. */
   isPlaceholder: boolean;
+
+  /** Задает размер контрола. */
   size: SizeProp;
 }
 
@@ -94,22 +102,26 @@ export interface SelectProps<TValue, TItem>
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
   /** @ignore */
   _icon?: React.ReactNode;
+
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
+
+  /** Задает значение по умолчанию. */
   defaultValue?: TValue;
-  /**
-   * Отключает использование портала
-   */
+
+  /** Отключает использование портала. */
   disablePortal?: boolean;
+
+  /** Делает компонент недоступным.*/
   disabled?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
+
+  /** Задает функцию, которая отфильтровывает элементы по заданному паттерну. */
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  /**
-   * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
-   * `Array`, `Map`, `Immutable.Map`.
+
+  /** Задает набор значений. Поддерживаются любые перечисляемые типы, в том числе `Array`, `Map`, `Immutable.Map`.
    *
    * Элементы воспринимаются следующим образом: если элемент — это массив, то
    * первый элемент является значением, второй — отображается в списке,
@@ -120,6 +132,7 @@ export interface SelectProps<TValue, TItem>
    * Для вставки разделителя можно использовать `Select.SEP`.
    *
    * Вставить невыделяемый элемент со своей разметкой можно так:
+   * @example
    * ```
    * <Select ...
    *   items={[Select.staticElement(() => <div>My Element</div>)]}
@@ -127,53 +140,82 @@ export interface SelectProps<TValue, TItem>
    * ```
    *
    * Чтобы добавить стандартный отступ для статического элемента:
+   * @example
    * ```
    * <Select.Item>My Element</Select.Item>
-   * ```
-   */
+   * ``` */
   items?: Array<SelectItem<TValue, TItem>>;
+
+  /** Задает максимальную высоту меню. */
   maxMenuHeight?: number;
+
+  /** Задает максимальную ширину. */
   maxWidth?: React.CSSProperties['maxWidth'];
+
+  /** Задает выравнивание меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает ширину выпадающего меню. */
   menuWidth?: React.CSSProperties['width'];
+
+  /** Задает функцию, вызывающуюся при изменении value. */
   onValueChange?: (value: TValue) => void;
+
+  /** Задает функцию, которая вызывается при закрытии меню. */
   onClose?: () => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave) */
   onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при открытии меню. */
   onOpen?: () => void;
+
+  /** Задает текст, который отображается если не введено никакое значение. */
   placeholder?: React.ReactNode;
-  /**
-   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
-   * *item*.
-   */
+
+  /** Задает функцию, которая отображает элемент в выпадающем списке. */
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-   */
+
+  /** Задает функцию, которая отображает выбранный элемент. */
   renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для сравнения `value` с элементом из `items`
-   */
+
+  /** Задает функцию сравнения `value` с элементом из `items`. */
   areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
-  /**
-   * Показывать строку поиска в списке.
-   */
+
+  /** Показывает строку поиска в списке. */
   search?: boolean;
+
+  /** Задает значение. */
   value?: TValue;
+
+  /** Задает длину контрола. */
   width?: number | string;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задаёт стиль кнопки. */
   use?: ButtonUse;
+
+  /** Задает размер. */
   size?: SizeProp;
+
+  /** Задаёт HTML-событие `onfocus`. */
   onFocus?: React.FocusEventHandler<HTMLElement>;
+
+  /** Задаёт HTML-событие `onblur`. */
   onBlur?: React.FocusEventHandler<HTMLElement>;
-  /**
-   * Текст заголовка выпадающего меню в мобильной версии
-   */
+
+  /** Задает текст заголовка выпадающего меню в мобильной версии. */
   mobileMenuHeaderText?: string;
 }
 
@@ -234,7 +276,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -247,24 +288,17 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = ThemeFactory.create(
-                  {
-                    menuOffsetY: theme.selectMenuOffsetY,
-                  },
-                  theme,
-                );
-                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
-              }}
-            </ThemeContext.Consumer>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = ThemeFactory.create(
+            {
+              menuOffsetY: theme.selectMenuOffsetY,
+            },
+            theme,
           );
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -641,10 +675,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private handleSearch = (value: string) => {
-    const menuItemsAtAnyLevel = this.featureFlags.menuItemsAtAnyLevel;
-
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(menuItemsAtAnyLevel ? 0 : 1);
+    this.menu?.highlightItem(0);
   };
 
   private select(value: TValue) {

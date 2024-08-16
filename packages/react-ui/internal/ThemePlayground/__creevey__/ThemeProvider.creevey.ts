@@ -40,7 +40,7 @@ kind('ThemeProvider', () => {
 
     test('dark theme top', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="dark"]' }))
         .perform();
       await delay(1000);
@@ -49,7 +49,7 @@ kind('ThemeProvider', () => {
 
     test('dark theme bottom', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="dark"]' }))
         .perform();
       await this.browser.executeScript(function () {
@@ -61,7 +61,7 @@ kind('ThemeProvider', () => {
 
     test('default old theme top', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="defaultOld"]' }))
         .perform();
       await delay(1000);
@@ -70,7 +70,7 @@ kind('ThemeProvider', () => {
 
     test('default old theme bottom', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="defaultOld"]' }))
         .perform();
       await this.browser.executeScript(function () {
@@ -82,7 +82,7 @@ kind('ThemeProvider', () => {
 
     test('flat old theme top', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="flatOld"]' }))
         .perform();
       await delay(500);
@@ -91,7 +91,7 @@ kind('ThemeProvider', () => {
 
     test('flat old theme bottom', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="flatOld"]' }))
         .perform();
       await this.browser.executeScript(function () {
@@ -103,7 +103,7 @@ kind('ThemeProvider', () => {
 
     test('theme 2022 top', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
         .perform();
       await delay(500);
@@ -112,7 +112,7 @@ kind('ThemeProvider', () => {
 
     test('theme 2022 bottom', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
         .perform();
       await this.browser.executeScript(function () {
@@ -124,7 +124,7 @@ kind('ThemeProvider', () => {
 
     test('theme 2022 dark top', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
         .perform();
       await delay(500);
@@ -133,7 +133,7 @@ kind('ThemeProvider', () => {
 
     test('theme 2022 dark bottom', async function () {
       await this.browser
-        .actions({ async: undefined, bridge: true })
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
         .perform();
       await this.browser.executeScript(function () {

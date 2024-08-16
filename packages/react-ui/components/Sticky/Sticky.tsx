@@ -18,13 +18,17 @@ import { styles } from './Sticky.styles';
 const MAX_REFLOW_RETRIES = 5;
 
 export interface StickyProps extends Omit<CommonProps, 'children'> {
+  /** Задает сторону залипания. */
   side: 'top' | 'bottom';
-  /**
-   * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
-   * @default 0
-   */
+
+  /** Задает отступ от края экрана в пикселях, на который сдвигается элемент в залипшем состоянии.
+   * @default 0 */
   offset?: number;
+
+  /** Задает функцию, которая возвращает DOM-элемент, который нельзя пересекать. */
   getStop?: () => Nullable<HTMLElement>;
+
+  /** @ignore */
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
 
