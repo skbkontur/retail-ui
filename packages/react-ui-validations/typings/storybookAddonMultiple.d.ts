@@ -10,11 +10,13 @@ export type AddonDisabled = {
 
 export type Addon = { [key: string]: AddonEntry };
 
+export type ElementsType = Array<Reset | SingleSelect | MultiSelect>;
+
 export type AddonEntry = {
   name?: string;
   description?: string;
   icon?: ReactNode;
-  elements: Array<Reset | SingleSelect | MultiSelect>;
+  elements: ElementsType;
   viewMode?: 'story' | 'docs' | 'both';
 };
 
