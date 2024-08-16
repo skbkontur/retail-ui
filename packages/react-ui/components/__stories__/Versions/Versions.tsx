@@ -2,10 +2,6 @@ import React from 'react';
 import { Loader } from '../../Loader';
 import { Link } from '../../Link';
 
-const baseUrl = 'https://ui.gitlab-pages.kontur.host/docs/react-ui-storybook';
-const createEndpoint = (path: string) => `${baseUrl}/${path}`;
-const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
-
 interface LibraryVersion {
   version: string;
   path: string;
@@ -13,6 +9,10 @@ interface LibraryVersion {
 interface ResponseData {
   versions: LibraryVersion[];
 }
+
+const baseUrl = 'https://ui.gitlab-pages.kontur.host/docs/react-ui-storybook';
+const createEndpoint = (path: string) => `${baseUrl}/${path}`;
+const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
 
 const renderLibraryVersionItem = ({ path, version }: LibraryVersion) => {
   return (
