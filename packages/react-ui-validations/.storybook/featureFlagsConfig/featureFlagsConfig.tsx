@@ -27,10 +27,11 @@ const createFeatureFlagsElements = (): ElementsType => {
     { type: 'reset' },
   ];
 
-  if (featureFlags.length === 0) {
-    return elements.filter((el) => 'queryKey' in el && el.queryKey === 'emptyFeatureFlags');
-  }
-  return elements;
+  return elements.filter((el) =>
+    featureFlags.length === 0
+      ? 'queryKey' in el && el.queryKey === 'emptyFeatureFlags'
+      : !('queryKey' in el && el.queryKey === 'emptyFeatureFlags'),
+  );
 };
 
 export const featureFlagsConfig: AddonConfig = {
