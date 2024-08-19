@@ -18,11 +18,9 @@ const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
 const renderLibraryVersionItem = ({ path, version }: LibraryVersion) => {
   return (
     <li key={path}>
-      {
-        <Link target="_blank" href={path}>
-          {version}
-        </Link>
-      }
+      <Link target="_blank" href={path}>
+        {version}
+      </Link>
     </li>
   );
 };
@@ -46,7 +44,9 @@ export const VersionsLibrary = () => {
         setIsLoading(true);
         const response = await fetch(jsonEndpoint);
         if (!response.ok) {
-          return Promise.reject(Error(`Ошибка при запросе: ${response.status}`));
+          setErrorMessage(`Ошибка при запросе: ${response.status}`);
+          setLibraryVersions([]);
+          return;
         }
         const { versions }: ResponseData = await response.json();
         setErrorMessage('');
