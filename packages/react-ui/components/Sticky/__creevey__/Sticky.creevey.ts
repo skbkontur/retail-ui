@@ -18,13 +18,7 @@ kind('Sticky', () => {
     });
   });
 
-  story('Top', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'flacky stopped position': { in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped' },
-      },
-    });
-
+  story('Top', () => {
     test('top', async function () {
       await delay(1000);
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');

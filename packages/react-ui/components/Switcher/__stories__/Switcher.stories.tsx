@@ -42,13 +42,6 @@ export const Errored = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
 Errored.storyName = 'errored';
-Errored.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['chromeFlat8px'] },
-    },
-  },
-};
 
 export const Disabled = () => {
   return (
@@ -61,13 +54,6 @@ export const Disabled = () => {
 };
 
 Disabled.storyName = 'disabled';
-Disabled.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] },
-    },
-  },
-};
 
 const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonProps> }> = [
   {

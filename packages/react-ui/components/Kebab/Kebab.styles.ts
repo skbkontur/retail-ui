@@ -4,7 +4,9 @@ import { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   kebab(t: Theme) {
     return css`
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       border: ${t.kebabBorder};
       box-sizing: border-box;
@@ -46,14 +48,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  kebab2022() {
-    return css`
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    `;
-  },
-
   focused(t: Theme) {
     return css`
       background: ${t.kebabBackgroundHover};
@@ -75,36 +69,6 @@ export const styles = memoizeStyle({
       &:hover {
         background: none;
       }
-    `;
-  },
-
-  icon(t: Theme) {
-    return css`
-      color: ${t.kebabIconColor};
-      line-height: 1;
-    `;
-  },
-
-  iconsmall(t: Theme) {
-    return css`
-      margin-top: 2px;
-      font-size: ${t.kebabIconSizeSmall};
-    `;
-  },
-
-  iconmedium(t: Theme) {
-    return css`
-      margin-top: -1px;
-      margin-left: 0.5px;
-      font-size: ${t.kebabIconSizeMedium};
-    `;
-  },
-
-  iconlarge(t: Theme) {
-    return css`
-      margin-top: -2px;
-      margin-left: 1px;
-      font-size: ${t.kebabIconSizeLarge};
     `;
   },
 

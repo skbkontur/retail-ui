@@ -73,7 +73,7 @@ export const CalendarWithCustomDates: Story = () => {
 CalendarWithCustomDates.parameters = {
   creevey: {
     skip: {
-      'no themes': { in: /^(?!\b(chrome|firefox)\b)/ },
+      'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
     },
   },
 };
@@ -82,7 +82,8 @@ export const CalendarWithCustomCellSize: Story = () => {
   return (
     <ThemeContext.Provider
       value={ThemeFactory.create({
-        calendarCellSize: '50px',
+        calendarCellHeight: '50px',
+        calendarCellWidth: '50px',
       })}
     >
       <Calendar value={'12.05.2022'} />;
@@ -93,7 +94,7 @@ export const CalendarWithCustomCellSize: Story = () => {
 CalendarWithCustomCellSize.parameters = {
   creevey: {
     skip: {
-      'no themes': { in: /^(?!\b(chrome|firefox)\b)/ },
+      'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
     },
   },
 };
@@ -188,6 +189,6 @@ export const CalendarWithPeriod = () => {
 
 CalendarWithPeriod.parameters = {
   creevey: {
-    skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } },
+    skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
   },
 };

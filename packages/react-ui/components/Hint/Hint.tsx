@@ -13,7 +13,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Hint.styles';
 
@@ -142,7 +141,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: theme.hintPinOffset,
                   popupMargin: theme.hintMargin,
                   popupBorder: theme.hintBorder,
                   popupBorderRadius: theme.hintBorderRadius,
@@ -160,12 +158,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
-    const hasPin = !isTheme2022(this.theme);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
-          hasPin={hasPin}
+          hasPin={false}
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}

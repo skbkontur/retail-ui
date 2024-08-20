@@ -68,8 +68,7 @@ kind('Menu', () => {
   story('WithDisabledMenuItem', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['mouseenter'] },
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['mouseenter'] },
       },
     });
 
@@ -85,7 +84,7 @@ kind('Menu', () => {
   });
   story('WithItemsWithIconsWithoutTextAlignment', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
 });

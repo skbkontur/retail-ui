@@ -10,16 +10,14 @@ import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
-import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
+import { CalendarIcon } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
@@ -252,7 +250,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
-      const icon = isTheme2022(theme) ? <CalendarIcon2022 size={size} /> : <CalendarIcon />;
+      const icon = <CalendarIcon size={size} />;
       const iconStyles = cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',

@@ -315,6 +315,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
   public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
   public static pagingForwardLinkColor = 'rgba(255, 255, 255, 0.87)';
+  public static get pagingForwardLinkDisabledColor() {
+    return this.linkDisabledColor;
+  }
   //#endregion
 
   //#region GlobalLoader

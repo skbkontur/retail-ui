@@ -8,6 +8,10 @@ kind('CurrencyInput', () => {
           in: ['chromeDark'],
           tests: ['Focus', 'Input value', 'External focus and input'],
         },
+        'flaky pixels in the bottom left corner': {
+          in: ['chrome2022'],
+          tests: ['External focus and input'],
+        },
       },
     });
 

@@ -6,16 +6,11 @@ import { Meta } from '@storybook/react';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
-import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
-import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
-import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
-// import { THEME_2022 } from '../lib/theming/themes/Theme2022'; //TODO restore back in 5.0
-// import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark'; //TODO restore back in 5.0
+import { MOBILE_THEME } from '../lib/theming/themes/MobileTheme';
+import { THEME_2022 } from '../lib/theming/themes/Theme2022';
+import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
-import { THEME_2022_UPDATE_2024 as THEME_2022 } from '../lib/theming/themes/Theme2022Update2024'; // TODO remove in 5.0
-import { THEME_2022_DARK_UPDATE_2024 as THEME_2022_DARK } from '../lib/theming/themes/Theme2022DarkUpdate2024'; // TODO remove in 5.0
+
 const customViewports = {
   iphone: {
     name: 'Iphone',
@@ -36,13 +31,9 @@ const customViewports = {
 };
 
 const themes = {
-  DEFAULT_THEME,
-  DARK_THEME,
-  DEFAULT_THEME_8PX_OLD,
-  FLAT_THEME_8PX_OLD,
-  DEFAULT_THEME_MOBILE,
   THEME_2022,
   THEME_2022_DARK,
+  MOBILE_THEME,
 };
 
 setFilter((fiber) => {
@@ -62,15 +53,14 @@ const MOBILE_REGEXP = /Mobile.*/i;
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
-    const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
-
-    if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
+    const storybookTheme = themes[context.globals.theme] || THEME_2022;
+    if ([THEME_2022_DARK].includes(storybookTheme)) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
 
-    if (storybookTheme !== DEFAULT_THEME) {
+    if (storybookTheme !== THEME_2022) {
       return (
         <ThemeContext.Consumer>
           {(theme) => {
@@ -117,10 +107,6 @@ export const parameters: Meta['parameters'] = {
   creevey: {
     captureElement: '#test-element',
     skip: {
-      'not flat stories in flat browsers': {
-        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
-      },
       'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
       'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
     },
@@ -137,7 +123,7 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'DEFAULT_THEME',
+    defaultValue: 'THEME_2022',
     toolbar: {
       icon: 'paintbrush',
       items: Object.keys(themes),

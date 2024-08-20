@@ -6,14 +6,8 @@ kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark', 'ie112022', 'ie112022Dark'],
-          tests: ['hovered', 'selected_2', 'select_1'],
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
       },
@@ -238,14 +232,8 @@ kind('ComboBox', () => {
   story('OpenToTop', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hovered',
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
       },
@@ -463,7 +451,7 @@ kind('ComboBox', () => {
 
   story('WithManualPosition', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
+      skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
 
     test('opened top with portal', async function () {

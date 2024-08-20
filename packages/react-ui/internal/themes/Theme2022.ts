@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { DefaultThemeInternal } from './DefaultTheme';
+import { BasicLightTheme } from './BasicLightTheme';
 
-export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
+export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
@@ -112,35 +112,19 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
 
-  /**
-   * @deprecated use btnIconGapSmallLeft
-   */
-  public static btnIconGapSmall = '4px';
-  public static get btnIconGapSmallLeft() {
-    return this.btnIconGapSmall;
-  }
+  public static btnIconGapSmallLeft = '4px';
   public static get btnIconGapSmallRight() {
-    return this.btnIconGapSmall;
+    return this.btnIconGapSmallLeft;
   }
-  /**
-   * @deprecated use btnIconGapMediumLeft
-   */
-  public static btnIconGapMedium = '6px';
-  public static get btnIconGapMediumLeft() {
-    return this.btnIconGapMedium;
-  }
+
+  public static btnIconGapMediumLeft = '6px';
   public static get btnIconGapMediumRight() {
-    return this.btnIconGapMedium;
+    return this.btnIconGapMediumLeft;
   }
-  /**
-   * @deprecated use btnIconGapLargeLeft
-   */
-  public static btnIconGapLarge = '8px';
-  public static get btnIconGapLargeLeft() {
-    return this.btnIconGapLarge;
-  }
+
+  public static btnIconGapLargeLeft = '8px';
   public static get btnIconGapLargeRight() {
-    return this.btnIconGapLarge;
+    return this.btnIconGapLargeLeft;
   }
 
   public static btnWithIconPaddingLeftSmall = '8px';
@@ -212,7 +196,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Radio
-  public static radioBulletSize = '6px';
+  public static radioBulletSizeSmall = '6px';
   public static radioDisabledBg = '#F0F0F0';
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.1)`;
@@ -547,6 +531,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static pagingDotsColor = '#ADADAD';
   public static pagingDotsDisabledColor = '#ADADAD';
   public static pagingForwardLinkColor = '#222222';
+  public static get pagingForwardLinkDisabledColor() {
+    return this.linkDisabledColor;
+  }
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
   //#endregion
@@ -567,6 +554,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFontWeight = 'bold';
   public static sidePageBackingBg = '#000';
   public static sidePageBackingBgOpacity = '0.16';
+
+  public static sidePageCloseIconSize = '20px';
+  public static sidePageCloseButtonClickArea = '6px';
+  public static sidePageCloseButtonPadding = '32px';
+  public static sidePageHeaderStickyOffset = '9px';
+  public static mobileSidePageCloseButtonRightPadding = '12px';
+  public static sidePageCloseButtonWrapperOffsetTop = '4px';
   //#endregion
 
   //#region Tabs
@@ -586,7 +580,4 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const Theme2022Internal = Object.setPrototypeOf(
-  exposeGetters(Theme2022),
-  DefaultThemeInternal,
-) as typeof Theme2022;
+export const Theme2022Internal = Object.setPrototypeOf(exposeGetters(Theme2022), BasicLightTheme) as typeof Theme2022;

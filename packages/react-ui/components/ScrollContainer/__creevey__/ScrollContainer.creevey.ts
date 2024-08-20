@@ -161,7 +161,7 @@ kind('ScrollContainer', () => {
   });
 
   story('HideScrollBar', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox2022|chrome2022)\b)/ } } });
 
     test('hideScroll', async function () {
       const beforeScroll = await this.takeScreenshot();
@@ -185,7 +185,7 @@ kind('ScrollContainer', () => {
   });
 
   story('ScrollBarVisibleAfterTogglingDisabled', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     test('toggleDisabled', async function () {
       await this.browser
@@ -200,7 +200,7 @@ kind('ScrollContainer', () => {
   });
 
   story('ShowScrollBarOnScroll', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox2022|chrome2022)\b)/ } } });
 
     test('hideScroll', async function () {
       const beforeScroll = await this.takeScreenshot();
@@ -224,7 +224,7 @@ kind('ScrollContainer', () => {
   });
 
   story('ShowScrollBarOnHover', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'hover works only in firefox': { in: /^(?!\b(firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'hover works only in firefox': { in: /^(?!\b(firefox2022)\b)/ } } });
 
     test('hideScroll', async function () {
       this.browser
@@ -250,22 +250,22 @@ kind('ScrollContainer', () => {
   });
   story('NeverShowScrollBar', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\b(firefox2022|chrome2022)\b)/ } },
     });
   });
   story('OffsetY', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
   story('OffsetX', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
   story('OffsetYAndX', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
 });
