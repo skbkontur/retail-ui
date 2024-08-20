@@ -34,11 +34,10 @@ const renderLibraryVersions = (libraryVersions: LibraryVersion[]) => {
 };
 
 const renderErrorMessage = (errMessage?: string) => {
-  const fetchErrMessage = errMessage ? `Ошибка при запросе: ${errMessage}.` : 'Ошибка при запросе.';
   return (
     <>
       <p style={{ margin: '0' }}>Не удалось загрузить список версий.</p>
-      <p style={{ margin: '0' }}>{fetchErrMessage}</p>
+      <p style={{ margin: '0' }}>{errMessage ? `Ошибка при запросе: ${errMessage}.` : 'Ошибка при запросе.'}</p>
     </>
   );
 };
