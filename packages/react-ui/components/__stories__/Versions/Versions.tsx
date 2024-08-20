@@ -27,10 +27,20 @@ const renderLibraryVersionItem = ({ path, version }: LibraryVersion) => {
 
 const renderLibraryVersions = (libraryVersions: LibraryVersion[]) => {
   if (libraryVersions.length === 0) {
-    return 'Список версий пуст';
+    return <p>Список версий пуст.</p>;
   }
 
   return <ul>{libraryVersions.map((libraryVersion) => renderLibraryVersionItem(libraryVersion))}</ul>;
+};
+
+const renderErrorMessage = (errMessage?: string) => {
+  const fetchErrMessage = errMessage ? `Ошибка при запросе: ${errMessage}.` : 'Ошибка при запросе.';
+  return (
+    <>
+      <p style={{ margin: '0' }}>Не удалось загрузить список версий.</p>
+      <p style={{ margin: '0' }}>{fetchErrMessage}</p>
+    </>
+  );
 };
 
 export const VersionsLibrary = () => {
@@ -44,7 +54,7 @@ export const VersionsLibrary = () => {
         setIsLoading(true);
         const response = await fetch(jsonEndpoint);
         if (!response.ok) {
-          setErrorMessage(`Ошибка при запросе: ${response.status}`);
+          setErrorMessage(`${response.status}`);
           setLibraryVersions([]);
           return;
         }
@@ -52,7 +62,7 @@ export const VersionsLibrary = () => {
         setErrorMessage('');
         setLibraryVersions(versions);
       } catch (err) {
-        setErrorMessage(err?.message || 'Ошибка при запросе');
+        setErrorMessage(err?.message);
         setLibraryVersions([]);
       } finally {
         setIsLoading(false);
@@ -64,7 +74,7 @@ export const VersionsLibrary = () => {
 
   return (
     <Loader active={isLoading}>
-      {errMessage && <span>{errMessage}</span>}
+      {errMessage && renderErrorMessage(errMessage)}
       {!errMessage && !isLoading && renderLibraryVersions(libraryVersions)}
     </Loader>
   );
