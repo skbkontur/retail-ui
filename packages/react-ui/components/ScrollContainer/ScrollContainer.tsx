@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -22,7 +23,6 @@ import {
   convertScrollbarYScrollState,
 } from './ScrollContainer.helpers';
 import { ScrollAxis, ScrollBar, ScrollBarScrollState } from './ScrollBar';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export type ScrollContainerScrollStateX = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
