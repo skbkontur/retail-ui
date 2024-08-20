@@ -22,6 +22,7 @@ import {
   convertScrollbarYScrollState,
 } from './ScrollContainer.helpers';
 import { ScrollAxis, ScrollBar, ScrollBarScrollState } from './ScrollBar';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export type ScrollContainerScrollStateX = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
@@ -81,7 +82,7 @@ export interface ScrollContainerProps extends CommonProps {
    * Отключить анимации
    */
   disableAnimations?: boolean;
-  scrollRef?: React.ForwardedRef<HTMLDivElement | null>;
+  scrollRef?: React.Ref<HTMLDivElement | null>;
 }
 
 export const ScrollContainerDataTids = {
@@ -203,14 +204,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           {scrollbarX}
           <div
             style={innerStyle}
-            ref={(el) => {
-              this.refInner(el);
-              if (typeof this.props.scrollRef === 'function') {
-                this.props.scrollRef(el);
-              } else if (this.props.scrollRef) {
-                this.props.scrollRef.current = el;
-              }
-            }}
+            ref={this.refInner}
             className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
             data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
@@ -352,6 +346,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
     }
     this.inner = element;
+
+    if (this.props.scrollRef) {
+      callChildRef(this.props.scrollRef, element);
+    }
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
