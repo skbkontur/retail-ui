@@ -3,7 +3,12 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx', '../components/**/*.mdx'],
+  stories: [
+    '../components/**/Versions.mdx',
+    '../components/**/*.stories.tsx',
+    '../internal/**/*.stories.tsx',
+    '../components/**/*.mdx',
+  ],
   docs: {
     docsMode: isDocsEnv,
   },
@@ -35,6 +40,9 @@ const config: StorybookConfig = {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: (prop) => prop.description !== null && prop.description !== '',
     },
+  },
+  core: {
+    disableWhatsNewNotifications: true,
   },
 };
 export default config;
