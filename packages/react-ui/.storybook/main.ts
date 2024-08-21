@@ -36,5 +36,8 @@ const config: StorybookConfig = {
       propFilter: (prop) => prop.description !== null && prop.description !== '',
     },
   },
+  core: {
+    disableWhatsNewNotifications: true,
+  },
 };
 export default config;
