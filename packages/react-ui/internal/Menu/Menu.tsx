@@ -16,7 +16,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { styles } from './Menu.styles';
@@ -205,13 +204,11 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
     const { hasMargin, maxHeight, preventWindowScroll } = this.getProps();
 
-    const offsetY = isTheme2022(this.theme)
-      ? {
-          top: `${this.theme.scrollContainerScrollBarOffsetY}`,
-          right: 0,
-          bottom: `${this.theme.scrollContainerScrollBarOffsetY}`,
-        }
-      : {};
+    const offsetY = {
+      top: `${this.theme.scrollContainerScrollBarOffsetY}`,
+      right: 0,
+      bottom: `${this.theme.scrollContainerScrollBarOffsetY}`,
+    };
 
     const isMobile = this.isMobileLayout;
     return (

@@ -840,10 +840,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     switch (align) {
       case 'top':
       case 'bottom':
-        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinOffsetY);
+        return pinOffset || parseInt(this.theme.popupPinOffsetY);
       case 'left':
       case 'right':
-        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinOffsetX);
+        return pinOffset || parseInt(this.theme.popupPinOffsetX);
       case 'center':
       case 'middle':
         return 0;

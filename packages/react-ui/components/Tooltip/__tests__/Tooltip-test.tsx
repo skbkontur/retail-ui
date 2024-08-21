@@ -66,7 +66,7 @@ describe('Tooltip', () => {
           await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
-          expect(content).toContainHTML('viewBox="0 0 10 10"');
+          expect(content).toContainHTML('<svg');
           expect(content).toBeInTheDocument();
         });
       });

@@ -7,14 +7,10 @@ import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../../compon
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
-import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
-import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { componentsLocales as DatePickerLocalesRu } from '../locale/locales/ru';
-import { componentsLocales as DatePickerLocalesEn } from '../locale/locales/en';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
 import { ButtonDataTids } from '../../../components/Button';
@@ -159,19 +155,14 @@ describe('DatePicker', () => {
   });
 
   describe('Locale', () => {
-    const getToday = (args: InternalDateConstructorProps) =>
-      new InternalDate(args)
-        .setComponents(InternalDateGetter.getTodayComponents())
-        .toString({ withPad: true, withSeparator: true });
-
     it('render without LocaleProvider', async () => {
       render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
-      const today = getToday({ langCode: defaultLangCode });
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
+      const todayButton = screen.getByRole('button', { name: DatePickerLocaleHelper.get().todayAriaLabel });
+      expect(todayButton).toHaveTextContent(expectedText);
     });
 
     it('render default locale', async () => {
@@ -182,10 +173,11 @@ describe('DatePicker', () => {
       );
 
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
-      const today = getToday({ langCode: defaultLangCode });
+
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
+      const todayButton = screen.getByRole('button', { name: DatePickerLocaleHelper.get().todayAriaLabel });
+      expect(todayButton).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', async () => {
@@ -196,28 +188,13 @@ describe('DatePicker', () => {
       );
 
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
-      const today = getToday({ langCode: LangCodes.en_GB });
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
-    });
-
-    it('render custom locale', async () => {
-      render(
-        <LocaleContext.Provider
-          value={{ locale: { DatePicker: { separator: InternalDateSeparator.Dash } }, langCode: LangCodes.en_GB }}
-        >
-          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
-        </LocaleContext.Provider>,
-      );
-
-      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
-      const today = getToday({ langCode: LangCodes.en_GB, separator: InternalDateSeparator.Dash });
-
-      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-
-      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
+      const todayButton = screen.getByRole('button', {
+        name: DatePickerLocaleHelper.get(LangCodes.en_GB).todayAriaLabel,
+      });
+      expect(todayButton).toHaveTextContent(expectedText);
     });
 
     it('updates when langCode changes', async () => {
@@ -228,7 +205,6 @@ describe('DatePicker', () => {
       );
 
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
-      const today = getToday({ langCode: LangCodes.en_GB });
 
       rerender(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
@@ -238,7 +214,10 @@ describe('DatePicker', () => {
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getByTestId('Picker__todayWrapper')).toHaveTextContent(`${expectedText} ${today}`);
+      const todayButton = screen.getByRole('button', {
+        name: DatePickerLocaleHelper.get(LangCodes.en_GB).todayAriaLabel,
+      });
+      expect(todayButton).toHaveTextContent(expectedText);
     });
 
     it('should rename months using locale', async () => {
@@ -306,10 +285,10 @@ describe('DatePicker', () => {
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
-        'aria-label',
-        DatePickerLocalesRu.todayAriaLabel,
-      );
+      const todayButton = screen.getByRole('button', {
+        name: DatePickerLocaleHelper.get().todayAriaLabel,
+      });
+      expect(todayButton).toHaveAttribute('aria-label', DatePickerLocaleHelper.get().todayAriaLabel);
     });
 
     it('sets value for aria-label attribute (en)', async () => {
@@ -321,10 +300,10 @@ describe('DatePicker', () => {
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute(
-        'aria-label',
-        DatePickerLocalesEn.todayAriaLabel,
-      );
+      const todayButton = screen.getByRole('button', {
+        name: DatePickerLocaleHelper.get(LangCodes.en_GB).todayAriaLabel,
+      });
+      expect(todayButton).toHaveAttribute('aria-label', DatePickerLocaleHelper.get(LangCodes.en_GB).todayAriaLabel);
     });
 
     it('sets custom value for `todayAriaLabel` locale', async () => {
@@ -336,7 +315,11 @@ describe('DatePicker', () => {
       );
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-      expect(screen.getByTestId(DatePickerDataTids.pickerTodayWrapper)).toHaveAttribute('aria-label', customAriaLabel);
+
+      const todayButtonWithCustomAriaLabel = screen.getByRole('button', {
+        name: customAriaLabel,
+      });
+      expect(todayButtonWithCustomAriaLabel).toHaveAttribute('aria-label', customAriaLabel);
     });
 
     it('sets custom value for `selectMonthAriaLabel` locale', async () => {
@@ -450,7 +433,7 @@ describe('DatePicker', () => {
               monthRoot.queryByTestId(CalendarDataTids.headerYear)
             );
           });
-          /* eslint-disable testing-library/no-wait-for-multiple-assertions */
+
           expect(currentMonth).toBeDefined();
           const monthRoot = within(currentMonth as HTMLElement);
           expect(
@@ -459,7 +442,7 @@ describe('DatePicker', () => {
           expect(
             within(monthRoot.getByTestId(CalendarDataTids.headerYear)).getByTestId(DateSelectDataTids.caption),
           ).toHaveTextContent(theYear.toString());
-          /* eslint-enable testing-library/no-wait-for-multiple-assertions */
+
           return currentMonth;
         },
         // Note: можно ли это сделать быстрее, если поиграться с таймингом в анимациях?

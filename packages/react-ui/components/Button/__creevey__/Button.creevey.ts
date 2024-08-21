@@ -62,12 +62,8 @@ kind('Button', () => {
   story('PlaygroundDefault', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hover',
-        },
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hover', 'pressed', 'clicked'],
         },
         'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
@@ -80,16 +76,12 @@ kind('Button', () => {
   story('PlaygroundDisabled', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hover',
-        },
         'focus goes out of page and breaks other tests': {
           in: /firefox/,
           tests: 'tabPress',
         },
-        'story-skip-2': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hover', 'pressed', 'clicked'],
         },
       },
@@ -147,7 +139,7 @@ kind('Button', () => {
   });
   story('ArrowDisabled', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'not 2022': { in: /2022/ } },
+      skip: true,
     });
   });
   story('UnusedPropValues', ({ setStoryParameters }) => {

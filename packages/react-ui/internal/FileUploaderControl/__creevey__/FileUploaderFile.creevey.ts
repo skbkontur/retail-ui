@@ -5,7 +5,7 @@ kind('FileUploaderFile', () => {
     setStoryParameters({
       skip: {
         'story-skip-0': {
-          in: /^(?!\b(chrome)\b)/,
+          in: /^(?!\b(chrome2022)\b)/,
         },
       },
     });

@@ -253,7 +253,7 @@ class AlwaysOpened extends React.Component<AlwaysOpenedProps> {
                   hasShadow
                   anchorElement={this.state.anchor}
                   positions={this.props.positions}
-                  backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333333' : '#fff'}
+                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333333' : '#fff'}
                   pinSize={10}
                   pinOffset={7}
                   disableAnimations={isTestEnv}
@@ -333,7 +333,7 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps> {
                     opened={this.state.opened}
                     margin={13}
                     positions={['bottom left', 'bottom right', 'top left', 'top right']}
-                    backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff'}
+                    backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : '#fff'}
                     pinSize={10}
                     pinOffset={7}
                     disableAnimations={this.props.disableAnimations}
@@ -404,7 +404,7 @@ class FakeHint extends React.Component<FakeHintProps> {
                   anchorElement={this.state.anchor}
                   positions={this.props.positions}
                   margin={this.props.margin}
-                  backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333' : 'rgba(0, 0, 0, 0.65)'}
+                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : 'rgba(0, 0, 0, 0.65)'}
                   pinSize={10}
                   pinOffset={7}
                 >

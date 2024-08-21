@@ -6,13 +6,7 @@ kind('Dropdown', () => {
   story('SimpleDropdown', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'MenuItem hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark', 'chrome2022Dark'],
-          tests: ['MenuItem hover'],
-        },
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['MenuItem hover'] },
       },
     });
 
@@ -119,7 +113,7 @@ kind('Dropdown', () => {
   });
 
   story('WithManualPosition', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened top with portal', async function () {
       await this.browser

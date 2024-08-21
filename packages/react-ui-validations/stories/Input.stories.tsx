@@ -409,7 +409,7 @@ export const TooltipTopLeft: Story = () => {
     <ValidationContainer>
       <div style={{ paddingTop: 60 }}>
         <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top left')}>
-          <Input value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
+          <Input data-tid="test-input" value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
         </ValidationWrapper>
       </div>
     </ValidationContainer>

@@ -11,13 +11,6 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'Link',
-  parameters: {
-    creevey: {
-      skip: {
-        'kind-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      },
-    },
-  },
 };
 
 export const Simple: Story = () => <Link>Simple Link</Link>;

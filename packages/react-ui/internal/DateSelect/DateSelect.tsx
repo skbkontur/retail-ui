@@ -6,11 +6,9 @@ import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ArrowTriangleUpDownIcon } from '../icons/16px';
+import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ButtonParams, Select } from '../../components/Select';
 import { MenuItem } from '../../components/MenuItem';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
@@ -99,57 +97,16 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
   private menuId = DateSelectDataTids.menu + getRandomID();
 
   private renderButton = (params: ButtonParams) => {
-    if (isTheme2022(this.theme)) {
-      return this.renderButton2022(params);
-    }
-
     const { value, disabled } = this.props;
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
     const Tag = isInteractiveElement ? 'button' : 'span';
     const rootProps = {
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [styles.disabled()]: Boolean(disabled),
-      }),
+      className: cx(styles.root(this.theme), disabled && styles.disabled()),
       style: { width },
       onClick: disabled ? undefined : params.onClick,
       'aria-expanded': isInteractiveElement ? params.opened : undefined,
       'aria-controls': !disabled ? this.menuId : undefined,
-      'aria-label': isInteractiveElement
-        ? `${this.locale.selectChosenAriaLabel} ${
-            this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
-          } ${this.getItem(value)}`
-        : undefined,
-    };
-
-    return (
-      <Tag {...rootProps}>
-        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
-          {this.getItem(value)}
-          <div
-            className={cx({
-              [styles.arrow(this.theme)]: true,
-              [styles.arrowDisabled()]: Boolean(disabled),
-            })}
-          >
-            <ArrowTriangleUpDownIcon size={12} />
-          </div>
-        </div>
-      </Tag>
-    );
-  };
-
-  private renderButton2022(params: ButtonParams) {
-    const { value, disabled } = this.props;
-    const width = this.getProps().width;
-    const isInteractiveElement = !disabled;
-    const Tag = isInteractiveElement ? 'button' : 'span';
-    const rootProps = {
-      className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
-      style: { width },
-      onClick: disabled ? undefined : params.onClick,
-      'aria-expanded': isInteractiveElement ? params.opened : undefined,
       'aria-label': isInteractiveElement
         ? `${this.locale.selectChosenAriaLabel} ${
             this.getProps().type === 'year' ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel
@@ -167,7 +124,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
         )}
       </Tag>
     );
-  }
+  };
 
   public close() {
     this.selectRef.current?.close();
@@ -190,7 +147,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
         menuPos="middle"
         renderValue={this.getItem}
         items={this.getItems()}
-        menuOffset={parseInt(this.theme.menuPaddingX) + parseInt(this.theme.menuItemPaddingX)}
+        menuOffset={parseInt(this.theme.menuPaddingX) + parseInt(this.theme.menuItemPaddingXSmall)}
         onValueChange={onValueChange}
         aria-label={`${this.locale.selectChosenAriaLabel} ${
           this.isYearType ? this.locale.selectYearAriaLabel : this.locale.selectMonthAriaLabel

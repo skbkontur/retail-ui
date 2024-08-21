@@ -6,8 +6,6 @@ import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -403,34 +401,18 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       .setComponents(InternalDateGetter.getTodayComponents())
       .toString({ withPad: true, withSeparator: true });
 
-    if (isTheme2022(this.theme)) {
-      return (
-        <div style={{ margin: 8 }}>
-          <Button
-            aria-label={this.locale.todayAriaLabel}
-            data-tid={DatePickerDataTids.pickerTodayWrapper}
-            width="100%"
-            onClick={this.handleSelectToday(today)}
-            icon={<ArrowAUpIcon16Light />}
-          >
-            {this.locale.today}
-          </Button>
-        </div>
-      );
-    }
-
     return (
-      <button
-        aria-label={this.locale.todayAriaLabel}
-        data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
-          [styles.todayLinkWrapper(this.theme)]: true,
-        })}
-        onClick={this.handleSelectToday(today)}
-        tabIndex={-1}
-      >
-        {`${this.locale.today} ${today}`}
-      </button>
+      <div style={{ margin: 8 }}>
+        <Button
+          aria-label={this.locale.todayAriaLabel}
+          data-tid={DatePickerDataTids.pickerTodayWrapper}
+          width="100%"
+          onClick={this.handleSelectToday(today)}
+          icon={<ArrowAUpIcon16Light />}
+        >
+          {this.locale.today}
+        </Button>
+      </div>
     );
   }
 

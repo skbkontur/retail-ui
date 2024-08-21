@@ -23,6 +23,7 @@ import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAn
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SingleToast } from '../../../components/SingleToast';
 
 const linearLightGradient = `repeating-linear-gradient(
                                 60deg,
@@ -437,10 +438,9 @@ class LoaderInSidePage extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -475,10 +475,9 @@ class SidePageAndSelect extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -815,9 +814,10 @@ export const ToastOverEverything: Story = () => {
             <button data-tid="ref-toast" onClick={showRefToast}>
               Ref Toast
             </button>
+            <SingleToast />
             <button
               data-tid="static-toast"
-              onClick={() => Toast.push('Static Toast', { label: 'Close', handler: Toast.close })}
+              onClick={() => SingleToast.push('Static Toast', { label: 'Close', handler: SingleToast.close })}
             >
               Static Toast
             </button>

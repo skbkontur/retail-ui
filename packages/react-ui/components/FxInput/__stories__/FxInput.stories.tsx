@@ -114,7 +114,7 @@ class TestWrapper extends React.Component<React.PropsWithChildren<TestWrapperPro
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <div style={theme.prototype.constructor.name === 'DarkTheme' ? darkStyle : style}>
+            <div style={theme.prototype.constructor.name.includes('Dark') ? darkStyle : style}>
               {ruler && <BGRuler color="#888" left={10} right={9} />}
               {children}
             </div>

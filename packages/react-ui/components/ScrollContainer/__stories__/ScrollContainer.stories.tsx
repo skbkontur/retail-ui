@@ -148,7 +148,7 @@ export const WithScrollState = () => {
                     ))}
                   </ScrollContainer>
                 </div>
-                <div style={theme.prototype.constructor.name === 'DarkTheme' ? footerDarkStyles : footerStyles}>
+                <div style={theme.prototype.constructor.name.includes('Dark') ? footerDarkStyles : footerStyles}>
                   footer
                 </div>
               </div>

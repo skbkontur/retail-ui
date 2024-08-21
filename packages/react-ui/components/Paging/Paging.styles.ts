@@ -48,25 +48,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  forwardLinkFocused() {
-    return css`
-      text-decoration: underline;
-    `;
-  },
-
-  forwardIcon(t: Theme) {
-    return css`
-      vertical-align: -2px;
-      position: absolute;
-      margin-top: ${t.pagingForwardIconMarginTop};
-      right: 0;
-    `;
-  },
-
   forwardLinkDisabled(t: Theme) {
     return css`
       color: ${t.pagingForwardLinkDisabledColor};
-      cursor: default;
+      pointer-events: none;
     `;
   },
 
@@ -82,7 +67,7 @@ export const styles = memoizeStyle({
 
   pageLink(t: Theme) {
     return css`
-      box-sizing: content-box;
+      box-sizing: ${t.pagingPageLinkBoxSizing};
       border-radius: ${t.pagingPageLinkBorderRadius};
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
@@ -92,7 +77,6 @@ export const styles = memoizeStyle({
       min-width: ${t.pagingPageLinkMinWidth};
       padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
       text-decoration: none;
-      box-sizing: ${t.pagingPageLinkBoxSizing};
 
       &:hover {
         background: ${t.pagingPageLinkHoverBg};
