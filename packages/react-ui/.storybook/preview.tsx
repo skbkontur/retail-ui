@@ -83,7 +83,10 @@ const preview: Preview = {
       },
     },
     options: {
-      storySort: (a, b) => (a.title === b.title ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true })),
+      storySort: {
+        method: 'alphabetical',
+        order: ['Versions'],
+      },
     },
     viewport: {
       viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
