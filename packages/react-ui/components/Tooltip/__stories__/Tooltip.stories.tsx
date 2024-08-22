@@ -183,22 +183,23 @@ export const HoverOnChildOnly = () => (
 HoverOnChildOnly.storyName = 'hover on child only';
 HoverOnChildOnly.parameters = { creevey: { skip: true } };
 
-export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
-  <div style={{ padding: '150px', width: '500px' }}>
+export const TooltipsWithoutWrapperAroundInlineBlockWithRelativeWidth: Story = () => (
+  <div style={{ padding: '150px', width: '700px' }}>
     {PopupPinnablePositions.reduce(
       (child, position) => (
-        <Tooltip useWrapper={false} render={() => position} pos={position}>
+        <Tooltip useWrapper={false} render={() => position} pos={position} trigger="opened" closeButton={false}>
           {child}
         </Tooltip>
       ),
-      <Textarea rows={10} resize="none" width="50%">
-        {"I'm inline-block with 50% width.\n\nHover me!"}
+      <Textarea rows={20} resize="none" width="70%">
+        {"I'm inline-block with relative width."}
       </Textarea>,
     )}
   </div>
 );
-TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
-  'Tooltips without wrapper around inline-block with 50% width';
+TooltipsWithoutWrapperAroundInlineBlockWithRelativeWidth.storyName =
+  'Tooltips without wrapper around inline-block with relative width';
+TooltipsWithoutWrapperAroundInlineBlockWithRelativeWidth.parameters = { creevey: { delay: 2000 } };
 
 export const OpenedTooltipWithoutWrapper = () => (
   <TestTooltip useWrapper={false} trigger="opened" pos="left top">

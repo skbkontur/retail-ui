@@ -75,27 +75,6 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        flacky: { in: /chrome/, tests: ['hover'] },
-      },
-    });
-
-    test('hover', async function () {
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: this.browser.findElement({ css: 'textarea' }),
-        })
-        .perform();
-      await delay(2000);
-      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-    });
-  });
-
   story('TooltipWithExternalDynamicContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
