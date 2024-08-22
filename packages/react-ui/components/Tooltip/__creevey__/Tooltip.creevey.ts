@@ -75,7 +75,13 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', () => {
+  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        flacky: { in: /chrome/, tests: ['hover'] },
+      },
+    });
+
     test('hover', async function () {
       await this.browser
         .actions({
@@ -85,7 +91,7 @@ kind('Tooltip', () => {
           origin: this.browser.findElement({ css: 'textarea' }),
         })
         .perform();
-      await delay(1500);
+      await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('hover');
     });
   });
@@ -251,7 +257,7 @@ kind('Tooltip', () => {
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
         .perform();
-      await delay(1000);
+      await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
     });
 

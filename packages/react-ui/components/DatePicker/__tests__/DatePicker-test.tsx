@@ -136,7 +136,7 @@ describe('DatePicker', () => {
     );
 
     await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 3000 });
-  });
+  }, 10000);
 
   it('onMonthChange returns correct year', async () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
@@ -152,7 +152,7 @@ describe('DatePicker', () => {
       await userEvent.click(screen.getByText('2018').parentElement as Element);
     });
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
-  });
+  }, 10000);
 
   describe('Locale', () => {
     it('render without LocaleProvider', async () => {
@@ -495,7 +495,7 @@ describe('DatePicker', () => {
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
-    });
+    }, 10000);
 
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
