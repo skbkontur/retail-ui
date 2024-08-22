@@ -37,7 +37,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             public KebabPopup(ISearchContainer container, ISelector selector)
                 : base(container, selector)
             {
-                Menu = new Menu(this, new UniversalSelector("[data-comp-name~='Menu'], [data-comp-name~='InternalMenu']"));
+                Menu = new Menu(this, new UniversalSelector("[data-comp-name~='Menu']"));
             }
 
             public Menu Menu { get; }
