@@ -1,4 +1,4 @@
-/* eslint-disable import/no-default-export */
+ 
 import { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
@@ -29,13 +29,13 @@ export default function transform(file: FileInfo, api: API) {
   let modified = false;
   const result = j(file.source)
     .find(j.ObjectExpression)
-    .find(j.Identifier, (node) => RENAMED_VARS[node.name])
+    .find(j.Identifier, (node) => !!RENAMED_VARS[node.name])
     .replaceWith((path) => {
       path.node.name = RENAMED_VARS[path.node.name];
       modified = true;
       return path.node;
     });
   if (modified) {
-    return result.toSource();
+    return result.toSource({ lineTerminator: '\n' });
   }
 }
