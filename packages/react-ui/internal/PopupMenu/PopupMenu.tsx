@@ -192,7 +192,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   onItemClick={this.handleItemSelection}
                   preventIconsOffset={this.props.preventIconsOffset}
                   cyclicSelection={false}
-                  ref={this.MenuRef}
+                  ref={this.menuRef}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
                   header={this.props.header}
                   footer={this.props.footer}
@@ -210,7 +210,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
-  private MenuRef = (element: Nullable<Menu>) => (this.menu = element);
+  private menuRef = (element: Nullable<Menu>) => (this.menu = element);
 
   private handleOpen = () => {
     if (this.menu) {
