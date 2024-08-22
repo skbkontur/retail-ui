@@ -858,7 +858,7 @@ export const activeStyles = memoizeStyle({
   backless(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, '', t.btnBorderWidth, '')}
+        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, '', t.btnBorderWidth)}
       }
     `;
   },
