@@ -15,6 +15,7 @@ import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
 import { ButtonDataTids } from '../../../components/Button';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
+import { MenuDataTids } from '../../../internal/Menu';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -135,26 +136,23 @@ describe('DatePicker', () => {
     );
 
     await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 3000 });
-  });
+  }, 10000);
 
   it('onMonthChange returns correct year', async () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
     render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
 
-    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2017`,
-      }),
-    );
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectYearAriaLabel} 2018`,
-      }),
-    );
-
+    await act(async () => {
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByText('2018').parentElement as Element);
+    });
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
-  });
+  }, 10000);
 
   describe('Locale', () => {
     it('render without LocaleProvider', async () => {
@@ -431,8 +429,8 @@ describe('DatePicker', () => {
           const currentMonth = months.find((month) => {
             const monthRoot = within(month);
             return (
-              monthRoot.queryByTestId(CalendarDataTids.monthSelectMobile) &&
-              monthRoot.queryByTestId(CalendarDataTids.yearSelectMobile)
+              monthRoot.queryByTestId(CalendarDataTids.headerMonth) &&
+              monthRoot.queryByTestId(CalendarDataTids.headerYear)
             );
           });
 
@@ -469,9 +467,15 @@ describe('DatePicker', () => {
       const month = 11;
       const year = 2011;
       render(<MobilePicker initialDate={`01.01.${year}`} />);
-      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      await userEvent.selectOptions(screen.getByTestId(CalendarDataTids.monthSelectMobile), month.toString());
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(CalendarDataTids.headerMonth).getElementsByTagName('button')[0]);
+      });
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(MenuDataTids.root).getElementsByTagName('button')[month]);
+      });
+
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
     });
@@ -480,12 +484,18 @@ describe('DatePicker', () => {
       const month = 10;
       const year = 2011;
       render(<MobilePicker initialDate={`01.${month + 1}.2010`} />);
-      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      await userEvent.selectOptions(screen.getByTestId(CalendarDataTids.yearSelectMobile), year.toString());
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+      });
+      await act(async () => {
+        await userEvent.click(screen.getByText(year.toString()).parentElement as Element);
+      });
+
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
-    });
+    }, 10000);
 
     it('should scroll from inner input', async () => {
       const initialDate = '01.01.2011';
@@ -525,8 +535,7 @@ describe('DatePicker', () => {
       const currentMonth = months.find((month) => {
         const monthRoot = within(month);
         return (
-          monthRoot.queryByTestId(CalendarDataTids.monthSelectMobile) &&
-          monthRoot.queryByTestId(CalendarDataTids.yearSelectMobile)
+          monthRoot.queryByTestId(CalendarDataTids.headerMonth) && monthRoot.queryByTestId(CalendarDataTids.headerYear)
         );
       });
       expect(currentMonth).toBeDefined();

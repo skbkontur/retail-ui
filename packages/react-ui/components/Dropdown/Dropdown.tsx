@@ -12,7 +12,6 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { SizeProp } from '../../lib/types/props';
 
 import { getDropdownTheme } from './getDropdownTheme';
@@ -38,10 +37,7 @@ const PASS_PROPS = {
   'aria-describedby': true,
 };
 
-export interface DropdownProps
-  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
-    CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'> {
+export interface DropdownProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   /**
    * Подпись на кнопке.
    */
@@ -74,6 +70,10 @@ export interface DropdownProps
    */
   warning?: boolean;
   maxMenuHeight?: number;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
   size?: SizeProp;
