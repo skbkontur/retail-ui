@@ -151,7 +151,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static linkGrayedHoverColor = '#FFFFFF';
   public static linkGrayedActiveColor = '#C2C2C2';
 
-  public static linkDisabledColor = 'rgba(255, 255, 255, 0.48)';
+  public static get linkDisabledColor() {
+    return this.textColorDisabled;
+  }
   public static linkFocusOutlineColor = '#EBEBEB';
   //#endregion Link
 
