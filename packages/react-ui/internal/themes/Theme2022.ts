@@ -91,7 +91,29 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
 
-  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06) !important';
+  public static btnBacklessBg = 'transparent';
+  public static get btnBacklessBorderColor() {
+    return this.btnDefaultBorderColor;
+  }
+
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06)';
+  public static get btnBacklessHoverBorderColor() {
+    return this.btnBacklessBorderColor;
+  }
+
+  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static get btnBacklessActiveBorderColor() {
+    return this.btnBacklessBorderColor;
+  }
+
+  public static get btnBacklessDisabledBorderColor() {
+    return this.btnDisabledBorderColor;
+  }
+
+  public static get btnBacklessTextColor() {
+    return this.btnDefaultTextColor;
+  }
+  public static btnBacklessHoverTextColor = '';
 
   public static btnTextBg = 'transparent';
   public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06)';
