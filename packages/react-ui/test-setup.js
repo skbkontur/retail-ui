@@ -59,6 +59,26 @@ global.MutationObserver = class {
   }
 };
 
+global.DataTransfer = class DataTransfer {
+  constructor() {
+    this.items = new Set();
+    this.files = this.items;
+  }
+};
+
+let files;
+
+beforeAll(() => (files = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files')));
+
+beforeEach(() =>
+  Object.defineProperty(HTMLInputElement.prototype, 'files', {
+    writable: true,
+    value: [],
+  }),
+);
+
+afterAll(() => Object.defineProperty(HTMLInputElement.prototype, 'files', files));
+
 global.ResizeObserver = class {
   disconnect() {
     /**/
