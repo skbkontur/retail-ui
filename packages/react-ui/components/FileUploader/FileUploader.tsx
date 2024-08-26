@@ -309,6 +309,41 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   };
   const icon = <UploadIcon size={iconSizes[size]} />;
 
+  useEffect(() => {
+    const handlePasteAnywhere = async () => {
+      if (!focusedByTab || !inputRef.current || !navigator.clipboard) {
+        return;
+      }
+
+      try {
+        const clipboardItems = await navigator.clipboard.read();
+        const item = clipboardItems[0];
+        const file = await item.getType(item.types[0]);
+        const dataTransfer = new DataTransfer();
+        //
+        const date = Date.now();
+        const formatter = new Intl.DateTimeFormat('ru', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        });
+        //
+        dataTransfer.items.add(new File([file], 'file-' + formatter.format(date), { type: file.type }));
+        handleChange(dataTransfer.files);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    globalObject.addEventListener?.('paste', handlePasteAnywhere);
+
+    return () => {
+      globalObject.removeEventListener?.('paste', handlePasteAnywhere);
+    };
+  }, [focusedByTab]);
+
   return (
     <CommonWrapper {...props}>
       <div
