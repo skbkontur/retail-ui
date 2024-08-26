@@ -162,7 +162,7 @@ export const WithCustomUnmaskedValue: Story = () => {
       <br />
       <MaskedInput
         {...DEFAULT_PROPS}
-        showMask="always"
+        alwaysShowMask
         value={value}
         onValueChange={(value) => setValue(value.replace(/\D/g, ''))}
       />
@@ -203,7 +203,7 @@ export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
     <br />
     <span>Самый простой способ обойти проблему - всегда показывать маску.</span>
     <br />
-    <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" showMask="always" />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" alwaysShowMask />
   </>
 );
 IdleFocusBlurAndUncontrolledWithDefaultValue.parameters = {
@@ -222,7 +222,7 @@ export const SelectAllByProp: Story = () => {
         value={value}
         onValueChange={setValue}
         selectAllOnFocus
-        showMask="always"
+        alwaysShowMask
       />
     </div>
   );
@@ -269,7 +269,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput {...DEFAULT_PROPS} value="+7 123 654" ref={(element) => (input = element)} showMask="always" />
+        <MaskedInput {...DEFAULT_PROPS} value="+7 123 654" ref={(element) => (input = element)} alwaysShowMask />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all
@@ -326,7 +326,7 @@ const testRewriteInMiddle: CreeveyTests = {
 export const RewriteInMiddle: Story = () => {
   const [value, setValue] = React.useState('12');
 
-  return <MaskedInput {...DEFAULT_PROPS} mask="9999" showMask="always" value={value} onValueChange={setValue} />;
+  return <MaskedInput {...DEFAULT_PROPS} mask="9999" alwaysShowMask value={value} onValueChange={setValue} />;
 };
 
 RewriteInMiddle.parameters = {

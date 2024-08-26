@@ -36,16 +36,16 @@ const maskStates: InputState[] = [
   { defaultValue: '956789010A' },
   { mask: '****', value: 'overflow' },
   { placeholder: 'mask with placeholder' },
-  { showMask: 'always' },
-  { showMask: 'always', maskChar: null },
-  { showMask: 'always', maskChar: 'X' },
-  { showMask: 'always', defaultValue: '95678901' },
-  { showMask: 'always', defaultValue: '956789010A' },
-  { showMask: 'always', placeholder: 'mask with placeholder' },
-  { showMask: 'always', type: 'email', mask: '*** ***', defaultValue: 'Value' },
-  { showMask: 'always', type: 'tel', mask: '*** ***', defaultValue: 'Value' },
-  { showMask: 'always', type: 'url', mask: '*** ***', defaultValue: 'Value' },
-  { showMask: 'always', type: 'search', mask: '*** ***', defaultValue: 'Value' },
+  { alwaysShowMask: true },
+  { alwaysShowMask: true, maskChar: null },
+  { alwaysShowMask: true, maskChar: 'X' },
+  { alwaysShowMask: true, defaultValue: '95678901' },
+  { alwaysShowMask: true, defaultValue: '956789010A' },
+  { alwaysShowMask: true, placeholder: 'mask with placeholder' },
+  { alwaysShowMask: true, type: 'email', mask: '*** ***', defaultValue: 'Value' },
+  { alwaysShowMask: true, type: 'tel', mask: '*** ***', defaultValue: 'Value' },
+  { alwaysShowMask: true, type: 'url', mask: '*** ***', defaultValue: 'Value' },
+  { alwaysShowMask: true, type: 'search', mask: '*** ***', defaultValue: 'Value' },
 ];
 
 export const PrefixOrSuffix: Story = () => (
@@ -92,7 +92,7 @@ const prefixesAndSuffixesStates: InputState[] = [
     prefix: 'prefix:',
     suffix: '/suffix',
     value: '+7987654321',
-    showMask: 'always',
+    alwaysShowMask: true,
   },
 ];
 
@@ -108,12 +108,12 @@ export const Validations: Story = () => (
 const validationsStates: InputState[] = [
   { warning: true },
   { value: '12', warning: true },
-  { showMask: 'always', warning: true },
-  { value: '12', showMask: 'always', warning: true },
+  { alwaysShowMask: true, warning: true },
+  { value: '12', alwaysShowMask: true, warning: true },
   { error: true },
   { value: '12', error: true },
-  { showMask: 'always', error: true },
-  { value: '12', showMask: 'always', error: true },
+  { alwaysShowMask: true, error: true },
+  { value: '12', alwaysShowMask: true, error: true },
 ];
 
 export const Positions: Story = () => (
@@ -121,7 +121,7 @@ export const Positions: Story = () => (
     Component={MaskedInput}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={positionsStates.map((x) => ({ props: x }))}
-    presetProps={{ showMask: 'always', mask: '**** **** ****' }}
+    presetProps={{ alwaysShowMask: true, mask: '**** **** ****' }}
   />
 );
 
@@ -146,9 +146,9 @@ export const Disabled: Story = () => (
 
 const disabledStates: InputState[] = [
   {},
-  { showMask: 'always' },
+  { alwaysShowMask: true },
   { value: '12' },
-  { value: '12', showMask: 'always' },
+  { value: '12', alwaysShowMask: true },
   { placeholder: 'Placeholder' },
 ];
 
@@ -217,7 +217,7 @@ export const AllLabGrotesqueStyles: Story = () => {
       Component={MaskedInput}
       cols={sizeStates.map((x) => ({ props: x }))}
       rows={fontStyles.map((x) => ({ props: { style: x } }))}
-      presetProps={{ mask: '+7 999-999-99-99', defaultValue: '123', showMask: 'always' }}
+      presetProps={{ mask: '+7 999-999-99-99', defaultValue: '123', alwaysShowMask: true }}
     />
   );
 };
@@ -248,13 +248,7 @@ const [propsPreset, propsSetA, propsSetB]: [
     { defaultValue: '1234' },
     { defaultValue: '+7 12' },
   ],
-  [
-    {},
-    { showMask: 'always' },
-    { imaskProps: { unmask: true } },
-    { imaskProps: { eager: 'remove' } },
-    { showMask: 'always', imaskProps: { unmask: true } },
-  ],
+  [{}, { alwaysShowMask: true }, { unmask: true }, { alwaysShowMask: true, unmask: true }],
 ];
 
 const testPropsSets: MaskedInputProps[] = [];

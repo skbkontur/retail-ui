@@ -16,28 +16,28 @@ describe('MaskedInput', () => {
     ['+999+', 'X', '+XXX+'],
     ['+9+9+', 'X', '+X+X+'],
   ])('mask "%s" with maskChar "%s" -> "%s"', (mask, maskChar, maskPlaceholder) => {
-    it('without `imaskProps={{ lazy: true }}`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} imaskProps={{ lazy: true }} />);
+    it('`alwaysShowMask` is false', () => {
+      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={false} />);
 
       expect(screen.getByRole('textbox')).toHaveValue('');
     });
 
-    it('with `alwaysShowMask`', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} showMask="always" />);
+    it('`alwaysShowMask` is true', () => {
+      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask />);
 
       expect(screen.getByRole('textbox')).toHaveValue(maskPlaceholder);
     });
   });
 
   describe.each([
-    ['+7 (999) 999-99-99', '+7 (912) 247', '+7 (912) 247-'],
-    ['+7 (999) 999-99-99', '+7 (912) abc', '+7 (912) '],
-    ['aa:aa', '122', ''],
-    ['999', 'ttt', ''],
-    ['99:aa', '11:22', '11:'],
+    ['+7 (999) 999-99-99', '+7 (912) 247', '+7 (912) 247-__-__'],
+    ['+7 (999) 999-99-99', '+7 (912) abc', '+7 (912) ___-__-__'],
+    ['aa:aa', '122', '__:__'],
+    ['999', 'ttt', '___'],
+    ['99:aa', '11:22', '11:__'],
   ])('mask "%s" pass value "%s" -> "%s"', (mask, value, expectedValue) => {
     it('when mounting', () => {
-      render(<MaskedInput value={value} maskChar="_" mask={mask} imaskProps={{ lazy: true }} />);
+      render(<MaskedInput value={value} maskChar="_" mask={mask} alwaysShowMask />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(expectedValue);
     });
@@ -81,7 +81,7 @@ describe('MaskedInput', () => {
   });
 
   it('fixed symbols on focus', () => {
-    render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" showMask="always" />);
+    render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" alwaysShowMask />);
 
     const input = screen.getByRole('textbox');
     input.focus();
@@ -94,7 +94,7 @@ describe('MaskedInput', () => {
     ['+7 (', '+7 ('],
     ['+7 (9', '+7 (9'],
   ])(`focus and blur with value '%s'`, (value, expectedValue) => {
-    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} imaskProps={{ lazy: true }} />);
+    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
 
     const input = screen.getByRole('textbox');
     input.focus();
@@ -110,10 +110,9 @@ describe('MaskedInput', () => {
       [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 1],
       [{ mask: '9-9-9-9' }, 'a', 1],
       [{ mask: '9-9-9-9' }, '{backspace}', 1],
-      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, '12345', 1],
-      [{ mask: '9-9-9-9', imaskProps: { unmask: true } }, `1234${'{backspace}'.repeat(8)}`, 1],
-      [{ mask: '9-9-9-9', imaskProps: { eager: 'remove' } }, '12345', 1],
-    ])('%j > %s > %s times', ({ imaskProps, ...props }, keys, expectedCount) => {
+      [{ mask: '9-9-9-9', unmask: true }, '12345', 1],
+      [{ mask: '9-9-9-9', unmask: true }, `1234${'{backspace}'.repeat(8)}`, 1],
+    ])('%j > %s > %s times', (props, keys, expectedCount) => {
       const handleUnexpectedInput = jest.fn();
       const Comp = () => {
         const [value, setValue] = useState('');
@@ -123,12 +122,16 @@ describe('MaskedInput', () => {
             value={value}
             onValueChange={setValue}
             onUnexpectedInput={handleUnexpectedInput}
-            imaskProps={{ ...imaskProps, lazy: true }}
+            imaskProps={{ lazy: true }}
           />
         );
       };
       render(<Comp />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      // input.selectionStart = 0;
+      // input.selectionEnd = 0;
+      input.setSelectionRange(0, 0);
 
       userEvent.type(input, keys);
 

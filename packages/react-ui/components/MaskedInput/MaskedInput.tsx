@@ -19,24 +19,21 @@ export interface MaskedProps {
   /**
    * Символ маски
    *
-   * @see См. `imaskProps.placeholderChar`
    * @default _
    */
   maskChar?: Nullable<string>;
   /**
    * Словарь символов-регулярок для маски
    *
-   * @see См. `imaskProps.definitions`
    * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
    */
   formatChars?: Record<string, string>;
   /**
-   * Показывать символы маски
+   * Всегда показывать символы маски
    *
-   * @see См. `imaskProps.lazy`
-   * @default 'focus'
+   * @default false
    */
-  showMask?: 'always' | 'focus' | 'never';
+  alwaysShowMask?: boolean;
   /**
    * Обработчик неправильного ввода.
    * Вторым агрументом будет передан метод вспыхивания акцентным цветом.
@@ -48,11 +45,11 @@ export interface MaskedProps {
    */
   onUnexpectedInput?: (value: string, blink: () => void) => void;
   /**
-   * Пропы для компонента `IMaskInput`
+   * Убирать из value символы, не введённые пользователем
    *
-   * @see https://imask.js.org/guide.html
+   * @default false
    */
-  imaskProps?: IMaskInputProps<HTMLInputElement>;
+  unmask?: boolean;
   /**
    * Раскрашивать символы маски
    *
@@ -60,6 +57,12 @@ export interface MaskedProps {
    * @ignore
    */
   colored?: boolean;
+  /**
+   * Пропы для компонента `IMaskInput`. Необходимы для юнит-тестов
+   *
+   * @ignore
+   */
+  imaskProps?: IMaskInputProps<HTMLInputElement>;
 }
 
 export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'password'>;
@@ -81,9 +84,10 @@ export const MaskedInput = forwardRefAndName(
       mask,
       maskChar,
       formatChars,
-      showMask = 'focus',
+      alwaysShowMask = false,
       colored = true,
-      imaskProps: { onAccept, ...customIMaskProps } = {},
+      imaskProps: customIMaskProps = {},
+      unmask = false,
       onValueChange,
       onUnexpectedInput,
       onChange,
@@ -142,8 +146,6 @@ export const MaskedInput = forwardRefAndName(
     );
 
     function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
-      const showMaskPlaceholder = showMask === 'always' || (showMask === 'focus' && focused);
-
       return {
         mask: mask.replace(/0/g, '{\\0}') as any,
         placeholderChar: getMaskChar(maskChar),
@@ -151,7 +153,8 @@ export const MaskedInput = forwardRefAndName(
         // FIXME: Должно быть eager=true, но в imask ломается удаление по delete
         eager: 'append',
         overwrite: 'shift',
-        lazy: !showMaskPlaceholder,
+        lazy: !alwaysShowMask && (props.disabled || !focused),
+        unmask,
         ...customIMaskProps,
       } as IMaskInputProps<HTMLInputElement>;
     }
@@ -166,8 +169,6 @@ export const MaskedInput = forwardRefAndName(
       // Он содержит нативное событие, вызвавшее изменение.
       e && onValueChange?.(value);
       !e && (prevValue.current = value);
-
-      onAccept?.(...args);
     }
 
     /**
