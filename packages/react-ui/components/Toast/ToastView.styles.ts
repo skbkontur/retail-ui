@@ -48,8 +48,7 @@ export const styles = memoizeStyle({
 
   link(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddings(t);
-    const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
-    const padding = `${paddingTop} ${paddingBottom}`;
+    const padding = `${paddingTop} ${t.toastLinkPadding}`;
 
     return css`
       border: none;
@@ -60,7 +59,7 @@ export const styles = memoizeStyle({
       font-weight: 600;
       background-color: transparent;
 
-      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
+      margin: -${paddingTop} ${t.toastPaddingX} -${paddingBottom} ${t.toastPaddingX};
 
       padding: ${padding};
       transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
