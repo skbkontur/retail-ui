@@ -610,23 +610,6 @@ export default { title: 'SidePage' };
 
 export const SidePageWithBlockBackground: Story = () => <Sample blockBackground />;
 SidePageWithBlockBackground.storyName = 'SidePage with block background';
-SidePageWithBlockBackground.parameters = {
-  creevey: {
-    skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } },
-    tests: {
-      async 'open side-page'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
