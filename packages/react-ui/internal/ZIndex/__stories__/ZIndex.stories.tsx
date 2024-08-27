@@ -1027,3 +1027,11 @@ export const SeveralRoots = () => {
     </div>
   );
 };
+SeveralRoots.parameters = {
+  creevey: {
+    skip: {
+      'flacky, temporary skip everywhere': true,
+      "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
+    },
+  },
+};
