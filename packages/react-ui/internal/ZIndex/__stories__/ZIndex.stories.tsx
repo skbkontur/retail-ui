@@ -1027,8 +1027,3 @@ export const SeveralRoots = () => {
     </div>
   );
 };
-SeveralRoots.parameters = {
-  creevey: {
-    skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } },
-  },
-};

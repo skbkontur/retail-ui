@@ -225,4 +225,13 @@ kind('ZIndex', () => {
       await this.expect(await this.browser.takeScreenshot()).to.matchImage();
     });
   });
+
+  story('SeveralRoots', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } }, delay: 2000 });
+
+    test('idle', async function () {
+      await delay(2000);
+      await this.expect(await this.takeScreenshot()).to.matchImage();
+    });
+  });
 });
