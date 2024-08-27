@@ -13,7 +13,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static greenXxLight = '#C7F9CC';
   public static greenDark = '#197F39';
 
-  public static red = '#DD3333';
+  public static red = '#FE4C4C';
   public static redXxLight = '#FFEBEB';
   public static redDark = '#CC2626';
 
@@ -100,7 +100,9 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
 
-  public static btnDangerBg = '#FE4C4C';
+  public static get btnDangerBg() {
+    return this.errorMain;
+  }
   public static get btnDangerBorderColor() {
     return this.btnDangerBg;
   }
@@ -108,9 +110,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static btnDangerHoverBg = '#ED3F3F';
   public static btnDangerHoverBorderColor = '#ED3F3F';
 
-  public static get btnDangerActiveBg() {
-    return this.red;
-  }
+  public static btnDangerActiveBg = '#DD3333';
   public static get btnDangerActiveBorderColor() {
     return this.btnDangerActiveBg;
   }
