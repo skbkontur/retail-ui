@@ -32,7 +32,7 @@ class GoToAbsensePage extends React.Component {
   }
 
   private _getPagesCount = (activePage: number) => {
-    return activePage <= 4 ? 7 : 5;
+    return activePage <= 4 ? 7 : 8;
   };
 
   private _handlePageChange = (pageNumber: number) => {
