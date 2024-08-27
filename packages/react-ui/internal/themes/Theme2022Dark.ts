@@ -6,18 +6,21 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region Common Variables
   public static borderColorFocus = '#EBEBEB';
   public static outlineColorFocus = '#EBEBEB';
-  public static borderColorError = '#FE6C6C';
+  public static get borderColorError() {
+    return this.errorMain;
+  }
 
   public static green = '#23A14A';
   public static greenDark = '#1C8A3F';
 
-  public static red = '#ED3F3F';
+  public static red = '#FE4C4C';
   public static redDark = '#DD3333';
 
   public static get errorMain() {
     return this.red;
   }
 
+  public static errorText = '#FE6C6C';
   public static errorSecondary = '#AB0D0D';
   public static textColorDisabled = 'rgba(255, 255, 255, 0.32)';
 
@@ -79,12 +82,12 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.btnDangerBg;
   }
 
-  public static btnDangerHoverBg = '#FE4C4C';
+  public static btnDangerHoverBg = '#ED3F3F';
   public static get btnDangerHoverBorderColor() {
     return this.btnDangerHoverBg;
   }
 
-  public static btnDangerActiveBg = '#CC2626';
+  public static btnDangerActiveBg = '#DD3333';
   public static get btnDangerActiveBorderColor() {
     return this.btnDangerActiveBg;
   }
@@ -141,10 +144,12 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
     return this.green;
   }
 
-  public static linkDangerColor = '#FE6C6C';
+  public static get linkDangerColor() {
+    return this.errorText;
+  }
   public static linkDangerHoverColor = '#FE8C8C';
   public static get linkDangerActiveColor() {
-    return this.errorMain;
+    return '#ED3F3F';
   }
 
   public static linkGrayedColor = 'rgba(255, 255, 255, 0.54)';
@@ -409,7 +414,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   public static calendarCellSelectedBgColor = 'rgba(255, 255, 255, 0.1)';
   public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
 
-  public static calendarCellWeekendColor = '#ED3F3F';
+  public static get calendarCellWeekendColor() {
+    return this.errorText;
+  }
   //#endregion Calendar
 
   //#region DateSelect
@@ -422,7 +429,9 @@ export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#endregion CloseIcon, CloseButtonIcon
 
   //#region react-ui-validations
-  public static validationsTextColorError = '#ED3F3F';
+  public static get validationsTextColorError() {
+    return this.errorText;
+  }
   //#endregion react-ui-validations
 }
 
