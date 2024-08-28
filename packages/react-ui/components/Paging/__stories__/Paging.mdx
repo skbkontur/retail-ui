@@ -1,12 +1,15 @@
-import * as PagingStories from './Paging.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
-import { Paging } from '../Paging';
+import * as PagingStories from '../__docs__/Paging.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={PagingStories} />
 
 # Paging
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/navigation/paging/)
+
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=281%3A18146)
+
+<Description />
 
 ## Базовый пример
 
@@ -18,54 +21,4 @@ import { Paging } from '../Paging';
 
 ## Примеры использования
 
-Управление с клавиатуры работает в двух вариантах:
-
-- **useGlobalListener === true** слушатель keydown событий на document, если на стринице несколько компонентов Paging,
-  обработчик будет срабатывать на каждом
-- **useGlobalListener === false** обработка нажатия клавиш будет работать только когда компонент в фокусе.
-
-### Навигационные подсказки появляются когда доступно управление с клавиатуры и `withoutNavigationHint != true`
-
-```jsx harmony
-class Paginator3000 extends React.Component {
-  constructor() {
-    super();
-    this.state = { active: 1 };
-    this._handlePageChange = this._handlePageChange.bind(this);
-  }
-
-  render() {
-    return <Paging activePage={this.state.active} onPageChange={this._handlePageChange} pagesCount={12} />;
-  }
-
-  _handlePageChange(pageNumber) {
-    this.setState({ active: pageNumber });
-  }
-}
-
-<Paginator3000 />;
-```
-
-### Пейджинг в отключенном состоянии
-
-```jsx
-const [activePage, setActivePage] = React.useState(3);
-
-<Paging disabled onPageChange={(activePage) => setActivePage(activePage)} activePage={activePage} pagesCount={8} />;
-```
-
-### Локали по умолчанию
-
-```typescript static
-interface PagingLocale {
-  forward?: string;
-}
-
-const ru_RU = {
-  forward: 'Дальше',
-};
-
-const en_GB = {
-  forward: 'Forward',
-};
-```
+<Stories/>

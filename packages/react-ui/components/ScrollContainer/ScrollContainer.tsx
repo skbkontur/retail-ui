@@ -111,6 +111,9 @@ interface ScrollContainerState {
   isHovered: boolean;
 }
 
+/**
+ * `ScrollContainer` используется для создания контейнера с кастомными полосами прокрутки, который обеспечивает прокрутку содержимого по горизонтали или вертикали.
+ */
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';

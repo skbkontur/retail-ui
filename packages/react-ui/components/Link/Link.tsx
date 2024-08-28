@@ -80,7 +80,10 @@ type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'as'>>;
 type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 
 /**
- * Элемент ссылки из HTML.
+ * Ссылка `Link` связывает веб-страницы или выступает как более легкий аналог кнопки.
+ * Клик по ссылке открывает другую страницу или запускает действие.
+ *
+ * Ссылку нельзя использовать для основного действия в окне — используйте для этого [Button](?path=/docs/action-button--docs).
  */
 @rootNode
 export class Link extends React.Component<LinkProps, LinkState> {

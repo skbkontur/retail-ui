@@ -252,6 +252,13 @@ const defaultRenderToken = <T extends AnyObject>(
   </Token>
 );
 
+/**
+ * Поле с токенами `TokenInput` — это поле ввода со списком подсказок.
+ *
+ * Оно похоже на [Combobox](?path=/docs/input-elements-combobox--docs), но используется в случаях, когда нужно указать сразу много однородных элементов — токенов.
+ *
+ * Поле с токенами используют для выбора нескольких значений из справочника и для добавления своих значений.
+ */
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {

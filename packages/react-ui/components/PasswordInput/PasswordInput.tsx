@@ -41,7 +41,9 @@ export const PasswordInputDataTids = {
 type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
 
 /**
- * Компонент для ввода пароля
+ * `PasswordInput` — однострочное поле для ввода пароля, в котором символы заменяются на точки.
+ *
+ * Не используйте такое поле для ввода одноразовых кодов из смс. У них короткий срок действия и используются они только один раз.
  */
 @rootNode
 @locale('PasswordInput', PasswordInputLocaleHelper)

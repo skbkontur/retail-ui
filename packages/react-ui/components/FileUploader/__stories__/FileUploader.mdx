@@ -1,16 +1,15 @@
-import * as FileUploaderStories from './FileUploader.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
-import { FileUploader } from '../FileUploader';
+import * as FileUploaderStories from '../__docs__/FileUploader.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={FileUploaderStories} />
 
 # FileUploader
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/input-fields/file-uploader/)
 
-Контрол загрузки файлов.
-Можно использовать для синхронной отправки данных, например, в форме.
-Или же можно использовать в асинхронном режиме.
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=284%3A11938)
+
+<Description />
 
 ## Базовый пример
 
@@ -22,84 +21,4 @@ import { FileUploader } from '../FileUploader';
 
 ## Примеры использования
 
-### Синхронный контрол
-
-```jsx harmony
-import { FileUploader } from '@skbkontur/react-ui';
-
-<FileUploader />;
-```
-
-### Асинхронный контрол
-
-```jsx harmony
-import { FileUploader } from '@skbkontur/react-ui';
-
-const request = () => Promise.resolve();
-
-<FileUploader request={request} />;
-```
-
-### Multiple контрол
-
-```jsx harmony
-import { FileUploader } from '@skbkontur/react-ui';
-
-const request = () => Promise.reject();
-
-<FileUploader request={request} multiple />;
-```
-
-### Использование `accept`
-
-```jsx harmony
-import { FileUploader } from '@skbkontur/react-ui';
-
-<FileUploader multiple accept="image/*" />;
-```
-
-### Валидация файла в списке
-
-```jsx harmony
-import { FileUploader } from '@skbkontur/react-ui';
-
-<FileUploader
-  multiple
-  validateBeforeUpload={({ originalFile }) => {
-    return Promise.resolve(`У файла ${originalFile.name} неверный формат`);
-  }}
-/>;
-```
-
-### Валидация контрола
-
-```jsx harmony
-import { FileUploader } from '@skbkontur/react-ui';
-
-<FileUploader multiple error />;
-```
-
-### Локали по умолчанию
-
-```typescript static
-interface FileUploaderLocale {
-  chooseFile: string;
-  choosedFile: string;
-  orDragHere: string;
-  requestErrorText: string;
-}
-
-const ru_RU = {
-  chooseFile: 'Выберите файл',
-  choosedFile: 'Выбран файл',
-  orDragHere: 'или перетащите сюда',
-  requestErrorText: 'Файл не удалось загрузить на сервер, повторите попытку позже',
-};
-
-const en_GB = {
-  chooseFile: 'Select a file',
-  choosedFile: 'File selected',
-  orDragHere: 'or drag here',
-  requestErrorText: 'The file could not be uploaded to the server, please try again later',
-};
-```
+<Stories/>

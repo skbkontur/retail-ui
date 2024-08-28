@@ -1,12 +1,14 @@
+### Базовый пример
 ```jsx harmony
 <MaskedInput mask={'+7 999 999-99-99'} placeholder={"Номер телефона"} />
 ```
 
-Можно изменить символ значения с маской
+### Изменение символа значения с маской
 ```jsx harmony
 <MaskedInput mask={'9999 9999 9999 9999'} maskChar={'X'} placeholder={"Номер карты"}  />
 ```
 
+### Всегда показывать маску
 **alwaysShowMask** позволяет показывать маску всегда. Placeholder в этом случае игнорируется.
 ```jsx harmony
 <MaskedInput mask={'9999 9999 9999 9999'} alwaysShowMask maskChar={'X'} placeholder={"Номер карты"} />

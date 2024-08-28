@@ -24,7 +24,7 @@ export const ModalHeaderDataTids = {
 } as const;
 
 /**
- * Шапка модального окна
+ * Шапка модального окна.
  *
  * @visibleName Modal.Header
  */

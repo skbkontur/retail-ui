@@ -78,7 +78,7 @@ export interface TabState {
 type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 
 /**
- * Вложенный элемент компонента `<Tabs />`.
+ * Вложенный элемент компонента [Tabs](/docs/navigation-tabs--docs).
  */
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {

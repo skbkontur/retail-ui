@@ -102,6 +102,11 @@ type DefaultProps = Required<
   Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
 >;
 
+/**
+ * Постраничная навигация `Paging` (пейджинг или пагинация) — способ представления большого количества однородной информации, когда контент разбивается на страницы.
+ *
+ * Используйте `Paging`, когда другие способы структурирования информации (категории, фильтры) уже задействованы.
+ */
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {

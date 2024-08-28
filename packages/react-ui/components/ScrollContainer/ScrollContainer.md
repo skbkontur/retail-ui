@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 function items(count) {
   var items = [];
@@ -59,7 +60,7 @@ var absStyle = {
 </div>;
 ```
 
-Горизонтальный scrollbar.
+### Горизонтальный scrollbar
 
 ```jsx harmony
 var divStyle = {
@@ -142,8 +143,7 @@ var innerStyle = {
 </div>;
 ```
 
-
-Смещение скроллбара
+### Смещение скроллбара
 
 ```jsx harmony
 const containerStyle = {
@@ -171,6 +171,7 @@ const offsetY = {
 </div>
 ```
 
+### Скрытие если нет активности пользователя
 Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms)
 
 ```jsx harmony
@@ -194,6 +195,7 @@ var divStyle = {
 </div>
 ```
 
+### Показ скролбара при наведении
 Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером
 
 ```jsx harmony

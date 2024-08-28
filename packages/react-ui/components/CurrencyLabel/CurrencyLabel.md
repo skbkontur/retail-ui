@@ -1,28 +1,28 @@
-To render rubles
+### To render rubles
 
 ```jsx
 <CurrencyLabel value={12356.1} currencySymbol={'₽'} />
 ```
 
-...or dollars
+### ...or dollars
 
 ```jsx
 <CurrencyLabel value={12356.1} currencySymbol={'$'} />
 ```
 
-...or nothing
+### ...or nothing
 
 ```jsx
 <CurrencyLabel value={12356.1} />
 ```
 
-Count of fraction digits can be changed
+### Count of fraction digits can be changed
 
 ```jsx
 <CurrencyLabel value={3562001.1} fractionDigits={3} currencySymbol={'₽'} />
 ```
 
-Can hide trailing zeros
+### Can hide trailing zeros
 
 ```jsx
 <CurrencyLabel value={356.167} fractionDigits={5} hideTrailingZeros />

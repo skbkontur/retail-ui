@@ -1,13 +1,15 @@
-import * as SidePageStories from './SidePage.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
-import { SidePage } from '../SidePage';
-import { Button } from '@skbkontur/react-ui';
+import * as SidePageStories from '../__docs__/SidePage.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={SidePageStories} />
 
 # SidePage
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/popup-elements/sidepage/)
+
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=230%3A11142)
+
+<Description />
 
 ## Базовый пример
 
@@ -19,67 +21,4 @@ import { Button } from '@skbkontur/react-ui';
 
 ## Примеры использования
 
-```jsx harmony
-import { Button } from '@skbkontur/react-ui';
-
-const [opened, setOpened] = React.useState(false);
-
-function renderSidePage() {
-  return (
-    <SidePage onClose={close} blockBackground>
-      <SidePage.Header>Title</SidePage.Header>
-      <SidePage.Body>
-        <div
-          style={{
-            background: `repeating-linear-gradient(
-                                60deg,
-                                #808080,
-                                #808080 20px,
-                                #d3d3d3 20px,
-                                #d3d3d3 40px
-                              )`,
-            height: 600,
-            padding: '20px 0',
-          }}
-        >
-          <SidePage.Container>
-            <p>Use rxjs operators with react hooks</p>
-          </SidePage.Container>
-        </div>
-      </SidePage.Body>
-      <SidePage.Footer panel>
-        <Button onClick={close}>Close</Button>
-      </SidePage.Footer>
-    </SidePage>
-  );
-}
-
-function open() {
-  setOpened(true);
-}
-
-function close() {
-  setOpened(false);
-}
-
-<div>
-  {opened && renderSidePage()}
-  <Button onClick={open}>Open</Button>
-</div>;
-```
-
-### Локали по умолчанию
-
-```typescript static
-interface SidePageLocale {
-  closeButtonAriaLabel?: string;
-}
-
-const ru_RU = {
-  closeButtonAriaLabel: 'Закрыть модальное окно',
-};
-
-const en_GB = {
-  closeButtonAriaLabel: 'Close modal window',
-};
-```
+<Stories/>

@@ -56,7 +56,13 @@ export const FxInputDataTids = {
 type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value'>>;
 type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 
-/** Принимает все свойства `Input`'a */
+/**
+ * Автополе `FxInput`.
+ *
+ * Используйте `FxInput`, если поле вычисляемое и вы рассчитали значение.
+ *
+ * Принимает все свойства `Input`'a.
+ */
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';

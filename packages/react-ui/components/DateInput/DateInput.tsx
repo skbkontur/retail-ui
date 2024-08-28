@@ -87,6 +87,9 @@ export interface DateInputProps extends CommonProps {
 
 type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
 
+/**
+ * Компонент поля `DateInput` из [DatePicker](?path=/docs/date-datepicker--docs)'а помогает выбирать дату с клавиатуры.
+ */
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {

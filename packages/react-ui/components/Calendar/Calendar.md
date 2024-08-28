@@ -1,6 +1,4 @@
-
-
-Календарь с заданной датой
+### Календарь с заданной датой
 
 ```jsx harmony
 const [date, setDate] = React.useState("01.11.2021");
@@ -11,10 +9,10 @@ const [date, setDate] = React.useState("01.11.2021");
 />
 ```
 
+### initialMonth и initialYear
 Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear`
 
 ```jsx harmony
-import { Checkbox } from '@skbkontur/react-ui';
 
 const [date, setDate] = React.useState("11.12.2021");
 const initialMonth = 7;
@@ -35,12 +33,12 @@ const initialYear = 2000;
 </div>
 ```
 
-### `isHoliday`
+### isHoliday
 
 В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
 
 ```jsx harmony
-import * as DatePickerHelpers from '../DatePicker/DatePickerHelpers';
+import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 
 const [date, setDate] = React.useState();
 
@@ -82,6 +80,7 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
+### Высота
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
 
 - Базовая высота календаря - `330px`
@@ -144,7 +143,7 @@ const renderDay = (props) => {
 />;
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface CalendarLocale {
@@ -215,7 +214,7 @@ const calendarRef = React.useRef(null);
       ref={calendarRef}
       onValueChange={setValue}
     />
-    
+
     <Gapped vertical gap={8}>
       <Button onClick={() => calendarRef.current.scrollToMonth(1, 2023)}>
         I квартал

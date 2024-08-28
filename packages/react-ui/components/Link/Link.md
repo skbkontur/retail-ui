@@ -1,10 +1,10 @@
-Базовый пример ссылки.
+### Базовый пример
 
 ```jsx harmony
 <Link>Обычная ссылка</Link>
 ```
 
-Ссылка может иметь различные стили, а также быть отключенной.
+### Стили и disabled
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -18,7 +18,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-Пример ссылки с иконкой.
+### Иконка
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -31,7 +31,7 @@ import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 </Gapped>
 ```
 
-Пример ссылок ведущих на внешние ресурсы.
+### Ссылки, ведущие на внешние ресурсы
 
 _Примечание_:
 
@@ -52,7 +52,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Ссылка в состоянии загрузки.
+### Состояние загрузки
 
 **Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая.
 
@@ -73,7 +73,7 @@ const [isLoading, setIsLoading] = React.useState(false);
 </Gapped>
 ```
 
-Ссылка может иметь кастомное действие при нажатии.
+### Кастомное действие при нажатии
 
 ```jsx harmony
 import { Toast } from '@skbkontur/react-ui';
@@ -81,7 +81,7 @@ import { Toast } from '@skbkontur/react-ui';
 <Link onClick={() => Toast.push("Ты нажал на ссылку!")}>Ссылка с кастомным действием</Link>
 ```
 
-Пример ссылки с пропом `theme`
+### Проп `theme`
 
 ```jsx harmony
 import { Link, Gapped } from '@skbkontur/react-ui';
@@ -93,7 +93,7 @@ import { Link, Gapped } from '@skbkontur/react-ui';
 ```
 
 
-Пример кастомизации ссылки
+### Кастомизация ссылки
 
 ```jsx harmony
 import { Toast, Button } from "@skbkontur/react-ui";
@@ -133,7 +133,7 @@ const tdStyle = {
   padding: '8px',
 };
 
-const renderExampleRow = (title, styles, index) => {
+const renderExampleRow = (title, styles) => {
     return (
         <tr>
           <td style={tdStyle}>{title}</td>
@@ -159,4 +159,3 @@ const renderExampleRow = (title, styles, index) => {
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
 ```
-

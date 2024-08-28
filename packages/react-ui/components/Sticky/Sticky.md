@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 const style = {
   padding: 10,

@@ -1,13 +1,15 @@
-import * as DropdownStories from './Dropdown.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
-import { Dropdown } from '../Dropdown';
-import { Gapped, MenuItem, MenuSeparator, MenuHeader } from '@skbkontur/react-ui';
+import * as DropdownStories from '../__docs__/Dropdown.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={DropdownStories} />
 
 # Dropdown
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/actions/menu-button/)
+
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=200%3A2498)
+
+<Description />
 
 ## Базовый пример
 
@@ -19,47 +21,4 @@ import { Gapped, MenuItem, MenuSeparator, MenuHeader } from '@skbkontur/react-ui
 
 ## Примеры использования
 
-```jsx harmony
-import { Dropdown, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
-<Dropdown caption="Click">
-  <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>
-  <MenuSeparator />
-  <MenuHeader>Here goes the header</MenuHeader>
-  <MenuItem onClick={() => alert('Pow')} comment="With comment.">
-    Pow
-  </MenuItem>
-</Dropdown>;
-```
-
-### У Dropdown есть 3 стандартных размера.
-
-```jsx harmony
-import { Gapped, MenuItem, MenuSeparator, MenuHeader } from '@skbkontur/react-ui';
-
-<Gapped vertical>
-  <Dropdown caption="Маленький" size={'small'}>
-    <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>
-    <MenuSeparator />
-    <MenuHeader>Here goes the header</MenuHeader>
-    <MenuItem onClick={() => alert('Pow')} comment="With comment.">
-      Pow
-    </MenuItem>
-  </Dropdown>
-  <Dropdown caption="Средний" size={'medium'}>
-    <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>
-    <MenuSeparator />
-    <MenuHeader>Here goes the header</MenuHeader>
-    <MenuItem onClick={() => alert('Pow')} comment="With comment.">
-      Pow
-    </MenuItem>
-  </Dropdown>
-  <Dropdown caption="Большой" size={'large'}>
-    <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>
-    <MenuSeparator />
-    <MenuHeader>Here goes the header</MenuHeader>
-    <MenuItem onClick={() => alert('Pow')} comment="With comment.">
-      Pow
-    </MenuItem>
-  </Dropdown>
-</Gapped>;
-```
+<Stories/>

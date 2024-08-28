@@ -45,9 +45,13 @@ export const SpinnerDataTids = {
 type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
- * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](https://tech.skbkontur.ru/react-ui/#/Components/Loader)
+ * `Spinner` — это зацикленный индикатор, не отображающий прогресс выполнения задачи.
+ *
+ * Используйте `Spinner`, чтобы показать, что система выполняет команду, которую дал пользователь.
+ * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен [GlobalLoader](?path=/docs/action-globalloader--docs).
+ *
+ * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](?path=/docs/action-loader--docs).
  */
-
 @rootNode
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';

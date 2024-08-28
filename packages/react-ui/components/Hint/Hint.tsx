@@ -65,7 +65,8 @@ export interface HintState {
 type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
 /**
- * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
+ * Всплывающая подсказка `Hint`.
+ * По умолчанию отображается при наведении на элемент. Можно задать другие условия отображения.
  */
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {

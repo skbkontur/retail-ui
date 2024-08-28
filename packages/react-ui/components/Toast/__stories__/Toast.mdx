@@ -1,13 +1,15 @@
-import * as ToastStories from './Toast.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
-import { Toast } from '../Toast';
-import { Button } from '@skbkontur/react-ui';
+import * as ToastStories from '../__docs__/Toast.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={ToastStories} />
 
 # Toast
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/popup-elements/toast/)
+
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=230%3A5203)
+
+<Description />
 
 ## Базовый пример
 
@@ -19,75 +21,4 @@ import { Button } from '@skbkontur/react-ui';
 
 ## Примеры использования
 
-### Вызов статических методов
-
-```jsx harmony
-import { Button, Toast } from '@skbkontur/react-ui';
-
-function showComplexNotification() {
-  Toast.push('Successfully saved', {
-    label: 'Cancel',
-    handler: () => Toast.push('Canceled'),
-  });
-}
-
-<Button onClick={showComplexNotification}>Show notification</Button>;
-```
-
-### C кастомным showTime
-
-```jsx harmony
-import { Button, Toast } from '@skbkontur/react-ui';
-
-function showComplexNotification() {
-  Toast.push(
-    'Successfully saved',
-    {
-      label: 'Cancel',
-      handler: () => Toast.push('Canceled'),
-    },
-    15000,
-  );
-}
-
-<Button onClick={showComplexNotification}>Show notification</Button>;
-```
-
-### C кастомным showTime без action
-
-```jsx harmony
-import { Button, Toast } from '@skbkontur/react-ui';
-
-function showComplexNotification() {
-  Toast.push('Successfully saved', null, 15000);
-}
-
-<Button onClick={showComplexNotification}>Show notification</Button>;
-```
-
-### Использование `ref`
-
-```jsx harmony
-import { Button, Toast } from '@skbkontur/react-ui';
-
-class Toaster extends React.Component {
-  showNotification() {
-    this.notifier.push('Successfully');
-  }
-
-  render() {
-    return (
-      <div>
-        <Toast
-          ref={(el) => {
-            this.notifier = el;
-          }}
-        />
-        <Button onClick={() => this.showNotification()}>Show notification</Button>
-      </div>
-    );
-  }
-}
-
-<Toaster />;
-```
+<Stories/>

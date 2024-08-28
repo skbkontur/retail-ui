@@ -233,6 +233,17 @@ type DefaultProps<TValue, TItem> = Required<
   Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
 >;
 
+/**
+ * Раскрывающийся список `Select` позволяет выбрать значение из заранее известного набора вариантов.
+ *
+ * Используйте `Select` для выбора одного значения из 5–25 вариантов:
+ * * при заполнении форм, например выбор месяца.
+ * * переключение состояний, например фильтры.
+ * * выбора предустановленных настроек, например частота уведомлений, часовой пояс.
+ *
+ * Если значений в списке до 5, лучше использовать [группу радиокнопок RadioGroup](?path=/docs/choose-radiogroup--docs) или [переключатель Switcher](?path=/docs/choose-switcher--docs).
+ * Если значений больше 25 — используйте [ComboBox](?path=/docs/input-elements-combobox--docs).
+ */
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)

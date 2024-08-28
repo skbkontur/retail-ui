@@ -1,12 +1,11 @@
-import * as CurrencyLabelStories from './CurrencyLabel.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
-import { CurrencyLabel } from '../CurrencyLabel';
+import * as CurrencyLabelStories from '../__docs__/CurrencyLabel.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={CurrencyLabelStories} />
 
 # CurrencyLabel
 
-[Компонент в Контур.Гайдах](https)
+<Description />
 
 ## Базовый пример
 
@@ -17,33 +16,4 @@ import { CurrencyLabel } from '../CurrencyLabel';
 <Controls />
 
 ## Примеры использования
-
-### To render rubles
-
-```jsx harmony
-<CurrencyLabel value={12356.1} currencySymbol={'₽'} />
-```
-
-### ...or dollars
-
-```jsx harmony
-<CurrencyLabel value={12356.1} currencySymbol={'$'} />
-```
-
-### ...or nothing
-
-```jsx harmony
-<CurrencyLabel value={12356.1} />
-```
-
-### Count of fraction digits can be changed
-
-```jsx harmony
-<CurrencyLabel value={3562001.1} fractionDigits={3} currencySymbol={'₽'} />
-```
-
-### Can hide trailing zeros
-
-```jsx harmony
-<CurrencyLabel value={356.167} fractionDigits={5} hideTrailingZeros />
-```
+<Stories/>

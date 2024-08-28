@@ -48,6 +48,10 @@ export const StickyDataTids = {
 
 type DefaultProps = Required<Pick<StickyProps, 'offset'>>;
 
+/**
+ * `Sticky` позволяет закреплять элемент интерфейса в определенной позиции на экране при прокрутке страницы.
+ * Это полезно для создания "прилипающих" элементов, которые остаются видимыми при прокрутке содержимого.
+ */
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';

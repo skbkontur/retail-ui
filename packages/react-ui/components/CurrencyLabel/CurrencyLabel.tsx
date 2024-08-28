@@ -24,6 +24,9 @@ export const CurrencyLabelDataTids = {
   root: 'CurrencyLabel__root',
 } as const;
 
+/**
+ * `CurrencyLabel` — подпись для денежных сумм (и других числовых значений).
+ */
 export const CurrencyLabel = ({
   value,
   fractionDigits = FRACTION_DIGITS_DEFAULT,

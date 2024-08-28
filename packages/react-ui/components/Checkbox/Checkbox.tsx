@@ -80,6 +80,16 @@ export const CheckboxDataTids = {
 
 type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
 
+/**
+ * `Checkbox` используется для управления параметром с двумя состояниями.
+ *
+ * Используйте чекбокс для:
+ * * выбора элементов списка. Например, выбор документов для массовых действий.
+ * * выбора параметров. Например, включение уведомлений и выбор случаев, в которых нужно присылать уведомления.
+ *
+ * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
+ * Для немедленного включения какого-то режима в интерфейсе лучше подходит [Toggle](?path=/docs/choose-toggle--docs).
+ */
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';

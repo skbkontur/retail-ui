@@ -29,11 +29,11 @@ export const MenuHeaderDataTids = {
 } as const;
 
 /**
- * `Заголовок меню` используется для того, чтобы разделить `элементы меню` на категории в рамках одного меню.
+ * Заголовок меню `MenuHeader` используется для того, чтобы разделить элементы меню на категории в рамках одного меню.
  *
- * _Примечание_: `заголовок меню`, в отличие от `элемента меню` нельзя затаргетить с клавиатуры.
+ * `MenuHeader`, в отличие от `MenuItem` нельзя затаргетить с клавиатуры.
  *
- * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
+ * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/choose-select--docs).
  */
 function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);

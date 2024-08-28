@@ -46,7 +46,7 @@ export const TooltipMenuDataTids = {
 type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
 
 /**
- * Меню, раскрывающееся по клику на переданный в `caption` элемент.
+ * Меню `TooltipMenu` раскрывается по клику на переданный в `caption` элемент.
  *
  * Положение меню задаётся с помощью массива `positions` и работает так:
  * первое значение в массиве - дефолтная позиция, меню раскроется на этой позиции, если оно не будет выходить за пределы `viewport`,
