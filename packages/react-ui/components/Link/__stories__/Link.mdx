@@ -1,5 +1,5 @@
 import * as LinkStories from './Link.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Meta, Primary, Controls, Description } from '@storybook/blocks';
 import { Link } from '../Link';
 import { Gapped, Button, Toast } from '@skbkontur/react-ui';
 import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
@@ -9,7 +9,11 @@ import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
 
 # Link
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/actions/hyperlink/)
+
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI?type=design&node-id=953%3A23703&mode=design&t=os7wLLJCaKzU1UFM-1)
+
+<Description />
 
 ## Базовый пример
 
@@ -163,7 +167,7 @@ const tdStyle = {
   padding: '8px',
 };
 
-const renderExampleRow = (title, styles, index) => {
+const renderExampleRow = (title, styles) => {
   return (
     <tr>
       <td style={tdStyle}>{title}</td>

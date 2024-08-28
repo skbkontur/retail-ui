@@ -114,6 +114,14 @@ const OldPositions: PopupPositionsType[] = [
 
 type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>>;
 
+/**
+ * `Tooltip` — это подсказка, которую пользователь открывает сам, кликом по элементу.
+ *
+ * `Tooltip` используется для коротких поясняющих текстов, если необходимо дать разъяснение к деталям интерфейса, упомянутой информации или помочь с заполнением полей.
+ * Если эти подробности не нужны постоянно, но могут помочь пользователю в момент когда он испытывает трудности.
+ *
+ * Если пояснение содержит много информации, то полезнее разместить его в виде статьи на отдельную страницу, а в `Tooltip` добавить ссылку.
+ */
 @rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';

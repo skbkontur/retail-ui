@@ -12,10 +12,11 @@ export type MenuSeparatorProps = CommonProps;
 export const MenuSeparatorDataTids = {
   root: 'MenuSeparator__root',
 } as const;
+
 /**
- * Добавляет разделительную линию между элементами меню.
+ * `MenuSeparator` добавляет разделительную линию между элементами меню.
  *
- * Сущности в которых может быть использован `MenuSeparator`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
+ * Сущности в которых может быть использован `MenuSeparator`: [`DropdownMenu`](?path=/docs/menu-dropdownmenu--docs), [`Kebab`](?path=/docs/menu-kebab--docs), [`TooltipMenu`](?path=/docs/menu-tooltipmenu--docs) и [`Select`](?path=/docs/choose-select--docs).
  */
 function MenuSeparator(props: MenuSeparatorProps) {
   const theme = useContext(ThemeContext);

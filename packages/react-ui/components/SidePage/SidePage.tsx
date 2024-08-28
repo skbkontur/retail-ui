@@ -84,13 +84,16 @@ type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'offset' 
 const TRANSITION_TIMEOUT = 200;
 
 /**
- * Сайдпейдж
+ * `SidePage` — это модальное окно, которое открывается поверх основной страницы и занимает всю высоту окна браузера.
  *
- * Содержит в себе три компоненты: **SidePage.Header**,
- * **SidePage.Body** и **SidePage.Footer**
+ * Используйте его, когда нужно сохранить контекст и показать большое количество данных.
  *
- * Для отображения серой плашки в футере в компонент
- * **Footer** необходимо передать пропс **panel**
+ * Содержит в себе три компоненты: `SidePage.Header`, `SidePage.Body` и `SidePage.Footer`.
+ *
+ * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
+ *
+ * Не используйте `SidePage` для коротких сообщений и подтверждений, для этого лучше подходит [модальное окно `Modal`](?path=/docs/overlays-modal--docs).
+ * Так же `SidePage` не может заменить полноценную страницу, потому что ограничен по ширине.
  */
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';

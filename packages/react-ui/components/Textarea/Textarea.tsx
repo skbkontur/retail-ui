@@ -111,11 +111,14 @@ export const TextareaDataTids = {
 type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations' | 'size'>>;
 
 /**
- * Компонент для ввода многострочного текста.
+ * Многострочное поле `Textarea` — это поле ввода, которое позволяет работать с несколькими строками текста.
  *
- * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`
+ * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
+ * **`className` и `style` игнорируются**.
  *
- * ** `className` и `style`  игнорируются**
+ * Используйте многострочное поле для ввода длинных строк и больших текстов. Например, для паспортных данных, места рождения или комментария пользователя.
+ *
+ * Если значение, которое вводит пользователь, чаще всего состоит из 1–3 слов, следует использовать обычное поле ввода [`Input`](?path=/docs/input-elements-input--docs).
  */
 @rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {

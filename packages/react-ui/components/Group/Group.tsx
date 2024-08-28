@@ -86,6 +86,11 @@ export const GroupDataTids = {
   root: 'Group__root',
 } as const;
 
+/**
+ *  Компонент `Group` используется для создания логически сгруппированных элементов, выровненных по горизонтали.
+ *
+ *  Длина контейнера настраивается с помощью пропа `width`.
+ */
 @rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';

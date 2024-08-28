@@ -28,7 +28,9 @@ type DefaultProps = Required<Pick<CenterProps, 'align'>>;
 type DefaultizedCenterProps = DefaultizedProps<CenterProps, DefaultProps>;
 
 /**
- * Контейнер, который центрирует элементы внутри себя.
+ * `Center` — контейнер, который центрирует элементы внутри себя.
+ *
+ * Выравнивание задается пропом `align`.
  */
 @rootNode
 export class Center extends React.Component<CenterProps> {

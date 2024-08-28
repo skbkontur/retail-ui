@@ -66,6 +66,15 @@ export interface KebabState {
 
 type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations'>>;
 
+/**
+ * Кебаб-меню `Kebab` содержит действия с объектом.
+ *
+ * Используйте меню, чтобы сэкономить место и скрыть малоиспользуемые ссылки и действия.
+ *
+ * Если действия важны и часто используются, не убирайте их в меню. Пользователь может не найти их.
+ * Ему придется постоянно открывать меню, чтобы выполнить действия.
+ * Если одно-два действия важнее и чаще используются — оставьте их рядом с меню.
+ */
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';

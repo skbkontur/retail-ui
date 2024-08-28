@@ -146,6 +146,14 @@ export const ButtonDataTids = {
 
 type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 
+/**
+ * Кнопка `Button` запускает действие.
+ *
+ * В современных веб-интерфейсах граница между кнопками и ссылками размыта. Ссылка также может запускать действие.
+ * Отличие кнопки в том, что она заметнее, и почти никогда не используется для перехода на другую страницу (то, для чего изначально задумывались гиперссылки).
+ *
+ * Не используйте кнопки для перехода на другую страницу. Используйте для этого ссылку [Link](?path=/docs/navigation-link--docs).
+ */
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
