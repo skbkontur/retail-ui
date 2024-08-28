@@ -70,6 +70,11 @@ export const TokenDataTids = {
   removeIcon: 'Token__removeIcon',
 } as const;
 
+/**
+ * Однородный элемент — `Token`.
+ *
+ * Используется в компоненте [поле с токенами `TokenInput`](?path=/docs/input-elements-token-input-tokeninput--docs).
+ */
 @rootNode
 @locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {

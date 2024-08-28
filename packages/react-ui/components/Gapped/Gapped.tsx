@@ -31,7 +31,7 @@ export const GappedDataTids = {
 type DefaultProps = Required<Pick<GappedProps, 'wrap' | 'vertical' | 'verticalAlign'>>;
 
 /**
- * Контейнер, расстояние между элементами в котором равно `gap`.
+ * Контейнер `Gapped` устанавливает расстояние равное `gap` между элементами.
  */
 @rootNode
 export class Gapped extends React.Component<GappedProps> {

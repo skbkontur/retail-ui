@@ -118,6 +118,13 @@ export const DatePickerDataTids = {
 
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
+/**
+ * Поле `DatePicker` помогает вводить дату с клавиатуры или выбирать ее с помощью мыши.
+ *
+ * Используйте поле с датой, когда нужно ввести дату в формате ДД.ММ.ГГГГ.
+ *
+ * Поле с датой отличается от обычного поля ввода наличием иконки, маски и блока календаря.
+ */
 @responsiveLayout
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)

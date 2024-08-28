@@ -103,7 +103,14 @@ export const DropdownDataTids = {
   root: 'Dropdown__root',
 } as const;
 
-/** Выпадающее меню. */
+/**
+ * Выпадающее меню `Dropdown`. Содержит несколько команд, объединенных по смыслу.
+ *
+ * Используйте кнопку-меню:
+ * * когда не хватает места для нескольких кнопок.
+ * * когда названия действий очень длинные.
+ * * когда действия редко используются или объединены по смыслу.
+ */
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';

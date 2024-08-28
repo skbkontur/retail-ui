@@ -367,6 +367,11 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
 
 export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
+/**
+ * `FileUploader` — контрол для выбора пользователем файла на компьютере и отображения статуса его отправки на сервер.
+ *
+ * Можно использовать для синхронной отправки данных, например, в форме. Или же можно использовать в асинхронном режиме.
+ */
 export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(
   React.memo(_FileUploader),
 );

@@ -1,5 +1,5 @@
 import * as GlobalLoaderStories from './GlobalLoader.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Meta, Primary, Controls, Description } from '@storybook/blocks';
 import { GlobalLoader } from '../GlobalLoader';
 import { Button, Toggle, Gapped, ThemeContext, ThemeFactory, Modal } from '@skbkontur/react-ui';
 
@@ -7,14 +7,9 @@ import { Button, Toggle, Gapped, ThemeContext, ThemeFactory, Modal } from '@skbk
 
 # GlobalLoader
 
-[Компонент в Контур.Гайдах](https)
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/progress-indicators/global-loader/)
 
-Индикатор обмена данными с сервером.
-
-Глобальный Лоадер может быть только один в приложении. Поэтому, каждый новый экземпляр компонента "убивает" предыдущий
-экземпляр, и начинает перехватывать статические методы.
-
-Предполагается монтирование компонента в единственном месте. И управление им через статические методы, либо через пропы.
+<Description />
 
 ## Базовый пример
 

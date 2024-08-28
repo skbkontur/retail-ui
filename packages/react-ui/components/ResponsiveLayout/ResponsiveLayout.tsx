@@ -18,9 +18,8 @@ interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
 }
 
 /**
- * Компонент для определения текущего лэйаута.
+ * Компонент `ResponsiveLayout` для определения текущего лэйаута.
  */
-
 export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(props: ResponsiveLayoutProps<T>) {
   const layoutFlags = useResponsiveLayout<T>({ customMediaQueries: props.customMediaQueries });
 

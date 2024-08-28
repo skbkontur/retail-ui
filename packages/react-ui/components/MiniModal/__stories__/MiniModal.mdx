@@ -1,5 +1,5 @@
 import * as MiniModalStories from './MiniModal.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Meta, Primary, Controls, Description } from '@storybook/blocks';
 import { MiniModal } from '../MiniModal';
 import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 import { Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
@@ -11,7 +11,7 @@ import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/Notificatio
 
 # MiniModal
 
-[Компонент в Контур.Гайдах](https)
+<Description />
 
 ## Базовый пример
 
@@ -23,14 +23,6 @@ import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/Notificatio
 
 ## Примеры использования
 
-Этот компонент обёртка над [Modal](#/Components/Modal/Modal).
-
-`MiniModal` — модальное диалоговое окно, которое предполагает обязательный отклик пользователя по одному из доступных действий.
-Закрытие окна по клику на фон или "крестик" не рекомендуется, т.к. у этих действий нет однозначного описания в
-отличие от кнопок с названиями, наподобие "Сохранить", "Подтвердить" и т.п.
-
-👉 По макету предполагается, что все кнопки должны быть среднего размера `size = medium`.
-
 ### Примеры использования:
 
 ### Уведомление
@@ -41,7 +33,7 @@ import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/Notificatio
 import { MiniModal, Button, Gapped } from '@skbkontur/react-ui';
 import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 
-const PayNotifice = () => {
+const PayNotice = () => {
   const [isOpened, setIsOpened] = React.useState(false);
 
   const open = () => setIsOpened(true);
@@ -69,7 +61,7 @@ const PayNotifice = () => {
   );
 };
 
-<PayNotifice />;
+<PayNotice />;
 ```
 
 ### Подтверждение

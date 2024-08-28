@@ -1,5 +1,5 @@
 import * as MenuItemStories from './MenuItem.stories.tsx';
-import { Meta, Primary, Controls } from '@storybook/blocks';
+import { Meta, Primary, Controls, Description } from '@storybook/blocks';
 import { MenuItem } from '../MenuItem';
 import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
 import OkIcon from '@skbkontur/react-icons/Ok';
@@ -11,7 +11,7 @@ import { Gapped } from '@skbkontur/react-ui';
 
 # MenuItem
 
-[Компонент в Контур.Гайдах](https)
+<Description />
 
 ## Базовый пример
 
@@ -115,7 +115,7 @@ const LinkMenuItem = ({ link, title }) => {
 };
 
 <DropdownMenu caption={<Button use="primary">Открыть меню с ссылками</Button>}>
-  <LinkMenuItem link="http://tech.skbkontur.ru/react-ui/" title="Начало документации" />
+  <LinkMenuItem link="https://tech.skbkontur.ru/react-ui/" title="Начало документации" />
   <LinkMenuItem link="https://guides.kontur.ru/" title="Контур Гайды" />
   <LinkMenuItem link="https://github.com/skbkontur/retail-ui/graphs/contributors" title="Список прекрасных людей" />
 </DropdownMenu>;
