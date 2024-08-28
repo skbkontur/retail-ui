@@ -31,6 +31,8 @@ export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement
 }
 
 /**
+ * Компонент дня `CalendarDay` из [Calendar](?path=/docs/date-calendar--docs)'.
+ *
  * @visibleName Calendar.Day
  */
 export const CalendarDay = memo(
