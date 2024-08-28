@@ -54,26 +54,6 @@ global.MutationObserver = class {
   }
 };
 
-global.DataTransfer = class DataTransfer {
-  constructor() {
-    this.items = new Set();
-    this.files = this.items;
-  }
-};
-
-let files;
-
-beforeAll(() => (files = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files')));
-
-beforeEach(() =>
-  Object.defineProperty(HTMLInputElement.prototype, 'files', {
-    writable: true,
-    value: [],
-  }),
-);
-
-afterAll(() => Object.defineProperty(HTMLInputElement.prototype, 'files', files));
-
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`
  * https://reactjs.org/blog/2017/04/07/react-v15.5.0.html#new-deprecation-warnings

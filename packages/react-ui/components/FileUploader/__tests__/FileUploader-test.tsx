@@ -46,7 +46,7 @@ const removeFile = async (filename?: string) => {
         .getByText(filename)
         .closest(`[data-tid="${FileUploaderFileDataTids.file}"]`) as HTMLElement;
       const removeIcon = within(element).getByTestId(FileUploaderFileDataTids.fileIcon);
-      userEvent.click(removeIcon);
+      await userEvent.click(removeIcon);
     } else {
       await userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
     }
@@ -60,6 +60,33 @@ function createFile(filename: string, content = 'content'): File {
 }
 
 describe('FileUploader', () => {
+  const originalDT = global.DataTransfer;
+  const originalFiles = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files');
+
+  beforeAll(() => {
+    //@ts-ignore
+    global.DataTransfer = class DataTransfer {
+      constructor() {
+        //@ts-ignore
+        this.items = new Set();
+        //@ts-ignore
+        this.files = this.items;
+      }
+    };
+  });
+
+  beforeEach(() =>
+    Object.defineProperty(HTMLInputElement.prototype, 'files', {
+      writable: true,
+      value: [],
+    }),
+  );
+
+  afterAll(() => {
+    global.DataTransfer = originalDT;
+    Object.defineProperty(HTMLInputElement.prototype, 'files', originalFiles as DataTransfer['files']);
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       render(<FileUploader />);
