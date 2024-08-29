@@ -1,8 +1,10 @@
 import { VersionsLibrary } from './Versions';
-import { Meta } from '@storybook/blocks';
+import { Meta, Unstyled } from '@storybook/blocks';
 
-<Meta title="Versions" />
+<Meta title="Versions" toc={false} parameters={{ docs: { toc: false } }} />
 
-# Версии React UI
+<Unstyled id="disable-toc">
+  # Версии React UI
 
-<VersionsLibrary />
+  <VersionsLibrary />
+</Unstyled>
