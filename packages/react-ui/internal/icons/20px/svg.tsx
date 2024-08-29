@@ -1,22 +1,28 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import { styles } from './icon.styles';
+import { useEmotion } from '../../../lib/theming/Emotion';
+
+import { getStyles } from './icon.styles';
 
 export interface SVGIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: React.CSSProperties['color'];
 }
 
-export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color = 'currentColor', ...rest }) => (
-  <span className={styles.root()} {...rest}>
-    {React.cloneElement(children as JSX.Element, {
-      className: styles.icon(),
-      fill: color,
-      focusable: 'false',
-      'aria-hidden': 'true',
-    })}
-  </span>
-);
+export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color = 'currentColor', ...rest }) => {
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
+  return (
+    <span className={styles.root()} {...rest}>
+      {React.cloneElement(children as JSX.Element, {
+        className: styles.icon(),
+        fill: color,
+        focusable: 'false',
+        'aria-hidden': 'true',
+      })}
+    </span>
+  );
+};
 
 SvgIcon.propTypes = {
   children: propTypes.node,

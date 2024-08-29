@@ -2,8 +2,9 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
+import { useEmotion } from '../../../lib/theming/Emotion';
 
-import { styles } from './icon.styles';
+import { getStyles } from './icon.styles';
 
 // NOTE Icons copy-pasted from @skbkontur/react-icons package, because it's not fully opensource
 
@@ -16,6 +17,8 @@ export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
 const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
   'SvgIcon',
   ({ color, size, style, children, ...rest }, ref) => {
+    const emotion = useEmotion();
+    const styles = getStyles(emotion);
     return (
       <span ref={ref} className={styles.root()} style={{ ...style, fontSize: size, color }} {...rest}>
         {React.cloneElement(children as JSX.Element, {

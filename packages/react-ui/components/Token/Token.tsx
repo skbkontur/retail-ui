@@ -1,24 +1,25 @@
 import React, { AriaAttributes } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { SizeProp } from '../../lib/types/props';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles, colorStyles } from './Token.styles';
+import { getColorStyles, getStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
 import { TokenView } from './TokenView';
 
-export type TokenColorName = keyof typeof colorStyles;
+export type TokenColorName = keyof ReturnType<typeof getColorStyles>;
 
 export interface TokenColors {
   idle: TokenColorName;
@@ -74,17 +75,25 @@ export class Token extends React.Component<TokenProps> {
   public static displayName = 'Token';
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private setRootNode!: TSetRootNode;
   private readonly locale!: TokenLocale;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -123,8 +132,10 @@ export class Token extends React.Component<TokenProps> {
       <CrossIcon />
     );
 
+    const styles = getStyles(this.emotion);
+    const colorStyles = getColorStyles(this.emotion);
     const classNames = isTheme2022(theme)
-      ? cx(
+      ? this.emotion.cx(
           styles.tokenDefaultIdle2022(theme),
           !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering2022(theme),
           isActive && styles.tokenDefaultActive2022(theme),
@@ -132,7 +143,7 @@ export class Token extends React.Component<TokenProps> {
           error && styles.tokenError2022(theme),
           disabled && styles.tokenDisabled2022(theme),
         )
-      : cx(
+      : this.emotion.cx(
           colorStyles[colors.idle](theme, validation),
           !!isActive && colorStyles[colors.active || colors.idle](theme, validation),
           !!disabled && styles.disabled(theme),

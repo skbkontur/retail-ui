@@ -1,4 +1,6 @@
-import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
@@ -6,447 +8,448 @@ import { resetText } from '../../lib/styles/Mixins';
 const shouldCompensateFontFamily = (fontFamilyCompensation: string): boolean =>
   Boolean(parseInt(fontFamilyCompensation));
 
-export const styles = memoizeStyle({
-  wrapper() {
-    return css`
-      align-items: center;
-      display: flex;
-      margin: 0;
-      min-width: 0;
-      overflow: hidden;
-      position: relative;
-      text-overflow: clip;
-      white-space: nowrap;
-      width: 100%;
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    wrapper() {
+      return emotion.css`
+        align-items: center;
+        display: flex;
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        position: relative;
+        text-overflow: clip;
+        white-space: nowrap;
+        width: 100%;
 
-      &::before {
-        content: '\\A0';
-        display: inline-block;
-        width: 0;
-      }
-    `;
-  },
+        &::before {
+          content: '\\A0';
+          display: inline-block;
+          width: 0;
+        }
+      `;
+    },
 
-  root(t: Theme) {
-    return css`
-      ${resetText()};
+    root(t: Theme) {
+      return emotion.css`
+        ${resetText(emotion)};
 
-      align-items: center;
-      background-clip: ${t.inputBackgroundClip};
-      background-color: ${t.inputBg};
-      border: ${t.inputBorderWidth} solid ${t.inputBorderColor};
-      border-top-color: ${t.inputBorderTopColor};
-      transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
-      box-shadow: ${t.inputShadow};
-      box-sizing: border-box;
-      color: ${t.inputColor};
-      cursor: text;
-      display: inline-flex;
-      outline: none;
-      position: relative;
-      width: ${t.inputWidth};
-
-      & * {
+        align-items: center;
+        background-clip: ${t.inputBackgroundClip};
+        background-color: ${t.inputBg};
+        border: ${t.inputBorderWidth} solid ${t.inputBorderColor};
+        border-top-color: ${t.inputBorderTopColor};
+        transition: border-color ${t.transitionDuration} ${t.transitionTimingFunction};
+        box-shadow: ${t.inputShadow};
         box-sizing: border-box;
-      }
-    `;
-  },
+        color: ${t.inputColor};
+        cursor: text;
+        display: inline-flex;
+        outline: none;
+        position: relative;
+        width: ${t.inputWidth};
 
-  hovering(t: Theme) {
-    return css`
-      &:hover {
-        border-color: ${t.inputBorderColorHover};
-      }
-    `;
-  },
+        & * {
+          box-sizing: border-box;
+        }
+      `;
+    },
 
-  borderless() {
-    return css`
-      box-shadow: none;
-      border-color: transparent;
-      background-clip: padding-box;
-    `;
-  },
+    hovering(t: Theme) {
+      return emotion.css`
+        &:hover {
+          border-color: ${t.inputBorderColorHover};
+        }
+      `;
+    },
 
-  useDefaultColor(t: Theme) {
-    return css`
-      color: ${t.inputIconColor};
-    `;
-  },
+    borderless() {
+      return emotion.css`
+        box-shadow: none;
+        border-color: transparent;
+        background-clip: padding-box;
+      `;
+    },
 
-  focus(t: Theme) {
-    return css`
-      background-color: ${t.inputFocusedBg};
-      border-color: ${t.inputBorderColorFocus};
-      box-shadow: ${t.inputFocusShadow};
-      outline: none;
-      z-index: 2;
-    `;
-  },
+    useDefaultColor(t: Theme) {
+      return emotion.css`
+        color: ${t.inputIconColor};
+      `;
+    },
 
-  focusFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
-    `;
-  },
+    focus(t: Theme) {
+      return emotion.css`
+        background-color: ${t.inputFocusedBg};
+        border-color: ${t.inputBorderColorFocus};
+        box-shadow: ${t.inputFocusShadow};
+        outline: none;
+        z-index: 2;
+      `;
+    },
 
-  placeholder(t: Theme) {
-    return css`
-      -ms-user-select: none;
-      color: ${t.inputPlaceholderColor};
-      cursor: text;
-      font-size: inherit;
-      height: 100%;
-      left: 0;
-      overflow: hidden;
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      user-select: none;
-      white-space: nowrap;
-      width: 100%;
-    `;
-  },
+    focusFallback(t: Theme) {
+      return emotion.css`
+        box-shadow: none;
+        outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
+      `;
+    },
 
-  placeholderFocus(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorLight};
-    `;
-  },
-
-  placeholderDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
-
-  input(t: Theme) {
-    return css`
-      -webkit-appearance: none;
-      background: transparent;
-      border: 0 none;
-      color: ${t.inputTextColor};
-      font: inherit;
-      line-height: inherit;
-      margin: 0;
-      outline: none;
-      padding: 0;
-      text-overflow: clip;
-      white-space: nowrap;
-      width: 100%;
-      color-scheme: ${t.inputColorScheme};
-
-      &:-moz-placeholder {
-        opacity: 1;
-      }
-      &::-moz-placeholder {
-        opacity: 1;
-      }
-      &::-ms-clear {
-        display: none;
-      }
-      &:-moz-placeholder {
+    placeholder(t: Theme) {
+      return emotion.css`
+        -ms-user-select: none;
         color: ${t.inputPlaceholderColor};
-      }
-      &::-moz-placeholder {
-        color: ${t.inputPlaceholderColor};
-      }
-      &::placeholder {
-        color: ${t.inputPlaceholderColor};
-      }
-    `;
-  },
+        cursor: text;
+        font-size: inherit;
+        height: 100%;
+        left: 0;
+        overflow: hidden;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        user-select: none;
+        white-space: nowrap;
+        width: 100%;
+      `;
+    },
 
-  inputFocus(t: Theme) {
-    return css`
-      &:-moz-placeholder {
+    placeholderFocus(t: Theme) {
+      return emotion.css`
         color: ${t.inputPlaceholderColorLight};
-      }
-      &::-moz-placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-      &::placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-    `;
-  },
+      `;
+    },
 
-  inputDisabled(t: Theme) {
-    return css`
-      color: ${t.inputTextColorDisabled};
-      /* fix text color in safari https://bugs.webkit.org/show_bug.cgi?id=115510 */
-      -webkit-text-fill-color: ${t.inputTextColorDisabled};
+    placeholderDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.inputPlaceholderColorDisabled};
+      `;
+    },
 
-      &:-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
-      }
-      &::-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
-      }
-      &::placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
-      }
-    `;
-  },
+    input(t: Theme) {
+      return emotion.css`
+        -webkit-appearance: none;
+        background: transparent;
+        border: 0 none;
+        color: ${t.inputTextColor};
+        font: inherit;
+        line-height: inherit;
+        margin: 0;
+        outline: none;
+        padding: 0;
+        text-overflow: clip;
+        white-space: nowrap;
+        width: 100%;
+        color-scheme: ${t.inputColorScheme};
 
-  warning(t: Theme) {
-    return css`
-      border-color: ${t.inputBorderColorWarning};
-      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning};
-      z-index: 2;
-    `;
-  },
+        &:-moz-placeholder {
+          opacity: 1;
+        }
+        &::-moz-placeholder {
+          opacity: 1;
+        }
+        &::-ms-clear {
+          display: none;
+        }
+        &:-moz-placeholder {
+          color: ${t.inputPlaceholderColor};
+        }
+        &::-moz-placeholder {
+          color: ${t.inputPlaceholderColor};
+        }
+        &::placeholder {
+          color: ${t.inputPlaceholderColor};
+        }
+      `;
+    },
 
-  warningFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning};
-    `;
-  },
+    inputFocus(t: Theme) {
+      return emotion.css`
+        &:-moz-placeholder {
+          color: ${t.inputPlaceholderColorLight};
+        }
+        &::-moz-placeholder {
+          color: ${t.inputPlaceholderColorLight};
+        }
+        &::placeholder {
+          color: ${t.inputPlaceholderColorLight};
+        }
+      `;
+    },
 
-  error(t: Theme) {
-    return css`
-      border-color: ${t.inputBorderColorError};
-      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError};
-      z-index: 2;
-    `;
-  },
+    inputDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.inputTextColorDisabled};
+        /* fix text color in safari https://bugs.webkit.org/show_bug.cgi?id=115510 */
+        -webkit-text-fill-color: ${t.inputTextColorDisabled};
 
-  errorFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError};
-    `;
-  },
+        &:-moz-placeholder {
+          -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+        }
+        &::-moz-placeholder {
+          -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+        }
+        &::placeholder {
+          -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+        }
+      `;
+    },
 
-  disabled(t: Theme) {
-    return css`
-      background-color: ${t.inputDisabledBg};
-      border-color: ${t.inputDisabledBorderColor};
-      box-shadow: none;
-    `;
-  },
+    warning(t: Theme) {
+      return emotion.css`
+        border-color: ${t.inputBorderColorWarning};
+        box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning};
+        z-index: 2;
+      `;
+    },
 
-  blink(t: Theme) {
-    const blinkAnimation = keyframes`
+    warningFallback(t: Theme) {
+      return emotion.css`
+        box-shadow: none;
+        outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning};
+      `;
+    },
+
+    error(t: Theme) {
+      return emotion.css`
+        border-color: ${t.inputBorderColorError};
+        box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError};
+        z-index: 2;
+      `;
+    },
+
+    errorFallback(t: Theme) {
+      return emotion.css`
+        box-shadow: none;
+        outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError};
+      `;
+    },
+
+    disabled(t: Theme) {
+      return emotion.css`
+        background-color: ${t.inputDisabledBg};
+        border-color: ${t.inputDisabledBorderColor};
+        box-shadow: none;
+      `;
+    },
+
+    blink(t: Theme) {
+      const blinkAnimation = emotion.keyframes`
     0% {
       background-color: ${t.inputBlinkColor};
     }
   `;
-    return css`
-      animation: ${blinkAnimation} 0.15s ease-in;
-    `;
-  },
+      return emotion.css`
+        animation: ${blinkAnimation} 0.15s ease-in;
+      `;
+    },
 
-  sizeSmall(t: Theme) {
-    return css`
-      font-size: ${t.inputFontSizeSmall};
-      line-height: ${t.inputLineHeightSmall};
-      padding-top: ${t.inputPaddingYSmall};
-      padding-bottom: ${t.inputPaddingYSmall};
-      padding-left: ${t.inputPaddingXSmall};
-      padding-right: ${t.inputPaddingXSmall};
-      height: ${t.inputHeightSmall};
-      border-radius: ${t.inputBorderRadiusSmall};
-    `;
-  },
+    sizeSmall(t: Theme) {
+      return emotion.css`
+        font-size: ${t.inputFontSizeSmall};
+        line-height: ${t.inputLineHeightSmall};
+        padding-top: ${t.inputPaddingYSmall};
+        padding-bottom: ${t.inputPaddingYSmall};
+        padding-left: ${t.inputPaddingXSmall};
+        padding-right: ${t.inputPaddingXSmall};
+        height: ${t.inputHeightSmall};
+        border-radius: ${t.inputBorderRadiusSmall};
+      `;
+    },
 
-  sizeSmallFallback(t: Theme) {
-    return css`
-      padding-top: ${shift(
-        t.inputPaddingYSmall,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYSmall,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
-      )};
-      padding-left: ${t.inputPaddingXSmall};
-      padding-right: ${t.inputPaddingXSmall};
-      line-height: normal;
-    `;
-  },
+    sizeSmallFallback(t: Theme) {
+      return emotion.css`
+        padding-top: ${shift(
+          t.inputPaddingYSmall,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
+        )};
+        padding-bottom: ${shift(
+          t.inputPaddingYSmall,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
+        )};
+        padding-left: ${t.inputPaddingXSmall};
+        padding-right: ${t.inputPaddingXSmall};
+        line-height: normal;
+      `;
+    },
 
-  sizeMedium(t: Theme) {
-    return css`
-      font-size: ${t.inputFontSizeMedium};
-      line-height: ${t.inputLineHeightMedium};
-      padding-top: ${t.inputPaddingYMedium};
-      padding-bottom: ${t.inputPaddingYMedium};
-      padding-left: ${t.inputPaddingXMedium};
-      padding-right: ${t.inputPaddingXMedium};
-      height: ${t.inputHeightMedium};
-      border-radius: ${t.inputBorderRadiusMedium};
-    `;
-  },
+    sizeMedium(t: Theme) {
+      return emotion.css`
+        font-size: ${t.inputFontSizeMedium};
+        line-height: ${t.inputLineHeightMedium};
+        padding-top: ${t.inputPaddingYMedium};
+        padding-bottom: ${t.inputPaddingYMedium};
+        padding-left: ${t.inputPaddingXMedium};
+        padding-right: ${t.inputPaddingXMedium};
+        height: ${t.inputHeightMedium};
+        border-radius: ${t.inputBorderRadiusMedium};
+      `;
+    },
 
-  sizeMediumFallback(t: Theme) {
-    return css`
-      padding-top: ${shift(
-        t.inputPaddingYMedium,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYMedium,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
-      )};
-      padding-left: ${t.inputPaddingXMedium};
-      padding-right: ${t.inputPaddingXMedium};
-      line-height: normal;
-    `;
-  },
+    sizeMediumFallback(t: Theme) {
+      return emotion.css`
+        padding-top: ${shift(
+          t.inputPaddingYMedium,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
+        )};
+        padding-bottom: ${shift(
+          t.inputPaddingYMedium,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
+        )};
+        padding-left: ${t.inputPaddingXMedium};
+        padding-right: ${t.inputPaddingXMedium};
+        line-height: normal;
+      `;
+    },
 
-  sizeLarge(t: Theme) {
-    return css`
-      font-size: ${t.inputFontSizeLarge};
-      line-height: ${t.inputLineHeightLarge};
-      height: ${t.inputHeightLarge};
-      padding-top: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
-      )};
-      padding-left: ${t.inputPaddingXLarge};
-      padding-right: ${t.inputPaddingXLarge};
-      border-radius: ${t.inputBorderRadiusLarge};
-    `;
-  },
+    sizeLarge(t: Theme) {
+      return emotion.css`
+        font-size: ${t.inputFontSizeLarge};
+        line-height: ${t.inputLineHeightLarge};
+        height: ${t.inputHeightLarge};
+        padding-top: ${shift(
+          t.inputPaddingYLarge,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
+        )};
+        padding-bottom: ${shift(
+          t.inputPaddingYLarge,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
+        )};
+        padding-left: ${t.inputPaddingXLarge};
+        padding-right: ${t.inputPaddingXLarge};
+        border-radius: ${t.inputBorderRadiusLarge};
+      `;
+    },
 
-  sizeLargeFallback(t: Theme) {
-    return css`
-      padding-top: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-2' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '2' : '0',
-      )};
-      padding-left: ${t.inputPaddingXLarge};
-      padding-right: ${t.inputPaddingXLarge};
-      line-height: normal;
-    `;
-  },
+    sizeLargeFallback(t: Theme) {
+      return emotion.css`
+        padding-top: ${shift(
+          t.inputPaddingYLarge,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-2' : '0',
+        )};
+        padding-bottom: ${shift(
+          t.inputPaddingYLarge,
+          shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '2' : '0',
+        )};
+        padding-left: ${t.inputPaddingXLarge};
+        padding-right: ${t.inputPaddingXLarge};
+        line-height: normal;
+      `;
+    },
 
-  prefix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColor};
-    `;
-  },
+    prefix(t: Theme) {
+      return emotion.css`
+        color: ${t.inputPlaceholderColor};
+      `;
+    },
 
-  prefixDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
+    prefixDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.inputPlaceholderColorDisabled};
+      `;
+    },
 
-  suffix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColor};
-    `;
-  },
+    suffix(t: Theme) {
+      return emotion.css`
+        color: ${t.inputPlaceholderColor};
+      `;
+    },
 
-  suffixDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
+    suffixDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.inputPlaceholderColorDisabled};
+      `;
+    },
 
-  sideContainer() {
-    return css`
-      align-items: center;
-      display: flex;
-      flex-shrink: 0;
-      height: 100%;
+    sideContainer() {
+      return emotion.css`
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+        height: 100%;
 
-      &::before {
-        content: '\\a0';
-        display: inline-block;
-        width: 0;
-      }
-    `;
-  },
+        &::before {
+          content: '\\a0';
+          display: inline-block;
+          width: 0;
+        }
+      `;
+    },
 
-  rightContainer() {
-    return css`
-      justify-self: flex-end;
-      margin: 0 0 0 auto;
-      padding-left: 0;
-    `;
-  },
+    rightContainer() {
+      return emotion.css`
+        justify-self: flex-end;
+        margin: 0 0 0 auto;
+        padding-left: 0;
+      `;
+    },
 
-  icon() {
-    return css`
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
-      text-align: center;
-      box-sizing: content-box !important; // fix possible "reset.css" problem
-    `;
-  },
+    icon() {
+      return emotion.css`
+        flex-shrink: 0;
+        cursor: text;
+        z-index: 2;
+        text-align: center;
+        box-sizing: content-box !important; // fix possible "reset.css" problem
+      `;
+    },
 
-  iconFocus(t: Theme) {
-    return css`
-      color: ${t.inputFocusedIconColor};
-    `;
-  },
+    iconFocus(t: Theme) {
+      return emotion.css`
+        color: ${t.inputFocusedIconColor};
+      `;
+    },
 
   iconDisabled(t: Theme) {
-    return css`
-      cursor: default;
-      color: ${t.inputIconColorDisabled};
-    `;
-  },
+      return emotion.css`
+        cursor: default;
+        color: ${t.inputIconColorDisabled};
+      `;
+    },
 
-  leftIconSmall(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeSmall};
-      padding-right: ${t.inputIconGapSmall};
-    `;
-  },
+    leftIconSmall(t: Theme) {
+      return emotion.css`
+        min-width: ${t.inputIconSizeSmall};
+        padding-right: ${t.inputIconGapSmall};
+      `;
+    },
 
-  rightIconSmall(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeSmall};
-      padding-left: ${t.inputIconGapSmall};
-    `;
-  },
+    rightIconSmall(t: Theme) {
+      return emotion.css`
+        min-width: ${t.inputIconSizeSmall};
+        padding-left: ${t.inputIconGapSmall};
+      `;
+    },
 
-  leftIconMedium(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeMedium};
-      padding-right: ${t.inputIconGapMedium};
-    `;
-  },
+    leftIconMedium(t: Theme) {
+      return emotion.css`
+        min-width: ${t.inputIconSizeMedium};
+        padding-right: ${t.inputIconGapMedium};
+      `;
+    },
 
-  rightIconMedium(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeMedium};
-      padding-left: ${t.inputIconGapMedium};
-    `;
-  },
+    rightIconMedium(t: Theme) {
+      return emotion.css`
+        min-width: ${t.inputIconSizeMedium};
+        padding-left: ${t.inputIconGapMedium};
+      `;
+    },
 
-  leftIconLarge(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeLarge};
-      padding-right: ${t.inputIconGapLarge};
-    `;
-  },
+    leftIconLarge(t: Theme) {
+      return emotion.css`
+        min-width: ${t.inputIconSizeLarge};
+        padding-right: ${t.inputIconGapLarge};
+      `;
+    },
 
-  rightIconLarge(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeLarge};
-      padding-left: ${t.inputIconGapLarge};
-    `;
-  },
+    rightIconLarge(t: Theme) {
+      return emotion.css`
+        min-width: ${t.inputIconSizeLarge};
+        padding-left: ${t.inputIconGapLarge};
+      `;
+    },
 
-  hideBlinkingCursor() {
-    return css`
-      caret-color: transparent;
-    `;
-  },
-});
+    hideBlinkingCursor() {
+      return emotion.css`
+        caret-color: transparent;
+      `;
+    },
+  });

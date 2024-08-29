@@ -1,149 +1,152 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
-  paging(t: Theme) {
-    return css`
-      user-select: none;
-      outline: 0;
-      font-size: ${t.pagingFontSize};
-      line-height: ${t.pagingLineHeight};
-      display: inline-block;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    paging(t: Theme) {
+      return emotion.css`
+        user-select: none;
+        outline: 0;
+        font-size: ${t.pagingFontSize};
+        line-height: ${t.pagingLineHeight};
+        display: inline-block;
+      `;
+    },
 
-  pagingDisabled() {
-    return css`
-      pointer-events: none;
-    `;
-  },
+    pagingDisabled() {
+      return emotion.css`
+        pointer-events: none;
+      `;
+    },
 
-  dots(t: Theme) {
-    return css`
-      color: ${t.pagingDotsColor};
-      display: inline-block;
-      padding: ${t.pagingDotsPadding};
-    `;
-  },
+    dots(t: Theme) {
+      return emotion.css`
+        color: ${t.pagingDotsColor};
+        display: inline-block;
+        padding: ${t.pagingDotsPadding};
+      `;
+    },
 
-  dotsDisabled(t: Theme) {
-    return css`
-      color: ${t.pagingDotsDisabledColor};
-    `;
-  },
+    dotsDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.pagingDotsDisabledColor};
+      `;
+    },
 
-  forwardLink(t: Theme) {
-    return css`
-      color: ${t.pagingForwardLinkColor};
-      cursor: pointer;
-      display: inline-block;
-      margin-top: ${t.pagingPageForwardLinkMarginTop};
-      margin-left: ${t.pagingPageForwardLinkMarginLeft};
-      outline: none;
-      padding-right: ${t.pagingPageForwardLinkPaddingRight};
-      position: relative;
-      text-decoration: none;
-      user-select: none;
-      vertical-align: top;
-    `;
-  },
+    forwardLink(t: Theme) {
+      return emotion.css`
+        color: ${t.pagingForwardLinkColor};
+        cursor: pointer;
+        display: inline-block;
+        margin-top: ${t.pagingPageForwardLinkMarginTop};
+        margin-left: ${t.pagingPageForwardLinkMarginLeft};
+        outline: none;
+        padding-right: ${t.pagingPageForwardLinkPaddingRight};
+        position: relative;
+        text-decoration: none;
+        user-select: none;
+        vertical-align: top;
+      `;
+    },
 
-  forwardLinkFocused() {
-    return css`
-      text-decoration: underline;
-    `;
-  },
+    forwardLinkFocused() {
+      return emotion.css`
+        text-decoration: underline;
+      `;
+    },
 
-  forwardIcon(t: Theme) {
-    return css`
-      vertical-align: -2px;
-      position: absolute;
-      margin-top: ${t.pagingForwardIconMarginTop};
-      right: 0;
-    `;
-  },
+    forwardIcon(t: Theme) {
+      return emotion.css`
+        vertical-align: -2px;
+        position: absolute;
+        margin-top: ${t.pagingForwardIconMarginTop};
+        right: 0;
+      `;
+    },
 
-  forwardLinkDisabled(t: Theme) {
-    return css`
-      color: ${t.pagingForwardLinkDisabledColor};
-      cursor: default;
-    `;
-  },
+    forwardLinkDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.pagingForwardLinkDisabledColor};
+        cursor: default;
+      `;
+    },
 
-  pageLinkWrapper() {
-    return css`
-      display: inline-flex;
-      flex-flow: column nowrap;
-      text-align: center;
-      user-select: none;
-      vertical-align: top;
-    `;
-  },
+    pageLinkWrapper() {
+      return emotion.css`
+        display: inline-flex;
+        flex-flow: column nowrap;
+        text-align: center;
+        user-select: none;
+        vertical-align: top;
+      `;
+    },
 
-  pageLink(t: Theme) {
-    return css`
-      box-sizing: content-box;
-      border-radius: ${t.pagingPageLinkBorderRadius};
-      color: ${t.pagingForwardLinkColor};
-      cursor: pointer;
-      display: block;
-      margin: ${t.pagingPageLinkMargin};
-      outline: none;
-      min-width: ${t.pagingPageLinkMinWidth};
-      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
-      text-decoration: none;
-      box-sizing: ${t.pagingPageLinkBoxSizing};
+    pageLink(t: Theme) {
+      return emotion.css`
+        box-sizing: content-box;
+        border-radius: ${t.pagingPageLinkBorderRadius};
+        color: ${t.pagingForwardLinkColor};
+        cursor: pointer;
+        display: block;
+        margin: ${t.pagingPageLinkMargin};
+        outline: none;
+        min-width: ${t.pagingPageLinkMinWidth};
+        padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
+        text-decoration: none;
+        box-sizing: ${t.pagingPageLinkBoxSizing};
 
-      &:hover {
-        background: ${t.pagingPageLinkHoverBg};
-      }
-    `;
-  },
+        &:hover {
+          background: ${t.pagingPageLinkHoverBg};
+        }
+      `;
+    },
 
-  pageLinkDisabled(t: Theme) {
-    return css`
-      color: ${t.linkDisabledColor};
-      pointer-events: none;
-    `;
-  },
+    pageLinkDisabled(t: Theme) {
+      return emotion.css`
+        color: ${t.linkDisabledColor};
+        pointer-events: none;
+      `;
+    },
 
-  pageLinkCurrent(t: Theme) {
-    return css`
-      cursor: default;
-      background: ${t.pagingPageLinkActiveBg} !important; // override hover styles
-      color: ${t.pagingPageLinkActiveColor};
-    `;
-  },
+    pageLinkCurrent(t: Theme) {
+      return emotion.css`
+        cursor: default;
+        background: ${t.pagingPageLinkActiveBg} !important; // override hover styles
+        color: ${t.pagingPageLinkActiveColor};
+      `;
+    },
 
-  pageLinkCurrentDisabled(t: Theme) {
-    return css`
-      background: ${t.pagingPageLinkDisabledActiveBg} !important;
-      color: ${t.linkDisabledColor};
-    `;
-  },
+    pageLinkCurrentDisabled(t: Theme) {
+      return emotion.css`
+        background: ${t.pagingPageLinkDisabledActiveBg} !important;
+        color: ${t.linkDisabledColor};
+      `;
+    },
 
-  pageLinkFocused(t: Theme) {
-    return css`
-      ${`
+    pageLinkFocused(t: Theme) {
+      return emotion.css`
+        ${`
           box-shadow: 0 0 0 2px ${t.borderColorFocus};
         `}
-    `;
-  },
+      `;
+    },
 
-  transparent() {
-    return css`
-      color: transparent;
-    `;
-  },
+    transparent() {
+      return emotion.css`
+        color: transparent;
+      `;
+    },
 
-  pageLinkHint(t: Theme) {
-    return css`
-      display: inline-block;
-      margin: ${t.pagingPageLinkHintMargin};
-      font-size: ${t.pagingPageLinkHintFontSize};
-      height: ${t.pagingPageLinkHintLineHeight};
-      line-height: ${t.pagingPageLinkHintLineHeight};
-      color: ${t.pagingPageLinkHintColor};
-    `;
-  },
-});
+    pageLinkHint(t: Theme) {
+      return emotion.css`
+        display: inline-block;
+        margin: ${t.pagingPageLinkHintMargin};
+        font-size: ${t.pagingPageLinkHintFontSize};
+        height: ${t.pagingPageLinkHintLineHeight};
+        line-height: ${t.pagingPageLinkHintLineHeight};
+        color: ${t.pagingPageLinkHintColor};
+      `;
+    },
+  });

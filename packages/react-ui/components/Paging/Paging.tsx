@@ -1,6 +1,7 @@
 import React from 'react';
 import { func, number } from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -9,17 +10,17 @@ import { Nullable } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './Paging.styles';
+import { getStyles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
 import { getItems } from './PagingHelper';
 import { PagingLocale, PagingLocaleHelper } from './locale';
@@ -121,6 +122,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private readonly locale!: PagingLocale;
   private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
@@ -159,17 +161,25 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     }
 
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain() {
     const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
+    const styles = getStyles(this.emotion);
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
@@ -179,7 +189,10 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
-          className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
+          className={this.emotion.cx({
+            [styles.paging(this.theme)]: true,
+            [styles.pagingDisabled()]: this.props.disabled,
+          })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -211,11 +224,15 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderDots = (key: string) => {
+    const styles = getStyles(this.emotion);
     return (
       <span
         data-tid={PagingDataTids.dots}
         key={key}
-        className={cx({ [styles.dots(this.theme)]: true, [styles.dotsDisabled(this.theme)]: this.props.disabled })}
+        className={this.emotion.cx({
+          [styles.dots(this.theme)]: true,
+          [styles.dotsDisabled(this.theme)]: this.props.disabled,
+        })}
       >
         {'...'}
       </span>
@@ -223,14 +240,15 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
+    const styles = getStyles(this.emotion);
     const classes = isTheme2022(this.theme)
-      ? cx(
+      ? this.emotion.cx(
           styles.pageLink(this.theme),
           styles.forwardLink(this.theme),
           focused && styles.pageLinkFocused(this.theme),
           (disabled || this.props.disabled) && styles.pageLinkDisabled(this.theme),
         )
-      : cx({
+      : this.emotion.cx({
           [styles.forwardLink(this.theme)]: true,
           [styles.forwardLinkFocused()]: focused,
           [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
@@ -264,8 +282,9 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
+    const styles = getStyles(this.emotion);
     const disabled = this.props.disabled;
-    const classes = cx({
+    const classes = this.emotion.cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,
       [styles.pageLinkDisabled(this.theme)]: disabled,
@@ -308,6 +327,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const canGoForward = this.canGoForward();
 
     let hint = null;
+    const styles = getStyles(this.emotion);
     if (keyboardControl && (canGoBackward || canGoForward)) {
       hint = (
         <>

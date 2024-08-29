@@ -1,4 +1,5 @@
-import { css } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
 import { shift } from '../../lib/styles/DimensionFunctions';
 
 import { globalClasses } from './Button.styles';
@@ -28,21 +29,25 @@ const getBtnPadding = (
   return `${paddingTop} ${paddingX} ${paddingBottom}`;
 };
 
-export const buttonUseMixin = (
-  btnBackground: string,
-  btnBackgroundStart: string,
-  btnBackgroundEnd: string,
-  color: string,
-  borderColor: string,
-  borderBottomColor: string,
-  borderWidth: string,
-) => {
-  const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
-  return css`
+export const buttonUseMixin =
+  (emotion: Emotion) =>
+  (
+    btnBackground: string,
+    btnBackgroundStart: string,
+    btnBackgroundEnd: string,
+    color: string,
+    borderColor: string,
+    borderBottomColor: string,
+    borderWidth: string,
+  ) => {
+    const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
+    return emotion.css`
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     color: ${color};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${
+      borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``
+    };
 
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
@@ -55,44 +60,52 @@ export const buttonUseMixin = (
       }
     }
   `;
-};
+  };
 
-export const buttonHoverMixin = (
-  btnBackground: string,
-  btnBackgroundStart: string,
-  btnBackgroundEnd: string,
-  color: string,
-  borderColor: string,
-  borderBottomColor: string,
-  borderWidth: string,
-) => {
-  const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
-  return css`
+export const buttonHoverMixin =
+  (emotion: Emotion) =>
+  (
+    btnBackground: string,
+    btnBackgroundStart: string,
+    btnBackgroundEnd: string,
+    color: string,
+    borderColor: string,
+    borderBottomColor: string,
+    borderWidth: string,
+  ) => {
+    const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
+    return emotion.css`
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${
+      borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``
+    };
     color: ${color};
 
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 ${borderColor};
     }
   `;
-};
+  };
 
-export const buttonActiveMixin = (
-  btnBackground: string,
-  btnShadow: string,
-  borderColor: string,
-  borderTopColor: string,
-  borderWidth: string,
-  arrowBgImage: string,
-) => {
-  return css`
+export const buttonActiveMixin =
+  (emotion: Emotion) =>
+  (
+    btnBackground: string,
+    btnShadow: string,
+    borderColor: string,
+    borderTopColor: string,
+    borderWidth: string,
+    arrowBgImage: string,
+  ) => {
+    return emotion.css`
     &,
     &:hover {
       background-image: none !important; // override :hover styles
       background-color: ${btnBackground} !important; // override :hover styles
-      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``} !important; // override :hover styles
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${
+      borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``
+    } !important; // override :hover styles
 
       .${globalClasses.innerShadow} {
         box-shadow: ${btnShadow};
@@ -107,42 +120,30 @@ export const buttonActiveMixin = (
       }
     }
   `;
-};
+  };
 
-export const buttonSizeMixin = (
-  fontSize: string,
-  lineHeight: string,
-  paddingX: string,
-  paddingY: string,
-  fontFamilyCompensation: string,
-) => {
-  return css`
+export const buttonSizeMixin =
+  (emotion: Emotion) =>
+  (fontSize: string, lineHeight: string, paddingX: string, paddingY: string, fontFamilyCompensation: string) => {
+    return emotion.css`
     font-size: ${fontSize};
     box-sizing: border-box;
     padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
     line-height: ${lineHeight};
   `;
-};
+  };
 
-export const buttonSizeMixinIE11 = (
-  fontSize: string,
-  paddingX: string,
-  paddingY: string,
-  fontFamilyCompensation: string,
-) => {
-  return css`
+export const buttonSizeMixinIE11 =
+  (emotion: Emotion) => (fontSize: string, paddingX: string, paddingY: string, fontFamilyCompensation: string) => {
+    return emotion.css`
     padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
     line-height: normal;
   `;
-};
+  };
 
-export const arrowOutlineMixin = (
-  insetWidth: string,
-  outlineColor: string,
-  outlineWidth: string,
-  insetColor: string,
-) => {
-  return css`
+export const arrowOutlineMixin =
+  (emotion: Emotion) => (insetWidth: string, outlineColor: string, outlineWidth: string, insetColor: string) => {
+    return emotion.css`
     .${globalClasses.arrowHelper} {
       &.${globalClasses.arrowHelperTop} {
         box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
@@ -164,4 +165,4 @@ export const arrowOutlineMixin = (
       }
     }
   `;
-};
+  };

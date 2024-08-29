@@ -1,6 +1,8 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { getRandomID } from '../../lib/utils';
 import { HTMLProps } from '../../typings/html';
 import {
@@ -10,7 +12,6 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
@@ -20,9 +21,10 @@ import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Menu, MenuProps } from '../Menu';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { isValidPositions } from './validatePositions';
-import { styles } from './PopupMenu.styles';
+import { getStyles } from './PopupMenu.styles';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;
@@ -138,30 +140,39 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private savedFocusableElement: HTMLElement | null = null;
   private menu: Nullable<Menu> = null;
   private setRootNode!: TSetRootNode;
+  private emotion!: Emotion;
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  menuOffsetY: theme.popupMenuMenuOffsetY,
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                return (
+                  <ThemeContext.Provider
+                    value={ThemeFactory.create(
+                      {
+                        menuOffsetY: theme.popupMenuMenuOffsetY,
+                      },
+                      theme,
+                    )}
+                  >
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain() {
     const { popupHasPin, disableAnimations } = this.getProps();
+    const styles = getStyles(this.emotion);
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
@@ -233,6 +244,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   };
 
   private renderCaption = () => {
+    const styles = getStyles(this.emotion);
+
     if (typeof this.props.caption === 'function') {
       const caption = this.props.caption({
         opened: this.state.menuVisible,
@@ -240,7 +253,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         closeMenu: this.hideMenu,
         toggleMenu: this.toggleMenu,
       });
-
       return (
         <span
           data-tid={PopupMenuDataTids.caption}

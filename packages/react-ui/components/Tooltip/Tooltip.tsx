@@ -2,6 +2,7 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -18,7 +19,6 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -28,13 +28,15 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import {
   getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
 
-import { styles } from './Tooltip.styles';
+import { getStyles } from './Tooltip.styles';
 
 export type TooltipTrigger =
   /** Наведение на children и на тултип */
@@ -217,6 +219,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
+  private emotion!: Emotion;
   public featureFlags!: ReactUIFeatureFlags;
   private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
@@ -257,30 +260,37 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
                 return (
-                  <ThemeContext.Provider
-                    value={ThemeFactory.create(
-                      {
-                        popupPinOffset: theme.tooltipPinOffset,
-                        popupMargin: theme.tooltipMargin,
-                        popupBorder: theme.tooltipBorder,
-                        popupBorderRadius: theme.tooltipBorderRadius,
-                        popupPinSize: theme.tooltipPinSize,
-                        popupPinOffsetX: theme.tooltipPinOffsetX,
-                        popupPinOffsetY: theme.tooltipPinOffsetY,
-                        popupBackground: theme.tooltipBg,
-                      },
-                      theme,
-                    )}
-                  >
-                    {this.renderMain()}
-                  </ThemeContext.Provider>
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = theme;
+                      return (
+                        <ThemeContext.Provider
+                          value={ThemeFactory.create(
+                            {
+                              popupPinOffset: theme.tooltipPinOffset,
+                              popupMargin: theme.tooltipMargin,
+                              popupBorder: theme.tooltipBorder,
+                              popupBorderRadius: theme.tooltipBorderRadius,
+                              popupPinSize: theme.tooltipPinSize,
+                              popupPinOffsetX: theme.tooltipPinOffsetX,
+                              popupPinOffsetY: theme.tooltipPinOffsetY,
+                              popupBackground: theme.tooltipBg,
+                            },
+                            theme,
+                          )}
+                        >
+                          {this.renderMain()}
+                        </ThemeContext.Provider>
+                      );
+                    }}
+                  </ThemeContext.Consumer>
                 );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -292,6 +302,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (isNullable(content)) {
       return null;
     }
+    const styles = getStyles(this.emotion);
 
     return (
       <div ref={this.refContent} className={styles.tooltipContent(this.theme)} data-tid={TooltipDataTids.content}>
@@ -321,7 +332,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     ) : (
       <CrossIcon />
     );
-
+    const styles = getStyles(this.emotion);
     return (
       <div
         className={styles.cross(this.theme)}

@@ -1,22 +1,23 @@
 import React, { useContext, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { useTheme } from '../../lib/theming/useTheme';
 
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 import { SidePageLocaleHelper } from './locale';
 import { SidePageHeaderDataTids } from './SidePageHeader';
 import { SidePageContext } from './SidePageContext';
 
 export const SidePageCloseButton = () => {
+  const emotion = useEmotion();
   const [isFocusedByTab, setIsFocusedByTab] = useState(false);
 
   const locale = useLocaleForControl('SidePage', SidePageLocaleHelper);
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {
@@ -31,10 +32,12 @@ export const SidePageCloseButton = () => {
     setIsFocusedByTab(false);
   };
 
+  const styles = getStyles(emotion);
+
   return (
     <button
       aria-label={locale?.closeButtonAriaLabel}
-      className={cx(styles.close(theme), {
+      className={emotion.cx(styles.close(theme), {
         [styles.closeFocus(theme)]: isFocusedByTab,
       })}
       onFocus={handleFocus}

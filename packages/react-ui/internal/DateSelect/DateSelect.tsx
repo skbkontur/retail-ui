@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser, SafeTimer } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { CalendarDataTids } from '../../components/Calendar/Calendar';
@@ -13,10 +14,9 @@ import { DropdownContainer } from '../DropdownContainer';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
+import { ArrowChevronDownIcon, ArrowChevronUpIcon, ArrowTriangleUpDownIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
@@ -24,8 +24,9 @@ import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOp
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { globalClasses, styles } from './DateSelect.styles';
+import { getStyles, globalClasses } from './DateSelect.styles';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -118,6 +119,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private readonly locale!: DatePickerLocale;
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
@@ -187,12 +189,19 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -207,8 +216,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
     const Tag = isInteractiveElement ? 'button' : 'span';
+    const styles = getStyles(this.emotion);
     const rootProps = {
-      className: cx({
+      className: this.emotion.cx({
         [styles.root(this.theme)]: true,
         [styles.disabled()]: Boolean(disabled),
       }),
@@ -229,7 +239,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
         <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(0)}
           <div
-            className={cx({
+            className={this.emotion.cx({
               [styles.arrow(this.theme)]: true,
               [styles.arrowDisabled()]: Boolean(disabled),
             })}
@@ -250,8 +260,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
     const Tag = isInteractiveElement ? 'button' : 'span';
+    const styles = getStyles(this.emotion);
     const rootProps = {
-      className: cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
+      className: this.emotion.cx(styles.root(this.theme), styles.root2022(), disabled && styles.disabled()),
       style: { width },
       ref: this.refRoot,
       onClick: this.open,
@@ -269,7 +280,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
           {this.getItem(0)}
         </div>
         {isInteractiveElement && (
-          <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
+          <ArrowCollapseCVOpenIcon16Regular className={this.emotion.cx(globalClasses.arrow)} color="#ADADAD" />
         )}
         {isMobile
           ? !disabled && this.renderMobileMenu(this.props, this.menuId)
@@ -325,10 +336,10 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     const from = (this.state.pos - shift + top) / itemHeight;
     const to = from + Math.ceil((height + shift) / itemHeight);
     const items = [];
-
+    const styles = getStyles(this.emotion);
     for (let i = from; i < to; ++i) {
       const disableItems = this.disableItems(i) || false;
-      const className = cx({
+      const className = this.emotion.cx({
         [styles.menuItem(this.theme)]: true,
         [styles.menuItemSelected(this.theme)]: i === 0,
         [styles.menuItemActive(this.theme)]: i === this.state.current,
@@ -369,7 +380,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       top: -shift,
     };
 
-    const holderClass = cx({
+    const holderClass = this.emotion.cx({
       [styles.menuHolder(this.theme)]: true,
       [styles.isTopCapped()]: this.state.topCapped,
       [styles.isBotCapped()]: this.state.botCapped,
@@ -396,7 +407,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
           <div className={holderClass} style={style}>
             {!this.state.topCapped && (
               <div
-                className={cx(styles.menu(this.theme), styles.menuUp())}
+                className={this.emotion.cx(styles.menu(this.theme), styles.menuUp())}
                 onClick={this.handleUp}
                 onMouseDown={this.handleLongClickUp}
                 onMouseUp={this.handleLongClickStop}
@@ -414,7 +425,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
             </div>
             {!this.state.botCapped && (
               <div
-                className={cx(styles.menu(this.theme), styles.menuDown())}
+                className={this.emotion.cx(styles.menu(this.theme), styles.menuDown())}
                 onClick={this.handleDown}
                 onMouseDown={this.handleLongClickDown}
                 onMouseUp={this.handleLongClickStop}
@@ -445,6 +456,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     for (let item = from; item <= to; ++item) {
       items.push({ item, disabled: item < min || item > max });
     }
+    const styles = getStyles(this.emotion);
 
     return (
       // eslint-disable-next-line jsx-a11y/no-onchange

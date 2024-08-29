@@ -1,23 +1,24 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDarkTheme, isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { isIE11 } from '../../lib/client';
-import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { globalClasses, styles } from './Link.styles';
+import { getStyles, globalClasses } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
 export interface LinkProps
@@ -126,6 +127,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private setRootNode!: TSetRootNode;
   private linkFocusOutline?: boolean;
 
@@ -135,16 +137,23 @@ export class Link extends React.Component<LinkProps, LinkState> {
         {(flags) => {
           this.linkFocusOutline = getFullReactUIFlagsContext(flags).linkFocusOutline;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
                 return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                    {this.renderMain}
-                  </CommonWrapper>
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+                      return (
+                        <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                          {this.renderMain}
+                        </CommonWrapper>
+                      );
+                    }}
+                  </ThemeContext.Consumer>
                 );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -167,6 +176,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
+    const styles = getStyles(this.emotion);
 
     let arrow = null;
     if (_button) {
@@ -186,7 +196,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
 
     const linkProps = {
-      className: cx(
+      className: this.emotion.cx(
         styles.useRoot(),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
@@ -209,12 +219,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
       // lineTextWrapper нужен для реализации transition у подчеркивания
       child = (
         <span
-          className={cx(globalClasses.textWrapper, styles.lineTextWrapper(this.theme), {
+          className={this.emotion.cx(globalClasses.textWrapper, styles.lineTextWrapper(this.theme), {
             [styles.lineTextWrapperFocused(this.theme)]: isFocused,
           })}
         >
           <span
-            className={cx(globalClasses.text, {
+            className={this.emotion.cx(globalClasses.text, {
               [styles.lineText(this.theme)]: !isIE11,
               [styles.lineTextIE11(this.theme)]: isIE11,
             })}
@@ -266,15 +276,16 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
     const isFocused = focused && !disabled;
+    const styles = getStyles(this.emotion);
 
     return !isBorderBottom
-      ? cx(
+      ? this.emotion.cx(
           styles.root(this.theme),
           isFocused && styles.focus(this.theme),
           disabled && styles.disabled(this.theme),
           use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
         )
-      : cx(
+      : this.emotion.cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
           disabled && _isTheme2022 && isDarkTheme(this.theme) && styles.disabledDark22Theme(this.theme),

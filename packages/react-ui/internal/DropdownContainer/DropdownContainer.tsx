@@ -1,5 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -7,12 +8,12 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { CommonProps } from '../CommonWrapper';
 
-import { styles } from './DropdownContainer.styles';
+import { getStyles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
 
 export interface DropdownContainerPosition {
@@ -57,6 +58,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     offsetY: -1,
   };
 
+  private emotion!: Emotion;
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
   private dom: Nullable<HTMLDivElement>;
@@ -80,6 +82,17 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
   }
 
   public render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  public renderMain() {
     let style: React.CSSProperties = {
       position: 'absolute',
       top: '0',
@@ -97,6 +110,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
       };
     }
 
+    const styles = getStyles(this.emotion);
     const content = (
       <ZIndex
         data-tid={this.props['data-tid']}
@@ -104,7 +118,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         priority={'DropdownContainer'}
         wrapperRef={this.ZIndexRef}
         style={style}
-        className={cx({
+        className={this.emotion.cx({
           [styles.alignRight()]: this.getProps().align === 'right' && !isIE11,
         })}
       >

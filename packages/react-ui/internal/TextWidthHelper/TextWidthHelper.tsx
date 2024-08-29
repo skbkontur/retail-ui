@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './TextWidthHelper.styles';
+import { getStyles } from './TextWidthHelper.styles';
 
 const THIN_SPACE = '\u2009';
 
@@ -17,11 +18,18 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
 
   public render() {
     return (
-      <div className={jsStyles.root()}>
-        <div className={jsStyles.textContainer()} ref={this.elementRef}>
-          {this.props.text || THIN_SPACE}
-        </div>
-      </div>
+      <EmotionConsumer>
+        {(emotion) => {
+          const styles = getStyles(emotion);
+          return (
+            <div className={styles.root()}>
+              <div className={styles.textContainer()} ref={this.elementRef}>
+                {this.props.text || THIN_SPACE}
+              </div>
+            </div>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 

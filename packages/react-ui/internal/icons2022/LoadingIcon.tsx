@@ -1,19 +1,26 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { styles } from '../../components/Spinner/Spinner.styles';
-import { cx } from '../../lib/theming/Emotion';
+import { getStyles } from '../../components/Spinner/Spinner.styles';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { SpinnerIcon, SpinnerIconProps } from '../icons/SpinnerIcon';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { iconSizer } from './iconSizer';
 
 const Icon = (props: SpinnerIconProps) => {
-  const theme = React.useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
+
   return (
     <SpinnerIcon
       dimmed
-      className={cx(styles.circle(theme), styles.circleDimmedColor(theme), styles.circleWithoutColorAnimation())}
+      className={emotion.cx(
+        styles.circle(theme),
+        styles.circleDimmedColor(theme),
+        styles.circleWithoutColorAnimation(),
+      )}
       {...props}
     />
   );

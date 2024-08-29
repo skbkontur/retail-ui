@@ -1,11 +1,14 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  wrapper() {
-    return css`
-      overflow: hidden;
-      position: absolute;
-      pointer-events: none;
-    `;
-  },
-});
+import { memoizeStyle } from '../../lib/theming/Emotion';
+
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    wrapper() {
+      return emotion.css`
+        overflow: hidden;
+        position: absolute;
+        pointer-events: none;
+      `;
+    },
+  });

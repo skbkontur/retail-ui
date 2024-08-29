@@ -2,6 +2,7 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -10,21 +11,21 @@ import { keyListener } from '../../lib/events/keyListener';
 import { PopupMenu, PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPositionsType } from '../../internal/Popup';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Kebab.styles';
+import { getStyles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
@@ -92,6 +93,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private setRootNode!: TSetRootNode;
 
   private listener: {
@@ -111,26 +113,33 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.kebabPinOffset,
-                  popupMargin: theme.kebabMargin,
-                  popupPinSize: theme.kebabPinSize,
-                  menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <ThemeContext.Provider
+                    value={ThemeFactory.create(
+                      {
+                        popupPinOffset: theme.kebabPinOffset,
+                        popupMargin: theme.kebabMargin,
+                        popupPinSize: theme.kebabPinSize,
+                        menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
+                      },
+                      theme,
+                    )}
+                  >
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -183,6 +192,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         captionProps.toggleMenu();
       }
     };
+    const styles = getStyles(this.emotion);
 
     return (
       <span
@@ -193,7 +203,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cx(
+        className={this.emotion.cx(
           styles.kebab(this.theme),
           size === 'small' && styles.kebabSmall(this.theme),
           size === 'medium' && styles.kebabMedium(this.theme),
@@ -246,9 +256,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderIcon() {
     const { size, icon = <MenuKebabIcon /> } = this.getProps();
+    const styles = getStyles(this.emotion);
     return (
       <div
-        className={cx({
+        className={this.emotion.cx({
           [styles.icon(this.theme)]: true,
           [styles.iconsmall(this.theme)]: size === 'small',
           [styles.iconmedium(this.theme)]: size === 'medium',

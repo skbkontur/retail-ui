@@ -2,14 +2,13 @@ import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef,
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { InstanceWithRootNode } from '../../lib/rootNode';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { UploadIcon } from '../../internal/icons/16px';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
@@ -24,9 +23,10 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
-import { globalClasses, jsStyles } from './FileUploader.styles';
+import { getStyles, globalClasses } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -95,7 +95,8 @@ export const FileUploaderDataTids = {
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
 const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
   const _isTheme2022 = isTheme2022(theme);
 
   const {
@@ -146,23 +147,23 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     },
     [validateBeforeUpload, isAsync, upload, setFileValidationResult],
   );
-
+  const styles = getStyles(emotion);
   const sizeClassName = useFileUploaderSize(size, {
-    small: jsStyles.sizeSmall(theme),
-    medium: jsStyles.sizeMedium(theme),
-    large: jsStyles.sizeLarge(theme),
+    small: styles.sizeSmall(theme),
+    medium: styles.sizeMedium(theme),
+    large: styles.sizeLarge(theme),
   });
 
   const sizeIconClass = useFileUploaderSize(size, {
-    small: jsStyles.iconSmall(theme),
-    medium: jsStyles.iconMedium(theme),
-    large: jsStyles.iconLarge(theme),
+    small: styles.iconSmall(theme),
+    medium: styles.iconMedium(theme),
+    large: styles.iconLarge(theme),
   });
 
   const contentInnerClass = useFileUploaderSize(size, {
-    small: jsStyles.contentInnerSmall(theme),
-    medium: jsStyles.contentInnerMedium(theme),
-    large: jsStyles.contentInnerLarge(theme),
+    small: styles.contentInnerSmall(theme),
+    medium: styles.contentInnerMedium(theme),
+    large: styles.contentInnerLarge(theme),
   });
 
   /** common part **/
@@ -270,34 +271,38 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
 
   const [hovered, setHovered] = useState(false);
 
-  const uploadButtonClassNames = cx(
-    jsStyles.uploadButton(theme),
+  const uploadButtonClassNames = emotion.cx(
+    styles.uploadButton(theme),
     sizeClassName,
-    focusedByTab && jsStyles.uploadButtonFocus(theme),
-    disabled && jsStyles.disabled(theme),
-    !disabled && hovered && jsStyles.hovered(theme),
-    !!warning && jsStyles.warning(theme),
-    !!error && jsStyles.error(theme),
-    isDraggable && !disabled && jsStyles.dragOver(theme),
+    focusedByTab && styles.uploadButtonFocus(theme),
+    disabled && styles.disabled(theme),
+    !disabled && hovered && styles.hovered(theme),
+    !!warning && styles.warning(theme),
+    !!error && styles.error(theme),
+    isDraggable && !disabled && styles.dragOver(theme),
   );
 
   const canDrop = isWindowDraggable && !disabled;
-  const uploadButtonWrapperClassNames = cx(
-    !_isTheme2022 && canDrop && jsStyles.windowDragOver(theme),
-    _isTheme2022 && canDrop && jsStyles.windowDragOver2022(theme),
+  const uploadButtonWrapperClassNames = emotion.cx(
+    !_isTheme2022 && canDrop && styles.windowDragOver(theme),
+    _isTheme2022 && canDrop && styles.windowDragOver2022(theme),
   );
 
-  const uploadButtonIconClassNames = cx(jsStyles.icon(theme), sizeIconClass, disabled && jsStyles.iconDisabled(theme));
+  const uploadButtonIconClassNames = emotion.cx(
+    styles.icon(theme),
+    sizeIconClass,
+    disabled && styles.iconDisabled(theme),
+  );
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
 
-  const contentClassNames = cx(jsStyles.content(), hasOneFileForSingle && jsStyles.contentWithFiles());
+  const contentClassNames = emotion.cx(styles.content(), hasOneFileForSingle && styles.contentWithFiles());
 
-  const linkClassNames = cx(
-    jsStyles.link(theme),
-    !disabled && hovered && jsStyles.linkHovered(theme),
-    disabled && jsStyles.linkDisabled(theme),
+  const linkClassNames = emotion.cx(
+    styles.link(theme),
+    !disabled && hovered && styles.linkHovered(theme),
+    disabled && styles.linkDisabled(theme),
   );
 
   useEffect(() => {
@@ -327,7 +332,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     <CommonWrapper {...props}>
       <div
         data-tid={FileUploaderDataTids.root}
-        className={jsStyles.root(theme)}
+        className={styles.root(theme)}
         style={useMemoObject({ width })}
         ref={rootNodeRef}
       >
@@ -343,7 +348,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
           >
             <div
               data-tid={FileUploaderDataTids.content}
-              className={cx(contentClassNames, { [contentInnerClass]: !files.length || !isSingleMode })}
+              className={emotion.cx(contentClassNames, { [contentInnerClass]: !files.length || !isSingleMode })}
             >
               {isLinkVisible && (
                 <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
@@ -352,13 +357,13 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
               )}
               {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
               <div
-                className={cx(
+                className={emotion.cx(
                   globalClasses.afterLinkText,
-                  hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles(theme) : jsStyles.afterLinkText(theme),
+                  hasOneFileForSingle ? styles.afterLinkText_HasFiles(theme) : styles.afterLinkText(theme),
                 )}
               >
                 {hasOneFileForSingle ? (
-                  <div ref={fileDivRef} className={jsStyles.singleFile()}>
+                  <div ref={fileDivRef} className={styles.singleFile()}>
                     {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} onRemove={handleRemoveFile} />)}
                   </div>
                 ) : (
@@ -378,7 +383,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
                 type="file"
                 disabled={disabled}
                 multiple={multiple}
-                className={jsStyles.visuallyHidden()}
+                className={styles.visuallyHidden()}
                 onClick={stopPropagation}
                 onChange={handleInputChange}
                 onFocus={handleFocus}

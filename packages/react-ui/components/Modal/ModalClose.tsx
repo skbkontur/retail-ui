@@ -1,24 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { CloseProps } from './ModalContext';
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { ModalDataTids } from './Modal';
 import { ModalLocaleHelper } from './locale';
 
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
+  const emotion = useEmotion();
   const locale = useLocaleForControl('Modal', ModalLocaleHelper);
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {
@@ -36,6 +37,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
   };
 
   const icon = isTheme2022(theme) ? <XIcon20Regular align="none" /> : <CrossIcon />;
+  const styles = getStyles(emotion);
 
   return (
     <CommonWrapper {...otherProps}>
@@ -43,7 +45,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
         {({ isMobile }) => (
           <button
             aria-label={locale.closeButtonAriaLabel}
-            className={cx({
+            className={emotion.cx({
               [styles.close(theme)]: true,
               [styles.mobileClose(theme)]: isMobile,
               [styles.disabled(theme)]: disableClose,

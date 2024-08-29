@@ -1,11 +1,11 @@
 import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { SizeProp } from '../../lib/types/props';
+import { useTheme } from '../../lib/theming/useTheme';
 
-import { styles } from './MenuFooter.styles';
+import { getStyles } from './MenuFooter.styles';
 
 /**
  * @deprecated use SizeProp
@@ -31,7 +31,9 @@ export const MenuFooterDataTids = {
  * Сущности в которых может быть использован `MenuFooter`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
 
   function getRootSizeClassName() {
     switch (size) {
@@ -61,7 +63,7 @@ function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', 
       <div
         id={id}
         data-tid={MenuFooterDataTids.root}
-        className={cx(getRootSizeClassName(), {
+        className={emotion.cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
           [getWithLeftPaddingSizeClassName()]: _enableIconPadding,
         })}

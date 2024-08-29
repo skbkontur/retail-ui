@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -9,19 +10,19 @@ import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
 import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
-import { styles } from './DateInput.styles';
+import { getStyles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
 
@@ -109,6 +110,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private locale!: DatePickerLocale;
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
   private theme!: Theme;
+  private emotion!: Emotion;
   private setRootNode!: TSetRootNode;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
     .add(Actions.MoveSelectionLeft, () => this.shiftSelection(-1))
@@ -193,12 +195,19 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -206,7 +215,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const showValue = Boolean(focused || valueFormatted);
     const { width, size } = this.getProps();
-
+    const styles = getStyles(this.emotion);
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
@@ -232,7 +241,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             inputMode={'numeric'}
             takeContentWidth
           >
-            <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+            <span className={this.emotion.cx(styles.value(), { [styles.valueVisible()]: showValue })}>
               <DateFragmentsView
                 ref={this.dateFragmentsViewRef}
                 fragments={this.iDateMediator.getFragments()}
@@ -250,11 +259,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderIcon = () => {
     const { withIcon, disabled = false } = this.props;
     const size = this.getProps().size;
-
+    const styles = getStyles(this.emotion);
     if (withIcon) {
       const theme = this.theme;
       const icon = isTheme2022(theme) ? <CalendarIcon2022 size={size} /> : <CalendarIcon />;
-      const iconStyles = cx({
+      const iconStyles = this.emotion.cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',
         [styles.iconMedium(theme)]: size === 'medium',

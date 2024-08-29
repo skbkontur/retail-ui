@@ -1,5 +1,6 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable, isNullable } from '../../lib/utils';
@@ -8,16 +9,16 @@ import { ScrollContainer, ScrollContainerScrollState } from '../../components/Sc
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './InternalMenu.styles';
+import { getStyles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 import { addIconPaddingIfPartOfMenu } from './addIconPaddingIfPartOfMenu';
 import { isIconPaddingEnabled } from './isIconPaddingEnabled';
@@ -92,6 +93,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private setRootNode!: TSetRootNode;
@@ -122,12 +124,19 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -139,10 +148,12 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     }
     const { hasShadow, width, maxHeight, preventWindowScroll } = this.getProps();
     const isMobile = this.isMobileLayout;
+    const styles = getStyles(this.emotion);
+
     return (
       <div
         data-tid={InternalMenuDataTids.root}
-        className={cx({
+        className={this.emotion.cx({
           [styles.root(this.theme)]: true,
           [styles.mobileRoot(this.theme)]: isMobile,
           [styles.shadow(this.theme)]: hasShadow,
@@ -209,9 +220,10 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   }
 
   private renderHeader = () => {
+    const styles = getStyles(this.emotion);
     return (
       <div
-        className={cx({
+        className={this.emotion.cx({
           [styles.wrapper()]: true,
           [styles.headerWrapper()]: true,
         })}
@@ -226,9 +238,10 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
   };
 
   private renderFooter = () => {
+    const styles = getStyles(this.emotion);
     return (
       <div
-        className={cx({
+        className={this.emotion.cx({
           [styles.wrapper()]: true,
           [styles.footerWrapper()]: true,
         })}

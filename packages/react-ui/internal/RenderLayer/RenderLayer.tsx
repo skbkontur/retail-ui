@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
@@ -17,6 +17,11 @@ export interface RenderLayerProps extends CommonProps {
 }
 
 type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
+
+export type RenderContainerElement = Nullable<ShadowRoot | HTMLElement>;
+const RenderLayerContext = createContext<RenderContainerElement>(null);
+export const RenderLayerProvider = RenderLayerContext.Provider;
+export const RenderLayerConsumer = RenderLayerContext.Consumer;
 
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
@@ -121,7 +126,11 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
+    if (
+      !node ||
+      (event.composed && event.composedPath().indexOf(node) > -1) ||
+      (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
+    ) {
       return;
     }
 

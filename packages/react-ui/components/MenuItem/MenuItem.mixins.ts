@@ -1,42 +1,41 @@
-import { css } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { getMenuItemPaddings } from './MenuItem.styles';
 
-export const menuItemSizeMixin = (
-  menuItemLegacyPaddingX: string,
-  menuItemPaddingX: string,
-  menuItemLegacyPaddingY: string,
-  menuItemPaddingY: string,
-  menuItemLineHeight: string,
-  menuItemFontSize: string,
-) => {
-  const { paddingX, paddingY } = getMenuItemPaddings({
-    menuItemLegacyPaddingX,
-    menuItemPaddingX,
-    menuItemLegacyPaddingY,
-    menuItemPaddingY,
-  });
+export const menuItemSizeMixin =
+  (emotion: Emotion) =>
+  (
+    menuItemLegacyPaddingX: string,
+    menuItemPaddingX: string,
+    menuItemLegacyPaddingY: string,
+    menuItemPaddingY: string,
+    menuItemLineHeight: string,
+    menuItemFontSize: string,
+  ) => {
+    const { paddingX, paddingY } = getMenuItemPaddings({
+      menuItemLegacyPaddingX,
+      menuItemPaddingX,
+      menuItemLegacyPaddingY,
+      menuItemPaddingY,
+    });
 
-  return css`
-    line-height: ${menuItemLineHeight};
-    font-size: ${menuItemFontSize};
-    padding: ${menuItemPaddingY} ${paddingX} ${paddingY} ${menuItemPaddingX};
-  `;
-};
+    return emotion.css`
+      line-height: ${menuItemLineHeight};
+      font-size: ${menuItemFontSize};
+      padding: ${menuItemPaddingY} ${paddingX} ${paddingY} ${menuItemPaddingX};
+    `;
+  };
 
-export const iconSizeMixin = (
-  menuItemIconWidth: string,
-  menuItemPaddingX: string,
-  menuItemIconLegacyMargin: string,
-) => {
-  return css`
-    width: ${menuItemIconWidth};
-    left: ${parseInt(menuItemPaddingX) + parseInt(menuItemIconLegacyMargin)}px;
-  `;
-};
+export const iconSizeMixin =
+  (emotion: Emotion) => (menuItemIconWidth: string, menuItemPaddingX: string, menuItemIconLegacyMargin: string) => {
+    return emotion.css`
+      width: ${menuItemIconWidth};
+      left: ${parseInt(menuItemPaddingX) + parseInt(menuItemIconLegacyMargin)}px;
+    `;
+  };
 
-export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
-  return css`
+export const withIconSizeMixin = (emotion: Emotion) => (menuItemPaddingForIcon: string) => {
+  return emotion.css`
     padding-left: ${menuItemPaddingForIcon};
   `;
 };

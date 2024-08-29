@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
 import { DateSelect } from '../../internal/DateSelect';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
+import { useTheme } from '../../lib/theming/useTheme';
 import { Nullable } from '../..//typings/utility-types';
 
-import { styles } from './MonthView.styles';
+import { getStyles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 import { CalendarDataTids } from './Calendar';
@@ -51,7 +51,8 @@ interface MonthViewProps {
 }
 
 export function MonthView(props: MonthViewProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
   const { minDate, maxDate } = useContext(CalendarContext);
   const { isMobile } = useResponsiveLayout();
 
@@ -79,16 +80,17 @@ export function MonthView(props: MonthViewProps) {
   const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
   const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
 
+  const styles = getStyles(emotion);
   return (
     <div
       data-tid={CalendarDataTids.month}
-      className={cx({ [styles.month(theme)]: true, [styles.monthMobile()]: isMobile })}
+      className={emotion.cx({ [styles.month(theme)]: true, [styles.monthMobile()]: isMobile })}
       style={{ top }}
       key={month + '-' + year}
     >
       <div
         style={{ top: headerTop }}
-        className={cx({
+        className={emotion.cx({
           [styles.header()]: true,
           [styles.headerSticky(theme)]: isHeaderSticky,
         })}

@@ -1,13 +1,13 @@
-import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { IMaskInput, IMask } from 'react-imask';
+import React, { ForwardedRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { IMask, IMaskInput } from 'react-imask';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MaskCharLowLine } from '../MaskCharLowLine';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { InputElement, InputElementProps } from '../../components/Input';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { useTheme } from '../../lib/theming/useTheme';
 
-import { styles } from './MaskedInputElement.styles';
+import { getStyles } from './MaskedInputElement.styles';
 import { getCurrentValue, getDefinitions, getFocusPrefix, getMaskChar } from './MaskedInputElement.helpers';
 
 export interface MaskedInputElementProps extends InputElementProps {
@@ -35,7 +35,9 @@ export const MaskedInputElement = forwardRefAndName(
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const rootNodeRef = React.useRef<HTMLDivElement>(null);
-    const theme = useContext(ThemeContext);
+    const theme = useTheme();
+    const emotion = useEmotion();
+    const styles = getStyles(emotion);
     const expectedChangesRef = useRef(false);
     const isFirstRender = useRef(true);
 
@@ -109,7 +111,7 @@ export const MaskedInputElement = forwardRefAndName(
           style={{ ...style }}
         />
         {isMaskVisible && (
-          <span className={cx(styles.inputMask(theme), leftClass)}>
+          <span className={emotion.cx(styles.inputMask(theme), leftClass)}>
             {leftHelper}
             {rightHelper}
           </span>
