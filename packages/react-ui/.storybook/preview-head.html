@@ -28,4 +28,38 @@
     /* see ID-10438 */
     scrollbar-width: none;
   }
+  /*Кастомные стили*/
+  .sbdocs.sbdocs-wrapper {
+    padding: 4rem 20px 4rem 35px;
+  }
+  .sbdocs-content {
+    min-width: 0;
+  }
+  .css-1wizkyk[data-comp-name='TableOfContents Insertion5'] {
+    width: 12rem;
+  }
+  .css-18pz2h2 span code {
+    white-space: normal;
+  }
+  @media (max-width: 768px) {
+    .sbdocs.sbdocs-wrapper {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .css-1wizkyk[data-comp-name='TableOfContents Insertion5'] {
+      display: block;
+      width: 100%;
+      order: -1;
+    }
+    .css-q7khkg[data-comp-name='Insertion5'] {
+      position: static;
+      padding: 0;
+      width: 100%;
+    }
+    .css-q7khkg .toc-list-item,
+    .css-q7khkg .toc-list-item > a {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+  }
 </style>
