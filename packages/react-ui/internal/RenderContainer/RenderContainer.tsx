@@ -5,7 +5,6 @@ import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import { RenderLayerConsumer, RenderContainerElement } from '../RenderLayer';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
@@ -24,7 +23,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   public shouldComponentUpdate(nextProps: RenderContainerProps) {
     if (!this.props.children && nextProps.children) {
-      this.mountContainer(undefined);
+      this.mountContainer();
     }
     if (this.props.children && !nextProps.children) {
       this.unmountContainer();
@@ -37,21 +36,19 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
-    return <RenderLayerConsumer>{this.renderMain}</RenderLayerConsumer>;
+    return this.renderMain();
   }
 
-  private renderMain = (root: RenderContainerElement) => {
+  private renderMain = () => {
     if (this.props.children) {
-      this.mountContainer(root);
+      this.mountContainer();
     }
 
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   };
 
-  private createContainer(root: RenderContainerElement) {
-    const domContainer = root
-      ? root.appendChild(root.ownerDocument.createElement('div'))
-      : globalObject.document?.createElement('div');
+  private createContainer() {
+    const domContainer = globalObject.document?.createElement('div');
 
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
@@ -60,12 +57,12 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
-  private mountContainer(root: RenderContainerElement) {
+  private mountContainer() {
     if (!this.domContainer) {
-      this.createContainer(root);
+      this.createContainer();
     }
 
-    const rootElement = root ?? globalObject.document?.body;
+    const rootElement = globalObject.document?.body;
     if (this.domContainer && this.domContainer.parentNode !== rootElement) {
       rootElement?.appendChild(this.domContainer);
 

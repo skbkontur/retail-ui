@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
@@ -17,11 +17,6 @@ export interface RenderLayerProps extends CommonProps {
 }
 
 type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
-
-export type RenderContainerElement = Nullable<ShadowRoot | HTMLElement>;
-const RenderLayerContext = createContext<RenderContainerElement>(null);
-export const RenderLayerProvider = RenderLayerContext.Provider;
-export const RenderLayerConsumer = RenderLayerContext.Consumer;
 
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
