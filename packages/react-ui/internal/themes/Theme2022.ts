@@ -1,9 +1,9 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { BasicLightTheme } from './BasicLightTheme';
+import { BasicLightTheme } from './LightTheme';
 
 export class Theme2022 extends (class {} as typeof BasicLightTheme) {
-  //#region Common Variables
+  //#region Common Variables done
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static borderColorFocus = '#3d3d3d';
   public static bgActive = '#141414';
@@ -30,7 +30,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
 
   //#endregion Common Variables
 
-  //#region Link
+  //#region Link done
   public static linkColor = '#222222';
   public static linkHoverColor = '#222222';
   public static linkActiveColor = '#141414';
@@ -70,7 +70,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   //#endregion Link
 
-  //#region Button
+  //#region Button done
   public static btnCheckedBg = '#3D3D3D';
   public static btnCheckedDisabledBg = '#ADADAD';
   public static btnCheckedDisabledColor = '#E6E6E6';
@@ -200,7 +200,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
 
   //#endregion Button
 
-  //#region Dropdown
+  //#region Dropdown done
   public static dropdownButtonBorderRadiusSmall = '8px';
   public static dropdownButtonBorderRadiusMedium = '8px';
   public static dropdownButtonBorderRadiusLarge = '8px';
@@ -218,7 +218,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
 
   //#endregion Dropdown
 
-  //#region Input
+  //#region Input done
   public static inputIconColor = '#858585';
   public static inputBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get inputBorderTopColor() {
@@ -253,7 +253,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   //#endregion Input
 
-  //#region Textarea
+  //#region Textarea done
   public static textareaBorderRadius = '2px';
   public static get textareaDisabledBorderColor() {
     return this.borderColorDisabled;
@@ -272,7 +272,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static textareaBackgroundClip = 'padding-box';
   //#endregion Textarea
 
-  //#region Radio
+  //#region Radio done
   public static radioBulletSizeSmall = '6px';
   public static radioDisabledBg = '#F0F0F0';
   public static get radioDisabledShadow() {
@@ -280,23 +280,23 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   //#endregion Radio
 
-  public static menuSeparatorMarginX = '8px';
+  public static menuSeparatorMarginX = '8px'; // done
 
-  public static popupBorderRadius = '8px';
-  public static popupBoxShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
+  public static popupBorderRadius = '8px'; // done
+  public static popupBoxShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)'; // done
   public static popupDropShadow =
-    'drop-shadow(0px 32px 32px rgba(0, 0, 0, 0.08)) drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.12))';
+    'drop-shadow(0px 32px 32px rgba(0, 0, 0, 0.08)) drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.12))'; // done
 
-  public static pickerShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
+  public static pickerShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)'; // done
 
-  //#region Hint
+  //#region Hint done
   public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
   public static hintBorderRadius = '6px';
   public static hintPaddingY = '4px';
   public static hintPaddingX = '8px';
   //#endregion Hint
 
-  //#region Modal
+  //#region Modal done
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.06)';
   public static modalBorderRadius = '16px';
   public static modalBodyBorderRadius = '0px';
@@ -338,7 +338,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static modalBackOpacity = '0.16';
   //#endregion Modal
 
-  //#region Select
+  //#region Select done
   public static get selectBgDisabled() {
     return this.inputDisabledBg;
   }
@@ -375,7 +375,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   //#endregion Select
 
-  //#region FileUploader
+  //#region FileUploader done
   public static fileUploaderIconColor = '#222222';
   public static get fileUploaderDisabledIconColor() {
     return this.textColorDisabled;
@@ -408,7 +408,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   //#endregion FileUploader
 
-  //#region Toast
+  //#region Toast done
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
   public static toastLinkColor = '#fff';
   public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
@@ -419,13 +419,13 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static toastClosePadding = '14px';
   //#endregion Toast
 
-  //#region Tooltip
+  //#region Tooltip done
   public static tooltipBorderRadius = '8px';
   public static tooltipCloseBtnPadding = '4px';
   public static tooltipCloseBtnSide = '16px';
   //#endregion Tooltip
 
-  //#region Token
+  //#region Token done
   public static tokenRemoveIconSize = '16px';
   public static tokenRemoveIconPaddingY = '0px';
   public static tokenRemoveIconPaddingX = '0px';
@@ -466,12 +466,12 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
 
   //#endregion Token
 
-  //#region DateInput
+  //#region DateInput done
   public static dateInputComponentSelectedBgColor = '';
   public static dateInputComponentSelectedTextColor = '';
   //#endregion DateInput
 
-  //#region Checkbox
+  //#region Checkbox done
   public static checkboxBorderRadius = '4px';
   public static checkboxCheckedBg = '#3D3D3D';
   public static checkboxCheckedHoverBg = '#292929';
@@ -502,9 +502,9 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   public static menuItemGap = '1px';
   public static menuItemCommentOpacity = '0.6';
-  public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
+  public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)'; // done
 
-  //#region TokenInput
+  //#region TokenInput done
   public static tokenInputPopupOffset = '2px';
   public static tokenInputBorderRadius = '2px';
 
@@ -515,7 +515,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
 
   //#endregion TokenInput
 
-  //#region Toggle
+  //#region Toggle done
   public static toggleHandleSize = '14px';
   public static toggleHandleSizeSmall = '14px';
   public static toggleHandleSizeMedium = '16px';
@@ -566,9 +566,9 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static toggleHandleBoxShadowDisabledChecked = 'none';
   //#endregion Toggle
 
-  public static switcherBorderRadius = '8px';
+  public static switcherBorderRadius = '8px'; // done
 
-  //#region Calendar
+  //#region Calendar done
   public static calendarCellHoverBgColor = '#F0F0F0';
   public static calendarCellHoverColor = '';
   public static calendarCellActiveHoverColor = '';
@@ -580,7 +580,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
 
   //#endregion Calendar
 
-  //#region DateSelect
+  //#region DateSelect done
   public static dateSelectMenuItemBgActive = '#F0F0F0';
   public static dateSelectMenuItemFontActive = '';
   public static dateSelectTextColorInvert = '';
@@ -592,26 +592,26 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   }
   //#endregion Menu
 
-  //#region Autocomplete
+  //#region Autocomplete done
   public static get autocompleteMenuOffsetY() {
     return this.menuOffsetY;
   }
   //#endregion Autocomplete
 
-  //#region DatePicker
+  //#region DatePicker done
   public static get datePickerMenuOffsetY() {
     return this.menuOffsetY;
   }
   public static pickerBorderRadius = '8px';
   //#endregion DatePicker
 
-  //#region Combobox
+  //#region Combobox done
   public static get comboboxMenuOffsetY() {
     return this.menuOffsetY;
   }
   //#endregion Combobox
 
-  //#region Paging
+  //#region Paging done
   public static pagingPageForwardLinkMarginTop = '';
   public static pagingPageForwardLinkMarginLeft = '0px';
   public static get pagingPageForwardLinkPaddingRight() {
@@ -631,7 +631,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
   //#endregion Paging
 
-  //#region SidePage
+  //#region SidePage done
   public static sidePageBgDefault = '#fff';
   public static sidePageFooterPaddingTop = '20px';
   public static sidePageFooterPaddingBottom = '20px';
@@ -656,12 +656,12 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static sidePageCloseButtonWrapperOffsetTop = '4px';
   //#endregion SidePage
 
-  //#region Tabs
+  //#region Tabs done
   public static tabColorHover = '#D6D6D6';
   public static tabIndicatorBorderRadius = '2px';
   //#endregion Tabs
 
-  //#region Kebab
+  //#region Kebab done
   public static kebabSizeSmall = '24px';
   public static kebabSizeMedium = '32px';
   public static kebabSizeLarge = '40px';
@@ -672,7 +672,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static kebabBackgroundActive = 'rgba(0, 0, 0, 0.10)';
   //#endregion Kebab
 
-  //#region react-ui-validations
+  //#region react-ui-validations done
   public static get validationsTextColorError() {
     return this.errorText;
   }
