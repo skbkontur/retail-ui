@@ -4,11 +4,6 @@ import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 import { FocusMode } from './FocusMode';
-import {
-  getFullValidationsFlagsContext,
-  ValidationsFeatureFlags,
-  ValidationsFeatureFlagsContext,
-} from './utils/featureFlagsContext';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -162,19 +157,9 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
-  // удалить private featureFlags - используется для тестовой фичи
-  // для private children и render ниже в коментах версия, которая была до использования тестового фиче-флага
-  private featureFlags!: ValidationsFeatureFlags;
-  private children = (flags: ValidationsFeatureFlags) => {
-    if (flags.testFeature) {
-      return <span style={{ color: 'green' }}>Фиче-флаг включен</span>;
-    }
-
+  private children = () => {
     return <span>{this.props.children}</span>;
   };
-  // private children = () => {
-  //   // return <span>{this.props.children}</span>;
-  // };
 
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {
     if (React.isValidElement(children)) {
@@ -187,20 +172,6 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   };
 
   public render() {
-    return (
-      <ValidationsFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullValidationsFlagsContext(flags);
-          return (
-            <ValidationContext.Provider value={this}>
-              {this.renderChildren(this.children(this.featureFlags))}
-            </ValidationContext.Provider>
-          );
-        }}
-      </ValidationsFeatureFlagsContext.Consumer>
-    );
+    return <ValidationContext.Provider value={this}>{this.renderChildren(this.children())}</ValidationContext.Provider>;
   }
-  // public render() {
-  //   return <ValidationContext.Provider value={this}>{this.renderChildren(this.children())}</ValidationContext.Provider>;
-  // }
 }
