@@ -117,7 +117,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
 
   // primary
   public static btnPrimaryBg = '#EBEBEB';
-  public static btnPrimaryBorderColor = '#1f87ef';
+  public static btnPrimaryBorderColor = '#3D3D3D';
 
   public static btnPrimaryHoverBg = '#FFFFFF';
   public static btnPrimaryActiveBg = '#C2C2C2';
