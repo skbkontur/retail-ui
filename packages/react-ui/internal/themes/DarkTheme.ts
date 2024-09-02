@@ -208,7 +208,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static modalCloseButtonColor = 'rgba(255, 255, 255, 0.32)';
   public static modalCloseButtonHoverColor = 'rgba(255, 255, 255, 0.865)';
 
-  public static modalFooterBg = '#434343';
+  public static modalFooterBg = '#222222';
   public static get modalFooterTextColor() {
     return this.textColorDefault;
   }
