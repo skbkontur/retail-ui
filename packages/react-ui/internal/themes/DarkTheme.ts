@@ -37,7 +37,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static get borderColorError() {
     return this.errorMain;
   }
-  public static fixedPanelShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.4)';
+  public static fixedPanelShadow = 'none';
   //#endregion Common variables
   //#region CloseIcon, CloseButtonIcon
   public static closeBtnIconColor = 'rgba(255, 255, 255, 0.32)';
@@ -224,7 +224,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.1)';
   //#endregion Modal
   //#region SidePage
-  public static sidePageFooterPanelBg = ' #434343';
+  public static sidePageFooterPanelBg = ' #222222';
   public static sidePageBackingBg = '#000';
   public static sidePageBgDefault = '#222';
   public static sidePageBackingBgOpacity = '0.7';
