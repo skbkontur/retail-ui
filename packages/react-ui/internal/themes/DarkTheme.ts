@@ -22,7 +22,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static errorSecondary = '#AB0D0D';
   public static borderColorFocusLight = '#1260ae';
   public static borderColorGrayLight = 'rgba(255, 255, 255, 0.16)';
-  public static borderColorDisabled = 'rgba(255, 255, 255, 0.16)';
+  public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static placeholderColor = 'rgba(255, 255, 255, 0.32)';
   public static placeholderColorLight = 'rgba(255, 255, 255, 0.16)';
   public static textColorDefault = 'rgba(255, 255, 255, 0.865)';
