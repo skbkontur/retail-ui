@@ -518,7 +518,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
     return this.borderColorError;
   }
   public static fileUploaderBorderColorWarning = '#ffa236';
-  public static fileUploaderDisabledBg = 'rgba(255, 255, 255, 0.16)';
+  public static get fileUploaderDisabledBg() {
+    return this.btnDisabledBg;
+  }
   public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.1)';
   public static get fileUploaderDisabledTextColor() {
     return this.textColorDisabled;
