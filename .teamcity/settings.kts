@@ -456,7 +456,7 @@ object ReactUI_Storybook : BuildType({
 
                     ${'$'}src_path = "./packages/react-ui/.storybook/build"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
-                    if (Test-Path ${'$'}dest_path) { rm -rf ${'$'}dest_path }
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
                     mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
                 """.trimIndent()
@@ -860,7 +860,7 @@ object Validations_Storybook : BuildType({
 
                     ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
-                    if (Test-Path ${'$'}dest_path) { rm -rf ${'$'}dest_path }
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
                     mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
                 """.trimIndent()
