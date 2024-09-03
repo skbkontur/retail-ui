@@ -60,6 +60,9 @@ module.exports = async ({ config }) => {
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
+        configOverwrite: {
+          exclude: ['**/*.docs.stories.tsx'],
+        }
       },
     }),
   );
