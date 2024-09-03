@@ -455,7 +455,7 @@ object ReactUI_Storybook : BuildType({
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
                     Write-Host "___________________________"
 
-                    ${'$'}src_path = "./packages/react-ui/.storybook/build"
+                    ${'$'}src_path = "./packages/react-ui/.storybook/build/"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
                     Write-Host "src_path: \${'$'}src_path"
                     Write-Host "dest_path: \${'$'}dest_path"
