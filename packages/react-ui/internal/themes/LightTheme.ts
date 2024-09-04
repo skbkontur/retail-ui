@@ -753,7 +753,7 @@ export class BasicLightThemeInternal {
     return this.menuOffsetY;
   }
   public static get selectBorderColorHover() {
-    return this.inputBorderColorHover;
+    return this.btnDefaultHoverBorderColor;
   }
   public static selectBorderColorTransition = `box-shadow ${this.transitionDuration} ${this.transitionTimingFunction};`;
 
