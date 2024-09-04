@@ -608,6 +608,9 @@ class WithLongTitle extends React.Component {
 
 export default { title: 'SidePage' };
 
+export const SidePageWithBlockBackground: Story = () => <Sample blockBackground />;
+SidePageWithBlockBackground.storyName = 'SidePage with block background';
+
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
 WithScrollableParentContent.parameters = { creevey: { skip: true } };

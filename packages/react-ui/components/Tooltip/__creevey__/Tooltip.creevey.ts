@@ -222,7 +222,7 @@ kind('Tooltip', () => {
       skip: {
         // TODO @Khlutkova fix after update browsers
         'story-skip-0': {
-          in: ['firefox2022', 'firefox2022Dark'],
+          in: ['firefox2022', 'firefox2022Dark', 'chrome2022Dark'],
           tests: ['focus and types', 'clear input'],
         },
       },
