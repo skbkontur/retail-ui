@@ -2518,6 +2518,10 @@ export class BasicLightThemeInternal {
   }
   //#endregion CloseIcon
 
+  //#region InternalMenu
+  public static internalMenuPaddingY = '5px'; // deprecated,  use menuLegacyPaddingY
+  //#endregion
+
   //#region Autocomplete
   public static get autocompleteMenuOffsetY() {
     return this.menuOffsetY;
