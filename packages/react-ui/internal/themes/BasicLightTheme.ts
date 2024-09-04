@@ -1159,11 +1159,12 @@ export class BasicLightThemeInternal {
   public static toastTop = '24px';
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
   public static toastColor = 'white';
-  public static toastLinkColor = '#fff';
-  public static toastLinkTextDecorationHover = '';
-  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
-  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.87)';
-  public static toastClosePadding = '14px';
+  public static toastLinkColor = '#8fcdff';
+  public static toastLinkTextDecorationHover = 'underline';
+  public static toastLinkBgHover = '';
+  public static toastLinkBgActive = '';
+  public static toastLinkPadding = '12px';
+  public static toastClosePadding = '16px';
   public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
   public static toastCloseHoverColor = 'white';
   public static toastCloseSize = '16px';
@@ -2517,10 +2518,6 @@ export class BasicLightThemeInternal {
     return `inset 0 0 0 1px ${this.borderColorFocus}, inset 0 0 0 2px ${this.outlineColorFocus}`;
   }
   //#endregion CloseIcon
-
-  //#region InternalMenu
-  public static internalMenuPaddingY = '5px'; // deprecated,  use menuLegacyPaddingY
-  //#endregion
 
   //#region Autocomplete
   public static get autocompleteMenuOffsetY() {

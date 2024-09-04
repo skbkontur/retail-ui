@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.26.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.2...@skbkontur/react-ui@4.26.0) (2024-08-20)
+
+
+### Bug Fixes
+
+* **FileUploader:** correct event type ([aaf3422](https://github.com/skbkontur/retail-ui/commit/aaf3422a849e3b3fef81d8656031bc66412e06ca))
+* **FileUploader:** work with sync mode ([82a7a3c](https://github.com/skbkontur/retail-ui/commit/82a7a3c5d95d3b132d39a333cec515c3b0d28bfb))
+* **ScrollContainer:** new prop 'scrollRef' ([#3476](https://github.com/skbkontur/retail-ui/issues/3476)) ([d066e35](https://github.com/skbkontur/retail-ui/commit/d066e35d7a4d4c8e273e0b382a475a217b7386fc))
+
+
+### Features
+
+* **FileUploader:** initial state for files ([b735a83](https://github.com/skbkontur/retail-ui/commit/b735a834c4d6736f9d05289ac4b3e4c7f132de43))
+* **ZIndex:** partially support several React roots ([#3478](https://github.com/skbkontur/retail-ui/issues/3478)) ([6c87630](https://github.com/skbkontur/retail-ui/commit/6c87630368219fd3b32d5e5dfc67704f3b29ad99))
+
+
+
+
+
 ## [4.25.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.1...@skbkontur/react-ui@4.25.2) (2024-07-16)
 
 
