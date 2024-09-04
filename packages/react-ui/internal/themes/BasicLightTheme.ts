@@ -1159,10 +1159,10 @@ export class BasicLightThemeInternal {
   public static toastTop = '24px';
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
   public static toastColor = 'white';
-  public static toastLinkColor = '#8fcdff';
-  public static toastLinkTextDecorationHover = 'underline';
-  public static toastLinkBgHover = '';
-  public static toastLinkBgActive = '';
+  public static toastLinkColor = '#fff';
+  public static toastLinkTextDecorationHover = '';
+  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
+  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.87)';
   public static toastLinkPadding = '12px';
   public static toastClosePadding = '16px';
   public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
