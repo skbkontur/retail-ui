@@ -1,4 +1,4 @@
-import { BasicLightTheme } from '../../internal/themes/LightTheme';
+import { BasicLightTheme } from '../../internal/themes/BasicLightTheme';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
