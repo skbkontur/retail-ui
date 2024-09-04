@@ -85,7 +85,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Versions'],
+        order: ['Versions', '*'],
       },
     },
     viewport: {
