@@ -28,7 +28,9 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
 export interface ButtonProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'onClick' | 'onFocus' | 'onBlur'> {
-  renderButton?: (props: HTMLAttributes<HTMLButtonElement>) => React.ReactElement;
+  renderButton?: (
+    props: React.DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
+  ) => React.ReactElement;
   buttonProps?: HTMLAttributes<HTMLButtonElement>;
   /** @ignore */
   _noPadding?: boolean;
@@ -170,7 +172,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     use: 'default',
     size: 'small',
     type: 'button',
-    renderButton: (props: HTMLAttributes<HTMLButtonElement>) => <button {...props} />,
+    renderButton: (props) => <button {...props} />,
   };
 
   private getProps = createPropsGetter(Button.defaultProps);

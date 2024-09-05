@@ -582,10 +582,10 @@ export const BtnBacklessBgHoverActive: Story = () => {
   );
 };
 
-const CustomButton = () => {
-  return (
-    <Button renderButton={(p) => <a href="" {...p} />} onClick={(e) => console.log(e.target)}>
-      Custom Button
-    </Button>
-  );
-};
+// const CustomButton = () => {
+//   return (
+//     <Button renderButton={({ children, className }) => <a href="" className={className}>{children}</a>} onClick={(e) => console.log(e.target)}>
+//       Custom Button
+//     </Button>
+//   );
+// };
