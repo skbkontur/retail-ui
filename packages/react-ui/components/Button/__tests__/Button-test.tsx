@@ -49,7 +49,7 @@ describe('Button', () => {
 
   it('handels onKeyDown event', async () => {
     const onKeyDown = jest.fn();
-    render(<Button onKeyDown={onKeyDown} />);
+    render(<Button buttonProps={{ onKeyDown }} />);
 
     await userEvent.type(screen.getByRole('button'), '{enter}');
 
@@ -58,7 +58,7 @@ describe('Button', () => {
 
   it('handels onMouseEnter event', async () => {
     const onMouseEnter = jest.fn();
-    render(<Button onMouseEnter={onMouseEnter} />);
+    render(<Button buttonProps={{ onMouseEnter }} />);
 
     await userEvent.type(screen.getByRole('button'), '{mouseenter}');
 
@@ -67,7 +67,7 @@ describe('Button', () => {
 
   it('handels onMouseOver event', async () => {
     const onMouseOver = jest.fn();
-    render(<Button onMouseOver={onMouseOver} />);
+    render(<Button buttonProps={{ onMouseOver }} />);
 
     await userEvent.type(screen.getByRole('button'), '{mouseover}');
     expect(onMouseOver).toHaveBeenCalledTimes(1);
@@ -75,7 +75,7 @@ describe('Button', () => {
 
   it('handels onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
-    render(<Button onMouseLeave={onMouseLeave} />);
+    render(<Button buttonProps={{ onMouseLeave }} />);
 
     fireEvent.mouseLeave(screen.getByRole('button'));
 
@@ -118,7 +118,7 @@ describe('Button', () => {
   it('props aria-describedby applied correctly', () => {
     render(
       <div>
-        <Button aria-describedby="elementId" />
+        <Button buttonProps={{ 'aria-describedby': 'elementId' }} />
         <p id="elementId">Description</p>
       </div>,
     );
@@ -128,34 +128,34 @@ describe('Button', () => {
   });
 
   it('passes `aria-haspopup` attribute', () => {
-    render(<Button aria-haspopup />);
+    render(<Button buttonProps={{ 'aria-haspopup': true }} />);
 
     expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'true');
   });
 
   it('passes `aria-expanded` attribute', () => {
-    render(<Button aria-expanded />);
+    render(<Button buttonProps={{ 'aria-expanded': true }} />);
 
     expect(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true');
   });
 
   it('passes correct value into `aria-controls` attribute', () => {
     const controlsId = 'controls';
-    render(<Button aria-controls={controlsId} />);
+    render(<Button buttonProps={{ 'aria-controls': controlsId }} />);
 
     expect(screen.getByRole('button')).toHaveAttribute('aria-controls', controlsId);
   });
 
   it('passes correct value to `aria-label` attribute', () => {
     const label = 'label';
-    render(<Button aria-label={label} />);
+    render(<Button buttonProps={{ 'aria-label': label }} />);
 
     expect(screen.getByLabelText(label)).toBeInTheDocument();
   });
 
   it('passes correct value to `role` attribute', () => {
     const role = 'link';
-    render(<Button role={role} />);
+    render(<Button buttonProps={{ role }} />);
 
     expect(screen.getByRole(role)).toBeInTheDocument();
   });
@@ -163,7 +163,7 @@ describe('Button', () => {
   it('switches `aria-checked` from `false` to `true`', async () => {
     const Component = () => {
       const [isChecked, setIsChecked] = useState(false);
-      return <Button role="switch" onClick={() => setIsChecked(true)} aria-checked={isChecked} />;
+      return <Button buttonProps={{ role: 'switch' }} onClick={() => setIsChecked(true)} aria-checked={isChecked} />;
     };
 
     render(<Component />);
@@ -176,7 +176,7 @@ describe('Button', () => {
 
   it('event `onClickCapture` works correctly', async () => {
     const onClickCapture = jest.fn();
-    render(<Button onClickCapture={onClickCapture} />);
+    render(<Button buttonProps={{ onClickCapture }} />);
 
     expect(onClickCapture).not.toHaveBeenCalled();
 
@@ -188,7 +188,7 @@ describe('Button', () => {
   it('events `onMouseDown` and `onMouseUp` work correctly', async () => {
     const onMouseDown = jest.fn();
     const onMouseUp = jest.fn();
-    render(<Button onMouseDown={onMouseDown} onMouseUp={onMouseUp} />);
+    render(<Button buttonProps={{ onMouseDown, onMouseUp }} />);
 
     expect(onMouseDown).not.toHaveBeenCalled();
     expect(onMouseUp).not.toHaveBeenCalled();

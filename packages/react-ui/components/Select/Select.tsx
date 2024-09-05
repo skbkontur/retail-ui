@@ -407,7 +407,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       disabled: this.props.disabled,
       width: '100%',
       onClick: params.onClick,
-      onKeyDown: params.onKeyDown,
+      buttonProps: { onKeyDown: params.onKeyDown },
       active: params.opened,
       size: params.size,
     };

@@ -581,3 +581,11 @@ export const BtnBacklessBgHoverActive: Story = () => {
     </ThemeContext.Provider>
   );
 };
+
+const CustomButton = () => {
+  return (
+    <Button renderButton={(p) => <a href="" {...p} />} onClick={(e) => console.log(e.target)}>
+      Custom Button
+    </Button>
+  );
+};
