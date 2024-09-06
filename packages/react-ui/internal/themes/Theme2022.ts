@@ -81,7 +81,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
   public static btnDefaultHoverBgEnd = 'none';
   public static btnDefaultActiveBg = '#E6E6E6';
 
-  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16);';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnDefaultBorderBottomColor = '';
   public static get btnDefaultHoverBorderColor() {
     return this.btnDefaultBorderColor;
