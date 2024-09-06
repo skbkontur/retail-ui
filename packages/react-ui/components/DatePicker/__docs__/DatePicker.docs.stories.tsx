@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
-import * as DatePickerHelpers from './DatePickerHelpers';
+import * as DatePickerHelpers from '../DatePickerHelpers';
 
 import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes } from '@skbkontur/react-ui';
 
