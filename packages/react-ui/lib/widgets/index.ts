@@ -1,1 +1,1 @@
-export * from './WidgetContainer';
+export * from './StylesContainer';

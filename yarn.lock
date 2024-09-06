@@ -20660,7 +20660,7 @@ react-router@6.6.2, react-router@^6.0.0:
   dependencies:
     "@remix-run/router" "1.2.1"
 
-react-shadow@20.5.0:
+react-shadow@^20.5.0:
   version "20.5.0"
   resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-shadow/-/react-shadow-20.5.0.tgz#dbfe87be42c33b57aab88d11a547060ddc8be7f5"
   integrity sha512-DHukRfWpJrFtZMcZrKrqU3ZwuHjTpTbrjnJdTGZQE3lqtC5ivBDVWqAVVW6lR3Lq6bhphjAbqaJU8NOoTRSCsg==

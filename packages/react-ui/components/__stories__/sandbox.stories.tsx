@@ -4,7 +4,7 @@ import { Meta } from '../../typings/stories';
 import { Tooltip } from '../Tooltip';
 import { Hint } from '../Hint';
 import { Gapped } from '../Gapped';
-import { WidgetContainer } from '../../lib/widgets';
+import { StylesContainer } from '../../lib/widgets';
 
 export default {
   title: 'Sandbox',
@@ -20,7 +20,7 @@ export const Default = () => {
     <div style={{ position: 'relative', overflow: 'hidden' }}>
       <div ref={root} />
       {root.current && (
-        <WidgetContainer root={root.current}>
+        <StylesContainer root={root.current}>
           <div style={{ padding: '100px 0' }}>
             <Gapped vertical gap={60}>
               <Tooltip pos="right middle" trigger="opened" render={() => <div>Tooltip</div>}>
@@ -31,7 +31,7 @@ export const Default = () => {
               </Hint>
             </Gapped>
           </div>
-        </WidgetContainer>
+        </StylesContainer>
       )}
     </div>
   );
