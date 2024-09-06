@@ -113,7 +113,7 @@ const withThinContainer = (Story: () => JSX.Element) => (
 );
 
 export default {
-  title: 'Layout/Sticky',
+  title: 'Sticky',
   component: Sticky,
 };
 

@@ -10,7 +10,7 @@ import { FxInputProps } from '..';
 import { SizeProp } from '../../../lib/types/props';
 
 export default {
-  title: 'Input elements/FxInput',
+  title: 'FxInput',
   component: FxInput,
 } as Meta;
 

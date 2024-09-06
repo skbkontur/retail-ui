@@ -126,7 +126,7 @@ function GlobalLoaderWithTimer() {
 }
 
 export default {
-  title: 'Action/GlobalLoader',
+  title: 'GlobalLoader',
   component: GlobalLoader,
 };
 

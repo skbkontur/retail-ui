@@ -62,7 +62,7 @@ const selectTests = () => {
   });
 };
 
-kind('Choose/Select', () => {
+kind('Select', () => {
   story('Simple', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',

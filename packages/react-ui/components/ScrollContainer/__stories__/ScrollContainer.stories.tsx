@@ -68,7 +68,7 @@ const DynamicContent: React.FC<
 };
 
 export default {
-  title: 'Layout/ScrollContainer',
+  title: 'ScrollContainer',
   component: ScrollContainer,
 };
 

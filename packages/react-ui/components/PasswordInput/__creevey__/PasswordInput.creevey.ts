@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-kind('Input elements/PasswordInput', () => {
+kind('PasswordInput', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

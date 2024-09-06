@@ -5,7 +5,7 @@ import { Gapped, GappedProps } from '../Gapped';
 import { Button } from '../../Button';
 
 export default {
-  title: 'Layout/Gapped',
+  title: 'Gapped',
   component: Gapped,
   decorators: [
     (Story: () => JSX.Element) => (

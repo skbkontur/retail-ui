@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Input elements/ComboBox', () => {
+kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

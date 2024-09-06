@@ -21,7 +21,7 @@ import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 const { getCities } = require('../__mocks__/getCities.js');
 
 export default {
-  title: 'Input elements/ComboBox',
+  title: 'ComboBox',
   component: ComboBox,
 } as Meta;
 

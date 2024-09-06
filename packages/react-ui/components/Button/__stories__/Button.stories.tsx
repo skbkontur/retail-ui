@@ -16,7 +16,7 @@ import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
 
 export default {
-  title: 'Action/Button',
+  title: 'Button',
   component: Button,
   argTypes: {
     size: { control: 'radio' },

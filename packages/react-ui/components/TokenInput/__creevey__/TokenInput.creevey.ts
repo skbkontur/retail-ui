@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Input elements/Token Input/TokenInput', () => {
+kind('TokenInput', () => {
   story('EmptyWithReference', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '.tokens-test-container',

@@ -174,7 +174,7 @@ class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapper
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
 export default {
-  title: 'Input elements/Token Input/TokenInput',
+  title: 'TokenInput',
   component: TokenInput,
   decorators: [
     (Story: () => JSX.Element) => (

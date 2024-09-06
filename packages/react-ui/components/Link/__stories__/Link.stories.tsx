@@ -10,7 +10,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
-  title: 'Navigation/Link',
+  title: 'Link',
   component: Link,
   parameters: {
     creevey: {

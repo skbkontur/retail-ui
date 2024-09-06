@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Choose/Toggle', () => {
+kind('Toggle', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

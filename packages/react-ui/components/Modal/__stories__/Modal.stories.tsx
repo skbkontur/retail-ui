@@ -412,7 +412,7 @@ class SmallModalOnTop extends React.Component {
 }
 
 export default {
-  title: 'Overlays/Modal',
+  title: 'Modal',
   component: Modal,
 };
 

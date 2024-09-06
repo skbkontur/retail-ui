@@ -96,7 +96,7 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
 }
 
 export default {
-  title: 'Date/DatePicker',
+  title: 'DatePicker',
   component: DatePicker,
 } as Meta;
 

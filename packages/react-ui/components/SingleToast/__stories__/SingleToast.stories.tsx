@@ -5,7 +5,7 @@ import { SingleToast } from '../SingleToast';
 import { Button } from '../../Button';
 
 export default {
-  title: 'Popup/SingleToast',
+  title: 'SingleToast',
   component: SingleToast,
   parameters: {
     creevey: {

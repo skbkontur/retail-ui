@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Date/DatePicker', () => {
+kind('DatePicker', () => {
   story('WithMouseeventHandlers', () => {
     test('opened', async function () {
       await delay(1000);

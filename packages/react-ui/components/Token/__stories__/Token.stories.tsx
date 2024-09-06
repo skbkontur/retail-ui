@@ -23,7 +23,7 @@ const newToDeprecatedColorNamesMap: { [key: string]: string } = {
 };
 
 export default {
-  title: 'Input elements/Token Input/Token',
+  title: 'Token',
   component: Token,
   decorators: [
     (Story: () => JSX.Element) => (

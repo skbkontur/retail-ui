@@ -73,7 +73,7 @@ const focusedStyledLinkTest = () => {
   });
 };
 
-kind('Navigation/Link', () => {
+kind('Link', () => {
   story('Simple', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

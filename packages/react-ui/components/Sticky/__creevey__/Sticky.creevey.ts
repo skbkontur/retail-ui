@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Layout/Sticky', () => {
+kind('Sticky', () => {
   story('WideContainer', () => {
     test('fixed', async function () {
       await this.browser.executeScript(function () {

@@ -49,7 +49,7 @@ class Component extends React.Component<RadioGroupProps<string>> {
 }
 
 export default {
-  title: 'Choose/RadioGroup',
+  title: 'RadioGroup',
   component: RadioGroup,
 };
 

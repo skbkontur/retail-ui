@@ -91,7 +91,7 @@ const checkboxTests = () => {
   });
 };
 
-kind('Choose/Checkbox', () => {
+kind('Checkbox', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

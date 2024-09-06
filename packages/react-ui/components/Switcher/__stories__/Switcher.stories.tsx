@@ -32,7 +32,7 @@ class Component extends React.Component<SwitcherProps, ComponentState> {
 }
 
 export default {
-  title: 'Choose/Switcher',
+  title: 'Switcher',
   component: Switcher,
 };
 

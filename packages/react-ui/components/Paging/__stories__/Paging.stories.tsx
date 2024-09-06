@@ -133,7 +133,7 @@ class PagingWithCustomComponent extends React.Component<PagingWithCustomComponen
 }
 
 export default {
-  title: 'Navigation/Paging',
+  title: 'Paging',
   component: Paging,
   decorators: [
     (Story: () => JSX.Element) => (
