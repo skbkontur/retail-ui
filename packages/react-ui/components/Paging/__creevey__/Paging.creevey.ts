@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Navigation/Paging', () => {
+kind('Paging', () => {
   story('GoToAbsensePageStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

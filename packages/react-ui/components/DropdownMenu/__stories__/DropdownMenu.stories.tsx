@@ -17,7 +17,7 @@ import { Gapped } from '../../Gapped';
 import { OkIcon } from '../../../internal/icons/16px';
 
 export default {
-  title: 'Menu/DropdownMenu',
+  title: 'DropdownMenu',
   component: DropdownMenu,
   decorators: [
     (Story: () => JSX.Element) => (

@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Input elements/Textarea', () => {
+kind('Textarea', () => {
   story('DifferentStates', () => {
     test('Plain', async function () {
       await delay(1000);

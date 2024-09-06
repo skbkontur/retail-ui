@@ -4,7 +4,7 @@ import { Center } from '../Center';
 import { Meta } from '../../../typings/stories';
 
 export default {
-  title: 'Layout/Center',
+  title: 'Center',
   component: Center,
   parameters: { creevey: { skip: true } },
 } as Meta;

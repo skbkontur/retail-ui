@@ -611,7 +611,7 @@ class WithLongTitle extends React.Component {
 }
 
 export default {
-  title: 'Overlays/SidePage',
+  title: 'SidePage',
   component: SidePage,
 };
 

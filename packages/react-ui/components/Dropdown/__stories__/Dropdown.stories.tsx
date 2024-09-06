@@ -12,7 +12,7 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 
 export default {
-  title: 'Menu/Dropdown',
+  title: 'Dropdown',
   component: Dropdown,
   decorators: [
     (Story: () => JSX.Element) => (

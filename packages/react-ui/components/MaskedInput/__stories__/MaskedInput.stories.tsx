@@ -7,7 +7,7 @@ import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input } from '../../Input';
 
 export default {
-  title: 'Input elements/MaskedInput',
+  title: 'MaskedInput',
   component: MaskedInput,
 } as Meta;
 

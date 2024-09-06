@@ -202,7 +202,7 @@ class SimpleChildrenLines extends React.Component {
 }
 
 export default {
-  title: 'Choose/Toggle',
+  title: 'Toggle',
   component: Toggle,
 };
 

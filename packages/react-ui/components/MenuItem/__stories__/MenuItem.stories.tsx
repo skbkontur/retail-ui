@@ -8,7 +8,7 @@ import { MenuItem } from '../MenuItem';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Menu/MenuItem',
+  title: 'MenuItem',
   component: MenuItem,
 } as Meta;
 

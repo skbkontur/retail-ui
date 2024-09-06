@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Popup/Hint', () => {
+kind('Hint', () => {
   story('SetManualAndOpenedPropOnClick', () => {
     test('click on hint', async function () {
       await this.browser

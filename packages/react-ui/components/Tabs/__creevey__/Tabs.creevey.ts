@@ -159,7 +159,7 @@ const tabsTests = () => {
   });
 };
 
-kind('Navigation/Tabs', () => {
+kind('Tabs', () => {
   story('WithDisabledTab', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

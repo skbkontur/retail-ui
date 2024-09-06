@@ -9,7 +9,7 @@ import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
 
 export default {
-  title: 'Input elements/Input',
+  title: 'Input',
   component: Input,
 } as Meta;
 

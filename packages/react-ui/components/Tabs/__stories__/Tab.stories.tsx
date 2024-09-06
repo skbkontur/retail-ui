@@ -4,7 +4,7 @@ import { Tab } from '../Tab';
 import { Tabs } from '../Tabs';
 
 export default {
-  title: 'Navigation/Tab',
+  title: 'Tab',
   component: Tab,
   parameters: {
     creevey: {

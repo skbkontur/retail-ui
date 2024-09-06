@@ -12,7 +12,7 @@ import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { useMemoObject } from '../../../hooks/useMemoObject';
 
 export default {
-  title: 'Date/Calendar',
+  title: 'Calendar',
   component: Calendar,
 };
 

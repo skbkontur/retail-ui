@@ -30,7 +30,7 @@ const topMiddleBottomModalTests = () => {
   });
 };
 
-kind('Overlays/Modal', () => {
+kind('Modal', () => {
   story('ModalWithFooterPanelStory', () => {
     test('open modal', async function () {
       await this.browser

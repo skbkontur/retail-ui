@@ -277,7 +277,7 @@ class DateInputLastEvent extends React.Component {
 }
 
 export default {
-  title: 'Date/DateInput',
+  title: 'DateInput',
   component: DateInput,
 } as Meta;
 

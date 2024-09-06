@@ -11,7 +11,7 @@ import { Button } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 
 export default {
-  title: 'Popup/Hint',
+  title: 'Hint',
   component: Hint,
   decorators: [
     (Story: () => JSX.Element) => (
