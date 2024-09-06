@@ -70,11 +70,20 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
   };
 
   private generateDocumentStyle = (documentMargin: number) => {
-    return this.props.emotion.css`
-    overflow: hidden !important;
-    margin-right: ${documentMargin}px !important;
-    height: 100%;
-  `;
+    const className = 'hideBodyVerticalScroll';
+    const style = globalObject.document?.createElement('style');
+    if (style) {
+      style.type = 'text/css';
+      style.innerHTML = `.${className} {
+       overflow: hidden !important;
+       margin-right: ${documentMargin}px !important;
+       height: 100%;
+      }`;
+      const head = globalObject.document?.getElementsByTagName('head')[0];
+      head && head.appendChild(style);
+    }
+
+    return className;
   };
 
   private attachStyle = (element: HTMLElement, className: string) => {
