@@ -6,6 +6,7 @@ import { MaskedInput } from '@skbkontur/react-ui';
 export default {
   title: 'Input elements/MaskedInput',
   component: MaskedInput,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -24,10 +25,8 @@ export const Example2: Story = () => {
 };
 Example2.storyName = 'Изменение символа значения с маской';
 
-/** 
-**alwaysShowMask** позволяет показывать маску всегда. Placeholder в этом случае игнорируется.
-
-*/export const Example3: Story = () => {
+/** **alwaysShowMask** позволяет показывать маску всегда. Placeholder в этом случае игнорируется. */
+export const Example3: Story = () => {
   return (
     <MaskedInput mask={'9999 9999 9999 9999'} alwaysShowMask maskChar={'X'} placeholder={"Номер карты"} />
   );

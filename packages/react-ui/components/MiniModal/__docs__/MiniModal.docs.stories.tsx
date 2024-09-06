@@ -6,26 +6,24 @@ import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
 import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/NotificationBellAlarmIcon64Regular';
 
-
 import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 
 export default {
   title: 'Overlays/MiniModal',
   component: MiniModal,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
-/** 
-Самый простой вариант использования:
+/** Самый простой вариант использования: */
+export const Example1: Story = () => {
 
-*/export const Example1: Story = () => {
-  
   const PayNotifice = () => {
-  
+
     const [isOpened, setIsOpened] = React.useState(false);
-  
+
     const open = () => setIsOpened(true);
     const close = () => setIsOpened(false);
-  
+
     return (
       <>
         {isOpened && (
@@ -45,7 +43,7 @@ export default {
       </>
     );
   }
-  
+
   return (
     <PayNotifice />
   );
@@ -53,25 +51,23 @@ export default {
 };
 Example1.storyName = 'Уведомление';
 
-/** 
-Иногда от пользователя требуется выбрать одно из доступных действий.
-Например, подтвердить важное действие или отклонить его:
+/** Иногда от пользователя требуется выбрать одно из доступных действий.
+Например, подтвердить важное действие или отклонить его: */
+export const Example2: Story = () => {
 
-*/export const Example2: Story = () => {
-  
   const ConfirmDelete = ({ name, handleDelete }) => {
     const theme = React.useContext(ThemeContext);
-  
+
     const [isOpened, setIsOpened] = React.useState(false);
-  
+
     const open = () => setIsOpened(true);
     const close = () => setIsOpened(false);
-  
+
     const mainAction = () => {
       handleDelete();
       close();
     };
-  
+
     return (
       <>
         {isOpened && (
@@ -89,9 +85,9 @@ Example1.storyName = 'Уведомление';
       </>
     );
   }
-  
+
   const list = ['Отчёт № 111', 'Отчёт № 222', 'Отчёт № 333'];
-  
+
   return (
     <Gapped vertical>
       {list.map((name) => (
@@ -110,18 +106,16 @@ Example1.storyName = 'Уведомление';
 };
 Example2.storyName = 'Подтверждение';
 
-/** 
-Одно и то же диалоговое окно может вызываться в разных частях приложения.
-В таком случае стоит реализовать паттерн синглтона:
+/** Одно и то же диалоговое окно может вызываться в разных частях приложения.
+В таком случае стоит реализовать паттерн синглтона: */
+export const Example3: Story = () => {
 
-*/export const Example3: Story = () => {
-  
   const EnableNotification = React.forwardRef(({ setStatus }, ref) => {
     const [isOpened, setIsOpened] = React.useState(false);
-  
+
     const open = () => setIsOpened(true);
     const close = () => setIsOpened(false);
-  
+
     const handleAllowAll = () => {
       setStatus('Разрешить все');
       close();
@@ -134,9 +128,9 @@ Example2.storyName = 'Подтверждение';
       setStatus('Запретить');
       close();
     };
-  
+
     React.useImperativeHandle(ref, () => ({ open, close }), []);
-  
+
     return isOpened && (
       <MiniModal>
         <MiniModal.Header icon={<NotificationBellAlarmIcon64Regular/>}>
@@ -151,13 +145,13 @@ Example2.storyName = 'Подтверждение';
       </MiniModal>
     );
   });
-  
+
   const [status, setStatus] = React.useState('-не выбрано-');
-  
+
   const NotificationEnableRef = React.useRef(null);
-  
+
   const NotificationEnableOpen = () => NotificationEnableRef.current && NotificationEnableRef.current.open();
-  
+
   return (
     <>
       <EnableNotification ref={NotificationEnableRef} setStatus={setStatus}/>
@@ -175,20 +169,18 @@ Example2.storyName = 'Подтверждение';
 };
 Example3.storyName = 'Синглтон';
 
-/** 
-Некоторые действия для корректного исполнения требуют блокировки других действий пользователя.
-В таких случаях можно, например, использовать проп `loading` для `Button`, и не позволять закрыть окно до конца исполнения:
+/** Некоторые действия для корректного исполнения требуют блокировки других действий пользователя.
+В таких случаях можно, например, использовать проп `loading` для `Button`, и не позволять закрыть окно до конца исполнения: */
+export const Example4: Story = () => {
 
-*/export const Example4: Story = () => {
-  
   const WaitingUpdate = ({ handleUpdate, setLastUpdated }) => {
-  
+
     const [isLoading, setIsLoading] = React.useState(false);
     const [isOpened, setIsOpened] = React.useState(false);
-  
+
     const open = () => setIsOpened(true);
     const close = () => setIsOpened(false);
-  
+
     const handleMainClick = () => {
       setIsLoading(true);
       handleUpdate()
@@ -198,7 +190,7 @@ Example3.storyName = 'Синглтон';
           setLastUpdated(new Date());
         });
     };
-  
+
     return (
       <>
         {isOpened && (
@@ -213,20 +205,20 @@ Example3.storyName = 'Синглтон';
               <Button use="success" size="medium" onClick={handleMainClick} loading={isLoading}>Обновить</Button>
               <Button size="medium" onClick={close} disabled={isLoading}>Отменить</Button>
             </MiniModal.Footer>
-  
+
           </MiniModal>
         )}
         <Button onClick={open} use="success">Обновить</Button>
       </>
     );
   }
-  
+
   const dateTimeFormat = new Intl.DateTimeFormat('nu', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  
+
   const [lastUpdated, setLastUpdated] = React.useState(new Date());
-  
+
   const handleUpdate = () => new Promise((resolve) => setTimeout(resolve, 1500));
-  
+
   return (
     <Gapped>
       <WaitingUpdate handleUpdate={handleUpdate} setLastUpdated={setLastUpdated} />

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
-import * as DatePickerHelpers from '../DatePickerHelpers';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
+import * as DatePickerHelpers from './DatePickerHelpers';
 
-import { DatePicker ,Gapped ,Tooltip ,Button ,Group ,DateOrder ,DateSeparator ,LocaleContext ,Select ,LangCodes } from '@skbkontur/react-ui';
+import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes } from '@skbkontur/react-ui';
+
 export default {
   title: 'Date/DatePicker',
   component: DatePicker,
+  parameters: { creevey: { skip: true } },
 } as Meta;
-/**
-Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
 
-*/
+/** Пример с обработкой ошибок, когда пользователь ввел невалидную дату. */
 export const Example1: Story = () => {
 
   const [value, setValue] = React.useState();
@@ -61,34 +61,9 @@ export const Example1: Story = () => {
 
 };
 Example1.storyName = 'Валидация';
-/**
-Очистить значение в `DatePicker`'е можно с помощью пустой строки, `null` или `undefined`
 
-*/
+/** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
 export const Example2: Story = () => {
-
-  const [value, setValue] = React.useState('24.08.2022');
-
-  return (
-    <Group>
-      <DatePicker
-        value={value}
-        onValueChange={setValue}
-        enableTodayLink
-      />
-      <Button onClick={() => setValue(null)}>Null</Button>
-      <Button onClick={() => setValue(undefined)}>Undefined</Button>
-      <Button onClick={() => setValue('')}>Пустая строка</Button>
-    </Group>
-  );
-
-};
-Example2.storyName = 'Очистка значения';
-/**
-В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
-
-*/
-export const Example3: Story = () => {
 
   const [value, setValue] = React.useState();
 
@@ -132,12 +107,12 @@ export const Example3: Story = () => {
   );
 
 };
-Example3.storyName = 'isHoliday';
-export const Example5: Story = () => {
+Example2.storyName = '`isHoliday`';
+
+export const Example4: Story = () => {
 
   class DatePickerFormatting extends React.Component {
-    constructor(props) {
-      super(props);
+    constructor() {
       this.state = {
         order: DateOrder.YMD,
         separator: 'Dot',
@@ -191,12 +166,10 @@ export const Example5: Story = () => {
   );
 
 };
-Example5.storyName = 'Ручное форматирование даты';
-/**
-Подбробный пример в [Calendar](#/Components/Calendar)
+Example4.storyName = 'Ручное форматирование даты';
 
-*/
-export const Example6: Story = () => {
+/** Подбробный пример в [Calendar](#/Components/Calendar) */
+export const Example5: Story = () => {
   const [value, setValue] = React.useState('12.05.2022');
 
   return (
@@ -209,12 +182,10 @@ export const Example6: Story = () => {
   );
 
 };
-Example6.storyName = 'Период дат';
-/**
-Подбробный пример в [Calendar](#/Components/Calendar)
+Example5.storyName = 'Период дат';
 
-*/
-export const Example7: Story = () => {
+/** Подбробный пример в [Calendar](#/Components/Calendar) */
+export const Example6: Story = () => {
   const [value, setValue] = React.useState('12.05.2022');
 
   const renderDay = (date, defaultProps, RenderDefault) => {
@@ -229,4 +200,5 @@ export const Example7: Story = () => {
   );
 
 };
-Example7.storyName = 'Кастомный рендер дня';
+Example6.storyName = 'Кастомный рендер дня';
+

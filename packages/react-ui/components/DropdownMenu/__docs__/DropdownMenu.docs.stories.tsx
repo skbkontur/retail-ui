@@ -4,16 +4,16 @@ import { Meta, Story } from '../../../typings/stories';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 
-
 import { DropdownMenu, Button, MenuHeader, MenuItem, MenuSeparator, Checkbox, ThemeContext, ThemeFactory, Gapped } from '@skbkontur/react-ui';
 
 export default {
   title: 'Menu/DropdownMenu',
   component: DropdownMenu,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -32,7 +32,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример меню';
 
 export const Example2: Story = () => {
-  
+
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню c заданной шириной</Button>} menuWidth={350}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -51,7 +51,7 @@ export const Example2: Story = () => {
 Example2.storyName = 'Ширина';
 
 export const Example3: Story = () => {
-  
+
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню c заданной высотой</Button>} menuMaxHeight={150}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -70,7 +70,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Максимальная высота';
 
 export const Example4: Story = () => {
-  
+
   return (
     <DropdownMenu positions={["left middle"]} caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -89,7 +89,7 @@ export const Example4: Story = () => {
 Example4.storyName = 'Выпадашка слева по центру';
 
 export const Example5: Story = () => {
-  
+
   return (
     <DropdownMenu
       header={<p>Это шапка в виде обычного текста</p>}
@@ -106,7 +106,7 @@ export const Example5: Story = () => {
 Example5.storyName = 'Меню c шапкой и подвалом';
 
 export const Example6: Story = () => {
-  
+
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -120,7 +120,7 @@ export const Example6: Story = () => {
 Example6.storyName = 'Иконка и автовыравнивание текста';
 
 export const Example7: Story = () => {
-  
+
   return (
     <DropdownMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -134,7 +134,7 @@ export const Example7: Story = () => {
 Example7.storyName = 'Иконка и отключенное автовыравнивание текста';
 
 export const Example8: Story = () => {
-  
+
   return (
     <DropdownMenu
       disableAnimations
@@ -151,11 +151,9 @@ export const Example8: Story = () => {
 };
 Example8.storyName = 'Отключенная анимация';
 
-/** 
-В `caption` можно передать любой элемент.
+/** В `caption` можно передать любой элемент. */
+export const Example9: Story = () => {
 
-*/export const Example9: Story = () => {
-  
   return (
     <DropdownMenu
       caption={
@@ -175,11 +173,11 @@ Example8.storyName = 'Отключенная анимация';
 Example9.storyName = 'Подпись';
 
 export const Example10: Story = () => {
-  
+
   const [checked, setChecked] = React.useState(false);
-  
+
   let close;
-  
+
   const renderCaption = ({ openMenu, closeMenu }) => {
     close = closeMenu;
     return (
@@ -188,7 +186,7 @@ export const Example10: Story = () => {
       </Button>
     );
   };
-  
+
   return (
     <DropdownMenu caption={renderCaption}>
       <MenuItem onClick={(e) => e.preventDefault()}>Просто пункт</MenuItem>
@@ -216,27 +214,25 @@ export const Example10: Story = () => {
 };
 Example10.storyName = 'Чекбокс внутри MenuItem';
 
-/** 
-(с сохранением поведения [MenuItem](#/Components/MenuItem))
+/** (с сохранением поведения [MenuItem](#/Components/MenuItem)) */
+export const Example11: Story = () => {
 
-*/export const Example11: Story = () => {
-  
   const [showItems, setShowItems] = React.useState(false);
-  
+
   const hiddenItems = [
     <MenuSeparator />,
     <MenuItem>А я скрываюсь</MenuItem>,
     <MenuItem>И я</MenuItem>,
     <MenuItem>Я с вами</MenuItem>,
   ];
-  
-  
+
+
   return (
     <Gapped>
       <Button onClick={() => setShowItems(!showItems)}>
         {showItems ? 'Спрятать' : 'Показать'} элементы
       </Button>
-    
+
       <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
         <MenuItem>Меня видно всегда</MenuItem>
         <MenuItem>Меня тоже</MenuItem>

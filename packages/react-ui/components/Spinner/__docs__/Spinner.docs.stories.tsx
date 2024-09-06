@@ -6,17 +6,18 @@ import { Spinner, Gapped } from '@skbkontur/react-ui';
 export default {
   title: 'Action/Spinner',
   component: Spinner,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   const reactNodeCaption = (
     <div>
       <Spinner type="mini" caption={null} /> <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>
       агрузка
     </div>
   );
-  
+
   return (
     <Gapped>
       <Spinner type="big" caption="big" />

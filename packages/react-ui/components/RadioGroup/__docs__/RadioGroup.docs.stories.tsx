@@ -6,19 +6,20 @@ import { RadioGroup, Gapped, Radio } from '@skbkontur/react-ui';
 export default {
   title: 'Choose/RadioGroup',
   component: RadioGroup,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   let items = ['One', 'Two', 'Three', 'Four'];
-  
+
   let simpleRadioGroup = (
     <div>
       <h2>Numbers</h2>
       <RadioGroup name="number-simple" items={items} defaultValue="One" />
     </div>
   );
-  
+
   let complexRadioGroup = (
     <div>
       <h2>Numbers</h2>
@@ -44,7 +45,7 @@ export const Example1: Story = () => {
       </RadioGroup>
     </div>
   );
-  
+
   return (
     <div>
       {simpleRadioGroup}

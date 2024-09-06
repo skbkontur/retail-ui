@@ -6,11 +6,12 @@ import { Checkbox, Gapped, Button } from '@skbkontur/react-ui';
 export default {
   title: 'Choose/Checkbox',
   component: Checkbox,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
   const [checked, setChecked] = React.useState(false);
-  
+
   return (
     <Checkbox checked={checked} onValueChange={setChecked}>
       Обычный чекбокс
@@ -21,17 +22,17 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример чекбокса';
 
 export const Example2: Story = () => {
-  
+
   const CheckboxWithState = ({children, ...props}) => {
     const [checked, setChecked] = React.useState(false);
-  
+
     return (
       <Checkbox checked={checked} onValueChange={setChecked} {...props}>
         {children}
       </Checkbox>
     )
   };
-  
+
   return (
     <Gapped vertical>
       <CheckboxWithState>
@@ -50,7 +51,7 @@ export const Example2: Story = () => {
 Example2.storyName = 'Cостояния';
 
 export const Example3: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <Checkbox size="small" checked>
@@ -69,11 +70,11 @@ export const Example3: Story = () => {
 Example3.storyName = 'Размер';
 
 export const Example4: Story = () => {
-  
+
   const [checked, setChecked] = React.useState(false);
-  
+
   let checkboxInstance = React.useRef(null);
-  
+
   return (
     <Gapped vertical>
       <Checkbox
@@ -105,16 +106,14 @@ export const Example4: Story = () => {
 };
 Example4.storyName = 'focus и blur';
 
-/** 
-Чекбокс может находится в неопределённом состоянии. <br/> Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
-Это состояние влияет только на внешний вид и не влияет на состояние `checked`.
+/** Чекбокс может находится в неопределённом состоянии. <br/> Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
+Это состояние влияет только на внешний вид и не влияет на состояние `checked`. */
+export const Example5: Story = () => {
 
-*/export const Example5: Story = () => {
-  
   const [checked, setChecked] = React.useState(false);
-  
+
   let checkboxInstance = React.useRef(null);
-  
+
   return (
     <Gapped vertical>
       <Checkbox
@@ -142,9 +141,9 @@ Example5.storyName = 'Неопределенное состояние';
 export const Example6: Story = () => {
   const [checkedSiblings, setCheckedSiblings] = React.useState([]);
   const siblingCheckboxes = [1, 2];
-  
+
   let parentCheckboxRef;
-  
+
   React.useEffect(() => {
     if (checkedSiblings.length === 0 || checkedSiblings.length === siblingCheckboxes.length) {
       parentCheckboxRef.resetIndeterminate();
@@ -152,7 +151,7 @@ export const Example6: Story = () => {
       parentCheckboxRef.setIndeterminate();
     }
   }, [JSON.stringify(checkedSiblings)]);
-  
+
   return (
     <>
       <Checkbox checked={checkedSiblings.length === siblingCheckboxes.length} ref={(el) => (parentCheckboxRef = el)}>
@@ -166,7 +165,7 @@ export const Example6: Story = () => {
               checked={checkedSiblings.includes(id)}
               onValueChange={() => {
                 const siblingIndex = checkedSiblings.indexOf(id);
-    
+
                 if (siblingIndex === -1) {
                   setCheckedSiblings((prev) => [...prev, id]);
                 } else {

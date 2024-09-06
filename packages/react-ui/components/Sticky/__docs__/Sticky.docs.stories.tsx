@@ -6,6 +6,7 @@ import { Sticky } from '@skbkontur/react-ui';
 export default {
   title: 'Layout/Sticky',
   component: Sticky,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -13,9 +14,9 @@ export const Example1: Story = () => {
     padding: 10,
     background: '#f99',
   };
-  
+
   let stop = null;
-  
+
   return (
     <div>
       <Sticky side="top" getStop={() => stop}>

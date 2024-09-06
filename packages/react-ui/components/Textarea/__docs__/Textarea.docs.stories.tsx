@@ -6,11 +6,12 @@ import { Textarea, Group, Button, Gapped } from '@skbkontur/react-ui';
 export default {
   title: 'Input elements/Textarea',
   component: Textarea,
+  parameters: { creevey: { skip: true } },
 };
 
 export const Example1: Story = () => {
   const [value, setValue] = React.useState('');
-  
+
   return (
     <Textarea
       value={value}
@@ -23,13 +24,11 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** 
-Очистить значение в `Textarea` можно только с помощью пустой строки
+/** Очистить значение в `Textarea` можно только с помощью пустой строки */
+export const Example2: Story = () => {
 
-*/export const Example2: Story = () => {
-  
   const [value, setValue] = React.useState('Значение');
-  
+
   return (
     <Group>
       <Textarea
@@ -48,7 +47,7 @@ Example2.storyName = 'Очистка значения';
 
 export const Example3: Story = () => {
   const [value, setValue] = React.useState('');
-  
+
   return (
     <Textarea
       value={value}
@@ -64,7 +63,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Счетчик введенных символов';
 
 export const Example4: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <Textarea size={'small'} value={'Маленький'} autoResize rows={1} />

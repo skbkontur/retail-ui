@@ -6,10 +6,11 @@ import { Token, Gapped } from '@skbkontur/react-ui';
 export default {
   title: 'Input elements/TokenInput/Token',
   component: Token,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <Token>Example</Token>
   );
@@ -17,11 +18,9 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** 
-У разных токенов может быть разный цвет.
+/** У разных токенов может быть разный цвет. */
+export const Example2: Story = () => {
 
-*/export const Example2: Story = () => {
-  
   const colors = {
     default: {
       idle: 'defaultIdle',
@@ -52,7 +51,7 @@ Example1.storyName = 'Базовый пример';
       active: 'black',
     },
   };
-  
+
   return (
     <Gapped gap={20} vertical>
       <Gapped gap={10}>
@@ -104,7 +103,7 @@ Example1.storyName = 'Базовый пример';
 Example2.storyName = 'Цвет токена';
 
 export const Example3: Story = () => {
-  
+
   return (
     <Gapped gap={20} vertical>
       <Gapped gap={10}>

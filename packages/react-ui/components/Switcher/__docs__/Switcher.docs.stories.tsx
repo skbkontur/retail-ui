@@ -6,11 +6,12 @@ import { Switcher, Hint, Tooltip } from '@skbkontur/react-ui';
 export default {
   title: 'Choose/Switcher',
   component: Switcher,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
   const [value, setValue] = React.useState();
-  
+
   return (
     <Switcher
       caption="Switch the switcher"
@@ -23,10 +24,8 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** 
-Случай, когда `items` принимает объект типа `{ label: string, value: string }`
-
-*/export const Example2: Story = () => {
+/** Случай, когда `items` принимает объект типа `{ label: string, value: string }` */
+export const Example2: Story = () => {
   const [value, setValue] = React.useState();
   const items = [
     {
@@ -42,7 +41,7 @@ Example1.storyName = 'Базовый пример';
       value: '333',
     }
   ];
-  
+
   return (
     <Switcher
       caption="Switch the switcher"
@@ -55,10 +54,8 @@ Example1.storyName = 'Базовый пример';
 };
 Example2.storyName = 'items в виде объектов';
 
-/** 
-Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку
-
-*/export const Example3: Story = () => {
+/** Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку */
+export const Example3: Story = () => {
   const [value, setValue] = React.useState();
   const items = [
     {
@@ -86,7 +83,7 @@ Example2.storyName = 'items в виде объектов';
       }
     }
   ];
-  
+
   return (
     <Switcher
       caption="Switch the switcher"
@@ -99,14 +96,12 @@ Example2.storyName = 'items в виде объектов';
 };
 Example3.storyName = 'Кастомизация кнопки';
 
-/** 
-Пример с методом `renderItem` для кастомизации `items`:
+/** Пример с методом `renderItem` для кастомизации `items`: */
+export const Example4: Story = () => {
 
-*/export const Example4: Story = () => {
-  
   const [value, setValue] = React.useState();
   const items = ['One', 'Two', 'Three'];
-  
+
   const renderItem = (label, value, buttonProps, renderDefault) => {
     if (value === 'One') {
       return <Hint pos="bottom" text="Подсказка" opened manual>{renderDefault()}</Hint>;
@@ -120,7 +115,7 @@ Example3.storyName = 'Кастомизация кнопки';
     }
     return renderDefault();
   }
-  
+
   return (
     <Switcher
       caption="Switch the switcher"

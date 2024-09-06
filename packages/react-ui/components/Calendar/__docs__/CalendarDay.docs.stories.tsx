@@ -3,12 +3,12 @@ import { Meta, Story } from '../../../typings/stories';
 
 import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '@skbkontur/react-ui/lib/date/comparison';
 
-
 import { CalendarDay, Calendar, Gapped } from '@skbkontur/react-ui';
 
 export default {
   title: 'Date/CalendarDay',
   component: CalendarDay,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -38,34 +38,37 @@ export const Example2: Story = () => {
 
   const Table = ({ children }) => (
     <table>
-        <thead>
-            <tr>
-                <td>Функция</td>
-                <td>Результат</td>
-            </tr>
-        </thead>
-        <tbody>
-            { children }
-        </tbody>
+      <thead>
+        <tr>
+          <td>Функция</td>
+          <td>Результат</td>
+        </tr>
+      </thead>
+      <tbody>
+        { children }
+      </tbody>
     </table>
   )
 
   const Row = ({ code }) => (
     <tr>
-        <td><code>{code}</code></td>
-        <td><code>{JSON.stringify(eval(code), null, 2)}</code></td>
+      <td><code>{code}</code></td>
+      <td><code>{JSON.stringify(eval(code), null, 2)}</code></td>
     </tr>
   );
+
   return (
     <Table>
-        <Row code={`isEqual("${date_a}", "${date_a}")`} />
-        <Row code={`isLess("${date_a}", "${date_b}")`} />
-        <Row code={`isLessOrEqual("${date_a}", "${date_b}")`} />
-        <Row code={`isGreater("${date_b}", "${date_a}")`} />
-        <Row code={`isGreaterOrEqual("${date_b}", "${date_a}")`} />
-        <Row code={`isBetween("${date_b}", "${date_a}", "${date_b}")`} />
+      <Row code={`isEqual("${date_a}", "${date_a}")`} />
+      <Row code={`isLess("${date_a}", "${date_b}")`} />
+      <Row code={`isLessOrEqual("${date_a}", "${date_b}")`} />
+      <Row code={`isGreater("${date_b}", "${date_a}")`} />
+      <Row code={`isGreaterOrEqual("${date_b}", "${date_a}")`} />
+      <Row code={`isBetween("${date_b}", "${date_a}", "${date_b}")`} />
     </Table>
+
   );
+
 };
 Example2.storyName = 'Функции для сравнения строковых дат';
 

@@ -5,12 +5,12 @@ import MenuIcon from '@skbkontur/react-icons/Menu';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
-
 import { TooltipMenu, Button, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontur/react-ui';
 
 export default {
   title: 'Menu/TooltipMenu',
   component: TooltipMenu,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -32,10 +32,8 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/**
-В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню.
-
-*/export const Example2: Story = () => {
+/** В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню. */
+export const Example2: Story = () => {
 
   return (
     <TooltipMenu caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
@@ -125,10 +123,8 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'Отключенная анимация';
 
-/**
-В `caption` можно передать любой элемент.
-
-*/export const Example6: Story = () => {
+/** В `caption` можно передать любой элемент. */
+export const Example6: Story = () => {
 
   return (
     <TooltipMenu
@@ -235,10 +231,8 @@ export const Example11: Story = () => {
 };
 Example11.storyName = 'Иконки и автовыравнивание';
 
-/**
-(с сохранением поведения [MenuItem](#/Components/MenuItem)).
-
-*/export const Example12: Story = () => {
+/** (с сохранением поведения [MenuItem](#/Components/MenuItem)). */
+export const Example12: Story = () => {
 
   const [showItems, setShowItems] = React.useState(false);
 

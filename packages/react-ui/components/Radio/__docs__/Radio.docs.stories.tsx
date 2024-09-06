@@ -6,12 +6,13 @@ import { Radio, Gapped, RadioGroup } from '@skbkontur/react-ui';
 export default {
   title: 'Choose/Radio',
   component: Radio,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   const [chosen, setChosen] = React.useState(null);
-  
+
   return (
     <RadioGroup onValueChange={(value) => setChosen(value)}>
       <Gapped gap={3} vertical>
@@ -40,10 +41,8 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Виды радио-кнопок';
 
-/** 
-Радио-кнопки могут иметь сразу несколько состояний.
-
-*/export const Example2: Story = () => {
+/** Радио-кнопки могут иметь сразу несколько состояний. */
+export const Example2: Story = () => {
   return (
     <Radio disabled checked warning>
       Отключенная, отмеченная радио-кнопка в состоянии <b>warning</b>
@@ -54,7 +53,7 @@ Example1.storyName = 'Виды радио-кнопок';
 Example2.storyName = 'Состояния';
 
 export const Example3: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <Radio size="small" value="value" >

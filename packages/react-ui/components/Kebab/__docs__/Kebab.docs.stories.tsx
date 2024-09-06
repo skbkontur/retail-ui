@@ -5,16 +5,16 @@ import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
-
 import { Kebab, Gapped, MenuItem, Toast, Button, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
 
 export default {
   title: 'Menu/Kebab',
   component: Kebab,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -23,14 +23,14 @@ export const Example1: Story = () => {
     padding: '0 20px',
     width: 250,
   };
-  
+
   let Card = ({ name, post }) => (
     <div style={style}>
       <div>
         <h3>{name}</h3>
         <p style={{ color: 'gray' }}>{post}</p>
       </div>
-  
+
       <Kebab size="large">
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
@@ -41,7 +41,7 @@ export const Example1: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Gapped gap={-1} wrap>
       <Gapped gap={-1}>
@@ -59,7 +59,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -68,13 +68,13 @@ export const Example2: Story = () => {
     padding: '0 20px',
     width: 230,
   };
-  
+
   let Card = ({ title, size }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
-  
+
       <Kebab size={size}>
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
@@ -85,7 +85,7 @@ export const Example2: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Gapped>
       <Card title="Маленький кебаб" size="small" />
@@ -98,7 +98,7 @@ export const Example2: Story = () => {
 Example2.storyName = 'Размер';
 
 export const Example3: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -107,14 +107,14 @@ export const Example3: Story = () => {
     padding: '0 20px',
     width: 250,
   };
-  
-  
+
+
   let Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
-  
+
       <Kebab positions={['left middle']} size="large">
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
@@ -125,7 +125,7 @@ export const Example3: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Card title="С выпадашкой слева" />
   );
@@ -134,7 +134,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Кебаб-меню с выпадашкой слева';
 
 export const Example4: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -143,13 +143,13 @@ export const Example4: Story = () => {
     padding: '0 20px',
     width: 250,
   };
-  
+
   let Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
-  
+
       <Kebab
         onOpen={() => Toast.push('Кебаб-меню открылось!')}
         size="large"
@@ -163,7 +163,7 @@ export const Example4: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Card title="С кастомным действием" />
   );
@@ -172,7 +172,7 @@ export const Example4: Story = () => {
 Example4.storyName = 'Кастомное действие при открытии';
 
 export const Example5: Story = () => {
-  
+
   return (
     <Kebab>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -186,7 +186,7 @@ export const Example5: Story = () => {
 Example5.storyName = 'Иконка и автовыравнивание';
 
 export const Example6: Story = () => {
-  
+
   return (
     <Kebab preventIconsOffset>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -200,7 +200,7 @@ export const Example6: Story = () => {
 Example6.storyName = 'Иконка и отключенное автовыравнивание';
 
 export const Example7: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -209,13 +209,13 @@ export const Example7: Story = () => {
     padding: '0 20px',
     width: 250,
   };
-  
+
   let Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
-  
+
       <Kebab disabled size="large">
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
@@ -226,7 +226,7 @@ export const Example7: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Card title="Не нажимается :(" />
   );
@@ -235,7 +235,7 @@ export const Example7: Story = () => {
 Example7.storyName = 'Отключенное кебаб-меню';
 
 export const Example8: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -244,13 +244,13 @@ export const Example8: Story = () => {
     padding: '0 20px',
     width: 250,
   };
-  
+
   let Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
-  
+
       <Kebab disableAnimations size="large">
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
@@ -261,7 +261,7 @@ export const Example8: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Card title="Без анимации" />
   );
@@ -270,7 +270,7 @@ export const Example8: Story = () => {
 Example8.storyName = 'Отключенная анимация';
 
 export const Example9: Story = () => {
-  
+
   let style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
@@ -279,13 +279,13 @@ export const Example9: Story = () => {
     padding: '0 20px',
     width: 250,
   };
-  
+
   let Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
-  
+
       <Kebab
         menuMaxHeight="100px"
         size="large"
@@ -305,7 +305,7 @@ export const Example9: Story = () => {
       </Kebab>
     </div>
   );
-  
+
   return (
     <Card title="С заданной высотой" />
   );

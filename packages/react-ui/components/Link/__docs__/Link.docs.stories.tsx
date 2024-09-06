@@ -4,12 +4,12 @@ import { Meta, Story } from '../../../typings/stories';
 import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular'
 
-
 import { Link, Gapped, Button, Toast } from '@skbkontur/react-ui';
 
 export default {
   title: 'Navigation/Link',
   component: Link,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -48,12 +48,10 @@ export const Example3: Story = () => {
 };
 Example3.storyName = 'Иконка';
 
-/**
-_Примечание_:
+/** _Примечание_:
 Если в контрол `Link` передана ссылка, ведущая на внешний ресурс, контрол `Link` неявно добавит атрибут `rel` со значением необходимым для внешних ссылок, при этом не трогая атрибут `target`.
-Открытие ссылки в новой вкладке остаётся на усмотрение разработчика.
-
-*/export const Example4: Story = () => {
+Открытие ссылки в новой вкладке остаётся на усмотрение разработчика. */
+export const Example4: Story = () => {
 
   return (
     <Gapped>
@@ -69,10 +67,8 @@ _Примечание_:
 };
 Example4.storyName = 'Ссылки, ведущие на внешние ресурсы';
 
-/**
-**Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая.
-
-*/export const Example5: Story = () => {
+/** **Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая. */
+export const Example5: Story = () => {
 
   const [isLoading, setIsLoading] = React.useState(false);
 

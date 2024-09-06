@@ -3,27 +3,27 @@ import { Meta, Story } from '../../../typings/stories';
 
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
-
 import { TokenInput, Token } from '@skbkontur/react-ui';
 
 export default {
   title: 'Input elements/TokenInput/TokenInput',
   component: TokenInput,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   const [selectedItems, setSelectedItems] = React.useState([]);
-  
+
   const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-  
+
   const getItems = q =>
     Promise.resolve(
       ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
         x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
       ),
     ).then(delay(500));
-  
+
   const tokenColors = {
     First: {
       idle: 'grayIdle',
@@ -54,7 +54,7 @@ export const Example1: Story = () => {
       active: 'defaultActive',
     },
   };
-  
+
   return (
     <div style={{ width: '300px' }}>
       <TokenInput
@@ -75,18 +75,18 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  
+
   const [selectedItems, setSelectedItems] = React.useState([]);
-  
+
   const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-  
+
   const getItems = q =>
     Promise.resolve(
       ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
         x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
       ),
     ).then(delay(500));
-  
+
   return (
     <div style={{ width: '300px' }}>
       <TokenInput
@@ -114,13 +114,13 @@ export const Example2: Story = () => {
 Example2.storyName = 'Размер';
 
 export const Example3: Story = () => {
-  
+
   const [selectedItems, setSelectedItems] = React.useState(['aaa', 'bbb', 'ccc']);
-  
+
   async function getItems(query) {
     return ['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query));
   };
-  
+
   return (
     <TokenInput
       disabled
@@ -140,32 +140,32 @@ export const Example3: Story = () => {
 Example3.storyName = 'Заблокированный TokenInput с кастомными Token';
 
 export const Example4: Story = () => {
-  
-  
+
+
   const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
   const cities = require('../../ComboBox/__mocks__/./kladr.json');
-  
+
   const maxItems = 5;
-  
+
   const [totalCount, setTotalCount] = React.useState(cities.length);
   const [value, setValue] = React.useState([]);
-  
+
   const getItems = (query) => {
     const items = cities
       .map((x) => x.City)
       .filter((x) => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query);
     const result = items.slice(0, maxItems);
     setTotalCount(items.length);
-  
+
     return Promise.resolve(result).then(delay(500));
   };
-  
+
   const renderTotalCount = (foundCount, totalCount) => (
     <span>
       Показано {foundCount} из {totalCount} найденных городов
     </span>
   );
-  
+
   return (
     <div style={{ width: "300px" }}>
       <TokenInput
@@ -184,9 +184,9 @@ export const Example4: Story = () => {
 Example4.storyName = 'Ограничение количества токенов в выпадающем списке';
 
 export const Example5: Story = () => {
-  
+
   const [selectedItems, setSelectedItems] = React.useState([]);
-  
+
   const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
   const getGenericItems = () => [
     { id: '111', value: 'aaa' },
@@ -203,7 +203,7 @@ export const Example5: Story = () => {
     await delay(400);
     return getGenericItems().filter((s) => s.value.includes(query));
   }
-  
+
   return (
     <div style={{ width: '300px' }}>
       <TokenInput
@@ -231,21 +231,19 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'Кастомный тип элементов меню';
 
-/** 
-Функция debounce из lodash некорректно работает с async/promise, поэтому лучше использовать кастомную функцию, как в примере ниже.
+/** Функция debounce из lodash некорректно работает с async/promise, поэтому лучше использовать кастомную функцию, как в примере ниже. */
+export const Example6: Story = () => {
 
-*/export const Example6: Story = () => {
-  
   const [value, setValue] = React.useState([]);
-  
+
   function debounceAsync(callback, wait) {
     let timeoutId = null;
-  
+
     return (...args) => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-  
+
       return new Promise((resolve) => {
         const timeoutPromise = new Promise((resolve) => {
           timeoutId = setTimeout(resolve, wait);
@@ -256,14 +254,14 @@ Example5.storyName = 'Кастомный тип элементов меню';
       });
     };
   }
-  
+
   const items = ["kon", "kod", "kof", "kor", "kos"];
-  
+
   const getItems = async (query) => {
     console.log("query: ", query);
     return items.filter((item) => item.includes(query));
   };
-  
+
   return (
     <TokenInput
       style={{ width: "300px" }}

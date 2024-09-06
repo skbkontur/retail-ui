@@ -6,10 +6,11 @@ import { MenuSeparator, Button, MenuHeader, MenuItem, DropdownMenu } from '@skbk
 export default {
   title: 'Menu/MenuSeparator',
   component: MenuSeparator,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с разделителями</Button>}>
       <MenuItem>У меня есть разделитель</MenuItem>

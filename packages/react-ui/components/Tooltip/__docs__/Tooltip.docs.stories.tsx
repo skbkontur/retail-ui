@@ -5,18 +5,16 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
-
 import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
 
 export default {
   title: 'Popup/Tooltip',
   component: Tooltip,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
-/**
-Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов
-
-*/export const Example1: Story = () => {
+/** Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов */
+export const Example1: Story = () => {
 
   const [size, setSize] = React.useState('small');
 
@@ -58,10 +56,8 @@ export default {
 };
 Example1.storyName = 'Базовый пример';
 
-/**
-Выравнивание базовой линии с RadioGroup требует дополнительных отступов.
-
-*/export const Example2: Story = () => {
+/** Выравнивание базовой линии с RadioGroup требует дополнительных отступов. */
+export const Example2: Story = () => {
 
   const render = () => (
     <div
@@ -94,10 +90,8 @@ Example1.storyName = 'Базовый пример';
 };
 Example2.storyName = 'Выравнивание базовой линии';
 
-/**
-Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов.
-
-*/export const Example3: Story = () => {
+/** Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов. */
+export const Example3: Story = () => {
 
   const S = 60;
 
@@ -239,10 +233,8 @@ Example2.storyName = 'Выравнивание базовой линии';
 };
 Example3.storyName = 'Расположение тултипа';
 
-/**
-Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения.
-
-*/export const Example4: Story = () => {
+/** Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения. */
+export const Example4: Story = () => {
 
   const S = 60;
   const blockStyle = {
@@ -320,10 +312,8 @@ Example3.storyName = 'Расположение тултипа';
 };
 Example4.storyName = 'anchorElement';
 
-/**
-У тултипа можно переопределить задержку перед его появлением. Скрытие же происходит с задержкой по умолчанию.
-
-*/export const Example5: Story = () => {
+/** У тултипа можно переопределить задержку перед его появлением. Скрытие же происходит с задержкой по умолчанию. */
+export const Example5: Story = () => {
 
   const [delay, setDelay] = React.useState(100);
 

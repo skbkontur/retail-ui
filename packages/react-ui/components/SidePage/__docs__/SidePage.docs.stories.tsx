@@ -6,12 +6,13 @@ import { SidePage, Button } from '@skbkontur/react-ui';
 export default {
   title: 'Overlays/SidePage',
   component: SidePage,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   const [opened, setOpened] = React.useState(false);
-  
+
   function renderSidePage() {
     return (
       <SidePage onClose={close} blockBackground>
@@ -41,15 +42,15 @@ export const Example1: Story = () => {
       </SidePage>
     );
   }
-  
+
   function open() {
     setOpened(true);
   }
-  
+
   function close() {
     setOpened(false);
   }
-  
+
   return (
     <div>
       {opened && renderSidePage()}

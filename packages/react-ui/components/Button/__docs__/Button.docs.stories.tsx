@@ -5,12 +5,12 @@ import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 import { MinusCircleIcon16Light } from '@skbkontur/icons/MinusCircleIcon16Light';
 import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular'
 
-
 import { Button, Gapped, Toast } from '@skbkontur/react-ui';
 
 export default {
   title: 'Action/Button',
   component: Button,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -60,10 +60,8 @@ export const Example2: Story = () => {
 };
 Example2.storyName = 'Различные стили';
 
-/**
-В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
-
-*/export const Example3: Story = () => {
+/** В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно. */
+export const Example3: Story = () => {
 
   return (
     <Gapped gap={5}>
@@ -79,32 +77,41 @@ Example3.storyName = 'Иконка';
 export const Example4: Story = () => {
   return (
     <div
-        style={{
-          display: "flex",
-          alignItems: "end",
-          gap: '10px',
-        }}
-      >
-        <Button size="small">Маленькая</Button>
-        <Button size="medium">Средняя</Button>
-        <Button size="large">Большая</Button>
+      style={{
+        display: "flex",
+        alignItems: "end",
+        gap: '10px',
+      }}
+    >
+      <Button size="small">Маленькая</Button>
+      <Button size="medium">Средняя</Button>
+      <Button size="large">Большая</Button>
     </div>
   );
 
 };
 Example4.storyName = 'Размер';
 
-/**
-<Canvas>
-  <Button width={40}>Закрыть</Button>
-</Canvas>
-<Canvas>
-  <Button warning>Закрыть</Button>
-  <Button error>Закрыть</Button>
-</Canvas>
+export const Example5: Story = () => {
+  return (
+    <Button width={40}>Закрыть</Button>
+  );
 
-*/export const Example5: Story = () => {
+};
+Example5.storyName = 'Ширина';
 
+export const Example6: Story = () => {
+  return (
+    <Gapped gap={5}>
+      <Button warning>Закрыть</Button>
+      <Button error>Закрыть</Button>
+    </Gapped>
+  );
+
+};
+Example6.storyName = 'Состояние валидации';
+
+export const Example7: Story = () => {
 
   return (
     <Gapped gap={5}>
@@ -118,14 +125,12 @@ Example4.storyName = 'Размер';
   );
 
 };
-Example5.storyName = 'Стрелка';
+Example7.storyName = 'Стрелка';
 
-/**
-**Поведение:**
+/** **Поведение:**
 Кнопка на время нахождения в состоянии загрузки отключается.
-Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
-
-*/export const Example6: Story = () => {
+Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая. */
+export const Example8: Story = () => {
 
   const [loading, setLoading] = React.useState(false);
 
@@ -162,9 +167,9 @@ Example5.storyName = 'Стрелка';
   );
 
 };
-Example6.storyName = 'Состояние загрузки';
+Example8.storyName = 'Состояние загрузки';
 
-export const Example7: Story = () => {
+export const Example9: Story = () => {
   return (
     <Gapped>
       <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
@@ -174,9 +179,9 @@ export const Example7: Story = () => {
   );
 
 };
-Example7.storyName = 'Проп темы';
+Example9.storyName = 'Проп темы';
 
-export const Example8: Story = () => {
+export const Example10: Story = () => {
 
   const textDecorationStyles = {
     btnLinkLineBorderBottomWidth: '0',
@@ -241,5 +246,5 @@ export const Example8: Story = () => {
   );
 
 };
-Example8.storyName = 'Кастомизация кнопки-ссылки';
+Example10.storyName = 'Кастомизация кнопки-ссылки';
 

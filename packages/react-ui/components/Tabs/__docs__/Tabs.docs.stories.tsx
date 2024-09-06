@@ -6,11 +6,12 @@ import { Tabs } from '@skbkontur/react-ui';
 export default {
   title: 'Navigation/Tabs',
   component: Tabs,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
   const [active, setActive] = React.useState('fuji');
-  
+
   return (
     <Tabs value={active} onValueChange={setActive}>
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
@@ -22,12 +23,10 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** 
-Компонент может отображать табы двумя способами: горизонтально (по умолчанию) и вертикально.
-
-*/export const Example2: Story = () => {
+/** Компонент может отображать табы двумя способами: горизонтально (по умолчанию) и вертикально. */
+export const Example2: Story = () => {
   const [active, setActive] = React.useState('fuji');
-  
+
   return (
     <Tabs vertical value={active} onValueChange={setActive}>
       <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>

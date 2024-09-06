@@ -6,6 +6,7 @@ import { Dropdown, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontu
 export default {
   title: 'Menu/Dropdown',
   component: Dropdown,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -24,7 +25,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <Dropdown caption="Маленький" size={'small'}>

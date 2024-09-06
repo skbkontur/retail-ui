@@ -5,16 +5,16 @@ import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 
-
 import { MenuItem, Button, DropdownMenu, Link, Gapped } from '@skbkontur/react-ui';
 
 export default {
   title: 'Menu/MenuItem',
   component: MenuItem,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню с базовыми элементами меню</Button>}
@@ -29,7 +29,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Меню с базовыми элементами меню';
 
 export const Example2: Story = () => {
-  
+
   return (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню с базовыми и заблокированными элементами</Button>}
@@ -45,11 +45,9 @@ export const Example2: Story = () => {
 };
 Example2.storyName = 'Disabled';
 
-/** 
-В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
+/** В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню */
+export const Example3: Story = () => {
 
-*/export const Example3: Story = () => {
-  
   return (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню с базовыми и отключёнными элементами</Button>}
@@ -66,7 +64,7 @@ Example2.storyName = 'Disabled';
 Example3.storyName = 'Запрет выделения';
 
 export const Example4: Story = () => {
-  
+
   return (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню с причастными к Pied Piper</Button>}
@@ -83,8 +81,8 @@ export const Example4: Story = () => {
 Example4.storyName = 'Описание элементов';
 
 export const Example5: Story = () => {
-  
-  
+
+
   return (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню с иконками</Button>}
@@ -109,7 +107,7 @@ export const Example5: Story = () => {
 Example5.storyName = 'Иконки в элементах';
 
 export const Example6: Story = () => {
-  
+
   const LinkMenuItem = ({link, title}) => {
     return <MenuItem
       href={link}
@@ -120,7 +118,7 @@ export const Example6: Story = () => {
       {title}
     </MenuItem>
   }
-  
+
   return (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню с ссылками</Button>}
@@ -144,7 +142,7 @@ export const Example6: Story = () => {
 Example6.storyName = 'Меню с элементами меню обёрнутыми в контрол ссылки';
 
 export const Example7: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <MenuItem size={'small'}>Маленький</MenuItem>

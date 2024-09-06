@@ -6,6 +6,7 @@ import { CurrencyLabel } from '@skbkontur/react-ui';
 export default {
   title: 'Layout/CurrencyLabel',
   component: CurrencyLabel,
+  parameters: { creevey: { skip: true } },
 };
 
 export const Example1: Story = () => {

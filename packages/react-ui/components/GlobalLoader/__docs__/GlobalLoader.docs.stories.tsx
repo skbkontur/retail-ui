@@ -6,10 +6,11 @@ import { GlobalLoader, Button, Gapped, Toggle, ThemeContext, ThemeFactory, Modal
 export default {
   title: 'Action/GlobalLoader',
   component: GlobalLoader,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <Gapped>
       <Button onClick={GlobalLoader.start} use="primary">start</Button>
@@ -23,13 +24,13 @@ export const Example1: Story = () => {
 Example1.storyName = 'Все статические методы';
 
 export const Example2: Story = () => {
-  
+
   const myTheme = ThemeFactory.create({ globalLoaderColor: 'red' });
-  
+
   const [manually, setManually] = React.useState(false);
   const [active, setActive] = React.useState(false);
   const [error, setError] = React.useState(false);
-  
+
   const reset = () => {
     if (manually) {
       setManually(false);
@@ -39,7 +40,7 @@ export const Example2: Story = () => {
       setManually(true);
     }
   }
-  
+
   return (
     <Gapped vertical>
       <Toggle checked={manually} onValueChange={reset}>
@@ -51,7 +52,7 @@ export const Example2: Story = () => {
       <Toggle checked={error} onValueChange={setError} disabled={!manually}>
         <code>rejected</code>
       </Toggle>
-    
+
       <ThemeContext.Provider value={myTheme}>
         <GlobalLoader expectedResponseTime={2000} delayBeforeShow={1000} active={active} rejected={error}
           onStart={() => console.log('start')}
@@ -60,7 +61,7 @@ export const Example2: Story = () => {
           onAccept={() => console.log('accept')}
         />
       </ThemeContext.Provider>
-    
+
     </Gapped>
   );
 
@@ -68,9 +69,9 @@ export const Example2: Story = () => {
 Example2.storyName = 'Монтирование и кастомизация';
 
 export const Example3: Story = () => {
-  
+
   const [opened, setOpened] = React.useState(false);
-  
+
   function renderModal() {
     return (
       <Modal onClose={close}>
@@ -84,15 +85,15 @@ export const Example3: Story = () => {
       </Modal>
     );
   }
-  
+
   function open() {
     setOpened(true);
   }
-  
+
   function close() {
     setOpened(false);
   }
-  
+
   return (
     <div>
       {opened && renderModal()}

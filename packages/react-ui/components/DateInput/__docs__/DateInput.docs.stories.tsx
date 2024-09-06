@@ -1,11 +1,14 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
-import { DateInput ,Gapped ,LangCodes ,LocaleContext ,Select ,DateOrder ,DateSeparator } from '@skbkontur/react-ui';
+import { DateInput, Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } from '@skbkontur/react-ui';
+
 export default {
   title: 'Date/DateInput',
   component: DateInput,
+  parameters: { creevey: { skip: true } },
 } as Meta;
+
 export const Example1: Story = () => {
   return (
     <DateInput value="27.04.1992" />
@@ -13,6 +16,7 @@ export const Example1: Story = () => {
 
 };
 Example1.storyName = 'Пример с введенной датой';
+
 export const Example2: Story = () => {
   const [value, setValue] = React.useState();
 
@@ -22,6 +26,7 @@ export const Example2: Story = () => {
 
 };
 Example2.storyName = 'Пример с изменяющимся значением';
+
 export const Example3: Story = () => {
   return (
     <DateInput disabled value="27.04.1992" />
@@ -29,7 +34,9 @@ export const Example3: Story = () => {
 
 };
 Example3.storyName = 'Disabled';
+
 export const Example4: Story = () => {
+
   class DateInputFormatting2 extends React.Component {
     constructor(props) {
       super(props);
@@ -38,6 +45,7 @@ export const Example4: Story = () => {
         value: '21.12.2012',
       };
     }
+
     render() {
       return (
         <Gapped vertical gap={10}>
@@ -59,9 +67,11 @@ export const Example4: Story = () => {
       );
     }
   }
+
   return (
     <DateInputFormatting2 />
   );
+
 };
 Example4.storyName = 'Форматирование даты при смене локали';
 
@@ -121,3 +131,4 @@ export const Example5: Story = () => {
 
 };
 Example5.storyName = 'Ручное форматирование даты';
+

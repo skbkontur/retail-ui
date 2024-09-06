@@ -6,10 +6,11 @@ import { FileUploader } from '@skbkontur/react-ui';
 export default {
   title: 'Work with files/FileUploader',
   component: FileUploader,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <FileUploader  />
   );
@@ -18,9 +19,9 @@ export const Example1: Story = () => {
 Example1.storyName = 'Синхронный контрол';
 
 export const Example2: Story = () => {
-  
+
   const request = () => Promise.resolve();
-  
+
   return (
     <FileUploader request={request} />
   );
@@ -29,9 +30,9 @@ export const Example2: Story = () => {
 Example2.storyName = 'Асинхронный контрол';
 
 export const Example3: Story = () => {
-  
+
   const request = () => Promise.reject();
-  
+
   return (
     <FileUploader request={request} multiple />
   );
@@ -40,7 +41,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Multiple контрол';
 
 export const Example4: Story = () => {
-  
+
   return (
     <FileUploader multiple accept="image/*" />
   );
@@ -49,7 +50,7 @@ export const Example4: Story = () => {
 Example4.storyName = 'Использование `accept`';
 
 export const Example5: Story = () => {
-  
+
   return (
     <FileUploader
       multiple
@@ -63,7 +64,7 @@ export const Example5: Story = () => {
 Example5.storyName = 'Валидация файла в списке';
 
 export const Example6: Story = () => {
-  
+
   return (
     <FileUploader multiple error />
   );

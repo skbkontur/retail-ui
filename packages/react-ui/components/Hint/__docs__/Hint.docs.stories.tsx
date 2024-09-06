@@ -6,6 +6,7 @@ import { Hint, Button, Gapped } from '@skbkontur/react-ui';
 export default {
   title: 'Popup/Hint',
   component: Hint,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -54,9 +55,9 @@ export const Example4: Story = () => {
 Example4.storyName = 'Ограниченная ширина';
 
 export const Example5: Story = () => {
-  
+
   const [isOpen, setIsOpen] = React.useState(false);
-  
+
   return (
     <Gapped>
       <Hint opened={isOpen} manual text="Подсказка">Управляемая удалённо</Hint>
@@ -77,12 +78,10 @@ export const Example6: Story = () => {
 };
 Example6.storyName = 'Всплытие без анимации';
 
-/** 
-Подсказка должна отображаться даже на отключённых компонентах. Из коробки это работает только с контролами `react-ui`.
+/** Подсказка должна отображаться даже на отключённых компонентах. Из коробки это работает только с контролами `react-ui`.
 Нативные элементы, поддерживающие атрибут `disabled`, отключают необходимые события мыши.
-В подобных случаях следуют использовать проп `useWrapper`:
-
-*/export const Example7: Story = () => {
+В подобных случаях следуют использовать проп `useWrapper`: */
+export const Example7: Story = () => {
   return (
     <Hint useWrapper text="Подсказа всё равно отображается">
       <button disabled>native button</button>
@@ -92,11 +91,9 @@ Example6.storyName = 'Всплытие без анимации';
 };
 Example7.storyName = 'Встроеная обёртка';
 
-/** 
-Т.к. встроённая обёртка это `<span>` без стилей, то она может работать некорректно в определённых ситуациях.
-В таких случаях стоит использовать собственную обётку:
-
-*/export const Example8: Story = () => {
+/** Т.к. встроённая обёртка это `<span>` без стилей, то она может работать некорректно в определённых ситуациях.
+В таких случаях стоит использовать собственную обётку: */
+export const Example8: Story = () => {
   return (
     <>
       <Hint useWrapper text="Подсказа">

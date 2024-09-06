@@ -6,10 +6,11 @@ import { MenuFooter, Button, MenuItem, DropdownMenu, Gapped } from '@skbkontur/r
 export default {
   title: 'Menu/MenuFooter',
   component: MenuFooter,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   return (
     <DropdownMenu
       menuMaxHeight="10rem"
@@ -26,7 +27,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример меню с заголовками';
 
 export const Example2: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <MenuFooter size={'small'}>Маленький</MenuFooter>

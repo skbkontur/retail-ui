@@ -6,12 +6,13 @@ import { Loader, Button } from '@skbkontur/react-ui';
 export default {
   title: 'Action/Loader',
   component: Loader,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   const [isActive, setIsActive] = React.useState(true);
-  
+
   return (
     <>
       <Button onClick={() => setIsActive(!isActive)}>{isActive ? 'Остановить загрузку' : 'Продолжить загрузку'}</Button>

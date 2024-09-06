@@ -6,6 +6,7 @@ import { ScrollContainer } from '@skbkontur/react-ui';
 export default {
   title: 'Layout/ScrollContainer',
   component: ScrollContainer,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
@@ -16,7 +17,7 @@ export const Example1: Story = () => {
     }
     return items;
   }
-  
+
   var divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
@@ -32,7 +33,7 @@ export const Example1: Story = () => {
     position: 'absolute',
     width: '100%',
   };
-  
+
   return (
     <div>
       <div style={divStyle}>
@@ -89,7 +90,7 @@ export const Example2: Story = () => {
     position: 'absolute',
     width: '100%',
   };
-  
+
   function items(count) {
     var items = [];
     for (var i = 0; i < count; ++i) {
@@ -97,7 +98,7 @@ export const Example2: Story = () => {
     }
     return items;
   }
-  
+
   var containerStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
@@ -105,11 +106,11 @@ export const Example2: Story = () => {
     margin: 1,
     width: 200,
   };
-  
+
   var innerStyle = {
     width: 400,
   };
-  
+
   return (
     <div>
       <div style={divStyle}>
@@ -166,13 +167,13 @@ export const Example3: Story = () => {
     margin: 1,
     width: 200,
   };
-  
+
   const offsetY = {
     top: 8,
     bottom: 8,
     right: 8,
   };
-  
+
   return (
     <div style={containerStyle}>
       <ScrollContainer offsetY={offsetY}>
@@ -188,10 +189,8 @@ export const Example3: Story = () => {
 };
 Example3.storyName = 'Смещение скроллбара';
 
-/** 
-Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms)
-
-*/export const Example4: Story = () => {
+/** Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms) */
+export const Example4: Story = () => {
   var divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
@@ -216,10 +215,8 @@ Example3.storyName = 'Смещение скроллбара';
 };
 Example4.storyName = 'Скрытие если нет активности пользователя';
 
-/** 
-Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером
-
-*/export const Example5: Story = () => {
+/** Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером */
+export const Example5: Story = () => {
   var divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
@@ -229,8 +226,8 @@ Example4.storyName = 'Скрытие если нет активности пол
     verticalAlign: 'top',
     width: 200,
   };
-  
-  
+
+
   return (
     <span>
       <div style={divStyle}>

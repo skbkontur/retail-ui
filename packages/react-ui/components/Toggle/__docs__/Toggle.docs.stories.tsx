@@ -6,11 +6,12 @@ import { Toggle, Gapped, Toast } from '@skbkontur/react-ui';
 export default {
   title: 'Choose/Toggle',
   component: Toggle,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
   const [checked, setChecked] = React.useState(false);
-  
+
   return (
     <Toggle checked={checked} onValueChange={setChecked}>
       {checked ? 'On' : 'Off'}
@@ -32,7 +33,7 @@ Example2.storyName = 'Тогл включенный по умолчанию';
 
 export const Example3: Story = () => {
   const [checked, setChecked] = React.useState(false);
-  
+
   return (
     <Toggle checked={checked} onValueChange={setChecked} captionPosition="left">
       Показывать уведомления
@@ -43,9 +44,9 @@ export const Example3: Story = () => {
 Example3.storyName = 'Надпись слева от переключателя';
 
 export const Example4: Story = () => {
-  
+
   const [checked, setChecked] = React.useState(false);
-  
+
   return (
     <Gapped>
       <Toggle id="toggle-1" checked={checked} onValueChange={setChecked}/>
@@ -67,7 +68,7 @@ export const Example5: Story = () => {
 Example5.storyName = 'Получение фокуса после загрузки страницы';
 
 export const Example6: Story = () => {
-  
+
   return (
     <Gapped gap="20px">
       <Toggle warning>
@@ -89,7 +90,7 @@ export const Example6: Story = () => {
 Example6.storyName = 'Стили';
 
 export const Example7: Story = () => {
-  
+
   return (
     <Gapped vertical>
       <Toggle size="small">
@@ -108,7 +109,7 @@ export const Example7: Story = () => {
 Example7.storyName = 'Размер';
 
 export const Example8: Story = () => {
-  
+
   return (
     <Toggle
       onFocus={() => Toast.push('Я получил фокус!')}
@@ -122,7 +123,7 @@ export const Example8: Story = () => {
 Example8.storyName = 'Кастомное действие при получении и потере фокуса';
 
 export const Example9: Story = () => {
-  
+
   return (
     <Toggle onChange={() => Toast.push("Запускаю кастомное действие")}>
       Кастомное действие при переключении

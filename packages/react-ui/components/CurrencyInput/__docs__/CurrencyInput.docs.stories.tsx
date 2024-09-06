@@ -6,11 +6,12 @@ import { CurrencyInput, Button, Group } from '@skbkontur/react-ui';
 export default {
   title: 'Input elements/CurrencyInput',
   component: CurrencyInput,
+  parameters: { creevey: { skip: true } },
 };
 
 export const Example1: Story = () => {
   const [value, setValue] = React.useState();
-  
+
   return (
     <CurrencyInput value={value} fractionDigits={3} onValueChange={setValue} />
   );
@@ -18,13 +19,11 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** 
-Очистить значение в `CurrencyInput` можно с помощью `null` или `undefined`
+/** Очистить значение в `CurrencyInput` можно с помощью `null` или `undefined` */
+export const Example2: Story = () => {
 
-*/export const Example2: Story = () => {
-  
   const [value, setValue] = React.useState();
-  
+
   return (
     <Group>
       <CurrencyInput value={value} onValueChange={setValue} />
@@ -38,7 +37,7 @@ Example2.storyName = 'Очистка значения';
 
 export const Example3: Story = () => {
   const [value, setValue] = React.useState();
-  
+
   return (
     <CurrencyInput value={value} fractionDigits={15} onValueChange={setValue} />
   );

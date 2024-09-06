@@ -61,36 +61,38 @@ import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 
 ```jsx harmony
 <div
-    style={{
-      display: "flex",
-      alignItems: "end",
-      gap: '10px',
-    }}
-  >
-    <Button size="small">Маленькая</Button>
-    <Button size="medium">Средняя</Button>
-    <Button size="large">Большая</Button>
+  style={{
+    display: "flex",
+    alignItems: "end",
+    gap: '10px',
+  }}
+>
+  <Button size="small">Маленькая</Button>
+  <Button size="medium">Средняя</Button>
+  <Button size="large">Большая</Button>
 </div>
 ```
 
 ### Ширина
 
-<Canvas>
-  <Button width={40}>Закрыть</Button>
-</Canvas>
+```jsx harmony
+<Button width={40}>Закрыть</Button>
+```
 
 ### Состояние валидации
 
-<Canvas>
+```jsx harmony
+import { Gapped, Button } from '@skbkontur/react-ui';
+<Gapped gap={5}>
   <Button warning>Закрыть</Button>
   <Button error>Закрыть</Button>
-</Canvas>
+</Gapped>
+```
 
 ### Стрелка
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
-
 
 <Gapped gap={5}>
   <Button arrow="left" size="medium">

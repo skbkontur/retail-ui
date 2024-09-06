@@ -6,6 +6,7 @@ import { PasswordInput } from '@skbkontur/react-ui';
 export default {
   title: 'Input elements/PasswordInput',
   component: PasswordInput,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {

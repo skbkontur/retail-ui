@@ -6,12 +6,13 @@ import { Center, Switcher, Gapped } from '@skbkontur/react-ui';
 export default {
   title: 'Layout/Center',
   component: Center,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
-  
+
   const [alignAt, setAlignAt] = React.useState("center");
-  
+
   return (
     <Gapped vertical gap="12px">
       <Switcher
@@ -23,7 +24,7 @@ export const Example1: Story = () => {
         value={alignAt}
         onValueChange={setAlignAt}
       />
-    
+
       <Center
         align={alignAt}
         style={{ background: '#fdd', height: 150 }}

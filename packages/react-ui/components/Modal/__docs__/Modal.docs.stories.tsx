@@ -6,20 +6,21 @@ import { Modal, Button, Toggle } from '@skbkontur/react-ui';
 export default {
   title: 'Overlays/Modal',
   component: Modal,
+  parameters: { creevey: { skip: true } },
 };
 
 export const Example1: Story = () => {
-  
+
   const [opened, setOpened] = React.useState(false);
   const [panel, setPanel] = React.useState(false);
-  
+
   function renderModal() {
     return (
       <Modal onClose={close}>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <p>Use rxjs operators with react hooks</p>
-  
+
           <div>
             <Toggle checked={panel} onValueChange={setPanel} /> Panel{' '}
             {panel ? 'enabled' : 'disabled'}
@@ -31,15 +32,15 @@ export const Example1: Story = () => {
       </Modal>
     );
   }
-  
+
   function open() {
     setOpened(true);
   }
-  
+
   function close() {
     setOpened(false);
   }
-  
+
   return (
     <div>
       {opened && renderModal()}

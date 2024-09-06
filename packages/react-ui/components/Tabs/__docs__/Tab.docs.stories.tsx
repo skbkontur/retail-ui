@@ -6,13 +6,12 @@ import { Tab, ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-
 export default {
   title: 'Navigation/Tab',
   component: Tab,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
-/** 
-Используя переменные `tabColorPrimary`, `tabColorSuccess`, `tabColorWarning` и `tabColorError` можно изменить активный цвет состояния, а библиотека автоматически подберёт цвет подчёркивания при наведении.
+/** Используя переменные `tabColorPrimary`, `tabColorSuccess`, `tabColorWarning` и `tabColorError` можно изменить активный цвет состояния, а библиотека автоматически подберёт цвет подчёркивания при наведении. */
+export const Example1: Story = () => {
 
-*/export const Example1: Story = () => {
-  
   const getRandomColor = () => '#' + Math.random().toString(16).substr(-6);
   const updateColors = () => {
     return {
@@ -22,11 +21,11 @@ export default {
       tabColorError: getRandomColor(),
     }
   };
-  
+
   const [activeBase, setActiveBase] = React.useState('error');
   const [activeRandom, setActiveRandom] = React.useState('error');
   const [colors, setColors] = React.useState(updateColors());
-  
+
   return (
     <>
       <p style={{ fontSize: '17px' }}>C цветами по умолчанию</p>
@@ -36,7 +35,7 @@ export default {
         <Tabs.Tab warning id="warning">Warning</Tabs.Tab>
         <Tabs.Tab error id="error">Error</Tabs.Tab>
       </Tabs>
-    
+
       <p style={{ fontSize: '17px' }}>Со случайным основным цветом</p>
       <div style={{ display: 'inline-flex', flexDirection: 'column', justifyContent: 'space-between', height: '100px' }}>
         <ThemeContext.Consumer>
@@ -63,16 +62,14 @@ export default {
 };
 Example1.storyName = 'Костомизация';
 
-/** 
-С помощью пропа `component` можно изменять корневой элемент `<Tab />`.
-Проп может принимать: компоненты, функции и строки.
+/** С помощью пропа `component` можно изменять корневой элемент `<Tab />`.
+Проп может принимать: компоненты, функции и строки. */
+export const Example2: Story = () => {
 
-*/export const Example2: Story = () => {
-  
   const [active, setActive] = React.useState('/fuji');
-  
+
   const NavLink = props => <a {...props} />;
-  
+
   return (
     <Tabs value={active} onValueChange={setActive}>
       {/** Кастомный компонент **/}

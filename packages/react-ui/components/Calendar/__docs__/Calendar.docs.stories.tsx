@@ -5,17 +5,17 @@ import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/Da
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
-
 import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
 
 export default {
   title: 'Date/Calendar',
   component: Calendar,
+  parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
   const [date, setDate] = React.useState("01.11.2021");
-  
+
   return (
     <Calendar
       value={date}
@@ -26,15 +26,13 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Календарь с заданной датой';
 
-/** 
-Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear`
+/** Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear` */
+export const Example2: Story = () => {
 
-*/export const Example2: Story = () => {
-  
   const [date, setDate] = React.useState("11.12.2021");
   const initialMonth = 7;
   const initialYear = 2000;
-  
+
   return (
     <div style={{ display: 'flex' }}>
       <Calendar
@@ -54,33 +52,31 @@ Example1.storyName = 'Календарь с заданной датой';
 };
 Example2.storyName = 'initialMonth и initialYear';
 
-/** 
-В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
+/** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
+export const Example3: Story = () => {
 
-*/export const Example3: Story = () => {
-  
   const [date, setDate] = React.useState();
-  
+
   const createRandomHolidays = () => {
     const holidays = new Array(10);
     const today = new Date();
-  
+
     for (let index = 0; index < holidays.length; index++) {
       const day = new Date(today.setDate(today.getDate() + 1 + index).valueOf());
-  
+
       const holiday = {
         date: day.getDate(),
         month: day.getMonth(),
         year: day.getFullYear(),
       };
-  
+
       holidays[index] = DatePickerHelpers.formatDate(holiday);
     }
-  
+
     return holidays;
   };
   const holidays = createRandomHolidays();
-  
+
   const isHoliday = (day, isWeekend) => {
     const today = new Date();
     const holiday = {
@@ -88,14 +84,14 @@ Example2.storyName = 'initialMonth и initialYear';
       month: today.getMonth(),
       year: today.getFullYear(),
     };
-  
+
     if (holidays.includes(day)) {
       return !isWeekend;
     }
-  
+
     return isWeekend;
   };
-  
+
   return (
     <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />
   );
@@ -103,16 +99,14 @@ Example2.storyName = 'initialMonth и initialYear';
 };
 Example3.storyName = 'isHoliday';
 
-/** 
-Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
+/** Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
 - Базовая высота календаря - `330px`
-- Максимальная высота календаря - `450px`
+- Максимальная высота календаря - `450px` */
+export const Example4: Story = () => {
 
-*/export const Example4: Story = () => {
-  
   const [date, setDate] = React.useState("01.11.2021");
   const theme = React.useContext(ThemeContext);
-  
+
   return (
     <ThemeContext.Provider
       value={ThemeFactory.create({ calendarWrapperHeight: '450px' }, theme)}
@@ -128,14 +122,14 @@ Example3.storyName = 'isHoliday';
 Example4.storyName = 'Высота';
 
 export const Example5: Story = () => {
-  
+
   const initialValue = "02.09.2023";
-  
+
   const [value, setValue] = React.useState(initialValue);
-  
+
   const renderDay = (props) => {
     const [date, month, year] = props.date.split('.').map(Number);
-  
+
     if (month == 9 && date > 12 && date < 16) {
       return (
         <Tooltip render={() => "Кастомный день"}>
@@ -143,7 +137,7 @@ export const Example5: Story = () => {
         </Tooltip>
       );
     }
-  
+
     if (month == 8 && date == 20) {
       return (
         <Hint text={date} pos="right middle">
@@ -153,10 +147,10 @@ export const Example5: Story = () => {
         </Hint>
       );
     }
-  
+
     return <CalendarDay {...props} />
   };
-  
+
   return (
     <Calendar
       value={value}
@@ -169,11 +163,11 @@ export const Example5: Story = () => {
 Example5.storyName = 'Кастомный рендер дня';
 
 export const Example7: Story = () => {
-  
+
   const initialValue = "02.09.2023";
   const [value, setValue] = React.useState(initialValue);
   const calendarRef = React.useRef(null);
-  
+
   return (
     <>
       <Gapped gap={8} verticalAlign="top">
@@ -182,7 +176,7 @@ export const Example7: Story = () => {
           ref={calendarRef}
           onValueChange={setValue}
         />
-    
+
         <Gapped vertical gap={8}>
           <Button onClick={() => calendarRef.current.scrollToMonth(1, 2023)}>
             I квартал
