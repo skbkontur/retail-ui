@@ -32,7 +32,7 @@ export const MenuFooterDataTids = {
  *
  * `MenuFooter`, в отличие от `MenuItem` нельзя затаргетить с клавиатуры.
  *
- * Сущности, в которых может быть использован `MenuFooter`: [`DropdownMenu`](?path=/docs/menu-dropdownmenu--docs), [`Kebab`](?path=/docs/menu-kebab--docs), [`TooltipMenu`](?path=/docs/menu-tooltipmenu--docs) и [`Select`](?path=/docs/choose-select--docs).
+ * Сущности, в которых может быть использован `MenuFooter`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/choose-select--docs).
  */
 function MenuFooter({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
   const theme = useContext(ThemeContext);

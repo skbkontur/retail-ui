@@ -11,7 +11,7 @@ interface ResponseData {
   versions: LibraryVersion[];
 }
 
-const baseUrl = 'https://ui.gitlab-pages.kontur.host/docs/react-ui-storybook';
+const baseUrl = 'https://ui.gitlab-pages.kontur.host/docs/storybook/react-ui';
 const createEndpoint = (path: string) => `${baseUrl}/${path}`;
 const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
 

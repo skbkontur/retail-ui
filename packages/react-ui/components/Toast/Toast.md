@@ -1,4 +1,4 @@
-Вызов статических методов
+### Вызов статических методов
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -13,7 +13,7 @@ function showComplexNotification() {
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
-C кастомным showTime
+### Кастомный showTime
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -28,7 +28,7 @@ function showComplexNotification() {
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
-C кастомным showTime без action
+### Кастомный showTime без action
 
 
 ```jsx harmony
@@ -41,7 +41,7 @@ function showComplexNotification() {
 <Button onClick={showComplexNotification}>Show notification</Button>;
 ```
 
-Использование `ref`
+### Использование `ref`
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';

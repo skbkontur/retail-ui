@@ -88,7 +88,7 @@ type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
  * * выбора параметров. Например, включение уведомлений и выбор случаев, в которых нужно присылать уведомления.
  *
  * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
- * Для немедленного включения какого-то режима в интерфейсе лучше подходит [`Toggle`](?path=/docs/choose-toggle--docs).
+ * Для немедленного включения какого-то режима в интерфейсе лучше подходит [Toggle](?path=/docs/choose-toggle--docs).
  */
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {

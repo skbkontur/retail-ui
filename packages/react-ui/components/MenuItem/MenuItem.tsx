@@ -94,7 +94,7 @@ export const MenuItemDataTids = {
 /**
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
  *
- * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](?path=/docs/menu-dropdownmenu--docs), [`Kebab`](?path=/docs/menu-kebab--docs), [`TooltipMenu`](?path=/docs/menu-tooltipmenu--docs) и [`Select`](?path=/docs/choose-select--docs).
+ * Сущности в которых может быть использован `MenuItem`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/choose-select--docs).
  */
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {

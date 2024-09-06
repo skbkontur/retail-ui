@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 const [auto, setAuto] = React.useState(false);
 const [value, setValue] = React.useState();
@@ -15,6 +16,7 @@ function handleRestore() {
 <FxInput auto={auto} value={value} onValueChange={handleValueChange} onRestore={handleRestore} />;
 ```
 
+### Очистка значения
 Очистить значение в `FxInput`'е можно с помощью пустой строки или `undefined`
 ```jsx harmony
 import { Group, Button } from '@skbkontur/react-ui';

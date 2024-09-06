@@ -436,7 +436,7 @@ object ReactUI_Storybook : BuildType({
             name = "Build Storybook"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace @skbkontur/react-ui storybook:build")
+            param("yarn_commands", "workspace @skbkontur/react-ui storybook:docs-build")
         }
         script {
             name = "Git clone"
@@ -451,13 +451,19 @@ object ReactUI_Storybook : BuildType({
                     ${'$'}version_from_git = "%teamcity.build.branch%".replace('@skbkontur/react-ui@', '')
                     ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
-                                        
+
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
-                  
-                    ${'$'}src_path = "./packages/react-ui/.storybook/build"
+                    Write-Host "___________________________"
+
+                    ${'$'}src_path = "./packages/react-ui/.storybook/build/*"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
-                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
-                    mkdir ${'$'}src_path
+                    Write-Host "src_path: \${'$'}src_path"
+                    Write-Host "dest_path: \${'$'}dest_path"
+                    Write-Host "storybook_version: \${'$'}storybook_version"
+                    Write-Host "version_from_env: \${'$'}version_from_env"
+                    Write-Host "version_from_git: \${'$'}version_from_git"
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
+                    mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
                 """.trimIndent()
             }
@@ -489,7 +495,7 @@ object ReactUI_Storybook : BuildType({
             branchFilter = "+:refs/tags/@skbkontur/react-ui@*"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
 })
 
@@ -840,7 +846,7 @@ object Validations_Storybook : BuildType({
             name = "Build Storybook"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-validations storybook:build")
+            param("yarn_commands", "workspace react-ui-validations storybook:docs-build")
         }
         script {
             name = "Git clone"
@@ -855,12 +861,13 @@ object Validations_Storybook : BuildType({
                     ${'$'}version_from_git = "%teamcity.build.branch%".replace('react-ui-validations@', '')
                     ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
-                    
+
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
-                    
+
                     ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
-                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
+                    mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
                 """.trimIndent()
             }
@@ -892,6 +899,6 @@ object Validations_Storybook : BuildType({
             branchFilter = "+:refs/tags/@skbkontur/react-ui-validations@*"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
 })

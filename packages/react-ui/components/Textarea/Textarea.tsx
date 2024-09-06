@@ -118,7 +118,7 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
  *
  * Используйте многострочное поле для ввода длинных строк и больших текстов. Например, для паспортных данных, места рождения или комментария пользователя.
  *
- * Если значение, которое вводит пользователь, чаще всего состоит из 1–3 слов, следует использовать обычное поле ввода [`Input`](?path=/docs/input-elements-input--docs).
+ * Если значение, которое вводит пользователь, чаще всего состоит из 1–3 слов, следует использовать обычное поле ввода [Input](?path=/docs/input-elements-input--docs).
  */
 @rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {

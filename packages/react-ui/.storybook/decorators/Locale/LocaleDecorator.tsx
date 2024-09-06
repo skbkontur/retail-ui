@@ -25,7 +25,7 @@ const supportedLocaleControls = [
   'TokenInput',
 ];
 const hideLocaleBtnInUnsupportedControls = (activeControl: string) => {
-  const localeBtn = window.parent.document.querySelector('button[title="React UI Locale"]');
+  const localeBtn = document.querySelector('button[title="React UI Locale"]');
   const localeBtnWrapper = localeBtn?.closest('div');
   if (localeBtnWrapper) {
     localeBtnWrapper.style.display = supportedLocaleControls.includes(activeControl) ? 'inline-block' : 'none';

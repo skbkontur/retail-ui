@@ -1,4 +1,4 @@
-Различные виды радио-кнопок.
+### Виды радио-кнопок
 
 ```jsx harmony
 import { Gapped, Radio, RadioGroup } from '@skbkontur/react-ui';
@@ -29,6 +29,7 @@ const [chosen, setChosen] = React.useState(null);
 </RadioGroup>
 ```
 
+### Состояния
 Радио-кнопки могут иметь сразу несколько состояний.
 
 ```jsx harmony
@@ -37,7 +38,7 @@ const [chosen, setChosen] = React.useState(null);
 </Radio>
 ```
 
-У Radio есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';

@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
@@ -6,6 +7,7 @@ const [value, setValue] = React.useState('Kappa');
 <Autocomplete source={items} value={value} onValueChange={setValue} />;
 ```
 
+### Очистка Autocomplete
 Очистить значение в `Autocomplete` можно только с помощью пустой строки
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
@@ -20,7 +22,7 @@ const [value, setValue] = React.useState('Kappa');
 </Group>
 ```
 
-У Autocomplete есть 3 стандартных размера.
+### Размер
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 

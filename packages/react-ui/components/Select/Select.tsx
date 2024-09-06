@@ -241,8 +241,8 @@ type DefaultProps<TValue, TItem> = Required<
  * * переключение состояний, например фильтры.
  * * выбора предустановленных настроек, например частота уведомлений, часовой пояс.
  *
- * Если значений в списке до 5, лучше использовать [группу радиокнопок `RadioGroup`](?path=/docs/choose-radiogroup--docs) или [переключатель `Switcher`](?path=/docs/choose-switcher--docs).
- * Если значений больше 25 — используйте [`ComboBox`](?path=/docs/input-elements-combobox--combobox).
+ * Если значений в списке до 5, лучше использовать [группу радиокнопок RadioGroup](?path=/docs/choose-radiogroup--docs) или [переключатель Switcher](?path=/docs/choose-switcher--docs).
+ * Если значений больше 25 — используйте [ComboBox](?path=/docs/input-elements-combobox--docs).
  */
 @responsiveLayout
 @rootNode

@@ -92,7 +92,7 @@ const TRANSITION_TIMEOUT = 200;
  *
  * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
  *
- * Не используйте `SidePage` для коротких сообщений и подтверждений, для этого лучше подходит [модальное окно `Modal`](?path=/docs/overlays-modal--docs).
+ * Не используйте `SidePage` для коротких сообщений и подтверждений, для этого лучше подходит [модальное окно Modal](?path=/docs/overlays-modal--docs).
  * Так же `SidePage` не может заменить полноценную страницу, потому что ограничен по ширине.
  */
 export class SidePage extends React.Component<SidePageProps, SidePageState> {

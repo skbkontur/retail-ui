@@ -25,7 +25,7 @@ export const CurrencyLabelDataTids = {
 } as const;
 
 /**
- * CurrencyLabel — подпись для денежных сумм (и других числовых значений).
+ * `CurrencyLabel` — подпись для денежных сумм (и других числовых значений).
  */
 export const CurrencyLabel = ({
   value,

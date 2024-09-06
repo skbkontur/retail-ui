@@ -6,7 +6,7 @@
 
 Предполагается монтирование компонента в единственном месте. И управление им через статические методы, либо через пропы.
 
-Все статические методы:
+### Все статические методы
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
 
@@ -18,10 +18,9 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Монтирование и кастомизация:
+### Монтирование и кастомизация
 ```jsx harmony
-import { Button, Toggle, Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
-import { GlobalLoader } from './GlobalLoader';
+import { Button, Toggle, Gapped, GlobalLoader, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 const myTheme = ThemeFactory.create({ globalLoaderColor: 'red' });
 
@@ -63,7 +62,7 @@ const reset = () => {
 ```
 
 
-Статические методы в модалке:
+### Статические методы в модалке
 ```jsx harmony
 import { Button, Gapped, Modal } from '@skbkontur/react-ui';
 

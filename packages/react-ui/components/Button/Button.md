@@ -1,4 +1,4 @@
-Базовый пример кнопки.
+### Базовый пример
 
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
@@ -6,7 +6,7 @@ import { Button } from '@skbkontur/react-ui';
 <Button>Создать отчёт</Button>;
 ```
 
-У кнопки есть различные стили.
+### Различные стили
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -43,6 +43,7 @@ const bgStyle = {
 </Gapped>
 ```
 
+### Иконка
 В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
 
 ```jsx harmony
@@ -56,27 +57,42 @@ import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 </Gapped>
 ```
 
-У кнопки есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 <div
-    style={{
-      display: "flex",
-      alignItems: "end",
-      gap: '10px',
-    }}
-  >
-    <Button size="small">Маленькая</Button>
-    <Button size="medium">Средняя</Button>
-    <Button size="large">Большая</Button>
+  style={{
+    display: "flex",
+    alignItems: "end",
+    gap: '10px',
+  }}
+>
+  <Button size="small">Маленькая</Button>
+  <Button size="medium">Средняя</Button>
+  <Button size="large">Большая</Button>
 </div>
 ```
 
-Кнопки могут принимать вид стрелок. В таком случае иконка привязывается к краю кнопки.
+### Ширина
+
+```jsx harmony
+<Button width={40}>Закрыть</Button>
+```
+
+### Состояние валидации
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
+<Gapped gap={5}>
+  <Button warning>Закрыть</Button>
+  <Button error>Закрыть</Button>
+</Gapped>
+```
 
+### Стрелка
+
+```jsx harmony
+import { Gapped, Button } from '@skbkontur/react-ui';
 
 <Gapped gap={5}>
   <Button arrow="left" size="medium">
@@ -88,12 +104,10 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Кнопка в состоянии загрузки.
+### Состояние загрузки
 
 **Поведение:**
-
 Кнопка на время нахождения в состоянии загрузки отключается.
-
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
 
 ```jsx harmony
@@ -133,11 +147,9 @@ const handleClick = () => {
 
 ```
 
-Пример кнопки с пропом `theme`
+### Проп темы
 
 ```jsx harmony
-import { Button, Gapped } from '@skbkontur/react-ui';
-
 <Gapped>
   <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
   <Button use="link" theme={{linkColor: '#C00000'}}>Ok</Button>
@@ -145,8 +157,7 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-
-Пример кастомизации кнопки-ссылки
+### Кастомизация кнопки-ссылки
 
 ```jsx harmony
 import { Toast } from "@skbkontur/react-ui";
@@ -168,7 +179,7 @@ const differentColorStyles = {
 }
 
 const stringify = (styles) => {
-    return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
+  return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
 }
 
 const copyStyles = (styles) => {
@@ -186,19 +197,19 @@ const tdStyle = {
   padding: '8px',
 };
 
-const renderExampleRow = (title, styles, index) => {
-    return (
-        <tr>
-          <td style={tdStyle}>{title}</td>
-          <td style={tdStyle}><Button use={'link'} theme={styles}>Button-link</Button></td>
-          <td style={tdStyle}>
-            <div style={{display: 'flex'}}>
-              <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-              <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
-            </div>
-          </td>
-        </tr>
-    )
+const renderExampleRow = (title, styles) => {
+  return (
+    <tr>
+      <td style={tdStyle}>{title}</td>
+      <td style={tdStyle}><Button use={'link'} theme={styles}>Button-link</Button></td>
+      <td style={tdStyle}>
+        <div style={{display: 'flex'}}>
+          <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
+          <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
+        </div>
+      </td>
+    </tr>
+  )
 }
 
 <table style={tableStyle}>

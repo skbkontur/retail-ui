@@ -1,6 +1,5 @@
-import * as GroupStories from './Group.stories.tsx';
-import { Meta, Primary, Controls, Description } from '@storybook/blocks';
-import { Button, Input } from '@skbkontur/react-ui';
+import * as GroupStories from '../__docs__/Group.docs.stories.tsx';
+import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
 
 <Meta of={GroupStories} />
 
@@ -18,21 +17,4 @@ import { Button, Input } from '@skbkontur/react-ui';
 
 ## Примеры использования
 
-```jsx harmony
-import FunctionIcon from '@skbkontur/react-icons/Function';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import { Button, Input } from '@skbkontur/react-ui';
-
-const [value, setValue] = React.useState('Foo');
-
-<Group width={300}>
-  <Button>
-    <FunctionIcon />
-  </Button>
-  <Input value={value} width="100%" onValueChange={setValue} />
-  <Button>
-    <SearchIcon />
-  </Button>
-  <Button>Bar</Button>
-</Group>;
-```
+<Stories />

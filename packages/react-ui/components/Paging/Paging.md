@@ -6,6 +6,7 @@
 
 Навигационные подсказки появляются когда доступно управление с клавиатуры и `withoutNavigationHint != true`
 
+### Базовый пример
 ```jsx harmony
 class Paginator3000 extends React.Component {
   constructor() {
@@ -26,7 +27,7 @@ class Paginator3000 extends React.Component {
 <Paginator3000 />;
 ```
 
-Пейджинг в отключенном состоянии
+### Пейджинг в отключенном состоянии
 
 ```jsx
 const [activePage, setActivePage] = React.useState(3);
@@ -39,7 +40,7 @@ const [activePage, setActivePage] = React.useState(3);
 />
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface PagingLocale {

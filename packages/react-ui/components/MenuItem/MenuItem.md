@@ -1,4 +1,4 @@
-Меню с базовыми элементами меню.
+### Меню с базовыми элементами меню
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -12,7 +12,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с заблокированными и базовыми элементами меню.
+### Disabled
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -28,6 +28,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
+### Запрет выделения
 В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
 
 ```jsx harmony
@@ -44,7 +45,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с элементами меню содержащими описание.
+### Описание элементов
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -60,7 +61,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с элементами меню содержащими иконки.
+### Иконки в элементах
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -88,7 +89,7 @@ import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 </DropdownMenu>
 ```
 
-Меню с элементами меню обёрнутыми в контрол ссылки.
+### Меню с элементами меню обёрнутыми в контрол ссылки
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu, Link } from '@skbkontur/react-ui';
@@ -122,7 +123,7 @@ const LinkMenuItem = ({link, title}) => {
 </DropdownMenu>
 ```
 
-У MenuItem есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';

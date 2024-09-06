@@ -1,4 +1,4 @@
-Пример использования.
+### Пример использования
 
 ```jsx harmony
 import { Switcher, Gapped } from '@skbkontur/react-ui';

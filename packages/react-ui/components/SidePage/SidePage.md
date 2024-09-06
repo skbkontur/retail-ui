@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
@@ -47,7 +48,7 @@ function close() {
 </div>;
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface SidePageLocale {

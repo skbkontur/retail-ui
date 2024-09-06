@@ -1,14 +1,15 @@
+### Базовый пример
 ```jsx harmony
 <PasswordInput />
 ```
 
-Пример с отслеживанием нажатия CapsLock:
+### Отслеживание нажатия CapsLock
 
 ```jsx harmony
 <PasswordInput detectCapsLock />
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface PasswordInputLocale {

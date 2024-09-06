@@ -99,7 +99,7 @@ export const CalendarDataTids = {
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 /**
- * Компонент календаря `Calendar` из [`DatePicker`](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а помогает выбирать дату с помощью мыши.
+ * Компонент календаря `Calendar` из [DatePicker](?path=/docs/date-datepicker--docs)'а помогает выбирать дату с помощью мыши.
  */
 @rootNode
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
