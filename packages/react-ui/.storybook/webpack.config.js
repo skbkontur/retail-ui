@@ -1,5 +1,6 @@
 const path = require('path');
 
+const remarkMdxCodeMeta = require('remark-mdx-code-meta');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
@@ -55,6 +56,14 @@ module.exports = async ({ config }) => {
     { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
     { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
   ];
+
+  config.module.rules
+    .filter((rule) => rule.test?.toString().includes('.mdx'))
+    .forEach((rule) => {
+      if (rule.use?.[0]?.loader.includes('mdx2-csf')) {
+        rule.use[0].options.mdxCompileOptions.remarkPlugins.push(remarkMdxCodeMeta);
+      }
+    });
 
   config.plugins.push(
     new ForkTsCheckerWebpackPlugin({

@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
+import { addons } from '@storybook/manager-api';
+import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
+import { ArrowRoundTimeBackIcon16Regular } from '@skbkontur/icons/icons/ArrowRoundTimeBackIcon/ArrowRoundTimeBackIcon16Regular';
+import { ArrowCollapseTrianglesVOpenIcon16Regular } from '@skbkontur/icons/icons/ArrowCollapseTrianglesVOpenIcon/ArrowCollapseTrianglesVOpenIcon16Regular';
+import SearchIcon from '@skbkontur/react-icons/Search';
+import MenuIcon from '@skbkontur/react-icons/Menu';
+import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
+import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
+import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
+import OkIcon from '@skbkontur/react-icons/icons/Ok';
+import FunctionIcon from '@skbkontur/react-icons/Function';
+import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
+import PeopleIcon from '@skbkontur/react-icons/People';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -14,10 +30,14 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
+import * as ReactUi from '../index';
+import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
+import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
 
 import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
+import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from './addons/live-examples/config';
 
 const customViewports = {
   iphone: {
@@ -176,3 +196,35 @@ export const globalTypes = {
 if (isTestEnv) {
   import('../lib/styles/HoldSelectionColor');
 }
+
+addons.setConfig({
+  [LIVE_EXAMPLES_ADDON_ID]: {
+    sandboxPath: '/docs/sandbox--docs',
+    previewBgColor: '#ffffff',
+    scope: {
+      ...ReactUi,
+      DatePickerHelpers,
+      ViewDateInputValidateChecks,
+      OkIcon,
+      MenuIcon,
+      PeopleIcon,
+      SearchIcon,
+      HelpDotIcon,
+      FunctionIcon,
+      CopyIcon16Regular,
+      TrashCanIcon,
+      MoneyTypeCoinsIcon,
+      NotificationBellAlarmIcon16Solid,
+      CheckAIcon16Light,
+      XIcon16Regular,
+      MinusCircleIcon16Light,
+    },
+    fontBase: "'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif",
+    fontCode: 'Consolas, "Liberation Mono", Menlo, monospace',
+    copyIcon: CopyIcon16Regular as unknown as ReactNode,
+    expandIcon: ArrowCollapseTrianglesVOpenIcon16Regular as unknown as ReactNode,
+    resetIcon: ArrowRoundTimeBackIcon16Regular as unknown as ReactNode,
+    borderColor: 'hsla(203, 50%, 30%, 0.15)',
+    iconColor: '#029CFD',
+  } as LiveConfig,
+});

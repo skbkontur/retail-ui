@@ -8,6 +8,7 @@ const config: StorybookConfig = {
     docsMode: isDocsEnv,
   },
   addons: [
+    './addons/live-examples/preset',
     'creevey',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
