@@ -364,7 +364,7 @@ export class Theme2022 extends (class {} as typeof BasicLightTheme) {
     return this.menuOffsetY;
   }
   public static get selectBorderColorHover() {
-    return this.inputBorderColorHover;
+    return this.btnDefaultHoverBorderColor;
   }
 
   public static get selectPlaceholderColorDisabled() {
