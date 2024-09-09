@@ -429,7 +429,7 @@ export class BasicLightThemeInternal {
     return this.btnDefaultBorderColor;
   }
   public static btnDefaultActiveBorderTopColor = '';
-  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16);';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnDefaultBorderBottomColor = '';
   public static btnDefaultActiveShadow = 'none';
   public static btnSuccessBg = '#26AD50';
@@ -753,7 +753,7 @@ export class BasicLightThemeInternal {
     return this.menuOffsetY;
   }
   public static get selectBorderColorHover() {
-    return this.inputBorderColorHover;
+    return this.btnDefaultHoverBorderColor;
   }
   public static selectBorderColorTransition = `box-shadow ${this.transitionDuration} ${this.transitionTimingFunction};`;
 
