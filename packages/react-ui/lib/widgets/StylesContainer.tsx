@@ -3,44 +3,41 @@ import type { Emotion } from '@emotion/css/create-instance';
 import shadowRoot from 'react-shadow';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
-import { EmotionProvider, getEmotion, useEmotion } from '../theming/Emotion';
+import { EmotionProvider, getEmotion, RootProvider, useEmotion } from '../theming/Emotion';
 
 interface Props {
-  id?: string;
+  emotionKey?: string;
+  root?: ShadowRoot;
   children: ReactNode;
 }
 
-export const StylesContainer = ({ id = `react-ui-styles-container`, children }: Props) => {
+export const StylesContainer = ({ emotionKey = `react-ui-styles-container`, root, children }: Props) => {
   const [styles, setStyles] = useState<Emotion>();
 
-  function setRef(el: HTMLDivElement) {
-    if (!styles && el) {
-      setStyles(getEmotion(el, id));
+  function setRef(container: HTMLDivElement) {
+    if (!styles && container) {
+      setStyles(getEmotion({ container, key: emotionKey }));
     }
   }
 
   return (
     <>
       <div ref={setRef} />
-      {styles && <EmotionProvider value={styles}>{children}</EmotionProvider>}
+      {styles && (
+        <RootProvider value={root}>
+          <EmotionProvider value={styles}>{children}</EmotionProvider>
+        </RootProvider>
+      )}
     </>
   );
 };
 
-export const WithStyles = ({
-  children,
-  ...rest
-}: PropsWithChildren<{
-  rootId: string;
-  domContainer: Nullable<HTMLElement>;
-  anchor: ReactNode;
-}>) => {
+export const WithStyles = ({ children }: PropsWithChildren<any>) => {
   const styles = useEmotion();
   const node = useRef<any>(null);
 
-  const rootNode = styles.sheet.container.getRootNode() as any;
-  const shadowRoot1 = rootNode?.host?.shadowRoot as any;
+  const rootNode = styles.sheet.container.getRootNode() as any; // ShadowRoot | Document;
+  const shadowRoot1 = rootNode?.host?.shadowRoot as any; // ShadowRoot;
   if (!shadowRoot1) {
     return <>{children}</>;
   }
@@ -58,13 +55,13 @@ export const WithStyles = ({
     adoptedStyleSheets.push(styleSheet);
   }
 
-  console.log('shadowRoot in portal', node.current?.shadowRoot);
+  // const root = node.current?.shadowRoot; // shadow root of portal element
+  // console.log('shadowRoot in portal', root);
   // console.log('adoptedStyleSheets in portal', node.current?.shadowRoot?.adoptedStyleSheets);
-  console.log({ ...rest });
 
   return (
     <shadowRoot.div ref={node} mode="open" styleSheets={[...adoptedStyleSheets]}>
-      <StylesContainer>{children}</StylesContainer>
+      <StylesContainer root={rootNode}>{children}</StylesContainer>
     </shadowRoot.div>
   );
 };

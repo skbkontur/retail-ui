@@ -58,9 +58,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
         <React.Fragment>
           {anchor}
           <Portal key="portal-ref" rt_rootID={rootId} container={domContainer}>
-            <WithStyles rootId={rootId} domContainer={domContainer} anchor={anchor}>
-              {children}
-            </WithStyles>
+            <WithStyles>{children}</WithStyles>
           </Portal>
         </React.Fragment>
       );

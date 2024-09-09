@@ -7,6 +7,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { RootConsumer } from '../../lib/theming/Emotion';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -22,6 +23,7 @@ type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
   public static displayName = 'RenderLayer';
+  private root!: ShadowRoot | undefined;
 
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
@@ -70,7 +72,12 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {React.Children.only(this.props.children)}
+        <RootConsumer>
+          {(root) => {
+            this.root = root;
+            return React.Children.only(this.props.children);
+          }}
+        </RootConsumer>
       </CommonWrapper>
     );
   }
@@ -121,10 +128,13 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
+    // todo
+    const isShadowRoot = Boolean(this.root?.host?.shadowRoot);
+
     if (
       !node ||
-      (event.composed && event.composedPath().indexOf(node) > -1) ||
-      (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
+      (isShadowRoot && event.composed && event.composedPath().indexOf(node) > -1) ||
+      (!isShadowRoot && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
     ) {
       return;
     }

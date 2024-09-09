@@ -87,7 +87,10 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
   };
 
   private attachStyle = (element: HTMLElement, className: string) => {
-    element.classList.add(className);
+    if (!globalObject.document?.querySelector(`.${className}`)) {
+      element.classList.add(className);
+    }
+
     return () => {
       element.classList.remove(className);
     };

@@ -12,18 +12,27 @@ export const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
-export const getEmotion = (container?: HTMLElement | null, key?: string): Emotion =>
+export const getEmotion = ({
+  key = REACT_UI_PREFIX,
+  container,
+  nonce,
+}: {
+  container?: HTMLElement | null;
+  key?: string;
+  nonce?: string;
+}): Emotion =>
   createEmotion({
-    key: key ?? REACT_UI_PREFIX,
+    key,
     prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
     container: container ?? globalObject.document?.head,
+    nonce,
   });
 
 // breaking changes
 // todo убрать все экспорты, чтобы все компоненты управлялись через EmotionContext, пока оставили для обратной совместимости с icons/side-menu/Fias
 export const { injectGlobal, cache, css, cx, keyframes, getRegisteredStyles, hydrate, sheet, merge, flush } =
-  getEmotion();
+  getEmotion({});
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
   return fn.length === 0;
@@ -66,10 +75,15 @@ export const prefix =
       return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
     }, {} as T);
 
-const EmotionContext = createContext<Emotion>(getEmotion());
+const EmotionContext = createContext<Emotion>(getEmotion({}));
 export const EmotionConsumer = EmotionContext.Consumer;
 export const EmotionProvider = EmotionContext.Provider;
 export const useEmotion = (): Emotion => useContext(EmotionContext);
+
+const RootContext = createContext<ShadowRoot | undefined>(undefined);
+export const RootConsumer = RootContext.Consumer;
+export const RootProvider = RootContext.Provider;
+// const useRoot = () => useContext(RootContext);
 
 EmotionContext.displayName = 'EmotionContext';
 EmotionContext.__KONTUR_REACT_UI__ = 'EmotionContext';
