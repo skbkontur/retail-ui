@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { HTMLProps } from '../../../typings/html';
-import { InputDataTids } from '../../../components/Input';
+import { InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -54,6 +54,12 @@ describe('ComboBox', () => {
 
   it('renders', () => {
     expect(() => render(<ComboBox getItems={() => Promise.resolve([])} />)).not.toThrow();
+  });
+
+  it('has id attribute', () => {
+    const comboboxId = 'comboboxId';
+    const result = render(<ComboBox id={comboboxId} getItems={() => Promise.resolve([])} />);
+    expect(result.container.querySelector(`#${comboboxId}`)).not.toBeNull();
   });
 
   it('focuses on click to input', () => {
