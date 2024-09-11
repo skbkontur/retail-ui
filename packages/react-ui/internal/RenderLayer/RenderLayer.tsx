@@ -1,5 +1,6 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import { Emotion } from '@emotion/css/types/create-instance';
 
 import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
@@ -7,7 +8,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { RootConsumer } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -23,7 +24,7 @@ type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
   public static displayName = 'RenderLayer';
-  private root!: ShadowRoot | undefined;
+  private emotion!: Emotion;
 
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
@@ -72,12 +73,12 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <RootConsumer>
-          {(root) => {
-            this.root = root;
+        <EmotionConsumer>
+          {(emotion) => {
+            this.emotion = emotion;
             return React.Children.only(this.props.children);
           }}
-        </RootConsumer>
+        </EmotionConsumer>
       </CommonWrapper>
     );
   }
@@ -128,12 +129,14 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    // todo
-    const isShadowRoot = Boolean(this.root?.host?.shadowRoot);
+    const isShadowRoot = Boolean((this.emotion.sheet.container.getRootNode() as ShadowRoot)?.host?.shadowRoot);
 
     if (
       !node ||
       (isShadowRoot && event.composed && event.composedPath().indexOf(node) > -1) ||
+      (isShadowRoot &&
+        isInstanceOf(target, globalObject.Element) &&
+        containsTargetOrRenderContainer(event.composedPath()[0] as unknown as Element)(node)) ||
       (!isShadowRoot && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
     ) {
       return;

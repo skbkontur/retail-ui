@@ -1,6 +1,8 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
@@ -18,6 +20,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
+  private emotion!: Emotion;
 
   private readonly rootId: string = RenderContainer.getRootId();
 
@@ -36,7 +39,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
-    return this.renderMain();
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
   }
 
   private renderMain = () => {
@@ -62,7 +72,10 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       this.createContainer();
     }
 
-    const rootElement = globalObject.document?.body;
+    const stylesRoot = this.emotion.sheet.container.getRootNode();
+    const isShadowRoot = Boolean((stylesRoot as ShadowRoot)?.host?.shadowRoot);
+    const rootElement = isShadowRoot && stylesRoot ? stylesRoot : globalObject.document?.body;
+
     if (this.domContainer && this.domContainer.parentNode !== rootElement) {
       rootElement?.appendChild(this.domContainer);
 

@@ -80,10 +80,5 @@ export const EmotionConsumer = EmotionContext.Consumer;
 export const EmotionProvider = EmotionContext.Provider;
 export const useEmotion = (): Emotion => useContext(EmotionContext);
 
-const RootContext = createContext<ShadowRoot | undefined>(undefined);
-export const RootConsumer = RootContext.Consumer;
-export const RootProvider = RootContext.Provider;
-// const useRoot = () => useContext(RootContext);
-
 EmotionContext.displayName = 'EmotionContext';
 EmotionContext.__KONTUR_REACT_UI__ = 'EmotionContext';
