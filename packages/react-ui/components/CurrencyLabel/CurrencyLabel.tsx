@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
-export interface CurrencyLabelProps extends CommonProps {
+export interface CurrencyLabelProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /**
    * Минимальное количество отображаемых знаков после запятой
    * @default 2
@@ -23,6 +23,7 @@ export const CurrencyLabelDataTids = {
 } as const;
 
 export const CurrencyLabel = ({
+  id,
   value,
   fractionDigits = FRACTION_DIGITS_DEFAULT,
   currencySymbol,
@@ -31,7 +32,7 @@ export const CurrencyLabel = ({
 }: CurrencyLabelProps): JSX.Element => {
   return (
     <CommonWrapper {...rest}>
-      <span data-tid={CurrencyLabelDataTids.root}>
+      <span id={id} data-tid={CurrencyLabelDataTids.root}>
         {CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros })}
         {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
         {currencySymbol}

@@ -3,7 +3,7 @@ import { render, screen, waitFor, within, fireEvent } from '@testing-library/rea
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../../components/Calendar';
+import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
@@ -36,6 +36,12 @@ describe('DatePicker', () => {
     it('should validate by number', () => {
       expect(DatePicker.validate('01.ff.2019')).toBe(false);
     });
+  });
+
+  it('has id attribute', () => {
+    const dateInputId = 'dateInputId';
+    const result = render(<DatePicker id={dateInputId} value="02.07.2017" onValueChange={jest.fn()} />);
+    expect(result.container.querySelector(`#${dateInputId}`)).not.toBeNull();
   });
 
   it('renders', () => {
