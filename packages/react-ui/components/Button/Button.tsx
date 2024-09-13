@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import warning from 'warning';
 
-import { ButtonLinkAllowedValues } from '../../typings/button-link';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
@@ -16,7 +15,6 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link, LinkProps } from '../Link';
 import { SizeProp } from '../../lib/types/props';
-import { PolymorphicPropsWithoutRef } from '../../typings/react-ref';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
@@ -31,134 +29,130 @@ export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-interface ButtonInnerProps extends CommonProps {
-  /** @ignore */
-  _noPadding?: boolean;
+export type ButtonProps<A extends HTMLAttributes<Element> = React.ButtonHTMLAttributes<HTMLButtonElement>> =
+  CommonProps &
+    A & {
+      /** @ignore */
+      _noPadding?: boolean;
 
-  /** @ignore */
-  _noRightPadding?: boolean;
+      /** @ignore */
+      _noRightPadding?: boolean;
 
-  /**
-   * Применяет к кнопке стили псевдокласса `:active`.
-   */
-  active?: boolean;
+      /**
+       * Применяет к кнопке стили псевдокласса `:active`.
+       */
+      active?: boolean;
 
-  /**
-   * CSS-свойство `text-align`.
-   */
-  align?: React.CSSProperties['textAlign'];
+      /**
+       * CSS-свойство `text-align`.
+       */
+      align?: React.CSSProperties['textAlign'];
 
-  /**
-   * Превращает обычную кнопку в кнопку со стрелкой.
-   */
-  arrow?: boolean | 'left';
+      /**
+       * Превращает обычную кнопку в кнопку со стрелкой.
+       */
+      arrow?: boolean | 'left';
 
-  /**
-   * Даёт кнопке фокус после окончания загрузки страницы.
-   */
-  autoFocus?: boolean;
+      /**
+       * Даёт кнопке фокус после окончания загрузки страницы.
+       */
+      autoFocus?: boolean;
 
-  /**
-   * Убирает обводку у кнопки.
-   */
-  borderless?: boolean;
+      /**
+       * Убирает обводку у кнопки.
+       */
+      borderless?: boolean;
 
-  /**
-   * @ignore
-   */
-  checked?: boolean;
+      /**
+       * @ignore
+       */
+      checked?: boolean;
 
-  children?: React.ReactNode;
+      children?: React.ReactNode;
 
-  /** @ignore */
-  corners?: React.CSSProperties;
+      /** @ignore */
+      corners?: React.CSSProperties;
 
-  /**
-   * Отключенное состояние кнопки.
-   */
-  disabled?: boolean;
+      /**
+       * Отключенное состояние кнопки.
+       */
+      disabled?: boolean;
 
-  /** @ignore */
-  disableFocus?: boolean;
+      /** @ignore */
+      disableFocus?: boolean;
 
-  /**
-   * Состояние валидации при ошибке.
-   */
-  error?: boolean;
+      /**
+       * Состояние валидации при ошибке.
+       */
+      error?: boolean;
 
-  /**
-   * Иконка слева от текста кнопки.
-   */
-  icon?: React.ReactElement;
+      /**
+       * Иконка слева от текста кнопки.
+       */
+      icon?: React.ReactElement;
 
-  /**
-   * Иконка справа от текста кнопки.
-   */
-  rightIcon?: React.ReactElement;
+      /**
+       * Иконка справа от текста кнопки.
+       */
+      rightIcon?: React.ReactElement;
 
-  /**
-   * Переводит кнопку в состояние загрузки.
-   */
-  loading?: boolean;
+      /**
+       * Переводит кнопку в состояние загрузки.
+       */
+      loading?: boolean;
 
-  /**
-   * Сужает кнопку.
-   */
-  narrow?: boolean;
+      /**
+       * Сужает кнопку.
+       */
+      narrow?: boolean;
 
-  /**
-   * Задаёт размер кнопки.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
-  size?: SizeProp;
+      /**
+       * Задаёт размер кнопки.
+       *
+       * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+       */
+      size?: SizeProp;
 
-  /**
-   * HTML-атрибут `type`.
-   */
-  type?: ButtonType;
+      /**
+       * HTML-атрибут `type`.
+       */
+      type?: ButtonType;
 
-  /**
-   * HTML-атрибут `title`.
-   */
-  title?: string;
+      /**
+       * HTML-атрибут `title`.
+       */
+      title?: string;
 
-  /**
-   * Стиль кнопки.
-   *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
-   *
-   * **Вариант `link` устарел.**
-   * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
-   */
-  use?: ButtonUse;
+      /**
+       * Стиль кнопки.
+       *
+       * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
+       *
+       * **Вариант `link` устарел.**
+       * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
+       */
+      use?: ButtonUse;
 
-  /** @ignore */
-  visuallyFocused?: boolean;
+      /** @ignore */
+      visuallyFocused?: boolean;
 
-  /**
-   * Состояние валидации при предупреждении.
-   */
-  warning?: boolean;
+      /**
+       * Состояние валидации при предупреждении.
+       */
+      warning?: boolean;
 
-  /**
-   * CSS-свойство `width`.
-   */
-  width?: number | string;
+      /**
+       * CSS-свойство `width`.
+       */
+      width?: number | string;
 
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
-  theme?: ThemeIn;
-}
-
-export const BUTTON_DEFAULT_ELEMENT = 'button';
-
-export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
-  ButtonInnerProps,
-  C
->;
+      /**
+       * Обычный объект с переменными темы.
+       * Он будет объединён с темой из контекста.
+       */
+      theme?: ThemeIn;
+      renderButton?: (props: A) => React.ReactElement;
+    };
 
 export interface ButtonState {
   focusedByTab: boolean;
@@ -170,7 +164,7 @@ export const ButtonDataTids = {
   spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
+type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type' | 'renderButton'>>;
 
 const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children }: LinkProps) => (
   <Link focused={focused} disabled={disabled} icon={icon} rightIcon={rightIcon} as={as} tabIndex={tabIndex}>
@@ -179,10 +173,9 @@ const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children
 );
 
 @rootNode
-export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_ELEMENT> extends React.Component<
-  ButtonProps<C>,
-  ButtonState
-> {
+export class Button<
+  C extends HTMLAttributes<Element> = React.ButtonHTMLAttributes<HTMLButtonElement>,
+> extends React.Component<ButtonProps<C>, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static displayName = 'Button';
   public static __BUTTON__ = true;
@@ -194,6 +187,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
     // on this button if somewhere on the page user presses Enter while some
     // input is focused. So we set type to 'button' by default.
     type: 'button',
+    renderButton: (props) => <button {...props} />,
   };
 
   private getProps = createPropsGetter(Button.defaultProps);
@@ -295,11 +289,11 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       width,
       children,
       tabIndex,
-      component = BUTTON_DEFAULT_ELEMENT,
+      renderButton,
       className, //exclude from rest to prevent class override
       'data-tid': dataTid, //exclude from rest to prevent data-tid override on root
-      use: useProp,
-      size: sizeProp,
+      use,
+      size,
       'aria-describedby': ariaDescribedby,
       'aria-haspopup': ariaHasPopup,
       'aria-controls': ariaControls,
@@ -308,12 +302,9 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       'aria-expanded': ariaExpanded,
       role,
       ...rest
-    } = this.props;
-    const { use, size } = this.getProps();
+    } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
-
-    const Root = component;
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
@@ -509,15 +500,18 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       );
     }
 
+    const root = renderButton({
+      'data-tid': ButtonDataTids.root,
+      ref: this._ref,
+      ...rootProps,
+      ...rest,
+      children: [innerShadowNode, outlineNode, arrowNode, captionNode],
+    });
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
-          <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} {...rest}>
-            {innerShadowNode}
-            {outlineNode}
-            {arrowNode}
-            {captionNode}
-          </Root>
+          {root}
         </span>
       </CommonWrapper>
     );
@@ -595,3 +589,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
 }
 
 export const isButton = isReactUIComponent<ButtonProps>('Button');
+
+export type ButtonWithAnchorProps = ButtonProps<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
+
+export const ButtonWithAnchor: React.FunctionComponent<ButtonWithAnchorProps> = (props) => {
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
+  return <Button renderButton={(p) => <a {...p} />} {...props} />;
+};

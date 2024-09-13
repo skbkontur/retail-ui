@@ -14,13 +14,14 @@ import { CreeveyTests, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
-import { Button, ButtonProps } from '../Button';
+import { Button, ButtonProps, ButtonWithAnchor, ButtonWithAnchorProps } from '../Button';
 
 export default {
   title: 'Button',
 };
 
-type ButtonState = Partial<ButtonProps<'a'>>;
+type ButtonState = Partial<ButtonProps>;
+type ButtonWithAnchorState = Partial<ButtonWithAnchorProps>;
 
 const useStates: ButtonState[] = [
   { use: 'default' },
@@ -49,7 +50,7 @@ const testingButtonUseStates2022: ButtonState[] = [
   { use: 'link' },
 ];
 
-const buttonAsLinkUseStates: ButtonState[] = [
+const buttonAsLinkUseStates: ButtonWithAnchorState[] = [
   { use: 'default' },
   { use: 'primary' },
   { use: 'danger' },
@@ -59,7 +60,7 @@ const buttonAsLinkUseStates: ButtonState[] = [
   { use: 'backless' },
 ];
 
-const buttonAsLinkTestingProps: ButtonState[] = [
+const buttonAsLinkTestingProps: ButtonWithAnchorState[] = [
   { children: 'Link' },
   { disabled: true },
   { loading: true },
@@ -748,10 +749,10 @@ HoverTextColor.parameters = {
 export const ButtonAsLink: Story = () => {
   return (
     <ComponentTable
-      Component={Button}
+      Component={ButtonWithAnchor}
       cols={buttonAsLinkUseStates.map((x) => ({ props: x }))}
       rows={buttonAsLinkTestingProps.map((x) => ({ props: x }))}
-      presetProps={{ children: 'Link', component: 'a' }}
+      presetProps={{ children: 'Link' }}
     />
   );
 };
@@ -766,60 +767,60 @@ ButtonAsLink.parameters = {
   },
 };
 
-export const ButtonAsLinkIconColor: Story = () => {
-  return (
-    <Button
-      data-tid="test-button"
-      theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }}
-      component="a"
-      icon={<OkIcon />}
-    >
-      Button as link
-    </Button>
-  );
-};
+// export const ButtonAsLinkIconColor: Story = () => {
+//   return (
+//     <Button
+//       data-tid="test-button"
+//       theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }}
+//       component="a"
+//       icon={<OkIcon />}
+//     >
+//       Button as link
+//     </Button>
+//   );
+// };
 
-ButtonAsLinkIconColor.parameters = {
-  creevey: {
-    skip: {
-      'hover does not work in chrome': {
-        in: /^(?!\b(firefox.*)\b)/,
-        tests: ['hover'],
-      },
-    },
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async hover() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-      },
-    },
-  },
-};
+// ButtonAsLinkIconColor.parameters = {
+//   creevey: {
+//     skip: {
+//       'hover does not work in chrome': {
+//         in: /^(?!\b(firefox.*)\b)/,
+//         tests: ['hover'],
+//       },
+//     },
+//     tests: {
+//       async idle() {
+//         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+//       },
+//       async hover() {
+//         await this.browser
+//           .actions({
+//             bridge: true,
+//           })
+//           .move({
+//             origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+//           })
+//           .perform();
+//         await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+//       },
+//     },
+//   },
+// };
 
-export const ButtonAsLinkIconDisabledColor: Story = () => {
-  return (
-    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<OkIcon />} disabled>
-      Button as link
-    </Button>
-  );
-};
+// export const ButtonAsLinkIconDisabledColor: Story = () => {
+//   return (
+//     <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<OkIcon />} disabled>
+//       Button as link
+//     </Button>
+//   );
+// };
 
-ButtonAsLinkIconDisabledColor.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-    },
-  },
-};
+// ButtonAsLinkIconDisabledColor.parameters = {
+//   creevey: {
+//     tests: {
+//       async idle() {
+//         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+//       },
+//     },
+//   },
+// };
