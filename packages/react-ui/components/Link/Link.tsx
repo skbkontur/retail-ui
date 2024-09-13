@@ -186,7 +186,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
         [styles.lineFocus(this.theme)]: isFocused && use === 'default',
         [styles.lineFocusSuccess(this.theme)]: isFocused && use === 'success',
-        [styles.lineFocusSuccess(this.theme)]: isFocused && use === 'danger',
+        [styles.lineFocusDanger(this.theme)]: isFocused && use === 'danger',
         [styles.lineFocusGrayed(this.theme)]: isFocused && use === 'grayed',
       }),
       href,
