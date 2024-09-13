@@ -66,7 +66,9 @@ type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 
 
 /**
  * Всплывающая подсказка `Hint`.
- * По умолчанию отображается при наведении на элемент. Можно задать другие условия отображения.
+ * По умолчанию отображается при наведении на элемент, но можно задать другие условия отображения.
+ *
+ * Для подсказки, всплывающей по клику используйте [Tooltip](?path=/docs/popup-tooltip--docs).
  */
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {

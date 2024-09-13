@@ -120,7 +120,7 @@ type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' 
  * `Tooltip` используется для коротких поясняющих текстов, если необходимо дать разъяснение к деталям интерфейса, упомянутой информации или помочь с заполнением полей.
  * Если эти подробности не нужны постоянно, но могут помочь пользователю в момент когда он испытывает трудности.
  *
- * Если пояснение содержит много информации, то полезнее разместить его в виде статьи на отдельную страницу, а в `Tooltip` добавить ссылку.
+ * Для подсказки, всплывающей по наведению используйте [Hint](?path=/docs/popup-hint--docs).
  */
 @rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
