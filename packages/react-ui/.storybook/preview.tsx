@@ -85,7 +85,13 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Versions', '*'],
+        order: [
+          'Versioning',
+          ['Versions', 'Migration', 'Changelog'],
+          'COMMON',
+          ['Accessibility', 'Contributing', 'Ecosystem', 'Mobiles', 'Server Side Rendering'],
+          '*',
+        ],
       },
     },
     viewport: {

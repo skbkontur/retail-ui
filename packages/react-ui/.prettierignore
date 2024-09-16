@@ -12,3 +12,7 @@ npm-debug.log
 
 *.md
 *.docs.stories.tsx
+CHANGELOG.mdx
+migration.mdx
+ecosystem.mdx
+contributing.mdx
