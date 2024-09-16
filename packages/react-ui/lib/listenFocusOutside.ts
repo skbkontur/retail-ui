@@ -46,7 +46,7 @@ function handleNativeFocus(event: UIEvent) {
       elements = elements();
     }
 
-    if (elements.some(containsTargetOrRenderContainer(target))) {
+    if (elements.some((element) => containsTargetOrRenderContainer(target)(element))) {
       return;
     }
     ReactDOM.unstable_batchedUpdates(() => handler.callback(event));
@@ -54,14 +54,14 @@ function handleNativeFocus(event: UIEvent) {
 }
 
 export function containsTargetOrRenderContainer(target: Element) {
-  return (element: Element) => {
+  return (element: Element, stylesRoot?: ShadowRoot) => {
     if (!element) {
       return false;
     }
     if (element.contains(target)) {
       return true;
     }
-    const container = findRenderContainer(target, element);
+    const container = findRenderContainer(target, element, stylesRoot);
     return !!container && element.contains(container);
   };
 }
@@ -69,8 +69,16 @@ export function containsTargetOrRenderContainer(target: Element) {
 /**
  * Searches RenderContainer placed in "rootNode" for "node"
  */
-export function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
-  const currentNode = node.parentNode;
+export function findRenderContainer(
+  node: Element,
+  rootNode: Element,
+  stylesRoot?: ShadowRoot,
+  container?: Element,
+): Element | null {
+  const currentNode = (node.parentNode as unknown as ShadowRoot).host?.shadowRoot
+    ? (node.parentNode as unknown as ShadowRoot).host
+    : node.parentNode;
+
   if (
     !currentNode ||
     node === rootNode ||
@@ -85,7 +93,9 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
   const newContainerId = currentNode.getAttribute(PORTAL_OUTLET_ATTR);
   if (newContainerId) {
     const selector = `[${PORTAL_INLET_ATTR}~="${newContainerId}"]`;
+
     const nextNode =
+      stylesRoot?.querySelector(selector) ||
       (rootNode.getRootNode() as ShadowRoot | Document)?.querySelector(selector) ||
       globalObject.document?.querySelector(selector);
 
@@ -93,10 +103,10 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
       throw Error(`Origin node for render container was not found`);
     }
 
-    return findRenderContainer(nextNode, rootNode, nextNode);
+    return findRenderContainer(nextNode, rootNode, stylesRoot, nextNode);
   }
 
-  return findRenderContainer(currentNode, rootNode, container);
+  return findRenderContainer(currentNode, rootNode, stylesRoot, container);
 }
 
 export function listen(elements: Element[] | (() => Element[]), callback: (event: Event) => void) {

@@ -112,7 +112,14 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
       return content;
     }
 
-    return <RenderContainer>{content}</RenderContainer>;
+    return (
+      <RenderContainer>
+        {(emotion: Emotion) => {
+          this.emotion = emotion;
+          return content;
+        }}
+      </RenderContainer>
+    );
   }
 
   public close = () => {

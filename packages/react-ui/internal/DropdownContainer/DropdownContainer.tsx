@@ -126,7 +126,16 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
       </ZIndex>
     );
 
-    return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
+    return this.props.disablePortal ? (
+      content
+    ) : (
+      <RenderContainer>
+        {(emotion: Emotion) => {
+          this.emotion = emotion;
+          return content;
+        }}
+      </RenderContainer>
+    );
   }
 
   private ZIndexRef = (element: Nullable<HTMLDivElement>) => {

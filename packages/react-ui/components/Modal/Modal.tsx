@@ -16,7 +16,6 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -173,19 +172,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public render(): JSX.Element {
     return (
-      <EmotionConsumer>
-        {(emotion) => {
-          this.emotion = emotion;
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = getModalTheme(theme, this.props.theme);
-                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = getModalTheme(theme, this.props.theme);
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </EmotionConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -235,82 +227,87 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
-          <ZIndex priority={'Modal'} className={styles.root()}>
-            <HideBodyVerticalScroll />
-            {this.state.hasBackground && (
-              <div
-                onMouseDown={this.handleContainerMouseDown}
-                onMouseUp={this.handleContainerMouseUp}
-                onClick={this.handleContainerClick}
-                className={styles.bg(this.theme)}
-              />
-            )}
-            <ResponsiveLayout>
-              {({ isMobile }) => (
-                <div
-                  aria-labelledby={ariaLabelledby}
-                  ref={this.refContainer}
-                  className={this.emotion.cx(styles.container(), isMobile && styles.containerMobile(this.theme))}
-                  onMouseDown={this.handleContainerMouseDown}
-                  onMouseUp={this.handleContainerMouseUp}
-                  onClick={this.handleContainerClick}
-                  data-tid={ModalDataTids.container}
-                >
+        {(emotion: Emotion) => {
+          this.emotion = emotion;
+          return (
+            <CommonWrapper {...this.props}>
+              <ZIndex priority={'Modal'} className={styles.root()}>
+                <HideBodyVerticalScroll />
+                {this.state.hasBackground && (
                   <div
-                    aria-modal
-                    aria-label={ariaLabel}
-                    role={role}
-                    className={this.emotion.cx({
-                      [styles.centerContainer()]: true,
-                      [styles.mobileCenterContainer()]: isMobile,
-                      [styles.alignTop()]: Boolean(alignTop),
-                    })}
-                    style={isMobile ? undefined : containerStyle}
-                    data-tid={ModalDataTids.content}
-                  >
+                    onMouseDown={this.handleContainerMouseDown}
+                    onMouseUp={this.handleContainerMouseUp}
+                    onClick={this.handleContainerClick}
+                    className={styles.bg(this.theme)}
+                  />
+                )}
+                <ResponsiveLayout>
+                  {({ isMobile }) => (
                     <div
-                      className={this.emotion.cx({
-                        [styles.window(this.theme)]: true,
-                        [styles.mobileWindow()]: isMobile,
-                      })}
-                      style={isMobile ? undefined : style}
+                      aria-labelledby={ariaLabelledby}
+                      ref={this.refContainer}
+                      className={this.emotion.cx(styles.container(), isMobile && styles.containerMobile(this.theme))}
+                      onMouseDown={this.handleContainerMouseDown}
+                      onMouseUp={this.handleContainerMouseUp}
+                      onClick={this.handleContainerClick}
+                      data-tid={ModalDataTids.container}
                     >
-                      <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
-                        <FocusLock
-                          disabled={disableFocusLock}
-                          autoFocus={false}
-                          className={this.emotion.cx(
-                            { [styles.columnFlexContainer()]: isMobile },
-                            'focus-lock-container',
-                          )}
+                      <div
+                        aria-modal
+                        aria-label={ariaLabel}
+                        role={role}
+                        className={this.emotion.cx({
+                          [styles.centerContainer()]: true,
+                          [styles.mobileCenterContainer()]: isMobile,
+                          [styles.alignTop()]: Boolean(alignTop),
+                        })}
+                        style={isMobile ? undefined : containerStyle}
+                        data-tid={ModalDataTids.content}
+                      >
+                        <div
+                          className={this.emotion.cx({
+                            [styles.window(this.theme)]: true,
+                            [styles.mobileWindow()]: isMobile,
+                          })}
+                          style={isMobile ? undefined : style}
                         >
-                          {!hasHeader && !noClose && (
-                            <ZIndex
-                              className={this.emotion.cx({
-                                [styles.closeWrapper(this.theme)]: true,
-                                [styles.mobileCloseWrapper(this.theme)]: isMobile,
-                              })}
+                          <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
+                            <FocusLock
+                              disabled={disableFocusLock}
+                              autoFocus={false}
+                              className={this.emotion.cx(
+                                { [styles.columnFlexContainer()]: isMobile },
+                                'focus-lock-container',
+                              )}
                             >
-                              <ModalClose
-                                className={this.emotion.cx({
-                                  [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
-                                })}
-                                requestClose={this.requestClose}
-                                disableClose={disableClose}
-                              />
-                            </ZIndex>
-                          )}
-                          <ModalContext.Provider value={modalContextProps}>{children}</ModalContext.Provider>
-                        </FocusLock>
-                      </ResizeDetector>
+                              {!hasHeader && !noClose && (
+                                <ZIndex
+                                  className={this.emotion.cx({
+                                    [styles.closeWrapper(this.theme)]: true,
+                                    [styles.mobileCloseWrapper(this.theme)]: isMobile,
+                                  })}
+                                >
+                                  <ModalClose
+                                    className={this.emotion.cx({
+                                      [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
+                                    })}
+                                    requestClose={this.requestClose}
+                                    disableClose={disableClose}
+                                  />
+                                </ZIndex>
+                              )}
+                              <ModalContext.Provider value={modalContextProps}>{children}</ModalContext.Provider>
+                            </FocusLock>
+                          </ResizeDetector>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
-            </ResponsiveLayout>
-          </ZIndex>
-        </CommonWrapper>
+                  )}
+                </ResponsiveLayout>
+              </ZIndex>
+            </CommonWrapper>
+          );
+        }}
       </RenderContainer>
     );
   }

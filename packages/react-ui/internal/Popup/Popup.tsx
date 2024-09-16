@@ -399,9 +399,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
-        {this.isMobileLayout && !this.props.withoutMobile
-          ? this.renderMobile()
-          : location && this.renderContent(location)}
+        {(emotion: Emotion) => {
+          this.emotion = emotion;
+          return this.isMobileLayout && !this.props.withoutMobile
+            ? this.renderMobile()
+            : location && this.renderContent(location);
+        }}
       </RenderContainer>
     );
   }

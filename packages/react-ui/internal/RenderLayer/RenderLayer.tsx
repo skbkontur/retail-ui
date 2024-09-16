@@ -9,6 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { RootConsumer } from '../../lib/widgets';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -30,6 +31,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
   public static displayName = 'RenderLayer';
   private emotion!: Emotion;
+  private stylesRoot: ShadowRoot | undefined;
 
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
@@ -78,12 +80,19 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <EmotionConsumer>
-          {(emotion) => {
-            this.emotion = emotion;
-            return React.Children.only(this.props.children);
+        <RootConsumer>
+          {(stylesRoot) => {
+            this.stylesRoot = stylesRoot;
+            return (
+              <EmotionConsumer>
+                {(emotion) => {
+                  this.emotion = emotion;
+                  return React.Children.only(this.props.children);
+                }}
+              </EmotionConsumer>
+            );
           }}
-        </EmotionConsumer>
+        </RootConsumer>
       </CommonWrapper>
     );
   }
@@ -134,14 +143,17 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    const isShadowRoot = Boolean((this.emotion.sheet.container.getRootNode() as ShadowRoot)?.host?.shadowRoot);
+    const host = (this.emotion.sheet.container.getRootNode() as ShadowRoot)?.host;
+    const shadowRoot = host?.shadowRoot;
+    const isShadowRoot = Boolean(shadowRoot);
+    const shadowTarget = event.composedPath()[0] as unknown as Element;
 
     if (
       !node ||
       (isShadowRoot && event.composed && event.composedPath().indexOf(node) > -1) ||
       (isShadowRoot &&
-        isInstanceOf(target, globalObject.Element) &&
-        containsTargetOrRenderContainer(event.composedPath()[0] as unknown as Element)(node)) ||
+        isInstanceOf(shadowTarget, globalObject.Element) &&
+        containsTargetOrRenderContainer(shadowTarget)(node, this.stylesRoot)) ||
       (!isShadowRoot && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
     ) {
       return;

@@ -15,7 +15,6 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { ZIndex } from '../../internal/ZIndex';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -179,19 +178,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return this.renderMain();
-                    }}
-                  </ThemeContext.Consumer>
-                );
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -204,33 +196,38 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
-          <div>
-            <ResponsiveLayout>
-              {({ isMobile }) => (
-                <>
-                  {blockBackground && this.renderShadow(isMobile)}
-                  <CSSTransition
-                    in
-                    classNames={this.getTransitionNames()}
-                    appear={!disableAnimations}
-                    enter={!disableAnimations}
-                    exit={false}
-                    timeout={{
-                      enter: TRANSITION_TIMEOUT,
-                      exit: TRANSITION_TIMEOUT,
-                    }}
-                    nodeRef={this.rootRef}
-                    onEntered={onOpened}
-                  >
-                    {this.renderContainer(isMobile)}
-                  </CSSTransition>
-                  {isMobile && <HideBodyVerticalScroll />}
-                </>
-              )}
-            </ResponsiveLayout>
-          </div>
-        </CommonWrapper>
+        {(emotion: Emotion) => {
+          this.emotion = emotion;
+          return (
+            <CommonWrapper {...this.props}>
+              <div>
+                <ResponsiveLayout>
+                  {({ isMobile }) => (
+                    <>
+                      {blockBackground && this.renderShadow(isMobile)}
+                      <CSSTransition
+                        in
+                        classNames={this.getTransitionNames()}
+                        appear={!disableAnimations}
+                        enter={!disableAnimations}
+                        exit={false}
+                        timeout={{
+                          enter: TRANSITION_TIMEOUT,
+                          exit: TRANSITION_TIMEOUT,
+                        }}
+                        nodeRef={this.rootRef}
+                        onEntered={onOpened}
+                      >
+                        {this.renderContainer(isMobile)}
+                      </CSSTransition>
+                      {isMobile && <HideBodyVerticalScroll />}
+                    </>
+                  )}
+                </ResponsiveLayout>
+              </div>
+            </CommonWrapper>
+          );
+        }}
       </RenderContainer>
     );
   }

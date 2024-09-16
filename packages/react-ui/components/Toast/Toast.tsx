@@ -10,7 +10,6 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './Toast.styles';
@@ -93,25 +92,21 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public render() {
     return (
-      <EmotionConsumer>
-        {(emotion) => {
-          this.emotion = emotion;
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-                return (
-                  <ThemeContext.Provider value={this.theme}>
-                    <RenderContainer>
-                      <TransitionGroup>{this._renderToast()}</TransitionGroup>
-                    </RenderContainer>
-                  </ThemeContext.Provider>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <ThemeContext.Provider value={this.theme}>
+              <RenderContainer>
+                {(emotion: Emotion) => {
+                  this.emotion = emotion;
+                  return <TransitionGroup>{this._renderToast()}</TransitionGroup>;
+                }}
+              </RenderContainer>
+            </ThemeContext.Provider>
           );
         }}
-      </EmotionConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

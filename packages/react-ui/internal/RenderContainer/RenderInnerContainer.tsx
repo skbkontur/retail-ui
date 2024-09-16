@@ -5,6 +5,7 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { WithStyles } from '../../lib/widgets';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 import { PORTAL_INLET_ATTR } from './RenderContainer';
@@ -57,7 +58,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
         <React.Fragment>
           {anchor}
           <Portal key="portal-ref" rt_rootID={rootId} container={domContainer}>
-            {children}
+            <WithStyles>{children}</WithStyles>
           </Portal>
         </React.Fragment>
       );
