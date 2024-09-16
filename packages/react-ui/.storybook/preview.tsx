@@ -90,9 +90,11 @@ const preview: Preview = {
           ['Versions', 'Migration', 'Changelog'],
           'COMMON',
           ['Accessibility', 'Contributing', 'Ecosystem', 'Mobiles', 'Server Side Rendering'],
+          'Button', 'Input data', 'Display data', 'Menu', 'Overlay', 'Layout',
           '*',
         ],
       },
+
     },
     viewport: {
       viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
