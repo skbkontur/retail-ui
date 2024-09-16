@@ -93,11 +93,6 @@ type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
  * Каждому компоненту Radio нужно указать параметр `value`, такого же типа, как и параметр `value` самой радиогруппы.
  *
  * Значения активного элемента сравниваются по строгому равенству `===`.
- *
- * Если названия вариантов короткие, вместо `RadioGroup` можно использовать [переключатель Switcher](?path=/docs/choose-switcher--docs), так форма будет выглядеть компактнее.
- *
- * Если значений 5–25, используйте [раскрывающийся список Select](?path=/docs/choose-select--docs).
- * Если 25–50, то [ComboBox](?path=/docs/input-elements-combobox--docs) со списком, а если больше 50, то без списка.
  */
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {

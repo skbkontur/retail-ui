@@ -168,15 +168,12 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
  *
  * Используйте поле ввода для коротких текстовых или цифровых значений без предсказуемого формата.
  *
- * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
- * Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
- *
- * Если нужно ввести больше 5 слов — используйте [многострочное поле ввода Textarea](?path=/docs/input-elements-textarea--docs).
- *
  *  Если вводимое значение имеет определенный формат, используйте специальную версию поля:
  * * Поле с паролем [PasswordInput]((?path=/docs/input-elements-passwordinput--docs)).
  * * Поле с валютой [CurrencyInput]((?path=/docs/input-elements-currencyinput--docs)).
  * * Поле с маской [MaskedInput]((?path=/docs/input-elements-maskedinput--docs)).
+ *
+ * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  */
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {
