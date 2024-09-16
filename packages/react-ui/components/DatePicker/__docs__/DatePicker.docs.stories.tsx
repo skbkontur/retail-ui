@@ -7,7 +7,7 @@ import * as DatePickerHelpers from '../DatePickerHelpers';
 import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/DatePicker',
+  title: 'Input data/DatePicker',
   component: DatePicker,
   parameters: { creevey: { skip: true } },
 } as Meta;

@@ -8,7 +8,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/ComboBox',
+  title: 'Input data/ComboBox',
   component: ComboBox,
   parameters: { creevey: { skip: true } },
 } as Meta;

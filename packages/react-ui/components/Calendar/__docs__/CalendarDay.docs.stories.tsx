@@ -6,7 +6,7 @@ import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual 
 import { CalendarDay, Calendar, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/CalendarDay',
+  title: 'Display data/CalendarDay',
   component: CalendarDay,
   parameters: { creevey: { skip: true } },
 } as Meta;

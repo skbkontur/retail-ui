@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Tabs } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Navigation/Tabs',
+  title: 'Display data/Tabs',
   component: Tabs,
   parameters: { creevey: { skip: true } },
 } as Meta;

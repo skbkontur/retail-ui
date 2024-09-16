@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Autocomplete, Button, Group, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/Autocomplete',
+  title: 'Input data/Autocomplete',
   component: Autocomplete,
   parameters: { creevey: { skip: true } },
 } as Meta;

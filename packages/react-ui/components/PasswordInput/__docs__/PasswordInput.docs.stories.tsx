@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { PasswordInput } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/PasswordInput',
+  title: 'Input data/PasswordInput',
   component: PasswordInput,
   parameters: { creevey: { skip: true } },
 } as Meta;

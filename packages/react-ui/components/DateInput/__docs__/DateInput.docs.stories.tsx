@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { DateInput, Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/DateInput',
+  title: 'Input data/DateInput',
   component: DateInput,
   parameters: { creevey: { skip: true } },
 } as Meta;

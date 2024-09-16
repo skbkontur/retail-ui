@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { FileUploader } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Work with files/FileUploader',
+  title: 'Input data/FileUploader',
   component: FileUploader,
   parameters: { creevey: { skip: true } },
 } as Meta;
