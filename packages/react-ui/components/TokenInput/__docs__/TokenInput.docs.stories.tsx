@@ -6,7 +6,7 @@ import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 import { TokenInput, Token } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/TokenInput/TokenInput',
+  title: 'Input data/TokenInput/TokenInput',
   component: TokenInput,
   parameters: { creevey: { skip: true } },
 } as Meta;

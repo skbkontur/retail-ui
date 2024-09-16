@@ -4,7 +4,7 @@ import { Story } from '../../../typings/stories';
 import { CurrencyLabel } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Layout/CurrencyLabel',
+  title: 'Display data/CurrencyLabel',
   component: CurrencyLabel,
   parameters: { creevey: { skip: true } },
 };

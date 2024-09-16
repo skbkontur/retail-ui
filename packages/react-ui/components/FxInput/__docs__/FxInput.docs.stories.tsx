@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { FxInput, Group, Button } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/FxInput',
+  title: 'Input data/FxInput',
   component: FxInput,
   parameters: { creevey: { skip: true } },
 } as Meta;

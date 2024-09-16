@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { SingleToast, Button, ThemeContext, ThemeFactory, THEME_2022 } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Popup/SingleToast',
+  title: 'Overlay/SingleToast',
   component: SingleToast,
   parameters: { creevey: { skip: true } },
 } as Meta;

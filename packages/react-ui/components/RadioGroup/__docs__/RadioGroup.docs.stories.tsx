@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { RadioGroup, Gapped, Radio } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Choose/RadioGroup',
+  title: 'Input data/RadioGroup',
   component: RadioGroup,
   parameters: { creevey: { skip: true } },
 } as Meta;

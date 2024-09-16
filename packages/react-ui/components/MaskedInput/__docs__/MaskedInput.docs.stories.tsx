@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/MaskedInput',
+  title: 'Input data/MaskedInput',
   component: MaskedInput,
   parameters: { creevey: { skip: true } },
 } as Meta;

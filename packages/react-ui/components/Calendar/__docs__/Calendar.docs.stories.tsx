@@ -8,7 +8,7 @@ import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/Calendar',
+  title: 'Display data/Calendar',
   component: Calendar,
   parameters: { creevey: { skip: true } },
 } as Meta;

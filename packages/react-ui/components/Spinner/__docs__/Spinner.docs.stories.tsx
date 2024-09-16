@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Spinner, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Action/Spinner',
+  title: 'Display data/Spinner',
   component: Spinner,
   parameters: { creevey: { skip: true } },
 } as Meta;

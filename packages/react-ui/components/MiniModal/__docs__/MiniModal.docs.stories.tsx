@@ -9,7 +9,7 @@ import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/Notificatio
 import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Overlays/MiniModal',
+  title: 'Overlay/MiniModal',
   component: MiniModal,
   parameters: { creevey: { skip: true } },
 } as Meta;

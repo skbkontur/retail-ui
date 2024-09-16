@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Switcher, Hint, Tooltip } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Choose/Switcher',
+  title: 'Button/Switcher',
   component: Switcher,
   parameters: { creevey: { skip: true } },
 } as Meta;

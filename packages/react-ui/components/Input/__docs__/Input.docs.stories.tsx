@@ -3,10 +3,10 @@ import { Meta, Story } from '../../../typings/stories';
 
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Input, Button, Group, Gapped, Tooltip } from '@skbkontur/react-ui';
+import { Input, Button, Group, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/Input',
+  title: 'Input data/Input',
   component: Input,
   parameters: { creevey: { skip: true } },
 } as Meta;

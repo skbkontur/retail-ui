@@ -7,7 +7,7 @@ import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular'
 import { Link, Gapped, Button, Toast } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Navigation/Link',
+  title: 'Button/Link',
   component: Link,
   parameters: { creevey: { skip: true } },
 } as Meta;
