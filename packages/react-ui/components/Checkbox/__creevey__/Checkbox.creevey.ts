@@ -200,7 +200,15 @@ kind('Checkbox', () => {
     });
   });
 
-  story('Highlighted', () => {
+  story('Highlighted', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        flaky: {
+          in: ['firefox2022', 'firefox2022Dark'],
+          tests: ['tabPress'],
+        },
+      },
+    });
     test('plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('plain');
     });

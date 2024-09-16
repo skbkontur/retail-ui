@@ -147,4 +147,47 @@ kind('Button', () => {
       skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
     });
   });
+
+  story('BtnBacklessBgHoverActive', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'hover does not work in chrome & only 22 dark theme needed': {
+          in: /^(?!\bfirefox2022Dark?\b)/,
+        },
+      },
+    });
+
+    test('hover', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({
+            css: '[data-tid~="test-button"]',
+          }),
+        })
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+    });
+
+    test('pressed', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+        })
+        .press()
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .release()
+        .perform();
+    });
+  });
 });

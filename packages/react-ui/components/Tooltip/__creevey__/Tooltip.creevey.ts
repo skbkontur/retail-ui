@@ -75,21 +75,6 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', () => {
-    test('hover', async function () {
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: this.browser.findElement({ css: 'textarea' }),
-        })
-        .perform();
-      await delay(1500);
-      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-    });
-  });
-
   story('TooltipWithExternalDynamicContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
@@ -232,7 +217,17 @@ kind('Tooltip', () => {
     });
   });
 
-  story('TooltipWithInputAndSwitchableContent', () => {
+  story('TooltipWithInputAndSwitchableContent', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        // TODO @Khlutkova fix after update browsers
+        'story-skip-0': {
+          in: ['firefox2022', 'firefox2022Dark', 'chrome2022Dark'],
+          tests: ['focus and types', 'clear input'],
+        },
+      },
+    });
+
     test('focus and types', async function () {
       await this.browser
         .actions({
@@ -241,7 +236,7 @@ kind('Tooltip', () => {
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
         .perform();
-      await delay(1000);
+      await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
     });
 

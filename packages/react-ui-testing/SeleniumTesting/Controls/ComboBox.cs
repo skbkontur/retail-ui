@@ -143,7 +143,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 if(GetReactProp<bool>("disablePortal"))
                 {
-                    return Search(new BySelector(By.CssSelector("[data-comp-name~=\'DropdownContainer\']")));
+                    return Search(new BySelector(By.CssSelector("[data-comp-name~=\'Popup\']")));
                 }
 
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));

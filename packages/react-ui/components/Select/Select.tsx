@@ -14,7 +14,6 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonUse } from '../Button';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -25,7 +24,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
@@ -35,6 +34,9 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
 import { styles as linkStyles } from '../Link/Link.styles';
+import { Popup } from '../../internal/Popup';
+import { ZIndex } from '../../internal/ZIndex';
+import { getMenuPositions } from '../../lib/getMenuPositions';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -84,13 +86,13 @@ type SelectItem<TValue, TItem> =
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
+  menuOffset?: number;
   /**
    * Отключает использование портала
    */
@@ -128,6 +130,10 @@ export interface SelectProps<TValue, TItem>
   items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom' | 'middle';
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
   onValueChange?: (value: TValue) => void;
@@ -156,6 +162,7 @@ export interface SelectProps<TValue, TItem>
    */
   search?: boolean;
   value?: TValue;
+  theme?: ThemeIn | Theme;
   width?: number | string;
   /**
    * Состояние валидации при предупреждении.
@@ -307,6 +314,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
+    const dataTid = this.getProps()['data-tid'] ?? SelectDataTids.root;
     const button = (
       <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
         {this.getButton(buttonParams)}
@@ -322,7 +330,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const root = (
       <span
-        data-tid={SelectDataTids.root}
+        data-tid={dataTid}
         className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
         style={style}
       >
@@ -463,29 +471,34 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
-    const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
+    const { menuWidth, menuPos, menuAlign } = this.getProps();
 
     return (
-      <DropdownContainer
+      <Popup
+        opened
+        hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        getParent={this.dropdownContainerGetParent}
-        align={this.props.menuAlign}
+        positions={getMenuPositions(menuPos, menuAlign)}
+        anchorElement={this.popupGetParent()}
+        priority={ZIndex.priorities.PopupMenu}
         disablePortal={this.props.disablePortal}
-        hasFixedWidth={hasFixedWidth}
-        menuPos={this.props.menuPos}
+        margin={parseInt(this.theme.menuOffsetY) - 1}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
+        popupOffset={this.props.menuOffset}
       >
         <Menu
+          hasMargin={false}
           ref={this.refMenu}
-          width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
-          align={this.props.menuAlign}
+          align={menuAlign}
         >
           {search}
           {this.getMenuItems(value)}
         </Menu>
-      </DropdownContainer>
+      </Popup>
     );
   }
 
@@ -508,7 +521,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         onCloseRequest={this.close}
         opened={this.state.opened}
       >
-        <Menu hasShadow={false} onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
+        <Menu onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
           {this.getMenuItems(value)}
         </Menu>
       </MobilePopup>
@@ -569,7 +582,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   };
 
-  private dropdownContainerGetParent = () => {
+  private popupGetParent = () => {
     return getRootNode(this);
   };
 

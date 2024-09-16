@@ -1,6 +1,7 @@
 import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
+import { CustomComboBoxDataTids } from '../../../internal/CustomComboBox';
 
 kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
@@ -442,7 +443,7 @@ kind('ComboBox', () => {
     test('opened', async function () {
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-tid="ComboBoxView__root"]' }))
+        .click(this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
         .perform();
       await delay(1000);
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('opened');

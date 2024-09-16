@@ -75,6 +75,11 @@ export default {
   ],
 } as Meta;
 
+export const EmptyCombined: Story = () => {
+  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
+};
+EmptyCombined.storyName = 'empty combined';
+
 export const Validations = () => {
   return (
     <Gapped vertical gap={10}>
@@ -99,11 +104,6 @@ export const EmptyWithoutReference = () => {
 };
 EmptyWithoutReference.storyName = 'empty without reference';
 EmptyWithoutReference.parameters = { creevey: { skip: true } };
-
-export const EmptyCombined: Story = () => {
-  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
-};
-EmptyCombined.storyName = 'empty combined';
 
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
