@@ -62,6 +62,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
+      const root = this.emotion.sheet.container.getRootNode() as ShadowRoot | Document;
+      const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
+      if (isShadowRoot) {
+        domContainer.setAttribute(
+          'style',
+          `position: relative; top: -${root.firstElementChild?.getBoundingClientRect().height}px`,
+        );
+      }
       domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
       this.domContainer = domContainer;
     }

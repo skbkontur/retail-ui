@@ -704,8 +704,30 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return location;
     }
 
-    const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+    //
+
+    const root = this.emotion.sheet.container.getRootNode() as ShadowRoot | Document;
+    function getRelativePos() {
+      const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
+      const relativePos: { top: number; left: number } = {
+        top: 0,
+        left: 0,
+      };
+      if (isShadowRoot && globalObject.document) {
+        const parentPos = globalObject.document.body.getBoundingClientRect();
+        const childPos = (root as ShadowRoot).host.getBoundingClientRect();
+        relativePos.top = childPos.top - parentPos.top;
+        relativePos.left = childPos.left - parentPos.left;
+      }
+
+      return relativePos;
+    }
+
+    const deltaParentPosition = getRelativePos();
+    console.log(deltaParentPosition);
+
+    const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement, deltaParentPosition);
+    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, deltaParentPosition);
 
     let position: PopupPositionsType;
     let coordinates: Offset;

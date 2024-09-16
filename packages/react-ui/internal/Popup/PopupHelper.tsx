@@ -30,8 +30,13 @@ function getPositionObject(position: string): PositionObject {
   };
 }
 
-function getElementAbsoluteRect(element: Element): Rect {
+function getElementAbsoluteRect(
+  element: Element,
+  deltaParentPosition: { top: number; left: number } = { top: 0, left: 0 },
+): Rect {
   const rect = _getElementRelativeRect(element);
+  rect.top = rect.top - deltaParentPosition.top;
+  rect.left = rect.left - deltaParentPosition.left;
   return convertRectToAbsolute(rect);
 }
 
