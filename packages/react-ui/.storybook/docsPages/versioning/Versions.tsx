@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Loader } from '../../Loader';
-import { Link } from '../../Link';
+import { Loader } from '../../../components/Loader';
+import { Link } from '../../../components/Link';
 
 interface LibraryVersion {
   version: string;
