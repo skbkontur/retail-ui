@@ -251,7 +251,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
-    disablePortal: false,
+    disablePortal: true,
     width: 'auto',
     priority: ZIndex.priorities.Popup,
   };
