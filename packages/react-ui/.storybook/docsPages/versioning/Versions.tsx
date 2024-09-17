@@ -19,15 +19,17 @@ const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
 const renderLibraryVersionItem = ({ path, version }: LibraryVersion) => {
   const versionNumber = version.split('.');
   let versionHeader;
-  if ((versionNumber[1] === '0' && versionNumber[2] === '0') || version === '5.x') {
-    // 'major'
-    versionHeader = <h2>{version}</h2>;
-  } else if (versionNumber[2] === '0') {
+  // проверка на длину нужна для того, чтобы отделить "нетипичные" версии -- например 5.х.х
+  // все "нетипичные" версии будем помечать заголовком второго уровня
+  if (versionNumber.length === 3 && versionNumber[2] !== '0') {
+    // 'patch'
+    versionHeader = <h4 style={{ paddingLeft: '40px' }}>{version}</h4>;
+  } else if (versionNumber.length === 3 && versionNumber[1] !== '0') {
     // 'minor'
     versionHeader = <h3 style={{ paddingLeft: '20px' }}>{version}</h3>;
   } else {
-    // 'patch'
-    versionHeader = <h4 style={{ paddingLeft: '40px' }}>{version}</h4>;
+    // 'major'
+    versionHeader = <h2>{version}</h2>;
   }
 
   return (
@@ -41,12 +43,36 @@ const renderLibraryVersions = (libraryVersions: LibraryVersion[]) => {
   if (libraryVersions.length === 0) {
     return <p>Список версий пуст.</p>;
   }
-  return (
-    <>
-      {libraryVersions.map((libraryVersion) => renderLibraryVersionItem(libraryVersion))}
-      {oldVersions.map((libraryVersion: LibraryVersion) => renderLibraryVersionItem(libraryVersion))}
-    </>
-  );
+  const allVersions: LibraryVersion[] = [...libraryVersions, ...oldVersions];
+  return <>{allVersions.sort(sortVersions).map((libraryVersion) => renderLibraryVersionItem(libraryVersion))}</>;
+};
+
+const sortVersions = (a: LibraryVersion, b: LibraryVersion) => {
+  const versionPattern = /^\d+\.\d+\.\d+$/;
+  if (!versionPattern.test(a.version) && !versionPattern.test(b.version)) {
+    return a.version.localeCompare(b.version);
+  } else if (!versionPattern.test(a.version)) {
+    return -1;
+  } else if (!versionPattern.test(b.version)) {
+    return 1;
+  }
+  const splitA = a.version.split(versionPattern).map((x) => Number(x));
+  const splitB = b.version.split(versionPattern).map((x) => Number(x));
+  if (splitA[0] > splitB[0]) {
+    return 1;
+  } else if (splitA[0] < splitB[0]) {
+    return -1;
+  } else if (splitA[1] > splitB[1]) {
+    return 1;
+  } else if (splitA[1] < splitB[1]) {
+    return -1;
+  } else if (splitA[2] > splitB[2]) {
+    return 1;
+  } else if (splitA[2] < splitB[2]) {
+    return -1;
+  } else {
+    return 0;
+  }
 };
 
 const renderErrorMessage = (errMessage?: string) => {
