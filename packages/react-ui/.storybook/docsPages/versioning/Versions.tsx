@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Loader } from '../../../components/Loader';
 import { Link } from '../../../components/Link';
+const oldVersions = require('./oldVersions.json');
 
 interface LibraryVersion {
   version: string;
@@ -16,12 +17,23 @@ const createEndpoint = (path: string) => `${baseUrl}/${path}`;
 const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
 
 const renderLibraryVersionItem = ({ path, version }: LibraryVersion) => {
+  const versionNumber = version.split('.');
+  let versionHeader;
+  if ((versionNumber[1] === '0' && versionNumber[2] === '0') || version === '5.x') {
+    // 'major'
+    versionHeader = <h2>{version}</h2>;
+  } else if (versionNumber[2] === '0') {
+    // 'minor'
+    versionHeader = <h3 style={{ paddingLeft: '20px' }}>{version}</h3>;
+  } else {
+    // 'patch'
+    versionHeader = <h4 style={{ paddingLeft: '40px' }}>{version}</h4>;
+  }
+
   return (
-    <li key={path}>
-      <Link target="_blank" href={path}>
-        {version}
-      </Link>
-    </li>
+    <Link target="_blank" href={path} style={{ display: 'block' }}>
+      {versionHeader}
+    </Link>
   );
 };
 
@@ -29,8 +41,12 @@ const renderLibraryVersions = (libraryVersions: LibraryVersion[]) => {
   if (libraryVersions.length === 0) {
     return <p>Список версий пуст.</p>;
   }
-
-  return <ul>{libraryVersions.map((libraryVersion) => renderLibraryVersionItem(libraryVersion))}</ul>;
+  return (
+    <>
+      {libraryVersions.map((libraryVersion) => renderLibraryVersionItem(libraryVersion))}
+      {oldVersions.map((libraryVersion: LibraryVersion) => renderLibraryVersionItem(libraryVersion))}
+    </>
+  );
 };
 
 const renderErrorMessage = (errMessage?: string) => {
@@ -59,7 +75,7 @@ export const VersionsLibrary = () => {
         }
         const { versions }: ResponseData = await response.json();
         setErrorMessage('');
-        setLibraryVersions(versions);
+        setLibraryVersions(versions.filter((x) => !isNaN(Number(x.version.split('.')[0]))));
       } catch (err) {
         setErrorMessage(err?.message);
         setLibraryVersions([]);
