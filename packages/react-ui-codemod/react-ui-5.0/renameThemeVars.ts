@@ -12,16 +12,6 @@ const RENAMED_VARS: Record<string, string> = {
   btnLinkHoverLineBorderBottomStyle: 'btnLinkHoverTextDecorationStyle',
   btnLinkLineBorderBottomWidth: 'btnLinkTextDecorationThickness',
   btnLinkLineBorderBottomOpacity: 'btnLinkTextUnderlineOpacity',
-  btnDefaultHoverBorderBottomColor: 'btnDefaultHoverTextDecorationColor',
-  btnDefaultBorderBottomColor: 'btnDefaultTextDecorationColor',
-  btnSuccessHoverBorderBottomColor: 'btnSuccessHoverTextDecorationColor',
-  btnSuccessBorderBottomColor: 'btnSuccessTextDecorationColor',
-  btnPrimaryHoverBorderBottomColor: 'btnPrimaryHoverTextDecorationColor',
-  btnPrimaryBorderBottomColor: 'btnPrimaryTextDecorationColor',
-  btnDangerHoverBorderBottomColor: 'btnDangerHoverTextDecorationColor',
-  btnDangerBorderBottomColor: 'btnDangerTextDecorationColor',
-  btnPayHoverBorderBottomColor: 'btnPayHoverTextDecorationColor',
-  btnPayBorderBottomColor: 'btnPayTextDecorationColor',
 };
 
 export default function transform(file: FileInfo, api: API) {
