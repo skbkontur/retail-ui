@@ -134,7 +134,7 @@ export class BasicLightThemeInternal {
 
   public static linkTextDecorationStyle = 'solid';
   public static linkTextDecorationThickness = '1px';
-  public static linkTextUnderlineOffset = '3px';
+  public static linkTextUnderlineOffset = '4px';
   public static get linkHoverTextDecorationStyle() {
     return this.linkTextDecorationStyle;
   }
