@@ -49,30 +49,23 @@ const renderLibraryVersions = (libraryVersions: LibraryVersion[]) => {
 
 const sortVersions = (a: LibraryVersion, b: LibraryVersion) => {
   const versionPattern = /^\d+\.\d+\.\d+$/;
-  if (!versionPattern.test(a.version) && !versionPattern.test(b.version)) {
-    return a.version.localeCompare(b.version);
-  } else if (!versionPattern.test(a.version)) {
-    return -1;
-  } else if (!versionPattern.test(b.version)) {
-    return 1;
+
+  const parseVersion = (version: string): number[] => {
+    const match = version.match(versionPattern);
+    return match ? match[0].split('.').map(Number) : [Infinity];
+  };
+  const splitA = parseVersion(a.version);
+  const splitB = parseVersion(b.version);
+
+  for (let i = 0; i < Math.max(splitA.length, splitB.length); i++) {
+    if (splitA[i] < splitB[i]) {
+      return 1;
+    }
+    if (splitA[i] > splitB[i]) {
+      return -1;
+    }
   }
-  const splitA = a.version.split(versionPattern).map((x) => Number(x));
-  const splitB = b.version.split(versionPattern).map((x) => Number(x));
-  if (splitA[0] > splitB[0]) {
-    return 1;
-  } else if (splitA[0] < splitB[0]) {
-    return -1;
-  } else if (splitA[1] > splitB[1]) {
-    return 1;
-  } else if (splitA[1] < splitB[1]) {
-    return -1;
-  } else if (splitA[2] > splitB[2]) {
-    return 1;
-  } else if (splitA[2] < splitB[2]) {
-    return -1;
-  } else {
-    return 0;
-  }
+  return a.version.localeCompare(b.version);
 };
 
 const renderErrorMessage = (errMessage?: string) => {
