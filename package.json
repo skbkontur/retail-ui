@@ -35,5 +35,6 @@
   },
   "resolutions": {
     "selenium-webdriver": "4.0.0-beta.4"
-  }
+  },
+  "packageManager": "yarn@1.22.1"
 }

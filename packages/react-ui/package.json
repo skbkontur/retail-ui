@@ -137,7 +137,6 @@
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^17.0.2",
     "react-styleguidist": "^11.1.7",
-    "react-shadow": "^20.5.0",
     "rimraf": "^3.0.2",
     "semver": "^7.3.5",
     "serve": "^13.0.2",
