@@ -172,6 +172,7 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
  * * Поле с паролем [PasswordInput]((?path=/docs/input-elements-passwordinput--docs)).
  * * Поле с валютой [CurrencyInput]((?path=/docs/input-elements-currencyinput--docs)).
  * * Поле с маской [MaskedInput]((?path=/docs/input-elements-maskedinput--docs)).
+ * * Автополе [FxInput]((?path=/docs/input-elements-fxinput--docs)).
  *
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  */

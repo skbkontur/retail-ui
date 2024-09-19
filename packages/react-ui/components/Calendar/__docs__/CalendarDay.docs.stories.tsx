@@ -1,9 +1,9 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
-import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '@skbkontur/react-ui/lib/date/comparison';
+const { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } = require('@skbkontur/react-ui/lib/date/comparison');
 
-import { CalendarDay, Calendar, Gapped } from '@skbkontur/react-ui';
+import { CalendarDay, Gapped } from '@skbkontur/react-ui';
 
 export default {
   title: 'Display data/CalendarDay',
@@ -18,12 +18,12 @@ export const Example1: Story = () => {
 
   return (
     <Gapped>
-      <Calendar.Day style={style} date={date} />
-      <Calendar.Day style={style} date={date} isToday={true} />
-      <Calendar.Day style={style} date={date} isSelected={true} />
-      <Calendar.Day style={style} date={date} isDisabled={true} />
-      <Calendar.Day style={style} date={date} isWeekend={true} />
-      <Calendar.Day style={style}><b>20</b></Calendar.Day>
+      <CalendarDay style={style} date={date} />
+      <CalendarDay style={style} date={date} isToday={true} />
+      <CalendarDay style={style} date={date} isSelected={true} />
+      <CalendarDay style={style} date={date} isDisabled={true} />
+      <CalendarDay style={style} date={date} isWeekend={true} />
+      <CalendarDay style={style}><b>20</b></CalendarDay>
     </Gapped>
   );
 
@@ -34,7 +34,6 @@ export const Example2: Story = () => {
 
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
-  const date_c = '12.03.2017';
 
   const Table = ({ children }) => (
     <table>
@@ -50,6 +49,9 @@ export const Example2: Story = () => {
     </table>
   )
 
+  // варианты решения:
+  // 1. заинлайнить прям сюды функции и сказать, что такие же есть в библиотеке
+  // 2. заинлайнить компонент Row
   const Row = ({ code }) => (
     <tr>
       <td><code>{code}</code></td>
