@@ -63,7 +63,7 @@ export const Example1: Story = () => {
   );
 
 };
-Example1.storyName = 'Combobox with error handling';
+Example1.storyName = 'Комбобокс с валидацией';
 
 /** Очистить значение в `ComboBox`'е можно с помощью пустой строки, `null` или `undefined` */
 export const Example2: Story = () => {

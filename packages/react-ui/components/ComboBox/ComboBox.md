@@ -1,4 +1,4 @@
-### Combobox with error handling
+### Комбобокс с валидацией
 
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';

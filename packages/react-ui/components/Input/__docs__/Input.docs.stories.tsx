@@ -20,8 +20,17 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** Очистить значение в `Input`'е можно только с помощью пустой строки */
 export const Example2: Story = () => {
+
+  return (
+    <Input leftIcon={<SearchIcon />} />
+  );
+
+};
+Example2.storyName = 'Иконка';
+
+/** Очистить значение в `Input`'е можно только с помощью пустой строки */
+export const Example3: Story = () => {
 
   const [value, setValue] = React.useState('Значение');
 
@@ -33,9 +42,9 @@ export const Example2: Story = () => {
   );
 
 };
-Example2.storyName = 'Очистка значения';
+Example3.storyName = 'Очистка значения';
 
-export const Example3: Story = () => {
+export const Example4: Story = () => {
 
   return (
     <Input
@@ -46,9 +55,9 @@ export const Example3: Story = () => {
   );
 
 };
-Example3.storyName = 'Префикс';
+Example4.storyName = 'Префикс';
 
-export const Example4: Story = () => {
+export const Example5: Story = () => {
 
   return (
     <Gapped vertical gap={20}>
@@ -95,5 +104,5 @@ export const Example4: Story = () => {
   );
 
 };
-Example4.storyName = 'type';
+Example5.storyName = 'type';
 

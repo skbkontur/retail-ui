@@ -2,6 +2,13 @@
 ```jsx harmony
 import SearchIcon from '@skbkontur/react-icons/Search';
 
+<Input />;
+```
+
+### Иконка
+```jsx harmony
+import SearchIcon from '@skbkontur/react-icons/Search';
+
 <Input leftIcon={<SearchIcon />} />;
 ```
 
