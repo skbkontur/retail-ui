@@ -34,7 +34,7 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   return (
     <div data-tid={FileUploaderFileDataTids.fileList}>
       {files.map((file) => (
-        <div key={file.id} className={cx(jsStyles.fileWrapper(theme), fileWrapperClass)}>
+        <div key={file.id} className={cx(jsStyles.fileWrapper(), fileWrapperClass)}>
           <div className={jsStyles.file()}>
             {renderFile(file, <FileUploaderFile file={file} showSize multiple size={size} onRemove={onRemove} />)}
           </div>

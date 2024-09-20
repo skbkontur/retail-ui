@@ -2441,9 +2441,6 @@ export class BasicLightThemeInternal {
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '';
   public static fileUploaderUploadButtonBg = '#fff';
-  public static get fileUploaderFontSize() {
-    return this.fontSizeSmall;
-  }
   public static get fileUploaderPaddingXSmall() {
     return this.inputPaddingXSmall;
   }
@@ -2462,11 +2459,8 @@ export class BasicLightThemeInternal {
   public static get fileUploaderFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  public static get fileUploaderLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get fileUploaderLineHeightSmall() {
-    return this.fileUploaderLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get fileUploaderLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -2475,7 +2469,7 @@ export class BasicLightThemeInternal {
     return this.controlLineHeightLarge;
   }
   public static get fileUploaderPaddingYSmall() {
-    return this.fileUploaderPaddingY;
+    return this.controlPaddingYSmall;
   }
   public static get fileUploaderPaddingYMedium() {
     return this.controlPaddingYMedium;
@@ -2485,10 +2479,6 @@ export class BasicLightThemeInternal {
   }
   public static get fileUploaderTextColorDefault() {
     return this.textColorDefault;
-  }
-  public static fileUploaderPaddingX = '7px';
-  public static get fileUploaderPaddingY() {
-    return this.controlPaddingYSmall;
   }
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';
