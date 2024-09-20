@@ -15,6 +15,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link, LinkProps } from '../Link';
 import { SizeProp } from '../../lib/types/props';
+import { Merge } from '../../typings/utility-types';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
@@ -29,130 +30,133 @@ export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-export type ButtonProps<A extends HTMLAttributes<Element> = React.ButtonHTMLAttributes<HTMLButtonElement>> =
-  CommonProps &
-    A & {
-      /** @ignore */
-      _noPadding?: boolean;
+export interface ButtonOwnProps<P extends HTMLAttributes<Element>> extends CommonProps {
+  /** @ignore */
+  _noPadding?: boolean;
 
-      /** @ignore */
-      _noRightPadding?: boolean;
+  /** @ignore */
+  _noRightPadding?: boolean;
 
-      /**
-       * Применяет к кнопке стили псевдокласса `:active`.
-       */
-      active?: boolean;
+  /**
+   * Применяет к кнопке стили псевдокласса `:active`.
+   */
+  active?: boolean;
 
-      /**
-       * CSS-свойство `text-align`.
-       */
-      align?: React.CSSProperties['textAlign'];
+  /**
+   * CSS-свойство `text-align`.
+   */
+  align?: React.CSSProperties['textAlign'];
 
-      /**
-       * Превращает обычную кнопку в кнопку со стрелкой.
-       */
-      arrow?: boolean | 'left';
+  /**
+   * Превращает обычную кнопку в кнопку со стрелкой.
+   */
+  arrow?: boolean | 'left';
 
-      /**
-       * Даёт кнопке фокус после окончания загрузки страницы.
-       */
-      autoFocus?: boolean;
+  /**
+   * Даёт кнопке фокус после окончания загрузки страницы.
+   */
+  autoFocus?: boolean;
 
-      /**
-       * Убирает обводку у кнопки.
-       */
-      borderless?: boolean;
+  /**
+   * Убирает обводку у кнопки.
+   */
+  borderless?: boolean;
 
-      /**
-       * @ignore
-       */
-      checked?: boolean;
+  /**
+   * @ignore
+   */
+  checked?: boolean;
 
-      children?: React.ReactNode;
+  children?: React.ReactNode;
 
-      /** @ignore */
-      corners?: React.CSSProperties;
+  /** @ignore */
+  corners?: React.CSSProperties;
 
-      /**
-       * Отключенное состояние кнопки.
-       */
-      disabled?: boolean;
+  /**
+   * Отключенное состояние кнопки.
+   */
+  disabled?: boolean;
 
-      /** @ignore */
-      disableFocus?: boolean;
+  /** @ignore */
+  disableFocus?: boolean;
 
-      /**
-       * Состояние валидации при ошибке.
-       */
-      error?: boolean;
+  /**
+   * Состояние валидации при ошибке.
+   */
+  error?: boolean;
 
-      /**
-       * Иконка слева от текста кнопки.
-       */
-      icon?: React.ReactElement;
+  /**
+   * Иконка слева от текста кнопки.
+   */
+  icon?: React.ReactElement;
 
-      /**
-       * Иконка справа от текста кнопки.
-       */
-      rightIcon?: React.ReactElement;
+  /**
+   * Иконка справа от текста кнопки.
+   */
+  rightIcon?: React.ReactElement;
 
-      /**
-       * Переводит кнопку в состояние загрузки.
-       */
-      loading?: boolean;
+  /**
+   * Переводит кнопку в состояние загрузки.
+   */
+  loading?: boolean;
 
-      /**
-       * Сужает кнопку.
-       */
-      narrow?: boolean;
+  /**
+   * Сужает кнопку.
+   */
+  narrow?: boolean;
 
-      /**
-       * Задаёт размер кнопки.
-       *
-       * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-       */
-      size?: SizeProp;
+  /**
+   * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
+  size?: SizeProp;
 
-      /**
-       * HTML-атрибут `type`.
-       */
-      type?: ButtonType;
+  /**
+   * HTML-атрибут `type`.
+   */
+  type?: ButtonType;
 
-      /**
-       * HTML-атрибут `title`.
-       */
-      title?: string;
+  /**
+   * HTML-атрибут `title`.
+   */
+  title?: string;
 
-      /**
-       * Стиль кнопки.
-       *
-       * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
-       *
-       * **Вариант `link` устарел.**
-       * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
-       */
-      use?: ButtonUse;
+  /**
+   * Стиль кнопки.
+   *
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
+   *
+   * **Вариант `link` устарел.**
+   * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
+   */
+  use?: ButtonUse;
 
-      /** @ignore */
-      visuallyFocused?: boolean;
+  /** @ignore */
+  visuallyFocused?: boolean;
 
-      /**
-       * Состояние валидации при предупреждении.
-       */
-      warning?: boolean;
+  /**
+   * Состояние валидации при предупреждении.
+   */
+  warning?: boolean;
 
-      /**
-       * CSS-свойство `width`.
-       */
-      width?: number | string;
+  /**
+   * CSS-свойство `width`.
+   */
+  width?: number | string;
 
-      /**
-       * Обычный объект с переменными темы.
-       * Он будет объединён с темой из контекста.
-       */
-      theme?: ThemeIn;
-      renderButton?: (props: A) => React.ReactElement;
-    };
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
+  renderButton?: (props: P) => React.ReactElement;
+}
+
+export type ButtonProps<A extends HTMLAttributes<Element> = React.ButtonHTMLAttributes<HTMLButtonElement>> = Merge<
+  A,
+  ButtonOwnProps<A>
+>;
 
 export interface ButtonState {
   focusedByTab: boolean;
