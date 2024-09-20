@@ -1645,10 +1645,6 @@ export class BasicLightThemeInternal {
     return this.outlineColorFocus;
   }
 
-  public static get toggleHandleBoxShadowOld() {
-    return `0 ${this.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.toggleBorderWidth} rgba(0, 0, 0, 0.15)`;
-  }
-
   public static toggleContainerBg = '#FFFFFF';
   public static toggleHandleBg = '#FFFFFF';
   public static toggleHandleBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.16)';

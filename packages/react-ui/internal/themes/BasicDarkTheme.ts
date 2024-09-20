@@ -313,7 +313,6 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static toggleBorderColor = 'rgba(255, 255, 255, 0.32)';
   public static toggleBaseBg = 'none';
 
-  public static toggleHandleBoxShadowOld = 'none';
   public static toggleOutlineColorFocus = '#1F1F1F';
 
   // idle
