@@ -1,0 +1,634 @@
+import React, { HTMLAttributes } from 'react';
+import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
+
+import { AnyObject, isKonturIcon, isReactUIComponent } from '../../lib/utils';
+import { isIE11, isEdge, isSafari } from '../../lib/client';
+import { keyListener } from '../../lib/events/keyListener';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { Link, LinkProps } from '../Link';
+import { SizeProp } from '../../lib/types/props';
+
+import { styles, activeStyles, globalClasses } from './Button.styles';
+import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
+import { useButtonArrow } from './ButtonArrow';
+import { getInnerLinkTheme } from './getInnerLinkTheme';
+import { LoadingButtonIcon } from './LoadingButtonIcon';
+
+/**
+ * @deprecated use SizeProp
+ */
+export type ButtonSize = SizeProp;
+export type ButtonType = 'button' | 'submit' | 'reset';
+export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
+
+export interface BaseButtonComponentProps {
+  className?: HTMLAttributes<Element>['className'];
+  style?: HTMLAttributes<Element>['style'];
+  disabled?: boolean;
+  onFocus?: HTMLAttributes<Element>['onFocus'];
+  onBlur?: HTMLAttributes<Element>['onBlur'];
+  children?: React.ReactNode;
+}
+
+export interface BaseButtonProps<T extends React.ElementType> extends CommonProps {
+  /** @ignore */
+  _noPadding?: boolean;
+
+  /** @ignore */
+  _noRightPadding?: boolean;
+
+  /**
+   * Применяет к кнопке стили псевдокласса `:active`.
+   */
+  active?: boolean;
+
+  /**
+   * CSS-свойство `text-align`.
+   */
+  align?: React.CSSProperties['textAlign'];
+
+  /**
+   * Превращает обычную кнопку в кнопку со стрелкой.
+   */
+  arrow?: boolean | 'left';
+
+  /**
+   * Даёт кнопке фокус после окончания загрузки страницы.
+   */
+  autoFocus?: boolean;
+
+  /**
+   * Убирает обводку у кнопки.
+   */
+  borderless?: boolean;
+
+  /**
+   * @ignore
+   */
+  checked?: boolean;
+
+  children?: React.ReactNode;
+
+  /** @ignore */
+  corners?: React.CSSProperties;
+
+  /**
+   * Отключенное состояние кнопки.
+   */
+  disabled?: boolean;
+
+  /** @ignore */
+  disableFocus?: boolean;
+
+  /**
+   * Состояние валидации при ошибке.
+   */
+  error?: boolean;
+
+  /**
+   * Иконка слева от текста кнопки.
+   */
+  icon?: React.ReactElement;
+
+  /**
+   * Иконка справа от текста кнопки.
+   */
+  rightIcon?: React.ReactElement;
+
+  /**
+   * Переводит кнопку в состояние загрузки.
+   */
+  loading?: boolean;
+
+  /**
+   * Сужает кнопку.
+   */
+  narrow?: boolean;
+
+  /**
+   * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
+  size?: SizeProp;
+
+  /**
+   * HTML-атрибут `type`.
+   */
+  type?: ButtonType;
+
+  /**
+   * HTML-атрибут `title`.
+   */
+  title?: string;
+
+  /**
+   * Стиль кнопки.
+   *
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
+   *
+   * **Вариант `link` устарел.**
+   * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
+   */
+  use?: ButtonUse;
+
+  /** @ignore */
+  visuallyFocused?: boolean;
+
+  /**
+   * Состояние валидации при предупреждении.
+   */
+  warning?: boolean;
+
+  /**
+   * CSS-свойство `width`.
+   */
+  width?: number | string;
+
+  /**
+   * Обычный объект с переменными темы.
+   * Он будет объединён с темой из контекста.
+   */
+  theme?: ThemeIn;
+
+  /** */
+  rootProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+
+  buttonComponent: T;
+  buttonProps: React.ComponentPropsWithoutRef<T>;
+}
+
+export interface ButtonState {
+  focusedByTab: boolean;
+}
+
+export const ButtonDataTids = {
+  rootElement: 'Button__rootElement',
+  root: 'Button__root',
+  spinner: 'Button__spinner',
+} as const;
+
+type DefaultProps = Required<Pick<BaseButtonProps<any>, 'use' | 'size' | 'type' | 'rootProps'>>;
+
+const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children }: LinkProps) => (
+  <Link focused={focused} disabled={disabled} icon={icon} rightIcon={rightIcon} as={as} tabIndex={tabIndex}>
+    {children}
+  </Link>
+);
+
+@rootNode
+export class BaseButton<T extends React.ElementType> extends React.Component<BaseButtonProps<T>, ButtonState> {
+  public static __KONTUR_REACT_UI__ = 'Button';
+  public static displayName = 'Button';
+  public static __BUTTON__ = true;
+
+  public static defaultProps: DefaultProps = {
+    use: 'default',
+    size: 'small',
+    // By default the type attribute is 'submit'. IE8 will fire a click event
+    // on this button if somewhere on the page user presses Enter while some
+    // input is focused. So we set type to 'button' by default.
+    type: 'button',
+    rootProps: {},
+  };
+
+  private getProps = createPropsGetter(BaseButton.defaultProps);
+
+  public state = {
+    focusedByTab: false,
+  };
+
+  private theme!: Theme;
+  private node: HTMLElement | null = null;
+  private setRootNode!: TSetRootNode;
+
+  public componentDidMount() {
+    if (this.props.autoFocus) {
+      keyListener.isTabPressed = true;
+      this.focus();
+    }
+    warning(
+      this.props.use !== 'link',
+      `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
+    );
+  }
+
+  public static getDerivedStateFromProps(props: BaseButtonProps<any>) {
+    if (props.loading || props.disabled) {
+      return { focusedByTab: false };
+    }
+    return null;
+  }
+
+  /**
+   * @public
+   */
+  public focus() {
+    this.node?.focus();
+  }
+
+  /**
+   * @public
+   */
+  public blur() {
+    this.node?.blur();
+  }
+
+  public render(): JSX.Element {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  private renderLinkRootWithoutHandlers(props: LinkProps) {
+    const { onClick, onFocus, onBlur, children, ...rest } = props;
+    return <span {...rest}>{children}</span>;
+  }
+
+  private getTabIndex({
+    disableFocus = false,
+    disabled = false,
+    tabIndex = 0,
+  }: {
+    disableFocus?: boolean;
+    disabled?: boolean;
+    tabIndex?: number;
+  }) {
+    if (disableFocus || disabled) {
+      return -1;
+    }
+
+    return tabIndex;
+  }
+
+  private renderMain() {
+    const {
+      corners,
+      active,
+      disabled,
+      borderless,
+      checked,
+      error,
+      warning,
+      loading,
+      narrow,
+      icon,
+      rightIcon,
+      _noPadding,
+      _noRightPadding,
+      visuallyFocused,
+      align,
+      disableFocus,
+      width,
+      children,
+      className, //exclude from rest to prevent class override
+      'data-tid': dataTid, //exclude from rest to prevent data-tid override on root
+      use,
+      size,
+      rootProps,
+      buttonComponent,
+      buttonProps,
+      ...rest
+    } = this.getProps();
+
+    const sizeClass = this.getSizeClassName();
+
+    const isFocused = this.state.focusedByTab || visuallyFocused;
+    const isLink = use === 'link';
+    const _isTheme2022 = isTheme2022(this.theme);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [wrapClassNameWithArrow, rootClassNameWithArrow, arrowNode] = useButtonArrow(
+      { ...this.props, isFocused: Boolean(isFocused) },
+      this.theme,
+    );
+    const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
+    let buttonClassName = '';
+    const trueDisabled = disabled || loading;
+    if (_isTheme2022) {
+      buttonClassName = cx(
+        styles.root(this.theme),
+        styles[use](this.theme),
+        sizeClass,
+        styles.disableTextSelect(),
+        narrow && styles.narrow(),
+        _noPadding && styles.noPadding(),
+        _noRightPadding && styles.noRightPadding(),
+        rootClassNameWithArrow,
+        globalClasses.customComponent,
+        ...(trueDisabled
+          ? [
+              styles.disabled(this.theme),
+              isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
+              checked && styles.checkedDisabled(this.theme),
+              checked && styles.checkedDisabled2022(this.theme),
+              borderless && styles.borderless2022(),
+              use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
+              use === 'text' && styles.textDisabled2022(),
+              globalClasses.disabled,
+            ]
+          : [
+              active && !checked && activeStyles[use](this.theme),
+              isFocused && styles.focus(this.theme),
+              checked && styles.checked2022(this.theme),
+              checked && isFocused && styles.checkedFocused(this.theme),
+              borderless && !checked && !isFocused && styles.borderless2022(),
+            ]),
+      );
+    } else {
+      buttonClassName = cx({
+        [styles.root(this.theme)]: true,
+        [styles.simulatedPress()]: true,
+        [styles[use](this.theme)]: true,
+        [styles.disableTextSelect()]: true,
+        [activeStyles[use](this.theme)]: active,
+        [sizeClass]: true,
+        [globalClasses.customComponent]: true,
+        [styles.focus(this.theme)]: isFocused,
+        [styles.checked(this.theme)]: checked,
+        [styles.checkedFocused(this.theme)]: checked && isFocused,
+        [styles.disabled(this.theme)]: trueDisabled,
+        [globalClasses.disabled]: trueDisabled,
+        [styles.checkedDisabled(this.theme)]: checked && disabled,
+        [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
+        [styles.narrow()]: narrow,
+        [styles.noPadding()]: _noPadding,
+        [styles.noRightPadding()]: _noRightPadding,
+      });
+    }
+
+    const buttonComponentProps: BaseButtonComponentProps = {
+      ...buttonProps,
+      className: buttonClassName,
+      style: {
+        textAlign: align,
+        ...corners,
+      },
+      disabled: trueDisabled || false,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+    };
+
+    const wrapProps = {
+      ...rootProps,
+      ...rest,
+      className: cx(globalClasses.root, {
+        [styles.wrap(this.theme)]: true,
+        [wrapClassNameWithArrow]: true,
+        [this.getSizeWrapClassName()]: true,
+      }),
+      style: {
+        width,
+      },
+    };
+
+    const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />;
+
+    let outlineNode = null;
+    const isDisabled2022 = _isTheme2022 && trueDisabled;
+    if ((!isFocused || isLink) && !isDisabled2022) {
+      outlineNode = (
+        <div
+          style={{ zIndex: _isTheme2022 && isLink ? -1 : undefined }}
+          className={cx(styles.outline(), {
+            [styles.outlineWarning(this.theme)]: warning,
+            [styles.outlineError(this.theme)]: error,
+            [styles.outlineLink()]: isLink,
+            [styles.outlineLinkWarning(this.theme)]: isLink && warning,
+            [styles.outlineLinkError(this.theme)]: isLink && error,
+          })}
+        />
+      );
+    }
+
+    const iconProps: Omit<ButtonIconProps, 'position'> = {
+      use,
+      size: this.getProps().size,
+      hasChildren: !!children,
+      loading: loading || false,
+    };
+    const leftIconNode = icon && <ButtonIcon {...iconProps} position="left" icon={icon} />;
+    const rightIconNode = rightIcon && (
+      <ButtonIcon {...iconProps} hasBothIcons={!!icon && !!rightIcon} position="right" icon={rightIcon} />
+    );
+
+    // Force disable all props and features, that cannot be use with Link
+    if (isLink) {
+      rootProps.className = cx({
+        [styles.root(this.theme)]: true,
+        [sizeClass]: true,
+        [styles.link(this.theme)]: true,
+        [styles.linkLineHeight()]: !isSafari || (isSafari && !_isTheme2022),
+        [styles.linkLineHeightSafariFallback()]: isSafari && _isTheme2022,
+        [styles.linkFocus(this.theme)]: isFocused,
+        [styles.linkDisabled(this.theme)]: trueDisabled,
+      });
+      Object.assign(wrapProps, {
+        className: cx(styles.wrap(this.theme), styles.wrapLink()),
+        style: { width: wrapProps.style.width },
+      });
+
+      delete buttonComponentProps.style?.textAlign;
+    }
+
+    const hasLoadingNode = loading && !icon && !rightIcon;
+    const loadingNode = hasLoadingNode && <LoadingButtonIcon size={size} />;
+
+    let captionNode = (
+      <div
+        className={cx(styles.caption(), globalClasses.caption, {
+          [styles.captionTranslated()]: (active || checked) && !loading && !_isTheme2022,
+          [styles.captionLink()]: isLink,
+          [styles.captionDisabled()]: !checked && disabled,
+        })}
+      >
+        {loadingNode}
+        {leftIconNode}
+        <span
+          className={cx(globalClasses.text, {
+            [styles.visibilityHidden()]: hasLoadingNode,
+          })}
+        >
+          {children}
+        </span>
+        {rightIconNode}
+      </div>
+    );
+    if (_isTheme2022 && isLink && !loading) {
+      captionNode = (
+        <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
+          {
+            <ButtonLink
+              focused={isFocused}
+              disabled={disabled}
+              icon={this.renderIcon2022(icon)}
+              rightIcon={this.renderIcon2022(rightIcon)}
+              as={this.renderLinkRootWithoutHandlers}
+              tabIndex={-1}
+            >
+              {children}
+            </ButtonLink>
+          }
+        </ThemeContext.Provider>
+      );
+    }
+
+    const ButtonComponent = buttonComponent;
+
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
+          <ButtonComponent data-tid={ButtonDataTids.root} ref={this._ref} {...buttonComponentProps}>
+            {innerShadowNode}
+            {outlineNode}
+            {arrowNode}
+            {captionNode}
+          </ButtonComponent>
+        </span>
+      </CommonWrapper>
+    );
+  }
+
+  private renderIcon2022(icon: React.ReactElement | undefined) {
+    if (icon && isKonturIcon(icon)) {
+      const sizes = getButtonIconSizes(this.theme);
+      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.getProps().size] });
+    }
+
+    return icon;
+  }
+
+  private getSizeClassName() {
+    const _isTheme2022 = isTheme2022(this.theme);
+    switch (this.getProps().size) {
+      case 'large':
+        return cx(styles.sizeLarge(this.theme), {
+          [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeLargeWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+        });
+      case 'medium':
+        return cx(styles.sizeMedium(this.theme), {
+          [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeMediumWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+        });
+      case 'small':
+      default:
+        return cx(styles.sizeSmall(this.theme), {
+          [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeSmallWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+        });
+    }
+  }
+
+  private getSizeWrapClassName() {
+    switch (this.getProps().size) {
+      case 'large':
+        return styles.wrapLarge(this.theme);
+      case 'medium':
+        return styles.wrapMedium(this.theme);
+      case 'small':
+      default:
+        return styles.wrapSmall(this.theme);
+    }
+  }
+
+  private handleFocus = (e: React.FocusEvent) => {
+    if (!this.props.disabled && !this.props.disableFocus) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      globalObject.requestAnimationFrame?.(() => {
+        if (keyListener.isTabPressed) {
+          this.setState({ focusedByTab: true });
+        }
+      });
+      this.props.buttonProps?.onFocus?.(e);
+    }
+  };
+
+  private handleBlur = (e: React.FocusEvent) => {
+    this.setState({ focusedByTab: false });
+    if (!this.props.disabled && !this.props.disableFocus) {
+      this.props.buttonProps?.onBlur?.(e);
+    }
+  };
+
+  private _ref = (node: HTMLElement | null) => {
+    this.node = node;
+  };
+}
+
+export const isButton = isReactUIComponent<ButtonProps>('Button');
+
+// interface BaseButtonProps<B extends React.HTMLAttributes<Element> = React.HTMLAttributes<HTMLButtonElement>> {
+//   children?: React.ReactNode;
+//   use?: string;
+
+//   rootProps?: React.HTMLAttributes<HTMLDivElement>;
+
+//   buttonComponent: React.ElementType;
+//   buttonProps: B;
+// }
+
+// export const BaseButton = <B,>({ children, ...props }: BaseButtonProps<B>) => {
+//   const { buttonComponent: ButtonView, rootProps, buttonProps, use } = props;
+//   return (
+//     <div {...rootProps} className={use}>
+//       <ButtonView {...buttonProps}>{children}</ButtonView>
+//     </div>
+//   );
+// };
+
+// export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement>, BaseButtonProps {}
+
+// export const Button = (props: ButtonProps) => {
+//   const { buttonProps, buttonComponent, rootProps, use, children, className, ...rest } = props;
+
+//   return (
+//     <BaseButton rootProps={{ className }} buttonComponent={'button'} buttonProps={{ ...rest, ...buttonProps }}>
+//       {children}
+//     </BaseButton>
+//   );
+// };
+
+// export interface ButtonWithAnchorProps extends React.HTMLAttributes<HTMLAnchorElement>, BaseButtonProps {}
+
+// export const ButtonWithAnchor = (props: ButtonWithAnchorProps) => {
+//   const { buttonProps, buttonComponent, rootProps, use, children, className, ...rest } = props;
+
+//   return (
+//     <BaseButton rootProps={{ className }} buttonComponent={'a'} buttonProps={{ ...rest, ...buttonProps }}>
+//       {children}
+//     </BaseButton>
+//   );
+// };
+
+// export interface ButtonWithRouterLinkProps<P> extends Omit<BaseButtonProps, 'buttonProps' | 'buttonComponent'> {
+//   routerLinkComponent: React.ElementType<P>;
+//   routerLinkProps: P;
+// }
+
+// export const ButtonWithRouterLink = <P,>(props: ButtonWithRouterLinkProps<P>) => {
+//   const { routerLinkComponent, routerLinkProps, children, ...rest } = props;
+
+//   return (
+//     <BaseButton buttonComponent={routerLinkComponent} buttonProps={routerLinkProps} {...rest}>
+//       {children}
+//     </BaseButton>
+//   );
+// };

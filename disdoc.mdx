@@ -1,0 +1,54 @@
+<Button component="a" href="https://google.com" target="blank" />
+<Link component="button" type="submit" />
+
+<Link component="RouterLink" to="/" type?={...} onClick={e => e.target?} />
+
+<Button renderButton={({ disabled, ...rest }) => <a href="https://google.com" target="blank" {...rest} />} />
+
+<Link renderAnchor={({ href, rel, ...rest }) => <button type="button" onClick={} {...rest} />} />
+
+<Link renderAnchor={({ href, ...rest }) => <RouterLink to={href} onClick={} type={} {...rest} />} />
+
+1. Корректная типизация: onClick и тд
+2. Возможность передавть все нужные пропы (новые и старые)
+3. Перформанс
+4. Удобство использования
+
+<Button button={<a href="https://google.com" target="blank" {...rest} />} />
+
+<Button component={CustomButton} />
+
+<Button 
+    buttonComponent={'a'} 
+    buttonProps={{ href: 'https://kontur.ru' }} 
+    onClick={e => e.target?} 
+/>
+
+<Link 
+    anchorComponent={RouterLink} 
+    anchorProps={{ to: 'https://kontur.ru' }} 
+    onClick={e => e.target?}
+/>
+
+<Button type="submit" onClick={(e) => e.target.name} />
+
+<ButtonWithAnchor href="" onClick={(e) => e.target.host} />
+
+<Link href="" target="" />
+
+<LinkWithButton type="submit" onClick={(e) => e.target.name} />
+
+<LinkWithRouterLink
+  routerLinkComponent={NavLink}
+  routerLinkProps={{ onClick, to, target }}
+  onClick={(e) => e.target /* root node (span) */}
+/>
+
+<BaseButton<P>
+rootProps*
+buttonComponent*
+buttonProps\*
+use
+className
+children
+/>
