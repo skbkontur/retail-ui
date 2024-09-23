@@ -171,7 +171,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static btnBacklessActiveBorderColor = 'rgba(255, 255, 255, 0.1)';
 
   // text
-  public static btnTextBg = 'transparent !important';
+  public static btnTextBg = 'transparent';
   public static btnTextHoverBg = 'rgba(255, 255, 255, 0.1)';
   public static btnTextActiveBg = 'rgba(255, 255, 255, 0.06)';
   public static btnTextBorderColor = 'transparent';

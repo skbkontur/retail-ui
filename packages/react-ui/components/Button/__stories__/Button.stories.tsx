@@ -581,3 +581,21 @@ export const BtnBacklessBgHoverActive: Story = () => {
     </ThemeContext.Provider>
   );
 };
+
+export const BtnTextBgHoverActive: Story = () => {
+  const myTheme = ThemeFactory.create(
+    {
+      btnTextHoverBg: 'red',
+      btnTextActiveBg: 'green',
+    },
+    THEME_2022_DARK,
+  );
+
+  return (
+    <ThemeContext.Provider value={myTheme}>
+      <Button data-tid="test-button" use="text">
+        Text
+      </Button>
+    </ThemeContext.Provider>
+  );
+};
