@@ -423,7 +423,6 @@ export class BasicLightThemeInternal {
   public static btnDefaultHoverBg = '#F0F0F0';
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
-  public static btnDefaultHoverTextDecorationColor = '';
   public static btnDefaultActiveBg = '#E6E6E6';
   public static get btnDefaultHoverBorderColor() {
     return this.btnDefaultBorderColor;
@@ -434,8 +433,6 @@ export class BasicLightThemeInternal {
   }
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnDefaultActiveShadow = 'none';
-  public static btnSuccessHoverTextDecorationColor = '';
-  public static btnSuccessTextDecorationColor = '';
   public static btnSuccessBg = '#26AD50';
   public static btnSuccessBorderColor = '#26AD50';
   public static btnSuccessHoverBg = '#23A14A';
@@ -449,8 +446,6 @@ export class BasicLightThemeInternal {
   public static btnSuccessActiveBg = '#209644';
   public static btnSuccessActiveBorderColor = '#209644';
   public static btnSuccessActiveShadow = 'none';
-  public static btnPrimaryHoverTextDecorationColor = '';
-  public static btnPrimaryTextDecorationColor = '';
 
   public static btnPrimaryBg = '#3D3D3D';
   public static btnPrimaryHoverBg = '#292929';
@@ -467,8 +462,6 @@ export class BasicLightThemeInternal {
   public static btnPrimaryHoverBgStart = 'none';
   public static btnPrimaryHoverBgEnd = 'none';
   public static btnPrimaryActiveShadow = 'none';
-  public static btnDangerHoverTextDecorationColor = '';
-  public static btnDangerTextDecorationColor = '';
   public static get btnDangerBg() {
     return this.errorMain;
   }
