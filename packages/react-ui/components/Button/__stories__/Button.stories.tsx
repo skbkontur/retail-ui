@@ -17,6 +17,9 @@ import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
+import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default {
   title: 'Button',
@@ -577,6 +580,24 @@ export const BtnBacklessBgHoverActive: Story = () => {
     <ThemeContext.Provider value={myTheme}>
       <Button data-tid="test-button" use="backless">
         Backless
+      </Button>
+    </ThemeContext.Provider>
+  );
+};
+
+export const BtnTextBgHoverActive: Story = () => {
+  const myTheme = ThemeFactory.create(
+    {
+      btnTextHoverBg: 'red',
+      btnTextActiveBg: 'green',
+    },
+    THEME_2022_DARK,
+  );
+
+  return (
+    <ThemeContext.Provider value={myTheme}>
+      <Button data-tid="test-button" use="text">
+        Text
       </Button>
     </ThemeContext.Provider>
   );

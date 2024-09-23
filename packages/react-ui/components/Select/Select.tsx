@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
+import React, { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
@@ -56,6 +56,7 @@ export interface ButtonParams
 }
 
 const PASS_BUTTON_PROPS = {
+  id: true,
   disabled: true,
   error: true,
   use: true,
@@ -86,7 +87,8 @@ type SelectItem<TValue, TItem> =
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */

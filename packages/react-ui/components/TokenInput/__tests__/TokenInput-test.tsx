@@ -22,6 +22,12 @@ describe('<TokenInput />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Placeholder');
   });
 
+  it('has id attribute', () => {
+    const tokenInputId = 'tokenInputId';
+    const result = render(<TokenInput id={tokenInputId} getItems={getItems} selectedItems={[]} />);
+    expect(result.container.querySelector(`textarea#${tokenInputId}`)).not.toBeNull();
+  });
+
   it('should throw error without getItems prop', () => {
     const renderNoGetItems = () => render(<TokenInput />);
     expect(renderNoGetItems).toThrow('Missed getItems for type');
