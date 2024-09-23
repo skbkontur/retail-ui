@@ -10,7 +10,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
@@ -232,21 +231,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
-  private getActiveHandleSizeClassName() {
-    if (isTheme2022(this.theme)) {
-      return '';
-    }
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.activeHandleLarge(this.theme);
-      case 'medium':
-        return styles.activeHandleMedium(this.theme);
-      case 'small':
-      default:
-        return styles.activeHandleSmall(this.theme);
-    }
-  }
-
   private getCaptionSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
@@ -281,7 +265,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       [globalClasses.containerLoading]: loading,
     });
 
-    const labelClassNames = cx(this.getRootSizeClassName(), this.getActiveHandleSizeClassName(), {
+    const labelClassNames = cx(this.getRootSizeClassName(), {
       [styles.root(this.theme)]: true,
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: !!disabled,
@@ -316,9 +300,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 type="checkbox"
                 checked={checked}
                 onChange={this.handleChange}
-                className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
-                  [styles.input(this.theme)]: true,
-                })}
+                className={cx(this.getInputSizeClassName(), styles.input(this.theme))}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
                 ref={this.inputRef}
@@ -339,24 +321,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                     }
                   : undefined
               }
-            >
-              {!isTheme2022(this.theme) && (
-                <div
-                  className={cx(styles.activeBackground(), globalClasses.background, {
-                    [styles.activeBackgroundLoading(this.theme)]: loading,
-                    [styles.disabledBackground(this.theme)]: disabled,
-                  })}
-                  style={
-                    checked && color && !disabled
-                      ? {
-                          backgroundColor: color,
-                          boxShadow: `inset 0 0 0 1px ${color}`,
-                        }
-                      : undefined
-                  }
-                />
-              )}
-            </div>
+            />
             <div
               className={cx(this.getHandleSizeClassName(), globalClasses.handle, {
                 [styles.handle(this.theme)]: true,

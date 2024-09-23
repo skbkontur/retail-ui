@@ -85,7 +85,8 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: theme.tooltipMenuPinOffset,
+                  popupPinOffsetX: theme.tooltipMenuPinOffsetX,
+                  popupPinOffsetY: theme.tooltipMenuPinOffsetY,
                   popupMargin: theme.tooltipMenuMargin,
                   popupPinSize: theme.tooltipMenuPinSize,
                   menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,

@@ -7,9 +7,6 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isInputLike } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Group.styles';
 
@@ -65,17 +62,12 @@ export const getButtonCorners = (isFirstChild: boolean, isLastChild: boolean): R
   };
 };
 
-const passCornersIfButton = (
-  child: React.ReactNode,
-  firstChild: React.ReactNode,
-  lastChild: React.ReactNode,
-  isInputLikeToo = false,
-) => {
+const passCornersIfButton = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
   const corners = getButtonCorners(child === firstChild, child === lastChild);
   if (isButton(child)) {
     return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
   }
-  if (isInputLikeToo && isInputLike(child)) {
+  if (isInputLike(child)) {
     return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
   }
 
@@ -97,24 +89,12 @@ export class Group extends React.Component<GroupProps> {
   public static displayName = 'Group';
 
   private setRootNode!: TSetRootNode;
-  private theme!: Theme;
 
   public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
     const style: React.CSSProperties = {
       width: this.props.width,
     };
@@ -133,7 +113,7 @@ export class Group extends React.Component<GroupProps> {
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
 
-            const modifiedChild = passCornersIfButton(child, firstChild, lastChild, isTheme2022(this.theme));
+            const modifiedChild = passCornersIfButton(child, firstChild, lastChild);
 
             const isFirstChild = child === firstChild;
 

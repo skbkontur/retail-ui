@@ -6,7 +6,6 @@ import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
-import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
@@ -17,7 +16,6 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import {
@@ -191,7 +189,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
                   <ThemeContext.Provider
                     value={ThemeFactory.create(
                       {
-                        popupPinOffset: theme.tooltipPinOffset,
                         popupMargin: theme.tooltipMargin,
                         popupBorder: theme.tooltipBorder,
                         popupBorderRadius: theme.tooltipBorderRadius,
@@ -238,15 +235,13 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       return null;
     }
 
-    const icon = isTheme2022(this.theme) ? (
+    const icon = (
       <CloseButtonIcon
         tabbable={false}
         side={parseInt(this.theme.tooltipCloseBtnSide)}
         color={this.theme.tooltipCloseBtnColor}
         colorHover={this.theme.tooltipCloseBtnHoverColor}
       />
-    ) : (
-      <CrossIcon />
     );
 
     return (

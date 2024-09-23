@@ -1,6 +1,5 @@
 import React, { AriaAttributes } from 'react';
 
-import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
@@ -10,10 +9,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 
-export interface ComboBoxProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
-    CommonProps {
+export interface ComboBoxProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
   /** Задает выравнивание контента. */
   align?: 'left' | 'center' | 'right';
 
@@ -59,6 +55,10 @@ export interface ComboBoxProps<T>
 
   /** Задает максимальную длину инпута. */
   maxLength?: number;
+
+  /** Задает текущую позицию выпадающего окна вручную.
+   */
+  menuPos?: 'top' | 'bottom';
 
   /** Задает выравнивание выпадающего меню. */
   menuAlign?: 'left' | 'right';

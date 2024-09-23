@@ -11,12 +11,10 @@ import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
@@ -79,7 +77,7 @@ export interface PagingProps extends CommonProps {
    * Этот проп будет удалён в 5-ой версии библиотеки, так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
    * @default false
    */
-  shouldBeVisibleWithLessThanTwoPages?: boolean;
+  shouldBeVisibleWithLessThanTwoPages?: boolean; // TODO Delete in 5.0
 }
 
 export interface PagingState {
@@ -236,28 +234,16 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = isTheme2022(this.theme)
-      ? cx(
-          styles.pageLink(this.theme),
-          styles.forwardLink(this.theme),
-          focused && styles.pageLinkFocused(this.theme),
-          (disabled || this.props.disabled) && styles.pageLinkDisabled(this.theme),
-        )
-      : cx({
-          [styles.forwardLink(this.theme)]: true,
-          [styles.forwardLinkFocused()]: focused,
-          [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
-        });
+    const classes = cx(
+      styles.pageLink(this.theme),
+      styles.forwardLink(this.theme),
+      focused && styles.pageLinkFocused(this.theme),
+      (disabled || this.props.disabled) && styles.forwardLinkDisabled(this.theme),
+    );
     const Component = this.getProps().component;
     const { forward } = this.locale;
 
-    const forwardIcon = isTheme2022(this.theme) ? (
-      <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />
-    ) : (
-      <span className={styles.forwardIcon(this.theme)}>
-        <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
-      </span>
-    );
+    const forwardIcon = <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />;
 
     return (
       <Component

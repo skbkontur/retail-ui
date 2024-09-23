@@ -12,7 +12,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link, LinkProps } from '../Link';
 import { SizeProp } from '../../lib/types/props';
 
@@ -258,61 +257,40 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
-    const _isTheme2022 = isTheme2022(this.theme);
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [wrapClassNameWithArrow, rootClassNameWithArrow, arrowNode] = useButtonArrow(
+    const [rootClassNameWithArrow, arrowNode] = useButtonArrow(
       { ...this.props, isFocused: Boolean(isFocused) },
       this.theme,
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
-    let rootClassName = '';
-    if (_isTheme2022) {
-      const trueDisabled = disabled || loading;
-      rootClassName = cx(
-        styles.root(this.theme),
-        styles[use](this.theme),
-        sizeClass,
-        narrow && styles.narrow(),
-        _noPadding && styles.noPadding(),
-        _noRightPadding && styles.noRightPadding(),
-        rootClassNameWithArrow,
-        ...(trueDisabled
-          ? [
-              styles.disabled(this.theme),
-              isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
-              checked && styles.checkedDisabled(this.theme),
-              checked && styles.checkedDisabled2022(this.theme),
-              borderless && styles.borderless2022(),
-              use === 'backless' && !checked && styles.backlessDisabled2022(this.theme),
-              use === 'text' && styles.textDisabled2022(),
-            ]
-          : [
-              active && !checked && activeStyles[use](this.theme),
-              isFocused && styles.focus(this.theme),
-              checked && styles.checked2022(this.theme),
-              checked && isFocused && styles.checkedFocused(this.theme),
-              borderless && !checked && !isFocused && styles.borderless2022(),
-            ]),
-      );
-    } else {
-      rootClassName = cx({
-        [styles.root(this.theme)]: true,
-        [styles.simulatedPress()]: true,
-        [styles[use](this.theme)]: true,
-        [activeStyles[use](this.theme)]: active,
-        [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused,
-        [styles.checked(this.theme)]: checked,
-        [styles.checkedFocused(this.theme)]: checked && isFocused,
-        [styles.disabled(this.theme)]: disabled || loading,
-        [styles.checkedDisabled(this.theme)]: checked && disabled,
-        [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
-        [styles.narrow()]: narrow,
-        [styles.noPadding()]: _noPadding,
-        [styles.noRightPadding()]: _noRightPadding,
-      });
-    }
+
+    const trueDisabled = disabled || loading;
+    const rootClassName = cx(
+      styles.root(this.theme),
+      styles[use](this.theme),
+      sizeClass,
+      narrow && styles.narrow(),
+      _noPadding && styles.noPadding(),
+      _noRightPadding && styles.noRightPadding(),
+      rootClassNameWithArrow,
+      ...(trueDisabled
+        ? [
+            styles.disabled(this.theme),
+            isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
+            checked && styles.checkedDisabled(this.theme),
+            borderless && styles.borderless(),
+            use === 'backless' && styles.backlessDisabled(this.theme),
+            use === 'text' && styles.textDisabled(),
+          ]
+        : [
+            active && !checked && activeStyles[use](this.theme),
+            isFocused && styles.focus(this.theme),
+            checked && styles.checked(this.theme),
+            checked && isFocused && styles.checkedFocused(this.theme),
+            borderless && !checked && !isFocused && styles.borderless(),
+          ]),
+    );
 
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
@@ -349,7 +327,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: cx(globalClasses.root, {
         [styles.wrap(this.theme)]: true,
-        [wrapClassNameWithArrow]: true,
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
@@ -357,14 +334,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       },
     };
 
-    const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />;
+    const innerShadowNode = null;
 
     let outlineNode = null;
-    const isDisabled2022 = _isTheme2022 && (disabled || loading);
-    if ((!isFocused || isLink) && !isDisabled2022) {
+    if ((!isFocused || isLink) && !trueDisabled) {
       outlineNode = (
         <div
-          style={{ zIndex: _isTheme2022 && isLink ? -1 : undefined }}
+          style={{ zIndex: isLink ? -1 : undefined }}
           className={cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
@@ -393,8 +369,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
         [styles.link(this.theme)]: true,
-        [styles.linkLineHeight()]: !isSafari || (isSafari && !_isTheme2022),
-        [styles.linkLineHeightSafariFallback()]: isSafari && _isTheme2022,
+        [styles.linkLineHeight()]: !isSafari,
+        [styles.linkLineHeightSafariFallback()]: isSafari,
         [styles.linkFocus(this.theme)]: isFocused,
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
@@ -411,7 +387,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     let captionNode = (
       <div
         className={cx(styles.caption(), globalClasses.caption, {
-          [styles.captionTranslated()]: (active || checked) && !loading && !_isTheme2022,
           [styles.captionLink()]: isLink,
           [styles.captionDisabled()]: !checked && disabled,
         })}
@@ -428,7 +403,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         {rightIconNode}
       </div>
     );
-    if (_isTheme2022 && isLink && !loading) {
+    if (isLink && !loading) {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           <Link
@@ -469,26 +444,25 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
-    const _isTheme2022 = isTheme2022(this.theme);
     switch (this.getProps().size) {
       case 'large':
         return cx(styles.sizeLarge(this.theme), {
           [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
-          [styles.sizeLargeWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+          [styles.sizeLargeWithIconWithoutText(this.theme)]: !!this.props.icon && !this.props.children,
         });
       case 'medium':
         return cx(styles.sizeMedium(this.theme), {
           [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
-          [styles.sizeMediumWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+          [styles.sizeMediumWithIconWithoutText(this.theme)]: !!this.props.icon && !this.props.children,
         });
       case 'small':
       default:
         return cx(styles.sizeSmall(this.theme), {
           [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
-          [styles.sizeSmallWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
+          [styles.sizeSmallWithIconWithoutText(this.theme)]: !!this.props.icon && !this.props.children,
         });
     }
   }

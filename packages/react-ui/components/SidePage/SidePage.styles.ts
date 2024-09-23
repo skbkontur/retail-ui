@@ -258,7 +258,7 @@ export const styles = memoizeStyle({
       padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       position: absolute;
       right: ${t.sidePageCloseButtonPadding};
-      top: 0;
+      top: ${t.sidePageCloseButtonWrapperOffsetTop};
     `;
   },
 
@@ -266,7 +266,7 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.mobileSidePageHeaderLineHeight};
       padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
-      right: ${t.mobileSidePageCloseButtonPadding};
+      right: ${t.mobileSidePageCloseButtonRightPadding};
     `;
   },
 

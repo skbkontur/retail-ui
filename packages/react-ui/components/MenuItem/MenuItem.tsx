@@ -83,6 +83,7 @@ export interface MenuItemProps
 
   /** Устанавливает стиль для отображения в мобильной версии. */
   isMobile?: boolean;
+  scrollIntoView?: boolean;
 }
 
 export const MenuItemDataTids = {
@@ -159,6 +160,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentDidMount() {
+    if (this.props.scrollIntoView) {
+      this.rootRef?.scrollIntoView({
+        block: 'center',
+      });
+    }
     if (this.rootRef && isBrowser(globalObject)) {
       this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
@@ -269,6 +275,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       isMobile,
       href,
       disabled,
+      scrollIntoView,
       rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       isNotSelectable,
       ...rest

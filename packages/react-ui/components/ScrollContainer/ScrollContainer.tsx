@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -85,6 +86,7 @@ export interface ScrollContainerProps extends CommonProps {
 
   /** Отключает анимацию. */
   disableAnimations?: boolean;
+  scrollRef?: React.Ref<HTMLDivElement | null>;
 }
 
 export const ScrollContainerDataTids = {
@@ -351,6 +353,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
     }
     this.inner = element;
+
+    if (this.props.scrollRef) {
+      callChildRef(this.props.scrollRef, element);
+    }
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
