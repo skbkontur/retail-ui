@@ -17,9 +17,6 @@ import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
-import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default {
   title: 'Button',
