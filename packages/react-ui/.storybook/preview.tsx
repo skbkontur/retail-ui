@@ -6,11 +6,7 @@ import { Preview } from '@storybook/react';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
-import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
-import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
-import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
+import { MOBILE_THEME } from '../lib/theming/themes/MobileTheme';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
@@ -39,13 +35,9 @@ const customViewports = {
 };
 
 const themes = {
-  DEFAULT_THEME,
-  DARK_THEME,
-  DEFAULT_THEME_8PX_OLD,
-  FLAT_THEME_8PX_OLD,
-  DEFAULT_THEME_MOBILE,
   THEME_2022,
   THEME_2022_DARK,
+  MOBILE_THEME,
 };
 
 setFilter((fiber) => {
@@ -73,11 +65,6 @@ const preview: Preview = {
     creevey: {
       captureElement: '#test-element',
       skip: {
-        'not flat stories in flat browsers': {
-          in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-          kinds:
-            /^(?!\bAction\\Button\b|\bChoose\\Checkbox\b|\bInputElements\\Input\b|\bChoose\\Radio\b|\bInputElements\\Textarea\b|\bChoose\\Toggle\b|\bChoose\\Switcher\b|\bInputElements\\TokenInput\b)/,
-        },
         'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
         'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
       },
@@ -107,14 +94,14 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => {
-      const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
+      const storybookTheme = themes[context.globals.theme] || THEME_2022;
 
-      if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
+      if ([THEME_2022_DARK].includes(storybookTheme)) {
         document.body.classList.add('dark');
       } else {
         document.body.classList.remove('dark');
       }
-      if (storybookTheme !== DEFAULT_THEME) {
+      if (storybookTheme !== THEME_2022) {
         return (
           <ThemeContext.Consumer>
             {(theme) => {
