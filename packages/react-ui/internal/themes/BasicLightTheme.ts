@@ -1325,9 +1325,6 @@ export class BasicLightThemeInternal {
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
   public static menuPaddingY = '0px';
   public static menuScrollContainerContentWrapperPaddingY = '4px';
-  public static get menuLegacyPaddingY() {
-    return this.menuScrollContainerContentWrapperPaddingY;
-  }
   public static mobileMenuPaddingY = '0px';
   public static mobileMenuScrollContainerContentWrapperPaddingY = '0px';
   public static menuPaddingX = '4px';
