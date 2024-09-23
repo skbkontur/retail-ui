@@ -4,6 +4,7 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
+import { Story } from '@skbkontur/react-ui/typings/stories';
 
 import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
@@ -24,7 +25,7 @@ const validateValue = (value: string): Nullable<ValidationInfo> => {
   return null;
 };
 
-export const Example_1 = () => {
+export const TwoWordsRequired = () => {
   const [value, setValue] = useState<string>('');
 
   const validateValue = (value: string): Nullable<ValidationInfo> => {
@@ -49,7 +50,7 @@ export const Example_1 = () => {
 };
 
 // #2 ReactElement в сообщении
-export const Example_2 = () => {
+export const ReactElementInMessage = () => {
   const [value, setValue] = useState<string>('');
 
   return (
@@ -64,7 +65,7 @@ export const Example_2 = () => {
 };
 
 // #3 Промотка сообщении
-export const Example_3 = () => {
+export const ScrollMessage = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value, setValue] = useState<string>('');
 
@@ -87,7 +88,7 @@ export const Example_3 = () => {
 };
 
 // #4 Зависимые поля
-export const Example_4 = () => {
+export const DependentFields = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value, setValue] = useState<string>('');
   const [sex, setSex] = useState<Nullable<Sex>>(null);
@@ -117,7 +118,7 @@ export const Example_4 = () => {
 };
 
 // #5 Промотка внутри котейнера
-export const Example_5 = () => {
+export const ScrollInsideTheContainer = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value, setValue] = useState<string>('');
 
@@ -143,8 +144,8 @@ export const Example_5 = () => {
   );
 };
 
-// #6 Выбор первого контра для валидации
-export const Example_6 = () => {
+// #6 Выбор первого контрола для валидации
+export const SelectFirstControlForValidation = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value1, setValue1] = useState<string>('');
   const [value2, setValue2] = useState<string>('');
@@ -191,7 +192,7 @@ export const Example_6 = () => {
 };
 
 // #7 Три невалидных поля по сабмиту
-export const Example_7 = () => {
+export const ThreeInvalidInputOnSubmit = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value1, setValue1] = useState<string>('');
   const [value2, setValue2] = useState<string>('');
@@ -222,7 +223,7 @@ export const Example_7 = () => {
 };
 
 // #8 Промотка с фиксированной плашкой снизу
-export const Example_8 = () => {
+export const ScrollWithFixedPlaceBottom = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [value, setValue] = useState<string>('');
 
@@ -273,7 +274,7 @@ export const Example_8 = () => {
 };
 
 // #9 lostfocus не срабатывает после первого рендера
-export const Example_9 = () => {
+export const LostfocusNotWorkAfterFirstRender = () => {
   const [value, setValue] = useState<string>('');
 
   const validateValue = (): Nullable<ValidationInfo> => (!value ? { message: 'Error msg', type: 'lostfocus' } : null);
@@ -290,7 +291,7 @@ export const Example_9 = () => {
 };
 
 // #10 валидация формы с level = warning
-export const Example_10 = () => {
+export const ValidationWithLevelWarning = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [immediate, setImmediate] = useState<string>('');
   const [lostfocus, setLostfocus] = useState<string>('');
@@ -364,7 +365,7 @@ export const Example_10 = () => {
 };
 
 // #11 задание ширины в процентах
-export const Example_11 = () => {
+export const SetPercentageWidth = () => {
   const refContainer = useRef<ValidationContainer>(null);
 
   return (
@@ -395,5 +396,22 @@ export const Example_11 = () => {
         Ок
       </Button>
     </form>
+  );
+};
+
+// #12 Tooltip сверху-слева при невалидности
+export const TooltipTopLeft: Story = () => {
+  const [value, setValue] = useState<string>('');
+  const validateValue = (): Nullable<ValidationInfo> =>
+    !/^\d{10}$|^\d{12}$/.test(value) ? { message: 'Неверный ИНН', type: 'lostfocus' } : null;
+
+  return (
+    <ValidationContainer>
+      <div style={{ paddingTop: 60 }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top left')}>
+          <Input data-tid="test-input" value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
+        </ValidationWrapper>
+      </div>
+    </ValidationContainer>
   );
 };

@@ -150,7 +150,7 @@ kind('DateInput', () => {
   });
 
   story('ShouldSetFocusOnPlaceholderClick', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
 
     test('focused', async function () {
       const DateInputPlaceholder = this.browser.findElement({
