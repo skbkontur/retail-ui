@@ -35,7 +35,9 @@ export class BasicLightThemeInternal {
   public static yellow = '#fcb73e';
   public static yellowDark = '#ef8b17';
 
-  public static bgDefault = '#fff';
+  public static get bgDefault() {
+    return this.white;
+  }
   public static get bgSecondary() {
     return this.bgDefault;
   }
@@ -49,15 +51,21 @@ export class BasicLightThemeInternal {
   public static get errorSecondary() {
     return this.redXxLight;
   }
-  public static warningMain = '#fcb73e';
+  public static get warningMain() {
+    return this.yellow;
+  }
   public static warningSecondary = '#fff0bc';
   public static warningText = '#d97e00';
-  public static borderColorFocusLight = '#cdedff';
+  public static get borderColorFocusLight() {
+    return this.blueXxLight;
+  }
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.16)';
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
   public static placeholderColor = '#adadad';
-  public static outlineColorFocus = '#fff';
+  public static get outlineColorFocus() {
+    return this.white;
+  }
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
@@ -69,9 +77,13 @@ export class BasicLightThemeInternal {
   public static controlPaddingYMedium = '8px';
   public static controlPaddingYLarge = '11px';
   public static textColorDefault = '#222222';
-  public static textColorInvert = '#fff';
+  public static get textColorInvert() {
+    return this.white;
+  }
   public static textColorDisabled = '#adadad';
-  public static textColorDisabledContrast = '#858585';
+  public static get textColorDisabledContrast() {
+    return this.gray;
+  }
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '16px';
   public static fontSizeLarge = '18px';
@@ -125,7 +137,9 @@ export class BasicLightThemeInternal {
   public static get linkDisabledColor() {
     return this.textColorDisabled;
   }
-  public static linkGrayedColor = '#858585';
+  public static get linkGrayedColor() {
+    return this.gray;
+  }
   public static linkGrayedHoverColor = '#292929';
   public static linkGrayedActiveColor = '#141414';
 
@@ -379,7 +393,9 @@ export class BasicLightThemeInternal {
   public static btnCheckedBg = '#3D3D3D';
   public static btnCheckedDisabledBg = '#ADADAD';
   public static btnCheckedDisabledColor = '#E6E6E6';
-  public static btnCheckedTextColor = '#fff';
+  public static get btnCheckedTextColor() {
+    return this.white;
+  }
   public static get btnCheckedDisabledBorderColor() {
     return this.btnCheckedDisabledBg;
   }
@@ -419,7 +435,9 @@ export class BasicLightThemeInternal {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
-  public static btnDefaultBg = '#fff';
+  public static get btnDefaultBg() {
+    return this.white;
+  }
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
   public static get btnDefaultCheckedBorderColor() {
@@ -456,7 +474,9 @@ export class BasicLightThemeInternal {
   public static btnSuccessBorderBottomColor = '';
   public static btnSuccessBgStart = 'none';
   public static btnSuccessBgEnd = 'none';
-  public static btnSuccessTextColor = '#fff';
+  public static get btnSuccessTextColor() {
+    return this.white;
+  }
   public static btnSuccessHoverBgStart = 'none';
   public static btnSuccessHoverBgEnd = 'none';
   public static btnSuccessActiveBg = '#209644';
@@ -479,7 +499,9 @@ export class BasicLightThemeInternal {
   public static btnPrimaryBorderBottomColor = '';
   public static btnPrimaryBgStart = 'none';
   public static btnPrimaryBgEnd = 'none';
-  public static btnPrimaryTextColor = '#fff';
+  public static get btnPrimaryTextColor() {
+    return this.white;
+  }
   public static btnPrimaryHoverBgStart = 'none';
   public static btnPrimaryHoverBgEnd = 'none';
   public static btnPrimaryActiveBorderTopColor = '';
@@ -501,7 +523,9 @@ export class BasicLightThemeInternal {
   public static btnDangerBorderBottomColor = '';
   public static btnDangerBgStart = 'none';
   public static btnDangerBgEnd = 'none';
-  public static btnDangerTextColor = '#fff';
+  public static get btnDangerTextColor() {
+    return this.white;
+  }
   public static btnDangerHoverBgStart = 'none';
   public static btnDangerHoverBgEnd = 'none';
   public static btnDangerActiveBg = '#DD3333';
@@ -511,12 +535,16 @@ export class BasicLightThemeInternal {
 
   public static btnDangerActiveBorderTopColor = '';
   public static btnDangerActiveShadow = 'none';
-  public static btnPayBg = '#fcb73e';
+  public static get btnPayBg() {
+    return this.yellow;
+  }
   public static btnPayHoverBg = '#fda70c';
   public static btnPayHoverBorderColor = '#fda70c';
   public static btnPayHoverTextDecorationColor = '';
   public static btnPayHoverTextColor = '';
-  public static btnPayBorderColor = '#fcb73e';
+  public static get btnPayBorderColor() {
+    return this.yellow;
+  }
   public static btnPayTextDecorationColor = '';
   public static btnPayBgStart = 'none';
   public static btnPayBgEnd = 'none';
@@ -641,7 +669,9 @@ export class BasicLightThemeInternal {
   public static get btnOutlineColorFocus() {
     return this.outlineColorFocus;
   }
-  public static btnInsetColor = '#fff';
+  public static get btnInsetColor() {
+    return this.white;
+  }
   public static get btnBorderColorFocus() {
     return this.borderColorFocus;
   }
@@ -802,7 +832,9 @@ export class BasicLightThemeInternal {
   public static get tooltipTextColor() {
     return this.textColorDefault;
   }
-  public static tooltipBg = '#fff';
+  public static get tooltipBg() {
+    return this.white;
+  }
   public static get tooltipBorder() {
     return this.popupBorder;
   }
@@ -853,7 +885,9 @@ export class BasicLightThemeInternal {
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.06)';
-  public static modalBackBg = '#000';
+  public static get modalBackBg() {
+    return this.black;
+  }
   public static get modalBg() {
     return this.bgSecondary;
   }
@@ -942,7 +976,9 @@ export class BasicLightThemeInternal {
   public static get sidePageFooterPanelBg() {
     return this.sidePageBgDefault;
   }
-  public static sidePageBackingBg = '#000';
+  public static get sidePageBackingBg() {
+    return this.black;
+  }
   public static sidePageBackingBgOpacity = '0.16';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
@@ -958,7 +994,9 @@ export class BasicLightThemeInternal {
   public static sidePagePaddingBottom = '40px';
   public static sidePageFooterPaddingTop = '20px';
   public static sidePageFooterPaddingBottom = '20px';
-  public static sidePageBgDefault = '#fff';
+  public static get sidePageBgDefault() {
+    return this.white;
+  }
   public static get sidePageHeaderTextColor() {
     return this.textColorDefault;
   }
@@ -1193,7 +1231,9 @@ export class BasicLightThemeInternal {
   public static toastTop = '24px';
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
   public static toastColor = 'white';
-  public static toastLinkColor = '#fff';
+  public static get toastLinkColor() {
+    return this.white;
+  }
   public static toastLinkTextDecorationHover = '';
   public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
   public static toastLinkBgActive = 'rgba(0, 0, 0, 0.87)';
@@ -1536,7 +1576,9 @@ export class BasicLightThemeInternal {
   public static menuFooterLegacyPaddingRight = '0px';
 
   //menuSeparator
-  public static menuSeparatorBorderColor = '#ebebeb';
+  public static get menuSeparatorBorderColor() {
+    return this.grayXLight;
+  }
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorMarginX = '8px';
   public static menuSeparatorBorderWidth = '1px';
@@ -1605,7 +1647,9 @@ export class BasicLightThemeInternal {
     return `calc(${this.toggleHeightLarge} * 0.5)`;
   }
 
-  public static toggleBaseBg = '#fff';
+  public static get toggleBaseBg() {
+    return this.white;
+  }
   public static toggleBgHover = '#F0F0F0';
 
   public static get toggleBorderWidth() {
@@ -1666,8 +1710,12 @@ export class BasicLightThemeInternal {
   public static get toggleContainerBgChecked() {
     return this.toggleBgChecked;
   }
-  public static toggleCheckedBg = '#fff';
-  public static toggleCheckedBgHover = '#fff';
+  public static get toggleCheckedBg() {
+    return this.white;
+  }
+  public static get toggleCheckedBgHover() {
+    return this.white;
+  }
 
   // checked :hover
   public static toggleContainerBoxShadowCheckedHover = 'none';
@@ -1680,7 +1728,9 @@ export class BasicLightThemeInternal {
   public static toggleHandleBgDisabled = 'transparent';
   public static toggleContainerBoxShadowDisabled = 'inset 0 0 0 1px rgba(0, 0, 0, 0.1)';
   public static toggleHandleBoxShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.1)';
-  public static toggleDisabledHandleBg = '#fff';
+  public static get toggleDisabledHandleBg() {
+    return this.white;
+  }
   public static get toggleBgDisabled() {
     return this.bgDisabled;
   }
@@ -1721,7 +1771,9 @@ export class BasicLightThemeInternal {
   }
   public static inputShadow = 'none';
   public static inputBg = 'white';
-  public static inputIconColor = '#858585';
+  public static get inputIconColor() {
+    return this.gray;
+  }
   public static get inputIconColorDisabled() {
     return this.textColorDisabled;
   }
@@ -1909,7 +1961,9 @@ export class BasicLightThemeInternal {
   public static get checkboxShadowHover() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
-  public static checkboxCheckedColor = '#fff';
+  public static get checkboxCheckedColor() {
+    return this.white;
+  }
   public static get checkboxOutlineColorFocus() {
     return this.outlineColorFocus;
   }
@@ -1935,7 +1989,9 @@ export class BasicLightThemeInternal {
   public static get checkboxBorderColorFocus() {
     return this.borderColorFocus;
   }
-  public static checkboxBg = '#fff';
+  public static get checkboxBg() {
+    return this.white;
+  }
   public static get checkboxHoverBg() {
     return this.btnDefaultHoverBg;
   }
@@ -1957,7 +2013,9 @@ export class BasicLightThemeInternal {
   }
   //#endregion Checkbox
   //#region TextArea
-  public static textareaBg = '#fff';
+  public static get textareaBg() {
+    return this.white;
+  }
   public static get textareaColor() {
     return this.textColorDefault;
   }
@@ -2134,7 +2192,9 @@ export class BasicLightThemeInternal {
 
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
-  public static radioBgColor = '#fff';
+  public static get radioBgColor() {
+    return this.white;
+  }
   public static get radioHoverBg() {
     return this.checkboxHoverBg;
   }
@@ -2169,7 +2229,9 @@ export class BasicLightThemeInternal {
     return this.checkboxCheckedBg;
   }
   public static radioCheckedBorderColor = 'transparent';
-  public static radioCheckedBulletColor = '#fff';
+  public static get radioCheckedBulletColor() {
+    return this.white;
+  }
   public static get radioCheckedHoverBgColor() {
     return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
@@ -2411,9 +2473,13 @@ export class BasicLightThemeInternal {
   public static dropdownMenuScrollContainerScrollBarOffsetY = '0px';
   //#endregion
   //#region PasswordInput
-  public static passwordInputVisibilityIconColor = '#000';
+  public static get passwordInputVisibilityIconColor() {
+    return this.black;
+  }
   public static passwordInputVisibilityIconOpacity = '0.6';
-  public static passwordInputVisibilityIconHoverColor = '#000';
+  public static get passwordInputVisibilityIconHoverColor() {
+    return this.black;
+  }
   public static passwordInputVisibilityIconHoverOpacity = '1';
   //#endregion
   //#region GlobalLoader
@@ -2436,7 +2502,9 @@ export class BasicLightThemeInternal {
   //#region FileUploader
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '';
-  public static fileUploaderUploadButtonBg = '#fff';
+  public static get fileUploaderUploadButtonBg() {
+    return this.white;
+  }
   public static get fileUploaderPaddingXSmall() {
     return this.inputPaddingXSmall;
   }
@@ -2491,10 +2559,14 @@ export class BasicLightThemeInternal {
   public static get fileUploaderLinkColor() {
     return this.linkColor;
   }
-  public static fileUploaderAfterLinkColor = '#858585';
+  public static get fileUploaderAfterLinkColor() {
+    return this.gray;
+  }
   public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#222222';
-  public static fileUploaderIconHoverColor = '#333';
+  public static get fileUploaderIconHoverColor() {
+    return this.grayDark;
+  }
   public static get fileUploaderBorderColorError() {
     return this.borderColorError;
   }
@@ -2574,7 +2646,9 @@ export class BasicLightThemeInternal {
   public static get validationsTextColorError() {
     return this.errorText;
   }
-  public static validationsTextColorWarning = '#ef8b17';
+  public static get validationsTextColorWarning() {
+    return this.yellowDark;
+  }
   //#endregion
 }
 

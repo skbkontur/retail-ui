@@ -14,7 +14,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static yellowXxLight = '#ffe0c3';
   public static yellow = '#ffa236';
   public static yellowDark = '#ea7324';
-  public static warningMain = '#ffa236';
+  public static get warningMain() {
+    return this.yellow;
+  }
   public static get errorMain() {
     return this.red;
   }
@@ -27,13 +29,19 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static placeholderColorLight = 'rgba(255, 255, 255, 0.16)';
   public static textColorDefault = 'rgba(255, 255, 255, 0.865)';
   public static textColorDisabled = 'rgba(255, 255, 255, 0.32)';
-  public static textColorDisabledContrast = 'rgba(255, 255, 255, 0.48)';
+  public static get textColorDisabledContrast() {
+    return this.gray;
+  }
   public static textColorInvert = 'rgba(255, 255, 255, 0.865)';
   public static bgDisabled = '#434343';
   public static bgDefault = '#1f1f1f';
   public static bgSecondary = '#333333';
-  public static outlineColorFocus = '#EBEBEB';
-  public static borderColorFocus = '#EBEBEB';
+  public static get outlineColorFocus() {
+    return this.grayXLight;
+  }
+  public static get borderColorFocus() {
+    return this.grayXLight;
+  }
   public static get borderColorError() {
     return this.errorMain;
   }
@@ -65,7 +73,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
     return '#ED3F3F';
   }
 
-  public static linkFocusOutlineColor = '#EBEBEB';
+  public static get linkFocusOutlineColor() {
+    return this.grayXLight;
+  }
   public static linkHoverTextDecoration = 'none';
 
   public static get linkDisabledColor() {
@@ -116,7 +126,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   }
 
   // primary
-  public static btnPrimaryBg = '#EBEBEB';
+  public static get btnPrimaryBg() {
+    return this.grayXLight;
+  }
   public static btnPrimaryBorderColor = '#3D3D3D';
 
   public static btnPrimaryHoverBg = '#FFFFFF';
@@ -140,7 +152,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static get btnDangerTextColor() {
     return this.textColorDefault;
   }
-  public static btnDangerActiveBg = '#DD3333';
+  public static get btnDangerActiveBg() {
+    return this.redDark;
+  }
   public static get btnDangerActiveBorderColor() {
     return this.btnDangerActiveBg;
   }
@@ -190,7 +204,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static btnDisabledBorderColor = 'transparent';
 
   // checked
-  public static btnCheckedBg = '#EBEBEB';
+  public static get btnCheckedBg() {
+    return this.grayXLight;
+  }
   public static btnCheckedTextColor = 'rgba(0, 0, 0, 0.865)';
   public static btnCheckedDisabledBg = 'rgba(255, 255, 255, 0.32) !important';
   public static btnCheckedDisabledColor = 'rgba(0, 0, 0, 0.48)';
@@ -202,7 +218,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   //#endregion Tooltip
   //#region Modal
   public static modalBg = '#222';
-  public static modalBackBg = '#000';
+  public static get modalBackBg() {
+    return this.black;
+  }
   public static modalBackOpacity = '0.7';
 
   public static modalCloseButtonColor = 'rgba(255, 255, 255, 0.32)';
@@ -330,7 +348,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   // checked
   public static toggleBgChecked = 'rgba(255, 255, 255, 0.1)';
   public static toggleContainerBoxShadowChecked = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
-  public static toggleHandleBgChecked = '#EBEBEB';
+  public static get toggleHandleBgChecked() {
+    return this.grayXLight;
+  }
   public static toggleHandleBoxShadowChecked = 'none';
 
   // checked :hover
@@ -357,7 +377,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static toggleContainerBoxShadowDisabledChecked = 'none';
   public static toggleHandleBgDisabledChecked = 'rgba(0, 0, 0, 0.16)';
   public static toggleHandleBoxShadowDisabledChecked = 'none';
-  public static toggleBgDisabledChecked = 'rgba(255, 255, 255, 0.48)';
+  public static get toggleBgDisabledChecked() {
+    return this.gray;
+  }
 
   //#endregion Toggle
   //#region Token
@@ -374,7 +396,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static tokenDefaultIdleBgHover = 'rgba(255, 255, 255, 0.16)';
   public static tokenDefaultIdleBorderColorHover = 'rgba(255, 255, 255, 0.06)';
   public static tokenDefaultActiveColor = 'rgba(0, 0, 0, 0.87)';
-  public static tokenDefaultActiveBg = '#EBEBEB';
+  public static get tokenDefaultActiveBg() {
+    return this.grayXLight;
+  }
   public static tokenDefaultActiveBorderColor = 'transparent';
   //#endregion Token
   //#region Input
@@ -383,7 +407,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
     return this.inputBorderColor;
   }
   public static inputColorScheme = 'dark';
-  public static inputBlinkColor = '#EBEBEB';
+  public static get inputBlinkColor() {
+    return this.grayXLight;
+  }
   public static inputTextColor = 'rgba(255, 255, 255, 0.865)';
   public static inputBorderColor = 'rgba(255, 255, 255, 0.06)';
   public static inputBackgroundClip = 'border-box';
@@ -484,7 +510,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
     return this.checkboxShadow;
   }
 
-  public static checkboxCheckedBg = '#EBEBEB';
+  public static get checkboxCheckedBg() {
+    return this.grayXLight;
+  }
   public static checkboxCheckedColor = 'rgba(0, 0, 0, 0.87)';
   public static checkboxHoverBg = 'rgba(255, 255, 255, 0.16)';
   public static get checkboxCheckedHoverBg() {
@@ -516,7 +544,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static get fileUploaderBorderColorError() {
     return this.borderColorError;
   }
-  public static fileUploaderBorderColorWarning = '#ffa236';
+  public static get fileUploaderBorderColorWarning() {
+    return this.yellow;
+  }
   public static get fileUploaderDisabledBg() {
     return this.btnDisabledBg;
   }
