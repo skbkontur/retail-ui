@@ -106,10 +106,9 @@ class Sample extends React.Component<SampleProps> {
                     style={
                       this.props.withLongBody
                         ? {
-                            background:
-                              theme.prototype.constructor.name === 'DarkTheme'
-                                ? '' + linearDarkGradient + ''
-                                : '' + linearLightGradient + '',
+                            background: theme.prototype.constructor.name.includes('Dark')
+                              ? '' + linearDarkGradient + ''
+                              : '' + linearLightGradient + '',
                             height: 2000,
                           }
                         : undefined
@@ -423,10 +422,9 @@ class WithVariableContent extends React.Component {
             <SidePage.Body>
               <div
                 style={{
-                  background:
-                    theme.prototype.constructor.name === 'DarkTheme'
-                      ? '' + linearDarkGradient + ''
-                      : '' + linearLightGradient + '',
+                  background: theme.prototype.constructor.name.includes('Dark')
+                    ? '' + linearDarkGradient + ''
+                    : '' + linearLightGradient + '',
                   height: 600,
                   padding: '20px 0',
                 }}
@@ -489,10 +487,9 @@ class TestUpdateLayoutMethod extends React.Component {
         return (
           <div
             style={{
-              background:
-                theme.prototype.constructor.name === 'DarkTheme'
-                  ? '' + linearDarkGradient + ''
-                  : '' + linearLightGradient + '',
+              background: theme.prototype.constructor.name.includes('Dark')
+                ? '' + linearDarkGradient + ''
+                : '' + linearLightGradient + '',
               height: 2000,
             }}
           />
@@ -575,10 +572,9 @@ class WithLongTitle extends React.Component {
                   id="scrollable-content"
                   style={{
                     height: 1500,
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                   }}
                 />
               </SidePage.Body>
@@ -614,6 +610,9 @@ export default {
   title: 'SidePage',
   component: SidePage,
 };
+
+export const SidePageWithBlockBackground: Story = () => <Sample blockBackground />;
+SidePageWithBlockBackground.storyName = 'SidePage with block background';
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';

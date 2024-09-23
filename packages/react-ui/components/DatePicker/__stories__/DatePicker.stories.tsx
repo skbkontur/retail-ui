@@ -305,7 +305,6 @@ export const WithManualPosition: Story = () => {
     toggleIsRelative(!isRelative);
     document.querySelector('html')?.classList.toggle(relativeClassName);
   }, [isRelative]);
-
   useEffect(() => {
     return () => {
       document.querySelector('html')?.classList.remove(relativeClassName);

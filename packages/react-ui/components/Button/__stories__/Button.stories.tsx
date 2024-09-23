@@ -11,6 +11,9 @@ import {
 } from '@skbkontur/icons/icons/CheckAIcon';
 
 import { Meta, Story } from '../../../typings/stories';
+import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
@@ -573,5 +576,23 @@ export const HoverTextColor: Story = () => {
     <Button theme={{ btnTextHoverTextColor: 'white', btnTextHoverBg: '#ff5a49' }} use="text" data-tid="test-button">
       Use Text
     </Button>
+  );
+};
+
+export const BtnBacklessBgHoverActive: Story = () => {
+  const myTheme = ThemeFactory.create(
+    {
+      btnBacklessHoverBg: 'red',
+      btnBacklessActiveBg: 'green',
+    },
+    THEME_2022_DARK,
+  );
+
+  return (
+    <ThemeContext.Provider value={myTheme}>
+      <Button data-tid="test-button" use="backless">
+        Backless
+      </Button>
+    </ThemeContext.Provider>
   );
 };
