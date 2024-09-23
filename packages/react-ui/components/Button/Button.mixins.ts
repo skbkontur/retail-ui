@@ -12,7 +12,6 @@ export const buttonUseMixin = (
   btnBackgroundEnd: string,
   color: string,
   borderColor: string,
-  borderBottomColor: string,
   borderWidth: string,
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
@@ -20,7 +19,7 @@ export const buttonUseMixin = (
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     color: ${color};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor};
 
     :enabled:hover,
     :enabled {
@@ -37,14 +36,13 @@ export const buttonHoverMixin = (
   btnBackgroundEnd: string,
   color: string,
   borderColor: string,
-  borderBottomColor: string,
   borderWidth: string,
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor};
     color: ${color};
   `;
 };
@@ -53,7 +51,6 @@ export const buttonActiveMixin = (
   btnBackground: string,
   btnShadow: string,
   borderColor: string,
-  borderTopColor: string,
   borderWidth: string,
 ) => {
   return css`
@@ -61,7 +58,7 @@ export const buttonActiveMixin = (
     &:hover {
       background-image: none !important; // override :hover styles
       background-color: ${btnBackground} !important; // override :hover styles
-      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``} !important; // override :hover styles
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor} !important; // override :hover styles
 
       .${globalClasses.innerShadow} {
         box-shadow: ${btnShadow};
