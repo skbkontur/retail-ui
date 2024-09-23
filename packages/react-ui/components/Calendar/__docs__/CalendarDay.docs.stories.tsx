@@ -1,8 +1,6 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
-const { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } = require('@skbkontur/react-ui/lib/date/comparison');
-
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';
 
 export default {
@@ -31,6 +29,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
+  const { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } = require('@skbkontur/react-ui/lib/date/comparison');
 
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
@@ -49,9 +48,6 @@ export const Example2: Story = () => {
     </table>
   )
 
-  // варианты решения:
-  // 1. заинлайнить прям сюды функции и сказать, что такие же есть в библиотеке
-  // 2. заинлайнить компонент Row
   const Row = ({ code }) => (
     <tr>
       <td><code>{code}</code></td>

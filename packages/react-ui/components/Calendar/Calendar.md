@@ -13,6 +13,7 @@ const [date, setDate] = React.useState("01.11.2021");
 Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear`
 
 ```jsx harmony
+import { Checkbox } from '@skbkontur/react-ui';
 
 const [date, setDate] = React.useState("11.12.2021");
 const initialMonth = 7;
@@ -104,6 +105,7 @@ const theme = React.useContext(ThemeContext);
 ```
 
 ### Кастомный рендер дня
+Для кастомнизации дней в календаре используется метод `renderDay` и компонент [Calendar.Day](#/Components/Calendar/Calendar.Day)
 
 ```jsx harmony
 import { Tooltip, Hint, CalendarDay } from '@skbkontur/react-ui';
@@ -141,6 +143,45 @@ const renderDay = (props) => {
   onValueChange={setValue}
   renderDay={renderDay}
 />;
+```
+
+### Календарь с ценами
+Пример с кастомизацией темы и кастомным рендером дня.
+
+```jsx harmony
+import { CalendarDay } from '@skbkontur/react-ui';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+
+const theme = React.useContext(ThemeContext);
+
+function renderDay(props) {
+  const [date, month] = props.date.split('.').map(Number);
+  const randomDay = date % 6 === 0 || date % 7 === 0 || date % 8 === 0;
+  const randomPrice = Math.round((date / month) * 1000);
+
+  return (
+    <CalendarDay {...props}>
+      <div style={{ fontSize: theme.calendarCellFontSize }}>{date}</div>
+      <div style={{ fontSize: '11px', fontFeatureSettings: 'tnum', fontVariantNumeric: 'tabular-nums' }}>
+        {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.tokenTextColorDisabled }}>—</span>}
+      </div>
+    </CalendarDay>
+  );
+}
+
+const [value, setValue] = React.useState(null);
+
+<ThemeContext.Provider
+  value={ThemeFactory.create({
+    calendarCellSize: '56px',
+    calendarCellLineHeight: '1.5',
+    calendarWrapperHeight: '600px',
+    calendarCellBorderRadius: '8px'
+  }, theme)}
+>
+  <Calendar value={value} renderDay={renderDay} onValueChange={setValue} />
+</ThemeContext.Provider>
 ```
 
 ### Локали по умолчанию

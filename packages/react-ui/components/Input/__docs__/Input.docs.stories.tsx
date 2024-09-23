@@ -3,7 +3,7 @@ import { Meta, Story } from '../../../typings/stories';
 
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Input, Button, Group, Gapped } from '@skbkontur/react-ui';
+import { Input, Button, Group, Gapped, Tooltip } from '@skbkontur/react-ui';
 
 export default {
   title: 'Input data/Input',
@@ -14,7 +14,7 @@ export default {
 export const Example1: Story = () => {
 
   return (
-    <Input leftIcon={<SearchIcon />} />
+    <Input />
   );
 
 };

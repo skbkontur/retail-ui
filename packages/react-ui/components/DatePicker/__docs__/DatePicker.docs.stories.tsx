@@ -4,17 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import * as DatePickerHelpers from '../DatePickerHelpers';
 
-import {
-  DatePicker,
-  Gapped,
-  Tooltip,
-  DateOrder,
-  DateSeparator,
-  LocaleContext,
-  Select,
-  LangCodes,
-  CalendarDay
-} from '@skbkontur/react-ui';
+import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes, CalendarDay } from '@skbkontur/react-ui';
 
 export default {
   title: 'Input data/DatePicker',
@@ -119,7 +109,7 @@ export const Example2: Story = () => {
 };
 Example2.storyName = '`isHoliday`';
 
-export const Example3: Story = () => {
+export const Example4: Story = () => {
 
   class DatePickerFormatting extends React.Component {
     constructor() {
@@ -177,10 +167,11 @@ export const Example3: Story = () => {
   );
 
 };
-Example3.storyName = 'Ручное форматирование даты';
+Example4.storyName = 'Ручное форматирование даты';
 
 /** Подбробный пример в [Calendar](#/Components/Calendar) */
-export const Example4: Story = () => {
+export const Example5: Story = () => {
+
   const [value, setValue] = React.useState('12.05.2022');
 
   const renderDay = (props) => {
@@ -199,5 +190,5 @@ export const Example4: Story = () => {
   );
 
 };
-Example4.storyName = 'Кастомный рендер дня';
+Example5.storyName = 'Кастомный рендер дня';
 

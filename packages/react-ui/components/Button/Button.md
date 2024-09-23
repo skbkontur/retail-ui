@@ -150,6 +150,8 @@ const handleClick = () => {
 ### Проп темы
 
 ```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
 <Gapped>
   <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
   <Button use="link" theme={{linkColor: '#C00000'}}>Ok</Button>
@@ -222,4 +224,29 @@ const renderExampleRow = (title, styles) => {
   {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
+```
+
+### Узкая Кнопка
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button narrow>
+  Создать отчет
+</Button>
+```
+
+### Состояния валидации
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+<Gapped gap={5}>
+  <Button warning>
+    Warning
+  </Button>
+  <Button error>
+    Error
+  </Button>
+</Gapped>
 ```

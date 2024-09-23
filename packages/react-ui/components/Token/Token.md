@@ -115,6 +115,8 @@ import { Gapped, Token } from '@skbkontur/react-ui';
 ### Размер
 
 ```jsx harmony
+import { Gapped, Token } from '@skbkontur/react-ui';
+
 <Gapped vertical>
   <Token size="small">
     Маленький

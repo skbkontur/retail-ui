@@ -279,6 +279,8 @@ class DatePickerFormatting extends React.Component {
 Подбробный пример в [Calendar](#/Components/Calendar)
 
 ```jsx harmony
+import { CalendarDay } from "@skbkontur/react-ui";
+
 const [value, setValue] = React.useState('12.05.2022');
 
 const renderDay = (props) => {

@@ -170,6 +170,7 @@ export const Example8: Story = () => {
 Example8.storyName = 'Состояние загрузки';
 
 export const Example9: Story = () => {
+
   return (
     <Gapped>
       <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
@@ -247,4 +248,31 @@ export const Example10: Story = () => {
 
 };
 Example10.storyName = 'Кастомизация кнопки-ссылки';
+
+export const Example11: Story = () => {
+
+  return (
+    <Button narrow>
+      Создать отчет
+    </Button>
+  );
+
+};
+Example11.storyName = 'Узкая Кнопка';
+
+export const Example12: Story = () => {
+
+  return (
+    <Gapped gap={5}>
+      <Button warning>
+        Warning
+      </Button>
+      <Button error>
+        Error
+      </Button>
+    </Gapped>
+  );
+
+};
+Example12.storyName = 'Состояния валидации';
 

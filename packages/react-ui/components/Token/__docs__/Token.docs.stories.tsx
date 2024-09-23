@@ -127,6 +127,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Состояние валидации';
 
 export const Example4: Story = () => {
+
   return (
     <Gapped vertical>
       <Token size="small">
