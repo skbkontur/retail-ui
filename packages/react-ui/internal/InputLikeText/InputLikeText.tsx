@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
-import { isFunction, isNonNullable } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
-import { InputIconType, InputProps, InputState } from '../../components/Input';
+import { InputProps, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -17,7 +17,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -184,16 +183,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     const { focused, blinking } = this.state;
 
-    const leftSide = isTheme2022(this.theme) ? (
-      <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
-    ) : (
-      this.renderLeftSide()
-    );
-    const rightSide = isTheme2022(this.theme) ? (
-      <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
-    ) : (
-      this.renderRightSide()
-    );
+    const leftSide = <InputLayoutAside icon={leftIcon} text={prefix} side="left" />;
+    const rightSide = <InputLayoutAside icon={rightIcon} text={suffix} side="right" />;
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.disabled(this.theme)]: !!disabled,
@@ -257,105 +248,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           </InputLayoutContext.Provider>
         </span>
       </FocusControlWrapper>
-    );
-  };
-
-  private getIconClassname(right = false) {
-    switch (this.getProps().size) {
-      case 'large':
-        return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
-      case 'medium':
-        return right ? jsInputStyles.rightIconMedium(this.theme) : jsInputStyles.leftIconMedium(this.theme);
-      case 'small':
-      default:
-        return right ? jsInputStyles.rightIconSmall(this.theme) : jsInputStyles.leftIconSmall(this.theme);
-    }
-  }
-
-  private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
-  };
-
-  private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
-  };
-
-  private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
-    if (!icon) {
-      return null;
-    }
-
-    const { disabled } = this.props;
-    const iconNode = isFunction(icon) ? icon() : icon;
-
-    return (
-      <span
-        className={cx(jsInputStyles.icon(), className, jsInputStyles.useDefaultColor(this.theme), {
-          [jsInputStyles.iconDisabled()]: disabled,
-        })}
-      >
-        {iconNode}
-      </span>
-    );
-  };
-
-  private renderPrefix = (): JSX.Element | null => {
-    const { prefix, disabled } = this.props;
-
-    if (!prefix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(jsInputStyles.prefix(this.theme), { [jsInputStyles.prefixDisabled(this.theme)]: disabled })}>
-        {prefix}
-      </span>
-    );
-  };
-
-  private renderSuffix = (): JSX.Element | null => {
-    const { suffix, disabled } = this.props;
-
-    if (!suffix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(jsInputStyles.suffix(this.theme), { [jsInputStyles.suffixDisabled(this.theme)]: disabled })}>
-        {suffix}
-      </span>
-    );
-  };
-
-  private renderLeftSide = (): JSX.Element | null => {
-    const leftIcon = this.renderLeftIcon();
-    const prefix = this.renderPrefix();
-
-    if (!leftIcon && !prefix) {
-      return null;
-    }
-
-    return (
-      <span className={jsInputStyles.sideContainer()}>
-        {leftIcon}
-        {prefix}
-      </span>
-    );
-  };
-
-  private renderRightSide = (): JSX.Element | null => {
-    const rightIcon = this.renderRightIcon();
-    const suffix = this.renderSuffix();
-
-    if (!rightIcon && !suffix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(jsInputStyles.sideContainer(), jsInputStyles.rightContainer())}>
-        {rightIcon}
-        {suffix}
-      </span>
     );
   };
 

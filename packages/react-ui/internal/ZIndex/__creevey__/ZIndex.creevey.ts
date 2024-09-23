@@ -123,15 +123,13 @@ kind('ZIndex', () => {
   });
 
   story('StickyAndTooltipsStory', () => {
-    test('Sticky covers outside Popup and DropdownContainer', async function () {
+    test('Sticky covers outside Popup', async function () {
       await this.browser
         .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
         .perform();
       await delay(1000);
-      await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-        'Sticky covers outside Popup and DropdownContainer',
-      );
+      await this.expect(await this.browser.takeScreenshot()).to.matchImage('Sticky covers outside Popup');
     });
   });
 
@@ -179,7 +177,7 @@ kind('ZIndex', () => {
   });
 
   story('ModalWithDropdown', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('dropdown overlaps static header', async function () {
       await this.browser

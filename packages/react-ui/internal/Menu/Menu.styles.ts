@@ -9,6 +9,11 @@ export const styles = memoizeStyle({
       box-sizing: ${t.menuBoxSizing};
       outline: none;
       padding: ${t.menuPaddingY} ${t.menuPaddingX};
+    `;
+  },
+
+  hasMargin(t: Theme) {
+    return css`
       margin: ${t.menuOffsetY} 0;
     `;
   },
