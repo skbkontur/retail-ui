@@ -4,15 +4,9 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 export class BasicLightThemeInternal {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
-  public static brandXLight = '#cae5f5';
-  public static brandLight = '#3094d0';
   public static brand = '#2291ff';
-  public static brandDark = '#1363a0';
-  public static brandXDark = '#084f85';
   public static white = '#fff';
-  public static grayXxLight = '#f2f2f2';
   public static grayXLight = '#ebebeb';
-  public static grayLight = '#a0a0a0';
   public static gray = '#858585';
   public static grayDark = '#333';
   public static black = '#000';
@@ -20,8 +14,6 @@ export class BasicLightThemeInternal {
   public static blueXxLight = '#cdedff';
   public static blueLight = '#1f87ef';
   public static blue = '#1874cf';
-  public static blueDark = '#1874cf';
-  public static blueXDark = '#044785';
 
   public static greenXxLight = '#C7F9CC';
   public static green = '#1C8A3F';
@@ -237,7 +229,7 @@ export class BasicLightThemeInternal {
     return this.blueLight;
   }
   public static get tokenBlueActive() {
-    return this.blueDark;
+    return this.blue;
   }
   public static get tokenGreenIdle() {
     return this.greenXxLight;
