@@ -1,6 +1,16 @@
 import { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
+  linkLineBorderBottomStyle: 'linkTextDecorationStyle',
+  linkLineHoverBorderBottomStyle: 'linkHoverTextDecorationStyle',
+  linkLineBorderBottomWidth: 'linkTextDecorationThickness',
+  linkLineBorderBottomOpacity: 'linkTextUnderlineOpacity',
+  linkLineBorderBottomColor: 'linkTextDecorationColor',
+  btnLinkLineBorderBottomColor: 'btnLinkTextDecorationColor',
+  btnLinkLineBorderBottomStyle: 'btnLinkTextDecorationStyle',
+  btnLinkHoverLineBorderBottomStyle: 'btnLinkHoverTextDecorationStyle',
+  btnLinkLineBorderBottomWidth: 'btnLinkTextDecorationThickness',
+  btnLinkLineBorderBottomOpacity: 'btnLinkTextUnderlineOpacity',
   calendarCellSize: 'calendarCellHeight',
   tokenMarginY: 'tokenMarginYSmall',
   tokenMarginX: 'tokenMarginXSmall',
@@ -69,6 +79,6 @@ export default function transform(file: FileInfo, api: API) {
       return path.node;
     });
   if (modified) {
-    return  result.toSource({ lineTerminator: '\n' });
+    return result.toSource({ lineTerminator: '\n' });
   }
 }

@@ -9,6 +9,9 @@ defineInlineTest(
   {},
   `
   const THEME = ThemeFactory.create({
+    blue: '#0000ff',
+    btnLinkLineBorderBottomStyle: 'solid',
+    linkLineBorderBottomWidth: '2px',
     pagingForwardIconMarginTop: '5px',
     calendarCellSize: '10px',
     tokenMarginY: '20px',
@@ -24,6 +27,9 @@ defineInlineTest(
 `,
 `
   const THEME = ThemeFactory.create({
+    blue: '#0000ff',
+    btnLinkTextDecorationStyle: 'solid',
+    linkTextDecorationThickness: '2px',
     pagingForwardIconMarginTop: '5px',
     calendarCellHeight: '10px',
     tokenMarginYSmall: '20px',

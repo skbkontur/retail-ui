@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -39,15 +39,54 @@ const addFiles = async (files: File[]) => {
   });
 };
 
-const removeFile = async () => {
+const removeFile = async (filename?: string) => {
   await act(async () => {
-    await userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
+    if (filename) {
+      const element = screen
+        .getByText(filename)
+        .closest(`[data-tid="${FileUploaderFileDataTids.file}"]`) as HTMLElement;
+      const removeIcon = within(element).getByTestId(FileUploaderFileDataTids.fileIcon);
+      await userEvent.click(removeIcon);
+    } else {
+      await userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
+    }
   });
 };
 
 const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File;
 
+function createFile(filename: string, content = 'content'): File {
+  return new File([content], filename, { type: 'text/plain' });
+}
+
 describe('FileUploader', () => {
+  const originalDT = global.DataTransfer;
+  const originalFiles = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files');
+
+  beforeAll(() => {
+    //@ts-ignore
+    global.DataTransfer = class DataTransfer {
+      constructor() {
+        //@ts-ignore
+        this.items = new Set();
+        //@ts-ignore
+        this.files = this.items;
+      }
+    };
+  });
+
+  beforeEach(() =>
+    Object.defineProperty(HTMLInputElement.prototype, 'files', {
+      writable: true,
+      value: [],
+    }),
+  );
+
+  afterAll(() => {
+    global.DataTransfer = originalDT;
+    Object.defineProperty(HTMLInputElement.prototype, 'files', originalFiles as DataTransfer['files']);
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       render(<FileUploader />);
@@ -499,6 +538,41 @@ describe('FileUploader', () => {
       const rootNode = ref.current?.getRootNode?.();
       expect(rootNode).toBeInTheDocument();
       expect(rootNode).toBe(screen.getByTestId(FileUploaderDataTids.root));
+    });
+  });
+
+  describe('initialFiles', () => {
+    describe('single mode', () => {
+      it('should remove file', async () => {
+        render(<FileUploader multiple={false} initialFiles={[createFile('test.txt')]} />);
+        expect(screen.getByText('test.txt')).toBeInTheDocument();
+        await removeFile('test.txt');
+        expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+        screen.debug();
+      });
+
+      it('should render one initialFile when many files', () => {
+        render(<FileUploader multiple={false} initialFiles={[createFile('test.txt'), createFile('test2.txt')]} />);
+
+        expect(screen.getByText('test.txt')).toBeInTheDocument();
+        expect(screen.queryByText('test2.txt')).not.toBeInTheDocument();
+      });
+    });
+
+    describe('multiple mode', () => {
+      it('should remove multiple files', async () => {
+        render(<FileUploader multiple initialFiles={[createFile('test.txt'), createFile('test2.txt')]} />);
+
+        expect(screen.getByText('test.txt')).toBeInTheDocument();
+        expect(screen.getByText('test2.txt')).toBeInTheDocument();
+
+        await removeFile('test.txt');
+        expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+        expect(screen.getByText('test2.txt')).toBeInTheDocument();
+
+        await removeFile('test2.txt');
+        expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+      });
     });
   });
 });

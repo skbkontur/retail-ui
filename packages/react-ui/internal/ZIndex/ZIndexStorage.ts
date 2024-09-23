@@ -1,6 +1,6 @@
 import { globalObject } from '@skbkontur/global-object';
 
-type Priority = number | LayerComponentName;
+export type Priority = number | LayerComponentName;
 const calculatePriority = (priority: Priority) => {
   if (typeof priority === 'string') {
     return componentPriorities[priority];
@@ -15,14 +15,14 @@ export interface GlobalWithRetailUiZIndexes {
   __RetailUiZIndexes?: number[];
 }
 
-const componentPriorities = {
+export const componentPriorities = {
   MobilePopup: 9000,
   Toast: 10000,
   GlobalLoader: 10,
   Sidepage: 9,
   Modal: 9,
   Sticky: 7,
-  DropdownContainer: 5,
+  PopupMenu: 5,
   Popup: 3,
 };
 const priorityStep = 1000;

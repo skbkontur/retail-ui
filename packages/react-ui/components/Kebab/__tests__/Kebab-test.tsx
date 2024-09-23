@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { PopupDataTids, PopupIds } from '../../../internal/Popup';
 import { MenuItem } from '../../../components/MenuItem';
 import { Kebab, KebabDataTids } from '../Kebab';
+import { delay } from '../../../lib/utils';
 
 describe('Kebab', () => {
   it('prop `popupMenuId` sets an `id` for root of the popup', async () => {
@@ -50,6 +51,7 @@ describe('Kebab', () => {
     await userEvent.keyboard('{Escape}');
 
     const kebab = screen.getByTestId(KebabDataTids.caption);
+    await delay(1000);
     expect(kebab).toHaveFocus();
 
     expect(screen.queryByText(content)).not.toBeInTheDocument();
