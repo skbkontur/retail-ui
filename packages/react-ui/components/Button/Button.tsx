@@ -148,7 +148,7 @@ type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 /**
  * Кнопка `Button` запускает действие.
  *
- * Не используйте кнопки для перехода на другую страницу. Используйте для этого ссылку [Link](?path=/docs/navigation-link--docs).
+ * Не используйте кнопки для перехода на другую страницу. Используйте для этого ссылку [Link](?path=/docs/button-link--docs).
  */
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {

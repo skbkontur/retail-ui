@@ -71,7 +71,7 @@ type DefaultProps = Required<
 /**
  * Компонент `Loader` принимает внутрь себя контент, поверх которого в активном состоянии `Loader`'а будет отрисован спиннер.
  *
- * Если вам нужен только сам спиннер без дополнительного функционала - используйте компонент [Spinner](?path=/docs/action-spinner--docs).
+ * Если вам нужен только сам спиннер без дополнительного функционала - используйте компонент [Spinner](?path=/docs/display-data-spinner--docs).
  */
 @rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {

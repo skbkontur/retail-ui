@@ -82,7 +82,7 @@ type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
  * `Checkbox` используется для управления параметром с двумя состояниями.
  *
  * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
- * Для немедленного включения какого-то режима в интерфейсе лучше подходит [Toggle](?path=/docs/choose-toggle--docs).
+ * Для немедленного включения какого-то режима в интерфейсе лучше подходит [Toggle](?path=/docs/input-data-toggle--docs).
  */
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
