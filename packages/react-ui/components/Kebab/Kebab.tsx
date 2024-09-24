@@ -115,7 +115,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
               value={ThemeFactory.create(
                 {
                   popupMargin: theme.kebabMargin,
-                  menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
                 },
                 theme,
               )}
