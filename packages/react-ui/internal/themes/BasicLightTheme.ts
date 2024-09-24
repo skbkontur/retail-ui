@@ -4,15 +4,9 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 export class BasicLightThemeInternal {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
-  public static brandXLight = '#cae5f5';
-  public static brandLight = '#3094d0';
   public static brand = '#2291ff';
-  public static brandDark = '#1363a0';
-  public static brandXDark = '#084f85';
   public static white = '#fff';
-  public static grayXxLight = '#f2f2f2';
   public static grayXLight = '#ebebeb';
-  public static grayLight = '#a0a0a0';
   public static gray = '#858585';
   public static grayDark = '#333';
   public static black = '#000';
@@ -20,8 +14,6 @@ export class BasicLightThemeInternal {
   public static blueXxLight = '#cdedff';
   public static blueLight = '#1f87ef';
   public static blue = '#1874cf';
-  public static blueDark = '#1874cf';
-  public static blueXDark = '#044785';
 
   public static greenXxLight = '#C7F9CC';
   public static green = '#1C8A3F';
@@ -223,7 +215,7 @@ export class BasicLightThemeInternal {
     return this.blueLight;
   }
   public static get tokenBlueActive() {
-    return this.blueDark;
+    return this.blue;
   }
   public static get tokenGreenIdle() {
     return this.greenXxLight;
@@ -1271,9 +1263,6 @@ export class BasicLightThemeInternal {
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
   public static menuPaddingY = '0px';
   public static menuScrollContainerContentWrapperPaddingY = '4px';
-  public static get menuLegacyPaddingY() {
-    return this.menuScrollContainerContentWrapperPaddingY;
-  }
   public static mobileMenuPaddingY = '0px';
   public static mobileMenuScrollContainerContentWrapperPaddingY = '0px';
   public static menuPaddingX = '4px';
@@ -1621,10 +1610,6 @@ export class BasicLightThemeInternal {
 
   public static get toggleOutlineColorFocus() {
     return this.outlineColorFocus;
-  }
-
-  public static get toggleHandleBoxShadowOld() {
-    return `0 ${this.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.toggleBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
 
   public static toggleContainerBg = '#FFFFFF';
@@ -2419,9 +2404,6 @@ export class BasicLightThemeInternal {
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '';
   public static fileUploaderUploadButtonBg = '#fff';
-  public static get fileUploaderFontSize() {
-    return this.fontSizeSmall;
-  }
   public static get fileUploaderPaddingXSmall() {
     return this.inputPaddingXSmall;
   }
@@ -2440,11 +2422,8 @@ export class BasicLightThemeInternal {
   public static get fileUploaderFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  public static get fileUploaderLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get fileUploaderLineHeightSmall() {
-    return this.fileUploaderLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get fileUploaderLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -2453,7 +2432,7 @@ export class BasicLightThemeInternal {
     return this.controlLineHeightLarge;
   }
   public static get fileUploaderPaddingYSmall() {
-    return this.fileUploaderPaddingY;
+    return this.controlPaddingYSmall;
   }
   public static get fileUploaderPaddingYMedium() {
     return this.controlPaddingYMedium;
@@ -2463,10 +2442,6 @@ export class BasicLightThemeInternal {
   }
   public static get fileUploaderTextColorDefault() {
     return this.textColorDefault;
-  }
-  public static fileUploaderPaddingX = '7px';
-  public static get fileUploaderPaddingY() {
-    return this.controlPaddingYSmall;
   }
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';

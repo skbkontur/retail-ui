@@ -27,8 +27,8 @@ const styles = {
     return css`
       display: inline-block;
       position: relative;
-      line-height: ${t.fileUploaderLineHeight};
-      font-size: ${t.fileUploaderFontSize};
+      line-height: ${t.fileUploaderLineHeightSmall};
+      font-size: ${t.fileUploaderFontSizeSmall};
       color: ${t.fileUploaderTextColorDefault};
       background-color: ${t.fileUploaderBg};
     `;
@@ -45,7 +45,7 @@ const styles = {
       border-radius: ${t.fileUploaderBorderRadius};
       outline: none;
       cursor: pointer;
-      padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
+      padding: ${t.fileUploaderPaddingYSmall} ${t.fileUploaderPaddingXSmall};
       transition:
         background-color ${t.transitionDuration} ${t.transitionTimingFunction},
         border-color ${t.transitionDuration} ${t.transitionTimingFunction};
