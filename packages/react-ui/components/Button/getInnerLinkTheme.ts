@@ -16,7 +16,6 @@ export const getInnerLinkTheme = (theme: Theme): Theme => {
       linkActiveColor: theme.btnLinkActiveColor,
       linkHoverTextDecoration: theme.btnLinkHoverTextDecoration,
       linkIconMarginRight: theme.btnLinkIconMarginRight,
-      linkBorderRadius: theme.btnLinkBorderRadius,
     },
     theme,
   );
