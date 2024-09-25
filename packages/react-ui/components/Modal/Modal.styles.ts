@@ -155,14 +155,13 @@ export const styles = memoizeStyle({
   closeWrapper(t: Theme) {
     const padding = parseInt(t.modalCloseButtonPadding);
     const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
-    const legacyGap = parseInt(t.modalCloseWrapperLegacyGap);
-    const legacyShift = parseInt(t.modalCloseButtonLegacyShift);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding - legacyShift;
-    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom + legacyGap;
+
+    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
+    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       position: relative;
       float: right;
-      width: ${blockSizeX + legacyGap}px;
+      width: ${blockSizeX}px;
       height: ${blockSizeY}px;
     `;
   },
@@ -244,8 +243,7 @@ export const styles = memoizeStyle({
   },
 
   headerWithClose(t: Theme) {
-    const rightPadding =
-      2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseLegacyGap);
+    const rightPadding = 2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize);
 
     return css`
       padding-right: ${rightPadding}px;
