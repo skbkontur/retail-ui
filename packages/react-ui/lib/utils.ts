@@ -21,6 +21,8 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export type AnyObject = Record<string, unknown>;
 
+export type NoInfer<T> = T extends infer U ? U : never;
+
 export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout(resolve, ms));
 
 export const emptyHandler = () => {

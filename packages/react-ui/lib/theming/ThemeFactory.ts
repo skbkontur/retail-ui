@@ -1,12 +1,11 @@
 import { BasicLightTheme } from '../../internal/themes/BasicLightTheme';
-import { isNonNullable } from '../utils';
+import { isNonNullable, NoInfer } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 
 export class ThemeFactory {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-  public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
+  public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
     const base = baseTheme || BasicLightTheme;
     return this.constructTheme(base, theme);
   }
