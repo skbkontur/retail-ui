@@ -20,6 +20,7 @@ const RENAMED_VARS: Record<string, string> = {
   tokenPaddingX: 'tokenPaddingXSmall',
   tokenInputLineHeight: 'tokenInputLineHeightSmall',
   tokenInputPaddingY: 'tokenInputPaddingYSmall',
+  tokenInputPaddingX: 'tokenInputPaddingXSmall',
   btnIconGapSmall: 'btnIconGapSmallLeft',
   btnIconGapMedium: 'btnIconGapMediumLeft',
   btnIconGapLarge: 'btnIconGapLargeLeft',
@@ -35,6 +36,7 @@ const RENAMED_VARS: Record<string, string> = {
   menuHeaderPaddingX: 'menuHeaderPaddingXSmall',
   menuHeaderPaddingTop: 'menuHeaderPaddingTopSmall',
   menuHeaderPaddingBottom: 'menuHeaderPaddingBottomSmall',
+  menuLegacyPaddingY: 'menuScrollContainerContentWrapperPaddingY',
   toggleFontSize: 'toggleFontSizeSmall',
   toggleLineHeight: 'toggleLineHeightSmall',
   toggleHandleBorderRadius: 'toggleHandleBorderRadiusSmall',
@@ -44,6 +46,7 @@ const RENAMED_VARS: Record<string, string> = {
   toggleBg: 'toggleHandleBg',
   toggleHandleSize: 'toggleHandleSizeSmall',
   toggleBgActive: 'toggleContainerBgDisabled',
+  toggleHandleBoxShadowOld: 'toggleHandleBoxShadow',
   checkboxFontSize: 'checkboxFontSizeSmall',
   checkboxLineHeight: 'checkboxLineHeightSmall',
   checkboxBoxSize: 'checkboxBoxSizeSmall',
@@ -64,7 +67,11 @@ const RENAMED_VARS: Record<string, string> = {
   tabsMarginX: 'tabPaddingXLarge',
   tabPaddingY: 'tabPaddingYLarge',
   dropdownMenuSelectedBg: 'menuItemSelectedBg',
-  dropdownMenuHoverBg: 'menuItemHoverBg'
+  dropdownMenuHoverBg: 'menuItemHoverBg',
+  fileUploaderFontSize:'fileUploaderFontSizeSmall',
+  fileUploaderLineHeight:'fileUploaderLineHeightSmall',
+  fileUploaderPaddingX:'fileUploaderPaddingXSmall',
+  fileUploaderPaddingY:'fileUploaderPaddingYSmall'
 };
 
 export default function transform(file: FileInfo, api: API) {

@@ -23,6 +23,7 @@ defineInlineTest(
     textareaFontSize: '5px',
     radioSize: '5px',
     tabFontSize: '5px',
+    fileUploaderFontSize: '5px',
   }, DEFAULT_THEME);
 `,
 `
@@ -41,6 +42,7 @@ defineInlineTest(
     textareaFontSizeSmall: '5px',
     radioSizeSmall: '5px',
     tabFontSizeLarge: '5px',
+    fileUploaderFontSizeSmall: '5px',
   }, DEFAULT_THEME);
 `,
   `rename theme variables`,
