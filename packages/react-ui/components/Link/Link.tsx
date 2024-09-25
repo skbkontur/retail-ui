@@ -60,11 +60,6 @@ interface LinkInnerProps extends CommonProps {
    */
   theme?: ThemeIn;
   /**
-   * Компонент, используемый в качестве корневого узла.
-   * @ignore
-   */
-  as?: React.ElementType | keyof React.ReactHTML;
-  /**
    * @ignore
    */
   focused?: boolean;
@@ -92,11 +87,8 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'use' | 'as'>>;
-type DefaultizedLinkProps<T extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMENT> = DefaultizedProps<
-  LinkProps<T>,
-  DefaultProps
->;
+type DefaultProps = Required<Pick<LinkProps<ButtonLinkAllowedValues>, 'use' | 'component'>>;
+type DefaultizedLinkProps = DefaultizedProps<LinkProps<ButtonLinkAllowedValues>, DefaultProps>;
 
 /**
  * Элемент ссылки из HTML.
@@ -109,9 +101,9 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
   public static __KONTUR_REACT_UI__ = 'Link';
   public static displayName = 'Link';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     use: 'default',
-    as: LINK_DEFAULT_ELEMENT,
+    component: LINK_DEFAULT_ELEMENT as ButtonLinkAllowedValues,
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -156,26 +148,27 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     return nonInteractive ? -1 : tabIndex;
   };
 
-  private getRel = ({ href, rel }: Pick<LinkProps, 'href' | 'rel'>) => {
-    if (!rel && href) {
-      return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
+  private getRel = () => {
+    if (isAnchorProps(this.props)) {
+      const { rel, href } = this.props;
+      if (!rel && href) {
+        return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
+      }
+      return rel;
     }
 
-    return rel;
+    return undefined;
   };
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
     const {
       disabled,
-      href,
       icon,
       rightIcon,
       use,
       loading,
       _button,
       _buttonOpened,
-      rel,
-      as,
       component,
       focused = false,
       error,
@@ -184,7 +177,8 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
-    const Root = component || as;
+
+    const Root = component;
 
     let arrow = null;
     if (_button) {
@@ -198,10 +192,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       <LinkIcon hasBothIcons={!!icon && !!rightIcon} icon={rightIcon} loading={loading} position="right" />
     );
     const nonInteractive = disabled || loading;
-
-    const linkOnlyProps = {
-      href: href || '',
-    };
 
     const outlineNode = (
       <div
@@ -230,8 +220,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       tabIndex: this.getTabIndex({ nonInteractive, tabIndex }),
-      rel: this.getRel({ href, rel }),
-      ...(Root === LINK_DEFAULT_ELEMENT ? linkOnlyProps : {}),
+      rel: this.getRel(),
     };
 
     let child = this.props.children;
@@ -282,27 +271,9 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
     this.setState({ focusedByTab: false });
   };
 
-  private hasLocationProps = () => {
-    // we have to check for 'href' and 'to' props in case Root is anchor or react-router link
-    return Boolean(
-      Object.prototype.hasOwnProperty.call(this.props, 'href') ||
-        Object.prototype.hasOwnProperty.call(this.props, 'to'),
-    );
-  };
-
-  private isRootElementAnchor = () => {
-    const { component, as } = this.props;
-    const Root = component || as;
-    return Root === 'a';
-  };
-
   private handleClick = (event: React.MouseEvent) => {
     const { onClick, disabled, loading } = this.props;
 
-    const location = this.hasLocationProps();
-    if (!location) {
-      this.isRootElementAnchor() && event.preventDefault();
-    }
     if (onClick && !disabled && !loading) {
       onClick(event);
     }
@@ -332,3 +303,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
         );
   }
 }
+
+const isAnchorProps = (props: LinkProps<any>): props is LinkProps<'a'> => {
+  return props.component === 'a';
+};

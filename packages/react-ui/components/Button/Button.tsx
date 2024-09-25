@@ -14,7 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { Link, LinkProps } from '../Link';
+import { Link } from '../Link';
 import { SizeProp } from '../../lib/types/props';
 import { PolymorphicPropsWithoutRef } from '../../typings/react-ref';
 
@@ -23,6 +23,7 @@ import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
+import { ButtonLink } from './ButtonLink';
 
 /**
  * @deprecated use SizeProp
@@ -31,7 +32,7 @@ export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-interface ButtonInnerProps extends CommonProps {
+export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -151,14 +152,13 @@ interface ButtonInnerProps extends CommonProps {
    * Он будет объединён с темой из контекста.
    */
   theme?: ThemeIn;
+  tabIndex?: number;
 }
 
-export const BUTTON_DEFAULT_ELEMENT = 'button';
+export const BUTTON_DEFAULT_COMPONENT = 'button';
 
-export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
-  ButtonInnerProps,
-  C
->;
+export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> =
+  PolymorphicPropsWithoutRef<ButtonInnerProps, C>;
 
 export interface ButtonState {
   focusedByTab: boolean;
@@ -170,16 +170,10 @@ export const ButtonDataTids = {
   spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
-
-const ButtonLink = ({ focused, disabled, icon, rightIcon, as, tabIndex, children }: LinkProps) => (
-  <Link focused={focused} disabled={disabled} icon={icon} rightIcon={rightIcon} as={as} tabIndex={tabIndex}>
-    {children}
-  </Link>
-);
+type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'use' | 'size' | 'type' | 'component'>>;
 
 @rootNode
-export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_ELEMENT> extends React.Component<
+export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> extends React.Component<
   ButtonProps<C>,
   ButtonState
 > {
@@ -194,6 +188,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
     // on this button if somewhere on the page user presses Enter while some
     // input is focused. So we set type to 'button' by default.
     type: 'button',
+    component: BUTTON_DEFAULT_COMPONENT as ButtonLinkAllowedValues,
   };
 
   private getProps = createPropsGetter(Button.defaultProps);
@@ -249,16 +244,15 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
     );
   }
 
-  private renderLinkRootWithoutHandlers(props: LinkProps) {
-    const { onClick, onFocus, onBlur, children, ...rest } = props;
-    return <span {...rest}>{children}</span>;
-  }
-
   private getTabIndex({
     disableFocus,
     disabled,
     tabIndex = 0,
-  }: Pick<ButtonProps, 'disableFocus' | 'disabled' | 'tabIndex'>) {
+  }: {
+    disableFocus?: boolean;
+    disabled?: boolean;
+    tabIndex?: number;
+  }): ButtonProps<C>['tabIndex'] {
     if (disableFocus || disabled) {
       return -1;
     }
@@ -295,7 +289,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       width,
       children,
       tabIndex,
-      component = BUTTON_DEFAULT_ELEMENT,
+      component: _component,
       className, //exclude from rest to prevent class override
       'data-tid': dataTid, //exclude from rest to prevent data-tid override on root
       use: useProp,
@@ -309,11 +303,9 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       role,
       ...rest
     } = this.props;
-    const { use, size } = this.getProps();
+    const { use, size, component } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
-
-    const Root = component;
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
@@ -491,23 +483,26 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {
+      // eslint-disable-next-line react/no-unstable-nested-components
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           {
-            <ButtonLink
+            <Link
               focused={isFocused}
-              disabled={disabled}
+              disabled={Boolean(disabled)}
               icon={this.renderIcon2022(icon)}
               rightIcon={this.renderIcon2022(rightIcon)}
-              as={this.renderLinkRootWithoutHandlers}
               tabIndex={-1}
+              component={ButtonLink}
             >
               {children}
-            </ButtonLink>
+            </Link>
           }
         </ThemeContext.Provider>
       );
     }
+
+    const Root: React.ElementType = component;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -594,4 +589,4 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_EL
   };
 }
 
-export const isButton = isReactUIComponent<ButtonProps>('Button');
+export const isButton = isReactUIComponent<ButtonProps<any>>('Button');

@@ -79,7 +79,7 @@ describe('Link', () => {
   describe('a11y', () => {
     it('sets value for aria-label attribute', () => {
       const ariaLabel = 'aria-label';
-      render(<Link aria-label={ariaLabel} />);
+      render(<Link aria-label={ariaLabel} href="" />);
 
       expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
     });
@@ -93,7 +93,7 @@ describe('Link', () => {
     });
 
     it('should render <a> tag when omitted', () => {
-      renderRTL();
+      renderRTL({ href: '' });
 
       expect(screen.getByRole('link')).toBeInTheDocument();
     });
