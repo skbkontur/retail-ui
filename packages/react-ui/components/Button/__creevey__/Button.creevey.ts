@@ -90,6 +90,22 @@ kind('Button', () => {
     buttonTests();
   });
 
+  story('ButtonAsLinkIconColor', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'focus goes out of page and breaks other tests': {
+          tests: ['pressed', 'clicked', 'tabPress'],
+        },
+        'hover does not work in chrome': {
+          in: /^(?!\b(firefox.*)\b)/,
+          tests: ['hover'],
+        },
+      },
+    });
+
+    buttonTests();
+  });
+
   story('BtnTextBgHoverActive', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {

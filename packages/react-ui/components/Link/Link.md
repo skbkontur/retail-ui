@@ -1,7 +1,28 @@
-Базовый пример ссылки.
+По умолчанию, ссылка принимает все пропы `HTMLAnchorElement`.
 
 ```jsx harmony
-<Link>Обычная ссылка</Link>
+<Link href="https://kontur.ru" target="_blank">Обычная ссылка</Link>
+```
+
+Cсылка может рендерить кнопку в качестве корневого элемента, c помощью пропа `component`. Cсылка принимает все пропы переданного в `component` компонента.
+
+Рекомендуется к использованию вместо кнопки с `use=link`, если нужна кнопка с визуалом ссылки.
+
+```jsx harmony
+import { Link } from '@skbkontur/react-ui';
+
+<Link component='button'>Кнопка, но выглядит как ссылка</Link>
+```
+
+Также, c помощью пропа `component`, ссылка может рендерить компонент `Link` из `react router` в качестве корневого элемента.
+
+```jsx static
+import { Link } from '@skbkontur/react-ui';
+import { Link as RouterLink, BrowserRouter } from 'react-router-dom';
+
+<BrowserRouter>
+  <Link to='/dashboard' component={RouterLink}>react-router-dom link</Link>
+</BrowserRouter>
 ```
 
 Ссылка может иметь различные стили, а также быть отключенной.
@@ -158,4 +179,3 @@ const renderExampleRow = (title, styles, index) => {
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
 ```
-

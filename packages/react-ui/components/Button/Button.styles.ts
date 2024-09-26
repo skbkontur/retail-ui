@@ -16,6 +16,7 @@ export const globalClasses = prefix('button')({
   caption: 'caption',
   text: 'text',
   innerShadow: 'inner-shadow',
+  disabled: 'disabled',
 });
 
 export const styles = memoizeStyle({
@@ -59,13 +60,13 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:hover:enabled svg {
+      &:hover svg {
         color: ${t.btnIconHoverColor};
       }
-      &:disabled svg {
+      &.${globalClasses.disabled} svg {
         color: ${t.btnIconDisabledColor};
       }
-      &:enabled svg {
+      & svg {
         color: ${t.btnIconColor};
       }
     `;
@@ -324,6 +325,7 @@ export const styles = memoizeStyle({
   disabled(t: Theme) {
     return css`
       cursor: default;
+      pointer-events: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
 
       background-image: none;
@@ -389,7 +391,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
@@ -400,7 +402,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.default(t)};
       }
     `;
@@ -417,7 +419,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
@@ -428,7 +430,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.primary(t)}
       }
     `;
@@ -445,7 +447,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
@@ -456,7 +458,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.success(t)}
       }
     `;
@@ -473,7 +475,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
@@ -484,7 +486,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.danger(t)}
       }
     `;
@@ -501,7 +503,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
@@ -512,7 +514,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.pay(t)}
       }
     `;
@@ -522,13 +524,13 @@ export const styles = memoizeStyle({
     return css`
       &,
       &:enabled,
-      &:hover:enabled {
+      &:hover {
         box-shadow: none;
       }
 
       ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, t.btnBorderWidth)};
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnTextHoverBg,
           '',
@@ -539,7 +541,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.text(t)}
       }
     `;
@@ -552,7 +554,7 @@ export const styles = memoizeStyle({
       color: ${t.btnDefaultTextColor};
       background: transparent;
 
-      &:hover:enabled {
+      &:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
           '',
@@ -563,7 +565,7 @@ export const styles = memoizeStyle({
         )};
       }
 
-      &:active:enabled {
+      &:active {
         ${activeStyles.backless(t)}
       }
     `;
@@ -744,6 +746,18 @@ export const styles = memoizeStyle({
   visibilityHidden() {
     return css`
       visibility: hidden;
+    `;
+  },
+
+  disableTextSelect() {
+    return css`
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
     `;
   },
 });
