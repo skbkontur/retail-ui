@@ -177,7 +177,7 @@ WithCustomUnmaskedValue.parameters = {
 };
 
 export const WithUnmaskedAndFixedValue: Story = () => {
-  const [value, setValue] = useState('795');
+  const [value, setValue] = useState('');
 
   return (
     <>
