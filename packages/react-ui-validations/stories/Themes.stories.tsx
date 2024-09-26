@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { DARK_THEME, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { DARK_THEME_2022, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 import { text, ValidationContainer, ValidationWrapper } from '../src';
 
@@ -44,7 +44,7 @@ function LightTheme() {
 function DarkTheme() {
   return (
     <div style={{ background: '#2b2b2b' }}>
-      <ThemeContext.Provider value={DARK_THEME}>
+      <ThemeContext.Provider value={DARK_THEME_2022}>
         <ValidationExamples />
       </ThemeContext.Provider>
     </div>
