@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import warning from 'warning';
 
@@ -23,7 +23,6 @@ import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
-import { ButtonLink } from './ButtonLink';
 
 /**
  * @deprecated use SizeProp
@@ -171,6 +170,10 @@ export const ButtonDataTids = {
 } as const;
 
 type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'use' | 'size' | 'type' | 'component'>>;
+
+const SpanComponent: React.FunctionComponent<HTMLAttributes<HTMLSpanElement>> = ({ children, ...rest }) => {
+  return <span {...rest}>{children}</span>;
+};
 
 @rootNode
 export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> extends React.Component<
@@ -485,13 +488,13 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           {
-            <Link
+            <Link<typeof SpanComponent>
               focused={isFocused}
-              disabled={Boolean(disabled)}
+              disabled={disabled}
               icon={this.renderIcon2022(icon)}
               rightIcon={this.renderIcon2022(rightIcon)}
               tabIndex={-1}
-              component={ButtonLink}
+              component={SpanComponent}
             >
               {children}
             </Link>
