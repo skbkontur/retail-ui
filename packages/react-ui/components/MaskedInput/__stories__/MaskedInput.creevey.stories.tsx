@@ -176,6 +176,31 @@ WithCustomUnmaskedValue.parameters = {
   },
 };
 
+export const WithUnmaskedAndFixedValue: Story = () => {
+  const [value, setValue] = useState('795');
+
+  return (
+    <>
+      <span>unmasked value: &quot;{value}&quot;</span>
+      <br />
+      <MaskedInput
+        {...DEFAULT_PROPS}
+        mask="+{7} 999 999-99-99"
+        unmask
+        alwaysShowMask
+        value={value}
+        onValueChange={setValue}
+      />
+    </>
+  );
+};
+
+WithUnmaskedAndFixedValue.parameters = {
+  creevey: {
+    tests: testIdleFocusAppendRemoveBlur,
+  },
+};
+
 export const IdleFocusBlurAndUncontrolled: Story = () => <MaskedInput {...DEFAULT_PROPS} />;
 IdleFocusBlurAndUncontrolled.parameters = {
   creevey: {
