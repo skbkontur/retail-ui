@@ -155,7 +155,7 @@ export interface ButtonInnerProps extends CommonProps {
   tabIndex?: number;
 }
 
-export const BUTTON_DEFAULT_COMPONENT = 'button';
+export const BUTTON_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'button';
 
 export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> =
   PolymorphicPropsWithoutRef<ButtonInnerProps, C>;
@@ -188,7 +188,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     // on this button if somewhere on the page user presses Enter while some
     // input is focused. So we set type to 'button' by default.
     type: 'button',
-    component: BUTTON_DEFAULT_COMPONENT as ButtonLinkAllowedValues,
+    component: BUTTON_DEFAULT_COMPONENT,
   };
 
   private getProps = createPropsGetter(Button.defaultProps);
@@ -329,7 +329,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
         rootClassNameWithArrow,
-        globalClasses.customComponent,
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
@@ -357,7 +356,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
         [styles.disableTextSelect()]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [globalClasses.customComponent]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
         [styles.checkedFocused(this.theme)]: checked && isFocused,

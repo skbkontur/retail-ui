@@ -73,9 +73,9 @@ interface LinkInnerProps extends CommonProps {
   warning?: boolean;
 }
 
-const LINK_DEFAULT_ELEMENT = 'a';
+const LINK_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'a';
 
-export type LinkProps<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMENT> = PolymorphicPropsWithoutRef<
+export type LinkProps<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPONENT> = PolymorphicPropsWithoutRef<
   LinkInnerProps,
   C
 >;
@@ -94,7 +94,7 @@ type DefaultizedLinkProps = DefaultizedProps<LinkProps<ButtonLinkAllowedValues>,
  * Элемент ссылки из HTML.
  */
 @rootNode
-export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMENT> extends React.Component<
+export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPONENT> extends React.Component<
   LinkProps<C>,
   LinkState
 > {
@@ -103,7 +103,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
 
   public static defaultProps: DefaultProps = {
     use: 'default',
-    component: LINK_DEFAULT_ELEMENT as ButtonLinkAllowedValues,
+    component: LINK_DEFAULT_COMPONENT,
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -169,7 +169,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       loading,
       _button,
       _buttonOpened,
-      component,
+      component: Root,
       focused = false,
       error,
       warning,
@@ -177,8 +177,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_ELEMEN
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
-
-    const Root = component;
 
     let arrow = null;
     if (_button) {
