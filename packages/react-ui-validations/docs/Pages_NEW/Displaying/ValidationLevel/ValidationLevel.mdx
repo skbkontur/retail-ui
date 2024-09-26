@@ -1,0 +1,49 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Отображение/Уровни валидаций" />
+
+# Уровни валидаций
+
+Уровень валидации задаётся с помощью свойства `level` в объекте `validationInfo`
+
+```jsx static
+<ValidationWrapper validationInfo={{ level: '...', message: '...' }}>//...</ValidationWrapper>
+```
+
+Допустимые значения: `"error" | "warning"`.
+
+Значение по умолчанию: `"error"`.
+
+## Ошибка
+
+```jsx static
+<ValidationWrapper
+  validationInfo={{
+    message: 'Ошибка',
+    level: 'error',
+  }}
+>
+  //...
+</ValidationWrapper>
+```
+
+### Пример
+
+    !!DemoWithCode!!./ValidationError
+
+## Предупреждение
+
+```jsx static
+<ValidationWrapper
+  validationInfo={{
+    message: 'Предупреждение',
+    level: 'warning',
+  }}
+>
+  //...
+</ValidationWrapper>
+```
+
+### Пример
+
+    !!DemoWithCode!!./ValidationWarning

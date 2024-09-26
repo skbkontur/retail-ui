@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Отображение/Фича-флаги" />
+
+# Включение и отключение отдельных фич через `ValidationsFeatureFlagsContext`
+
+## Доступные флаги
+
+```jsx static
+    export interface ValidationsFeatureFlags {
+      darkTheme?: boolean;
+    }
+```
+
+Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
+
+Флаги задаются с помощью `ValidationsFeatureFlagsContext.Provider`.
+
+```jsx static
+import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
+
+<ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>
+  {/* ... */}
+</ValidationsFeatureFlagsContext.Provider>;
+```
+
+## Использование
+
+### darkTheme
+
+Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
+`validationsTextColorError`.
+В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
+
+    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
+
+## Объект со всеми флагами
+
+Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
+
+```jsx static
+const allFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
+```
