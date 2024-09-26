@@ -3399,10 +3399,10 @@
     core-js-pure "^3.25.1"
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime-corejs3@^7.23.9":
-  version "7.23.9"
-  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.23.9.tgz#1b43062a13ecb60158aecdd81bc3fab4108b7cbc"
-  integrity sha512-oeOFTrYWdWXCvXGB5orvMTJ6gCZ9I6FBjR+M38iKNXCsPxr4xT0RTdg5uz1H7QP8pp74IzPtwritEr+JscqHXQ==
+"@babel/runtime-corejs3@^7.24.4":
+  version "7.25.6"
+  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.25.6.tgz#5e3facf42775cc95bcde95746e940061931286e4"
+  integrity sha512-Gz0Nrobx8szge6kQQ5Z5MX9L3ObqNwCQY1PSwSNzreFL7aHGxv8Fp2j3ETV6/wWdbiV+mW6OSm8oQhg3Tcsniw==
   dependencies:
     core-js-pure "^3.30.2"
     regenerator-runtime "^0.14.0"
@@ -3605,6 +3605,11 @@
   version "1.0.1"
   resolved "https://registry.npmjs.org/@base2/pretty-print-object/-/pretty-print-object-1.0.1.tgz#371ba8be66d556812dc7fb169ebc3c08378f69d4"
   integrity sha512-4iri8i1AqYHJE2DstZYkyEprg6Pq6sKx3xn5FpySk9sNhH7qN2LLlHJCfDTZRILNwQNPD7mATWM0TBui7uC1pA==
+
+"@bazel/runfiles@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.npmjs.org/@bazel/runfiles/-/runfiles-5.8.1.tgz#737d5b3dc9739767054820265cfe432a80564c82"
+  integrity sha512-NDdfpdQ6rZlylgv++iMn5FkObC/QlBQvipinGLSOguTYpRywmieOyJ29XHvUilspwTFSILWpoE9CqMGkHXug1g==
 
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
@@ -14461,12 +14466,12 @@ image-size@~0.5.0:
   resolved "https://registry.npmjs.org/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
 
-imask@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.npmjs.org/imask/-/imask-7.4.0.tgz#02f69ad6d68625557a76398c9fcedfe755d06841"
-  integrity sha512-fU6mCo5YiTeDI8aVreuOKLOWxXIrRVnuQhZQXbjhwHxQb3GOQyCtlDGMyHxu2gq//LnKDxTwDBq1teRHmkzA3Q==
+imask@^7.6.1:
+  version "7.6.1"
+  resolved "https://registry.npmjs.org/imask/-/imask-7.6.1.tgz#04fa4693bf47a4a71bbf7325408e0d058a74dcad"
+  integrity sha512-sJlIFM7eathUEMChTh9Mrfw/IgiWgJqBKq2VNbyXvBZ7ev/IlO6/KQTKlV/Fm+viQMLrFLG/zCuudrLIwgK2dg==
   dependencies:
-    "@babel/runtime-corejs3" "^7.23.9"
+    "@babel/runtime-corejs3" "^7.24.4"
 
 immediate@~3.0.5:
   version "3.0.6"
@@ -16954,7 +16959,7 @@ jss@10.5.1, jss@^10.0.0:
     array-includes "^3.1.2"
     object.assign "^4.1.2"
 
-jszip@^3.6.0:
+jszip@^3.10.1:
   version "3.10.1"
   resolved "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
@@ -20544,12 +20549,12 @@ react-icons@^3.8.0:
   dependencies:
     camelcase "^5.0.0"
 
-react-imask@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.npmjs.org/react-imask/-/react-imask-7.4.0.tgz#59d776046acedc7c3e608a6f93cfe09d825db119"
-  integrity sha512-U7O2IhIKIGF0ch16xBinwbWGfsgeDyM3KcftD8/bWLuES+KQOjv8wCjX2QZNiAqsZ3FgSembaJmqAN8XlB5LbA==
+react-imask@7.6.1:
+  version "7.6.1"
+  resolved "https://registry.npmjs.org/react-imask/-/react-imask-7.6.1.tgz#40dbb03f0c9b2652a16450ff29a53581b5ae773d"
+  integrity sha512-vLNfzcCz62Yzx/GRGh5tiCph9Gbh2cZu+Tz8OiO5it2eNuuhpA0DWhhSlOtVtSJ80+Bx+vFK5De8eQ9AmbkXzA==
   dependencies:
-    imask "^7.4.0"
+    imask "^7.6.1"
     prop-types "^15.8.1"
 
 react-input-mask@2.0.4:
@@ -21850,15 +21855,15 @@ select@^1.1.2:
   resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selenium-webdriver@4.0.0-beta.4, selenium-webdriver@^4.3.1:
-  version "4.0.0-beta.4"
-  resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.0.0-beta.4.tgz#db4fc7505a515ea3b4a95ded031b738a1544eddd"
-  integrity sha512-+s/CIYkWzmnC9WASBxxVj7Lm0dcyl6OaFxwIJaFCT5WCuACiimEEr4lUnOOFP/QlKfkDQ56m+aRczaq2EvJEJg==
+selenium-webdriver@^4.3.1:
+  version "4.25.0"
+  resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.25.0.tgz#3562b49668817974bb1d13d25a50e8bc0264fcf3"
+  integrity sha512-zl9IX93caOT8wbcCpZzAkEtYa+hNgJ4C5GUN8uhpzggqRLvsg1asfKi0p1uNZC8buYVvsBZbx8S+9MjVAjs4oA==
   dependencies:
-    jszip "^3.6.0"
-    rimraf "^3.0.2"
-    tmp "^0.2.1"
-    ws ">=7.4.6"
+    "@bazel/runfiles" "^5.8.1"
+    jszip "^3.10.1"
+    tmp "^0.2.3"
+    ws "^8.18.0"
 
 selfsigned@^1.10.7, selfsigned@^1.10.8:
   version "1.10.8"
@@ -23330,12 +23335,10 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tmp@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/tmp/-/tmp-0.2.1.tgz#8457fc3037dcf4719c251367a1af6500ee1ccf14"
-  integrity sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==
-  dependencies:
-    rimraf "^3.0.0"
+tmp@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.npmjs.org/tmp/-/tmp-0.2.3.tgz#eb783cc22bc1e8bebd0671476d46ea4eb32a79ae"
+  integrity sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==
 
 tmpl@1.0.x:
   version "1.0.5"
@@ -24805,11 +24808,6 @@ write-pkg@^4.0.0:
     type-fest "^0.4.1"
     write-json-file "^3.2.0"
 
-ws@>=7.4.6:
-  version "8.13.0"
-  resolved "https://registry.npmjs.org/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
-  integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
-
 ws@^5.2.0:
   version "5.2.3"
   resolved "https://registry.npmjs.org/ws/-/ws-5.2.3.tgz#05541053414921bc29c63bee14b8b0dd50b07b3d"
@@ -24833,6 +24831,11 @@ ws@^8.11.0, ws@^8.2.3, ws@^8.8.0:
   version "8.12.0"
   resolved "https://registry.npmjs.org/ws/-/ws-8.12.0.tgz#485074cc392689da78e1828a9ff23585e06cddd8"
   integrity sha512-kU62emKIdKVeEIOIKVegvqpXMSTAMLJozpHZaJNDYqBjzlSYXQGviYwN1osDLJ9av68qHd4a2oSjd7yD4pacig==
+
+ws@^8.18.0:
+  version "8.18.0"
+  resolved "https://registry.npmjs.org/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
+  integrity sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
