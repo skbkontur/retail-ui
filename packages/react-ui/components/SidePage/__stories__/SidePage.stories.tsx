@@ -262,7 +262,7 @@ class SidePageWithCloseConfiguration extends React.Component {
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
             this.setState(
               (state: SidePageWithCloseConfigurationState) =>
-                ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>),
+                ({ [propertyName]: !state[propertyName] }) as Shape<SidePageWithCloseConfigurationState>,
             );
           }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
