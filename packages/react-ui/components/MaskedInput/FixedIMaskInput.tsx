@@ -66,6 +66,7 @@ export const FixedIMaskInput = forwardRefAndName(
         onBlur={handleBlur}
         onMouseUp={handleMouseUp}
         onAccept={handleAccept}
+        onInput={handleInput}
       />
     );
 
@@ -197,6 +198,16 @@ export const FixedIMaskInput = forwardRefAndName(
       fillTypedValue();
 
       props.onAccept?.(...args);
+    }
+
+    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+      const maskRef = imaskRef.current?.maskRef;
+      if (maskRef && maskRef.rawInputValue === '' && maskRef.unmaskedValue !== '') {
+        // Для случаев, когда в value остаются только зафиксированные - {} - очищаем value полностью
+        props.onAccept?.('', maskRef, e.nativeEvent as InputEvent);
+      }
+
+      props.onInput?.(e);
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
