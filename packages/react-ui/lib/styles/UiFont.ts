@@ -54,6 +54,7 @@ if (isBrowser($this)) {
     .${uiFontGlobalClasses.root} > *,
     .${uiFontGlobalClasses.element} {
       font-family: ${uiFontName}, ${baseFont()};
+      font-variant-numeric: tabular-nums;
     }
   `;
 
