@@ -1,10 +1,10 @@
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
-import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { LIGHT_THEME_2022 } from '../../../lib/theming/themes/LightTheme2022';
+import { DARK_THEME_2022 } from '../../../lib/theming/themes/DarkTheme2022';
 
 export const THEMES = {
-  THEME_2022,
-  THEME_2022_DARK,
+  LIGHT_THEME_2022,
+  DARK_THEME_2022,
 } as const;
 
-export const DEFAULT_THEME_WRAPPER: keyof typeof THEMES = 'THEME_2022';
+export const DEFAULT_THEME_WRAPPER: keyof typeof THEMES = 'LIGHT_THEME_2022';
 // export const DEFAULT_THEME_WRAPPER: keyof typeof THEMES = 'DEFAULT_THEME';

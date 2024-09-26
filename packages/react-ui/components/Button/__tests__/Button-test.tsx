@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
+import { LIGHT_THEME_2022 } from '../../../lib/theming/themes/LightTheme2022';
 import { Button, ButtonDataTids, ButtonType } from '../Button';
 
 describe('Button', () => {
@@ -207,7 +207,7 @@ describe('Button', () => {
 
   it('has data-tid `Button__spinner` when component in loading state (THEME_2022)', () => {
     render(
-      <ThemeContext.Provider value={THEME_2022}>
+      <ThemeContext.Provider value={LIGHT_THEME_2022}>
         <Button loading />
       </ThemeContext.Provider>,
     );
@@ -220,7 +220,7 @@ describe('Button', () => {
     const handleReset = jest.fn();
     const TestForm = ({ submit }: { submit?: boolean }) => {
       return (
-        <ThemeContext.Provider value={THEME_2022}>
+        <ThemeContext.Provider value={LIGHT_THEME_2022}>
           <form onSubmit={handleSubmit} onReset={handleReset}>
             <Button type={submit ? 'submit' : 'reset'} use={'link'} size={'medium'}>
               {submit ? 'Submit' : 'Reset'}

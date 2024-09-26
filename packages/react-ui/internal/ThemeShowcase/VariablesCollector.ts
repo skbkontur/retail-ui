@@ -1,8 +1,8 @@
 import { globalObject } from '@skbkontur/global-object';
 
 import { Theme } from '../../lib/theming/Theme';
-import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
-import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
+import { LIGHT_THEME_2022 } from '../../lib/theming/themes/LightTheme2022';
+import { DARK_THEME_2022 } from '../../lib/theming/themes/DarkTheme2022';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 
 export interface DescriptionsType {
@@ -35,8 +35,8 @@ export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {
 
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
-  baseThemes.push(DEFAULT_THEME);
-  baseThemes.push(DARK_THEME);
+  baseThemes.push(LIGHT_THEME_2022);
+  baseThemes.push(DARK_THEME_2022);
 
   const componentsContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach((fileName) => {

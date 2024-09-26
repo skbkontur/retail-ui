@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 
 import { Select } from '../../../components/Select';
-import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { DARK_THEME_2022 } from '../../../lib/theming/themes/DarkTheme2022';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { THEMES } from './constants';
@@ -10,7 +10,7 @@ import { THEMES } from './constants';
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useContext(Context);
   return (
-    <ThemeContext.Provider value={THEME_2022_DARK}>
+    <ThemeContext.Provider value={DARK_THEME_2022}>
       <Select
         value={theme}
         items={Object.keys(THEMES)}
