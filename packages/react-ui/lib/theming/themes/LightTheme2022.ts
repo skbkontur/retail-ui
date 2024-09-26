@@ -2,4 +2,4 @@ import { ThemeFactory } from '../ThemeFactory';
 import { BasicLightTheme } from '../../../internal/themes/BasicLightTheme';
 import { applyMarkers, markAsTheme2022 } from '../ThemeHelpers';
 
-export const THEME_2022 = applyMarkers(ThemeFactory.create({}, BasicLightTheme), [markAsTheme2022]);
+export const LIGHT_THEME_2022 = applyMarkers(ThemeFactory.create({}, BasicLightTheme), [markAsTheme2022]);
