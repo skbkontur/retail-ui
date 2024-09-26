@@ -220,7 +220,7 @@ const renderExampleRow = (title, styles, index) => {
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
-<Button component='a' href='/'>Ссылка, но выглядит как кнопка</Button>
+<Button component='a' href='https://kontur.ru' target="_blank">Ссылка, но выглядит как кнопка</Button>
 ```
 
 
