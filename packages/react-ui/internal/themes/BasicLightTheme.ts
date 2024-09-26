@@ -990,6 +990,7 @@ export class BasicLightThemeInternal {
   public static get calendarBg() {
     return this.bgSecondary;
   }
+  public static calendarBorderRadius = '8px';
   public static get calendarCellBg() {
     return this.bgSecondary;
   }
@@ -1033,11 +1034,7 @@ export class BasicLightThemeInternal {
   public static get datePickerMenuOffsetY() {
     return this.menuOffsetY;
   }
-  public static get pickerBg() {
-    return this.bgSecondary;
-  }
   public static pickerShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
-  public static pickerBorderRadius = '8px';
 
   public static mobileCalendarPaddingX = '16px';
   public static mobileCalendarCellWidth = '40px';
