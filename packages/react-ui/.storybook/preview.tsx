@@ -152,7 +152,7 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'DEFAULT_THEME',
+    defaultValue: 'THEME_2022',
     toolbar: {
       icon: 'paintbrush',
       items: Object.keys(themes),

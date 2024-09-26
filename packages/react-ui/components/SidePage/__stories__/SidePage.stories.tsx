@@ -228,7 +228,7 @@ class SidePageOverAnotherSidePage extends React.Component {
   }
 }
 
-class StickyHeaderWhenAnotherSidePage extends React.Component {
+class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
   }
@@ -262,7 +262,7 @@ class SidePageWithCloseConfiguration extends React.Component {
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
             this.setState(
               (state: SidePageWithCloseConfigurationState) =>
-                ({ [propertyName]: !state[propertyName] }) as Shape<SidePageWithCloseConfigurationState>,
+                ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>),
             );
           }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
@@ -625,8 +625,8 @@ WithInputInHeader.parameters = { creevey: { skip: true } };
 export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 
-export const StickyHeaderWhenAnotherSidePageStory: Story = () => <StickyHeaderWhenAnotherSidePage />;
-StickyHeaderWhenAnotherSidePageStory.storyName = 'Sticky Header when another SidePage';
+export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
+StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
 SidePageWithConfiguration.storyName = 'SidePage with configuration';
