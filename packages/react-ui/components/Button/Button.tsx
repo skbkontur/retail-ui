@@ -8,7 +8,7 @@ import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -151,7 +151,6 @@ export interface ButtonInnerProps extends CommonProps {
    * Он будет объединён с темой из контекста.
    */
   theme?: ThemeIn;
-  tabIndex?: number;
 }
 
 export const BUTTON_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'button';
@@ -241,7 +240,11 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-          return this.renderMain();
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -251,11 +254,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     disableFocus,
     disabled,
     tabIndex = 0,
-  }: {
-    disableFocus?: boolean;
-    disabled?: boolean;
-    tabIndex?: number;
-  }): ButtonProps<C>['tabIndex'] {
+  }: Pick<ButtonProps, 'disableFocus' | 'disabled' | 'tabIndex'>) {
     if (disableFocus || disabled) {
       return -1;
     }
@@ -263,7 +262,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     return tabIndex;
   }
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<ButtonProps>) => {
     const {
       corners,
       active,
@@ -274,6 +273,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       warning,
       loading,
       narrow,
+      arrow,
       icon,
       rightIcon,
       _noPadding,
@@ -281,32 +281,15 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       visuallyFocused,
       align,
       disableFocus,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onMouseDown,
-      onMouseUp,
-      onKeyDown,
-      onClick,
-      onClickCapture,
       width,
-      children,
       tabIndex,
       component: _component,
-      className, //exclude from rest to prevent class override
-      'data-tid': dataTid, //exclude from rest to prevent data-tid override on root
       use: useProp,
       size: sizeProp,
-      'aria-describedby': ariaDescribedby,
-      'aria-haspopup': ariaHasPopup,
-      'aria-controls': ariaControls,
-      'aria-label': ariaLabel,
-      'aria-checked': ariaChecked,
-      'aria-expanded': ariaExpanded,
-      role,
+      theme,
       ...rest
-    } = this.props;
-    const { use, size, component } = this.getProps();
+    } = props;
+    const { use, size, component, children } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
 
@@ -373,31 +356,16 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     }
 
     const rootProps = {
-      role,
-      'aria-describedby': ariaDescribedby,
-      'aria-haspopup': ariaHasPopup,
-      'aria-controls': ariaControls,
-      'aria-label': ariaLabel,
-      'aria-checked': ariaChecked,
-      'aria-expanded': ariaExpanded,
+      ...rest,
       className: rootClassName,
       style: {
         textAlign: align,
         ...corners,
       },
       disabled: trueDisabled,
-      onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onMouseDown,
-      onMouseUp,
-      onClickCapture,
       tabIndex: this.getTabIndex({ disableFocus, disabled: trueDisabled, tabIndex }),
-      title: this.props.title,
     };
 
     const wrapProps = {
@@ -484,7 +452,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       </div>
     );
     if (_isTheme2022 && isLink && !loading) {
-      // eslint-disable-next-line react/no-unstable-nested-components
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
           {
@@ -506,18 +473,16 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const Root: React.ElementType = component;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
-          <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps} {...rest}>
-            {innerShadowNode}
-            {outlineNode}
-            {arrowNode}
-            {captionNode}
-          </Root>
-        </span>
-      </CommonWrapper>
+      <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
+        <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+          {innerShadowNode}
+          {outlineNode}
+          {arrowNode}
+          {captionNode}
+        </Root>
+      </span>
     );
-  }
+  };
 
   private renderIcon2022(icon: React.ReactElement | undefined) {
     if (icon && isKonturIcon(icon)) {

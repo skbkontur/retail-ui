@@ -174,6 +174,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       error,
       warning,
       tabIndex,
+      theme,
       ...rest
     } = props;
     const _isTheme2022 = isTheme2022(this.theme);
@@ -203,6 +204,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     );
 
     const rootProps = {
+      ...rest,
       className: cx(
         styles.useRoot(),
         Root === 'button' && resetButton(),
@@ -243,7 +245,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     }
 
     return (
-      <Root data-tid={LinkDataTids.root} {...rest} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
+      <Root data-tid={LinkDataTids.root} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
         {leftIconElement}
         {outlineNode}
         {child}
