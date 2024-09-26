@@ -37,6 +37,12 @@ const render = (
 const getInput = () => screen.getByTestId(InputLikeTextDataTids.input);
 
 describe('DateInput as InputlikeText', () => {
+  it('has id attribute', () => {
+    const dateInputId = 'dateInputId';
+    const result = render({ id: dateInputId, value: '10.02.2017' });
+    expect(result.container.querySelector(`#${dateInputId}`)).not.toBeNull();
+  });
+
   describe('without min/max date', () => {
     it('renders', () => {
       expect(() => render({ value: '10.02.2017' })).not.toThrow();

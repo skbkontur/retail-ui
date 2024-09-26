@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
@@ -31,6 +31,7 @@ import { getComboBoxTheme } from './getComboBoxTheme';
 
 interface ComboBoxViewProps<T>
   extends Pick<DropdownContainerProps, 'menuPos'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -285,6 +286,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const isMobile = this.isMobileLayout;
 
     const {
+      id,
       align,
       borderless,
       disabled,
@@ -315,6 +317,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     if (editing) {
       return (
         <Input
+          id={id}
           align={align}
           borderless={borderless}
           disabled={disabled}
@@ -344,6 +347,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     return (
       <InputLikeText
+        id={id}
         align={align}
         borderless={borderless}
         error={error}

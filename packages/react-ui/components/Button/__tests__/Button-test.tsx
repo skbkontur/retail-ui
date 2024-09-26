@@ -7,6 +7,12 @@ import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
 import { Button, ButtonDataTids, ButtonType } from '../Button';
 
 describe('Button', () => {
+  it('has id attribute', () => {
+    const buttonId = 'buttonId';
+    const result = render(<Button id={buttonId}>Foo</Button>);
+    expect(result.container.querySelector(`button#${buttonId}`)).toHaveTextContent('Foo');
+  });
+
   it('has correct label', () => {
     render(<Button>Foo</Button>);
     expect(screen.getByRole('button')).toHaveTextContent('Foo');

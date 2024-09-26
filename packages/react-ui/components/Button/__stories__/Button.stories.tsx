@@ -15,6 +15,9 @@ import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Button, ButtonProps } from '../Button';
+import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default {
   title: 'Button',
@@ -820,6 +823,38 @@ ButtonAsLinkIconDisabledColor.parameters = {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
+    },
+  },
+};
+
+export const BtnTextBgHoverActive: Story = () => {
+  const myTheme = ThemeFactory.create(
+    {
+      btnTextHoverBg: 'red',
+      btnTextActiveBg: 'green',
+    },
+    THEME_2022_DARK,
+  );
+
+  return (
+    <ThemeContext.Provider value={myTheme}>
+      <Button data-tid="test-button" use="text">
+        Text
+      </Button>
+    </ThemeContext.Provider>
+  );
+};
+
+BtnTextBgHoverActive.parameters = {
+  creevey: {
+    skip: {
+      'hover does not work in chrome & only 22 dark theme needed': {
+        in: /^(?!\bfirefox2022Dark?\b)/,
+      },
+    },
+    tests: {
+      hover: buttonTests.hover,
+      pressed: buttonTests.pressed,
     },
   },
 };
