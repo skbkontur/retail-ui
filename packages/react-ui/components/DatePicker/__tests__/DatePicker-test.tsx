@@ -13,7 +13,6 @@ import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
-import { ButtonDataTids } from '../../../components/Button';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { MenuDataTids } from '../../../internal/Menu';
 
@@ -460,7 +459,7 @@ describe('DatePicker', () => {
       render(<MobilePicker />);
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      await userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
+      await userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByRole('button'));
 
       const today = new Date();
       const todayMonth = today.getMonth();
