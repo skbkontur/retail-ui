@@ -69,7 +69,9 @@ const RENAMED_VARS: Record<string, string> = {
   fileUploaderFontSize:'fileUploaderFontSizeSmall',
   fileUploaderLineHeight:'fileUploaderLineHeightSmall',
   fileUploaderPaddingX:'fileUploaderPaddingXSmall',
-  fileUploaderPaddingY:'fileUploaderPaddingYSmall'
+  fileUploaderPaddingY:'fileUploaderPaddingYSmall',
+  pickerBg: 'calendarBg',
+  pickerBorderRadius: 'calendarBorderRadius',
 };
 
 export default function transform(file: FileInfo, api: API) {
