@@ -4,7 +4,7 @@ import { useStyleGuideContext } from 'react-styleguidist/lib/client/rsg-componen
 
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import { cx } from '../../../lib/theming/Emotion';
-import { DARK_THEME_2022 } from '../../../lib/theming/themes/DarkTheme2022';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
 
 import { styles } from './StyleGuideWrapper.styles';
@@ -35,9 +35,9 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
   }
   return (
     <Context.Provider value={{ theme, setTheme, codeRevision, config, slots, displayMode, cssRevision }}>
-      <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME_2022)]: isThemeDark })}>
+      <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: isThemeDark })}>
         <main className={styles.wrapper()}>
-          <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME_2022)]: isThemeDark })}>{children}</div>
+          <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME)]: isThemeDark })}>{children}</div>
         </main>
         {hasSidebar && (
           <div data-testid="sidebar" className={styles.sidebar()}>

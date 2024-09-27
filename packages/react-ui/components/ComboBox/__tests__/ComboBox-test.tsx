@@ -5,7 +5,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
-import { LIGHT_THEME_2022 } from '../../../lib/theming/themes/LightTheme2022';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { HTMLProps } from '../../../typings/html';
 import { InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
@@ -1324,7 +1324,7 @@ describe('ComboBox', () => {
 });
 
 describe('mobile comboBox', () => {
-  const calcMatches = (query: string) => query === LIGHT_THEME_2022.mobileMediaQuery;
+  const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
   const matchMediaMock = jest.fn().mockImplementation((query) => {
     return {

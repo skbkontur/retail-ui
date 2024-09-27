@@ -10,7 +10,7 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { DARK_THEME_2022 } from '../../../lib/theming/themes/DarkTheme2022';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Story } from '../../../typings/stories';
@@ -555,7 +555,7 @@ export const BtnBacklessBgHoverActive: Story = () => {
       btnBacklessHoverBg: 'red',
       btnBacklessActiveBg: 'green',
     },
-    DARK_THEME_2022,
+    DARK_THEME,
   );
 
   return (
@@ -573,7 +573,7 @@ export const BtnTextBgHoverActive: Story = () => {
       btnTextHoverBg: 'red',
       btnTextActiveBg: 'green',
     },
-    DARK_THEME_2022,
+    DARK_THEME,
   );
 
   return (

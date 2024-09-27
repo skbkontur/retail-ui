@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { LIGHT_THEME_2022 } from '../../../lib/theming/themes/LightTheme2022';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -147,7 +147,7 @@ export const MobilePicker: Story = () => {
     <ThemeContext.Consumer>
       {(theme) => {
         return (
-          <ThemeContext.Provider value={ThemeFactory.create(theme, LIGHT_THEME_2022)}>
+          <ThemeContext.Provider value={ThemeFactory.create(theme, LIGHT_THEME)}>
             <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />
           </ThemeContext.Provider>
         );

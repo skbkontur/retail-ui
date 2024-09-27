@@ -11,7 +11,7 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { LIGHT_THEME_2022 } from '../../../lib/theming/themes/LightTheme2022';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
 import { ButtonDataTids } from '../../../components/Button';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
@@ -401,7 +401,7 @@ describe('DatePicker', () => {
     const oldMatchMedia = window.matchMedia;
     const matchMediaMock = jest.fn().mockImplementation((query) => {
       return {
-        matches: query === LIGHT_THEME_2022.mobileMediaQuery,
+        matches: query === LIGHT_THEME.mobileMediaQuery,
         media: query,
         onchange: null,
         addListener: jest.fn(),

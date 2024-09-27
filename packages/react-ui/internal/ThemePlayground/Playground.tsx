@@ -106,8 +106,8 @@ export class Playground extends React.Component<PlaygroundProps> {
         <Gapped gap={40}>
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
             <div className={styles.tabsInnerWrapper(this.theme)}>
-              <Tabs.Tab id={ThemeType.Theme2022}>Тема 2022</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.Theme2022Dark}>Тема 2022 Тёмная</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.LightTheme}>Тема 2022</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.DarkTheme}>Тема 2022 Тёмная</Tabs.Tab>
             </div>
           </Tabs>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>
@@ -118,10 +118,10 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private getCurrentTab = () => {
     switch (this.props.currentThemeType) {
-      case ThemeType.Theme2022Dark:
-        return ThemeType.Theme2022Dark;
+      case ThemeType.DarkTheme:
+        return ThemeType.DarkTheme;
       default:
-        return ThemeType.Theme2022;
+        return ThemeType.LightTheme;
     }
   };
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { isColor } from '../../lib/styles/ColorHelpers';
-import { LIGHT_THEME_2022 as lightVariables } from '../../lib/theming/themes/LightTheme2022';
-import { DARK_THEME_2022 as darkVariables } from '../../lib/theming/themes/DarkTheme2022';
+import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme';
+import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme';
 import { ComboBox, ComboBoxItem } from '../../components/ComboBox';
 import { Gapped } from '../../components/Gapped';
 import { Link } from '../../components/Link';

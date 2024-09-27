@@ -10,8 +10,8 @@ import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
-import { LIGHT_THEME_2022 } from '../../lib/theming/themes/LightTheme2022';
-import { DARK_THEME_2022 } from '../../lib/theming/themes/DarkTheme2022';
+import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
@@ -27,12 +27,12 @@ interface PlaygroundState {
   currentThemeType: ThemeType;
 }
 interface Themes {
-  theme2022: Theme;
-  theme2022Dark: Theme;
+  lightTheme: Theme;
+  darkTheme: Theme;
 }
 interface ThemesErrors {
-  theme2022: ThemeErrorsType;
-  theme2022Dark: ThemeErrorsType;
+  lightTheme: ThemeErrorsType;
+  darkTheme: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -48,27 +48,27 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
     return editingThemeItem.value;
   }
 
-  return 'theme2022';
+  return 'lightTheme';
 };
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
-    { value: ThemeType.Theme2022, label: 'Новая 2022' },
-    { value: ThemeType.Theme2022Dark, label: 'Новая 2022 Тёмная' },
+    { value: ThemeType.LightTheme, label: 'Светлая 2022 тема' },
+    { value: ThemeType.DarkTheme, label: 'Тёмная 2022 тема' },
   ];
 
   constructor(props: PlaygroundProps) {
     super(props);
     this.state = {
-      currentTheme: LIGHT_THEME_2022,
-      currentThemeType: ThemeType.Theme2022,
+      currentTheme: LIGHT_THEME,
+      currentThemeType: ThemeType.LightTheme,
       editorOpened: false,
       themes: {
-        theme2022: LIGHT_THEME_2022,
-        theme2022Dark: DARK_THEME_2022,
+        lightTheme: LIGHT_THEME,
+        darkTheme: DARK_THEME,
       },
       themesErrors: {
-        theme2022: {},
-        theme2022Dark: {},
+        lightTheme: {},
+        darkTheme: {},
       },
     };
   }
@@ -131,7 +131,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     const themeObject: Writeable<ThemeIn> = {};
     ThemeFactory.getKeys(currentTheme).forEach((key) => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
-      if (descriptor && !descriptor.get && LIGHT_THEME_2022[key] && currentTheme[key] !== LIGHT_THEME_2022[key]) {
+      if (descriptor && !descriptor.get && LIGHT_THEME[key] && currentTheme[key] !== LIGHT_THEME[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
       }
     });

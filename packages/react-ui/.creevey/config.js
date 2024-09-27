@@ -46,7 +46,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'LIGHT_THEME_2022',
+        theme: 'LIGHT_THEME',
       },
       name: 'infrafront/chrome2022',
       browserVersion: '100.0',
@@ -58,7 +58,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'DARK_THEME_2022',
+        theme: 'DARK_THEME',
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/chrome2022Dark',
@@ -71,7 +71,7 @@ const config = {
       platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'LIGHT_THEME_2022',
+        theme: 'LIGHT_THEME',
       },
       name: 'infrafront/firefox2022',
       browserVersion: '100.0',
@@ -83,7 +83,7 @@ const config = {
       platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'DARK_THEME_2022',
+        theme: 'DARK_THEME',
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/firefox2022Dark',
