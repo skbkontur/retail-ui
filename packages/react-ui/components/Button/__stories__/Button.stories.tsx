@@ -10,7 +10,7 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { THEME_2022_DARK } from '../../../lib/theming/themes/Theme2022Dark';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Story } from '../../../typings/stories';
@@ -24,14 +24,6 @@ export default {
 
 type ButtonState = Partial<ButtonProps>;
 
-const useStates: ButtonState[] = [
-  { use: 'default' },
-  { use: 'primary' },
-  { use: 'danger' },
-  { use: 'pay' },
-  { use: 'success' },
-  { use: 'link' },
-];
 const useStates2022: ButtonState[] = [
   { use: 'default' },
   { use: 'primary' },
@@ -42,7 +34,6 @@ const useStates2022: ButtonState[] = [
   { use: 'backless' },
   { use: 'link' },
 ];
-const testingButtonUseStates: ButtonState[] = [{ use: 'default' }, { use: 'primary' }, { use: 'link' }];
 const testingButtonUseStates2022: ButtonState[] = [
   { use: 'default' },
   { use: 'primary' },
@@ -52,28 +43,22 @@ const testingButtonUseStates2022: ButtonState[] = [
 ];
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
 
-const getButtonUseStates = (theme: string) => {
-  if (theme === 'THEME_2022' || theme === 'THEME_2022_DARK') {
-    return testingButtonUseStates2022.map((x) => ({ props: x }));
-  }
-  return testingButtonUseStates.map((x) => ({ props: x }));
+const getButtonUseStates = () => {
+  return testingButtonUseStates2022.map((x) => ({ props: x }));
 };
 
-const getUseStates = (theme: string) => {
-  if (theme === 'THEME_2022' || theme === 'THEME_2022_DARK') {
-    return useStates2022.map((x) => ({ props: x }));
-  }
-  return useStates.map((x) => ({ props: x }));
+const getUseStates = () => {
+  return useStates2022.map((x) => ({ props: x }));
 };
 
-const getIcon = (theme: string, newIcon: ReactElement, oldIcon: ReactElement) => {
-  return theme === 'THEME_2022' || theme === 'THEME_2022_DARK' ? newIcon : oldIcon;
+const getIcon = (icon: ReactElement) => {
+  return icon;
 };
 
-export const Use: Story = (_, { globals: { theme } }) => (
+export const Use: Story = () => (
   <ComponentTable
     Component={Button}
-    rows={getUseStates(theme)}
+    rows={getUseStates()}
     cols={useDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button' }}
   />
@@ -81,46 +66,46 @@ export const Use: Story = (_, { globals: { theme } }) => (
 
 const useDifferentStates: ButtonState[] = [{}, { checked: true }, { active: true }, { active: true, checked: true }];
 
-export const Warning: Story = (_, { globals: { theme } }) => (
+export const Warning: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={sizeDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', warning: true }}
   />
 );
 
-export const Error: Story = (_, { globals: { theme } }) => (
+export const Error: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={sizeDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', error: true }}
   />
 );
 
-export const Focused: Story = (_, { globals: { theme } }) => (
+export const Focused: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={sizeDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', visuallyFocused: true }}
   />
 );
 
-export const Arrow: Story = (_, { globals: { theme } }) => (
+export const Arrow: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={arrowDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', arrow: true }}
   />
 );
 
-export const ArrowLeft: Story = (_, { globals: { theme } }) => (
+export const ArrowLeft: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={arrowDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', arrow: 'left' }}
   />
@@ -139,10 +124,10 @@ const arrowDifferentStates: ButtonState[] = [
   { checked: true, visuallyFocused: true },
 ];
 
-export const ArrowSize: Story = (_, { globals: { theme } }) => (
+export const ArrowSize: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={arrowDifferentSizeStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button' }}
   />
@@ -157,10 +142,10 @@ const arrowDifferentSizeStates: ButtonState[] = [
   { arrow: 'left', size: 'large' },
 ];
 
-export const Borderless: Story = (_, { globals: { theme } }) => (
+export const Borderless: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={borderlessDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', borderless: true }}
   />
@@ -177,10 +162,10 @@ const borderlessDifferentStates: ButtonState[] = [
   { active: true },
 ];
 
-export const Size: Story = (_, { globals: { theme } }) => (
+export const Size: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={sizeDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button' }}
   />
@@ -188,10 +173,10 @@ export const Size: Story = (_, { globals: { theme } }) => (
 
 const sizeDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
-export const Loading: Story = (_, { globals: { theme } }) => (
+export const Loading: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={loadingDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', loading: true }}
   />
@@ -206,10 +191,10 @@ const loadingDifferentStates: ButtonState[] = [
   { visuallyFocused: true, active: true },
 ];
 
-export const Narrow: Story = (_, { globals: { theme } }) => (
+export const Narrow: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={narrowDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', narrow: true }}
   />
@@ -217,10 +202,10 @@ export const Narrow: Story = (_, { globals: { theme } }) => (
 
 const narrowDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
-export const Align: Story = (_, { globals: { theme } }) => (
+export const Align: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={alignDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', width: '200px' }}
   />
@@ -265,10 +250,10 @@ const linkDifferentStates: ButtonState[] = [
   { loading: true, size: 'large' },
 ];
 
-export const Icon: Story = (_, { globals: { theme } }) => (
+export const Icon: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={iconDifferentStates.map((x) => ({ props: x }))}
     presetProps={{}}
   />
@@ -284,10 +269,10 @@ const iconDifferentStates: ButtonState[] = [
   { icon: <OkIcon />, children: 'Button', loading: true },
 ];
 
-export const RightIcon: Story = (_, { globals: { theme } }) => (
+export const RightIcon: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={rightIconDifferentStates.map((x) => ({ props: x }))}
     presetProps={{}}
   />
@@ -303,10 +288,10 @@ const rightIconDifferentStates: ButtonState[] = [
   { rightIcon: <CheckAIcon16Light />, children: 'Button', loading: true },
 ];
 
-export const BothIcons: Story = (_, { globals: { theme } }) => (
+export const BothIcons: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={bothIconsDifferentStates.map((x) => ({ props: x }))}
     presetProps={{}}
   />
@@ -322,19 +307,19 @@ const bothIconsDifferentStates: ButtonState[] = [
   { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button', loading: true },
 ];
 
-export const Disabled: Story = (_, { globals: { theme } }) => (
+export const Disabled: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={disabledDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', disabled: true }}
   />
 );
 
-export const ArrowDisabled: Story = (_, { globals: { theme } }) => (
+export const ArrowDisabled: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getUseStates(theme)}
+    cols={getUseStates()}
     rows={disabledDifferentStates.filter((state) => !state.icon).map((state) => ({ props: state }))}
     presetProps={{ children: 'Button', disabled: true, arrow: true }}
   />
@@ -352,10 +337,10 @@ export const MultilineTextWithLinkButton = () => (
 
 const disabledDifferentStates: ButtonState[] = [{}, { loading: true }, { loading: true, icon: <OkIcon /> }];
 
-export const Checked: Story = (_, { globals: { theme } }) => (
+export const Checked: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={checkedDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', checked: true }}
   />
@@ -368,10 +353,10 @@ const checkedDifferentStates: ButtonState[] = [
   { disabled: true, visuallyFocused: true },
 ];
 
-export const DifferentPrioritization: Story = (_, { globals: { theme } }) => (
+export const DifferentPrioritization: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={differentPriorityStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button' }}
   />
@@ -445,14 +430,14 @@ export const BothIconsDifferentContent = () => (
   </Gapped>
 );
 
-export const PlaygroundDefault: Story = (_, { globals: { theme } }) => (
-  <Button icon={getIcon(theme, <CheckAIcon />, <OkIcon />)} data-tid="test-button">
+export const PlaygroundDefault: Story = () => (
+  <Button icon={getIcon(<CheckAIcon />)} data-tid="test-button">
     Hello
   </Button>
 );
 
-export const PlaygroundDisabled: Story = (_, { globals: { theme } }) => (
-  <Button icon={getIcon(theme, <CheckAIcon />, <OkIcon />)} disabled data-tid="test-button">
+export const PlaygroundDisabled: Story = () => (
+  <Button icon={getIcon(<CheckAIcon />)} disabled data-tid="test-button">
     Hello
   </Button>
 );
@@ -487,10 +472,10 @@ export const TextStylesReset = () => (
   </div>
 );
 
-export const UnusedPropValues: Story = (_, { globals: { theme } }) => (
+export const UnusedPropValues: Story = () => (
   <ComponentTable
     Component={Button}
-    cols={getButtonUseStates(theme)}
+    cols={getButtonUseStates()}
     rows={unusedDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button' }}
   />
@@ -570,7 +555,7 @@ export const BtnBacklessBgHoverActive: Story = () => {
       btnBacklessHoverBg: 'red',
       btnBacklessActiveBg: 'green',
     },
-    THEME_2022_DARK,
+    DARK_THEME,
   );
 
   return (
@@ -588,7 +573,7 @@ export const BtnTextBgHoverActive: Story = () => {
       btnTextHoverBg: 'red',
       btnTextActiveBg: 'green',
     },
-    THEME_2022_DARK,
+    DARK_THEME,
   );
 
   return (

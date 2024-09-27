@@ -1,5 +1,5 @@
 import { ThemeFactory } from '../ThemeFactory';
+import { BasicDarkTheme } from '../../../internal/themes/BasicDarkTheme';
+import { applyMarkers, markAsDarkTheme, markAsTheme2022 } from '../ThemeHelpers';
 
-import { THEME_2022_DARK } from './Theme2022Dark';
-
-export const DARK_THEME = ThemeFactory.create({}, THEME_2022_DARK);
+export const DARK_THEME = applyMarkers(ThemeFactory.create({}, BasicDarkTheme), [markAsTheme2022, markAsDarkTheme]);
