@@ -474,8 +474,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
-          <button id={id} data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+        <span {...wrapProps} data-tid={ButtonDataTids.root}>
+          <button id={id} data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}

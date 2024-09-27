@@ -87,7 +87,7 @@ export const PagingDataTids = {
 } as const;
 
 type DefaultProps = Required<
-  Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
+  Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener'>
 >;
 
 @rootNode
@@ -100,7 +100,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
-    'data-tid': PagingDataTids.root,
   };
 
   private getProps = createPropsGetter(Paging.defaultProps);
@@ -167,7 +166,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   private renderMain() {
-    const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
+    const { useGlobalListener } = this.getProps();
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
@@ -176,7 +175,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
-          data-tid={dataTid}
+          data-tid={PagingDataTids.root}
           className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
