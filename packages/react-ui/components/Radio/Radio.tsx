@@ -17,11 +17,6 @@ import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Radio.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type RadioSize = SizeProp;
-
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,

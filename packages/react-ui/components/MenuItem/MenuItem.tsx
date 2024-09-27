@@ -15,11 +15,6 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 
 import { styles } from './MenuItem.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type MenuItemSize = SizeProp;
-
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps
