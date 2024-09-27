@@ -226,15 +226,15 @@ export class BasicLightThemeInternal {
 
   public static tokenShadowDisabled = '';
 
-  public static tokenDefaultIdleBg = 'rgba(0, 0, 0, 0.1)';
-  public static tokenDefaultIdleColor = '#222222';
-  public static tokenDefaultIdleBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultIdleBgHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultIdleColorHover = '#222222';
-  public static tokenDefaultIdleBorderColorHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultActiveBg = '#3D3D3D';
-  public static tokenDefaultActiveColor = '#FFFFFF';
-  public static tokenDefaultActiveBorderColor = 'transparent';
+  public static tokenBg = 'rgba(0, 0, 0, 0.1)';
+  public static tokenColor = '#222222';
+  public static tokenBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBgHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenColorHover = '#222222';
+  public static tokenBorderColorHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBgActive = '#3D3D3D';
+  public static tokenColorActive = '#FFFFFF';
+  public static tokenBorderColorActive = 'transparent';
 
   //#endregion Token
   //#region TokenInput
