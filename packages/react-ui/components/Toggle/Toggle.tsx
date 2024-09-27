@@ -15,11 +15,6 @@ import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type ToggleSize = SizeProp;
-
 let colorWarningShown = false;
 
 export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
