@@ -201,46 +201,6 @@ export class BasicLightThemeInternal {
   public static tokenBorderRadius = '2px';
   public static tokenBorderWidth = '1px';
   public static tokenBorderColorDisabled = 'transparent';
-  public static get tokenDefaultIdle() {
-    return this.grayXLight;
-  }
-  public static tokenDefaultActive = '#323232';
-  public static get tokenGrayIdle() {
-    return this.grayXLight;
-  }
-  public static get tokenGrayActive() {
-    return this.grayDark;
-  }
-  public static get tokenBlueIdle() {
-    return this.blueLight;
-  }
-  public static get tokenBlueActive() {
-    return this.blue;
-  }
-  public static get tokenGreenIdle() {
-    return this.greenXxLight;
-  }
-  public static get tokenGreenActive() {
-    return this.greenDark;
-  }
-  public static get tokenYellowIdle() {
-    return this.yellowXxLight;
-  }
-  public static get tokenYellowActive() {
-    return this.yellowDark;
-  }
-  public static get tokenRedIdle() {
-    return this.redXxLight;
-  }
-  public static get tokenRedActive() {
-    return this.redDark;
-  }
-  public static get tokenWhite() {
-    return this.white;
-  }
-  public static get tokenBlack() {
-    return this.black;
-  }
   public static get tokenBorderColorWarning() {
     return this.borderColorWarning;
   }
