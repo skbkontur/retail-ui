@@ -72,6 +72,15 @@ const RENAMED_VARS: Record<string, string> = {
   fileUploaderPaddingY:'fileUploaderPaddingYSmall',
   pickerBg: 'calendarBg',
   pickerBorderRadius: 'calendarBorderRadius',
+  tokenDefaultIdleBg: 'tokenBg',
+  tokenDefaultIdleColor: 'tokenColor',
+  tokenDefaultIdleBorderColor: 'tokenBorderColor',
+  tokenDefaultIdleBgHover: 'tokenBgHover',
+  tokenDefaultIdleColorHover: 'tokenColorHover',
+  tokenDefaultIdleBorderColorHover: 'tokenBorderColorHover',
+  tokenDefaultActiveBg: 'tokenBgActive',
+  tokenDefaultActiveColor: 'tokenColorActive',
+  tokenDefaultActiveBorderColor: 'tokenBorderColorActive'
 };
 
 export default function transform(file: FileInfo, api: API) {
