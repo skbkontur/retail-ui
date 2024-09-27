@@ -1,5 +1,5 @@
 import React from 'react';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import OkIcon from '@skbkontur/react-icons/';
 
 import { Story } from '../../../typings/stories';
 import { ComboBoxView } from '../ComboBoxView';
@@ -50,34 +50,6 @@ export const InputLikeText: Story = () => (
   </Gapped>
 );
 InputLikeText.storyName = 'input like text';
-
-const FIREFOX_REGEXP = /.*firefox.*/i;
-
-InputLikeText.parameters = {
-  creevey: {
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: FIREFOX_REGEXP,
-        tests: ['focused first element'],
-      },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async 'focused first element'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
-      },
-    },
-  },
-};
 
 export const InputLikeTextWithPlaceholder = () => (
   <Gapped vertical>

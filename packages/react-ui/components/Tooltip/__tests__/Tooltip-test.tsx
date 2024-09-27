@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../Button';
@@ -52,7 +52,7 @@ describe('Tooltip', () => {
         it('opens after click by anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -63,10 +63,10 @@ describe('Tooltip', () => {
         it('contains close button', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
-          expect(content).toContainHTML('viewBox="0 0 10 10"');
+          expect(content).toContainHTML('<svg');
           expect(content).toBeInTheDocument();
         });
       });
@@ -75,10 +75,10 @@ describe('Tooltip', () => {
         it('keeps open after second click by anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           expect(content).toBeInTheDocument();
         });
       });
@@ -87,10 +87,10 @@ describe('Tooltip', () => {
         it('keeps open after click by content', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
-          userEvent.click(content);
+          await userEvent.click(content);
           expect(content).toBeInTheDocument();
         });
       });
@@ -99,12 +99,12 @@ describe('Tooltip', () => {
         it('closes after click outside', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(document.body);
+          await userEvent.click(document.body);
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -114,8 +114,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('opens by focus on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -126,7 +127,7 @@ describe('Tooltip', () => {
         it('does not contain close button', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).not.toContainHTML('viewBox="0 0 10 10"');
@@ -135,41 +136,44 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('keeps open after click on anchor', () => {
+        it('keeps open after click on anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           expect(content).toBeInTheDocument();
         });
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('closes after click on content', () => {
+        it('closes after click on content', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(content);
+          await userEvent.click(content);
           expect(content).not.toBeInTheDocument();
         });
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('closes after click outside', () => {
+        it('closes after click outside', async () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(document.body);
+          await userEvent.click(document.body);
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -177,13 +181,15 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('closes after blur', () => {
           const { anchor } = renderTooltip({ trigger: 'focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
-
-          anchor.blur();
+          act(() => {
+            anchor.blur();
+          });
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -194,7 +200,7 @@ describe('Tooltip', () => {
         it('opens by hover on anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
-          userEvent.hover(anchor);
+          await userEvent.hover(anchor);
           await delay(Tooltip.delay);
           const content = screen.getByTestId(TooltipDataTids.content);
 
@@ -205,8 +211,9 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('opens by focus on anchor', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
@@ -217,13 +224,13 @@ describe('Tooltip', () => {
         it('openes by hover and keeps open after click on anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
-          userEvent.hover(anchor);
+          await userEvent.hover(anchor);
           await delay(Tooltip.delay);
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           expect(content).toBeInTheDocument();
         });
       });
@@ -232,13 +239,13 @@ describe('Tooltip', () => {
         it('openes by hover and keeps open after click on content', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
-          userEvent.hover(anchor);
+          await userEvent.hover(anchor);
           await delay(Tooltip.delay);
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(content);
+          await userEvent.click(content);
           expect(content).toBeInTheDocument();
         });
       });
@@ -253,7 +260,7 @@ describe('Tooltip', () => {
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           expect(content).toBeInTheDocument();
         });
       });
@@ -268,7 +275,7 @@ describe('Tooltip', () => {
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(content);
+          await userEvent.click(content);
           expect(content).toBeInTheDocument();
         });
       });
@@ -277,13 +284,13 @@ describe('Tooltip', () => {
         it('closes after click outside', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
-          userEvent.hover(anchor);
+          await userEvent.hover(anchor);
           await delay(Tooltip.delay);
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(document.body);
+          await userEvent.click(document.body);
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -291,13 +298,15 @@ describe('Tooltip', () => {
       withVariousAnchors((renderTooltip) => {
         it('closes after blur', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
-
-          anchor.focus();
+          act(() => {
+            anchor.focus();
+          });
           const content = screen.getByTestId(TooltipDataTids.content);
 
           expect(content).toBeInTheDocument();
-
-          anchor.blur();
+          act(() => {
+            anchor.blur();
+          });
           expect(content).not.toBeInTheDocument();
         });
       });
@@ -320,7 +329,7 @@ describe('Tooltip', () => {
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(anchor);
+          await userEvent.click(anchor);
           expect(content).toBeInTheDocument();
         });
       });
@@ -332,7 +341,7 @@ describe('Tooltip', () => {
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(content);
+          await userEvent.click(content);
           expect(content).toBeInTheDocument();
         });
       });
@@ -344,7 +353,7 @@ describe('Tooltip', () => {
 
           expect(content).toBeInTheDocument();
 
-          userEvent.click(document.body);
+          await userEvent.click(document.body);
           expect(content).toBeInTheDocument();
         });
       });
@@ -387,14 +396,14 @@ describe('Tooltip', () => {
     expect(screen.queryByTestId(TooltipDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('calls `onCloseClick` when click on the cross', () => {
+  it('calls `onCloseClick` when click on the cross', async () => {
     const onClose = jest.fn();
     render(
       <Tooltip trigger="opened" render={renderTooltip} onCloseClick={onClose}>
         <div />
       </Tooltip>,
     );
-    userEvent.click(screen.getByTestId(TooltipDataTids.crossIcon));
+    await userEvent.click(screen.getByTestId(TooltipDataTids.crossIcon));
     expect(onClose.mock.calls).toHaveLength(1);
   });
 
@@ -420,7 +429,7 @@ describe('Tooltip', () => {
 
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
 
-      userEvent.tab();
+      await userEvent.tab();
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       await delay(100);
@@ -435,15 +444,16 @@ describe('Tooltip', () => {
       onClose.mockClear();
     });
 
-    it('with "click" trigger', () => {
+    it('with "click" trigger', async () => {
       render(
         <Tooltip trigger="click" render={renderTooltip} onClose={onClose}>
           <button />
         </Tooltip>,
       );
-      userEvent.click(screen.getByRole('button'));
-
-      clickOutside();
+      await userEvent.click(screen.getByRole('button'));
+      act(() => {
+        clickOutside();
+      });
 
       expect(onClose).toHaveBeenCalledTimes(1);
     });
@@ -476,12 +486,14 @@ describe('Tooltip', () => {
           <div />
         </Tooltip>,
       );
-
-      tooltipRef.current?.show();
+      act(() => {
+        tooltipRef.current?.show();
+      });
 
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
-
-      tooltipRef.current?.hide();
+      act(() => {
+        tooltipRef.current?.hide();
+      });
       expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
     });
 
@@ -551,8 +563,9 @@ describe('Tooltip', () => {
     );
 
     expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
-
-    screen.getByRole('button').click();
+    act(() => {
+      screen.getByRole('button').click();
+    });
 
     expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
@@ -581,17 +594,16 @@ describe('Tooltip', () => {
       onCloseRequest.mockClear();
     });
 
-    it('with "click" trigger', () => {
+    it('with "click" trigger', async () => {
       render(
         <Tooltip trigger="click" disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <button>Anchor</button>
         </Tooltip>,
       );
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
-
       clickOutside();
 
       expect(onCloseRequest).toHaveBeenCalledTimes(1);
@@ -610,13 +622,13 @@ describe('Tooltip', () => {
       expect(onCloseRequest).toHaveBeenCalledTimes(1);
     });
 
-    it('should be called with event', () => {
+    it('should be called with event', async () => {
       render(
         <Tooltip trigger="click" disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <button>Anchor</button>
         </Tooltip>,
       );
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
       clickOutside();
@@ -639,7 +651,7 @@ describe('Tooltip', () => {
     it('renders correctly after delay', async () => {
       render(<TooltipWithCustomDelay />);
 
-      userEvent.hover(screen.getByRole('button', { name: 'Show' }));
+      await userEvent.hover(screen.getByRole('button', { name: 'Show' }));
 
       await delay(showDelay);
 
@@ -648,7 +660,7 @@ describe('Tooltip', () => {
     it(`doesn't render prematurely`, async () => {
       render(<TooltipWithCustomDelay />);
 
-      userEvent.hover(screen.getByRole('button', { name: 'Show' }));
+      await userEvent.hover(screen.getByRole('button', { name: 'Show' }));
 
       await delay(Tooltip.delay);
 
@@ -656,8 +668,7 @@ describe('Tooltip', () => {
     });
   });
 
-  it('clears hoverTimeout timer after unmount', () => {
-    jest.useFakeTimers();
+  it('clears hoverTimeout timer after unmount', async () => {
     jest.spyOn(window, 'setTimeout');
     jest.spyOn(window, 'clearTimeout');
 
@@ -672,7 +683,7 @@ describe('Tooltip', () => {
     // @ts-expect-error: Use of private property.
     expect(tooltipRef.current.hoverTimeout).toBeUndefined();
 
-    userEvent.hover(screen.getByRole('button'));
+    await userEvent.hover(screen.getByRole('button'));
 
     // @ts-expect-error: Use of private property.
     const { hoverTimeout } = tooltipRef.current;

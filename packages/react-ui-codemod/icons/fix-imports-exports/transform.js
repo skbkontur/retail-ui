@@ -16,5 +16,5 @@ module.exports = function(file, api) {
       return node;
     });
 
-  return root.toSource();
+  return root.toSource({ lineTerminator: '\n' });
 };

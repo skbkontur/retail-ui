@@ -9,6 +9,10 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
 
+interface GlobalWithReactTesting {
+  ReactTesting?: any;
+}
+
 export const PORTAL_INLET_ATTR = 'data-render-container-id';
 export const PORTAL_OUTLET_ATTR = 'data-rendered-container-id';
 
@@ -53,6 +57,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private mountContainer() {
+    const globalWithReactTesting = globalObject as GlobalWithReactTesting;
+
     if (!this.domContainer) {
       this.createContainer();
     }
@@ -62,8 +68,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
       }
-      if (globalObject.ReactTesting) {
-        globalObject.ReactTesting.addRenderContainer(this.rootId, this);
+      if (globalWithReactTesting.ReactTesting) {
+        globalWithReactTesting.ReactTesting.addRenderContainer(this.rootId, this);
       }
     }
   }
@@ -83,8 +89,9 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
-      if (globalObject.ReactTesting) {
-        globalObject.ReactTesting.removeRenderContainer(this.rootId);
+      const globalWithReactTesting = globalObject as GlobalWithReactTesting;
+      if (globalWithReactTesting.ReactTesting) {
+        globalWithReactTesting.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
   }

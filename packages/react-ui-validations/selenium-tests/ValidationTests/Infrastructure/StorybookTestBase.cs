@@ -11,7 +11,7 @@ namespace SKBKontur.ValidationTests.Infrastructure
             var match = storybookNamespacePattern.Match(GetType().FullName);
             var kind = match.Groups["Kind"].ToString();
             var story = match.Groups["Story"].ToString();
-            var port = 8081;
+            var port = 6060;
             var uri = new Uri($"http://localhost:{port}/iframe.html?id={CreateStoryId(kind, story)}");
             WebDriver.Navigate().GoToUrl(uri);
         }

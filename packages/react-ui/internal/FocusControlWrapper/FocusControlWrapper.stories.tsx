@@ -47,8 +47,8 @@ const BrokenInput = ({ disabled }: { disabled?: boolean }) => {
 
   const styles: CSSProperties = focus ? { border: '1px solid blue' } : {};
 
-  const handleBlur = (event: React.FocusEvent) => setFocus(false);
-  const handleFocus = (event: React.FocusEvent) => setFocus(true);
+  const handleBlur = () => setFocus(false);
+  const handleFocus = () => setFocus(true);
   const handleResetFocus = () => setFocus(false);
 
   return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import React, { ComponentType } from 'react';
+import { DatePicker, DatePickerProps } from '@skbkontur/react-ui/components/DatePicker';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
@@ -65,11 +65,8 @@ function prepareProps<TValue, TProps extends { value?: any }>(
   };
 }
 
-type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer P>
-  ? P extends { value?: any }
-    ? P
-    : never
-  : never;
+type ExtractProps<TComponentOrTProps> =
+  TComponentOrTProps extends React.ComponentType<infer P> ? (P extends { value?: any } ? P : never) : never;
 
 type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null | infer TValue } ? TValue : never;
 
@@ -81,7 +78,6 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
     JSX.LibraryManagedAttributes<TComponent, { value?: ExtractValue<TComponent> } & ExtractProps<TComponent>>
   >
 > {
-  // eslint-disable-next-line react/display-name
   return (props) => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
@@ -90,7 +86,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
 }
 
 const WrappedInput = wrapControl(Input);
-const WrappedDatePicker = wrapControl(DatePicker);
+const WrappedDatePicker = wrapControl(DatePicker as ComponentType<DatePickerProps>);
 
 export { WrappedInput as Input };
 export { WrappedDatePicker as DatePicker };

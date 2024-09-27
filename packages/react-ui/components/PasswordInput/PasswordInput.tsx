@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
@@ -18,7 +16,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -102,7 +99,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
+              {this.renderMain(this.props)}
             </CommonWrapper>
           );
         }}
@@ -206,11 +203,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
               className={styles.icon()}
               data-tid={PasswordInputDataTids.eyeIcon}
             >
-              <PasswordInputIcon
-                size={this.props.size}
-                visible={this.state.visible}
-                isTheme2022={isTheme2022(this.theme)}
-              />
+              <PasswordInputIcon size={this.props.size} visible={this.state.visible} />
             </button>
           )}
         </span>

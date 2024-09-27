@@ -3,9 +3,8 @@ import { flatten } from 'lodash';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
-import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { AutocompleteProps } from '..';
-import { delay } from '../../../lib/utils';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {
@@ -23,90 +22,8 @@ export default {
   ],
 } as Meta;
 
-const commonTests: CreeveyTests = {
-  async 'focus and type text'() {
-    const screenshotElement = this.browser.findElement({ css: '#test-element' });
-    const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
-
-    await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
-    await delay(1000);
-
-    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-  },
-};
-
-const sizeTests: CreeveyTests = {
-  async 'focus and type text small'() {
-    const screenshotElement = this.browser.findElement({ css: '#test-element' });
-    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
-
-    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
-    await delay(1000);
-
-    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-  },
-  async 'focus and type text medium'() {
-    const screenshotElement = this.browser.findElement({ css: '#test-element' });
-    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
-
-    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
-    await delay(1000);
-
-    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-  },
-  async 'focus and type text large'() {
-    const screenshotElement = this.browser.findElement({ css: '#test-element' });
-    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
-
-    await this.browser.actions({ bridge: true }).click(autocompleteElements[2]).sendKeys('o').perform();
-    await delay(1000);
-
-    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-  },
-};
-
-const menuPosTests: CreeveyTests = {
-  async 'focus and type text menu top'() {
-    const screenshotElement = this.browser.findElement({ css: '#test-element' });
-    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
-
-    await this.browser.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
-    await delay(1000);
-
-    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-  },
-  async 'focus and type text menu bottom'() {
-    const screenshotElement = this.browser.findElement({ css: '#test-element' });
-    const autocompleteElements = await this.browser.findElements({ css: '[data-comp-name~="Autocomplete"]' });
-
-    await this.browser.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
-    await delay(1000);
-
-    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-  },
-};
-
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';
-
-Simple.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async focused() {
-        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
-
-        await this.browser.actions({ bridge: true }).click(autocompleteElement).perform();
-        await delay(1000);
-
-        await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
-      },
-      ...commonTests,
-    },
-  },
-};
 
 export const WithDisabledPortal: Story = () => {
   const source = ['One', 'Two', 'Three'];
@@ -122,15 +39,6 @@ export const WithDisabledPortal: Story = () => {
 };
 WithDisabledPortal.storyName = 'with disabled portal';
 
-WithDisabledPortal.parameters = {
-  creevey: {
-    tests: {
-      ...commonTests,
-      ...menuPosTests,
-    },
-  },
-};
-
 export const WithRenderItem = () => (
   <UncontrolledAutocomplete
     source={['One', 'Two', 'Three']}
@@ -139,12 +47,6 @@ export const WithRenderItem = () => (
 );
 WithRenderItem.storyName = 'with renderItem';
 
-WithRenderItem.parameters = {
-  creevey: {
-    tests: commonTests,
-  },
-};
-
 export const WithBigRenderItemWidth = () => (
   <UncontrolledAutocomplete
     source={['One', 'Two', 'Three']}
@@ -152,12 +54,6 @@ export const WithBigRenderItemWidth = () => (
   />
 );
 WithBigRenderItemWidth.storyName = 'with big renderItem width';
-
-WithBigRenderItemWidth.parameters = {
-  creevey: {
-    tests: commonTests,
-  },
-};
 
 export const WithFixedMenuSize = () => (
   <UncontrolledAutocomplete
@@ -176,12 +72,6 @@ export const WithFixedMenuSize = () => (
   />
 );
 WithFixedMenuSize.storyName = 'with fixed menu size';
-
-WithFixedMenuSize.parameters = {
-  creevey: {
-    tests: commonTests,
-  },
-};
 
 export const WithOnBlurOnFocusHandlers = () => <WithBlurFocusHandlersExample />;
 WithOnBlurOnFocusHandlers.storyName = 'with onBlur/onFocus handlers';
@@ -253,12 +143,6 @@ export const WithPercentageWidth = () => (
 );
 WithPercentageWidth.storyName = 'with percentage width';
 
-WithPercentageWidth.parameters = {
-  creevey: {
-    tests: commonTests,
-  },
-};
-
 export const WithFixedWidth = () => (
   <UncontrolledAutocomplete
     width="200px"
@@ -268,12 +152,6 @@ export const WithFixedWidth = () => (
 );
 WithFixedWidth.storyName = 'with fixed width';
 
-WithFixedWidth.parameters = {
-  creevey: {
-    tests: commonTests,
-  },
-};
-
 export const WithZeroWidth = () => (
   <UncontrolledAutocomplete
     width={0}
@@ -282,12 +160,6 @@ export const WithZeroWidth = () => (
   />
 );
 WithZeroWidth.storyName = 'with zero width';
-
-WithZeroWidth.parameters = {
-  creevey: {
-    tests: commonTests,
-  },
-};
 
 export const MobileSimple = () => (
   <>
@@ -310,62 +182,10 @@ MobileSimple.parameters = {
   creevey: { skip: true },
 };
 
-const mobileHintsTests: CreeveyTests = {
-  async noInputValue() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .perform();
-    await delay(200);
-
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('noInputValue');
-  },
-
-  async nothingWasFound() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .sendKeys('abc')
-      .perform();
-    await delay(200);
-
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('nothingWasFound');
-  },
-
-  async updateValue() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'input' }))
-      .sendKeys('one')
-      .perform();
-    await delay(200);
-
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
-      .click(this.browser.findElement({ css: 'input' }))
-      .perform();
-    await delay(200);
-
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('updateValue');
-  },
-};
-
 export const MobileHints: Story = () => <UncontrolledAutocomplete source={['one', 'two', 'three']} />;
 MobileHints.parameters = {
   viewport: {
     defaultViewport: 'iphone',
-  },
-  creevey: {
-    tests: mobileHintsTests,
   },
 };
 
@@ -378,9 +198,6 @@ MobileHintsEN.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: {
-    tests: mobileHintsTests,
-  },
 };
 
 export const MobileWithTitle: Story = () => (
@@ -390,21 +207,6 @@ MobileWithTitle.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: {
-    tests: {
-      async opened() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await delay(200);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('opened');
-      },
-    },
-  },
 };
 
 export const WithManualPosition: Story = () => {
@@ -412,6 +214,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
+      {' '}
       <UncontrolledAutocomplete menuPos={menuPos} source={['One', 'Two', 'Three']} />
       <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
         change pos to {menuPos === 'top' ? 'bottom' : 'top'}
@@ -420,37 +223,6 @@ export const WithManualPosition: Story = () => {
   );
 };
 WithManualPosition.storyName = 'with manual position';
-WithManualPosition.parameters = {
-  creevey: {
-    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
-    tests: {
-      async 'opened top with portal'() {
-        const screenshotElement = this.browser.findElement({ css: '#test-element' });
-        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
-
-        await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
-        await delay(1000);
-
-        await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-      },
-      async 'opened bottom with portal'() {
-        const screenshotElement = this.browser.findElement({ css: '#test-element' });
-        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
-
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
-          .pause(1000)
-          .click(autocompleteElement)
-          .sendKeys('o')
-          .perform();
-        await delay(1000);
-
-        await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
 
 export const Size = () => {
   const source = [
@@ -475,12 +247,6 @@ export const Size = () => {
 };
 Size.storyName = 'size';
 
-Size.parameters = {
-  creevey: {
-    tests: sizeTests,
-  },
-};
-
 export const MenuPos = () => {
   const source = ['One', 'Two', 'Three'];
 
@@ -494,9 +260,3 @@ export const MenuPos = () => {
   );
 };
 MenuPos.storyName = 'menuPos';
-
-MenuPos.parameters = {
-  creevey: {
-    tests: menuPosTests,
-  },
-};

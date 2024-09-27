@@ -153,12 +153,11 @@ import { Toast } from "@skbkontur/react-ui";
 import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
-  btnLinkLineBorderBottomWidth: '0',
-  btnLinkHoverTextDecoration: 'underline'
+  btnLinkTextUnderlineOffset: '1px',
 }
 
 const underlineOnHoverStyles = {
-  btnLinkLineBorderBottomColor: 'transparent',
+  btnLinkTextDecorationColor: 'transparent',
 }
 
 const differentColorStyles = {
@@ -207,7 +206,7 @@ const renderExampleRow = (title, styles, index) => {
     <th style={tdStyle}>Пример</th>
     <th style={tdStyle}>Переменные темы</th>
   </tr>
-  {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+  {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
   {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>

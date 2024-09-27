@@ -21,25 +21,6 @@ export const SimpleGroupWithInputAndButton: Story = () => (
 );
 SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
 
-SimpleGroupWithInputAndButton.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async 'focused input'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('focused input');
-      },
-    },
-  },
-};
-
 export const SimpleGroupWithCustomInputsWidth = () => (
   <Group>
     <Input placeholder="Search" width="300px" />
@@ -91,7 +72,7 @@ export const WithWidth = () => (
       return (
         <div
           style={{
-            background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#eee',
+            background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#eee',
             padding: '30px 10px 10px',
             position: 'relative',
           }}

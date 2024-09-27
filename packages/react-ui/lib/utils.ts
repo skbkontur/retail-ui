@@ -21,6 +21,8 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export type AnyObject = Record<string, unknown>;
 
+export type NoInfer<T> = T extends infer U ? U : never;
+
 export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout(resolve, ms));
 
 export const emptyHandler = () => {
@@ -183,7 +185,7 @@ export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React
  * @param props Props object to extract data attributes from.
  * @returns Separated data attributes and all other props.
  */
-export const extractDataProps = <T>(props: T) => {
+export const extractDataProps = <T extends Record<string, any>>(props: T) => {
   const dataProps: Record<string, any> = {};
   const restWithoutDataProps: Record<string, any> = {};
 

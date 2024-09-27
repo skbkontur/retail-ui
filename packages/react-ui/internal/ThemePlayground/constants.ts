@@ -1,12 +1,8 @@
 import { Theme } from '../../lib/theming/Theme';
 
 export enum ThemeType {
-  Default = 'default',
-  Dark = 'dark',
-  DefaultOld = 'defaultOld',
-  FlatOld = 'flatOld',
-  Theme2022 = 'theme2022',
-  Theme2022Dark = 'theme2022Dark',
+  LightTheme = 'lightTheme',
+  DarkTheme = 'darkTheme',
 }
 
 export const VARIABLES_GROUPS = [

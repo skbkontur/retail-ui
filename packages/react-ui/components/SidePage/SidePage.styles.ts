@@ -258,7 +258,7 @@ export const styles = memoizeStyle({
       padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       position: absolute;
       right: ${t.sidePageCloseButtonPadding};
-      top: 0;
+      top: ${t.sidePageCloseButtonWrapperOffsetTop};
     `;
   },
 
@@ -266,7 +266,7 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.mobileSidePageHeaderLineHeight};
       padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
-      right: ${t.mobileSidePageCloseButtonPadding};
+      right: ${t.mobileSidePageCloseButtonRightPadding};
     `;
   },
 
@@ -360,7 +360,9 @@ export const styles = memoizeStyle({
 
   transitionActive() {
     return css`
-      transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition:
+        transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1 !important;
       transform: translate(0, 0) !important;
     `;

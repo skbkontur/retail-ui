@@ -1,6 +1,5 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
-import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
@@ -11,9 +10,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 
 export interface ComboBoxProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
+  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     CommonProps {
   align?: 'left' | 'center' | 'right';
   /**
@@ -65,6 +63,10 @@ export interface ComboBoxProps<T>
 
   maxLength?: number;
 
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
 
   onBlur?: () => void;
@@ -119,7 +121,7 @@ export interface ComboBoxProps<T>
    *    }
    * }}
    */
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска

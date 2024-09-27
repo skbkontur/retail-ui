@@ -10,7 +10,6 @@ import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useCo
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { UploadIcon } from '../../internal/icons/16px';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 import { keyListener } from '../../lib/events/keyListener';
@@ -20,20 +19,14 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
-import { UploadIcon as UploadIcon2022 } from './UploadIcon';
+import { UploadIcon } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
-
-/**
- * @deprecated use SizeProp
- */
-export type FileUploaderSize = SizeProp;
 
 type FileUploaderOverriddenProps = 'size';
 
@@ -96,7 +89,6 @@ const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.React
 
 const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
   const theme = useContext(ThemeContext);
-  const _isTheme2022 = isTheme2022(theme);
 
   const {
     initialFiles,
@@ -193,16 +185,16 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   );
 
   const handleDrop = useCallback(
-    (event) => {
+    (event: DragEvent) => {
       if (disabled) {
         return;
       }
 
       const { dataTransfer } = event;
-      const { files } = dataTransfer;
-
-      if (files?.length > 0) {
-        handleChange(files);
+      if (dataTransfer) {
+        if (dataTransfer.files?.length > 0) {
+          handleChange(dataTransfer.files);
+        }
         dataTransfer.clearData();
       }
     },
@@ -282,10 +274,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   );
 
   const canDrop = isWindowDraggable && !disabled;
-  const uploadButtonWrapperClassNames = cx(
-    !_isTheme2022 && canDrop && jsStyles.windowDragOver(theme),
-    _isTheme2022 && canDrop && jsStyles.windowDragOver2022(theme),
-  );
+  const uploadButtonWrapperClassNames = cx(canDrop && jsStyles.windowDragOver(theme));
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), sizeIconClass, disabled && jsStyles.iconDisabled(theme));
 
@@ -321,7 +310,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),
   };
-  const icon = _isTheme2022 ? <UploadIcon2022 size={iconSizes[size]} /> : <UploadIcon />;
+  const icon = <UploadIcon size={iconSizes[size]} />;
 
   return (
     <CommonWrapper {...props}>

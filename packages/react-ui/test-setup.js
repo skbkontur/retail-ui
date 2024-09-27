@@ -1,15 +1,9 @@
-/* eslint-disable react/display-name */
-/* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import '@testing-library/jest-dom';
-import { configure } from '@testing-library/dom';
+import { configure } from '@testing-library/react';
 import React from 'react';
 import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-
-configure({
-  testIdAttribute: 'data-tid',
-});
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -31,6 +25,7 @@ jest.mock('react-dom', () => {
     findDOMNode: jest.fn(originalModule.findDOMNode),
   };
 });
+window.Element.prototype.scrollIntoView = jest.fn();
 window.matchMedia = jest.fn().mockImplementation((query) => {
   return {
     matches: false,
@@ -58,26 +53,6 @@ global.MutationObserver = class {
     /**/
   }
 };
-
-global.DataTransfer = class DataTransfer {
-  constructor() {
-    this.items = new Set();
-    this.files = this.items;
-  }
-};
-
-let files;
-
-beforeAll(() => (files = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files')));
-
-beforeEach(() =>
-  Object.defineProperty(HTMLInputElement.prototype, 'files', {
-    writable: true,
-    value: [],
-  }),
-);
-
-afterAll(() => Object.defineProperty(HTMLInputElement.prototype, 'files', files));
 
 global.ResizeObserver = class {
   disconnect() {

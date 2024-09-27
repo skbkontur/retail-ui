@@ -8,7 +8,7 @@ import { isInstanceOf } from '../../lib/isInstanceOf';
 import { LoaderDataTids } from '../../components/Loader';
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer';
 
-import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
+import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName, componentPriorities } from './ZIndexStorage';
 
 const DEFAULT_ZINDEX_CONTEXT = { parentLayerZIndex: 0, maxZIndex: Infinity };
 
@@ -52,6 +52,7 @@ interface ZIndexState {
 
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
+  public static priorities = componentPriorities;
   public static __KONTUR_REACT_UI__ = 'ZIndex';
   public static displayName = 'ZIndex';
 

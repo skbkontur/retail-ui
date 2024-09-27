@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 
 import { Calendar } from '../Calendar';
-import * as CalendarUtils from '../Calendar/CalendarUtils';
+import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { DateInput } from '../DateInput';
@@ -58,16 +58,18 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   }, []);
 
   const calendarRef = useRef<Calendar>(null);
-  const [today] = useState(() => CalendarUtils.getTodayDate());
+  const [{ month: monthNative, year }] = useState(() => getTodayDate());
+  const month = getMonthInHumanFormat(monthNative);
+
   const onTodayClick = () => {
     if (calendarRef.current) {
-      calendarRef.current.scrollToMonth(today.month, today.year);
+      calendarRef.current.scrollToMonth(month, year);
     }
   };
 
   useEffectWithoutInitCall(() => {
     if (props.value && calendarRef.current) {
-      const month = +props.value.substring(3, 5);
+      const month = getMonthInHumanFormat(+props.value.substring(3, 5));
       const year = +props.value.substring(6);
       calendarRef.current.scrollToMonth(month, year);
     }

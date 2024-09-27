@@ -1,4 +1,4 @@
-import React, { RefAttributes } from 'react';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -30,7 +30,7 @@ const getFilesList = () => {
 
 const addFiles = async (files: File[]) => {
   await act(async () => {
-    const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+    const input = screen.getByTestId(FileUploaderDataTids.input);
     if (input !== null) {
       fireEvent.change(input, { target: { files } });
     }
@@ -46,9 +46,9 @@ const removeFile = async (filename?: string) => {
         .getByText(filename)
         .closest(`[data-tid="${FileUploaderFileDataTids.file}"]`) as HTMLElement;
       const removeIcon = within(element).getByTestId(FileUploaderFileDataTids.fileIcon);
-      userEvent.click(removeIcon);
+      await userEvent.click(removeIcon);
     } else {
-      userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
+      await userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
     }
   });
 };
@@ -60,6 +60,33 @@ function createFile(filename: string, content = 'content'): File {
 }
 
 describe('FileUploader', () => {
+  const originalDT = global.DataTransfer;
+  const originalFiles = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files');
+
+  beforeAll(() => {
+    //@ts-ignore
+    global.DataTransfer = class DataTransfer {
+      constructor() {
+        //@ts-ignore
+        this.items = new Set();
+        //@ts-ignore
+        this.files = this.items;
+      }
+    };
+  });
+
+  beforeEach(() =>
+    Object.defineProperty(HTMLInputElement.prototype, 'files', {
+      writable: true,
+      value: [],
+    }),
+  );
+
+  afterAll(() => {
+    global.DataTransfer = originalDT;
+    Object.defineProperty(HTMLInputElement.prototype, 'files', originalFiles as DataTransfer['files']);
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       render(<FileUploader />);
@@ -118,8 +145,7 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const renderComp = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) =>
-      render(<FileUploader {...props} />);
+    const renderComp = (props: FileUploaderProps) => render(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {
@@ -138,7 +164,7 @@ describe('FileUploader', () => {
         const onFocus = jest.fn();
         renderComp({ onFocus });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         expect(onFocus).toHaveBeenCalledTimes(1);
@@ -148,7 +174,7 @@ describe('FileUploader', () => {
         const onFocus = jest.fn();
         renderComp({ onFocus, disabled: true });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
 
         expect(input).not.toHaveFocus();
@@ -161,7 +187,7 @@ describe('FileUploader', () => {
         const onBlur = jest.fn();
         renderComp({ onBlur });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         if (input !== null) {
@@ -316,7 +342,7 @@ describe('FileUploader', () => {
       it('should handle onValueChange after reset', async () => {
         const onValueChange = jest.fn();
         const ref = React.createRef<FileUploaderRef>();
-        renderComp({ onValueChange, ref });
+        render(<FileUploader onValueChange={onValueChange} ref={ref} />);
 
         await addFiles([file]);
 
@@ -476,13 +502,11 @@ describe('FileUploader', () => {
       expect(getBaseButtonContent()).toBe(expectedText);
     };
 
-    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render files for multiple control', async () => {
       render(<FileUploader multiple hideFiles />);
       await expectation();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render file for single control', async () => {
       render(<FileUploader hideFiles />);
       await expectation();

@@ -8,7 +8,7 @@ import { DateSelect, DateSelectProps } from '../DateSelect';
 const renderSelect = (props: DateSelectProps) => render(<DateSelect {...props} />);
 
 describe('DateSelect', () => {
-  it('disable months not in range', () => {
+  it('disable months not in range', async () => {
     const expectedDisabledMonths = ['Январь', 'Февраль', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     renderSelect({
       type: 'month',
@@ -19,13 +19,13 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    userEvent.click(screen.getByTestId('DateSelect__caption'));
+    await userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths.forEach((month) => {
-      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+      expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
 
-  it('works correct with January', () => {
+  it('works correct with January', async () => {
     const expectedDisabledMonths = DatePickerLocaleHelper.get().months?.slice(1);
     renderSelect({
       type: 'month',
@@ -36,9 +36,9 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    userEvent.click(screen.getByTestId('DateSelect__caption'));
+    await userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths?.forEach((month) => {
-      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+      expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
 });

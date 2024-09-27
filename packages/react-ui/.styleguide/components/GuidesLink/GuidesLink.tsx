@@ -1,7 +1,8 @@
 import React from 'react';
+import Context from 'react-styleguidist/lib/client/rsg-components/Context';
+
 import { Link } from '../../../components/Link';
 import { fetch } from '../../../lib/net/fetch';
-import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { THEMES } from '../ThemeSwitcher/constants';
 import { Hint } from '../../../components/Hint';

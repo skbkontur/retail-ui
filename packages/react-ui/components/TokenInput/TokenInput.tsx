@@ -39,11 +39,6 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
-import {
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -257,6 +252,7 @@ type DefaultProps<T> = Required<
 >;
 
 const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
@@ -271,7 +267,7 @@ const defaultRenderToken = <T extends AnyObject>(
     disabled={disabled}
     size={size}
   >
-    {item}
+    {item.toString()}
   </Token>
 );
 
@@ -284,7 +280,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public static defaultProps: DefaultProps<any> = {
     selectedItems: [],
     // TEMP_FAKE_FLAG помогает узнать, остались ли разделители дефолтными или пользователь передал их равными дефолтным.
-    delimiters: [',', ' ', TEMP_FAKE_FLAG],
+    delimiters: [',', TEMP_FAKE_FLAG],
     renderItem: identity,
     renderValue: identity,
     valueToString: identity,
@@ -306,9 +302,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (delimiters.every((delimiter) => delimiter !== TEMP_FAKE_FLAG)) {
       return delimiters;
     }
-    if (this.featureFlags.tokenInputRemoveWhitespaceFromDefaultDelimiters) {
-      return delimiters.filter((delimiter) => delimiter !== ' ' && delimiter !== TEMP_FAKE_FLAG);
-    }
     return delimiters.filter((delimiter) => delimiter !== TEMP_FAKE_FLAG);
   }
 
@@ -328,7 +321,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -383,19 +375,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -820,9 +805,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const selectItemIndex = autocompleteItemsUnique.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
-      if (this.menuRef) {
-        this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
-      }
+      setTimeout(() => this.menuRef?.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex), 0);
     }
   };
 

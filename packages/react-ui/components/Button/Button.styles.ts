@@ -1,22 +1,17 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
-import { isFirefox } from '../../lib/client';
 
 import {
   buttonUseMixin,
   buttonHoverMixin,
   buttonActiveMixin,
   buttonSizeMixin,
-  arrowOutlineMixin,
   buttonSizeMixinIE11,
 } from './Button.mixins';
 
 export const globalClasses = prefix('button')({
   root: 'root',
-  arrowHelper: 'arrow-helper',
-  arrowHelperTop: 'arrow-helper-top',
-  arrowHelperBottom: 'arrow-helper-bottom',
   arrow: 'arrow',
   caption: 'caption',
   text: 'text',
@@ -137,14 +132,17 @@ export const styles = memoizeStyle({
 
   outlineWarning(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
+      box-shadow:
+        0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
         inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
   outlineError(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}, inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+      box-shadow:
+        0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError},
+        inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
@@ -174,24 +172,13 @@ export const styles = memoizeStyle({
     return css`
       border-radius: ${t.btnBorderRadiusSmall};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeSmall,
-        t.btnLineHeightSmall,
-        t.btnPaddingXSmall,
-        t.btnPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixin(t.btnFontSizeSmall, t.btnLineHeightSmall, t.btnPaddingXSmall, t.btnPaddingYSmall)};
     `;
   },
 
   sizeSmallIE11(t: Theme) {
     return css`
-      ${buttonSizeMixinIE11(
-        t.btnFontSizeSmall,
-        t.btnPaddingXSmall,
-        t.btnPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixinIE11(t.btnPaddingXSmall, t.btnPaddingYSmall)};
     `;
   },
 
@@ -199,24 +186,13 @@ export const styles = memoizeStyle({
     return css`
       border-radius: ${t.btnBorderRadiusMedium};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeMedium,
-        t.btnLineHeightMedium,
-        t.btnPaddingXMedium,
-        t.btnPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixin(t.btnFontSizeMedium, t.btnLineHeightMedium, t.btnPaddingXMedium, t.btnPaddingYMedium)};
     `;
   },
 
   sizeMediumIE11(t: Theme) {
     return css`
-      ${buttonSizeMixinIE11(
-        t.btnFontSizeMedium,
-        t.btnPaddingXMedium,
-        t.btnPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixinIE11(t.btnPaddingXMedium, t.btnPaddingYMedium)};
     `;
   },
 
@@ -224,24 +200,13 @@ export const styles = memoizeStyle({
     return css`
       border-radius: ${t.btnBorderRadiusLarge};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeLarge,
-        t.btnLineHeightLarge,
-        t.btnPaddingXLarge,
-        t.btnPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixin(t.btnFontSizeLarge, t.btnLineHeightLarge, t.btnPaddingXLarge, t.btnPaddingYLarge)};
     `;
   },
 
   sizeLargeIE11(t: Theme) {
     return css`
-      ${buttonSizeMixinIE11(
-        t.btnFontSizeLarge,
-        t.btnPaddingXLarge,
-        t.btnPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
-      )};
+      ${buttonSizeMixinIE11(t.btnPaddingXLarge, t.btnPaddingYLarge)};
     `;
   },
 
@@ -349,7 +314,8 @@ export const styles = memoizeStyle({
       &:hover:enabled,
       &:active:enabled,
       &:active:hover:enabled {
-        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+        box-shadow:
+          inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
       }
     `;
@@ -363,111 +329,12 @@ export const styles = memoizeStyle({
       background-image: none;
       background-color: ${t.btnDisabledBg};
       color: ${t.btnDisabledTextColor};
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
-      }
     `;
   },
 
   disabledWithoutOutline(t: Theme) {
     return css`
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
-    `;
-  },
-
-  arrowWarning(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorWarning, t.btnOutlineWidth, t.btnInsetColor)}
-    `;
-  },
-
-  arrowError(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorError, t.btnOutlineWidth, t.btnInsetColor)}
-    `;
-  },
-
-  arrowFocus(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorFocus, t.btnOutlineWidth, t.btnOutlineColorFocus)}
-    `;
-  },
-
-  arrow() {
-    return css`
-      background: inherit;
-      border-radius: inherit;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-
-      .${globalClasses.arrowHelper} {
-        width: 100%;
-        height: 50%;
-        position: absolute;
-        left: 0;
-        background: inherit;
-        background-size: 200% 200%;
-        border-radius: inherit;
-        background-clip: padding-box;
-
-        // fix ugly arrow edge
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: inherit;
-          border-radius: inherit;
-          transform: translateX(${isFirefox ? `0.2px` : `0.3px`});
-        }
-      }
-
-      .${globalClasses.arrowHelperTop} {
-        top: 0;
-        transform: skewX(30deg);
-        transform-origin: top;
-        background-position-y: top;
-        border-bottom-right-radius: 1px;
-
-        // fix ugly line in the
-        // middle of the button
-        &:before {
-          bottom: -1px;
-        }
-      }
-
-      .${globalClasses.arrowHelperBottom} {
-        bottom: 0;
-        transform: skewX(-30deg);
-        transform-origin: bottom;
-        background-position-y: bottom;
-        border-top-right-radius: 1px;
-
-        // fix ugly line in the
-        // middle of the button
-        &:before {
-          top: -1px;
-        }
-      }
-    `;
-  },
-
-  arrowLeft() {
-    return css`
-      transform: scaleX(-1);
     `;
   },
 
@@ -519,7 +386,6 @@ export const styles = memoizeStyle({
         t.btnDefaultBgEnd,
         t.btnDefaultTextColor,
         t.btnDefaultBorderColor,
-        t.btnDefaultBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -530,7 +396,6 @@ export const styles = memoizeStyle({
           t.btnDefaultHoverBgEnd,
           t.btnDefaultHoverTextColor,
           t.btnDefaultHoverBorderColor,
-          t.btnDefaultHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -549,7 +414,6 @@ export const styles = memoizeStyle({
         t.btnPrimaryBgEnd,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorderColor,
-        t.btnPrimaryBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -560,7 +424,6 @@ export const styles = memoizeStyle({
           t.btnPrimaryHoverBgEnd,
           t.btnPrimaryHoverTextColor,
           t.btnPrimaryHoverBorderColor,
-          t.btnPrimaryHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -579,7 +442,6 @@ export const styles = memoizeStyle({
         t.btnSuccessBgEnd,
         t.btnSuccessTextColor,
         t.btnSuccessBorderColor,
-        t.btnSuccessBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -590,7 +452,6 @@ export const styles = memoizeStyle({
           t.btnSuccessHoverBgEnd,
           t.btnSuccessHoverTextColor,
           t.btnSuccessHoverBorderColor,
-          t.btnSuccessHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -609,7 +470,6 @@ export const styles = memoizeStyle({
         t.btnDangerBgEnd,
         t.btnDangerTextColor,
         t.btnDangerBorderColor,
-        t.btnDangerBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -620,7 +480,6 @@ export const styles = memoizeStyle({
           t.btnDangerHoverBgEnd,
           t.btnDangerHoverTextColor,
           t.btnDangerHoverBorderColor,
-          t.btnDangerHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -639,7 +498,6 @@ export const styles = memoizeStyle({
         t.btnPayBgEnd,
         t.btnPayTextColor,
         t.btnPayBorderColor,
-        t.btnPayBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -650,7 +508,6 @@ export const styles = memoizeStyle({
           t.btnPayHoverBgEnd,
           t.btnPayHoverTextColor,
           t.btnPayHoverBorderColor,
-          t.btnPayHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -667,12 +524,9 @@ export const styles = memoizeStyle({
       &:enabled,
       &:hover:enabled {
         box-shadow: none;
-        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none !important;
-        }
       }
 
-      ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
+      ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, t.btnBorderWidth)};
 
       &:hover:enabled {
         ${buttonHoverMixin(
@@ -681,7 +535,6 @@ export const styles = memoizeStyle({
           '',
           t.btnTextHoverTextColor,
           t.btnTextHoverBorderColor,
-          '',
           t.btnBorderWidth,
         )};
       }
@@ -694,15 +547,7 @@ export const styles = memoizeStyle({
 
   backless(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnBacklessBg,
-        '',
-        '',
-        t.btnBacklessTextColor,
-        t.btnBacklessBorderColor,
-        '',
-        t.btnBorderWidth,
-      )};
+      ${buttonUseMixin(t.btnBacklessBg, '', '', t.btnBacklessTextColor, t.btnBacklessBorderColor, t.btnBorderWidth)};
 
       color: ${t.btnDefaultTextColor};
       background: transparent;
@@ -714,7 +559,6 @@ export const styles = memoizeStyle({
           '',
           t.btnBacklessHoverTextColor,
           t.btnBacklessHoverBorderColor,
-          '',
           t.btnBorderWidth,
         )};
       }
@@ -728,51 +572,12 @@ export const styles = memoizeStyle({
   checked(t: Theme) {
     const checkedStyles = `
       background-image: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor};
-      background-color: ${t.btnCheckedBg};
-      color: ${t.btnCheckedTextColor};
-
-      .${globalClasses.innerShadow} {
-        box-shadow: ${t.btnCheckedShadow};
-      }
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${t.btnArrowBgImageChecked};
-        }
-      }
-    `;
-
-    return css`
-      ${checkedStyles}
-
-      &:hover:enabled,
-      &:active:enabled,
-      &:hover:active:enabled {
-        ${checkedStyles}
-      }
-    `;
-  },
-
-  checked2022(t: Theme) {
-    const checkedStyles = `
-      background-image: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
       background-color: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
 
       .${globalClasses.innerShadow} {
         box-shadow: ${t.btnCheckedShadow};
-      }
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${t.btnArrowBgImageChecked};
-        }
       }
 
       :enabled svg {
@@ -798,7 +603,8 @@ export const styles = memoizeStyle({
     return css`
       &:hover:enabled,
       &:hover:active:enabled {
-        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+        box-shadow:
+          inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
         border-color: ${t.btnBorderColorFocus} !important;
       }
@@ -815,18 +621,6 @@ export const styles = memoizeStyle({
         box-shadow: ${t.btnCheckedDisabledShadow};
       }
 
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnCheckedDisabledBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: none;
-        }
-      }
-    `;
-  },
-
-  checkedDisabled2022(t: Theme) {
-    return css`
       svg {
         color: ${t.btnCheckedDisabledColor} !important;
       }
@@ -847,12 +641,6 @@ export const styles = memoizeStyle({
     return css`
       display: inline;
       transform: none !important; // override root:active style
-    `;
-  },
-
-  captionTranslated() {
-    return css`
-      transform: translateY(1px);
     `;
   },
 
@@ -915,33 +703,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  wrapArrow() {
-    return css`
-      margin-right: 10px;
-    `;
-  },
-
-  wrapArrowLeft() {
-    return css`
-      margin-right: 0;
-      margin-left: 10px;
-    `;
-  },
-
   borderless() {
-    return css`
-      &:enabled,
-      &:active:hover:enabled,
-      &:hover:enabled {
-        box-shadow: none !important; // override root:hover style
-        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none !important; // override root:hover style
-        }
-      }
-    `;
-  },
-
-  borderless2022() {
     return css`
       &,
       &:active:hover,
@@ -951,13 +713,14 @@ export const styles = memoizeStyle({
     `;
   },
 
-  backlessDisabled2022(t: Theme) {
+  backlessDisabled(t: Theme) {
     return css`
       box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
+      background-color: transparent;
     `;
   },
 
-  textDisabled2022() {
+  textDisabled() {
     return css`
       background-color: transparent;
     `;
@@ -993,9 +756,7 @@ export const activeStyles = memoizeStyle({
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
           t.btnDefaultActiveBorderColor,
-          t.btnDefaultActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -1008,9 +769,7 @@ export const activeStyles = memoizeStyle({
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
           t.btnPrimaryActiveBorderColor,
-          t.btnPrimaryActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -1023,9 +782,7 @@ export const activeStyles = memoizeStyle({
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
           t.btnSuccessActiveBorderColor,
-          t.btnSuccessActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -1038,9 +795,7 @@ export const activeStyles = memoizeStyle({
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
           t.btnDangerActiveBorderColor,
-          t.btnDangerActiveBorderTopColor,
           t.btnBorderWidth,
-          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -1049,14 +804,7 @@ export const activeStyles = memoizeStyle({
   pay(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(
-          t.btnPayActiveBg,
-          t.btnPayActiveShadow,
-          t.btnPayActiveBorderColor,
-          t.btnPayActiveBorderTopColor,
-          t.btnBorderWidth,
-          t.btnArrowBgImageActive,
-        )};
+        ${buttonActiveMixin(t.btnPayActiveBg, t.btnPayActiveShadow, t.btnPayActiveBorderColor, t.btnBorderWidth)};
       }
     `;
   },
@@ -1072,16 +820,15 @@ export const activeStyles = memoizeStyle({
   text(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, '', t.btnBorderWidth, t.btnArrowBgImageActive)};
+        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, t.btnBorderWidth)};
       }
     `;
   },
 
   backless(t: Theme) {
     return css`
-      &,
-      &:hover {
-        background: ${t.btnBacklessActiveBg};
+      & {
+        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, t.btnBorderWidth)}
       }
     `;
   },
