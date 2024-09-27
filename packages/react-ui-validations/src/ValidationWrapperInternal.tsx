@@ -142,11 +142,9 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
     const errorMessage = React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
-      'data-tid': clonedChild.props.dataTid,
-    });
-    return React.cloneElement(<div style={{ display: 'inline' }}>{errorMessage}</div>, {
       'data-tid': dataTid,
     });
+    return <div style={{ display: 'inline' }}>{errorMessage}</div>;
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {
