@@ -182,7 +182,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
     const outlineNode = (
       <div
-        style={{ zIndex: -1 }}
         className={cx(
           styles.outline(this.theme),
           warning && styles.outlineWarning(this.theme),
@@ -219,11 +218,13 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
     return (
       <Root data-tid={LinkDataTids.root} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
-        {leftIconElement}
         {outlineNode}
-        {this.props.children}
-        {rightIconElement}
-        {arrow}
+        <span className={styles.content()}>
+          {leftIconElement}
+          {this.props.children}
+          {rightIconElement}
+          {arrow}
+        </span>
       </Root>
     );
   };

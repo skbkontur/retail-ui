@@ -26,6 +26,9 @@ export const WithIcon: Story = () => {
           Both Icons Link
         </Link>
         <Link rightIcon={<CheckAIcon16Light />}>Right Icon Link</Link>
+        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />} error>
+          Both Icons Link Error
+        </Link>
       </Gapped>
       <Gapped gap={20}>
         <Link loading icon={<CheckAIcon16Light />}>
@@ -36,6 +39,9 @@ export const WithIcon: Story = () => {
         </Link>
         <Link loading rightIcon={<CheckAIcon16Light />}>
           Right Icon Link
+        </Link>
+        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />} warning>
+          Both Icons Link Warning
         </Link>
       </Gapped>
     </Gapped>

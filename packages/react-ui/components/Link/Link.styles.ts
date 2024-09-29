@@ -170,6 +170,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  content() {
+    return css`
+      position: relative;
+    `;
+  },
+
   outline(t: Theme) {
     return css`
       border-radius: ${t.btnLinkBorderRadius};
