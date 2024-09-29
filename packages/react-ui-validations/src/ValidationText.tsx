@@ -27,8 +27,7 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
         </span>
       </>
     );
-
-    return <span style={{ display: 'inline-block' }}>{childrenAndValidationText}</span>;
+    return <div style={{ display: 'inline-block' }}>{childrenAndValidationText}</div>;
   }
 
   const validationText = (
@@ -48,12 +47,14 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </span>
   );
 
-  return (
-    <span style={{ position: 'relative', display: 'inline-block' }}>
+  const childrenAndValidationText = (
+    <>
       {children}
       <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>{validationText}</span>
-    </span>
+    </>
   );
+
+  return <div style={{ position: 'relative', display: 'inline-block' }}>{childrenAndValidationText}</div>;
 };
 
 ValidationText.__KONTUR_REACT_UI__ = 'ValidationText';

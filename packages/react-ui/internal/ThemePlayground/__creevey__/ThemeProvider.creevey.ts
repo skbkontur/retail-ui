@@ -16,7 +16,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 top', async function () {
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
+        .click(this.browser.findElement({ css: '[data-prop-id="lightTheme"]' }))
         .perform();
       await delay(500);
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 top');
@@ -25,7 +25,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 bottom', async function () {
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
+        .click(this.browser.findElement({ css: '[data-prop-id="lightTheme"]' }))
         .perform();
       await this.browser.executeScript(function () {
         document.documentElement.scrollTop = document.documentElement.scrollHeight;
@@ -37,7 +37,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 dark top', async function () {
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
+        .click(this.browser.findElement({ css: '[data-prop-id="darkTheme"]' }))
         .perform();
       await delay(500);
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 dark top');
@@ -46,7 +46,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 dark bottom', async function () {
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
+        .click(this.browser.findElement({ css: '[data-prop-id="darkTheme"]' }))
         .perform();
       await this.browser.executeScript(function () {
         document.documentElement.scrollTop = document.documentElement.scrollHeight;

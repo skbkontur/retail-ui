@@ -4,7 +4,6 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
@@ -57,7 +56,7 @@ describe('Select', () => {
     );
     const currentValueText = currentValue.name;
 
-    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
@@ -86,7 +85,7 @@ describe('Select', () => {
     const onFocus = jest.fn();
     render(<Select onFocus={onFocus} />);
 
-    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
@@ -95,7 +94,7 @@ describe('Select', () => {
     const onBlur = jest.fn();
     render(<Select onFocus={onBlur} />);
 
-    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });

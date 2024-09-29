@@ -367,15 +367,15 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
     return this.textColorDisabled;
   }
 
-  public static tokenDefaultIdleColor = 'rgba(255, 255, 255, 0.865)';
-  public static tokenDefaultIdleBg = 'rgba(255, 255, 255, 0.1)';
-  public static tokenDefaultIdleBorderColor = 'rgba(255, 255, 255, 0.06)';
-  public static tokenDefaultIdleColorHover = 'rgba(255, 255, 255, 0.87)';
-  public static tokenDefaultIdleBgHover = 'rgba(255, 255, 255, 0.16)';
-  public static tokenDefaultIdleBorderColorHover = 'rgba(255, 255, 255, 0.06)';
-  public static tokenDefaultActiveColor = 'rgba(0, 0, 0, 0.87)';
-  public static tokenDefaultActiveBg = '#EBEBEB';
-  public static tokenDefaultActiveBorderColor = 'transparent';
+  public static tokenColor = 'rgba(255, 255, 255, 0.865)';
+  public static tokenBg = 'rgba(255, 255, 255, 0.1)';
+  public static tokenBorderColor = 'rgba(255, 255, 255, 0.06)';
+  public static tokenColorHover = 'rgba(255, 255, 255, 0.87)';
+  public static tokenBgHover = 'rgba(255, 255, 255, 0.16)';
+  public static tokenBorderColorHover = 'rgba(255, 255, 255, 0.06)';
+  public static tokenColorActive = 'rgba(0, 0, 0, 0.87)';
+  public static tokenBgActive = '#EBEBEB';
+  public static tokenBorderColorActive = 'transparent';
   //#endregion Token
   //#region Input
   public static inputBg = 'rgba(255, 255, 255, 0.1)';

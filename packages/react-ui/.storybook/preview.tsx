@@ -6,9 +6,9 @@ import { Meta } from '@storybook/react';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { MOBILE_THEME } from '../lib/theming/themes/MobileTheme';
-import { THEME_2022 } from '../lib/theming/themes/Theme2022';
-import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
+import { LIGHT_THEME_MOBILE } from '../lib/theming/themes/LightThemeMobile';
+import { LIGHT_THEME } from '../lib/theming/themes/LightTheme';
+import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 
 const customViewports = {
@@ -31,9 +31,9 @@ const customViewports = {
 };
 
 const themes = {
-  THEME_2022,
-  THEME_2022_DARK,
-  MOBILE_THEME,
+  LIGHT_THEME,
+  DARK_THEME,
+  LIGHT_THEME_MOBILE,
 };
 
 setFilter((fiber) => {
@@ -53,14 +53,14 @@ const MOBILE_REGEXP = /Mobile.*/i;
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
-    const storybookTheme = themes[context.globals.theme] || THEME_2022;
-    if ([THEME_2022_DARK].includes(storybookTheme)) {
+    const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
+    if ([DARK_THEME].includes(storybookTheme)) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
 
-    if (storybookTheme !== THEME_2022) {
+    if (storybookTheme !== LIGHT_THEME) {
       return (
         <ThemeContext.Consumer>
           {(theme) => {

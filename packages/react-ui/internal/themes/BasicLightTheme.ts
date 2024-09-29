@@ -201,46 +201,6 @@ export class BasicLightThemeInternal {
   public static tokenBorderRadius = '2px';
   public static tokenBorderWidth = '1px';
   public static tokenBorderColorDisabled = 'transparent';
-  public static get tokenDefaultIdle() {
-    return this.grayXLight;
-  }
-  public static tokenDefaultActive = '#323232';
-  public static get tokenGrayIdle() {
-    return this.grayXLight;
-  }
-  public static get tokenGrayActive() {
-    return this.grayDark;
-  }
-  public static get tokenBlueIdle() {
-    return this.blueLight;
-  }
-  public static get tokenBlueActive() {
-    return this.blue;
-  }
-  public static get tokenGreenIdle() {
-    return this.greenXxLight;
-  }
-  public static get tokenGreenActive() {
-    return this.greenDark;
-  }
-  public static get tokenYellowIdle() {
-    return this.yellowXxLight;
-  }
-  public static get tokenYellowActive() {
-    return this.yellowDark;
-  }
-  public static get tokenRedIdle() {
-    return this.redXxLight;
-  }
-  public static get tokenRedActive() {
-    return this.redDark;
-  }
-  public static get tokenWhite() {
-    return this.white;
-  }
-  public static get tokenBlack() {
-    return this.black;
-  }
   public static get tokenBorderColorWarning() {
     return this.borderColorWarning;
   }
@@ -266,15 +226,15 @@ export class BasicLightThemeInternal {
 
   public static tokenShadowDisabled = '';
 
-  public static tokenDefaultIdleBg = 'rgba(0, 0, 0, 0.1)';
-  public static tokenDefaultIdleColor = '#222222';
-  public static tokenDefaultIdleBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultIdleBgHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultIdleColorHover = '#222222';
-  public static tokenDefaultIdleBorderColorHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultActiveBg = '#3D3D3D';
-  public static tokenDefaultActiveColor = '#FFFFFF';
-  public static tokenDefaultActiveBorderColor = 'transparent';
+  public static tokenBg = 'rgba(0, 0, 0, 0.1)';
+  public static tokenColor = '#222222';
+  public static tokenBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBgHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenColorHover = '#222222';
+  public static tokenBorderColorHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBgActive = '#3D3D3D';
+  public static tokenColorActive = '#FFFFFF';
+  public static tokenBorderColorActive = 'transparent';
 
   //#endregion Token
   //#region TokenInput
@@ -990,6 +950,7 @@ export class BasicLightThemeInternal {
   public static get calendarBg() {
     return this.bgSecondary;
   }
+  public static calendarBorderRadius = '8px';
   public static get calendarCellBg() {
     return this.bgSecondary;
   }
@@ -1033,11 +994,7 @@ export class BasicLightThemeInternal {
   public static get datePickerMenuOffsetY() {
     return this.menuOffsetY;
   }
-  public static get pickerBg() {
-    return this.bgSecondary;
-  }
   public static pickerShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
-  public static pickerBorderRadius = '8px';
 
   public static mobileCalendarPaddingX = '16px';
   public static mobileCalendarCellWidth = '40px';

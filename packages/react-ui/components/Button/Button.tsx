@@ -23,10 +23,6 @@ import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 
-/**
- * @deprecated use SizeProp
- */
-export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
@@ -446,8 +442,8 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const Root: React.ElementType = component;
 
     return (
-      <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
-        <Root data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+      <span {...wrapProps} data-tid={ButtonDataTids.root}>
+        <Root data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps}>
           {innerShadowNode}
           {outlineNode}
           {arrowNode}
