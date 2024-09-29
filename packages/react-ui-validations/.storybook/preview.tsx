@@ -2,10 +2,10 @@ import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { withCreevey } from 'creevey/addon';
 import React from 'react';
+import { Preview } from '@storybook/react';
 
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
-import { Preview } from '@storybook/react';
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
