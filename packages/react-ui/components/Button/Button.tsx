@@ -203,10 +203,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       keyListener.isTabPressed = true;
       this.focus();
     }
-    warning(
-      this.props.use !== 'link',
-      `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
-    );
+    // warning(
+    //   this.props.use !== 'link',
+    //   `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
+    // );
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
