@@ -229,7 +229,7 @@ describe('Button', () => {
     render(<Button {...props}>Button</Button>);
     const button = screen.getByRole('button');
 
-    expect(button).toHaveAttribute('data-tid', ButtonDataTids.root);
+    expect(button).toHaveAttribute('data-tid', ButtonDataTids.rootElement);
   });
 
   describe('with use=link prop', () => {
