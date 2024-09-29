@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
-import warning from 'warning';
 
 import { ButtonLinkAllowedValues } from '../../typings/button-link';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
