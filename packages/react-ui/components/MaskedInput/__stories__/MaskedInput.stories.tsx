@@ -286,3 +286,142 @@ CompareWithInput.parameters = {
     skip: true,
   },
 };
+
+const DEFAULT_PROPS: MaskedInputProps = {
+  mask: '+7 999 999-99-99',
+  width: 150,
+  maskChar: '_',
+};
+
+export const Default: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} value={value} onValueChange={setValue} />;
+};
+
+export const IdleFocusEditBlurWithPlaceholder: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} placeholder="Телефон" value={value} onValueChange={setValue} />;
+};
+
+export const IdleFocusBlurWithPlaceholder: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} placeholder="Телефон" value={value} onValueChange={setValue} />;
+};
+
+export const IdleFocusAppendRemoveBlurWithPlaceholder: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return <MaskedInput {...DEFAULT_PROPS} placeholder="Телефон" value={value} onValueChange={setValue} />;
+};
+
+export const IdleFocusBlurWithPrefix: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  return (
+    <MaskedInput {...DEFAULT_PROPS} mask="999 999-99-99" prefix="+7&nbsp;" value={value} onValueChange={setValue} />
+  );
+};
+
+export const WithCustomUnmaskedValue: Story = () => {
+  const [value, setValue] = useState('795');
+
+  return (
+    <>
+      <span>unmask value: {value}</span>
+      <br />
+      <MaskedInput
+        {...DEFAULT_PROPS}
+        alwaysShowMask
+        value={value}
+        onValueChange={(value) => setValue(value.replace(/\D/g, ''))}
+      />
+    </>
+  );
+};
+
+export const WithUnmaskedAndFixedValue: Story = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <>
+      <span>unmasked value: &quot;{value}&quot;</span>
+      <br />
+      <MaskedInput
+        {...DEFAULT_PROPS}
+        mask="+{7} 999 999-99-99"
+        unmask
+        alwaysShowMask
+        value={value}
+        onValueChange={setValue}
+      />
+    </>
+  );
+};
+
+export const IdleFocusBlurAndUncontrolled: Story = () => <MaskedInput {...DEFAULT_PROPS} />;
+
+
+export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
+  <>
+    <h3>Известная проблема</h3>
+    <span>
+      При появлении маски по фокусу ломается неконтролируемый ввод, если <code>defaultValue</code> содержит любую
+      фиксированную часть маски.
+    </span>
+    <br />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" />
+    <br />
+    <br />
+    <span>
+      Когда <code>defaultValue</code> не содержит фиксированных частей, то всё норм.
+    </span>
+    <br />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="123" />
+    <br />
+    <br />
+    <span>Самый простой способ обойти проблему - всегда показывать маску.</span>
+    <br />
+    <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" alwaysShowMask />
+  </>
+);
+
+export const SelectAllByProp: Story = () => {
+  const [value, setValue] = React.useState('12');
+  return (
+    <div>
+      <MaskedInput
+        {...DEFAULT_PROPS}
+        mask="9999"
+        value={value}
+        onValueChange={setValue}
+        selectAllOnFocus
+        alwaysShowMask
+      />
+    </div>
+  );
+};
+
+export const SelectAllByButton: Story = () => {
+  let input: Input | null = null;
+
+  const selectAll = () => {
+    if (input) {
+      input.selectAll();
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <MaskedInput {...DEFAULT_PROPS} value="+7 123 654" ref={(element) => (input = element)} alwaysShowMask />
+      </div>
+      <button data-tid="select-all" onClick={selectAll}>
+        Select all
+      </button>
+    </div>
+  );
+};
+
+export const RewriteInMiddle: Story = () => {
+  const [value, setValue] = React.useState('12');
+
+  return <MaskedInput {...DEFAULT_PROPS} mask="9999" alwaysShowMask value={value} onValueChange={setValue} />;
+};
