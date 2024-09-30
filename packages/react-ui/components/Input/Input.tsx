@@ -190,7 +190,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private selectAllId: number | null = null;
   private theme!: Theme;
   private blinkTimeout: SafeTimer;
-  private input: HTMLInputElement | null = null;
+  public input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
   private outputMaskError() {
@@ -315,14 +315,17 @@ export class Input extends React.Component<InputProps, InputState> {
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    */
-  public selectAll = (): void => {
+  public selectAll = (): void => this._selectAll();
+
+  public delaySelectAll = (): number | null => {
+    return (this.selectAllId = globalObject.requestAnimationFrame?.(this._selectAll) ?? null);
+  };
+
+  private _selectAll = (): void => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
     }
   };
-
-  private delaySelectAll = (): number | null =>
-    (this.selectAllId = globalObject.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
