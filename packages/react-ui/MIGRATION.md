@@ -1,5 +1,13 @@
 # Migration
 
+- [4.x - 5.0](#4x---50)
+  - [Удаления в 5.0](#удаления-в-50)
+  - [Новые актуальные темы](#новые-актуальные-темы)
+  - [ButtonLink](#buttonlink)
+  - [MaskedInput](#maskedinput)
+  - [Другие небольшие улучшения](#другие-небольшие-улучшения)
+  - [Остальные визуальные изменения](#остальные-визуальные-изменения)
+  - [Совместимость 5.0 с другими](#совместимость-50-с-другими-пакетами)
 - [3.x - 4.0](#3x---40)
   - [Новые темы](#новые-темы)
   - [Адаптация под Lab Grotesque](#адаптация-под-lab-grotesque)
@@ -25,6 +33,77 @@
 - [0.x - 1.0](#0x---10)
   - [Переход с кастомизации с помощью less](#переход-с-кастомизации-с-помощью-less)
   - [Подключение плоской темы](#подключение-плоской-темы)
+
+## 4.x - 5.0
+
+### Удаления в 5.0
+
+В версии 5.0 удалены старые темы: `THEME_2022`, `DARK_THEME_2022`, `DEFAULT_THEME`, `DARK_THEME`, `DEFAULT_THEME_8PX_OLD`, `FLAT_THEME_8PX_OLD`, `THEME_2022_UPDATE_2024` и `THEME_2022_DARK_UPDATE_2024`. Подробнее о новых темах в следующем разделе.
+
+Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`. 
+
+Удалены фиче-флаги в [react-ui](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) и [react-ui-validations](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Их поведение было применено по умолчанию.
+
+Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars).
+
+В `ScrollContainer` и `SideMenu` удален проп `hideScrollBar`. Вместо него следует использовать `showScrollBar`. 
+
+Также удалены некоторые другие устаревшие сущности. Полный список доступен в [#3459](https://github.com/skbkontur/retail-ui/pull/3459) и [#3523](https://github.com/skbkontur/retail-ui/pull/3523).
+
+### Новые актуальные темы
+
+Новые темы теперь называются: `LIGHT_THEME` и `DARK_THEME`. Они будут в себе содержать последние актуальные изменения дизайна библиотеки. А для тех, кто не хочет постоянно получать визуальные обновления, будут доступны отдельные темы, зафиксированные в определенном состоянии: `LIGHT_THEME_2022_*` и `DARK_THEME_2022_*`.
+
+Список тем на момент выхода 5.0:
+
+| Имя                     | Описание                     |
+| ----------------------- | ---------------------------- |
+| `LIGHT_THEME`           | Актуальная светлая тема      |
+| `DARK_THEME`            | Актуальная темная тема       |
+| `LIGHT_THEME_2022_0`    | Зафиксированная светлая тема |
+| `DARK_THEME_2022_0`     | Зафиксированная темная тема  |
+
+### ButtonLink 
+
+В компоненты `Button` и `Link` добавлен проп `component`. Новые возможности и ломающие изменения описаны в [#3521](https://github.com/skbkontur/retail-ui/pull/3521).
+
+### MaskedInput
+
+Значительно переработан компонент `MaskedInput`. По-умолчанию `value` теперь содержит все символы маски, даже не введённые. А новый проп `unmask` явным образом указывает компоненту возвращать очищенный `value`. Также был доработан шрифт, используемый внутри компонента. Подробнее в [#3390](https://github.com/skbkontur/retail-ui/pull/3390).
+
+Старые пропы маски в `Input`, такие как `mask`, `maskChar`, `formatChars` и `alwaysShowMask`, уже были помечены устаревшими ранее, но пока остаются в библиотеке.
+
+### Другие небольшие улучшения
+
+Подчеркивание в `Link` переделано на `text-decoration`. Подробнее в [#3462](https://github.com/skbkontur/retail-ui/pull/3462).
+
+Обертка в `ValidationWrapper` заменена на `div`, что решило проблемы с семантикой верстки и позиционированием сообщений валидации. Подробнее в [#3463](https://github.com/skbkontur/retail-ui/pull/3463).
+
+Публичный метод `scrollToMonth` в `DatePicker` и `Calendar` теперь принимает в аргумент номер месяца в формате `1-12`, а не `0-11`. Подробнее в [#3470](https://github.com/skbkontur/retail-ui/pull/3470).
+
+Функция `ThemeFactory.create` по умолчанию принимает в аргумент только переменные, присутствующие в теме. Подробнее в [#3516](https://github.com/skbkontur/retail-ui/pull/3516).
+
+В `Button` поменяны местами дата-тиды `Button__root` и `Button__rootElement` для консистентности с остальными компонентами. Подробнее в [#3520](https://github.com/skbkontur/retail-ui/pull/3520).
+
+### Остальные визуальные изменения
+
+Актуализированы цвета состояний `disabled`, `error` и `use="danger"`. Подробнее в [#3493](https://github.com/skbkontur/retail-ui/pull/3493).
+
+Поправлены отступы в `Toast`. Подробнее в [#3494](https://github.com/skbkontur/retail-ui/pull/3494).
+
+Поправлены стили `use="backless"` в `Button`. Подробнее в [#3465](https://github.com/skbkontur/retail-ui/pull/3465).
+
+В `Select` исправлен цвет обводки при наведении. Подробнее в [#3504](https://github.com/skbkontur/retail-ui/pull/3504).
+
+### Совместимость 5.0 с другими пакетами
+
+В связи с ломающими изменениями совместимость с 5.0 других пакетов начинается с версий: 
+
+| Пакет                             | Версия   |
+| --------------------------------- | ---------|
+| `@skbkontur/react-ui-validations` | `2.0.0`  |
+| `@skbkontur/react-ui-addons`      | `5.0.0`  |
+| `@skbkontur/side-menu`            | `3.0.0`  |
 
 ## 3.x - 4.0
 
