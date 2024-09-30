@@ -33,8 +33,8 @@ export const Mask: Story = () => (
 // FIXME: починить тесты до 5.0
 Mask.parameters = {
   creevey: {
-    skip: true
-  }
+    skip: true,
+  },
 };
 
 const maskStates: InputState[] = [
@@ -115,8 +115,8 @@ export const Validations: Story = () => (
 // FIXME: починить тесты до 5.0
 Validations.parameters = {
   creevey: {
-    skip: 'chrome2022Dark'
-  }
+    skip: 'chrome2022Dark',
+  },
 };
 
 const validationsStates: InputState[] = [
