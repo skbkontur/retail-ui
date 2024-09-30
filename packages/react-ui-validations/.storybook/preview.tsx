@@ -2,6 +2,7 @@ import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { withCreevey } from 'creevey/addon';
 import React from 'react';
+import { Preview } from '@storybook/react';
 
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -19,25 +20,29 @@ setFilter((fiber) => {
   return ['data-tid', 'data-testid'];
 });
 
-export const decorators = [
-  (Story: any) => (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      <Story />
-    </div>
-  ),
-  FeatureFlagsDecorator,
-  withCreevey(),
-];
+const preview: Preview = {
+  decorators: [
+    (Story: any) => (
+      <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+        <Story />
+      </div>
+    ),
+    FeatureFlagsDecorator,
+    withCreevey(),
+  ],
 
-export const parameters = {
-  creevey: {
-    captureElement: '#test-element',
-  },
-  options: {
-    storySort: {
-      method: 'alphabetical',
-      order: ['FeatureFlags validations'],
+  parameters: {
+    creevey: {
+      captureElement: '#test-element',
     },
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['FeatureFlags validations'],
+      },
+    },
+    multiselect: featureFlagsConfig,
   },
-  multiselect: featureFlagsConfig,
 };
+
+export default preview;

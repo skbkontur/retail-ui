@@ -1,0 +1,159 @@
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './Reusable.docs.stories.tsx';
+
+<Meta of={DocsStories} />
+
+# Переиспользуемые валидации
+
+Описание валидации может повторяться на одной форме ввода или на разных.
+Оно может быть сложным или большим по объему кода.
+Тогда выражение валидации можно выделить в самостоятельную функцию.
+Функцию можно протестировать и переиспользовать.
+
+Для валидации e-mail можно выделить функцию `isValidEmail`.
+Она может быть использована не только в UI-валидациях.
+
+```jsx static
+    const isValidEmail = (value: string): boolean => {
+      return value.includes('@');
+    };
+
+    const validate = createValidator<string>(b => {
+      b.invalid(x => !x, "Укажите email", "submit");
+      b.invalid(x => !isValidEmail(x), "Неверный формат email");
+    });
+```
+
+Можно выделить каждую валидацию в отдельный метод.
+
+```jsx static
+    const emailRequired = (b: ValidationBuilder<unknown, string>): void => {
+      b.invalid(x => !x, "Укажите email", "submit");
+    };
+
+    const emailFormat = (b: ValidationBuilder<unknown, string>): void => {
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
+    };
+
+    const validate = createValidator<string>(b => {
+      emailRequired(b);
+      emailFormat(b);
+    });
+```
+
+Поле e-mail может присутствовать в разных формах ввода, но с одним набором валидаций.
+Можно выделить все правило конфигурирования узла в отдельную функцию-правило.
+
+```jsx static
+    const validateEmail: ValidationRule<unknown, string> = b => {
+      b.invalid(x => !x, "Укажите email", "submit");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
+    };
+
+    const validate = createValidator<string>(validateEmail);
+```
+
+В выделяемые функции можно добавлять параметры для изменения их поведения.
+
+```jsx static
+    const validateEmail = (b: ValidationBuilder<unknown, string>, required: boolean): void => {
+      b.invalid(x => required && !x, "Укажите email", "submit");
+      b.invalid(x => !x.includes('@'), "Неверный формат email");
+    };
+
+    const validate = createValidator<string>(b => {
+      validateEmail(b, true);
+    });
+```
+
+Не стоит сразу же выделять валидации в отдельные функции.
+Написание валидаций по месту делает их более наглядными.
+В приведенном примере выделение функций с правилами не имеет смысла.
+Это сделано исключительно в демонстрационных целях.
+
+### Пример
+
+<Story of={DocsStories.Reusable}></Story>
+
+```jsx static
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
+import { Nullable } from '../../../../typings/Types';
+import { Form } from '../../../Common/Form';
+import {
+  ValidationContainer,
+  ValidationWrapper,
+  createValidator,
+  ValidationBuilder,
+  ValidationRule,
+} from '../../../../src';
+
+interface ReusableDemoState {
+  email: string;
+}
+
+const isValidEmail = (value: string): boolean => {
+  return value.includes('@');
+};
+
+const emailRequired = (b: ValidationBuilder<unknown, string>): void => {
+  b.invalid((x) => !x, 'Укажите email', 'submit');
+};
+
+const emailFormat = (b: ValidationBuilder<unknown, string>): void => {
+  b.invalid((x) => !isValidEmail(x), 'Неверный формат email');
+};
+
+const validateEmail: ValidationRule<unknown, string> = (b) => {
+  emailRequired(b);
+  emailFormat(b);
+};
+
+const validate = createValidator<string>(validateEmail);
+
+export default class ReusableDemo extends React.Component {
+  public state: ReusableDemoState = {
+    email: '',
+  };
+
+  private container: Nullable<ValidationContainer> = null;
+
+  public render() {
+    const validation = validate(this.state.email);
+    return (
+      <ValidationContainer ref={this.refContainer}>
+        <Form>
+          <Form.Line title="E-mail">
+            <ValidationWrapper validationInfo={validation.get()}>
+              <Input
+                placeholder={'xxx@xxx.xx'}
+                value={this.state.email}
+                onValueChange={(email) => this.setState({ email })}
+              />
+            </ValidationWrapper>
+          </Form.Line>
+
+          <Form.ActionsBar>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
+          </Form.ActionsBar>
+        </Form>
+      </ValidationContainer>
+    );
+  }
+
+  public handleSubmit = async (): Promise<void> => {
+    if (!this.container) {
+      throw new Error('invalid state');
+    }
+    if (await this.container.validate()) {
+      alert('success');
+    }
+  };
+
+  private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
+}
+```
