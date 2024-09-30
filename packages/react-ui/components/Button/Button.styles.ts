@@ -1,6 +1,6 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { resetButton, resetText } from '../../lib/styles/Mixins';
+import { resetButton, resetText, disableTextSelect } from '../../lib/styles/Mixins';
 
 import {
   buttonUseMixin,
@@ -24,6 +24,7 @@ export const styles = memoizeStyle({
     return css`
       ${resetButton()};
       ${resetText()};
+      ${disableTextSelect()};
 
       transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction}
         ${t.btnBorderColorTransition ? `, ${t.btnBorderColorTransition}` : ''};
@@ -746,18 +747,6 @@ export const styles = memoizeStyle({
   visibilityHidden() {
     return css`
       visibility: hidden;
-    `;
-  },
-
-  disableTextSelect() {
-    return css`
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Old versions of Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
     `;
   },
 });

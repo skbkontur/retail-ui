@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { ButtonLinkAllowedValues } from '../../typings/button-link';
+import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
@@ -14,7 +14,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Link } from '../Link';
 import { SizeProp } from '../../lib/types/props';
-import { PolymorphicPropsWithoutRef } from '../../typings/polymorphic-component';
+import { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
@@ -302,7 +302,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       styles.root(this.theme),
       styles[use](this.theme),
       sizeClass,
-      styles.disableTextSelect(),
       narrow && styles.narrow(),
       _noPadding && styles.noPadding(),
       _noRightPadding && styles.noRightPadding(),

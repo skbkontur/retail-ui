@@ -1,9 +1,9 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { ButtonLinkAllowedValues } from '../../typings/button-link';
-import { resetButton } from '../../lib/styles/Mixins';
-import { PolymorphicPropsWithoutRef } from '../../typings/polymorphic-component';
+import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
+import { resetButton, disableTextSelect } from '../../lib/styles/Mixins';
+import { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -195,6 +195,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       className: cx({
         [styles.root(this.theme)]: true,
         [resetButton()]: Root === 'button',
+        [disableTextSelect()]: disabled || loading,
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.useDefault(this.theme)]: use === 'default',
