@@ -23,7 +23,7 @@
     "start:docs": "node ../../scripts/patch-node-options.js \"webpack-dev-server --config webpack.docs.config.js --hot \"",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit --diagnostics",
-    "lint:eslint": "cross-env TIMING=1 eslint ./",
+    "lint:eslint": "cross-env TIMING=1 eslint ./ --ignore-pattern \"**/docs/**/*.docs.stories.tsx\"",
     "lint:prettier": "prettier --check .",
     "fix": "run-s -c fix:*",
     "fix:eslint": "yarn lint:eslint --fix",
