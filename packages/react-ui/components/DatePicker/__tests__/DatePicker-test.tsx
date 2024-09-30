@@ -3,7 +3,7 @@ import { act, render, screen, waitFor, within, fireEvent } from '@testing-librar
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../../components/Calendar';
+import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
@@ -11,9 +11,8 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerDataTids } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
-import { ButtonDataTids } from '../../../components/Button';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { MenuDataTids } from '../../../internal/Menu';
 
@@ -33,6 +32,12 @@ describe('DatePicker', () => {
     it('should validate by number', () => {
       expect(DatePicker.validate('01.ff.2019')).toBe(false);
     });
+  });
+
+  it('has id attribute', () => {
+    const dateInputId = 'dateInputId';
+    const result = render(<DatePicker id={dateInputId} value="02.07.2017" onValueChange={jest.fn()} />);
+    expect(result.container.querySelector(`#${dateInputId}`)).not.toBeNull();
   });
 
   it('renders', () => {
@@ -395,7 +400,7 @@ describe('DatePicker', () => {
     const oldMatchMedia = window.matchMedia;
     const matchMediaMock = jest.fn().mockImplementation((query) => {
       return {
-        matches: query === DEFAULT_THEME.mobileMediaQuery,
+        matches: query === LIGHT_THEME.mobileMediaQuery,
         media: query,
         onchange: null,
         addListener: jest.fn(),
@@ -454,7 +459,7 @@ describe('DatePicker', () => {
       render(<MobilePicker />);
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
-      await userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByTestId(ButtonDataTids.root));
+      await userEvent.click(within(screen.getByTestId(MobilePickerDataTids.today)).getByRole('button'));
 
       const today = new Date();
       const todayMonth = today.getMonth();

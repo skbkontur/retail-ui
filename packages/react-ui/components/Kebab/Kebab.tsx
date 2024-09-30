@@ -1,4 +1,4 @@
-import React, { AriaAttributes, ReactElement } from 'react';
+import React, { AriaAttributes, ReactElement, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
@@ -26,6 +26,7 @@ import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
   extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   /** Делает компонент недоступным. */
@@ -117,7 +118,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
               value={ThemeFactory.create(
                 {
                   popupMargin: theme.kebabMargin,
-                  menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
                 },
                 theme,
               )}
@@ -136,6 +136,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
         <PopupMenu
+          id={this.props.id}
           popupHasPin={false}
           preventIconsOffset={this.props.preventIconsOffset}
           positions={positions}

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
@@ -46,6 +46,7 @@ export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
   extends Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */
 
@@ -379,6 +380,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         data-tid={DatePickerDataTids.label}
       >
         <DateInput
+          id={this.props.id}
           {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}

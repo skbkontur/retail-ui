@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
@@ -15,15 +15,11 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 
 import { styles } from './MenuItem.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type MenuItemSize = SizeProp;
-
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Omit<CommonProps, 'children'> {
   /** Добавляет отступ иконке.
    * @ignore */

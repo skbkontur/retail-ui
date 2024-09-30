@@ -331,27 +331,6 @@ export const OffsetYAndX: Story = () => (
   </div>
 );
 
-export const HideScrollBar: Story = () => (
-  <div style={wrapperStyle}>
-    <ScrollContainer
-      hideScrollBar
-      // Magic delay to capture the scrollbar
-      hideScrollBarDelay={2000}
-      disableAnimations
-    >
-      <div style={{ width: 300 }}>
-        {Array(30)
-          .fill(null)
-          .map((_, i) => (
-            <div style={{ width: 200 }} key={i}>
-              {i}
-            </div>
-          ))}
-      </div>
-    </ScrollContainer>
-  </div>
-);
-
 export const ScrollBarVisibleAfterTogglingDisabled: Story = () => {
   const [isDisabled, setIsDisabled] = useState(false);
 

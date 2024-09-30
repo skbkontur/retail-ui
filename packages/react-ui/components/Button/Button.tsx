@@ -21,10 +21,6 @@ import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 
-/**
- * @deprecated use SizeProp
- */
-export type ButtonSize = SizeProp;
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
@@ -34,7 +30,7 @@ export interface ButtonProps
       AriaAttributes,
       'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked' | 'aria-expanded'
     >,
-    Pick<HTMLAttributes<unknown>, 'role'>,
+    Pick<HTMLAttributes<unknown>, 'role' | 'id'>,
     Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
   /** @ignore */
   _noPadding?: boolean;
@@ -251,6 +247,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       'aria-checked': ariaChecked,
       'aria-expanded': ariaExpanded,
       role,
+      id,
     } = this.props;
     const { use, type, size } = this.getProps();
     const sizeClass = this.getSizeClassName();
@@ -422,8 +419,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps} data-tid={ButtonDataTids.rootElement}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+        <span {...wrapProps} data-tid={ButtonDataTids.root}>
+          <button id={id} data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {arrowNode}

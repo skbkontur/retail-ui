@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Input, InputIconType, InputProps } from '../../components/Input';
@@ -29,7 +29,10 @@ import { styles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
-interface ComboBoxViewProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
+interface ComboBoxViewProps<T>
+  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
+    CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -315,6 +318,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     const isMobile = this.isMobileLayout;
 
     const {
+      id,
       align,
       borderless,
       disabled,
@@ -345,6 +349,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     if (editing) {
       return (
         <Input
+          id={id}
           align={align}
           borderless={borderless}
           disabled={disabled}
@@ -374,6 +379,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     return (
       <InputLikeText
+        id={id}
         align={align}
         borderless={borderless}
         error={error}

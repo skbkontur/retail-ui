@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -8,12 +8,7 @@ import { MenuContext } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuHeader.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type MenuHeaderSize = SizeProp;
-
-export interface MenuHeaderProps extends CommonProps {
+export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Добавляет отступ иконке. */
   _enableIconPadding?: boolean;
 
@@ -65,6 +60,7 @@ function MenuHeader({ _enableIconPadding = false, children, size = 'small', ...r
   return (
     <CommonWrapper {...rest}>
       <div
+        id={id}
         data-tid={MenuHeaderDataTids.root}
         className={cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,

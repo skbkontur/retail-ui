@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
+import React, { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
@@ -33,6 +33,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
+import { styles as linkStyles } from '../Link/Link.styles';
 import { Popup } from '../../internal/Popup';
 import { ZIndex } from '../../internal/ZIndex';
 import { getMenuPositions } from '../../lib/getMenuPositions';
@@ -68,6 +69,7 @@ export interface ButtonParams
 }
 
 const PASS_BUTTON_PROPS = {
+  id: true,
   disabled: true,
   error: true,
   use: true,
@@ -98,7 +100,8 @@ type SelectItem<TValue, TItem> =
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** @ignore */
   _icon?: React.ReactNode;
 
@@ -488,7 +491,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <Button {...buttonProps}>
-        <div className={styles.selectButtonContainer()}>
+        <div className={cx(styles.selectButtonContainer(), { [linkStyles.root(this.theme)]: use === 'link' })}>
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 

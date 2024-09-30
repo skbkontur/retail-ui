@@ -386,7 +386,6 @@ export const styles = memoizeStyle({
         t.btnDefaultBgEnd,
         t.btnDefaultTextColor,
         t.btnDefaultBorderColor,
-        t.btnDefaultBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -397,7 +396,6 @@ export const styles = memoizeStyle({
           t.btnDefaultHoverBgEnd,
           t.btnDefaultHoverTextColor,
           t.btnDefaultHoverBorderColor,
-          t.btnDefaultHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -416,7 +414,6 @@ export const styles = memoizeStyle({
         t.btnPrimaryBgEnd,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorderColor,
-        t.btnPrimaryBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -427,7 +424,6 @@ export const styles = memoizeStyle({
           t.btnPrimaryHoverBgEnd,
           t.btnPrimaryHoverTextColor,
           t.btnPrimaryHoverBorderColor,
-          t.btnPrimaryHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -446,7 +442,6 @@ export const styles = memoizeStyle({
         t.btnSuccessBgEnd,
         t.btnSuccessTextColor,
         t.btnSuccessBorderColor,
-        t.btnSuccessBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -457,7 +452,6 @@ export const styles = memoizeStyle({
           t.btnSuccessHoverBgEnd,
           t.btnSuccessHoverTextColor,
           t.btnSuccessHoverBorderColor,
-          t.btnSuccessHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -476,7 +470,6 @@ export const styles = memoizeStyle({
         t.btnDangerBgEnd,
         t.btnDangerTextColor,
         t.btnDangerBorderColor,
-        t.btnDangerBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -487,7 +480,6 @@ export const styles = memoizeStyle({
           t.btnDangerHoverBgEnd,
           t.btnDangerHoverTextColor,
           t.btnDangerHoverBorderColor,
-          t.btnDangerHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -506,7 +498,6 @@ export const styles = memoizeStyle({
         t.btnPayBgEnd,
         t.btnPayTextColor,
         t.btnPayBorderColor,
-        t.btnPayBorderBottomColor,
         t.btnBorderWidth,
       )};
 
@@ -517,7 +508,6 @@ export const styles = memoizeStyle({
           t.btnPayHoverBgEnd,
           t.btnPayHoverTextColor,
           t.btnPayHoverBorderColor,
-          t.btnPayHoverBorderBottomColor,
           t.btnBorderWidth,
         )};
       }
@@ -536,7 +526,7 @@ export const styles = memoizeStyle({
         box-shadow: none;
       }
 
-      ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, '', t.btnBorderWidth)};
+      ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, t.btnBorderWidth)};
 
       &:hover:enabled {
         ${buttonHoverMixin(
@@ -545,7 +535,6 @@ export const styles = memoizeStyle({
           '',
           t.btnTextHoverTextColor,
           t.btnTextHoverBorderColor,
-          '',
           t.btnBorderWidth,
         )};
       }
@@ -558,15 +547,7 @@ export const styles = memoizeStyle({
 
   backless(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnBacklessBg,
-        '',
-        '',
-        t.btnBacklessTextColor,
-        t.btnBacklessBorderColor,
-        '',
-        t.btnBorderWidth,
-      )};
+      ${buttonUseMixin(t.btnBacklessBg, '', '', t.btnBacklessTextColor, t.btnBacklessBorderColor, t.btnBorderWidth)};
 
       color: ${t.btnDefaultTextColor};
       background: transparent;
@@ -578,7 +559,6 @@ export const styles = memoizeStyle({
           '',
           t.btnBacklessHoverTextColor,
           t.btnBacklessHoverBorderColor,
-          '',
           t.btnBorderWidth,
         )};
       }
@@ -776,7 +756,6 @@ export const activeStyles = memoizeStyle({
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
           t.btnDefaultActiveBorderColor,
-          t.btnDefaultActiveBorderTopColor,
           t.btnBorderWidth,
         )};
       }
@@ -790,7 +769,6 @@ export const activeStyles = memoizeStyle({
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
           t.btnPrimaryActiveBorderColor,
-          t.btnPrimaryActiveBorderTopColor,
           t.btnBorderWidth,
         )};
       }
@@ -804,7 +782,6 @@ export const activeStyles = memoizeStyle({
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
           t.btnSuccessActiveBorderColor,
-          t.btnSuccessActiveBorderTopColor,
           t.btnBorderWidth,
         )};
       }
@@ -818,7 +795,6 @@ export const activeStyles = memoizeStyle({
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
           t.btnDangerActiveBorderColor,
-          t.btnDangerActiveBorderTopColor,
           t.btnBorderWidth,
         )};
       }
@@ -828,13 +804,7 @@ export const activeStyles = memoizeStyle({
   pay(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(
-          t.btnPayActiveBg,
-          t.btnPayActiveShadow,
-          t.btnPayActiveBorderColor,
-          t.btnPayActiveBorderTopColor,
-          t.btnBorderWidth,
-        )};
+        ${buttonActiveMixin(t.btnPayActiveBg, t.btnPayActiveShadow, t.btnPayActiveBorderColor, t.btnBorderWidth)};
       }
     `;
   },
@@ -850,7 +820,7 @@ export const activeStyles = memoizeStyle({
   text(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, '', t.btnBorderWidth)};
+        ${buttonActiveMixin(t.btnTextActiveBg, '', t.btnTextActiveBg, t.btnBorderWidth)};
       }
     `;
   },
@@ -858,7 +828,7 @@ export const activeStyles = memoizeStyle({
   backless(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, '', t.btnBorderWidth)}
+        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, t.btnBorderWidth)}
       }
     `;
   },

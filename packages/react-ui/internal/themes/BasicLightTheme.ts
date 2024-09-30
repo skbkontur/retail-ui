@@ -4,15 +4,9 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 export class BasicLightThemeInternal {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
-  public static brandXLight = '#cae5f5';
-  public static brandLight = '#3094d0';
   public static brand = '#2291ff';
-  public static brandDark = '#1363a0';
-  public static brandXDark = '#084f85';
   public static white = '#fff';
-  public static grayXxLight = '#f2f2f2';
   public static grayXLight = '#ebebeb';
-  public static grayLight = '#a0a0a0';
   public static gray = '#858585';
   public static grayDark = '#333';
   public static black = '#000';
@@ -20,8 +14,6 @@ export class BasicLightThemeInternal {
   public static blueXxLight = '#cdedff';
   public static blueLight = '#1f87ef';
   public static blue = '#1874cf';
-  public static blueDark = '#1874cf';
-  public static blueXDark = '#044785';
 
   public static greenXxLight = '#C7F9CC';
   public static green = '#1C8A3F';
@@ -97,6 +89,8 @@ export class BasicLightThemeInternal {
   //#endregion Common variables
   //#region Link
   public static linkColor = '#222222';
+  public static linkTextDecoration = 'underline';
+
   public static get linkHoverColor() {
     return this.linkColor;
   }
@@ -130,6 +124,16 @@ export class BasicLightThemeInternal {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
 
+  public static linkTextDecorationStyle = 'solid';
+  public static linkTextDecorationThickness = '1px';
+  public static linkTextUnderlineOffset = '4px';
+  public static get linkHoverTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
+  }
+  public static linkTextUnderlineOpacity = '0.5';
+  public static linkTextDecorationColor = `color-mix(in srgb, currentColor ${
+    parseFloat(this.linkTextUnderlineOpacity) * 100
+  }%, transparent)`;
   public static linkLineBorderBottomStyle = 'solid';
   public static get linkLineHoverBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
@@ -197,46 +201,6 @@ export class BasicLightThemeInternal {
   public static tokenBorderRadius = '2px';
   public static tokenBorderWidth = '1px';
   public static tokenBorderColorDisabled = 'transparent';
-  public static get tokenDefaultIdle() {
-    return this.grayXLight;
-  }
-  public static tokenDefaultActive = '#323232';
-  public static get tokenGrayIdle() {
-    return this.grayXLight;
-  }
-  public static get tokenGrayActive() {
-    return this.grayDark;
-  }
-  public static get tokenBlueIdle() {
-    return this.blueLight;
-  }
-  public static get tokenBlueActive() {
-    return this.blueDark;
-  }
-  public static get tokenGreenIdle() {
-    return this.greenXxLight;
-  }
-  public static get tokenGreenActive() {
-    return this.greenDark;
-  }
-  public static get tokenYellowIdle() {
-    return this.yellowXxLight;
-  }
-  public static get tokenYellowActive() {
-    return this.yellowDark;
-  }
-  public static get tokenRedIdle() {
-    return this.redXxLight;
-  }
-  public static get tokenRedActive() {
-    return this.redDark;
-  }
-  public static get tokenWhite() {
-    return this.white;
-  }
-  public static get tokenBlack() {
-    return this.black;
-  }
   public static get tokenBorderColorWarning() {
     return this.borderColorWarning;
   }
@@ -262,15 +226,15 @@ export class BasicLightThemeInternal {
 
   public static tokenShadowDisabled = '';
 
-  public static tokenDefaultIdleBg = 'rgba(0, 0, 0, 0.1)';
-  public static tokenDefaultIdleColor = '#222222';
-  public static tokenDefaultIdleBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultIdleBgHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultIdleColorHover = '#222222';
-  public static tokenDefaultIdleBorderColorHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenDefaultActiveBg = '#3D3D3D';
-  public static tokenDefaultActiveColor = '#FFFFFF';
-  public static tokenDefaultActiveBorderColor = 'transparent';
+  public static tokenBg = 'rgba(0, 0, 0, 0.1)';
+  public static tokenColor = '#222222';
+  public static tokenBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBgHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenColorHover = '#222222';
+  public static tokenBorderColorHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBgActive = '#3D3D3D';
+  public static tokenColorActive = '#FFFFFF';
+  public static tokenBorderColorActive = 'transparent';
 
   //#endregion Token
   //#region TokenInput
@@ -423,22 +387,17 @@ export class BasicLightThemeInternal {
   public static get btnDefaultHoverBorderColor() {
     return this.btnDefaultBorderColor;
   }
-  public static btnDefaultHoverBorderBottomColor = '';
   public static btnDefaultHoverTextColor = '';
   public static get btnDefaultActiveBorderColor() {
     return this.btnDefaultBorderColor;
   }
-  public static btnDefaultActiveBorderTopColor = '';
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static btnDefaultBorderBottomColor = '';
   public static btnDefaultActiveShadow = 'none';
   public static btnSuccessBg = '#26AD50';
   public static btnSuccessBorderColor = '#26AD50';
   public static btnSuccessHoverBg = '#23A14A';
   public static btnSuccessHoverBorderColor = '#23A14A';
-  public static btnSuccessHoverBorderBottomColor = '';
   public static btnSuccessHoverTextColor = '';
-  public static btnSuccessBorderBottomColor = '';
   public static btnSuccessBgStart = 'none';
   public static btnSuccessBgEnd = 'none';
   public static btnSuccessTextColor = '#fff';
@@ -446,26 +405,22 @@ export class BasicLightThemeInternal {
   public static btnSuccessHoverBgEnd = 'none';
   public static btnSuccessActiveBg = '#209644';
   public static btnSuccessActiveBorderColor = '#209644';
-  public static btnSuccessActiveBorderTopColor = '';
   public static btnSuccessActiveShadow = 'none';
 
   public static btnPrimaryBg = '#3D3D3D';
   public static btnPrimaryHoverBg = '#292929';
   public static btnPrimaryActiveBg = '#141414';
 
-  public static btnPrimaryHoverBorderBottomColor = '';
   public static btnPrimaryHoverTextColor = '';
   public static btnPrimaryBorderColor = '#3D3D3D';
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
 
-  public static btnPrimaryBorderBottomColor = '';
   public static btnPrimaryBgStart = 'none';
   public static btnPrimaryBgEnd = 'none';
   public static btnPrimaryTextColor = '#fff';
   public static btnPrimaryHoverBgStart = 'none';
   public static btnPrimaryHoverBgEnd = 'none';
-  public static btnPrimaryActiveBorderTopColor = '';
   public static btnPrimaryActiveShadow = 'none';
   public static get btnDangerBg() {
     return this.errorMain;
@@ -477,9 +432,7 @@ export class BasicLightThemeInternal {
   public static btnDangerHoverBg = '#ED3F3F';
   public static btnDangerHoverBorderColor = '#ED3F3F';
 
-  public static btnDangerHoverBorderBottomColor = '';
   public static btnDangerHoverTextColor = '';
-  public static btnDangerBorderBottomColor = '';
   public static btnDangerBgStart = 'none';
   public static btnDangerBgEnd = 'none';
   public static btnDangerTextColor = '#fff';
@@ -490,15 +443,12 @@ export class BasicLightThemeInternal {
     return this.btnDangerActiveBg;
   }
 
-  public static btnDangerActiveBorderTopColor = '';
   public static btnDangerActiveShadow = 'none';
   public static btnPayBg = '#fcb73e';
   public static btnPayHoverBg = '#fda70c';
   public static btnPayHoverBorderColor = '#fda70c';
-  public static btnPayHoverBorderBottomColor = '';
   public static btnPayHoverTextColor = '';
   public static btnPayBorderColor = '#fcb73e';
-  public static btnPayBorderBottomColor = '';
   public static btnPayBgStart = 'none';
   public static btnPayBgEnd = 'none';
   public static get btnPayTextColor() {
@@ -508,7 +458,6 @@ export class BasicLightThemeInternal {
   public static btnPayHoverBgEnd = 'none';
   public static btnPayActiveBg = '#f69912';
   public static btnPayActiveBorderColor = '#f69912';
-  public static btnPayActiveBorderTopColor = '';
   public static btnPayActiveShadow = 'none';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
@@ -576,8 +525,23 @@ export class BasicLightThemeInternal {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static get btnLinkLineBorderBottomColor() {
-    return this.linkLineBorderBottomColor;
+  public static get btnLinkTextDecorationColor() {
+    return this.linkTextDecorationColor;
+  }
+  public static get btnLinkTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
+  }
+  public static get btnLinkHoverTextDecorationStyle() {
+    return this.linkTextDecorationStyle;
+  }
+  public static get btnLinkTextUnderlineOffset() {
+    return this.linkTextUnderlineOffset;
+  }
+  public static get btnLinkTextDecorationThickness() {
+    return this.linkTextDecorationThickness;
+  }
+  public static get btnLinkTextUnderlineOpacity() {
+    return this.linkTextUnderlineOpacity;
   }
   public static get btnLinkLineBorderBottomStyle() {
     return this.linkLineBorderBottomStyle;
@@ -986,6 +950,7 @@ export class BasicLightThemeInternal {
   public static get calendarBg() {
     return this.bgSecondary;
   }
+  public static calendarBorderRadius = '8px';
   public static get calendarCellBg() {
     return this.bgSecondary;
   }
@@ -1029,11 +994,7 @@ export class BasicLightThemeInternal {
   public static get datePickerMenuOffsetY() {
     return this.menuOffsetY;
   }
-  public static get pickerBg() {
-    return this.bgSecondary;
-  }
   public static pickerShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
-  public static pickerBorderRadius = '8px';
 
   public static mobileCalendarPaddingX = '16px';
   public static mobileCalendarCellWidth = '40px';
@@ -1259,9 +1220,6 @@ export class BasicLightThemeInternal {
   public static menuShadow = '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)';
   public static menuPaddingY = '0px';
   public static menuScrollContainerContentWrapperPaddingY = '4px';
-  public static get menuLegacyPaddingY() {
-    return this.menuScrollContainerContentWrapperPaddingY;
-  }
   public static mobileMenuPaddingY = '0px';
   public static mobileMenuScrollContainerContentWrapperPaddingY = '0px';
   public static menuPaddingX = '4px';
@@ -1609,10 +1567,6 @@ export class BasicLightThemeInternal {
 
   public static get toggleOutlineColorFocus() {
     return this.outlineColorFocus;
-  }
-
-  public static get toggleHandleBoxShadowOld() {
-    return `0 ${this.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.toggleBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
 
   public static toggleContainerBg = '#FFFFFF';
@@ -2407,9 +2361,6 @@ export class BasicLightThemeInternal {
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '';
   public static fileUploaderUploadButtonBg = '#fff';
-  public static get fileUploaderFontSize() {
-    return this.fontSizeSmall;
-  }
   public static get fileUploaderPaddingXSmall() {
     return this.inputPaddingXSmall;
   }
@@ -2428,11 +2379,8 @@ export class BasicLightThemeInternal {
   public static get fileUploaderFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  public static get fileUploaderLineHeight() {
-    return this.controlLineHeightSmall;
-  }
   public static get fileUploaderLineHeightSmall() {
-    return this.fileUploaderLineHeight;
+    return this.controlLineHeightSmall;
   }
   public static get fileUploaderLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -2441,7 +2389,7 @@ export class BasicLightThemeInternal {
     return this.controlLineHeightLarge;
   }
   public static get fileUploaderPaddingYSmall() {
-    return this.fileUploaderPaddingY;
+    return this.controlPaddingYSmall;
   }
   public static get fileUploaderPaddingYMedium() {
     return this.controlPaddingYMedium;
@@ -2451,10 +2399,6 @@ export class BasicLightThemeInternal {
   }
   public static get fileUploaderTextColorDefault() {
     return this.textColorDefault;
-  }
-  public static fileUploaderPaddingX = '7px';
-  public static get fileUploaderPaddingY() {
-    return this.controlPaddingYSmall;
   }
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';

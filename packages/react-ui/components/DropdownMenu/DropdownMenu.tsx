@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Nullable } from '../../typings/utility-types';
@@ -13,6 +13,7 @@ import { getDropdownMenuTheme } from './getDropdownMenuTheme';
 
 export interface DropdownMenuProps
   extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   /** Максимальная высота меню */
@@ -104,6 +105,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
+          id={this.props.id}
           aria-label={this.props['aria-label']}
           ref={this.refPopupMenu}
           caption={this.props.caption}

@@ -28,11 +28,6 @@ import { globalClasses, jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-/**
- * @deprecated use SizeProp
- */
-export type FileUploaderSize = SizeProp;
-
 type FileUploaderOverriddenProps = 'size';
 
 interface _FileUploaderProps

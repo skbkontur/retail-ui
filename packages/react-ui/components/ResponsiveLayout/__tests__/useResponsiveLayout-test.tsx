@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { eventListenersMap } from '../ResponsiveLayoutEvents';
 import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsiveLayout';
 import { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 
 function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: ResponsiveLayoutOptions<T>) {
   const useResponsiveLayout = () => {
@@ -19,7 +19,7 @@ function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: Respo
   return result as ResponsiveLayoutFlags<T>;
 }
 describe('useResponsiveLayoutCustomization', () => {
-  let calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  let calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
   const matchMediaMock = jest.fn().mockImplementation((query) => {
     return {
@@ -52,7 +52,7 @@ describe('useResponsiveLayoutCustomization', () => {
     expect(result.isMobile).toBe(false);
     expect(result.isTablet).toBe(true);
     expect(matchMediaMock).toHaveBeenCalledWith(customMediaQueries.isTablet);
-    expect(matchMediaMock).toHaveBeenCalledWith(DEFAULT_THEME.mobileMediaQuery);
+    expect(matchMediaMock).toHaveBeenCalledWith(LIGHT_THEME.mobileMediaQuery);
   });
 
   it('rewrite result custom media queries', () => {

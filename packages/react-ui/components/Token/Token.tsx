@@ -108,9 +108,9 @@ export class Token extends React.Component<TokenProps> {
     );
 
     const classNames = cx(
-      styles.tokenDefaultIdle(theme),
-      !isActive && !warning && !error && !disabled && styles.tokenDefaultIdleHovering(theme),
-      isActive && styles.tokenDefaultActive(theme),
+      styles.tokenIdle(theme),
+      !isActive && !warning && !error && !disabled && styles.tokenHover(theme),
+      isActive && styles.tokenActive(theme),
       warning && styles.tokenWarning(theme),
       error && styles.tokenError(theme),
       disabled && styles.tokenDisabled(theme),

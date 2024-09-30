@@ -157,10 +157,6 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
-  private children = () => {
-    return <span>{this.props.children}</span>;
-  };
-
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {
     if (React.isValidElement(children)) {
       return React.cloneElement(children as React.ReactElement, {
@@ -172,6 +168,10 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   };
 
   public render() {
-    return <ValidationContext.Provider value={this}>{this.renderChildren(this.children())}</ValidationContext.Provider>;
+    return (
+      <ValidationContext.Provider value={this}>
+        {this.renderChildren(<div style={{ display: 'inline' }}>{this.props.children}</div>)}
+      </ValidationContext.Provider>
+    );
   }
 }

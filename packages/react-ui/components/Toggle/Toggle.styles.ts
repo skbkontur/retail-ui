@@ -68,13 +68,10 @@ export const styles = memoizeStyle({
 
   handle(t: Theme) {
     return css`
-      background: ${t.toggleHandleBg};
       bottom: ${t.toggleBorderWidth};
-      box-shadow: ${t.toggleHandleBoxShadowOld};
       left: ${t.toggleHandleLeft};
       position: absolute;
       top: ${t.toggleHandleTop};
-      transition: 0.2s ease-in;
     `;
   },
   handleSmall(t: Theme) {

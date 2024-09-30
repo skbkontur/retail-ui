@@ -831,11 +831,11 @@ export const WithExtendedItem: Story = () => {
             { id: 2, name: 'Madrid' },
             <MenuSeparator key={2} />,
             <hr key={3} />,
-            <MenuItem key={1} {...{ id: 3, name: 'London' }}>
+            <MenuItem key={1} {...{ id: '3', name: 'London' }}>
               <CustomItem id={3} name="London" />
             </MenuItem>,
             () => (
-              <MenuItem {...{ id: 4, name: 'Berlin' }}>
+              <MenuItem {...{ id: '4', name: 'Berlin' }}>
                 <CustomItem id={4} name="Berlin" />
               </MenuItem>
             ),

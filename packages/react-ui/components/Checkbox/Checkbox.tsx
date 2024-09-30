@@ -19,11 +19,6 @@ import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
 
-/**
- * @deprecated use SizeProp
- */
-export type CheckboxSize = SizeProp;
-
 export interface CheckboxProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,

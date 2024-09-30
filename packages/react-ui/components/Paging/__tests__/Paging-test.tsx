@@ -23,25 +23,16 @@ describe('Paging', () => {
     expect(screen.getAllByTestId(PagingDataTids.pageLink)).toHaveLength(5);
   });
 
-  it('should not be rendered when only one page is presented and the flag is enabled', () => {
+  it('should not be rendered when pagesCount < 2', () => {
     const callback = jest.fn();
-    render(
-      <Paging pagesCount={1} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages={false} />,
-    );
+    render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
 
     expect(screen.queryByTestId(PagingDataTids.root)).not.toBeInTheDocument();
   });
 
-  it('should be rendered when only one page is presented and the flag is disabled', () => {
+  it('should be rendered when pagesCount >= 2', () => {
     const callback = jest.fn();
-    render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
-
-    expect(screen.getByTestId(PagingDataTids.root)).toBeInTheDocument();
-  });
-
-  it('should be rendered when two or more pages are presented and the flag is enabled', () => {
-    const callback = jest.fn();
-    render(<Paging pagesCount={2} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages />);
+    render(<Paging pagesCount={2} activePage={1} onPageChange={callback} />);
 
     expect(screen.getByTestId(PagingDataTids.root)).toBeInTheDocument();
   });

@@ -1,6 +1,5 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -14,13 +13,6 @@ import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
-
-/**
- * @deprecated use SizeProp
- */
-export type ToggleSize = SizeProp;
-
-let colorWarningShown = false;
 
 export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   /** @ignore */
@@ -70,9 +62,6 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
   /** Задает функцию, которая вызывается, когда `тогл` теряет фокус. */
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
 
-  /** @deprecated используйте переменную темы `toggleBgChecked` вместо этого пропа. */
-  color?: React.CSSProperties['color'];
-
   /** HTML-атрибут `id` для передачи во внутренний `<input />`. */
   id?: string;
 
@@ -112,12 +101,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: PropTypes.bool,
     warning: PropTypes.bool,
     onValueChange: PropTypes.func,
-    color: (props: ToggleProps) => {
-      if (props.color && !colorWarningShown) {
-        warning(false, `[Toggle]: prop 'color' is deprecated. Please, use theme variable 'toggleBgChecked' instead. `);
-        colorWarningShown = true;
-      }
-    },
   };
 
   public static defaultProps: DefaultProps = {
@@ -244,15 +227,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const {
-      children,
-      warning,
-      error,
-      color,
-      id,
-      'aria-describedby': ariaDescribedby,
-      'aria-label': ariaLabel,
-    } = this.props;
+    const { children, warning, error, id, 'aria-describedby': ariaDescribedby, 'aria-label': ariaLabel } = this.props;
     const { loading, captionPosition, disableAnimations } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
@@ -311,17 +286,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 aria-describedby={ariaDescribedby}
               />
             </FocusControlWrapper>
-            <div
-              className={containerClassNames}
-              style={
-                checked && color && !disabled
-                  ? {
-                      backgroundColor: color,
-                      boxShadow: `inset 0 0 0 1px ${color}`,
-                    }
-                  : undefined
-              }
-            />
+            <div className={containerClassNames} />
             <div
               className={cx(this.getHandleSizeClassName(), globalClasses.handle, {
                 [styles.handle(this.theme)]: true,

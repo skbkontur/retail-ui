@@ -63,30 +63,30 @@ export const styles = memoizeStyle({
     `;
   },
 
-  tokenDefaultIdle(t: Theme) {
+  tokenIdle(t: Theme) {
     return css`
-      color: ${t.tokenDefaultIdleColor};
-      background: ${t.tokenDefaultIdleBg};
-      border-color: ${t.tokenDefaultIdleBorderColor};
+      color: ${t.tokenColor};
+      background: ${t.tokenBg};
+      border-color: ${t.tokenBorderColor};
       background-clip: border-box;
     `;
   },
 
-  tokenDefaultIdleHovering(t: Theme) {
+  tokenHover(t: Theme) {
     return css`
       &:hover {
-        color: ${t.tokenDefaultIdleColorHover};
-        background: ${t.tokenDefaultIdleBgHover};
-        border: solid ${t.tokenBorderWidth} ${t.tokenDefaultIdleBorderColorHover};
+        color: ${t.tokenColorHover};
+        background: ${t.tokenBgHover};
+        border: solid ${t.tokenBorderWidth} ${t.tokenBorderColorHover};
       }
     `;
   },
 
-  tokenDefaultActive(t: Theme) {
+  tokenActive(t: Theme) {
     return css`
-      color: ${t.tokenDefaultActiveColor};
-      background: ${t.tokenDefaultActiveBg};
-      border: solid ${t.tokenBorderWidth} ${t.tokenDefaultActiveBorderColor};
+      color: ${t.tokenColorActive};
+      background: ${t.tokenBgActive};
+      border: solid ${t.tokenBorderWidth} ${t.tokenBorderColorActive};
     `;
   },
 
