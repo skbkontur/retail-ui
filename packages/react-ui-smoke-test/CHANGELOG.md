@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.13](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.12...react-ui-smoke-test@2.0.13) (2024-09-30)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
 ## [2.0.12](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.11...react-ui-smoke-test@2.0.12) (2024-04-16)
 
 **Note:** Version bump only for package react-ui-smoke-test

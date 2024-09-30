@@ -33,7 +33,7 @@ export default {
   },
 } as Meta;
 
-type ButtonState = Partial<ButtonProps>;
+type ButtonState = Partial<ButtonProps<'button' | 'a'>>;
 
 export const Default: Story = () => (
   <Button data-tid="test-button">Здесь рисуется первая история из файла .stories.tsx</Button>
@@ -56,6 +56,31 @@ const testingButtonUseStates2022: ButtonState[] = [
   { use: 'backless' },
   { use: 'link' },
 ];
+
+const buttonAsLinkUseStates: ButtonState[] = [
+  { use: 'default' },
+  { use: 'primary' },
+  { use: 'danger' },
+  { use: 'pay' },
+  { use: 'success' },
+  { use: 'text' },
+  { use: 'backless' },
+];
+
+const buttonAsLinkTestingProps: ButtonState[] = [
+  { children: 'Link' },
+  { disabled: true },
+  { loading: true },
+  { icon: <OkIcon /> },
+  { icon: <OkIcon />, disabled: true },
+  { rightIcon: <OkIcon /> },
+  { rightIcon: <OkIcon />, disabled: true },
+  { icon: <OkIcon />, rightIcon: <OkIcon /> },
+  { icon: <OkIcon />, rightIcon: <OkIcon />, disabled: true },
+  { error: true },
+  { warning: true },
+];
+
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
 
 const getButtonUseStates = () => {
@@ -579,6 +604,38 @@ export const BtnBacklessBgHoverActive: Story = () => {
         Backless
       </Button>
     </ThemeContext.Provider>
+  );
+};
+
+export const ButtonAsLink: Story = () => {
+  return (
+    <ComponentTable
+      Component={Button}
+      cols={buttonAsLinkUseStates.map((x) => ({ props: x }))}
+      rows={buttonAsLinkTestingProps.map((x) => ({ props: x }))}
+      presetProps={{ children: 'Link', component: 'a' }}
+    />
+  );
+};
+
+export const ButtonAsLinkIconColor: Story = () => {
+  return (
+    <Button
+      data-tid="test-button"
+      theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }}
+      component="a"
+      icon={<OkIcon />}
+    >
+      Button as link
+    </Button>
+  );
+};
+
+export const ButtonAsLinkIconDisabledColor: Story = () => {
+  return (
+    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<OkIcon />} disabled>
+      Button as link
+    </Button>
   );
 };
 

@@ -1,9 +1,19 @@
 ### Базовый пример
+По умолчанию, кнопка принимает все пропы `HTMLButtonElement`.
 
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
-<Button>Создать отчёт</Button>;
+<Button onClick={alert} name="report">Создать отчёт</Button>;
+```
+
+### Корневой компонент
+Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`. Кнопка принимает все пропы переданного в `component` компонента.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button component='a' href='https://kontur.ru' target="_blank">Ссылка, но выглядит как кнопка</Button>
 ```
 
 ### Различные стили

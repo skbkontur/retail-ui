@@ -6,10 +6,13 @@ import { Theme } from '../../lib/theming/Theme';
 
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
-import { Button, ButtonProps } from './Button';
+import { Button, ButtonInnerProps } from './Button';
 import { globalClasses, styles } from './Button.styles';
 
-type ButtonArrowProps = Pick<ButtonProps, 'size' | 'arrow' | 'checked' | 'disabled' | 'error' | 'use' | 'warning'> & {
+type ButtonArrowProps = Pick<
+  ButtonInnerProps,
+  'size' | 'arrow' | 'checked' | 'disabled' | 'error' | 'use' | 'warning'
+> & {
   isFocused: boolean;
 };
 

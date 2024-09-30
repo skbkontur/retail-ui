@@ -25,7 +25,7 @@ describe('Button', () => {
     });
   });
 
-  it('handels click event', async () => {
+  it('handles click event', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
@@ -79,7 +79,7 @@ describe('Button', () => {
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', () => {
+  it('handles onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
     render(<Button onMouseLeave={onMouseLeave} />);
 
@@ -215,6 +215,23 @@ describe('Button', () => {
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
   });
 
+  it(`className prop shouldn't override value on root`, () => {
+    const props = { className: '' };
+    render(<Button {...props}>Button</Button>);
+
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveClass('', { exact: true });
+  });
+
+  it(`data-tid prop shouldn't override value on root`, () => {
+    const props = { 'data-tid': 'foo' };
+
+    render(<Button {...props}>Button</Button>);
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('data-tid', ButtonDataTids.rootElement);
+  });
+
   describe('with use=link prop', () => {
     const handleSubmit = jest.fn();
     const handleReset = jest.fn();
@@ -239,6 +256,46 @@ describe('Button', () => {
       render(<TestForm />);
       await userEvent.click(screen.getByText('Reset'));
       expect(handleReset).toHaveBeenCalled();
+    });
+  });
+
+  describe('with component=a prop', () => {
+    it('should render <a> tag', () => {
+      render(
+        <Button component="a" href="/">
+          Button as Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toBeInTheDocument();
+    });
+
+    it('should render <button> tag when omitted', () => {
+      render(<Button>Button</Button>);
+
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
+
+    it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {
+      render(
+        <Button href="/" component="a" {...prop}>
+          Button Link
+        </Button>,
+      );
+
+      userEvent.tab();
+      expect(screen.getByRole('link')).not.toHaveFocus();
+    });
+
+    it(`should have correct tabIndex`, () => {
+      render(
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+        <Button component="a" href="/" tabIndex={1}>
+          Button Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toHaveAttribute('tabindex', '1');
     });
   });
 });

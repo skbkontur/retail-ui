@@ -22,3 +22,15 @@ window.matchMedia = jest.fn().mockImplementation((query) => {
     removeEventListener: jest.fn(),
   };
 });
+
+global.ResizeObserver = class {
+  disconnect() {
+    /**/
+  }
+  observe() {
+    /**/
+  }
+  unobserve() {
+    /**/
+  }
+};
