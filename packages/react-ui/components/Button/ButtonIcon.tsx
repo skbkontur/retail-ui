@@ -6,11 +6,11 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SizeProp } from '../../lib/types/props';
 
-import { ButtonProps } from './Button';
+import { ButtonInnerProps } from './Button';
 import { styles } from './ButtonIcon.styles';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 
-export interface ButtonIconProps extends Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'use'> {
+export interface ButtonIconProps extends Pick<ButtonInnerProps, 'size' | 'icon' | 'loading' | 'use'> {
   position: 'right' | 'left';
   hasChildren: boolean;
   hasBothIcons?: boolean;

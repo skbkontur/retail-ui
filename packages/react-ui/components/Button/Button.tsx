@@ -1,19 +1,20 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { HTMLProps } from '../../typings/html';
+import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Link, LinkProps } from '../Link';
+import { Link } from '../Link';
 import { SizeProp } from '../../lib/types/props';
+import { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
@@ -24,14 +25,7 @@ import { LoadingButtonIcon } from './LoadingButtonIcon';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-export interface ButtonProps
-  extends CommonProps,
-    Pick<
-      AriaAttributes,
-      'aria-haspopup' | 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-checked' | 'aria-expanded'
-    >,
-    Pick<HTMLAttributes<unknown>, 'role' | 'id'>,
-    Pick<HTMLProps['button'], 'onClickCapture' | 'onMouseUp' | 'onMouseDown'> {
+export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -107,41 +101,6 @@ export interface ButtonProps
   narrow?: boolean;
 
   /**
-   * HTML-событие `onblur`.
-   */
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onclick`.
-   */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onfocus`.
-   */
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `keydown`.
-   */
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onmouseenter`.
-   */
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `mouseleave`.
-   */
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * HTML-событие `onmouseover`.
-   */
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /**
    * Задаёт размер кнопки.
    *
    * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
@@ -162,6 +121,9 @@ export interface ButtonProps
    * Стиль кнопки.
    *
    * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
+   *
+   * **Вариант `link` устарел.**
+   * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
    */
   use?: ButtonUse;
 
@@ -185,6 +147,11 @@ export interface ButtonProps
   theme?: ThemeIn;
 }
 
+export const BUTTON_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'button';
+
+export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> =
+  PolymorphicPropsWithoutRef<ButtonInnerProps, C>;
+
 export interface ButtonState {
   focusedByTab: boolean;
 }
@@ -195,10 +162,17 @@ export const ButtonDataTids = {
   spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
+type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'use' | 'size' | 'type' | 'component'>>;
+
+const SpanComponent: React.FunctionComponent<HTMLAttributes<HTMLSpanElement>> = ({ children, ...rest }) => {
+  return <span {...rest}>{children}</span>;
+};
 
 @rootNode
-export class Button extends React.Component<ButtonProps, ButtonState> {
+export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> extends React.Component<
+  ButtonProps<C>,
+  ButtonState
+> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static displayName = 'Button';
   public static __BUTTON__ = true;
@@ -206,7 +180,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static defaultProps: DefaultProps = {
     use: 'default',
     size: 'small',
+    // By default the type attribute is 'submit'. IE8 will fire a click event
+    // on this button if somewhere on the page user presses Enter while some
+    // input is focused. So we set type to 'button' by default.
     type: 'button',
+    component: BUTTON_DEFAULT_COMPONENT,
   };
 
   private getProps = createPropsGetter(Button.defaultProps);
@@ -216,7 +194,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private theme!: Theme;
-  private node: HTMLButtonElement | null = null;
+  private node: HTMLElement | null = null;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -224,6 +202,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       keyListener.isTabPressed = true;
       this.focus();
     }
+    // warning(
+    //   this.props.use !== 'link',
+    //   `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
+    // );
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
@@ -252,18 +234,29 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-          return this.renderMain();
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderLinkRootWithoutHandlers(props: LinkProps) {
-    const { onClick, onFocus, onBlur, children, ...rest } = props;
-    return <span {...rest}>{children}</span>;
+  private getTabIndex({
+    disableFocus,
+    disabled,
+    tabIndex = 0,
+  }: Pick<ButtonProps, 'disableFocus' | 'disabled' | 'tabIndex'>) {
+    if (disableFocus || disabled) {
+      return -1;
+    }
+
+    return tabIndex;
   }
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<ButtonProps>) => {
     const {
       corners,
       active,
@@ -274,6 +267,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       warning,
       loading,
       narrow,
+      arrow,
       icon,
       rightIcon,
       _noPadding,
@@ -281,26 +275,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       visuallyFocused,
       align,
       disableFocus,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onMouseDown,
-      onMouseUp,
-      onKeyDown,
-      onClick,
-      onClickCapture,
       width,
-      children,
-      'aria-describedby': ariaDescribedby,
-      'aria-haspopup': ariaHasPopup,
-      'aria-controls': ariaControls,
-      'aria-label': ariaLabel,
-      'aria-checked': ariaChecked,
-      'aria-expanded': ariaExpanded,
-      role,
-      id,
-    } = this.props;
-    const { use, type, size } = this.getProps();
+      tabIndex,
+      component: _component,
+      use: useProp,
+      size: sizeProp,
+      theme,
+      ...rest
+    } = props;
+    const { use, size, component, children } = this.getProps();
+
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -330,6 +314,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             borderless && styles.borderless(),
             use === 'backless' && styles.backlessDisabled(this.theme),
             use === 'text' && styles.textDisabled(),
+            globalClasses.disabled,
           ]
         : [
             active && !checked && activeStyles[use](this.theme),
@@ -341,35 +326,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
 
     const rootProps = {
-      // By default the type attribute is 'submit'. IE8 will fire a click event
-      // on this button if somewhere on the page user presses Enter while some
-      // input is focused. So we set type to 'button' by default.
-      type,
-      role,
-      'aria-describedby': ariaDescribedby,
-      'aria-haspopup': ariaHasPopup,
-      'aria-controls': ariaControls,
-      'aria-label': ariaLabel,
-      'aria-checked': ariaChecked,
-      'aria-expanded': ariaExpanded,
+      ...rest,
       className: rootClassName,
       style: {
         textAlign: align,
         ...corners,
       },
-      disabled: disabled || loading,
-      onClick,
+      disabled: trueDisabled,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onMouseDown,
-      onMouseUp,
-      onClickCapture,
-      tabIndex: disableFocus ? -1 : 0,
-      title: this.props.title,
+      tabIndex: this.getTabIndex({ disableFocus, disabled: trueDisabled, tabIndex }),
     };
 
     const wrapProps = {
@@ -420,12 +386,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.linkLineHeight()]: !isSafari,
         [styles.linkLineHeightSafariFallback()]: isSafari,
         [styles.linkFocus(this.theme)]: isFocused,
-        [styles.linkDisabled(this.theme)]: disabled || loading,
+        [styles.linkDisabled(this.theme)]: trueDisabled,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
+
       rootProps.style.textAlign = undefined;
     }
 
@@ -454,33 +421,35 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (isLink && !loading) {
       captionNode = (
         <ThemeContext.Provider value={getInnerLinkTheme(this.theme)}>
-          <Link
-            focused={isFocused}
-            disabled={disabled}
-            icon={this.renderIcon2022(icon)}
-            rightIcon={this.renderIcon2022(rightIcon)}
-            as={this.renderLinkRootWithoutHandlers}
-            tabIndex={-1}
-          >
-            {children}
-          </Link>
+          {
+            <Link<typeof SpanComponent>
+              focused={isFocused}
+              disabled={disabled}
+              icon={this.renderIcon2022(icon)}
+              rightIcon={this.renderIcon2022(rightIcon)}
+              tabIndex={-1}
+              component={SpanComponent}
+            >
+              {children}
+            </Link>
+          }
         </ThemeContext.Provider>
       );
     }
 
+    const Root: React.ElementType = component;
+
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span {...wrapProps} data-tid={ButtonDataTids.root}>
-          <button id={id} data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps}>
-            {innerShadowNode}
-            {outlineNode}
-            {arrowNode}
-            {captionNode}
-          </button>
-        </span>
-      </CommonWrapper>
+      <span {...wrapProps} data-tid={ButtonDataTids.root}>
+        <Root data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps}>
+          {innerShadowNode}
+          {outlineNode}
+          {arrowNode}
+          {captionNode}
+        </Root>
+      </span>
     );
-  }
+  };
 
   private renderIcon2022(icon: React.ReactElement | undefined) {
     if (icon && isKonturIcon(icon)) {
@@ -527,7 +496,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
-  private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+  private handleFocus = (e: React.FocusEvent) => {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -540,14 +509,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   };
 
-  private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+  private handleBlur = (e: React.FocusEvent) => {
     this.setState({ focusedByTab: false });
     if (!this.props.disabled && !this.props.disableFocus) {
       this.props.onBlur?.(e);
     }
   };
 
-  private _ref = (node: HTMLButtonElement | null) => {
+  private _ref = (node: HTMLElement | null) => {
     this.node = node;
   };
 }

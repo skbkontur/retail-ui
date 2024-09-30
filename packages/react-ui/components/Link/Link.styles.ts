@@ -25,6 +25,9 @@ const oldLineText = function (t: Theme) {
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
+      cursor: pointer;
+      position: relative;
+
       border-radius: 1px;
       text-decoration: ${t.linkTextDecoration};
       text-decoration-style: ${t.linkTextDecorationStyle};
@@ -164,6 +167,36 @@ export const styles = memoizeStyle({
   iconRight(t: Theme) {
     return css`
       margin-left: ${t.linkIconMarginLeft};
+    `;
+  },
+
+  content() {
+    return css`
+      position: relative;
+    `;
+  },
+
+  outline(t: Theme) {
+    return css`
+      border-radius: ${t.btnLinkBorderRadius};
+      position: absolute;
+      box-shadow: none;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      top: -2px;
+    `;
+  },
+
+  outlineWarning(t: Theme) {
+    return css`
+      background-color: ${t.btnWarningSecondary};
+    `;
+  },
+
+  outlineError(t: Theme) {
+    return css`
+      background-color: ${t.btnErrorSecondary};
     `;
   },
 });
