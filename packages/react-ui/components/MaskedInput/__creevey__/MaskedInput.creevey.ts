@@ -53,7 +53,7 @@ const testIdleFocusAppendRemoveBlur = () => {
     const blured = await this.takeScreenshot();
 
     await this.expect({ idle, focused, appended, restored, blured }).to.matchImages();
-  })
+  });
 };
 
 const testIdleFocusBlur = () => {
@@ -102,9 +102,8 @@ const testRewriteInMiddle = () => {
     const rewrite = await this.takeScreenshot();
 
     await this.expect({ idle, shift, rewrite }).to.matchImages();
-  })
+  });
 };
-
 
 kind('MaskedInput', () => {
   story('Default', ({ setStoryParameters }) => {
@@ -222,5 +221,4 @@ kind('MaskedInput', () => {
       skip: true,
     });
   });
-
 });

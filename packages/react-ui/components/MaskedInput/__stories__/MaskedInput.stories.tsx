@@ -358,7 +358,6 @@ export const WithUnmaskedAndFixedValue: Story = () => {
 
 export const IdleFocusBlurAndUncontrolled: Story = () => <MaskedInput {...DEFAULT_PROPS} />;
 
-
 export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
   <>
     <h3>Известная проблема</h3>
