@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.27.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.26.0...@skbkontur/react-ui@4.27.0) (2024-09-30)
+
+
+### Bug Fixes
+
+* **Button:** fix btnTextHoverBg, btnTextActiveBg vars in Theme2022Dark ([#3464](https://github.com/skbkontur/retail-ui/issues/3464)) ([c6d70a3](https://github.com/skbkontur/retail-ui/commit/c6d70a31809903ffe11c6b63108dc100721e595e))
+
+
+### Features
+
+* **react-ui, a11y:** add id prop for multiple components ([#3502](https://github.com/skbkontur/retail-ui/issues/3502)) ([2ba3db7](https://github.com/skbkontur/retail-ui/commit/2ba3db7894840e97df1daa845b555c6cc6924f18))
+
+
+
+
+
 # [4.26.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.2...@skbkontur/react-ui@4.26.0) (2024-08-20)
 
 
