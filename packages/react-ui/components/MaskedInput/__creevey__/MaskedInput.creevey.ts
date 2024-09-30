@@ -150,7 +150,7 @@ kind('MaskedInput', () => {
 
   story('WithUnmaskedAndFixedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'other themes will become deprecated': { in: /'chrome2022Dark'/ } },
     });
     testIdleFocusAppendRemoveBlur();
   });
@@ -171,7 +171,7 @@ kind('MaskedInput', () => {
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'other themes will become deprecated': { in: 'firefox2022Dark' } },
     });
     test('Plain focused', async function () {
       const idle = await this.takeScreenshot();

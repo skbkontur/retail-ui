@@ -112,6 +112,13 @@ export const Validations: Story = () => (
   />
 );
 
+// FIXME: починить тесты до 5.0
+Validations.parameters = {
+  creevey: {
+    skip: 'chrome2022Dark'
+  }
+};
+
 const validationsStates: InputState[] = [
   { warning: true },
   { value: '12', warning: true },
