@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './ValidationLevel.docs.stories.tsx';
 
-<Meta title="Отображение/Уровни валидаций" />
+<Meta of={DocsStories} />
 
 # Уровни валидаций
 
@@ -28,6 +29,8 @@ import { Meta } from '@storybook/blocks';
 ```
 
 ### Пример
+
+<Story of={DocsStories.ValidationError}></Story>
 
 ```jsx static
 import React, { useState } from 'react';
@@ -87,6 +90,8 @@ export default function ValidationError() {
 ```
 
 ### Пример
+
+<Story of={DocsStories.ValidationWarning}></Story>
 
 ```jsx static
 import React, { useState } from 'react';

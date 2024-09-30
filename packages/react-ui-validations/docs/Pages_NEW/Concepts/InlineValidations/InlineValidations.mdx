@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './InlineValidation.docs.stories.tsx';
 
-<Meta title="Концепции/Встраиваемые валидации" />
+<Meta of={DocsStories} />
 
 # Встраиваемые валидации
 
@@ -35,6 +36,8 @@ import { DatePicker, lessThan } from './ControlsWithValidations';
 Реализацию можно посмотреть в [исходном коде документации](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/docs/Pages/Concepts/InlineValidations)
 
 ### Пример
+
+<Story of={DocsStories.InlineValidations}></Story>
 
 ```jsx static
 import React from 'react';

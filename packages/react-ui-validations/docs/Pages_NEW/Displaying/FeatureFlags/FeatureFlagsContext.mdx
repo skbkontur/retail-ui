@@ -8,7 +8,7 @@ import { Meta } from '@storybook/blocks';
 
 ```jsx static
     export interface ValidationsFeatureFlags {
-      darkTheme?: boolean;
+      flagName?: boolean;
     }
 ```
 
@@ -19,20 +19,14 @@ import { Meta } from '@storybook/blocks';
 ```jsx static
 import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
 
-<ValidationsFeatureFlagsContext.Provider value={{ darkTheme: true }}>
+<ValidationsFeatureFlagsContext.Provider value={{ flagName: true }}>
   {/* ... */}
 </ValidationsFeatureFlagsContext.Provider>;
 ```
 
 ## Использование
 
-### darkTheme
-
-Работает только в паре с **fixedValidationTextColors: true** и если нет переменных темы `validationsTextColorWarning` и
-`validationsTextColorError`.
-В ValidationText будут использоваться цвета по гайдам для error и warning из тёмной темы.
-
-    !!DemoWithCode!!FeatureFlagsExampleFixedValidationTextColorsDarkTheme
+### Нет доступных фиче-флагов
 
 ## Объект со всеми флагами
 

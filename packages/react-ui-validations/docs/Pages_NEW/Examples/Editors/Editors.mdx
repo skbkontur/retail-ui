@@ -1,8 +1,11 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './Editors.docs.stories.tsx';
 
-<Meta title="Примеры/Редакторы" />
+<Meta of={DocsStories} />
 
 # Редакторы
+
+<Story of={DocsStories.Editors}></Story>
 
 ```jsx static
 import React from 'react';

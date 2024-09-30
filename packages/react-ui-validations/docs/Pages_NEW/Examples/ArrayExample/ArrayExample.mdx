@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './ArrayExample.docs.stories.tsx';
 
-<Meta title="Примеры/Пример массива" />
+<Meta of={DocsStories} />
 
 # Валидация массива
 
@@ -11,6 +12,8 @@ import { Meta } from '@storybook/blocks';
 3. Проверка дублей среди других элементов на lostfocus
 
 ### Пример
+
+<Story of={DocsStories.ArrayExample}></Story>
 
 ```jsx static
 import React from 'react';

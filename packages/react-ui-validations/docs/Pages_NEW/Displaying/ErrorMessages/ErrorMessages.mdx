@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './ErrorMessages.docs.stories.tsx';
 
-<Meta title="Отображение/Сообщения об ошибках" />
+<Meta of={DocsStories} />
 
 # Сообщения об ошибках
 
@@ -32,6 +33,8 @@ import { Meta } from '@storybook/blocks';
 ```
 
 ### Пример
+
+<Story of={DocsStories.TooltipValidation}></Story>
 
 ```jsx static
 import React from 'react';
@@ -117,6 +120,8 @@ export default class TooltipValidationDemo extends React.Component {
 ```
 
 ### Пример
+
+<Story of={DocsStories.TextValidation}></Story>
 
 ```jsx static
 import React from 'react';

@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './Independent.docs.stories.tsx';
 
-<Meta title="Описание валидаций/Независимые валидации" />
+<Meta of={DocsStories} />
 
 # Независимые валидации
 
@@ -17,6 +18,8 @@ import { Meta } from '@storybook/blocks';
 ```
 
 ### Пример
+
+<Story of={DocsStories.LostfocusDependent}></Story>
 
 ```jsx static
 import React from 'react';
@@ -110,6 +113,8 @@ export default class LostfocusDependentDemo extends React.Component {
 
 ### Пример
 
+<Story of={DocsStories.LostfocusIndependent}></Story>
+
 ```jsx static
 import React from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input';
@@ -177,6 +182,8 @@ export default class LostfocusDependentErrorValidationDemo extends React.Compone
 ```
 
 ### Зависимые и независимые валидации в одной форме
+
+<Story of={DocsStories.Mixture}></Story>
 
 ```jsx static
 import React from 'react';

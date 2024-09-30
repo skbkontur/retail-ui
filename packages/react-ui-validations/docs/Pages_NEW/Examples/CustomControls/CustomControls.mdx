@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './CustomControls.docs.stories.tsx';
 
-<Meta title="Примеры/Кастомные контролы" />
+<Meta of={DocsStories} />
 
 # Кастомные Контролы
 
@@ -29,6 +30,8 @@ import { Meta } from '@storybook/blocks';
 Для контролов `react-ui` также прокидывается проп `onValueChange`. Чтобы избежать предупреждения в консоле (`Unknown event handler property 'onValueChange'`), этот проп можно "вырезать" из пропов (см. пример).
 
 ### Пример
+
+<Story of={DocsStories.CutomControls}></Story>
 
 ```jsx static
 import React from 'react';

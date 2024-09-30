@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './Objects.docs.stories.tsx';
 
-<Meta title="Описание валидаций/Валидация объектов" />
+<Meta of={DocsStories} />
 
 # Валидация объектов
 
@@ -109,6 +110,8 @@ const validationInfo = validation.getNode((x) => x.name).get();
 ```
 
 ### Пример
+
+<Story of={DocsStories.FlatObject}></Story>
 
 ```jsx static
 import React from 'react';
@@ -230,6 +233,8 @@ const validationInfo = validation.get();
 
 ### Пример
 
+<Story of={DocsStories.PrimitiveType}></Story>
+
 ```jsx static
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
@@ -341,6 +346,8 @@ const validationInfo = validation.getNode((x) => x.fullName.name).get();
 ```
 
 ### Пример
+
+<Story of={DocsStories.NestedObject}></Story>
 
 ```jsx static
 import React from 'react';

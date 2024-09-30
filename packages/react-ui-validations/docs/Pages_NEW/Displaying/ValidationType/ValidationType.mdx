@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './ValidationType.docs.stories.tsx';
 
-<Meta title="Отображение/Виды валидаций" />
+<Meta of={DocsStories} />
 
 # Виды валидаций
 
@@ -23,6 +24,8 @@ import { Meta } from '@storybook/blocks';
 ```
 
 ### Пример
+
+<Story of={DocsStories.ImmediateValidation}></Story>
 
 ```jsx static
 import React from 'react';
@@ -72,6 +75,8 @@ export default class ImmediateValidationDemo extends React.Component {
 ```
 
 ### Пример
+
+<Story of={DocsStories.LostfocusValidation}></Story>
 
 ```jsx static
 import React from 'react';
@@ -134,6 +139,8 @@ export default class LostfocusValidationDemo extends React.Component {
 ```
 
 ### Пример
+
+<Story of={DocsStories.SubmitValidation}></Story>
 
 ```jsx static
 import React from 'react';

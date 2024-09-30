@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './Arrays.docs.stories.tsx';
 
-<Meta title="Описание валидаций/Валидация массивов" />
+<Meta of={DocsStories} />
 
 # Валидация массивов
 
@@ -63,6 +64,8 @@ const item = validation.getNode((x) => x[index]).get();
 Поэтому в общем виде, например, в цикле, обращение к узлу по индексу возможно только с помощью метода `getNodeByIndex`.
 
 ### Пример
+
+<Story of={DocsStories.PrimitiveTypeArray}></Story>
 
 ```jsx static
 import React from 'react';
@@ -158,6 +161,8 @@ export default class PrimitiveTypeArrayDemo extends React.Component {
 ```
 
 ### Пример
+
+<Story of={DocsStories.ObjectArray}></Story>
 
 ```jsx static
 import React from 'react';

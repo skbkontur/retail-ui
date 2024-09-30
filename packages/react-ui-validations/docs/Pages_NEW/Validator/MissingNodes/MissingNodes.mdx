@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './MissingNodes.docs.stories.tsx';
 
-<Meta title="Описание валидаций/Отсутствующие узлы" />
+<Meta of={DocsStories} />
 
 # Отсутствующие узлы
 
@@ -40,6 +41,8 @@ import { Meta } from '@storybook/blocks';
 Поэтому функция конфигурирования узла `name` не выполнится.
 
 ### Пример
+
+<Story of={DocsStories.MissingObjectNode}></Story>
 
 ```jsx static
 import React from 'react';
@@ -190,6 +193,8 @@ export default class MissingObjectNodeDemo extends React.Component {
 В примере ниже валидация на поля _Имя_ и _E-mail_ вычисляется всегда, но когда поля отсутствуют, форма будет валидной.
 
 ### Пример
+
+<Story of={DocsStories.MissingUiNode}></Story>
 
 ```jsx static
 import React from 'react';

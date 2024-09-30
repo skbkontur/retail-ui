@@ -1,6 +1,7 @@
-import { Canvas, Meta, Source, Stories, Story } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './FormValidity.docs.stories.tsx';
 
-<Meta title="Отображение/Валидность формы" />
+<Meta of={DocsStories} />
 
 # Валидность формы
 
@@ -21,6 +22,8 @@ import { Canvas, Meta, Source, Stories, Story } from '@storybook/blocks';
 ```
 
 ### Пример
+
+<Story of={DocsStories.FormValidity}></Story>
 
 ```jsx static
 import React from 'react';

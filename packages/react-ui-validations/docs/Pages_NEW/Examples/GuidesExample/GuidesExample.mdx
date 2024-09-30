@@ -1,10 +1,13 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './GuidesExample.docs.stories.tsx';
 
-<Meta title="Примеры/Пример из Контур.Гайдов" />
+<Meta of={DocsStories} />
 
 # Пример из Контур.Гайдов
 
 [Пример формы из 5 полей описанной в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#33)
+
+<Story of={DocsStories.GuidesExample}></Story>
 
 ```jsx static
 import React from 'react';
