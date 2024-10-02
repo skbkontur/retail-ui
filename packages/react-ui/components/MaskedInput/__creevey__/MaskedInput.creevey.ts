@@ -148,7 +148,7 @@ kind('MaskedInput', () => {
 
   story('WithUnmaskedAndFixedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'other themes will become deprecated': { in: 'chrome2022Dark' } },
     });
     testIdleFocusAppendRemoveBlur();
   });
