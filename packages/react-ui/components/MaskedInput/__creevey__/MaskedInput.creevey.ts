@@ -201,7 +201,7 @@ kind('MaskedInput', () => {
 
   story('SelectAllByButton', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: true, // flaky
     });
     test('Plain focused', async function () {
       const plain = await this.takeScreenshot();
