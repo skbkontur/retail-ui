@@ -30,10 +30,9 @@ export const Mask: Story = () => (
   />
 );
 
-// FIXME: починить тесты до 5.0
 Mask.parameters = {
   creevey: {
-    skip: true,
+    skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
   },
 };
 

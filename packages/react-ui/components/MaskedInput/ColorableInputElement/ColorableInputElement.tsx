@@ -130,7 +130,10 @@ export const ColorableInputElement = forwardRefAndName(
 
       const style = inputStyle.current;
 
-      typedValueElement.textContent = inputRef.current.getAttribute('data-typed-value') || '';
+      typedValueElement.textContent =
+        ((inputRef.current.getAttribute('data-unmasked-value') || focused.current) &&
+          inputRef.current.getAttribute('data-typed-value')) ||
+        '';
 
       const inputRect = inputRef.current.getBoundingClientRect();
       const filledRect = spanRef.current.getBoundingClientRect();
