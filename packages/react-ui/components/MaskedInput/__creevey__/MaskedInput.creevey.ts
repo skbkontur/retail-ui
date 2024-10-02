@@ -1,5 +1,7 @@
 import { story, kind, test } from 'creevey';
 
+import { delay } from '../../../lib/utils';
+
 const testIdleFocusEditBlur = () => {
   test('idle, focus, edit, blur', async function () {
     const click = (css: string) => {
@@ -209,6 +211,7 @@ kind('MaskedInput', () => {
         })
         .click(this.browser.findElement({ css: '[data-tid~="select-all"]' }))
         .perform();
+      await delay(500);
       const select_all = await this.takeScreenshot();
       await this.expect({ plain, select_all }).to.matchImages();
     });
