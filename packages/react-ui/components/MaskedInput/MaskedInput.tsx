@@ -107,7 +107,8 @@ export const MaskedInput = forwardRefAndName(
       () =>
         inputRef.current &&
         Object.assign(inputRef.current, {
-          selectAll: inputRef.current.delaySelectAll,
+          // @ts-expect-error: custom method
+          selectAll: inputRef.current.input?.fixedSelectAll,
         }),
       [],
     );
