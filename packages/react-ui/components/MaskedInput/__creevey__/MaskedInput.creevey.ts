@@ -80,21 +80,27 @@ const testIdleFocusBlur = () => {
 
 const testRewriteInMiddle = () => {
   test('idle, shift, rewrite', async function () {
+    const click = (css: string) => {
+      return this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css }))
+        .pause(500);
+    };
+
     const idle = await this.takeScreenshot();
 
-    const input = await this.browser.findElement({ css: 'input' });
-    this.browser
-      .actions({ bridge: true })
-      .click(input)
+    click('input')
       .keyDown(this.keys.ARROW_LEFT)
       .keyDown(this.keys.ARROW_LEFT)
       .sendKeys('12')
       .perform();
     const shift = await this.takeScreenshot();
 
-    this.browser
-      .actions({ bridge: true })
-      .click(input)
+    click('body');
+
+    click('input')
       .keyDown(this.keys.ARROW_LEFT)
       .keyDown(this.keys.ARROW_LEFT)
       .sendKeys('56')
@@ -150,7 +156,7 @@ kind('MaskedInput', () => {
 
   story('WithUnmaskedAndFixedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: 'chrome2022Dark' } },
+      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
     });
     testIdleFocusAppendRemoveBlur();
   });
@@ -171,7 +177,7 @@ kind('MaskedInput', () => {
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: 'firefox2022Dark' } },
+      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
     });
     test('Plain focused', async function () {
       const idle = await this.takeScreenshot();
@@ -213,12 +219,6 @@ kind('MaskedInput', () => {
         .perform();
       const select_all = await this.takeScreenshot();
       await this.expect({ plain, select_all }).to.matchImages();
-    });
-  });
-
-  story('IdleFocusBlurAndUncontrolledWithDefaultValue', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: true,
     });
   });
 });

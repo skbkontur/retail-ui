@@ -111,10 +111,9 @@ export const Validations: Story = () => (
   />
 );
 
-// FIXME: починить тесты до 5.0
 Validations.parameters = {
   creevey: {
-    skip: 'chrome2022Dark',
+    skip: { flaky: { in: 'chrome2022Dark' } },
   },
 };
 
@@ -237,7 +236,7 @@ export const AllLabGrotesqueStyles: Story = () => {
 
 AllLabGrotesqueStyles.parameters = {
   creevey: {
-    skip: true,
+    skip: true, // manual review only
   },
 };
 
@@ -296,7 +295,7 @@ export const CompareWithInput: Story = () => {
 
 CompareWithInput.parameters = {
   creevey: {
-    skip: true,
+    skip: true, // manual review only
   },
 };
 
@@ -394,6 +393,12 @@ export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
     <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" alwaysShowMask />
   </>
 );
+
+IdleFocusBlurAndUncontrolledWithDefaultValue.parameters = {
+  creevey: {
+    skip: true, // manual review only
+  },
+};
 
 export const SelectAllByProp: Story = () => {
   const [value, setValue] = React.useState('12');
