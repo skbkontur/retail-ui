@@ -91,20 +91,12 @@ const testRewriteInMiddle = () => {
 
     const idle = await this.takeScreenshot();
 
-    click('input')
-      .keyDown(this.keys.ARROW_LEFT)
-      .keyDown(this.keys.ARROW_LEFT)
-      .sendKeys('12')
-      .perform();
+    click('input').keyDown(this.keys.ARROW_LEFT).keyDown(this.keys.ARROW_LEFT).sendKeys('12').perform();
     const shift = await this.takeScreenshot();
 
     click('body');
 
-    click('input')
-      .keyDown(this.keys.ARROW_LEFT)
-      .keyDown(this.keys.ARROW_LEFT)
-      .sendKeys('56')
-      .perform();
+    click('input').keyDown(this.keys.ARROW_LEFT).keyDown(this.keys.ARROW_LEFT).sendKeys('56').perform();
     const rewrite = await this.takeScreenshot();
 
     await this.expect({ idle, shift, rewrite }).to.matchImages();
