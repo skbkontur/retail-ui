@@ -1,7 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import { InputMask, MaskedPatternOptions } from 'imask';
 import { IMaskInput, IMaskInputProps } from 'react-imask';
-import { globalObject } from '@skbkontur/global-object';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import {
@@ -51,12 +50,6 @@ export const FixedIMaskInput = forwardRefAndName(
 
           const [start, end] = getSelection();
           setSelection(start, end, direction);
-        });
-        Object.assign(imaskRef.current?.element, {
-          fixedSelectAll: () => {
-            imaskRef.current?.element.focus();
-            globalObject.requestAnimationFrame?.(() => setSelection(0, getMaxCaretPosition()));
-          },
         });
       }
     }, []);
