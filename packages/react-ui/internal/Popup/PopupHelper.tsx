@@ -1,4 +1,4 @@
-import { globalObject } from '@skbkontur/global-object';
+// import { globalObject } from '@skbkontur/global-object';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
@@ -41,6 +41,9 @@ function getElementAbsoluteRect(
 }
 
 function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boolean {
+  return true;
+
+  /* todo fix
   const windowRelativeRect = _getWindowRelativeRect();
   const windowAbsoluteRect = convertRectToAbsolute(windowRelativeRect);
   const absoluteRect = {
@@ -51,10 +54,14 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boole
   };
 
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
+  */
 }
 
 // Can become fully visible by scrolling into viewport
-function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset) {
+function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset): boolean {
+  return true;
+
+  /* todo fix
   const position = getPositionObject(positionName);
 
   if (position.direction === 'top') {
@@ -69,6 +76,7 @@ function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Of
 
   // NOTE: for bottom/right cases browser will always expand document size
   return true;
+  */
 }
 
 function _getElementRelativeRect(element: Element) {
@@ -82,14 +90,14 @@ function _getElementRelativeRect(element: Element) {
   };
 }
 
-function _getWindowRelativeRect(): Rect {
-  return {
-    top: 0,
-    left: 0,
-    width: _getViewProperty((x) => x.clientWidth) || globalObject.innerWidth || 0,
-    height: _getViewProperty((x) => x.clientHeight) || globalObject.innerHeight || 0,
-  };
-}
+// function _getWindowRelativeRect(): Rect {
+//   return {
+//     top: 0,
+//     left: 0,
+//     width: _getViewProperty((x) => x.clientWidth) || globalObject.innerWidth || 0,
+//     height: _getViewProperty((x) => x.clientHeight) || globalObject.innerHeight || 0,
+//   };
+// }
 
 function convertRectToAbsolute(rect: Rect): Rect {
   const offset = _getAbsoluteOffset();
@@ -103,34 +111,35 @@ function convertRectToAbsolute(rect: Rect): Rect {
 }
 
 function _getAbsoluteOffset(): Offset {
-  const scrollTop = globalObject.pageYOffset || _getViewProperty((x) => x.scrollTop);
-  const scrollLeft = globalObject.pageXOffset || _getViewProperty((x) => x.scrollLeft);
+  // const scrollTop = globalObject.pageYOffset || _getViewProperty((x) => x.scrollTop);
+  // const scrollLeft = globalObject.pageXOffset || _getViewProperty((x) => x.scrollLeft);
+  //
+  // const clientTop = _getViewProperty((x) => x.clientTop);
+  // const clientLeft = _getViewProperty((x) => x.clientLeft);
 
-  const clientTop = _getViewProperty((x) => x.clientTop);
-  const clientLeft = _getViewProperty((x) => x.clientLeft);
-
-  const top = scrollTop - clientTop;
-  const left = scrollLeft - clientLeft;
+  // const top = scrollTop - clientTop;
+  // const left = scrollLeft - clientLeft;
+  // todo fix
 
   return {
-    top,
-    left,
+    top: 0,
+    left: 0,
   };
 }
 
-function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
-  return (
-    innerRect.top > outerRect.top &&
-    innerRect.top + innerRect.height < outerRect.top + outerRect.height &&
-    innerRect.left > outerRect.left &&
-    innerRect.left + innerRect.width < outerRect.left + outerRect.width
-  );
-}
+// function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
+//   return (
+//     innerRect.top > outerRect.top &&
+//     innerRect.top + innerRect.height < outerRect.top + outerRect.height &&
+//     innerRect.left > outerRect.left &&
+//     innerRect.left + innerRect.width < outerRect.left + outerRect.width
+//   );
+// }
 
-function _getViewProperty(getProperty: (e: Element) => number): number {
-  const views = [globalObject.document?.documentElement, globalObject.document?.body];
-  return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
-}
+// function _getViewProperty(getProperty: (e: Element) => number): number {
+//   const views = [globalObject.document?.documentElement, globalObject.document?.body];
+//   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
+// }
 
 export const PopupHelper = {
   getPositionObject,
