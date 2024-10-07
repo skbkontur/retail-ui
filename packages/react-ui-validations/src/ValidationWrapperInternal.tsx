@@ -3,11 +3,6 @@ import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
 
-import {
-  ValidationsFeatureFlags,
-  ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
-} from './utils/featureFlagsContext';
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
@@ -70,8 +65,6 @@ export class ValidationWrapperInternal extends React.Component<
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
 
-  private featureFlags!: ValidationsFeatureFlags;
-
   public componentDidMount() {
     warning(
       this.context,
@@ -110,11 +103,12 @@ export class ValidationWrapperInternal extends React.Component<
     const { children, 'data-tid': dataTid } = this.props;
     const { validation } = this.state;
 
+    const immediate = validation?.behaviour === 'immediate';
     let clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
         ref: this.customRef,
-        error: !this.isChanging && getLevel(validation) === 'error',
-        warning: !this.isChanging && getLevel(validation) === 'warning',
+        error: (!this.isChanging || immediate) && getLevel(validation) === 'error',
+        warning: (!this.isChanging || immediate) && getLevel(validation) === 'warning',
         onBlur: (...args: any[]) => {
           this.handleBlur();
           if (children.props && children.props.onBlur) {
@@ -149,23 +143,9 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    return (
-      <ValidationsFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullValidationsFlagsContext(flags);
-          return React.cloneElement(
-            this.props.errorMessage(
-              this.featureFlags.validationsRemoveExtraSpans ? clonedChild : <span>{clonedChild}</span>,
-              !!validation,
-              validation,
-            ),
-            {
-              'data-tid': dataTid,
-            },
-          );
-        }}
-      </ValidationsFeatureFlagsContext.Consumer>
-    );
+    return React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
+      'data-tid': dataTid,
+    });
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {
