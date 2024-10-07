@@ -683,6 +683,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
 
+  private getRelativePos(root: unknown): { top: number; left: number } {
+    const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
+    const relativePos: { top: number; left: number } = {
+      top: 0,
+      left: 0,
+    };
+    if (isShadowRoot && globalObject.document) {
+      const childPos = (root as ShadowRoot).host.getBoundingClientRect();
+      relativePos.top = childPos.top;
+      relativePos.left = childPos.left;
+    }
+
+    return relativePos;
+  }
+
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
     let positions;
@@ -704,28 +719,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return location;
     }
 
-    //
-
-    const root = this.emotion.sheet.container.getRootNode() as ShadowRoot | Document;
-    function getRelativePos() {
-      const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
-      const relativePos: { top: number; left: number } = {
-        top: 0,
-        left: 0,
-      };
-      if (isShadowRoot && globalObject.document) {
-        const parentPos = globalObject.document.body.getBoundingClientRect();
-        const childPos = (root as ShadowRoot).host.getBoundingClientRect();
-        relativePos.top = childPos.top - parentPos.top;
-        relativePos.left = childPos.left - parentPos.left;
-      }
-
-      return relativePos;
-    }
-
-    const deltaParentPosition = getRelativePos();
-    console.log(deltaParentPosition);
-
+    const deltaParentPosition = this.getRelativePos(this.emotion.sheet.container.getRootNode());
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement, deltaParentPosition);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, deltaParentPosition);
 
@@ -787,6 +781,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
+
+    console.log({ position, anchorRect, popupRect, popupOffset, margin });
 
     switch (position.direction) {
       case 'top':

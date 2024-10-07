@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode, useContext } from 'react';
+import React, { HTMLAttributes, ReactNode } from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { useEmotion } from '../../lib/theming/Emotion';
