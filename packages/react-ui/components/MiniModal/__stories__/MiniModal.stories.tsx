@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TrashCanIcon64Regular } from '@skbkontur/icons/TrashCanIcon64Regular';
 import { TechPhoneSmartIcon64Regular } from '@skbkontur/icons/TechPhoneSmartIcon64Regular';
 
@@ -16,16 +16,28 @@ export default {
   parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
 } as Meta;
 
-export const Simple = () => (
-  <MiniModal>
-    <MiniModal.Header>Title</MiniModal.Header>
-    <MiniModal.Footer>
-      <Button size="medium" use="primary">
-        Main
-      </Button>
-    </MiniModal.Footer>
-  </MiniModal>
-);
+export const Simple = () => {
+  const [isOpened, setIsOpened] = useState(false);
+
+  const open = () => setIsOpened(true);
+  const close = () => setIsOpened(false);
+
+  return (
+    <>
+      {isOpened && (
+        <MiniModal>
+          <MiniModal.Header>Заголовок</MiniModal.Header>
+          <MiniModal.Footer>
+            <Button size="medium" use="primary" onClick={close}>
+              Главная
+            </Button>
+          </MiniModal.Footer>
+        </MiniModal>
+      )}
+      <Button onClick={open}>Открыть МиниМодалку</Button>
+    </>
+  );
+};
 
 export const MobileFullset: Story = () => (
   <ThemeContext.Consumer>
