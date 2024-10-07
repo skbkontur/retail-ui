@@ -137,6 +137,7 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       position: absolute;
+      transform: translateY(0px); // icon shifts one pixel up in firefox on medium size without this property
     `;
   },
   iconSmall(t: Theme) {
