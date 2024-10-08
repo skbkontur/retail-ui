@@ -75,7 +75,7 @@ const preview: Preview = {
         order: [
           'Versioning',
           ['Versions', 'Migration', 'Changelog'],
-          'COMMON',
+          'Information',
           ['Accessibility', 'Contributing', 'Ecosystem', 'Mobiles', 'Server Side Rendering'],
           'Button',
           'Input data',
