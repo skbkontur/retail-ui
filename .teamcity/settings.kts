@@ -858,7 +858,7 @@ object Validations_Storybook : BuildType({
 
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
 
-                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
+                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build/*"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
                     if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
                     mkdir ${'$'}dest_path
