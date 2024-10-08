@@ -1,13 +1,13 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPositionsType } from '../../internal/Popup';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getDropdownMenuTheme } from './getDropdownMenuTheme';
 

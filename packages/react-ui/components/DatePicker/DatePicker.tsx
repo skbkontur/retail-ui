@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { HTMLAttributes } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -15,21 +15,22 @@ import { Nullable } from '../../typings/utility-types';
 import { DateInput } from '../DateInput';
 import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './DatePicker.styles';
+import { getStyles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 import { MobilePicker } from './MobilePicker';
 
@@ -171,6 +172,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
+  private emotion!: Emotion;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
@@ -258,19 +260,26 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
           return (
-            <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                {this.renderMain}
-              </CommonWrapper>
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+
+                return (
+                  <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
+                    <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                      {this.renderMain}
+                    </CommonWrapper>
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -278,6 +287,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     let picker = null;
 
     const { minDate, maxDate } = this.getProps();
+    const styles = getStyles(this.emotion);
 
     const isMobile = this.isMobileLayout;
 
@@ -411,12 +421,13 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         </div>
       );
     }
+    const styles = getStyles(this.emotion);
 
     return (
       <button
         aria-label={this.locale.todayAriaLabel}
         data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
+        className={this.emotion.cx({
           [styles.todayLinkWrapper(this.theme)]: true,
         })}
         onClick={this.handleSelectToday(today)}

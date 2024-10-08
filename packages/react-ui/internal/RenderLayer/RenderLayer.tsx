@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import { Emotion } from '@emotion/css/types/create-instance';
 
-import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { RootConsumer } from '../../lib/widgets';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -18,10 +21,17 @@ export interface RenderLayerProps extends CommonProps {
 
 type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 
+export type RenderContainerElement = Nullable<ShadowRoot | HTMLElement>;
+const RenderLayerContext = createContext<RenderContainerElement>(null);
+export const RenderLayerProvider = RenderLayerContext.Provider;
+export const RenderLayerConsumer = RenderLayerContext.Consumer;
+
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
   public static displayName = 'RenderLayer';
+  private emotion!: Emotion;
+  private stylesRoot: ShadowRoot | undefined;
 
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
@@ -70,7 +80,19 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {React.Children.only(this.props.children)}
+        <RootConsumer>
+          {(stylesRoot) => {
+            this.stylesRoot = stylesRoot;
+            return (
+              <EmotionConsumer>
+                {(emotion) => {
+                  this.emotion = emotion;
+                  return React.Children.only(this.props.children);
+                }}
+              </EmotionConsumer>
+            );
+          }}
+        </RootConsumer>
       </CommonWrapper>
     );
   }
@@ -121,7 +143,19 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
+    const host = (this.emotion.sheet.container.getRootNode() as ShadowRoot)?.host;
+    const shadowRoot = host?.shadowRoot;
+    const isShadowRoot = Boolean(shadowRoot);
+    const shadowTarget = event.composedPath()[0] as unknown as Element;
+
+    if (
+      !node ||
+      (isShadowRoot && event.composed && event.composedPath().indexOf(node) > -1) ||
+      (isShadowRoot &&
+        isInstanceOf(shadowTarget, globalObject.Element) &&
+        containsTargetOrRenderContainer(shadowTarget)(node, this.stylesRoot)) ||
+      (!isShadowRoot && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
+    ) {
       return;
     }
 

@@ -2,18 +2,18 @@ import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { Indicator } from './Indicator';
-import { styles } from './Tabs.styles';
+import { getStyles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
@@ -107,47 +107,54 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const { value, width, children, indicatorClassName, 'aria-describedby': ariaDescribedby } = this.props;
     const { vertical, size } = this.getProps();
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          const styles = getStyles(emotion);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <div
-                data-tid={TabsDataTids.root}
-                className={cx({
-                  [styles.rootSmall(this.theme)]: size === 'small',
-                  [styles.rootMedium(this.theme)]: size === 'medium',
-                  [styles.rootLarge(this.theme)]: size === 'large',
-                  [styles.vertical()]: vertical,
-                })}
-                style={{ width }}
-                aria-describedby={ariaDescribedby}
-              >
-                <TabsContext.Provider
-                  value={{
-                    vertical,
-                    activeTab: value,
-                    size,
-                    getTab: this.getTab,
-                    addTab: this.addTab,
-                    removeTab: this.removeTab,
-                    notifyUpdate: this.notifyUpdate,
-                    shiftFocus: this.shiftFocus,
-                    switchTab: this.switchTab,
-                  }}
-                >
-                  {children}
-                  <Indicator
-                    className={indicatorClassName}
-                    tabUpdates={this.tabUpdates}
-                    vertical={this.getProps().vertical}
-                  />
-                </TabsContext.Provider>
-              </div>
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                    <div
+                      data-tid={TabsDataTids.root}
+                      className={emotion.cx({
+                        [styles.rootSmall(this.theme)]: size === 'small',
+                        [styles.rootMedium(this.theme)]: size === 'medium',
+                        [styles.rootLarge(this.theme)]: size === 'large',
+                        [styles.vertical()]: vertical,
+                      })}
+                      style={{ width }}
+                      aria-describedby={ariaDescribedby}
+                    >
+                      <TabsContext.Provider
+                        value={{
+                          vertical,
+                          activeTab: value,
+                          size,
+                          getTab: this.getTab,
+                          addTab: this.addTab,
+                          removeTab: this.removeTab,
+                          notifyUpdate: this.notifyUpdate,
+                          shiftFocus: this.shiftFocus,
+                          switchTab: this.switchTab,
+                        }}
+                      >
+                        {children}
+                        <Indicator
+                          className={indicatorClassName}
+                          tabUpdates={this.tabUpdates}
+                          vertical={this.getProps().vertical}
+                        />
+                      </TabsContext.Provider>
+                    </div>
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
