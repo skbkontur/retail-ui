@@ -70,7 +70,7 @@ export interface LinkInnerProps extends CommonProps {
   warning?: boolean;
 }
 
-const LINK_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'a';
+const LINK_DEFAULT_COMPONENT = 'a';
 
 export type LinkProps<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPONENT> = PolymorphicPropsWithoutRef<
   LinkInnerProps,

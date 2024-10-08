@@ -147,7 +147,7 @@ export interface ButtonInnerProps extends CommonProps {
   theme?: ThemeIn;
 }
 
-export const BUTTON_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'button';
+export const BUTTON_DEFAULT_COMPONENT = 'button';
 
 export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> =
   PolymorphicPropsWithoutRef<ButtonInnerProps, C>;
