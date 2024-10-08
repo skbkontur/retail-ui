@@ -167,10 +167,7 @@ export const styles = memoizeStyle({
   },
 
   title(t: Theme) {
-    const paddingRight =
-      parseInt(t.sidePageCloseButtonPadding) +
-      parseInt(t.sidePageCloseButtonLegacyPaddingLeft) +
-      parseInt(t.sidePageCloseIconSize);
+    const paddingRight = parseInt(t.sidePageCloseButtonPadding) * 2 + parseInt(t.sidePageCloseIconSize);
     return css`
       padding-left: ${t.sidePagePaddingLeft};
       padding-right: ${paddingRight}px;

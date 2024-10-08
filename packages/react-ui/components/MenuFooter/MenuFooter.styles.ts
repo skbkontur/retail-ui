@@ -14,7 +14,6 @@ export const styles = memoizeStyle({
   rootSmall(t: Theme) {
     return css`
       ${menuFooterSizeMixin(
-        t.menuFooterLegacyPaddingRight,
         t.menuFooterPaddingXSmall,
         t.menuFooterFontSizeSmall,
         t.menuFooterLineHeightSmall,
@@ -26,7 +25,6 @@ export const styles = memoizeStyle({
   rootMedium(t: Theme) {
     return css`
       ${menuFooterSizeMixin(
-        t.menuFooterLegacyPaddingRight,
         t.menuFooterPaddingXMedium,
         t.menuFooterFontSizeMedium,
         t.menuFooterLineHeightMedium,
@@ -38,7 +36,6 @@ export const styles = memoizeStyle({
   rootLarge(t: Theme) {
     return css`
       ${menuFooterSizeMixin(
-        t.menuFooterLegacyPaddingRight,
         t.menuFooterPaddingXLarge,
         t.menuFooterFontSizeLarge,
         t.menuFooterLineHeightLarge,

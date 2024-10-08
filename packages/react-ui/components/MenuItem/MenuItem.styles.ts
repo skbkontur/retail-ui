@@ -5,16 +5,11 @@ import { resetButton } from '../../lib/styles/Mixins';
 import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins';
 
 export const getMenuItemPaddings = ({
-  menuItemLegacyPaddingX,
   menuItemPaddingX,
-  menuItemLegacyPaddingY,
   menuItemPaddingY,
-}: Record<'menuItemLegacyPaddingX' | 'menuItemPaddingX' | 'menuItemLegacyPaddingY' | 'menuItemPaddingY', string>) => {
-  const legacyPaddingX = parseFloat(menuItemLegacyPaddingX);
-  const legacyPaddingY = parseFloat(menuItemLegacyPaddingY);
-
-  const paddingX = legacyPaddingX !== 0 ? `${parseFloat(menuItemPaddingX) + legacyPaddingX}px` : menuItemPaddingX;
-  const paddingY = legacyPaddingY !== 0 ? `${parseFloat(menuItemPaddingY) + legacyPaddingY}px` : menuItemPaddingY;
+}: Record<'menuItemPaddingX' | 'menuItemPaddingY', string>) => {
+  const paddingX = menuItemPaddingX;
+  const paddingY = menuItemPaddingY;
 
   return { paddingX, paddingY };
 };
@@ -44,9 +39,7 @@ export const styles = memoizeStyle({
   rootSmall(t: Theme) {
     return css`
       ${menuItemSizeMixin(
-        t.menuItemLegacyPaddingX,
         t.menuItemPaddingXSmall,
-        t.menuItemLegacyPaddingY,
         t.menuItemPaddingYSmall,
         t.menuItemLineHeightSmall,
         t.menuItemFontSizeSmall,
@@ -56,9 +49,7 @@ export const styles = memoizeStyle({
   rootMedium(t: Theme) {
     return css`
       ${menuItemSizeMixin(
-        t.menuItemLegacyPaddingX,
         t.menuItemPaddingXMedium,
-        t.menuItemLegacyPaddingY,
         t.menuItemPaddingYMedium,
         t.menuItemLineHeightMedium,
         t.menuItemFontSizeMedium,
@@ -68,9 +59,7 @@ export const styles = memoizeStyle({
   rootLarge(t: Theme) {
     return css`
       ${menuItemSizeMixin(
-        t.menuItemLegacyPaddingX,
         t.menuItemPaddingXLarge,
-        t.menuItemLegacyPaddingY,
         t.menuItemPaddingYLarge,
         t.menuItemLineHeightLarge,
         t.menuItemFontSizeLarge,
@@ -144,26 +133,26 @@ export const styles = memoizeStyle({
       opacity: 0.6;
     `;
   },
-  icon(t: Theme) {
+  icon() {
     return css`
       display: inline-block;
       position: absolute;
-      transform: translateY(${t.menuItemIconLegacyShift});
+      transform: translateY(0px); // icon shifts one pixel up in firefox on medium size without this property
     `;
   },
   iconSmall(t: Theme) {
     return css`
-      ${iconSizeMixin(t.menuItemIconWidthSmall, t.menuItemPaddingXSmall, t.menuItemIconLegacyMargin)};
+      ${iconSizeMixin(t.menuItemIconWidthSmall, t.menuItemPaddingXSmall)};
     `;
   },
   iconMedium(t: Theme) {
     return css`
-      ${iconSizeMixin(t.menuItemIconWidthMedium, t.menuItemPaddingXMedium, t.menuItemIconLegacyMargin)};
+      ${iconSizeMixin(t.menuItemIconWidthMedium, t.menuItemPaddingXMedium)};
     `;
   },
   iconLarge(t: Theme) {
     return css`
-      ${iconSizeMixin(t.menuItemIconWidthLarge, t.menuItemPaddingXLarge, t.menuItemIconLegacyMargin)};
+      ${iconSizeMixin(t.menuItemIconWidthLarge, t.menuItemPaddingXLarge)};
     `;
   },
   mobileContentWithIcon() {

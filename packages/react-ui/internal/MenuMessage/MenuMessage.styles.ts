@@ -5,9 +5,7 @@ import { getMenuItemPaddings } from '../../components/MenuItem/MenuItem.styles';
 export const styles = memoizeStyle({
   root(t: Theme) {
     const { paddingX, paddingY } = getMenuItemPaddings({
-      menuItemLegacyPaddingX: t.menuItemLegacyPaddingX,
       menuItemPaddingX: t.menuMessagePaddingX,
-      menuItemLegacyPaddingY: t.menuItemLegacyPaddingY,
       menuItemPaddingY: t.menuMessagePaddingY,
     });
 

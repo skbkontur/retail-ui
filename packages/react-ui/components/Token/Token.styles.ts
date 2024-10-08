@@ -118,10 +118,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  text(t: Theme) {
+  text() {
     return css`
       display: inline-block;
-      padding-bottom: ${t.tokenLegacyTextShift};
     `;
   },
 

@@ -208,7 +208,6 @@ export class BasicLightThemeInternal {
     return this.borderColorError;
   }
   public static tokenOutlineWidth = '1px';
-  public static tokenLegacyTextShift = '0px';
 
   public static get tokenPaddingYDisabled() {
     return this.tokenPaddingYSmall;
@@ -792,12 +791,9 @@ export class BasicLightThemeInternal {
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static modalCloseButtonPadding = '32px';
-  public static modalCloseButtonLegacyShift = '0px';
   public static modalCloseButtonBottomPadding = '20px';
   public static modalCloseButtonClickArea = '6px';
   public static modalCloseIconSize = '20px';
-  public static modalCloseLegacyGap = '0px';
-  public static modalCloseWrapperLegacyGap = '0px';
   public static modalBorderRadius = '16px';
   public static get modalFixedHeaderBg() {
     return this.bgSecondary;
@@ -904,7 +900,6 @@ export class BasicLightThemeInternal {
   public static sidePageHeaderStickyOffset = '9px';
   public static sidePageCloseButtonPadding = '32px';
   public static mobileSidePageCloseButtonPadding = '16px';
-  public static sidePageCloseButtonLegacyPaddingLeft = '36px';
   public static get sidePageFooterPanelPaddingTop() {
     return this.sidePageFooterPaddingTop;
   }
@@ -1237,31 +1232,20 @@ export class BasicLightThemeInternal {
   public static menuItemIconWidthMedium = '20px';
   public static menuItemIconWidthLarge = '24px';
   public static menuItemIconGap = '4px';
-  public static menuItemIconLegacyMargin = '0px';
-  public static menuItemIconLegacyShift = '0px';
 
   public static get menuItemPaddingForIconSmall() {
     return `${
-      parseInt(this.menuItemPaddingXSmall) +
-      parseInt(this.menuItemIconWidthSmall) +
-      parseInt(this.menuItemIconGap) +
-      parseInt(this.menuItemIconLegacyMargin)
+      parseInt(this.menuItemPaddingXSmall) + parseInt(this.menuItemIconWidthSmall) + parseInt(this.menuItemIconGap)
     }px`;
   }
   public static get menuItemPaddingForIconMedium() {
     return `${
-      parseInt(this.menuItemPaddingXMedium) +
-      parseInt(this.menuItemIconWidthMedium) +
-      parseInt(this.menuItemIconGap) +
-      parseInt(this.menuItemIconLegacyMargin)
+      parseInt(this.menuItemPaddingXMedium) + parseInt(this.menuItemIconWidthMedium) + parseInt(this.menuItemIconGap)
     }px`;
   }
   public static get menuItemPaddingForIconLarge() {
     return `${
-      parseInt(this.menuItemPaddingXLarge) +
-      parseInt(this.menuItemIconWidthLarge) +
-      parseInt(this.menuItemIconGap) +
-      parseInt(this.menuItemIconLegacyMargin)
+      parseInt(this.menuItemPaddingXLarge) + parseInt(this.menuItemIconWidthLarge) + parseInt(this.menuItemIconGap)
     }px`;
   }
 
@@ -1295,8 +1279,6 @@ export class BasicLightThemeInternal {
   public static menuItemPaddingYLarge = '12px';
 
   public static menuItemBorderRadius = '6px';
-  public static menuItemLegacyPaddingX = '0px';
-  public static menuItemLegacyPaddingY = '0px';
   public static get menuItemHoverColor() {
     return this.menuItemTextColor;
   }
@@ -1401,8 +1383,6 @@ export class BasicLightThemeInternal {
   public static menuHeaderTotalCountPaddingBottomMedium = '14px';
   public static menuHeaderTotalCountPaddingBottomLarge = '18px';
 
-  public static menuHeaderLegacyPaddingRight = '0px';
-
   //menuFooter
   public static get menuFooterColor() {
     return this.menuHeaderColor;
@@ -1456,8 +1436,6 @@ export class BasicLightThemeInternal {
   public static get menuFooterPaddingBottomLarge() {
     return this.menuHeaderPaddingTopLarge;
   }
-
-  public static menuFooterLegacyPaddingRight = '0px';
 
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
@@ -2107,9 +2085,6 @@ export class BasicLightThemeInternal {
   public static get radioCheckedDisabledBulletBg() {
     return this.gray;
   }
-  //#endregion
-  //#region RadioGroup
-  public static radioGroupLegacyItemGap = '0px';
   //#endregion
   //#region Tabs
   public static get tabFontSizeSmall() {
