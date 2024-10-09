@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,7 +9,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -24,6 +21,9 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
+import { Popup } from '../../internal/Popup';
+import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
@@ -48,7 +48,6 @@ function renderItem(item: any) {
 
 export interface AutocompleteProps
   extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
     Pick<AriaAttributes, 'aria-label'>,
     Override<
       InputProps,
@@ -82,7 +81,12 @@ export interface AutocompleteProps
          */
         mobileMenuHeaderText?: string;
       }
-    > {}
+    > {
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
+}
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -103,7 +107,7 @@ export const AutocompleteIds = {
 type DefaultProps = Required<
   Pick<
     AutocompleteProps,
-    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'menuAlign' | 'preventWindowScroll'
+    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll'
   >
 >;
 
@@ -148,7 +152,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,
-    menuAlign: 'left',
     preventWindowScroll: true,
   };
 
@@ -203,7 +206,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           this.theme = getAutocompleteTheme(theme);
           return (
             <ThemeContext.Provider value={this.theme}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
                 {this.renderMain}
               </CommonWrapper>
             </ThemeContext.Provider>
@@ -283,12 +286,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal, menuPos } =
+    const { menuPos, menuAlign, menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, disablePortal } =
       this.getProps();
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
-      hasShadow,
+      hasShadow: false,
+      hasMargin: false,
       width: menuWidth || (width && getDOMRect(this.rootSpan).width),
       preventWindowScroll,
     };
@@ -297,16 +301,21 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return (
-      <DropdownContainer
+      <Popup
+        opened
+        hasShadow={hasShadow}
         id={this.menuId}
+        priority={ZIndex.priorities.PopupMenu}
         data-tid={AutocompleteDataTids.menu}
-        getParent={this.getAnchor}
-        align={menuAlign}
+        anchorElement={this.getAnchor()}
         disablePortal={disablePortal}
-        menuPos={menuPos}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
+        positions={getMenuPositions(menuPos, menuAlign)}
+        margin={parseInt(this.theme.menuOffsetY) - 1}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>
-      </DropdownContainer>
+      </Popup>
     );
   }
 

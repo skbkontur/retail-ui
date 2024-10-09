@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 
 import { ArrowCRightIcon16Light } from '../../internal/icons2022/ArrowCRightIcon/ArrowCRightIcon16Light';

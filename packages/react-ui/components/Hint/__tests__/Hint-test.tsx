@@ -29,7 +29,7 @@ describe('Hint', () => {
     expect(hintContent).not.toBeInTheDocument();
   });
 
-  it('should open hint manually', () => {
+  it('should open hint manually', async () => {
     const hintText = 'world';
     const Component = () => {
       const [isOpen, setIsOpen] = useState(false);
@@ -50,13 +50,13 @@ describe('Hint', () => {
     expect(hintContent).not.toBeInTheDocument();
 
     const openButton = screen.getByRole('button');
-    userEvent.click(openButton);
+    await userEvent.click(openButton);
 
     const hintContentUpdated = screen.getByText(hintText);
     expect(hintContentUpdated).toBeInTheDocument();
   });
 
-  it('handels onMouseEnter event', () => {
+  it('handels onMouseEnter event', async () => {
     const onMouseEnter = jest.fn();
     const hintChildrenText = 'Hello';
     render(
@@ -65,12 +65,12 @@ describe('Hint', () => {
       </Hint>,
     );
 
-    userEvent.hover(screen.getByText(hintChildrenText));
+    await userEvent.hover(screen.getByText(hintChildrenText));
 
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', () => {
+  it('handels onMouseLeave event', async () => {
     const onMouseLeave = jest.fn();
     const hintChildrenText = 'Hello';
     render(
@@ -78,13 +78,12 @@ describe('Hint', () => {
         {hintChildrenText}
       </Hint>,
     );
-    userEvent.unhover(screen.getByText(hintChildrenText));
+    await userEvent.unhover(screen.getByText(hintChildrenText));
 
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
-  it('clears timer after unmount', () => {
-    jest.useFakeTimers();
+  it('clears timer after unmount', async () => {
     jest.spyOn(window, 'setTimeout');
     jest.spyOn(window, 'clearTimeout');
 
@@ -99,7 +98,7 @@ describe('Hint', () => {
     // @ts-expect-error: Use of private property.
     expect(hintRef.current.timer).toBeUndefined();
 
-    userEvent.hover(screen.getByText('Anchor'));
+    await userEvent.hover(screen.getByText('Anchor'));
 
     // @ts-expect-error: Use of private property.
     const { timer } = hintRef.current;

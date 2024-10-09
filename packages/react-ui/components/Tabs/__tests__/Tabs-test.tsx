@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -40,7 +39,7 @@ describe('Tabs', () => {
     expect(screen.getByTestId(TabsDataTids.root)).toBeInTheDocument();
   });
 
-  it('should call onValueChange when switch tabs', () => {
+  it('should call onValueChange when switch tabs', async () => {
     const onValueChange = jest.fn();
     render(
       <Tabs value="fuji" onValueChange={onValueChange}>
@@ -50,7 +49,7 @@ describe('Tabs', () => {
       </Tabs>,
     );
     const tabs = screen.getAllByTestId(TabDataTids.root);
-    userEvent.click(tabs[1]);
+    await userEvent.click(tabs[1]);
 
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
@@ -68,7 +67,7 @@ describe('Tabs', () => {
           <p id="elementTabsId">Description Tabs</p>
         </div>,
       );
-      const tab = screen.getByRole('link');
+      const tab = screen.getByTestId(TabDataTids.root);
       expect(tab).toHaveAttribute('aria-describedby', 'elementTabId');
       expect(tab).toHaveAccessibleDescription('Description Tab item');
 

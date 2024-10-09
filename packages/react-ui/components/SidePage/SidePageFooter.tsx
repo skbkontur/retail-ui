@@ -11,7 +11,6 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -47,7 +46,7 @@ export const SidePageFooterDataTids = {
  */
 @responsiveLayout
 @rootNode
-export class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {
+export class SidePageFooter extends React.Component<React.PropsWithChildren<SidePageFooterProps>> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
   public static displayName = 'SidePageFooter';
 
@@ -113,10 +112,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
   };
 
   private renderMain() {
-    let separator: React.ReactNode = null;
-    if (isTheme2022(this.theme)) {
-      separator = (this.props.panel || this.state.fixed) && <ModalSeparator fixed={this.state.fixed} />;
-    }
+    const separator: React.ReactNode = (this.props.panel || this.state.fixed) && (
+      <ModalSeparator fixed={this.state.fixed} />
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

@@ -23,6 +23,9 @@ export const PositioningStory = () => <Positioning />;
 PositioningStory.storyName = 'Positioning';
 PositioningStory.parameters = { creevey: { skip: true } };
 
+export const DisablePortal = () => <AllCases disablePortal small={false} padding={'50px 100px'} />;
+DisablePortal.storyName = 'disablePortal';
+
 export const DisableAnimations = () => (
   <div>
     <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
@@ -53,66 +56,74 @@ export const HoverBehaviourStory = () => <HoverBehaviour />;
 HoverBehaviourStory.storyName = 'Hover behaviour';
 HoverBehaviourStory.parameters = { creevey: { skip: true } };
 
-const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
+const AllCases = ({
+  small,
+  padding,
+  disablePortal = false,
+}: {
+  small: boolean;
+  padding: string;
+  disablePortal?: boolean;
+}) => (
   <div style={{ padding }}>
     <table>
       <tbody>
         <tr>
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['top left']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['top left']} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['top center']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['top center']} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['top right']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['top right']} />
           </td>
           <td />
         </tr>
         <tr>
           <td>
-            <AlwaysOpened small={small} positions={['left top']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['left top']} />
           </td>
           <td />
           <td />
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['right top']} />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <AlwaysOpened small={small} positions={['left middle']} />
-          </td>
-          <td />
-          <td />
-          <td />
-          <td>
-            <AlwaysOpened small={small} positions={['right middle']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['right top']} />
           </td>
         </tr>
         <tr>
           <td>
-            <AlwaysOpened small={small} positions={['left bottom']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['left middle']} />
           </td>
           <td />
           <td />
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['right bottom']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['right middle']} />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['left bottom']} />
+          </td>
+          <td />
+          <td />
+          <td />
+          <td>
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['right bottom']} />
           </td>
         </tr>
         <tr>
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['bottom left']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['bottom left']} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['bottom center']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['bottom center']} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['bottom right']} />
+            <AlwaysOpened small={small} disablePortal={disablePortal} positions={['bottom right']} />
           </td>
           <td />
         </tr>
@@ -189,6 +200,7 @@ class MinWidth extends React.Component {
 
 interface AlwaysOpenedProps {
   small: boolean;
+  disablePortal?: boolean;
   positions: PopupPositionsType[];
 }
 interface AlwaysOpenedState {
@@ -241,10 +253,11 @@ class AlwaysOpened extends React.Component<AlwaysOpenedProps> {
                   hasShadow
                   anchorElement={this.state.anchor}
                   positions={this.props.positions}
-                  backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333333' : '#fff'}
+                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333333' : '#fff'}
                   pinSize={10}
                   pinOffset={7}
                   disableAnimations={isTestEnv}
+                  disablePortal={this.props.disablePortal}
                 >
                   <div
                     style={{
@@ -320,7 +333,7 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps> {
                     opened={this.state.opened}
                     margin={13}
                     positions={['bottom left', 'bottom right', 'top left', 'top right']}
-                    backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff'}
+                    backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : '#fff'}
                     pinSize={10}
                     pinOffset={7}
                     disableAnimations={this.props.disableAnimations}
@@ -391,7 +404,7 @@ class FakeHint extends React.Component<FakeHintProps> {
                   anchorElement={this.state.anchor}
                   positions={this.props.positions}
                   margin={this.props.margin}
-                  backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333' : 'rgba(0, 0, 0, 0.65)'}
+                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : 'rgba(0, 0, 0, 0.65)'}
                   pinSize={10}
                   pinOffset={7}
                 >

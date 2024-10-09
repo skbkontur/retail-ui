@@ -1,9 +1,8 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 
 import { reactGetTextContent } from '../reactGetTextContent';
 
-class SimpleComponent extends React.Component {
+class SimpleComponent extends React.Component<React.PropsWithChildren> {
   public render() {
     return (
       <div>

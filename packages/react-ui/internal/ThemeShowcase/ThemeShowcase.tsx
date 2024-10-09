@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isColor } from '../../lib/styles/ColorHelpers';
-import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme';
 import { ComboBox, ComboBoxItem } from '../../components/ComboBox';
 import { Gapped } from '../../components/Gapped';
@@ -27,7 +27,7 @@ import { styles } from './ThemeShowcase.styles';
 
 const EMPTY_ARRAY: string[] = [];
 
-const ALL_VARIABLES = Object.keys(defaultVariables) as Array<keyof Theme>;
+const ALL_VARIABLES = Object.keys(lightVariables) as Array<keyof Theme>;
 
 interface ShowcaseProps {
   isDebugMode?: boolean;
@@ -245,7 +245,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
               </tr>
               {row.variables.map((varName) => {
                 const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
-                const variableDefault = defaultVariables[varName] as string;
+                const variableDefault = lightVariables[varName] as string;
                 const variableDark = darkVariables[varName] as string;
                 const hasNoVariables = isDebugMode && !variableDefault;
                 return (
@@ -345,7 +345,7 @@ class DependencyName extends React.Component<DependencyNameProps> {
 
   private getValues = () => {
     const dependencyName = this.props.dependencyName;
-    const dependencyDefault = defaultVariables[dependencyName] as string;
+    const dependencyDefault = lightVariables[dependencyName] as string;
     const dependencyDark = darkVariables[dependencyName] as string;
     return (
       <React.Fragment>

@@ -8,11 +8,6 @@ import { MenuContext } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuHeader.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type MenuHeaderSize = SizeProp;
-
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   _enableIconPadding?: boolean;
   children: ReactNode;

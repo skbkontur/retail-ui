@@ -152,7 +152,7 @@ const transform = (file: FileInfo, api: API, JsxElement: CustomJSXElement) => {
   });
 
   if (modified) {
-    file.source = result.toSource();
+    file.source = result.toSource({ lineTerminator: '\n' });
   }
 
   return file;

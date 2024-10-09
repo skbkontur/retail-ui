@@ -1,5 +1,6 @@
-const baseConfig = require('./base.config');
 const { commonSections, VERSION_DIR, removeUnsupportedConfigOptions } = require('../helpers');
+
+const baseConfig = require('./base.config');
 
 const config = Object.assign({}, baseConfig, {
   styleguideDir: VERSION_DIR,

@@ -5,7 +5,7 @@ export const getComponentNameFromPath = (path: string, packagePath: string): str
   const name = path
     .replace(packagePath, '')
     .split('/')
-    .filter(token => !['all', 'components', 'index'].includes(token))
+    .filter((token) => !['all', 'components', 'index'].includes(token))
     .pop();
 
   if (!name) {
@@ -113,11 +113,11 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
   const omit: any = {};
 
   collection
-    .filter(i => {
+    .filter((i) => {
       const source = i.node.source.value;
       return source && map[source] && map[source].length > 1;
     })
-    .replaceWith(p => {
+    .replaceWith((p) => {
       const source = p.node.source!.value as string;
 
       if (p.node.specifiers[0].type === 'ImportNamespaceSpecifier') {
@@ -142,7 +142,7 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
 
 export const deduplicateImports = (api: API, collection: Collection<any>, source: RegExp | string): boolean => {
   const j = api.jscodeshift;
-  const suspects = collection.find(j.ImportDeclaration, node => node.source.value.match(source));
+  const suspects = collection.find(j.ImportDeclaration, (node) => node.source.value?.match(source));
   if (suspects.length) {
     dedupe(suspects);
     return true;
@@ -152,7 +152,7 @@ export const deduplicateImports = (api: API, collection: Collection<any>, source
 
 export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): boolean => {
   const j = api.jscodeshift;
-  const suspects = collection.find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(source));
+  const suspects = collection.find(j.ExportNamedDeclaration, (node) => node.source && node.source.value.match(source));
   if (suspects.length) {
     dedupe(suspects);
     return true;
@@ -171,7 +171,7 @@ export const isModuleRemoved = (path: string, report?: API['report']) => {
     'components/internal/cross',
     /\.less$/,
   ];
-  if (removedModules.some(removedPath => path.match(removedPath))) {
+  if (removedModules.some((removedPath) => path.match(removedPath))) {
     if (report) {
       report(
         `Module "${path}" was completly removed from the "@skbkontur/react-ui" package. Please, consider replacing it.`,

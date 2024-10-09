@@ -33,6 +33,8 @@ export const isShortcutCut: IS = (e) =>
 
 export const isShortcutSelectAll: IS = (e) => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
 
+export const isShortcutJumpCaret: IS = (e) => (isMac ? e.altKey : e.ctrlKey) && isKeyArrowHorizontal(e);
+
 export const isKeyEscape: IS = (e) => e.key === 'Escape' || e.key === 'Esc';
 export const isKeyHome: IS = (e) => e.key === 'Home';
 export const isKeyEnd: IS = (e) => e.key === 'End';
@@ -74,6 +76,8 @@ export const isModified: ISMod = (is) => (e) =>
   (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) && (is ? is(e) : true);
 export const isUnmodified: ISMod = (is) => (e) => !isModified()(e) && (is ? is(e) : true);
 export const isModShift: ISMod = (is) => (e) => e.shiftKey && (is ? is(e) : true);
+export const isModCtrl: ISMod = (is) => (e) => e.ctrlKey && (is ? is(e) : true);
+export const isModAlt: ISMod = (is) => (e) => e.altKey && (is ? is(e) : true);
 
 export const someKeys: ISSome =
   (...iss) =>

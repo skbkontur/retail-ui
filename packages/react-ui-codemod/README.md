@@ -27,6 +27,14 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Список кодмодов
 
+### react-ui-5.0/renameThemeVars
+
+Переименовывает переменные темы в соответствии с изменениями в [3459](https://github.com/skbkontur/retail-ui/pull/3459)
+
+```
+npx react-ui-codemod react-ui-5.0/renameThemeVars.ts FILES_PATH 
+```
+
 ### react-ui-4.0/transformLabelToCaption
 
 Для компонента `Switcher` переименовывает проп `label` на `caption`. Подробнее здесь [2121#discussion_r488456100](https://github.com/skbkontur/retail-ui/pull/2121#discussion_r488456100).

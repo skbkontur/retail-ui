@@ -105,9 +105,7 @@ export const CalendarDataTids = {
   month: 'MonthView__month',
   dayCell: 'DayCellView__root',
   headerMonth: 'MonthView__headerMonth',
-  monthSelectMobile: 'MonthView__monthSelectMobile',
   headerYear: 'MonthView__headerYear',
-  yearSelectMobile: 'MonthView__yearSelectMobile',
 } as const;
 
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
@@ -175,7 +173,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const { value, onMonthChange } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       const date = new InternalDate().parseValue(value).getComponentsLikeNumber();
-      this.scrollToMonth(date.month - 1, date.year);
+      this.scrollToMonth(date.month, date.year);
     }
 
     if (onMonthChange) {
@@ -212,6 +210,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
    * @public
    */
   public scrollToMonth = async (month: number, year: number) => {
+    const monthNative = CalendarUtils.getMonthInNativeFormat(month);
+
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
@@ -221,18 +221,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const minDate = this.getDateInNativeFormat(this.getProps().minDate);
     const maxDate = this.getDateInNativeFormat(this.getProps().maxDate);
 
-    if (minDate && isGreater(minDate, create(32, month, year))) {
-      this.scrollToMonth(minDate.month, minDate.year);
+    if (minDate && isGreater(minDate, create(32, monthNative, year))) {
+      const minMonth = CalendarUtils.getMonthInHumanFormat(minDate.month);
+      this.scrollToMonth(minMonth, minDate.year);
       return;
     }
 
-    if (maxDate && isLess(maxDate, create(0, month, year))) {
-      this.scrollToMonth(maxDate.month, maxDate.year);
+    if (maxDate && isLess(maxDate, create(0, monthNative, year))) {
+      const maxMonth = CalendarUtils.getMonthInHumanFormat(maxDate.month);
+      this.scrollToMonth(maxMonth, maxDate.year);
       return;
     }
 
     const currentMonth = this.state.months[1];
-    const diffInMonths = currentMonth.month + currentMonth.year * 12 - month - year * 12;
+    const diffInMonths = currentMonth.month + currentMonth.year * 12 - monthNative - year * 12;
 
     if (diffInMonths === 0) {
       this.scrollTo(0);
@@ -243,7 +245,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const onEnd = () => {
       this.setState({
-        months: CalendarUtils.getMonths(month, year),
+        months: CalendarUtils.getMonths(monthNative, year),
         scrollPosition: 0,
       });
     };
@@ -263,7 +265,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (diffInMonths > 0) {
       const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, maxMonthsToAdd);
       const monthsToPrepend = Array.from({ length: monthsToPrependCount }, (_, index) => {
-        return MonthViewModel.create(month + index, year);
+        return MonthViewModel.create(monthNative + index, year);
       });
       this.setState(
         (state) => {
@@ -294,7 +296,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (diffInMonths < 0) {
       const monthsToAppendCount = Math.min(Math.abs(diffInMonths), maxMonthsToAdd);
       const monthsToAppend = Array.from({ length: monthsToAppendCount }, (_, index) => {
-        return MonthViewModel.create(month + index - monthsToAppendCount + 2, year);
+        return MonthViewModel.create(monthNative + index - monthsToAppendCount + 2, year);
       });
       this.setState(
         (state) => {
@@ -418,7 +420,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme));
   }
 
-  private handleMonthYearChange = (month: number, year: number) => {
+  private handleMonthYearChange = (monthNative: number, year: number) => {
+    const month = CalendarUtils.getMonthInHumanFormat(monthNative);
     this.scrollToMonth(month, year);
   };
 

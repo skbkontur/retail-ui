@@ -70,21 +70,3 @@ export const inputSizeMixin = (toggleHeight: string, toggleWidth: string) => {
     }
   `;
 };
-
-export const activeHandleSizeMixin = (
-  toggleHandleSize: string,
-  toggleBorderWidth: string,
-  toggleHandleActiveWidthIncrement: string,
-  toggleWidth: string,
-) => {
-  const handleWidthWithBorders = toggleHandleSize;
-  const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${toggleBorderWidth} + ${toggleHandleActiveWidthIncrement})`;
-  return css`
-    &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
-      width: ${handleActiveWidth};
-    }
-    &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
-      transform: translateX(${toggleWidth}) translateX(-${handleWidthWithBorders}) translateX(-4px);
-    }
-  `;
-};

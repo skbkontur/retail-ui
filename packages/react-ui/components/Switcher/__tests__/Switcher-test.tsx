@@ -39,36 +39,36 @@ describe('Switcher', () => {
     expect(renderSwitcher).not.toThrow();
   });
 
-  it('should select item', () => {
+  it('should select item', async () => {
     render(<Comp />);
 
     const buttons = screen.getAllByRole(switchDefaultRole);
     expect(buttons[1]).not.toBeChecked();
 
-    userEvent.click(buttons[1]);
+    await userEvent.click(buttons[1]);
     expect(buttons[1]).toBeChecked();
   });
 
-  it('should select item if enter key is pressed and not buttonProps.disabled', () => {
+  it('should select item if enter key is pressed and not buttonProps.disabled', async () => {
     render(<Comp />);
     const buttons = screen.getAllByRole(switchDefaultRole);
 
     expect(buttons[0]).not.toBeChecked();
 
     buttons[0].focus();
-    userEvent.keyboard('{enter}');
+    await userEvent.keyboard('{enter}');
 
     expect(buttons[0]).toBeChecked();
   });
 
-  it('should not select item if enter key is pressed and buttonProps.disabled', () => {
+  it('should not select item if enter key is pressed and buttonProps.disabled', async () => {
     render(<Comp />);
     const buttons = screen.getAllByRole(switchDefaultRole);
 
     expect(buttons[2]).not.toBeChecked();
 
     buttons[2].focus();
-    userEvent.keyboard('{enter}');
+    await userEvent.keyboard('{enter}');
 
     expect(buttons[2]).not.toBeChecked();
   });

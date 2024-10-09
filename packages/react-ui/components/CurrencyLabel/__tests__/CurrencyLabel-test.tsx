@@ -43,7 +43,6 @@ describe('CurrencyLabel', () => {
   });
 
   describe('Warnings', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     afterEach(() => {

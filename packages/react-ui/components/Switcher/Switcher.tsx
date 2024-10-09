@@ -16,10 +16,6 @@ import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 import { mod } from './helpers';
 
-/**
- * @deprecated use SizeProp
- */
-export type SwitcherSize = SizeProp;
 export type SwitcherItems = string | SwitcherItem;
 
 export const SwitcherDataTids = {

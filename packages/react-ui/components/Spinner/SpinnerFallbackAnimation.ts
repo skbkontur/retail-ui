@@ -6,7 +6,10 @@ import { ColorFactory } from '../../lib/styles/ColorFactory';
 export class SpinnerFallbackAnimationRunner {
   private interval: ReturnType<typeof rafInterval> | null = null;
 
-  constructor(private animations: Animation[], private FPS: number) {
+  constructor(
+    private animations: Animation[],
+    private FPS: number,
+  ) {
     this.start();
   }
 

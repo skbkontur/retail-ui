@@ -6,7 +6,7 @@ export const getDropdownMenuTheme = (theme: Theme): Theme => {
     {
       popupMargin: theme.dropdownMenuMenuOffsetY,
       menuBoxSizing: theme.dropdownMenuMenuBoxSizing,
-      menuPaddingY: theme.menuLegacyPaddingY,
+      menuPaddingY: theme.menuScrollContainerContentWrapperPaddingY,
       menuScrollContainerContentWrapperPaddingY: theme.menuPaddingY,
       scrollContainerScrollBarOffsetY: theme.dropdownMenuScrollContainerScrollBarOffsetY,
     },

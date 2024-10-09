@@ -6,15 +6,7 @@ import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
 import { Story } from '@skbkontur/react-ui/typings/stories';
 
-import {
-  text,
-  tooltip,
-  ValidationBehaviour,
-  ValidationContainer,
-  ValidationInfo,
-  ValidationWrapper,
-  ValidationsFeatureFlagsContext,
-} from '../src';
+import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 export default {
@@ -179,7 +171,7 @@ export const SelectFirstControlForValidation = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
+    <div style={{ height: '100vh', width: '100vw' }}>
       <ValidationContainer ref={refContainer}>
         <div style={{ padding: 50, height: 200, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 100 }}>
@@ -195,7 +187,7 @@ export const SelectFirstControlForValidation = () => {
         </div>
         <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
       </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
+    </div>
   );
 };
 
@@ -238,44 +230,46 @@ export const ScrollWithFixedPlaceBottom = () => {
   const submit = () => refContainer.current?.submit();
 
   return (
-    <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
-      <div
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 0,
-          right: 0,
-          left: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80,
-        }}
-      >
-        <Button onClick={() => submit()}>Отправить сверху</Button>
-      </div>
-      <div style={{ padding: 10 }}>
-        <div style={{ height: 600, backgroundColor: '#eee' }} />
-        <ValidationWrapper validationInfo={validateValue(value)}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-        <div style={{ height: 1000, backgroundColor: '#eee' }} />
-      </div>
-      <div
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 600,
-          right: 0,
-          left: 0,
-          bottom: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80,
-        }}
-      >
-        <Button onClick={() => submit()}>Отправить снизу</Button>
-      </div>
-    </ValidationContainer>
+    <div style={{ width: '100vw' }}>
+      <ValidationContainer ref={refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 0,
+            right: 0,
+            left: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => submit()}>Отправить сверху</Button>
+        </div>
+        <div style={{ padding: 10 }}>
+          <div style={{ height: 600, backgroundColor: '#eee' }} />
+          <ValidationWrapper validationInfo={validateValue(value)}>
+            <Input value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+          <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 600,
+            right: 0,
+            left: 0,
+            bottom: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => submit()}>Отправить снизу</Button>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -382,21 +376,19 @@ export const SetPercentageWidth = () => {
         refContainer.current?.submit();
       }}
     >
-      <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-        <ValidationContainer ref={refContainer}>
-          <ValidationWrapper
-            renderMessage={tooltip('left middle')}
-            validationInfo={{ message: 'Ошибка!', type: 'submit' }}
-          >
-            <Input width="100%" placeholder={'Валидация'} />
-          </ValidationWrapper>
-          <br />
-          <br />
-          <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
-            <Input width="100%" placeholder={'Валидация'} />
-          </ValidationWrapper>
-        </ValidationContainer>
-      </ValidationsFeatureFlagsContext.Provider>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper
+          renderMessage={tooltip('left middle')}
+          validationInfo={{ message: 'Ошибка!', type: 'submit' }}
+        >
+          <Input width="100%" placeholder={'Валидация'} />
+        </ValidationWrapper>
+        <br />
+        <br />
+        <ValidationWrapper renderMessage={text('bottom')} validationInfo={{ message: 'Ошибка!', type: 'submit' }}>
+          <Input width="100%" placeholder={'Валидация'} />
+        </ValidationWrapper>
+      </ValidationContainer>
       <br />
       <br />
       <br />
@@ -417,30 +409,9 @@ export const TooltipTopLeft: Story = () => {
     <ValidationContainer>
       <div style={{ paddingTop: 60 }}>
         <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top left')}>
-          <Input value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
+          <Input data-tid="test-input" value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
         </ValidationWrapper>
       </div>
     </ValidationContainer>
   );
-};
-
-TooltipTopLeft.parameters = {
-  creevey: {
-    tests: {
-      async invalidTooltip() {
-        const input = await this.browser.findElement({ css: '.react-ui-1xb4xgu' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(input)
-          .sendKeys('test')
-          .click(this.browser.findElement({ css: 'body' }))
-          .click(input)
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
 };

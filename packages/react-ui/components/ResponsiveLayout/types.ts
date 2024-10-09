@@ -7,8 +7,7 @@ export interface ResponsiveLayoutOptions<MQ extends MediaQueriesType> {
 
 export type ResponsiveLayoutFlags<T extends MediaQueriesType = EmptyObject> = {
   [K in keyof T]?: boolean;
-} &
-  ResponsiveLayoutFlagsInternal;
+} & ResponsiveLayoutFlagsInternal;
 
 export interface ResponsiveLayoutFlagsInternal {
   isMobile: boolean;

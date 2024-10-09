@@ -3,9 +3,10 @@
 ```jsx harmony
 const [value, setValue] = React.useState();
 
-const items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
+const items = [Select.staticElement(() => <Select.Item>Not
+  selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
-<Select items={items} value={value} onValueChange={setValue} />;
+<Select items={items} value={value} onValueChange={setValue}/>;
 ```
 
 
@@ -47,17 +48,18 @@ const items = ['One', 'Two', 'Three', Select.SEP, 'Four'];
 Пример использования пропа `_renderButton`:
 
 ```jsx harmony
-import { Link } from '@skbkontur/react-ui';
+import {Link} from '@skbkontur/react-ui';
 import PeopleIcon from '@skbkontur/react-icons/People';
 
 const [value, setValue] = React.useState();
 
-const  items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
+const items = [Select.staticElement(() => <Select.Item>Not
+  selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
 const renderLinkButton = params => {
   const linkProps = {
     disabled: params.disabled,
-    icon: <PeopleIcon />,
+    icon: <PeopleIcon/>,
     _button: true,
     _buttonOpened: params.opened,
 

@@ -52,14 +52,20 @@ export const styles = memoizeStyle({
       border-radius: 5px;
       background: ${t.scrollContainerScrollBarColor};
       opacity: 0;
-      transition: opacity 0.3s ease-out, width 0.2s, height 0.2s;
+      transition:
+        opacity 0.3s ease-out,
+        width 0.2s,
+        height 0.2s;
     `;
   },
 
   visibleScrollBar() {
     return css`
       opacity: 1;
-      transition: opacity 0.1s ease-out, width 0.2s, height 0.2s;
+      transition:
+        opacity 0.1s ease-out,
+        width 0.2s,
+        height 0.2s;
     `;
   },
 
