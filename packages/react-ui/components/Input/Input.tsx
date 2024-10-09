@@ -53,6 +53,8 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
+        /** Устанавливает иконку крестика, при нажатии на который инпут очищается. */
+        showCleanCross?: boolean;
         /**
          * Иконка слева
          * Если `ReactNode` применяются дефолтные стили для иконки
@@ -157,6 +159,7 @@ export interface InputState {
   blinking: boolean;
   focused: boolean;
   needsPolyfillPlaceholder: boolean;
+  value: string;
 }
 
 export const InputDataTids = {
@@ -185,6 +188,7 @@ export class Input extends React.Component<InputProps, InputState> {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
+    value: this.props.value ?? '',
   };
 
   private selectAllId: number | null = null;
@@ -201,10 +205,19 @@ export class Input extends React.Component<InputProps, InputState> {
     this.outputMaskError();
   }
 
-  public componentDidUpdate(prevProps: Readonly<InputProps>) {
+  public getSnapshotBeforeUpdate() {
+    return this.input?.value;
+  }
+  public componentDidUpdate(prevProps: Readonly<InputProps>, prevState: Readonly<InputState>, snapshot: string) {
     if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
       this.outputMaskError();
     }
+    if (this.state.value !== snapshot) {
+      if (this.input) {
+        this.input.value = this.state.value;
+      }
+    }
+    console.log('update');
   }
 
   public componentWillUnmount() {
@@ -276,7 +289,7 @@ export class Input extends React.Component<InputProps, InputState> {
     if (globalObject.document?.activeElement !== this.input) {
       this.focus();
     }
-    if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
+    if (this.props.mask && this.state.value && this.state.value?.length < this.props.mask.length) {
       globalObject.setTimeout(() => {
         this.input?.setSelectionRange(start, end);
       }, 150);
@@ -373,7 +386,7 @@ export class Input extends React.Component<InputProps, InputState> {
       leftIcon,
       rightIcon,
       borderless,
-      value,
+      showCleanCross,
       align,
       type,
       mask,
@@ -395,7 +408,7 @@ export class Input extends React.Component<InputProps, InputState> {
       ...rest
     } = props;
 
-    const { blinking, focused } = this.state;
+    const { blinking, focused, value } = this.state;
 
     const labelProps = {
       className: cx(styles.root(this.theme), this.getSizeClassName(), {
@@ -425,7 +438,10 @@ export class Input extends React.Component<InputProps, InputState> {
       }),
       value,
       role,
-      onChange: this.handleChange,
+      onChange: (e) => {
+        this.setState({ value: e.target.value });
+        this.handleChange(e);
+      },
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
       onKeyPress: this.handleKeyPress,
@@ -447,6 +463,11 @@ export class Input extends React.Component<InputProps, InputState> {
       <InputLayout
         leftIcon={leftIcon}
         rightIcon={rightIcon}
+        clearInput={() => {
+          this.state.value = '';
+          this.input?.focus();
+        }}
+        showCleanCross={showCleanCross && !!this.input?.value}
         prefix={prefix}
         suffix={suffix}
         labelProps={labelProps}
@@ -570,7 +591,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private handleUnexpectedInput = (value: string = this.props.value || '') => {
+  private handleUnexpectedInput = (value: string = this.state.value || '') => {
     if (this.props.onUnexpectedInput) {
       this.props.onUnexpectedInput(value);
     } else {
@@ -581,7 +602,10 @@ export class Input extends React.Component<InputProps, InputState> {
   private resetFocus = () => this.setState({ focused: false });
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    console.log('blur');
+    // if (!event.currentTarget.contains(event.relatedTarget)) {
     this.resetFocus();
     this.props.onBlur?.(event);
+    // }
   };
 }
