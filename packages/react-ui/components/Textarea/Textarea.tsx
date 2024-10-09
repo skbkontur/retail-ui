@@ -4,19 +4,19 @@ import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isIE11, isSafari17 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
@@ -25,9 +25,10 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getTextAreaHeight } from './TextareaHelpers';
-import { styles } from './Textarea.styles';
+import { getStyles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
 
@@ -214,6 +215,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private featureFlags!: ReactUIFeatureFlags;
 
   private getRootSizeClassName() {
+    const styles = getStyles(this.emotion);
     switch (this.getProps().size) {
       case 'large':
         return styles.rootLarge(this.theme);
@@ -226,6 +228,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   private getTextareaSizeClassName() {
+    const styles = getStyles(this.emotion);
     switch (this.getProps().size) {
       case 'large':
         return styles.textareaLarge(this.theme);
@@ -248,6 +251,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
@@ -307,16 +311,23 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
                 return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                    {this.renderMain}
-                  </CommonWrapper>
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = theme;
+                      return (
+                        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                          {this.renderMain}
+                        </CommonWrapper>
+                      );
+                    }}
+                  </ThemeContext.Consumer>
                 );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -409,7 +420,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       },
     };
 
-    const textareaClassNames = cx(this.getTextareaSizeClassName(), {
+    const styles = getStyles(this.emotion);
+    const textareaClassNames = this.emotion.cx(this.getTextareaSizeClassName(), {
       [styles.textarea(this.theme)]: true,
       [styles.hovering(this.theme)]: !error && !warning,
       [styles.disabled(this.theme)]: disabled,
@@ -433,7 +445,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: cx(textareaClassNames, styles.fake()),
+        className: this.emotion.cx(textareaClassNames, styles.fake()),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
@@ -463,7 +475,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         <label
           data-tid={TextareaDataTids.root}
           {...rootProps}
-          className={cx(this.getRootSizeClassName(), {
+          className={this.emotion.cx(this.getRootSizeClassName(), {
             [styles.root()]: true,
           })}
         >

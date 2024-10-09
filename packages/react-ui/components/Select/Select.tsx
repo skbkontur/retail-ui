@@ -2,6 +2,7 @@ import React, { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'r
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import {
   isKeyArrowDown,
@@ -24,12 +25,11 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobilePopup } from '../../internal/MobilePopup';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
@@ -41,11 +41,12 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-import { styles } from './Select.styles';
+import { getStyles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
 
 export interface ButtonParams
@@ -229,6 +230,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
@@ -253,17 +255,24 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = ThemeFactory.create(
-                  {
-                    menuOffsetY: theme.selectMenuOffsetY,
-                  },
-                  theme,
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
+                return (
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = ThemeFactory.create(
+                        {
+                          menuOffsetY: theme.selectMenuOffsetY,
+                        },
+                        theme,
+                      );
+                      return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+                    }}
+                  </ThemeContext.Consumer>
                 );
-                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -336,10 +345,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       maxWidth: this.props.maxWidth || undefined,
     };
 
+    const styles = getStyles(this.emotion);
+
     const root = (
       <span
         data-tid={SelectDataTids.root}
-        className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
+        className={this.emotion.cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
         style={style}
       >
         {button}
@@ -394,6 +405,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getLeftIconClass(size: SizeProp | undefined) {
+    const styles = getStyles(this.emotion);
+
     if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
@@ -421,10 +434,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       size: params.size,
     };
     const use = this.getProps().use;
+    const styles = getStyles(this.emotion);
 
     const labelProps = {
       'data-tid': SelectDataTids.label,
-      className: cx({
+      className: this.emotion.cx({
         [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,
         [styles.customUsePlaceholder()]: params.isPlaceholder && use !== 'default',
@@ -446,7 +460,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           <span {...labelProps}>{params.label}</span>
 
           <div
-            className={cx(styles.arrowWrap(this.theme), {
+            className={this.emotion.cx(styles.arrowWrap(this.theme), {
               [styles.arrowDisabled(this.theme)]: this.props.disabled,
               [styles.customUseArrow()]: useIsCustom,
             })}
@@ -506,6 +520,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getSearch = () => {
+    const styles = getStyles(this.emotion);
     return (
       <div className={styles.search()} onKeyDown={this.handleKey}>
         <Input ref={this.debouncedFocusInput} onValueChange={this.handleSearch} width="100%" />

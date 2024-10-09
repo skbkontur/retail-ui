@@ -3,19 +3,21 @@ import { isElement } from 'react-is';
 
 import { isKonturIcon } from '../../../lib/utils';
 import { InputProps } from '../Input';
-import { cx } from '../../../lib/theming/Emotion';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { useEmotion } from '../../../lib/theming/Emotion';
 import { SizeProp } from '../../../lib/types/props';
+import { useTheme } from '../../../lib/theming/useTheme';
 
 import { InputLayoutContext } from './InputLayoutContext';
-import { stylesLayout } from './InputLayout.styles';
+import { getStylesLayout } from './InputLayout.styles';
+
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';
 }
 
 export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null, side }) => {
-  const theme = React.useContext(ThemeContext);
+  const emotion = useEmotion();
+  const theme = useTheme();
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
   const sizes: Record<SizeProp, number> = {
@@ -43,11 +45,13 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     }
   }
 
+  const stylesLayout = getStylesLayout(emotion);
+
   return (
     _icon && (
       <span
         style={style}
-        className={cx(
+        className={emotion.cx(
           stylesLayout.aside(),
           stylesLayout.icon(theme),
           focused && stylesLayout.iconFocus(theme),

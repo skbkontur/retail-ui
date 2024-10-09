@@ -1,27 +1,28 @@
 import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 import isEqual from 'lodash.isequal';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import {
+  getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
 } from '../../lib/featureFlagsContext';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { DUMMY_LOCATION, Popup, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Hint.styles';
+import { getStyles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
@@ -126,6 +127,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
+  private emotion!: Emotion;
   private featureFlags!: ReactUIFeatureFlags;
   private setRootNode!: TSetRootNode;
   private positions: Nullable<PopupPositionsType[]> = null;
@@ -174,26 +176,33 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
                 return (
-                  <ThemeContext.Provider
-                    value={ThemeFactory.create(
-                      {
-                        popupPinOffset: theme.hintPinOffset,
-                        popupMargin: theme.hintMargin,
-                        popupBorder: theme.hintBorder,
-                        popupBorderRadius: theme.hintBorderRadius,
-                      },
-                      this.theme,
-                    )}
-                  >
-                    {this.renderMain()}
-                  </ThemeContext.Provider>
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = theme;
+                      return (
+                        <ThemeContext.Provider
+                          value={ThemeFactory.create(
+                            {
+                              popupPinOffset: theme.hintPinOffset,
+                              popupMargin: theme.hintMargin,
+                              popupBorder: theme.hintBorder,
+                              popupBorderRadius: theme.hintBorderRadius,
+                            },
+                            this.theme,
+                          )}
+                        >
+                          {this.renderMain()}
+                        </ThemeContext.Provider>
+                      );
+                    }}
+                  </ThemeContext.Consumer>
                 );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -239,7 +248,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
     const { maxWidth } = this.getProps();
     const centerAlignPositions = ['top', 'top center', 'bottom', 'bottom center'];
-    const className = cx({
+    const styles = getStyles(this.emotion);
+    const className = this.emotion.cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
     });

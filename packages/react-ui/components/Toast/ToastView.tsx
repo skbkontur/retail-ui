@@ -1,18 +1,20 @@
 import React, { AriaAttributes } from 'react';
 import { func, shape, string } from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './ToastView.styles';
+import { getStyles } from './ToastView.styles';
 import { Action, ToastDataTids } from './Toast';
 import { ToastLocale, ToastLocaleHelper } from './locale';
 
@@ -49,22 +51,31 @@ export class ToastView extends React.Component<ToastViewProps> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private setRootNode!: TSetRootNode;
   private readonly locale!: ToastLocale;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain = (props: CommonWrapperRestProps<ToastViewProps>) => {
     const { action, onClose, ...rest } = props;
+    const styles = getStyles(this.emotion);
 
     const link = action ? (
       <button

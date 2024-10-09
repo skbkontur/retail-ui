@@ -1,34 +1,37 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  wrapper() {
-    return css`
-      display: flex;
-    `;
-  },
-  inner() {
-    return css`
-      display: flex;
-      width: 100%;
-    `;
-  },
+import { memoizeStyle } from '../../lib/theming/Emotion';
 
-  fixed() {
-    return css`
-      position: fixed;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    wrapper() {
+      return emotion.css`
+        display: flex;
+      `;
+    },
+    inner() {
+      return emotion.css`
+        display: flex;
+        width: 100%;
+      `;
+    },
 
-  stopped() {
-    return css`
-      position: relative;
-    `;
-  },
+    fixed() {
+      return emotion.css`
+        position: fixed;
+      `;
+    },
 
-  container() {
-    return css`
-      flex: auto;
-      width: 100%;
-    `;
-  },
-});
+    stopped() {
+      return emotion.css`
+        position: relative;
+      `;
+    },
+
+    container() {
+      return emotion.css`
+        flex: auto;
+        width: 100%;
+      `;
+    },
+  });

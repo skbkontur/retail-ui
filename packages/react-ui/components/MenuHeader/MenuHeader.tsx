@@ -1,12 +1,12 @@
 import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext } from '../../internal/Menu/MenuContext';
+import { useTheme } from '../../lib/theming/useTheme';
+import { useEmotion } from '../../lib/theming/Emotion';
 
-import { styles } from './MenuHeader.styles';
+import { getStyles } from './MenuHeader.styles';
 
 /**
  * @deprecated use SizeProp
@@ -32,7 +32,9 @@ export const MenuHeaderDataTids = {
  * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
   const menuContext = useContext(MenuContext);
 
   function getRootSizeClassName() {
@@ -63,7 +65,7 @@ function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', 
       <div
         id={id}
         data-tid={MenuHeaderDataTids.root}
-        className={cx(getRootSizeClassName(), {
+        className={emotion.cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
           [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding || _enableIconPadding,
         })}

@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
 import { isKonturIcon } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { ButtonProps } from './Button';
-import { styles } from './ButtonIcon.styles';
+import { getStyles } from './ButtonIcon.styles';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 
 export interface ButtonIconProps extends Pick<ButtonProps, 'size' | 'icon' | 'loading' | 'use'> {
@@ -26,7 +26,7 @@ export const getButtonIconSizes = (theme: Theme): Record<SizeProp, number> => {
 };
 
 const useIcon = (icon: any, size: SizeProp) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   if (icon && isTheme2022(theme) && isKonturIcon(icon)) {
     const sizes = getButtonIconSizes(theme);
     return React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
@@ -44,7 +44,10 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   hasBothIcons = false,
   size = 'small',
 }) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
+
   const isLink = use === 'link';
 
   const getSizeIconClassName = () => {
@@ -80,7 +83,7 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   return (
     <span
       style={style}
-      className={cx(styles.icon(theme), getSizeIconClassName(), {
+      className={emotion.cx(styles.icon(theme), getSizeIconClassName(), {
         [styles.iconNoMargin()]: !hasChildren,
         [styles.iconLeftLink(theme)]: isLink && position === 'left',
         [styles.iconRightLink(theme)]: isLink && position === 'right',

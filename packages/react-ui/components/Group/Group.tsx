@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { isIE11, isEdge } from '../../lib/client';
+import { isEdge, isIE11 } from '../../lib/client';
 import { isButton } from '../Button';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isInputLike } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Group.styles';
+import { getStyles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
   width?: React.CSSProperties['width'];
@@ -92,6 +93,7 @@ export class Group extends React.Component<GroupProps> {
 
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
+  private emotion!: Emotion;
 
   public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -99,12 +101,19 @@ export class Group extends React.Component<GroupProps> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -116,6 +125,7 @@ export class Group extends React.Component<GroupProps> {
     const childrenArray = React.Children.toArray(this.props.children);
     const firstChild = getFirstChild(childrenArray);
     const lastChild = getLastChild(childrenArray);
+    const styles = getStyles(this.emotion);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -133,14 +143,14 @@ export class Group extends React.Component<GroupProps> {
 
             return (
               <div
-                className={cx({
+                className={this.emotion.cx({
                   [styles.fixed()]: !isWidthInPercent,
                   [styles.stretch()]: isWidthInPercent,
                   [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
                 })}
               >
                 <div
-                  className={cx({
+                  className={this.emotion.cx({
                     [styles.item()]: true,
                     [styles.itemFirst()]: isFirstChild,
                   })}

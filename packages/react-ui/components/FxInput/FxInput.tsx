@@ -9,12 +9,12 @@ import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { SizeProp } from '../../lib/types/props';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';

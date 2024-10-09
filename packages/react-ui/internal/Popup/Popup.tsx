@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
@@ -11,13 +12,12 @@ import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
-import { isIE11, isEdge, isSafari } from '../../lib/client';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isEdge, isIE11, isSafari } from '../../lib/client';
 import { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -25,6 +25,7 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import {
   getFullReactUIFlagsContext,
   ReactUIFeatureFlags,
@@ -33,7 +34,7 @@ import {
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
-import { styles } from './Popup.styles';
+import { getStyles } from './Popup.styles';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -255,6 +256,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
+  private emotion!: Emotion;
   public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
@@ -330,12 +332,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
+                return (
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = theme;
+                      return this.renderMain();
+                    }}
+                  </ThemeContext.Consumer>
+                );
               }}
-            </ThemeContext.Consumer>
+            </EmotionConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -479,6 +488,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private content = (children: React.ReactNode) => {
     const { backgroundColor } = this.props;
     const width = this.getProps().width;
+    const styles = getStyles(this.emotion);
 
     return (
       <div
@@ -506,6 +516,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
     const shouldFallbackShadow = isIE11 || isEdge || isSafari;
+    const styles = getStyles(this.emotion);
 
     return (
       <Transition
@@ -525,7 +536,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
               priority={'Popup'}
-              className={cx({
+              className={this.emotion.cx({
                 [styles.popup(this.theme)]: true,
                 [styles.shadow(this.theme)]: hasShadow && !shouldFallbackShadow,
                 [styles.shadowFallback(this.theme)]: hasShadow && shouldFallbackShadow,
@@ -672,6 +683,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
 
+  private getRelativePos(root: unknown): { top: number; left: number } {
+    const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
+    const relativePos: { top: number; left: number } = {
+      top: 0,
+      left: 0,
+    };
+    if (isShadowRoot && globalObject.document) {
+      const childPos = (root as ShadowRoot).host.getBoundingClientRect();
+      relativePos.top = childPos.top;
+      relativePos.left = childPos.left;
+    }
+
+    return relativePos;
+  }
+
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
     let positions;
@@ -693,8 +719,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return location;
     }
 
-    const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+    const deltaParentPosition = this.getRelativePos(this.emotion.sheet.container.getRootNode());
+    const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement, deltaParentPosition);
+    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, deltaParentPosition);
 
     let position: PopupPositionsType;
     let coordinates: Offset;
@@ -754,6 +781,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
+
+    console.log({ position, anchorRect, popupRect, popupOffset, margin });
 
     switch (position.direction) {
       case 'top':

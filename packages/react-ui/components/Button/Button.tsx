@@ -1,22 +1,23 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { HTMLProps } from '../../typings/html';
 import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
-import { isIE11, isEdge, isSafari } from '../../lib/client';
+import { isEdge, isIE11, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Link, LinkProps } from '../Link';
 import { SizeProp } from '../../lib/types/props';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles, activeStyles, globalClasses } from './Button.styles';
+import { getActiveStyles, getStyles, globalClasses } from './Button.styles';
 import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
@@ -221,6 +222,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private node: HTMLButtonElement | null = null;
   private setRootNode!: TSetRootNode;
 
@@ -254,12 +256,19 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -316,12 +325,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const [wrapClassNameWithArrow, rootClassNameWithArrow, arrowNode] = useButtonArrow(
       { ...this.props, isFocused: Boolean(isFocused) },
       this.theme,
+      this.emotion,
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
     let rootClassName = '';
+    const styles = getStyles(this.emotion);
+    const activeStyles = getActiveStyles(this.emotion);
     if (_isTheme2022) {
       const trueDisabled = disabled || loading;
-      rootClassName = cx(
+      rootClassName = this.emotion.cx(
         styles.root(this.theme),
         styles[use](this.theme),
         sizeClass,
@@ -348,7 +360,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             ]),
       );
     } else {
-      rootClassName = cx({
+      rootClassName = this.emotion.cx({
         [styles.root(this.theme)]: true,
         [styles.simulatedPress()]: true,
         [styles[use](this.theme)]: true,
@@ -399,7 +411,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: cx(globalClasses.root, {
+      className: this.emotion.cx(globalClasses.root, {
         [styles.wrap(this.theme)]: true,
         [wrapClassNameWithArrow]: true,
         [this.getSizeWrapClassName()]: true,
@@ -417,7 +429,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       outlineNode = (
         <div
           style={{ zIndex: _isTheme2022 && isLink ? -1 : undefined }}
-          className={cx(styles.outline(), {
+          className={this.emotion.cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
             [styles.outlineLink()]: isLink,
@@ -441,7 +453,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
-      rootProps.className = cx({
+      rootProps.className = this.emotion.cx({
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
         [styles.link(this.theme)]: true,
@@ -451,7 +463,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cx(styles.wrap(this.theme), styles.wrapLink()),
+        className: this.emotion.cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
@@ -462,7 +474,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let captionNode = (
       <div
-        className={cx(styles.caption(), globalClasses.caption, {
+        className={this.emotion.cx(styles.caption(), globalClasses.caption, {
           [styles.captionTranslated()]: (active || checked) && !loading && !_isTheme2022,
           [styles.captionLink()]: isLink,
           [styles.captionDisabled()]: !checked && disabled,
@@ -471,7 +483,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         {loadingNode}
         {leftIconNode}
         <span
-          className={cx(globalClasses.text, {
+          className={this.emotion.cx(globalClasses.text, {
             [styles.visibilityHidden()]: hasLoadingNode,
           })}
         >
@@ -521,23 +533,24 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
+    const styles = getStyles(this.emotion);
     const _isTheme2022 = isTheme2022(this.theme);
     switch (this.getProps().size) {
       case 'large':
-        return cx(styles.sizeLarge(this.theme), {
+        return this.emotion.cx(styles.sizeLarge(this.theme), {
           [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
           [styles.sizeLargeWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
         });
       case 'medium':
-        return cx(styles.sizeMedium(this.theme), {
+        return this.emotion.cx(styles.sizeMedium(this.theme), {
           [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
           [styles.sizeMediumWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
         });
       case 'small':
       default:
-        return cx(styles.sizeSmall(this.theme), {
+        return this.emotion.cx(styles.sizeSmall(this.theme), {
           [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
           [styles.sizeSmallWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
@@ -546,6 +559,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeWrapClassName() {
+    const styles = getStyles(this.emotion);
+
     switch (this.getProps().size) {
       case 'large':
         return styles.wrapLarge(this.theme);

@@ -84,7 +84,10 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
 
   const newContainerId = currentNode.getAttribute(PORTAL_OUTLET_ATTR);
   if (newContainerId) {
-    const nextNode = globalObject.document?.querySelector(`[${PORTAL_INLET_ATTR}~="${newContainerId}"]`);
+    const selector = `[${PORTAL_INLET_ATTR}~="${newContainerId}"]`;
+    const nextNode =
+      (rootNode.getRootNode() as ShadowRoot | Document)?.querySelector(selector) ||
+      globalObject.document?.querySelector(selector);
 
     if (!nextNode) {
       throw Error(`Origin node for render container was not found`);

@@ -2,8 +2,9 @@ import React from 'react';
 
 import { forwardRefAndName, ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
 import { SvgIconProps } from '../icons/16px';
+import { useEmotion } from '../../lib/theming/Emotion';
 
-import { styles } from './BaseIcon.styles';
+import { getStyles } from './BaseIcon.styles';
 
 export type IconProps = {
   size?: number;
@@ -22,6 +23,7 @@ export const BaseIcon = forwardRefAndName<SVGSVGElement, IconProps>(
     { color, size, style, 'aria-hidden': ariaHidden = true, viewBoxSize = 16, align = 'center', children, ...rest },
     ref,
   ) => {
+    const emotion = useEmotion();
     const icon = (
       <svg
         ref={ref}
@@ -43,6 +45,7 @@ export const BaseIcon = forwardRefAndName<SVGSVGElement, IconProps>(
     );
 
     if (align === 'center') {
+      const styles = getStyles(emotion);
       return <span className={styles.centeredIcon()}>{icon}</span>;
     }
 

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { FLAT_THEME_8PX_OLD } from '../../lib/theming/themes/FlatTheme8pxOld';
@@ -17,11 +17,13 @@ import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
 // TODO: revert in 5.0
 // import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
 // import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { THEME_2022_DARK_UPDATE_2024 } from '../../lib/theming/themes/Theme2022DarkUpdate2024';
 import { THEME_2022_UPDATE_2024 } from '../../lib/theming/themes/Theme2022Update2024';
 
 import { ThemeEditor } from './ThemeEditor';
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 import { Playground } from './Playground';
 import { ThemeType } from './constants';
 
@@ -66,6 +68,8 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
   return 'default';
 };
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
+  private emotion!: Emotion;
+
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
     { value: ThemeType.Dark, label: 'Темная' },
@@ -103,16 +107,23 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   public render() {
     const { currentTheme, editorOpened, currentThemeType } = this.state;
     return (
-      <ThemeContext.Provider value={currentTheme}>
-        {editorOpened && this.renderSidePage()}
-        {
-          <Playground
-            onThemeChange={this.handleThemeChange}
-            currentThemeType={currentThemeType}
-            onEditLinkClick={this.handleOpen}
-          />
-        }
-      </ThemeContext.Provider>
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Provider value={currentTheme}>
+              {editorOpened && this.renderSidePage()}
+              {
+                <Playground
+                  onThemeChange={this.handleThemeChange}
+                  currentThemeType={currentThemeType}
+                  onEditLinkClick={this.handleOpen}
+                />
+              }
+            </ThemeContext.Provider>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 
@@ -121,7 +132,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
     const editingThemeType = getEditingThemeType(editingThemeItem);
     const themeErrors = themesErrors[editingThemeType];
-
+    const styles = getStyles(this.emotion);
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>

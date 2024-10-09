@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderAttachedFile } from '../fileUtils';
-import { cx } from '../../../lib/theming/Emotion';
+import { useEmotion } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import { SizeProp } from '../../../lib/types/props';
+import { useTheme } from '../../../lib/theming/useTheme';
 
-import { jsStyles } from './FileUploaderFileList.styles';
+import { getStyles } from './FileUploaderFileList.styles';
 
 interface FileUploaderFileListProps {
   renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
@@ -23,19 +23,21 @@ export const FileUploaderFileDataTids = {
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   const { renderFile, size, onRemove } = props;
   const { files } = useContext(FileUploaderControlContext);
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
 
   const fileWrapperClass = useFileUploaderSize(size, {
-    small: jsStyles.fileWrapperSmall(theme),
-    medium: jsStyles.fileWrapperMedium(theme),
-    large: jsStyles.fileWrapperLarge(theme),
+    small: styles.fileWrapperSmall(theme),
+    medium: styles.fileWrapperMedium(theme),
+    large: styles.fileWrapperLarge(theme),
   });
 
   return (
     <div data-tid={FileUploaderFileDataTids.fileList}>
       {files.map((file) => (
-        <div key={file.id} className={cx(jsStyles.fileWrapper(theme), fileWrapperClass)}>
-          <div className={jsStyles.file()}>
+        <div key={file.id} className={emotion.cx(styles.fileWrapper(theme), fileWrapperClass)}>
+          <div className={styles.file()}>
             {renderFile(file, <FileUploaderFile file={file} showSize multiple size={size} onRemove={onRemove} />)}
           </div>
         </div>

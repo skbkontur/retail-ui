@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 import { useStyleGuideContext } from 'react-styleguidist/lib/client/rsg-components/Context/Context';
-import { cx } from '../../../lib/theming/Emotion';
-import { styles } from './StyleGuideWrapper.styles';
+import { useEmotion } from '../../../lib/theming/Emotion';
+import { getStyles } from './StyleGuideWrapper.styles';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
 
@@ -16,6 +16,7 @@ interface StyleGuideRendererProps {
 }
 
 function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: StyleGuideRendererProps) {
+  const emotion = useEmotion();
   const { codeRevision, config, slots, displayMode, cssRevision } = useStyleGuideContext();
   const [theme, setTheme] = useState(DEFAULT_THEME_WRAPPER);
   document.body.style.fontFamily = 'Lab Grotesque, Roboto, Helvetica Neue, Arial, sans-serif';
@@ -31,11 +32,15 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
       root.style.height = '100%';
     }
   }
+
+  const styles = getStyles(emotion);
   return (
     <Context.Provider value={{ theme, setTheme, codeRevision, config, slots, displayMode, cssRevision }}>
-      <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: isThemeDark })}>
+      <div className={emotion.cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: isThemeDark })}>
         <main className={styles.wrapper()}>
-          <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME)]: isThemeDark })}>{children}</div>
+          <div className={emotion.cx(styles.content(), { [styles.darkContent(DARK_THEME)]: isThemeDark })}>
+            {children}
+          </div>
         </main>
         {hasSidebar && (
           <div data-testid="sidebar" className={styles.sidebar()}>

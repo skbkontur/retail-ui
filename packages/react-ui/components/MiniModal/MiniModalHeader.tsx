@@ -1,12 +1,12 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 
 import { Modal, ModalHeaderProps } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { InfoCircleIcon64Regular } from '../../internal/icons2022/InfoCircleIcon/InfoCircleIcon64Regular';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { useTheme } from '../../lib/theming/useTheme';
+import { useEmotion } from '../../lib/theming/Emotion';
 
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalHeaderProps extends ModalHeaderProps {
@@ -26,7 +26,9 @@ interface MiniModalHeaderProps extends ModalHeaderProps {
 export const MiniModalHeader = forwardRefAndName<HTMLDivElement, MiniModalHeaderProps>(
   'MiniModalHeader',
   ({ icon = <InfoCircleIcon64Regular />, children, ...rest }, ref) => {
-    const theme = useContext(ThemeContext);
+    const theme = useTheme();
+    const emotion = useEmotion();
+    const styles = getStyles(emotion);
 
     return (
       <Modal.Header {...rest}>
@@ -37,7 +39,10 @@ export const MiniModalHeader = forwardRefAndName<HTMLDivElement, MiniModalHeader
             </div>
           )}
           {children && (
-            <div data-tid={MiniModalDataTids.title} className={cx(styles.title(), icon && styles.titleWithIcon(theme))}>
+            <div
+              data-tid={MiniModalDataTids.title}
+              className={emotion.cx(styles.title(), icon && styles.titleWithIcon(theme))}
+            >
               {children}
             </div>
           )}
