@@ -104,8 +104,7 @@ describe('MaskedInput', () => {
   });
 
   describe('onUnexpectedInput', () => {
-    // FIXME: починить тесты до 5.0
-    it.skip.each<[MaskedInputProps, string, number]>([
+    it.each<[MaskedInputProps, string, number]>([
       [{ mask: '9-9-9-9' }, '123', 0],
       [{ mask: '9-9-9-9' }, '12345', 1],
       [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 1],
@@ -113,7 +112,7 @@ describe('MaskedInput', () => {
       [{ mask: '9-9-9-9' }, '{backspace}', 1],
       [{ mask: '9-9-9-9', unmask: true }, '12345', 1],
       [{ mask: '9-9-9-9', unmask: true }, `1234${'{backspace}'.repeat(8)}`, 1],
-    ])('%j > %s > %s times', (props, keys, expectedCount) => {
+    ])('%j > %s > %s times', async (props, keys, expectedCount) => {
       const handleUnexpectedInput = jest.fn();
       const Comp = () => {
         const [value, setValue] = useState('');
@@ -130,19 +129,14 @@ describe('MaskedInput', () => {
       render(<Comp />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
-      // input.selectionStart = 0;
-      // input.selectionEnd = 0;
-      input.setSelectionRange(0, 0);
-
-      userEvent.type(input, keys);
+      await userEvent.type(input, keys);
 
       expect(handleUnexpectedInput).toHaveBeenCalledTimes(expectedCount);
     });
   });
 
   describe('fixed symbols on typing', () => {
-    // FIXME: починить тесты до 5.0
-    it.skip.each<[string, string, string]>([
+    it.each<[string, string, string]>([
       ['9-9-9-9', '123', '1-2-3-'],
       ['9-9-9-9', '123{backspace}', '1-2-3'],
       ['9-9-9--9', '123', '1-2-3--'],
@@ -150,29 +144,28 @@ describe('MaskedInput', () => {
       ['9-9--9--9', '123{backspace}{backspace}', '1-2--'],
       ['9--9--9--9', '123{backspace}{backspace}', '1--2--'],
       ['9--9---9---9', '123{backspace}{backspace}', '1--2---'],
-    ])(`%s > %s > "%s"`, (mask, keys, expected) => {
+    ])(`%s > %s > "%s"`, async (mask, keys, expected) => {
       render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
-      userEvent.type(input, keys);
+      await userEvent.type(input, keys);
 
       expect(input).toHaveValue(expected);
     });
   });
 
   describe('paste value works', () => {
-    // FIXME: починить тесты до 5.0
-    it.skip.each<[string, string, string]>([
+    it.each<[string, string, string]>([
       ['9-9-9-9', '123', '1-2-3-'],
       ['9-9-9-9', '12', '1-2-'],
       ['9-9-9-9', '1-', '1-'],
       ['9-9-9-9', '1-2-3', '1-2-3-'],
-    ])(`%s > %s > "%s"`, (mask, paste, expected) => {
+    ])(`%s > %s > "%s"`, async (mask, paste, expected) => {
       render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
-      userEvent.click(input);
-      userEvent.paste(paste);
+      input.focus();
+      await userEvent.paste(paste);
 
       expect(input).toHaveValue(expected);
     });

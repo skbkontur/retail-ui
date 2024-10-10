@@ -80,6 +80,7 @@ export const FixedIMaskInput = forwardRefAndName(
 
     function fillTypedValue() {
       imaskRef.current?.element.setAttribute('data-typed-value', getTypedValue());
+      imaskRef.current?.element.setAttribute('data-unmasked-value', imaskRef.current?.maskRef.unmaskedValue);
     }
 
     function getMaxCaretPosition(): number {
