@@ -54,7 +54,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
-  public state = { blinking: false, focused: false };
+  public state = { blinking: false, focused: false, value: this.props.value ?? '' };
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
