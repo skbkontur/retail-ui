@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
@@ -129,7 +129,6 @@ describe('MaskedInput', () => {
       render(<Comp />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
-      await waitFor(() => input.focus());
       await userEvent.type(input, keys);
 
       expect(handleUnexpectedInput).toHaveBeenCalledTimes(expectedCount);
@@ -149,7 +148,6 @@ describe('MaskedInput', () => {
       render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
-      await waitFor(() => input.focus());
       await userEvent.type(input, keys);
 
       expect(input).toHaveValue(expected);
@@ -162,12 +160,12 @@ describe('MaskedInput', () => {
       ['9-9-9-9', '12', '1-2-'],
       ['9-9-9-9', '1-', '1-'],
       ['9-9-9-9', '1-2-3', '1-2-3-'],
-    ])(`%s > %s > "%s"`, (mask, paste, expected) => {
+    ])(`%s > %s > "%s"`, async (mask, paste, expected) => {
       render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
-      waitFor(() => input.focus());
-      userEvent.paste(paste);
+      input.focus();
+      await userEvent.paste(paste);
 
       expect(input).toHaveValue(expected);
     });
