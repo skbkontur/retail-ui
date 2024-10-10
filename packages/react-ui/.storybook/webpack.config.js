@@ -16,7 +16,7 @@ module.exports = async ({ config }) => {
 
   // storybook's rule for css doesn't handle css-modules
   const filteredStorybooksWebpackRules = (config.module.rules || [])
-    .slice(2)
+    .slice(1)
     .filter((r) => r.test && !r.test.test('.css'));
 
   config.module.rules = [
@@ -60,6 +60,9 @@ module.exports = async ({ config }) => {
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
+        configOverwrite: {
+          exclude: ['**/*.docs.stories.tsx'],
+        },
       },
     }),
   );

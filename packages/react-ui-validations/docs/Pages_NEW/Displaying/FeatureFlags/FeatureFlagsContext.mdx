@@ -1,0 +1,37 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Отображение/Фича-флаги" />
+
+# Включение и отключение отдельных фич через `ValidationsFeatureFlagsContext`
+
+## Доступные флаги
+
+```jsx static
+    export interface ValidationsFeatureFlags {
+      flagName?: boolean;
+    }
+```
+
+Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
+
+Флаги задаются с помощью `ValidationsFeatureFlagsContext.Provider`.
+
+```jsx static
+import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
+
+<ValidationsFeatureFlagsContext.Provider value={{ flagName: true }}>
+  {/* ... */}
+</ValidationsFeatureFlagsContext.Provider>;
+```
+
+## Использование
+
+### Нет доступных фиче-флагов
+
+## Объект со всеми флагами
+
+Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
+
+```jsx static
+const allFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
+```

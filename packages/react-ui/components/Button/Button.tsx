@@ -100,11 +100,7 @@ export interface ButtonInnerProps extends CommonProps {
    */
   narrow?: boolean;
 
-  /**
-   * Задаёт размер кнопки.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+  /** Задаёт размер кнопки. */
   size?: SizeProp;
 
   /**
@@ -117,11 +113,7 @@ export interface ButtonInnerProps extends CommonProps {
    */
   title?: string;
 
-  /**
-   * Стиль кнопки.
-   *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
-   *
+  /** Задаёт стиль кнопки.
    * **Вариант `link` устарел.**
    * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
    */
@@ -290,7 +282,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [rootClassNameWithArrow, arrowNode] = useButtonArrow(
       { ...this.props, isFocused: Boolean(isFocused) },
       this.theme,

@@ -11,7 +11,10 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { useMemoObject } from '../../../hooks/useMemoObject';
 
-export default { title: 'Calendar' };
+export default {
+  title: 'Calendar',
+  component: Calendar,
+};
 
 export const CalendarWithBottomSeparator: Story = () => {
   const [date, setDate] = React.useState('12.05.2022');

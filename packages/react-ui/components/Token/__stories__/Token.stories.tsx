@@ -6,6 +6,7 @@ import { Gapped } from '../../Gapped';
 
 export default {
   title: 'Token',
+  component: Token,
   decorators: [
     (Story: () => JSX.Element) => (
       <div className="token-test-container" style={{ margin: 40, padding: 4 }}>

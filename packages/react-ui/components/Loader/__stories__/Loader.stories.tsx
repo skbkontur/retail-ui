@@ -76,7 +76,10 @@ class NumberList extends React.Component<NumberListProps> {
   }
 }
 
-export default { title: 'Loader' };
+export default {
+  title: 'Loader',
+  component: Loader,
+};
 
 export const Simple = () => {
   const [toggleValue, setToggleValue] = useState(false);

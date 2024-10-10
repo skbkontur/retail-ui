@@ -15,14 +15,12 @@ import { styles } from './Modal.styles';
 import { getModalBodyTheme } from './getModalBodyTheme';
 
 export interface ModalBodyProps extends CommonProps {
-  /**
-   * убирает отступы
-   */
+  /** Убирает отступы. */
   noPadding?: boolean;
 }
 
 /**
- * Контейнер с отступами от края модалки
+ * ModalBody - контейнер с отступами от края модалки.
  *
  * @visibleName Modal.Body
  */

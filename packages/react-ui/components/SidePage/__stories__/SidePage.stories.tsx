@@ -606,7 +606,10 @@ class WithLongTitle extends React.Component {
   }
 }
 
-export default { title: 'SidePage' };
+export default {
+  title: 'SidePage',
+  component: SidePage,
+};
 
 export const SidePageWithBlockBackground: Story = () => <Sample blockBackground />;
 SidePageWithBlockBackground.storyName = 'SidePage with block background';

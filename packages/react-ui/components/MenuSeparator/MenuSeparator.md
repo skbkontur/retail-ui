@@ -1,4 +1,4 @@
-Пример меню с разделителями.
+### Меню с разделителями
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, DropdownMenu } from '@skbkontur/react-ui';

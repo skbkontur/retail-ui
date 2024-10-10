@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import FunctionIcon from '@skbkontur/react-icons/Function';
 import SearchIcon from '@skbkontur/react-icons/Search';

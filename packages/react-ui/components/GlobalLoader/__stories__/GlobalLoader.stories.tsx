@@ -125,7 +125,10 @@ function GlobalLoaderWithTimer() {
   }
 }
 
-export default { title: 'GlobalLoader' };
+export default {
+  title: 'GlobalLoader',
+  component: GlobalLoader,
+};
 
 export const GlobalLoaderWithPropsContent: Story = () => <GlobalLoaderWithProps />;
 GlobalLoaderWithPropsContent.storyName = 'with props';

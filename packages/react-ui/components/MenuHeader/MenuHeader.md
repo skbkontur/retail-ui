@@ -1,4 +1,4 @@
-Базовый пример меню с заголовками.
+### Базовый пример меню с заголовками
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -22,7 +22,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-У MenuHeader есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';

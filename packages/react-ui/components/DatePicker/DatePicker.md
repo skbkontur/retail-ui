@@ -223,6 +223,7 @@ import { DateOrder, DateSeparator, Gapped, LocaleContext, Select, LangCodes } fr
 
 class DatePickerFormatting extends React.Component {
   constructor() {
+    super();
     this.state = {
       order: DateOrder.YMD,
       separator: 'Dot',
@@ -289,10 +290,9 @@ const renderDay = (props) => {
   if (isEven) {
     return <CalendarDay {...props} style={{ background: '#e9f8e3' }} />
   }
-  
+
   return <CalendarDay {...props} />
 };
-
 
 <DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```
