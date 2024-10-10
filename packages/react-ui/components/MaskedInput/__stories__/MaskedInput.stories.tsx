@@ -36,6 +36,7 @@ Mask.parameters = {
   },
 };
 
+const ZERO_WIDTH_SPACE = String.fromCharCode(0x2060);
 const maskStates: InputState[] = [
   {},
   { defaultValue: '95678901' },
@@ -43,7 +44,7 @@ const maskStates: InputState[] = [
   { mask: '****', value: 'overflow' },
   { placeholder: 'mask with placeholder' },
   { alwaysShowMask: true },
-  { alwaysShowMask: true, maskChar: null },
+  { alwaysShowMask: true, maskChar: ZERO_WIDTH_SPACE },
   { alwaysShowMask: true, maskChar: 'X' },
   { alwaysShowMask: true, defaultValue: '95678901' },
   { alwaysShowMask: true, defaultValue: '956789010A' },
