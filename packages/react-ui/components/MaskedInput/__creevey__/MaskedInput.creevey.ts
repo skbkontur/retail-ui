@@ -108,70 +108,70 @@ const testRewriteInMiddle = () => {
 kind('MaskedInput', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusEditBlur();
   });
 
   story('IdleFocusEditBlurWithPlaceholder', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusEditBlur();
   });
 
   story('IdleFocusBlurWithPlaceholder', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusBlur();
   });
 
   story('IdleFocusAppendRemoveBlurWithPlaceholder', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusAppendRemoveBlur();
   });
 
   story('IdleFocusBlurWithPrefix', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusBlur();
   });
 
   story('WithCustomUnmaskedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusEditBlur();
   });
 
   story('WithUnmaskedAndFixedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: 'chrome2022Dark' } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusAppendRemoveBlur();
   });
 
   story('IdleFocusBlurAndUncontrolled', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testIdleFocusEditBlur();
   });
 
   story('RewriteInMiddle', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     testRewriteInMiddle();
   });
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
     });
     test('Plain focused', async function () {
       const idle = await this.takeScreenshot();
