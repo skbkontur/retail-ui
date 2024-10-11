@@ -117,7 +117,6 @@ export const styles = memoizeStyle({
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      }
     `;
   },
 
@@ -170,33 +169,17 @@ export const styles = memoizeStyle({
     `;
   },
 
-  content() {
-    return css`
-      position: relative;
-    `;
-  },
-
-  outline(t: Theme) {
-    return css`
-      border-radius: ${t.btnLinkBorderRadius};
-      position: absolute;
-      box-shadow: none;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      top: -2px;
-    `;
-  },
-
-  outlineWarning(t: Theme) {
+  warning(t: Theme) {
     return css`
       background-color: ${t.btnWarningSecondary};
+      box-shadow: 0 0 0 2px ${t.btnWarningSecondary};
     `;
   },
 
-  outlineError(t: Theme) {
+  error(t: Theme) {
     return css`
       background-color: ${t.btnErrorSecondary};
+      box-shadow: 0 0 0 2px ${t.btnErrorSecondary};
     `;
   },
 });

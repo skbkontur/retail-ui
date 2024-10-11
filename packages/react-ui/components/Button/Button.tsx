@@ -354,7 +354,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     if ((!isFocused || isLink) && !trueDisabled) {
       outlineNode = (
         <div
-          style={{ zIndex: isLink ? -1 : undefined }}
           className={cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
