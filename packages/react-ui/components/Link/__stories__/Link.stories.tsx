@@ -135,3 +135,16 @@ export const LinkAsButtonValidation: Story = () => {
     </Gapped>
   );
 };
+
+export const MultilineLink: Story = () => {
+  return (
+    <div style={{ width: 300 }}>
+      <ComponentTable
+        Component={Link}
+        cols={[{ props: {} }, { props: { error: true } }, { props: { warning: true } }]}
+        rows={[{ props: {} }]}
+        presetProps={{ children: 'Mul tilyi  Multili ne Link Multiline' }}
+      />
+    </div>
+  );
+};
