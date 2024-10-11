@@ -26,8 +26,6 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
 
-В React UI 5.0 фича будет применена по умолчанию.
-
 ```jsx harmony
 import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
