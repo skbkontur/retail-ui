@@ -21,6 +21,7 @@ import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
 import { ComboBoxItem } from '..';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {
   let searchCalled: () => Promise<void>;
@@ -468,6 +469,88 @@ describe('ComboBox', () => {
       rerender(<ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={getItems} />);
       expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent('');
     });
+  });
+
+  //TODO: Remove this test when/if behaviour under comboBoxAllowValueChangeInEditingState feature flag is fixed
+  describe('keep edited input text when value changes', () => {
+    const value = { value: 1, label: 'one' };
+
+    it('in default mode', async () => {
+      const { rerender } = render(<ComboBox value={value} getItems={() => Promise.resolve([value])} />);
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
+      clickOutside();
+
+      rerender(<ComboBox value={null} getItems={() => Promise.resolve([value])} />);
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.getByRole('textbox')).toHaveValue('two');
+    });
+
+    it('in autocomplete mode', async () => {
+      const { rerender } = render(
+        <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
+      );
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
+      clickOutside();
+
+      rerender(
+        <ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
+      );
+
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.getByRole('textbox')).toHaveValue('two');
+    });
+  });
+
+  it('does not do search on focus in autocomplete mode', async () => {
+    const value = { value: 1, label: 'one' };
+    const getItems = jest.fn();
+    render(<ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />);
+
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(0);
+
+    expect(getItems).toHaveBeenCalledTimes(0);
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+  });
+
+  it('reset', async () => {
+    render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
+
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foo' } });
+
+    expect(screen.getByRole('textbox')).toHaveValue('foo');
+
+    clickOutside();
+    comboboxRef.current?.reset();
+
+    expect(screen.getByTestId(InputLikeTextDataTids.input)).toHaveTextContent('');
+  });
+
+  it('onValueChange if single item', async () => {
+    const getItems = (query: string) => {
+      return Promise.resolve(
+        testValues.filter((item) => {
+          return item.label.includes(query);
+        }),
+      );
+    };
+
+    const changeHandler = jest.fn();
+    render(<ComboBox onValueChange={changeHandler} getItems={getItems} />);
+
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: testValues[1].label } });
+
+    await delay(300);
+
+    clickOutside();
+    await delay(0);
+
+    expect(changeHandler).toHaveBeenCalledWith(testValues[1]);
   });
 
   describe('open/close methods', () => {
@@ -1146,7 +1229,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
-      await userEvent.click(screen.getByTestId(InputDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
@@ -1272,7 +1355,7 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  describe('allow change value in editing state', () => {
+  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
     const initialValue = testValues[0];
     const expectedValue = testValues[1];
 
@@ -1288,7 +1371,7 @@ describe('ComboBox', () => {
       };
 
       return (
-        <>
+        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
           <button onClick={handleValueChange}>Обновить</button>
           <ComboBox
             ref={comboboxRef}
@@ -1296,7 +1379,7 @@ describe('ComboBox', () => {
             getItems={getItems}
             onValueChange={(value) => setSelected(value)}
           />
-        </>
+        </ReactUIFeatureFlagsContext.Provider>
       );
     };
 

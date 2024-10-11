@@ -1,8 +1,12 @@
 import React from 'react';
 
-export interface ReactUIFeatureFlags {}
+export interface ReactUIFeatureFlags {
+  comboBoxAllowValueChangeInEditingState?: boolean;
+}
 
-export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {};
+export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
+  comboBoxAllowValueChangeInEditingState: false,
+};
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
 
