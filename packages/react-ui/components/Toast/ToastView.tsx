@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
@@ -55,14 +55,14 @@ export class ToastView extends React.Component<ToastViewProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain(this.props)}</CommonWrapper>;
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<ToastViewProps>) => {
-    const { action, onClose, ...rest } = props;
+  private renderMain = () => {
+    const { action, onClose, onMouseEnter, onMouseLeave } = this.props;
 
     const link = action ? (
       <button
@@ -91,13 +91,21 @@ export class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     return (
-      <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
-        <div data-tid={ToastDataTids.toastView} {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
-          <span>{this.props.children}</span>
-          {link}
-          {close}
-        </div>
-      </ZIndex>
+      <CommonWrapper {...this.props}>
+        <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
+          <div
+            data-tid={ToastDataTids.toastView}
+            className={styles.root(this.theme)}
+            ref={this.setRootNode}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            <span>{this.props.children}</span>
+            {link}
+            {close}
+          </div>
+        </ZIndex>
+      </CommonWrapper>
     );
   };
 }
