@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Button } from '../../components/Button';
 import { Nullable } from '../../typings/utility-types';
@@ -60,7 +60,8 @@ class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelPro
 
   public componentDidMount() {
     if (this.state.mounted && this.container) {
-      ReactDOM.render(this.props.component, this.container);
+      const root = createRoot(this.container);
+      root.render(this.props.component);
     }
   }
 
@@ -69,9 +70,11 @@ class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelPro
       return;
     }
     if (this.state.mounted) {
-      ReactDOM.render(this.props.component, this.container);
+      const root = createRoot(this.container);
+      root.render(this.props.component);
     } else {
-      ReactDOM.unmountComponentAtNode(this.container);
+      const root = createRoot(this.container);
+      root.unmount();
     }
   }
 

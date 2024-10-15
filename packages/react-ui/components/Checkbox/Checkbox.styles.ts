@@ -25,7 +25,8 @@ export const styles = memoizeStyle({
       }
 
       .${globalClasses.box} {
-        transition: background ${t.transitionDuration} ${t.transitionTimingFunction},
+        transition:
+          background ${t.transitionDuration} ${t.transitionTimingFunction},
           box-shadow ${t.transitionDuration} ${t.transitionTimingFunction};
       }
 
@@ -180,14 +181,16 @@ export const styles = memoizeStyle({
 
   boxWarning(t: Theme) {
     return css`
-      box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+      box-shadow:
+        inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
         0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorWarning} !important; // override hover and active
     `;
   },
 
   boxError(t: Theme) {
     return css`
-      box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+      box-shadow:
+        inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
         0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorError} !important; // override hover and active
     `;
   },
@@ -202,7 +205,8 @@ export const styles = memoizeStyle({
 
   boxFocus(t: Theme) {
     return css`
-      box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+      box-shadow:
+        inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
         0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus} !important; // override hover and active
     `;
   },
@@ -232,14 +236,6 @@ export const styles = memoizeStyle({
       display: flex;
       justify-content: center;
       align-items: center;
-    `;
-  },
-
-  iconFixPosition() {
-    return css`
-      svg {
-        margin: -12.5% 0 0 0;
-      }
     `;
   },
 

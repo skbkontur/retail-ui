@@ -1,10 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { Spinner } from '../Spinner';
 import { IconSizeAliases } from '../../internal/icons2022/iconConstants';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { ButtonDataTids } from './Button';
 import { styles } from './Button.styles';
@@ -15,11 +12,9 @@ interface LoadingButtonIconProps {
 }
 
 export const LoadingButtonIcon = ({ size, isCentered = true }: LoadingButtonIconProps) => {
-  const theme = useContext(ThemeContext);
-
   return (
     <div data-tid={ButtonDataTids.spinner} className={isCentered ? styles.loading() : undefined}>
-      {isTheme2022(theme) ? <LoadingIcon size={size} /> : <Spinner caption={null} dimmed type="mini" />}
+      {<LoadingIcon size={size} />}
     </div>
   );
 };

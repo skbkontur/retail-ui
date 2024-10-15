@@ -1,9 +1,14 @@
 import React from 'react';
 
 import { forwardRefAndName, ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
-import { SvgIconProps } from '../icons/16px';
 
 import { styles } from './BaseIcon.styles';
+
+export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
+  color?: string;
+  size?: string | number;
+  ref?: any;
+}
 
 export type IconProps = {
   size?: number;

@@ -15,11 +15,4 @@ export const styles = memoizeStyle({
       margin-right: -5px;
     `;
   },
-
-  rightIconWrapper() {
-    return css`
-      display: inline-block;
-      margin-right: -3px;
-    `;
-  },
 });

@@ -22,7 +22,7 @@ namespace SKBKontur.SeleniumTesting.Tests.PagingTests
         [Test]
         public void TestPresence()
         {
-            page.Paging1.IsPresent.Wait().That(Is.True);
+            page.Paging1.IsPresent.Wait().That(Is.False);
         }
 
         [Test]

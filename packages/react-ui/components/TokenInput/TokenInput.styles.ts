@@ -136,12 +136,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  helperTextEditing(t: Theme) {
-    return css`
-      padding-bottom: ${t.tokenLegacyTextShift};
-    `;
-  },
-
   inputDisabled(t: Theme) {
     return css`
       pointer-events: none;

@@ -7,7 +7,7 @@ module.exports = {
     '\\.[jt]sx?$': ['babel-jest', { envName: 'cjs' }],
   },
   testRegex: '__tests__(\\\\|/).*(\\.|-)test\\.(j|t)sx?$',
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['<rootDir>/test-setup.js'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
 };

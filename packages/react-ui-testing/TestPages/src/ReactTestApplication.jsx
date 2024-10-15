@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import TestPage from './components/TestPage';
@@ -36,46 +35,38 @@ import './styles/typography.less';
 import AutocompleteTestPage from './components/TestPages/AutocompleteTestPage';
 import ToastTestPage from './components/TestPages/ToastTestPage';
 import ToggleTestPage from './components/TestPages/ToggleTestPage';
-import SwitcherTestPage from "./components/TestPages/SwitcherTestPage";
-
-const customHistory = createBrowserHistory();
-const basePath = process.env.baseUrl + '/';
+import SwitcherTestPage from './components/TestPages/SwitcherTestPage';
 
 // eslint-disable-next-line import/no-default-export
 export default function ReactTestApplication() {
   return (
-    <Router history={customHistory}>
-      <Route
-        path={basePath}
-        render={({ match: { url } }) => (
-          <Layout>
-            <Switch>
-              <Route path={`${url}/TestPage`} component={TestPage} />
-              <Route path={`${url}/Input`} component={InputTestPage} />
-              <Route path={`${url}/Lists`} component={ListsTestPage} />
-              <Route path={`${url}/Modals`} component={ModalsTestPage} />
-              <Route path={`${url}/ComboBoxes`} component={ComboBoxTestPage} />
-              <Route path={`${url}/Select`} component={SelectTestPage} />
-              <Route path={`${url}/DatePicker`} component={DatePickerTestPage} />
-              <Route path={`${url}/Button`} component={ButtonTestPage} />
-              <Route path={`${url}/CheckBox`} component={CheckBoxTestPage} />
-              <Route path={`${url}/Link`} component={LinkTestPage} />
-              <Route path={`${url}/RadioGroup`} component={RadioGroupTestPage} />
-              <Route path={`${url}/Radio`} component={RadioTestPage} />
-              <Route path={`${url}/Textarea`} component={TextAreaTestPage} />
-              <Route path={`${url}/Tooltip`} component={TooltipTestPage} />
-              <Route path={`${url}/ExposeTidToDom`} component={ExposeTidToDomTestPage} />
-              <Route path={`${url}/Kebab`} component={KebabTestPage} />
-              <Route path={`${url}/Paging`} component={PagingTestPage} />
-              <Route path={`${url}/SidePage`} component={SidePageTestPage} />
-              <Route path={`${url}/Autocomplete`} component={AutocompleteTestPage} />
-              <Route path={`${url}/Toast`} component={ToastTestPage} />
-              <Route path={`${url}/Toggle`} component={ToggleTestPage} />
-              <Route path={`${url}/Switcher`} component={SwitcherTestPage} />
-            </Switch>
-          </Layout>
-        )}
-      ></Route>
+    <Router basename={process.env.baseUrl}>
+      <Layout>
+        <Routes>
+          <Route path="TestPage" element={<TestPage />} />
+          <Route path="Input" element={<InputTestPage />} />
+          <Route path="/Lists" element={<ListsTestPage />} />
+          <Route path="/Modals" element={<ModalsTestPage />} />
+          <Route path="/ComboBoxes" element={<ComboBoxTestPage />} />
+          <Route path="/Select" element={<SelectTestPage />} />
+          <Route path="/DatePicker" element={<DatePickerTestPage />} />
+          <Route path="/Button" element={<ButtonTestPage />} />
+          <Route path="/CheckBox" element={<CheckBoxTestPage />} />
+          <Route path="/Link" element={<LinkTestPage />} />
+          <Route path="/RadioGroup" element={<RadioGroupTestPage />} />
+          <Route path="/Radio" element={<RadioTestPage />} />
+          <Route path="/Textarea" element={<TextAreaTestPage />} />
+          <Route path="/Tooltip" element={<TooltipTestPage />} />
+          <Route path="/ExposeTidToDom" element={<ExposeTidToDomTestPage />} />
+          <Route path="/Kebab" element={<KebabTestPage />} />
+          <Route path="/Paging" element={<PagingTestPage />} />
+          <Route path="/SidePage" element={<SidePageTestPage />} />
+          <Route path="/Autocomplete" element={<AutocompleteTestPage />} />
+          <Route path="/Toast" element={<ToastTestPage />} />
+          <Route path="/Toggle" element={<ToggleTestPage />} />
+          <Route path="/Switcher" element={<SwitcherTestPage />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 }

@@ -37,7 +37,12 @@ export const MiniModalHeader = forwardRefAndName<HTMLDivElement, MiniModalHeader
             </div>
           )}
           {children && (
-            <div data-tid={MiniModalDataTids.title} className={cx(styles.title(), icon && styles.titleWithIcon(theme))}>
+            <div
+              data-tid={MiniModalDataTids.title}
+              className={cx(styles.title(), {
+                [styles.titleWithIcon(theme)]: !!icon,
+              })}
+            >
               {children}
             </div>
           )}

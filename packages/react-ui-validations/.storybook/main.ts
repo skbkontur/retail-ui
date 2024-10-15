@@ -1,12 +1,14 @@
-module.exports = {
-  core: { disableTelemetry: true },
-  addons: ['creevey', 'creevey/preset/ie11'],
+import type { StorybookConfig } from '@storybook/react-webpack5';
+
+const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.tsx'],
-  typescript: {
-    check: false,
-    reactDocgen: 'none',
-  },
-  features: {
-    postcss: false,
+  addons: ['creevey'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      strictMode: true,
+    },
   },
 };
+
+export default config;

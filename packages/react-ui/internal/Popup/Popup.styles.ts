@@ -5,10 +5,10 @@ export const styles = memoizeStyle({
   popup(t: Theme) {
     return css`
       position: absolute;
-      min-width: 18px;
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
       display: flex;
+      width: max-content;
     `;
   },
 
@@ -23,6 +23,7 @@ export const styles = memoizeStyle({
       overflow: hidden;
       border-radius: ${t.popupBorderRadius};
       flex-shrink: 0;
+      max-width: 100%;
       line-height: normal;
     `;
   },
@@ -35,13 +36,6 @@ export const styles = memoizeStyle({
   },
 
   shadow(t: Theme) {
-    return css`
-      filter: ${t.popupDropShadow};
-      -webkit-filter: ${t.popupDropShadow};
-    `;
-  },
-
-  shadowFallback(t: Theme) {
     return css`
       box-shadow: ${t.popupBoxShadow};
     `;
@@ -56,6 +50,9 @@ export const styles = memoizeStyle({
     return css`
       transform: translateY(10px);
     `;
+  },
+  'transition-enter-middle'() {
+    return css``;
   },
   'transition-enter-bottom'() {
     return css`
@@ -74,7 +71,9 @@ export const styles = memoizeStyle({
   },
   transitionEnterActive() {
     return css`
-      transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition:
+        transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
       transform: translate(0, 0);
     `;
@@ -84,6 +83,12 @@ export const styles = memoizeStyle({
       opacity: 0.01;
       transition: opacity 0.15s ease-out;
       transform: translate(0, 0);
+    `;
+  },
+  absoluteParent() {
+    return css`
+      position: absolute;
+      text-align: initial;
     `;
   },
 });

@@ -3,7 +3,6 @@ import React, { PropsWithChildren, useContext, memo } from 'react';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { LocaleContext } from '../../lib/locale';
@@ -41,7 +40,6 @@ export const CalendarDay = memo(
       ref: React.Ref<HTMLButtonElement>,
     ) {
       const theme = useContext(ThemeContext);
-      const _isTheme2022 = isTheme2022(theme);
 
       const { langCode } = useContext(LocaleContext);
       const internalDate = new InternalDate({ langCode, value: date });
@@ -62,7 +60,6 @@ export const CalendarDay = memo(
           className={cx(
             {
               [styles.day(theme)]: true,
-              [styles.today(theme)]: isToday && !_isTheme2022,
               [styles.selected(theme)]: isSelected,
               [styles.weekend(theme)]: isWeekend,
             },
@@ -71,7 +68,7 @@ export const CalendarDay = memo(
           {...getVisualStateDataAttributes({ selected: isSelected })}
           {...rest}
         >
-          <span className={cx({ [styles.todayCaption2022(theme)]: isToday && _isTheme2022 })}>{caption}</span>
+          <span className={cx({ [styles.todayCaption(theme)]: isToday })}>{caption}</span>
         </button>
       );
     },

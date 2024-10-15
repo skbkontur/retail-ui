@@ -12,7 +12,6 @@ import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 import {
@@ -26,9 +25,8 @@ import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomCom
 import { ComboBoxView } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
+  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
@@ -40,6 +38,10 @@ export interface CustomComboBoxProps<T>
    */
   error?: boolean;
   maxLength?: number;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
@@ -67,7 +69,7 @@ export interface CustomComboBoxProps<T>
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
@@ -262,7 +264,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       error: this.props.error,
       items: this.state.items,
       loading: this.state.loading,
-      menuAlign: this.props.menuAlign,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
       menuPos: this.props.menuPos,

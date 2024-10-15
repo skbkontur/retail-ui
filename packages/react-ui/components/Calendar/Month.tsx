@@ -15,7 +15,7 @@ import { styles as cellStyles } from './DayCellView.styles';
 interface MonthProps {
   top: number;
   month: MonthViewModel;
-  onMonthYearChange: (month: number, year: number) => void;
+  onMonthYearChange: (monthNative: number, year: number) => void;
 }
 
 export class Month extends React.Component<MonthProps> {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { CreeveyTestFunction } from 'creevey/lib/types/types';
 
 import { CloseButtonIcon, CloseButtonIconProps } from '../CloseButtonIcon';
 import { ComponentTable } from '../../ComponentTable';
@@ -9,9 +8,6 @@ import { Input } from '../../../components/Input';
 
 export default {
   title: 'CloseButtonIcon',
-  parameters: {
-    creevey: { skip: { 'only available in theme2022': { in: /^(?!\b.*2022.*\b)/ } } },
-  },
 };
 
 type CloseButtonIconState = Partial<CloseButtonIconProps>;
@@ -67,37 +63,4 @@ export const Tabbable: Story = () => {
       </div>
     </Gapped>
   );
-};
-const clickThenTAB: (args: { clickDataTid: string }) => CreeveyTestFunction = ({ clickDataTid }) =>
-  async function () {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: `[data-tid="${clickDataTid}"] input` }))
-      .pause(500)
-      .perform();
-    const firstFocus = await this.takeScreenshot();
-
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .pause(500)
-      .perform();
-    const secondFocus = await this.takeScreenshot();
-
-    await this.expect({ firstFocus, secondFocus }).to.matchImages();
-  };
-Tabbable.parameters = {
-  creevey: {
-    skip: {
-      'do not pass on teamcity': { in: ['firefox2022', 'firefox2022Dark'] },
-    },
-    tests: {
-      notTabbable: clickThenTAB({ clickDataTid: 'notTabbable' }),
-      tabbable: clickThenTAB({ clickDataTid: 'tabbable' }),
-    },
-  },
 };
