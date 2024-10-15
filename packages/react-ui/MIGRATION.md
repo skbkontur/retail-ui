@@ -42,13 +42,27 @@
 
 Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`. 
 
-Удалены фиче-флаги в [react-ui](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) и [react-ui-validations](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Их поведение было применено по умолчанию.
+Удалены фиче-флаги в [react-ui](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) и [react-ui-validations](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
+  1. в `TokenInput` из дефолтных разделителей удалён пробел
+  2. в `Hint` и `Kebab` убран pin
+  3. в `Spinner` и `Loader` убран дефолтный `caption`
+  4. в `SidePage` с пропом `blockBackground` активируется FocusLock
+  5. `MenuItem` остаются активными даже после обертки во что-либо
+  6. в `Textarea` фикс для Safari 17 применяется по умолчанию
+  7. в `Link` добавлена обводка при фокусе
+  8. `Hint` изменяет свое положения, если не попадает во viewport
+  9. логика выбора позиции в `Hint` и `Tooltip` унифицирована
+  10. в валидациях применены актуальные цвета
+  11. в `ValidationWrapper` обертка в `span` заменена на `div` c `display: inline`
 
-Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars).
+Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars). 
 
 В `ScrollContainer` и `SideMenu` удален проп `hideScrollBar`. Вместо него следует использовать `showScrollBar`. 
 
-Также удалены некоторые другие устаревшие сущности. Полный список доступен в [#3459](https://github.com/skbkontur/retail-ui/pull/3459) и [#3523](https://github.com/skbkontur/retail-ui/pull/3523).
+Также удалены некоторые другие устаревшие сущности. Полный список доступен в [#3459](https://github.com/skbkontur/retail-ui/pull/3459) и [#3523](https://github.com/skbkontur/retail-ui/pull/3523). Самые значимые из них:
+- удален проп `colors` из `Token` (рекомендуется использовать переменные `tokenBg`, `tokenColor`, `tokenBorderColor` и др.)
+- удален проп `color` в `Toggle` (рекомендуется использовать переменную `toggleBgChecked`)
+- удален проп `shouldBeVisibledWithLessThanTwoPages` в `Paging`
 
 ### Новые актуальные темы
 
