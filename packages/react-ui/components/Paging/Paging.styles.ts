@@ -69,7 +69,7 @@ export const styles = memoizeStyle({
     return css`
       box-sizing: ${t.pagingPageLinkBoxSizing};
       border-radius: ${t.pagingPageLinkBorderRadius};
-      color: ${t.pagingForwardLinkColor};
+      color: ${t.pagingPageLinkColor};
       cursor: pointer;
       display: block;
       margin: ${t.pagingPageLinkMargin};
