@@ -262,6 +262,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
   //#endregion Calendar
   //#region Paging
+  public static pagingPageLinkColor = 'rgba(255, 255, 255, 0.87)';
   public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
   public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
   public static pagingPageLinkDisabledActiveBg = 'rgba(255, 255, 255, 0.08)';

@@ -72,6 +72,7 @@ export class BasicLightThemeInternal {
   public static specificityLevel = '0';
   public static fixedPanelShadow = 'none';
   public static bgActive = '#141414';
+  public static bgChecked = '#3D3D3D';
   public static borderColorFocus = '#3D3D3D';
   public static get borderColorError() {
     return this.errorMain;
@@ -1042,6 +1043,9 @@ export class BasicLightThemeInternal {
   public static get pagingForwardIconSize() {
     return this.pagingFontSize;
   }
+  public static get pagingPageLinkColor() {
+    return this.textColorDefault;
+  }
   public static pagingPageLinkBoxSizing = 'border-box';
   public static pagingPageLinkPaddingX = '12px';
   public static pagingPageLinkPaddingY = '0.3125em';
@@ -1069,7 +1073,7 @@ export class BasicLightThemeInternal {
   public static pagingPageLinkHintMargin = '4px -20px 0px';
   public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardLinkColor() {
-    return this.linkColor;
+    return this.textColorDefault;
   }
   public static get pagingForwardLinkDisabledColor() {
     return this.linkDisabledColor;
@@ -1845,7 +1849,7 @@ export class BasicLightThemeInternal {
     return this.btnDefaultActiveBg;
   }
   public static get checkboxCheckedBg() {
-    return this.borderColorFocus;
+    return this.bgChecked;
   }
   public static get checkboxBgDisabled() {
     return this.bgDisabled;
@@ -2388,7 +2392,7 @@ export class BasicLightThemeInternal {
     return this.borderColorFocus;
   }
   public static get fileUploaderLinkColor() {
-    return this.linkColor;
+    return this.textColorDefault;
   }
   public static fileUploaderAfterLinkColor = '#858585';
   public static fileUploaderIconSize = '14px';
