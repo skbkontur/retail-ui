@@ -16,6 +16,10 @@ import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import { THEME_2022_UPDATE_2024 as THEME_2022 } from '../lib/theming/themes/Theme2022Update2024'; // TODO remove in 5.0
 import { THEME_2022_DARK_UPDATE_2024 as THEME_2022_DARK } from '../lib/theming/themes/Theme2022DarkUpdate2024'; // TODO remove in 5.0
+import { Upgrade } from '../lib/Upgrades'; // TODO remove in 5.0
+
+Upgrade.setSpecificityLevel(2);
+
 const customViewports = {
   iphone: {
     name: 'Iphone',
@@ -87,7 +91,7 @@ export const decorators: Meta['decorators'] = [
     return <Story />;
   },
   (Story) => (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+    <div className="react-ui" id="test-element" style={{ display: 'inline-block', padding: 4 }}>
       <Story />
     </div>
   ),

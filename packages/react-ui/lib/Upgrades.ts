@@ -14,10 +14,10 @@ export const Upgrade = {
     return specificityLevel;
   },
   setSpecificityLevel(level: number) {
-    warning(
-      false,
-      "setSpecificityLevel doesn't work. For more information please visit https://tech.skbkontur.ru/react-ui/#/Migration",
-    );
+    // warning(
+    //   false,
+    //   "setSpecificityLevel doesn't work. For more information please visit https://tech.skbkontur.ru/react-ui/#/Migration",
+    // );
     if (canModifySpecificityLevel) {
       specificityLevel = level;
     } else {

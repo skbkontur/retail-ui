@@ -1,11 +1,25 @@
 import createEmotion from '@emotion/css/create-instance';
-import extraScopePlugin from 'stylis-plugin-extra-scope';
+// import extraScopePlugin from 'stylis-plugin-extra-scope';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Upgrade } from '../Upgrades';
 import { AnyObject, FunctionWithParams } from '../utils';
 
 import { Theme } from './Theme';
+
+function extraScopePlugin(scope: any) {
+  return (element: any) => {
+    if (element.type !== 'rule') {
+      return;
+    }
+
+    if (element.root?.type === '@keyframes') {
+      return;
+    }
+
+    element.props = element.props.map((prop: any) => `${scope} ${prop}`);
+  };
+}
 
 const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
