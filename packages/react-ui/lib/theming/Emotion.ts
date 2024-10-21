@@ -17,7 +17,11 @@ function extraScopePlugin(scope: any) {
       return;
     }
 
-    element.props = element.props.map((prop: any) => `${scope} ${prop}`);
+    const prefix = `${scope} `;
+
+    element.props = element.props.map((prop: string) =>
+      prop.startsWith(':root') || prop.startsWith(prefix) ? prop : `${prefix}${prop}`,
+    );
   };
 }
 
