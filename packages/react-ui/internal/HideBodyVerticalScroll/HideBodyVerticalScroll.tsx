@@ -100,6 +100,7 @@ class VerticalScrollCounter {
 
 function generateDocumentStyle(documentMargin: number) {
   return css`
+  html& {
     overflow: hidden !important;
     margin-right: ${documentMargin}px !important;
     height: 100%;

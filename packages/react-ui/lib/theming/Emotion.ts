@@ -20,7 +20,9 @@ function extraScopePlugin(scope: any) {
     const prefix = `${scope} `;
 
     element.props = element.props.map((prop: string) =>
-      prop.startsWith(':root') || prop.startsWith(prefix) ? prop : `${prefix}${prop}`,
+      prop.startsWith(':root') || prop.startsWith('html') || prop.startsWith('body') || prop.startsWith(prefix)
+        ? prop
+        : `${prefix}${prop}`,
     );
   };
 }
