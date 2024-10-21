@@ -1,6 +1,6 @@
 # Migration
 
-- [4.x - 5.0](#4x---50)
+- [@skbkontur/react-ui 4.x - 5.0](#skbkonturreact-ui-4x---50)
   - [Удаления в 5.0](#удаления-в-50)
   - [Новые актуальные темы](#новые-актуальные-темы)
   - [ButtonLink](#buttonlink)
@@ -8,6 +8,7 @@
   - [Другие небольшие улучшения](#другие-небольшие-улучшения)
   - [Остальные визуальные изменения](#остальные-визуальные-изменения)
   - [Совместимость 5.0 с другими](#совместимость-50-с-другими-пакетами)
+- [@skbkontur/react-ui-validations 1.x - 2.0](#skbkonturreact-ui-validations-4x---50)
 - [3.x - 4.0](#3x---40)
   - [Новые темы](#новые-темы)
   - [Адаптация под Lab Grotesque](#адаптация-под-lab-grotesque)
@@ -34,7 +35,7 @@
   - [Переход с кастомизации с помощью less](#переход-с-кастомизации-с-помощью-less)
   - [Подключение плоской темы](#подключение-плоской-темы)
 
-## 4.x - 5.0
+## @skbkontur/react-ui 4.x - 5.0
 
 ### Удаления в 5.0
 
@@ -42,7 +43,7 @@
 
 Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`. 
 
-Удалены фиче-флаги в [react-ui](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) и [react-ui-validations](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
+Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) кроме `comboBoxAllowValueChangeInEditingState`. Краткий список вступивших в силу изменений:
   1. в `TokenInput` из дефолтных разделителей удалён пробел
   2. в `Hint` и `Kebab` убран pin
   3. в `Spinner` и `Loader` убран дефолтный `caption`
@@ -52,8 +53,7 @@
   7. в `Link` добавлена обводка при фокусе
   8. `Hint` изменяет свое положения, если не попадает во viewport
   9. логика выбора позиции в `Hint` и `Tooltip` унифицирована
-  10. в валидациях применены актуальные цвета
-  11. в `ValidationWrapper` обертка в `span` заменена на `div` c `display: inline`
+
 
 Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars). 
 
@@ -102,8 +102,6 @@
 
 Подчеркивание в `Link` переделано на `text-decoration`. Подробнее в [#3462](https://github.com/skbkontur/retail-ui/pull/3462).
 
-Обертка в `ValidationWrapper` заменена на `div`, что решило проблемы с семантикой верстки и позиционированием сообщений валидации. Подробнее в [#3463](https://github.com/skbkontur/retail-ui/pull/3463).
-
 Публичный метод `scrollToMonth` в `DatePicker` и `Calendar` теперь принимает в аргумент номер месяца в формате `1-12`, а не `0-11`. Подробнее в [#3470](https://github.com/skbkontur/retail-ui/pull/3470).
 
 Функция `ThemeFactory.create` по умолчанию принимает в аргумент только переменные, присутствующие в теме. Подробнее в [#3516](https://github.com/skbkontur/retail-ui/pull/3516).
@@ -129,6 +127,21 @@
 | `@skbkontur/react-ui-validations` | `2.0.0`  |
 | `@skbkontur/react-ui-addons`      | `5.0.0`  |
 | `@skbkontur/side-menu`            | `3.0.0`  |
+
+## @skbkontur/react-ui-validations 1.x - 2.0
+
+Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
+  1. применены актуальные цвета 
+  2. в компонентах обертки в span заменены на `div` c `display: inline`
+
+Замена оберток на `div` решает проблемы с семантикой верстки и позиционированием сообщений валидации. Подробнее в [#3463](https://github.com/skbkontur/retail-ui/pull/3463).
+
+В связи с ломающими изменениями совместимость с 2.0 других пакетов начинается с версий: 
+
+| Пакет                             | Версия   |
+| --------------------------------- | ---------|
+| `@skbkontur/react-ui`             | `5.0.0`  |
+| `@skbkontur/react-ui-addons`      | `5.0.0`  |
 
 ## 3.x - 4.0
 
