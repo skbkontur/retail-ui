@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@1.16.3...react-ui-validations@2.0.0) (2024-10-21)
+
+
+### Bug Fixes
+
+* **Theming:** use right colors for error outline and disabled text ([#3493](https://github.com/skbkontur/retail-ui/issues/3493)) ([7a98ee1](https://github.com/skbkontur/retail-ui/commit/7a98ee1815176303582f543e3551a57e65752055))
+* **ValidationWrapper:** add div wrapper, fix w3c issue, tooltip and text position ([#3463](https://github.com/skbkontur/retail-ui/issues/3463)) ([e83e842](https://github.com/skbkontur/retail-ui/commit/e83e842891ce81a5a2c13334d5de4cdb30d03bb8))
+
+
+### Features
+
+* **MaskedInput:** (rev. 2) ([#3390](https://github.com/skbkontur/retail-ui/issues/3390)) ([b2fb84f](https://github.com/skbkontur/retail-ui/commit/b2fb84f662fbb28c03ff38544d4f367a7446a778))
+* **Popup:** replace DropdownContainer, unify shadows  ([#3451](https://github.com/skbkontur/retail-ui/issues/3451)) ([723ec43](https://github.com/skbkontur/retail-ui/commit/723ec43470bec9f0dd89b5f899ffffb90004a538))
+* remove feature flags ([#3434](https://github.com/skbkontur/retail-ui/issues/3434)) ([26676a3](https://github.com/skbkontur/retail-ui/commit/26676a307c055110410f786941d9ace1f07dafe4))
+* update dependencies ([#3400](https://github.com/skbkontur/retail-ui/issues/3400)) ([d54f08d](https://github.com/skbkontur/retail-ui/commit/d54f08db9b10e2b10cb2d40c695a79f4e93271f5))
+
+
+
+
+
 ## [1.16.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.16.2...react-ui-validations@1.16.3) (2024-08-20)
 
 **Note:** Version bump only for package react-ui-validations

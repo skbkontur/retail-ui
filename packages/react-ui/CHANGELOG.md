@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.27.0...@skbkontur/react-ui@5.0.0) (2024-10-21)
+
+
+### Bug Fixes
+
+* **Button, Select:** fix border hover ([#3504](https://github.com/skbkontur/retail-ui/issues/3504)) ([d3266e5](https://github.com/skbkontur/retail-ui/commit/d3266e5a2600104b630a644d45deab92c9b98b1b))
+* **Button:** fix btnBackless vars ([#3465](https://github.com/skbkontur/retail-ui/issues/3465)) ([f5c0d83](https://github.com/skbkontur/retail-ui/commit/f5c0d8319fc5f1b054273fc4769cf98c83d44925))
+* **Button:** rename root data-tid ([#3520](https://github.com/skbkontur/retail-ui/issues/3520)) ([ff030f1](https://github.com/skbkontur/retail-ui/commit/ff030f132a8ab74d6779a547f0a1759cc39ad039))
+* **Calendar,DatePicker:** use human month format in scrollToMonth() ([2e55167](https://github.com/skbkontur/retail-ui/commit/2e55167956582acf7d76863ba4f97f0a3ca39837))
+* **ComboBox:** restore comboBoxAllowValueChangeInEditingState feature flag ([#3529](https://github.com/skbkontur/retail-ui/issues/3529)) ([0df80d3](https://github.com/skbkontur/retail-ui/commit/0df80d3bddb0ef710210c959060fa2321d4bb53b))
+* **Link:** fix markup and error/warning styles ([#3528](https://github.com/skbkontur/retail-ui/issues/3528)) ([0165dc6](https://github.com/skbkontur/retail-ui/commit/0165dc6d52fa922a18d417f3515c0cc17e3f67ee))
+* **Link:** replace border-bottom with text-decoration ([#3462](https://github.com/skbkontur/retail-ui/issues/3462)) ([bcb40ac](https://github.com/skbkontur/retail-ui/commit/bcb40ac1b41d0d16176a125339502d5721a2bf33))
+* **MaskedInput:** fix selectAll and empty maskChar ([#3525](https://github.com/skbkontur/retail-ui/issues/3525)) ([72120d0](https://github.com/skbkontur/retail-ui/commit/72120d04ad179531fa7f853c44be3c75ac64022a))
+* **Theming:** use right colors for error outline and disabled text ([#3493](https://github.com/skbkontur/retail-ui/issues/3493)) ([7a98ee1](https://github.com/skbkontur/retail-ui/commit/7a98ee1815176303582f543e3551a57e65752055))
+* **Toast:** fix paddings ([#3494](https://github.com/skbkontur/retail-ui/issues/3494)) ([6eab772](https://github.com/skbkontur/retail-ui/commit/6eab77251dd3c99cd542a0fc682952a0aea1c51b))
+* **Toast:** restore root data-tid ([#3527](https://github.com/skbkontur/retail-ui/issues/3527)) ([066c37d](https://github.com/skbkontur/retail-ui/commit/066c37dc053726dd289edd06b586f0d4f8673f9c))
+
+
+### Features
+
+* **Button,Link:** add component prop ([#3521](https://github.com/skbkontur/retail-ui/issues/3521)) ([27726a9](https://github.com/skbkontur/retail-ui/commit/27726a967f8cc11e719e414008129da325641cb2))
+* **MaskedInput:** (rev. 2) ([#3390](https://github.com/skbkontur/retail-ui/issues/3390)) ([b2fb84f](https://github.com/skbkontur/retail-ui/commit/b2fb84f662fbb28c03ff38544d4f367a7446a778))
+* **Picker:** remove deprecated component ([#3522](https://github.com/skbkontur/retail-ui/issues/3522)) ([ec536e3](https://github.com/skbkontur/retail-ui/commit/ec536e37c94bd9b0e045081264627871f478e479))
+* **Popup:** replace DropdownContainer, unify shadows  ([#3451](https://github.com/skbkontur/retail-ui/issues/3451)) ([723ec43](https://github.com/skbkontur/retail-ui/commit/723ec43470bec9f0dd89b5f899ffffb90004a538))
+* **react-ui:** remove deprecated entities ([#3523](https://github.com/skbkontur/retail-ui/issues/3523)) ([edfa035](https://github.com/skbkontur/retail-ui/commit/edfa03543e630f9090639bcb46dd18ed9edd16f2))
+* remove feature flags ([#3434](https://github.com/skbkontur/retail-ui/issues/3434)) ([26676a3](https://github.com/skbkontur/retail-ui/commit/26676a307c055110410f786941d9ace1f07dafe4))
+* **theme:** delete legacy vars ([#3517](https://github.com/skbkontur/retail-ui/issues/3517)) ([7430d78](https://github.com/skbkontur/retail-ui/commit/7430d78f7b74c5af72e80116360e4cba7e22b49c))
+* **ThemeFactory:** disallow arbitrary theme tokens by default ([#3516](https://github.com/skbkontur/retail-ui/issues/3516)) ([e43845b](https://github.com/skbkontur/retail-ui/commit/e43845b9f63901702b9bb1e2dc2d3fac77a22f5b))
+* **theme:** remove deprecated vars ([#3515](https://github.com/skbkontur/retail-ui/issues/3515)) ([9653ca1](https://github.com/skbkontur/retail-ui/commit/9653ca1dc88bcca73d589cc3a09c4176d4fe3ce6))
+* **Theming:** rename themes, introduce LIGHT_THEME and DARK_THEME ([#3519](https://github.com/skbkontur/retail-ui/issues/3519)) ([f290781](https://github.com/skbkontur/retail-ui/commit/f290781a508e96b83a5511435b4a51a581cb9919))
+* update dependencies ([#3400](https://github.com/skbkontur/retail-ui/issues/3400)) ([d54f08d](https://github.com/skbkontur/retail-ui/commit/d54f08db9b10e2b10cb2d40c695a79f4e93271f5))
+
+
+### BREAKING CHANGES
+
+* **Calendar,DatePicker:** In the `Calendar` method `scrollToMonth(month, year)` passes the human format of the month. Please change value `scrollToMonth(0, 2024)` →  `scrollToMonth(1, 2024)` for scroll to January 2024
+
+
+
+
+
 # [4.27.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.26.0...@skbkontur/react-ui@4.27.0) (2024-09-30)
 
 
