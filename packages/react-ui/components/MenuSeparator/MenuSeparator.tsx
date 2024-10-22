@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { useTheme } from '../../lib/theming/useTheme';
+import { useEmotion } from '../../lib/theming/Emotion';
 
-import { styles } from './MenuSeparator.styles';
+import { getStyles } from './MenuSeparator.styles';
 
 export type MenuSeparatorProps = CommonProps;
 
@@ -18,7 +18,9 @@ export const MenuSeparatorDataTids = {
  * Сущности в которых может быть использован `MenuSeparator`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuSeparator(props: MenuSeparatorProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
 
   return (
     <CommonWrapper {...props}>
@@ -27,7 +29,7 @@ function MenuSeparator(props: MenuSeparatorProps) {
           return (
             <div
               data-tid={MenuSeparatorDataTids.root}
-              className={cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
+              className={emotion.cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
             />
           );
         }}

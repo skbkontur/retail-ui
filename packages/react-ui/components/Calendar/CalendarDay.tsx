@@ -2,14 +2,14 @@ import React, { PropsWithChildren, useContext, memo } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { cx, useEmotion } from '../../lib/theming/Emotion';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { LocaleContext } from '../../lib/locale';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './DayCellView.styles';
+import { getStyles } from './DayCellView.styles';
 import { CalendarDataTids } from './Calendar';
 
 export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement> {
@@ -40,6 +40,7 @@ export const CalendarDay = memo(
       ref: React.Ref<HTMLButtonElement>,
     ) {
       const theme = useContext(ThemeContext);
+      const emotion = useEmotion();
 
       const { langCode } = useContext(LocaleContext);
       const internalDate = new InternalDate({ langCode, value: date });
@@ -49,6 +50,7 @@ export const CalendarDay = memo(
 
       const { date: day } = internalDate.getComponentsLikeNumber();
       const caption = children ?? day;
+      const styles = getStyles(emotion);
 
       return (
         <button

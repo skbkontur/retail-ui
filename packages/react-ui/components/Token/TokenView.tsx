@@ -1,11 +1,11 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion } from '../../lib/theming/Emotion';
+import { useTheme } from '../../lib/theming/useTheme';
 
 import { TokenSize } from './Token';
-import { globalClasses, styles } from './Token.styles';
+import { getStyles, globalClasses } from './Token.styles';
 
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: TokenSize;
@@ -15,7 +15,10 @@ export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function TokenView(props: TokenViewProps) {
   const { size = 'small', children, closeButton, hideCloseButton, className, ...rest } = props;
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
+
   const getSizeClassName = (size: TokenSize) => {
     switch (size) {
       case 'large':
@@ -28,14 +31,14 @@ export function TokenView(props: TokenViewProps) {
     }
   };
   const closeButtonNode = hideCloseButton ? null : (
-    <span className={cx(styles.removeIcon(theme), globalClasses.removeIcon)}>{closeButton}</span>
+    <span className={emotion.cx(styles.removeIcon(theme), globalClasses.removeIcon)}>{closeButton}</span>
   );
 
   return (
     <CommonWrapper {...props}>
       <div
         {...rest}
-        className={cx(getSizeClassName(size), {
+        className={emotion.cx(getSizeClassName(size), {
           [styles.token(theme)]: true,
         })}
       >

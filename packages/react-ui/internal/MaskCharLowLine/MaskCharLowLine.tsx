@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { styles } from './MaskCharLowLine.styles';
+import { useEmotion } from '../../lib/theming/Emotion';
+
+import { getStyles } from './MaskCharLowLine.styles';
 
 /**
  * FIGURE SPACE
@@ -11,4 +13,8 @@ import { styles } from './MaskCharLowLine.styles';
  */
 export const MASK_CHAR_EXEMPLAR = String.fromCharCode(0x2007);
 
-export const MaskCharLowLine = () => <span className={styles.root()}>{MASK_CHAR_EXEMPLAR}</span>;
+export const MaskCharLowLine = () => {
+  const emotion = useEmotion();
+  const styles = getStyles(emotion);
+  return <span className={styles.root()}>{MASK_CHAR_EXEMPLAR}</span>;
+};

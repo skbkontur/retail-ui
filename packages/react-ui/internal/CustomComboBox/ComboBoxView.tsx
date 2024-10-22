@@ -1,4 +1,5 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Input, InputIconType, InputProps } from '../../components/Input';
@@ -11,21 +12,22 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { LoadingIcon } from '../icons2022/LoadingIcon';
 import { ComboBoxExtendedItem } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { ZIndex } from '../ZIndex';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { styles } from './CustomComboBox.styles';
+import { getStyles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
@@ -147,6 +149,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<Popup>();
   private theme!: Theme;
+  private emotion!: Emotion;
   private menuId = ComboBoxViewIds.menu + getRandomID();
 
   public state = {
@@ -184,12 +187,19 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = getComboBoxTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = getComboBoxTheme(theme);
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -200,6 +210,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     const isMobile = this.isMobileLayout;
 
     const input = this.renderInput();
+    const styles = getStyles(this.emotion);
 
     return (
       <CommonWrapper {...this.props}>
@@ -423,11 +434,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     this.input = input;
   };
 
-  private renderSpinner = () => (
-    <span className={styles.spinnerWrapper()}>
-      <Spinner type="mini" caption="" dimmed />
-    </span>
-  );
+  private renderSpinner = () => {
+    const styles = getStyles(this.emotion);
+    return (
+      <span className={styles.spinnerWrapper()}>
+        <Spinner type="mini" caption="" dimmed />
+      </span>
+    );
+  };
 
   private getRightIcon = () => {
     const { loading, items, drawArrow, rightIcon, size } = this.props;
@@ -439,6 +453,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     if (rightIcon || drawArrow) {
       return rightIcon || <ArrowDownIcon size={size} />;
     }
+      const styles = getStyles(this.emotion);
 
     return null;
   };

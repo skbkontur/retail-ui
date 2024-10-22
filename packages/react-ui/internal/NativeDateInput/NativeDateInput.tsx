@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { getDateForNative, getDateForComponent } from './utils';
-import { jsStyles } from './NativeDateInput.styles';
+import { getDateForComponent, getDateForNative } from './utils';
+import { getStyles } from './NativeDateInput.styles';
 
 export interface NativeDateInputProps {
   onValueChange?: (value: string) => void;
@@ -24,21 +25,28 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
 
   public render() {
     return (
-      <input
-        type={'date'}
-        max={this.props.maxDate ? getDateForNative(this.props.maxDate) : DEFAULT_MAX_DATE}
-        min={this.props.minDate ? getDateForNative(this.props.minDate) : DEFAULT_MIN_DATE}
-        value={getDateForNative(this.props.value)}
-        onChange={(e) => {
-          if (this.props.onValueChange) {
-            this.props.onValueChange(getDateForComponent(e.target.value));
-          }
+      <EmotionConsumer>
+        {(emotion) => {
+          const styles = getStyles(emotion);
+          return (
+            <input
+              type={'date'}
+              max={this.props.maxDate ? getDateForNative(this.props.maxDate) : DEFAULT_MAX_DATE}
+              min={this.props.minDate ? getDateForNative(this.props.minDate) : DEFAULT_MIN_DATE}
+              value={getDateForNative(this.props.value)}
+              onChange={(e) => {
+                if (this.props.onValueChange) {
+                  this.props.onValueChange(getDateForComponent(e.target.value));
+                }
+              }}
+              className={styles.inputTypeDate()}
+              ref={this.refInput}
+              disabled={this.props.disabled}
+              tabIndex={-1}
+            />
+          );
         }}
-        className={jsStyles.inputTypeDate()}
-        ref={this.refInput}
-        disabled={this.props.disabled}
-        tabIndex={-1}
-      />
+      </EmotionConsumer>
     );
   }
 

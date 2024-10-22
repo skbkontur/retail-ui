@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { useEmotion } from '../../lib/theming/Emotion';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
+import { useTheme } from '../../lib/theming/useTheme';
 
-import { styles } from './DayCellView.styles';
+import { getStyles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
 import { DayCellViewModel } from './DayCellViewModel';
 import * as CDS from './CalendarDateShape';
@@ -16,13 +17,15 @@ export interface DayCellViewProps {
 export const DayCellView = (props: DayCellViewProps) => {
   const { date } = props;
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
-  const theme = useContext(ThemeContext);
+  const emotion = useEmotion();
+  const theme = useTheme();
 
   const handleClick = () => {
     onDateClick?.(date);
   };
 
   const humanDateString = InternalDateTransformer.dateToHumanString(date);
+  const styles = getStyles(emotion);
 
   const dayProps: CalendarDayProps = {
     isToday: Boolean(today && CDS.isEqual(date, today)),

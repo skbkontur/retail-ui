@@ -1,21 +1,22 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { resetButton, disableTextSelect } from '../../lib/styles/Mixins';
 import { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Link.styles';
+import { getStyles, globalClasses } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
 export interface LinkInnerProps extends CommonProps {
@@ -110,21 +111,30 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-              {this.renderMain}
-            </CommonWrapper>
+            <EmotionConsumer>
+              {(emotion) => {
+                this.emotion = emotion;
+                return (
+                  <ThemeContext.Consumer>
+                    {(theme) => {
+                      this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+                      return (
+                        <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                          {this.renderMain}
+                        </CommonWrapper>
+                      );
+                    }}
+                  </ThemeContext.Consumer>
+                );
+              }}
+            </EmotionConsumer>
           );
         }}
-      </ThemeContext.Consumer>
-    );
   }
 
   private getTabIndex = ({
@@ -166,6 +176,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       theme,
       ...rest
     } = props;
+    const styles = getStyles(this.emotion);
 
     let arrow = null;
     if (_button) {
@@ -182,7 +193,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
     const rootProps = {
       ...rest,
-      className: cx({
+      className: this.emotion.cx({
         [styles.root(this.theme)]: true,
         [resetButton()]: Root === 'button',
         [disableTextSelect()]: disabled || loading,
@@ -242,6 +253,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       onClick(event);
     }
   };
+    const styles = getStyles(this.emotion);
 }
 
 const isAnchorProps = (props: LinkProps<any>): props is LinkProps<'a'> => {
