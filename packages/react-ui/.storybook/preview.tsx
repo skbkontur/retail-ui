@@ -59,7 +59,10 @@ const preview: Preview = {
     docs: {
       toc: {
         title: 'Содержание',
-        headingSelector: 'h2, h3, h4', // может еще что-то включить
+        headingSelector: 'h2, h3, h4',
+      },
+      controls: {
+        sort: 'alpha',
       },
     },
     creevey: {

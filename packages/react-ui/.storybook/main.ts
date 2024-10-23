@@ -35,13 +35,6 @@ const config: StorybookConfig = {
       strictMode: true,
     },
   },
-  typescript: {
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => prop.description !== null && prop.description !== '',
-    },
-  },
   core: {
     disableWhatsNewNotifications: true,
   },
