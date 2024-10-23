@@ -7,7 +7,6 @@ import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowChevronDownIcon, ArrowChevronUpIcon, ArrowTriangleUpDownIcon } from '../icons/16px';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ButtonParams, Select } from '../../components/Select';
@@ -129,7 +128,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
       <Tag {...rootProps}>
         <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
           {this.getItem(value)}
-    const styles = getStyles(this.emotion);
         </div>
         {isInteractiveElement && (
           <ArrowCollapseCVOpenIcon16Regular className={this.emotion.cx(globalClasses.arrow)} color="#ADADAD" />
@@ -151,7 +149,6 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
     return (
       <Select
         use="text"
-    const styles = getStyles(this.emotion);
         value={value}
         ref={this.selectRef}
         theme={theme}

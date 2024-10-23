@@ -1,23 +1,33 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Theme } from '../../../lib/theming/Theme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../../lib/theming/Emotion';
 
-import { jsStyles } from './MobilePopupFooter.styles';
+import { getStyles } from './MobilePopupFooter.styles';
 
 export class MobilePopupFooter extends React.Component<React.PropsWithChildren> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuFooter';
 
   private theme!: Theme;
+  private emotion!: Emotion;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion: Emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -28,6 +38,6 @@ export class MobilePopupFooter extends React.Component<React.PropsWithChildren> 
       return null;
     }
 
-    return <div className={jsStyles.root(this.theme)}>{children}</div>;
+    return <div className={getStyles(this.emotion).root(this.theme)}>{children}</div>;
   }
 }

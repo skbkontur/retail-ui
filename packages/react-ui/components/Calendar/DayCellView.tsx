@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
@@ -17,8 +17,8 @@ export interface DayCellViewProps {
 export const DayCellView = (props: DayCellViewProps) => {
   const { date } = props;
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
-  const emotion = useEmotion();
-  const theme = useTheme();
+  const emotion = useContext(EmotionContext);
+  const theme = useContext(ThemeContext);
 
   const handleClick = () => {
     onDateClick?.(date);

@@ -428,7 +428,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       </div>
     );
   }
-    const styles = getStyles(this.emotion);
 
   private handleSelectToday = (today: string) => () => {
     this.handleSelect(today);

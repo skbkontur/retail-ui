@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
-import { useTheme } from '../../lib/theming/useTheme';
 import { Nullable } from '../..//typings/utility-types';
 import { DateSelect } from '../../internal/DateSelect';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './MonthView.styles';
 import { themeConfig } from './config';
@@ -51,8 +51,8 @@ interface MonthViewProps {
 }
 
 export function MonthView(props: MonthViewProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const { minDate, maxDate } = useContext(CalendarContext);
   const { isMobile } = useResponsiveLayout();
 

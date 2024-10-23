@@ -269,8 +269,8 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       ...rest
     } = props;
     const isIndeterminate = this.state.indeterminate;
-
-    const iconClass = cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
+    const styles = getStyles(this.emotion);
+    const iconClass = this.emotion.cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
 
     const iconSize = parseInt(this.getCheckboxBoxSize());
     const IconCheck = (

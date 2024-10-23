@@ -1,7 +1,7 @@
 import createEmotion, { Emotion } from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 import { globalObject } from '@skbkontur/global-object';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 
 import { Upgrade } from '../Upgrades';
 import { AnyObject, FunctionWithParams } from '../utils';
@@ -75,10 +75,8 @@ export const prefix =
       return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
     }, {} as T);
 
-const EmotionContext = createContext<Emotion>(getEmotion({}));
+export const EmotionContext = createContext<Emotion>(getEmotion({}));
 export const EmotionConsumer = EmotionContext.Consumer;
 export const EmotionProvider = EmotionContext.Provider;
-export const useEmotion = (): Emotion => useContext(EmotionContext);
-
 EmotionContext.displayName = 'EmotionContext';
 EmotionContext.__KONTUR_REACT_UI__ = 'EmotionContext';

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { Gapped } from '../../components/Gapped';
 import { Loader } from '../../components/Loader';
 import { isNonNullable } from '../../lib/utils';
-import { EmotionConsumer, useEmotion } from '../../lib/theming/Emotion';
+import { EmotionConsumer, EmotionContext } from '../../lib/theming/Emotion';
 
 import { VariableValue } from './VariableValue';
 import { DEPRECATED_VARIABLES, VARIABLES_GROUPS } from './constants';
@@ -107,7 +107,7 @@ interface GroupProps {
 }
 const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return variables.length > 0 ? (

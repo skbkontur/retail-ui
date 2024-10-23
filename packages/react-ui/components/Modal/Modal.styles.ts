@@ -246,7 +246,7 @@ export const getStyles = (emotion: Emotion) =>
     },
 
     headerWithClose(t: Theme) {
-    const rightPadding = 2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize);
+      const rightPadding = 2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize);
 
       return emotion.css`
       padding-right: ${rightPadding}px;

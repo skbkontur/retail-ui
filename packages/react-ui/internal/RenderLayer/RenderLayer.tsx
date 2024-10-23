@@ -72,14 +72,16 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <EmotionConsumer>
-          {(emotion) => {
-            this.emotion = emotion;
-            return React.Children.only(this.props.children);
-          }}
-        </EmotionConsumer>
-      </CommonWrapper>
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {React.Children.only(this.props.children)}
+            </CommonWrapper>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 

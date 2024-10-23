@@ -453,7 +453,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     if (rightIcon || drawArrow) {
       return rightIcon || <ArrowDownIcon size={size} />;
     }
-      const styles = getStyles(this.emotion);
 
     return null;
   };

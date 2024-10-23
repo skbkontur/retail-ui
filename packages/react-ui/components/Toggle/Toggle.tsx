@@ -236,7 +236,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
-    const styles = getStyles(this.emotion);
+  styles = getStyles(this.emotion);
   private getCaptionSizeClassName() {
     const styles = getStyles(this.emotion);
     switch (this.getProps().size) {
@@ -300,10 +300,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 checked={checked}
                 onChange={this.handleChange}
                 className={this.emotion.cx(this.getInputSizeClassName(), styles.input(this.theme))}
-                  this.getInputSizeClassName(),
-                  isTheme2022(this.theme) && styles.input2022(this.theme),
-                  {
-                )}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
                 ref={this.inputRef}

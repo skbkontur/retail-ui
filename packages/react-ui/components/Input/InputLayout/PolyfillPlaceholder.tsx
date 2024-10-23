@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { InputProps } from '../Input';
-import { useEmotion } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 import { getStyles } from '../Input.styles';
 import { needsPolyfillPlaceholder } from '../../../lib/needsPolyfillPlaceholder';
-import { useTheme } from '../../../lib/theming/useTheme';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { InputLayoutContext } from './InputLayoutContext';
 
@@ -23,8 +23,8 @@ export const PolyfillPlaceholder: React.FunctionComponent<InputLayoutPlaceholder
   defaultValue,
   isMaskVisible,
 }) => {
-  const emotion = useEmotion();
-  const theme = useTheme();
+  const emotion = useContext(EmotionContext);
+  const theme = useContext(ThemeContext);
   const { focused, disabled } = React.useContext(InputLayoutContext);
 
   let _placeholder = null;

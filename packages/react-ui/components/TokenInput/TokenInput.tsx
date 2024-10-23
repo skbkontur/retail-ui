@@ -39,7 +39,6 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
-  getFullReactUIFlagsContext,
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
@@ -378,21 +377,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return this.renderMain();
-                    }}
-                  </ThemeContext.Consumer>
-                );
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   private getLabelSizeClassName() {

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import type { Emotion } from '@emotion/css/create-instance';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
 let disposeDocumentStyle: (() => void) | null = null;
 
@@ -12,7 +12,7 @@ interface GlobalWithRetailUIVerticalScrollCounter {
 }
 
 export const HideBodyVerticalScroll = () => {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   return <HideBodyVerticalScrollELement emotion={emotion} />;
 };
 

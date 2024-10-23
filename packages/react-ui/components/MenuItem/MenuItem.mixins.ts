@@ -4,12 +4,7 @@ import { getMenuItemPaddings } from './MenuItem.styles';
 
 export const menuItemSizeMixin =
   (emotion: Emotion) =>
-  (
-    menuItemPaddingX: string,
-    menuItemPaddingY: string,
-    menuItemLineHeight: string,
-    menuItemFontSize: string,
-  ) => {
+  (menuItemPaddingX: string, menuItemPaddingY: string, menuItemLineHeight: string, menuItemFontSize: string) => {
     const { paddingX, paddingY } = getMenuItemPaddings({
       menuItemPaddingX,
       menuItemPaddingY,
@@ -22,11 +17,12 @@ export const menuItemSizeMixin =
     `;
   };
 
-export const iconSizeMixin = (menuItemIconWidth: string, menuItemPaddingX: string) => {
+export const iconSizeMixin = (emotion: Emotion) => (menuItemIconWidth: string, menuItemPaddingX: string) => {
+  return emotion.css`
       width: ${menuItemIconWidth};
       left: ${parseInt(menuItemPaddingX)}px;
     `;
-  };
+};
 
 export const withIconSizeMixin = (emotion: Emotion) => (menuItemPaddingForIcon: string) => {
   return emotion.css`

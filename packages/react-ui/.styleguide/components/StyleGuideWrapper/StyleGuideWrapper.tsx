@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
 import { useStyleGuideContext } from 'react-styleguidist/lib/client/rsg-components/Context/Context';
-import { useEmotion } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 import { getStyles } from './StyleGuideWrapper.styles';
 
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
-
-import { styles } from './StyleGuideWrapper.styles';
 
 interface StyleGuideRendererProps {
   children: React.ReactNode;
@@ -19,7 +17,7 @@ interface StyleGuideRendererProps {
 }
 
 function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: StyleGuideRendererProps) {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const { codeRevision, config, slots, displayMode, cssRevision } = useStyleGuideContext();
   const [theme, setTheme] = useState(DEFAULT_THEME_WRAPPER);
   document.body.style.fontFamily = 'Lab Grotesque, Roboto, Helvetica Neue, Arial, sans-serif';

@@ -7,7 +7,7 @@ import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { useEmotion } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
@@ -16,7 +16,7 @@ import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import { SizeProp } from '../../../lib/types/props';
-import { useTheme } from '../../../lib/theming/useTheme';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { getStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
@@ -82,8 +82,8 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const fileNameElementRef = useRef<HTMLSpanElement>(null);
 
     const { removeFile, setIsMinLengthReached, isMinLengthReached } = useContext(FileUploaderControlContext);
-    const theme = useTheme();
-    const emotion = useEmotion();
+    const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
     const styles = getStyles(emotion);
 
     const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);

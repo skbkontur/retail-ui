@@ -13,10 +13,10 @@ export const getStyles = (emotion: Emotion) =>
         outline: none;
         padding: ${t.menuPaddingY} ${t.menuPaddingX};
     `;
-  },
+    },
 
-  hasMargin(t: Theme) {
-    return css`
+    hasMargin(t: Theme) {
+      return emotion.css`
         margin: ${t.menuOffsetY} 0;
       `;
     },

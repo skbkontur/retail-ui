@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { CommonProps } from '../../internal/CommonWrapper';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './Modal.styles';
 
@@ -16,8 +16,8 @@ export interface ModalSeparatorProps extends CommonProps {
  * @visibleName Modal.Separator
  */
 export function ModalSeparator({ fixed }: ModalSeparatorProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return (

@@ -26,7 +26,7 @@ export const getStyles = (emotion: Emotion) =>
         overflow: hidden;
         border-radius: ${t.popupBorderRadius};
         flex-shrink: 0;
-      max-width: 100%;
+        max-width: 100%;
         line-height: normal;
       `;
     },
@@ -54,9 +54,9 @@ export const getStyles = (emotion: Emotion) =>
         transform: translateY(10px);
       `;
     },
-  'transition-enter-middle'() {
-    return css``;
-  },
+    'transition-enter-middle'() {
+      return emotion.css``;
+    },
     'transition-enter-bottom'() {
       return emotion.css`
         transform: translateY(-10px);
@@ -87,11 +87,11 @@ export const getStyles = (emotion: Emotion) =>
         transition: opacity 0.15s ease-out;
         transform: translate(0, 0);
     `;
-  },
-  absoluteParent() {
-    return css`
-      position: absolute;
-      text-align: initial;
+    },
+    absoluteParent() {
+      return emotion.css`
+        position: absolute;
+        text-align: initial;
       `;
     },
   });

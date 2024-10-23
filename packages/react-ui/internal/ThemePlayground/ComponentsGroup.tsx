@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Gapped } from '../../components/Gapped';
 import { Theme } from '../../lib/theming/Theme';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
 import { getStyles } from './Playground.styles';
 
@@ -15,7 +15,7 @@ interface ComponentsGroupProps {
 
 export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement<ComponentsGroupProps> => {
   const { title, children, style, theme } = props;
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return (

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef,
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { InstanceWithRootNode } from '../../lib/rootNode';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
@@ -21,7 +21,7 @@ import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/us
 import { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { UploadIcon } from './UploadIcon';
 import { getStyles, globalClasses } from './FileUploader.styles';
@@ -88,8 +88,8 @@ export const FileUploaderDataTids = {
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
 const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
 
   const {
     initialFiles,
@@ -275,7 +275,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   );
 
   const canDrop = isWindowDraggable && !disabled;
-  const uploadButtonWrapperClassNames = emotion.cx(canDrop && jsStyles.windowDragOver(theme));
+  const uploadButtonWrapperClassNames = emotion.cx(canDrop && styles.windowDragOver(theme));
 
   const uploadButtonIconClassNames = emotion.cx(
     styles.icon(theme),

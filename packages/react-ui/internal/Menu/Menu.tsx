@@ -151,21 +151,20 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return this.renderMain();
-                    }}
-                  </ThemeContext.Consumer>
-                );
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   /**

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
 import { getStyles } from './MaskCharLowLine.styles';
 
@@ -14,7 +14,7 @@ import { getStyles } from './MaskCharLowLine.styles';
 export const MASK_CHAR_EXEMPLAR = String.fromCharCode(0x2007);
 
 export const MaskCharLowLine = () => {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
   return <span className={styles.root()}>{MASK_CHAR_EXEMPLAR}</span>;
 };

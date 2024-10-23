@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Checkbox } from '../../components/Checkbox';
 import { Gapped } from '../../components/Gapped';
@@ -6,13 +6,13 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Toggle } from '../../components/Toggle';
 import { Radio } from '../../components/Radio';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 interface ShowcaseGroupProps {
   title?: string;
 }
 export const ShowcaseGroup = (props: ShowcaseGroupProps) => {
-  const theme = useTheme();
+  const theme = useContext(ThemeContext);
 
   return (
     <div>

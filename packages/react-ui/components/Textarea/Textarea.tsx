@@ -294,25 +294,24 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
                 return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return (
-                        <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                          {this.renderMain}
-                        </CommonWrapper>
-                      );
-                    }}
-                  </ThemeContext.Consumer>
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain}
+                  </CommonWrapper>
                 );
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   /**

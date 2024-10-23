@@ -12,7 +12,7 @@ export default {
 
 export const Default = () => {
   const root = useRef<HTMLDivElement>(null);
-  const [_, forceUpdate] = useState<number>();
+  const [, forceUpdate] = useState<number>();
 
   useEffect(() => forceUpdate(Date.now), [root.current]);
 
@@ -20,7 +20,7 @@ export const Default = () => {
     <div style={{ position: 'relative', overflow: 'hidden' }}>
       <div ref={root} />
       {root.current && (
-        <StylesContainer root={root.current}>
+        <StylesContainer>
           <div style={{ padding: '100px 0' }}>
             <Gapped vertical gap={60}>
               <Tooltip pos="right middle" trigger="opened" render={() => <div>Tooltip</div>}>

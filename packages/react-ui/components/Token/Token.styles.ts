@@ -66,7 +66,7 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  tokenIdle(t: Theme) {
+    tokenIdle(t: Theme) {
       return emotion.css`
         color: ${t.tokenColor};
         background: ${t.tokenBg};
@@ -121,7 +121,7 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  text() {
+    text() {
       return emotion.css`
         display: inline-block;
       `;
@@ -183,7 +183,3 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
   });
-
-  const tokenColors = [
-  return tokenColors;
-};

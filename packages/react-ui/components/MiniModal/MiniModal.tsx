@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Modal, ModalProps } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { useTheme } from '../../lib/theming/useTheme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getMiniModalTheme } from './getMiniModalTheme';
@@ -29,7 +28,7 @@ export const MiniModal = forwardRefAndName<
     Body: typeof MiniModalBody;
   }
 >('MiniModal', ({ children, theme: propsTheme, ...rest }, ref) => {
-  const contextTheme = useTheme();
+  const contextTheme = useContext(ThemeContext);
 
   return (
     <ThemeContext.Provider value={getMiniModalTheme(contextTheme, propsTheme)}>

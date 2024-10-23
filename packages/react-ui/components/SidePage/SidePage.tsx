@@ -168,21 +168,20 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public render(): JSX.Element {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return this.renderMain();
-                    }}
-                  </ThemeContext.Consumer>
-                );
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   private renderMain() {

@@ -1,8 +1,8 @@
-import React, { PropsWithChildren, useContext, memo } from 'react';
+import React, { memo, PropsWithChildren, useContext } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx, useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { LocaleContext } from '../../lib/locale';
@@ -40,7 +40,7 @@ export const CalendarDay = memo(
       ref: React.Ref<HTMLButtonElement>,
     ) {
       const theme = useContext(ThemeContext);
-      const emotion = useEmotion();
+      const emotion = useContext(EmotionContext);
 
       const { langCode } = useContext(LocaleContext);
       const internalDate = new InternalDate({ langCode, value: date });
@@ -59,7 +59,7 @@ export const CalendarDay = memo(
           aria-label={ariaLabel}
           tabIndex={-1}
           disabled={isDisabled}
-          className={cx(
+          className={emotion.cx(
             {
               [styles.day(theme)]: true,
               [styles.selected(theme)]: isSelected,
@@ -70,7 +70,7 @@ export const CalendarDay = memo(
           {...getVisualStateDataAttributes({ selected: isSelected })}
           {...rest}
         >
-          <span className={cx({ [styles.todayCaption(theme)]: isToday })}>{caption}</span>
+          <span className={emotion.cx({ [styles.todayCaption(theme)]: isToday })}>{caption}</span>
         </button>
       );
     },

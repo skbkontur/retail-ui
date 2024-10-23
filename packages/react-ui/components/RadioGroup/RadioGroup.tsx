@@ -10,7 +10,6 @@ import { FocusTrap } from '../../internal/FocusTrap';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
 
 import { getStyles } from './RadioGroup.styles';
@@ -143,21 +142,16 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 
   public render() {
+    return (
       <EmotionConsumer>
         {(emotion) => {
           this.emotion = emotion;
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+          return this.renderMain();
         }}
       </EmotionConsumer>
     );
-    
+  }
+
   public renderMain() {
     const {
       width,

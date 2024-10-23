@@ -262,20 +262,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-    const jsInputStyles = getJsInputStyles(this.emotion);
-    const jsInputStyles = getJsInputStyles(this.emotion);
-    const jsInputStyles = getJsInputStyles(this.emotion);
-        className={this.emotion.cx(jsInputStyles.prefix(this.theme), {
-          [jsInputStyles.prefixDisabled(this.theme)]: disabled,
-        })}
-      >
-    const jsInputStyles = getJsInputStyles(this.emotion);
-        className={this.emotion.cx(jsInputStyles.suffix(this.theme), {
-          [jsInputStyles.suffixDisabled(this.theme)]: disabled,
-        })}
-      >
-    const jsInputStyles = getJsInputStyles(this.emotion);
-    const jsInputStyles = getJsInputStyles(this.emotion);
   private renderPlaceholder = (): JSX.Element | null => {
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;

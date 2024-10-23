@@ -136,7 +136,7 @@ export const getStyles = (emotion: Emotion) => {
         opacity: 0.6;
       `;
     },
-  icon() {
+    icon() {
       return emotion.css`
         display: inline-block;
         position: absolute;
@@ -145,17 +145,17 @@ export const getStyles = (emotion: Emotion) => {
     },
     iconSmall(t: Theme) {
       return emotion.css`
-        ${iconSizeMixin(t.menuItemIconWidthSmall, t.menuItemPaddingXSmall)};
+        ${iconSizeMixin(emotion)(t.menuItemIconWidthSmall, t.menuItemPaddingXSmall)};
       `;
     },
     iconMedium(t: Theme) {
       return emotion.css`
-        ${iconSizeMixin(t.menuItemIconWidthMedium, t.menuItemPaddingXMedium)};
+        ${iconSizeMixin(emotion)(t.menuItemIconWidthMedium, t.menuItemPaddingXMedium)};
       `;
     },
     iconLarge(t: Theme) {
       return emotion.css`
-        ${iconSizeMixin(t.menuItemIconWidthLarge, t.menuItemPaddingXLarge)};
+        ${iconSizeMixin(emotion)(t.menuItemIconWidthLarge, t.menuItemPaddingXLarge)};
       `;
     },
     mobileContentWithIcon() {

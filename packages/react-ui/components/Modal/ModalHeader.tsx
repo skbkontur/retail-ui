@@ -2,9 +2,9 @@ import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
@@ -26,8 +26,8 @@ export const ModalHeaderDataTids = {
  * @visibleName Modal.Header
  */
 function ModalHeader(props: ModalHeaderProps) {
-  const emotion = useEmotion();
-  const theme = useTheme();
+  const emotion = useContext(EmotionContext);
+  const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 

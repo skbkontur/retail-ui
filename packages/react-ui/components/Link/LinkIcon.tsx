@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { Spinner } from '../Spinner';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { LinkProps } from './Link';
 import { getStyles } from './Link.styles';
@@ -13,8 +13,8 @@ export interface LinkIconProps extends Pick<LinkProps, 'icon' | 'loading'> {
 }
 
 export const LinkIcon = ({ icon, loading, hasBothIcons, position }: LinkIconProps) => {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return (

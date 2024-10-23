@@ -237,7 +237,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    const styles = getStyles(this.emotion);
     const { size, icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon as ReactElement)) {

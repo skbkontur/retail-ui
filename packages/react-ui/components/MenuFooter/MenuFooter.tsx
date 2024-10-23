@@ -1,9 +1,9 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { SizeProp } from '../../lib/types/props';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './MenuFooter.styles';
 
@@ -26,8 +26,8 @@ export const MenuFooterDataTids = {
  * Сущности в которых может быть использован `MenuFooter`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   function getRootSizeClassName() {

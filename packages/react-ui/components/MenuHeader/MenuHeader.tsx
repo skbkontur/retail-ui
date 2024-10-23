@@ -3,8 +3,8 @@ import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext } from '../../internal/Menu/MenuContext';
-import { useTheme } from '../../lib/theming/useTheme';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './MenuHeader.styles';
 
@@ -27,8 +27,8 @@ export const MenuHeaderDataTids = {
  * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
   const menuContext = useContext(MenuContext);
 

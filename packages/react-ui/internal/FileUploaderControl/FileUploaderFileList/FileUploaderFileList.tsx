@@ -3,10 +3,10 @@ import React, { useContext } from 'react';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderAttachedFile } from '../fileUtils';
-import { useEmotion } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import { SizeProp } from '../../../lib/types/props';
-import { useTheme } from '../../../lib/theming/useTheme';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { getStyles } from './FileUploaderFileList.styles';
 
@@ -23,8 +23,8 @@ export const FileUploaderFileDataTids = {
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   const { renderFile, size, onRemove } = props;
   const { files } = useContext(FileUploaderControlContext);
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   const fileWrapperClass = useFileUploaderSize(size, {

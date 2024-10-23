@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getAnimations, getStyles } from './GlobalLoaderView.styles';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';
@@ -28,8 +28,8 @@ export const GlobalLoaderView = ({
   ...rest
 }: GlobalLoaderViewProps) => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
 
   const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
   const { left } = useGlobalLoaderPosition(ref);

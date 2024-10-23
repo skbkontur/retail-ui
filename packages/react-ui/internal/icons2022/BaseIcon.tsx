@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { forwardRefAndName, ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
 import { getStyles } from './BaseIcon.styles';
 
@@ -28,7 +28,7 @@ export const BaseIcon = forwardRefAndName<SVGSVGElement, IconProps>(
     { color, size, style, 'aria-hidden': ariaHidden = true, viewBoxSize = 16, align = 'center', children, ...rest },
     ref,
   ) => {
-    const emotion = useEmotion();
+    const emotion = useContext(EmotionContext);
     const icon = (
       <svg
         ref={ref}

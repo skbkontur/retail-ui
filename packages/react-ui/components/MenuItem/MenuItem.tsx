@@ -156,31 +156,31 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
                 return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return (
-                        <CommonWrapper
-                          rootNodeRef={this.setRootNode}
-                          {...getVisualStateDataAttributes({
-                            hover: this.isHover,
-                            selected: this.isSelected,
-                          })}
-                          {...this.props}
-                        >
-                          {this.renderMain(this.props)}
-                        </CommonWrapper>
-                      );
-                    }}
-                  </ThemeContext.Consumer>
+                  <CommonWrapper
+                    rootNodeRef={this.setRootNode}
+                    {...getVisualStateDataAttributes({
+                      hover: this.isHover,
+                      selected: this.isSelected,
+                    })}
+                    {...this.props}
+                  >
+                    {this.renderMain(this.props)}
+                  </CommonWrapper>
                 );
-            </EmotionConsumer>
+              }}
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   public componentDidMount() {

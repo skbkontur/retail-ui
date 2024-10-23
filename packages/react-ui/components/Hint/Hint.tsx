@@ -2,7 +2,6 @@ import React from 'react';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 import type { Emotion } from '@emotion/css/create-instance';
 
-  getFullReactUIFlagsContext,
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { DUMMY_LOCATION, Popup, PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup';
@@ -137,33 +136,33 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
                 return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return (
-                        <ThemeContext.Provider
-                          value={ThemeFactory.create(
-                            {
-                              popupMargin: theme.hintMargin,
-                              popupBorder: theme.hintBorder,
-                              popupBorderRadius: theme.hintBorderRadius,
-                            },
-                            this.theme,
-                          )}
-                        >
-                          {this.renderMain()}
-                        </ThemeContext.Provider>
-                      );
-                    }}
-                  </ThemeContext.Consumer>
+                  <ThemeContext.Provider
+                    value={ThemeFactory.create(
+                      {
+                        popupMargin: theme.hintMargin,
+                        popupBorder: theme.hintBorder,
+                        popupBorderRadius: theme.hintBorderRadius,
+                      },
+                      this.theme,
+                    )}
+                  >
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
                 );
-            </EmotionConsumer>
+              }}
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   public renderMain() {

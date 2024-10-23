@@ -1,10 +1,9 @@
-import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { linkDisabledMixin, linkMixin, linkUseColorsMixin, linkUseLineHovered } from './Link.mixins';
+import { linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
 
 const oldLineText = (t: Theme, emotion: Emotion) => {
   const line = emotion.keyframes`
@@ -170,19 +169,19 @@ export const getStyles = (emotion: Emotion) =>
       return emotion.css`
         margin-left: ${t.linkIconMarginLeft};
     `;
-  },
+    },
 
-  warning(t: Theme) {
-    return css`
-      background-color: ${t.btnWarningSecondary};
-      box-shadow: 0 0 0 2px ${t.btnWarningSecondary};
-    `;
-  },
+    warning(t: Theme) {
+      return emotion.css`
+        background-color: ${t.btnWarningSecondary};
+        box-shadow: 0 0 0 2px ${t.btnWarningSecondary};
+      `;
+    },
 
-  error(t: Theme) {
-    return css`
-      background-color: ${t.btnErrorSecondary};
-      box-shadow: 0 0 0 2px ${t.btnErrorSecondary};
+    error(t: Theme) {
+      return emotion.css`
+        background-color: ${t.btnErrorSecondary};
+        box-shadow: 0 0 0 2px ${t.btnErrorSecondary};
       `;
     },
   });

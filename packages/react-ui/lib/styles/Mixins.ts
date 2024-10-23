@@ -50,8 +50,8 @@ export const resetText = (emotion: Emotion) => {
   `;
 };
 
-export const disableTextSelect = () => {
-  return css`
+export const disableTextSelect = (emotion: Emotion) => {
+  return emotion.css`
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */

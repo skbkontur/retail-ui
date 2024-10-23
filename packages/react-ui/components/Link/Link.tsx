@@ -16,7 +16,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { getStyles, globalClasses } from './Link.styles';
+import { getStyles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
 export interface LinkInnerProps extends CommonProps {
@@ -116,25 +116,24 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
   public render(): JSX.Element {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
                 return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-                      return (
-                        <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                          {this.renderMain}
-                        </CommonWrapper>
-                      );
-                    }}
-                  </ThemeContext.Consumer>
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain}
+                  </CommonWrapper>
                 );
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   private getTabIndex = ({
@@ -195,8 +194,8 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       ...rest,
       className: this.emotion.cx({
         [styles.root(this.theme)]: true,
-        [resetButton()]: Root === 'button',
-        [disableTextSelect()]: disabled || loading,
+        [resetButton(this.emotion)]: Root === 'button',
+        [disableTextSelect(this.emotion)]: disabled || loading,
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.useDefault(this.theme)]: use === 'default',
@@ -253,7 +252,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       onClick(event);
     }
   };
-    const styles = getStyles(this.emotion);
+  styles = getStyles(this.emotion);
 }
 
 const isAnchorProps = (props: LinkProps<any>): props is LinkProps<'a'> => {

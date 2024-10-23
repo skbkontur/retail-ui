@@ -426,6 +426,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderWithoutPortal = (anchor: React.ReactNode, ref: null | LegacyRef<EmptyWrapper>) => {
     const { location } = this.state;
+    const styles = getStyles(this.emotion);
 
     return (
       <EmptyWrapper ref={ref}>
@@ -557,6 +558,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       top: location.coordinates.top + relativeShift.top,
       left: location.coordinates.left + relativeShift.left,
     };
+    const styles = getStyles(this.emotion);
 
     return (
       <Transition
@@ -828,8 +830,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
-
-    console.log({ position, anchorRect, popupRect, popupOffset, margin });
 
     switch (position.direction) {
       case 'top':

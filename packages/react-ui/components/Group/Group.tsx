@@ -8,7 +8,6 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isInputLike } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './Group.styles';
 
@@ -92,20 +91,17 @@ export class Group extends React.Component<GroupProps> {
   };
 
   public render() {
+    return (
       <EmotionConsumer>
         {(emotion) => {
           this.emotion = emotion;
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+          return this.renderMain();
         }}
       </EmotionConsumer>
     );
+  }
+
+  public renderMain() {
     const style: React.CSSProperties = {
       width: this.props.width,
     };

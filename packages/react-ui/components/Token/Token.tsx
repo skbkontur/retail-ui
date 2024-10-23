@@ -13,7 +13,7 @@ import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { getColorStyles, getStyles } from './Token.styles';
+import { getStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
 import { TokenView } from './TokenView';
 
@@ -109,7 +109,6 @@ export class Token extends React.Component<TokenProps> {
     );
 
     const styles = getStyles(this.emotion);
-    const colorStyles = getColorStyles(this.emotion);
     const classNames = this.emotion.cx(
       styles.tokenIdle(theme),
       !isActive && !warning && !error && !disabled && styles.tokenHover(theme),

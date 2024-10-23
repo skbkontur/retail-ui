@@ -8,7 +8,6 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-  getFullReactUIFlagsContext,
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './Spinner.styles';
@@ -93,21 +92,20 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return this.renderMain();
-                    }}
-                  </ThemeContext.Consumer>
-                );
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   private renderMain() {

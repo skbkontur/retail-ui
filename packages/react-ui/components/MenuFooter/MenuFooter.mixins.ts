@@ -9,7 +9,7 @@ export const menuFooterSizeMixin =
     menuFooterPaddingTop: string,
     menuFooterPaddingBottom: string,
   ) => {
-  const paddingRight = menuFooterPaddingX;
+    const paddingRight = menuFooterPaddingX;
 
     return emotion.css`
     font-size: ${menuFooterFontSize};

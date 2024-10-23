@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
-import { useTheme } from '../../lib/theming/useTheme';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './MenuSeparator.styles';
 
@@ -18,8 +18,8 @@ export const MenuSeparatorDataTids = {
  * Сущности в которых может быть использован `MenuSeparator`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
  */
 function MenuSeparator(props: MenuSeparatorProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return (

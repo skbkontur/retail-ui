@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
 import { isColor } from '../../lib/styles/ColorHelpers';
@@ -12,9 +12,8 @@ import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../components/Tooltip';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 import { Theme } from '../../lib/theming/Theme';
-import { EmotionConsumer, useEmotion } from '../../lib/theming/Emotion';
+import { EmotionConsumer, EmotionContext } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { useTheme } from '../../lib/theming/useTheme';
 
 import {
   ALL_USED_VARIABLES,
@@ -172,8 +171,8 @@ interface ComponentShowcaseProps {
 }
 
 function ComponentShowcase(props: ComponentShowcaseProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
 
   const { name, description, onVariableSelect, isDebugMode } = props;
   const elements = Object.keys(description);
@@ -233,8 +232,8 @@ interface ComponentShowcaseRowProps {
 }
 
 function ComponentShowcaseRow(props: ComponentShowcaseRowProps) {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
 
   const { element: el, row, isDebugMode } = props;
   const rowSpan = row.variables.length + 1;
@@ -289,7 +288,7 @@ interface VariableNameProps {
 }
 
 function VariableName({ variableName, dependencies, onVariableSelect }: VariableNameProps) {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return (
@@ -331,7 +330,7 @@ interface DependencyNameProps {
 }
 
 function DependencyName({ dependencyName, onDependencySelect }: DependencyNameProps) {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   return (
@@ -365,7 +364,7 @@ function DependencyName({ dependencyName, onDependencySelect }: DependencyNamePr
 }
 
 const VariableValue = (props: { value: string }) => {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
 
   const value = props.value;
   const valueIsColor = isColor(value);
@@ -386,7 +385,7 @@ const VariableValue = (props: { value: string }) => {
 };
 
 const ShowUnusedVariables = (props: { diff: string[] }) => {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   if (props.diff.length === 0) {
     return null;
   }

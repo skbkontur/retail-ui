@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { isIE11 } from '../../lib/client';
 import {
@@ -9,8 +9,8 @@ import {
   SpinnerFallbackAnimationRunner,
 } from '../../components/Spinner/SpinnerFallbackAnimation';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { useEmotion } from '../../lib/theming/Emotion';
-import { useTheme } from '../../lib/theming/useTheme';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './SpinnerIcon.styles';
 
@@ -52,7 +52,7 @@ const isSizeAlias = (size: unknown): size is keyof typeof sizes => {
 };
 
 export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: SpinnerIconProps) => {
-  const emotion = useEmotion();
+  const emotion = useContext(EmotionContext);
   const _size = isSizeAlias(size) ? sizes[size] : size;
   const currentSize = inline ? sizes.mini : _size;
   const svgRef = React.useRef<SVGSVGElement>(null);
@@ -65,7 +65,7 @@ export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: S
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { red, yellow, green, brand } = useTheme();
+    const { red, yellow, green, brand } = useContext(ThemeContext);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     React.useEffect(() => {
       const svg = svgRef.current;

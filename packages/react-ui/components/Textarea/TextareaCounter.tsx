@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback, useImperativeHandle, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useContext, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -6,10 +6,10 @@ import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
 import { SizeProp } from '../../lib/types/props';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { TextareaDataTids, TextareaProps } from './Textarea';
 import { getStyles } from './Textarea.styles';
@@ -32,8 +32,8 @@ const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCounterProps>(
   'TextareaCounter',
   ({ length, value, help, onCloseHelp, textarea, size }, ref) => {
-    const theme = useTheme();
-    const emotion = useEmotion();
+    const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
 
     const [width, setWidth] = useState(textarea.clientWidth);
     const [height, setHeight] = useState(textarea.clientHeight);

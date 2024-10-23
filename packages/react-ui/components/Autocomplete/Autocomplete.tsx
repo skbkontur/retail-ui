@@ -6,7 +6,7 @@ import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -23,7 +23,6 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
-import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 
@@ -264,7 +263,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
-          className={cx(styles.root(this.theme), {
+          className={this.emotion.cx(styles.root(this.theme), {
             [styles.noPortal()]: disablePortal,
           })}
           style={{ width }}

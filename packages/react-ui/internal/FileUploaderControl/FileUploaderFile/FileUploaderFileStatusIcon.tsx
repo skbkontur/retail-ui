@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { FileUploaderFileStatus } from '../fileUtils';
 import { LoadingIcon } from '../../icons2022/LoadingIcon';
 import { SizeProp } from '../../../lib/types/props';
-import { useTheme } from '../../../lib/theming/useTheme';
-import { useEmotion } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { DeleteIcon } from './DeleteIcon';
 import { ErrorIcon } from './ErrorIcon';
@@ -26,8 +26,8 @@ export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFil
   status,
   size,
 }) => {
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   const IconDelete = <DeleteIcon size={size} className={styles.deleteIcon(theme)} />;

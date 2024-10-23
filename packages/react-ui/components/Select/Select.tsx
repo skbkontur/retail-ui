@@ -33,7 +33,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
-import { styles as linkStyles } from '../Link/Link.styles';
+import { getStyles as linkStyles } from '../Link/Link.styles';
 import { Popup } from '../../internal/Popup';
 import { ZIndex } from '../../internal/ZIndex';
 import { getMenuPositions } from '../../lib/getMenuPositions';
@@ -251,26 +251,25 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public render() {
     return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = ThemeFactory.create(
-                        {
-                          menuOffsetY: theme.selectMenuOffsetY,
-                        },
-                        theme,
-                      );
-                      return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
-                    }}
-                  </ThemeContext.Consumer>
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = ThemeFactory.create(
+                  {
+                    menuOffsetY: theme.selectMenuOffsetY,
+                  },
+                  theme,
                 );
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
               }}
-            </EmotionConsumer>
+            </ThemeContext.Consumer>
           );
         }}
+      </EmotionConsumer>
+    );
   }
 
   /**
@@ -450,7 +449,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <Button {...buttonProps}>
-        <div className={cx(styles.selectButtonContainer(), { [linkStyles.root(this.theme)]: use === 'link' })}>
+        <div
+          className={this.emotion.cx(styles.selectButtonContainer(), {
+            [linkStyles(this.emotion).root(this.theme)]: use === 'link',
+          })}
+        >
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 

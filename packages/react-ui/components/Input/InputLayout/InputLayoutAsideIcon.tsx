@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { isElement } from 'react-is';
 
 import { isKonturIcon } from '../../../lib/utils';
 import { InputProps } from '../Input';
-import { useEmotion } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 import { SizeProp } from '../../../lib/types/props';
-import { useTheme } from '../../../lib/theming/useTheme';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { getStylesLayout } from './InputLayout.styles';
@@ -16,8 +16,8 @@ export interface InputLayoutAsideIconProps {
 }
 
 export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null, side }) => {
-  const emotion = useEmotion();
-  const theme = useTheme();
+  const emotion = useContext(EmotionContext);
+  const theme = useContext(ThemeContext);
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
   const sizes: Record<SizeProp, number> = {
@@ -45,9 +45,8 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     }
   }
 
-  return _icon ? (
   const stylesLayout = getStylesLayout(emotion);
-
+  return _icon ? (
     <span
       style={style}
       className={emotion.cx(

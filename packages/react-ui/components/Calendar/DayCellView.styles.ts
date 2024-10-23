@@ -2,6 +2,7 @@ import type { Emotion } from '@emotion/css/create-instance';
 
 import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { resetButton } from '../../lib/styles/Mixins';
 
 export const getStyles = (emotion: Emotion) => {
   return memoizeStyle({
@@ -14,6 +15,7 @@ export const getStyles = (emotion: Emotion) => {
 
     day(t: Theme) {
       return emotion.css`
+        ${resetButton(emotion)};
         width: 100%;
         height: 100%;
 

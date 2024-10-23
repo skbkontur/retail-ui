@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
@@ -16,8 +16,8 @@ import { MiniModalDataTids } from './MiniModal';
 export const MiniModalIndent = forwardRefAndName<HTMLDivElement, React.InputHTMLAttributes<HTMLDivElement>>(
   'MiniModalIndent',
   ({ children, ...rest }, ref) => {
-    const theme = useTheme();
-    const emotion = useEmotion();
+    const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
     const styles = getStyles(emotion);
 
     return (

@@ -73,4 +73,3 @@ export const inputSizeMixin = (emotion: Emotion) => (toggleHeight: string, toggl
     }
   `;
 };
-

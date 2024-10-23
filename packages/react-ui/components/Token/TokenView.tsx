@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { useEmotion } from '../../lib/theming/Emotion';
-import { useTheme } from '../../lib/theming/useTheme';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { TokenSize } from './Token';
 import { getStyles, globalClasses } from './Token.styles';
@@ -15,8 +15,8 @@ export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function TokenView(props: TokenViewProps) {
   const { size = 'small', children, closeButton, hideCloseButton, className, ...rest } = props;
-  const theme = useTheme();
-  const emotion = useEmotion();
+  const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const styles = getStyles(emotion);
 
   const getSizeClassName = (size: TokenSize) => {

@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -10,7 +10,6 @@ import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { ResponsiveLayout } from '../../ResponsiveLayout';
-import { useTheme } from '../../../lib/theming/useTheme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 const basicFontStyle = {
@@ -452,7 +451,7 @@ ModalWithoutHeader.storyName = 'Modal without header';
 ModalWithoutHeader.parameters = { creevey: { captureElement: null } };
 
 export const ModalMobileView: Story = () => {
-  const theme = useTheme();
+  const theme = useContext(ThemeContext);
 
   return (
     <ThemeContext.Provider

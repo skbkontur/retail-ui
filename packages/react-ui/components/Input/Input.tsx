@@ -492,8 +492,6 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-    const styles = getStyles(this.emotion);
-      const styles = getStyles(this.emotion);
   private getSizeClassName() {
     const styles = getStyles(this.emotion);
     switch (this.getProps().size) {
@@ -597,8 +595,4 @@ export class Input extends React.Component<InputProps, InputState> {
     this.resetFocus();
     this.props.onBlur?.(event);
   };
-        {prefix}
-      </span>
-        {suffix}
-      </span>
 }

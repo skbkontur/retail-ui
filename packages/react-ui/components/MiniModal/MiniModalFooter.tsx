@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Modal, ModalFooterProps } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { isIE11 } from '../../lib/client';
-import { useEmotion } from '../../lib/theming/Emotion';
-import { useTheme } from '../../lib/theming/useTheme';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
@@ -28,8 +28,8 @@ interface MiniModalFooterProps extends ModalFooterProps {
 export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooterProps>(
   'MiniModalFooter',
   ({ direction = 'row', children, ...rest }, ref) => {
-    const theme = useTheme();
-    const emotion = useEmotion();
+    const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
     const styles = getStyles(emotion);
 
     const childrenCount = React.Children.count(children);

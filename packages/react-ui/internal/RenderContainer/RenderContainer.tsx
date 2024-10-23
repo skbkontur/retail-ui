@@ -86,7 +86,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       this.createContainer();
     }
 
-    const stylesRoot = this.emotion.sheet.container.getRootNode();
+    const stylesRoot = this.emotion.sheet?.container?.getRootNode();
     const isShadowRoot = Boolean((stylesRoot as ShadowRoot)?.host?.shadowRoot);
     const rootElement = isShadowRoot && stylesRoot ? stylesRoot : globalObject.document?.body;
 

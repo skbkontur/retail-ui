@@ -1,12 +1,12 @@
-import React, { AriaAttributes, CSSProperties } from 'react';
+import React, { AriaAttributes, CSSProperties, useContext } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { useEmotion } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
-import { useTheme } from '../../lib/theming/useTheme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getStyles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
@@ -56,8 +56,8 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   style,
   ...rest
 }) => {
-  const emotion = useEmotion();
-  const _theme = useTheme();
+  const emotion = useContext(EmotionContext);
+  const _theme = useContext(ThemeContext);
   const theme = ThemeFactory.create(
     {
       closeBtnIconColor: color ?? _theme.closeBtnIconColor,

@@ -175,21 +175,22 @@ export const getStyles = (emotion: Emotion) =>
         }
       `;
     },
-  inputSmall(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
+
+    inputSmall(t: Theme) {
+      return emotion.css`
+      ${inputSizeMixin(emotion)(t.toggleHeightSmall, t.toggleWidthSmall)};
     `;
-  },
-  inputMedium(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
+    },
+    inputMedium(t: Theme) {
+      return emotion.css`
+      ${inputSizeMixin(emotion)(t.toggleHeightMedium, t.toggleWidthMedium)};
     `;
-  },
-  inputLarge(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
+    },
+    inputLarge(t: Theme) {
+      return emotion.css`
+      ${inputSizeMixin(emotion)(t.toggleHeightLarge, t.toggleWidthLarge)};
     `;
-  },
+    },
 
     container(t: Theme) {
       return emotion.css`
