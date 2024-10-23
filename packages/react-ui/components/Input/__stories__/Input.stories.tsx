@@ -457,3 +457,16 @@ export const WithMaskAndSelectAllProp: Story = () => {
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
 
 export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+
+export const AAAAAAAAAAAA: Story = () => {
+  const [value, setValue] = React.useState('Через value, управляемый контрол');
+  return (
+    <>
+      <Input showCleanCross value={value} onValueChange={setValue} />
+
+      <br />
+
+      <Input showCleanCross placeholder={'Неуправляемый контрол'} />
+    </>
+  );
+};
