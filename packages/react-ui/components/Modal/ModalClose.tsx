@@ -2,19 +2,20 @@ import React, { useContext } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { CloseProps } from './ModalContext';
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { ModalDataTids } from './Modal';
 import { ModalLocaleHelper } from './locale';
 
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
+  const emotion = useContext(EmotionContext);
   const locale = useLocaleForControl('Modal', ModalLocaleHelper);
   const theme = useContext(ThemeContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
@@ -34,6 +35,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
   };
 
   const icon = <XIcon20Regular align="none" />;
+  const styles = getStyles(emotion);
 
   return (
     <CommonWrapper {...otherProps}>
@@ -41,7 +43,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
         {({ isMobile }) => (
           <button
             aria-label={locale.closeButtonAriaLabel}
-            className={cx({
+            className={emotion.cx({
               [styles.close(theme)]: true,
               [styles.mobileClose(theme)]: isMobile,
               [styles.disabled(theme)]: disableClose,

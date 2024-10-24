@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './MenuSeparator.styles';
+import { getStyles } from './MenuSeparator.styles';
 
 export type MenuSeparatorProps = CommonProps;
 
@@ -19,6 +19,8 @@ export const MenuSeparatorDataTids = {
  */
 function MenuSeparator(props: MenuSeparatorProps) {
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
 
   return (
     <CommonWrapper {...props}>
@@ -27,7 +29,7 @@ function MenuSeparator(props: MenuSeparatorProps) {
           return (
             <div
               data-tid={MenuSeparatorDataTids.root}
-              className={cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
+              className={emotion.cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
             />
           );
         }}

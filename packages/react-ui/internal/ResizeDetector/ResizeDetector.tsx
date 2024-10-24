@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './ResizeDetector.styles';
+import { getStyles } from './ResizeDetector.styles';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
@@ -23,12 +23,19 @@ export class ResizeDetector extends React.Component<React.PropsWithChildren<Resi
 
   public render() {
     return (
-      <div className={styles.root()}>
-        <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} />
-        <div className={cx({ [styles.content()]: true, [styles.fullHeight()]: this.props.fullHeight })}>
-          {this.props.children}
-        </div>
-      </div>
+      <EmotionConsumer>
+        {(emotion) => {
+          const styles = getStyles(emotion);
+          return (
+            <div className={styles.root()}>
+              <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} />
+              <div className={emotion.cx({ [styles.content()]: true, [styles.fullHeight()]: this.props.fullHeight })}>
+                {this.props.children}
+              </div>
+            </div>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 

@@ -1,5 +1,6 @@
 import React, { CSSProperties, HTMLAttributes } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
@@ -10,15 +11,15 @@ import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemDataTids } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './Menu.styles';
+import { getStyles } from './Menu.styles';
 import { MenuNavigation } from './MenuNavigation';
 import { MenuContext } from './MenuContext';
 
@@ -105,6 +106,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
   private scrollContainer: Nullable<ScrollContainer>;
   private isMobileLayout!: boolean;
   private unmounted = false;
@@ -149,12 +151,19 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -211,10 +220,11 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     };
 
     const isMobile = this.isMobileLayout;
+    const styles = getStyles(this.emotion);
     return (
       <div
         data-tid={MenuDataTids.root}
-        className={cx(getAlignRightClass(this.props), {
+        className={this.emotion.cx(getAlignRightClass(this.emotion)(this.props), {
           [styles.root(this.theme)]: true,
           [styles.hasMargin(this.theme)]: hasMargin,
           [styles.mobileRoot(this.theme)]: isMobile,
@@ -236,7 +246,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           offsetY={offsetY}
         >
           <div
-            className={cx({
+            className={this.emotion.cx({
               [styles.scrollContainer(this.theme)]: true,
               [styles.scrollContainerMobile(this.theme)]: isMobile,
             })}
@@ -260,9 +270,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private renderHeader = () => {
+    const styles = getStyles(this.emotion);
     return (
       <div
-        className={cx({
+        className={this.emotion.cx({
           [styles.wrapper()]: true,
           [styles.headerWrapper()]: true,
         })}
@@ -277,9 +288,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private renderFooter = () => {
+    const styles = getStyles(this.emotion);
     return (
       <div
-        className={cx({
+        className={this.emotion.cx({
           [styles.wrapper()]: true,
           [styles.footerWrapper()]: true,
         })}
@@ -459,9 +471,11 @@ function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   return ret;
 }
 
-const getAlignRightClass = (props: MenuProps) => {
+const getAlignRightClass = (emotion: Emotion) => (props: MenuProps) => {
+  const styles = getStyles(emotion);
+
   if (props.align === 'right') {
-    return cx({
+    return emotion.cx({
       [styles.alignRight()]: !isIE11,
       [styles.alignRightIE11()]: isIE11,
       [styles.alignRightIE11FixAutoWidth()]: isIE11 && props.width === 'auto',

@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
+import { Emotion } from '@emotion/css/create-instance';
 
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
 import { Button, ButtonInnerProps } from './Button';
-import { globalClasses, styles } from './Button.styles';
+import { getStyles, globalClasses } from './Button.styles';
 
 type ButtonArrowProps = Pick<
   ButtonInnerProps,
@@ -18,9 +19,11 @@ type ButtonArrowProps = Pick<
 
 const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({ arrow, size = Button.defaultProps.size }) => {
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
 
   const getArrowIconRootClassName = () => {
-    return cx(styles.arrowIconRoot(), globalClasses.arrow, {
+    return emotion.cx(styles.arrowIconRoot(), globalClasses.arrow, {
       [styles.arrowIconRootSmall(theme)]: size === 'small',
       [styles.arrowIconRootMedium(theme)]: size === 'medium',
       [styles.arrowIconRootLarge(theme)]: size === 'large',
@@ -43,13 +46,14 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({ arrow, size = 
   return arrowNode;
 };
 
-export function useButtonArrow(props: ButtonArrowProps, theme: Theme): [string, React.ReactNode] {
+export function useButtonArrow(props: ButtonArrowProps, theme: Theme, emotion: Emotion): [string, React.ReactNode] {
   const { arrow, size, use } = props;
+  const styles = getStyles(emotion);
 
   const canRender = use !== 'link' && (arrow === true || arrow === 'left');
 
   const rootClassName = canRender
-    ? cx(
+    ? emotion.cx(
         arrow === true && size === 'small' && styles.withArrowIconRightSmall(theme),
         arrow === true && size === 'medium' && styles.withArrowIconRightMedium(theme),
         arrow === true && size === 'large' && styles.withArrowIconRightLarge(theme),
