@@ -17,24 +17,9 @@ const createEndpoint = (path: string) => `${baseUrl}/${path}`;
 const jsonEndpoint = createEndpoint('reactUIStorybookVersions.json');
 
 const renderLibraryVersionItem = ({ path, version }: LibraryVersion) => {
-  const versionNumber = version.split('.');
-  let versionHeader;
-  // проверка на длину нужна для того, чтобы отделить "нетипичные" версии -- например 5.х.х
-  // все "нетипичные" версии будем помечать заголовком второго уровня
-  if (versionNumber.length === 3 && versionNumber[2] !== '0') {
-    // 'patch'
-    versionHeader = <h4 style={{ paddingLeft: '40px' }}>{version}</h4>;
-  } else if (versionNumber.length === 3 && versionNumber[1] !== '0') {
-    // 'minor'
-    versionHeader = <h3 style={{ paddingLeft: '20px' }}>{version}</h3>;
-  } else {
-    // 'major'
-    versionHeader = <h2>{version}</h2>;
-  }
-
   return (
     <Link target="_blank" href={path} style={{ display: 'block' }}>
-      {versionHeader}
+      <h4>{version}</h4>
     </Link>
   );
 };
