@@ -133,15 +133,11 @@ object RunAll : BuildType({
         }
         snapshot(ReactUI_LintTest) {
         }
-        snapshot(ReactUI_ScreenshotTests) {
-        }
         snapshot(SeleniumTesting_Test) {
         }
         snapshot(Validations_Build) {
         }
         snapshot(Validations_LintTest) {
-        }
-        snapshot(Validations_ScreenshotTests) {
         }
     }
 })
@@ -414,6 +410,8 @@ object ReactUI_ScreenshotTests : BuildType({
             param("yarn_commands", "workspace @skbkontur/react-ui creevey")
         }
     }
+
+    disableSettings("VCS_TRIGGER")
 })
 
 object ReactUI_Storybook : BuildType({
@@ -818,6 +816,8 @@ object Validations_ScreenshotTests : BuildType({
           param("yarn_commands", "workspace react-ui-validations creevey")
         }
     }
+
+    disableSettings("VCS_TRIGGER")
 })
 
 object Validations_Storybook : BuildType({
