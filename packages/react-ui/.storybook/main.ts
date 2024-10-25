@@ -12,6 +12,7 @@ const config: StorybookConfig = {
         docs: false,
       },
     },
+    './composite-checker',
   ],
   framework: {
     name: '@storybook/react-webpack5',

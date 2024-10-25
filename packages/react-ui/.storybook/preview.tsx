@@ -1,4 +1,5 @@
 import React from 'react';
+import { global } from '@storybook/global';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
@@ -10,6 +11,7 @@ import { LIGHT_THEME_MOBILE } from '../lib/theming/themes/LightThemeMobile';
 import { LIGHT_THEME } from '../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
+import { Button } from '../components/Button';
 
 const customViewports = {
   iphone: {
@@ -51,7 +53,24 @@ setFilter((fiber) => {
 
 const MOBILE_REGEXP = /Mobile.*/i;
 
+const useGlobals = global.__STORYBOOK_MODULE_CLIENT_API__.useGlobals
+
 export const decorators: Meta['decorators'] = [
+  (Story) => {
+    const [globals, updateGlobals] = useGlobals()
+
+    return (
+      <>
+        {globals.isComposite && (
+          <>
+            <Button onClick={() => updateGlobals({ theme: 'THEME_2022' })}>LIGHT_THEME</Button>
+            <Button onClick={() => updateGlobals({ theme: 'DARK_THEME' })}>DARK_THEME</Button>
+          </>
+        )}
+        <Story />
+      </>
+    )
+  },
   (Story, context) => {
     const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
     if ([DARK_THEME].includes(storybookTheme)) {
@@ -120,6 +139,12 @@ export const parameters: Meta['parameters'] = {
 };
 
 export const globalTypes = {
+  // NOTE: We always think that we are in composite mode and switch to non-composite mode only by `composite-checker` addon
+  isComposite: {
+    name: 'Composite',
+    description: 'Composite mode',
+    defaultValue: true,
+  },
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
