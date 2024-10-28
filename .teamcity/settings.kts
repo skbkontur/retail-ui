@@ -451,9 +451,9 @@ object ReactUI_Storybook : BuildType({
                     ${'$'}version_from_git = "%teamcity.build.branch%".replace('@skbkontur/react-ui@', '')
                     ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
-                                        
+
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
-                  
+
                     ${'$'}src_path = "./packages/react-ui/.storybook/build"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
                     if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
@@ -489,7 +489,7 @@ object ReactUI_Storybook : BuildType({
             branchFilter = "+:refs/tags/@skbkontur/react-ui@*"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
 })
 
@@ -538,7 +538,7 @@ object SeleniumTesting_Publish : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
             serverUrl = "%env.NUGET_SOURCE%"
-            apiKey = "credentialsJSON:9c594bdb-ecae-416b-ab54-3b85ce110c13"
+            apiKey = "credentialsJSON:5bcd0ab1-d0e9-4ed2-945a-5c32e6475d23"
         }
     }
 
@@ -855,9 +855,9 @@ object Validations_Storybook : BuildType({
                     ${'$'}version_from_git = "%teamcity.build.branch%".replace('react-ui-validations@', '')
                     ${'$'}version_from_env = ${'$'}env:STORYBOOK_VERSION
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
-                    
+
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
-                    
+
                     ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
                     if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
@@ -892,6 +892,6 @@ object Validations_Storybook : BuildType({
             branchFilter = "+:refs/tags/@skbkontur/react-ui-validations@*"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS")
 })
