@@ -19,6 +19,7 @@ import FunctionIcon from '@skbkontur/react-icons/Function';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import PeopleIcon from '@skbkontur/react-icons/People';
+import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -37,7 +38,6 @@ import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/Mi
 import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
-import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from './addons/live-examples/config';
 
 const customViewports = {
   iphone: {
