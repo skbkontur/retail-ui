@@ -89,16 +89,15 @@ class Playground extends React.Component {
                   checked={this.state.checked}
                   onValueChange={this.toggle.bind(this)}
                   loading={this.state.loading}
-                  color="#28bf4f"
                 />{' '}
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
-                <Toggle checked={false} disabled color="#28bf4f" />
+                <Toggle checked={false} disabled />
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked disabled color="#28bf4f" />
+                <Toggle checked disabled />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -202,7 +201,7 @@ class SimpleChildrenLines extends React.Component {
 }
 
 export default {
-  title: 'Choose/Toggle',
+  title: 'Toggle',
   component: Toggle,
 };
 

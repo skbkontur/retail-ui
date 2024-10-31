@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Layout/ScrollContainer', () => {
+kind('ScrollContainer', () => {
   story('WithDynamicContent', ({ setStoryParameters }) => {
     setStoryParameters({ captureElement: '#test-container' });
 
@@ -160,32 +160,8 @@ kind('Layout/ScrollContainer', () => {
     });
   });
 
-  story('HideScrollBar', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } } });
-
-    test('hideScroll', async function () {
-      const beforeScroll = await this.takeScreenshot();
-      await this.browser.executeScript(function () {
-        const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
-        if (scrollContainer) {
-          scrollContainer.scrollTop = 500;
-        }
-      });
-      this.browser
-        .actions({
-          bridge: true,
-        })
-        .move({ origin: this.browser.findElement({ css: 'body' }) });
-      await delay(200);
-      const duringScroll = await this.takeScreenshot();
-      await delay(3000);
-      const afterScroll = await this.takeScreenshot();
-      await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
-    });
-  });
-
   story('ScrollBarVisibleAfterTogglingDisabled', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     test('toggleDisabled', async function () {
       await this.browser
@@ -200,7 +176,7 @@ kind('Layout/ScrollContainer', () => {
   });
 
   story('ShowScrollBarOnScroll', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\b(firefox2022|chrome2022)\b)/ } } });
 
     test('hideScroll', async function () {
       const beforeScroll = await this.takeScreenshot();
@@ -224,7 +200,7 @@ kind('Layout/ScrollContainer', () => {
   });
 
   story('ShowScrollBarOnHover', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'hover works only in firefox': { in: /^(?!\b(firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'hover works only in firefox': { in: /^(?!\b(firefox2022)\b)/ } } });
 
     test('hideScroll', async function () {
       this.browser
@@ -250,22 +226,22 @@ kind('Layout/ScrollContainer', () => {
   });
   story('NeverShowScrollBar', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\b(firefox2022|chrome2022)\b)/ } },
     });
   });
   story('OffsetY', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
   story('OffsetX', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
   story('OffsetYAndX', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
 });

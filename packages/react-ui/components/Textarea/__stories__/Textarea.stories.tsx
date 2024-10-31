@@ -66,7 +66,7 @@ class AutoresizableTextarea extends React.Component {
 }
 
 export default {
-  title: 'Input elements/Textarea',
+  title: 'Textarea',
   component: Textarea,
 };
 

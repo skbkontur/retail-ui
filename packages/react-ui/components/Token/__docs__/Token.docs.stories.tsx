@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Token, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/TokenInput/Token',
+  title: 'Input data/TokenInput/Token',
   component: Token,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -127,6 +127,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Состояние валидации';
 
 export const Example4: Story = () => {
+
   return (
     <Gapped vertical>
       <Token size="small">

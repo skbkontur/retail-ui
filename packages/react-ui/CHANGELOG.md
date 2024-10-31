@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.27.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.26.0...@skbkontur/react-ui@4.27.0) (2024-09-30)
+
+
+### Bug Fixes
+
+* **Button:** fix btnTextHoverBg, btnTextActiveBg vars in Theme2022Dark ([#3464](https://github.com/skbkontur/retail-ui/issues/3464)) ([c6d70a3](https://github.com/skbkontur/retail-ui/commit/c6d70a31809903ffe11c6b63108dc100721e595e))
+
+
+### Features
+
+* **react-ui, a11y:** add id prop for multiple components ([#3502](https://github.com/skbkontur/retail-ui/issues/3502)) ([2ba3db7](https://github.com/skbkontur/retail-ui/commit/2ba3db7894840e97df1daa845b555c6cc6924f18))
+
+
+
+
+
+# [4.26.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.2...@skbkontur/react-ui@4.26.0) (2024-08-20)
+
+
+### Bug Fixes
+
+* **FileUploader:** correct event type ([aaf3422](https://github.com/skbkontur/retail-ui/commit/aaf3422a849e3b3fef81d8656031bc66412e06ca))
+* **FileUploader:** work with sync mode ([82a7a3c](https://github.com/skbkontur/retail-ui/commit/82a7a3c5d95d3b132d39a333cec515c3b0d28bfb))
+* **ScrollContainer:** new prop 'scrollRef' ([#3476](https://github.com/skbkontur/retail-ui/issues/3476)) ([d066e35](https://github.com/skbkontur/retail-ui/commit/d066e35d7a4d4c8e273e0b382a475a217b7386fc))
+
+
+### Features
+
+* **FileUploader:** initial state for files ([b735a83](https://github.com/skbkontur/retail-ui/commit/b735a834c4d6736f9d05289ac4b3e4c7f132de43))
+* **ZIndex:** partially support several React roots ([#3478](https://github.com/skbkontur/retail-ui/issues/3478)) ([6c87630](https://github.com/skbkontur/retail-ui/commit/6c87630368219fd3b32d5e5dfc67704f3b29ad99))
+
+
+
+
+
+## [4.25.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.1...@skbkontur/react-ui@4.25.2) (2024-07-16)
+
+
+### Bug Fixes
+
+* **Loader:** fix Loader in 18 react ([#3467](https://github.com/skbkontur/retail-ui/issues/3467)) ([5c0fcce](https://github.com/skbkontur/retail-ui/commit/5c0fccefea1de468a9a796456f6a8a9163587a51))
+* **Select:** pass disabled to _renderButton ([#3468](https://github.com/skbkontur/retail-ui/issues/3468)) ([bc4cac9](https://github.com/skbkontur/retail-ui/commit/bc4cac9444667bc10f499fec417cd67cc1081075))
+* **validations:** program validation on multiple fields ([#3454](https://github.com/skbkontur/retail-ui/issues/3454)) ([8317e0b](https://github.com/skbkontur/retail-ui/commit/8317e0baac36346a15cfff7477f4b482430a007d))
+
+
+
+
+
+## [4.25.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.25.0...@skbkontur/react-ui@4.25.1) (2024-06-17)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
+# [4.25.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.24.0...@skbkontur/react-ui@4.25.0) (2024-06-17)
+
+
+### Features
+
+* update colors 2024 ([#3447](https://github.com/skbkontur/retail-ui/issues/3447)) ([85dd419](https://github.com/skbkontur/retail-ui/commit/85dd41988a9ceca49815560e38d3ed6f5c25db96))
+* **validations:** use `ThemeContext` ([#3446](https://github.com/skbkontur/retail-ui/issues/3446)) ([74fd90b](https://github.com/skbkontur/retail-ui/commit/74fd90b337968eed217a478bf913e6ce2f7fe962))
+
+
+
+
+
 # [4.24.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.23.0...@skbkontur/react-ui@4.24.0) (2024-06-05)
 
 

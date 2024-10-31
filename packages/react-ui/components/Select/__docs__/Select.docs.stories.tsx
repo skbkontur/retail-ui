@@ -6,7 +6,7 @@ import PeopleIcon from '@skbkontur/react-icons/People';
 import { Select, Button, Group, Link, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Choose/Select',
+  title: 'Input data/Select',
   component: Select,
   parameters: { creevey: { skip: true } },
 } as Meta;

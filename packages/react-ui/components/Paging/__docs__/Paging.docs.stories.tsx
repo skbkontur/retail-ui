@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Paging } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Navigation/Paging',
+  title: 'Display data/Paging',
   component: Paging,
   parameters: { creevey: { skip: true } },
 } as Meta;

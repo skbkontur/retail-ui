@@ -12,7 +12,7 @@ import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default {
-  title: 'Layout/Group',
+  title: 'Group',
   component: Group,
 };
 
@@ -33,14 +33,18 @@ export const SimpleGroupWithCustomInputsWidth = () => (
 );
 SimpleGroupWithCustomInputsWidth.storyName = 'Simple Group with custom Inputs width';
 
-export const GroupWithInputAndMultipleButtons = () => (
-  <Group>
-    <Button>Clear</Button>
-    <Input placeholder="Search" width="100%" />
-    <Button icon={<SearchIcon />} />
-    <Button>Cancel</Button>
-  </Group>
-);
+export const GroupWithInputAndMultipleButtons = () => {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <Group>
+      <Button onClick={() => setValue('')}>Clear</Button>
+      <Input value={value} onValueChange={setValue} placeholder="Search" width="100%" />
+      <Button icon={<SearchIcon />} />
+      <Button>Cancel</Button>
+    </Group>
+  );
+};
 GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
 GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
@@ -71,7 +75,7 @@ export const WithWidth = () => (
       return (
         <div
           style={{
-            background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#eee',
+            background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#eee',
             padding: '30px 10px 10px',
             position: 'relative',
           }}

@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { cloneElement, useRef } from 'react';
 
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { FileUploader, FileUploaderRef } from '../FileUploader';
 
 export default {
-  title: 'Work with files/FileUploader',
+  title: 'FileUploader',
   component: FileUploader,
   decorators: [(storyFn: () => JSX.Element) => <div style={{ padding: '10px' }}>{storyFn()}</div>],
 };
@@ -25,6 +25,10 @@ const errorRequest = () =>
       reject();
     }, 2000);
   });
+
+function createFile(filename: string, content = 'content'): File {
+  return new File([content], filename);
+}
 
 /** async control stories **/
 export const SingleAsyncFileUploader = () => <FileUploader request={successRequest} />;
@@ -129,3 +133,19 @@ export const DifferentSizes = () => (
 
 export const MultipleFileUploaderWithHideFiles = () => <FileUploader multiple request={successRequest} hideFiles />;
 MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: true } };
+
+export const FileUploaderWithSinglePrefilledFile = () => (
+  <FileUploader multiple={false} initialFiles={[createFile('test1.txt')]} />
+);
+
+export const FileUploaderWithMultiplePrefilledFiles = () => (
+  <FileUploader multiple initialFiles={[createFile('test1.txt'), createFile('test2.txt')]} />
+);
+
+export const FileUploaderWithMultiplePrefilledFilesCustomRender = () => (
+  <FileUploader
+    multiple
+    initialFiles={[createFile('test1.txt'), createFile('test2.txt')]}
+    renderFile={(file, fileNode) => cloneElement(fileNode, { showSize: false })}
+  />
+);

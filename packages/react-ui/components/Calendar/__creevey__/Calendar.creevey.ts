@@ -2,10 +2,10 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Date/Calendar', () => {
+kind('Calendar', () => {
   story('CalendarWithMinMaxDate', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('DateSelect months', async function () {
       await delay(1000);
@@ -44,7 +44,7 @@ kind('Date/Calendar', () => {
 
   story('ScrollsCalendarOnDateChange', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\bchrome\b|\bfirefox\b|\bie11\b)/ } },
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('initial date', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('initial date');
@@ -65,8 +65,8 @@ kind('Date/Calendar', () => {
   story('CalendarWithBottomSeparator', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        "8px and 2022 themes don't affect the bottom separator": {
-          in: /^(?!\b(chrome|chromeDark|firefox|firefoxDark)\b)/,
+        "themes don't affect the bottom separator": {
+          in: /^(?!\b(chrome2022|chrome2022Dark|firefox2022|firefox2022Dark)\b)/,
         },
       },
     });

@@ -10,7 +10,7 @@ import { TooltipMenu } from '../TooltipMenu';
 import { Button } from '../../Button';
 
 export default {
-  title: 'Menu/TooltipMenu',
+  title: 'TooltipMenu',
   component: TooltipMenu,
   decorators: [
     (Story: () => JSX.Element) => (

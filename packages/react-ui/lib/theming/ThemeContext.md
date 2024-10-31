@@ -37,28 +37,14 @@ public context: Theme = this.context;
 
 | Имя                     | Описание                                          |
 |-------------------------|---------------------------------------------------|
-| `THEME_2022`            | Станет дефолтной в `5.0`                          |
-| `DARK_THEME_2022`       | Станет дефолтной темной в `5.0`                   |
-| `DEFAULT_THEME`         | Текущая дефолтная тема. Станет deprecated в `5.0` |
-| `DARK_THEME`            | Темная дефолтная. Станет deprecated в `5.0`       |
-| `DEFAULT_THEME_8PX_OLD` | Тема 2021 г. Будет удалена в  `5.0`               |
-| `FLAT_THEME_8PX_OLD`    | Плоская тема 2021 г. Будет удалена в `5.0`        |
+| `LIGHT_THEME` | Текущая светлая тема, включена по умолчанию. Всегда включает в себя актуальные визуальные обновления. |
+| `DARK_THEME` | Текущая тёмная тема. Всегда включает в себя актуальные визуальные обновления. |
+| `LIGHT_THEME_2022_0` | Вариант светлой темы без актуальных визуальных обновлений. |
+| `DARK_THEME_2022_0` | Вариант тёмной темы без актуальных визуальных обновлений. |
+
+Если не нужны постоянные визуальные изменения, то можно использовать вариант `_2022_N`. В будущем, новые варианты с постфиксом `_2022_N` будут появлятся при обновлении дизайн системы.
 
 ## Примеры использования
-
-### Подключение старой плоской темы
-
-```jsx harmony
-import { ThemeContext, FLAT_THEME_8PX_OLD } from '@skbkontur/react-ui';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
-
-
-<ThemeContext.Provider value={FLAT_THEME_8PX_OLD}>
-  <div style={{ height: '100%', background: '#fff', padding: '16px' }}>
-    <ShowcaseGroup title="Flat Theme Old" />
-  </div>
-</ThemeContext.Provider>;
-```
 
 ### Создание собственной темы
 
@@ -80,10 +66,9 @@ const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });
 Вторым аргументом `ThemeFactory.create` может принимать объект, который будет использован в качестве базовой темы.
 
 ```jsx static
-import { ThemeFactory } from '@skbkontur/react-ui';
-import { FLAT_THEME_8PX_OLD } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme8pxOld';
+import { ThemeFactory, LIGHT_THEME } from '@skbkontur/react-ui';
 
-const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, FLAT_THEME_8PX_OLD);
+const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, LIGHT_THEME);
 ```
 
 ### Использование темы в своих компонентах
@@ -149,22 +134,22 @@ ThemeFactory.overrideDefaultTheme(theme);
 <br/>
 
 ```jsx harmony
-import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME } from '@skbkontur/react-ui';
+import { ThemeContext, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
   <>
     <div style={{height: '100%', background: '#fff', padding: '16px'}}>
-      <ThemeContext.Provider value={DEFAULT_THEME}>
+      <ThemeContext.Provider value={LIGHT_THEME}>
         <div>
-          <ShowcaseGroup title="Default Theme" />
+          <ShowcaseGroup title="LIGHT_THEME" />
         </div>
       </ThemeContext.Provider>
     </div>
-    <div style={{height: '100%', background: '#fff', padding: '16px'}}>
-      <ThemeContext.Provider value={DEFAULT_THEME_8PX_OLD}>
+    <div style={{height: '100%', background: '#000', padding: '16px'}}>
+      <ThemeContext.Provider value={DARK_THEME}>
         <div>
-          <ShowcaseGroup title="Default Theme Old" />
+          <ShowcaseGroup title="DARK_THEME" />
         </div>
       </ThemeContext.Provider>
     </div>
@@ -178,7 +163,7 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME, DARK_THEME } from '@skbkontur/react-ui';
+import { ThemeContext, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {
@@ -188,19 +173,14 @@ const wrapperStyles = {
 };
 
 const NestedThemes = () => (
-  <ThemeContext.Provider value={DEFAULT_THEME_8PX_OLD}>
+  <ThemeContext.Provider value={ LIGHT_THEME }>
     <div style={{ ...wrapperStyles, width: 750, background: '#fff' }}>
-      <ShowcaseGroup title="Default Theme Old" />
-      <ThemeContext.Provider value={DEFAULT_THEME}>
-        <div style={{ ...wrapperStyles, background: '#fff' }}>
-          <ShowcaseGroup title="Default Theme" />
-          <ThemeContext.Provider value={DARK_THEME}>
-            <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
-              <ShowcaseGroup title="Dark Theme" />
-            </div>
-          </ThemeContext.Provider>
-        </div>
-      </ThemeContext.Provider>
+      <ShowcaseGroup title="LIGHT_THEME" />
+        <ThemeContext.Provider value={ DARK_THEME }>
+          <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
+            <ShowcaseGroup title="DARK_THEME" />
+          </div>
+        </ThemeContext.Provider>
     </div>
   </ThemeContext.Provider>
 );

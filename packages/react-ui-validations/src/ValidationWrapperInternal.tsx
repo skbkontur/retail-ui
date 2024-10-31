@@ -142,9 +142,12 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    return React.cloneElement(this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation), {
-      'data-tid': dataTid,
-    });
+    return React.cloneElement(
+      this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
+      {
+        'data-tid': dataTid,
+      },
+    );
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {
@@ -227,10 +230,12 @@ export class ValidationWrapperInternal extends React.Component<
     }
 
     return new Promise((resolve) => {
-      this.setState({ validation }, resolve);
-      if (Boolean(current) !== Boolean(validation)) {
-        this.context.onValidationUpdated(this, !validation);
-      }
+      this.setState({ validation }, () => {
+        if (Boolean(current) !== Boolean(validation)) {
+          this.context.onValidationUpdated(this, !validation);
+        }
+        resolve();
+      });
     });
   }
 

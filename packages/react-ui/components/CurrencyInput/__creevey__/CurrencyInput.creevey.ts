@@ -1,12 +1,16 @@
 import { story, kind, test } from 'creevey';
 
-kind('Input elements/CurrencyInput', () => {
+kind('CurrencyInput', () => {
   story('SampleStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
         'flacky visible(?!) cursor': {
           in: ['chromeDark'],
           tests: ['Focus', 'Input value', 'External focus and input'],
+        },
+        'flaky pixels in the bottom left corner': {
+          in: ['chrome2022'],
+          tests: ['External focus and input'],
         },
       },
     });

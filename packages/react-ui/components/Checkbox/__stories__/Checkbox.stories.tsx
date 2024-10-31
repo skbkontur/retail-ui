@@ -93,7 +93,7 @@ class IndeterminatePlayground extends React.Component<React.PropsWithChildren> {
 }
 
 export default {
-  title: 'Choose/Checkbox',
+  title: 'Checkbox',
   component: Checkbox,
 } as Meta;
 

@@ -106,10 +106,9 @@ class Sample extends React.Component<SampleProps> {
                     style={
                       this.props.withLongBody
                         ? {
-                            background:
-                              theme.prototype.constructor.name === 'DarkTheme'
-                                ? '' + linearDarkGradient + ''
-                                : '' + linearLightGradient + '',
+                            background: theme.prototype.constructor.name.includes('Dark')
+                              ? '' + linearDarkGradient + ''
+                              : '' + linearLightGradient + '',
                             height: 2000,
                           }
                         : undefined
@@ -229,7 +228,7 @@ class SidePageOverAnotherSidePage extends React.Component {
   }
 }
 
-class StickyHeaderWhenAnotherSidePage extends React.Component {
+class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
   }
@@ -423,10 +422,9 @@ class WithVariableContent extends React.Component {
             <SidePage.Body>
               <div
                 style={{
-                  background:
-                    theme.prototype.constructor.name === 'DarkTheme'
-                      ? '' + linearDarkGradient + ''
-                      : '' + linearLightGradient + '',
+                  background: theme.prototype.constructor.name.includes('Dark')
+                    ? '' + linearDarkGradient + ''
+                    : '' + linearLightGradient + '',
                   height: 600,
                   padding: '20px 0',
                 }}
@@ -489,10 +487,9 @@ class TestUpdateLayoutMethod extends React.Component {
         return (
           <div
             style={{
-              background:
-                theme.prototype.constructor.name === 'DarkTheme'
-                  ? '' + linearDarkGradient + ''
-                  : '' + linearLightGradient + '',
+              background: theme.prototype.constructor.name.includes('Dark')
+                ? '' + linearDarkGradient + ''
+                : '' + linearLightGradient + '',
               height: 2000,
             }}
           />
@@ -575,10 +572,9 @@ class WithLongTitle extends React.Component {
                   id="scrollable-content"
                   style={{
                     height: 1500,
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                   }}
                 />
               </SidePage.Body>
@@ -611,9 +607,12 @@ class WithLongTitle extends React.Component {
 }
 
 export default {
-  title: 'Overlays/SidePage',
+  title: 'SidePage',
   component: SidePage,
 };
+
+export const SidePageWithBlockBackground: Story = () => <Sample blockBackground />;
+SidePageWithBlockBackground.storyName = 'SidePage with block background';
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
@@ -626,8 +625,8 @@ WithInputInHeader.parameters = { creevey: { skip: true } };
 export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 
-export const StickyHeaderWhenAnotherSidePageStory: Story = () => <StickyHeaderWhenAnotherSidePage />;
-StickyHeaderWhenAnotherSidePageStory.storyName = 'Sticky Header when another SidePage';
+export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
+StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
 SidePageWithConfiguration.storyName = 'SidePage with configuration';

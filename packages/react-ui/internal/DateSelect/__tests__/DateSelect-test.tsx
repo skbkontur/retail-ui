@@ -21,7 +21,7 @@ describe('DateSelect', () => {
     });
     await userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths.forEach((month) => {
-      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+      expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
 
@@ -38,7 +38,7 @@ describe('DateSelect', () => {
     });
     await userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths?.forEach((month) => {
-      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+      expect(screen.getByText(month).parentElement).toHaveAttribute('data-prop-disabled', 'true');
     });
   });
 });

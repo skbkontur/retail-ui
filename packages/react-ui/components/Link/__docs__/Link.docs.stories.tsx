@@ -1,26 +1,38 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
+import { Link as RouterLink, BrowserRouter } from 'react-router-dom';
 import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular'
 
 import { Link, Gapped, Button, Toast } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Navigation/Link',
+  title: 'Button/Link',
   component: Link,
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Example1: Story = () => {
   return (
-    <Link>Обычная ссылка</Link>
+    <Link href="https://kontur.ru" target="_blank">Обычная ссылка</Link>
   );
 
 };
 Example1.storyName = 'Базовый пример';
 
+/** Cсылка может рендерить кнопку в качестве корневого элемента, c помощью пропа `component`. Cсылка принимает все пропы переданного в `component` компонента.
+Рекомендуется к использованию вместо кнопки с `use=link`, если нужна кнопка с визуалом ссылки. */
 export const Example2: Story = () => {
+
+  return (
+    <Link component='button'>Кнопка, но выглядит как ссылка</Link>
+  );
+
+};
+Example2.storyName = 'Корневой элемент';
+
+export const Example4: Story = () => {
 
   return (
     <Gapped gap={15}>
@@ -33,9 +45,9 @@ export const Example2: Story = () => {
   );
 
 };
-Example2.storyName = 'Стили и disabled';
+Example4.storyName = 'Стили и disabled';
 
-export const Example3: Story = () => {
+export const Example5: Story = () => {
 
   return (
     <Gapped gap={20}>
@@ -46,12 +58,12 @@ export const Example3: Story = () => {
   );
 
 };
-Example3.storyName = 'Иконка';
+Example5.storyName = 'Иконка';
 
 /** _Примечание_:
 Если в контрол `Link` передана ссылка, ведущая на внешний ресурс, контрол `Link` неявно добавит атрибут `rel` со значением необходимым для внешних ссылок, при этом не трогая атрибут `target`.
 Открытие ссылки в новой вкладке остаётся на усмотрение разработчика. */
-export const Example4: Story = () => {
+export const Example6: Story = () => {
 
   return (
     <Gapped>
@@ -65,10 +77,10 @@ export const Example4: Story = () => {
   );
 
 };
-Example4.storyName = 'Ссылки, ведущие на внешние ресурсы';
+Example6.storyName = 'Ссылки, ведущие на внешние ресурсы';
 
 /** **Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая. */
-export const Example5: Story = () => {
+export const Example7: Story = () => {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -85,18 +97,18 @@ export const Example5: Story = () => {
   );
 
 };
-Example5.storyName = 'Состояние загрузки';
+Example7.storyName = 'Состояние загрузки';
 
-export const Example6: Story = () => {
+export const Example8: Story = () => {
 
   return (
     <Link onClick={() => Toast.push("Ты нажал на ссылку!")}>Ссылка с кастомным действием</Link>
   );
 
 };
-Example6.storyName = 'Кастомное действие при нажатии';
+Example8.storyName = 'Кастомное действие при нажатии';
 
-export const Example7: Story = () => {
+export const Example9: Story = () => {
 
   return (
     <Gapped>
@@ -106,17 +118,16 @@ export const Example7: Story = () => {
   );
 
 };
-Example7.storyName = 'Проп `theme`';
+Example9.storyName = 'Проп `theme`';
 
-export const Example8: Story = () => {
+export const Example10: Story = () => {
 
   const textDecorationStyles = {
-    linkLineBorderBottomWidth: '0',
-    linkHoverTextDecoration: 'underline'
+    linkTextUnderlineOffset: '1px'
   }
 
   const underlineOnHoverStyles = {
-    linkLineBorderBottomColor: 'transparent',
+    linkTextDecorationColor: 'transparent',
   }
 
   const differentColorStyles = {
@@ -166,12 +177,12 @@ export const Example8: Story = () => {
         <th style={tdStyle}>Пример</th>
         <th style={tdStyle}>Переменные темы</th>
       </tr>
-      {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+      {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
       {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
       {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
     </table>
   );
 
 };
-Example8.storyName = 'Кастомизация ссылки';
+Example10.storyName = 'Кастомизация ссылки';
 

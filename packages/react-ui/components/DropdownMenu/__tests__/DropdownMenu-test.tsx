@@ -21,6 +21,12 @@ describe('<DropdownMenu />', () => {
     expect(renderDropdownMenu).not.toThrow();
   });
 
+  it('has id attribute', () => {
+    const dropdownMenuId = 'dropdownMenuId';
+    const result = render(<DropdownMenu id={dropdownMenuId} caption={caption} />);
+    expect(result.container.querySelector(`button#${dropdownMenuId}`)).not.toBeNull();
+  });
+
   it('Throw, if caption is not passed', () => {
     const renderNoCaption = () => render(<DropdownMenu caption={undefined} />);
     expect(renderNoCaption).toThrow();

@@ -8,7 +8,7 @@ import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Popup/Tooltip',
+  title: 'Overlay/Tooltip',
   component: Tooltip,
   parameters: { creevey: { skip: true } },
 } as Meta;

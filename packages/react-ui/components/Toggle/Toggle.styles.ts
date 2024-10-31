@@ -2,7 +2,6 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import {
-  activeHandleSizeMixin,
   buttonSizeMixin,
   captionSizeMixin,
   containerSizeMixin,
@@ -58,37 +57,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  activeHandleSmall(t: Theme) {
-    return css`
-      ${activeHandleSizeMixin(
-        t.toggleHandleSizeSmall,
-        t.toggleBorderWidth,
-        t.toggleHandleActiveWidthIncrement,
-        t.toggleWidthSmall,
-      )};
-    `;
-  },
-  activeHandleMedium(t: Theme) {
-    return css`
-      ${activeHandleSizeMixin(
-        t.toggleHandleSizeMedium,
-        t.toggleBorderWidth,
-        t.toggleHandleActiveWidthIncrement,
-        t.toggleWidthMedium,
-      )};
-    `;
-  },
-  activeHandleLarge(t: Theme) {
-    return css`
-      ${activeHandleSizeMixin(
-        t.toggleHandleSizeLarge,
-        t.toggleBorderWidth,
-        t.toggleHandleActiveWidthIncrement,
-        t.toggleWidthLarge,
-      )};
-    `;
-  },
-
   disableAnimation() {
     return css`
       &,
@@ -100,13 +68,10 @@ export const styles = memoizeStyle({
 
   handle(t: Theme) {
     return css`
-      background: ${t.toggleHandleBg};
       bottom: ${t.toggleBorderWidth};
-      box-shadow: ${t.toggleHandleBoxShadowOld};
       left: ${t.toggleHandleLeft};
       position: absolute;
       top: ${t.toggleHandleTop};
-      transition: 0.2s ease-in;
     `;
   },
   handleSmall(t: Theme) {
@@ -136,58 +101,6 @@ export const styles = memoizeStyle({
       position: absolute;
       opacity: 0;
 
-      &:focus {
-        outline: none;
-      }
-      &:checked ~ .${globalClasses.container} {
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
-        background: ${t.toggleBgChecked};
-        transition: background 0s 0.2s;
-      }
-      &:checked ~ .${globalClasses.containerDisabled} {
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColorDisabledChecked};
-        background: ${t.toggleBgDisabledChecked};
-        transition: background 0s 0.2s;
-      }
-      &:checked ~ .${globalClasses.containerLoading} {
-        background: ${t.toggleBorderColor};
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-      }
-      &:checked ~ .${globalClasses.container} .${globalClasses.background} {
-        width: 70%;
-        background: ${t.toggleBgChecked};
-      }
-      &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
-        width: 70%;
-        background: ${t.toggleBgDisabledChecked};
-        box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
-      }
-      &:checked ~ .${globalClasses.handle} {
-        background: ${t.toggleCheckedBg};
-        &:hover {
-          background: ${t.toggleCheckedBgHover};
-        }
-      }
-    `;
-  },
-  inputSmall(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
-    `;
-  },
-  inputMedium(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
-    `;
-  },
-  inputLarge(t: Theme) {
-    return css`
-      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
-    `;
-  },
-
-  input2022(t: Theme) {
-    return css`
       &:enabled {
         ~ .${globalClasses.container}, ~ .${globalClasses.handle} {
           transition: 0.2s ease-in;
@@ -259,6 +172,21 @@ export const styles = memoizeStyle({
       }
     `;
   },
+  inputSmall(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightSmall, t.toggleWidthSmall)};
+    `;
+  },
+  inputMedium(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightMedium, t.toggleWidthMedium)};
+    `;
+  },
+  inputLarge(t: Theme) {
+    return css`
+      ${inputSizeMixin(t.toggleHeightLarge, t.toggleWidthLarge)};
+    `;
+  },
 
   container(t: Theme) {
     return css`
@@ -302,31 +230,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  activeBackground() {
-    return css`
-      background: inherit;
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      top: 0;
-      transition: 0.2s ease-in;
-      width: 10px;
-    `;
-  },
-
-  disabledBackground(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabled};
-      width: 0;
-    `;
-  },
-
-  activeBackgroundLoading(t: Theme) {
-    return css`
-      background: ${t.toggleBgActive};
-    `;
-  },
-
   isWarning(t: Theme) {
     return css`
       box-shadow:
@@ -349,7 +252,7 @@ export const styles = memoizeStyle({
       left: 0;
       top: 0;
       background: ${t.toggleBaseBg};
-      line-height: ${t.toggleHeight};
+      line-height: ${t.toggleHeightSmall};
     `;
   },
   buttonSmall(t: Theme) {

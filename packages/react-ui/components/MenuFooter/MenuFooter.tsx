@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -7,12 +7,7 @@ import { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuFooter.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type MenuFooterSize = SizeProp;
-
-export interface MenuFooterProps extends CommonProps {
+export interface MenuFooterProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Добавляет отступ иконке. */
   _enableIconPadding?: boolean;
 
@@ -32,9 +27,9 @@ export const MenuFooterDataTids = {
  *
  * `MenuFooter`, в отличие от `MenuItem` нельзя затаргетить с клавиатуры.
  *
- * Сущности, в которых может быть использован `MenuFooter`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/choose-select--docs).
+ * Сущности, в которых может быть использован `MenuFooter`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/input-data-select--docs).
  */
-function MenuFooter({ _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
+function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
   const theme = useContext(ThemeContext);
 
   function getRootSizeClassName() {
@@ -63,6 +58,7 @@ function MenuFooter({ _enableIconPadding = false, children, size = 'small', ...r
   return (
     <CommonWrapper {...rest}>
       <div
+        id={id}
         data-tid={MenuFooterDataTids.root}
         className={cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,

@@ -6,10 +6,8 @@ import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
-import { FunctionIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { SizeProp } from '../../lib/types/props';
@@ -107,19 +105,14 @@ export class FxInput extends React.Component<FxInputProps> {
     };
 
     let button = null;
-    let inputCorners: InputProps['corners'];
-    let IconFunction = <FunctionIcon />;
-
-    if (isTheme2022(this.theme)) {
-      inputCorners = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      const iconSizes: Record<SizeProp, number> = {
-        small: parseInt(this.theme.inputIconSizeSmall),
-        medium: parseInt(this.theme.inputIconSizeMedium),
-        large: parseInt(this.theme.inputIconSizeLarge),
-      };
-      const size = this.props.size || Input.defaultProps.size;
-      IconFunction = <MathFunctionIcon size={iconSizes[size]} />;
-    }
+    const inputCorners: InputProps['corners'] = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
+    const iconSizes: Record<SizeProp, number> = {
+      small: parseInt(this.theme.inputIconSizeSmall),
+      medium: parseInt(this.theme.inputIconSizeMedium),
+      large: parseInt(this.theme.inputIconSizeLarge),
+    };
+    const size = this.props.size || Input.defaultProps.size;
+    const IconFunction = <MathFunctionIcon size={iconSizes[size]} />;
 
     if (auto) {
       inputProps.leftIcon = IconFunction;

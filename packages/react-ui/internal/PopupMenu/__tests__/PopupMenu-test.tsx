@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
-import { PopupDataTids, PopupIds } from '../../../internal/Popup/Popup';
+import { PopupDataTids, PopupIds } from '../../Popup';
 import { PopupMenu, PopupMenuCaptionProps } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';
 
@@ -161,6 +161,12 @@ describe('PopupMenu', () => {
       render(<PopupMenu aria-label={ariaLabel} caption={<button>test</button>} />);
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('has id attribute', () => {
+      const popupMenuId = 'popupMenuId';
+      const result = render(<PopupMenu id={popupMenuId} caption={<button>test</button>} />);
+      expect(result.container.querySelector(`button#${popupMenuId}`)).not.toBeNull();
     });
   });
 });

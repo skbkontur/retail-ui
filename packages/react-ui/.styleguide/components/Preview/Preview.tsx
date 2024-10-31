@@ -62,6 +62,7 @@ const Preview = withContext(
     public componentDidUpdate(prevProps: PreviewProps) {
       if (this.props.code !== prevProps.code || prevProps.theme !== this.props.theme) {
         this.executeCode();
+        window.infra_frontTracker.trackEvent('LiveCode', 'DidUpdate');
       }
     }
 

@@ -78,7 +78,7 @@ const navigateInNestedMenuItems = () => {
   });
 };
 
-kind('Menu/DropdownMenu', () => {
+kind('DropdownMenu', () => {
   story('SimpleExample', () => {
     test('plain', async function () {
       await delay(1000);
@@ -243,19 +243,19 @@ kind('Menu/DropdownMenu', () => {
   });
 
   story('WithItemsAndIcons', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });
 
   story('WithItemsAndIconsWithoutTextAlignment', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });
 
   story('WithNestedMenuItems', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     navigateInNestedMenuItems();
   });

@@ -11,7 +11,6 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -111,10 +110,9 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
   };
 
   private renderMain() {
-    let separator: React.ReactNode = null;
-    if (isTheme2022(this.theme)) {
-      separator = (this.props.panel || this.state.fixed) && <ModalSeparator fixed={this.state.fixed} />;
-    }
+    const separator: React.ReactNode = (this.props.panel || this.state.fixed) && (
+      <ModalSeparator fixed={this.state.fixed} />
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

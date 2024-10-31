@@ -38,14 +38,14 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
     [clearTimer],
   );
 
-  const preventDefault = useCallback((event: Event) => {
+  const preventDefault = useCallback((event: DragEvent) => {
     event.preventDefault();
     event.stopPropagation();
   }, []);
 
   const handleDrop = useCallback(
     (event: DragEvent) => {
-      preventDefault(event as Event);
+      preventDefault(event);
       setIsDraggable(false);
       overRef.current = false;
 

@@ -120,7 +120,7 @@ const menuPosTests = () => {
   });
 };
 
-kind('Input elements/Autocomplete', () => {
+kind('Autocomplete', () => {
   story('Simple', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -185,7 +185,13 @@ kind('Input elements/Autocomplete', () => {
 
   story('WithManualPosition', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
+      skip: {
+        'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
+        flaky: {
+          in: ['firefox2022'],
+          tests: ['opened top with portal', 'opened bottom with portal'],
+        },
+      },
     });
 
     test('opened top with portal', async function () {

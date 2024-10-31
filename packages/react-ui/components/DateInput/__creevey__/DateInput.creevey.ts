@@ -2,7 +2,7 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Date/DateInput', () => {
+kind('DateInput', () => {
   story('Simple', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -150,7 +150,7 @@ kind('Date/DateInput', () => {
   });
 
   story('ShouldSetFocusOnPlaceholderClick', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
 
     test('focused', async function () {
       const DateInputPlaceholder = this.browser.findElement({

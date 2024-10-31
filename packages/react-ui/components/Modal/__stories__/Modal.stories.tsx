@@ -412,7 +412,7 @@ class SmallModalOnTop extends React.Component {
 }
 
 export default {
-  title: 'Overlays/Modal',
+  title: 'Modal',
   component: Modal,
 };
 
@@ -542,7 +542,7 @@ export const ModalBodyWithoutPadding = () => (
       return (
         <Modal width={250}>
           <Modal.Body noPadding>
-            <div style={{ background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : 'white' }}>
+            <div style={{ background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : 'white' }}>
               <p>Loooooooong content content content</p>
               <p>Loooooooong content content content</p>
               <p>Loooooooong content content content</p>

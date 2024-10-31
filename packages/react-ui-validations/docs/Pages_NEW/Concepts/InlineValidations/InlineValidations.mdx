@@ -1,0 +1,128 @@
+import { Meta, Story } from '@storybook/blocks';
+import * as DocsStories from './InlineValidation.docs.stories.tsx';
+
+<Meta of={DocsStories} />
+
+# Встраиваемые валидации
+
+Интерфейс библиотеки устроен так, что валидации можно делать внешними по отношению к контролу формы, так и писать их прямо внутри формы.
+
+Однако это может быть не всегда удобно.
+Для этого можно сделать реэкспорт контролов, которые уже завёрнуты в `ValidationWrapper`, и предоставляют более удобный интерфейс для валидации значений.
+
+В итоге код может выглядеть как-то так:
+
+```jsx static
+<Form.Line title="Email">
+  <Input required email value={data.email} onValueChange={(value) => onChange({ email: value })} />
+</Form.Line>
+```
+
+или так:
+
+```jsx static
+import { DatePicker, lessThan } from './ControlsWithValidations';
+
+<Form.Line title="Дата рождения">
+  <DatePicker
+    required
+    validations={[lessThan(new Date('2010-01-01'))]}
+    value={data.born}
+    onValueChange={(value) => onChange({ born: value })}
+  />
+</Form.Line>;
+```
+
+Реализацию можно посмотреть в [исходном коде документации](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/docs/Pages/Concepts/InlineValidations)
+
+### Пример
+
+<Story of={DocsStories.InlineValidations}></Story>
+
+```jsx static
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+
+import { ValidationContainer } from '../../../../src';
+import { Form } from '../../../Common/Form';
+import { Nullable } from '../../../../typings/Types';
+
+import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
+
+export interface ContactInfo {
+  name: string;
+  email: string;
+  born: string;
+}
+
+interface InlineValidationsDemoState {
+  data: ContactInfo;
+}
+export default class InlineValidationsDemo extends React.Component {
+  public state: InlineValidationsDemoState = {
+    data: {
+      name: '',
+      email: '',
+      born: '',
+    },
+  };
+
+  private container: Nullable<ValidationContainer> = null;
+
+  public render() {
+    const { data } = this.state;
+    return (
+      <ValidationContainer ref={this.refContainer}>
+        <Form>
+          <Form.Line title="Имя">
+            <Input
+              required
+              value={data.name}
+              onValueChange={(value) => this.handleChange({ name: value })}
+            />
+          </Form.Line>
+
+          <Form.Line title="E-mail">
+            <Input
+              required
+              email
+              value={data.email}
+              onValueChange={(value) => this.handleChange({ email: value })}
+            />
+          </Form.Line>
+
+          <Form.Line title="Дата рождения">
+            <DatePicker
+              required
+              validations={[lessThanDate(new Date('2010-01-01'))]}
+              value={data.born}
+              onValueChange={(value) => this.handleChange({ born: value })}
+            />
+          </Form.Line>
+
+          <Form.ActionsBar>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
+          </Form.ActionsBar>
+        </Form>
+      </ValidationContainer>
+    );
+  }
+
+  private handleChange = (data: Partial<ContactInfo>): void => {
+    this.setState({ data: { ...this.state.data, ...data } });
+  };
+
+  private handleSubmit = async (): Promise<void> => {
+    if (!this.container) {
+      throw new Error('invalid state');
+    }
+    if (await this.container.validate()) {
+      alert('success');
+    }
+  };
+
+  private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
+}
+```

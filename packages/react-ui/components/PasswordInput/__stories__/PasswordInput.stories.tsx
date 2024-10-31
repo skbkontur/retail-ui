@@ -47,7 +47,7 @@ class Component extends React.Component<ComponentProps> {
 }
 
 export default {
-  title: 'Input elements/PasswordInput',
+  title: 'PasswordInput',
   component: PasswordInput,
 };
 

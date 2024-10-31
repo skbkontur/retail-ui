@@ -18,19 +18,19 @@ const textAlignmentTests = () => {
 
 kind('PopupMenu', () => {
   story('WithItems', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });
 
   story('WithItemsWithIcons', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });
 
   story('WithItemsWithIconsWithoutTextAlignment', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });

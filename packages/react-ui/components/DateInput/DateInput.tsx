@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -10,16 +10,14 @@ import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
-import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
+import { CalendarIcon } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
@@ -37,7 +35,7 @@ export const DateInputDataTids = {
   icon: 'DateInput__icon',
 } as const;
 
-export interface DateInputProps extends CommonProps {
+export interface DateInputProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
 
@@ -88,7 +86,7 @@ export interface DateInputProps extends CommonProps {
 type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
 
 /**
- * Компонент поля `DateInput` из [DatePicker](?path=/docs/date-datepicker--docs)'а помогает выбирать дату с клавиатуры.
+ * Компонент поля `DateInput` из [DatePicker](?path=/docs/input-data-datepicker--docs)'а помогает выбирать дату с клавиатуры.
  */
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -217,6 +215,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <InputLikeText
+            id={this.props.id}
             width={width}
             ref={this.inputLikeTextRef}
             size={size}
@@ -258,7 +257,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
-      const icon = isTheme2022(theme) ? <CalendarIcon2022 size={size} /> : <CalendarIcon />;
+      const icon = <CalendarIcon size={size} />;
       const iconStyles = cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',

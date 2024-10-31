@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import { SingleToast } from '../../SingleToast';
 import { Meta } from '../../../typings/stories';
 import { Toast } from '../Toast';
 
@@ -33,7 +34,7 @@ const TestNotifier = ({ complex }: { complex?: boolean }) => {
 };
 
 export default {
-  title: 'Popup/Toast',
+  title: 'Toast',
   component: Toast,
   decorators: [
     (Story: () => JSX.Element) => (
@@ -62,8 +63,11 @@ export const ComplexNotification = () => <TestNotifier complex />;
 ComplexNotification.storyName = 'complex notification';
 
 export const StaticMethod = () => (
-  <button data-tid="show-toast" onClick={() => Toast.push('Static method call')}>
-    Show static
-  </button>
+  <>
+    <SingleToast />
+    <button data-tid="show-toast" onClick={() => SingleToast.push('Static method call')}>
+      Show static
+    </button>
+  </>
 );
 StaticMethod.storyName = 'static method';

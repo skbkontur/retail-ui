@@ -5,9 +5,9 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { HTMLProps } from '../../../typings/html';
-import { InputDataTids } from '../../../components/Input';
+import { InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -56,6 +56,12 @@ describe('ComboBox', () => {
 
   it('renders', () => {
     expect(() => render(<ComboBox getItems={() => Promise.resolve([])} />)).not.toThrow();
+  });
+
+  it('has id attribute', () => {
+    const comboboxId = 'comboboxId';
+    const result = render(<ComboBox id={comboboxId} getItems={() => Promise.resolve([])} />);
+    expect(result.container.querySelector(`#${comboboxId}`)).not.toBeNull();
   });
 
   it('focuses on click to input', async () => {
@@ -1318,7 +1324,7 @@ describe('ComboBox', () => {
 });
 
 describe('mobile comboBox', () => {
-  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
   const matchMediaMock = jest.fn().mockImplementation((query) => {
     return {

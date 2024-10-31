@@ -1,19 +1,14 @@
 import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
+import { CustomComboBoxDataTids } from '../../../internal/CustomComboBox';
 
-kind('Input elements/ComboBox', () => {
+kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark', 'ie112022', 'ie112022Dark'],
-          tests: ['hovered', 'selected_2', 'select_1'],
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
       },
@@ -238,14 +233,8 @@ kind('Input elements/ComboBox', () => {
   story('OpenToTop', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hovered',
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
       },
@@ -454,7 +443,7 @@ kind('Input elements/ComboBox', () => {
     test('opened', async function () {
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-tid="ComboBoxView__root"]' }))
+        .click(this.browser.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
         .perform();
       await delay(1000);
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('opened');
@@ -463,7 +452,7 @@ kind('Input elements/ComboBox', () => {
 
   story('WithManualPosition', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
+      skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
 
     test('opened top with portal', async function () {

@@ -1,6 +1,6 @@
 У компонента `<Tabs.Tab />` есть несколько визуальных состояний, в которых компонент может находиться: `primary`, `success`, `warning` и `error`. Чтобы перевести контрол в нужное состояние передайте компоненту булевый проп с соответсвующим названием.
 
-### Костомизация
+### Кастомизация
 Используя переменные `tabColorPrimary`, `tabColorSuccess`, `tabColorWarning` и `tabColorError` можно изменить активный цвет состояния, а библиотека автоматически подберёт цвет подчёркивания при наведении.
 ```jsx harmony
 import { ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-ui';

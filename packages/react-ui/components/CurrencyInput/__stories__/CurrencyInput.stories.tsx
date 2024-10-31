@@ -9,7 +9,7 @@ import { Toggle } from '../../Toggle';
 import { Nullable } from '../../../typings/utility-types';
 
 export default {
-  title: 'Input elements/CurrencyInput',
+  title: 'CurrencyInput',
   component: CurrencyInput,
 };
 

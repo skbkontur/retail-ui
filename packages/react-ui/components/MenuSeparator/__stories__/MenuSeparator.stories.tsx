@@ -4,7 +4,7 @@ import { Meta } from '../../../typings/stories';
 import { MenuSeparator } from '../MenuSeparator';
 
 export default {
-  title: 'Menu/MenuSeparator',
+  title: 'MenuSeparator',
   component: MenuSeparator,
   parameters: {
     creevey: {

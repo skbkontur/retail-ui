@@ -6,13 +6,11 @@ import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
@@ -20,11 +18,6 @@ import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
-
-/**
- * @deprecated use SizeProp
- */
-export type CheckboxSize = SizeProp;
 
 export interface CheckboxProps
   extends CommonProps,
@@ -83,12 +76,8 @@ type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
 /**
  * `Checkbox` используется для управления параметром с двумя состояниями.
  *
- * Используйте чекбокс для:
- * * выбора элементов списка. Например, выбор документов для массовых действий.
- * * выбора параметров. Например, включение уведомлений и выбор случаев, в которых нужно присылать уведомления.
- *
  * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
- * Для немедленного включения какого-то режима в интерфейсе лучше подходит [Toggle](?path=/docs/choose-toggle--docs).
+ * Для немедленного включения какого-то режима в интерфейсе лучше подходит [Toggle](?path=/docs/input-data-toggle--docs).
  */
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
@@ -271,28 +260,18 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const _isTheme2022 = isTheme2022(this.theme);
-
-    const iconClass = cx(
-      styles.icon(),
-      !_isTheme2022 && styles.iconFixPosition(),
-      !props.checked && !isIndeterminate && styles.iconUnchecked(),
-    );
+    const iconClass = cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
 
     const iconSize = parseInt(this.getCheckboxBoxSize());
-    const IconCheck = _isTheme2022 ? (
+    const IconCheck = (
       <span className={iconClass}>
         <CheckedIcon size={iconSize} />
       </span>
-    ) : (
-      <OkIcon className={iconClass} />
     );
-    const IconSquare = _isTheme2022 ? (
+    const IconSquare = (
       <span className={iconClass}>
         <IndeterminateIcon size={iconSize} />
       </span>
-    ) : (
-      <SquareIcon className={iconClass} />
     );
 
     const rootClass = cx(this.getRootSizeClassName(), {

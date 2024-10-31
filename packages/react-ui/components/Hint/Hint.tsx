@@ -4,7 +4,7 @@ import { globalObject, SafeTimer } from '@skbkontur/global-object';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { DUMMY_LOCATION, Popup, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup, PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -13,7 +13,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Hint.styles';
 
@@ -40,13 +39,13 @@ export interface HintProps extends CommonProps {
   opened?: boolean;
 
   /** Задает приоритетное расположение подсказки относительно текста. */
-  pos?: ShortPopupPositionsType | PopupPositionsType;
+  pos?: ShortPopupPositionsType | PopupPinnablePositionsType;
 
   /** Задает текст подсказки. */
   text: React.ReactNode;
 
   /** Задает список позиций, которые будет занимать хинт. Если положение хинта в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`. */
-  allowedPositions?: PopupPositionsType[];
+  allowedPositions?: PopupPinnablePositionsType[];
 
   /** Отключает анимацию. */
   disableAnimations?: boolean;
@@ -59,14 +58,16 @@ export interface HintProps extends CommonProps {
 
 export interface HintState {
   opened: boolean;
-  position: PopupPositionsType;
+  position: PopupPinnablePositionsType;
 }
 
 type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
 /**
  * Всплывающая подсказка `Hint`.
- * По умолчанию отображается при наведении на элемент. Можно задать другие условия отображения.
+ * По умолчанию отображается при наведении на элемент, но можно задать другие условия отображения.
+ *
+ * Для подсказки, всплывающей по клику используйте [Tooltip](?path=/docs/overlay-tooltip--docs).
  */
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
@@ -128,7 +129,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: theme.hintPinOffset,
                   popupMargin: theme.hintMargin,
                   popupBorder: theme.hintBorder,
                   popupBorderRadius: theme.hintBorderRadius,
@@ -146,12 +146,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     const { disableAnimations, useWrapper } = this.getProps();
-    const hasPin = !isTheme2022(this.theme);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
-          hasPin={hasPin}
+          hasPin={false}
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}
@@ -194,7 +193,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  private getPositions = (): PopupPositionsType[] | undefined => {
+  private getPositions = (): PopupPinnablePositionsType[] | undefined => {
     return this.props.allowedPositions;
   };
 

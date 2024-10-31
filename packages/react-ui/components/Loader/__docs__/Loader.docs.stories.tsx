@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Loader, Button } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Action/Loader',
+  title: 'Display data/Loader',
   component: Loader,
   parameters: { creevey: { skip: true } },
 } as Meta;

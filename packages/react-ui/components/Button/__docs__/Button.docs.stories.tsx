@@ -8,21 +8,32 @@ import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular'
 import { Button, Gapped, Toast } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Action/Button',
+  title: 'Button/Button',
   component: Button,
   parameters: { creevey: { skip: true } },
 } as Meta;
 
+/** По умолчанию, кнопка принимает все пропы `HTMLButtonElement`. */
 export const Example1: Story = () => {
 
   return (
-    <Button>Создать отчёт</Button>
+    <Button onClick={alert} name="report">Создать отчёт</Button>
   );
 
 };
 Example1.storyName = 'Базовый пример';
 
+/** Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`. Кнопка принимает все пропы переданного в `component` компонента. */
 export const Example2: Story = () => {
+
+  return (
+    <Button component='a' href='https://kontur.ru' target="_blank">Ссылка, но выглядит как кнопка</Button>
+  );
+
+};
+Example2.storyName = 'Корневой компонент';
+
+export const Example3: Story = () => {
 
   const bgStyle = {
     backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
@@ -58,10 +69,10 @@ export const Example2: Story = () => {
   );
 
 };
-Example2.storyName = 'Различные стили';
+Example3.storyName = 'Различные стили';
 
 /** В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно. */
-export const Example3: Story = () => {
+export const Example4: Story = () => {
 
   return (
     <Gapped gap={5}>
@@ -72,9 +83,9 @@ export const Example3: Story = () => {
   );
 
 };
-Example3.storyName = 'Иконка';
+Example4.storyName = 'Иконка';
 
-export const Example4: Story = () => {
+export const Example5: Story = () => {
   return (
     <div
       style={{
@@ -90,17 +101,17 @@ export const Example4: Story = () => {
   );
 
 };
-Example4.storyName = 'Размер';
+Example5.storyName = 'Размер';
 
-export const Example5: Story = () => {
+export const Example6: Story = () => {
   return (
     <Button width={40}>Закрыть</Button>
   );
 
 };
-Example5.storyName = 'Ширина';
+Example6.storyName = 'Ширина';
 
-export const Example6: Story = () => {
+export const Example7: Story = () => {
   return (
     <Gapped gap={5}>
       <Button warning>Закрыть</Button>
@@ -109,9 +120,9 @@ export const Example6: Story = () => {
   );
 
 };
-Example6.storyName = 'Состояние валидации';
+Example7.storyName = 'Состояние валидации';
 
-export const Example7: Story = () => {
+export const Example8: Story = () => {
 
   return (
     <Gapped gap={5}>
@@ -125,12 +136,12 @@ export const Example7: Story = () => {
   );
 
 };
-Example7.storyName = 'Стрелка';
+Example8.storyName = 'Стрелка';
 
 /** **Поведение:**
 Кнопка на время нахождения в состоянии загрузки отключается.
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая. */
-export const Example8: Story = () => {
+export const Example9: Story = () => {
 
   const [loading, setLoading] = React.useState(false);
 
@@ -167,9 +178,10 @@ export const Example8: Story = () => {
   );
 
 };
-Example8.storyName = 'Состояние загрузки';
+Example9.storyName = 'Состояние загрузки';
 
-export const Example9: Story = () => {
+export const Example10: Story = () => {
+
   return (
     <Gapped>
       <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
@@ -179,17 +191,16 @@ export const Example9: Story = () => {
   );
 
 };
-Example9.storyName = 'Проп темы';
+Example10.storyName = 'Проп темы';
 
-export const Example10: Story = () => {
+export const Example11: Story = () => {
 
   const textDecorationStyles = {
-    btnLinkLineBorderBottomWidth: '0',
-    btnLinkHoverTextDecoration: 'underline'
+    btnLinkTextUnderlineOffset: '1px',
   }
 
   const underlineOnHoverStyles = {
-    btnLinkLineBorderBottomColor: 'transparent',
+    btnLinkTextDecorationColor: 'transparent',
   }
 
   const differentColorStyles = {
@@ -239,12 +250,39 @@ export const Example10: Story = () => {
         <th style={tdStyle}>Пример</th>
         <th style={tdStyle}>Переменные темы</th>
       </tr>
-      {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+      {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
       {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
       {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
     </table>
   );
 
 };
-Example10.storyName = 'Кастомизация кнопки-ссылки';
+Example11.storyName = 'Кастомизация кнопки-ссылки';
+
+export const Example12: Story = () => {
+
+  return (
+    <Button narrow>
+      Создать отчет
+    </Button>
+  );
+
+};
+Example12.storyName = 'Узкая Кнопка';
+
+export const Example13: Story = () => {
+
+  return (
+    <Gapped gap={5}>
+      <Button warning>
+        Warning
+      </Button>
+      <Button error>
+        Error
+      </Button>
+    </Gapped>
+  );
+
+};
+Example13.storyName = 'Состояния валидации';
 

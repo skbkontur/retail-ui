@@ -7,11 +7,11 @@ import { Button } from '../../Button';
 import { Modal } from '../../Modal';
 import { Meta, Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
-  title: 'Overlays/MiniModal',
+  title: 'MiniModal',
   component: MiniModal,
   parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
 } as Meta;
@@ -30,7 +30,7 @@ export const Simple = () => (
 export const MobileFullset: Story = () => (
   <ThemeContext.Consumer>
     {(theme) => (
-      <ThemeContext.Provider value={ThemeFactory.create(theme, THEME_2022)}>
+      <ThemeContext.Provider value={ThemeFactory.create(theme, LIGHT_THEME)}>
         <MiniModal>
           <MiniModal.Header icon={<TechPhoneSmartIcon64Regular />}>Title mobile</MiniModal.Header>
           <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>

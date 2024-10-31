@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
+import { SpinnerIcon } from '../../internal/SpinnerIcon/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -48,9 +48,9 @@ type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
  * `Spinner` — это зацикленный индикатор, не отображающий прогресс выполнения задачи.
  *
  * Используйте `Spinner`, чтобы показать, что система выполняет команду, которую дал пользователь.
- * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен [GlobalLoader](?path=/docs/action-globalloader--docs).
+ * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен [GlobalLoader](?path=/docs/display-data-globalloader--docs).
  *
- * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](?path=/docs/action-loader--docs).
+ * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](?path=/docs/display-data-loader--docs).
  */
 @rootNode
 export class Spinner extends React.Component<SpinnerProps> {

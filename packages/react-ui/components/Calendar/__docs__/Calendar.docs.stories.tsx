@@ -5,10 +5,10 @@ import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/Da
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
-import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
+import { Calendar, Checkbox, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/Calendar',
+  title: 'Display data/Calendar',
   component: Calendar,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -121,6 +121,7 @@ export const Example4: Story = () => {
 };
 Example4.storyName = 'Высота';
 
+/** Для кастомнизации дней в календаре используется метод `renderDay` и компонент [Calendar.Day](#/Components/Calendar/Calendar.Day) */
 export const Example5: Story = () => {
 
   const initialValue = "02.09.2023";
@@ -162,7 +163,45 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'Кастомный рендер дня';
 
-export const Example7: Story = () => {
+/** Пример с кастомизацией темы и кастомным рендером дня. */
+export const Example6: Story = () => {
+
+  const theme = React.useContext(ThemeContext);
+
+  function renderDay(props) {
+    const [date, month] = props.date.split('.').map(Number);
+    const randomDay = date % 6 === 0 || date % 7 === 0 || date % 8 === 0;
+    const randomPrice = Math.round((date / month) * 1000);
+
+    return (
+      <CalendarDay {...props}>
+        <div style={{ fontSize: theme.calendarCellFontSize }}>{date}</div>
+        <div style={{ fontSize: '11px', fontFeatureSettings: 'tnum', fontVariantNumeric: 'tabular-nums' }}>
+          {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.tokenTextColorDisabled }}>—</span>}
+        </div>
+      </CalendarDay>
+    );
+  }
+
+  const [value, setValue] = React.useState(null);
+
+  return (
+    <ThemeContext.Provider
+      value={ThemeFactory.create({
+        calendarCellSize: '56px',
+        calendarCellLineHeight: '1.5',
+        calendarWrapperHeight: '600px',
+        calendarCellBorderRadius: '8px'
+      }, theme)}
+    >
+      <Calendar value={value} renderDay={renderDay} onValueChange={setValue} />
+    </ThemeContext.Provider>
+  );
+
+};
+Example6.storyName = 'Календарь с ценами';
+
+export const Example8: Story = () => {
 
   const initialValue = "02.09.2023";
   const [value, setValue] = React.useState(initialValue);
@@ -196,5 +235,5 @@ export const Example7: Story = () => {
   );
 
 };
-Example7.storyName = 'Скролл к месяцу';
+Example8.storyName = 'Скролл к месяцу';
 

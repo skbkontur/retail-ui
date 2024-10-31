@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_VALIDATIONS_DOCS);
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.tsx', '../stories/**/*.mdx'],
+  stories: ['../stories/**/*.stories.tsx', '../stories/**/*.mdx', '../docs/**/*.mdx', '../docs/**/*.docs.stories.tsx'],
   docs: {
     docsMode: isDocsEnv,
   },

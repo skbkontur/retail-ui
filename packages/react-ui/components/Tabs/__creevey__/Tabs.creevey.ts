@@ -159,31 +159,16 @@ const tabsTests = () => {
   });
 };
 
-kind('Navigation/Tabs', () => {
-  story('WithDisabledTab', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
-        },
-      },
-    });
-
+kind('Tabs', () => {
+  story('WithDisabledTab', () => {
     tabsTests();
   });
   story('Simple', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered'],
         },
       },
     });
@@ -194,12 +179,9 @@ kind('Navigation/Tabs', () => {
   story('SimpleMedium', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered'],
         },
       },
     });
@@ -210,12 +192,9 @@ kind('Navigation/Tabs', () => {
   story('SimpleSmall', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered'],
         },
       },
     });
@@ -226,12 +205,9 @@ kind('Navigation/Tabs', () => {
   story('Vertical', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered', 'enterPress'],
         },
       },
     });
@@ -240,12 +216,9 @@ kind('Navigation/Tabs', () => {
   story('VerticalMedium', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered', 'enterPress'],
         },
       },
     });
@@ -254,12 +227,9 @@ kind('Navigation/Tabs', () => {
   story('VerticalSmall', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hovered', 'enterPress'],
         },
       },
     });

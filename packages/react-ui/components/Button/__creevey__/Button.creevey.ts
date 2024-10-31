@@ -58,16 +58,12 @@ const buttonTests = () => {
   });
 };
 
-kind('Action/Button', () => {
+kind('Button', () => {
   story('PlaygroundDefault', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hover',
-        },
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hover', 'pressed', 'clicked'],
         },
         'focus goes out of page and breaks other tests': { in: /firefox/, tests: 'tabPress' },
@@ -80,22 +76,75 @@ kind('Action/Button', () => {
   story('PlaygroundDisabled', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hover',
-        },
         'focus goes out of page and breaks other tests': {
           in: /firefox/,
           tests: 'tabPress',
         },
-        'story-skip-2': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hover', 'pressed', 'clicked'],
         },
       },
     });
 
     buttonTests();
+  });
+
+  story('ButtonAsLinkIconColor', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'focus goes out of page and breaks other tests': {
+          tests: ['pressed', 'clicked', 'tabPress'],
+        },
+        'hover does not work in chrome': {
+          in: /^(?!\b(firefox.*)\b)/,
+          tests: ['hover'],
+        },
+      },
+    });
+
+    buttonTests();
+  });
+
+  story('BtnTextBgHoverActive', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'hover does not work in chrome & only 22 dark theme needed': {
+          in: /^(?!\bfirefox2022Dark?\b)/,
+        },
+      },
+    });
+
+    test('hover', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+        })
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+    });
+
+    test('pressed', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+        })
+        .press()
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .release()
+        .perform();
+    });
   });
 
   story('IconAndTextHoverColor', ({ setStoryParameters }) => {
@@ -147,12 +196,55 @@ kind('Action/Button', () => {
   });
   story('ArrowDisabled', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'not 2022': { in: /2022/ } },
+      skip: true,
     });
   });
   story('UnusedPropValues', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'chrome default and 2022': { in: /^(?!\bchrome(2022)?\b)/ } },
+    });
+  });
+
+  story('BtnBacklessBgHoverActive', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'hover does not work in chrome & only 22 dark theme needed': {
+          in: /^(?!\bfirefox2022Dark?\b)/,
+        },
+      },
+    });
+
+    test('hover', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({
+            css: '[data-tid~="test-button"]',
+          }),
+        })
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+    });
+
+    test('pressed', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .move({
+          origin: this.browser.findElement({ css: '[data-tid~="test-button"]' }),
+        })
+        .press()
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .release()
+        .perform();
     });
   });
 });

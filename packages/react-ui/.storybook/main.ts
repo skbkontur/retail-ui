@@ -3,7 +3,13 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx', '../components/**/*.mdx'],
+  stories: [
+    '../components/**/*.stories.tsx',
+    '../internal/**/*.stories.tsx',
+    '../components/**/*.mdx',
+    '../.storybook/**/*.mdx',
+    '../**/*.mdx',
+  ],
   docs: {
     docsMode: isDocsEnv,
   },
@@ -28,13 +34,6 @@ const config: StorybookConfig = {
       legacyRootApi: true,
       fastRefresh: true,
       strictMode: true,
-    },
-  },
-  typescript: {
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => prop.description !== null && prop.description !== '',
     },
   },
   core: {

@@ -4,7 +4,7 @@ import { Meta } from '../../../typings/stories';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 
 export default {
-  title: 'Layout/ResponsiveLayout',
+  title: 'ResponsiveLayout',
   component: ResponsiveLayout,
   parameters: {
     creevey: {

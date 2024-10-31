@@ -5,7 +5,7 @@ import { ThemeContext } from '../ThemeContext';
 import { applyMarkers, exposeGetters, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
-import { DefaultTheme, DefaultThemeInternal } from '../../../internal/themes/DefaultTheme';
+import { BasicLightThemeInternal, BasicLightTheme } from '../../../internal/themes/BasicLightTheme';
 import { AnyObject } from '../../utils';
 
 const TEST_MARKERS = {
@@ -34,9 +34,9 @@ const getConsumedTheme = () => {
 
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
-const BaseThemeInternal = Object.setPrototypeOf(
+const TestTheme = Object.setPrototypeOf(
   exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }),
-  DefaultThemeInternal,
+  BasicLightTheme,
 );
 
 // test marker
@@ -54,7 +54,7 @@ const isTestTheme = (theme: AnyObject): boolean => {
   return theme[TEST_MARKERS.test.key] === TEST_MARKERS.test.value;
 };
 
-markAsTest(BaseThemeInternal);
+markAsTest(TestTheme);
 
 describe('Theming', () => {
   describe('ThemeFactory', () => {
@@ -63,27 +63,27 @@ describe('Theming', () => {
         const theme = ThemeFactory.create(myTheme);
 
         expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.black).toEqual(DefaultThemeInternal.black);
+        expect(theme.black).toEqual(BasicLightTheme.black);
       });
       test('with args [theme, baseTheme]', () => {
-        const theme = ThemeFactory.create(myTheme, BaseThemeInternal);
+        const theme = ThemeFactory.create(myTheme, TestTheme);
 
         expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.bgSecondary).toEqual(BaseThemeInternal.bgSecondary);
+        expect(theme.bgSecondary).toEqual(TestTheme.bgSecondary);
       });
     });
     describe('overrideDefaultTheme()', () => {
       test('markers should be overridden', () => {
-        const theme = applyMarkers(ThemeFactory.create(myTheme, BaseThemeInternal), [markAsTest]);
+        const theme = applyMarkers(ThemeFactory.create(myTheme, TestTheme), [markAsTest]);
 
-        ThemeFactory.overrideDefaultTheme(theme);
+        ThemeFactory.overrideBaseTheme(theme);
 
         const consumedTheme = getConsumedTheme();
 
         expect(isTestTheme(consumedTheme)).toBeTruthy();
       });
       test('variables should be overridden', () => {
-        ThemeFactory.overrideDefaultTheme(ThemeFactory.create(myTheme));
+        ThemeFactory.overrideBaseTheme(ThemeFactory.create(myTheme));
 
         const consumedTheme = getConsumedTheme();
 
@@ -92,8 +92,8 @@ describe('Theming', () => {
       });
     });
     test('getKeys()', () => {
-      const keys_1 = ThemeFactory.getKeys(BaseThemeInternal);
-      const keys_2 = ThemeFactory.getKeys(DefaultTheme);
+      const keys_1 = ThemeFactory.getKeys(TestTheme);
+      const keys_2 = ThemeFactory.getKeys(BasicLightThemeInternal);
 
       expect(keys_1).toEqual(keys_2);
     });

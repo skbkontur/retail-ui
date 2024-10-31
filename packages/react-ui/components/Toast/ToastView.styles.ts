@@ -1,17 +1,16 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
-const getVerticalPaddingsWithCompensation = (theme: Theme) => {
-  const { toastPaddingY, fontFamilyCompensationBaseline } = theme;
+const getVerticalPaddings = (theme: Theme) => {
+  const { toastPaddingY } = theme;
   const paddingY = parseInt(toastPaddingY);
-  const compensation = parseInt(fontFamilyCompensationBaseline);
-  return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
+
+  return [`${paddingY}px`, `${paddingY}px`];
 };
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
       background: ${t.toastBg};
       border-radius: ${t.toastBorderRadius};
@@ -40,7 +39,7 @@ export const styles = memoizeStyle({
   },
 
   closeWrapper(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
       display: flex;
       margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} -${t.toastClosePadding};
@@ -48,9 +47,8 @@ export const styles = memoizeStyle({
   },
 
   link(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
-    const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
-    const padding = isTheme2022(t) ? `${paddingTop} ${paddingBottom}` : `${paddingTop} 0 ${paddingBottom}`;
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
+    const padding = `${paddingTop} ${t.toastLinkPadding}`;
 
     return css`
       border: none;
@@ -61,7 +59,7 @@ export const styles = memoizeStyle({
       font-weight: 600;
       background-color: transparent;
 
-      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
+      margin: -${paddingTop} ${t.toastPaddingX} -${paddingBottom} ${t.toastPaddingX};
 
       padding: ${padding};
       transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
@@ -72,24 +70,6 @@ export const styles = memoizeStyle({
 
       &:active {
         background: ${t.toastLinkBgActive};
-      }
-    `;
-  },
-
-  close(t: Theme) {
-    return css`
-      box-sizing: content-box !important; // fix "reset.css" problem
-      color: ${t.toastCloseColor};
-      cursor: pointer;
-      display: inline-block;
-      height: ${t.toastCloseSize};
-      line-height: 0;
-      padding: ${t.toastClosePadding};
-      text-align: center;
-      width: ${t.toastCloseSize};
-
-      &:hover {
-        color: ${t.toastCloseHoverColor};
       }
     `;
   },

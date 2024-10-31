@@ -7,7 +7,7 @@ import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 
 export default {
-  title: 'Choose/Radio',
+  title: 'Radio',
   component: Radio,
   parameters: {
     creevey: {
@@ -33,13 +33,6 @@ export const RadioWithDifferentStates = () => (
   </div>
 );
 RadioWithDifferentStates.storyName = 'Radio with different states';
-RadioWithDifferentStates.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['chromeFlat8px'] },
-    },
-  },
-};
 
 export const Playground = () => {
   class Comp extends React.Component {

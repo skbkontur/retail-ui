@@ -3,13 +3,11 @@ import { func, shape, string } from 'prop-types';
 
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
-import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './ToastView.styles';
@@ -73,35 +71,20 @@ export class ToastView extends React.Component<ToastViewProps> {
       </button>
     ) : null;
 
-    let close = action ? (
+    const close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
-        <span
+        <CloseButtonIcon
           aria-label={this.locale.closeButtonAriaLabel}
           data-tid={ToastDataTids.close}
-          className={styles.close(this.theme)}
           onClick={onClose}
-        >
-          <CrossIcon />
-        </span>
+          size={parseInt(this.theme.toastCloseSize)}
+          side={40}
+          color={this.theme.toastCloseColor}
+          colorHover={this.theme.toastCloseHoverColor}
+          tabbable={false}
+        />
       </span>
     ) : null;
-
-    if (isTheme2022(this.theme) && close) {
-      close = (
-        <span className={styles.closeWrapper(this.theme)}>
-          <CloseButtonIcon
-            aria-label={this.locale.closeButtonAriaLabel}
-            data-tid={ToastDataTids.close}
-            onClick={onClose}
-            size={parseInt(this.theme.toastCloseSize)}
-            side={40}
-            color={this.theme.toastCloseColor}
-            colorHover={this.theme.toastCloseHoverColor}
-            tabbable={false}
-          />
-        </span>
-      );
-    }
 
     return (
       <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>

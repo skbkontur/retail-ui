@@ -16,7 +16,7 @@ interface KebabItem {
 }
 
 export default {
-  title: 'Menu/Kebab',
+  title: 'Kebab',
   component: Kebab,
   decorators: [
     (Story: () => JSX.Element) => (

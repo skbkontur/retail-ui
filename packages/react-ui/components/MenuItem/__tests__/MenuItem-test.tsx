@@ -14,6 +14,12 @@ describe('MenuItem', () => {
     expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent('ab');
   });
 
+  it('has id attribute', () => {
+    const menuItemId = 'menuItemId';
+    const result = render(<MenuItem id={menuItemId} />);
+    expect(result.container.querySelector(`#${menuItemId}`)).not.toBeNull();
+  });
+
   it('without href does not has a rel attribute', () => {
     render(<MenuItem rel={'noopener'}>Test</MenuItem>);
     expect(screen.queryByRole('button')).not.toHaveAttribute('rel');

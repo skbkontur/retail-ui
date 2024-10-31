@@ -3,6 +3,7 @@ import React, {
   ChangeEvent,
   FocusEvent,
   FocusEventHandler,
+  HTMLAttributes,
   KeyboardEvent,
   MouseEventHandler,
   ReactNode,
@@ -27,12 +28,11 @@ import {
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps, TokenSize } from '../Token';
-import { MenuItemState } from '../MenuItem';
+import { MenuItemState, MenuItem } from '../MenuItem';
 import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
-import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -56,7 +56,10 @@ export enum TokenInputType {
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
-export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
+export interface TokenInputProps<T>
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Задает выбранные токены, которые будут отображаться в поле ввода. */
   selectedItems?: T[];
 
@@ -255,8 +258,6 @@ const defaultRenderToken = <T extends AnyObject>(
 /**
  * Поле с токенами `TokenInput` — это поле ввода со списком подсказок.
  *
- * Оно похоже на [Combobox](?path=/docs/input-elements-combobox--docs), но используется в случаях, когда нужно указать сразу много однородных элементов — токенов.
- *
  * Поле с токенами используют для выбора нескольких значений из справочника и для добавления своих значений.
  */
 @rootNode
@@ -299,9 +300,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return { ...propsWithOldDelimiters, delimiters: this.getDelimiters() };
   }
 
+  private get textareaId() {
+    return this.props.id ?? this._textareaId;
+  }
+
   public state: TokenInputState<T> = DefaultState;
 
-  private readonly textareaId: string = getUid();
+  private readonly _textareaId: string = getUid();
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;

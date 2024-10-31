@@ -23,13 +23,9 @@ import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybo
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME_MOBILE } from '../lib/theming/themes/LightThemeMobile';
+import { LIGHT_THEME } from '../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
-import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
-import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
-import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
-import { THEME_2022 } from '../lib/theming/themes/Theme2022';
-import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import * as ReactUi from '../index';
 import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
@@ -59,13 +55,9 @@ const customViewports = {
 };
 
 const themes = {
-  DEFAULT_THEME,
+  LIGHT_THEME,
   DARK_THEME,
-  DEFAULT_THEME_8PX_OLD,
-  FLAT_THEME_8PX_OLD,
-  DEFAULT_THEME_MOBILE,
-  THEME_2022,
-  THEME_2022_DARK,
+  LIGHT_THEME_MOBILE,
 };
 
 setFilter((fiber) => {
@@ -87,17 +79,15 @@ const preview: Preview = {
     docs: {
       toc: {
         title: 'Содержание',
-        headingSelector: 'h2, h3, h4', // может еще что-то включить
+        headingSelector: 'h2, h3, h4',
+      },
+      controls: {
+        sort: 'alpha',
       },
     },
     creevey: {
       captureElement: '#test-element',
       skip: {
-        'not flat stories in flat browsers': {
-          in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-          kinds:
-            /^(?!\bAction\\Button\b|\bChoose\\Checkbox\b|\bInputElements\\Input\b|\bChoose\\Radio\b|\bInputElements\\Textarea\b|\bChoose\\Toggle\b|\bChoose\\Switcher\b|\bInputElements\\TokenInput\b)/,
-        },
         'not mobile stories in mobile browser': { in: MOBILE_REGEXP, stories: /^((?!Mobile).)*$/i },
         'mobile stories in not mobile browsers': { stories: MOBILE_REGEXP, in: /^((?!Mobile).)*$/i },
       },
@@ -105,7 +95,19 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Versions', '*'],
+        order: [
+          'Versioning',
+          ['Versions', 'Migration', 'Changelog'],
+          'Information',
+          ['Accessibility', 'Contributing', 'Ecosystem', 'Mobiles', 'Server Side Rendering'],
+          'Button',
+          'Input data',
+          'Display data',
+          'Menu',
+          'Overlay',
+          'Layout',
+          '*',
+        ],
       },
     },
     viewport: {
@@ -115,14 +117,14 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => {
-      const storybookTheme = themes[context.globals.theme] || DEFAULT_THEME;
+      const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
 
-      if ([DARK_THEME, THEME_2022_DARK].includes(storybookTheme)) {
+      if ([DARK_THEME].includes(storybookTheme)) {
         document.body.classList.add('dark');
       } else {
         document.body.classList.remove('dark');
       }
-      if (storybookTheme !== DEFAULT_THEME) {
+      if (storybookTheme !== LIGHT_THEME) {
         return (
           <ThemeContext.Consumer>
             {(theme) => {
@@ -138,9 +140,9 @@ const preview: Preview = {
       return <Story />;
     },
     (Story) => (
-      <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-        <Story />
-      </div>
+        <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+          <Story />
+        </div>
     ),
     (Story) => {
       return (
@@ -173,7 +175,7 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'DEFAULT_THEME',
+    defaultValue: 'LIGHT_THEME',
     toolbar: {
       icon: 'paintbrush',
       items: Object.keys(themes),

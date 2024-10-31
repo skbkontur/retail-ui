@@ -22,6 +22,16 @@ describe('Dropdown', () => {
     expect(screen.getByTestId(DropdownDataTids.root)).toBeInTheDocument();
   });
 
+  it('has id attribute', () => {
+    const dropdownId = 'dropdownId';
+    const result = render(
+      <Dropdown id={dropdownId} caption="button">
+        <MenuItem>Menu item</MenuItem>
+      </Dropdown>,
+    );
+    expect(result.container.querySelector(`button#${dropdownId}`)).not.toBeNull();
+  });
+
   it('Renders caption', () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 

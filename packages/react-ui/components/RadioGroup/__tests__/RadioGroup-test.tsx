@@ -302,4 +302,10 @@ describe('<RadioGroup />', () => {
     expect(radioGroup).toHaveAttribute('aria-describedby', 'elementRadioGroupId');
     expect(radioGroup).toHaveAccessibleDescription('Description Radio group');
   });
+
+  it('should have visual state disabled attribute', () => {
+    render(<RadioGroup items={['one', 'two']} disabled />);
+
+    expect(screen.getByRole('radiogroup')).toHaveAttribute('data-visual-state-disabled');
+  });
 });

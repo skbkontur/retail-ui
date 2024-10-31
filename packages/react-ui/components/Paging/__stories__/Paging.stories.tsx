@@ -133,7 +133,7 @@ class PagingWithCustomComponent extends React.Component<PagingWithCustomComponen
 }
 
 export default {
-  title: 'Navigation/Paging',
+  title: 'Paging',
   component: Paging,
   decorators: [
     (Story: () => JSX.Element) => (
@@ -181,7 +181,7 @@ export const DisabledPaging = () => {
 };
 DisabledPaging.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|chromeDark|chrome2022|chrome2022Dark)\b)/ },
+    skip: { in: /^(?!\b(chrome2022|chrome2022Dark)\b)/ },
   },
 };
 
@@ -190,7 +190,7 @@ export const PagingDisabledForwardLink = () => {
 };
 PagingDisabledForwardLink.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|chromeDark|chrome2022|chrome2022Dark)\b)/ },
+    skip: { in: /^(?!\b(chrome2022|chrome2022Dark)\b)/ },
   },
 };
 

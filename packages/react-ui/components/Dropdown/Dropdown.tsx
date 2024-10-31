@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -12,7 +12,6 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { SizeProp } from '../../lib/types/props';
 
 import { getDropdownTheme } from './getDropdownTheme';
@@ -35,13 +34,14 @@ const PASS_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
   menuPos: true,
+  id: true,
   'aria-describedby': true,
 };
 
 export interface DropdownProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
-    CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'> {
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
+    CommonProps {
   /** Задает подпись на кнопке. */
   caption: React.ReactNode;
 
@@ -68,6 +68,10 @@ export interface DropdownProps
 
   /** Задает максимальную высоту меню. */
   maxMenuHeight?: number;
+
+  /** Задает текущую позицию выпадающего окна вручную.
+   */
+  menuPos?: 'top' | 'bottom';
 
   /** Задает выравнивание выпадающего меню. */
   menuAlign?: 'left' | 'right';
@@ -110,6 +114,8 @@ export const DropdownDataTids = {
  * * когда не хватает места для нескольких кнопок.
  * * когда названия действий очень длинные.
  * * когда действия редко используются или объединены по смыслу.
+ *
+ * Не используйте `Dropdown` для выбора значения из набора вариантов. В таком случае воспользуйтесь компонентом [Select](?path=/docs/input-data-select--docs).
  */
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {

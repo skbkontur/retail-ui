@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
+import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
 import { DateInput } from '../DateInput';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
@@ -28,6 +26,8 @@ import { Button } from '../Button';
 import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
@@ -45,10 +45,11 @@ const INPUT_PASS_PROPS = {
 export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
-  extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'> {
+  extends Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
+    CommonProps {
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */
+
   autoFocus?: boolean;
 
   /** Делает компонент недоступным. */
@@ -59,6 +60,9 @@ export interface DatePickerProps
 
   /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
+
+  /** Задает nекущую позицию выпадающего окна вручную. */
+  menuPos?: 'top' | 'bottom';
 
   /** Задает выравнивание меню. */
   menuAlign?: 'left' | 'right';
@@ -148,6 +152,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
      * Максимальная дата в календаре.
      */
     maxDate: PropTypes.string.isRequired,
+
+    menuPos: PropTypes.oneOf(['top', 'bottom']),
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
@@ -299,7 +305,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
     let picker = null;
 
-    const { minDate, maxDate } = this.getProps();
+    const { minDate, maxDate, menuPos, menuAlign } = this.getProps();
 
     const isMobile = this.isMobileLayout;
 
@@ -333,12 +339,14 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
               },
             }}
           >
-            <DropdownContainer
-              menuPos={this.props.menuPos}
+            <Popup
+              opened
+              hasShadow
+              priority={ZIndex.priorities.PopupMenu}
+              positions={getMenuPositions(menuPos, menuAlign)}
               data-tid={DatePickerDataTids.root}
-              getParent={this.getParent}
-              offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
-              align={this.props.menuAlign}
+              anchorElement={this.getParent()}
+              margin={parseInt(this.theme.datePickerMenuOffsetY)}
             >
               <div
                 data-tid={DatePickerDataTids.pickerRoot}
@@ -357,7 +365,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                 />
                 {this.props.enableTodayLink && this.renderTodayLink()}{' '}
               </div>
-            </DropdownContainer>
+            </Popup>
           </LocaleContext.Provider>
         );
       }
@@ -372,6 +380,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         data-tid={DatePickerDataTids.label}
       >
         <DateInput
+          id={this.props.id}
           {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
@@ -417,34 +426,18 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       .setComponents(InternalDateGetter.getTodayComponents())
       .toString({ withPad: true, withSeparator: true });
 
-    if (isTheme2022(this.theme)) {
-      return (
-        <div style={{ margin: 8 }}>
-          <Button
-            aria-label={this.locale.todayAriaLabel}
-            data-tid={DatePickerDataTids.pickerTodayWrapper}
-            width="100%"
-            onClick={this.handleSelectToday(today)}
-            icon={<ArrowAUpIcon16Light />}
-          >
-            {this.locale.today}
-          </Button>
-        </div>
-      );
-    }
-
     return (
-      <button
-        aria-label={this.locale.todayAriaLabel}
-        data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
-          [styles.todayLinkWrapper(this.theme)]: true,
-        })}
-        onClick={this.handleSelectToday(today)}
-        tabIndex={-1}
-      >
-        {`${this.locale.today} ${today}`}
-      </button>
+      <div style={{ margin: 8 }}>
+        <Button
+          aria-label={this.locale.todayAriaLabel}
+          data-tid={DatePickerDataTids.pickerTodayWrapper}
+          width="100%"
+          onClick={this.handleSelectToday(today)}
+          icon={<ArrowAUpIcon16Light />}
+        >
+          {this.locale.today}
+        </Button>
+      </div>
     );
   }
 

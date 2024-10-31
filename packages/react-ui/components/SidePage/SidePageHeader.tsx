@@ -11,7 +11,6 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -128,7 +127,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const isStickyDesktop = !this.isMobileLayout && this.getStickyProp() && isReadyToFix;
     const isStickyMobile = this.isMobileLayout && this.getStickyProp();
 
-    const header = isTheme2022(this.theme) ? this.renderHeader2022 : this.renderHeader;
+    const header = this.renderHeader;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -146,31 +145,25 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   private renderHeader = (fixed = false) => {
-    return (
-      <div
-        className={cx(styles.header(this.theme), {
-          [styles.headerFixed(this.theme)]: fixed,
-          [styles.mobileHeader(this.theme)]: this.isMobileLayout,
-        })}
-      >
-        {this.renderClose(fixed)}
-        <div
-          className={cx(styles.title(this.theme), {
-            [styles.mobileTitle(this.theme)]: this.isMobileLayout,
-            [styles.titleFixed()]: fixed,
-          })}
-        >
-          {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
-        </div>
-      </div>
-    );
-  };
-
-  private renderHeader2022 = (fixed = false) => {
     const isDisplayed = this.props.hasSeparator || fixed;
     return (
       <div>
-        {this.renderHeader(fixed)}
+        <div
+          className={cx(styles.header(this.theme), {
+            [styles.headerFixed(this.theme)]: fixed,
+            [styles.mobileHeader(this.theme)]: this.isMobileLayout,
+          })}
+        >
+          {this.renderClose(fixed)}
+          <div
+            className={cx(styles.title(this.theme), {
+              [styles.mobileTitle(this.theme)]: this.isMobileLayout,
+              [styles.titleFixed()]: fixed,
+            })}
+          >
+            {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
+          </div>
+        </div>
         {isDisplayed && <ModalSeparator fixed={fixed} />}
       </div>
     );

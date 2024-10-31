@@ -249,3 +249,42 @@ const hiddenItems = [
   </DropdownMenu>
 </Gapped>
 ```
+
+С использованием фиче-флага menuItemsAtAnyLevel. Mожно использовать различные обертки для пунктов меню.
+
+```jsx harmony
+import {
+    DropdownMenu,
+    Button,
+    MenuHeader,
+    MenuItem,
+    MenuSeparator,
+    ReactUIFeatureFlagsContext,
+    Gapped
+} from '@skbkontur/react-ui';
+
+const groupedMenuItems = (
+  <div>
+    <MenuItem>MenuItem1</MenuItem>
+    <MenuItem>MenuItem2</MenuItem>
+    <MenuItem isNotSelectable>Not Selectable</MenuItem>
+  </div>
+);
+
+<Gapped>
+  <ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <>
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
+        <div>
+          {groupedMenuItems}
+        </div>
+      </>
+      <MenuItem>MenuItem3</MenuItem>
+    </DropdownMenu>
+  </ReactUIFeatureFlagsContext.Provider>
+</Gapped>;
+```
+
+

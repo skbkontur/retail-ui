@@ -1,9 +1,19 @@
 ### Базовый пример
+По умолчанию, кнопка принимает все пропы `HTMLButtonElement`.
 
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
-<Button>Создать отчёт</Button>;
+<Button onClick={alert} name="report">Создать отчёт</Button>;
+```
+
+### Корневой компонент
+Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`. Кнопка принимает все пропы переданного в `component` компонента.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button component='a' href='https://kontur.ru' target="_blank">Ссылка, но выглядит как кнопка</Button>
 ```
 
 ### Различные стили
@@ -150,6 +160,8 @@ const handleClick = () => {
 ### Проп темы
 
 ```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
 <Gapped>
   <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
   <Button use="link" theme={{linkColor: '#C00000'}}>Ok</Button>
@@ -164,12 +176,11 @@ import { Toast } from "@skbkontur/react-ui";
 import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
-  btnLinkLineBorderBottomWidth: '0',
-  btnLinkHoverTextDecoration: 'underline'
+  btnLinkTextUnderlineOffset: '1px',
 }
 
 const underlineOnHoverStyles = {
-  btnLinkLineBorderBottomColor: 'transparent',
+  btnLinkTextDecorationColor: 'transparent',
 }
 
 const differentColorStyles = {
@@ -218,8 +229,33 @@ const renderExampleRow = (title, styles) => {
     <th style={tdStyle}>Пример</th>
     <th style={tdStyle}>Переменные темы</th>
   </tr>
-  {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+  {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
   {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
+```
+
+### Узкая Кнопка
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button narrow>
+  Создать отчет
+</Button>
+```
+
+### Состояния валидации
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+<Gapped gap={5}>
+  <Button warning>
+    Warning
+  </Button>
+  <Button error>
+    Error
+  </Button>
+</Gapped>
 ```

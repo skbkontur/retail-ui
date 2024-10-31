@@ -453,15 +453,9 @@ object ReactUI_Storybook : BuildType({
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
 
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
-                    Write-Host "___________________________"
 
                     ${'$'}src_path = "./packages/react-ui/.storybook/build/*"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
-                    Write-Host "src_path: \${'$'}src_path"
-                    Write-Host "dest_path: \${'$'}dest_path"
-                    Write-Host "storybook_version: \${'$'}storybook_version"
-                    Write-Host "version_from_env: \${'$'}version_from_env"
-                    Write-Host "version_from_git: \${'$'}version_from_git"
                     if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
                     mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
@@ -864,7 +858,7 @@ object Validations_Storybook : BuildType({
 
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
 
-                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
+                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build/*"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
                     if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
                     mkdir ${'$'}dest_path

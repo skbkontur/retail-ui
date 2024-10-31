@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { GlobalLoader, Button, Gapped, Toggle, ThemeContext, ThemeFactory, Modal } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Action/GlobalLoader',
+  title: 'Display data/GlobalLoader',
   component: GlobalLoader,
   parameters: { creevey: { skip: true } },
 } as Meta;

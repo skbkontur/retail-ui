@@ -363,7 +363,7 @@ class TabsTable extends React.Component {
 }
 
 export default {
-  title: 'Navigation/Tabs',
+  title: 'Tabs',
   component: Tabs,
 };
 

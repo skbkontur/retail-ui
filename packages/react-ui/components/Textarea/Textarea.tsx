@@ -24,11 +24,6 @@ import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
 
-/**
- * @deprecated use SizeProp
- */
-export type TextareaSize = SizeProp;
-
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
@@ -114,11 +109,7 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
  * Многострочное поле `Textarea` — это поле ввода, которое позволяет работать с несколькими строками текста.
  *
  * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
- * **`className` и `style` игнорируются**.
- *
- * Используйте многострочное поле для ввода длинных строк и больших текстов. Например, для паспортных данных, места рождения или комментария пользователя.
- *
- * Если значение, которое вводит пользователь, чаще всего состоит из 1–3 слов, следует использовать обычное поле ввода [Input](?path=/docs/input-elements-input--docs).
+ * Пропы **`className` и `style` игнорируются**.
  */
 @rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {

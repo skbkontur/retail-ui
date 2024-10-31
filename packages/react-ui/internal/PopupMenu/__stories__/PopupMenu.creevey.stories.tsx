@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
-import { OkIcon } from '../../icons/16px';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 import { PopupMenu } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
@@ -37,8 +37,8 @@ WithItems.storyName = 'with Items';
 export const WithItemsWithIcons: Story = () => (
   <PopupMenu caption={<Button>Click me</Button>}>
     <MenuHeader>MenuHeader</MenuHeader>
-    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </PopupMenu>
 );
@@ -46,8 +46,8 @@ export const WithItemsWithIcons: Story = () => (
 export const WithItemsWithIconsWithoutTextAlignment: Story = () => (
   <PopupMenu preventIconsOffset caption={<Button>Click me</Button>}>
     <MenuHeader>MenuHeader</MenuHeader>
-    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </PopupMenu>
 );

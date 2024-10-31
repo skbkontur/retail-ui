@@ -1,13 +1,7 @@
 import { story, kind, test } from 'creevey';
 
-kind('Choose/Switcher', () => {
-  story('Horizontal', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['chromeFlat8px'], tests: 'clicked' },
-      },
-    });
-
+kind('Switcher', () => {
+  story('Horizontal', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
     });
@@ -24,7 +18,7 @@ kind('Choose/Switcher', () => {
   });
   story('WithCustomRenderItems', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'chrome only': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } },
     });
   });
 });

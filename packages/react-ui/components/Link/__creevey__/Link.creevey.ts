@@ -73,12 +73,14 @@ const focusedStyledLinkTest = () => {
   });
 };
 
-kind('Navigation/Link', () => {
+kind('Link', () => {
   story('Simple', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hover'],
+        },
       },
     });
 
@@ -88,9 +90,10 @@ kind('Navigation/Link', () => {
   story('WithIcon', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-        'story-skip-1': { in: /^(?!\b(chrome|firefox)(2022)*(Dark)*\b)/, tests: ['tab press'] },
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hover'],
+        },
       },
     });
 
@@ -101,8 +104,10 @@ kind('Navigation/Link', () => {
   story('Danger', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hover'],
+        },
       },
     });
 
@@ -112,8 +117,10 @@ kind('Navigation/Link', () => {
   story('Grayed', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hover'],
+        },
       },
     });
 
@@ -123,8 +130,10 @@ kind('Navigation/Link', () => {
   story('Disabled', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hover'],
+        },
       },
     });
 
@@ -134,8 +143,10 @@ kind('Navigation/Link', () => {
   story('Loading', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
+          tests: ['hover'],
+        },
       },
     });
 

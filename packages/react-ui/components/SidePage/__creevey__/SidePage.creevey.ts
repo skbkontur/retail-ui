@@ -14,7 +14,7 @@ const simpleTests = () => {
   });
 };
 
-kind('Overlays/SidePage', () => {
+kind('SidePage', () => {
   story('SidePageOverAnotherSidePageStory', () => {
     test('open internal side-page', async function () {
       await this.browser
@@ -45,8 +45,8 @@ kind('Overlays/SidePage', () => {
     });
   });
 
-  story('StickyHeaderWhenAnotherSidePageStory', () => {
-    test('sticky header, open and close internal sidepage', async function () {
+  story('StickySidePageHeaderWhenAnotherSidePageStory', () => {
+    test('sticky header, open and close internal side-page', async function () {
       await this.browser
         .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
@@ -67,7 +67,7 @@ kind('Overlays/SidePage', () => {
         .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }))
         .perform();
       await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-        'sticky header, open and close internal sidepage',
+        'sticky header, open and close internal side-page',
       );
     });
   });
@@ -293,6 +293,21 @@ kind('Overlays/SidePage', () => {
       });
       await delay(1000);
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with panel');
+    });
+  });
+
+  story('SidePageWithBlockBackground', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } } });
+
+    test('open side-page', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
+        .perform();
+      await delay(1000);
+      await this.expect(await this.browser.takeScreenshot()).to.matchImage();
     });
   });
 });

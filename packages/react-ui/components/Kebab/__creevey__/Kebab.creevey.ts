@@ -75,15 +75,12 @@ const kebabTests = () => {
   });
 };
 
-kind('Menu/Kebab', () => {
+kind('Kebab', () => {
   story('Small', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'clickedOnButton2ndTime'],
         },
       },
@@ -95,11 +92,8 @@ kind('Menu/Kebab', () => {
   story('Medium', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'clickedOnButton2ndTime'],
         },
       },
@@ -111,11 +105,8 @@ kind('Menu/Kebab', () => {
   story('Large', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'clickedOnButton2ndTime'],
         },
       },
@@ -142,13 +133,13 @@ kind('Menu/Kebab', () => {
     });
   });
   story('WithItemsAndIcons', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });
 
   story('WithItemsAndIconsWithoutTextAlignment', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });

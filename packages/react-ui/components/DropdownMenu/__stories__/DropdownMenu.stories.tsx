@@ -14,10 +14,10 @@ import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
-import { OkIcon } from '../../../internal/icons/16px';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 
 export default {
-  title: 'Menu/DropdownMenu',
+  title: 'DropdownMenu',
   component: DropdownMenu,
   decorators: [
     (Story: () => JSX.Element) => (
@@ -307,8 +307,8 @@ MobileExampleWithHorizontalPadding.parameters = {
 export const WithItemsAndIcons = () => (
   <DropdownMenu caption={<Button>Click me</Button>}>
     <MenuHeader>MenuHeader</MenuHeader>
-    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </DropdownMenu>
 );
@@ -316,8 +316,8 @@ export const WithItemsAndIcons = () => (
 export const WithItemsAndIconsWithoutTextAlignment = () => (
   <DropdownMenu preventIconsOffset caption={<Button>Click me</Button>}>
     <MenuHeader>MenuHeader</MenuHeader>
-    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </DropdownMenu>
 );

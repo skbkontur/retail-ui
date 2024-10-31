@@ -8,7 +8,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/ComboBox',
+  title: 'Input data/ComboBox',
   component: ComboBox,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -63,7 +63,7 @@ export const Example1: Story = () => {
   );
 
 };
-Example1.storyName = 'Combobox with error handling';
+Example1.storyName = 'Комбобокс с валидацией';
 
 /** Очистить значение в `ComboBox`'е можно с помощью пустой строки, `null` или `undefined` */
 export const Example2: Story = () => {

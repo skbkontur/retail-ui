@@ -16,10 +16,6 @@ import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 import { mod } from './helpers';
 
-/**
- * @deprecated use SizeProp
- */
-export type SwitcherSize = SizeProp;
 export type SwitcherItems = string | SwitcherItem;
 
 export const SwitcherDataTids = {
@@ -78,14 +74,9 @@ interface SwitcherItem {
 }
 
 /**
- * Переключатель `Switcher` — это замена [RadioGroup](?path=/docs/choose-radiogroup--docs).
- * Переключатель меньше по высоте, это позволяет делать формы компактнее.
+ * Переключатель `Switcher` — это замена [RadioGroup](?path=/docs/input-data-radiogroup--docs).
  *
- * Переключатель используют, когда вариантов выбора немного: от 3 до 5.
- *
- * Старайтесь не использовать переключатель из двух значений — пользователи не понимают, какой из пунктов выбран.
- *
- * Не используйте переключатель в качестве навигации, для этого лучше подходят [Tabs](?path=/docs/navigation-tabs--docs).
+ * Не используйте переключатель в качестве навигации, для этого лучше подходят [Tabs](?path=/docs/display-data-tabs--docs).
  */
 @rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {

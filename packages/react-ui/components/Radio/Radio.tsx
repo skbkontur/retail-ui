@@ -17,11 +17,6 @@ import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Radio.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type RadioSize = SizeProp;
-
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
@@ -72,10 +67,6 @@ type DefaultProps = Required<Pick<RadioProps<any>, 'focused' | 'size'>>;
 
 /**
  * Радио-кнопки `Radio` используются, когда может быть выбран только один вариант из нескольких.
- *
- * Если названия вариантов короткие, вместо группы радио-кнопок ([RadioGroup](?path=/docs/choose-radiogroup--docs)) можно использовать [переключатель Switcher](?path=/docs/choose-switcher--docs), так форма будет выглядеть компактнее.
- * Если вариантов от 5 до 25, используйте [Select](?path=/docs/choose-select--docs).
- * Если значений больше 25 — используйте [ComboBox](?path=/docs/input-elements-combobox--docs).
  */
 @rootNode
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {

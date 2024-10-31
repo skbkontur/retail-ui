@@ -3,10 +3,16 @@ import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { Button, ButtonDataTids, ButtonType } from '../Button';
 
 describe('Button', () => {
+  it('has id attribute', () => {
+    const buttonId = 'buttonId';
+    const result = render(<Button id={buttonId}>Foo</Button>);
+    expect(result.container.querySelector(`button#${buttonId}`)).toHaveTextContent('Foo');
+  });
+
   it('has correct label', () => {
     render(<Button>Foo</Button>);
     expect(screen.getByRole('button')).toHaveTextContent('Foo');
@@ -19,7 +25,7 @@ describe('Button', () => {
     });
   });
 
-  it('handels click event', async () => {
+  it('handles click event', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
@@ -73,7 +79,7 @@ describe('Button', () => {
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', () => {
+  it('handles onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
     render(<Button onMouseLeave={onMouseLeave} />);
 
@@ -201,7 +207,7 @@ describe('Button', () => {
 
   it('has data-tid `Button__spinner` when component in loading state (THEME_2022)', () => {
     render(
-      <ThemeContext.Provider value={THEME_2022}>
+      <ThemeContext.Provider value={LIGHT_THEME}>
         <Button loading />
       </ThemeContext.Provider>,
     );
@@ -209,12 +215,29 @@ describe('Button', () => {
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
   });
 
+  it(`className prop shouldn't override value on root`, () => {
+    const props = { className: '' };
+    render(<Button {...props}>Button</Button>);
+
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveClass('', { exact: true });
+  });
+
+  it(`data-tid prop shouldn't override value on root`, () => {
+    const props = { 'data-tid': 'foo' };
+
+    render(<Button {...props}>Button</Button>);
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('data-tid', ButtonDataTids.rootElement);
+  });
+
   describe('with use=link prop', () => {
     const handleSubmit = jest.fn();
     const handleReset = jest.fn();
     const TestForm = ({ submit }: { submit?: boolean }) => {
       return (
-        <ThemeContext.Provider value={THEME_2022}>
+        <ThemeContext.Provider value={LIGHT_THEME}>
           <form onSubmit={handleSubmit} onReset={handleReset}>
             <Button type={submit ? 'submit' : 'reset'} use={'link'} size={'medium'}>
               {submit ? 'Submit' : 'Reset'}
@@ -233,6 +256,46 @@ describe('Button', () => {
       render(<TestForm />);
       await userEvent.click(screen.getByText('Reset'));
       expect(handleReset).toHaveBeenCalled();
+    });
+  });
+
+  describe('with component=a prop', () => {
+    it('should render <a> tag', () => {
+      render(
+        <Button component="a" href="/">
+          Button as Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toBeInTheDocument();
+    });
+
+    it('should render <button> tag when omitted', () => {
+      render(<Button>Button</Button>);
+
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
+
+    it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {
+      render(
+        <Button href="/" component="a" {...prop}>
+          Button Link
+        </Button>,
+      );
+
+      userEvent.tab();
+      expect(screen.getByRole('link')).not.toHaveFocus();
+    });
+
+    it(`should have correct tabIndex`, () => {
+      render(
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+        <Button component="a" href="/" tabIndex={1}>
+          Button Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toHaveAttribute('tabindex', '1');
     });
   });
 });

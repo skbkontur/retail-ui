@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Checkbox, Gapped, Button } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Choose/Checkbox',
+  title: 'Input data/Checkbox',
   component: Checkbox,
   parameters: { creevey: { skip: true } },
 } as Meta;

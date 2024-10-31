@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Tab, ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Navigation/Tab',
+  title: 'Display data/Tab',
   component: Tab,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -60,7 +60,7 @@ export const Example1: Story = () => {
   );
 
 };
-Example1.storyName = 'Костомизация';
+Example1.storyName = 'Кастомизация';
 
 /** С помощью пропа `component` можно изменять корневой элемент `<Tab />`.
 Проп может принимать: компоненты, функции и строки. */

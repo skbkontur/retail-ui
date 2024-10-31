@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Meta } from '../../../typings/stories';
 import { Spinner } from '../Spinner';
-import { OkIcon } from '../../../internal/icons/16px';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 
 const reactNodeCaption = (
   <div>
@@ -15,13 +15,13 @@ const SpinnerLikeIcon = () => (
     <Spinner type="mini" caption={null} />
     Загрузка
     <br />
-    <OkIcon />
+    <CheckAIcon16Regular />
     Загрузка
   </>
 );
 
 export default {
-  title: 'Action/Spinner',
+  title: 'Spinner',
   component: Spinner,
   parameters: {
     creevey: {

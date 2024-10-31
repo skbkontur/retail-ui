@@ -3,7 +3,7 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { CrossIcon } from '../../internal/icons/CrossIcon';
+import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 
@@ -31,6 +31,7 @@ export const SidePageCloseButton = () => {
     setIsFocusedByTab(false);
   };
 
+  const icon = <XIcon20Regular align="none" />;
   return (
     <button
       aria-label={locale?.closeButtonAriaLabel}
@@ -42,7 +43,7 @@ export const SidePageCloseButton = () => {
       onClick={sidePageContext.requestClose}
       data-tid={SidePageHeaderDataTids.close}
     >
-      <CrossIcon />
+      {icon}
     </button>
   );
 };

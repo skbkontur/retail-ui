@@ -2,15 +2,8 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Popup/Tooltip', () => {
-  story('FocusTooltip', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
-      },
-    });
-
+kind('Tooltip', () => {
+  story('FocusTooltip', () => {
     test('01 - plain', async function () {
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
@@ -47,14 +40,7 @@ kind('Popup/Tooltip', () => {
     });
   });
 
-  story('FocusTooltipNativeInput', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
-      },
-    });
-
+  story('FocusTooltipNativeInput', () => {
     test('01 - plain', async function () {
       await delay(1000);
       await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
@@ -89,31 +75,9 @@ kind('Popup/Tooltip', () => {
     });
   });
 
-  story('TooltipsWithoutWrapperAroundInlineBlockWith50Width', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark', 'firefox8px'] },
-      },
-    });
-
-    test('hover', async function () {
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: this.browser.findElement({ css: 'textarea' }),
-        })
-        .perform();
-      await delay(1500);
-      await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-    });
-  });
-
   story('TooltipWithExternalDynamicContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: /firefox/, tests: ['04 - does not change top position if fits'] },
         'story-skip-1': { in: 'chrome2022', tests: ['06 - changes left position if does not fit'] },
       },
     });
@@ -258,7 +222,7 @@ kind('Popup/Tooltip', () => {
       skip: {
         // TODO @Khlutkova fix after update browsers
         'story-skip-0': {
-          in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'],
+          in: ['firefox2022', 'firefox2022Dark', 'chrome2022Dark'],
           tests: ['focus and types', 'clear input'],
         },
       },
@@ -272,7 +236,7 @@ kind('Popup/Tooltip', () => {
         .click(this.browser.findElement({ css: 'input' }))
         .sendKeys('Hi')
         .perform();
-      await delay(1000);
+      await delay(2000);
       await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
     });
 
@@ -293,24 +257,6 @@ kind('Popup/Tooltip', () => {
   story('DynamicTriggersStory', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '[data-comp-name~="TestTooltip"]',
-      skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Dark'],
-          tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'],
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: [
-            'hover - mouseEnter',
-            'click - click anchor',
-            'focus - focus',
-            'hover&focus - mouseEnter',
-            'hover&focus - focus',
-          ],
-        },
-      },
     });
 
     test('without trigger', async function () {
@@ -508,17 +454,7 @@ kind('Popup/Tooltip', () => {
     });
   });
 
-  story('RenderInFirstAvailablePosition', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-0': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['render in available position', 'relocate on new available position'],
-        },
-      },
-    });
-
+  story('RenderInFirstAvailablePosition', () => {
     test('render in available position', async function () {
       await this.browser
         .actions({ bridge: true })
@@ -576,14 +512,7 @@ kind('Popup/Tooltip', () => {
   story('TooltipWithAnchor', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hover by dynamic anchor'],
-        },
-        'story-skip-2': {
+        'themes do not affect logic': {
           in: /firefox/,
           tests: ['hover by dynamic anchor'],
         },

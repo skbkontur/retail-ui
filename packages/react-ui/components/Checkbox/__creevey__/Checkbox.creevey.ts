@@ -91,19 +91,17 @@ const checkboxTests = () => {
   });
 };
 
-kind('Choose/Checkbox', () => {
+kind('Checkbox', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hovered',
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        'hover does not work in chrome': {
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered', 'pressed', 'clicked'],
+        },
+        flaky: {
+          in: /^\bfirefox2022/,
+          tests: ['clicked'],
         },
       },
     });
@@ -111,21 +109,7 @@ kind('Choose/Checkbox', () => {
     checkboxTests();
   });
 
-  story('Checked', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hovered',
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'pressed', 'clicked'],
-        },
-      },
-    });
+  story('Checked', () => {
     test('idle', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('idle');
     });
@@ -162,22 +146,7 @@ kind('Choose/Checkbox', () => {
     });
   });
 
-  story('Indeterminate', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': {
-          in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
-          tests: 'hovered',
-        },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-          tests: ['hovered', 'clicked'],
-        },
-      },
-    });
-
+  story('Indeterminate', () => {
     test('plain', async function () {
       const element = await this.browser.findElement({
         css: '#screenshot-capture',
@@ -231,7 +200,15 @@ kind('Choose/Checkbox', () => {
     });
   });
 
-  story('Highlighted', () => {
+  story('Highlighted', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        flaky: {
+          in: ['firefox2022', 'firefox2022Dark'],
+          tests: ['tabPress'],
+        },
+      },
+    });
     test('plain', async function () {
       await this.expect(await this.takeScreenshot()).to.matchImage('plain');
     });

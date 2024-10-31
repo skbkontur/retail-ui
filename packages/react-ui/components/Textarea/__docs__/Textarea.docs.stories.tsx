@@ -4,7 +4,7 @@ import { Story } from '../../../typings/stories';
 import { Textarea, Group, Button, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Input elements/Textarea',
+  title: 'Input data/Textarea',
   component: Textarea,
   parameters: { creevey: { skip: true } },
 };

@@ -4,10 +4,10 @@ import { Meta, Story } from '../../../typings/stories';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import * as DatePickerHelpers from '../DatePickerHelpers';
 
-import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes } from '@skbkontur/react-ui';
+import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes, CalendarDay } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/DatePicker',
+  title: 'Input data/DatePicker',
   component: DatePicker,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -113,6 +113,7 @@ export const Example4: Story = () => {
 
   class DatePickerFormatting extends React.Component {
     constructor() {
+      super();
       this.state = {
         order: DateOrder.YMD,
         separator: 'Dot',
@@ -170,35 +171,24 @@ Example4.storyName = 'Ручное форматирование даты';
 
 /** Подбробный пример в [Calendar](#/Components/Calendar) */
 export const Example5: Story = () => {
+
   const [value, setValue] = React.useState('12.05.2022');
 
-  return (
-    <DatePicker
-      value={value}
-      onValueChange={setValue}
-      periodStartDate="16.05.2022"
-      periodEndDate="20.05.2022"
-    />
-  );
+  const renderDay = (props) => {
+    const [date] = props.date.split('.').map(Number);
+    const isEven = date % 2 === 0;
 
-};
-Example5.storyName = 'Период дат';
+    if (isEven) {
+      return <CalendarDay {...props} style={{ background: '#e9f8e3' }} />
+    }
 
-/** Подбробный пример в [Calendar](#/Components/Calendar) */
-export const Example6: Story = () => {
-  const [value, setValue] = React.useState('12.05.2022');
-
-  const renderDay = (date, defaultProps, RenderDefault) => {
-    const isEven = defaultProps.children % 2 === 0;
-
-    return <RenderDefault {...defaultProps} isDisabled={isEven} />;
+    return <CalendarDay {...props} />
   };
-
 
   return (
     <DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />
   );
 
 };
-Example6.storyName = 'Кастомный рендер дня';
+Example5.storyName = 'Кастомный рендер дня';
 

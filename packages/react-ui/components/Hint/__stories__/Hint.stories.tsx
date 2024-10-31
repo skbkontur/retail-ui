@@ -4,14 +4,14 @@ import { Meta, Story } from '../../../typings/stories';
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
-import { PopupPositions } from '../../../internal/Popup';
+import { PopupPinnablePositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 import { Button } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 
 export default {
-  title: 'Popup/Hint',
+  title: 'Hint',
   component: Hint,
   decorators: [
     (Story: () => JSX.Element) => (
@@ -135,7 +135,7 @@ HintWithoutAnimations.parameters = { creevey: { skip: true } };
 
 export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
-    {PopupPositions.reduce(
+    {PopupPinnablePositions.reduce(
       (child, position) => (
         <Hint useWrapper={false} text={position} pos={position} manual opened>
           {child}

@@ -1,23 +1,114 @@
-### Базовый пример
+### Проп `mask`
+
+Паттерн ввода. Пример с номером телефона.
+
 ```jsx harmony
-<MaskedInput mask={'+7 999 999-99-99'} placeholder={"Номер телефона"} />
+const [value, setValue] = React.useState('');
+
+<>
+  <span>value: "{value}"</span>
+  <br />
+  <br />
+  <MaskedInput
+    mask="+7 (999) 999-99-99"
+    placeholder="Номер телефона"
+    value={value}
+    onValueChange={setValue}
+  />
+</>
 ```
 
-### Изменение символа значения с маской
+### Проп `alwaysShowMask`
+
+Показывает маску всегда.
+
 ```jsx harmony
-<MaskedInput mask={'9999 9999 9999 9999'} maskChar={'X'} placeholder={"Номер карты"}  />
+<MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask />
 ```
 
-### Всегда показывать маску
-**alwaysShowMask** позволяет показывать маску всегда. Placeholder в этом случае игнорируется.
+### Проп `maskChar`
+
+Символом маски может быть любой символ.
+
 ```jsx harmony
-<MaskedInput mask={'9999 9999 9999 9999'} alwaysShowMask maskChar={'X'} placeholder={"Номер карты"} />
+const [value, setValue] = React.useState('');
+
+<>
+  <span>value: "{value}"</span>
+  <br />
+  <br />
+  <MaskedInput
+    mask="9999 9999 9999 9999"
+    maskChar="X"
+    placeholder="Номер карты"
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+</>
 ```
 
-Для форматирования по маске используется пакет [iMask](https://imask.js.org/). Используйте особенности пакета принимая всю ответственность на себя.
+### Проп `formatChars`
 
-`MaskedInput` гарантирует поддержку работы 3 пропов:  **mask**, **maskChar**, **alwaysShowMask** с заданными по-умолчанию **formatChars**.
+При необходимости можно настроить собственный словарь.
 
-Остальное поведение может меняться в мажорных релизах.
+```jsx harmony
+const [value, setValue] = React.useState('');
 
-Например, iMask [позволяет добавлять](https://imask.js.org/guide.html#masked-pattern) в значения без форматирования константы с помощью фигурных скобок. Использовать этот вариант **НЕ РЕКОМЕНДУЕТСЯ**.
+<MaskedInput
+  mask="Hh:Mm:Ss"
+  alwaysShowMask
+  formatChars={{
+    H: '[0-2]',
+    h: value.startsWith('2') ? '[0-3]' : '[0-9]',
+    M: '[0-5]',
+    m: '[0-9]',
+    S: '[0-5]',
+    s: '[0-9]',
+  }}
+  value={value}
+  onValueChange={setValue}
+/>
+```
+
+### Проп `unmask`
+
+Можно сразу получать очищенный value, содержащий только введённый пользователем символы.
+
+```jsx harmony
+const [value, setValue] = React.useState('');
+
+<>
+  <span>value: "{value}"</span>
+  <br />
+  <br />
+  <MaskedInput
+    mask="+7 (999) 999-99-99"
+    unmask
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+</>
+```
+
+### Проп `unmask` с фигурными скобками
+
+Если обернуть фиксированные символы в фигурные скобки, то они попадут в `value` при `unmask = true`.
+
+```jsx harmony
+const [value, setValue] = React.useState('');
+
+<>
+  <span>value: "{value}"</span>
+  <br />
+  <br />
+  <MaskedInput
+    mask="+{7} (999) 999-99-99"
+    unmask
+    alwaysShowMask
+    value={value}
+    onValueChange={setValue}
+  />
+</>
+```

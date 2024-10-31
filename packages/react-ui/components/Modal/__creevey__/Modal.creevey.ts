@@ -30,7 +30,7 @@ const topMiddleBottomModalTests = () => {
   });
 };
 
-kind('Overlays/Modal', () => {
+kind('Modal', () => {
   story('ModalWithFooterPanelStory', () => {
     test('open modal', async function () {
       await this.browser
@@ -203,13 +203,7 @@ kind('Overlays/Modal', () => {
     });
   });
 
-  story('ModalWithChildrenFromOtherComponent', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] },
-      },
-    });
-
+  story('ModalWithChildrenFromOtherComponent', () => {
     topMiddleBottomModalTests();
   });
 

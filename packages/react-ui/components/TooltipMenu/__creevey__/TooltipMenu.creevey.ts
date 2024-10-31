@@ -16,17 +16,16 @@ const textAlignmentTests = () => {
   });
 };
 
-kind('Menu/TooltipMenu', () => {
+kind('TooltipMenu', () => {
   story('SimpleExample', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        // TODO @Khlutkova fix after update browsers
         'story-skip-0': {
-          in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+          in: ['chrome2022', 'chrome2022Dark'],
           tests: ['clickAfterClickedOnCaption', 'clicked'],
         },
 
-        'story-skip-1': { in: /(?!\b(firefox)\b)/, tests: ['tabPress'] },
+        flaky: { in: ['firefox2022', 'firefox2022Dark'], tests: ['tabPress'] },
       },
     });
 
@@ -118,13 +117,13 @@ kind('Menu/TooltipMenu', () => {
     });
   });
   story('WithItemsAndIcons', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });
 
   story('WithItemsAndIconsWithoutTextAlignment', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } });
+    setStoryParameters({ skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } } });
 
     textAlignmentTests();
   });

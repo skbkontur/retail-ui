@@ -29,28 +29,28 @@ const testScrollLockUnlock = () => {
 kind('HideBodyVerticalScroll', () => {
   story('Sample', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
     testScrollLockUnlock();
   });
 
   story('WithScrollableContent', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
     testScrollLockUnlock();
   });
 
   story('WithHTMLOverflowYScroll', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
     testScrollLockUnlock();
   });
 
   story('Multiple_WithScrollableContent', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
     });
     testScrollLockUnlock();
   });

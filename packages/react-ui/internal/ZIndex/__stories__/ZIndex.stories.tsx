@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { Dropdown } from '../../../components/Dropdown';
 import { Story } from '../../../typings/stories';
@@ -23,6 +24,7 @@ import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAn
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SingleToast } from '../../../components/SingleToast';
 
 const linearLightGradient = `repeating-linear-gradient(
                                 60deg,
@@ -437,10 +439,9 @@ class LoaderInSidePage extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -475,10 +476,9 @@ class SidePageAndSelect extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -815,9 +815,10 @@ export const ToastOverEverything: Story = () => {
             <button data-tid="ref-toast" onClick={showRefToast}>
               Ref Toast
             </button>
+            <SingleToast />
             <button
               data-tid="static-toast"
-              onClick={() => Toast.push('Static Toast', { label: 'Close', handler: Toast.close })}
+              onClick={() => SingleToast.push('Static Toast', { label: 'Close', handler: SingleToast.close })}
             >
               Static Toast
             </button>
@@ -866,4 +867,171 @@ export const ModalWithDropdown: Story = () => {
       <Modal.Footer style={{ background: 'green' }}>Footer</Modal.Footer>
     </Modal>
   );
+};
+
+function Root({ children }: React.PropsWithChildren<any>) {
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const theme = React.useContext(ThemeContext);
+
+  React.useEffect(() => {
+    if (rootRef.current) {
+      const App = () => children;
+      children &&
+        ReactDOM.render(
+          <ThemeContext.Provider value={theme}>
+            <App />
+          </ThemeContext.Provider>,
+          rootRef.current,
+        );
+    }
+  }, []);
+
+  React.useLayoutEffect(
+    () => () => {
+      rootRef.current && ReactDOM.unmountComponentAtNode(rootRef.current);
+    },
+    [],
+  );
+
+  return <div ref={rootRef} style={{ display: 'inline-block' }} />;
+}
+
+function Classic({ withRoot = false }) {
+  const selectRef = React.useRef<Select>(null);
+  React.useEffect(() => {
+    selectRef.current?.open();
+  }, []);
+
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column', paddingBottom: 50 }}>
+      <div>
+        <Tooltip render={() => 'Tooltip 1'} pos="bottom center" trigger="opened" allowedPositions={['bottom center']}>
+          Тултип
+        </Tooltip>
+        <br />
+        <Select
+          ref={selectRef}
+          width="120px"
+          items={[123]}
+          renderItem={() => (
+            <MayBeRoot>
+              <Tooltip
+                render={() => 'Tooltip 2'}
+                pos="right middle"
+                trigger="opened"
+                allowedPositions={['right middle']}
+              >
+                {title}
+              </Tooltip>
+            </MayBeRoot>
+          )}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ActiveLoader({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+      <div
+        style={{
+          width: 200,
+          background: '#eee',
+          padding: 10,
+        }}
+      >
+        <Loader active caption={null}>
+          <MayBeRoot>
+            {title}
+            <Classic />
+          </MayBeRoot>
+        </Loader>
+      </div>
+    </div>
+  );
+}
+
+function Upper({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', rowGap: 200, flexDirection: 'column', minWidth: 100 }}>
+      <div>
+        <Tooltip
+          render={() => (
+            <Tooltip
+              render={() => (
+                <Tooltip
+                  render={() => 'Tooltip 3'}
+                  pos="bottom left"
+                  trigger="opened"
+                  allowedPositions={['bottom left']}
+                >
+                  Tooltip 2
+                </Tooltip>
+              )}
+              pos="bottom left"
+              trigger="opened"
+              allowedPositions={['bottom left']}
+            >
+              Tooltip 1
+            </Tooltip>
+          )}
+          pos="bottom left"
+          trigger="opened"
+          allowedPositions={['bottom left']}
+        />
+      </div>
+
+      <ZIndex priority={9001}>
+        <MayBeRoot>
+          <Tooltip render={() => 'Tooltip'} pos="top center" trigger="opened" allowedPositions={['top center']}>
+            {title}
+          </Tooltip>
+        </MayBeRoot>
+      </ZIndex>
+    </div>
+  );
+}
+
+export const SeveralRoots = () => {
+  return (
+    <div style={{ padding: 50, display: 'flex', flexDirection: 'column', rowGap: 20, width: 600 }}>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        <h3>Эталон</h3>
+        <h3>Root</h3>
+      </div>
+      <h3 style={{ textAlign: 'center' }}>Встроиться</h3>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        <Classic />
+        <Classic withRoot />
+      </div>
+      <h3 style={{ textAlign: 'center' }}>Активный Лоадер</h3>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        <ActiveLoader />
+        <ActiveLoader withRoot />
+      </div>
+      <h3 style={{ textAlign: 'center' }}>Выше всех</h3>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        <Upper />
+        <Upper withRoot />
+      </div>
+    </div>
+  );
+};
+SeveralRoots.parameters = {
+  creevey: {
+    skip: {
+      'flacky, temporary skip everywhere': true,
+      "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
+    },
+  },
 };

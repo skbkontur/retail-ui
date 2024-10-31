@@ -11,6 +11,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -93,11 +94,6 @@ type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
  * Каждому компоненту Radio нужно указать параметр `value`, такого же типа, как и параметр `value` самой радиогруппы.
  *
  * Значения активного элемента сравниваются по строгому равенству `===`.
- *
- * Если названия вариантов короткие, вместо `RadioGroup` можно использовать [переключатель Switcher](?path=/docs/choose-switcher--docs), так форма будет выглядеть компактнее.
- *
- * Если значений 5–25, используйте [раскрывающийся список Select](?path=/docs/choose-select--docs).
- * Если 25–50, то [ComboBox](?path=/docs/input-elements-combobox--docs) со списком, а если больше 50, то без списка.
  */
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
@@ -148,7 +144,15 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public renderMain() {
-    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur, 'aria-describedby': ariaDescribedby } = this.props;
+    const {
+      width,
+      onMouseLeave,
+      onMouseOver,
+      onMouseEnter,
+      onBlur,
+      'aria-describedby': ariaDescribedby,
+      disabled,
+    } = this.props;
     const style = {
       width: width ?? 'auto',
     };
@@ -159,7 +163,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
         <FocusTrap onBlur={onBlur}>
           <span
             data-tid={RadioGroupDataTids.root}

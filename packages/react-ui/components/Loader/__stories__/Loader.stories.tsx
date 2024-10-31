@@ -4,7 +4,7 @@ import { AnyObject } from '../../../lib/utils';
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
-import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
+import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Toggle } from '../../Toggle';
 
@@ -37,7 +37,7 @@ class ContentComponent extends React.Component<React.PropsWithChildren<ContentCo
           return (
             <div
               style={
-                theme.prototype.constructor.name === 'DarkTheme'
+                theme.prototype.constructor.name.includes('Dark')
                   ? { ...darkWrapperStyle, ...additionalStyle }
                   : { ...wrapperStyle, ...additionalStyle }
               }
@@ -77,7 +77,7 @@ class NumberList extends React.Component<NumberListProps> {
 }
 
 export default {
-  title: 'Action/Loader',
+  title: 'Loader',
   component: Loader,
 };
 
@@ -235,7 +235,7 @@ export const WrapperWithCustomHeightAndInactiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />
@@ -255,7 +255,7 @@ export const WrapperWithCustomHeightAndActiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />
@@ -284,7 +284,7 @@ export const WithCustomComponent: Story = () => {
   const getTestComponent = () => {
     return (
       <div style={{ display: 'inline-block', textAlign: 'center' }}>
-        <EyeOpenedIcon color={'blue'} size={25} />
+        <EyeOpenIcon16Light color={'blue'} size={25} />
         <span style={{ display: 'block', color: 'red' }}>Загрузка</span>
       </div>
     );

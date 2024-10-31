@@ -62,15 +62,12 @@ const selectTests = () => {
   });
 };
 
-kind('Choose/Select', () => {
+kind('Select', () => {
   story('Simple', ({ setStoryParameters }) => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['MenuItem hover'] },
       },
     });
 
@@ -97,10 +94,7 @@ kind('Choose/Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['MenuItem hover'] },
       },
     });
 
@@ -111,10 +105,7 @@ kind('Choose/Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['MenuItem hover'] },
       },
     });
 
@@ -125,10 +116,7 @@ kind('Choose/Select', () => {
     setStoryParameters({
       captureElement: '.dropdown-test-container',
       skip: {
-        'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
-
-        // TODO @Khlutkova fix after update browsers
-        'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+        'hover does not work in chrome': { in: ['chrome2022', 'chrome2022Dark'], tests: ['MenuItem hover'] },
       },
     });
 
@@ -224,7 +212,9 @@ kind('Choose/Select', () => {
     });
   });
 
-  story('WithMenuAlignAndVariousWidth', () => {
+  story('WithMenuAlignAndVariousWidth', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } } });
+
     test('open', async function () {
       const root = await this.browser.findElement({ css: '#test-element' });
       await delay(1000);
@@ -233,7 +223,7 @@ kind('Choose/Select', () => {
   });
 
   story('WithManualPosition', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened top with portal', async function () {
       await this.browser

@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.15.1",
+  "version": "2.0.0-beta.0",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -18,12 +18,13 @@
     "deploy:docs": "gh-pages -a -d dist -r git@github.com:skbkontur/react-ui-validations.git",
     "storybook": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true storybook dev -p 6060\"",
     "storybook:build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true storybook build -o .storybook/build --quiet\"",
-    "storybook:docs": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_VALIDATIONS_DOCS=false storybook dev --docs -p 6061\"",
+    "storybook:docs-build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true STORYBOOK_REACT_UI_VALIDATIONS_DOCS=true storybook build --docs -o .storybook/build --quiet\"",
+    "storybook:docs": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_VALIDATIONS_DOCS=true storybook dev --docs -p 6062\"",
     "storybook:serve": "serve -l 6060 .storybook/build",
     "start:docs": "node ../../scripts/patch-node-options.js \"webpack-dev-server --config webpack.docs.config.js --hot \"",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit --diagnostics",
-    "lint:eslint": "cross-env TIMING=1 eslint ./",
+    "lint:eslint": "cross-env TIMING=1 eslint ./ --ignore-pattern \"**/docs/**/*.docs.stories.tsx\"",
     "lint:prettier": "prettier --check .",
     "fix": "run-s -c fix:*",
     "fix:eslint": "yarn lint:eslint --fix",
@@ -51,7 +52,7 @@
   "peerDependencies": {
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "retail-ui": ">=0.53.7"
+    "retail-ui": ">=5 <6"
   },
   "dependencies": {
     "prop-types": "^15.8.0",
@@ -71,6 +72,12 @@
     "@skbkontur/react-icons": "^5.2.9",
     "@skbkontur/react-props2attrs": "0.1.3",
     "@skbkontur/react-sorge": "0.2.1",
+    "@storybook/addon-a11y": "7.6.18",
+    "@storybook/addon-controls": "7.6.18",
+    "@storybook/addon-essentials": "7.6.18",
+    "@storybook/addon-interactions": "^7.6.18",
+    "@storybook/addon-links": "7.6.18",
+    "@storybook/icons": "^1.2.9",
     "@storybook/addon-docs": "7.6.18",
     "@storybook/blocks": "7.6.18",
     "@storybook/components": "7.6.18",

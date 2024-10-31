@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
@@ -15,15 +15,11 @@ import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils
 
 import { styles } from './MenuItem.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type MenuItemSize = SizeProp;
-
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Omit<CommonProps, 'children'> {
   /** Добавляет отступ иконке.
    * @ignore */
@@ -83,6 +79,7 @@ export interface MenuItemProps
 
   /** Устанавливает стиль для отображения в мобильной версии. */
   isMobile?: boolean;
+  scrollIntoView?: boolean;
 }
 
 export const MenuItemDataTids = {
@@ -94,7 +91,7 @@ export const MenuItemDataTids = {
 /**
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
  *
- * Сущности в которых может быть использован `MenuItem`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/choose-select--docs).
+ * Сущности в которых может быть использован `MenuItem`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/input-data-select--docs).
  */
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {
@@ -159,6 +156,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentDidMount() {
+    if (this.props.scrollIntoView) {
+      this.rootRef?.scrollIntoView({
+        block: 'center',
+      });
+    }
     if (this.rootRef && isBrowser(globalObject)) {
       this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
     }
@@ -269,6 +271,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       isMobile,
       href,
       disabled,
+      scrollIntoView,
       rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       isNotSelectable,
       ...rest

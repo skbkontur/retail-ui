@@ -3,7 +3,7 @@ import React from 'react';
 import { CurrencyLabel } from '../CurrencyLabel';
 
 export default {
-  title: 'Layout/CurrencyLabel',
+  title: 'CurrencyLabel',
   component: CurrencyLabel,
 };
 

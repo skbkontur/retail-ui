@@ -70,7 +70,7 @@ export class MouseDrag {
     }
   };
 
-  private mouseDragStartEvent?: MouseDragEvent;
+  public mouseDragStartEvent?: MouseDragEvent;
   private clicked = false;
   private dragging = false;
 

@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
 import { PopupDataTids, PopupIds } from '../../../internal/Popup';
-import { MenuItem } from '../../../components/MenuItem';
+import { MenuItem } from '../../MenuItem';
 import { Kebab, KebabDataTids } from '../Kebab';
+import { delay } from '../../../lib/utils';
 
 describe('Kebab', () => {
   it('prop `popupMenuId` sets an `id` for root of the popup', async () => {
@@ -18,6 +19,12 @@ describe('Kebab', () => {
 
     const menu = screen.getByTestId(PopupDataTids.root);
     expect(menu).toHaveAttribute('id', menuId);
+  });
+
+  it('has id attribute', () => {
+    const kebabId = 'kebabId';
+    const result = render(<Kebab id={kebabId} />);
+    expect(result.container.querySelector(`#${kebabId}[role="button"]`)).not.toBeNull();
   });
 
   it('should focus by pressing tab', async () => {
@@ -50,6 +57,7 @@ describe('Kebab', () => {
     await userEvent.keyboard('{Escape}');
 
     const kebab = screen.getByTestId(KebabDataTids.caption);
+    await delay(1000);
     expect(kebab).toHaveFocus();
 
     expect(screen.queryByText(content)).not.toBeInTheDocument();

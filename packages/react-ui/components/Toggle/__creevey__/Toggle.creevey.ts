@@ -2,11 +2,11 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Choose/Toggle', () => {
+kind('Toggle', () => {
   story('Plain', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        flaky: { in: /firefox|chrome2022(Dark)?/, tests: ['pressed', 'clicked'] },
+        flaky: { in: /chrome2022(Dark)?/, tests: ['pressed', 'clicked'] },
       },
     });
 
@@ -65,7 +65,7 @@ kind('Choose/Toggle', () => {
   story('WithLongDescription', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
-        flaky: { in: /firefox|chrome2022(Dark)?/, tests: 'clicked' },
+        flaky: { in: /chrome2022(Dark)?/, tests: 'clicked' },
       },
     });
 

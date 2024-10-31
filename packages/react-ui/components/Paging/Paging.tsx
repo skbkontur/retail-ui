@@ -11,12 +11,10 @@ import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
@@ -74,12 +72,6 @@ export interface PagingProps extends CommonProps {
    * Если на странице используется несколько элементов **Paging** с useGlobalListener === true,
    * то обработчик keyDown будет вызываться на каждом из них. Такие случаи лучше обрабатывать отдельно. */
   useGlobalListener?: boolean;
-
-  /** Определяет, нужно ли показывать `Paging` когда страница всего одна.
-   * Этот проп будет удалён в 5-ой версии библиотеки, так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
-   * @default false
-   */
-  shouldBeVisibleWithLessThanTwoPages?: boolean;
 }
 
 export interface PagingState {
@@ -98,14 +90,10 @@ export const PagingDataTids = {
   pageLink: 'Paging__pageLink',
 } as const;
 
-type DefaultProps = Required<
-  Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
->;
+type DefaultProps = Required<Pick<PagingProps, 'component' | 'useGlobalListener'>>;
 
 /**
  * Постраничная навигация `Paging` (пейджинг или пагинация) — способ представления большого количества однородной информации, когда контент разбивается на страницы.
- *
- * Используйте `Paging`, когда другие способы структурирования информации (категории, фильтры) уже задействованы.
  */
 @rootNode
 @locale('Paging', PagingLocaleHelper)
@@ -115,9 +103,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   public static defaultProps: DefaultProps = {
     component: PagingDefaultComponent,
-    shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
-    'data-tid': PagingDataTids.root,
   };
 
   private getProps = createPropsGetter(Paging.defaultProps);
@@ -169,7 +155,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
-    if (this.props.pagesCount < 2 && !this.getProps().shouldBeVisibleWithLessThanTwoPages) {
+    if (this.props.pagesCount < 2) {
       return null;
     }
 
@@ -184,7 +170,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   private renderMain() {
-    const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
+    const { useGlobalListener } = this.getProps();
     return (
       <CommonWrapper
         rootNodeRef={this.setRootNode}
@@ -193,7 +179,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
-          data-tid={dataTid}
+          data-tid={PagingDataTids.root}
           className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
@@ -238,28 +224,16 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = isTheme2022(this.theme)
-      ? cx(
-          styles.pageLink(this.theme),
-          styles.forwardLink(this.theme),
-          focused && styles.pageLinkFocused(this.theme),
-          (disabled || this.props.disabled) && styles.pageLinkDisabled(this.theme),
-        )
-      : cx({
-          [styles.forwardLink(this.theme)]: true,
-          [styles.forwardLinkFocused()]: focused,
-          [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
-        });
+    const classes = cx(
+      styles.pageLink(this.theme),
+      styles.forwardLink(this.theme),
+      focused && styles.pageLinkFocused(this.theme),
+      (disabled || this.props.disabled) && styles.forwardLinkDisabled(this.theme),
+    );
     const Component = this.getProps().component;
     const { forward } = this.locale;
 
-    const forwardIcon = isTheme2022(this.theme) ? (
-      <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />
-    ) : (
-      <span className={styles.forwardIcon(this.theme)}>
-        <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
-      </span>
-    );
+    const forwardIcon = <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />;
 
     return (
       <Component

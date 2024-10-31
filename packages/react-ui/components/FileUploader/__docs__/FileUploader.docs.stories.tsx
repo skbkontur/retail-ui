@@ -1,10 +1,12 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
+import { cloneElement } from 'react';
+
 import { FileUploader } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Work with files/FileUploader',
+  title: 'Input data/FileUploader',
   component: FileUploader,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -42,14 +44,46 @@ Example3.storyName = 'Multiple контрол';
 
 export const Example4: Story = () => {
 
+  function createFile(filename, content) {
+    return new File(['content'], filename, { type: 'text/plain' });
+  };
+
+  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+  return (
+    <FileUploader multiple initialFiles={initialFiles} />
+  );
+
+};
+Example4.storyName = 'Файлы по умолчанию';
+
+export const Example5: Story = () => {
+
+  function createFile(filename, content) {
+    return new File(['content'], filename, { type: 'text/plain' });
+  };
+
+  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+  return (
+    <FileUploader
+      multiple
+      initialFiles={initialFiles}
+      renderFile={(file, fileNode) => cloneElement(fileNode, { showSize: false })}
+    />
+  );
+
+};
+Example5.storyName = 'Файлы по умолчанию с кастомизацией рендеринга';
+
+export const Example6: Story = () => {
+
   return (
     <FileUploader multiple accept="image/*" />
   );
 
 };
-Example4.storyName = 'Использование `accept`';
+Example6.storyName = 'Использование `accept`';
 
-export const Example5: Story = () => {
+export const Example7: Story = () => {
 
   return (
     <FileUploader
@@ -61,14 +95,14 @@ export const Example5: Story = () => {
   );
 
 };
-Example5.storyName = 'Валидация файла в списке';
+Example7.storyName = 'Валидация файла в списке';
 
-export const Example6: Story = () => {
+export const Example8: Story = () => {
 
   return (
     <FileUploader multiple error />
   );
 
 };
-Example6.storyName = 'Валидация контрола';
+Example8.storyName = 'Валидация контрола';
 

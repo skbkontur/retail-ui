@@ -91,9 +91,6 @@ const TRANSITION_TIMEOUT = 200;
  * Содержит в себе три компоненты: `SidePage.Header`, `SidePage.Body` и `SidePage.Footer`.
  *
  * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
- *
- * Не используйте `SidePage` для коротких сообщений и подтверждений, для этого лучше подходит [модальное окно Modal](?path=/docs/overlays-modal--docs).
- * Так же `SidePage` не может заменить полноценную страницу, потому что ограничен по ширине.
  */
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';

@@ -44,12 +44,12 @@ export const WithWrapperError = () => (
       </ValidationWrapper>
     </ValidationContainer>
     <ValidationContainer>
-      <span>
+      <div style={{ display: 'inline' }}>
         <Button>Submit</Button>
         <ValidationWrapper renderMessage={text('bottom')} validationInfo={validation}>
           <Input />
         </ValidationWrapper>
-      </span>
+      </div>
     </ValidationContainer>
     <ValidationContainer>
       <div>

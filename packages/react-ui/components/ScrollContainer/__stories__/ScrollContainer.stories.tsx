@@ -68,7 +68,7 @@ const DynamicContent: React.FC<
 };
 
 export default {
-  title: 'Layout/ScrollContainer',
+  title: 'ScrollContainer',
   component: ScrollContainer,
 };
 
@@ -151,7 +151,7 @@ export const WithScrollState = () => {
                     ))}
                   </ScrollContainer>
                 </div>
-                <div style={theme.prototype.constructor.name === 'DarkTheme' ? footerDarkStyles : footerStyles}>
+                <div style={theme.prototype.constructor.name.includes('Dark') ? footerDarkStyles : footerStyles}>
                   footer
                 </div>
               </div>
@@ -317,27 +317,6 @@ export const OffsetYAndX: Story = () => (
         bottom: 4,
         right: 4,
       }}
-    >
-      <div style={{ width: 300 }}>
-        {Array(30)
-          .fill(null)
-          .map((_, i) => (
-            <div style={{ width: 200 }} key={i}>
-              {i}
-            </div>
-          ))}
-      </div>
-    </ScrollContainer>
-  </div>
-);
-
-export const HideScrollBar: Story = () => (
-  <div style={wrapperStyle}>
-    <ScrollContainer
-      hideScrollBar
-      // Magic delay to capture the scrollbar
-      hideScrollBarDelay={2000}
-      disableAnimations
     >
       <div style={{ width: 300 }}>
         {Array(30)

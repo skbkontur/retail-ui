@@ -7,7 +7,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
-import { PopupPositionsType, PopupPositions } from '../../../internal/Popup';
+import { PopupPositionsType, PopupPinnablePositions } from '../../../internal/Popup';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { Textarea } from '../../Textarea';
 import { Checkbox } from '../../Checkbox';
@@ -48,7 +48,7 @@ class TestTooltip extends React.Component<React.PropsWithChildren<TestTooltipPro
 }
 
 export default {
-  title: 'Popup/Tooltip',
+  title: 'Tooltip',
   component: Tooltip,
 };
 
@@ -186,22 +186,23 @@ export const HoverOnChildOnly = () => (
 HoverOnChildOnly.storyName = 'hover on child only';
 HoverOnChildOnly.parameters = { creevey: { skip: true } };
 
-export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
-  <div style={{ padding: '150px', width: '500px' }}>
-    {PopupPositions.reduce(
+export const TooltipsWithoutWrapperAroundInlineBlockWithRelativeWidth: Story = () => (
+  <div style={{ padding: '150px', width: '700px' }}>
+    {PopupPinnablePositions.reduce(
       (child, position) => (
-        <Tooltip useWrapper={false} render={() => position} pos={position}>
+        <Tooltip useWrapper={false} render={() => position} pos={position} trigger="opened" closeButton={false}>
           {child}
         </Tooltip>
       ),
-      <Textarea rows={10} resize="none" width="50%">
-        {"I'm inline-block with 50% width.\n\nHover me!"}
+      <Textarea rows={20} resize="none" width="70%">
+        {"I'm inline-block with relative width."}
       </Textarea>,
     )}
   </div>
 );
-TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
-  'Tooltips without wrapper around inline-block with 50% width';
+TooltipsWithoutWrapperAroundInlineBlockWithRelativeWidth.storyName =
+  'Tooltips without wrapper around inline-block with relative width';
+TooltipsWithoutWrapperAroundInlineBlockWithRelativeWidth.parameters = { creevey: { delay: 2000 } };
 
 export const OpenedTooltipWithoutWrapper = () => (
   <TestTooltip useWrapper={false} trigger="opened" pos="left top">

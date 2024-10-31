@@ -91,15 +91,13 @@ export const CalendarDataTids = {
   month: 'MonthView__month',
   dayCell: 'DayCellView__root',
   headerMonth: 'MonthView__headerMonth',
-  monthSelectMobile: 'MonthView__monthSelectMobile',
   headerYear: 'MonthView__headerYear',
-  yearSelectMobile: 'MonthView__yearSelectMobile',
 } as const;
 
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 /**
- * Компонент календаря `Calendar` из [DatePicker](?path=/docs/date-datepicker--docs)'а помогает выбирать дату с помощью мыши.
+ * Компонент календаря `Calendar` из [DatePicker](?path=/docs/input-data-datepicker--docs)'а помогает выбирать дату с помощью мыши.
  */
 @rootNode
 export class Calendar extends React.Component<CalendarProps, CalendarState> {

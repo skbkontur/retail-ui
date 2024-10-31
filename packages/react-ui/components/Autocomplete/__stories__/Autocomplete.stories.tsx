@@ -8,7 +8,7 @@ import { AutocompleteProps } from '..';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {
-  title: 'Input elements/Autocomplete',
+  title: 'Autocomplete',
   component: Autocomplete,
   decorators: [
     (Story) => (
@@ -215,6 +215,7 @@ export const WithManualPosition: Story = () => {
 
   return (
     <div style={{ marginTop: '300px', paddingBottom: '300px' }}>
+      {' '}
       <UncontrolledAutocomplete menuPos={menuPos} source={['One', 'Two', 'Three']} />
       <button data-tid="pos" onClick={() => setMenuPos(menuPos === 'top' ? 'bottom' : 'top')}>
         change pos to {menuPos === 'top' ? 'bottom' : 'top'}

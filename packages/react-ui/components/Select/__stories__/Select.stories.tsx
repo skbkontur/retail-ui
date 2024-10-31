@@ -435,7 +435,7 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
 };
 
 export default {
-  title: 'Choose/Select',
+  title: 'Select',
   component: Select,
   decorators: [
     (Story: () => JSX.Element, context) => {

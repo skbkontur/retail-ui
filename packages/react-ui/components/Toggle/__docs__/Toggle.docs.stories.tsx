@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Toggle, Gapped, Toast } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Choose/Toggle',
+  title: 'Input data/Toggle',
   component: Toggle,
   parameters: { creevey: { skip: true } },
 } as Meta;

@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Hint, Button, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Popup/Hint',
+  title: 'Overlay/Hint',
   component: Hint,
   parameters: { creevey: { skip: true } },
 } as Meta;

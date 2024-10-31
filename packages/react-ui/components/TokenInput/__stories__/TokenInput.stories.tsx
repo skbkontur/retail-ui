@@ -4,15 +4,10 @@ import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
-import { Token, TokenColors } from '../../Token';
+import { Token } from '../../Token';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
 import { isTestEnv } from '../../../lib/currentEnvironment';
-
-interface TokenModel {
-  id?: string;
-  value: string;
-}
 
 async function getItems(query: string) {
   if (!isTestEnv) {
@@ -26,19 +21,6 @@ async function getExtendedItems(query: string) {
     await delay(400);
   }
   return ['aaa', 'bbb', 'aaaccc', 'bbbttt'].filter((s) => s.includes(query));
-}
-
-const getGenericItems: () => TokenModel[] = () => [
-  { id: '111', value: 'aaa' },
-  { id: '222', value: 'bbb' },
-  { id: '333', value: 'ccc' },
-  { id: '444', value: 'ddd' },
-];
-
-async function getModelItems(query: string): Promise<TokenModel[]> {
-  const sleep = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds));
-  await sleep(400);
-  return getGenericItems().filter((s) => s.value.includes(query));
 }
 
 function getSelectedItems(props: WrapperProps) {
@@ -80,101 +62,10 @@ class Wrapper extends React.Component<WrapperProps, WrapperState> {
   }
 }
 
-class MyTokenInput extends TokenInput<TokenModel> {}
-
-interface WrapperCustomModelState {
-  selectedItems: TokenModel[];
-}
-class WrapperCustomModel extends React.Component {
-  public state: WrapperCustomModelState = { selectedItems: [] };
-
-  public render() {
-    return (
-      <MyTokenInput
-        selectedItems={this.state.selectedItems}
-        renderItem={this.renderItem}
-        renderValue={this.renderValue}
-        valueToItem={this.valueToItem}
-        getItems={getModelItems}
-        onValueChange={this.onChange}
-        placeholder="placeholder"
-        type={TokenInputType.Combined}
-        renderToken={(item, tokenProps) => (
-          <Token
-            key={item.id}
-            colors={
-              item.value.includes('aaa')
-                ? {
-                    idle: 'redIdle',
-                    active: 'redActive',
-                  }
-                : undefined
-            }
-            {...tokenProps}
-          >
-            {item.value}
-          </Token>
-        )}
-      />
-    );
-  }
-
-  private renderItem = (item: TokenModel) => item.value;
-  private renderValue = (value: TokenModel) => value.value;
-  private valueToItem = (item: string): TokenModel => ({
-    value: item,
-  });
-
-  private onChange = (selectedItems: TokenModel[]) => {
-    this.setState({ selectedItems });
-  };
-}
-
-interface ColoredWrapperProps extends Partial<TokenInputProps<string>> {
-  numberItems?: number;
-}
-interface ColoredWrapperState {
-  selectedItems: string[];
-}
-class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapperState> {
-  constructor(props: ColoredWrapperProps) {
-    super(props);
-    this.state = { selectedItems: getSelectedItems(props) };
-  }
-
-  public render() {
-    return (
-      <TokenInput
-        {...this.props}
-        selectedItems={this.state.selectedItems}
-        renderToken={(value, tokenProps) => {
-          let colors: TokenColors = {
-            idle: 'greenIdle',
-            active: 'greenActive',
-          };
-
-          if (value && value.includes('aaa')) {
-            colors = {
-              idle: 'redIdle',
-              active: 'redActive',
-            };
-          }
-          return (
-            <Token key={value} colors={colors} {...tokenProps}>
-              {value}
-            </Token>
-          );
-        }}
-        onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
-      />
-    );
-  }
-}
-
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
 export default {
-  title: 'Input elements/Token Input/TokenInput',
+  title: 'TokenInput',
   component: TokenInput,
   decorators: [
     (Story: () => JSX.Element) => (
@@ -184,6 +75,11 @@ export default {
     ),
   ],
 } as Meta;
+
+export const EmptyCombined: Story = () => {
+  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
+};
+EmptyCombined.storyName = 'empty combined';
 
 export const Validations = () => {
   return (
@@ -204,22 +100,11 @@ export const EmptyWithReference: Story = () => {
 };
 EmptyWithReference.storyName = 'empty with reference';
 
-export const ColoredEmptyWithReference = () => {
-  return <ColoredWrapper getItems={getItems} />;
-};
-ColoredEmptyWithReference.storyName = 'colored empty with reference';
-ColoredEmptyWithReference.parameters = { creevey: { skip: true } };
-
 export const EmptyWithoutReference = () => {
   return <Wrapper type={TokenInputType.WithoutReference} />;
 };
 EmptyWithoutReference.storyName = 'empty without reference';
 EmptyWithoutReference.parameters = { creevey: { skip: true } };
-
-export const EmptyCombined: Story = () => {
-  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
-};
-EmptyCombined.storyName = 'empty combined';
 
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
@@ -267,12 +152,6 @@ export const MultipleTokens = () => {
 };
 MultipleTokens.storyName = 'multiple tokens';
 MultipleTokens.parameters = { creevey: { skip: true } };
-
-export const CombinedGenericToken = () => {
-  return <WrapperCustomModel />;
-};
-CombinedGenericToken.storyName = 'combined generic token';
-CombinedGenericToken.parameters = { creevey: { skip: true } };
 
 export const WidthToken = () => {
   return (

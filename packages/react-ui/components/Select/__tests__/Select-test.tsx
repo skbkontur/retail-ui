@@ -4,7 +4,6 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
@@ -57,13 +56,19 @@ describe('Select', () => {
     );
     const currentValueText = currentValue.name;
 
-    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
     const selectedMenuItem = menuItems.find((element) => element.getAttribute('data-visual-state-selected') === '');
     expect(selectedMenuItem).toBeInTheDocument();
     expect(selectedMenuItem).toHaveTextContent(currentValueText);
+  });
+
+  it('has id attribute', () => {
+    const selectId = 'selectId';
+    const result = render(<Select id={selectId} />);
+    expect(result.container.querySelector(`button#${selectId}`)).not.toBeNull();
   });
 
   it('calls onKeyDown', () => {
@@ -80,7 +85,7 @@ describe('Select', () => {
     const onFocus = jest.fn();
     render(<Select onFocus={onFocus} />);
 
-    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
@@ -89,7 +94,7 @@ describe('Select', () => {
     const onBlur = jest.fn();
     render(<Select onFocus={onBlur} />);
 
-    await userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
@@ -191,6 +196,12 @@ describe('Select', () => {
       );
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('sets value disabled `_renderButton` is passed', () => {
+      render(<Select disabled _renderButton={(params) => <button {...params}>test</button>} />);
+
+      expect(screen.getByRole('button')).toBeDisabled();
     });
   });
 

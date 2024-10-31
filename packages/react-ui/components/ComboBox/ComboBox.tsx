@@ -1,6 +1,5 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
-import { DropdownContainerProps } from '../../internal/DropdownContainer';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
@@ -11,8 +10,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 
 export interface ComboBoxProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
   /** Задает выравнивание контента. */
   align?: 'left' | 'center' | 'right';
@@ -59,6 +58,10 @@ export interface ComboBoxProps<T>
 
   /** Задает максимальную длину инпута. */
   maxLength?: number;
+
+  /** Задает текущую позицию выпадающего окна вручную.
+   */
+  menuPos?: 'top' | 'bottom';
 
   /** Задает выравнивание выпадающего меню. */
   menuAlign?: 'left' | 'right';
@@ -177,9 +180,6 @@ type DefaultProps<T> = Required<
  * `ComboBox` используют:
  * * для выбора значения из справочника.
  * * для добавления своего значения в справочник.
- *
- * Используйте `ComboBox`, если значений в справочнике слишком много, чтобы искать их глазами.
- * Если значений не больше 25, можно использовать [раскрывающийся список Select](?path=/docs/choose-select--docs) или [группу радиокнопок RadioGroup](?path=/docs/choose-radiogroup--docs).
  *
  * `ComboBox` может работать в двух режимах — обычном и в режиме автокомплита.
  * Основное их отличие в том, что в режиме автокомплита список вариантов появляется только после ввода первого символа или изменении уже введенного значения.

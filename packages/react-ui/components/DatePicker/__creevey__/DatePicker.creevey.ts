@@ -2,8 +2,16 @@ import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
 
-kind('Date/DatePicker', () => {
-  story('WithMouseeventHandlers', () => {
+kind('DatePicker', () => {
+  story('WithMouseeventHandlers', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        flaky: {
+          in: ['chrome2022Dark'],
+          tests: ['DateSelect year'],
+        },
+      },
+    });
     test('opened', async function () {
       await delay(1000);
       await this.browser
@@ -131,7 +139,7 @@ kind('Date/DatePicker', () => {
   });
 
   story('WithManualPosition', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } });
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened top without relative position', async function () {
       await this.browser

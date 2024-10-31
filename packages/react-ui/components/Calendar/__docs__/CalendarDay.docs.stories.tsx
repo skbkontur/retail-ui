@@ -1,12 +1,10 @@
 import React from 'react';
 import { Meta, Story } from '../../../typings/stories';
 
-import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '@skbkontur/react-ui/lib/date/comparison';
-
-import { CalendarDay, Calendar, Gapped } from '@skbkontur/react-ui';
+import { CalendarDay, Gapped } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Date/CalendarDay',
+  title: 'Display data/CalendarDay',
   component: CalendarDay,
   parameters: { creevey: { skip: true } },
 } as Meta;
@@ -18,12 +16,12 @@ export const Example1: Story = () => {
 
   return (
     <Gapped>
-      <Calendar.Day style={style} date={date} />
-      <Calendar.Day style={style} date={date} isToday={true} />
-      <Calendar.Day style={style} date={date} isSelected={true} />
-      <Calendar.Day style={style} date={date} isDisabled={true} />
-      <Calendar.Day style={style} date={date} isWeekend={true} />
-      <Calendar.Day style={style}><b>20</b></Calendar.Day>
+      <CalendarDay style={style} date={date} />
+      <CalendarDay style={style} date={date} isToday={true} />
+      <CalendarDay style={style} date={date} isSelected={true} />
+      <CalendarDay style={style} date={date} isDisabled={true} />
+      <CalendarDay style={style} date={date} isWeekend={true} />
+      <CalendarDay style={style}><b>20</b></CalendarDay>
     </Gapped>
   );
 
@@ -31,10 +29,10 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
+  const { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } = require('@skbkontur/react-ui/lib/date/comparison');
 
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
-  const date_c = '12.03.2017';
 
   const Table = ({ children }) => (
     <table>

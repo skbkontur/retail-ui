@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Toast, Button } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Popup/Toast',
+  title: 'Overlay/Toast',
   component: Toast,
   parameters: { creevey: { skip: true } },
 } as Meta;
