@@ -1,4 +1,5 @@
-import React, { CSSProperties, FC, FormEvent, PropsWithChildren, useCallback, useState } from 'react';
+import type { CSSProperties, FC, FormEvent, PropsWithChildren } from 'react';
+import React, { useCallback, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import type { Meta } from '@storybook/react';
 

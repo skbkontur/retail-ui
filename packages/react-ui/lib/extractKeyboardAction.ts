@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 type ActionCheck = (x0: React.KeyboardEvent<HTMLElement>) => boolean;
 

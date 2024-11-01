@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactInputMask, { InputState } from 'react-input-mask';
+import type { InputState } from 'react-input-mask';
+import ReactInputMask from 'react-input-mask';
 
 import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';

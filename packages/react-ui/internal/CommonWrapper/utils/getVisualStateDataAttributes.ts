@@ -1,5 +1,5 @@
 import { toKebabCase } from '../../../lib/toKebabCase';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 
 export type VisualStateDataAttributesResultType = Record<string, string>;
 

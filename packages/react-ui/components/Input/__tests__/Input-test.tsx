@@ -3,10 +3,9 @@ import { mount } from 'enzyme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import type { InputProps, InputType } from '../Input';
 import {
   Input,
-  InputProps,
-  InputType,
   inputTypes,
   maskErrorMessage,
   maskForbiddenTypes,

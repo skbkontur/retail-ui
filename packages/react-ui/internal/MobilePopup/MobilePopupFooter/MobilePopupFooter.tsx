@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Theme } from '../../../lib/theming/Theme';
+import type { Theme } from '../../../lib/theming/Theme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { jsStyles } from './MobilePopupFooter.styles';

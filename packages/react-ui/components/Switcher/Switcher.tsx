@@ -1,16 +1,20 @@
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { getButtonCorners, Group } from '../Group';
-import { Button, ButtonProps } from '../Button';
-import { Nullable } from '../../typings/utility-types';
+import type { ButtonProps } from '../Button';
+import { Button } from '../Button';
+import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { SizeProp } from '../../lib/types/props';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';

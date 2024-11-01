@@ -4,8 +4,8 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps } from '../CommonWrapper';
-import { SizeProp } from '../../lib/types/props';
+import type { CommonProps } from '../CommonWrapper';
+import type { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuMessage.styles';
 

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { BaseIcon, IconProps } from '../BaseIcon';
+import type { IconProps } from '../BaseIcon';
+import { BaseIcon } from '../BaseIcon';
 
 export const QuestionCircleIcon16Solid = forwardRefAndName<SVGSVGElement, IconProps>(
   'QuestionCircleIcon16Solid',

@@ -4,7 +4,8 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../Button';
-import { Tooltip, TooltipProps, TooltipDataTids } from '../Tooltip';
+import type { TooltipProps } from '../Tooltip';
+import { Tooltip, TooltipDataTids } from '../Tooltip';
 import { delay, clickOutside } from '../../../lib/utils';
 
 /** Wraps test and runs it twice with external and child anchor */

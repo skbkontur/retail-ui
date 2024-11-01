@@ -3,8 +3,8 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import { Nullable } from '../../../typings/utility-types';
-import { Meta, Story } from '../../../typings/stories';
+import type { Nullable } from '../../../typings/utility-types';
+import type { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -12,7 +12,7 @@ import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { emptyHandler } from '../../../lib/utils';
-import { SizeProp } from '../../../lib/types/props';
+import type { SizeProp } from '../../../lib/types/props';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 interface DatePickerWithErrorProps {

@@ -2,10 +2,10 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
-import { KebabProps } from '..';
+import type { KebabProps } from '..';
 import { MenuHeader } from '../../MenuHeader';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';

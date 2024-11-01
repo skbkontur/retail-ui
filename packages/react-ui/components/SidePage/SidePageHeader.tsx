@@ -4,16 +4,19 @@ import { globalObject } from '@skbkontur/global-object';
 import { Sticky } from '../Sticky';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 
 import { styles } from './SidePage.styles';
-import { SidePageContext, SidePageContextType } from './SidePageContext';
+import type { SidePageContextType } from './SidePageContext';
+import { SidePageContext } from './SidePageContext';
 import { SidePageCloseButton } from './SidePageCloseButton';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {

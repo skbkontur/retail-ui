@@ -1,5 +1,5 @@
 import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 

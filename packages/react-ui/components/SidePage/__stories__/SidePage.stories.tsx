@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -8,7 +8,7 @@ import { Textarea } from '../../Textarea';
 import { Toggle } from '../../Toggle';
 import { Modal } from '../../Modal';
 import { Gapped } from '../../Gapped';
-import { Shape } from '../../../typings/utility-types';
+import type { Shape } from '../../../typings/utility-types';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 const textSample = (

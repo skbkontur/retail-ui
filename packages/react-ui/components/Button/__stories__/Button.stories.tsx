@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import React from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
@@ -16,7 +17,8 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { Button, ButtonProps } from '../Button';
+import type { ButtonProps } from '../Button';
+import { Button } from '../Button';
 
 export default {
   title: 'Button',

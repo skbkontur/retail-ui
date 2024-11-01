@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
-import { Modal, ModalFooterProps } from '../Modal';
+import type { ModalFooterProps } from '../Modal';
+import { Modal } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isIE11 } from '../../lib/client';

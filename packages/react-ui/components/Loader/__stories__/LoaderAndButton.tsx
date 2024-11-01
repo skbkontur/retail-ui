@@ -3,7 +3,7 @@ import React from 'react';
 import { Tooltip } from '../../Tooltip';
 import { Button } from '../../Button';
 import { Loader } from '../Loader';
-import { LoaderProps } from '..';
+import type { LoaderProps } from '..';
 
 type LoaderAndButtonProps = Pick<LoaderProps, 'active'>;
 interface LoaderAndButtonState {

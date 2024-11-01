@@ -2,7 +2,8 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { RadioGroup, RadioGroupDataTids, RadioGroupProps } from '../RadioGroup';
+import type { RadioGroupProps } from '../RadioGroup';
+import { RadioGroup, RadioGroupDataTids } from '../RadioGroup';
 import { Radio, RadioDataTids } from '../../Radio';
 import { clickOutside } from '../../../lib/utils';
 

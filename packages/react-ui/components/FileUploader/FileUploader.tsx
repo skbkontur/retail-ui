@@ -1,25 +1,27 @@
 import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
+import type { FileUploaderAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
+import { getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
-import { InstanceWithRootNode } from '../../lib/rootNode';
+import type { InstanceWithRootNode } from '../../lib/rootNode';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
+import type { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 import { keyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { Nullable } from '../../typings/utility-types';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 

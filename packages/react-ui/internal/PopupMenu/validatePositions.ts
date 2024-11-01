@@ -1,5 +1,6 @@
 import { isProductionEnv } from '../../lib/currentEnvironment';
-import { PopupPositionsType, PopupPositions } from '../Popup';
+import type { PopupPositionsType } from '../Popup';
+import { PopupPositions } from '../Popup';
 
 const isValidPosition = (position: PopupPositionsType): boolean => {
   return PopupPositions.includes(position);

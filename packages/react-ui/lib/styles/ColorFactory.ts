@@ -2,7 +2,8 @@ import warning from 'warning';
 
 import { clamp, extractColorParts, hue2rgb, parseHSLParts, parseRGBParts } from './ColorHelpers';
 import { ColorKeywords } from './ColorKeywords';
-import { ColorKeywordsType, ColorObject, ColorType, RGBTuple } from './ColorObject';
+import type { ColorKeywordsType, ColorType, RGBTuple } from './ColorObject';
+import { ColorObject } from './ColorObject';
 
 interface ColorFactoryCacheType {
   [key: string]: ColorObject;

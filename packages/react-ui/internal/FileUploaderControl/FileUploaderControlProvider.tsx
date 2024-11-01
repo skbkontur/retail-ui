@@ -1,9 +1,11 @@
-import React, { PropsWithChildren, useCallback, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 
-import { FileUploaderAttachedFile, FileUploaderFileStatus, getAttachedFile } from './fileUtils';
+import type { FileUploaderAttachedFile } from './fileUtils';
+import { FileUploaderFileStatus, getAttachedFile } from './fileUtils';
 import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { useControlLocale } from './hooks/useControlLocale';
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';

@@ -1,17 +1,21 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
+import type { Nullable } from '../../typings/utility-types';
 import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable';
-import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { SizeProp } from '../../lib/types/props';
-import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { SizeProp } from '../../lib/types/props';
+import type { MenuContextType } from '../../internal/Menu/MenuContext';
+import { MenuContext } from '../../internal/Menu/MenuContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './MenuItem.styles';

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { isFirefox } from '../client';

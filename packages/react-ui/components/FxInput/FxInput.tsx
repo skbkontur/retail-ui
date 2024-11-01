@@ -1,16 +1,22 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Group } from '../Group';
-import { Input, InputProps } from '../Input';
-import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
-import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
-import { Override } from '../../typings/utility-types';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { InputProps } from '../Input';
+import { Input } from '../Input';
+import type { CurrencyInputProps } from '../CurrencyInput';
+import { CurrencyInput } from '../CurrencyInput';
+import type { DefaultizedProps } from '../../lib/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
+import type { Override } from '../../typings/utility-types';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { SizeProp } from '../../lib/types/props';
+import type { Theme } from '../../lib/theming/Theme';
+import type { SizeProp } from '../../lib/types/props';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Gapped } from '../../components/Gapped';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 import { styles } from './Playground.styles';
 

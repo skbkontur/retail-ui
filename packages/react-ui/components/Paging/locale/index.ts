@@ -2,7 +2,7 @@ import { LocaleHelper } from '../../../lib/locale/LocaleHelper';
 
 import { componentsLocales as en_GB } from './locales/en';
 import { componentsLocales as ru_RU } from './locales/ru';
-import { PagingLocale } from './types';
+import type { PagingLocale } from './types';
 
 export * from './types';
 

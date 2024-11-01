@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { ThemeContextPlayground } from '../ThemeContextPlayground';
 import { UnlinkVarsPlayground } from '../UnlinkVarsPlayground';
 

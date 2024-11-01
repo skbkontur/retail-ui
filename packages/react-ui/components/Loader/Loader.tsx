@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { AnyObject } from '../../lib/utils';
+import type { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Spinner, SpinnerProps } from '../Spinner';
-import { Nullable } from '../../typings/utility-types';
+import type { SpinnerProps } from '../Spinner';
+import { Spinner } from '../Spinner';
+import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 

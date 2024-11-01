@@ -9,7 +9,8 @@ import { SelectDataTids } from '../../Select';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { CalendarDataTids } from '..';
 import { CalendarLocaleHelper } from '../locale';
-import { CalendarDay, CalendarDayProps } from '../CalendarDay';
+import type { CalendarDayProps } from '../CalendarDay';
+import { CalendarDay } from '../CalendarDay';
 
 describe('Calendar', () => {
   it('renders', () => {

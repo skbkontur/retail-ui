@@ -3,8 +3,9 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
-import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
-import { Theme } from '../../lib/theming/Theme';
+import type { InternalDateFragment } from '../../lib/date/types';
+import { InternalDateComponentType } from '../../lib/date/types';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 

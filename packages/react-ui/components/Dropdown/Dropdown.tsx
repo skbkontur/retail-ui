@@ -1,4 +1,5 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
@@ -6,13 +7,15 @@ import { MenuHeader } from '../MenuHeader';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
-import { Nullable } from '../../typings/utility-types';
-import { ButtonUse } from '../Button';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { Nullable } from '../../typings/utility-types';
+import type { ButtonUse } from '../Button';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { SizeProp } from '../../lib/types/props';
+import type { Theme } from '../../lib/theming/Theme';
+import type { SizeProp } from '../../lib/types/props';
 
 import { getDropdownTheme } from './getDropdownTheme';
 

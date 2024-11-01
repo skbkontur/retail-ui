@@ -1,5 +1,5 @@
 import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { fileUploaderSizeMixin } from './FileUploader.mixins';

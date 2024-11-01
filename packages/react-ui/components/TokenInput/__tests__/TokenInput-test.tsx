@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event';
 
 import { PopupIds } from '../../../internal/Popup';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
+import type { LocaleContextProps } from '../../../lib/locale';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';

@@ -3,7 +3,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 import { MenuItem } from '../MenuItem';
 import { Gapped } from '../../Gapped';
 

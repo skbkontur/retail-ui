@@ -1,5 +1,7 @@
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { MutableRefObject } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { SafeTimer } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 interface IUseDropProps {
   onDrop?: (event: DragEvent) => void;

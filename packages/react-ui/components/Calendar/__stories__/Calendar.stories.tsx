@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { Calendar, CalendarDay, CalendarDayProps } from '../';
-import { Story } from '../../../typings/stories';
+import type { CalendarDayProps } from '../';
+import { Calendar, CalendarDay } from '../';
+import type { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { LocaleContext } from '../../../lib/locale';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';

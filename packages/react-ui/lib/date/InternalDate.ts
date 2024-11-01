@@ -7,17 +7,19 @@ import { InternalDateSetter } from './InternalDateSetter';
 import { InternalDateTransformer } from './InternalDateTransformer';
 import { InternalDateValidator } from './InternalDateValidator';
 import { internalDateLocale } from './localeSets';
-import {
+import type {
   InternalDateChangeSettings,
   InternalDateComponentRaw,
   InternalDateComponentsNumber,
   InternalDateComponentsRaw,
-  InternalDateComponentType,
   InternalDateConstructorProps,
   InternalDateFragment,
-  InternalDateOrder,
   InternalDateSeparator,
   InternalDateToFragmentsSettings,
+} from './types';
+import {
+  InternalDateComponentType,
+  InternalDateOrder,
   InternalDateValidateCheck,
   isInternalDateValidateCheck,
 } from './types';

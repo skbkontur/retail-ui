@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { Gapped } from '../../components/Gapped';
 import { Loader } from '../../components/Loader';
 import { isNonNullable } from '../../lib/utils';
 
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
-import { ThemeErrorsType } from './ThemeContextPlayground';
+import type { ThemeErrorsType } from './ThemeContextPlayground';
 import { styles } from './Playground.styles';
 
 interface ThemeEditorProps {
