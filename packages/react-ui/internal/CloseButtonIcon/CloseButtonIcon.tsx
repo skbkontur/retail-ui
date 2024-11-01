@@ -1,4 +1,5 @@
-import React, { AriaAttributes, CSSProperties } from 'react';
+import type { AriaAttributes, CSSProperties } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { cx } from '../../lib/theming/Emotion';
@@ -6,7 +7,8 @@ import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { CommonWrapper, CommonProps } from '../CommonWrapper';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
 
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';

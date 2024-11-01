@@ -1,4 +1,4 @@
-import { DateSelectLocale } from '../types';
+import type { DateSelectLocale } from '../types';
 
 export const componentsLocales: DateSelectLocale = {
   selectMonthAriaLabel: 'месяц',

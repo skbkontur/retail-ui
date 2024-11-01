@@ -3,10 +3,10 @@ import React, { useContext } from 'react';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
-import { FileUploaderAttachedFile } from '../fileUtils';
+import type { FileUploaderAttachedFile } from '../fileUtils';
 import { cx } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { SizeProp } from '../../../lib/types/props';
+import type { SizeProp } from '../../../lib/types/props';
 
 import { jsStyles } from './FileUploaderFileList.styles';
 

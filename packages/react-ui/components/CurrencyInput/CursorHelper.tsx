@@ -1,4 +1,4 @@
-import { Selection } from './SelectionHelper';
+import type { Selection } from './SelectionHelper';
 
 export type CursorMap = number[];
 

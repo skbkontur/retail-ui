@@ -1,5 +1,5 @@
 import { css, memoizeStyle, keyframes } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   outer(t: Theme) {

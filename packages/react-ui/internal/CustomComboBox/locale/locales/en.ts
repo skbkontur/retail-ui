@@ -1,4 +1,4 @@
-import { ComboBoxLocale } from '../types';
+import type { ComboBoxLocale } from '../types';
 
 export const componentsLocales: ComboBoxLocale = {
   notFound: 'Not found',

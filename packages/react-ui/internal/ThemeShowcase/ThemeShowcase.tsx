@@ -3,24 +3,24 @@ import React from 'react';
 import { isColor } from '../../lib/styles/ColorHelpers';
 import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme';
-import { ComboBox, ComboBoxItem } from '../../components/ComboBox';
+import type { ComboBoxItem } from '../../components/ComboBox';
+import { ComboBox } from '../../components/ComboBox';
 import { Gapped } from '../../components/Gapped';
 import { Link } from '../../components/Link';
 import { Sticky } from '../../components/Sticky';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../components/Tooltip';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
+import type { ComponentDescriptionType, ComponentRowDescriptionType } from './VariablesCollector';
 import {
   ALL_USED_VARIABLES,
   CALLS_COUNT,
   COMPONENT_DESCRIPTIONS,
   COMPONENT_DESCRIPTIONS_BY_VARIABLE,
-  ComponentDescriptionType,
-  ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './VariablesCollector';
 import { styles } from './ThemeShowcase.styles';

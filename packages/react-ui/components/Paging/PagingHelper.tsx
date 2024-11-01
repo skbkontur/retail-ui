@@ -1,4 +1,4 @@
-import { ItemType } from './Paging';
+import type { ItemType } from './Paging';
 
 export function getItems(active: number, total: number): ItemType[] {
   const result: ItemType[] = [];

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { forwardRefAndName, ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
+import type { ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './BaseIcon.styles';
 

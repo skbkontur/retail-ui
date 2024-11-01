@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, isValidElement, cloneElement, ReactElement } from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
+import React, { isValidElement, cloneElement } from 'react';
 
 import { CommonWrapper } from '../CommonWrapper';
 

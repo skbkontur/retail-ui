@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { InputProps } from '../Input';
+import type { InputProps } from '../Input';
 
 import { stylesLayout } from './InputLayout.styles';
 import { InputLayoutAsideIcon } from './InputLayoutAsideIcon';

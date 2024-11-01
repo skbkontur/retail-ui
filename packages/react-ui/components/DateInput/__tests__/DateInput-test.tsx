@@ -4,10 +4,13 @@ import userEvent from '@testing-library/user-event';
 
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
-import { DefaultizeProps, delay } from '../../../lib/utils';
+import type { DefaultizeProps } from '../../../lib/utils';
+import { delay } from '../../../lib/utils';
 import { InternalDateOrder } from '../../../lib/date/types';
-import { DateInput, DateInputDataTids, DateInputProps } from '../DateInput';
-import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
+import type { DateInputProps } from '../DateInput';
+import { DateInput, DateInputDataTids } from '../DateInput';
+import type { LocaleContextProps } from '../../../lib/locale';
+import { LocaleContext } from '../../../lib/locale';
 
 type InitialDate = string;
 type PressedKeys = string[];

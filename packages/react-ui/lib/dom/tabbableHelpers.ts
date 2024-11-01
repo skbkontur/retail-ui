@@ -1,7 +1,8 @@
-import { tabbable, FocusableElement, isFocusable } from 'tabbable';
+import type { FocusableElement } from 'tabbable';
+import { tabbable, isFocusable } from 'tabbable';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 
 /**

@@ -1,11 +1,12 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
 import { Select } from '../../Select';
-import { DateInput, DateInputProps } from '../DateInput';
+import type { DateInputProps } from '../DateInput';
+import { DateInput } from '../DateInput';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
