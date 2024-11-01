@@ -1,0 +1,27 @@
+@import '@skbkontur/colors/colors.css';
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    'Lab Grotesque',
+    -apple-system,
+    BlinkMacSystemFont,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--kontur-grayscale-87-text);
+  background: var(--kontur-grayscale-white-fff);
+}
+
+/** {*/
+/*  outline: 1px solid cyan;*/
+/*}*/
