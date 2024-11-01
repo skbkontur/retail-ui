@@ -8,7 +8,6 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import styled from 'styled-components';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
