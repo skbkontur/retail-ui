@@ -11,7 +11,7 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';

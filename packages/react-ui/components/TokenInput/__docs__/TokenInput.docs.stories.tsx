@@ -3,7 +3,7 @@ import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 import { TokenInput, Token } from '@skbkontur/react-ui';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/TokenInput/TokenInput',

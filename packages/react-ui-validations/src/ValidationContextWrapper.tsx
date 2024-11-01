@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ValidationWrapperInternal } from './ValidationWrapperInternal';
+import type { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 import { FocusMode } from './FocusMode';

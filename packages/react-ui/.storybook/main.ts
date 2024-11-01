@@ -8,6 +8,5 @@ function getConfig(): StorybookConfig {
 }
 
 const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
-      legacyRootApi: true,
-      fastRefresh: true,
+
 export default config;

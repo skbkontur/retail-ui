@@ -1,4 +1,4 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';

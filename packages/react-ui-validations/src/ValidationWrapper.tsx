@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types';
 
 import { tooltip } from './ErrorRenderer';
-import {
+import type {
   RenderErrorMessage,
   Validation,
   ValidationBehaviour,
   ValidationLevel,
-  ValidationWrapperInternal,
   ValidationWrapperInternalProps,
 } from './ValidationWrapperInternal';
+import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 
 export interface ValidationInfo {
   type?: Nullable<ValidationBehaviour>;

@@ -1,6 +1,7 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState, useContext, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React, { useState, useContext } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';

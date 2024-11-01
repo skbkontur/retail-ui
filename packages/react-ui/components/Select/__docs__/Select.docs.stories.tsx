@@ -2,7 +2,7 @@ import React from 'react';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
 import { Select, Button, Group, Link, Gapped } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Select',

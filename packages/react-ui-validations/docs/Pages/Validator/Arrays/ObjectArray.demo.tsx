@@ -3,7 +3,7 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 interface ContactInfo {

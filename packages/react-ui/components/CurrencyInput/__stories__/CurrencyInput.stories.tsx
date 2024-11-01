@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isNullable } from '../../../lib/utils';
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import type { CurrencyInputProps } from '../CurrencyInput';
 import { CurrencyInput } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';

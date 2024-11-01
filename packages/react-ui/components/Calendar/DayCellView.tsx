@@ -1,4 +1,5 @@
-import React, { ReactElement, useCallback, useContext } from 'react';
+import type { ReactElement } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';

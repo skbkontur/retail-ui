@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Radio } from '@skbkontur/react-ui/components/Radio';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
-import { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types';
 import { isNullable } from '../src/utils/isNullable';
 
 export default {

@@ -3,13 +3,9 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 
-import {
-  ValidationBehaviour,
-  ValidationContainer,
-  ValidationInfo,
-  ValidationWrapper,
-} from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 interface FormValidityDemoState {

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import { Nullable } from '../typings/Types';
-import { ThemeValidations } from '../typings/theme-context';
+import type { Nullable } from '../typings/Types';
+import type { ThemeValidations } from '../typings/theme-context';
 
-import { TextPosition, Validation } from './ValidationWrapperInternal';
+import type { TextPosition, Validation } from './ValidationWrapperInternal';
 import { getValidationTextColor } from './utils/getValidationTextColor';
 import { ThemeContext } from './ReactUiDetection';
 

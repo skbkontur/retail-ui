@@ -4,7 +4,7 @@ import { MinusCircleIcon16Light } from '@skbkontur/icons/MinusCircleIcon16Light'
 import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
 import { Button, Gapped, Toast } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Button/Button',

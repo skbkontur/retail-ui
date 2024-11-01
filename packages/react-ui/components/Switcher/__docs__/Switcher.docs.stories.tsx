@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switcher, Hint, Tooltip } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Button/Switcher',

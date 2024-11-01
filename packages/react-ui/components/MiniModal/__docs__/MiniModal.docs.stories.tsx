@@ -5,7 +5,7 @@ import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationB
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/NotificationBellAlarmIcon64Regular';
 import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/MiniModal/MiniModal',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spinner, Gapped } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Spinner',

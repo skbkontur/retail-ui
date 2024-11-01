@@ -1,7 +1,7 @@
 import React from 'react';
 import { SingleToast, Button } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/SingleToast',

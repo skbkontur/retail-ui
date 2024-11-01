@@ -2,7 +2,7 @@
 import React from 'react';
 import { Tab, ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Tabs/Tab',

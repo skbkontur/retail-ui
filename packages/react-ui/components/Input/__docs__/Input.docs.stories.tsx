@@ -2,7 +2,7 @@ import React from 'react';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { Input, Button, Group, Gapped } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Input',

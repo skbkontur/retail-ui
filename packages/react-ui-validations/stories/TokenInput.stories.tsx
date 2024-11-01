@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Token } from '@skbkontur/react-ui/components/Token';
 import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip } from '../src';
-import { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper, tooltip } from '../src';
+import type { Nullable } from '../typings/Types';
 
 export default {
   title: 'TokenInput',
