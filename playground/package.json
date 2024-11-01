@@ -1,0 +1,40 @@
+{
+  "name": "playground",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0",
+    "@skbkontur/react-ui": "^5.0.0",
+    "@skbkontur/react-ui-addons": "^5.0.0",
+    "@skbkontur/side-menu": "^3.0.0",
+    "@skbkontur/react-ui-validations": "^2.0.0",
+    "@skbkontur/icons": "^1.13.1",
+    "@skbkontur/logos": "^2.9.0",
+    "@skbkontur/react-error-pages": "^2.0.8",
+    "@skbkontur/mini-skeleton": "^0.1.0",
+    "@skbkontur/colors": "^1.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@babel/plugin-proposal-decorators": "^7.24.6",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.13",
+    "globals": "^15.11.0",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.10.0",
+    "vite": "^5.4.9"
+  }
+}
