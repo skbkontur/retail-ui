@@ -5059,10 +5059,10 @@
   dependencies:
     semver "7.3.5"
 
-"@skbkontur/storybook-addon-live-examples@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.3.tgz#6aa6f74854d01031e2def42f2da3b5922d061a61"
-  integrity sha512-OTXIS0TQi6K8dxZufxX+pscyLfxHKsXEsCwtuOtiXXfWpeYf4quu5RigPU3C/6FZdODqTs7phRODnujbwgF8Zw==
+"@skbkontur/storybook-addon-live-examples@0.0.4":
+  version "0.0.4"
+  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.4.tgz#c31f4815b4784b53dfa60ee0b638044dc17ef2dc"
+  integrity sha512-CIl3mZwLWl18ERFhN3qcFOBQl3RfikpcK4EJIlYBxM9jPOyllBjg8+Af9ri6PejXC0fVGFumL61xbxVoCMKICg==
   dependencies:
     prettier "^3.2.5"
     react-live "^4.1.7"

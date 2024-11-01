@@ -23,9 +23,6 @@ import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybo
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { LIGHT_THEME_MOBILE } from '../lib/theming/themes/LightThemeMobile';
-import { LIGHT_THEME } from '../lib/theming/themes/LightTheme';
-import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import * as ReactUi from '../index';
 import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
@@ -34,6 +31,7 @@ import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/Mi
 import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
+import { ThemeDecodator, themes } from './decorators/Theme/ThemeDecorator';
 
 const customViewports = {
   iphone: {
@@ -54,12 +52,6 @@ const customViewports = {
   },
 };
 
-const themes = {
-  LIGHT_THEME,
-  DARK_THEME,
-  LIGHT_THEME_MOBILE,
-};
-
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
   const isControlComponent = !!findAmongParents(
@@ -74,6 +66,7 @@ setFilter((fiber) => {
 });
 
 const MOBILE_REGEXP = /Mobile.*/i;
+
 const preview: Preview = {
   parameters: {
     docs: {
@@ -116,33 +109,11 @@ const preview: Preview = {
     multiselect: featureFlagsConfig,
   },
   decorators: [
-    (Story, context) => {
-      const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
-
-      if ([DARK_THEME].includes(storybookTheme)) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-      if (storybookTheme !== LIGHT_THEME) {
-        return (
-          <ThemeContext.Consumer>
-            {(theme) => {
-              return (
-                <ThemeContext.Provider value={ThemeFactory.create(theme, storybookTheme)}>
-                  <Story />
-                </ThemeContext.Provider>
-              );
-            }}
-          </ThemeContext.Consumer>
-        );
-      }
-      return <Story />;
-    },
+    ThemeDecodator,
     (Story) => (
-        <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-          <Story />
-        </div>
+      <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+        <Story />
+      </div>
     ),
     (Story) => {
       return (
@@ -228,5 +199,6 @@ addons.setConfig({
     resetIcon: ArrowRoundTimeBackIcon16Regular as unknown as ReactNode,
     borderColor: 'hsla(203, 50%, 30%, 0.15)',
     iconColor: '#029CFD',
+    decorators: [ThemeDecodator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
 });
