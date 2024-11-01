@@ -1,0 +1,6 @@
+.root {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  min-height: min(100dvh, 100vh);
+}
