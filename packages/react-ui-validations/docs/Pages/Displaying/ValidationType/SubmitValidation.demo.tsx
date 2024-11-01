@@ -2,8 +2,9 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default class SubmitValidationDemo extends React.Component {

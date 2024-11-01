@@ -4,7 +4,7 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 interface ContactInfo {
